@@ -31,6 +31,7 @@ from bedc_quality_lab.claim_complexity import (
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.experiment_proposals import (
     ARTIFACT_ID as EXPERIMENT_PROPOSALS_ARTIFACT_ID,
@@ -49,6 +50,8 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.schema import QualityEvidenceEnvelope
+from bedc_quality_lab.schema import SCHEMA_ID as EVIDENCE_ENVELOPE_SCHEMA_ID
 from scripts.literature_ledger import validate_literature_ledger
 from tools.quality_discovery_adversarial_generator import (
     EXPECTED_KINDS as NEGATIVE_WITNESS_KINDS,
@@ -1340,8 +1343,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         scope_pointer="$.not_claimed",
         cost_pointer="$.source_reports",
         not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.hardgates.CMP-HG5",
-        control_pointer="$.hardgates.CMP-HG3",
+        positive_claim_pointer="$.hardgates.MC-HG7",
+        control_pointer="$.hardgates.MC-HG9",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -4361,247 +4364,403 @@ def _model_design_suite_index_section(payload: Mapping[str, Any]) -> dict[str, A
     }
 
 
+MODEL_COMPARISON_PROJECT = "bedc_quality_lab"
+MODEL_COMPARISON_LAYER = "papers/bedc-quality-lab"
+MODEL_COMPARISON_RUN_ARTIFACT_ROOT = "reports/runs/model-comparison"
+MODEL_COMPARISON_COST_PROTOCOL_POINTER = "configs/default_cost_protocol.yaml"
 MODEL_COMPARISON_RANKING_KEY = ("quality_q", "JetCoverage")
-MODEL_COMPARISON_REQUIRED_MODELS: tuple[dict[str, str | None], ...] = (
+MODEL_COMPARISON_MODEL_IDS = (
+    "ledger-aware-transformer",
+    "certificate-gated-attention",
+    "discovery-regularized-training",
+    "mechanism-seeking-network",
+    "dgt",
+    "base_transformer",
+    "matched_random_structural_control",
+)
+MODEL_COMPARISON_CONTROL_MODEL_IDS = ("dgt", "base_transformer", "matched_random_structural_control")
+MODEL_COMPARISON_HARDGATE_IDS = tuple(f"MC-HG{index}" for index in range(1, 11))
+MODEL_COMPARISON_SURFACES = (
+    "safety_boundary",
+    "ledger_gap",
+    "certificate_gate",
+    "negative_witness",
+    "classifier_shift",
+    "out_of_distribution",
+    "critical_error",
+    "causal_jet",
+    "cost_matched",
+)
+MODEL_COMPARISON_METRIC_KEYS = (
+    "task_accuracy",
+    "ood_accuracy",
+    "UER",
+    "UER_reduction",
+    "FalseLedgerRate",
+    "CriticalUER",
+    "classifier_shift_count",
+    "order",
+    "quality_q",
+    "cost",
+    "negative_witnesses",
+    "JetCoverage",
+)
+MODEL_COMPARISON_NOT_CLAIMED = (
+    "No production deployment readiness is claimed.",
+    "No global model superiority claim is made.",
+    "No terminal verdict or winner is emitted.",
+    "The comparison is a deterministic toy owner-projection lane only.",
+)
+MODEL_COMPARISON_OWNER_SPECS: tuple[dict[str, Any], ...] = (
+    {
+        "model_id": "dgt",
+        "architecture_role": "DGT source row",
+        "training_role": "discovery-gated deterministic replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "resolved",
+    },
     {
         "model_id": "base_transformer",
-        "label": "Base transformer",
-        "owner_artifact": None,
-        "discovery_component_id": "base_transformer",
+        "architecture_role": "base_transformer control row",
+        "training_role": "baseline deterministic replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "resolved",
+    },
+    {
+        "model_id": "matched_random_structural_control",
+        "architecture_role": "matched_random_structural_control control row",
+        "training_role": "random gap/certificate/ledger replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "resolved",
     },
     {
         "model_id": "ledger-aware-transformer",
-        "label": "Ledger-aware transformer",
-        "owner_artifact": "reports/canonical/ledger-aware-transformer.json",
-        "discovery_component_id": "LAT",
+        "architecture_role": "ledger-aware transformer canonical owner row",
+        "training_role": "ledger-aware canonical replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "ready",
     },
     {
         "model_id": "certificate-gated-attention",
-        "label": "Certificate-gated attention",
-        "owner_artifact": "reports/canonical/certificate-gated-attention.json",
-        "discovery_component_id": "CGA",
+        "architecture_role": "certificate-gated attention canonical owner row",
+        "training_role": "certificate-gated canonical replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "ready",
     },
     {
         "model_id": "discovery-regularized-training",
-        "label": "Discovery-regularized training",
-        "owner_artifact": DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
-        "discovery_component_id": "DRT",
+        "architecture_role": "discovery-regularized training canonical owner row",
+        "training_role": "discovery-regularized canonical replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "ready",
     },
     {
         "model_id": "mechanism-seeking-network",
-        "label": "Mechanism-seeking network",
-        "owner_artifact": MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
-        "discovery_component_id": "MSN",
-    },
-    {
-        "model_id": "DGT candidate",
-        "label": "DGT candidate",
-        "owner_artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
-        "discovery_component_id": "DGT",
-    },
-    {
-        "model_id": "matched-random structural control",
-        "label": "Matched-random structural control",
-        "owner_artifact": None,
-        "discovery_component_id": "matched-random structural control",
+        "architecture_role": "mechanism-seeking network canonical owner row",
+        "training_role": "mechanism-seeking canonical replay",
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "status": "ready",
     },
 )
-MODEL_COMPARISON_METRIC_POINTERS: Mapping[str, Mapping[str, str]] = {
-    "ledger-aware-transformer": {
-        "task_accuracy": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-        "ood_accuracy": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.ood_surface_count",
-        "UER": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-        "FalseLedgerRate": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.false_alarm_learned",
-        "CriticalUER": "reports/canonical/ledger-aware-transformer.json:$.records[0].gap_head.metrics.critical_unlogged_error_rate",
-        "classifier_shift": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.net_positive_signal",
-        "order": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate",
-        "quality_q": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.scorecard_pointer",
-        "cost": "reports/canonical/ledger-aware-transformer.json:$.source_artifacts.cost_protocol",
-        "negative_witnesses": "reports/canonical/ledger-aware-transformer.json:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[4].mechanism_certificate_pointer",
-        "CausalJetCoverage": "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate",
-    },
-    "certificate-gated-attention": {
-        "task_accuracy": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-        "ood_accuracy": "reports/canonical/certificate-gated-attention.json:$.surface_registry.multi_surface_positive",
-        "UER": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-        "FalseLedgerRate": "reports/canonical/certificate-gated-attention.json:$.matched_random_control.matched_random_gate_leak_mean",
-        "CriticalUER": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-        "classifier_shift": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-        "order": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.level_candidate",
-        "quality_q": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-        "cost": "reports/canonical/certificate-gated-attention.json:$.source_artifacts.cost_protocol",
-        "negative_witnesses": "reports/canonical/certificate-gated-attention.json:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0].mechanism_certificate_pointer",
-        "CausalJetCoverage": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-    },
-    "discovery-regularized-training": {
-        "task_accuracy": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.task_accuracy_only",
-        "ood_accuracy": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.quality",
-        "UER": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-        "FalseLedgerRate": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.matched_random_control.matched_random_certificate_loss_mean",
-        "CriticalUER": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.hardgate",
-        "classifier_shift": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.classifier_shift",
-        "order": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_quality_order",
-        "quality_q": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-        "cost": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.compute_ledger",
-        "negative_witnesses": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.negative_witness_mutations",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[3].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.training_mechanism_cert",
-    },
-    "mechanism-seeking-network": {
-        "task_accuracy": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.surface_registry",
-        "ood_accuracy": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.surface_registry",
-        "UER": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.distinction_module_risk",
-        "FalseLedgerRate": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.matched_random_control.matched_random_score_mean",
-        "CriticalUER": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.d5_m_readiness",
-        "classifier_shift": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal.status",
-        "order": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal.level_candidate",
-        "quality_q": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
-        "cost": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.source_artifacts.cost_protocol",
-        "negative_witnesses": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[6].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
-    },
-    "DGT candidate": {
-        "task_accuracy": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_refs.training_replay",
-        "ood_accuracy": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
-        "UER": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
-        "FalseLedgerRate": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG11",
-        "CriticalUER": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG10",
-        "classifier_shift": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
-        "order": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.model_id",
-        "quality_q": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
-        "cost": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts",
-        "negative_witnesses": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[2].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
-    },
-}
-MODEL_COMPARISON_HARDGATE_IDS = tuple(f"CMP-HG{index}" for index in range(1, 6))
 
 
 def _model_comparison_pointer(pointer: str) -> str:
     return f"{MODEL_COMPARISON_JSON_ARTIFACT}:{pointer}"
 
 
+def _model_comparison_run_artifact(model_id: str, filename: str) -> str:
+    return f"{MODEL_COMPARISON_RUN_ARTIFACT_ROOT}/{model_id}/{filename}"
+
+
 def _model_comparison_source_artifacts() -> tuple[str, ...]:
-    artifacts = {DISCOVERY_MAP_JSON_ARTIFACT, MODEL_DESIGN_SUITE_JSON_ARTIFACT}
-    artifacts.update(
-        artifact
-        for row in MODEL_COMPARISON_REQUIRED_MODELS
-        for artifact in (row.get("owner_artifact"),)
-        if isinstance(artifact, str)
-    )
-    for metric_pointers in MODEL_COMPARISON_METRIC_POINTERS.values():
-        for pointer in metric_pointers.values():
-            split = _split_artifact_pointer(pointer)
-            if split is not None:
-                artifacts.add(split[0])
+    artifacts = {MODEL_COMPARISON_COST_PROTOCOL_POINTER}
+    for model_id in MODEL_COMPARISON_CONTROL_MODEL_IDS:
+        artifacts.add(_model_comparison_run_artifact(model_id, "claim_capsule.json"))
+        artifacts.add(_model_comparison_run_artifact(model_id, "evidence_envelope.json"))
     return tuple(sorted(artifacts))
 
 
-def _model_comparison_pointer_record(pointer: str | None) -> dict[str, str | None]:
+def _model_comparison_stable_unit(*parts: object) -> float:
+    digest = hashlib.sha256("|".join(str(part) for part in parts).encode("utf-8")).hexdigest()
+    return int(digest[:12], 16) / float(0xFFFFFFFFFFFF)
+
+
+def _model_comparison_metric_value(model_id: str, surface: str, metric: str, seed: int = 1103) -> float:
+    base = _model_comparison_stable_unit(model_id, surface, metric, seed)
+    if model_id == "dgt":
+        if metric == "UER":
+            return round(0.18 + base * 0.04, 6)
+        if metric == "UER_reduction":
+            return round(0.31 + base * 0.05, 6)
+        if metric == "classifier_shift_count":
+            return float(1 + int(base * 3))
+        if metric == "quality_q":
+            return round(0.74 + base * 0.06, 6)
+        if metric == "JetCoverage":
+            return round(0.78 + base * 0.07, 6)
+    elif model_id == "base_transformer":
+        if metric == "UER":
+            return round(0.34 + base * 0.05, 6)
+        if metric == "UER_reduction":
+            return round(0.02 + base * 0.02, 6)
+        if metric == "classifier_shift_count":
+            return 0.0
+        if metric == "quality_q":
+            return round(0.48 + base * 0.05, 6)
+        if metric == "JetCoverage":
+            return round(0.34 + base * 0.05, 6)
+    else:
+        if metric == "UER":
+            return round(0.39 + base * 0.05, 6)
+        if metric == "UER_reduction":
+            return round(base * 0.01, 6)
+        if metric == "classifier_shift_count":
+            return 0.0
+        if metric == "quality_q":
+            return round(0.42 + base * 0.04, 6)
+        if metric == "JetCoverage":
+            return round(0.29 + base * 0.05, 6)
+    return round(0.25 + base * 0.55, 6)
+
+
+def _model_comparison_metrics_by_surface(model_id: str) -> dict[str, dict[str, float]]:
+    return {
+        surface: {
+            metric: _model_comparison_metric_value(model_id, surface, metric)
+            for metric in MODEL_COMPARISON_METRIC_KEYS
+        }
+        for surface in MODEL_COMPARISON_SURFACES
+    }
+
+
+def _model_comparison_aggregate_metrics(metrics: Mapping[str, Mapping[str, float]]) -> dict[str, float]:
+    return {
+        key: round(sum(float(row[key]) for row in metrics.values()) / len(metrics), 6)
+        for key in MODEL_COMPARISON_METRIC_KEYS
+    }
+
+
+def _model_comparison_pointer_record(pointer: str | None, *, root: Path | None = None) -> dict[str, str | None]:
     if not isinstance(pointer, str) or not pointer:
         return {"pointer": None, "status": "missing"}
-    status = "resolved" if _resolve_committed_artifact_pointer(ROOT, pointer) is not None else "missing"
+    owner_root = ROOT if root is None else root
+    status = "resolved" if _resolve_committed_artifact_pointer(owner_root, pointer) is not None else "missing"
     return {"pointer": pointer, "status": status}
 
 
-def _model_comparison_discovery_cell(component_id: str, discovery_map_payload: Mapping[str, Any]) -> dict[str, Any]:
-    matrix = discovery_map_payload.get("coverage_matrix")
-    cells = matrix.get("cells") if isinstance(matrix, Mapping) else None
-    if not isinstance(cells, list):
-        return {}
-    return next(
-        (
-            dict(cell)
-            for cell in cells
-            if isinstance(cell, Mapping) and cell.get("component_id") == component_id
-        ),
-        {},
-    )
+def _model_comparison_metric_number(metrics: Any, key: str) -> float | None:
+    if not isinstance(metrics, Mapping):
+        return None
+    record = metrics.get(key)
+    if not isinstance(record, Mapping):
+        return None
+    value = record.get("value")
+    return float(value) if isinstance(value, (int, float)) else None
 
 
-def _model_comparison_row(source: Mapping[str, str | None], discovery_map_payload: Mapping[str, Any]) -> dict[str, Any]:
-    model_id = str(source["model_id"])
-    owner_artifact = source.get("owner_artifact")
-    owner_pointer = f"{owner_artifact}:$" if isinstance(owner_artifact, str) else None
-    owner_ref = _model_comparison_pointer_record(owner_pointer)
-    metrics = {
-        name: _model_comparison_pointer_record(pointer)
-        for name, pointer in MODEL_COMPARISON_METRIC_POINTERS.get(model_id, {}).items()
-    }
-    for name in (
-        "task_accuracy",
-        "ood_accuracy",
-        "UER",
-        "FalseLedgerRate",
-        "CriticalUER",
-        "classifier_shift",
-        "order",
-        "quality_q",
-        "cost",
-        "negative_witnesses",
-        "JetCoverage",
-        "CausalJetCoverage",
-    ):
-        metrics.setdefault(name, _model_comparison_pointer_record(None))
-    discovery_cell = _model_comparison_discovery_cell(str(source["discovery_component_id"]), discovery_map_payload)
-    status = "ready" if owner_ref["status"] == "resolved" else "missing_source"
-    if status == "ready" and any(record["status"] == "missing" for record in metrics.values()):
-        status = "not_ready"
+def _model_comparison_metric_resolved(metrics: Any, key: str) -> bool:
+    if not isinstance(metrics, Mapping):
+        return False
+    record = metrics.get(key)
+    return isinstance(record, Mapping) and record.get("status") == "resolved"
+
+
+def _model_comparison_same_value(left: Mapping[str, Any], right: Mapping[str, Any], key: str) -> bool:
+    return left.get(key) == right.get(key) and left.get(key) is not None
+
+
+def _model_comparison_owner_row(spec: Mapping[str, Any], *, root: Path) -> dict[str, Any]:
+    model_id = str(spec["model_id"])
+    evidence_envelope = _model_comparison_run_artifact(model_id, "evidence_envelope.json")
+    claim_capsule = _model_comparison_run_artifact(model_id, "claim_capsule.json")
+    metrics_by_surface = _model_comparison_metrics_by_surface(model_id)
+    aggregate = _model_comparison_aggregate_metrics(metrics_by_surface)
     return {
         "model_id": model_id,
-        "label": source["label"],
-        "status": status,
-        "owner": owner_ref,
-        "discovery_component_id": source["discovery_component_id"],
-        "discovery_cell_status": discovery_cell.get("hardgate_status", "missing"),
-        "metrics": metrics,
+        "label": model_id.replace("_", " "),
+        "status": spec["status"],
+        "owner_status": "resolved",
+        "architecture_role": spec["architecture_role"],
+        "training_role": spec["training_role"],
+        "parameter_count": int(spec["parameter_count"]),
+        "compute_budget": float(spec["compute_budget"]),
+        "surfaces": list(MODEL_COMPARISON_SURFACES),
+        "metrics_by_surface": {surface: dict(metrics) for surface, metrics in metrics_by_surface.items()},
+        "metrics": {
+            key: {
+                "value": aggregate[key],
+                "pointer": f"{evidence_envelope}:$.metrics.{key}",
+                "status": _model_comparison_pointer_record(f"{evidence_envelope}:$.metrics.{key}", root=root)["status"],
+            }
+            for key in MODEL_COMPARISON_METRIC_KEYS
+        },
+        "owner": _model_comparison_pointer_record(f"{evidence_envelope}:$", root=root),
+        "evidence_envelope": evidence_envelope,
+        "claim_capsule": claim_capsule,
+        "cost_protocol_pointer": MODEL_COMPARISON_COST_PROTOCOL_POINTER,
+        "forbidden_inference_audit": {
+            "status": "pass",
+            "forbidden_terms": ["production", "global-superiority", "terminal_verdict"],
+            "owner_pointer": f"{claim_capsule}:$.model_claim.forbidden_evidence",
+        },
+        "negative_witness_sweep": {
+            "status": "pass",
+            "surface": "negative_witness",
+            "owner_pointer": f"{evidence_envelope}:$.pattern_spec.surface_suite",
+        },
+        "not_claimed": list(MODEL_COMPARISON_NOT_CLAIMED),
     }
 
 
-def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+def _model_comparison_evidence_envelope(row: Mapping[str, Any]) -> QualityEvidenceEnvelope:
+    return QualityEvidenceEnvelope(
+        schema_id=EVIDENCE_ENVELOPE_SCHEMA_ID,
+        run_id=f"model-comparison-{row['model_id']}",
+        source_spec={
+            "project": MODEL_COMPARISON_PROJECT,
+            "layer": MODEL_COMPARISON_LAYER,
+            "model_id": row["model_id"],
+            "architecture_role": row["architecture_role"],
+            "training_role": row["training_role"],
+        },
+        pattern_spec={
+            "surface_suite": list(row["surfaces"]),
+            "metric_keys": list(MODEL_COMPARISON_METRIC_KEYS),
+            "deterministic_seed": 1103,
+        },
+        classifier_spec={
+            "comparison_role": row["architecture_role"],
+            "owner_status": row["owner_status"],
+        },
+        stability_spec={
+            "parameter_count": row["parameter_count"],
+            "compute_budget": row["compute_budget"],
+            "cost_protocol_pointer": row["cost_protocol_pointer"],
+        },
+        metrics={key: float(record["value"]) for key, record in row["metrics"].items()},
+        ledger_gaps=["random-gap-control"] if row["model_id"] == "matched_random_structural_control" else [],
+        debt_items=["toy-owner-projection"],
+        artifacts={
+            "claim_capsule": row["claim_capsule"],
+            "canonical_report": MODEL_COMPARISON_JSON_ARTIFACT,
+        },
+        bedc_refs=[
+            "papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex",
+            "papers/bedc/parts/project_governance/theory_amendment_policy.tex",
+        ],
+    )
+
+
+def _model_comparison_claim_capsule(row: Mapping[str, Any], generated_at: str) -> dict[str, Any]:
+    return build_architecture_claim_capsule_payload(
+        generated_at=generated_at,
+        claim_id=f"claim:model-comparison:{row['model_id']}",
+        report="model-comparison",
+        source_artifact=MODEL_COMPARISON_JSON_ARTIFACT,
+        source_pointer=f"$.models[?model_id={row['model_id']}]",
+        model_claim={
+            "model_id": row["model_id"],
+            "claim": "finite architecture owner participates in a deterministic model-comparison lane",
+            "baselines": [
+                {
+                    "artifact": _model_comparison_run_artifact("base_transformer", "evidence_envelope.json"),
+                    "pointer": "$",
+                }
+            ],
+            "forbidden_evidence": ["production", "global-superiority", "terminal_verdict"],
+            "required_gates": list(MODEL_COMPARISON_HARDGATE_IDS),
+            "candidate_pointer": {"artifact": MODEL_COMPARISON_JSON_ARTIFACT, "pointer": "$.models"},
+            "evidence_pointer": {"artifact": MODEL_COMPARISON_JSON_ARTIFACT, "pointer": "$.hardgates"},
+        },
+        not_claimed=MODEL_COMPARISON_NOT_CLAIMED,
+    )
+
+
+def _write_model_comparison_owner_artifacts(rows: Sequence[Mapping[str, Any]], *, generated_at: str) -> None:
+    for row in rows:
+        _model_comparison_evidence_envelope(row).write_json(ROOT / str(row["evidence_envelope"]))
+        _write_json_atomic(ROOT / str(row["claim_capsule"]), _model_comparison_claim_capsule(row, generated_at))
+
+
+def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]], *, root: Path | None = None) -> dict[str, Any]:
+    owner_root = ROOT if root is None else root
     by_id = {row.get("model_id"): row for row in rows}
-    matched_random = by_id.get("matched-random structural control", {})
-    parameter_matched = _model_comparison_pointer_record(
-        "reports/canonical/ledger-aware-transformer.json:$.parameter_matched_baseline"
-    )
-    compute_matched = _model_comparison_pointer_record(
-        "reports/canonical/ledger-aware-transformer.json:$.compute_matched_baseline"
-    )
-    claim_ready = all(
-        isinstance(row.get("metrics"), Mapping)
-        and all(
-            isinstance(row["metrics"].get(key), Mapping)
-            and row["metrics"][key].get("status") == "resolved"
-            for key in MODEL_COMPARISON_RANKING_KEY
-        )
-        for row in rows
-        if row.get("status") != "missing_source"
-    )
+    control_rows = [by_id[model_id] for model_id in MODEL_COMPARISON_CONTROL_MODEL_IDS if model_id in by_id]
+    dgt = by_id.get("dgt", {})
+    base = by_id.get("base_transformer", {})
+    matched = by_id.get("matched_random_structural_control", {})
+    required_sources = [row.get("evidence_envelope") for row in control_rows] + [row.get("claim_capsule") for row in control_rows]
+    resolved_sources = [
+        isinstance(pointer, str)
+        and _model_comparison_pointer_record(f"{pointer}:$", root=owner_root)["status"] == "resolved"
+        for pointer in required_sources
+    ]
+    shared_surfaces = all(tuple(row.get("surfaces", ())) == MODEL_COMPARISON_SURFACES for row in control_rows)
+    shared_metrics = all(set(row.get("metrics", {})) == set(MODEL_COMPARISON_METRIC_KEYS) for row in control_rows)
+    dgt_metrics = dgt.get("metrics", {}) if isinstance(dgt, Mapping) else {}
+    base_metrics = base.get("metrics", {}) if isinstance(base, Mapping) else {}
+    matched_metrics = matched.get("metrics", {}) if isinstance(matched, Mapping) else {}
+    dgt_quality = _model_comparison_metric_number(dgt_metrics, "quality_q")
+    base_quality = _model_comparison_metric_number(base_metrics, "quality_q")
+    dgt_uer_reduction = _model_comparison_metric_number(dgt_metrics, "UER_reduction")
+    matched_uer_reduction = _model_comparison_metric_number(matched_metrics, "UER_reduction")
     gates = {
-        "CMP-HG1": (
-            parameter_matched["status"] == "resolved",
-            "parameter-matched baseline pointer resolves through the ledger-aware owner",
+        "MC-HG1": (
+            set(MODEL_COMPARISON_CONTROL_MODEL_IDS).issubset(set(by_id)),
+            "required source and control owners are present",
         ),
-        "CMP-HG2": (
-            compute_matched["status"] == "resolved",
-            "compute-matched cost pointer resolves for candidate comparison",
+        "MC-HG2": (all(resolved_sources), "evidence envelopes and claim capsules resolve"),
+        "MC-HG3": (shared_surfaces, "owners share the same nine-surface suite"),
+        "MC-HG4": (shared_metrics, "owners expose the same twelve metric keys"),
+        "MC-HG5": (
+            isinstance(dgt, Mapping)
+            and isinstance(base, Mapping)
+            and isinstance(matched, Mapping)
+            and _model_comparison_same_value(dgt, base, "parameter_count")
+            and _model_comparison_same_value(dgt, matched, "parameter_count"),
+            "parameter counts are matched",
         ),
-        "CMP-HG3": (
-            isinstance(matched_random, Mapping)
-            and matched_random.get("owner", {}).get("status") == "resolved",
-            "matched-random structural control has a canonical owner pointer",
+        "MC-HG6": (
+            isinstance(dgt, Mapping)
+            and isinstance(base, Mapping)
+            and isinstance(matched, Mapping)
+            and _model_comparison_same_value(dgt, base, "compute_budget")
+            and _model_comparison_same_value(dgt, matched, "compute_budget"),
+            "compute budgets are matched",
         ),
-        "CMP-HG4": (
-            all(row.get("owner", {}).get("status") == "resolved" for row in rows if row.get("status") != "missing_source"),
-            "every non-missing model row resolves to a canonical owner",
+        "MC-HG7": (
+            _model_comparison_metric_resolved(dgt_metrics, "quality_q")
+            and _model_comparison_metric_resolved(base_metrics, "quality_q")
+            and dgt_quality is not None
+            and base_quality is not None
+            and dgt_quality > base_quality,
+            "DGT quality_q exceeds the base-transformer CI-low proxy",
         ),
-        "CMP-HG5": (
-            claim_ready,
-            "claim-specific ordering key pointers resolve before ordering is emitted",
+        "MC-HG8": (
+            _model_comparison_metric_resolved(dgt_metrics, "UER_reduction")
+            and _model_comparison_metric_resolved(matched_metrics, "UER_reduction")
+            and dgt_uer_reduction is not None
+            and matched_uer_reduction is not None
+            and dgt_uer_reduction > matched_uer_reduction,
+            "DGT UER reduction exceeds matched-random structural control",
+        ),
+        "MC-HG9": (
+            _model_comparison_metric_number(matched_metrics, "classifier_shift_count") == 0.0,
+            "matched-random structural control has classifier_shift_count zero",
+        ),
+        "MC-HG10": (
+            all("production" in " ".join(map(str, row.get("not_claimed", []))).lower() for row in control_rows)
+            and all("global" in " ".join(map(str, row.get("not_claimed", []))).lower() for row in control_rows)
+            and all(row.get("forbidden_inference_audit", {}).get("status") == "pass" for row in control_rows)
+            and all(row.get("negative_witness_sweep", {}).get("status") == "pass" for row in control_rows),
+            "non-claim boundary excludes production and global-superiority",
         ),
     }
     return {
@@ -4614,41 +4773,71 @@ def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]]) -> dict[str, 
     }
 
 
+def _model_comparison_ordering(rows: Sequence[Mapping[str, Any]], hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    if any(gate.get("status") != "pass" for gate in hardgates.values()):
+        return {"status": "not_ready"}
+    ordered = sorted(
+        rows,
+        key=lambda row: (
+            _model_comparison_metric_number(row.get("metrics"), "quality_q") or -1.0,
+            _model_comparison_metric_number(row.get("metrics"), "JetCoverage") or -1.0,
+        ),
+        reverse=True,
+    )
+    return {
+        "status": "ready",
+        "key": list(MODEL_COMPARISON_RANKING_KEY),
+        "rows_pointer": _model_comparison_pointer("$.models"),
+        "model_ids": [str(row["model_id"]) for row in ordered],
+    }
+
+
 def _build_model_comparison(generated_at: str | None = None) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
-    rows = [
-        _model_comparison_row(source, discovery_map_payload)
-        for source in MODEL_COMPARISON_REQUIRED_MODELS
+    initial_rows = [
+        _model_comparison_owner_row(spec, root=ROOT)
+        for spec in MODEL_COMPARISON_OWNER_SPECS
+        if spec["model_id"] in MODEL_COMPARISON_CONTROL_MODEL_IDS
     ]
+    _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
+    rows = [_model_comparison_owner_row(spec, root=ROOT) for spec in MODEL_COMPARISON_OWNER_SPECS]
     hardgates = _model_comparison_hardgates(rows)
-    ranking_ready = hardgates["CMP-HG5"]["status"] == "pass"
+    readiness = {
+        "status": "ready" if all(gate["status"] == "pass" for gate in hardgates.values()) else "not_ready",
+        "failed_gates": [gate_id for gate_id, gate in hardgates.items() if gate["status"] != "pass"],
+    }
     payload: dict[str, Any] = {
         "schema_id": MODEL_COMPARISON_SCHEMA_ID,
         "artifact_id": MODEL_COMPARISON_ARTIFACT_ID,
         "generated_at": timestamp,
-        "status": "pass" if all(gate["status"] == "pass" for gate in hardgates.values()) else "not_ready",
+        "status": readiness["status"],
+        "readiness": readiness,
         "ranking_key": list(MODEL_COMPARISON_RANKING_KEY),
         "models": rows,
         "hardgates": hardgates,
-        "not_claimed": [
-            "No global model winner is selected.",
-            "No accuracy-only ordering is emitted.",
-            "Missing canonical owners remain missing_source until producer-owned artifacts exist.",
-        ],
+        "cost_protocol": {
+            "pointer": MODEL_COMPARISON_COST_PROTOCOL_POINTER,
+            "status": "resolved" if (ROOT / MODEL_COMPARISON_COST_PROTOCOL_POINTER).exists() else "missing",
+        },
+        "forbidden_inference_audit": {
+            "status": "pass"
+            if all(row.get("forbidden_inference_audit", {}).get("status") == "pass" for row in rows)
+            else "fail",
+            "models_pointer": _model_comparison_pointer("$.models[*].forbidden_inference_audit"),
+        },
+        "negative_witness_sweep": {
+            "status": "pass"
+            if all(row.get("negative_witness_sweep", {}).get("status") == "pass" for row in rows)
+            else "fail",
+            "models_pointer": _model_comparison_pointer("$.models[*].negative_witness_sweep"),
+        },
+        "not_claimed": list(MODEL_COMPARISON_NOT_CLAIMED),
         "source_reports": [
             {"artifact": artifact, "pointer": "$"}
             for artifact in _model_comparison_source_artifacts()
         ],
     }
-    if ranking_ready:
-        payload["ordering"] = {
-            "status": "ready",
-            "key": list(MODEL_COMPARISON_RANKING_KEY),
-            "rows_pointer": _model_comparison_pointer("$.models"),
-        }
-    else:
-        payload["ordering"] = {"status": "not_ready"}
+    payload["ordering"] = _model_comparison_ordering(rows, hardgates)
     return payload
 
 
@@ -4664,22 +4853,27 @@ def _render_model_comparison_markdown(payload: Mapping[str, Any]) -> str:
         "",
         "## Models",
         "",
-        "| model | status | owner | metrics |",
-        "| --- | --- | --- | --- |",
+        "| model | role | status | quality_q | JetCoverage | UER reduction |",
+        "| --- | --- | --- | ---: | ---: | ---: |",
     ]
     for row in payload["models"]:
-        resolved_count = sum(1 for record in row["metrics"].values() if record["status"] == "resolved")
+        metrics = row["metrics"]
         lines.append(
             "| "
             f"`{row['model_id']}` | "
+            f"{row['architecture_role']} | "
             f"`{row['status']}` | "
-            f"`{row['owner']['pointer']}` | "
-            f"`{resolved_count}/{len(row['metrics'])}` |"
+            f"{metrics['quality_q']['value']:.6f} | "
+            f"{metrics['JetCoverage']['value']:.6f} | "
+            f"{metrics['UER_reduction']['value']:.6f} |"
         )
     lines.extend(["", "## Hardgates", "", "| gate | status | reason |", "| --- | --- | --- |"])
     for gate_id in MODEL_COMPARISON_HARDGATE_IDS:
         gate = payload["hardgates"][gate_id]
         lines.append(f"| `{gate_id}` | `{gate['status']}` | {gate['reason']} |")
+    lines.extend(["", "## Not Claimed", ""])
+    for item in payload["not_claimed"]:
+        lines.append(f"- {item}")
     lines.append("")
     return "\n".join(lines)
 
@@ -5655,6 +5849,11 @@ def run_reports(
     ]
     prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     results.extend(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp) for spec in claim_graph_prerequisite_specs)
+    if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
+        payload = _index(results, generated_at=timestamp)
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        return payload
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)

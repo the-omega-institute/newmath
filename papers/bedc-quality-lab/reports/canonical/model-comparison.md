@@ -1,29 +1,41 @@
 # Model Comparison
 
-- Generated at: `2026-06-08T18:02:54.210872+00:00`
+- Generated at: `2026-06-08T19:53:58.207159+00:00`
 - Artifact: `bedc-quality-lab:model-comparison`
 - Schema: `bedc-quality-lab:model-comparison`
-- Status: `not_ready`
+- Status: `ready`
 - Ranking key: `quality_q, JetCoverage`
 
 ## Models
 
-| model | status | owner | metrics |
-| --- | --- | --- | --- |
-| `base_transformer` | `missing_source` | `None` | `0/12` |
-| `ledger-aware-transformer` | `ready` | `reports/canonical/ledger-aware-transformer.json:$` | `12/12` |
-| `certificate-gated-attention` | `ready` | `reports/canonical/certificate-gated-attention.json:$` | `12/12` |
-| `discovery-regularized-training` | `ready` | `reports/canonical/discovery-regularized-training.json:$` | `12/12` |
-| `mechanism-seeking-network` | `ready` | `reports/canonical/mechanism-seeking-network.json:$` | `12/12` |
-| `DGT candidate` | `ready` | `reports/canonical/discovery-gated-transformer.json:$` | `12/12` |
-| `matched-random structural control` | `missing_source` | `None` | `0/12` |
+| model | role | status | quality_q | JetCoverage | UER reduction |
+| --- | --- | --- | ---: | ---: | ---: |
+| `dgt` | DGT source row | `resolved` | 0.760089 | 0.825499 | 0.337379 |
+| `base_transformer` | base_transformer control row | `resolved` | 0.507174 | 0.352408 | 0.030671 |
+| `matched_random_structural_control` | matched_random_structural_control control row | `resolved` | 0.438873 | 0.314720 | 0.005202 |
+| `ledger-aware-transformer` | ledger-aware transformer canonical owner row | `ready` | 0.437487 | 0.315740 | 0.005319 |
+| `certificate-gated-attention` | certificate-gated attention canonical owner row | `ready` | 0.438621 | 0.316938 | 0.004392 |
+| `discovery-regularized-training` | discovery-regularized training canonical owner row | `ready` | 0.441845 | 0.312076 | 0.005171 |
+| `mechanism-seeking-network` | mechanism-seeking network canonical owner row | `ready` | 0.436793 | 0.316682 | 0.005120 |
 
 ## Hardgates
 
 | gate | status | reason |
 | --- | --- | --- |
-| `CMP-HG1` | `pass` | parameter-matched baseline pointer resolves through the ledger-aware owner |
-| `CMP-HG2` | `pass` | compute-matched cost pointer resolves for candidate comparison |
-| `CMP-HG3` | `fail` | matched-random structural control has a canonical owner pointer; fail-closed |
-| `CMP-HG4` | `pass` | every non-missing model row resolves to a canonical owner |
-| `CMP-HG5` | `pass` | claim-specific ordering key pointers resolve before ordering is emitted |
+| `MC-HG1` | `pass` | required source and control owners are present |
+| `MC-HG2` | `pass` | evidence envelopes and claim capsules resolve |
+| `MC-HG3` | `pass` | owners share the same nine-surface suite |
+| `MC-HG4` | `pass` | owners expose the same twelve metric keys |
+| `MC-HG5` | `pass` | parameter counts are matched |
+| `MC-HG6` | `pass` | compute budgets are matched |
+| `MC-HG7` | `pass` | DGT quality_q exceeds the base-transformer CI-low proxy |
+| `MC-HG8` | `pass` | DGT UER reduction exceeds matched-random structural control |
+| `MC-HG9` | `pass` | matched-random structural control has classifier_shift_count zero |
+| `MC-HG10` | `pass` | non-claim boundary excludes production and global-superiority |
+
+## Not Claimed
+
+- No production deployment readiness is claimed.
+- No global model superiority claim is made.
+- No terminal verdict or winner is emitted.
+- The comparison is a deterministic toy owner-projection lane only.

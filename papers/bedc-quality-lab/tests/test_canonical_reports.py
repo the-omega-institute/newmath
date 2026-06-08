@@ -213,12 +213,12 @@ def _payload_for_spec(spec):
             "generated_at": "fixture-generated-at",
             "status": "not_ready",
             "ranking_key": list(canonical.MODEL_COMPARISON_RANKING_KEY),
-            "models": [],
             "hardgates": {
                 gate_id: {"gate_id": gate_id, "status": "fail", "reason": "fixture"}
                 for gate_id in canonical.MODEL_COMPARISON_HARDGATE_IDS
             },
             "not_claimed": ["fixture"],
+            "models": [],
             "source_reports": [],
             "ordering": {"status": "not_ready"},
         }
@@ -1969,17 +1969,18 @@ def test_model_comparison_rows_cover_issue_model_set_fail_closed():
     rows = {row["model_id"]: row for row in payload["models"]}
 
     assert list(rows) == [
+        "dgt",
         "base_transformer",
+        "matched_random_structural_control",
         "ledger-aware-transformer",
         "certificate-gated-attention",
         "discovery-regularized-training",
         "mechanism-seeking-network",
-        "DGT candidate",
-        "matched-random structural control",
     ]
-    assert rows["base_transformer"]["status"] == "missing_source"
-    assert rows["matched-random structural control"]["status"] == "missing_source"
     assert rows["ledger-aware-transformer"]["status"] == "ready"
+    assert rows["dgt"]["status"] == "resolved"
+    assert rows["base_transformer"]["status"] == "resolved"
+    assert rows["matched_random_structural_control"]["status"] == "resolved"
 
 
 def test_model_comparison_rejects_accuracy_only_ranking():
@@ -1998,14 +1999,14 @@ def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
     real_resolve = canonical._resolve_committed_artifact_pointer
 
     def missing_quality_q(root, pointer):
-        if pointer.endswith("$.hardgate.status"):
+        if pointer == "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.quality_q":
             return None
         return real_resolve(root, pointer)
 
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_quality_q)
     blocked = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
 
-    assert blocked["hardgates"]["CMP-HG5"]["status"] == "fail"
+    assert blocked["hardgates"]["MC-HG7"]["status"] == "fail"
     assert blocked["ordering"]["status"] == "not_ready"
 
 
@@ -2013,11 +2014,7 @@ def test_model_comparison_hardgates_fail_closed(monkeypatch):
     real_resolve = canonical._resolve_committed_artifact_pointer
 
     def missing_required_controls(root, pointer):
-        blocked_fragments = (
-            "$.parameter_matched_baseline",
-            "$.compute_matched_baseline",
-            "matched-random-control.json",
-        )
+        blocked_fragments = ("matched_random_structural_control/evidence_envelope.json",)
         if any(fragment in pointer for fragment in blocked_fragments):
             return None
         return real_resolve(root, pointer)
@@ -2025,9 +2022,9 @@ def test_model_comparison_hardgates_fail_closed(monkeypatch):
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_required_controls)
     payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
 
-    assert payload["hardgates"]["CMP-HG1"]["status"] == "fail"
-    assert payload["hardgates"]["CMP-HG2"]["status"] == "fail"
-    assert payload["hardgates"]["CMP-HG3"]["status"] == "fail"
+    assert payload["hardgates"]["MC-HG2"]["status"] == "fail"
+    assert payload["hardgates"]["MC-HG9"]["status"] == "pass"
+    assert payload["status"] == "not_ready"
 
 
 def test_model_comparison_metric_pointers_resolve_or_mark_missing():
@@ -2035,22 +2032,22 @@ def test_model_comparison_metric_pointers_resolve_or_mark_missing():
     expected_metrics = {
         "task_accuracy",
         "ood_accuracy",
-        "UER",
-        "FalseLedgerRate",
-        "CriticalUER",
-        "classifier_shift",
-        "order",
-        "quality_q",
-        "cost",
-        "negative_witnesses",
-        "JetCoverage",
-        "CausalJetCoverage",
-    }
+            "UER",
+            "UER_reduction",
+            "FalseLedgerRate",
+            "CriticalUER",
+            "classifier_shift_count",
+            "order",
+            "quality_q",
+            "cost",
+            "negative_witnesses",
+            "JetCoverage",
+        }
 
     for row in payload["models"]:
         assert set(row["metrics"]) == expected_metrics
         for metric in row["metrics"].values():
-            assert set(metric) == {"pointer", "status"}
+            assert set(metric) == {"pointer", "status", "value"}
             assert metric["status"] in {"resolved", "missing"}
 
 
@@ -2761,7 +2758,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         keys = set(spec.required_json_keys)
         assert "generated_at" in keys
         if spec.name == "model-comparison":
-            assert "source_reports" in keys
+            assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
             continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
@@ -3968,6 +3965,22 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    index_path = canonical.INDEX_ARTIFACT
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text('{"sentinel": true}\n', encoding="utf-8")
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+    assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
 
 
 def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
