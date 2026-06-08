@@ -24,10 +24,8 @@ from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointe
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.scope import (
-    ScopeExpansionClaim,
-    ScopeExpansionEvidence,
     ScopeExpansionGate,
-    scope_expansion_gate,
+    scope_expansion_gate_for_payload,
 )
 from bedc_quality_lab.verdict import synthesize_certification_verdict
 from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec, _discovery_map_reports
@@ -209,53 +207,16 @@ def _scope_laundering_pointer(spec: CanonicalReportSpec, payload: Mapping[str, A
     return None
 
 
-def _scope_pointer(spec: CanonicalReportSpec, field: str, default: str) -> str:
-    pointer = getattr(spec, field, None)
-    return pointer if isinstance(pointer, str) else default
-
-
-def _scope_claim_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any] | None:
-    value = pointer_value(payload, _scope_pointer(spec, "scope_claim_pointer", "$.scope_claim"))
-    return value if isinstance(value, Mapping) else None
-
-
-def _scope_evidence_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any]:
-    value = pointer_value(payload, _scope_pointer(spec, "scope_evidence_pointer", "$.scope_evidence"))
-    return value if isinstance(value, Mapping) else {}
-
-
-def _scope_expansion_claim(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> ScopeExpansionClaim | None:
-    claim = _scope_claim_payload(spec, payload)
-    if claim is None:
-        return None
-    source_scope = claim.get("source_scope")
-    target_scope = claim.get("target_scope")
-    evidence_payload = _scope_evidence_payload(spec, payload)
-    evidence: dict[str, ScopeExpansionEvidence] = {}
-    for edge, cell in evidence_payload.items():
-        if not isinstance(edge, str):
-            continue
-        if isinstance(cell, Mapping):
-            pointer = cell.get("pointer")
-            status = str(cell.get("status", "resolved"))
-            if isinstance(pointer, str) and pointer.startswith("$.") and pointer_value(payload, pointer) is None:
-                status = "unresolved"
-            evidence[edge] = ScopeExpansionEvidence(
-                edge=edge,
-                pointer=pointer if isinstance(pointer, str) else "",
-                status=status,
-            )
-        else:
-            evidence[edge] = ScopeExpansionEvidence(edge=edge, pointer="", status="missing")
-    return ScopeExpansionClaim(source_scope=str(source_scope), target_scope=str(target_scope), evidence=evidence)
-
-
 def _scope_expansion_gate_for_payload(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
 ) -> ScopeExpansionGate | None:
-    claim = _scope_expansion_claim(spec, payload)
-    return None if claim is None else scope_expansion_gate(claim)
+    return scope_expansion_gate_for_payload(
+        payload,
+        pointer_value,
+        scope_claim_pointer=getattr(spec, "scope_claim_pointer", None),
+        scope_evidence_pointer=getattr(spec, "scope_evidence_pointer", None),
+    )
 
 
 def _scope_expansion_failure_pointer(root: Path, row: Mapping[str, Any], gate: ScopeExpansionGate) -> str:
@@ -552,7 +513,7 @@ def _mapped_discovery_row(
             return _row(
                 claim_id=claim_id,
                 claim_verdict="negative_discovery",
-                reason="scope-expansion-evidence-missing",
+                reason=scope_gate.reason,
                 source=_claim_source(row, "scope_gate"),
                 ledger_pointer=_scope_expansion_failure_pointer(root, row, scope_gate),
                 scorecard_snapshot=scorecard_snapshot,

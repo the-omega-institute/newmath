@@ -368,6 +368,74 @@ def test_scope_expansion_missing_edge_fails_closed():
     assert gate.failed_pointer == "$.scope_evidence.bounded-design->backend-evidence"
 
 
+def test_scope_expansion_unknown_source_scope_fails_closed():
+    gate = scope_expansion_gate(
+        ScopeExpansionClaim(source_scope="unknown", target_scope="backend-evidence", evidence={})
+    )
+
+    assert gate.status == "fail"
+    assert gate.reason == "unknown-source-scope"
+    assert gate.failed_edge is None
+    assert gate.failed_pointer == "$.scope_claim.source_scope"
+    assert gate.required_edges == ()
+
+
+def test_scope_expansion_unknown_target_scope_fails_closed():
+    gate = scope_expansion_gate(
+        ScopeExpansionClaim(source_scope="toy", target_scope="unknown", evidence={})
+    )
+
+    assert gate.status == "fail"
+    assert gate.reason == "unknown-target-scope"
+    assert gate.failed_edge is None
+    assert gate.failed_pointer == "$.scope_claim.target_scope"
+    assert gate.required_edges == ()
+
+
+def test_scope_expansion_unresolved_evidence_status_fails_closed():
+    gate = scope_expansion_gate(
+        ScopeExpansionClaim(
+            source_scope="toy",
+            target_scope="bounded-design",
+            evidence={
+                "toy->bounded-design": ScopeExpansionEvidence(
+                    edge="toy->bounded-design",
+                    pointer="$.scope_gate_evidence.missing",
+                    status="unresolved",
+                )
+            },
+        )
+    )
+
+    assert gate.status == "fail"
+    assert gate.reason == "scope-expansion-evidence-missing"
+    assert gate.failed_edge == "toy->bounded-design"
+    assert gate.failed_pointer == "$.scope_gate_evidence.missing"
+    assert gate.required_edges == ("toy->bounded-design",)
+
+
+def test_scope_expansion_empty_evidence_pointer_fails_closed():
+    gate = scope_expansion_gate(
+        ScopeExpansionClaim(
+            source_scope="toy",
+            target_scope="bounded-design",
+            evidence={
+                "toy->bounded-design": ScopeExpansionEvidence(
+                    edge="toy->bounded-design",
+                    pointer="",
+                    status="resolved",
+                )
+            },
+        )
+    )
+
+    assert gate.status == "fail"
+    assert gate.reason == "scope-expansion-evidence-missing"
+    assert gate.failed_edge == "toy->bounded-design"
+    assert gate.failed_pointer == "$.scope_evidence.toy->bounded-design.pointer"
+    assert gate.required_edges == ("toy->bounded-design",)
+
+
 def test_production_forbidden_is_terminal_boundary_not_approval():
     claim = ScopeExpansionClaim(
         source_scope="real-training",

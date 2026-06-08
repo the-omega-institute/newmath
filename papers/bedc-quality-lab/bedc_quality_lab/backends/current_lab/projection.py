@@ -41,10 +41,9 @@ from bedc_quality_lab.mechanism_attribution import (
 )
 from bedc_quality_lab.research_discovery import DiscoveryLevel, assign_discovery_level
 from bedc_quality_lab.scope import (
-    ScopeExpansionClaim,
-    ScopeExpansionEvidence,
     ScopeExpansionGate,
-    scope_expansion_gate,
+    scope_claim_payload,
+    scope_expansion_gate_for_payload,
 )
 from bedc_quality_lab.certificate_gated_attention import REQUIRED_PRODUCTION_NOT_CLAIMED
 from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
@@ -414,61 +413,24 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
     return cursor
 
 
-def _scope_pointer(spec: CanonicalReportSpec, field: str, default: str) -> str:
-    pointer = getattr(spec, field, None)
-    return pointer if isinstance(pointer, str) else default
-
-
 def _scope_claim_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any] | None:
-    value = pointer_value(payload, _scope_pointer(spec, "scope_claim_pointer", "$.scope_claim"))
-    return value if isinstance(value, Mapping) else None
-
-
-def _scope_evidence_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any]:
-    value = pointer_value(payload, _scope_pointer(spec, "scope_evidence_pointer", "$.scope_evidence"))
-    return value if isinstance(value, Mapping) else {}
-
-
-def _scope_expansion_evidence(edge: str, cell: Any, payload: Mapping[str, Any]) -> ScopeExpansionEvidence:
-    if isinstance(cell, Mapping):
-        pointer = cell.get("pointer")
-        status = str(cell.get("status", "resolved"))
-        if isinstance(pointer, str) and pointer.startswith("$.") and pointer_value(payload, pointer) is None:
-            status = "unresolved"
-        return ScopeExpansionEvidence(edge=edge, pointer=pointer if isinstance(pointer, str) else "", status=status)
-    return ScopeExpansionEvidence(edge=edge, pointer="", status="missing")
-
-
-def _scope_expansion_claim(
-    spec: CanonicalReportSpec,
-    payload: Mapping[str, Any],
-) -> ScopeExpansionClaim | None:
-    claim = _scope_claim_payload(spec, payload)
-    if claim is None:
-        return None
-    source_scope = claim.get("source_scope")
-    target_scope = claim.get("target_scope")
-    if not isinstance(source_scope, str) or not isinstance(target_scope, str):
-        return ScopeExpansionClaim(
-            source_scope=str(source_scope),
-            target_scope=str(target_scope),
-            evidence={},
-        )
-    evidence_payload = _scope_evidence_payload(spec, payload)
-    evidence = {
-        edge: _scope_expansion_evidence(edge, evidence_payload.get(edge), payload)
-        for edge in evidence_payload
-        if isinstance(edge, str)
-    }
-    return ScopeExpansionClaim(source_scope=source_scope, target_scope=target_scope, evidence=evidence)
+    return scope_claim_payload(
+        payload,
+        pointer_value,
+        scope_claim_pointer=getattr(spec, "scope_claim_pointer", None),
+    )
 
 
 def _scope_expansion_gate_for_payload(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
 ) -> ScopeExpansionGate | None:
-    claim = _scope_expansion_claim(spec, payload)
-    return None if claim is None else scope_expansion_gate(claim)
+    return scope_expansion_gate_for_payload(
+        payload,
+        pointer_value,
+        scope_claim_pointer=getattr(spec, "scope_claim_pointer", None),
+        scope_evidence_pointer=getattr(spec, "scope_evidence_pointer", None),
+    )
 
 
 def _after_minus_before_debt_delta(payload: Mapping[str, Any]) -> float | None:

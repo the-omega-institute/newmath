@@ -694,8 +694,8 @@ def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
     assert verdict["ledger_pointer"] == "reports/canonical/gap-head-discovery.json:$.laundering_modes"
 
 
-def _add_scope_claim(payload, *, complete=True):
-    payload["scope_claim"] = {"source_scope": "toy", "target_scope": "backend-evidence"}
+def _add_scope_claim(payload, *, complete=True, source_scope="toy", target_scope="backend-evidence"):
+    payload["scope_claim"] = {"source_scope": source_scope, "target_scope": target_scope}
     payload["scope_evidence"] = {
         "toy->bounded-design": {
             "pointer": "$.scope_gate_evidence.toy_bounded",
@@ -747,6 +747,56 @@ def test_scope_gate_failure_produces_negative_claim_verdict(tmp_path, monkeypatc
     assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "scope-expansion-evidence-missing"
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].scope_gate"
+
+
+@pytest.mark.parametrize(
+    ("mutate", "reason", "ledger_pointer"),
+    [
+        (
+            lambda payload: payload["scope_claim"].update({"source_scope": "unknown"}),
+            "unknown-source-scope",
+            "reports/canonical/scope-fail.json:$.scope_claim.source_scope",
+        ),
+        (
+            lambda payload: payload["scope_claim"].update({"target_scope": "unknown"}),
+            "unknown-target-scope",
+            "reports/canonical/scope-fail.json:$.scope_claim.target_scope",
+        ),
+        (
+            lambda payload: payload["scope_evidence"]["bounded-design->backend-evidence"].update(
+                {"pointer": "$.scope_gate_evidence.missing"}
+            ),
+            "scope-expansion-evidence-missing",
+            "reports/canonical/scope-fail.json:$.scope_gate_evidence.missing",
+        ),
+        (
+            lambda payload: payload["scope_evidence"]["bounded-design->backend-evidence"].update({"pointer": ""}),
+            "scope-expansion-evidence-missing",
+            "reports/canonical/scope-fail.json:$.scope_evidence.bounded-design->backend-evidence.pointer",
+        ),
+    ],
+)
+def test_positive_claim_verdict_scope_payload_failures_produce_negative_discovery(
+    tmp_path,
+    monkeypatch,
+    mutate,
+    reason,
+    ledger_pointer,
+):
+    rows = [_discovery_row("scope-fail", "reports/canonical/scope-fail.json", "D4")]
+    specs = (_spec("scope-fail", "reports/canonical/scope-fail.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/scope-fail.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    _add_scope_claim(payload, complete=True)
+    mutate(payload)
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "negative_discovery"
+    assert verdict["reason"] == reason
+    assert verdict["ledger_pointer"] == ledger_pointer
 
 
 def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verdict(tmp_path, monkeypatch):

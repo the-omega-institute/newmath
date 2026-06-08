@@ -20,6 +20,55 @@ EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
 MECHANISM_NAMECERT_ARTIFACT = f"{RUN_ROOT}/mechanism_namecert.json"
 JET_CERTIFICATE_ARTIFACT = f"{RUN_ROOT}/jet_certificate.json"
 GATE_NAMES = tuple(f"DGT-HG{index}" for index in range(1, 21))
+TOOL_ROUTE_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
+TOOL_ROUTE_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
+TOOL_ROUTE_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$"
+TOOL_ROUTE_SOURCE_ISSUE_REF = "github:issue:928"
+TOOL_ROUTE_CGA_ROUTE_PATCH_REF = "reports/canonical/certificate-gated-attention.json:$.route_patch_protocol"
+TOOL_ROUTE_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "source_issue_ref",
+    "synthetic_tool_call_grid",
+    "route_classes",
+    "cga_route_patch_ref",
+    "admission_ledger",
+    "blocked_route_evidence",
+    "unsafe_invalid_audit",
+    "classifier_surface_delta",
+    "net_positive_signal",
+    "hardgate",
+    "failed_gate",
+    "not_claimed",
+    "revocation_rows",
+    "forbidden_alias_audit",
+)
+TOOL_ROUTE_GATE_NAMES = tuple(f"DGT-TOOL-HG{index}" for index in range(1, 7))
+CLAIMED_POSITIVE_ROUTE_CLASSES = frozenset({"valid_positive_discovery"})
+BLOCKED_ROUTE_CLASSES = frozenset({"invalid_route", "unsafe_route"})
+TOOL_ROUTE_RECURSIVE_FORBIDDEN_TOKENS = (
+    ".refactor-loop",
+    "host.env",
+    "terminal_verdict",
+    "discovery_gated_transformer",
+    "tool-use-dgt",
+    "tool-use-toy-dgt",
+    "tool_use_dgt",
+    "tool_use_toy_dgt",
+)
+COPIED_CGA_PAYLOAD_KEYS = frozenset(
+    {
+        "route_patch_protocol",
+        "cga_route_patch_protocol",
+        "classifier_payload",
+        "classifier_surface",
+        "cga_metric_body",
+        "cga_metrics",
+        "certificate_gate_summary",
+        "torch_attention_evidence",
+    }
+)
 REJECTED_INLINE_KEYS = frozenset(
     {
         "records",
@@ -33,6 +82,7 @@ REJECTED_INLINE_KEYS = frozenset(
         "private_row_carrier",
         "raw_metrics",
         "metric_rows",
+        *COPIED_CGA_PAYLOAD_KEYS,
     }
 )
 NOT_CLAIMED = (
@@ -159,6 +209,30 @@ def _has_recursive_key(value: Any, forbidden: frozenset[str]) -> str | None:
     return None
 
 
+def _has_recursive_token(value: Any, forbidden: Sequence[str]) -> str | None:
+    if isinstance(value, str):
+        lowered = value.lower()
+        for token in forbidden:
+            if token in lowered:
+                return token
+    elif isinstance(value, Mapping):
+        for key, item in value.items():
+            if isinstance(key, str):
+                lowered_key = key.lower()
+                for token in forbidden:
+                    if token in lowered_key:
+                        return token
+            found = _has_recursive_token(item, forbidden)
+            if found is not None:
+                return found
+    elif isinstance(value, (list, tuple)):
+        for item in value:
+            found = _has_recursive_token(item, forbidden)
+            if found is not None:
+                return found
+    return None
+
+
 def _is_cell(value: Any) -> bool:
     return (
         isinstance(value, Mapping)
@@ -178,6 +252,247 @@ def _walk_cells(value: Any) -> bool:
     if isinstance(value, list):
         return all(_walk_cells(item) for item in value)
     return not isinstance(value, (dict, list))
+
+
+def _artifact_pointer_cell(value: str) -> dict[str, str]:
+    artifact, pointer = value.split(":", 1)
+    return _cell(artifact, pointer)
+
+
+def _synthetic_tool_call_grid() -> list[dict[str, Any]]:
+    return [
+        {
+            "route_id": "route_math_lookup_positive",
+            "tool": "symbolic-table",
+            "route_class": "valid_positive_discovery",
+            "classifier_surface_delta": {
+                "before": "route-unclassified",
+                "after": "tool-route-positive-discovery",
+                "surface_delta_count": 2,
+            },
+            "net_positive_signal": True,
+            "admission_decision": "admit",
+        },
+        {
+            "route_id": "route_ledger_patch_positive",
+            "tool": "ledger-patcher",
+            "route_class": "valid_positive_discovery",
+            "classifier_surface_delta": {
+                "before": "candidate-ledger-gap",
+                "after": "route-patched-positive-discovery",
+                "surface_delta_count": 1,
+            },
+            "net_positive_signal": True,
+            "admission_decision": "admit",
+        },
+        {
+            "route_id": "route_schema_invalid",
+            "tool": "schema-mutator",
+            "route_class": "invalid_route",
+            "classifier_surface_delta": None,
+            "net_positive_signal": False,
+            "admission_decision": "block",
+        },
+        {
+            "route_id": "route_secret_unsafe",
+            "tool": "host-secret-reader",
+            "route_class": "unsafe_route",
+            "classifier_surface_delta": None,
+            "net_positive_signal": False,
+            "admission_decision": "block",
+        },
+        {
+            "route_id": "route_control_neutral",
+            "tool": "no-op-control",
+            "route_class": "neutral_control",
+            "classifier_surface_delta": None,
+            "net_positive_signal": False,
+            "admission_decision": "do-not-admit",
+        },
+    ]
+
+
+def _tool_route_gate_rows(payload: Mapping[str, Any], failed: Sequence[str]) -> dict[str, dict[str, Any]]:
+    failed_set = set(failed)
+    evidence_pointers = {
+        "DGT-TOOL-HG1": "$.tool_route_evidence.classifier_surface_delta",
+        "DGT-TOOL-HG2": "$.tool_route_evidence.cga_route_patch_ref",
+        "DGT-TOOL-HG3": "$.tool_route_evidence.admission_ledger",
+        "DGT-TOOL-HG4": "$.tool_route_evidence.blocked_route_evidence",
+        "DGT-TOOL-HG5": "$.tool_route_evidence.not_claimed",
+        "DGT-TOOL-HG6": "$.tool_route_evidence.forbidden_alias_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if gate_name in failed_set else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence_pointers[gate_name]),
+        }
+        for gate_name in TOOL_ROUTE_GATE_NAMES
+    }
+
+
+def evaluate_dgt_tool_route_hardgates(payload: Mapping[str, Any]) -> dict[str, Any]:
+    failed: list[str] = []
+    rows = payload.get("synthetic_tool_call_grid")
+    rows = rows if isinstance(rows, list) else []
+    positive_rows = [row for row in rows if isinstance(row, Mapping) and row.get("route_class") in CLAIMED_POSITIVE_ROUTE_CLASSES]
+    if any(not row.get("classifier_surface_delta") or row.get("net_positive_signal") is not True for row in positive_rows):
+        failed.append("DGT-TOOL-HG1")
+
+    if payload.get("cga_route_patch_ref") != TOOL_ROUTE_CGA_ROUTE_PATCH_REF:
+        failed.append("DGT-TOOL-HG2")
+    if _has_recursive_key(payload, COPIED_CGA_PAYLOAD_KEYS) is not None:
+        failed.append("DGT-TOOL-HG2")
+
+    ledger = payload.get("admission_ledger")
+    ledger_rows = ledger.get("rows") if isinstance(ledger, Mapping) else None
+    ledger_rows = ledger_rows if isinstance(ledger_rows, list) else []
+    route_class_by_id = {
+        row["route_id"]: row.get("route_class")
+        for row in rows
+        if isinstance(row, Mapping) and isinstance(row.get("route_id"), str)
+    }
+    ledgered_blocked = [
+        row.get("route_id")
+        for row in ledger_rows
+        if isinstance(row, Mapping) and route_class_by_id.get(row.get("route_id")) in BLOCKED_ROUTE_CLASSES
+    ]
+    if ledgered_blocked:
+        failed.append("DGT-TOOL-HG3")
+
+    blocked = payload.get("blocked_route_evidence")
+    blocked_rows = blocked.get("rows") if isinstance(blocked, Mapping) else None
+    blocked_rows = blocked_rows if isinstance(blocked_rows, list) else []
+    blocked_ids = {row.get("route_id") for row in blocked_rows if isinstance(row, Mapping)}
+    invalid_unsafe_ids = {
+        row.get("route_id")
+        for row in rows
+        if isinstance(row, Mapping) and row.get("route_class") in BLOCKED_ROUTE_CLASSES
+    }
+    if not invalid_unsafe_ids.issubset(blocked_ids):
+        failed.append("DGT-TOOL-HG4")
+
+    if not payload.get("not_claimed"):
+        failed.append("DGT-TOOL-HG5")
+
+    if _has_recursive_token(payload, TOOL_ROUTE_RECURSIVE_FORBIDDEN_TOKENS) is not None:
+        failed.append("DGT-TOOL-HG6")
+
+    failed_gate = sorted(set(failed), key=TOOL_ROUTE_GATE_NAMES.index)
+    return {
+        "status": "pass" if not failed_gate else "fail",
+        "gate_names": list(TOOL_ROUTE_GATE_NAMES),
+        "gates": _tool_route_gate_rows(payload, failed_gate),
+        "failed_gate": failed_gate,
+    }
+
+
+def build_dgt_tool_route_evidence(*, generated_at: str) -> dict[str, Any]:
+    rows = _synthetic_tool_call_grid()
+    admitted = [
+        {
+            "route_id": row["route_id"],
+            "route_class": row["route_class"],
+            "admission_basis_ref": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.synthetic_tool_call_grid[{index}]",
+        }
+        for index, row in enumerate(rows)
+        if row["admission_decision"] == "admit"
+    ]
+    blocked = [
+        {
+            "route_id": row["route_id"],
+            "route_class": row["route_class"],
+            "block_basis": "invalid-or-unsafe-route",
+            "evidence_ref": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.synthetic_tool_call_grid[{index}]",
+        }
+        for index, row in enumerate(rows)
+        if row["route_class"] in BLOCKED_ROUTE_CLASSES
+    ]
+    classifier_surface_delta = {
+        row["route_id"]: row["classifier_surface_delta"]
+        for row in rows
+        if row["route_class"] in CLAIMED_POSITIVE_ROUTE_CLASSES
+    }
+    payload: dict[str, Any] = {
+        "schema_id": TOOL_ROUTE_SCHEMA_ID,
+        "artifact_id": TOOL_ROUTE_ARTIFACT_ID,
+        "owner_ref": TOOL_ROUTE_OWNER_REF,
+        "source_issue_ref": TOOL_ROUTE_SOURCE_ISSUE_REF,
+        "synthetic_tool_call_grid": rows,
+        "route_classes": {
+            "claimed_positive": sorted(CLAIMED_POSITIVE_ROUTE_CLASSES),
+            "blocked": sorted(BLOCKED_ROUTE_CLASSES),
+            "control": ["neutral_control"],
+        },
+        "cga_route_patch_ref": TOOL_ROUTE_CGA_ROUTE_PATCH_REF,
+        "admission_ledger": {
+            "policy": "admit only valid positive-discovery routes with classifier delta and net-positive signal",
+            "rows": admitted,
+        },
+        "blocked_route_evidence": {"rows": blocked},
+        "unsafe_invalid_audit": {
+            "status": "pass",
+            "invalid_or_unsafe_route_ids": [row["route_id"] for row in blocked],
+            "ledgered_invalid_or_unsafe_route_ids": [],
+        },
+        "classifier_surface_delta": classifier_surface_delta,
+        "net_positive_signal": True,
+        "hardgate": {},
+        "failed_gate": [],
+        "not_claimed": [
+            "Tool-route evidence is bounded to deterministic synthetic DGT route rows.",
+            "CGA route-patch authority is pointer-only and not copied into the DGT owner.",
+            "Invalid or unsafe routes are blocked evidence, not admitted ledger rows.",
+        ],
+        "revocation_rows": [
+            {
+                "condition": "Revoke if an invalid or unsafe route appears in admission_ledger.rows.",
+                "gate": "DGT-TOOL-HG3",
+            },
+            {
+                "condition": "Revoke if the CGA route-patch pointer is replaced by copied route-patch payload.",
+                "gate": "DGT-TOOL-HG2",
+            },
+        ],
+        "forbidden_alias_audit": {
+            "status": "pass",
+            "forbidden_refs": [],
+            "checked_ref_classes": ["host-private refs", "terminal verdict refs", "DGT alias refs", "standalone tool route refs"],
+        },
+    }
+    del generated_at
+    payload["hardgate"] = evaluate_dgt_tool_route_hardgates(payload)
+    payload["failed_gate"] = payload["hardgate"]["failed_gate"]
+    validate_dgt_tool_route_evidence(payload)
+    return payload
+
+
+def validate_dgt_tool_route_evidence(payload: Mapping[str, Any]) -> None:
+    if set(payload) != set(TOOL_ROUTE_REQUIRED_KEYS):
+        raise ValueError("DGT tool-route evidence fields mismatch")
+    if payload["schema_id"] != TOOL_ROUTE_SCHEMA_ID or payload["artifact_id"] != TOOL_ROUTE_ARTIFACT_ID:
+        raise ValueError("DGT tool-route identity mismatch")
+    if payload["owner_ref"] != TOOL_ROUTE_OWNER_REF:
+        raise ValueError("DGT tool-route owner pointer mismatch")
+    rows = payload["synthetic_tool_call_grid"]
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("DGT tool-route grid must be non-empty")
+    route_ids = [row.get("route_id") for row in rows if isinstance(row, Mapping)]
+    if len(route_ids) != len(set(route_ids)) or len(route_ids) != len(rows):
+        raise ValueError("DGT tool-route ids must be unique")
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("DGT tool-route grid row must be an object")
+        expected_row = {"route_id", "tool", "route_class", "classifier_surface_delta", "net_positive_signal", "admission_decision"}
+        if set(row) != expected_row:
+            raise ValueError("DGT tool-route grid row schema mismatch")
+    hardgate = evaluate_dgt_tool_route_hardgates(payload)
+    if payload["hardgate"] != hardgate:
+        raise ValueError("DGT tool-route hardgate mismatch")
+    if payload["failed_gate"] != hardgate["failed_gate"]:
+        raise ValueError("DGT tool-route failed_gate mismatch")
+    if hardgate["status"] != "pass":
+        raise ValueError("DGT tool-route hardgate failed")
 
 
 def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
@@ -230,6 +545,7 @@ class DiscoveryGatedTransformerProjector:
             "component_refs": self.component_refs,
             "architecture_spec": default_architecture_spec(),
             "hardgate": {"status": "pass", "gate_names": list(GATE_NAMES), "gates": _gate_rows(self.component_refs)},
+            "tool_route_evidence": build_dgt_tool_route_evidence(generated_at=generated_at),
             "discovery_map_signal": default_discovery_map_signal(),
             **sidecar_refs(),
             "not_claimed": list(NOT_CLAIMED),
@@ -252,6 +568,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "tool_route_evidence",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -265,9 +582,13 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT projection identity mismatch")
     if payload["model_id"] != MODEL_ID:
         raise ValueError("DGT model identity mismatch")
+    validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict", "tool-use-dgt", "tool-use-toy-dgt"))
+    if token is not None:
+        raise ValueError(f"DGT projection contains forbidden value: {token}")
     for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT sidecar ref is not a pointer cell: {key}")
@@ -319,6 +640,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## Hardgates", "", "| gate | status | evidence |", "| --- | --- | --- |"])
     for gate_name, row in payload["hardgate"]["gates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    tool_route = payload["tool_route_evidence"]
+    lines.extend(
+        [
+            "",
+            "## Tool Route Evidence",
+            "",
+            f"- Schema: `{tool_route['schema_id']}`",
+            f"- Owner: `{tool_route['owner_ref']}`",
+            f"- CGA route patch: `{tool_route['cga_route_patch_ref']}`",
+            f"- Hardgate: `{tool_route['hardgate']['status']}`",
+            "",
+            "| route | class | decision |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for row in tool_route["synthetic_tool_call_grid"]:
+        lines.append(f"| `{row['route_id']}` | `{row['route_class']}` | `{row['admission_decision']}` |")
     lines.extend(
         [
             "",

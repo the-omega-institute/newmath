@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Literal, Mapping, Sequence
+from typing import Any, Callable, Literal, Mapping, Sequence
 
 from .ledger import LedgerRowKey, ledger_complete
 
@@ -30,6 +30,9 @@ ORDERED_SCOPE_LEVELS = (
 )
 SCOPE_LEVEL_RANK = {scope: index for index, scope in enumerate(ORDERED_SCOPE_LEVELS)}
 ScopeGateStatus = Literal["pass", "fail"]
+PointerLookup = Callable[[Mapping[str, Any], str | None], Any]
+DEFAULT_SCOPE_CLAIM_POINTER = "$.scope_claim"
+DEFAULT_SCOPE_EVIDENCE_POINTER = "$.scope_evidence"
 
 
 @dataclass(frozen=True)
@@ -157,6 +160,94 @@ def scope_expansion_gate(claim: ScopeExpansionClaim) -> ScopeExpansionGate:
         failed_pointer=None,
         required_edges=required_edges,
     )
+
+
+def scope_payload_pointer(pointer: str | None, default: str) -> str:
+    return pointer if isinstance(pointer, str) else default
+
+
+def scope_claim_payload(
+    payload: Mapping[str, Any],
+    pointer_lookup: PointerLookup,
+    *,
+    scope_claim_pointer: str | None = None,
+) -> Mapping[str, Any] | None:
+    pointer = scope_payload_pointer(scope_claim_pointer, DEFAULT_SCOPE_CLAIM_POINTER)
+    value = pointer_lookup(payload, pointer)
+    return value if isinstance(value, Mapping) else None
+
+
+def scope_evidence_payload(
+    payload: Mapping[str, Any],
+    pointer_lookup: PointerLookup,
+    *,
+    scope_evidence_pointer: str | None = None,
+) -> Mapping[str, Any]:
+    pointer = scope_payload_pointer(scope_evidence_pointer, DEFAULT_SCOPE_EVIDENCE_POINTER)
+    value = pointer_lookup(payload, pointer)
+    return value if isinstance(value, Mapping) else {}
+
+
+def scope_expansion_evidence_from_payload(
+    edge: str,
+    cell: Any,
+    payload: Mapping[str, Any],
+    pointer_lookup: PointerLookup,
+) -> ScopeExpansionEvidence:
+    if isinstance(cell, Mapping):
+        pointer = cell.get("pointer")
+        status = str(cell.get("status", "resolved"))
+        if isinstance(pointer, str) and pointer.startswith("$.") and pointer_lookup(payload, pointer) is None:
+            status = "unresolved"
+        return ScopeExpansionEvidence(edge=edge, pointer=pointer if isinstance(pointer, str) else "", status=status)
+    return ScopeExpansionEvidence(edge=edge, pointer="", status="missing")
+
+
+def scope_expansion_claim_from_payload(
+    payload: Mapping[str, Any],
+    pointer_lookup: PointerLookup,
+    *,
+    scope_claim_pointer: str | None = None,
+    scope_evidence_pointer: str | None = None,
+) -> ScopeExpansionClaim | None:
+    claim = scope_claim_payload(
+        payload,
+        pointer_lookup,
+        scope_claim_pointer=scope_claim_pointer,
+    )
+    if claim is None:
+        return None
+    source_scope = claim.get("source_scope")
+    target_scope = claim.get("target_scope")
+    if not isinstance(source_scope, str) or not isinstance(target_scope, str):
+        return ScopeExpansionClaim(source_scope=str(source_scope), target_scope=str(target_scope), evidence={})
+    evidence_payload = scope_evidence_payload(
+        payload,
+        pointer_lookup,
+        scope_evidence_pointer=scope_evidence_pointer,
+    )
+    evidence = {
+        edge: scope_expansion_evidence_from_payload(edge, cell, payload, pointer_lookup)
+        for edge, cell in evidence_payload.items()
+        if isinstance(edge, str)
+    }
+    return ScopeExpansionClaim(source_scope=source_scope, target_scope=target_scope, evidence=evidence)
+
+
+def scope_expansion_gate_for_payload(
+    payload: Mapping[str, Any],
+    pointer_lookup: PointerLookup,
+    *,
+    scope_claim_pointer: str | None = None,
+    scope_evidence_pointer: str | None = None,
+) -> ScopeExpansionGate | None:
+    claim = scope_expansion_claim_from_payload(
+        payload,
+        pointer_lookup,
+        scope_claim_pointer=scope_claim_pointer,
+        scope_evidence_pointer=scope_evidence_pointer,
+    )
+    return None if claim is None else scope_expansion_gate(claim)
 
 
 def scope_rows(scope: Scope) -> frozenset[LedgerRowKey]:
