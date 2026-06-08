@@ -12,6 +12,7 @@ from bedc_quality_lab.jet_namecert_candidate import (
     audit_dgt_jet_projection,
     audit_jet_namecert_candidate,
     build_dgt_jet_projection,
+    closure_status_rows,
     payload_sha256,
     render_boundary_causal_jet_certificate,
 )
@@ -128,6 +129,33 @@ def test_open_closure_blocks_d5_m():
     assert audit["d5_m_ready"] is False
     payload["scope"]["d5_m_claim"] = True
     assert "scope.d5_m_claim" in audit_jet_namecert_candidate(payload)["failures"]
+
+
+def test_closure_status_rows():
+    candidate = JetNameCertCandidate.from_sources(generated_at="fixture-time")
+
+    rows = closure_status_rows(candidate)
+    row_map = {row["field"]: row for row in rows}
+    expected_fields = {field.name for field in dataclasses.fields(JetNameCertCandidate) if field.name not in {"substitution"}}
+
+    assert set(row_map) == expected_fields
+    assert len(rows) == len(row_map)
+    for field in (
+        "boundary_spec",
+        "derivative_spec",
+        "irreducibility_spec",
+        "causal_patch_spec",
+        "stability_spec",
+        "ledger_policy",
+        "scope",
+    ):
+        assert row_map[field]["status"] == candidate.closure_status[field]
+        assert row_map[field]["pointer"] == f"$.{field}"
+    assert row_map["schema_id"]["status"] == "present"
+    assert row_map["closure_status"]["status"] == candidate.closure_status["overall"]
+    assert row_map["closure_status"]["pointer"] == "$.closure_status"
+    assert row_map["audit"]["status"] == candidate.audit["status"]
+    assert row_map["audit"]["pointer"] == "$.audit"
 
 
 def test_dgt_and_markdown_are_owner_projections():
