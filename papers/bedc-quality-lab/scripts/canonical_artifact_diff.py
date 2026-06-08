@@ -8,7 +8,6 @@ from dataclasses import dataclass
 import json
 from pathlib import Path
 import re
-import sys
 from typing import Any, Mapping
 
 
@@ -25,7 +24,6 @@ class CanonicalDiffDeclaration:
     claim_id: str
     from_verdict: str | None
     to_verdict: str | None
-    reason: str
 
     @property
     def key(self) -> tuple[str, str | None, str | None]:
@@ -36,7 +34,6 @@ class CanonicalDiffDeclaration:
 class _IndexSource:
     index: Mapping[str, Any]
     root: Path
-    index_path: Path | None
 
 
 def _load_json(path: Path) -> Any:
@@ -54,9 +51,9 @@ def _index_root(path: Path) -> Path:
 
 def _coerce_index(source: Mapping[str, Any] | str | Path) -> _IndexSource:
     if isinstance(source, Mapping):
-        return _IndexSource(index=source, root=Path.cwd(), index_path=None)
+        return _IndexSource(index=source, root=Path.cwd())
     path = Path(source)
-    return _IndexSource(index=_load_json(path), root=_index_root(path), index_path=path)
+    return _IndexSource(index=_load_json(path), root=_index_root(path))
 
 
 def _safe_artifact_path(root: Path, artifact: str) -> Path | None:
@@ -291,11 +288,6 @@ def _decode_verdict(value: str) -> str | None:
     return stripped
 
 
-def _parse_canonical_diff_block(markdown: str) -> set[tuple[str, str | None, str | None]]:
-    declarations, _ = _parse_declarations(markdown)
-    return {declaration.key for declaration in declarations}
-
-
 def _parse_declarations(markdown: str) -> tuple[list[CanonicalDiffDeclaration], dict[str, Any]]:
     blocks = list(CANONICAL_DIFF_RE.finditer(markdown or ""))
     fenced_languages = [match.group("lang") for match in ANY_FENCE_RE.finditer(markdown or "")]
@@ -338,7 +330,6 @@ def _parse_declarations(markdown: str) -> tuple[list[CanonicalDiffDeclaration], 
                 claim_id=claim_id,
                 from_verdict=_decode_verdict(from_verdict),
                 to_verdict=_decode_verdict(to_verdict),
-                reason=reason,
             )
         )
     return declarations, diagnostics
