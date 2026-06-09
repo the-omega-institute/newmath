@@ -97,7 +97,7 @@ def build_public_jepa_baseline_registry() -> dict[str, Any]:
             "clone or vendor the selected public baseline in an approved environment",
             "record the exact commit, checkpoint, dataset, and command line",
             "run the selected baseline on a public visual/action benchmark",
-            "export baseline metrics into a BEDC-JEPA comparison artifact",
+            "export baseline metrics into a BEDC-JEPA comparison record",
         ],
     }
 

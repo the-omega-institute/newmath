@@ -124,7 +124,7 @@ def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
     evidence = (
         "reports/bedc_jepa_public_baseline_comparison.json"
         if comparison is not None
-        else "no public JEPA baseline comparison artifact recorded"
+        else "no public JEPA baseline comparison record observed"
     )
     if comparison is not None and comparison.get("status") == "executed":
         return _gate(

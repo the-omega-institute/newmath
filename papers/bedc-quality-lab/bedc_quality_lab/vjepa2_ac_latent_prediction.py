@@ -165,7 +165,7 @@ def build_vjepa2_ac_latent_prediction_packet(
             "public benchmark superiority",
             "official V-JEPA2-AC benchmark reproduction",
             "end-to-end V-JEPA2-AC retraining",
-            "certified operational claim without the separate LCCP artifact",
+            "certified operational claim without the separate LCCP record",
         ],
     }
 
