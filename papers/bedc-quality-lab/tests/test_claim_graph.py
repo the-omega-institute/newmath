@@ -137,15 +137,20 @@ def _fixture_root(tmp_path: Path) -> Path:
     )
     _write_json(
         tmp_path,
-        claim_graph.MECHANISM_NAMECERT_ARTIFACT,
-        {"mechanism_spec": {"candidate_mechanism": "probe-margin-channel"}},
-    )
-    _write_json(
-        tmp_path,
         "reports/canonical/gap_head_attribution_capsule.json",
         {
             "mechanism_evidence": {"mechanism_status": "blocked"},
             "ledger_debt": [{"status": "open"}],
+        },
+    )
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery-gated-nas.json",
+        {
+            "mechanism_namecert": {
+                "closure_status": {"mechanism_namecert": "closed"},
+                "not_claimed": ["not a production architecture certificate"],
+            },
         },
     )
     return tmp_path

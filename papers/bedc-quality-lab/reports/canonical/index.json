@@ -60,7 +60,7 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 109,
+    "node_count": 110,
     "status": "pointer-only"
   },
   "claim_verdicts": {
@@ -340,6 +340,19 @@
     "markdown_artifact": "reports/canonical/dimension-mismatch-transfer-robustness.md",
     "status": "pass"
   },
+  "discovery-gated-nas": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-nas",
+    "json_artifact": "reports/canonical/discovery-gated-nas.json",
+    "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
+    "mechanism_namecert_audit_pointer": "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert.audit.status",
+    "mechanism_namecert_closure_pointer": "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert.closure_status.mechanism_namecert",
+    "mechanism_namecert_ref": {
+      "artifact": "reports/canonical/discovery-gated-nas.json",
+      "pointer": "$.mechanism_namecert"
+    },
+    "mechanism_namecert_ref_pointer": "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert",
+    "status": "pointer-only"
+  },
   "discovery-gated-transformer": {
     "architecture_spec_pointer": "reports/canonical/discovery-gated-transformer.json:$.architecture_spec",
     "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
@@ -516,18 +529,6 @@
       "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
       "score_margin_channel_classification_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence.channel_classification"
     },
-    "status": "pointer-only"
-  },
-  "gap_head_mechanism_namecert": {
-    "artifact_id": "bedc-quality-lab:gap-head-mechanism-namecert",
-    "candidate_mechanism": "unresolved",
-    "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
-    "closure_status_pointer": "$.closure_status.mechanism_spec",
-    "json_artifact": "reports/gap_head_mechanism_namecert.json",
-    "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
-    "markdown_artifact": "reports/gap_head_mechanism_namecert.md",
-    "mechanism_closure_debt": "open",
-    "mechanism_spec_closure": "partial",
     "status": "pointer-only"
   },
   "gap_head_transfer_atlas": {
@@ -3531,6 +3532,7 @@
           "device_protocol",
           "torch_nas_evidence",
           "matched_baseline_control",
+          "mechanism_namecert",
           "hardgate",
           "failed_gate",
           "discovery_map_signal",

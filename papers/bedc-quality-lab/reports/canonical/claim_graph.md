@@ -2,7 +2,7 @@
 
 - Generated at: `2026-06-08T21:22:53.390414+00:00`
 - Status: `pointer-only`
-- Nodes: `109`
+- Nodes: `110`
 
 | node | type | source | depends on |
 | --- | --- | --- | --- |
@@ -76,7 +76,8 @@
 | `revocation:witness:hidden_debt_positive` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `negative-witness:hidden_debt_positive` |
 | `revocation:witness:benefit_debt_tradeoff` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` | `negative-witness:benefit_debt_tradeoff` |
 | `revocation:witness:fresh_claim_downgrade` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` | `negative-witness:fresh_claim_downgrade` |
-| `mechanism:gap-head-mechanism-namecert` | `mechanism_certificate` | `reports/gap_head_mechanism_namecert.json:$` |  |
+| `mechanism:gap-head-attribution-capsule` | `mechanism_certificate` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |  |
+| `mechanism:discovery-gated-nas` | `mechanism_certificate` | `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert` |  |
 | `terminal:mixing-family-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[0]` | `projected:mixing-family-sweep` |
 | `terminal:anisotropic-ou-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[1]` | `projected:anisotropic-ou-sweep` |
 | `terminal:gap-head-on-h` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[2]` | `projected:gap-head-on-h` |

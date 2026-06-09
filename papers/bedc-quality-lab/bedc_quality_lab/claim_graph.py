@@ -20,7 +20,8 @@ CLAIM_GRAPH_ARTIFACT_ID = "bedc-quality-lab:claim-graph"
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
-MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
+GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+DG_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 NODE_TYPES = frozenset(
     {
         "raw_evidence",
@@ -175,18 +176,34 @@ def _witnesses(root: Path) -> list[dict[str, Any]]:
     return witnesses
 
 
-def _mechanism_node(root: Path) -> ClaimGraphNode | None:
-    if not _artifact_path(root, MECHANISM_NAMECERT_ARTIFACT).exists():
-        return None
-    return ClaimGraphNode(
-        node_id="mechanism:gap-head-mechanism-namecert",
-        node_type="mechanism_certificate",
-        source_pointer=f"{MECHANISM_NAMECERT_ARTIFACT}:$",
-        discovery_level=None,
-        terminal_verdict=None,
-        depends_on=(),
-        not_claimed=("mechanism certificate candidate is not D5-M unless closure status records full mechanism closure",),
+def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
+    specs = (
+        (
+            "mechanism:gap-head-attribution-capsule",
+            f"{GAP_HEAD_ATTRIBUTION_ARTIFACT}:$.mechanism_evidence",
+            ("gap-head mechanism evidence remains owner-local to the attribution capsule",),
+        ),
+        (
+            "mechanism:discovery-gated-nas",
+            f"{DG_NAS_ARTIFACT}:$.mechanism_namecert",
+            ("DG-NAS mechanism certificate remains nested under the discovery-gated NAS canonical owner",),
+        ),
     )
+    nodes: list[ClaimGraphNode] = []
+    for node_id, source_pointer, not_claimed in specs:
+        if source_pointer_resolves(root, source_pointer):
+            nodes.append(
+                ClaimGraphNode(
+                    node_id=node_id,
+                    node_type="mechanism_certificate",
+                    source_pointer=source_pointer,
+                    discovery_level=None,
+                    terminal_verdict=None,
+                    depends_on=(),
+                    not_claimed=not_claimed,
+                )
+            )
+    return nodes
 
 
 def _revocation_node_id(terminal_node_id: str) -> str:
@@ -313,9 +330,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
             )
         )
     nodes.extend(revocation_nodes)
-    mechanism = _mechanism_node(root)
-    if mechanism is not None:
-        nodes.append(mechanism)
+    nodes.extend(_mechanism_nodes(root))
     nodes.extend(terminal_nodes)
 
     hardgates = _hardgates(root=root, nodes=nodes, verdict_rows=rows, discovery_rows=discovery_rows)
@@ -344,13 +359,16 @@ def _hardgates(
     by_id = _nodes_by_id(nodes)
     d5_o_rows = [row for row in discovery_rows if row.get("discovery_level") == "D5-O"]
     mechanism_entries = []
-    mechanism_node = by_id.get("mechanism:gap-head-mechanism-namecert")
-    mechanism_resolves = mechanism_node is not None and source_pointer_resolves(root, mechanism_node.source_pointer)
     for row in d5_o_rows:
         report = str(row["report"])
         mechanism_status = str(row.get("mechanism_status") or "blocked")
         mechanism_pointer = row.get("mechanism_pointer")
         mechanism_source_pointer = row.get("mechanism_ledger_pointer") or row.get("mechanism_closure_pointer") or row.get("mechanism_pointer")
+        if report == "discovery-gated-nas":
+            mechanism_node = by_id.get("mechanism:discovery-gated-nas")
+        else:
+            mechanism_node = by_id.get("mechanism:gap-head-attribution-capsule")
+        mechanism_resolves = mechanism_node is not None and source_pointer_resolves(root, mechanism_node.source_pointer)
         mechanism_certificate_node_id = mechanism_node.node_id if mechanism_status == "ready" and mechanism_resolves and mechanism_node is not None else None
         mechanism_entries.append(
             {

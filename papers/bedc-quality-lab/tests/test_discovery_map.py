@@ -525,28 +525,6 @@ def _write_all_payloads(root: Path):
     _write_dimension_mismatch_gap_witness_fixture(root)
     _write_lejepa_mini_grid_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
-    _write_json_artifact(
-        root,
-        discovery_map.MECHANISM_NAMECERT_ARTIFACT,
-        {
-            "source_spec": {
-                "scope_seal": {
-                    "not_claimed": [
-                        "not a formal BEDC NameCert",
-                        "not Lean verification",
-                        "not mechanism theorem closure",
-                    ]
-                }
-            },
-            "ledger_policy": {"mechanism_closure_debt": "open"},
-            "closure_status": {"mechanism_spec": "partial"},
-            "mechanism_spec": {
-                "candidate_mechanism": "probe-margin-channel",
-                "full_vs_score_plus_margin": "not separated",
-                "a1_failed_gate": "A1-HG3",
-            },
-        },
-    )
 
 
 def _write_coverage_payloads(root: Path):
@@ -869,19 +847,6 @@ def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_cou
         root,
         discovery_map.OBSERVED_DEBT_ARTIFACT,
         _observed_debt_transfer_context_payload(transfer_metric=transfer_metric),
-    )
-    _write_json_artifact(
-        root,
-        discovery_map.MECHANISM_NAMECERT_ARTIFACT,
-        {
-            "ledger_policy": {"mechanism_closure_debt": "open"},
-            "closure_status": {"mechanism_spec": "partial"},
-            "mechanism_spec": {
-                "candidate_mechanism": "probe-margin-channel",
-                "full_vs_score_plus_margin": "not separated",
-                "a1_failed_gate": "A1-HG3",
-            },
-        },
     )
 
 

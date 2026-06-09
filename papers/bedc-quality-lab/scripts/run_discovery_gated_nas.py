@@ -26,6 +26,7 @@ from bedc_quality_lab.discovery_gated_nas import (
     TORCH_SEEDS,
     DiscoveryGatedNasProjection,
     default_grid,
+    mechanism_namecert_ref,
 )
 
 
@@ -405,6 +406,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "summary": summary["run_artifacts"]["summary"],
                 "claim_capsule": summary["run_artifacts"]["claim_capsule"],
                 "discovery_map_signal": summary["discovery_map_signal"]["status"],
+                "mechanism_namecert_ref": mechanism_namecert_ref(),
                 "torch_nas_evidence": summary["torch_nas_evidence"]["status"],
             },
             sort_keys=True,

@@ -7,6 +7,7 @@ from typing import Any
 
 
 DGT_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
+DG_NAS_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 NEW_MODEL_HARDGATES_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 
 FORBIDDEN_COPIED_FIELDS = {
@@ -45,12 +46,33 @@ def discovery_gated_transformer_refs() -> dict[str, Any]:
     }
 
 
+def discovery_gated_nas_refs() -> dict[str, Any]:
+    return {
+        "owner_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$",
+        "mechanism_namecert_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.mechanism_namecert",
+        "component_ablation_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.matched_baseline_control",
+        "drt_quality_ref_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion",
+        "jet_ref_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.discovery_map_signal.theorem_ledger_ref",
+        "causal_patch_ref_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.negative_witness_mutations.rows",
+        "negative_witness_ref_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.negative_witness_mutations",
+        "hardgate_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.hardgate",
+        "not_claimed_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.not_claimed",
+    }
+
+
 DGT_PROJECTION_METADATA = {
     "projection_id": "discovery_gated_transformer_refs",
     "canonical_artifact": DGT_CANONICAL_ARTIFACT,
     "hardgate_sidecar_artifact": NEW_MODEL_HARDGATES_ARTIFACT,
     "surface": "pointer-only",
     "refs": discovery_gated_transformer_refs(),
+}
+
+DG_NAS_PROJECTION_METADATA = {
+    "projection_id": "discovery_gated_nas_refs",
+    "canonical_artifact": DG_NAS_CANONICAL_ARTIFACT,
+    "surface": "pointer-only",
+    "refs": discovery_gated_nas_refs(),
 }
 
 
