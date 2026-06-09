@@ -25,7 +25,7 @@ METRICS = (
     "native_unlogged_error_reduction",
     "native_planning_high_gap_reduction",
     "seed_sweep_unlogged_error_win_rate",
-    "checkpoint_contact_closed",
+    "checkpoint_evaluation_closed",
     "native_public_benchmark_closed",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
@@ -91,7 +91,7 @@ def _metric_payload(
         "native_unlogged_error_reduction": float(checks["native_unlogged_error_reduction"]),
         "native_planning_high_gap_reduction": float(checks["native_planning_high_gap_reduction"]),
         "seed_sweep_unlogged_error_win_rate": float(checks["seed_sweep_unlogged_error_win_rate"]),
-        "checkpoint_contact_closed": _closed(str(boundary.get("checkpoint_contact") or "")),
+        "checkpoint_evaluation_closed": _closed(str(boundary.get("checkpoint_evaluation") or "")),
         "native_public_benchmark_closed": _closed(str(boundary.get("native_public_benchmark") or "")),
         "artifact_review_bundle_closed": _closed(str(boundary.get("artifact_review_bundle") or "")),
         "retraining_ablation_recorded": 1.0
@@ -204,7 +204,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "adapter_boundary": "thin projection over existing BEDC-JEPA reports",
         },
         "stability_spec": {
-            "checkpoint_contact": readiness.get("evidence_boundary", {}).get("checkpoint_contact"),
+            "checkpoint_evaluation": readiness.get("evidence_boundary", {}).get("checkpoint_evaluation"),
             "native_public_benchmark": readiness.get("evidence_boundary", {}).get("native_public_benchmark"),
             "artifact_review_bundle": readiness.get("evidence_boundary", {}).get("artifact_review_bundle"),
             "seed_sweep_count": review_bundle.get("checks", {}).get("seed_sweep_count"),

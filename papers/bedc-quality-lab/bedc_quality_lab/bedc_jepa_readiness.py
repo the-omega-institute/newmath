@@ -1,4 +1,4 @@
-"""Machine-readable contact readiness gate for BEDC-JEPA evidence."""
+"""Machine-readable readiness record for BEDC-JEPA evidence."""
 
 from __future__ import annotations
 
@@ -139,7 +139,7 @@ def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
     )
 
 
-def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> dict[str, str]:
+def _public_checkpoint_evaluation_gate(cuda_comparison: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_public_cuda_adapter_comparison.json"
     if cuda_comparison is None:
         return _gate(
@@ -192,7 +192,7 @@ def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
     if not blocking:
         return "external_bundle_ready"
     if (
-        gates["public_jepa_checkpoint_contact"]["status"] == "pass"
+        gates["public_jepa_checkpoint_evaluation"]["status"] == "pass"
         and gates["native_public_jepa_benchmark"]["status"] == "pass"
         and gates["artifact_review_bundle"]["status"] != "pass"
     ):
@@ -202,11 +202,11 @@ def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
         "local_visual_planning",
         "object_counterfactual_clutter",
         "public_minigrid_execution",
-        "public_jepa_checkpoint_contact",
+        "public_jepa_checkpoint_evaluation",
     ]
     if all(gates[name]["status"] == "pass" for name in local_contact):
-        return "checkpoint_contact_closed_native_public_benchmark_open"
-    return "contact_boundary_open"
+        return "checkpoint_evaluation_closed_native_public_benchmark_open"
+    return "evidence_boundary_open"
 
 
 def build_bedc_jepa_readiness() -> dict[str, Any]:
@@ -223,7 +223,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "local_visual_planning": _local_visual_gate(summary),
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
-        "public_jepa_checkpoint_contact": _public_checkpoint_contact_gate(public_cuda_comparison),
+        "public_jepa_checkpoint_evaluation": _public_checkpoint_evaluation_gate(public_cuda_comparison),
         "vjepa2_ac_minigrid_latent_prediction": _vjepa2_latent_prediction_gate(vjepa2_latent_prediction),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
@@ -233,7 +233,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "schema_id": "bedc-jepa-readiness",
         "decision": _decision(gates, blocking),
         "evidence_boundary": {
-            "checkpoint_contact": "closed" if gates["public_jepa_checkpoint_contact"]["status"] == "pass" else "open",
+            "checkpoint_evaluation": "closed"
+            if gates["public_jepa_checkpoint_evaluation"]["status"] == "pass"
+            else "open",
             "vjepa2_ac_minigrid_latent_prediction": "closed"
             if gates["vjepa2_ac_minigrid_latent_prediction"]["status"] == "pass"
             else "open",

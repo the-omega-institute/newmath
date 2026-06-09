@@ -40,7 +40,7 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["minigrid_gap_auc_gain"] > 0.40
     assert metrics["native_unlogged_error_reduction"] > 0.05
     assert metrics["native_planning_high_gap_reduction"] > 0.05
-    assert metrics["checkpoint_contact_closed"] == 1.0
+    assert metrics["checkpoint_evaluation_closed"] == 1.0
     assert metrics["native_public_benchmark_closed"] == 1.0
     assert metrics["artifact_review_bundle_closed"] == 1.0
     assert metrics["retraining_ablation_recorded"] in {0.0, 1.0}

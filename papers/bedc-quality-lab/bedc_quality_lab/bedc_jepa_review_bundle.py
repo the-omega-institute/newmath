@@ -56,7 +56,11 @@ def build_review_bundle() -> dict[str, Any]:
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
-    _check(readiness["evidence_boundary"]["checkpoint_contact"] == "closed", "checkpoint contact boundary", failures)
+    _check(
+        readiness["evidence_boundary"]["checkpoint_evaluation"] == "closed",
+        "checkpoint evaluation boundary",
+        failures,
+    )
     _check(readiness["evidence_boundary"]["native_public_benchmark"] == "closed", "native public benchmark boundary", failures)
     _check(native.get("status") == "executed", "native MiniGrid benchmark executed", failures)
     _check(set(native.get("systems", {})) == {"S0", "S1", "S2", "S3"}, "native MiniGrid S0/S1/S2/S3 systems", failures)
@@ -171,7 +175,7 @@ def build_review_bundle() -> dict[str, Any]:
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
         "checks": {
-            "checkpoint_contact": readiness["evidence_boundary"]["checkpoint_contact"],
+            "checkpoint_evaluation": readiness["evidence_boundary"]["checkpoint_evaluation"],
             "native_public_benchmark": readiness["evidence_boundary"]["native_public_benchmark"],
             "native_unlogged_error_reduction": native["deltas"]["s0_minus_s3_unlogged_error"],
             "native_planning_high_gap_reduction": native["deltas"]["lambda_0_minus_best_high_gap_rate"],

@@ -7,21 +7,21 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert kit["schema_id"] == "bedc-jepa-external-run-kit"
     assert kit["status"] == "review_ready"
     assert set(kit["required_external_results"]) == {
-        "public_jepa_checkpoint_contact",
+        "public_jepa_checkpoint_evaluation",
         "public_minigrid_execution",
         "public_jepa_baseline",
         "torch_retraining_loss_ablation",
         "vjepa2_ac_minigrid_claim_certificate",
         "vjepa2_ac_minigrid_latent_prediction",
     }
-    checkpoint = kit["required_external_results"]["public_jepa_checkpoint_contact"]
+    checkpoint = kit["required_external_results"]["public_jepa_checkpoint_evaluation"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
     baseline = kit["required_external_results"]["public_jepa_baseline"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
     vjepa_latent = kit["required_external_results"]["vjepa2_ac_minigrid_latent_prediction"]
 
-    assert checkpoint["readiness_gate"] == "public_jepa_checkpoint_contact"
+    assert checkpoint["readiness_gate"] == "public_jepa_checkpoint_evaluation"
     assert checkpoint["run_command"] == "python scripts/run_public_jepa_ac_giant_adapter.py"
     assert checkpoint["comparison_command"] == "python scripts/build_public_jepa_cuda_comparison.py"
     assert "checkpoint_status is loaded" in checkpoint["pass_condition"]

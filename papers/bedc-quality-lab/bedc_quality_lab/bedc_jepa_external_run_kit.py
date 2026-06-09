@@ -12,8 +12,8 @@ def build_external_run_kit() -> dict[str, Any]:
         "schema_id": "bedc-jepa-external-run-kit",
         "status": "review_ready",
         "required_external_results": {
-            "public_jepa_checkpoint_contact": {
-                "readiness_gate": "public_jepa_checkpoint_contact",
+            "public_jepa_checkpoint_evaluation": {
+                "readiness_gate": "public_jepa_checkpoint_evaluation",
                 "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
                 "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
                 "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",
