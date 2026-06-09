@@ -1,0 +1,259 @@
+{
+  "$defs": {
+    "BoundarySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "type": "string"
+        },
+        "domain_pointer": {
+          "type": "string"
+        },
+        "nonclaim_boundary_pointer": {
+          "type": "string"
+        },
+        "scope_seal_pointer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "domain_pointer",
+        "nonclaim_boundary_pointer",
+        "scope_seal_pointer"
+      ],
+      "type": "object"
+    },
+    "CausalSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "causal_patch_pointer": {
+          "type": "string"
+        },
+        "control_pointer": {
+          "type": "string"
+        },
+        "effect_pointer": {
+          "type": "string"
+        },
+        "matched_control_pointer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "causal_patch_pointer",
+        "control_pointer",
+        "effect_pointer",
+        "matched_control_pointer"
+      ],
+      "type": "object"
+    },
+    "CoverageCell": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_id": {
+          "type": "string"
+        },
+        "ledger_entry_id": {
+          "type": "string"
+        },
+        "order": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "no_rows_yet",
+            "fail_closed",
+            "blocked",
+            "covered"
+          ],
+          "type": "string"
+        },
+        "surface_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cell_id",
+        "surface_id",
+        "order",
+        "ledger_entry_id",
+        "status"
+      ],
+      "type": "object"
+    },
+    "DerivativeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "derivative_operator_pointer": {
+          "type": "string"
+        },
+        "evidence_pointer": {
+          "type": "string"
+        },
+        "order": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "surface_pointer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "order",
+        "surface_pointer",
+        "derivative_operator_pointer",
+        "evidence_pointer"
+      ],
+      "type": "object"
+    },
+    "HardGate": {
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "enum": [
+            "BCD-HG1",
+            "BCD-HG2",
+            "BCD-HG3",
+            "BCD-HG4",
+            "BCD-HG5"
+          ],
+          "type": "string"
+        },
+        "predicate": {
+          "type": "string"
+        },
+        "status_values": {
+          "items": {
+            "enum": [
+              "pass",
+              "fail_closed",
+              "blocked"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "gate_id",
+        "predicate",
+        "status_values"
+      ],
+      "type": "object"
+    },
+    "IrreducibilitySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_pointer": {
+          "type": "string"
+        },
+        "residual_pointer": {
+          "type": "string"
+        },
+        "witness_pointer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "baseline_pointer",
+        "residual_pointer",
+        "witness_pointer"
+      ],
+      "type": "object"
+    },
+    "LedgerEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "$ref": "#/$defs/BoundarySpec"
+        },
+        "causal": {
+          "$ref": "#/$defs/CausalSpec"
+        },
+        "derivative": {
+          "$ref": "#/$defs/DerivativeSpec"
+        },
+        "entry_id": {
+          "type": "string"
+        },
+        "hardgate_status": {
+          "additionalProperties": {
+            "enum": [
+              "pass",
+              "fail_closed",
+              "blocked"
+            ],
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "irreducibility": {
+          "$ref": "#/$defs/IrreducibilitySpec"
+        }
+      },
+      "required": [
+        "entry_id",
+        "boundary",
+        "derivative",
+        "causal",
+        "irreducibility",
+        "hardgate_status"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_id": "bedc-quality-lab:boundary-causal-derivative-schema",
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "hardgates": [
+    {
+      "gate_id": "BCD-HG1",
+      "predicate": "BoundarySpec resolves to an explicit lab-local scope seal and nonclaim boundary.",
+      "status_values": [
+        "pass",
+        "fail_closed",
+        "blocked"
+      ]
+    },
+    {
+      "gate_id": "BCD-HG2",
+      "predicate": "DerivativeSpec names a finite surface, operator, order, and evidence pointer.",
+      "status_values": [
+        "pass",
+        "fail_closed",
+        "blocked"
+      ]
+    },
+    {
+      "gate_id": "BCD-HG3",
+      "predicate": "CausalSpec resolves treatment, matched control, and effect pointers without unmatched positive credit.",
+      "status_values": [
+        "pass",
+        "fail_closed",
+        "blocked"
+      ]
+    },
+    {
+      "gate_id": "BCD-HG4",
+      "predicate": "IrreducibilitySpec resolves baseline, residual, and witness pointers before any irreducibility claim.",
+      "status_values": [
+        "pass",
+        "fail_closed",
+        "blocked"
+      ]
+    },
+    {
+      "gate_id": "BCD-HG5",
+      "predicate": "Ledger and coverage matrix rows remain empty or fail closed unless all row pointers resolve.",
+      "status_values": [
+        "pass",
+        "fail_closed",
+        "blocked"
+      ]
+    }
+  ],
+  "schema_id": "bedc-quality-lab:boundary-causal-derivative",
+  "status": "schema_owner"
+}

@@ -1,0 +1,69 @@
+{
+  "artifacts": {
+    "envelope": "reports/improvement_before_envelope.json",
+    "report": "reports/quality_improvement_report.md"
+  },
+  "bedc_refs": [
+    "papers/bedc/preamble.tex:closurestatus",
+    "papers/bedc/parts/project_governance/theory_amendment_policy.tex"
+  ],
+  "classifier_spec": {
+    "cert_method": "inline-threshold",
+    "cert_proxy": 0.8398219712321299,
+    "cert_r2": 0.9117519048228511,
+    "cert_reason": "linear_identifiability_r2 and approx_identifiability_proxy meet thresholds",
+    "cert_score": 1.0726492997915895,
+    "cert_status": "certified",
+    "cert_threshold": {
+      "approx_identifiability_proxy": 0.7,
+      "linear_identifiability_r2": 0.85
+    },
+    "name": "standardized-nonlinear-observation",
+    "output_dim": 2,
+    "training": "deterministic-standardization"
+  },
+  "debt_items": [
+    "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000"
+  ],
+  "ledger_gaps": [
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
+    "kind=source; residue=finite-sample-support; severity=high; status=open",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+    "kind=source; residue=source-coverage; severity=high; status=open"
+  ],
+  "metrics": {
+    "approx_identifiability_proxy": 0.8398219712321299,
+    "covariance_deviation": 0.1921703756081473,
+    "linear_identifiability_r2": 0.9117519048228511,
+    "orthogonality_error": 0.19163454655881124,
+    "quality_benefit": 0.8757869380274905,
+    "quality_cost": 0.03,
+    "quality_debt": 0.9,
+    "quality_margin": -0.054213061972509524,
+    "quality_q": -0.054213061972509524,
+    "quality_threshold": 0.0
+  },
+  "pattern_spec": {
+    "name": "latent-linear-recovery",
+    "target": "recover z from representation h by linear least squares"
+  },
+  "run_id": "gaussian-ou-lejepa-finite-sample-before",
+  "schema_id": "bedc-quality-lab:evidence-envelope",
+  "source_spec": {
+    "latent_dim": 2,
+    "mixing": "sinusoidal-parabolic-shear",
+    "name": "gaussian-ou-toy-world",
+    "rho": 0.82,
+    "sample_count": 384
+  },
+  "stability_spec": {
+    "name": "fixed-seed-single-source",
+    "pair_process": "ornstein-uhlenbeck",
+    "seed": 23
+  }
+}

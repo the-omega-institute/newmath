@@ -1,0 +1,276 @@
+{
+  "artifact_id": "bedc-quality-lab:causal-patch-suite",
+  "audit": {
+    "failures": [],
+    "status": "pass"
+  },
+  "dgt_mechanism_cert": {
+    "consumer_artifact": "reports/canonical/discovery-gated-transformer.json",
+    "patch_evidence_pointer": "reports/canonical/causal-patch-suite.json:$.dgt_mechanism_cert",
+    "patch_hardgate_pointers": {
+      "PATCH-HG1": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG1",
+      "PATCH-HG2": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG2",
+      "PATCH-HG3": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG3",
+      "PATCH-HG4": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG4",
+      "PATCH-HG5": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG5",
+      "PATCH-HG6": "reports/canonical/causal-patch-suite.json:$.hardgates.PATCH-HG6"
+    },
+    "required_hardgates": [
+      "PATCH-HG1",
+      "PATCH-HG2",
+      "PATCH-HG3",
+      "PATCH-HG4",
+      "PATCH-HG5",
+      "PATCH-HG6"
+    ],
+    "status": "present-but-fail-closed"
+  },
+  "generated_at": "2026-06-08T19:24:58.655619+00:00",
+  "hardgates": {
+    "PATCH-HG1": {
+      "evidence_pointer": "$.patch_records",
+      "name": "target-channel isolation",
+      "status": "pass"
+    },
+    "PATCH-HG2": {
+      "evidence_pointer": "$.patch_records[*].summary",
+      "name": "eval-only patch",
+      "status": "pass"
+    },
+    "PATCH-HG3": {
+      "evidence_pointer": "$.patch_records",
+      "name": "treatment patch has CI-separated effect",
+      "status": "pass"
+    },
+    "PATCH-HG4": {
+      "evidence_pointer": "$.matched_controls",
+      "name": "matched control has no classifier shift",
+      "status": "pass"
+    },
+    "PATCH-HG5": {
+      "evidence_pointer": "$.side_effect_ledger",
+      "name": "side effects are ledgered",
+      "status": "pass"
+    },
+    "PATCH-HG6": {
+      "blockers": [
+        "DGT artifact does not contain the causal-patch pointer contract"
+      ],
+      "evidence_pointer": "$.dgt_mechanism_cert",
+      "name": "DGT mechanism cert projection contains resolved patch evidence pointers",
+      "status": "present-but-fail-closed"
+    }
+  },
+  "matched_controls": {
+    "rows": [
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+        "patch_type": "attention-route",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-ablation.json:$.control_protocol",
+        "patch_type": "ledger-head",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.control_evidence.matched_random",
+        "patch_type": "gap-head",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_protocol",
+        "patch_type": "D1 feature",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+        "patch_type": "D2 interaction",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+        "patch_type": "D3 composition",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.control_evidence",
+        "patch_type": "mechanism probe",
+        "status": "pass"
+      },
+      {
+        "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_protocol",
+        "patch_type": "scope-seal",
+        "status": "pass"
+      }
+    ],
+    "status": "pass"
+  },
+  "not_claimed": [
+    "No production causality or deployment intervention claim.",
+    "No global model superiority claim.",
+    "No full mechanism closure claim.",
+    "No full TensorNameCert claim.",
+    "No LLM behavior quality claim."
+  ],
+  "patch_records": [
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+      "patch_type": "attention-route",
+      "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal",
+      "source_artifact": "reports/canonical/gap-head-on-h.json",
+      "source_pointer": "$.treatment_comparison",
+      "status": "pass",
+      "summary": {
+        "metric_pointer": "reports/canonical/gap-head-on-h.json:$.treatment_comparison.failure_detection_auroc_delta_learned_minus_vanilla"
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-ablation.json:$.control_protocol",
+      "patch_type": "ledger-head",
+      "side_effect_pointer": "reports/canonical/gap-head-ablation.json:$.applicability_boundary.not_claimed",
+      "source_artifact": "reports/canonical/gap-head-ablation.json",
+      "source_pointer": "$.factor_attribution.learned_head",
+      "status": "pass",
+      "summary": {
+        "auroc_drop_ci95_low": 0.15550497128344645,
+        "metric_pointer": "reports/canonical/gap-head-ablation.json:$.factor_attribution.learned_head.auroc_drop_ci95",
+        "status": "pass"
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.control_evidence.matched_random",
+      "patch_type": "gap-head",
+      "side_effect_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt",
+      "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "source_pointer": "$.head_channel_patch_evidence",
+      "status": "pass",
+      "summary": {
+        "claim_status": "pass",
+        "gate_status": "pass",
+        "metric_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.gate_status"
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_protocol",
+      "patch_type": "D1 feature",
+      "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.forbidden_column_audit",
+      "source_artifact": "reports/canonical/gap-head-on-h.json",
+      "source_pointer": "$.gap_channel_metadata",
+      "status": "pass",
+      "summary": {
+        "metadata_count": 4
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+      "patch_type": "D2 interaction",
+      "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.forbidden_inference_columns",
+      "source_artifact": "reports/canonical/gap-head-on-h.json",
+      "source_pointer": "$.control_protocol",
+      "status": "pass",
+      "summary": {
+        "audit_status": "pass",
+        "same_budget_as_treatment": true
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+      "patch_type": "D3 composition",
+      "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal",
+      "source_artifact": "reports/canonical/gap-head-on-h.json",
+      "source_pointer": "$.treatment_verdict",
+      "status": "present-but-fail-closed",
+      "summary": {
+        "reason": "no DGT production consumer is certified by this source row"
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.control_evidence",
+      "patch_type": "mechanism probe",
+      "side_effect_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.not_implemented",
+      "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "source_pointer": "$.score_margin_causal_evidence",
+      "status": "pass",
+      "summary": {
+        "channel_classification": "not_score_margin_sufficient",
+        "metric_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence.status",
+        "status": "pass"
+      }
+    },
+    {
+      "matched_control_pointer": "reports/canonical/gap-head-on-h.json:$.control_protocol",
+      "patch_type": "scope-seal",
+      "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal",
+      "source_artifact": "reports/canonical/gap-head-on-h.json",
+      "source_pointer": "$.scope_seal",
+      "status": "pass",
+      "summary": {
+        "production_forbidden": true,
+        "status": "closed"
+      }
+    }
+  ],
+  "patch_types": [
+    "attention-route",
+    "ledger-head",
+    "gap-head",
+    "D1 feature",
+    "D2 interaction",
+    "D3 composition",
+    "mechanism probe",
+    "scope-seal"
+  ],
+  "producer": "bedc_quality_lab.causal_patch_suite",
+  "schema_id": "bedc-quality-lab:causal-patch-suite",
+  "side_effect_ledger": {
+    "rows": [
+      {
+        "ledgered": true,
+        "patch_type": "attention-route",
+        "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "ledger-head",
+        "side_effect_pointer": "reports/canonical/gap-head-ablation.json:$.applicability_boundary.not_claimed"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "gap-head",
+        "side_effect_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "D1 feature",
+        "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.forbidden_column_audit"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "D2 interaction",
+        "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.forbidden_inference_columns"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "D3 composition",
+        "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "mechanism probe",
+        "side_effect_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.not_implemented"
+      },
+      {
+        "ledgered": true,
+        "patch_type": "scope-seal",
+        "side_effect_pointer": "reports/canonical/gap-head-on-h.json:$.scope_seal"
+      }
+    ],
+    "status": "pass"
+  },
+  "source_artifacts": {
+    "gap_head_ablation": "reports/canonical/gap-head-ablation.json",
+    "gap_head_attribution_capsule": "reports/canonical/gap_head_attribution_capsule.json",
+    "gap_head_on_h": "reports/canonical/gap-head-on-h.json"
+  }
+}

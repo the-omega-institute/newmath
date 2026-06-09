@@ -1,0 +1,129 @@
+{
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "forbidden_terms_absent": {
+    "full-lejepa": true,
+    "full-tensor-namecert": true,
+    "global-quality": true,
+    "llm-behavior": true
+  },
+  "generated_at": "2026-06-03T08:00:33.187099+00:00",
+  "not_claimed": [
+    "formal BEDC closure is not claimed by this lab-local runner",
+    "global optimizer behavior is not claimed by this lab-local runner",
+    "positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero",
+    "positive quality wording is not claimed for debt reduction paired with benefit decline",
+    "positive quality wording is not claimed when the paired quality_q CI lower bound does not clear zero",
+    "positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold",
+    "Current canonical run has no real downgrade.",
+    "Synthetic positive transition is a demo harness only, not a scientific result."
+  ],
+  "schema_id": "bedc-quality-lab:revocation-demo-sidecar",
+  "source_artifact": "reports/canonical/certificate-guided-discovery.json",
+  "source_generated_at": "2026-06-03T08:00:33.187099+00:00",
+  "transition_cases": [
+    {
+      "case_id": "current-no-certified-claim",
+      "decision": {
+        "downgraded": false,
+        "evidence_delta": {},
+        "ledger_row": {},
+        "new_status": null,
+        "old_status": null,
+        "reason": "no-certified-claim"
+      },
+      "demo_only": true,
+      "expected_predicates": {
+        "downgraded": false,
+        "ledger_rows": 0,
+        "reason": "no-certified-claim"
+      },
+      "fresh_projection_pointer": "reports/canonical/certificate-guided-discovery.json#$",
+      "ledger_rows": [],
+      "not_scientific_result": true,
+      "source_pointers": {
+        "decision": "reports/canonical/certificate-guided-discovery.json#$.revocation_decision",
+        "ledger": "reports/canonical/certificate-guided-discovery.json#$.revocation_ledger",
+        "not_claimed": "reports/canonical/certificate-guided-discovery.json#$.not_claimed",
+        "status": "reports/canonical/certificate-guided-discovery.json#$.main_claim_status"
+      },
+      "synthetic_certificate": false
+    },
+    {
+      "case_id": "synthetic-old-positive-tradeoff",
+      "decision": {
+        "downgraded": true,
+        "evidence_delta": {
+          "audit_improvement_tradeoff": true,
+          "blockers": [
+            "imported-positive-discovery-false",
+            "net-information-nonpositive",
+            "training-positive-quality-gate-false"
+          ],
+          "fresh_status": "observed-negative",
+          "old_status": "positive",
+          "paired_ci_status": "ok",
+          "quality_q_ci95_low": -0.39628890534664535
+        },
+        "ledger_row": {
+          "event": "certified-claim-revocation",
+          "evidence_delta": {
+            "audit_improvement_tradeoff": true,
+            "blockers": [
+              "imported-positive-discovery-false",
+              "net-information-nonpositive",
+              "training-positive-quality-gate-false"
+            ],
+            "fresh_status": "observed-negative",
+            "old_status": "positive",
+            "paired_ci_status": "ok",
+            "quality_q_ci95_low": -0.39628890534664535
+          },
+          "new_status": "audit-improvement-tradeoff",
+          "old_status": "positive",
+          "reason": "audit-improvement-tradeoff",
+          "timestamp": "2026-06-03T08:00:33.187099+00:00"
+        },
+        "new_status": "audit-improvement-tradeoff",
+        "old_status": "positive",
+        "reason": "audit-improvement-tradeoff"
+      },
+      "demo_only": true,
+      "expected_predicates": {
+        "claim_gate.training_audit_improvement_tradeoff": true,
+        "downgraded": true,
+        "ledger_row.event": "certified-claim-revocation",
+        "new_status": "audit-improvement-tradeoff"
+      },
+      "fresh_projection_pointer": "reports/canonical/certificate-guided-discovery.json#$",
+      "ledger_rows": [
+        {
+          "event": "certified-claim-revocation",
+          "evidence_delta": {
+            "audit_improvement_tradeoff": true,
+            "blockers": [
+              "imported-positive-discovery-false",
+              "net-information-nonpositive",
+              "training-positive-quality-gate-false"
+            ],
+            "fresh_status": "observed-negative",
+            "old_status": "positive",
+            "paired_ci_status": "ok",
+            "quality_q_ci95_low": -0.39628890534664535
+          },
+          "new_status": "audit-improvement-tradeoff",
+          "old_status": "positive",
+          "reason": "audit-improvement-tradeoff",
+          "timestamp": "2026-06-03T08:00:33.187099+00:00"
+        }
+      ],
+      "not_scientific_result": true,
+      "source_pointers": {
+        "fresh_status": "reports/canonical/certificate-guided-discovery.json#$.main_claim_status",
+        "function": "bedc_quality_lab/revocation.py::reevaluate_certified_claim",
+        "not_claimed": "reports/canonical/certificate-guided-discovery.json#$.not_claimed",
+        "tradeoff": "reports/canonical/certificate-guided-discovery.json#$.claim_gate.training_audit_improvement_tradeoff"
+      },
+      "synthetic_certificate": true
+    }
+  ]
+}

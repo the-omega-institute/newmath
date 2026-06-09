@@ -1,0 +1,363 @@
+{
+  "anti_triviality_failed_gate": null,
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.forbidden_claim_term_audit.status",
+      "status": "pass"
+    },
+    "matched_random": {
+      "pointer": "$.matched_random_control",
+      "status": "pass"
+    },
+    "metadata_only": {
+      "pointer": "$.gate_protocol",
+      "status": "pass"
+    },
+    "scale_only": {
+      "pointer": "$.route_patch_protocol.entropy_only_control",
+      "status": "pass"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "D4",
+  "anti_triviality_status": "pass",
+  "arm_protocol": {
+    "deterministic_anchor": {
+      "backbones": [
+        "plain_attention",
+        "certificate_gated_attention",
+        "matched_random_gate",
+        "entropy_only_attention"
+      ],
+      "primary": true,
+      "replayable": true
+    },
+    "torch_attention": {
+      "bounded_optional": true,
+      "primary": false
+    }
+  },
+  "artifact_id": "bedc-quality-lab:certificate-gated-attention",
+  "certificate_gate_summary": {
+    "ambiguous_gate_pass_rate": 0.0,
+    "gated_attention_leak_reduction_positive": true,
+    "gated_vs_plain_valid": {
+      "certificate_gated_attention_leak_mean": 0.158583,
+      "leak_reduction_mean": 0.161186,
+      "plain_attention_leak_mean": 0.319769
+    },
+    "invalid_gate_pass_rate": 0.0,
+    "valid_gate_pass_rate": 1.0
+  },
+  "claim_capsule_ref": "reports/runs/certificate-gated-attention/claim_capsule.json",
+  "claim_capsule_status": "d4-candidate",
+  "config": {
+    "backbones": [
+      "plain_attention",
+      "certificate_gated_attention",
+      "matched_random_gate",
+      "entropy_only_attention"
+    ],
+    "certificate_modes": [
+      "valid",
+      "invalid",
+      "ambiguous"
+    ],
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "drift_tolerance": 1e-06,
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "run_id": "certificate-gated-attention",
+    "seeds": [
+      13,
+      29,
+      43
+    ],
+    "steps": 8,
+    "surfaces": [
+      "copy_binding",
+      "route_binding",
+      "negation_binding",
+      "scope_binding"
+    ],
+    "torch_status": "unavailable"
+  },
+  "device_protocol": {
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "drift_tolerance": 1e-06,
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "status": "unavailable"
+  },
+  "discovery_map_signal": {
+    "failed_gate": null,
+    "level_candidate": "D4",
+    "reason": "certificate-gate-positive",
+    "status": "d4-candidate",
+    "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "gate_protocol": {
+    "ambiguous_modes": [
+      "ambiguous"
+    ],
+    "certificate_source": "parseable row-local certificate fields",
+    "gating_rule": "target attention is multiplied by a row-local certificate gate before renormalization",
+    "reject_modes": [
+      "invalid"
+    ],
+    "valid_modes": [
+      "valid"
+    ]
+  },
+  "generated_at": "run-local:certificate-gated-attention",
+  "grid": {
+    "backbone_count": 4,
+    "certificate_mode_count": 3,
+    "expected_record_count": 144,
+    "record_count": 144,
+    "seed_count": 3,
+    "surface_count": 4,
+    "torch_record_count": 0
+  },
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "CGA-HG1": {
+        "evidence": "Parseable valid certificates must pass and invalid certificates must fail.",
+        "status": "pass"
+      },
+      "CGA-HG2": {
+        "evidence": "Certificate-gated attention must reduce leak relative to plain attention on valid certificate rows.",
+        "status": "pass"
+      },
+      "CGA-HG3": {
+        "evidence": "Matched-random gate must not explain the leak reduction.",
+        "status": "pass"
+      },
+      "CGA-HG4": {
+        "evidence": "The deterministic anchor must record positive separation on multiple surfaces.",
+        "status": "pass"
+      },
+      "CGA-HG5": {
+        "evidence": "Optional PyTorch arm is bounded and cannot control the deterministic anchor.",
+        "status": "pass"
+      },
+      "CGA-HG6": {
+        "evidence": "Production boundary non-claims must remain on the local not_claimed surface.",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "matched_random_control": {
+    "certificate_gate_reduction_mean": 0.161186,
+    "certificate_gated_attention_leak_mean": 0.158583,
+    "matched_random_gate_leak_mean": 0.271797,
+    "matched_random_gate_separation_positive": true,
+    "matched_random_reduction_mean": 0.047972,
+    "plain_attention_leak_mean": 0.319769
+  },
+  "not_claimed": [
+    "full model training",
+    "global architecture superiority",
+    "production attention authority",
+    "mechanism closure",
+    "standalone verdict ownership"
+  ],
+  "positive_claim": {
+    "level_candidate": "D4",
+    "scope": "deterministic anchor grid with bounded optional PyTorch evidence",
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    },
+    "text": "Certificate-gated attention records bounded lab-local evidence that parseable certificate gates can reduce attention leak against matched controls."
+  },
+  "producer": "scripts/run_certificate_gated_attention.py",
+  "projector": "bedc_quality_lab.certificate_gated_attention.CertificateGatedAttentionProjection",
+  "records": {
+    "deterministic_anchor_rows": 144,
+    "metric_keys": [
+      "certificate_gate_passed",
+      "attention_leak",
+      "target_attention_mass",
+      "false_attention_mass",
+      "classifier_shift_count"
+    ],
+    "rounding": {
+      "decimals": 6,
+      "drift_tolerance": 1e-06
+    },
+    "torch_evidence_rows": 0
+  },
+  "revocation_rows": [
+    {
+      "active": true,
+      "condition": "revoke if deterministic replay changes rounded attention summaries beyond tolerance",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if invalid certificate rows pass the gate",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if matched-random gate separation is no longer positive",
+      "status": "armed"
+    }
+  ],
+  "route_patch_protocol": {
+    "by_surface": {
+      "copy_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.090313,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.170336
+      },
+      "negation_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.084878,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.158132
+      },
+      "route_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.087624,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.164231
+      },
+      "scope_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.082082,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.152044
+      }
+    },
+    "classifier_shift": {
+      "certificate_gated_shift_mean": 1.0,
+      "classifier_shift_delta": 1.0,
+      "entropy_only_shift_mean": 0.0
+    },
+    "entropy_only_control": {
+      "certificate_beats_entropy_only": true,
+      "certificate_gate_reduction_mean": 0.161186,
+      "entropy_only_attention_leak_mean": 0.233545,
+      "entropy_only_reduction_mean": 0.086224
+    },
+    "invalid_route_suppression": {
+      "ambiguous_gate_pass_rate": 0.0,
+      "invalid_gate_pass_rate": 0.0,
+      "invalid_suppression_delta": 1.0
+    },
+    "valid_route_preservation": {
+      "certificate_gated_attention_leak_mean": 0.158583,
+      "plain_attention_leak_mean": 0.319769,
+      "valid_patch_delta": 0.161186
+    }
+  },
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/certificate-gated-attention/claim_capsule.json",
+    "raw_metrics": "reports/runs/certificate-gated-attention/raw_metrics.jsonl",
+    "report": "reports/runs/certificate-gated-attention/report.md",
+    "summary": "reports/runs/certificate-gated-attention/summary.json"
+  },
+  "run_id": "certificate-gated-attention",
+  "schema_id": "bedc-quality-lab:certificate-gated-attention",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
+  "source_artifacts": {
+    "claim_capsule": "reports/runs/certificate-gated-attention/claim_capsule.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "producer_sources": [
+      "bedc_quality_lab/certificate_gated_attention.py",
+      "scripts/run_certificate_gated_attention.py"
+    ],
+    "raw_rows": "reports/runs/certificate-gated-attention/raw_metrics.jsonl"
+  },
+  "surface_registry": {
+    "by_backbone": {
+      "certificate_gated_attention": {
+        "attention_leak_mean": 0.090887,
+        "classifier_shift_count_mean": 0.333333,
+        "row_count": 36,
+        "target_attention_mass_mean": 0.62024
+      },
+      "entropy_only_attention": {
+        "attention_leak_mean": 0.241429,
+        "classifier_shift_count_mean": 0.0,
+        "row_count": 36,
+        "target_attention_mass_mean": 0.61024
+      },
+      "matched_random_gate": {
+        "attention_leak_mean": 0.245057,
+        "classifier_shift_count_mean": 0.0,
+        "row_count": 36,
+        "target_attention_mass_mean": 0.60024
+      },
+      "plain_attention": {
+        "attention_leak_mean": 0.319769,
+        "classifier_shift_count_mean": 0.0,
+        "row_count": 36,
+        "target_attention_mass_mean": 0.606907
+      }
+    },
+    "by_surface": {
+      "copy_binding": {
+        "matched_random_reduction": 0.050139,
+        "surface_id": "copy_binding",
+        "valid_leak_reduction": 0.170336
+      },
+      "negation_binding": {
+        "matched_random_reduction": 0.047261,
+        "surface_id": "negation_binding",
+        "valid_leak_reduction": 0.158132
+      },
+      "route_binding": {
+        "matched_random_reduction": 0.048719,
+        "surface_id": "route_binding",
+        "valid_leak_reduction": 0.164231
+      },
+      "scope_binding": {
+        "matched_random_reduction": 0.045771,
+        "surface_id": "scope_binding",
+        "valid_leak_reduction": 0.152044
+      }
+    },
+    "multi_surface_positive": {
+      "pass_surface_count": 4,
+      "required_surface_count": 2
+    }
+  },
+  "torch_attention_evidence": {
+    "protocols": [],
+    "row_count": 0,
+    "status": "unavailable"
+  },
+  "what_was_learned": "The deterministic anchor records parseable certificate gating, leak reduction, matched-random separation, and multi-surface support."
+}
