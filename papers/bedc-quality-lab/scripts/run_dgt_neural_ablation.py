@@ -30,9 +30,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             {
                 "artifact_id": payload["artifact_id"],
                 "status": payload["nabl_hardgates"]["status"],
+                "pure_status": payload["pure_hardgates"]["status"],
                 "device": payload["training_protocol"]["resolved_device"],
                 "arm_count": len(payload["module_registry"]),
                 "claim_count": len(payload["component_causal_claims"]),
+                "measured_claim_components": [row["component"] for row in payload["component_causal_claims"]],
+                "scope_seal_scope_pressure_delta": payload.get("metric_delta_matrix", {})
+                .get("DGT_without_scope_seal", {})
+                .get("metrics", {})
+                .get("scope_pressure_q"),
             },
             sort_keys=True,
         )
