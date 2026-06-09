@@ -20,7 +20,9 @@
     "retraining_ablation_status": "executed",
     "retraining_ablation_system_count": 5.0,
     "seed_sweep_count": 5.0,
-    "seed_sweep_unlogged_error_win_rate": 0.6
+    "seed_sweep_unlogged_error_win_rate": 0.6,
+    "vjepa2_ac_lccp_claim_count": 5.0,
+    "vjepa2_ac_lccp_status": "executed"
   },
   "failures": [],
   "reproduction_commands": [
@@ -34,6 +36,7 @@
     "python scripts/build_bedc_jepa_review_bundle.py",
     "python scripts/build_bedc_jepa_quality_backend_candidate.py",
     "python scripts/run_bedc_latent_claim_certificate.py",
+    "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
     "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
@@ -54,9 +57,10 @@
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
-    "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json"
+    "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
+    "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "2231735919ddca79022ba61f9b3967881cd7e381",
+  "source_commit_at_build": "807e9d16d397260c88e8d42edc9d8651ab016b69",
   "status": "review_ready"
 }

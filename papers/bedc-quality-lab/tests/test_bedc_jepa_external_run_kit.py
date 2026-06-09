@@ -11,11 +11,13 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_minigrid_execution",
         "public_jepa_baseline",
         "torch_retraining_loss_ablation",
+        "vjepa2_ac_minigrid_claim_certificate",
     }
     checkpoint = kit["required_external_results"]["public_jepa_checkpoint_contact"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
     baseline = kit["required_external_results"]["public_jepa_baseline"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
+    vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
 
     assert checkpoint["readiness_gate"] == "public_jepa_checkpoint_contact"
     assert checkpoint["run_command"] == "python scripts/run_public_jepa_ac_giant_adapter.py"
@@ -35,6 +37,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
     assert "minus_l_unlogged" in retraining["required_systems"]
     assert "minus_l_gap" in retraining["required_systems"]
+    assert vjepa_lccp["readiness_gate"] == "vjepa2_ac_frozen_carrier_lccp"
+    assert vjepa_lccp["target_artifact"] == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    assert vjepa_lccp["run_command"] == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
+    assert "door_key_context_visible" in vjepa_lccp["required_predicates"]
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
     assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
@@ -48,6 +54,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["torch_retraining_loss_ablation_command"]
         == "python scripts/run_torch_retraining_loss_ablation.py"
+    )
+    assert (
+        kit["vjepa2_ac_minigrid_claim_certificate_command"]
+        == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
     )
     assert (
         minigrid["export_command"]

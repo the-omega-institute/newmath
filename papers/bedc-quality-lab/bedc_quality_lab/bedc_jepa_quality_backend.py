@@ -29,6 +29,7 @@ METRICS = (
     "native_public_benchmark_closed",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
+    "vjepa2_ac_lccp_recorded",
 )
 
 LEDGER_ROWS = (
@@ -40,6 +41,7 @@ LEDGER_ROWS = (
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
+    {"kind": "classifier", "residue": "vjepa2-ac-frozen-carrier-lccp"},
 )
 
 NOT_CLAIMED = (
@@ -93,6 +95,9 @@ def _metric_payload(
         "retraining_ablation_recorded": 1.0
         if float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
         else 0.0,
+        "vjepa2_ac_lccp_recorded": 1.0
+        if float(checks.get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0
+        else 0.0,
     }
 
 
@@ -121,6 +126,13 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
                 else "open"
             )
             evidence = "reports/bedc_jepa_retraining_loss_ablation.json"
+        elif row["residue"] == "vjepa2-ac-frozen-carrier-lccp":
+            status = (
+                "closed"
+                if float(review_bundle.get("checks", {}).get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0
+                else "open"
+            )
+            evidence = "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
         elif row["residue"] in {"distinction-head-certificate", "gap-head-certificate"}:
             status = "closed" if review_status == "review_ready" else "partial"
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
@@ -201,6 +213,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
+            "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
         },
         "forbidden_surfaces": [
             "model runner execution",

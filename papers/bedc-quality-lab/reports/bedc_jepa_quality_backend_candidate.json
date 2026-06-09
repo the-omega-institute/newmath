@@ -9,7 +9,8 @@
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
-    "review_bundle": "reports/bedc_jepa_review_bundle.json"
+    "review_bundle": "reports/bedc_jepa_review_bundle.json",
+    "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
   },
   "backend": {
     "assumptions": [
@@ -61,6 +62,10 @@
       {
         "kind": "mechanism",
         "residue": "full-retraining-loss-ablation"
+      },
+      {
+        "kind": "classifier",
+        "residue": "vjepa2-ac-frozen-carrier-lccp"
       }
     ],
     "metrics": [
@@ -76,7 +81,8 @@
       "checkpoint_contact_closed",
       "native_public_benchmark_closed",
       "artifact_review_bundle_closed",
-      "retraining_ablation_recorded"
+      "retraining_ablation_recorded",
+      "vjepa2_ac_lccp_recorded"
     ],
     "name": "bedc-jepa-world-model",
     "not_claimed": [
@@ -175,6 +181,15 @@
       "residue": "full-retraining-loss-ablation",
       "severity": "none",
       "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+      "key": "classifier/vjepa2-ac-frozen-carrier-lccp",
+      "kind": "classifier",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "vjepa2-ac-frozen-carrier-lccp",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
@@ -190,7 +205,8 @@
     "torch_objective_debt_reduction_mean": 0.10288747050501545,
     "torch_objective_gap_auc_gain_mean": 0.4987624509356536,
     "torch_objective_gap_auc_win_rate": 1.0,
-    "torch_objective_latent_r2_delta_abs_max": 0.0
+    "torch_objective_latent_r2_delta_abs_max": 0.0,
+    "vjepa2_ac_lccp_recorded": 1.0
   },
   "not_claimed": [
     "global model quality",

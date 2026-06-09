@@ -77,6 +77,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "public_minigrid_debt_closure": "python scripts/build_public_minigrid_debt_closure.py",
             "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
             "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
+            "vjepa2_ac_minigrid_claim_certificate": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
             "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
@@ -144,6 +145,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+            "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
         },
         "public_baselines": {
             "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",

@@ -61,6 +61,19 @@
       ],
       "run_command": "python scripts/run_torch_retraining_loss_ablation.py",
       "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json"
+    },
+    "vjepa2_ac_minigrid_claim_certificate": {
+      "pass_condition": "target artifact records each predicate as certified, coverage debt, or source debt under the Latent Claim Certificate Protocol",
+      "readiness_gate": "vjepa2_ac_frozen_carrier_lccp",
+      "required_predicates": [
+        "door_key_context_visible",
+        "unsafe_transition",
+        "has_key",
+        "door_open_or_unlocked",
+        "goal_reachable_with_current_state"
+      ],
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+      "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     }
   },
   "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
@@ -70,5 +83,6 @@
   "verification_commands": [
     "python -m pytest -q",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
-  ]
+  ],
+  "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
 }
