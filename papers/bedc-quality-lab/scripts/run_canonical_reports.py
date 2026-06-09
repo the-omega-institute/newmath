@@ -50,6 +50,12 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.mechanism_dna import (
+    ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
+    JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as MECHANISM_DNA_MARKDOWN_ARTIFACT,
+    REQUIRED_REF_FIELDS as MECHANISM_DNA_REQUIRED_REF_FIELDS,
+)
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
     JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
@@ -128,6 +134,7 @@ MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
 MODEL_DESIGN_SUITE_SCHEMA_ID = "bedc-quality-lab:model-design-suite"
+MECHANISM_DNA_SCHEMA_ID = "bedc-quality-lab:mechanism-dna"
 MODEL_COMPARISON_JSON_ARTIFACT = "reports/canonical/model-comparison.json"
 MODEL_COMPARISON_MARKDOWN_ARTIFACT = "reports/canonical/model-comparison.md"
 MODEL_COMPARISON_ARTIFACT_ID = "bedc-quality-lab:model-comparison"
@@ -1087,6 +1094,32 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
     CanonicalReportSpec(
+        name="mechanism-dna",
+        command=("python3", "scripts/run_mechanism_dna.py"),
+        json_artifact=MECHANISM_DNA_JSON_ARTIFACT,
+        markdown_artifact=MECHANISM_DNA_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "deterministic_seed",
+            "source_artifacts",
+            "rows",
+            "hardgate",
+            "not_claimed",
+            "forbidden_alias_audit",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.hardgate",
+        control_pointer=None,
+        no_control_rationale_pointer="$.not_claimed",
+        forbidden_claim_terms=("terminal_verdict", "final_verdict", "terminal verdict"),
+    ),
+    CanonicalReportSpec(
         name="discovery-gated-nas",
         command=("python3", "scripts/run_discovery_gated_nas.py"),
         json_artifact="reports/canonical/discovery-gated-nas.json",
@@ -1444,7 +1477,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
-CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite"})
+CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -1653,6 +1686,10 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
             for artifact in _model_comparison_source_artifacts()
             if artifact != spec.json_artifact
         )
+    if spec.name == "mechanism-dna":
+        from bedc_quality_lab.mechanism_dna import mechanism_dna_artifacts
+
+        paths.update(mechanism_dna_artifacts())
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
@@ -1816,6 +1853,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_high_impact_review import write_high_impact_review
 
         write_high_impact_review(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "mechanism-dna":
+        from scripts.run_mechanism_dna import write_mechanism_dna
+
+        write_mechanism_dna(root=ROOT, generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -5166,6 +5208,27 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
     }
 
 
+def _mechanism_dna_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(MECHANISM_DNA_JSON_ARTIFACT)
+    rows = payload.get("rows") if isinstance(payload, Mapping) else None
+    return {
+        "status": "pointer-only",
+        "schema_id": MECHANISM_DNA_SCHEMA_ID,
+        "artifact_id": MECHANISM_DNA_ARTIFACT_ID,
+        "json_artifact": MECHANISM_DNA_JSON_ARTIFACT,
+        "markdown_artifact": MECHANISM_DNA_MARKDOWN_ARTIFACT,
+        "rows_pointer": f"{MECHANISM_DNA_JSON_ARTIFACT}:$.rows",
+        "hardgate_pointer": f"{MECHANISM_DNA_JSON_ARTIFACT}:$.hardgate",
+        "forbidden_alias_audit_pointer": f"{MECHANISM_DNA_JSON_ARTIFACT}:$.forbidden_alias_audit",
+        "required_ref_fields": list(MECHANISM_DNA_REQUIRED_REF_FIELDS),
+        "row_count": len(rows) if isinstance(rows, list) else 0,
+        "not_claimed": [
+            "MechanismDNA indexes only artifact-qualified row pointers.",
+            "Core remains the terminal verdict owner.",
+        ],
+    }
+
+
 def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
     return {
@@ -5432,6 +5495,7 @@ def _index(
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
+        "mechanism_dna": _mechanism_dna_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
@@ -6040,7 +6104,7 @@ def run_reports(
     )
     model_comparison_spec = _specs_by_name().get("model-comparison")
     if mode in {"verify", "cold"}:
-        for late_fingerprint_name in ("model-comparison", "causal-patch-suite"):
+        for late_fingerprint_name in ("model-comparison", "causal-patch-suite", "mechanism-dna"):
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)

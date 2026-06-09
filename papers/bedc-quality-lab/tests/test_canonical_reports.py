@@ -515,6 +515,11 @@ def _payload_for_spec(spec):
                     "sparse_recall": {"accepted": True},
                 },
             },
+            "discovery_map_signal": {
+                "status": "d5-m-candidate",
+                "level_candidate": "D5-M",
+                "reason": "distinction-module-evidence-present",
+            },
             "distinction_module_evidence": {
                 "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence",
                 "owner_pointer": "$.distinction_module_evidence",
@@ -927,6 +932,8 @@ def _payload_for_spec(spec):
         payload["d5_m"] = {"status": "blocked", "passed": False, "failed_gate": "A4-HG5"}
         payload["residualized_attribution"] = {"status": "pass"}
         payload["score_margin_causal_evidence"] = {"channel_classification": "score_margin_sufficient"}
+        payload["head_channel_patch_evidence"] = {"causal_patch_claim": {"status": "pass"}}
+        payload["negative_witness"] = [{"status": "score-margin-channel-sufficient"}]
         payload["mechanism_evidence"] = {
             "evidence_level": "patch",
             "base_level": "D5-O",
@@ -960,6 +967,7 @@ def _payload_for_spec(spec):
                 "A4-HG2": {"status": "pass"},
                 "A4-HG3": {"status": "pass"},
                 "A4-HG5": {"status": "fail"},
+                "head_causal_patch": {"status": "pass"},
             },
         }
     return payload
@@ -1537,6 +1545,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-mini-grid",
         "discovery-regularized-training",
         "mechanism-seeking-network",
+        "mechanism-dna",
         "discovery-gated-nas",
         "discovery-gated-transformer",
         "order-k-benchmark",
@@ -1553,6 +1562,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-training" in names
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
+    assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
     assert "tool-use-toy-dgt" not in names
@@ -2749,6 +2759,39 @@ def test_canonical_msn_payload_exposes_module_evidence_without_terminal_verdict(
     assert payload["distinction_module_evidence"]["owner_pointer"] == "$.distinction_module_evidence"
     assert payload["d5_m_readiness"]["distinction_module_evidence_ref"] == "$.distinction_module_evidence"
     assert "terminal_verdict" not in set(_walk_keys(payload))
+
+
+def test_mechanism_dna_is_registered_without_terminal_verdict_surface():
+    spec = canonical._specs_by_name()["mechanism-dna"]
+
+    assert spec.json_artifact == "reports/canonical/mechanism_dna.json"
+    assert "terminal_verdict" not in spec.required_json_keys
+    assert "final_verdict" not in spec.required_json_keys
+    assert set(
+        (
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "deterministic_seed",
+            "source_artifacts",
+            "rows",
+            "hardgate",
+            "not_claimed",
+            "forbidden_alias_audit",
+        )
+    ) == set(spec.required_json_keys)
+
+
+def test_mechanism_dna_index_section_is_pointer_only():
+    payload = canonical._index([], generated_at="2030-01-01T00:00:00+00:00")
+    section = payload["mechanism_dna"]
+    serialized = json.dumps(section, sort_keys=True)
+
+    assert section["status"] == "pointer-only"
+    assert section["artifact_id"] == "bedc-quality-lab:mechanism-dna"
+    assert section["rows_pointer"] == "reports/canonical/mechanism_dna.json:$.rows"
+    assert "terminal_verdict" not in serialized
+    assert ".refactor-loop/host.env" not in serialized
 
 
 def test_canonical_reports_manifest_includes_sigreg_training_proxy():

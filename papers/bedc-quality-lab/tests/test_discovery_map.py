@@ -21,6 +21,8 @@ from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_certificate_gated_attention as cga_runner
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
+from bedc_quality_lab.mechanism_dna import JSON_ARTIFACT as MECHANISM_DNA_ARTIFACT
+from bedc_quality_lab.mechanism_dna import build_mechanism_dna, mechanism_dna_artifacts
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -225,6 +227,8 @@ def _minimal_payload(spec):
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "discovery-regularized-training":
         return runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    if spec.name == "discovery-gated-transformer":
+        return canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     if spec.name == "mechanism-seeking-network":
         payload.update({
             "records": {
@@ -484,7 +488,16 @@ def _minimal_payload(spec):
             "scope_seal": {"not_claimed": ["no global mechanism closure claim"]},
             "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
             "not_implemented": ["nonlinear_residualization", "full_causal_replacement_scope"],
-            "a4_hardgates": {"gates": {"A4-HG2": {"status": "pass"}, "A4-HG3": {"status": "pass"}, "A4-HG5": {"status": "fail"}}},
+            "a4_hardgates": {
+                "gates": {
+                    "A4-HG2": {"status": "pass"},
+                    "A4-HG3": {"status": "pass"},
+                    "A4-HG5": {"status": "fail"},
+                    "head_causal_patch": {"status": "pass"},
+                }
+            },
+            "head_channel_patch_evidence": {"causal_patch_claim": {"status": "pass"}},
+            "negative_witness": [{"status": "score-margin-channel-sufficient"}],
             "residualized_attribution": {"status": "pass"},
             "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
         })
@@ -555,6 +568,15 @@ def _write_coverage_payloads(root: Path):
             "row_count": len(owner_rows),
             "rows": owner_rows,
         },
+    )
+    source_payloads = {
+        artifact: _read_json_artifact(root, artifact)
+        for artifact in mechanism_dna_artifacts()
+    }
+    _write_json_artifact(
+        root,
+        MECHANISM_DNA_ARTIFACT,
+        build_mechanism_dna(source_payloads, generated_at="fixture-time", deterministic_seed=935),
     )
 
 
@@ -966,7 +988,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
 
     assert [cell["component_id"] for cell in payload["coverage_matrix"]["cells"]].count("DRT") == 1
     assert drt["canonical_owner_pointer"] == "reports/canonical/discovery-regularized-training.json:$"
-    assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
+    assert drt["mechanism_certificate_pointer"] == "reports/canonical/mechanism_dna.json:$.rows[1]"
     assert drt["debt_pointer"] == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
     assert drt["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, drt["mechanism_certificate_pointer"]) is not None
@@ -1004,8 +1026,22 @@ def test_discovery_map_dgt_reads_single_d4_projection_pointer(tmp_path):
 def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):
     spec = canonical._specs_by_name()["discovery-regularized-training"]
     summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
-    row = discovery_map.discovery_row(spec, summary)
-    projected = discovery_map.projection_payload(spec, summary)
+    source_payloads = {
+        artifact: json.loads((canonical.ROOT / artifact).read_text(encoding="utf-8"))
+        for artifact in mechanism_dna_artifacts()
+    }
+    source_payloads[runner.JSON_ARTIFACT] = summary
+    context = {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        **source_payloads,
+        MECHANISM_DNA_ARTIFACT: build_mechanism_dna(
+            source_payloads,
+            generated_at="fixture-time",
+            deterministic_seed=935,
+        ),
+    }
+    row = discovery_map.discovery_row(spec, summary, context)
+    projected = discovery_map.projection_payload(spec, summary, context)
 
     assert row["report"] == "discovery-regularized-training"
     assert projected["main_verdict"]["discovery_regularized_training"]["jet_loss_surface_pointer"] == "$.jet_loss_surface"
@@ -1028,7 +1064,7 @@ def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
     capsule = _coverage_cell(payload, "gap-head-mech")
 
     assert capsule["canonical_owner_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
-    assert capsule["mechanism_certificate_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
+    assert capsule["mechanism_certificate_pointer"] == "reports/canonical/mechanism_dna.json:$.rows[0]"
     assert capsule["debt_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt"
     assert capsule["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, capsule["canonical_owner_pointer"]) is not None

@@ -24,6 +24,8 @@ from bedc_quality_lab.backends.current_lab.projection import (
     discovery_row,
     projection_payload,
 )
+from bedc_quality_lab.mechanism_dna import JSON_ARTIFACT as MECHANISM_DNA_ARTIFACT
+from bedc_quality_lab.mechanism_dna import build_mechanism_dna, mechanism_dna_artifacts
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from scripts import run_discovery_gated_nas as runner
 from scripts import run_lejepa_theorem_ledger
@@ -73,6 +75,23 @@ def _with_recomputed_signal(payload):
         "hardgate": {"status": "pass" if failed is None else "fail", "gates": hardgates, "failed_gate": failed},
         "failed_gate": failed,
         "discovery_map_signal": projection.discovery_map_signal(hardgates),
+    }
+
+
+def _mechanism_dna_context(overrides=None):
+    source_payloads = {
+        artifact: json.loads((runner.ROOT / artifact).read_text(encoding="utf-8"))
+        for artifact in mechanism_dna_artifacts()
+    }
+    source_payloads.update(overrides or {})
+    return {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        **source_payloads,
+        MECHANISM_DNA_ARTIFACT: build_mechanism_dna(
+            source_payloads,
+            generated_at="fixture-time",
+            deterministic_seed=935,
+        ),
     }
 
 
@@ -329,7 +348,7 @@ def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_sur
     payload = _ready_payload()
     spec = _specs_by_name()["discovery-gated-nas"]
     context = {
-        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        **_mechanism_dna_context({"reports/canonical/discovery-gated-nas.json": payload}),
         run_lejepa_theorem_ledger.JSON_ARTIFACT: run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time"),
     }
     projected = projection_payload(spec, payload, context)
@@ -354,7 +373,7 @@ def test_d5_m_projection_rejects_when_context_ledger_rows_lack_theorem_dna():
         ],
     }
     context = {
-        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        **_mechanism_dna_context({"reports/canonical/discovery-gated-nas.json": payload}),
         run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger_without_dna,
     }
 
@@ -367,11 +386,27 @@ def test_d5_m_projection_rejects_when_context_ledger_rows_lack_theorem_dna():
     assert row["failed_gate"] == f"{run_lejepa_theorem_ledger.JSON_ARTIFACT}:$.theorem_rows"
 
 
-def _assert_d5_m_projection_rejects_ledger(ledger):
+def test_d5_m_projection_rejects_without_mechanism_dna_row():
     payload = _ready_payload()
     spec = _specs_by_name()["discovery-gated-nas"]
     context = {
         "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        run_lejepa_theorem_ledger.JSON_ARTIFACT: run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time"),
+    }
+
+    projected = projection_payload(spec, payload, context)
+    row = discovery_row(spec, payload, context)
+
+    assert projected["verdict"] == "rejected"
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.hardgate.status"
+
+
+def _assert_d5_m_projection_rejects_ledger(ledger):
+    payload = _ready_payload()
+    spec = _specs_by_name()["discovery-gated-nas"]
+    context = {
+        **_mechanism_dna_context({"reports/canonical/discovery-gated-nas.json": payload}),
         run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger,
     }
 

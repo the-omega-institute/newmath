@@ -39,6 +39,12 @@ from bedc_quality_lab.mechanism_attribution import (
     project_gap_head_mechanism_evidence,
     unresolved_mechanism_evidence_pointers,
 )
+from bedc_quality_lab.mechanism_dna import (
+    JSON_ARTIFACT as MECHANISM_DNA_ARTIFACT,
+    REQUIRED_REF_FIELDS as MECHANISM_DNA_REQUIRED_REF_FIELDS,
+    mechanism_dna_artifacts,
+    mechanism_dna_row_pointer,
+)
 from bedc_quality_lab.research_discovery import DiscoveryLevel, assign_discovery_level
 from bedc_quality_lab.scope import (
     ScopeExpansionGate,
@@ -111,6 +117,8 @@ GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
     ATTRIBUTION_CAPSULE_ARTIFACT,
+    *mechanism_dna_artifacts(),
+    MECHANISM_DNA_ARTIFACT,
 )
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
 GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER = "$.multi_surface_d5_o.decision"
@@ -146,7 +154,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
         "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d4_projection.discovery_level",
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
+        "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[4]",
         "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
         "negative_witness_pointer": None,
     },
@@ -173,7 +181,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$",
         "discovery_level_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.training_mechanism_cert",
+        "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[1]",
         "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.quality_promotion_boundary",
         "negative_witness_pointer": None,
     },
@@ -182,7 +190,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$",
         "discovery_level_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.mechanism_gate_summary",
+        "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[2]",
         "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.revocation_rows",
         "negative_witness_pointer": None,
     },
@@ -191,7 +199,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$",
         "discovery_level_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.candidate_protocol",
+        "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[3]",
         "debt_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
         "negative_witness_pointer": None,
     },
@@ -209,7 +217,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
         "discovery_level_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.d5_m.status",
         "claim_verdict_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence.mechanism_status",
-        "mechanism_certificate_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
+        "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[0]",
         "debt_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.ledger_debt",
         "negative_witness_pointer": None,
     },
@@ -412,6 +420,42 @@ def _theorem_ledger_rows_have_resolvable_dna(context: Mapping[str, Mapping[str, 
         for field in ("assumptions", "ledger_debts", "proof_dependencies"):
             if not _theorem_dna_pointer_cells_resolve(ledger, dna.get(field)):
                 return False
+    return True
+
+
+def _mechanism_dna_ref_resolves(row: Mapping[str, Any], field: str, context: Mapping[str, Mapping[str, Any]]) -> bool:
+    ref = row.get(field)
+    if not isinstance(ref, Mapping):
+        return False
+    artifact = ref.get("artifact")
+    pointer = ref.get("pointer")
+    owner_pointer = ref.get("owner_pointer")
+    if not all(isinstance(value, str) and value for value in (artifact, pointer, owner_pointer)):
+        return False
+    if owner_pointer != f"{artifact}:{pointer}":
+        return False
+    return pointer_value(context.get(artifact, {}), pointer) is not None
+
+
+def _mechanism_dna_row_ready(report: str, context: Mapping[str, Mapping[str, Any]]) -> bool:
+    pointer = mechanism_dna_row_pointer(report)
+    if pointer is None or ":" not in pointer:
+        return False
+    artifact, local_pointer = pointer.split(":", 1)
+    payload = context.get(artifact, {})
+    row = pointer_value(payload, local_pointer)
+    if not isinstance(row, Mapping):
+        return False
+    if row.get("row_id") != report:
+        return False
+    if pointer_value(row, "$.row_hardgate.status") != "pass":
+        return False
+    for field in (*MECHANISM_DNA_REQUIRED_REF_FIELDS, "source_level_ref", "source_status_ref"):
+        if not _mechanism_dna_ref_resolves(row, field, context):
+            return False
+    for forbidden in ("terminal_verdict", "final_verdict", "canonical_terminal_verdict", "core_verdict"):
+        if forbidden in json.dumps(row, sort_keys=True):
+            return False
     return True
 
 
@@ -758,6 +802,21 @@ def _discovery_regularized_training_projection(
     level = signal.get("level_candidate")
     status = signal.get("status")
     extension_failed_pointer = _drt_extension_failed_pointer(payload)
+    context_payloads = {} if context is None else context
+    if extension_failed_pointer is None and consistent and level == "D5-M" and status == "d5-m-candidate":
+        if not _mechanism_dna_row_ready("discovery-regularized-training", context_payloads):
+            return {
+                "verdict": "rejected",
+                "main_verdict": {
+                    "discovery_regularized_training": {
+                        "level_candidate": "DN",
+                        "status": "negative",
+                    },
+                },
+            }, ProjectionEvidence(
+                projection_status="projected",
+                failed_gate="$.training_mechanism_cert.status",
+            )
     if extension_failed_pointer is None and consistent and level in {"D4", "D5-M"} and status in {"d4-candidate", "d5-m-candidate"}:
         return {
             "positive_discovery": True,
@@ -797,7 +856,7 @@ def _discovery_regularized_training_projection(
                 "discovery_regularized_training": True,
                 "control_positive_discovery": False,
                 "net_positive_signal": True,
-                "scorecard_ready": _scorecard_ready({} if context is None else context),
+                "scorecard_ready": _scorecard_ready(context_payloads),
                 "audit_status": "pass",
             },
         }, ProjectionEvidence(
@@ -958,6 +1017,19 @@ def _discovery_gated_nas_projection(
     status = signal.get("status")
     if consistent and level == "D5-M" and status == "d5-m-candidate":
         context_payloads = {} if context is None else context
+        if not _mechanism_dna_row_ready("discovery-gated-nas", context_payloads):
+            return {
+                "verdict": "rejected",
+                "main_verdict": {
+                    "discovery_gated_nas": {
+                        "level_candidate": "DN",
+                        "status": "negative",
+                    },
+                },
+            }, ProjectionEvidence(
+                projection_status="projected",
+                failed_gate="$.hardgate.status",
+            )
         if not _theorem_ledger_rows_have_resolvable_dna(context_payloads):
             return {
                 "verdict": "rejected",
