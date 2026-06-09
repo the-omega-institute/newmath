@@ -357,7 +357,7 @@
             "status": "pass"
           },
           "NW-L0-HG5": {
-            "criterion": "regression test pointers present",
+            "criterion": "regression test pointers resolve",
             "evidence_pointer": "$.negative_witness_sweep.witness_rows",
             "reason": null,
             "status": "pass"
@@ -522,46 +522,57 @@
     "status": "pass"
   },
   "negative_witness_sweep": {
+    "boundary_ledger": [
+      {
+        "reason": "No score-margin shortcut detector is encoded in the L0 control training artifact.",
+        "status": "not_required",
+        "witness": "score_margin_shortcut"
+      },
+      {
+        "reason": "No scale-leakage detector is encoded in the bounded L0 control training artifact.",
+        "status": "not_required",
+        "witness": "scale_leakage"
+      },
+      {
+        "reason": "The L0 control rows do not expose an inference-column channel to inspect.",
+        "status": "not_required",
+        "witness": "forbidden_inference_column"
+      },
+      {
+        "reason": "The L0 artifact has not encoded a separate scope-expansion detector.",
+        "status": "not_required",
+        "witness": "scope_expansion"
+      },
+      {
+        "reason": "Stale projection rejection is enforced by payload validation, not this sweep.",
+        "status": "not_required",
+        "witness": "stale_projection"
+      }
+    ],
     "critical_hit_count": 0,
     "demotion_rule": "critical witness hit blocks L0_toy review_status",
     "pass_cells": {
       "all_required_present": true,
+      "boundary_ledger_records_uncovered_witnesses": true,
       "critical_hits_zero": true,
       "demotion_rule_present": true,
-      "regression_test_pointers_present": true
+      "regression_test_pointers_present": true,
+      "regression_test_pointers_resolve": true
     },
     "required_witnesses": [
-      "score_margin_shortcut",
-      "scale_leakage",
       "control_positive",
       "matched_random_positive",
-      "forbidden_inference_column",
       "benefit_debt_tradeoff",
-      "single_threshold_escape",
-      "scope_expansion",
-      "stale_projection"
+      "single_threshold_escape"
     ],
     "status": "pass",
     "witness_rows": [
-      {
-        "critical": false,
-        "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-        "hit_count": 0,
-        "regression_test_pointer": "tests/test_dgt_l0_controls.py::score_margin_shortcut",
-        "witness": "score_margin_shortcut"
-      },
-      {
-        "critical": false,
-        "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-        "hit_count": 0,
-        "regression_test_pointer": "tests/test_dgt_l0_controls.py::scale_leakage",
-        "witness": "scale_leakage"
-      },
       {
         "critical": true,
         "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
         "hit_count": 0,
         "regression_test_pointer": "tests/test_dgt_l0_controls.py::control_positive",
+        "regression_test_pointer_resolves": true,
         "witness": "control_positive"
       },
       {
@@ -569,20 +580,15 @@
         "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
         "hit_count": 0,
         "regression_test_pointer": "tests/test_dgt_l0_controls.py::matched_random_positive",
+        "regression_test_pointer_resolves": true,
         "witness": "matched_random_positive"
-      },
-      {
-        "critical": true,
-        "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-        "hit_count": 0,
-        "regression_test_pointer": "tests/test_dgt_l0_controls.py::forbidden_inference_column",
-        "witness": "forbidden_inference_column"
       },
       {
         "critical": false,
         "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
         "hit_count": 0,
         "regression_test_pointer": "tests/test_dgt_l0_controls.py::benefit_debt_tradeoff",
+        "regression_test_pointer_resolves": true,
         "witness": "benefit_debt_tradeoff"
       },
       {
@@ -590,21 +596,8 @@
         "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
         "hit_count": 0,
         "regression_test_pointer": "tests/test_dgt_l0_controls.py::single_threshold_escape",
+        "regression_test_pointer_resolves": true,
         "witness": "single_threshold_escape"
-      },
-      {
-        "critical": true,
-        "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-        "hit_count": 0,
-        "regression_test_pointer": "tests/test_dgt_l0_controls.py::scope_expansion",
-        "witness": "scope_expansion"
-      },
-      {
-        "critical": true,
-        "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-        "hit_count": 0,
-        "regression_test_pointer": "tests/test_dgt_l0_controls.py::stale_projection",
-        "witness": "stale_projection"
       }
     ]
   },

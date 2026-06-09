@@ -241,43 +241,6 @@ def _payload_for_spec(spec):
                 "No full BEDC closure is claimed.",
             ],
         }
-    if spec.name == "dgt-neural-ablation":
-        return {
-            "schema_id": canonical.DGT_NEURAL_ABLATION_SCHEMA_ID,
-            "artifact_id": canonical.DGT_NEURAL_ABLATION_ARTIFACT_ID,
-            "generated_at": "fixture-generated-at",
-            "producer": "scripts/run_dgt_neural_ablation.py",
-            "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py"},
-            "run_artifacts": {"claim_capsule": "reports/runs/dgt-neural-ablation/claim_capsule.json"},
-            "module_registry": {"full_DGT": {"arm_id": "full_DGT"}},
-            "training_protocol": {"status": "available"},
-            "metric_protocol": {"inputs": ["fixture"], "formulas": {}, "global_weights": {}, "purity_audit": {"status": "pass"}},
-            "scope_pressure_protocol": {"task_registry": {"scope_boundary_pressure": "same train/eval loop"}},
-            "scope_seal_mechanism": {"non_redundancy_evidence": {"status": "pass"}},
-            "records": [],
-            "arm_summaries": {},
-            "metric_delta_matrix": {},
-            "pure_hardgates": {"status": "pass"},
-            "nabl_hardgates": {"status": "pass", "failed_gate": None},
-            "component_causal_claims": [
-                {
-                    "component": "scope_seal",
-                    "claim_status": "allowed",
-                    "claim_scope": "bounded toy training",
-                    "evidence_scope": ["small-real-training"],
-                    "claim_text": "fixture measured degradation",
-                }
-            ],
-            "boundary_ledger": [],
-            "evidence_scope": ["small-real-training"],
-            "claim_capsule_ref": {
-                "artifact": "reports/runs/dgt-neural-ablation/claim_capsule.json",
-                "pointer": "$",
-                "status": "available",
-            },
-            "not_claimed": ["fixture boundary"],
-            "forbidden_claim_term_audit": {"status": "pass", "hits": [], "forbidden_terms": []},
-        }
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
         payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]

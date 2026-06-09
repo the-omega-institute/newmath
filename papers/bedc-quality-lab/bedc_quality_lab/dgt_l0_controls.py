@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 from datetime import datetime, timezone
 import hashlib
 import importlib
@@ -22,6 +23,7 @@ CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l0-controls.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-l0-controls.fingerprint.json"
 RUN_ROOT = "reports/runs/discovery-gated-transformer/l0-toy-controls"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
+LAB_ROOT = Path(__file__).resolve().parents[1]
 BASE_SEED = 1158
 REPLAY_SEEDS = (1158, 1160, 1162)
 TRAINING_STEPS = 44
@@ -58,22 +60,41 @@ CONTROL_POINTERS = {
     "l0_control_projection": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.l0_toy_projection"},
 }
 REQUIRED_WITNESSES = (
-    "score_margin_shortcut",
-    "scale_leakage",
     "control_positive",
     "matched_random_positive",
-    "forbidden_inference_column",
     "benefit_debt_tradeoff",
     "single_threshold_escape",
-    "scope_expansion",
-    "stale_projection",
 )
 CRITICAL_WITNESSES = (
     "control_positive",
     "matched_random_positive",
-    "forbidden_inference_column",
-    "scope_expansion",
-    "stale_projection",
+)
+BOUNDARY_WITNESSES = (
+    {
+        "witness": "score_margin_shortcut",
+        "status": "not_required",
+        "reason": "No score-margin shortcut detector is encoded in the L0 control training artifact.",
+    },
+    {
+        "witness": "scale_leakage",
+        "status": "not_required",
+        "reason": "No scale-leakage detector is encoded in the bounded L0 control training artifact.",
+    },
+    {
+        "witness": "forbidden_inference_column",
+        "status": "not_required",
+        "reason": "The L0 control rows do not expose an inference-column channel to inspect.",
+    },
+    {
+        "witness": "scope_expansion",
+        "status": "not_required",
+        "reason": "The L0 artifact has not encoded a separate scope-expansion detector.",
+    },
+    {
+        "witness": "stale_projection",
+        "status": "not_required",
+        "reason": "Stale projection rejection is enforced by payload validation, not this sweep.",
+    },
 )
 L0_GATE_NAMES = tuple(f"L0-HG{index}" for index in range(1, 9))
 BASE_GATE_NAMES = tuple(f"BASE-L0-HG{index}" for index in range(1, 7))
@@ -253,10 +274,6 @@ def _gate(status: bool, pointer: str, criterion: str, reason: str | None = None)
     }
 
 
-def _failed_gate(gates: Mapping[str, Mapping[str, Any]], order: Sequence[str]) -> str | None:
-    return next((gate for gate in order if gates.get(gate, {}).get("status") != "pass"), None)
-
-
 def _control_summary(row: Mapping[str, Any], *, pointer: str) -> dict[str, Any]:
     return {
         "status": "pass" if row.get("loss_decrease", 0.0) > 0 and row.get("parameter_l2_delta", 0.0) > 0 else "fail",
@@ -271,6 +288,22 @@ def _control_summary(row: Mapping[str, Any], *, pointer: str) -> dict[str, Any]:
         "raw_row_ref": {"artifact": f"{RUN_ROOT}/raw_metrics.jsonl", "pointer": pointer},
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.controls",
     }
+
+
+def _regression_test_pointer_resolves(pointer: str) -> bool:
+    if "::" not in pointer:
+        return False
+    file_name, function_name = pointer.split("::", maxsplit=1)
+    if not file_name or not function_name:
+        return False
+    test_path = LAB_ROOT / file_name
+    if not test_path.is_file():
+        return False
+    try:
+        tree = ast.parse(test_path.read_text(encoding="utf-8"), filename=str(test_path))
+    except SyntaxError:
+        return False
+    return any(isinstance(node, ast.FunctionDef) and node.name == function_name for node in tree.body)
 
 
 def _ledger(records: Sequence[Mapping[str, Any]], *, device_name: str) -> dict[str, Any]:
@@ -318,19 +351,23 @@ def _negative_witness_sweep(dgt_row: Mapping[str, Any], base_row: Mapping[str, A
             hit = base_row["metrics"]["quality_q"] >= dgt_row["metrics"]["quality_q"]
         elif witness == "matched_random_positive":
             hit = matched_row["metrics"]["uer_reduction"] >= dgt_row["metrics"]["uer_reduction"]
+        pointer = f"tests/test_dgt_l0_controls.py::{witness}"
         rows.append(
             {
                 "witness": witness,
                 "critical": critical,
                 "hit_count": int(hit),
                 "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
-                "regression_test_pointer": f"tests/test_dgt_l0_controls.py::{witness}",
+                "regression_test_pointer": pointer,
+                "regression_test_pointer_resolves": _regression_test_pointer_resolves(pointer),
             }
         )
     critical_hits = sum(row["hit_count"] for row in rows if row["critical"])
+    pointers_resolve = all(row["regression_test_pointer_resolves"] for row in rows)
     return {
-        "status": "pass" if critical_hits == 0 and len(rows) == len(REQUIRED_WITNESSES) else "fail",
+        "status": "pass" if critical_hits == 0 and len(rows) == len(REQUIRED_WITNESSES) and pointers_resolve else "fail",
         "required_witnesses": list(REQUIRED_WITNESSES),
+        "boundary_ledger": [dict(row) for row in BOUNDARY_WITNESSES],
         "demotion_rule": "critical witness hit blocks L0_toy review_status",
         "critical_hit_count": critical_hits,
         "witness_rows": rows,
@@ -339,6 +376,10 @@ def _negative_witness_sweep(dgt_row: Mapping[str, Any], base_row: Mapping[str, A
             "critical_hits_zero": critical_hits == 0,
             "demotion_rule_present": True,
             "regression_test_pointers_present": all(bool(row["regression_test_pointer"]) for row in rows),
+            "regression_test_pointers_resolve": pointers_resolve,
+            "boundary_ledger_records_uncovered_witnesses": {
+                row["witness"] for row in BOUNDARY_WITNESSES
+            }.isdisjoint(REQUIRED_WITNESSES),
         },
     }
 
@@ -422,7 +463,11 @@ def _hardgate_bundle(
         "NW-L0-HG2": _gate(set(witness["required_witnesses"]) == set(REQUIRED_WITNESSES), "$.negative_witness_sweep.required_witnesses", "all witnesses present"),
         "NW-L0-HG3": _gate(witness["critical_hit_count"] == 0, "$.negative_witness_sweep.critical_hit_count", "critical hits zero"),
         "NW-L0-HG4": _gate(all(row.get("demotion_rule") for row in witness["witness_rows"]), "$.negative_witness_sweep.witness_rows", "demotion rules present"),
-        "NW-L0-HG5": _gate(all(row.get("regression_test_pointer") for row in witness["witness_rows"]), "$.negative_witness_sweep.witness_rows", "regression test pointers present"),
+        "NW-L0-HG5": _gate(
+            all(row.get("regression_test_pointer") and row.get("regression_test_pointer_resolves") for row in witness["witness_rows"]),
+            "$.negative_witness_sweep.witness_rows",
+            "regression test pointers resolve",
+        ),
     }
     replay_gates = {
         "REPLAY-L0-HG1": _gate(replay["status"] == "pass", "$.independent_replay.status", "independent replay pass"),
@@ -564,6 +609,9 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
             "hit_count": 0,
             "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
             "regression_test_pointer": f"tests/test_dgt_l0_controls.py::{witness}",
+            "regression_test_pointer_resolves": _regression_test_pointer_resolves(
+                f"tests/test_dgt_l0_controls.py::{witness}"
+            ),
         }
         for witness in REQUIRED_WITNESSES
     ]
@@ -571,6 +619,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "status": "fail",
         "reason": reason,
         "required_witnesses": list(REQUIRED_WITNESSES),
+        "boundary_ledger": [dict(row) for row in BOUNDARY_WITNESSES],
         "demotion_rule": "critical witness hit blocks L0_toy review_status",
         "critical_hit_count": 0,
         "witness_rows": witness_rows,
@@ -579,6 +628,8 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
             "critical_hits_zero": True,
             "demotion_rule_present": True,
             "regression_test_pointers_present": True,
+            "regression_test_pointers_resolve": all(row["regression_test_pointer_resolves"] for row in witness_rows),
+            "boundary_ledger_records_uncovered_witnesses": True,
         },
     }
     replay = {
@@ -796,6 +847,20 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     if is_ready and (ledger.get("parameter_count", 0) <= 0 or ledger.get("compute_units", 0) <= 0):
         raise ValueError("DGT L0 ledger lacks positive compute or parameter count")
     witness = payload["negative_witness_sweep"]
+    if witness.get("required_witnesses") != list(REQUIRED_WITNESSES):
+        raise ValueError("DGT L0 negative witness required set mismatch")
+    boundary = witness.get("boundary_ledger")
+    if not isinstance(boundary, list) or {row.get("witness") for row in boundary} != {
+        row["witness"] for row in BOUNDARY_WITNESSES
+    }:
+        raise ValueError("DGT L0 negative witness boundary ledger mismatch")
+    if any(row.get("witness") in REQUIRED_WITNESSES for row in boundary):
+        raise ValueError("DGT L0 negative witness boundary ledger overlaps required set")
+    witness_rows = witness.get("witness_rows")
+    if not isinstance(witness_rows, list) or {row.get("witness") for row in witness_rows} != set(REQUIRED_WITNESSES):
+        raise ValueError("DGT L0 negative witness rows mismatch")
+    if any(not row.get("regression_test_pointer_resolves") for row in witness_rows):
+        raise ValueError("DGT L0 negative witness regression test pointer unresolved")
     if is_ready and witness.get("critical_hit_count") != 0:
         raise ValueError("DGT L0 critical negative witness hit")
     replay = payload["independent_replay"]

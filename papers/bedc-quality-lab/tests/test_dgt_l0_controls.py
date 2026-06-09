@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import pytest
 
@@ -16,6 +17,102 @@ def _payload():
     return dgt_l0_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
 
 
+def _first_seed_witness_rows(payload):
+    records = payload["_raw_records"]
+    first_seed = dgt_l0_controls.REPLAY_SEEDS[0]
+    return {row["arm_id"]: deepcopy(row) for row in records if row["seed"] == first_seed}
+
+
+def _witness_hit_counts(payload):
+    return {
+        row["witness"]: row["hit_count"]
+        for row in payload["negative_witness_sweep"]["witness_rows"]
+    }
+
+
+def _sweep_hit_counts(dgt_row, base_row, matched_row):
+    return {
+        row["witness"]: row["hit_count"]
+        for row in dgt_l0_controls._negative_witness_sweep(dgt_row, base_row, matched_row)["witness_rows"]
+    }
+
+
+def benefit_debt_tradeoff():
+    payload = _payload()
+    rows = _first_seed_witness_rows(payload)
+
+    assert _witness_hit_counts(payload)["benefit_debt_tradeoff"] == 0
+
+    rows["DGT_full"]["metrics"]["benefit_q"] = rows["DGT_full"]["metrics"]["debt_q"]
+    hits = _sweep_hit_counts(
+        rows["DGT_full"],
+        rows["base_transformer_l0"],
+        rows["matched_random_structural_control"],
+    )
+
+    assert hits["benefit_debt_tradeoff"] == 1
+
+
+def single_threshold_escape():
+    payload = _payload()
+    rows = _first_seed_witness_rows(payload)
+
+    assert _witness_hit_counts(payload)["single_threshold_escape"] == 0
+
+    rows["DGT_full"]["metrics"]["quality_q"] = rows["base_transformer_l0"]["metrics"]["quality_q"]
+    hits = _sweep_hit_counts(
+        rows["DGT_full"],
+        rows["base_transformer_l0"],
+        rows["matched_random_structural_control"],
+    )
+
+    assert hits["single_threshold_escape"] == 1
+
+
+def control_positive():
+    payload = _payload()
+    rows = _first_seed_witness_rows(payload)
+
+    assert _witness_hit_counts(payload)["control_positive"] == 0
+
+    rows["base_transformer_l0"]["metrics"]["quality_q"] = rows["DGT_full"]["metrics"]["quality_q"]
+    sweep = dgt_l0_controls._negative_witness_sweep(
+        rows["DGT_full"],
+        rows["base_transformer_l0"],
+        rows["matched_random_structural_control"],
+    )
+    hits = {row["witness"]: row["hit_count"] for row in sweep["witness_rows"]}
+
+    assert hits["control_positive"] == 1
+    assert sweep["critical_hit_count"] == 1
+    assert sweep["status"] == "fail"
+
+
+def matched_random_positive():
+    payload = _payload()
+    rows = _first_seed_witness_rows(payload)
+
+    assert _witness_hit_counts(payload)["matched_random_positive"] == 0
+
+    rows["matched_random_structural_control"]["metrics"]["uer_reduction"] = rows["DGT_full"]["metrics"]["uer_reduction"]
+    sweep = dgt_l0_controls._negative_witness_sweep(
+        rows["DGT_full"],
+        rows["base_transformer_l0"],
+        rows["matched_random_structural_control"],
+    )
+    hits = {row["witness"]: row["hit_count"] for row in sweep["witness_rows"]}
+
+    assert hits["matched_random_positive"] == 1
+    assert sweep["critical_hit_count"] == 1
+    assert sweep["status"] == "fail"
+
+
+benefit_debt_tradeoff.__test__ = True
+single_threshold_escape.__test__ = True
+control_positive.__test__ = True
+matched_random_positive.__test__ = True
+
+
 def test_dgt_l0_controls_true_training_payload_is_ready():
     payload = _payload()
 
@@ -29,8 +126,39 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
     assert payload["compute_param_ledger"]["compute_units"] > 0
     assert payload["compute_param_ledger"]["parameter_count"] > 0
     assert payload["negative_witness_sweep"]["critical_hit_count"] == 0
+    assert payload["negative_witness_sweep"]["required_witnesses"] == list(dgt_l0_controls.REQUIRED_WITNESSES)
+    assert {row["witness"] for row in payload["negative_witness_sweep"]["boundary_ledger"]} == {
+        "score_margin_shortcut",
+        "scale_leakage",
+        "forbidden_inference_column",
+        "scope_expansion",
+        "stale_projection",
+    }
+    assert all(row["regression_test_pointer_resolves"] for row in payload["negative_witness_sweep"]["witness_rows"])
     assert payload["independent_replay"]["comparisons"]["dgt_quality_ci_low_gt_base"] is True
     assert payload["independent_replay"]["comparisons"]["dgt_uer_reduction_gt_matched_random"] is True
+
+
+@pytest.mark.parametrize("witness_test", [benefit_debt_tradeoff, single_threshold_escape, control_positive, matched_random_positive])
+def test_dgt_l0_controls_negative_witness_pointer_targets_are_assertive(witness_test):
+    witness_test()
+
+
+def test_dgt_l0_controls_negative_witness_pointer_resolution_fails_closed(monkeypatch):
+    payload = _payload()
+
+    monkeypatch.setattr(dgt_l0_controls, "_regression_test_pointer_resolves", lambda pointer: False)
+    payload["negative_witness_sweep"] = dgt_l0_controls._negative_witness_sweep(
+        _first_seed_witness_rows(payload)["DGT_full"],
+        _first_seed_witness_rows(payload)["base_transformer_l0"],
+        _first_seed_witness_rows(payload)["matched_random_structural_control"],
+    )
+    payload["l0_toy_projection"] = rebuild_l0_projection(payload)
+
+    assert payload["negative_witness_sweep"]["status"] == "fail"
+    assert payload["negative_witness_sweep"]["pass_cells"]["regression_test_pointers_resolve"] is False
+    assert payload["l0_toy_projection"]["hardgate_statuses"]["negative_witness"]["gates"]["NW-L0-HG5"]["status"] == "fail"
+    assert payload["l0_toy_projection"]["review_status"] == "blocked"
 
 
 @pytest.mark.parametrize("failure_mode", ["torch_unavailable", "training_failed"])
