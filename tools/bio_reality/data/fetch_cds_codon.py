@@ -141,6 +141,44 @@ TARGET_ORGANISMS = [
         "gtf_source_name": "Ensembl Drosophila_melanogaster BDGP6.54 release 115 GTF",
         "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
     },
+    {
+        "organism": "halobacterium_salinarum",
+        "organism_label": "Halobacterium salinarum NRC-1",
+        "ncbi_taxid": "64091",
+        "cds_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/006/805/GCA_000006805.1_ASM680v1/GCA_000006805.1_ASM680v1_cds_from_genomic.fna.gz",
+        "cds_source_name": "NCBI GenBank GCA_000006805.1 ASM680v1 cds_from_genomic",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to unique NCBI GenBank CDS header identifiers, primarily original VNG locus tags.",
+    },
+    {
+        "organism": "sulfolobus_solfataricus",
+        "organism_label": "Sulfolobus solfataricus P2",
+        "ncbi_taxid": "273057",
+        "cds_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/007/005/GCA_000007005.1_ASM700v1/GCA_000007005.1_ASM700v1_cds_from_genomic.fna.gz",
+        "cds_source_name": "NCBI GenBank GCA_000007005.1 ASM700v1 cds_from_genomic",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to unique NCBI GenBank CDS header identifiers, primarily original SSO locus tags.",
+    },
+    {
+        "organism": "dictyostelium_discoideum",
+        "organism_label": "Dictyostelium discoideum",
+        "ncbi_taxid": "44689",
+        "cds_url": "https://ftp.ensemblgenomes.ebi.ac.uk/pub/protists/current/fasta/dictyostelium_discoideum/cds/Dictyostelium_discoideum.dicty_2.7.cds.all.fa.gz",
+        "cds_source_name": "EnsemblProtists Dictyostelium_discoideum dicty_2.7 current cds.all",
+        "gtf_url": "https://ftp.ensemblgenomes.ebi.ac.uk/pub/protists/current/gtf/dictyostelium_discoideum/Dictyostelium_discoideum.dicty_2.7.63.gtf.gz",
+        "gtf_source_name": "EnsemblProtists Dictyostelium_discoideum dicty_2.7 release 63 GTF",
+        "uniprot_mapping_url": "https://rest.uniprot.org/uniprotkb/stream?query=organism_id%3A44689&format=tsv&fields=accession%2Cgene_primary%2Cxref_dictybase%2Cxref_refseq%2Cxref_embl",
+        "uniprot_mapping_source_name": "UniProtKB organism_id:44689 accession cross-references",
+        "join_method": "PAXdb external id after taxid prefix is mapped by HTTP-fetched UniProtKB accession cross-references to explicit dictyBase/RefSeq/EMBL identifiers present in EnsemblProtists CDS FASTA/GTF; accession mappings resolving to multiple distinct CDS records are discarded.",
+    },
+    {
+        "organism": "rattus_norvegicus",
+        "organism_label": "Rattus norvegicus",
+        "ncbi_taxid": "10116",
+        "cds_url": "https://ftp.ensembl.org/pub/release-115/fasta/rattus_norvegicus/cds/Rattus_norvegicus.GRCr8.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Rattus_norvegicus GRCr8 release 115 cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/release-115/gtf/rattus_norvegicus/Rattus_norvegicus.GRCr8.115.gtf.gz",
+        "gtf_source_name": "Ensembl Rattus_norvegicus GRCr8 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
 ]
 
 
@@ -210,6 +248,38 @@ def parse_gtf_transcript_to_identifiers(text: str) -> dict[str, set[str]]:
         for transcript_id in transcript_ids:
             for key in (transcript_id, strip_version(transcript_id)):
                 mapping.setdefault(key, set()).update(x for x in identifiers if x)
+    return mapping
+
+
+def parse_uniprot_identifier_mapping(text: str) -> dict[str, set[str]]:
+    mapping: dict[str, set[str]] = {}
+    lines = text.splitlines()
+    if not lines:
+        return mapping
+    headers = lines[0].split("\t")
+    try:
+        accession_index = headers.index("Entry")
+    except ValueError:
+        return mapping
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        parts = line.split("\t")
+        if accession_index >= len(parts):
+            continue
+        accession = parts[accession_index].strip()
+        if not accession:
+            continue
+        identifiers: set[str] = set()
+        for value in parts[1:]:
+            for item in re.split(r"[;\s]+", value):
+                item = item.strip()
+                if not item:
+                    continue
+                identifiers.add(item)
+                identifiers.add(strip_version(item))
+        if identifiers:
+            mapping.setdefault(accession, set()).update(identifiers)
     return mapping
 
 
@@ -377,19 +447,24 @@ def join_records(
     cds_unique: dict[str, dict[str, object]],
 ) -> tuple[list[dict[str, object]], dict[str, int]]:
     joined: list[dict[str, object]] = []
-    match_sources = {"ext_id": 0, "gene_name": 0}
+    match_sources = {"ext_id": 0, "gene_name": 0, "mapped_id": 0}
     for row in abundance_rows:
         candidates = [
             ("ext_id", str(row["ext_id"])),
             ("gene_name", str(row["gene_name"])),
         ]
+        for mapped_id in row.get("cds_candidate_ids", []):
+            candidates.append(("mapped_id", str(mapped_id)))
         match_kind = ""
+        match_id = ""
         cds_record: dict[str, object] | None = None
+        candidate_matches: dict[str, tuple[str, str, dict[str, object]]] = {}
         for candidate_kind, candidate_id in candidates:
             if candidate_id in cds_unique:
-                match_kind = candidate_kind
-                cds_record = cds_unique[candidate_id]
-                break
+                record = cds_unique[candidate_id]
+                candidate_matches[str(record["header"])] = (candidate_kind, candidate_id, record)
+        if len(candidate_matches) == 1:
+            match_kind, match_id, cds_record = next(iter(candidate_matches.values()))
         if cds_record is None:
             continue
         seq = str(cds_record["seq"])
@@ -400,7 +475,7 @@ def join_records(
                 "protein_id": row["protein_id"],
                 "paxdb_gene_name": row["gene_name"],
                 "abundance_ppm": row["abundance_ppm"],
-                "cds_match_id": str(row["ext_id"] if match_kind == "ext_id" else row["gene_name"]),
+                "cds_match_id": match_id,
                 "cds_match_kind": match_kind,
                 "cds_header": cds_record["header"],
                 "codon_counts": counts,
@@ -510,6 +585,9 @@ def build_target_organism(config: dict[str, str]) -> tuple[dict[str, object] | N
         gtf_mapping: dict[str, set[str]] | None = None
         gtf_raw_gz: bytes | None = None
         gtf_text = ""
+        uniprot_mapping: dict[str, set[str]] | None = None
+        uniprot_raw: bytes | None = None
+        uniprot_text = ""
         if config.get("gtf_url"):
             gtf_raw_gz = fetch_bytes(config["gtf_url"])
             gtf_text = gzip.decompress(gtf_raw_gz).decode("utf-8", "replace")
@@ -519,6 +597,14 @@ def build_target_organism(config: dict[str, str]) -> tuple[dict[str, object] | N
         else:
             cds_index, multiplicities = unique_identifier_index(cds_records)
             index_policy = "unique_identifier_only"
+        if config.get("uniprot_mapping_url"):
+            uniprot_raw = fetch_bytes(config["uniprot_mapping_url"])
+            uniprot_text = uniprot_raw.decode("utf-8", "replace")
+            uniprot_mapping = parse_uniprot_identifier_mapping(uniprot_text)
+            for row in abundance_rows:
+                candidates = sorted(uniprot_mapping.get(str(row["ext_id"]), set()))
+                if candidates:
+                    row["cds_candidate_ids"] = candidates
         joined, match_sources = join_records(abundance_rows, cds_index)
         n_abundance = len(abundance_rows)
         n_joined = len(joined)
@@ -579,6 +665,19 @@ def build_target_organism(config: dict[str, str]) -> tuple[dict[str, object] | N
                     "n_id_mapping_transcripts": len(gtf_mapping or {}),
                 }
             )
+        if uniprot_raw is not None:
+            output.update(
+                {
+                    "secondary_id_mapping_source_name": config["uniprot_mapping_source_name"],
+                    "secondary_id_mapping_source_url": config["uniprot_mapping_url"],
+                    "secondary_id_mapping_payload_sha256": sha256_hex(uniprot_raw),
+                    "secondary_id_mapping_payload_byte_size": len(uniprot_raw),
+                    "secondary_id_mapping_payload_raw_prefix_text": uniprot_text[:RAW_SLICE_BYTES],
+                    "secondary_id_mapping_payload_raw_prefix_byte_count": min(RAW_SLICE_BYTES, len(uniprot_raw)),
+                    "secondary_id_mapping_payload_note": "full raw TSV payload sha256 for UniProt accession cross-references used only to map PAXdb accessions to explicit CDS/GTF identifiers",
+                    "n_secondary_id_mapping_accessions": len(uniprot_mapping or {}),
+                }
+            )
         manifest_row = {
             "organism": config["organism"],
             "organism_label": config["organism_label"],
@@ -606,6 +705,14 @@ def build_target_organism(config: dict[str, str]) -> tuple[dict[str, object] | N
                     "id_mapping_source_url": config["gtf_url"],
                     "id_mapping_payload_sha256": sha256_hex(gtf_raw_gz),
                     "n_id_mapping_transcripts": len(gtf_mapping or {}),
+                }
+            )
+        if uniprot_raw is not None:
+            manifest_row.update(
+                {
+                    "secondary_id_mapping_source_url": config["uniprot_mapping_url"],
+                    "secondary_id_mapping_payload_sha256": sha256_hex(uniprot_raw),
+                    "n_secondary_id_mapping_accessions": len(uniprot_mapping or {}),
                 }
             )
         return output, manifest_row
