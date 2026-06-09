@@ -6,7 +6,7 @@
       "packet_id": "age-clock-shift.gse142439.horvath353",
       "claim_id": "cellstate.age-clock-shift.gse142439",
       "claimed_layer": "age_signature",
-      "export_status": "gate_passed",
+      "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
           "k-a.gse142439.horvath353"
@@ -33,7 +33,7 @@
       },
       "classifier_spec": {
         "gate_status": "gate_passed",
-        "review_decision": "needs_deepening",
+        "review_decision": "review_ready",
         "blocked_overclaim": false
       },
       "stability_spec": {
@@ -42,7 +42,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 5,
+        "finite_row_count": 6,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -53,6 +53,14 @@
           "status": "open",
           "severity": "missing_context",
           "evidence_pointer": "mismatch:age-clock-shift.identity-not-promoted.scope-review",
+          "owner": "tools.cellstate_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:identity-preserving-age-reset.same-scope-identity-contact.scope-review",
           "owner": "tools.cellstate_reality.quality_lab_export"
         }
       ],
@@ -75,7 +83,8 @@
           "age-clock-shift.identity-not-promoted"
         ],
         "mismatch_refs": [
-          "age-clock-shift.identity-not-promoted.scope-review"
+          "age-clock-shift.identity-not-promoted.scope-review",
+          "identity-preserving-age-reset.same-scope-identity-contact.scope-review"
         ],
         "gate_result_ref": "conjecture:age-clock-shift.gse142439.horvath353"
       }
@@ -86,9 +95,20 @@
       "claimed_layer": "cell_identity",
       "export_status": "gate_passed",
       "source_spec": {
-        "reality_contacts": [],
-        "can_test": [],
-        "cannot_test": []
+        "reality_contacts": [
+          "k-a.gse142439.horvath353"
+        ],
+        "can_test": [
+          "age_signature"
+        ],
+        "cannot_test": [
+          "cell_identity",
+          "function_realization",
+          "safety_boundary",
+          "renewable_maintenance",
+          "organismal_maintenance",
+          "cross_layer_relation"
+        ]
       },
       "pattern_spec": {
         "internal_surfaces": [
@@ -96,7 +116,9 @@
           "closure",
           "trigger"
         ],
-        "probe_refs": []
+        "probe_refs": [
+          "identity-preserving-age-reset.same-scope-identity-contact"
+        ]
       },
       "classifier_spec": {
         "gate_status": "gate_passed",
@@ -109,11 +131,28 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 2,
-        "has_reality_contact": false,
-        "has_probe_contact_mismatch_chain": false
+        "finite_row_count": 6,
+        "has_reality_contact": true,
+        "has_probe_contact_mismatch_chain": true
       },
-      "ledger_rows": [],
+      "ledger_rows": [
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:age-clock-shift.identity-not-promoted.scope-review",
+          "owner": "tools.cellstate_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:identity-preserving-age-reset.same-scope-identity-contact.scope-review",
+          "owner": "tools.cellstate_reality.quality_lab_export"
+        }
+      ],
       "not_claimed": [
         "Do not promote a DNAm age-clock decrease to identity-preserving age reset without an identity-retention contact on the same scoped carrier.",
         "Do not rephrase AgeClockShift↑ as rejuvenation, renewable maintenance, or immortality potential.",
@@ -124,9 +163,16 @@
         "bio_paper": "papers/cellstate_reality/parts/cellstate_context_refresh_boundary/horvath353_paired_age_clock_shift_in_gse142439.tex"
       },
       "fact_owner": {
-        "contact_refs": [],
-        "probe_refs": [],
-        "mismatch_refs": [],
+        "contact_refs": [
+          "k-a.gse142439.horvath353"
+        ],
+        "probe_refs": [
+          "identity-preserving-age-reset.same-scope-identity-contact"
+        ],
+        "mismatch_refs": [
+          "age-clock-shift.identity-not-promoted.scope-review",
+          "identity-preserving-age-reset.same-scope-identity-contact.scope-review"
+        ],
         "gate_result_ref": "conjecture:identity-preserving-age-reset.context-refresh-boundary"
       }
     },
@@ -170,7 +216,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 5,
+        "finite_row_count": 6,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -181,6 +227,14 @@
           "status": "open",
           "severity": "missing_context",
           "evidence_pointer": "mismatch:age-clock-shift.identity-not-promoted.scope-review",
+          "owner": "tools.cellstate_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:identity-preserving-age-reset.same-scope-identity-contact.scope-review",
           "owner": "tools.cellstate_reality.quality_lab_export"
         }
       ],
@@ -203,87 +257,10 @@
           "age-clock-shift.identity-not-promoted"
         ],
         "mismatch_refs": [
-          "age-clock-shift.identity-not-promoted.scope-review"
+          "age-clock-shift.identity-not-promoted.scope-review",
+          "identity-preserving-age-reset.same-scope-identity-contact.scope-review"
         ],
         "gate_result_ref": "probe:age-clock-shift.identity-not-promoted"
-      }
-    },
-    {
-      "packet_id": "k-a.gse142439.horvath353",
-      "claim_id": "cellstate.age-clock-shift.gse142439",
-      "claimed_layer": "age_signature",
-      "export_status": "gate_passed",
-      "source_spec": {
-        "reality_contacts": [
-          "k-a.gse142439.horvath353"
-        ],
-        "can_test": [
-          "age_signature"
-        ],
-        "cannot_test": [
-          "cell_identity",
-          "function_realization",
-          "safety_boundary",
-          "renewable_maintenance",
-          "organismal_maintenance",
-          "cross_layer_relation"
-        ]
-      },
-      "pattern_spec": {
-        "internal_surfaces": [
-          "coordinate"
-        ],
-        "probe_refs": [
-          "age-clock-shift.identity-not-promoted"
-        ]
-      },
-      "classifier_spec": {
-        "gate_status": "gate_passed",
-        "review_decision": "needs_deepening",
-        "blocked_overclaim": false
-      },
-      "stability_spec": {
-        "sample_scope": "finite_rows",
-        "population_claim": false,
-        "replication_status": "not_claimed"
-      },
-      "metrics": {
-        "finite_row_count": 5,
-        "has_reality_contact": true,
-        "has_probe_contact_mismatch_chain": true
-      },
-      "ledger_rows": [
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:age-clock-shift.identity-not-promoted.scope-review",
-          "owner": "tools.cellstate_reality.quality_lab_export"
-        }
-      ],
-      "not_claimed": [
-        "IdentityPreservingAgeReset↑",
-        "Rejuvenation↑",
-        "PartialReprogramming↑",
-        "RenewableMaintenance↑",
-        "ImmortalityPotential↑"
-      ],
-      "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/14104_bioreality_namecert_construction.tex",
-        "bio_paper": "papers/cellstate_reality/parts/cellstate_context_refresh_boundary/horvath353_paired_age_clock_shift_in_gse142439.tex"
-      },
-      "fact_owner": {
-        "contact_refs": [
-          "k-a.gse142439.horvath353"
-        ],
-        "probe_refs": [
-          "age-clock-shift.identity-not-promoted"
-        ],
-        "mismatch_refs": [
-          "age-clock-shift.identity-not-promoted.scope-review"
-        ],
-        "gate_result_ref": "reality_contact:k-a.gse142439.horvath353"
       }
     }
   ]
