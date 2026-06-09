@@ -2,7 +2,7 @@ from scripts.build_bedc_jepa_artifact_manifest import build_manifest
 from scripts.run_bedc_jepa_experiment import run_experiment
 
 
-def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
+def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     manifest = build_manifest(run_experiment())
 
     assert manifest["schema_id"] == "bedc-jepa-artifact-manifest"
@@ -168,7 +168,8 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "reports/bedc_jepa_public_minigrid_transition_packet.json"
     )
 
-    claims = manifest["contact_ready_claims"]
+    assert "contact_ready_claims" not in manifest
+    claims = manifest["evidence_ready_claims"]
     assert claims["four_system_ablation"] == ["S0", "S1", "S2", "S3"]
     assert claims["grid_transition_one_step_r2"] > 0.90
     assert claims["minigrid_transition_one_step_accuracy"] > 0.94

@@ -58,7 +58,7 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["source/gap-ledger-label-grounding"]["status"] == "closed"
     assert rows["classifier/distinction-head-certificate"]["status"] == "closed"
     assert rows["classifier/gap-head-certificate"]["status"] == "closed"
-    assert rows["stability/public-benchmark-contact-readiness"]["status"] == "closed"
+    assert rows["stability/public-benchmark-evidence-readiness"]["status"] == "closed"
     assert rows["generalization/global-claim-boundary"]["status"] == "closed"
     assert rows["mechanism/mechanism-closure-debt"]["status"] == "open"
     assert rows["mechanism/mechanism-closure-debt"]["severity"] == "boundary"

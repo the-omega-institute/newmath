@@ -94,7 +94,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         },
-        "contact_ready_claims": {
+        "evidence_ready_claims": {
             "four_system_ablation": sorted(summary["systems"].keys()),
             "grid_transition_one_step_r2": grid["transition"]["one_step_r2"],
             "minigrid_transition_one_step_accuracy": minigrid["transition"]["one_step_accuracy"],

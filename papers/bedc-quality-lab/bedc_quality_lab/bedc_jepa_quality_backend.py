@@ -38,7 +38,7 @@ LEDGER_ROWS = (
     {"kind": "source", "residue": "gap-ledger-label-grounding"},
     {"kind": "classifier", "residue": "distinction-head-certificate"},
     {"kind": "classifier", "residue": "gap-head-certificate"},
-    {"kind": "stability", "residue": "public-benchmark-contact-readiness"},
+    {"kind": "stability", "residue": "public-benchmark-evidence-readiness"},
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
@@ -76,7 +76,7 @@ def _metric_payload(
     readiness: Mapping[str, Any],
     review_bundle: Mapping[str, Any],
 ) -> dict[str, float]:
-    claims = manifest.get("contact_ready_claims", {})
+    claims = manifest.get("evidence_ready_claims", {})
     checks = review_bundle.get("checks", {})
     boundary = readiness.get("evidence_boundary", {})
     if not isinstance(claims, Mapping) or not isinstance(checks, Mapping) or not isinstance(boundary, Mapping):
@@ -113,7 +113,7 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
     rows: list[dict[str, str]] = []
     for row in LEDGER_ROWS:
         key = f"{row['kind']}/{row['residue']}"
-        if row["residue"] == "public-benchmark-contact-readiness":
+        if row["residue"] == "public-benchmark-evidence-readiness":
             status = "closed" if boundary.get("native_public_benchmark") == "closed" else "open"
             evidence = "reports/bedc_jepa_readiness.json:$.evidence_boundary.native_public_benchmark"
         elif row["residue"] == "global-claim-boundary":
@@ -148,7 +148,7 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
         else:
             status = "closed" if readiness_decision == "external_bundle_ready" else "partial"
-            evidence = "reports/bedc_jepa_artifact_manifest.json:$.contact_ready_claims"
+            evidence = "reports/bedc_jepa_artifact_manifest.json:$.evidence_ready_claims"
         rows.append(
             {
                 "kind": str(row["kind"]),
