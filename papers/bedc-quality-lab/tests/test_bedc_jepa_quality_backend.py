@@ -43,6 +43,7 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["checkpoint_evaluation_closed"] == 1.0
     assert metrics["native_public_benchmark_closed"] == 1.0
     assert metrics["public_minigrid_calibration_pareto_closed"] == 1.0
+    assert metrics["public_minigrid_calibration_extension_closed"] == 1.0
     assert metrics["artifact_review_bundle_closed"] == 1.0
     assert metrics["retraining_ablation_recorded"] in {0.0, 1.0}
     assert metrics["retraining_ablation_recorded"] == 1.0
@@ -65,6 +66,7 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["classifier/gap-head-certificate"]["status"] == "closed"
     assert rows["stability/public-benchmark-evidence-readiness"]["status"] == "closed"
     assert rows["calibration/public-minigrid-calibration-pareto"]["status"] == "closed"
+    assert rows["calibration/public-minigrid-calibration-extension"]["status"] == "closed"
     assert rows["generalization/global-claim-boundary"]["status"] == "closed"
     assert rows["mechanism/mechanism-closure-debt"]["status"] == "open"
     assert rows["mechanism/mechanism-closure-debt"]["severity"] == "boundary"
@@ -106,6 +108,10 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
     assert packet["artifacts"]["latent_claim_certificates"] == "reports/bedc_latent_claim_certificates.json"
     assert packet["artifacts"]["conformal_gap_sweep"] == "reports/bedc_conformal_gap_sweep.json"
     assert packet["artifacts"]["claim_boundary_audit"] == "reports/bedc_claim_boundary_audit.json"
+    assert (
+        packet["artifacts"]["public_minigrid_calibration_extension"]
+        == "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+    )
     assert packet["artifacts"]["retraining_loss_ablation"] == "reports/bedc_jepa_retraining_loss_ablation.json"
     assert (
         packet["artifacts"]["vjepa2_ac_minigrid_claim_certificate"]

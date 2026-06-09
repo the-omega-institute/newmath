@@ -15,6 +15,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     assert readiness["evidence_boundary"]["vjepa2_ac_near_native_reproduction"] in {"closed", "open"}
     assert readiness["evidence_boundary"]["native_public_benchmark"] in {"closed", "open"}
     assert readiness["evidence_boundary"]["public_minigrid_calibration_pareto"] in {"closed", "open"}
+    assert readiness["evidence_boundary"]["public_minigrid_calibration_extension"] in {"closed", "open"}
     assert readiness["evidence_boundary"]["artifact_review_bundle"] in {"closed", "open"}
     assert readiness["gates"]["torch_objective_seed_sweep"]["status"] == "pass"
     assert readiness["gates"]["local_visual_planning"]["status"] == "pass"
@@ -24,6 +25,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     assert readiness["gates"]["vjepa2_ac_minigrid_latent_prediction"]["status"] == "pass"
     assert readiness["gates"]["vjepa2_ac_near_native_reproduction"]["status"] == "pass"
     assert readiness["gates"]["public_minigrid_calibration_pareto"]["status"] == "pass"
+    assert readiness["gates"]["public_minigrid_calibration_extension"]["status"] == "pass"
     assert readiness["gates"]["native_public_jepa_benchmark"]["status"] == "pass"
     assert readiness["gates"]["artifact_review_bundle"]["status"] == "pass"
     if readiness["gates"]["public_minigrid_execution"]["status"] == "pass":
@@ -34,6 +36,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     assert "vjepa2_ac_minigrid_latent_prediction" not in readiness["blocking_gates"]
     assert "vjepa2_ac_near_native_reproduction" not in readiness["blocking_gates"]
     assert "public_minigrid_calibration_pareto" not in readiness["blocking_gates"]
+    assert "public_minigrid_calibration_extension" not in readiness["blocking_gates"]
     assert "native_public_jepa_benchmark" not in readiness["blocking_gates"]
     assert "artifact_review_bundle" not in readiness["blocking_gates"]
     assert readiness["blocking_gates"] == []
@@ -43,6 +46,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
         "vjepa2_ac_near_native_reproduction": "closed",
         "native_public_benchmark": "closed",
         "public_minigrid_calibration_pareto": "closed",
+        "public_minigrid_calibration_extension": "closed",
         "artifact_review_bundle": "closed",
     }
     remaining = readiness["remaining_evidence_contracts"]
@@ -65,7 +69,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     assert "native_acceptance_contract" in native
     assert "required_native_evidence" in native["native_acceptance_contract"]
     assert (
-        "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies"
+        "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets"
         in readiness["next_actions"]
     )
 

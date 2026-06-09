@@ -48,6 +48,7 @@ def build_review_bundle() -> dict[str, Any]:
     native = _load_json("bedc_jepa_public_native_minigrid_benchmark.json")
     sweep = _load_json("bedc_jepa_public_native_minigrid_seed_sweep.json")
     public_debt = _load_json("bedc_jepa_public_debt_decomposition.json")
+    public_calibration_extension = _load_optional_json("bedc_jepa_public_minigrid_calibration_extension.json")
     conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
     ablation = _load_json("bedc_jepa_loss_ablation.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
@@ -75,6 +76,23 @@ def build_review_bundle() -> dict[str, Any]:
         failures,
     )
     _check(conformal.get("status") == "executed", "public MiniGrid conformal certified coverage executed", failures)
+    if public_calibration_extension is not None:
+        _check(
+            public_calibration_extension.get("schema_id")
+            == "bedc-jepa-public-minigrid-calibration-extension",
+            "public MiniGrid calibration extension schema",
+            failures,
+        )
+        _check(
+            public_calibration_extension.get("status") == "executed",
+            "public MiniGrid calibration extension executed",
+            failures,
+        )
+        _check(
+            float(public_calibration_extension.get("summary", {}).get("executed_row_count", 0.0)) >= 1.0,
+            "public MiniGrid calibration extension executed rows",
+            failures,
+        )
     _check(ablation.get("status") == "executed", "public MiniGrid local ablation executed", failures)
     retraining_executed = retraining_ablation is not None and retraining_ablation.get("status") == "executed"
     if retraining_executed:
@@ -177,6 +195,9 @@ def build_review_bundle() -> dict[str, Any]:
             "public_debt_closure_report": "reports/bedc_jepa_public_debt_closure_report.md",
             "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
             "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
+            "public_minigrid_calibration_extension": (
+                "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+            ),
             "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
@@ -194,6 +215,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/run_public_minigrid_native_benchmark.py",
             "python scripts/run_public_minigrid_native_seed_sweep.py",
             "python scripts/build_public_minigrid_debt_closure.py",
+            "python scripts/build_public_minigrid_calibration_extension.py",
             "python scripts/run_torch_retraining_loss_ablation.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
@@ -221,6 +243,26 @@ def build_review_bundle() -> dict[str, Any]:
             ],
             "public_conformal_predicate_count": float(
                 len(conformal["conformal_certified_coverage"]["predicates"])
+            ),
+            "public_minigrid_calibration_extension_status": (
+                public_calibration_extension.get("status")
+                if public_calibration_extension is not None
+                else "not recorded"
+            ),
+            "public_minigrid_calibration_extension_executed_rows": (
+                float(public_calibration_extension.get("summary", {}).get("executed_row_count", 0.0))
+                if public_calibration_extension is not None
+                else 0.0
+            ),
+            "public_minigrid_calibration_extension_silent_win_rate": (
+                float(public_calibration_extension.get("summary", {}).get("silent_debt_direction_win_rate", 0.0))
+                if public_calibration_extension is not None
+                else 0.0
+            ),
+            "public_minigrid_calibration_extension_risk_win_rate": (
+                float(public_calibration_extension.get("summary", {}).get("risk_reduction_win_rate", 0.0))
+                if public_calibration_extension is not None
+                else 0.0
             ),
             "public_ablation_unlogged_penalty_effect": ablation["loss_ablation"]["mechanism_readout"][
                 "unlogged_penalty_effect"

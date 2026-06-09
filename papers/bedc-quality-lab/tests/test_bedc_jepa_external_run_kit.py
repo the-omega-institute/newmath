@@ -10,6 +10,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_jepa_checkpoint_evaluation",
         "public_minigrid_execution",
         "public_jepa_baseline",
+        "public_minigrid_calibration_extension",
         "torch_retraining_loss_ablation",
         "vjepa2_ac_native_reproduction",
         "vjepa2_ac_minigrid_claim_certificate",
@@ -18,6 +19,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     checkpoint = kit["required_external_results"]["public_jepa_checkpoint_evaluation"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
     baseline = kit["required_external_results"]["public_jepa_baseline"]
+    extension = kit["required_external_results"]["public_minigrid_calibration_extension"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
     native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
@@ -36,6 +38,9 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert "jepa_family_baseline_boundary" in baseline["required_fields"]
     assert minigrid["readiness_gate"] == "public_minigrid_execution"
     assert baseline["readiness_gate"] == "native_public_jepa_benchmark"
+    assert extension["readiness_gate"] == "public_minigrid_calibration_extension"
+    assert extension["target_artifact"] == "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+    assert extension["run_command"] == "python scripts/build_public_minigrid_calibration_extension.py"
     assert retraining["readiness_gate"] == "full_retraining_loss_ablation"
     assert retraining["target_artifact"] == "reports/bedc_jepa_retraining_loss_ablation.json"
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
@@ -86,6 +91,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["torch_retraining_loss_ablation_command"]
         == "python scripts/run_torch_retraining_loss_ablation.py"
+    )
+    assert (
+        kit["public_minigrid_calibration_extension_command"]
+        == "python scripts/build_public_minigrid_calibration_extension.py"
     )
     assert (
         kit["vjepa2_ac_minigrid_claim_certificate_command"]

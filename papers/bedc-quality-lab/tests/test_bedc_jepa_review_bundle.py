@@ -19,6 +19,9 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "reports/bedc_jepa_conformal_certified_coverage.json"
     )
     assert bundle["required_artifacts"]["risk_success_pareto"] == "reports/bedc_jepa_risk_success_pareto.json"
+    assert bundle["required_artifacts"]["public_minigrid_calibration_extension"] == (
+        "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+    )
     assert bundle["required_artifacts"]["loss_ablation"] == "reports/bedc_jepa_loss_ablation.json"
     assert bundle["required_artifacts"]["retraining_loss_ablation"] == (
         "reports/bedc_jepa_retraining_loss_ablation.json"
@@ -49,6 +52,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     )
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_minigrid_debt_closure.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_public_minigrid_calibration_extension.py" in bundle["reproduction_commands"]
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
@@ -62,6 +66,10 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["checks"]["native_planning_high_gap_reduction"] > 0.05
     assert bundle["checks"]["public_debt_diagnosis"] == "silent debt falls while coverage debt rises"
     assert bundle["checks"]["public_conformal_predicate_count"] >= 5.0
+    assert bundle["checks"]["public_minigrid_calibration_extension_status"] in {"executed", "not recorded"}
+    assert bundle["checks"]["public_minigrid_calibration_extension_executed_rows"] >= 0.0
+    assert 0.0 <= bundle["checks"]["public_minigrid_calibration_extension_silent_win_rate"] <= 1.0
+    assert 0.0 <= bundle["checks"]["public_minigrid_calibration_extension_risk_win_rate"] <= 1.0
     assert bundle["checks"]["public_ablation_unlogged_penalty_effect"] >= 0.0
     assert bundle["checks"]["retraining_ablation_system_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_lccp_claim_count"] >= 0.0

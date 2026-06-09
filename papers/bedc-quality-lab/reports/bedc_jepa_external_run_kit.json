@@ -4,6 +4,7 @@
     "native V-JEPA2-AC checkpoint reproduction"
   ],
   "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
+  "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
   "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
@@ -30,6 +31,20 @@
       "readiness_gate": "public_jepa_checkpoint_evaluation",
       "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
       "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    },
+    "public_minigrid_calibration_extension": {
+      "pass_condition": "target record executes at least one public MiniGrid calibration row and records seed, task, and planning-budget coverage",
+      "readiness_gate": "public_minigrid_calibration_extension",
+      "required_fields": [
+        "task_variants",
+        "seeds",
+        "planning_state_counts",
+        "summary",
+        "rows",
+        "cannot_claim"
+      ],
+      "run_command": "python scripts/build_public_minigrid_calibration_extension.py",
+      "target_artifact": "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     },
     "public_minigrid_execution": {
       "export_command": "python scripts/export_public_minigrid_benchmark_result.py",

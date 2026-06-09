@@ -234,6 +234,27 @@ def _public_minigrid_calibration_pareto_gate(
     )
 
 
+def _public_minigrid_calibration_extension_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+    if packet is None:
+        return _gate("missing", evidence, "public MiniGrid seed, planning-budget, and task-variant calibration extension")
+    summary = packet.get("summary", {})
+    passes = (
+        packet.get("schema_id") == "bedc-jepa-public-minigrid-calibration-extension"
+        and packet.get("status") == "executed"
+        and float(summary.get("executed_row_count", 0.0)) >= 1.0
+        and len(packet.get("seeds", [])) >= 1
+        and len(packet.get("planning_state_counts", [])) >= 1
+        and len(packet.get("task_variants", [])) >= 1
+        and "public benchmark superiority" in packet.get("cannot_claim", [])
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "public MiniGrid seed, planning-budget, and task-variant calibration extension",
+    )
+
+
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
@@ -321,6 +342,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_debt = _load_optional_json("bedc_jepa_public_debt_decomposition.json")
     public_conformal = _load_optional_json("bedc_jepa_conformal_certified_coverage.json")
     public_pareto = _load_optional_json("bedc_jepa_risk_success_pareto.json")
+    public_calibration_extension = _load_optional_json("bedc_jepa_public_minigrid_calibration_extension.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
     vjepa2_native_boundary = _load_optional_json("bedc_jepa_vjepa2_ac_native_boundary.json")
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
@@ -336,6 +358,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             public_debt,
             public_conformal,
             public_pareto,
+        ),
+        "public_minigrid_calibration_extension": _public_minigrid_calibration_extension_gate(
+            public_calibration_extension,
         ),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
@@ -358,6 +383,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             "public_minigrid_calibration_pareto": "closed"
             if gates["public_minigrid_calibration_pareto"]["status"] == "pass"
             else "open",
+            "public_minigrid_calibration_extension": "closed"
+            if gates["public_minigrid_calibration_extension"]["status"] == "pass"
+            else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
         "remaining_evidence_contracts": _remaining_evidence_contracts(
@@ -370,7 +398,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "next_actions": [
             "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-            "extend public MiniGrid calibration and risk-success Pareto summaries to larger seeds, horizons, and task variants",
+            "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets",
             "run a public object-interaction benchmark with natural clutter or control",
         ],
     }

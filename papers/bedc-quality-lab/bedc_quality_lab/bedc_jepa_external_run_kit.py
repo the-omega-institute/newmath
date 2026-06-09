@@ -54,6 +54,20 @@ def build_external_run_kit() -> dict[str, Any]:
                 ],
                 "pass_condition": "target record status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
             },
+            "public_minigrid_calibration_extension": {
+                "readiness_gate": "public_minigrid_calibration_extension",
+                "target_artifact": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
+                "run_command": "python scripts/build_public_minigrid_calibration_extension.py",
+                "required_fields": [
+                    "task_variants",
+                    "seeds",
+                    "planning_state_counts",
+                    "summary",
+                    "rows",
+                    "cannot_claim",
+                ],
+                "pass_condition": "target record executes at least one public MiniGrid calibration row and records seed, task, and planning-budget coverage",
+            },
             "torch_retraining_loss_ablation": {
                 "readiness_gate": "full_retraining_loss_ablation",
                 "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json",
@@ -153,6 +167,7 @@ def build_external_run_kit() -> dict[str, Any]:
         "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
         "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
+        "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
         "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
         "vjepa2_ac_near_native_reproduction_command": "python scripts/build_vjepa2_ac_near_native_reproduction.py",

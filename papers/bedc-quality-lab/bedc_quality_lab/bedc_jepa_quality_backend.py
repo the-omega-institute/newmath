@@ -28,6 +28,7 @@ METRICS = (
     "checkpoint_evaluation_closed",
     "native_public_benchmark_closed",
     "public_minigrid_calibration_pareto_closed",
+    "public_minigrid_calibration_extension_closed",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
     "full_retraining_loss_ablation_closed",
@@ -44,6 +45,7 @@ LEDGER_ROWS = (
     {"kind": "classifier", "residue": "gap-head-certificate"},
     {"kind": "stability", "residue": "public-benchmark-evidence-readiness"},
     {"kind": "calibration", "residue": "public-minigrid-calibration-pareto"},
+    {"kind": "calibration", "residue": "public-minigrid-calibration-extension"},
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
@@ -107,6 +109,9 @@ def _metric_payload(
         "public_minigrid_calibration_pareto_closed": _closed(
             str(boundary.get("public_minigrid_calibration_pareto") or "")
         ),
+        "public_minigrid_calibration_extension_closed": _closed(
+            str(boundary.get("public_minigrid_calibration_extension") or "")
+        ),
         "artifact_review_bundle_closed": _closed(str(boundary.get("artifact_review_bundle") or "")),
         "retraining_ablation_recorded": 1.0
         if float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
@@ -147,6 +152,9 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
         elif row["residue"] == "public-minigrid-calibration-pareto":
             status = "closed" if boundary.get("public_minigrid_calibration_pareto") == "closed" else "open"
             evidence = "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_pareto"
+        elif row["residue"] == "public-minigrid-calibration-extension":
+            status = "closed" if boundary.get("public_minigrid_calibration_extension") == "closed" else "open"
+            evidence = "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_extension"
         elif row["residue"] == "global-claim-boundary":
             status = "closed"
             evidence = "reports/bedc_jepa_review_bundle.json:$.cannot_claim"
@@ -249,6 +257,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "public_minigrid_calibration_pareto": readiness.get("evidence_boundary", {}).get(
                 "public_minigrid_calibration_pareto"
             ),
+            "public_minigrid_calibration_extension": readiness.get("evidence_boundary", {}).get(
+                "public_minigrid_calibration_extension"
+            ),
             "artifact_review_bundle": readiness.get("evidence_boundary", {}).get("artifact_review_bundle"),
             "seed_sweep_count": review_bundle.get("checks", {}).get("seed_sweep_count"),
         },
@@ -266,6 +277,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+            "public_minigrid_calibration_extension": (
+                "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+            ),
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
             "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",

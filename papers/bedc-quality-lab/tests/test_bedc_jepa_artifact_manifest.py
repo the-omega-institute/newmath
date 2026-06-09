@@ -27,6 +27,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/build_public_minigrid_debt_closure.py"
     )
     assert (
+        manifest["commands"]["public_minigrid_calibration_extension"]
+        == "python scripts/build_public_minigrid_calibration_extension.py"
+    )
+    assert (
         manifest["commands"]["vjepa2_ac_native_boundary"]
         == "python scripts/build_vjepa2_ac_native_boundary.py"
     )
@@ -169,6 +173,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     assert (
         manifest["public_adapters"]["minigrid_risk_success_pareto"]
         == "reports/bedc_jepa_risk_success_pareto.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_calibration_extension"]
+        == "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     )
     assert manifest["public_adapters"]["minigrid_loss_ablation"] == "reports/bedc_jepa_loss_ablation.json"
     assert (
