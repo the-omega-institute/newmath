@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/cellstate-reality/reality-contact.schema.json",
+  "title": "CellStateReality contact packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contact_id",
+    "source_kind",
+    "source_ref",
+    "source_snapshot",
+    "observed_fact",
+    "resolution",
+    "known_noise_or_bias",
+    "can_test",
+    "cannot_test",
+    "null_reason"
+  ],
+  "properties": {
+    "contact_id": {
+      "type": "string",
+      "description": "Lowercase CellStateReality contact id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "paired-methylation-clock-control",
+        "identity-marker-panel-control"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "source_kind": {
+      "type": "string",
+      "enum": [
+        "methylation_array",
+        "clock_coefficient_table",
+        "rnaseq_expression",
+        "identity_marker_panel",
+        "pluripotency_marker_panel",
+        "functional_assay",
+        "safety_assay",
+        "perturbation_data",
+        "longitudinal_cycle_data",
+        "organismal_phenotype",
+        "curated_annotation",
+        "manual_observation"
+      ]
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_fact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolution": {
+      "type": "string",
+      "minLength": 1
+    },
+    "known_noise_or_bias": {
+      "type": "string"
+    },
+    "can_test": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "cannot_test": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  }
+}
