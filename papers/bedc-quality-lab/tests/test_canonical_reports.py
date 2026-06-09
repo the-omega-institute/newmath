@@ -171,6 +171,15 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "dgt-l0-controls":
+        from bedc_quality_lab import dgt_l0_controls
+
+        payload = dgt_l0_controls.build_payload(generated_at="fixture", requested_device="cpu")
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-neural-ablation":
+        from bedc_quality_lab import dgt_neural_ablation
+
+        return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -231,43 +240,6 @@ def _payload_for_spec(spec):
                 "No universal training recipe is claimed.",
                 "No full BEDC closure is claimed.",
             ],
-        }
-    if spec.name == "dgt-neural-ablation":
-        return {
-            "schema_id": canonical.DGT_NEURAL_ABLATION_SCHEMA_ID,
-            "artifact_id": canonical.DGT_NEURAL_ABLATION_ARTIFACT_ID,
-            "generated_at": "fixture-generated-at",
-            "producer": "scripts/run_dgt_neural_ablation.py",
-            "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py"},
-            "run_artifacts": {"claim_capsule": "reports/runs/dgt-neural-ablation/claim_capsule.json"},
-            "module_registry": {"full_DGT": {"arm_id": "full_DGT"}},
-            "training_protocol": {"status": "available"},
-            "metric_protocol": {"inputs": ["fixture"], "formulas": {}, "global_weights": {}, "purity_audit": {"status": "pass"}},
-            "scope_pressure_protocol": {"task_registry": {"scope_boundary_pressure": "same train/eval loop"}},
-            "scope_seal_mechanism": {"non_redundancy_evidence": {"status": "pass"}},
-            "records": [],
-            "arm_summaries": {},
-            "metric_delta_matrix": {},
-            "pure_hardgates": {"status": "pass"},
-            "nabl_hardgates": {"status": "pass", "failed_gate": None},
-            "component_causal_claims": [
-                {
-                    "component": "scope_seal",
-                    "claim_status": "allowed",
-                    "claim_scope": "bounded toy training",
-                    "evidence_scope": ["small-real-training"],
-                    "claim_text": "fixture measured degradation",
-                }
-            ],
-            "boundary_ledger": [],
-            "evidence_scope": ["small-real-training"],
-            "claim_capsule_ref": {
-                "artifact": "reports/runs/dgt-neural-ablation/claim_capsule.json",
-                "pointer": "$",
-                "status": "available",
-            },
-            "not_claimed": ["fixture boundary"],
-            "forbidden_claim_term_audit": {"status": "pass", "hits": [], "forbidden_terms": []},
         }
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -1380,6 +1352,24 @@ def _index_row_for_spec(spec):
     }
 
 
+def _patch_dgt_owner_fixture(monkeypatch, calls):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-gated-transformer"])
+
+    def fake_build_dgt(*, generated_at=None):
+        calls.append(("build-dgt", "discovery-gated-transformer"))
+        return dict(payload, generated_at=generated_at)
+
+    def fake_write_dgt_artifacts(payload, *, root):
+        calls.append(("write-dgt-artifacts", payload["model_id"]))
+
+    monkeypatch.setattr(canonical, "_build_discovery_gated_transformer_payload", fake_build_dgt)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_discovery_gated_transformer",
+        types.SimpleNamespace(write_artifacts=fake_write_dgt_artifacts),
+    )
+
+
 def _write_observed_debt_projection_fixtures(root):
     fixtures = {
         "reports/canonical/nongaussian-distribution-sweep.json": {
@@ -1484,6 +1474,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-regularized-training",
             "mechanism-seeking-network",
             "mechanism-dna",
+            "dgt-l0-controls",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "order-k-benchmark",
@@ -1500,6 +1491,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-training" in names
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
+    assert "dgt-l0-controls" in names
     assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
@@ -1546,6 +1538,32 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.control_pointer == "$.d4_projection.matched_control"
     assert "discovery_gated_transformer" not in names
     assert "dgt-scaling-ladder" not in names
+
+
+def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-l0-controls"]
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+
+    assert len(specs) == 1
+    spec = specs[0]
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_l0_controls.py")
+    assert spec.json_artifact == "reports/canonical/dgt-l0-controls.json"
+    assert spec.markdown_artifact == "reports/canonical/dgt-l0-controls.md"
+    assert spec.control_pointer == "$.l0_toy_projection"
+    assert spec.cost_pointer == "$.compute_param_ledger"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
+    assert names.isdisjoint(
+        {
+            "base-transformer-l0",
+            "matched-random-structural-control",
+            "l0-compute-param-ledger",
+            "l0-negative-witness-sweep",
+            "l0-independent-replay",
+            "l0-pass-decision",
+        }
+    )
 
 
 def test_no_standalone_dgt_component_ablation_registered():
@@ -3309,6 +3327,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "scaling_ladder_status_pointer",
         "scaling_ladder_hardgate_pointer",
         "scaling_ladder_source_projection_pointer",
+        "l0_control_projection_pointer",
+        "l0_control_ledger_pointer",
+        "l0_control_negative_witness_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
@@ -4187,6 +4208,61 @@ def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):
 
     assert calls == ["mixing-family-sweep"]
     assert payload["reports"][0]["producer_status"] == "completed"
+
+
+def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = canonical._specs_by_name()
+    l0_spec = reports["dgt-l0-controls"]
+    dgt_spec = reports["discovery-gated-transformer"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (l0_spec, dgt_spec))
+    _patch_dgt_owner_fixture(monkeypatch, calls)
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name))
+        return _index_row_for_spec(spec)
+
+    def fake_write_fingerprint(spec, *, generated_at=None):
+        calls.append(("fingerprint", spec.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    canonical.run_reports(only="discovery-gated-transformer", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls.index(("run-spec", "discovery-gated-transformer")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+    assert calls.index(("run-spec", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+    assert calls.index(("fingerprint", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+
+
+def test_run_reports_does_not_run_dgt_l0_controls_twice_when_selected(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = canonical._specs_by_name()
+    l0_spec = reports["dgt-l0-controls"]
+    dgt_spec = reports["discovery-gated-transformer"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (l0_spec, dgt_spec))
+    _patch_dgt_owner_fixture(monkeypatch, calls)
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name))
+        return _index_row_for_spec(spec)
+
+    def fake_write_fingerprint(spec, *, generated_at=None):
+        calls.append(("fingerprint", spec.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    canonical.run_reports(only="dgt-l0-controls", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls.count(("run-spec", "dgt-l0-controls")) == 1
+    assert ("fingerprint", "dgt-l0-controls") not in calls
 
 
 def test_run_reports_cold_only_matches_normalized_committed_artifact(tmp_path, monkeypatch):

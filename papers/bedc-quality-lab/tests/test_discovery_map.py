@@ -16,7 +16,9 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab import dgt_l0_controls as dgt_l0_controls_owner
 from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
+from bedc_quality_lab.discovery_gated_transformer import DGT_L0_CONTROLS_ARTIFACT, L0_CONTROL_POINTER_CONTRACT
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_certificate_gated_attention as cga_runner
@@ -213,6 +215,27 @@ def _write_dgt_accepted_high_impact_review(root: Path):
 
 
 def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
+    if level_id == "L0_toy":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "raw_claim_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+            "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
+            "review_status": "review-line-ready",
+            **{key: dict(value) for key, value in L0_CONTROL_POINTER_CONTRACT.items()},
+            "hardgates": {"SCALE-HG2": "pass", "SCALE-HG3": "pass", "SCALE-HG4": "pass"},
+            "boundary_ledger": [],
+            "not_claimed": [
+                "Bounded L0 toy training controls only.",
+                "No production scale claim.",
+                "No GPT or Llama claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No universal recipe claim.",
+                "No unbounded scaling law claim.",
+                "No verdict inheritance to L1 or higher scaling levels.",
+            ],
+        }
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -244,6 +267,11 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
 
 def _minimal_payload(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
+    if spec.name == "dgt-l0-controls":
+        payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-neural-ablation":
+        return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
         payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
     if spec.name == "gap-head-on-h":
@@ -558,6 +586,8 @@ def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         if spec.name == "dgt-neural-ablation":
             _write_dgt_neural_ablation_payload(root)
+        elif spec.name == "dgt-l0-controls":
+            _write_dgt_l0_controls_payload(root)
         else:
             _write_payload(root, spec, _minimal_payload(spec))
     _write_dimension_mismatch_gap_witness_fixture(root)
@@ -614,6 +644,11 @@ def _write_json_artifact(root: Path, artifact: str, payload):
 def _write_dgt_neural_ablation_payload(root: Path):
     spec = canonical._specs_by_name()["dgt-neural-ablation"]
     _write_payload(root, spec, _dgt_neural_ablation_payload())
+
+
+def _write_dgt_l0_controls_payload(root: Path):
+    payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+    dgt_l0_controls_owner.write_artifacts(payload, root=root, generated_at="fixture-time")
 
 
 def _write_dimension_mismatch_gap_witness_fixture(root: Path):

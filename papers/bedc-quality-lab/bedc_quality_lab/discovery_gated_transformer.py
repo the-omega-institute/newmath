@@ -22,6 +22,7 @@ CANONICAL_JSON_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 RUN_ROOT = "reports/runs/discovery-gated-transformer"
 DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
+DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
 EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
 MECHANISM_NAMECERT_ARTIFACT = f"{RUN_ROOT}/mechanism_namecert.json"
@@ -264,6 +265,17 @@ SCALING_LADDER_REQUIRED_KEYS = (
     "anti_triviality_failed_gate",
     "anti_triviality_gate_evidence",
 )
+L0_CONTROL_POINTER_CONTRACT = {
+    "base_transformer_control": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
+    "matched_random_structural_control": {
+        "artifact": DGT_L0_CONTROLS_ARTIFACT,
+        "pointer": "$.controls.matched_random_structural_control",
+    },
+    "compute_param_ledger": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.compute_param_ledger"},
+    "negative_witness_sweep": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.negative_witness_sweep"},
+    "independent_replay": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.independent_replay"},
+    "l0_control_projection": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection"},
+}
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -2672,8 +2684,82 @@ def _scaling_level_input_by_id(owner_payload: Mapping[str, Any]) -> dict[str, Ma
     return by_id
 
 
+def _read_l0_control_projection(root: Path) -> Mapping[str, Any] | None:
+    path = root / DGT_L0_CONTROLS_ARTIFACT
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    projection = payload.get("l0_toy_projection") if isinstance(payload, Mapping) else None
+    return projection if isinstance(projection, Mapping) else None
+
+
+def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
+    capsule = _scaling_default_capsule("L0_toy")
+    if not isinstance(projection, Mapping):
+        return capsule
+    refs = projection.get("ref_pointers")
+    if refs == L0_CONTROL_POINTER_CONTRACT:
+        for key in L0_CONTROL_POINTER_CONTRACT:
+            capsule[key] = dict(L0_CONTROL_POINTER_CONTRACT[key])
+    review_status = projection.get("review_status")
+    if review_status == "ready" and projection.get("status") == "pass":
+        capsule["review_status"] = "review-line-ready"
+        capsule["boundary_ledger"] = []
+        capsule["hardgates"] = {"SCALE-HG2": "pass", "SCALE-HG3": "pass", "SCALE-HG4": "pass"}
+    else:
+        capsule["review_status"] = "review-line-blocked"
+        capsule["boundary_ledger"] = [
+            {
+                "level_id": "L0_toy",
+                "status": "blocked",
+                "reason": "; ".join(str(item) for item in projection.get("failure_reasons", []))
+                or "dgt-l0-controls projection not ready",
+                "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+            }
+        ]
+    not_claimed = projection.get("not_claimed")
+    if isinstance(not_claimed, list) and not_claimed:
+        capsule["not_claimed"] = list(not_claimed)
+    return capsule
+
+
 def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
     index = SCALING_LADDER_LEVEL_IDS.index(level_id)
+    if level_id == "L0_toy":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "raw_claim_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+            "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+            "review_status": "review-line-blocked",
+            **{key: dict(value) for key, value in L0_CONTROL_POINTER_CONTRACT.items()},
+            "hardgates": {
+                "SCALE-HG2": "fail",
+                "SCALE-HG3": "fail",
+                "SCALE-HG4": "fail",
+            },
+            "boundary_ledger": [
+                {
+                    "level_id": level_id,
+                    "status": "blocked",
+                    "reason": "missing dgt-l0-controls projection",
+                    "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+                }
+            ],
+            "not_claimed": [
+                "Bounded L0 toy training controls only.",
+                "No production scale claim.",
+                "No GPT or Llama claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No universal recipe claim.",
+                "No unbounded scaling law claim.",
+                "No verdict inheritance to L1 or higher scaling levels.",
+            ],
+        }
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -2715,6 +2801,8 @@ def _scaling_level_capsule(level_id: str, input_capsules: Mapping[str, Mapping[s
         "matched_random_structural_control",
         "compute_param_ledger",
         "negative_witness_sweep",
+        "independent_replay",
+        "l0_control_projection",
         "hardgates",
         "boundary_ledger",
         "not_claimed",
@@ -2729,6 +2817,17 @@ def _scaling_capsule_failures(capsule: Mapping[str, Any]) -> list[str]:
     failures: list[str] = []
     if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "raw_claim_pointer", "projected_claim_pointer")):
         failures.append("capsule identity or claim pointer missing")
+    if capsule.get("level_id") == "L0_toy":
+        if capsule.get("review_status") != "review-line-ready":
+            failures.append("review status not ready")
+        for key, expected in L0_CONTROL_POINTER_CONTRACT.items():
+            if capsule.get(key) != expected:
+                failures.append(f"{key} canonical pointer mismatch")
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        for phrase in ("bounded", "production", "global superiority", "llm replacement", "universal recipe", "l1"):
+            if phrase not in text:
+                failures.append(f"not_claimed boundary missing: {phrase}")
+        return failures
     if capsule.get("review_status") != "review-line-ready":
         failures.append("review status not ready")
     for key in ("base_transformer_control", "matched_random_structural_control"):
@@ -2760,6 +2859,17 @@ def _scaling_level_passes(capsule: Mapping[str, Any]) -> bool:
 def _scaling_capsule_contract_passes(capsule: Mapping[str, Any]) -> bool:
     if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "raw_claim_pointer", "projected_claim_pointer")):
         return False
+    if capsule.get("level_id") == "L0_toy":
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        return (
+            capsule.get("review_status") == "review-line-ready"
+            and all(capsule.get(key) == expected for key, expected in L0_CONTROL_POINTER_CONTRACT.items())
+            and "production" in text
+            and "global superiority" in text
+            and "llm replacement" in text
+            and "universal recipe" in text
+            and "l1" in text
+        )
     if capsule.get("review_status") != "review-line-ready":
         return False
     for key in ("base_transformer_control", "matched_random_structural_control"):
@@ -2777,6 +2887,13 @@ def _scaling_ledgers_monotone(levels: Sequence[Mapping[str, Any]]) -> bool:
     previous_params = -1.0
     for row in levels:
         capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+        if isinstance(capsule, Mapping) and capsule.get("level_id") == "L0_toy":
+            l0_ref = capsule.get("compute_param_ledger")
+            if l0_ref != L0_CONTROL_POINTER_CONTRACT["compute_param_ledger"]:
+                return False
+            previous_compute = -1.0
+            previous_params = -1.0
+            continue
         ledger = capsule.get("compute_param_ledger") if isinstance(capsule, Mapping) else None
         if not isinstance(ledger, Mapping):
             return False
@@ -2871,8 +2988,16 @@ def scaling_ladder_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, 
             len(level_capsules) == len(SCALING_LADDER_LEVEL_IDS)
             and all(
                 isinstance(capsule, Mapping)
-                and isinstance(capsule.get("negative_witness_sweep"), Mapping)
-                and capsule["negative_witness_sweep"].get("status") == "pass"
+                and (
+                    (
+                        capsule.get("level_id") == "L0_toy"
+                        and capsule.get("negative_witness_sweep") == L0_CONTROL_POINTER_CONTRACT["negative_witness_sweep"]
+                    )
+                    or (
+                        isinstance(capsule.get("negative_witness_sweep"), Mapping)
+                        and capsule["negative_witness_sweep"].get("status") == "pass"
+                    )
+                )
                 for capsule in level_capsules
             )
         ),
@@ -3017,7 +3142,7 @@ def validate_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> list
     expected_level = "D5-M" if failed_gate is None else (source_level if source_level in {"D5-M", "D5-O", "D4"} else "D0")
     if payload.get("discovery_level") != expected_level:
         errors.append("DGT scaling ladder discovery level mismatch")
-    if failed_gate != "SCALE-HG6" and payload.get("evidence_scope") != "bounded-model-prototype-scaling":
+    if failed_gate is None and payload.get("evidence_scope") != "bounded-model-prototype-scaling":
         errors.append("DGT scaling ladder evidence scope mismatch")
     source = payload.get("source_projection")
     if not isinstance(source, Mapping):
@@ -3120,6 +3245,11 @@ class DiscoveryGatedTransformerProjector:
             surface_summary=self.d5_o_surface_summary,
         )
         payload["d5_m_projection"] = build_d5_m_projection(payload)
+        payload["scaling_ladder"] = {
+            "levels": [
+                {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(_read_l0_control_projection(self.root))}
+            ]
+        }
         payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
         validate_projection(payload)
         return payload
