@@ -33,6 +33,10 @@ ORGANISMS = [
     "mus_musculus",
     "caenorhabditis_elegans",
     "drosophila_melanogaster",
+    "halobacterium_salinarum",
+    "sulfolobus_solfataricus",
+    "dictyostelium_discoideum",
+    "rattus_norvegicus",
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500

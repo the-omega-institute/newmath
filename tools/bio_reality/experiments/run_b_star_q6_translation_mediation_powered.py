@@ -44,6 +44,8 @@ ORGANISM_PAIRS = [
     {"organism": "mus_musculus", "trna_organism": "mus_musculus"},
     {"organism": "caenorhabditis_elegans", "trna_organism": "caenorhabditis_elegans"},
     {"organism": "drosophila_melanogaster", "trna_organism": "drosophila_melanogaster"},
+    {"organism": "sulfolobus_solfataricus", "trna_organism": "sulfolobus_solfataricus"},
+    {"organism": "rattus_norvegicus", "trna_organism": "rattus_norvegicus"},
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500
