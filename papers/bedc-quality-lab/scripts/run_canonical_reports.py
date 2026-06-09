@@ -128,6 +128,10 @@ DGT_NEURAL_ABLATION_JSON_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
 DGT_NEURAL_ABLATION_ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
 DGT_NEURAL_ABLATION_SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
+DGT_L0_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
+DGT_L0_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l0-controls.md"
+DGT_L0_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l0-controls"
+DGT_L0_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l0-controls"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -262,6 +266,7 @@ CANONICAL_REPORT_CLAIM_CAPSULE_POINTERS = {
     "mechanism-seeking-network": "$.source_artifacts.claim_capsule",
     "discovery-gated-transformer": "$.claim_capsule_ref",
     "dgt-neural-ablation": "$.claim_capsule_ref",
+    "dgt-l0-controls": "$.l0_toy_projection",
 }
 
 
@@ -1125,6 +1130,40 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer=None,
         no_control_rationale_pointer="$.not_claimed",
         forbidden_claim_terms=("terminal_verdict", "final_verdict", "terminal verdict"),
+    ),
+    CanonicalReportSpec(
+        name="dgt-l0-controls",
+        command=("python3", "scripts/run_dgt_l0_controls.py"),
+        json_artifact=DGT_L0_CONTROLS_JSON_ARTIFACT,
+        markdown_artifact=DGT_L0_CONTROLS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "controls",
+            "compute_param_ledger",
+            "negative_witness_sweep",
+            "independent_replay",
+            "l0_toy_projection",
+            "not_claimed",
+        ),
+        estimated_seconds=10,
+        bundle_role="auxiliary",
+        scope_pointer="$.l0_toy_projection.not_claimed",
+        cost_pointer="$.compute_param_ledger",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.l0_toy_projection.review_status",
+        control_pointer="$.l0_toy_projection",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.l0_toy_projection",
+        evidence_envelope_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.status",
+        backend_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.review_status",
+        claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[95]",
+        negative_witness_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
+        formal_status_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -4241,6 +4280,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "scaling_ladder_source_projection_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.source_projection"
         ),
+        "l0_control_projection_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection",
+        "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
+        "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",
@@ -4360,7 +4402,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
             "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.boundary_ledger",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.not_claimed",
-            "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.levels",
+            "negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
             "hardgate_status": "pass",
             "hardgate_reason": "DGT design pointers resolve",
         },
@@ -6198,6 +6240,12 @@ def run_reports(
         _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
         _render_new_model_hardgates_markdown(new_model_hardgates),
     )
+    dgt_l0_spec = _specs_by_name().get("dgt-l0-controls")
+    if dgt_l0_spec is not None:
+        dgt_selected = any(spec.name in {"dgt-l0-controls", "discovery-gated-transformer"} for spec in selected_specs)
+        if only is None or dgt_selected:
+            _run_spec(dgt_l0_spec, mode=mode, generated_at=timestamp)
+            _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
     from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
 
     discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)

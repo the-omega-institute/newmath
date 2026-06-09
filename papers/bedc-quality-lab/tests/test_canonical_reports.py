@@ -171,6 +171,15 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "dgt-l0-controls":
+        from bedc_quality_lab import dgt_l0_controls
+
+        payload = dgt_l0_controls.build_payload(generated_at="fixture", requested_device="cpu")
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-neural-ablation":
+        from bedc_quality_lab import dgt_neural_ablation
+
+        return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1447,6 +1456,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-regularized-training",
             "mechanism-seeking-network",
             "mechanism-dna",
+            "dgt-l0-controls",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "order-k-benchmark",
@@ -1463,6 +1473,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-training" in names
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
+    assert "dgt-l0-controls" in names
     assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
@@ -1509,6 +1520,32 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.control_pointer == "$.d4_projection.matched_control"
     assert "discovery_gated_transformer" not in names
     assert "dgt-scaling-ladder" not in names
+
+
+def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-l0-controls"]
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+
+    assert len(specs) == 1
+    spec = specs[0]
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_l0_controls.py")
+    assert spec.json_artifact == "reports/canonical/dgt-l0-controls.json"
+    assert spec.markdown_artifact == "reports/canonical/dgt-l0-controls.md"
+    assert spec.control_pointer == "$.l0_toy_projection"
+    assert spec.cost_pointer == "$.compute_param_ledger"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
+    assert names.isdisjoint(
+        {
+            "base-transformer-l0",
+            "matched-random-structural-control",
+            "l0-compute-param-ledger",
+            "l0-negative-witness-sweep",
+            "l0-independent-replay",
+            "l0-pass-decision",
+        }
+    )
 
 
 def test_no_standalone_dgt_component_ablation_registered():
@@ -3267,6 +3304,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "scaling_ladder_status_pointer",
         "scaling_ladder_hardgate_pointer",
         "scaling_ladder_source_projection_pointer",
+        "l0_control_projection_pointer",
+        "l0_control_ledger_pointer",
+        "l0_control_negative_witness_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
