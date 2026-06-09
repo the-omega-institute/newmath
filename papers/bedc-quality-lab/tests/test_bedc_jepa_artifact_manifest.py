@@ -64,28 +64,17 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     )
     assert manifest["commands"]["external_run_kit"] == "python scripts/build_bedc_jepa_external_run_kit.py"
     assert manifest["commands"]["review_bundle"] == "python scripts/build_bedc_jepa_review_bundle.py"
-    assert manifest["commands"]["quality_packet"] == "python scripts/build_bedc_jepa_quality_packet.py"
-    assert manifest["commands"]["quality_gate"] == "python scripts/check_bedc_jepa_quality_gate.py"
     assert (
         manifest["commands"]["quality_backend_candidate"]
         == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
     )
-    assert (
-        manifest["commands"]["paper_writeback_packet"]
-        == "python scripts/build_bedc_jepa_paper_writeback_packet.py"
-    )
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
-    assert manifest["objective_artifacts"]["quality_packet"] == "reports/bedc_jepa_quality_packet.json"
-    assert manifest["objective_artifacts"]["namecert"] == "reports/bedc_jepa_namecert.yaml"
-    assert manifest["objective_artifacts"]["gap_ledger"] == "reports/bedc_jepa_gap_ledger.json"
-    assert manifest["objective_artifacts"]["quality_report"] == "reports/bedc_jepa_quality_report.md"
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
     assert manifest["quality_backend_candidate"] == "reports/bedc_jepa_quality_backend_candidate.json"
-    assert manifest["paper_writeback_packet"] == "reports/bedc_jepa_paper_writeback_packet.json"
     assert (
         manifest["latent_claim_certificates"]["certificates"]
         == "reports/bedc_latent_claim_certificates.json"
@@ -138,17 +127,14 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "reports/bedc_jepa_public_debt_decomposition.json"
     )
     assert (
-        manifest["public_adapters"]["minigrid_certified_coverage_curve"]
-        == "reports/bedc_jepa_certified_coverage_curve.json"
+        manifest["public_adapters"]["minigrid_conformal_certified_coverage"]
+        == "reports/bedc_jepa_conformal_certified_coverage.json"
     )
     assert (
-        manifest["public_adapters"]["minigrid_risk_constrained_planning"]
-        == "reports/bedc_jepa_risk_constrained_planning.json"
+        manifest["public_adapters"]["minigrid_risk_success_pareto"]
+        == "reports/bedc_jepa_risk_success_pareto.json"
     )
-    assert (
-        manifest["public_adapters"]["minigrid_public_debt_closure_report"]
-        == "reports/bedc_jepa_public_debt_closure_report.md"
-    )
+    assert manifest["public_adapters"]["minigrid_loss_ablation"] == "reports/bedc_jepa_loss_ablation.json"
     assert (
         manifest["public_adapters"]["minigrid_external_result"]
         == "reports/bedc_jepa_public_minigrid_external_result.json"

@@ -20,12 +20,25 @@ Public MiniGrid reduces silent failures and improves gap ranking, but aggregate 
 - Best S3 debt: `0.141227`
 - Best S3 certified coverage: `1.000000`
 
+## Conformal Certified Claims
+
+- DoorKey context coverage at alpha 0.20: `0.468750`
+- DoorKey context UER at alpha 0.20: `0.046875`
+- Predicate surfaces: `door_key_context_visible`, `has_key`, `door_open_or_unlocked`, `goal_reachable_with_current_state`, `unsafe_transition`
+
 ## Risk-Constrained Planning
 
 - Selected risk budget: `0.10`
 - High-gap state rate: `0.000000`
 - Effective success rate: `0.093750`
 - No-certified-plan rate: `0.906250`
+- Pareto half-risk success: `0.781250`
+
+## Local Ablation
+
+- Unlogged-penalty effect: `0.085938`
+- Post-hoc gap debt delta: `0.015670`
+- Boundary: `local score ablation; not a retraining ablation`
 
 ## Not Claimed
 

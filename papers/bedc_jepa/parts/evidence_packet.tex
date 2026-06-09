@@ -161,6 +161,18 @@ risk-constrained planning artifact records that tight risk budgets can avoid
 high-gap selected states only by producing a large no-certified-plan rate.
 These artifacts classify the public MiniGrid weakness as calibration and
 coverage debt, not as a closed public total-debt result.
+The MiniGrid certified-debt pack also contains a conformal singleton-claim sweep
+over $\alpha \in \{0.20,0.10,0.05,0.02,0.01\}$.  The declared predicate
+surfaces are \texttt{door\_key\_context\_visible}, \texttt{has\_key},
+\texttt{door\_open\_or\_unlocked},
+\texttt{goal\_reachable\_with\_current\_state}, and
+\texttt{unsafe\_transition}.  For the DoorKey context predicate, the
+$\alpha=0.20$ singleton rule certifies coverage $0.468750$ with unlogged error
+$0.046875$.  The risk-success Pareto artifact records the same planning
+boundary as a constrained problem rather than a penalty-only sweep.  The local
+ablation artifact records an unlogged-penalty effect of $0.085938$ and a
+post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
+the public MiniGrid readout and not a full retraining ablation.
 
 \paragraph{External review status.}
 The evidence audit records three completed boundaries for the declared study:

@@ -41,6 +41,8 @@ def build_review_bundle() -> dict[str, Any]:
     native = _load_json("bedc_jepa_public_native_minigrid_benchmark.json")
     sweep = _load_json("bedc_jepa_public_native_minigrid_seed_sweep.json")
     public_debt = _load_json("bedc_jepa_public_debt_decomposition.json")
+    conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
+    ablation = _load_json("bedc_jepa_loss_ablation.json")
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
@@ -56,6 +58,8 @@ def build_review_bundle() -> dict[str, Any]:
         "public MiniGrid debt diagnosis",
         failures,
     )
+    _check(conformal.get("status") == "executed", "public MiniGrid conformal certified coverage executed", failures)
+    _check(ablation.get("status") == "executed", "public MiniGrid local ablation executed", failures)
     _check(sweep.get("status") == "executed", "native MiniGrid seed sweep executed", failures)
     _check(float(sweep.get("seed_count_executed", 0.0)) >= 5.0, "native MiniGrid seed sweep count", failures)
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
@@ -75,14 +79,12 @@ def build_review_bundle() -> dict[str, Any]:
             "certified_coverage_curve": "reports/bedc_jepa_certified_coverage_curve.json",
             "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
             "public_debt_closure_report": "reports/bedc_jepa_public_debt_closure_report.md",
+            "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
+            "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
+            "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
-            "quality_packet": "reports/bedc_jepa_quality_packet.json",
-            "quality_namecert": "reports/bedc_jepa_namecert.yaml",
-            "quality_gap_ledger": "reports/bedc_jepa_gap_ledger.json",
-            "quality_report": "reports/bedc_jepa_quality_report.md",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
-            "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
@@ -92,14 +94,11 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/run_public_minigrid_native_seed_sweep.py",
             "python scripts/build_public_minigrid_debt_closure.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
-            "python scripts/build_bedc_jepa_quality_packet.py",
-            "python scripts/check_bedc_jepa_quality_gate.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
             "python scripts/build_bedc_jepa_review_bundle.py",
             "python scripts/build_bedc_jepa_quality_backend_candidate.py",
             "python scripts/run_bedc_latent_claim_certificate.py",
-            "python scripts/build_bedc_jepa_paper_writeback_packet.py",
             "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
@@ -114,6 +113,12 @@ def build_review_bundle() -> dict[str, Any]:
             ],
             "public_coverage_debt_change": public_debt["interpretation"]["changes"][
                 "coverage_debt_change_s0_minus_s3"
+            ],
+            "public_conformal_predicate_count": float(
+                len(conformal["conformal_certified_coverage"]["predicates"])
+            ),
+            "public_ablation_unlogged_penalty_effect": ablation["loss_ablation"]["mechanism_readout"][
+                "unlogged_penalty_effect"
             ],
             "seed_sweep_count": sweep.get("seed_count_executed", 0.0),
             "seed_sweep_unlogged_error_win_rate": sweep["summary"].get("unlogged_error_win_rate") if sweep.get("summary") else None,

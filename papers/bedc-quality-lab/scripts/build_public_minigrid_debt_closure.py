@@ -20,6 +20,9 @@ def main() -> None:
         "bedc_jepa_public_debt_decomposition.json",
         "bedc_jepa_certified_coverage_curve.json",
         "bedc_jepa_risk_constrained_planning.json",
+        "bedc_jepa_conformal_certified_coverage.json",
+        "bedc_jepa_risk_success_pareto.json",
+        "bedc_jepa_loss_ablation.json",
         "bedc_jepa_public_debt_closure_report.md",
     ):
         print(f"wrote {(ROOT / 'reports' / name).relative_to(ROOT)}")

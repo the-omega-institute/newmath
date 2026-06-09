@@ -13,24 +13,13 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["public_debt_decomposition"] == (
         "reports/bedc_jepa_public_debt_decomposition.json"
     )
-    assert bundle["required_artifacts"]["certified_coverage_curve"] == (
-        "reports/bedc_jepa_certified_coverage_curve.json"
+    assert bundle["required_artifacts"]["conformal_certified_coverage"] == (
+        "reports/bedc_jepa_conformal_certified_coverage.json"
     )
-    assert bundle["required_artifacts"]["risk_constrained_planning"] == (
-        "reports/bedc_jepa_risk_constrained_planning.json"
-    )
-    assert bundle["required_artifacts"]["public_debt_closure_report"] == (
-        "reports/bedc_jepa_public_debt_closure_report.md"
-    )
+    assert bundle["required_artifacts"]["risk_success_pareto"] == "reports/bedc_jepa_risk_success_pareto.json"
+    assert bundle["required_artifacts"]["loss_ablation"] == "reports/bedc_jepa_loss_ablation.json"
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
-    )
-    assert bundle["required_artifacts"]["quality_packet"] == "reports/bedc_jepa_quality_packet.json"
-    assert bundle["required_artifacts"]["quality_namecert"] == "reports/bedc_jepa_namecert.yaml"
-    assert bundle["required_artifacts"]["quality_gap_ledger"] == "reports/bedc_jepa_gap_ledger.json"
-    assert bundle["required_artifacts"]["quality_report"] == "reports/bedc_jepa_quality_report.md"
-    assert bundle["required_artifacts"]["paper_writeback_packet"] == (
-        "reports/bedc_jepa_paper_writeback_packet.json"
     )
     assert bundle["required_artifacts"]["latent_claim_certificates"] == (
         "reports/bedc_latent_claim_certificates.json"
@@ -43,19 +32,16 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     )
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_minigrid_debt_closure.py" in bundle["reproduction_commands"]
-    assert "python scripts/build_bedc_jepa_quality_packet.py" in bundle["reproduction_commands"]
-    assert "python scripts/check_bedc_jepa_quality_gate.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
-    assert "python scripts/build_bedc_jepa_paper_writeback_packet.py" in bundle["reproduction_commands"]
     assert "pdflatex -interaction=nonstopmode -halt-on-error main.tex" in bundle["reproduction_commands"]
     assert bundle["checks"]["checkpoint_contact"] == "closed"
     assert bundle["checks"]["native_public_benchmark"] == "closed"
     assert bundle["checks"]["native_unlogged_error_reduction"] > 0.05
     assert bundle["checks"]["native_planning_high_gap_reduction"] > 0.05
     assert bundle["checks"]["public_debt_diagnosis"] == "silent debt falls while coverage debt rises"
-    assert bundle["checks"]["public_silent_debt_reduction"] > 0.0
-    assert bundle["checks"]["public_coverage_debt_change"] < 0.0
+    assert bundle["checks"]["public_conformal_predicate_count"] >= 5.0
+    assert bundle["checks"]["public_ablation_unlogged_penalty_effect"] >= 0.0
 
     if bundle["status"] == "review_ready":
         assert bundle["failures"] == []
