@@ -12,6 +12,18 @@ def test_public_minigrid_debt_closure_decomposes_public_debt_or_fails_closed():
         assert packet["debt_decomposition"] == {}
         return
 
+    contract = packet["analysis_contract"]
+    assert contract["run_command"] == "python scripts/build_public_minigrid_debt_closure.py"
+    assert contract["environment_id"] == "MiniGrid-DoorKey-8x8-v0"
+    assert contract["seed"] == 31.0
+    assert contract["debt_component_weights"] == {
+        "silent_debt": 0.40,
+        "false_claim_debt": 0.30,
+        "ranking_debt": 0.20,
+        "coverage_debt": 0.10,
+    }
+    assert contract["systems"]["S3"] == "public-minigrid-trained-bedc-jepa-readout"
+    assert "public MiniGrid debt and planning accounting" in contract["claim_boundary"]
     assert set(packet["debt_decomposition"]) == {"S0", "S1", "S2", "S3"}
     s3 = packet["debt_decomposition"]["S3"]
     assert 0.0 <= s3["silent_debt"] <= 1.0
@@ -37,11 +49,13 @@ def test_public_minigrid_debt_closure_records_threshold_and_risk_curves():
         return
 
     curve = packet["certified_coverage_curve"]["systems"]["S3"]
+    assert packet["analysis_contract"]["gap_thresholds"] == packet["certified_coverage_curve"]["gap_thresholds"]
     assert len(curve["rows"]) == len(packet["certified_coverage_curve"]["gap_thresholds"])
     assert 0.0 <= curve["best_debt_score"] <= 1.0
     assert 0.0 <= curve["best_certified_coverage"] <= 1.0
 
     planning = packet["risk_constrained_planning"]["rows"]
+    assert packet["analysis_contract"]["risk_budgets"] == packet["risk_constrained_planning"]["risk_budgets"]
     assert len(planning) == len(packet["risk_constrained_planning"]["risk_budgets"])
     for row in planning:
         assert 0.0 <= row["no_certified_plan_rate"] <= 1.0
@@ -57,6 +71,14 @@ def test_public_minigrid_pack_records_conformal_claim_and_predicate_surfaces():
         return
 
     conformal = packet["conformal_certified_coverage"]
+    assert packet["analysis_contract"]["conformal_alphas"] == conformal["alphas"]
+    assert packet["analysis_contract"]["predicate_surfaces"] == [
+        "door_key_context_visible",
+        "has_key",
+        "door_open_or_unlocked",
+        "goal_reachable_with_current_state",
+        "unsafe_transition",
+    ]
     assert conformal["alphas"] == [0.2, 0.1, 0.05, 0.02, 0.01]
     assert set(conformal["predicates"]) == {
         "door_key_context_visible",
