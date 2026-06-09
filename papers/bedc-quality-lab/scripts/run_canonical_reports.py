@@ -1142,6 +1142,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "hardgate_ref",
             "tool_route_evidence",
             "family_definition",
+            "component_ablation",
             "discovery_map_signal",
             "discovery_map_signal_ref",
             "d4_projection",
@@ -3881,6 +3882,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "component_ablation",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -3905,6 +3907,15 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT family definition hardgate failed")
     if family_definition["model_family_claim_status"]["claim_allowed"] is not False:
         raise ValueError("DGT family definition claim status must remain blocked")
+    component_ablation = payload["component_ablation"]
+    if component_ablation["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation":
+        raise ValueError("DGT component ablation owner pointer mismatch")
+    if component_ablation["arm_count"] != 11 or len(component_ablation["arms"]) != 11:
+        raise ValueError("DGT component ablation arm count mismatch")
+    if component_ablation["hardgate"]["status"] != "pass":
+        raise ValueError("DGT component ablation hardgate failed")
+    if any(row.get("effect_status") == "zero-effect-fail-closed" and row.get("causal_claim_allowed") is not False for row in component_ablation["arms"]):
+        raise ValueError("DGT component ablation zero-effect policy mismatch")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -3970,6 +3981,13 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         ),
         "model_family_claim_status_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.model_family_claim_status"
+        ),
+        "component_ablation_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation",
+        "component_ablation_hardgate_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.hardgate"
+        ),
+        "component_ablation_arm_catalog_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.arms"
         ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",

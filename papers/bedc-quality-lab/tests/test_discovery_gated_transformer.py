@@ -9,6 +9,8 @@ from bedc_quality_lab.discovery_gated_transformer import (
     TOOL_ROUTE_CGA_ROUTE_PATCH_REF,
     TOOL_ROUTE_REQUIRED_KEYS,
     TOOL_ROUTE_SCHEMA_ID,
+    COMPONENT_ABLATION_GATE_NAMES,
+    COMPONENT_ABLATION_OWNER_REF,
     D4_PROJECTION_GATE_NAMES,
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
@@ -21,12 +23,17 @@ from bedc_quality_lab.discovery_gated_transformer import (
     SCHEMA_ID,
     build_dgt_jet_certificate,
     build_d4_projection_payload,
+    build_component_ablation,
     build_projection,
+    evaluate_ablation_arm,
     evaluate_dgt_family_definition_hardgate,
     evaluate_dgt_jet_hardgates,
     evaluate_dgt_tool_route_hardgates,
+    arm_catalog,
     default_component_refs,
     default_dgt_source_refs,
+    metric_contract,
+    validate_component_ablation,
     validate_projection,
     validate_dgt_hardgate_evidence_bundle,
     validate_dgt_family_definition,
@@ -112,6 +119,67 @@ def test_dgt_component_evidence_is_pointer_only():
         '"private_row_carrier"',
     ):
         assert forbidden not in serialized
+
+
+def test_dgt_component_ablation_has_exact_eleven_owner_local_arms():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    ablation = payload["component_ablation"]
+
+    assert ablation["owner_ref"] == COMPONENT_ABLATION_OWNER_REF
+    assert ablation["arm_count"] == 11
+    assert [row["arm_id"] for row in ablation["arms"]] == [spec.arm_id for spec in arm_catalog()]
+    assert ablation["metric_contract"] == metric_contract()
+    assert ablation["hardgate"]["gate_names"] == list(COMPONENT_ABLATION_GATE_NAMES)
+    assert ablation["hardgate"]["status"] == "pass"
+    assert ablation["failed_gate"] == []
+    for row in ablation["arms"]:
+        assert row["component_pointer"].startswith(f"{CANONICAL_JSON_ARTIFACT}:$")
+        assert row["metric_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation.metric_contract"
+        assert row["claim_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation.claim_policy"
+
+
+def test_dgt_component_ablation_zero_effect_fails_closed():
+    spec = arm_catalog()[0]
+    zero_spec = type(spec)(
+        arm_id=spec.arm_id,
+        component=spec.component,
+        disabled_components=spec.disabled_components,
+        expected_signal_delta=0.0,
+    )
+    row = evaluate_ablation_arm(zero_spec, 1105)
+
+    assert row["effect_status"] == "zero-effect-fail-closed"
+    assert row["causal_claim_allowed"] is False
+
+    ablation = build_component_ablation()
+    mutated = json.loads(json.dumps(ablation))
+    mutated["arms"][0]["measured_effect"] = 0.0
+    mutated["arms"][0]["effect_status"] = "zero-effect-fail-closed"
+    mutated["arms"][0]["causal_claim_allowed"] = True
+
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_component_ablation(mutated)
+
+
+def test_dgt_component_ablation_rejects_missing_arm_and_standalone_claims():
+    ablation = build_component_ablation()
+    missing = json.loads(json.dumps(ablation))
+    missing["arms"].pop()
+    missing["arm_count"] = 10
+
+    with pytest.raises(ValueError, match="arm count|arm catalog|hardgate"):
+        validate_component_ablation(missing)
+
+    forbidden = json.loads(json.dumps(ablation))
+    forbidden["claim_policy"]["owner_scope"] = "production global superiority formal closure"
+    forbidden["forbidden_claim_term_audit"] = {
+        "status": "fail",
+        "hits": ["production", "global superiority", "formal closure"],
+        "forbidden_terms": forbidden["forbidden_claim_term_audit"]["forbidden_terms"],
+    }
+
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_component_ablation(forbidden)
 
 
 def test_dgt_d4_projection_fails_closed_when_proj_gate_fails():

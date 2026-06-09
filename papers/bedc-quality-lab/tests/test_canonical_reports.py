@@ -1577,7 +1577,23 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.json_artifact == "reports/canonical/discovery-gated-transformer.json"
     assert spec.markdown_artifact == "reports/canonical/discovery-gated-transformer.md"
     assert "tool_route_evidence" in spec.required_json_keys
+    assert "component_ablation" in spec.required_json_keys
     assert "discovery_gated_transformer" not in names
+
+
+def test_no_standalone_dgt_component_ablation_registered():
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+
+    assert names.isdisjoint(
+        {
+            "dgt-component-ablation",
+            "discovery-gated-transformer-ablation",
+            "component-ablation",
+        }
+    )
+    assert "reports/canonical/dgt-component-ablation.json" not in artifacts
+    assert "reports/canonical/discovery-gated-transformer-ablation.json" not in artifacts
 
 
 def test_no_standalone_tool_use_dgt_owner_registered():
@@ -3132,6 +3148,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "component_ablation",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -3157,6 +3174,16 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert set(payload["family_definition"]["invariant_groups"]) == {"architecture", "objective", "certificate"}
     assert payload["family_definition"]["hardgate"]["status"] == "pass"
     assert payload["family_definition"]["model_family_claim_status"]["claim_allowed"] is False
+    assert payload["component_ablation"]["owner_ref"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.component_ablation"
+    )
+    assert payload["component_ablation"]["arm_count"] == 11
+    assert payload["component_ablation"]["hardgate"]["status"] == "pass"
+    assert all(
+        row["causal_claim_allowed"] is False
+        for row in payload["component_ablation"]["arms"]
+        if row["effect_status"] == "zero-effect-fail-closed"
+    )
     assert payload["d4_projection"]["discovery_level"] == "D4"
     assert payload["d4_projection"]["readiness"] == "ready"
     assert set(payload["d4_projection"]["gates"]) == {f"PROJ-HG{index}" for index in range(1, 11)}
@@ -3214,6 +3241,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "family_definition_pointer",
         "family_definition_hardgate_pointer",
         "model_family_claim_status_pointer",
+        "component_ablation_pointer",
+        "component_ablation_hardgate_pointer",
+        "component_ablation_arm_catalog_pointer",
         "discovery_map_signal_pointer",
         "discovery_map_signal_ref_pointer",
         "d4_projection_pointer",
@@ -3252,6 +3282,15 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["model_family_claim_status_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status"
+    )
+    assert section["component_ablation_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.component_ablation"
+    )
+    assert section["component_ablation_hardgate_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.component_ablation.hardgate"
+    )
+    assert section["component_ablation_arm_catalog_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.component_ablation.arms"
     )
     assert section["d4_projection_discovery_level_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
