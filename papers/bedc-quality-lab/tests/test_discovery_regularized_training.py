@@ -24,6 +24,8 @@ from bedc_quality_lab.discovery_regularized_training import (
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
+from bedc_quality_lab.mechanism_dna import JSON_ARTIFACT as MECHANISM_DNA_ARTIFACT
+from bedc_quality_lab.mechanism_dna import build_mechanism_dna, mechanism_dna_artifacts
 
 
 REQUIRED_SUMMARY_KEYS = {
@@ -107,6 +109,23 @@ def _project(records=None, **config):
         generated_at="fixture-time",
         run_artifacts=artifacts,
     ).project()
+
+
+def _mechanism_dna_context(overrides=None):
+    source_payloads = {
+        artifact: json.loads((canonical.ROOT / artifact).read_text(encoding="utf-8"))
+        for artifact in mechanism_dna_artifacts()
+    }
+    source_payloads.update(overrides or {})
+    return {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        **source_payloads,
+        MECHANISM_DNA_ARTIFACT: build_mechanism_dna(
+            source_payloads,
+            generated_at="fixture-time",
+            deterministic_seed=935,
+        ),
+    }
 
 
 def _torch_fixture_records():
@@ -900,8 +919,9 @@ def test_drt_hg5_rejects_task_accuracy_only_rows():
 def test_current_lab_projection_and_pointer_resolvability():
     spec = canonical._specs_by_name()["discovery-regularized-training"]
     summary = _project()["summary_payload"]
-    row = discovery_map.discovery_row(spec, summary, {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}})
-    projected = discovery_map.projection_payload(spec, summary)
+    context = _mechanism_dna_context({runner.JSON_ARTIFACT: summary})
+    row = discovery_map.discovery_row(spec, summary, context)
+    projected = discovery_map.projection_payload(spec, summary, context)
 
     assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "D5-M"
     assert projected["evidence_basis"]["discovery_regularized_training"] is True
@@ -920,6 +940,19 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert failed_row["discovery_level"] == "DN"
     assert failed_row["failed_gate"] == "$.hardgate.gates.DRT-HG3.status"
     assert discovery_map.pointer_value(failed, failed_row["failed_gate"]) == "fail"
+
+
+def test_current_lab_d5_m_projection_fails_closed_without_mechanism_dna_row():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    summary = _project()["summary_payload"]
+    context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
+
+    projected = discovery_map.projection_payload(spec, summary, context)
+    row = discovery_map.discovery_row(spec, summary, context)
+
+    assert projected["verdict"] == "rejected"
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.training_mechanism_cert.status"
 
 
 def test_drt_extension_forbidden_key_audit_rejects_host_env_and_terminal_verdict():

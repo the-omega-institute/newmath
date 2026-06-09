@@ -37,7 +37,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 29,
+    "row_count": 30,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -60,13 +60,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 110,
+    "node_count": 113,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 38,
+    "row_count": 39,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -255,6 +255,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.hardgate",
+        "report": "mechanism-dna"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.hardgates.MC-HG9",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.hardgates.MC-HG7",
@@ -417,7 +424,7 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 8,
+      "D0": 9,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -428,7 +435,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 29,
+    "row_count": 30,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -547,7 +554,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-09T02:07:57.744320+00:00",
+  "generated_at": "2026-06-09T07:58:37.488923+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -636,6 +643,28 @@
       "artifact-release-navigation"
     ],
     "status": "ready"
+  },
+  "mechanism_dna": {
+    "artifact_id": "bedc-quality-lab:mechanism-dna",
+    "forbidden_alias_audit_pointer": "reports/canonical/mechanism_dna.json:$.forbidden_alias_audit",
+    "hardgate_pointer": "reports/canonical/mechanism_dna.json:$.hardgate",
+    "json_artifact": "reports/canonical/mechanism_dna.json",
+    "markdown_artifact": "reports/canonical/mechanism_dna.md",
+    "not_claimed": [
+      "MechanismDNA indexes only artifact-qualified row pointers.",
+      "Core remains the terminal verdict owner."
+    ],
+    "required_ref_fields": [
+      "component_ref",
+      "causal_path_ref",
+      "intervention_ref",
+      "ablation_dependency_ref",
+      "negative_witness_ref"
+    ],
+    "row_count": 5,
+    "rows_pointer": "reports/canonical/mechanism_dna.json:$.rows",
+    "schema_id": "bedc-quality-lab:mechanism-dna",
+    "status": "pointer-only"
   },
   "model_comparison": {
     "artifact_id": "bedc-quality-lab:model-comparison",
@@ -888,6 +917,7 @@
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
+      "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
       "claim-complexity"
@@ -962,7 +992,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "de716252e0024d15510ae2210f2ecbd02cd0c802d18a709769f15e754806e6c0",
+    "source_sidecar_digest": "32da40e0796450358cfd8b38889e3b82759449d96a91808f95fd5fc2d8b313e6",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -4333,6 +4363,124 @@
           "ledger_summary",
           "negative_control_summary",
           "rank_correlation"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgate",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/mechanism_dna.json:$",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.hardgate",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:mechanism-dna]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=mechanism-dna].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/mechanism_dna.json:$.hardgate",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=mechanism-dna]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "cold",
+      "fingerprint_sidecar": "reports/canonical/mechanism_dna.fingerprint.json",
+      "fingerprint_status": "written",
+      "json_artifact": "reports/canonical/mechanism_dna.json",
+      "markdown_artifact": "reports/canonical/mechanism_dna.md",
+      "name": "mechanism-dna",
+      "producer_command": [
+        "python3",
+        "scripts/run_mechanism_dna.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "deterministic_seed",
+          "source_artifacts",
+          "rows",
+          "hardgate",
+          "not_claimed",
+          "forbidden_alias_audit"
         ],
         "required_key_validation": {
           "missing_keys": [],
