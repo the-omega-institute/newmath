@@ -1,0 +1,314 @@
+{
+  "anti_triviality_failed_gate": null,
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.forbidden_claim_term_audit.status",
+      "status": "pass"
+    },
+    "matched_random": {
+      "pointer": "$.tradeoff_ledger.rows.0",
+      "status": "pass"
+    },
+    "metadata_only": {
+      "pointer": "$.grid",
+      "status": "pass"
+    },
+    "scale_only": {
+      "pointer": "$.metric_separation",
+      "status": "pass"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "D2",
+  "anti_triviality_status": "pass",
+  "artifact_id": "bedc-quality-lab:sigreg-mini-grid",
+  "best_cell": {
+    "alignment_lambda": 1e-05,
+    "collapse_rate": 0.02,
+    "linear_identifiability_r2": 0.7000000000000001,
+    "mixing": "spiral",
+    "quality_q": 1.3599599999999998,
+    "rho": 0.95,
+    "seed": 23
+  },
+  "c3_hardgates": {
+    "C3-HG1": {
+      "collapsed": false,
+      "evidence": "SIGReg sliced-CF and covariance proxy are finite, separately named, separately sourced, and not collapsed",
+      "separate_reported": true,
+      "status": "pass"
+    },
+    "C3-HG2": {
+      "evidence": "Gaussianity improves while alignment loss increases, so the tradeoff ledger is populated",
+      "status": "pass"
+    },
+    "C3-HG3": {
+      "evidence": "Only the expected rho and lambda trend promotes D2",
+      "status": "pass"
+    },
+    "C3-HG4": {
+      "evidence": "full LeJEPA reproduction remains outside the mini-grid claim surface",
+      "full_lejepa_claim": false,
+      "not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure"
+      ],
+      "status": "pass"
+    }
+  },
+  "claim_capsule_ref": "reports/runs/sigreg-mini-grid/claim_capsule.json",
+  "claim_capsule_status": "d2-candidate",
+  "config": {
+    "alignment_lambdas": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ],
+    "deterministic": true,
+    "directions": 16,
+    "frequencies": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "full_lejepa_claim": false,
+    "mixings": [
+      "spiral",
+      "parabolic",
+      "realnvp"
+    ],
+    "rhos": [
+      0.5,
+      0.7,
+      0.9,
+      0.95
+    ],
+    "run_id": "sigreg-mini-grid",
+    "sample_count": 384,
+    "seeds": [
+      11,
+      23,
+      37
+    ],
+    "use_torch": false
+  },
+  "discovery_map_signal": {
+    "failed_gate": null,
+    "level_candidate": "D2",
+    "reason": "expected-trend",
+    "status": "d2-candidate"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:sigreg-mini-grid",
+  "grid": {
+    "alignment_lambda_count": 5,
+    "expected_record_count": 180,
+    "mixing_count": 3,
+    "record_count": 180,
+    "rho_count": 4,
+    "seed_count": 3
+  },
+  "hardgate": {
+    "failed_gate": null,
+    "status": "pass"
+  },
+  "lambda_summary": {
+    "by_alignment_lambda": {
+      "0.0001": {
+        "alignment_loss_mean": 0.15000000000000002,
+        "collapse_rate_mean": 0.05,
+        "quality_q_mean": 1.0815566666666667,
+        "sigreg_sliced_cf_mean": 0.4600000000000001
+      },
+      "0.001": {
+        "alignment_loss_mean": 0.2,
+        "collapse_rate_mean": 0.08,
+        "quality_q_mean": 1.0015566666666667,
+        "sigreg_sliced_cf_mean": 0.42
+      },
+      "0.005": {
+        "alignment_loss_mean": 0.25,
+        "collapse_rate_mean": 0.11,
+        "quality_q_mean": 0.9215566666666667,
+        "sigreg_sliced_cf_mean": 0.38
+      },
+      "0.01": {
+        "alignment_loss_mean": 0.30000000000000004,
+        "collapse_rate_mean": 0.13999999999999999,
+        "quality_q_mean": 0.8415566666666666,
+        "sigreg_sliced_cf_mean": 0.33999999999999997
+      },
+      "1e-05": {
+        "alignment_loss_mean": 0.1,
+        "collapse_rate_mean": 0.02,
+        "quality_q_mean": 1.1615566666666668,
+        "sigreg_sliced_cf_mean": 0.5
+      }
+    },
+    "ordered_alignment_lambdas": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ]
+  },
+  "metric_keys": [
+    "alignment_loss",
+    "sigreg_sliced_cf",
+    "linear_identifiability_r2",
+    "actual_recovery_mse",
+    "theorem3_bound_mse",
+    "collapse_rate",
+    "quality_q"
+  ],
+  "metric_separation": {
+    "collapsed": false,
+    "covariance_proxy_metric": {
+      "mean": 0.209,
+      "row_key": "covariance_proxy",
+      "source": "SlicedCFGaussianityProbe.score.cov_to_identity_fro"
+    },
+    "mean_delta_sigreg_minus_covariance_proxy": 0.211,
+    "separate_reported": true,
+    "sigreg_metric": {
+      "mean": 0.42,
+      "row_key": "sigreg_sliced_cf",
+      "source": "SlicedCFGaussianityProbe.score.sigreg_penalty"
+    },
+    "status": "pass"
+  },
+  "mixing_summary": {
+    "by_mixing": {
+      "parabolic": {
+        "collapse_rate_mean": 0.08,
+        "quality_q_mean": 0.99989
+      },
+      "realnvp": {
+        "collapse_rate_mean": 0.08,
+        "quality_q_mean": 0.9848899999999999
+      },
+      "spiral": {
+        "collapse_rate_mean": 0.08,
+        "quality_q_mean": 1.01989
+      }
+    },
+    "mixings": [
+      "spiral",
+      "parabolic",
+      "realnvp"
+    ]
+  },
+  "not_claimed": [
+    "full LeJEPA reproduction",
+    "global model quality",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure"
+  ],
+  "positive_claim": {
+    "level_candidate": "D2",
+    "scope": "run-local SIGReg mini-grid projection",
+    "text": "SIGReg mini-grid evidence supports a lab-local expected lambda and rho trend under Gaussian-OU toy conditions."
+  },
+  "producer": "scripts/run_sigreg_mini_grid.py",
+  "projector": "bedc_quality_lab.sigreg_mini_grid.SIGRegMiniGridProjection",
+  "revocation_rows": [
+    {
+      "active": true,
+      "condition": "revoke if raw rows cannot reproduce the SIGReg mini-grid summary",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if SIGReg sliced-CF and covariance proxy metrics collapse into one field",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke D2 when the expected lambda and rho trend hardgate fails",
+      "status": "armed"
+    }
+  ],
+  "rho_summary": {
+    "by_rho": {
+      "0.5": {
+        "linear_identifiability_r2_mean": 0.4,
+        "quality_q_mean": 0.8215566666666667
+      },
+      "0.7": {
+        "linear_identifiability_r2_mean": 0.5,
+        "quality_q_mean": 0.9415566666666666
+      },
+      "0.9": {
+        "linear_identifiability_r2_mean": 0.6000000000000001,
+        "quality_q_mean": 1.0615566666666667
+      },
+      "0.95": {
+        "linear_identifiability_r2_mean": 0.7000000000000001,
+        "quality_q_mean": 1.1815566666666664
+      }
+    },
+    "ordered_rhos": [
+      0.5,
+      0.7,
+      0.9,
+      0.95
+    ]
+  },
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/sigreg-mini-grid/claim_capsule.json",
+    "raw_metrics": "reports/runs/sigreg-mini-grid/raw_metrics.jsonl",
+    "report": "reports/runs/sigreg-mini-grid/report.md",
+    "summary": "reports/runs/sigreg-mini-grid/summary.json"
+  },
+  "run_id": "sigreg-mini-grid",
+  "schema_id": "bedc-quality-lab:sigreg-mini-grid",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "raw_metrics": "reports/runs/sigreg-mini-grid/raw_metrics.jsonl"
+  },
+  "tradeoff_ledger": {
+    "gaussianity_improves_alignment_hurts": true,
+    "recorded": true,
+    "rows": [
+      {
+        "alignment_hurt_with_lambda": true,
+        "high_lambda_alignment_loss_mean": 0.30000000000000004,
+        "high_lambda_sigreg_sliced_cf_mean": 0.33999999999999997,
+        "low_lambda_alignment_loss_mean": 0.1,
+        "low_lambda_sigreg_sliced_cf_mean": 0.5,
+        "row_id": "sigreg-gaussianity-alignment-tradeoff",
+        "sigreg_gaussianity_improves_with_lambda": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "trend_summary": {
+    "expected_trend": {
+      "lambda_expected": true,
+      "rho_expected": true,
+      "status": "pass"
+    },
+    "lambda_collapse_rate_increasing": true,
+    "lambda_quality_q_decreasing": true,
+    "rho_linear_identifiability_r2_increasing": true
+  },
+  "what_was_learned": "The mini-grid separates SIGReg sliced-CF from covariance proxy and records the expected lambda/rho trend."
+}

@@ -1,0 +1,35 @@
+name: bedc-quality-lab-default-cost-protocol
+quality_formula:
+  id: quality_q
+  text: quality_benefit - quality_cost - quality_debt
+row_weights:
+  source/source-coverage: 0.18
+  source/mixing-family-coverage: 0.22
+  source/latent-distribution-gaussianity: 0.16
+  source/distribution-family-coverage: 0.24
+  source/finite-sample-support: 0.20
+  source/dimension-match: 0.18
+  source/transition-isotropy: 0.12
+  source/action-transition-identification: 0.16
+  derivative/row-coverage: 0.12
+  derivative/high-order-instability: 0.24
+  derivative/shortcut-attribution: 0.22
+  derivative/cost-benefit-negative: 0.18
+  derivative/unpatchable-high-order-claim: 0.24
+  jet/order-coverage: 0.16
+  jet/matched-random-control: 0.20
+  classifier/optimizer-certificate: 0.20
+  verification/theorem3-bound-margin: 0.20
+  generalization/global-claim-boundary: 0.20
+cost_components:
+  compute: Runtime compute required to generate or verify the reported quality evidence.
+  parameter: Parameter footprint used by models, probes, or certificates in the quality claim.
+  audit: Human and automated audit work needed to preserve report and ledger reliability.
+  formal_hardening: Lean, proof, and protocol hardening work required before stronger closure credit.
+  mechanism_burden: Mechanism attribution burden left by derivative, jet, or causal explanations.
+revocation_review:
+  trigger: cost_protocol_changed
+  review_required: Protocol changes require explicit review of certificate revocation and report credit semantics.
+not_claimed:
+  global_boundary: [outside-declared-scope, untested-source-families, unproved-global-generalization]
+  treatment: Claims outside these boundary tokens are not included in quality_q closure credit.

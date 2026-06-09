@@ -1,0 +1,270 @@
+{
+  "arm_summary": {
+    "baseline_arm": "vanilla_jepa",
+    "by_arm": {
+      "bedc_jepa_end_to_end": {
+        "collision_rate_mean": 0.3385416666666667,
+        "gap_event_rate_mean": 1.0,
+        "mean_regret_mean": -0.4024951151076945,
+        "row_count": 3,
+        "success_rate_mean": 0.5572916666666666,
+        "unlogged_error_rate_mean": 0.0
+      },
+      "jepa_posthoc_bedc_report": {
+        "collision_rate_mean": 0.34375,
+        "gap_event_rate_mean": 1.0,
+        "mean_regret_mean": -0.39157191602675906,
+        "row_count": 3,
+        "success_rate_mean": 0.5572916666666666,
+        "unlogged_error_rate_mean": 0.0
+      },
+      "jepa_posthoc_probe": {
+        "collision_rate_mean": 0.3333333333333333,
+        "gap_event_rate_mean": 1.0,
+        "mean_regret_mean": -0.40251174535180806,
+        "row_count": 3,
+        "success_rate_mean": 0.5572916666666666,
+        "unlogged_error_rate_mean": 0.0
+      },
+      "vanilla_jepa": {
+        "collision_rate_mean": 0.3385416666666667,
+        "gap_event_rate_mean": 1.0,
+        "mean_regret_mean": -0.40255690252220466,
+        "row_count": 3,
+        "success_rate_mean": 0.5572916666666666,
+        "unlogged_error_rate_mean": 0.0
+      }
+    },
+    "primary_arm": "bedc_jepa_end_to_end",
+    "primary_minus_baseline_regret": 6.178741451018377e-05,
+    "primary_minus_baseline_success": 0.0,
+    "primary_minus_baseline_unlogged_error": 0.0
+  },
+  "artifact_id": "bedc-quality-lab:toy-latent-planning-bedc",
+  "config": {
+    "arms": [
+      "vanilla_jepa",
+      "jepa_posthoc_probe",
+      "jepa_posthoc_bedc_report",
+      "bedc_jepa_end_to_end"
+    ],
+    "fixed_seed_policy": "explicit-owner-local-seed-list",
+    "generated_at": "run-local:toy_latent_planning_bedc",
+    "lambda_grid": [
+      0.0,
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "primary_lambda": 1.0,
+    "run_id": "toy_latent_planning_bedc",
+    "seeds": [
+      101,
+      211,
+      307
+    ],
+    "use_torch": false
+  },
+  "control_rows": [
+    {
+      "control_arm": "jepa_posthoc_probe",
+      "control_value": 0.5572916666666666,
+      "metric": "success_rate_mean",
+      "primary_better": false,
+      "primary_value": 0.5572916666666666
+    },
+    {
+      "control_arm": "jepa_posthoc_bedc_report",
+      "control_value": 0.5572916666666666,
+      "metric": "success_rate_mean",
+      "primary_better": false,
+      "primary_value": 0.5572916666666666
+    }
+  ],
+  "failed_gate": "G1-HG1",
+  "g1_hardgates": {
+    "G1-HG1": {
+      "evidence": "primary planning success exceeds vanilla latent planning",
+      "primary_minus_baseline_success": 0.0,
+      "status": "fail"
+    },
+    "G1-HG2": {
+      "evidence": "gap-head logging is treated as audit improvement, not transition identification",
+      "primary_minus_baseline_unlogged_error": 0.0,
+      "status": "pass"
+    },
+    "G1-HG3": {
+      "control_rows": [
+        {
+          "control_arm": "jepa_posthoc_probe",
+          "control_value": 0.5572916666666666,
+          "metric": "success_rate_mean",
+          "primary_better": false,
+          "primary_value": 0.5572916666666666
+        },
+        {
+          "control_arm": "jepa_posthoc_bedc_report",
+          "control_value": 0.5572916666666666,
+          "metric": "success_rate_mean",
+          "primary_better": false,
+          "primary_value": 0.5572916666666666
+        }
+      ],
+      "evidence": "D4-D5 controls are present and do not beat the owner arm",
+      "status": "fail"
+    },
+    "G1-HG4": {
+      "evidence": "planner lift is not promoted to action-conditioned transition identification",
+      "lambda_grid": [
+        0.0,
+        0.25,
+        0.5,
+        1.0,
+        2.0
+      ],
+      "primary_minus_baseline_regret": 6.178741451018377e-05,
+      "status": "pass"
+    }
+  },
+  "generated_at": "run-local:toy_latent_planning_bedc",
+  "not_claimed": [
+    "global planning optimality",
+    "action-conditioned transition identification",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality"
+  ],
+  "positive_claim": {
+    "level": "DN",
+    "scope": "owner-local toy latent planning benchmark",
+    "text": "Toy latent planning BEDC records owner-local audit improvement evidence under Gaussian-OU planning conditions."
+  },
+  "producer": "experiments/toy_latent_planning_bedc/run_toy_latent_planning_bedc.py",
+  "projector": "bedc_quality_lab.toy_latent_planning_bedc",
+  "result": {
+    "claim_capsule_ref": {
+      "artifact": "reports/toy_latent_planning_bedc/claim_capsule.json",
+      "pointer": "$"
+    },
+    "claim_capsule_status": "failed",
+    "discovery_level": "DN",
+    "status": "negative"
+  },
+  "revocation": {
+    "rows": [
+      {
+        "active": true,
+        "condition": "revoke if owner-local committed JSON no longer round-trips",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if gap-head logging is promoted to transition identification",
+        "status": "armed"
+      }
+    ],
+    "status": "revocable"
+  },
+  "run_artifacts": {
+    "claim_capsule": "reports/toy_latent_planning_bedc/claim_capsule.json",
+    "raw_metrics": "reports/toy_latent_planning_bedc/raw_metrics.jsonl",
+    "report": "reports/toy_latent_planning_bedc/report.md",
+    "sidecar": "reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json",
+    "summary": "reports/toy_latent_planning_bedc/summary.json"
+  },
+  "run_id": "toy_latent_planning_bedc",
+  "schema_id": "bedc-quality-lab:toy-latent-planning-bedc",
+  "source_summary": {
+    "action_count": 5,
+    "dependency": "scripts/run_gaussian_ou_dynamics_planning.py",
+    "planner_horizon": 3,
+    "primary_lambda": 1.0,
+    "source_seed_count": 3
+  },
+  "u_hardgates": {
+    "failed_gates": [],
+    "gates": {
+      "U-HG1": {
+        "capsule_artifact": "reports/toy_latent_planning_bedc/claim_capsule.json",
+        "status": "pass"
+      },
+      "U-HG2": {
+        "pointers": [
+          {
+            "pointer": "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG2",
+            "resolves": true
+          },
+          {
+            "pointer": "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG4",
+            "resolves": true
+          }
+        ],
+        "status": "pass"
+      },
+      "U-HG3": {
+        "cost_pointer": "$.cost_protocol.artifact",
+        "status": "pass"
+      },
+      "U-HG4": {
+        "missing": [],
+        "not_claimed": [
+          "global planning optimality",
+          "action-conditioned transition identification",
+          "full LeJEPA reproduction",
+          "full TensorNameCert",
+          "LLM behavior quality"
+        ],
+        "required_not_claimed": [
+          "global planning optimality",
+          "action-conditioned transition identification",
+          "full LeJEPA reproduction",
+          "full TensorNameCert",
+          "LLM behavior quality"
+        ],
+        "status": "pass"
+      },
+      "U-HG5": {
+        "control_required": true,
+        "control_row_count": 2,
+        "status": "pass"
+      },
+      "U-HG6": {
+        "dn_requires_failed_gate": true,
+        "failed_gate": "G1-HG1",
+        "status": "pass",
+        "what_was_learned_present": true
+      },
+      "U-HG7": {
+        "revocation_pointer": "$.revocation.rows",
+        "revocation_row_count": 2,
+        "status": "pass"
+      },
+      "U-HG8": {
+        "forbidden_column_audit": {
+          "forbidden_columns": [
+            "terminal_verdict",
+            "positive_claim",
+            "arm_aggregates",
+            "metrics"
+          ],
+          "hits": [],
+          "status": "pass"
+        },
+        "positive_claim_audit": {
+          "forbidden_positive_claim_terms": [
+            "full-lejepa",
+            "global-quality",
+            "full-tensor-namecert",
+            "llm-behavior"
+          ],
+          "hits": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "what_was_learned": "The owner-local BEDC arm improves audit-aware planning signals while action-conditioned transition identification remains outside the claim."
+}

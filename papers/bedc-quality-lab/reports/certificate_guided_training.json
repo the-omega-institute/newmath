@@ -1,0 +1,1261 @@
+{
+  "arm_protocol": {
+    "arms": [
+      {
+        "arm": "baseline",
+        "candidate_id": "deterministic-baseline",
+        "comparison_role": "reference",
+        "compat_role": "before",
+        "intervention": "none",
+        "use_torch": false
+      },
+      {
+        "arm": "debt_only",
+        "candidate_id": "certificate-guided-debt-support",
+        "comparison_role": "candidate",
+        "compat_role": "debt_only",
+        "intervention": "debt rows only",
+        "use_torch": false
+      },
+      {
+        "arm": "benefit_only",
+        "candidate_id": "certificate-guided-benefit-support",
+        "comparison_role": "candidate",
+        "compat_role": "benefit_only",
+        "intervention": "benefit proxy only",
+        "use_torch": false
+      },
+      {
+        "arm": "debt_plus_benefit",
+        "candidate_id": "certificate-guided-debt-benefit-support",
+        "comparison_role": "candidate",
+        "compat_role": "debt_plus_benefit",
+        "intervention": "debt rows plus benefit proxy",
+        "use_torch": false
+      },
+      {
+        "arm": "constraint_lagrangian",
+        "candidate_id": "constraint-lagrangian-candidate",
+        "comparison_role": "main",
+        "compat_role": "after",
+        "intervention": "constrained Lagrangian objective",
+        "use_torch": false
+      },
+      {
+        "arm": "constraint_lagrangian_adaptive_lambda",
+        "candidate_id": "adaptive-constraint-lagrangian-candidate",
+        "comparison_role": "candidate",
+        "compat_role": "adaptive",
+        "intervention": "constrained Lagrangian objective with adaptive lambdas",
+        "use_torch": false
+      },
+      {
+        "arm": "matched_random_debt",
+        "candidate_id": "matched-random-debt-control",
+        "comparison_role": "control",
+        "compat_role": "control",
+        "intervention": "matched random debt",
+        "use_torch": false
+      }
+    ],
+    "compat_roles": {
+      "after": "constraint_lagrangian",
+      "before": "baseline",
+      "control": "matched_random_debt"
+    },
+    "control_arm": "matched_random_debt",
+    "control_pair": [
+      "baseline",
+      "matched_random_debt"
+    ],
+    "control_rationale": "matched_random_debt tests whether debt-shaped perturbations alone explain the observed quality movement",
+    "main_pair": [
+      "baseline",
+      "constraint_lagrangian"
+    ]
+  },
+  "arm_summaries": {
+    "baseline": {
+      "arm": "baseline",
+      "best_lagrangian_loss": 0.03309064970577922,
+      "candidate_id": "deterministic-baseline",
+      "compat_role": "before",
+      "feasible_grid_record_count": 0,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.49782608695652175,
+      "mean_UER": 0.49782608695652175,
+      "mean_quality_benefit": 0.3097849718222423,
+      "mean_quality_debt": 0.9460500246813383,
+      "mean_quality_q": -0.6662650528590961,
+      "mean_task_loss": 0.0,
+      "record_count": 8
+    },
+    "benefit_only": {
+      "arm": "benefit_only",
+      "best_lagrangian_loss": 0.036890649705779224,
+      "candidate_id": "certificate-guided-benefit-support",
+      "compat_role": "benefit_only",
+      "delta_vs_baseline": {
+        "benefit_delta": 0.023000000000000003,
+        "cost_delta": 0.010000000000000002,
+        "debt_delta": 0.018000000000000016,
+        "false_ledger_rate_delta": -0.020000000000000018,
+        "quality_q_delta": -0.005000000000000011,
+        "uer_delta": -0.03999999999999998
+      },
+      "feasible_grid_record_count": 0,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.47782608695652173,
+      "mean_UER": 0.45782608695652177,
+      "mean_quality_benefit": 0.33278497182224226,
+      "mean_quality_debt": 0.9640500246813383,
+      "mean_quality_q": -0.6712650528590961,
+      "mean_task_loss": 0.006,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.0016162574052421255,
+          "ci95_high": -0.0033837425947578856,
+          "ci95_low": -0.006616257405242137,
+          "mean": -0.005000000000000011,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.002332380757938124
+        }
+      },
+      "record_count": 8
+    },
+    "constraint_lagrangian": {
+      "arm": "constraint_lagrangian",
+      "best_lagrangian_loss": 0.004,
+      "candidate_id": "constraint-lagrangian-candidate",
+      "compat_role": "after",
+      "delta_vs_baseline": {
+        "benefit_delta": -0.009799999999999993,
+        "cost_delta": 0.005999999999999998,
+        "debt_delta": -0.07799999999999996,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": 0.05900000000000001,
+        "uer_delta": -0.49782608695652175
+      },
+      "feasible_grid_record_count": 972,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.0,
+      "mean_UER": 0.0,
+      "mean_quality_benefit": 0.29998497182224226,
+      "mean_quality_debt": 0.8680500246813383,
+      "mean_quality_q": -0.607265052859096,
+      "mean_task_loss": 0.004,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.001616257405242115,
+          "ci95_high": 0.060616257405242124,
+          "ci95_low": 0.0573837425947579,
+          "mean": 0.05900000000000001,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.002332380757938109
+        }
+      },
+      "record_count": 8
+    },
+    "constraint_lagrangian_adaptive_lambda": {
+      "arm": "constraint_lagrangian_adaptive_lambda",
+      "best_lagrangian_loss": 0.006,
+      "candidate_id": "adaptive-constraint-lagrangian-candidate",
+      "compat_role": "adaptive",
+      "delta_vs_baseline": {
+        "benefit_delta": 0.0030000000000000126,
+        "cost_delta": 0.006999999999999999,
+        "debt_delta": -0.07000000000000005,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": 0.066,
+        "uer_delta": -0.49782608695652175
+      },
+      "feasible_grid_record_count": 972,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.0,
+      "mean_UER": 0.0,
+      "mean_quality_benefit": 0.3127849718222423,
+      "mean_quality_debt": 0.8760500246813383,
+      "mean_quality_q": -0.600265052859096,
+      "mean_task_loss": 0.006,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.0016162574052421292,
+          "ci95_high": 0.06761625740524213,
+          "ci95_low": 0.06438374259475788,
+          "mean": 0.066,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.0023323807579381296
+        }
+      },
+      "record_count": 8
+    },
+    "debt_only": {
+      "arm": "debt_only",
+      "best_lagrangian_loss": 0.01,
+      "candidate_id": "certificate-guided-debt-support",
+      "compat_role": "debt_only",
+      "delta_vs_baseline": {
+        "benefit_delta": -0.06080000000000001,
+        "cost_delta": 0.0040000000000000036,
+        "debt_delta": -0.050000000000000044,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": -0.03499999999999999,
+        "uer_delta": -0.49782608695652175
+      },
+      "feasible_grid_record_count": 729,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.0,
+      "mean_UER": 0.0,
+      "mean_quality_benefit": 0.24898497182224227,
+      "mean_quality_debt": 0.8960500246813382,
+      "mean_quality_q": -0.701265052859096,
+      "mean_task_loss": 0.01,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.0016162574052421322,
+          "ci95_high": -0.033383742594757855,
+          "ci95_low": -0.036616257405242124,
+          "mean": -0.03499999999999999,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.002332380757938134
+        }
+      },
+      "record_count": 8
+    },
+    "debt_plus_benefit": {
+      "arm": "debt_plus_benefit",
+      "best_lagrangian_loss": 0.008,
+      "candidate_id": "certificate-guided-debt-benefit-support",
+      "compat_role": "debt_plus_benefit",
+      "delta_vs_baseline": {
+        "benefit_delta": -0.027050000000000005,
+        "cost_delta": 0.008,
+        "debt_delta": -0.06400000000000004,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": 0.019999999999999983,
+        "uer_delta": -0.49782608695652175
+      },
+      "feasible_grid_record_count": 891,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.0,
+      "mean_UER": 0.0,
+      "mean_quality_benefit": 0.2827349718222423,
+      "mean_quality_debt": 0.8820500246813383,
+      "mean_quality_q": -0.6462650528590961,
+      "mean_task_loss": 0.008,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.0016162574052421138,
+          "ci95_high": 0.021616257405242097,
+          "ci95_low": 0.01838374259475787,
+          "mean": 0.019999999999999983,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.0023323807579381075
+        }
+      },
+      "record_count": 8
+    },
+    "matched_random_debt": {
+      "arm": "matched_random_debt",
+      "best_lagrangian_loss": 0.04959064970577921,
+      "candidate_id": "matched-random-debt-control",
+      "compat_role": "control",
+      "delta_vs_baseline": {
+        "benefit_delta": -0.015799999999999998,
+        "cost_delta": 0.009000000000000001,
+        "debt_delta": -0.025000000000000022,
+        "false_ledger_rate_delta": -0.05499999999999999,
+        "quality_q_delta": -0.005000000000000011,
+        "uer_delta": -0.10999999999999999
+      },
+      "feasible_grid_record_count": 0,
+      "grid_record_count": 3888,
+      "grid_summary_count": 486,
+      "mean_FalseLedgerRate": 0.44282608695652176,
+      "mean_UER": 0.38782608695652177,
+      "mean_quality_benefit": 0.29398497182224226,
+      "mean_quality_debt": 0.9210500246813382,
+      "mean_quality_q": -0.6712650528590961,
+      "mean_task_loss": 0.03,
+      "paired_ci_vs_baseline": {
+        "quality_q_delta": {
+          "ci95_half_width": 0.0016162574052421255,
+          "ci95_high": -0.0033837425947578856,
+          "ci95_low": -0.006616257405242137,
+          "mean": -0.005000000000000011,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.002332380757938124
+        }
+      },
+      "record_count": 8
+    }
+  },
+  "artifact": "reports/certificate_guided_training.json",
+  "c2_frontier": {
+    "axis_spec": {
+      "axes": {
+        "alpha": "UER upper bound",
+        "beta": "Quality benefit lower bound",
+        "gamma": "Quality debt upper bound",
+        "quality_q": "QualityQ delta against same-seed baseline"
+      },
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "projection_owner": "certificate-guided-constraint-training",
+      "run_id": "certificate-guided-constraint-training",
+      "schema_id": "bedc.quality.claim_capsule",
+      "source_artifact": "reports/certificate_guided_training.json",
+      "source_pointers": {
+        "c1_hardgate": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.hardgate"
+        },
+        "claim_gate": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.claim_gate"
+        },
+        "grid_summary": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.grid_summary"
+        },
+        "raw_grid_record_count": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.raw_grid_record_count"
+        }
+      }
+    },
+    "feasible_non_positive_witness": {
+      "alpha": 0.05,
+      "arm": "debt_plus_benefit",
+      "beta": 0.2897849718,
+      "delta_benefit": -0.0366,
+      "delta_debt": -0.064,
+      "delta_quality_q": 0.0194,
+      "feasible": true,
+      "gamma": 0.8960500247,
+      "grid_id": "c1-000",
+      "positive_quality_win": false,
+      "quality_q": -0.5925101437,
+      "seed": 36,
+      "summary_found": true,
+      "summary_pointer": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+      "task_loss": 0.008
+    },
+    "follow_up_training_replay": {
+      "evidence": {
+        "grid_summary_record_count_pointer": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.grid_summary.record_count"
+        },
+        "payload_raw_grid_record_count_pointer": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.raw_grid_record_count"
+        },
+        "payload_raw_metrics_record_count_pointer": {
+          "artifact": "reports/certificate_guided_training.json",
+          "pointer": "$.raw_metrics_record_count"
+        },
+        "raw_grid_record_count": 27216,
+        "raw_metrics_record_count": 56
+      },
+      "mode": "same-owner-replay",
+      "not_claimed": "follow-up replay is a source-evidence pointer set, not a terminal verdict",
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "run_artifacts": {
+        "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+        "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+        "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+      },
+      "source_artifact": "reports/certificate_guided_training.json"
+    },
+    "frontier_summary": {
+      "constraint_row_count": 27216,
+      "feasible_count": 3564,
+      "feasible_non_positive_count": 2592,
+      "first_feasible_non_positive_pointer": "$.c2_frontier.feasible_non_positive_witness",
+      "positive_quality_win_count": 972
+    },
+    "grid_summary_record_count": 3402,
+    "hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "C2-HG1": {
+          "artifact": "reports/certificate_guided_training.json",
+          "evidence_pointer": "$.c2_frontier.frontier_summary.feasible_non_positive_count",
+          "feasible_non_positive_count": 2592,
+          "first_witness_pointer": "$.c2_frontier.feasible_non_positive_witness",
+          "status": "pass"
+        },
+        "C2-HG2": {
+          "artifact": "reports/certificate_guided_training.json",
+          "evidence_pointer": "$.c2_frontier.axis_spec.source_pointers",
+          "resolved_source_pointer_count": 4,
+          "resolved_source_pointers": {
+            "c1_hardgate": true,
+            "claim_gate": true,
+            "grid_summary": true,
+            "raw_grid_record_count": true
+          },
+          "source_pointer_count": 4,
+          "status": "pass"
+        },
+        "C2-HG3": {
+          "artifact": "reports/certificate_guided_training.json",
+          "evidence_pointer": "$.c2_frontier.follow_up_training_replay.evidence",
+          "replay_counts_match": true,
+          "resolved_replay_pointers": {
+            "grid_summary_record_count": true,
+            "raw_grid_record_count": true,
+            "raw_metrics_record_count": true
+          },
+          "status": "pass"
+        }
+      },
+      "status": "passed"
+    },
+    "issue_alias": {
+      "aliases": [
+        "certificate_constraint_frontier_v2",
+        "certificate_constraint_frontier.schema.v1"
+      ],
+      "canonical_owner": "certificate-guided-constraint-training",
+      "kind": "issue-alias-provenance",
+      "production_use": false,
+      "source_ref": "gh-issue-698"
+    }
+  },
+  "claim_capsule": {
+    "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+    "c2_frontier": {
+      "axis_spec": {
+        "axes": {
+          "alpha": "UER upper bound",
+          "beta": "Quality benefit lower bound",
+          "gamma": "Quality debt upper bound",
+          "quality_q": "QualityQ delta against same-seed baseline"
+        },
+        "producer": "scripts/run_certificate_guided_constraint_training.py",
+        "projection_owner": "certificate-guided-constraint-training",
+        "run_id": "certificate-guided-constraint-training",
+        "schema_id": "bedc.quality.claim_capsule",
+        "source_artifact": "reports/certificate_guided_training.json",
+        "source_pointers": {
+          "c1_hardgate": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.hardgate"
+          },
+          "claim_gate": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.claim_gate"
+          },
+          "grid_summary": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.grid_summary"
+          },
+          "raw_grid_record_count": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.raw_grid_record_count"
+          }
+        }
+      },
+      "follow_up_training_replay": {
+        "evidence": {
+          "grid_summary_record_count_pointer": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.grid_summary.record_count"
+          },
+          "payload_raw_grid_record_count_pointer": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.raw_grid_record_count"
+          },
+          "payload_raw_metrics_record_count_pointer": {
+            "artifact": "reports/certificate_guided_training.json",
+            "pointer": "$.raw_metrics_record_count"
+          },
+          "raw_grid_record_count": 27216,
+          "raw_metrics_record_count": 56
+        },
+        "mode": "same-owner-replay",
+        "not_claimed": "follow-up replay is a source-evidence pointer set, not a terminal verdict",
+        "producer": "scripts/run_certificate_guided_constraint_training.py",
+        "run_artifacts": {
+          "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+          "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+          "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+        },
+        "source_artifact": "reports/certificate_guided_training.json"
+      },
+      "hardgates": {
+        "failed_gates": [],
+        "gates": {
+          "C2-HG1": {
+            "artifact": "reports/certificate_guided_training.json",
+            "evidence_pointer": "$.c2_frontier.frontier_summary.feasible_non_positive_count",
+            "feasible_non_positive_count": 2592,
+            "first_witness_pointer": "$.c2_frontier.feasible_non_positive_witness",
+            "status": "pass"
+          },
+          "C2-HG2": {
+            "artifact": "reports/certificate_guided_training.json",
+            "evidence_pointer": "$.c2_frontier.axis_spec.source_pointers",
+            "resolved_source_pointer_count": 4,
+            "resolved_source_pointers": {
+              "c1_hardgate": true,
+              "claim_gate": true,
+              "grid_summary": true,
+              "raw_grid_record_count": true
+            },
+            "source_pointer_count": 4,
+            "status": "pass"
+          },
+          "C2-HG3": {
+            "artifact": "reports/certificate_guided_training.json",
+            "evidence_pointer": "$.c2_frontier.follow_up_training_replay.evidence",
+            "replay_counts_match": true,
+            "resolved_replay_pointers": {
+              "grid_summary_record_count": true,
+              "raw_grid_record_count": true,
+              "raw_metrics_record_count": true
+            },
+            "status": "pass"
+          }
+        },
+        "status": "passed"
+      },
+      "issue_alias": {
+        "aliases": [
+          "certificate_constraint_frontier_v2",
+          "certificate_constraint_frontier.schema.v1"
+        ],
+        "canonical_owner": "certificate-guided-constraint-training",
+        "kind": "issue-alias-provenance",
+        "production_use": false,
+        "source_ref": "gh-issue-698"
+      }
+    },
+    "claim_gate": {
+      "audit_improvement_tradeoff": true,
+      "benefit_nondecreasing": false,
+      "blockers": [
+        "audit-improvement-tradeoff",
+        "benefit-decreased"
+      ],
+      "classifier_shift": true,
+      "constraint_lagrangian_beats_debt_only": true,
+      "matched_random_debt_also_improved": false,
+      "paired_ci_status": "ok",
+      "positive_discovery_predicate": false,
+      "positive_quality_improvement": false,
+      "quality_q_ci95_low": 0.0573837425947579,
+      "required_ci95_low_gt_zero": true
+    },
+    "failed_gate": "audit-improvement-tradeoff",
+    "generated_at": "2026-06-06T07:35:58.631082+00:00",
+    "hardgate": {
+      "basis": {
+        "baseline_arm": "baseline",
+        "control_arm": "matched_random_debt",
+        "control_delta": {
+          "benefit_delta": -0.015799999999999998,
+          "cost_delta": 0.009000000000000001,
+          "debt_delta": -0.025000000000000022,
+          "false_ledger_rate_delta": -0.05499999999999999,
+          "quality_q_delta": -0.005000000000000011,
+          "uer_delta": -0.10999999999999999
+        },
+        "debt_only_arm": "debt_only",
+        "debt_only_delta": {
+          "benefit_delta": -0.06080000000000001,
+          "cost_delta": 0.0040000000000000036,
+          "debt_delta": -0.050000000000000044,
+          "false_ledger_rate_delta": -0.49782608695652175,
+          "quality_q_delta": -0.03499999999999999,
+          "uer_delta": -0.49782608695652175
+        },
+        "main_arm": "constraint_lagrangian",
+        "main_delta": {
+          "benefit_delta": -0.009799999999999993,
+          "cost_delta": 0.005999999999999998,
+          "debt_delta": -0.07799999999999996,
+          "false_ledger_rate_delta": -0.49782608695652175,
+          "quality_q_delta": 0.05900000000000001,
+          "uer_delta": -0.49782608695652175
+        },
+        "paired_ci": {
+          "ci95_half_width": 0.001616257405242115,
+          "ci95_high": 0.060616257405242124,
+          "ci95_low": 0.0573837425947579,
+          "mean": 0.05900000000000001,
+          "n": 8,
+          "reason": "ok",
+          "status": "ok",
+          "std": 0.002332380757938109
+        }
+      },
+      "blockers": [
+        "audit-improvement-tradeoff",
+        "benefit-decreased"
+      ],
+      "failed_gate": "audit-improvement-tradeoff",
+      "failed_gates": [
+        {
+          "failed_gate": "audit-improvement-tradeoff",
+          "gate": "C1-HG1"
+        },
+        {
+          "failed_gate": "quality-q-benefit-nondecreasing",
+          "gate": "C1-HG2"
+        },
+        {
+          "failed_gate": "classifier-positive-discovery-predicate",
+          "gate": "C1-HG3"
+        }
+      ],
+      "gates": {
+        "C1-HG1": {
+          "benefit_delta": -0.009799999999999993,
+          "debt_delta": -0.07799999999999996,
+          "failed_gate": "audit-improvement-tradeoff",
+          "status": "fail"
+        },
+        "C1-HG2": {
+          "benefit_nondecreasing": false,
+          "failed_gate": "quality-q-benefit-nondecreasing",
+          "quality_q_ci95_low": 0.0573837425947579,
+          "status": "fail"
+        },
+        "C1-HG3": {
+          "classifier_shift": true,
+          "failed_gate": "classifier-positive-discovery-predicate",
+          "positive_discovery_predicate": false,
+          "status": "fail"
+        },
+        "C1-HG4": {
+          "demote": false,
+          "failed_gate": null,
+          "matched_random_debt_quality_q_delta": -0.005000000000000011,
+          "status": "pass"
+        },
+        "C1-HG5": {
+          "constraint_lagrangian_debt_delta": -0.07799999999999996,
+          "constraint_lagrangian_quality_q_delta": 0.05900000000000001,
+          "debt_only_debt_delta": -0.050000000000000044,
+          "debt_only_quality_q_delta": -0.03499999999999999,
+          "failed_gate": null,
+          "status": "pass"
+        }
+      },
+      "positive": false,
+      "status": "failed"
+    },
+    "not_claimed": [
+      "lab-local constraint-training evidence only",
+      "global model quality is not claimed",
+      "full LeJEPA is not claimed",
+      "full TensorNameCert is not claimed",
+      "LLM behavior is not claimed",
+      "mechanism closure is not claimed",
+      "claim is falsifiable and revocable",
+      "positive wording is not claimed for audit-improvement-tradeoff DN evidence"
+    ],
+    "prior_observation": {
+      "grid_summary_pointer": "reports/certificate_guided_training.json:$.grid_summary",
+      "hardgate_pointer": "reports/certificate_guided_training.json:$.hardgate",
+      "observation": "certificate-guided constraint training records audit-improvement-tradeoff evidence under debt-down benefit-down cells",
+      "source_evidence_pointer": "reports/certificate_guided_training.json:$.claim_capsule.source_evidence"
+    },
+    "producer": "scripts/run_certificate_guided_constraint_training.py",
+    "report_artifact": "reports/certificate_guided_training.json",
+    "revocable": true,
+    "run_id": "certificate-guided-constraint-training",
+    "run_local": {
+      "negative_witness": [
+        {
+          "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+          "pointer": "$.run_local.negative_witness[0]"
+        }
+      ],
+      "negative_witness_hardgates": {
+        "failed_gates": [],
+        "gates": {
+          "NW-HG1": {
+            "evidence_pointer": "$.run_local.negative_witness.0",
+            "list_shape_ok": true,
+            "row_shape_ok": true,
+            "status": "pass"
+          },
+          "NW-HG2": {
+            "evidence_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+            "source_pointer_resolved": true,
+            "source_pointer_value": "audit-improvement-tradeoff",
+            "status": "pass"
+          },
+          "NW-HG3": {
+            "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+            "evidence_pointer_resolved": true,
+            "status": "pass"
+          },
+          "NW-HG4": {
+            "evidence_pointer": "$.run_local.negative_witness.0.status",
+            "expected_status": "fail",
+            "observed_status": "fail",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      }
+    },
+    "schema_id": "bedc.quality.claim_capsule",
+    "source_evidence": {
+      "arm_count": 7,
+      "c2_frontier_pointer": "$.c2_frontier",
+      "claim_gate_pointer": "$.claim_gate",
+      "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+      "grid_record_schema": "seed-aggregated",
+      "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+      "grid_summary_count": 3402,
+      "hardgate_pointer": "$.hardgate",
+      "json_artifact": "reports/certificate_guided_training.json",
+      "main_delta_pointer": "$.hardgate.basis.main_delta",
+      "matched_random_control_pointer": "$.hardgate.basis.control_delta",
+      "prior_observation_pointer": "$.claim_capsule.prior_observation",
+      "raw_grid_record_count": 27216,
+      "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+      "raw_metrics_record_count": 56,
+      "report_artifact": "reports/certificate_guided_training.json",
+      "seed_count": 8
+    },
+    "terminal_verdict": "DN(audit-improvement-tradeoff)",
+    "what_was_learned": "constraint_lagrangian did not clear audit-improvement-tradeoff"
+  },
+  "claim_gate": {
+    "audit_improvement_tradeoff": true,
+    "benefit_nondecreasing": false,
+    "blockers": [
+      "audit-improvement-tradeoff",
+      "benefit-decreased"
+    ],
+    "classifier_shift": true,
+    "constraint_lagrangian_beats_debt_only": true,
+    "matched_random_debt_also_improved": false,
+    "paired_ci_status": "ok",
+    "positive_discovery_predicate": false,
+    "positive_quality_improvement": false,
+    "quality_q_ci95_low": 0.0573837425947579,
+    "required_ci95_low_gt_zero": true
+  },
+  "cost_protocol": {
+    "formula": {
+      "id": "quality_q",
+      "text": "quality_benefit - quality_cost - quality_debt"
+    },
+    "name": "bedc-quality-lab-default-cost-protocol",
+    "row_weights": [
+      {
+        "kind": "classifier",
+        "residue": "optimizer-certificate",
+        "weight": 0.2
+      },
+      {
+        "kind": "generalization",
+        "residue": "global-claim-boundary",
+        "weight": 0.2
+      },
+      {
+        "kind": "source",
+        "residue": "action-transition-identification",
+        "weight": 0.16
+      },
+      {
+        "kind": "source",
+        "residue": "dimension-match",
+        "weight": 0.18
+      },
+      {
+        "kind": "source",
+        "residue": "distribution-family-coverage",
+        "weight": 0.24
+      },
+      {
+        "kind": "source",
+        "residue": "finite-sample-support",
+        "weight": 0.2
+      },
+      {
+        "kind": "source",
+        "residue": "latent-distribution-gaussianity",
+        "weight": 0.16
+      },
+      {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "weight": 0.22
+      },
+      {
+        "kind": "source",
+        "residue": "source-coverage",
+        "weight": 0.18
+      },
+      {
+        "kind": "source",
+        "residue": "transition-isotropy",
+        "weight": 0.12
+      },
+      {
+        "kind": "verification",
+        "residue": "theorem3-bound-margin",
+        "weight": 0.2
+      }
+    ]
+  },
+  "deltas": {
+    "after_minus_before": {
+      "benefit_delta": -0.009799999999999993,
+      "cost_delta": 0.005999999999999998,
+      "debt_delta": -0.07799999999999996,
+      "false_ledger_rate_delta": -0.49782608695652175,
+      "quality_q_delta": 0.05900000000000001,
+      "uer_delta": -0.49782608695652175
+    },
+    "constraint_lagrangian_minus_baseline": {
+      "benefit_delta": -0.009799999999999993,
+      "cost_delta": 0.005999999999999998,
+      "debt_delta": -0.07799999999999996,
+      "false_ledger_rate_delta": -0.49782608695652175,
+      "quality_q_delta": 0.05900000000000001,
+      "uer_delta": -0.49782608695652175
+    },
+    "constraint_lagrangian_minus_debt_only": {
+      "benefit_delta": 0.05100000000000002,
+      "cost_delta": 0.001999999999999995,
+      "debt_delta": -0.027999999999999914,
+      "false_ledger_rate_delta": 0.0,
+      "quality_q_delta": 0.094,
+      "uer_delta": 0.0
+    },
+    "control_minus_before": {
+      "benefit_delta": -0.015799999999999998,
+      "cost_delta": 0.009000000000000001,
+      "debt_delta": -0.025000000000000022,
+      "false_ledger_rate_delta": -0.05499999999999999,
+      "quality_q_delta": -0.005000000000000011,
+      "uer_delta": -0.10999999999999999
+    },
+    "debt_plus_benefit_minus_baseline": {
+      "benefit_delta": -0.027050000000000005,
+      "cost_delta": 0.008,
+      "debt_delta": -0.06400000000000004,
+      "false_ledger_rate_delta": -0.49782608695652175,
+      "quality_q_delta": 0.019999999999999983,
+      "uer_delta": -0.49782608695652175
+    },
+    "matched_random_debt_minus_baseline": {
+      "benefit_delta": -0.015799999999999998,
+      "cost_delta": 0.009000000000000001,
+      "debt_delta": -0.025000000000000022,
+      "false_ledger_rate_delta": -0.05499999999999999,
+      "quality_q_delta": -0.005000000000000011,
+      "uer_delta": -0.10999999999999999
+    }
+  },
+  "discovery_level": "DN",
+  "failed_gate": "audit-improvement-tradeoff",
+  "generated_at": "2026-06-06T07:35:58.631082+00:00",
+  "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+  "grid_record_schema": {
+    "aggregation": "seed-aggregated",
+    "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+    "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+    "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+    "summary_key": [
+      "arm",
+      "alpha",
+      "beta",
+      "gamma",
+      "lambda_uer",
+      "lambda_benefit",
+      "lambda_debt"
+    ]
+  },
+  "grid_summary": {
+    "artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+    "by_arm": {
+      "baseline": {
+        "feasible_count": 0,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 0,
+        "record_count": 486
+      },
+      "benefit_only": {
+        "feasible_count": 0,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 0,
+        "record_count": 486
+      },
+      "constraint_lagrangian": {
+        "feasible_count": 972,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 972,
+        "record_count": 486
+      },
+      "constraint_lagrangian_adaptive_lambda": {
+        "feasible_count": 972,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 3888,
+        "record_count": 486
+      },
+      "debt_only": {
+        "feasible_count": 729,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 0,
+        "record_count": 486
+      },
+      "debt_plus_benefit": {
+        "feasible_count": 891,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 972,
+        "record_count": 486
+      },
+      "matched_random_debt": {
+        "feasible_count": 0,
+        "positive_discovery_count": 0,
+        "positive_quality_gate_count": 0,
+        "record_count": 486
+      }
+    },
+    "record_count": 3402,
+    "records_pointer": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl"
+  },
+  "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+  "hardgate": {
+    "basis": {
+      "baseline_arm": "baseline",
+      "control_arm": "matched_random_debt",
+      "control_delta": {
+        "benefit_delta": -0.015799999999999998,
+        "cost_delta": 0.009000000000000001,
+        "debt_delta": -0.025000000000000022,
+        "false_ledger_rate_delta": -0.05499999999999999,
+        "quality_q_delta": -0.005000000000000011,
+        "uer_delta": -0.10999999999999999
+      },
+      "debt_only_arm": "debt_only",
+      "debt_only_delta": {
+        "benefit_delta": -0.06080000000000001,
+        "cost_delta": 0.0040000000000000036,
+        "debt_delta": -0.050000000000000044,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": -0.03499999999999999,
+        "uer_delta": -0.49782608695652175
+      },
+      "main_arm": "constraint_lagrangian",
+      "main_delta": {
+        "benefit_delta": -0.009799999999999993,
+        "cost_delta": 0.005999999999999998,
+        "debt_delta": -0.07799999999999996,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": 0.05900000000000001,
+        "uer_delta": -0.49782608695652175
+      },
+      "paired_ci": {
+        "ci95_half_width": 0.001616257405242115,
+        "ci95_high": 0.060616257405242124,
+        "ci95_low": 0.0573837425947579,
+        "mean": 0.05900000000000001,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.002332380757938109
+      }
+    },
+    "blockers": [
+      "audit-improvement-tradeoff",
+      "benefit-decreased"
+    ],
+    "failed_gate": "audit-improvement-tradeoff",
+    "failed_gates": [
+      {
+        "failed_gate": "audit-improvement-tradeoff",
+        "gate": "C1-HG1"
+      },
+      {
+        "failed_gate": "quality-q-benefit-nondecreasing",
+        "gate": "C1-HG2"
+      },
+      {
+        "failed_gate": "classifier-positive-discovery-predicate",
+        "gate": "C1-HG3"
+      }
+    ],
+    "gates": {
+      "C1-HG1": {
+        "benefit_delta": -0.009799999999999993,
+        "debt_delta": -0.07799999999999996,
+        "failed_gate": "audit-improvement-tradeoff",
+        "status": "fail"
+      },
+      "C1-HG2": {
+        "benefit_nondecreasing": false,
+        "failed_gate": "quality-q-benefit-nondecreasing",
+        "quality_q_ci95_low": 0.0573837425947579,
+        "status": "fail"
+      },
+      "C1-HG3": {
+        "classifier_shift": true,
+        "failed_gate": "classifier-positive-discovery-predicate",
+        "positive_discovery_predicate": false,
+        "status": "fail"
+      },
+      "C1-HG4": {
+        "demote": false,
+        "failed_gate": null,
+        "matched_random_debt_quality_q_delta": -0.005000000000000011,
+        "status": "pass"
+      },
+      "C1-HG5": {
+        "constraint_lagrangian_debt_delta": -0.07799999999999996,
+        "constraint_lagrangian_quality_q_delta": 0.05900000000000001,
+        "debt_only_debt_delta": -0.050000000000000044,
+        "debt_only_quality_q_delta": -0.03499999999999999,
+        "failed_gate": null,
+        "status": "pass"
+      }
+    },
+    "positive": false,
+    "status": "failed"
+  },
+  "metrics": {
+    "FalseLedgerRate": {
+      "ci95_half_width": 0.0,
+      "ci95_high": 0.0,
+      "ci95_low": 0.0,
+      "mean": 0.0,
+      "n": 8,
+      "std": 0.0
+    },
+    "ParetoDominance": false,
+    "UER": {
+      "ci95_half_width": 0.0,
+      "ci95_high": 0.0,
+      "ci95_low": 0.0,
+      "mean": 0.0,
+      "n": 8,
+      "std": 0.0
+    },
+    "audit_improvement_tradeoff": true,
+    "delta_benefit": -0.009799999999999993,
+    "delta_cost": 0.005999999999999998,
+    "delta_debt": -0.07799999999999996,
+    "delta_quality_q": 0.05900000000000001,
+    "positive_discovery": false,
+    "positive_quality_gate": false
+  },
+  "not_claimed": [
+    "lab-local constraint-training evidence only",
+    "global model quality is not claimed",
+    "full LeJEPA is not claimed",
+    "full TensorNameCert is not claimed",
+    "LLM behavior is not claimed",
+    "mechanism closure is not claimed",
+    "claim is falsifiable and revocable",
+    "positive wording is not claimed for audit-improvement-tradeoff DN evidence"
+  ],
+  "objective": {
+    "constraint": "min L_task subject to UER <= alpha, Benefit >= beta, Debt <= gamma",
+    "formula": "loss = task_loss + lambda_uer*relu(UER-alpha) + lambda_benefit*relu(beta-Benefit) + lambda_debt*relu(Debt-gamma)",
+    "grid": {
+      "alpha": [
+        0.05,
+        0.1,
+        0.2
+      ],
+      "beta": [
+        "baseline_benefit-0.02",
+        "baseline_benefit",
+        "baseline_benefit+0.02"
+      ],
+      "gamma": [
+        "baseline_debt-0.05",
+        "baseline_debt-0.10"
+      ],
+      "lambda_benefit": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "lambda_debt": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "lambda_uer": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "seeds": 8
+    },
+    "required_rows": [
+      "classifier/optimizer-certificate",
+      "generalization/global-claim-boundary",
+      "source/action-transition-identification",
+      "source/dimension-match",
+      "source/distribution-family-coverage",
+      "source/finite-sample-support",
+      "source/latent-distribution-gaussianity",
+      "source/mixing-family-coverage",
+      "source/source-coverage",
+      "source/transition-isotropy",
+      "verification/theorem3-bound-margin"
+    ]
+  },
+  "paired_delta_ci": {
+    "after_minus_before": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.001616257405242115,
+        "ci95_high": 0.060616257405242124,
+        "ci95_low": 0.0573837425947579,
+        "mean": 0.05900000000000001,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.002332380757938109
+      }
+    },
+    "constraint_lagrangian_minus_debt_only": {
+      "quality_q_delta": {
+        "ci95_half_width": 2.80375966409487e-17,
+        "ci95_high": 0.09400000000000003,
+        "ci95_low": 0.09399999999999997,
+        "mean": 0.094,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 4.046035655711836e-17
+      }
+    },
+    "control_minus_before": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.0016162574052421255,
+        "ci95_high": -0.0033837425947578856,
+        "ci95_low": -0.006616257405242137,
+        "mean": -0.005000000000000011,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.002332380757938124
+      }
+    },
+    "debt_plus_benefit_minus_baseline": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.0016162574052421138,
+        "ci95_high": 0.021616257405242097,
+        "ci95_low": 0.01838374259475787,
+        "mean": 0.019999999999999983,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.0023323807579381075
+      }
+    },
+    "matched_random_debt_minus_baseline": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.0016162574052421255,
+        "ci95_high": -0.0033837425947578856,
+        "ci95_low": -0.006616257405242137,
+        "mean": -0.005000000000000011,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.002332380757938124
+      }
+    }
+  },
+  "paired_seed_protocol": {
+    "arm_control_pair": [
+      "baseline",
+      "matched_random_debt"
+    ],
+    "arm_main_pair": [
+      "baseline",
+      "constraint_lagrangian"
+    ],
+    "ci95": "1.96 * sample_std(delta) / sqrt(n)",
+    "control_pair": [
+      "before",
+      "control"
+    ],
+    "cost_protocol_key": "cost_protocol_name",
+    "main_pair": [
+      "before",
+      "after"
+    ],
+    "metric_key": "quality_q",
+    "paired_delta": "after minus before by seed",
+    "roles": [
+      "before",
+      "after",
+      "control"
+    ],
+    "seeds": [
+      18,
+      25,
+      36,
+      44,
+      57,
+      63,
+      72,
+      89
+    ],
+    "split_fingerprint_key": "split_fingerprint"
+  },
+  "raw_grid_record_count": 27216,
+  "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+  "raw_metrics_policy": {
+    "artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+    "omitted": "per-seed per-grid-cell records",
+    "reason": "grid-cell records are derivable from source metrics and the objective grid and would exceed the canonical raw sidecar line budget",
+    "retained": "per-seed per-arm source metric records"
+  },
+  "raw_metrics_record_count": 56,
+  "report": "reports/certificate_guided_training.md",
+  "result": {
+    "ledger_rows_written": true,
+    "note": "constraint_lagrangian did not clear audit-improvement-tradeoff",
+    "selected_after_candidate_id": "constraint-lagrangian-candidate",
+    "shared_cost_protocol_name": true,
+    "shared_split_fingerprint_class": true,
+    "status": "negative"
+  },
+  "run_id": "certificate-guided-constraint-training",
+  "source_artifacts": {
+    "canonical_runner": "scripts/run_gaussian_ou_lejepa.py::run_experiment",
+    "claim_capsule": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+    "constraint_helper": "bedc_quality_lab.training.certificate_guided",
+    "gap_ledger_metric_surface": "scripts/run_gaussian_ou_gap_ledger_head.py",
+    "generation_script": "scripts/run_certificate_guided_constraint_training.py",
+    "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+    "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+    "json_artifact": "reports/certificate_guided_training.json",
+    "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+    "report_artifact": "reports/certificate_guided_training.md"
+  },
+  "verdict": "DN(audit-improvement-tradeoff)"
+}

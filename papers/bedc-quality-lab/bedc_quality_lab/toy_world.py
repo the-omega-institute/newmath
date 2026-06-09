@@ -1,0 +1,51 @@
+"""Deterministic Gaussian-OU toy world."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+import numpy as np
+
+from .latent_distribution import LatentDistributionSpec
+from .mixing import DEFAULT_MIXING, mix_latents
+from .transition import TransitionKernelSpec, make_transition_pair
+
+
+@dataclass(frozen=True)
+class ToyBatch:
+    z: np.ndarray
+    z_pair: np.ndarray
+    x: np.ndarray
+    x_pair: np.ndarray
+
+
+def make_latents(
+    n: int,
+    *,
+    seed: int,
+    latent_distribution: LatentDistributionSpec | None = None,
+) -> np.ndarray:
+    spec = LatentDistributionSpec.gaussian() if latent_distribution is None else latent_distribution
+    return spec.sample(n, seed)
+
+
+def make_ou_pair(z: np.ndarray, *, rho: float, seed: int) -> np.ndarray:
+    if z.ndim != 2 or z.shape[1] != 2:
+        raise ValueError("z must have shape (n, 2)")
+    spec = TransitionKernelSpec.isotropic(rho, latent_dim=z.shape[1])
+    return make_transition_pair(z, spec, seed)
+
+
+def make_toy_batch(
+    n: int,
+    *,
+    rho: float = 0.82,
+    seed: int = 17,
+    transition_kernel: TransitionKernelSpec | None = None,
+    mixing: str = DEFAULT_MIXING,
+    latent_distribution: LatentDistributionSpec | None = None,
+) -> ToyBatch:
+    z = make_latents(n, seed=seed, latent_distribution=latent_distribution)
+    spec = transition_kernel if transition_kernel is not None else TransitionKernelSpec.isotropic(rho, latent_dim=z.shape[1])
+    z_pair = make_transition_pair(z, spec, seed + 1)
+    return ToyBatch(z=z, z_pair=z_pair, x=mix_latents(z, mixing), x_pair=mix_latents(z_pair, mixing))
