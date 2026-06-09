@@ -38,12 +38,16 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["vjepa2_ac_minigrid_claim_certificate"] == (
         "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     )
+    assert bundle["required_artifacts"]["vjepa2_ac_minigrid_latent_prediction"] == (
+        "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    )
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_minigrid_debt_closure.py" in bundle["reproduction_commands"]
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py" in bundle["reproduction_commands"]
+    assert "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py" in bundle["reproduction_commands"]
     assert "pdflatex -interaction=nonstopmode -halt-on-error main.tex" in bundle["reproduction_commands"]
     assert bundle["checks"]["checkpoint_contact"] == "closed"
     assert bundle["checks"]["native_public_benchmark"] == "closed"
@@ -54,6 +58,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["checks"]["public_ablation_unlogged_penalty_effect"] >= 0.0
     assert bundle["checks"]["retraining_ablation_system_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_lccp_claim_count"] >= 0.0
+    assert bundle["checks"]["vjepa2_ac_latent_prediction_score"] >= 0.0
 
     if bundle["status"] == "review_ready":
         assert bundle["failures"] == []

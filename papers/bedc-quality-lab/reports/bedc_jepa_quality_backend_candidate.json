@@ -10,7 +10,8 @@
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "review_bundle": "reports/bedc_jepa_review_bundle.json",
-    "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
   },
   "backend": {
     "assumptions": [
@@ -28,7 +29,8 @@
       "object_counterfactual_clutter",
       "public_jepa_checkpoint_contact",
       "public_minigrid_execution",
-      "torch_objective_seed_sweep"
+      "torch_objective_seed_sweep",
+      "vjepa2_ac_minigrid_latent_prediction"
     ],
     "ledger_rows": [
       {
@@ -66,6 +68,10 @@
       {
         "kind": "classifier",
         "residue": "vjepa2-ac-frozen-carrier-lccp"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "vjepa2-ac-minigrid-latent-prediction"
       }
     ],
     "metrics": [
@@ -82,7 +88,8 @@
       "native_public_benchmark_closed",
       "artifact_review_bundle_closed",
       "retraining_ablation_recorded",
-      "vjepa2_ac_lccp_recorded"
+      "vjepa2_ac_lccp_recorded",
+      "vjepa2_ac_latent_prediction_score"
     ],
     "name": "bedc-jepa-world-model",
     "not_claimed": [
@@ -190,6 +197,15 @@
       "residue": "vjepa2-ac-frozen-carrier-lccp",
       "severity": "none",
       "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+      "key": "mechanism/vjepa2-ac-minigrid-latent-prediction",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "vjepa2-ac-minigrid-latent-prediction",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
@@ -206,6 +222,7 @@
     "torch_objective_gap_auc_gain_mean": 0.4987624509356536,
     "torch_objective_gap_auc_win_rate": 1.0,
     "torch_objective_latent_r2_delta_abs_max": 0.0,
+    "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
     "vjepa2_ac_lccp_recorded": 1.0
   },
   "not_claimed": [

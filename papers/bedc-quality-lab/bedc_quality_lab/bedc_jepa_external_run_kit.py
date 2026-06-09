@@ -80,6 +80,20 @@ def build_external_run_kit() -> dict[str, Any]:
                 ],
                 "pass_condition": "target artifact records each predicate as certified, coverage debt, or source debt under the Latent Claim Certificate Protocol",
             },
+            "vjepa2_ac_minigrid_latent_prediction": {
+                "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
+                "target_artifact": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+                "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+                "required_fields": [
+                    "candidate_id",
+                    "environment_id",
+                    "sample_counts",
+                    "metrics",
+                    "claim_scope",
+                    "cannot_claim",
+                ],
+                "pass_condition": "target artifact status is executed and reports latent_prediction_score beside explicit cannot-claim rows",
+            },
         },
         "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
         "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
@@ -87,6 +101,7 @@ def build_external_run_kit() -> dict[str, Any]:
         "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+        "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
         "verification_commands": [
             "python -m pytest -q",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",

@@ -78,6 +78,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
             "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
             "vjepa2_ac_minigrid_claim_certificate": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+            "vjepa2_ac_minigrid_latent_prediction": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
             "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
@@ -150,6 +151,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "public_baselines": {
             "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
             "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",
+            "jepa_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
             "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
             "jepa_external_result": "reports/bedc_jepa_public_baseline_external_result.json",

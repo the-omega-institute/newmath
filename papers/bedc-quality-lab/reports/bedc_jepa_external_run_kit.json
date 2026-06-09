@@ -74,6 +74,20 @@
       ],
       "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
       "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    },
+    "vjepa2_ac_minigrid_latent_prediction": {
+      "pass_condition": "target artifact status is executed and reports latent_prediction_score beside explicit cannot-claim rows",
+      "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
+      "required_fields": [
+        "candidate_id",
+        "environment_id",
+        "sample_counts",
+        "metrics",
+        "claim_scope",
+        "cannot_claim"
+      ],
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+      "target_artifact": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     }
   },
   "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
@@ -84,5 +98,6 @@
     "python -m pytest -q",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
-  "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
+  "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+  "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
 }

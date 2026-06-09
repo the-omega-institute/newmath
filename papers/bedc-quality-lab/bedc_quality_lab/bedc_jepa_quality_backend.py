@@ -30,6 +30,7 @@ METRICS = (
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
     "vjepa2_ac_lccp_recorded",
+    "vjepa2_ac_latent_prediction_score",
 )
 
 LEDGER_ROWS = (
@@ -42,6 +43,7 @@ LEDGER_ROWS = (
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
     {"kind": "classifier", "residue": "vjepa2-ac-frozen-carrier-lccp"},
+    {"kind": "mechanism", "residue": "vjepa2-ac-minigrid-latent-prediction"},
 )
 
 NOT_CLAIMED = (
@@ -98,6 +100,7 @@ def _metric_payload(
         "vjepa2_ac_lccp_recorded": 1.0
         if float(checks.get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0
         else 0.0,
+        "vjepa2_ac_latent_prediction_score": float(checks.get("vjepa2_ac_latent_prediction_score") or 0.0),
     }
 
 
@@ -133,6 +136,13 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
                 else "open"
             )
             evidence = "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+        elif row["residue"] == "vjepa2-ac-minigrid-latent-prediction":
+            status = (
+                "closed"
+                if str(review_bundle.get("checks", {}).get("vjepa2_ac_latent_prediction_status") or "") == "executed"
+                else "open"
+            )
+            evidence = "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
         elif row["residue"] in {"distinction-head-certificate", "gap-head-certificate"}:
             status = "closed" if review_status == "review_ready" else "partial"
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
@@ -214,6 +224,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+            "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
         },
         "forbidden_surfaces": [
             "model runner execution",
