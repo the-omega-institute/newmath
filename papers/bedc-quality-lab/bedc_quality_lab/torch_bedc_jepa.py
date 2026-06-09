@@ -223,6 +223,35 @@ def run_torch_retraining_loss_ablation(
     epochs: int = 220,
 ) -> dict[str, Any]:
     torch = require_torch()
+    source_debt_contract = {
+        "minus_l_stab": {
+            "missing_supervision_surface": "declared stability pairs or augmentations over the same operational distinction",
+            "required_fields_to_execute": [
+                "stability_source_split",
+                "paired_observations_or_augmentations",
+                "stability_label_or_invariance_target",
+                "same_train_cal_test_split",
+            ],
+            "acceptance_rule": (
+                "execute a true retraining row with L_stab removed only after the "
+                "stability source split and invariance target are recorded"
+            ),
+        },
+        "minus_l_intervention": {
+            "missing_supervision_surface": "declared intervention or action-effect labels over an operational distinction",
+            "required_fields_to_execute": [
+                "intervention_source_split",
+                "pre_intervention_observation",
+                "intervention_or_action",
+                "post_intervention_label",
+                "same_train_cal_test_split",
+            ],
+            "acceptance_rule": (
+                "execute a true retraining row with L_intervention removed only after "
+                "the intervention source split and effect labels are recorded"
+            ),
+        },
+    }
     systems = {
         "full_s3": {
             "objective_terms": [
@@ -259,12 +288,14 @@ def run_torch_retraining_loss_ablation(
             "weights": {},
             "status": "source_debt",
             "reason": "boundary-gated torch objective has no declared stability supervision term",
+            "source_debt_contract": source_debt_contract["minus_l_stab"],
         },
         "minus_l_intervention": {
             "objective_terms": [],
             "weights": {},
             "status": "source_debt",
             "reason": "boundary-gated torch objective has no declared intervention supervision term",
+            "source_debt_contract": source_debt_contract["minus_l_intervention"],
         },
     }
     run_rows: list[dict[str, Any]] = []
@@ -317,6 +348,7 @@ def run_torch_retraining_loss_ablation(
         },
         "seeds": [float(seed) for seed in seeds],
         "systems": systems,
+        "source_debt_contract": source_debt_contract,
         "runs": run_rows,
         "summary": summary,
         "comparisons": comparisons,

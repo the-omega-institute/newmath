@@ -19,6 +19,28 @@ def test_torch_retraining_loss_ablation_records_true_training_rows():
     assert packet["systems"]["minus_l_gap"]["status"] == "executed"
     assert packet["systems"]["minus_l_stab"]["status"] == "source_debt"
     assert packet["systems"]["minus_l_intervention"]["status"] == "source_debt"
+    assert set(packet["source_debt_contract"]) == {"minus_l_stab", "minus_l_intervention"}
+    assert (
+        "stability_source_split"
+        in packet["source_debt_contract"]["minus_l_stab"]["required_fields_to_execute"]
+    )
+    assert (
+        "intervention_source_split"
+        in packet["source_debt_contract"]["minus_l_intervention"]["required_fields_to_execute"]
+    )
+    assert (
+        packet["systems"]["minus_l_stab"]["source_debt_contract"]
+        == packet["source_debt_contract"]["minus_l_stab"]
+    )
+    assert (
+        packet["systems"]["minus_l_intervention"]["source_debt_contract"]
+        == packet["source_debt_contract"]["minus_l_intervention"]
+    )
+    assert "true retraining row" in packet["source_debt_contract"]["minus_l_stab"]["acceptance_rule"]
+    assert (
+        "true retraining row"
+        in packet["source_debt_contract"]["minus_l_intervention"]["acceptance_rule"]
+    )
     assert len(packet["runs"]) == 3
     assert set(packet["summary"]) == {"full_s3", "minus_l_unlogged", "minus_l_gap"}
     assert "full_s3_minus_minus_l_unlogged" in packet["comparisons"]

@@ -8,6 +8,37 @@ from typing import Any
 
 
 def build_vjepa2_ac_native_boundary() -> dict[str, Any]:
+    native_acceptance_contract = {
+        "native_acceptance_rule": (
+            "mark native reproduction as evaluated only when the same public stream, official "
+            "or near-native rollout score, command, checkpoint identity, and BEDC readback "
+            "metrics are recorded in one packet"
+        ),
+        "required_native_evidence": [
+            "public_environment_id",
+            "image_action_stream_split",
+            "vjepa2_repository_commit",
+            "checkpoint_identity",
+            "execution_command",
+            "native_or_near_native_rollout_score",
+            "latent_prediction_score",
+            "bedc_readback_metrics",
+            "lccp_certificate_metrics",
+            "cannot_claim_boundary",
+        ],
+        "parity_protocol_fields": [
+            "same_observation_preprocessing",
+            "same_action_encoding",
+            "same_train_cal_test_split",
+            "same_planning_or_rollout_target",
+            "same_bedc_predicate_set",
+            "same_alpha_grid",
+        ],
+        "successor_record_requirements": [
+            "reports/bedc_vjepa2_ac_native_reproduction.json",
+            "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+        ],
+    }
     return {
         "schema_id": "bedc-jepa-vjepa2-ac-native-boundary",
         "status": "not_executed",
@@ -24,6 +55,7 @@ def build_vjepa2_ac_native_boundary() -> dict[str, Any]:
             "checkpoint commit and command line",
             "BEDC readback metrics reported beside native score",
         ],
+        "native_acceptance_contract": native_acceptance_contract,
         "current_evidence_artifacts": [
             "reports/bedc_jepa_public_ac_giant_adapter.json",
             "reports/bedc_jepa_public_cuda_adapter_comparison.json",
