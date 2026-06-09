@@ -291,7 +291,16 @@ def _id_repair_hint(value: Any) -> str:
     if not isinstance(value, str) or not value:
         return ""
     repaired = re.sub(r"[^a-z0-9.:-]+", "-", value.lower()).strip(".:-")
-    return f"; suggested normalized id: {repaired}" if repaired and repaired != value else ""
+    hint = f"; suggested normalized id: {repaired}" if repaired and repaired != value else ""
+    return hint + _id_layer_token_hint(value)
+
+
+def _id_layer_token_hint(value: str) -> str:
+    layer_tokens = [layer for layer in LAYER_ORDER if layer in value.lower()]
+    if not layer_tokens:
+        return ""
+    examples = ", ".join(f"{layer}->{layer.replace('_', '-')}" for layer in layer_tokens[:2])
+    return f"; layer tokens embedded in ids must be hyphenated ({examples}); keep underscores in layer fields"
 
 
 def _invalid_id_issue(key: str, value: Any) -> str:
@@ -1412,7 +1421,7 @@ def self_test() -> int:
             },
             {
                 **conjecture,
-                "conjecture_id": "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
+                "conjecture_id": "function_realization.seed.boundary",
             },
         ],
         [
@@ -1474,8 +1483,8 @@ def self_test() -> int:
             "residual-basis.clock-topology-after-age-signature.cell-identity",
         ),
         "conjecture_id:5": (
-            "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
-            "maintenance-boundary.age-clock-shift-matrix.renewable-maintenance",
+            "function_realization.seed.boundary",
+            "function-realization.seed.boundary",
         ),
         "probe_id:5": (
             "cross_context.identity_marker_signal_correlates_with_clock_shift",
@@ -1505,6 +1514,14 @@ def self_test() -> int:
         ):
             print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
             return 1
+    if not any(
+        issue.startswith("conjecture_id:5: conjecture_id: invalid id: function_realization.seed.boundary;")
+        and "layer tokens embedded in ids must be hyphenated (function_realization->function-realization)" in issue
+        and "keep underscores in layer fields" in issue
+        for issue in mixed_invalid_id_issues
+    ):
+        print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
+        return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
