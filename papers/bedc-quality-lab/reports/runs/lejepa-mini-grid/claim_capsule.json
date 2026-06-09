@@ -56,7 +56,16 @@
       "status": "pass"
     },
     "U-HG4": {
+      "missing": [],
       "not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure unless D5-M gate passes",
+        "broad non-Gaussian mixing generalization"
+      ],
+      "required_not_claimed": [
         "full LeJEPA reproduction",
         "global model quality",
         "full TensorNameCert",
@@ -67,51 +76,52 @@
       "status": "pass"
     },
     "U-HG5": {
-      "run_artifacts": {
-        "claim_capsule": "reports/runs/lejepa-mini-grid/claim_capsule.json",
-        "raw_metrics": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl",
-        "report": "reports/runs/lejepa-mini-grid/report.md",
-        "summary": "reports/runs/lejepa-mini-grid/summary.json"
-      },
+      "control_required": false,
+      "control_row_count": 1,
       "status": "pass"
     },
     "U-HG6": {
-      "learning_fields": {
-        "negative_learning": "The mini-grid recorded a failed gate without promoting a positive claim.",
-        "what_was_learned": "The mini-grid supports a lab-local lambda/rho trend while keeping full LeJEPA reproduction outside scope."
-      },
-      "status": "pass"
+      "dn_requires_failed_gate": true,
+      "failed_gate": "D2-HG2",
+      "status": "pass",
+      "what_was_learned_present": true
     },
     "U-HG7": {
-      "revocation_rows": [
-        {
-          "active": true,
-          "condition": "revoke if the mini-grid records are not reproducible from the run artifact raw rows",
-          "status": "armed"
-        },
-        {
-          "active": true,
-          "condition": "revoke if SIGReg sliced-CF and covariance proxy reporting are collapsed into one metric",
-          "status": "armed"
-        },
-        {
-          "active": true,
-          "condition": "revoke any D2 reading when the lambda or rho trend hardgate fails",
-          "status": "armed"
-        }
-      ],
+      "revocation_pointer": "$.revocation.rows",
+      "revocation_row_count": 3,
       "status": "pass"
     },
     "U-HG8": {
-      "evidence": "positive claim text avoids forbidden full-scope terms",
-      "forbidden_positive_claim_terms": [
-        "full-lejepa",
-        "global-quality",
-        "full-tensor-namecert",
-        "llm-behavior",
-        "mechanism-closure-unless-D5-M"
-      ],
-      "hits": [],
+      "forbidden_column_audit": {
+        "forbidden_columns": [
+          "positive_claim",
+          "arm_aggregates",
+          "metrics"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "projector_positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior",
+          "mechanism-closure-unless-D5-M"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
       "status": "pass"
     }
   },

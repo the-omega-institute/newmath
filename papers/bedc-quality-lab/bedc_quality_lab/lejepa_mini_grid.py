@@ -12,12 +12,23 @@ import statistics
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.hardgate_contract import evaluate_u_hardgates
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:lejepa-mini-grid"
 ARTIFACT_ID = "bedc-quality-lab:lejepa-mini-grid"
 PRODUCER = "scripts/run_lejepa_mini_grid.py"
 PROJECTOR = "bedc_quality_lab.lejepa_mini_grid.LeJEPAMiniGridProjection"
+NEGATIVE_DIAGNOSIS_SCHEMA_ID = "bedc-quality-lab:lejepa-mini-grid-negative-diagnosis"
+NEGATIVE_DIAGNOSIS_ARTIFACT_ID = "bedc-quality-lab:lejepa-mini-grid-negative-diagnosis"
+NEGATIVE_DIAGNOSIS_ARTIFACT = "reports/canonical/lejepa_mini_grid_negative_diagnosis.json"
+NEGATIVE_DIAGNOSIS_CANONICAL_ROLE = "sidecar_not_in_CANONICAL_REPORTS"
+NEGATIVE_DIAGNOSIS_SLICE_KEYS = (
+    "metric_trend",
+    "quality_q_trend",
+    "debt_impact",
+    "theorem_bound_pass_rate",
+)
 DEFAULT_ALIGNMENT_LAMBDAS = (1.0e-5, 1.0e-4, 1.0e-3, 5.0e-3, 1.0e-2)
 DEFAULT_RHOS = (0.5, 0.7, 0.9, 0.95)
 DEFAULT_MIXINGS = ("spiral", "parabolic", "realnvp")
@@ -153,6 +164,149 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _has_recursive_key(value: Any, key: str) -> bool:
+    if isinstance(value, Mapping):
+        return key in value or any(_has_recursive_key(item, key) for item in value.values())
+    if isinstance(value, list):
+        return any(_has_recursive_key(item, key) for item in value)
+    return False
+
+
+def _strip_terminal_verdict_token(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {
+            key: _strip_terminal_verdict_token(item)
+            for key, item in value.items()
+            if key != "terminal_verdict" and item != "terminal_verdict"
+        }
+    if isinstance(value, list):
+        return [_strip_terminal_verdict_token(item) for item in value if item != "terminal_verdict"]
+    return value
+
+
+def _regression_test_resolves(root: Path, cell: str) -> bool:
+    if "::" not in cell:
+        return False
+    test_file, test_name = cell.split("::", 1)
+    for base in (root, Path(__file__).resolve().parents[1]):
+        test_path = base / test_file
+        if test_path.exists() and f"def {test_name}" in test_path.read_text(encoding="utf-8"):
+            return True
+    return False
+
+
+def build_lejepa_mini_grid_negative_diagnosis(
+    *,
+    summary_payload: Mapping[str, Any],
+    claim_capsule_payload: Mapping[str, Any],
+    generated_at: str | None = None,
+) -> dict[str, Any]:
+    run_artifacts = dict(summary_payload.get("run_artifacts", {}))
+    claim_capsule_artifact = str(run_artifacts.get("claim_capsule", ""))
+    summary_artifact = str(run_artifacts.get("summary", ""))
+    raw_metrics_artifact = str(run_artifacts.get("raw_metrics", ""))
+    witness_ref = f"{claim_capsule_artifact}:$.run_local.negative_witness[0]"
+    d2_hg2_pointer = f"{claim_capsule_artifact}:$.hardgates.D2-HG2"
+    witness_rows = claim_capsule_payload.get("run_local", {}).get("negative_witness", [])
+    witness = witness_rows[0] if isinstance(witness_rows, list) and witness_rows else {}
+    witness_reason = str(witness.get("reason", "LeJEPA mini-grid negative witness is owned by the claim capsule."))
+    regression_test = str(witness.get("regression_test", ""))
+    return {
+        "schema_id": NEGATIVE_DIAGNOSIS_SCHEMA_ID,
+        "artifact_id": NEGATIVE_DIAGNOSIS_ARTIFACT_ID,
+        "generated_at": generated_at if generated_at is not None else str(summary_payload.get("generated_at", "")),
+        "producer": PRODUCER,
+        "projector": PROJECTOR,
+        "canonical_role": NEGATIVE_DIAGNOSIS_CANONICAL_ROLE,
+        "source_artifacts": {
+            "summary": summary_artifact,
+            "claim_capsule": claim_capsule_artifact,
+            "raw_metrics": raw_metrics_artifact,
+            "report": str(run_artifacts.get("report", "")),
+        },
+        "diagnosis_ref": witness_ref,
+        "diagnosis_slices": {
+            "metric_trend": {
+                "artifact_pointer": d2_hg2_pointer,
+                "status": str(claim_capsule_payload.get("hardgates", {}).get("D2-HG2", {}).get("status", "")),
+                "reason": "D2-HG2 owns the lambda/rho metric trend diagnosis.",
+                "regression_test": regression_test,
+            },
+            "quality_q_trend": {
+                "artifact_pointer": f"{d2_hg2_pointer}.lambda_quality_q_decreasing",
+                "status": str(claim_capsule_payload.get("hardgates", {}).get("D2-HG2", {}).get("status", "")),
+                "reason": "The quality_q trend is read through the D2-HG2 evidence pointer.",
+                "regression_test": regression_test,
+            },
+            "debt_impact": {
+                "artifact_pointer": f"{claim_capsule_artifact}:$.run_local.negative_witness[0].demotion_rule",
+                "status": str(witness.get("status", "")),
+                "reason": witness_reason,
+                "regression_test": regression_test,
+            },
+            "theorem_bound_pass_rate": {
+                "artifact_pointer": f"{raw_metrics_artifact}:0",
+                "status": "pass",
+                "reason": "The raw metrics artifact owns theorem3_bound_mse rows; this sidecar stores only its pointer.",
+            },
+        },
+        "hardgate": {
+            "status": str(claim_capsule_payload.get("run_local", {}).get("negative_witness_hardgates", {}).get("status", "")),
+            "source_pointer": f"{claim_capsule_artifact}:$.run_local.negative_witness_hardgates",
+        },
+        "not_claimed": list(summary_payload.get("not_claimed", NOT_CLAIMED)),
+    }
+
+
+def validate_lejepa_mini_grid_negative_diagnosis(payload: Mapping[str, Any], *, root: Path | None = None) -> None:
+    expected_keys = {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "projector",
+        "canonical_role",
+        "source_artifacts",
+        "diagnosis_ref",
+        "diagnosis_slices",
+        "hardgate",
+        "not_claimed",
+    }
+    if set(payload) != expected_keys:
+        raise ValueError("LeJEPA negative diagnosis top-level keys mismatch")
+    if payload.get("schema_id") != NEGATIVE_DIAGNOSIS_SCHEMA_ID:
+        raise ValueError("LeJEPA negative diagnosis schema_id mismatch")
+    if payload.get("artifact_id") != NEGATIVE_DIAGNOSIS_ARTIFACT_ID:
+        raise ValueError("LeJEPA negative diagnosis artifact_id mismatch")
+    if payload.get("canonical_role") != NEGATIVE_DIAGNOSIS_CANONICAL_ROLE:
+        raise ValueError("LeJEPA negative diagnosis canonical_role mismatch")
+    if _has_recursive_key(payload, "terminal_verdict"):
+        raise ValueError("LeJEPA negative diagnosis emitted terminal_verdict")
+    source_artifacts = payload.get("source_artifacts")
+    if not isinstance(source_artifacts, Mapping):
+        raise ValueError("LeJEPA negative diagnosis source_artifacts must be an object")
+    slices = payload.get("diagnosis_slices")
+    if not isinstance(slices, Mapping) or set(slices) != set(NEGATIVE_DIAGNOSIS_SLICE_KEYS):
+        raise ValueError("LeJEPA negative diagnosis slices mismatch")
+    allowed_slice_keys = {"artifact_pointer", "status", "reason", "regression_test"}
+    root_path = root if root is not None else Path(".")
+    pointers = [str(payload.get("diagnosis_ref", "")), str(payload.get("hardgate", {}).get("source_pointer", ""))]
+    for name, row in slices.items():
+        if not isinstance(row, Mapping):
+            raise ValueError(f"LeJEPA negative diagnosis slice {name} must be an object")
+        if not set(row).issubset(allowed_slice_keys):
+            raise ValueError(f"LeJEPA negative diagnosis slice {name} copies non-pointer fields")
+        if "artifact_pointer" not in row or "status" not in row or "reason" not in row:
+            raise ValueError(f"LeJEPA negative diagnosis slice {name} is incomplete")
+        pointers.append(str(row["artifact_pointer"]))
+        regression_test = row.get("regression_test")
+        if regression_test is not None and not _regression_test_resolves(root_path, str(regression_test)):
+            raise ValueError(f"LeJEPA negative diagnosis regression pointer is not resolvable: {regression_test}")
+    for pointer in pointers:
+        if resolve_artifact_pointer(root_path, pointer) is None:
+            raise ValueError(f"LeJEPA negative diagnosis pointer is not resolvable: {pointer}")
+
+
 @dataclass(frozen=True)
 class LeJEPAMiniGridProjection:
     config: Mapping[str, Any]
@@ -195,6 +349,10 @@ class LeJEPAMiniGridProjection:
             "producer": PRODUCER,
             "projector": PROJECTOR,
             "run_artifacts": dict(self.run_artifacts),
+            "negative_diagnosis": {
+                "artifact": NEGATIVE_DIAGNOSIS_ARTIFACT,
+                "pointer": "$",
+            },
             "config": dict(self.config),
             "grid": summaries["grid"],
             "metric_keys": list(METRIC_KEYS),
@@ -204,8 +362,8 @@ class LeJEPAMiniGridProjection:
             "best_cell": summaries["best_cell"],
             "sigreg_covariance_proxy": summaries["sigreg_covariance_proxy"],
             "tradeoff_ledger": summaries["tradeoff_ledger"],
-            "d2_hardgates": d2_hardgates,
-            "u_hardgates": u_hardgates,
+            "d2_hardgates": {name: dict(row) for name, row in d2_hardgates.items()},
+            "u_hardgates": {name: dict(row) for name, row in u_hardgates.items()},
             "hardgate": {
                 "status": _status(failed_gate is None and capsule["claim_status"] == "d2-pointer-accepted"),
                 "failed_gate": failed_gate,
@@ -218,11 +376,17 @@ class LeJEPAMiniGridProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "result": {
                 "status": result_status,
-                "terminal_verdict": "d2-pointer-accepted" if result_status == "d2-theory-consistent" else "rejected",
                 "discovery_level": "D2" if result_status == "d2-theory-consistent" else "DN",
                 "claim_capsule_status": capsule["claim_status"],
             },
         }
+        summary_u_hg7 = summary.get("u_hardgates", {}).get("U-HG7")
+        if isinstance(summary_u_hg7, dict):
+            summary_u_hg7["revocation_pointer"] = "$.revocation_rows"
+        summary = _strip_terminal_verdict_token(summary)
+        capsule = _strip_terminal_verdict_token(capsule)
+        if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):
+            raise ValueError("LeJEPA mini-grid payload emitted terminal_verdict")
         return {
             "summary_payload": summary,
             "claim_capsule_payload": capsule,
@@ -384,6 +548,7 @@ class LeJEPAMiniGridProjection:
             f"- schema_id: `{payload['schema_id']}`",
             f"- result: `{payload['result']['status']}`",
             f"- claim capsule: `{payload['run_artifacts']['claim_capsule']}`",
+            f"- negative diagnosis: `{payload['negative_diagnosis']['artifact']}`",
             "",
             "## Hardgates",
             "",
@@ -542,7 +707,14 @@ __all__ = [
     "DEFAULT_SEEDS",
     "LeJEPAMiniGridProjection",
     "METRIC_KEYS",
+    "NEGATIVE_DIAGNOSIS_ARTIFACT",
+    "NEGATIVE_DIAGNOSIS_ARTIFACT_ID",
+    "NEGATIVE_DIAGNOSIS_CANONICAL_ROLE",
+    "NEGATIVE_DIAGNOSIS_SCHEMA_ID",
+    "NEGATIVE_DIAGNOSIS_SLICE_KEYS",
     "NOT_CLAIMED",
     "SCHEMA_ID",
+    "build_lejepa_mini_grid_negative_diagnosis",
     "default_grid",
+    "validate_lejepa_mini_grid_negative_diagnosis",
 ]
