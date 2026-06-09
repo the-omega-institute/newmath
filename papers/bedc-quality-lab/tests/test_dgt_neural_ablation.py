@@ -65,6 +65,25 @@ def test_forbidden_positive_claim_terms_are_audited():
         owner.validate_payload(mutated)
 
 
+@pytest.mark.parametrize(
+    "evidence_scope",
+    [
+        None,
+        "small-real-training",
+        [],
+        ["small-real-training", "small-real-training"],
+        ["outside-enum"],
+    ],
+)
+def test_component_causal_claim_rejects_invalid_evidence_scope(evidence_scope):
+    payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
+    mutated = json.loads(json.dumps(payload))
+    mutated["component_causal_claims"][0]["evidence_scope"] = evidence_scope
+
+    with pytest.raises(ValueError, match="component claim 0 evidence_scope"):
+        owner.validate_payload(mutated)
+
+
 def test_write_artifacts_emits_canonical_run_capsule_report_metrics_and_fingerprint(tmp_path):
     payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
 
