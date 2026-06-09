@@ -254,11 +254,20 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 4,
+        "finite_row_count": 5,
         "has_reality_contact": true,
-        "has_probe_contact_mismatch_chain": false
+        "has_probe_contact_mismatch_chain": true
       },
-      "ledger_rows": [],
+      "ledger_rows": [
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:identity-samesig.gse165177-mptr.scope-review",
+          "owner": "tools.cellstate_reality.quality_lab_export"
+        }
+      ],
       "not_claimed": [
         "sameSig_I alone does not establish IdentityPreservingAgeResetUp.",
         "sameSig_I alone does not establish safety, repair, maintenance, organismal outcome, or immortal potential."
@@ -274,7 +283,9 @@
         "probe_refs": [
           "identity-samesig.gse165177-mptr"
         ],
-        "mismatch_refs": [],
+        "mismatch_refs": [
+          "identity-samesig.gse165177-mptr.scope-review"
+        ],
         "gate_result_ref": "conjecture:identity-preserving-age-reset.gse165177-mptr"
       }
     }
