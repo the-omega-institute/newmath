@@ -68,7 +68,7 @@ def build_external_run_kit() -> dict[str, Any]:
                 "pass_condition": "target artifact status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
             },
             "vjepa2_ac_minigrid_claim_certificate": {
-                "readiness_gate": "vjepa2_ac_frozen_carrier_lccp",
+                "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
                 "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
                 "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
                 "required_predicates": [

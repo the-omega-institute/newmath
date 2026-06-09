@@ -1,4 +1,4 @@
-"""Latent-claim certificates over frozen V-JEPA2-AC carrier features."""
+"""Latent-claim certificates over fixed V-JEPA2-AC carrier features."""
 
 from __future__ import annotations
 
@@ -194,14 +194,14 @@ def build_vjepa2_ac_claim_certificate_packet(
     labels_test: np.ndarray,
     gaps_test: np.ndarray,
     environment_id: str = DEFAULT_ENVIRONMENT_ID,
-    carrier_id: str = "vjepa2-ac-giant-frozen-minigrid-carrier",
+    carrier_id: str = "vjepa2-ac-giant-fixed-minigrid-carrier",
     torch_environment: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     claims = [
         certify_latent_claim(
             LatentCarrierSplit(
                 carrier_id=carrier_id,
-                source="frozen V-JEPA2-AC Giant checkpoint features over the public MiniGrid image/action stream",
+                source="fixed V-JEPA2-AC Giant checkpoint features over the public MiniGrid image/action stream",
                 features_train=features_train,
                 labels_train=labels_train,
                 features_calibration=features_calibration,
@@ -217,7 +217,7 @@ def build_vjepa2_ac_claim_certificate_packet(
         certify_latent_claim(
             LatentCarrierSplit(
                 carrier_id=carrier_id,
-                source="frozen V-JEPA2-AC Giant checkpoint features over the public MiniGrid image/action stream",
+                source="fixed V-JEPA2-AC Giant checkpoint features over the public MiniGrid image/action stream",
                 features_train=features_train,
                 labels_train=gaps_train,
                 features_calibration=features_calibration,
@@ -336,19 +336,19 @@ def run_vjepa2_ac_minigrid_claim_certificate(
             "status": "source_gap",
             "protocol": "Latent Claim Certificate Protocol",
             "environment_id": environment_id,
-            "carrier_id": "vjepa2-ac-giant-frozen-minigrid-carrier",
+            "carrier_id": "vjepa2-ac-giant-fixed-minigrid-carrier",
             "dependency_status": deps,
             "exception_type": type(exc).__name__,
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-8:],
             "claims": [
                 source_gap_claim(
-                    carrier_id="vjepa2-ac-giant-frozen-minigrid-carrier",
+                    carrier_id="vjepa2-ac-giant-fixed-minigrid-carrier",
                     source=environment_id,
                     predicate="door_key_context_visible",
                     test_surface="action-conditioned MiniGrid transition",
                     stability_condition="disjoint train/calibration/test seeds",
-                    reason="frozen V-JEPA2-AC MiniGrid carrier features could not be extracted",
+                    reason="fixed V-JEPA2-AC MiniGrid carrier features could not be extracted",
                 )
             ],
             "cannot_claim": [

@@ -42,7 +42,7 @@ LEDGER_ROWS = (
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
-    {"kind": "classifier", "residue": "vjepa2-ac-frozen-carrier-lccp"},
+    {"kind": "classifier", "residue": "vjepa2-ac-fixed-carrier-lccp"},
     {"kind": "mechanism", "residue": "vjepa2-ac-minigrid-latent-prediction"},
 )
 
@@ -129,7 +129,7 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
                 else "open"
             )
             evidence = "reports/bedc_jepa_retraining_loss_ablation.json"
-        elif row["residue"] == "vjepa2-ac-frozen-carrier-lccp":
+        elif row["residue"] == "vjepa2-ac-fixed-carrier-lccp":
             status = (
                 "closed"
                 if float(review_bundle.get("checks", {}).get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0

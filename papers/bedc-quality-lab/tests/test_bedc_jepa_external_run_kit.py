@@ -39,7 +39,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
     assert "minus_l_unlogged" in retraining["required_systems"]
     assert "minus_l_gap" in retraining["required_systems"]
-    assert vjepa_lccp["readiness_gate"] == "vjepa2_ac_frozen_carrier_lccp"
+    assert vjepa_lccp["readiness_gate"] == "vjepa2_ac_fixed_carrier_lccp"
     assert vjepa_lccp["target_artifact"] == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     assert vjepa_lccp["run_command"] == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
     assert "door_key_context_visible" in vjepa_lccp["required_predicates"]

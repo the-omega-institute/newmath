@@ -63,7 +63,7 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["mechanism/mechanism-closure-debt"]["status"] == "open"
     assert rows["mechanism/mechanism-closure-debt"]["severity"] == "boundary"
     assert rows["mechanism/full-retraining-loss-ablation"]["status"] in {"open", "closed"}
-    assert rows["classifier/vjepa2-ac-frozen-carrier-lccp"]["status"] in {"open", "closed"}
+    assert rows["classifier/vjepa2-ac-fixed-carrier-lccp"]["status"] in {"open", "closed"}
     assert rows["mechanism/vjepa2-ac-minigrid-latent-prediction"]["status"] in {"open", "closed"}
     assert all(row["owner"] == "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate" for row in rows.values())
     assert "large-scale real-world conclusion" in packet["not_claimed"]

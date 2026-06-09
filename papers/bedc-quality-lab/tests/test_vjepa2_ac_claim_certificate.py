@@ -24,7 +24,7 @@ def test_vjepa2_ac_claim_certificate_packet_is_fail_closed():
 
     assert packet["schema_id"] == "bedc-vjepa2-ac-minigrid-claim-certificate"
     assert packet["status"] == "executed"
-    assert packet["carrier_id"] == "vjepa2-ac-giant-frozen-minigrid-carrier"
+    assert packet["carrier_id"] == "vjepa2-ac-giant-fixed-minigrid-carrier"
     assert packet["torch_environment"]["cuda_device_name"] == "test-device"
     assert {claim["predicate"] for claim in packet["claims"]} == {
         "door_key_context_visible",
