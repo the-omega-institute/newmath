@@ -1,4 +1,4 @@
-.PHONY: check test canonical-consistency canonical-reports canonical-reports-cold cold-check run-example clean-reports
+.PHONY: check test canonical-consistency canonical-reports canonical-reports-cold claim-artifact-consistency cold-check run-example clean-reports
 
 check: canonical-consistency test
 
@@ -13,6 +13,9 @@ canonical-reports:
 
 canonical-reports-cold:
 	python3 scripts/run_canonical_reports.py --cold
+
+claim-artifact-consistency:
+	python3 scripts/run_claim_artifact_consistency.py --check
 
 cold-check: test canonical-reports-cold
 

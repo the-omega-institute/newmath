@@ -119,6 +119,10 @@ DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery-gated-t
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
+CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
+CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
+CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
+CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID = "bedc-quality-lab:claim-artifact-consistency"
 DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
@@ -2960,6 +2964,42 @@ def _claim_graph_index_section(generated_at: str | None = None) -> dict[str, Any
     }
 
 
+def _claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
+    from bedc_quality_lab.claim_artifact_consistency import DGT_CLAIM_ID, audit_claim_artifact_consistency
+
+    return audit_claim_artifact_consistency(ROOT, claim_id=DGT_CLAIM_ID, generated_at=generated_at).to_json()
+
+
+def _claim_artifact_consistency_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    path = ROOT / CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    if path.exists():
+        payload = _load_artifact_payload(CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT)
+    else:
+        payload = _claim_artifact_consistency_payload(generated_at)
+    gates = payload.get("gates") if isinstance(payload.get("gates"), list) else []
+    return {
+        "status": payload.get("status", "missing"),
+        "artifact_id": CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "schema_id": CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "json_artifact": CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "claim_id": payload.get("claim_id", "missing"),
+        "gates_pointer": f"{CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT}:$.gates",
+        "hardgate_status": {
+            str(row.get("gate_id")): row.get("status")
+            for row in gates
+            if isinstance(row, Mapping)
+        },
+    }
+
+
+def _claim_artifact_consistency_required() -> bool:
+    try:
+        return ROOT.resolve() == SOURCE_ROOT.resolve()
+    except OSError:
+        return False
+
+
 def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
     from bedc_quality_lab.discovery_compiler.capsule import build_claim_capsule_payload
 
@@ -3937,6 +3977,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
+        "d4_projection_ref",
         "d4_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3991,6 +4032,11 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "pointer": "$.discovery_map_signal",
     }:
         raise ValueError("DGT discovery_map_signal_ref mismatch")
+    if payload["d4_projection_ref"] != {
+        "artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+        "pointer": "$.d4_projection",
+    }:
+        raise ValueError("DGT d4_projection_ref mismatch")
     d4_projection = payload["d4_projection"]
     if d4_projection["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$":
         raise ValueError("DGT D4 projection owner pointer mismatch")
@@ -4059,6 +4105,7 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
+        "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",
         "d4_projection_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection",
         "d4_projection_discovery_level_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection.discovery_level"
@@ -5427,6 +5474,7 @@ def _index(
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
+        "claim_artifact_consistency": _claim_artifact_consistency_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
@@ -5718,6 +5766,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Canonical role: `{payload['claim_graph']['canonical_role']}`",
             f"- Nodes: `{payload['claim_graph']['node_count']}`",
             "",
+            "## Claim artifact consistency",
+            "",
+            f"- Status: `{payload['claim_artifact_consistency']['status']}`",
+            f"- JSON: `{payload['claim_artifact_consistency']['json_artifact']}`",
+            f"- Markdown: `{payload['claim_artifact_consistency']['markdown_artifact']}`",
+            f"- Claim: `{payload['claim_artifact_consistency']['claim_id']}`",
+            f"- Gates: `{payload['claim_artifact_consistency']['gates_pointer']}`",
+            "",
             "## Claim capsule",
             "",
             f"- Status: `{payload['claim_capsule']['status']}`",
@@ -5959,6 +6015,9 @@ def run_reports(
     prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     results.extend(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp) for spec in claim_graph_prerequisite_specs)
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
+        consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
+        if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
+            raise SystemExit(1)
         payload = _index(results, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
@@ -6067,6 +6126,13 @@ def run_reports(
         claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
         if only is None:
             write_claim_graph(root=ROOT, generated_at=timestamp)
+        for spec in high_impact_review_specs:
+            _write_fingerprint_sidecar(spec, generated_at=timestamp)
+    from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
+
+    consistency_payload = write_claim_artifact_consistency(root=ROOT, generated_at=timestamp)
+    if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
+        raise SystemExit(1)
     post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     results.extend(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp) for spec in post_verdict_specs)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)

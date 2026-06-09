@@ -1963,6 +1963,7 @@ class DiscoveryGatedTransformerProjector:
             "component_ablation": build_component_ablation(seed=COMPONENT_ABLATION_SEED),
             "discovery_map_signal": default_discovery_map_signal(),
             "discovery_map_signal_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
+            "d4_projection_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.d4_projection"),
             **sidecar_refs(),
             "forbidden_claim_term_audit": {},
             "revocation_rows": [
@@ -2009,6 +2010,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
+        "d4_projection_ref",
         "d4_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -2037,9 +2039,11 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT sidecar ref is not a pointer cell: {key}")
-    for key in ("hardgate_ref", "discovery_map_signal_ref"):
+    for key in ("hardgate_ref", "discovery_map_signal_ref", "d4_projection_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT summary ref is not a pointer cell: {key}")
+    if artifact_pointer(payload["d4_projection_ref"]) != f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection":
+        raise ValueError("DGT D4 projection ref mismatch")
     if payload["forbidden_claim_term_audit"] != _dgt_forbidden_claim_term_audit(payload):
         raise ValueError("DGT forbidden claim term audit mismatch")
     if payload["forbidden_claim_term_audit"]["status"] != "pass":

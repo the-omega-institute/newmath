@@ -244,6 +244,14 @@
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 - Nodes: `110`
 
+## Claim artifact consistency
+
+- Status: `pass`
+- JSON: `reports/canonical/claim-artifact-consistency.json`
+- Markdown: `reports/canonical/claim-artifact-consistency.md`
+- Claim: `claim:discovery-gated-transformer`
+- Gates: `reports/canonical/claim-artifact-consistency.json:$.gates`
+
 ## Claim capsule
 
 - Status: `pointer-only`
