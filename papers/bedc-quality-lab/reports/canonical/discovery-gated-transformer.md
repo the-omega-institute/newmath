@@ -130,7 +130,7 @@
 
 - Status: `ready`
 - Discovery level: `D5-M`
-- Evidence scope: `bounded-model-prototype`
+- Evidence scope: `["bounded-design", "toy-model", "theorem-backed", "production-forbidden"]`
 - Terminal scope: `Core`
 - Blocked reason: `None`
 

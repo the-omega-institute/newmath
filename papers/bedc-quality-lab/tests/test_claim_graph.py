@@ -475,9 +475,98 @@ def test_dgt_accepted_positive_claim_graph_path_passes(tmp_path):
 
     assert by_id["terminal:discovery-gated-transformer"]["depends_on"] == ("projected:discovery-gated-transformer",)
     assert by_id["projected:discovery-gated-transformer"]["depends_on"] == ("raw:discovery-gated-transformer",)
+    assert by_id["projected:discovery-gated-transformer"]["evidence_scope"] == (
+        "bounded-design",
+        "toy-model",
+        "theorem-backed",
+        "production-forbidden",
+    )
     assert by_id["raw:discovery-gated-transformer"]["terminal_verdict"] is None
     assert by_id["projected:discovery-gated-transformer"]["terminal_verdict"] is None
     assert _errors(payload, root) == []
+
+
+def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:discovery-gated-transformer":
+            node["evidence_scope"] = None
+
+    errors = _errors(broken, root)
+
+    assert any("component-causal claim lacks evidence_scope" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    "evidence_scope",
+    [
+        [],
+        ["bounded-design", "bounded-design"],
+        ["bounded-design", "outside-enum"],
+    ],
+)
+def test_dgt_component_causal_claim_graph_rejects_bad_evidence_scope(tmp_path, evidence_scope):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    source_path = root / "reports/canonical/discovery-gated-transformer.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["d5_m_projection"]["evidence_scope"] = evidence_scope
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="component-causal.*evidence_scope"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_dgt_component_causal_claim_graph_rejects_production_claim_with_forbidden_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    source_path = root / "reports/canonical/discovery-gated-transformer.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["d5_m_projection"]["terminal_verdict_scope"] = "production deployment authority"
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="evidence_scope contradicts production claim"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_dgt_neural_ablation_pointer_absent_skips(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+
+    assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
+
+
+def test_dgt_neural_ablation_pointer_present_validates_evidence_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _write_json(
+        root,
+        "reports/canonical/dgt-neural-ablation.json",
+        {
+            "component_causal_claims": [
+                {
+                    "claim_id": "fixture",
+                    "evidence_scope": ["bounded-design", "toy-model"],
+                }
+            ]
+        },
+    )
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+
+    assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
+
+    source_path = root / "reports/canonical/dgt-neural-ablation.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["component_causal_claims"][0]["evidence_scope"] = ["bounded-design", "bounded-design"]
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    errors = claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
+
+    assert any("dgt-neural-ablation component_causal_claims[0] evidence_scope" in error for error in errors)
 
 
 def test_dgt_accepted_positive_terminal_dependency_bypass_fails(tmp_path):

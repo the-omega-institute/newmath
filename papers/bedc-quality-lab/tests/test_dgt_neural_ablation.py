@@ -37,6 +37,11 @@ def test_nabl_hardgates_and_hg7_boundary_fail_closed():
     ]
     claimed = {row["component"] for row in payload["component_causal_claims"]}
     assert "scope_seal" not in claimed
+    assert {
+        tuple(row["evidence_scope"])
+        for row in payload["component_causal_claims"]
+        if row["claim_status"] == "allowed"
+    } == {("small-real-training",)}
 
 
 def test_unavailable_payload_has_no_positive_component_claim():
@@ -57,6 +62,25 @@ def test_forbidden_positive_claim_terms_are_audited():
     )
 
     with pytest.raises(ValueError, match="forbidden term audit"):
+        owner.validate_payload(mutated)
+
+
+@pytest.mark.parametrize(
+    "evidence_scope",
+    [
+        None,
+        "small-real-training",
+        [],
+        ["small-real-training", "small-real-training"],
+        ["outside-enum"],
+    ],
+)
+def test_component_causal_claim_rejects_invalid_evidence_scope(evidence_scope):
+    payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
+    mutated = json.loads(json.dumps(payload))
+    mutated["component_causal_claims"][0]["evidence_scope"] = evidence_scope
+
+    with pytest.raises(ValueError, match="component claim 0 evidence_scope"):
         owner.validate_payload(mutated)
 
 

@@ -1209,7 +1209,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         evidence_envelope_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
         backend_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.training_protocol",
         discovery_level_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
-        claim_graph_path_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.component_causal_claims",
+        claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[94]",
         negative_witness_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
     ),
@@ -4092,7 +4092,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT D5-M projection discovery level mismatch")
     if d5_m_projection["status"] != ("ready" if d5_m_all_pass else "blocked"):
         raise ValueError("DGT D5-M projection status mismatch")
-    if d5_m_projection["evidence_scope"] != "bounded-model-prototype":
+    if d5_m_projection["evidence_scope"] != ["bounded-design", "toy-model", "theorem-backed", "production-forbidden"]:
         raise ValueError("DGT D5-M evidence scope mismatch")
     if d5_m_projection["terminal_verdict_scope"] != "Core":
         raise ValueError("DGT D5-M terminal scope mismatch")

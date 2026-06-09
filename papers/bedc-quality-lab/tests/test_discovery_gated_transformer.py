@@ -13,6 +13,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     COMPONENT_ABLATION_OWNER_REF,
     D4_PROJECTION_GATE_NAMES,
     D5M_GATE_NAMES,
+    D5M_DEFAULT_EVIDENCE_SCOPE,
     D5O_GATE_NAMES,
     D5O_REVIEW_PHRASE,
     SCALING_LADDER_GATE_NAMES,
@@ -83,6 +84,23 @@ def _write_required_dgt_external_artifacts(root):
     (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (canonical_dir / "dgt-neural-ablation.json").write_text(json.dumps({"nabl_hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
+
+
+def _write_passed_dgt_neural_ablation_artifact(root):
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    claims = [
+        {
+            "claim_scope": "bounded toy training",
+            "claim_status": "allowed",
+            "component": "LAT",
+            "evidence_scope": ["small-real-training"],
+        }
+    ]
+    (canonical_dir / "dgt-neural-ablation.json").write_text(
+        json.dumps({"component_causal_claims": claims, "nabl_hardgates": {"status": "pass"}}) + "\n",
+        encoding="utf-8",
+    )
 
 
 def _accepted_dgt_review_rows():
@@ -501,6 +519,7 @@ def test_dgt_d5_o_projection_high_impact_review_wording_present(tmp_path):
 
 
 def test_dgt_d5_m_projection_passes_with_closed_bounded_mechanism(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -512,12 +531,12 @@ def test_dgt_d5_m_projection_passes_with_closed_bounded_mechanism(tmp_path):
     assert projection["discovery_level"] == "D5-M"
     assert projection["readiness"] == "ready"
     assert projection["failed_gate"] is None
-    assert projection["evidence_scope"] == "bounded-model-prototype"
+    assert projection["evidence_scope"] == list(D5M_DEFAULT_EVIDENCE_SCOPE)
     assert projection["terminal_verdict_scope"] == "Core"
     assert projection["mechanism_certificate_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref"
     assert projection["jet_certificate_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref"
     assert projection["causal_patch_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
-    assert projection["component_ablation_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
+    assert projection["component_ablation_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref"
     assert validate_d5_m_projection(payload) == []
 
 
@@ -538,11 +557,11 @@ def _assert_d5_m_fail_closed(owner_payload, gate_name):
     ("gate_name", "mutate"),
     [
         ("D5M-HG1", lambda payload: payload["d5_o_projection"].update({"status": "blocked"})),
-        ("D5M-HG2", lambda payload: payload["d5_m_projection"].update({"evidence_scope": "unbounded-model"})),
+        ("D5M-HG2", lambda payload: payload["d5_m_projection"].pop("evidence_scope")),
         ("D5M-HG3", lambda payload: payload["d5_m_projection"].update({"mechanism_closure_status": "open"})),
         ("D5M-HG4", lambda payload: payload["d5_m_projection"].update({"jet_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.missing_jet"})),
         ("D5M-HG5", lambda payload: payload["operational_robustness"]["hardgate"].update({"status": "fail"})),
-        ("D5M-HG6", lambda payload: payload["component_ablation"]["hardgate"].update({"status": "fail"})),
+        ("D5M-HG6", lambda payload: payload["neural_ablation_ref"].update({"pointer": "$.nabl_hardgates.failed_gate"})),
         ("D5M-HG7", lambda payload: payload["d5_m_projection"]["negative_witness_pointers"].update({"score_margin_shortcut": "uncleared"})),
         ("D5M-HG8", lambda payload: payload["d5_m_projection"]["negative_witness_pointers"].update({"scale_leakage": "uncleared"})),
         ("D5M-HG9", lambda payload: payload["d4_projection"]["matched_control"].update({"control_positive": True})),
@@ -550,6 +569,7 @@ def _assert_d5_m_fail_closed(owner_payload, gate_name):
     ],
 )
 def test_dgt_d5_m_projection_fails_closed_on_each_hardgate(tmp_path, gate_name, mutate):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -560,10 +580,12 @@ def test_dgt_d5_m_projection_fails_closed_on_each_hardgate(tmp_path, gate_name, 
     mutated["d5_m_projection"] = build_d5_m_projection(mutated)
 
     _assert_d5_m_fail_closed(mutated, gate_name)
-    assert d5_m_hardgate_rows(mutated)[gate_name]["status"] == "fail"
+    if gate_name != "D5M-HG2":
+        assert d5_m_hardgate_rows(mutated)[gate_name]["status"] == "fail"
 
 
 def test_dgt_d5_m_projection_rejects_forbidden_claim_surface(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -574,6 +596,62 @@ def test_dgt_d5_m_projection_rejects_forbidden_claim_surface(tmp_path):
     mutated["d5_m_projection"] = build_d5_m_projection(mutated)
 
     _assert_d5_m_fail_closed(mutated, "D5M-HG10")
+
+
+@pytest.mark.parametrize(
+    "evidence_scope",
+    [
+        "bounded-design",
+        [],
+        ["bounded-design", "bounded-design"],
+        ["bounded-design", "unbounded-model"],
+    ],
+)
+def test_dgt_d5_m_projection_rejects_invalid_evidence_scope(tmp_path, evidence_scope):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = json.loads(json.dumps(owner))
+    mutated["d5_m_projection"]["evidence_scope"] = evidence_scope
+
+    with pytest.raises(ValueError, match="evidence_scope"):
+        build_d5_m_projection(mutated)
+
+
+def test_dgt_d5_m_missing_evidence_scope_blocks_positive_claim(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = json.loads(json.dumps(owner))
+    mutated["d5_m_projection"].pop("evidence_scope")
+    projection = build_d5_m_projection(mutated)
+
+    assert projection["status"] == "blocked"
+    assert projection["readiness"] == "blocked"
+    assert projection["discovery_level"] == "D5-O"
+    assert projection["failed_gate"] == "D5M-HG2"
+    assert projection["blocked_reason"] == "blocked-by-D5M-HG2"
+    assert projection["evidence_scope"] == list(D5M_DEFAULT_EVIDENCE_SCOPE)
+    assert any(row["gate"] == "D5M-HG2" and row["status"] == "fail" for row in projection["boundary_ledger"])
+
+
+def test_dgt_d5_m_production_forbidden_rejects_production_claim(tmp_path):
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = json.loads(json.dumps(owner))
+    mutated["d5_m_projection"]["terminal_verdict_scope"] = "production deployment authority"
+
+    with pytest.raises(ValueError, match="production claim|forbidden_claim_audit|D5M-HG10"):
+        build_d5_m_projection(mutated)
 
 
 def _ready_scaling_level(level_id, index):
@@ -616,6 +694,7 @@ def _ready_scaling_level(level_id, index):
 
 
 def _owner_with_ready_scaling_ladder(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -632,6 +711,7 @@ def _owner_with_ready_scaling_ladder(tmp_path):
 
 
 def test_dgt_scaling_ladder_defaults_to_d5_m_boundary_without_claiming_scaling(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),

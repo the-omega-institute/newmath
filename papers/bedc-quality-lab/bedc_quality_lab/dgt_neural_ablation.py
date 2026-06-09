@@ -11,6 +11,8 @@ import math
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
+
 
 SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
 ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
@@ -62,6 +64,7 @@ COMPONENT_EFFECTS = {
     "scope_seal": {"quality": 0.0, "uer": 0.0, "false_ledger": 0.0, "debt": 0.0, "benefit": 0.0, "jet": 0.0, "negative": 0.0, "cost": 0.01},
 }
 MEASURABLE_EFFECT_THRESHOLD = 0.015
+COMPONENT_CAUSAL_EVIDENCE_SCOPE = ("small-real-training",)
 HG_IDS = tuple(f"NABL-HG{index}" for index in range(1, 8))
 NOT_CLAIMED = (
     "No production training claim.",
@@ -310,6 +313,7 @@ def _claim_for_component(component: str, delta: Mapping[str, float]) -> dict[str
         "component": component,
         "claim_status": "allowed",
         "claim_scope": "bounded toy training",
+        "evidence_scope": list(COMPONENT_CAUSAL_EVIDENCE_SCOPE),
         "claim_text": (
             f"Under the bounded toy training protocol, removing {component} causes measurable degradation "
             f"on {', '.join(sorted(evidence_metrics))}."
@@ -495,6 +499,9 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     claimed_components = {row["component"] for row in payload["component_causal_claims"]}
     if blocked_components & claimed_components:
         raise ValueError("DGT neural ablation HG7 boundary component is claimed")
+    for index, claim in enumerate(payload["component_causal_claims"]):
+        for error in validate_evidence_scope(claim.get("evidence_scope")):
+            raise ValueError(f"DGT neural ablation component claim {index} {error}")
     if payload["forbidden_claim_term_audit"] != _forbidden_claim_term_audit({"claims": payload["component_causal_claims"]}):
         raise ValueError("DGT neural ablation forbidden term audit mismatch")
     if payload["forbidden_claim_term_audit"].get("status") != "pass":

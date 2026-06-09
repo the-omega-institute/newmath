@@ -1143,7 +1143,7 @@ def _dgt_d5_m_projection_status(payload: Mapping[str, Any]) -> tuple[bool, str, 
         return False, "dgt-d5-m-status-not-ready", "$.d5_m_projection.status"
     if projection.get("discovery_level") != "D5-M":
         return False, "dgt-d5-m-level-mismatch", "$.d5_m_projection.discovery_level"
-    if projection.get("evidence_scope") != "bounded-model-prototype":
+    if projection.get("evidence_scope") != ["bounded-design", "toy-model", "theorem-backed", "production-forbidden"]:
         return False, "dgt-d5-m-scope-mismatch", "$.d5_m_projection.evidence_scope"
     if projection.get("terminal_verdict_scope") != "Core":
         return False, "dgt-d5-m-terminal-scope-mismatch", "$.d5_m_projection.terminal_verdict_scope"
