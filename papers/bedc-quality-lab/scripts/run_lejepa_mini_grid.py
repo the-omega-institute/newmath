@@ -22,7 +22,10 @@ from bedc_quality_lab.lejepa_mini_grid import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     LeJEPAMiniGridProjection,
+    NEGATIVE_DIAGNOSIS_ARTIFACT,
+    build_lejepa_mini_grid_negative_diagnosis,
     default_grid,
+    validate_lejepa_mini_grid_negative_diagnosis,
 )
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID, CLAIM_CAPSULE_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
@@ -133,11 +136,7 @@ def finalize_negative_witness_projection(projection: Mapping[str, Any], *, run_i
     capsule_artifact = str(artifacts["claim_capsule"])
     row = _build_lejepa_run_local_negative_witness(capsule_artifact)
     if not _validate_lejepa_run_local_negative_witness(row, capsule):
-        row = {
-            **row,
-            "status": "blocked",
-            "reason": "LeJEPA negative witness source, evidence, or regression pointer is not foldable.",
-        }
+        raise ValueError("LeJEPA negative witness source, evidence, or regression pointer is not foldable")
     hardgates = {
         "NW-HG1": {
             "status": "pass" if set(row) == set(NEGATIVE_WITNESS_KEYS) else "fail",
@@ -169,10 +168,11 @@ def finalize_negative_witness_projection(projection: Mapping[str, Any], *, run_i
         "artifact": capsule_artifact,
         "pointer": "$",
     }
-    summary["negative_witness"] = [owner_ref]
-    result = summary.get("result")
-    if isinstance(result, dict):
-        summary["result"] = {key: value for key, value in result.items() if key != "terminal_verdict"}
+    summary["negative_diagnosis"] = {
+        "artifact": NEGATIVE_DIAGNOSIS_ARTIFACT,
+        "pointer": "$",
+        "diagnosis_ref": owner_ref,
+    }
     finalized["summary_payload"] = summary
     finalized["claim_capsule_payload"] = capsule
     return finalized
@@ -344,12 +344,15 @@ def write_artifacts(projection: Mapping[str, Any], *, root: Path) -> None:
     negative_witness = capsule_payload.get("run_local", {}).get("negative_witness")
     if capsule_payload.get("schema_id") != CLAIM_CAPSULE_SCHEMA_ID or not isinstance(negative_witness, list) or len(negative_witness) != 1:
         raise ValueError("LeJEPA mini-grid projection is not finalized")
+    if not _validate_lejepa_run_local_negative_witness(negative_witness[0], capsule_payload):
+        raise ValueError("LeJEPA negative witness source, evidence, or regression pointer is not foldable")
     artifacts = summary["run_artifacts"]
     paths = {
         "summary": root / artifacts["summary"],
         "claim_capsule": root / artifacts["claim_capsule"],
         "raw_metrics": root / artifacts["raw_metrics"],
         "report": root / artifacts["report"],
+        "negative_diagnosis": root / NEGATIVE_DIAGNOSIS_ARTIFACT,
     }
     for path in paths.values():
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -360,6 +363,13 @@ def write_artifacts(projection: Mapping[str, Any], *, root: Path) -> None:
         encoding="utf-8",
     )
     paths["report"].write_text(str(projection["report_markdown"]), encoding="utf-8")
+    diagnosis = build_lejepa_mini_grid_negative_diagnosis(
+        summary_payload=summary,
+        claim_capsule_payload=capsule_payload,
+        generated_at=str(summary.get("generated_at", "")),
+    )
+    validate_lejepa_mini_grid_negative_diagnosis(diagnosis, root=root)
+    paths["negative_diagnosis"].write_text(json.dumps(diagnosis, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _parse_float_list(value: str) -> tuple[float, ...]:
