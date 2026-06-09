@@ -694,6 +694,8 @@ def _bio_oracle_health(server_url: str, timeout: int = 3) -> bool:
 def run_oracle_server_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_oracle_integration_config()
+        if not config.get("enabled", True):
+            return {"lane": "bio-O", "status": "skipped", "reason": "oracle disabled"}
         server_url = str(config.get("server_url") or "http://127.0.0.1:8770")
         health = _bio_oracle_health_payload(server_url)
         if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
