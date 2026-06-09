@@ -970,34 +970,6 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         + "\n",
         encoding="utf-8",
     )
-    sidecar_path = tmp_path / canonical_module.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
-    sidecar_path.parent.mkdir(parents=True, exist_ok=True)
-    sidecar_path.write_text(
-        json.dumps(
-            {
-                "artifact_id": canonical_module.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
-                "source_spec": {
-                    "scope_seal": {
-                        "not_claimed": [
-                            "not a formal BEDC NameCert",
-                            "not Lean verification",
-                            "not mechanism theorem closure",
-                        ]
-                    }
-                },
-                "ledger_policy": {"mechanism_closure_debt": "open"},
-                "closure_status": {"mechanism_spec": "partial"},
-                "mechanism_spec": {
-                    "candidate_mechanism": "probe-margin-channel",
-                    "full_vs_score_plus_margin": "not separated",
-                    "a1_failed_gate": "A1-HG3",
-                },
-            }
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
 
 def _mutate_payload(canonical_module, report_name, update):
     spec = canonical_module._specs_by_name()[report_name]
@@ -1321,9 +1293,6 @@ def _patch_lightweight_run_reports(monkeypatch):
         write_markdown(root, canonical.CLAIM_GRAPH_MARKDOWN_ARTIFACT, "# graph\n")
         return {}
 
-    def fake_mechanism(*, root, generated_at=None):
-        return {}
-
     def fake_release(*, root, generated_at=None):
         write_json(
             root,
@@ -1377,7 +1346,6 @@ def _patch_lightweight_run_reports(monkeypatch):
     monkeypatch.setitem(sys.modules, "bedc_quality_lab.discovery_compiler.compiler", types.SimpleNamespace(compile_discovery=fake_discovery))
     monkeypatch.setitem(sys.modules, "scripts.run_claim_graph", types.SimpleNamespace(write_claim_graph=fake_claim_graph))
     monkeypatch.setitem(sys.modules, "scripts.run_claim_verdict_demo", types.SimpleNamespace(write_claim_verdicts=lambda root, generated_at=None: []))
-    monkeypatch.setitem(sys.modules, "scripts.run_gap_head_mechanism_namecert", types.SimpleNamespace(write_gap_head_mechanism_namecert=fake_mechanism))
     monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_debt_transfer", types.SimpleNamespace(write_dimension_mismatch_debt_transfer=fake_transfer))
     monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_anti_triviality", types.SimpleNamespace(write_dimension_mismatch_anti_triviality=fake_anti_triviality))
     monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_transfer_robustness", types.SimpleNamespace(write_dimension_mismatch_transfer_robustness=fake_robustness))
@@ -2451,16 +2419,19 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert "residualized-attribution" not in {item.name for item in canonical.CANONICAL_REPORTS}
 
 
-def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, monkeypatch):
-    sidecar = tmp_path / canonical.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
-    sidecar.parent.mkdir(parents=True)
-    sidecar.write_text(
+def test_canonical_index_exposes_dg_nas_mechanism_namecert_ref_only(tmp_path, monkeypatch):
+    payload_path = tmp_path / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT
+    payload_path.parent.mkdir(parents=True)
+    payload_path.write_text(
         json.dumps(
             {
-                "artifact_id": canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
-                "mechanism_spec": {"candidate_mechanism": "probe-margin-channel"},
-                "ledger_policy": {"mechanism_closure_debt": "open"},
-                "closure_status": {"mechanism_spec": "partial"},
+                "artifact_id": "bedc-quality-lab:discovery-gated-nas",
+                "mechanism_namecert": {
+                    "schema_id": "bedc-quality-lab:discovery-gated-nas:mechanism-namecert",
+                    "closure_status": {"mechanism_namecert": "closed"},
+                    "audit": {"status": "pass"},
+                    "hardgates": [{"gate": "DG-NAS-HG1"}],
+                },
             }
         ),
         encoding="utf-8",
@@ -2469,20 +2440,21 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     names = [spec.name for spec in canonical.CANONICAL_REPORTS]
 
-    section = canonical._gap_head_mechanism_namecert_index_section()
+    section = canonical._discovery_gated_nas_index_section()
     payload = canonical._index([])
     markdown = canonical._render_index_markdown(payload)
 
     assert "gap-head-mechanism-namecert" not in names
-    assert section["artifact_id"] == canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID
-    assert section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
-    assert section["ledger_policy_pointer"] == "$.ledger_policy.mechanism_closure_debt"
-    assert section["closure_status_pointer"] == "$.closure_status.mechanism_spec"
-    assert section["candidate_mechanism"] == "probe-margin-channel"
-    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "open"
-    absent_key = "gap_head_mechanism_" + "attribution"
-    assert absent_key not in payload
-    assert "Gap-head mechanism NameCert candidate" in markdown
+    assert section["mechanism_namecert_ref"] == {
+        "artifact": canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+        "pointer": "$.mechanism_namecert",
+    }
+    assert section["mechanism_namecert_ref_pointer"] == "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert"
+    assert "mechanism_namecert" not in section
+    assert "gap_head_mechanism_namecert" not in payload
+    assert payload["discovery-gated-nas"]["mechanism_namecert_ref_pointer"] == section["mechanism_namecert_ref_pointer"]
+    assert "Discovery-gated NAS" in markdown
+    assert "Gap-head mechanism NameCert candidate" not in markdown
 
 
 def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(monkeypatch, tmp_path):
@@ -4586,9 +4558,6 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
         )
         return payload
 
-    def fake_mechanism(*, root, generated_at=None):
-        return {}
-
     def fake_release(*, root, generated_at=None):
         path = root / canonical.RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -4664,11 +4633,6 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
         sys.modules,
         "scripts.run_negative_witness_mutation_ledger",
         types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
-    )
-    monkeypatch.setitem(
-        sys.modules,
-        "scripts.run_gap_head_mechanism_namecert",
-        types.SimpleNamespace(write_gap_head_mechanism_namecert=fake_mechanism),
     )
     monkeypatch.setitem(
         sys.modules,
@@ -5245,7 +5209,6 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
 
 def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
-    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_namecert.json").read_text(encoding="utf-8"))
     discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
@@ -5269,13 +5232,16 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert "base_level" not in row
     assert capsule["mechanism_evidence"]["base_status"] == "blocked"
     assert capsule["mechanism_evidence"]["base_level"] == "blocked"
-    assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
-    assert sidecar["closure_status"]["mechanism_spec"] == "partial"
+    assert capsule["ledger_debt"][0]["status"] == "open"
+    assert index["gap_head_attribution_capsule"]["mechanism_evidence_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
+    assert index["gap_head_attribution_capsule"]["mechanism_ledger_debt_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
+    assert "gap_head_mechanism_namecert" not in index
     assert "mechanism_status" not in row
     assert "mechanism_level" not in row
-    assert capsule["mechanism_evidence"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"]
-    assert capsule["mechanism_evidence"]["mechanism_status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
-    assert sidecar["mechanism_spec"]["candidate_mechanism"] == capsule["mechanism_evidence"]["candidate_mechanism"]
+    assert capsule["mechanism_evidence"]["failed_gate"]
+    assert "$.a4_hardgates.gates.A4-HG5.status" in capsule["mechanism_evidence"]["required_gate_pointers"]
+    assert capsule["mechanism_evidence"]["mechanism_status"] == "blocked"
+    assert capsule["mechanism_evidence"]["candidate_mechanism"]
     assert "mechanism_channel" not in row
     assert "mechanism_ledger_pointer" not in row
     assert "mechanism_closure_pointer" not in row

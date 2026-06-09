@@ -135,9 +135,6 @@ FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.json"
 GAP_HEAD_TRANSFER_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.md"
 GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID = "bedc-quality-lab:gap-head-transfer-atlas"
-GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
-GAP_HEAD_MECHANISM_NAMECERT_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_namecert.md"
-GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-namecert"
 GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
 GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
@@ -1108,6 +1105,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "device_protocol",
             "torch_nas_evidence",
             "matched_baseline_control",
+            "mechanism_namecert",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -5072,19 +5070,20 @@ def _gap_head_transfer_atlas_index_section(discovery_map_payload: Mapping[str, A
     }
 
 
-def _gap_head_mechanism_namecert_index_section() -> dict[str, Any]:
-    payload = _load_sidecar_payload(GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT)
+def _discovery_gated_nas_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(DISCOVERY_GATED_NAS_JSON_ARTIFACT)
     return {
         "status": "pointer-only",
-        "artifact_id": payload.get("artifact_id", GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID),
-        "json_artifact": GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT,
-        "markdown_artifact": GAP_HEAD_MECHANISM_NAMECERT_MARKDOWN_ARTIFACT,
-        "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
-        "closure_status_pointer": "$.closure_status.mechanism_spec",
-        "candidate_mechanism": _pointer_value(payload, "$.mechanism_spec.candidate_mechanism") or "missing",
-        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt") or "missing",
-        "mechanism_spec_closure": _pointer_value(payload, "$.closure_status.mechanism_spec") or "missing",
-        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "artifact_id": payload.get("artifact_id", "bedc-quality-lab:discovery-gated-nas"),
+        "json_artifact": DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+        "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
+        "mechanism_namecert_ref": {
+            "artifact": DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+            "pointer": "$.mechanism_namecert",
+        },
+        "mechanism_namecert_ref_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert",
+        "mechanism_namecert_audit_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert.audit.status",
+        "mechanism_namecert_closure_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert.closure_status.mechanism_namecert",
     }
 
 def _gap_head_attribution_index_section() -> dict[str, Any]:
@@ -5379,6 +5378,7 @@ def _index(
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
+        "discovery-gated-nas": _discovery_gated_nas_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
@@ -5391,7 +5391,6 @@ def _index(
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
-        "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
@@ -5722,15 +5721,13 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
             f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
             "",
-            "## Gap-head mechanism NameCert candidate",
+            "## Discovery-gated NAS",
             "",
-            f"- Status: `{payload['gap_head_mechanism_namecert']['status']}`",
-            f"- JSON: `{payload['gap_head_mechanism_namecert']['json_artifact']}`",
-            f"- Markdown: `{payload['gap_head_mechanism_namecert']['markdown_artifact']}`",
-            f"- Ledger policy pointer: `{payload['gap_head_mechanism_namecert']['ledger_policy_pointer']}`",
-            f"- Closure status pointer: `{payload['gap_head_mechanism_namecert']['closure_status_pointer']}`",
-            f"- Candidate mechanism: `{payload['gap_head_mechanism_namecert']['candidate_mechanism']}`",
-            f"- Canonical role: `{payload['gap_head_mechanism_namecert']['canonical_role']}`",
+            f"- Status: `{payload['discovery-gated-nas']['status']}`",
+            f"- JSON: `{payload['discovery-gated-nas']['json_artifact']}`",
+            f"- Markdown: `{payload['discovery-gated-nas']['markdown_artifact']}`",
+            f"- Mechanism NameCert: `{payload['discovery-gated-nas']['mechanism_namecert_ref_pointer']}`",
+            f"- Mechanism audit: `{payload['discovery-gated-nas']['mechanism_namecert_audit_pointer']}`",
             "",
             "## Release manifest sidecar",
             "",
@@ -5936,11 +5933,9 @@ def run_reports(
     from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
     from scripts.run_claim_graph import write_claim_graph
     from scripts.run_claim_verdict_demo import write_claim_verdicts
-    from scripts.run_gap_head_mechanism_namecert import write_gap_head_mechanism_namecert
 
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
-    write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
     require_full_negative_reports = only is None
     _compile_discovery_compat(
         compile_discovery,
@@ -5955,7 +5950,6 @@ def run_reports(
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
-    write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
     _compile_discovery_compat(
         compile_discovery,
         root=ROOT,

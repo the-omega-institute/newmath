@@ -14,7 +14,9 @@ from bedc_quality_lab.discovery_gated_nas import (
     DG_NAS_HARDGATES,
     DiscoveryGatedNasProjection,
     NEGATIVE_WITNESS_MUTATIONS,
+    audit_mechanism_namecert,
     design_search_certificate_hg7,
+    mechanism_namecert_ref,
 )
 from bedc_quality_lab.backends.current_lab.projection import (
     _theorem_dna_pointer_cells_resolve,
@@ -208,6 +210,62 @@ def test_search_space_boundary_matches_exhaustive_product():
     assert search_space["observed_record_count"] == 162
     assert search_space["missing_cells"] == []
     assert search_space["out_of_space_rows"] == []
+
+
+def test_mechanism_namecert_nested_under_existing_owner_only():
+    payload = _ready_payload()
+    ref = mechanism_namecert_ref()
+
+    assert ref == {"artifact": "reports/canonical/discovery-gated-nas.json", "pointer": "$.mechanism_namecert"}
+    assert "mechanism_namecert" in payload
+    assert payload["mechanism_namecert"]["schema_id"] == "bedc-quality-lab:discovery-gated-nas:mechanism-namecert"
+    assert payload["mechanism_namecert"]["source_spec"]["owner_ref"] == ref
+    assert payload["mechanism_namecert"]["audit"]["status"] == "pass"
+
+
+def test_mnc_hg1_to_hg7_link_exact_source_owners():
+    payload = _ready_payload()
+    mnc = payload["mechanism_namecert"]
+
+    assert [row["gate"] for row in mnc["hardgates"]] == list(DG_NAS_HARDGATES[:7])
+    for gate, row in zip(DG_NAS_HARDGATES[:7], mnc["hardgates"]):
+        assert row["status_ref"]["owner_pointer"] == f"reports/canonical/discovery-gated-nas.json:$.hardgate.gates.{gate}.status"
+        assert row["evidence_ref"]["owner_pointer"] == f"reports/canonical/discovery-gated-nas.json:$.hardgate.gates.{gate}"
+
+
+def test_mnc_missing_component_ablation_fails_closed():
+    payload = _ready_payload()
+    mnc = {
+        **payload["mechanism_namecert"],
+        "closure_status": {
+            **payload["mechanism_namecert"]["closure_status"],
+            "ablation_spec": "open",
+        },
+    }
+
+    audit = audit_mechanism_namecert(mnc)
+
+    assert audit["status"] == "fail"
+    assert audit["closed"] is False
+
+
+def test_mnc_closed_d5_m_requires_all_gates_and_shortcut_audit():
+    payload = _ready_payload()
+    mnc = payload["mechanism_namecert"]
+
+    assert mnc["closure_status"]["mechanism_namecert"] == "closed"
+    assert mnc["shortcut_witness_audit"]["witness_rows_ref"]["owner_pointer"] == "reports/canonical/discovery-gated-nas.json:$.negative_witness_mutations.rows"
+    assert len(mnc["hardgates"]) == 7
+    assert audit_mechanism_namecert(mnc)["status"] == "pass"
+
+
+def test_mnc_no_source_fact_copy():
+    payload = _ready_payload()
+    serialized = json.dumps(payload["mechanism_namecert"], sort_keys=True)
+
+    for token in ('"quality_q"', '"search_score"', '"candidate_id"', '"surface_id"', '"raw_rows"'):
+        assert token not in serialized
+    assert "owner_pointer" in serialized
 
 
 def test_search_space_gate_fails_closed_without_search_space():

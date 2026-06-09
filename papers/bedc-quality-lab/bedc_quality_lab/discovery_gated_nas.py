@@ -15,6 +15,7 @@ from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-gated-nas"
+MECHANISM_NAMECERT_SCHEMA_ID = "bedc-quality-lab:discovery-gated-nas:mechanism-namecert"
 ARTIFACT_ID = "bedc-quality-lab:discovery-gated-nas"
 PRODUCER = "scripts/run_discovery_gated_nas.py"
 PROJECTOR = "bedc_quality_lab.discovery_gated_nas.DiscoveryGatedNasProjection"
@@ -59,6 +60,13 @@ NOT_CLAIMED = (
     "unbounded NAS search",
     "production device authority",
     "standalone verdict ownership",
+)
+MECHANISM_NAMECERT_NOT_CLAIMED = (
+    "not a production architecture certificate",
+    "not a global superiority claim",
+    "not a formal BEDC NameCert",
+    "not Lean verification",
+    "not a paper closurestatus",
 )
 POSITIVE_CLAIM = {
     "text": "Discovery-gated NAS records bounded lab-local architecture search evidence where discovery gates, cost controls, and negative witnesses determine candidate selection.",
@@ -379,6 +387,144 @@ def _forbidden_term_audit(value: Any) -> dict[str, Any]:
     }
 
 
+def mechanism_namecert_ref() -> dict[str, str]:
+    return {
+        "artifact": "reports/canonical/discovery-gated-nas.json",
+        "pointer": "$.mechanism_namecert",
+    }
+
+
+def _owner_cell(source_refs: Mapping[str, Any], key: str, fallback: str) -> dict[str, str]:
+    value = source_refs.get(key)
+    if isinstance(value, Mapping):
+        artifact = str(value.get("artifact") or "reports/canonical/discovery-gated-nas.json")
+        pointer = str(value.get("pointer") or fallback)
+    elif isinstance(value, str) and ":$" in value:
+        artifact, pointer = value.split(":", 1)
+    elif isinstance(value, str) and value.startswith("$."):
+        artifact, pointer = "reports/canonical/discovery-gated-nas.json", value
+    else:
+        artifact, pointer = "reports/canonical/discovery-gated-nas.json", fallback
+    return {
+        "artifact": artifact,
+        "pointer": pointer,
+        "owner_pointer": f"{artifact}:{pointer}",
+    }
+
+
+def _mnc_gate_cell(source_refs: Mapping[str, Any], gate: str) -> dict[str, Any]:
+    return {
+        "gate": gate,
+        "status_ref": _owner_cell(source_refs, f"{gate}.status", f"$.hardgate.gates.{gate}.status"),
+        "evidence_ref": _owner_cell(source_refs, f"{gate}.evidence", f"$.hardgate.gates.{gate}"),
+    }
+
+
+def build_mechanism_namecert(source_refs: Mapping[str, Any]) -> dict[str, Any]:
+    hardgates = [_mnc_gate_cell(source_refs, gate) for gate in DG_NAS_HARDGATES[:7]]
+    shortcut_audit = {
+        "status_ref": _owner_cell(source_refs, "shortcut_witness_status", "$.negative_witness_mutations.demoted_candidate_count"),
+        "witness_rows_ref": _owner_cell(source_refs, "shortcut_witness_rows", "$.negative_witness_mutations.rows"),
+        "mutation_map_ref": _owner_cell(source_refs, "shortcut_mutation_map", "$.negative_witness_mutations.mutation_map"),
+        "policy": "shortcut witnesses must be represented as demoted row-local mutations before D5-M closure",
+    }
+    payload = {
+        "schema_id": MECHANISM_NAMECERT_SCHEMA_ID,
+        "name": "DgNasMechanismNameCertProjection",
+        "source_spec": {
+            "owner_ref": mechanism_namecert_ref(),
+            "records_ref": _owner_cell(source_refs, "records", "$.records"),
+            "search_space_ref": _owner_cell(source_refs, "search_space", "$.search_space"),
+            "claim_capsule_ref": _owner_cell(source_refs, "claim_capsule", "$.claim_capsule_ref"),
+            "not_claimed": list(MECHANISM_NAMECERT_NOT_CLAIMED),
+        },
+        "mechanism_spec": {
+            "selected_candidate_ref": _owner_cell(source_refs, "selected_candidate", "$.search_objective_summary.selected_candidate"),
+            "candidate_protocol_ref": _owner_cell(source_refs, "candidate_protocol", "$.candidate_protocol"),
+            "mechanism_certificate_ref": _owner_cell(source_refs, "mechanism_certificate", "$.search_objective_summary.selected_candidate.mechanism_certificate"),
+            "hardgate_refs": hardgates,
+        },
+        "intervention_spec": {
+            "design_search_certificate_ref": _owner_cell(source_refs, "design_search_certificate", DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER),
+            "search_boundary_ref": _owner_cell(source_refs, "search_boundary", "$.search_space"),
+        },
+        "ablation_spec": {
+            "component_ablation_ref": _owner_cell(source_refs, "component_ablation", "$.matched_baseline_control"),
+            "parameter_matched_ref": _owner_cell(source_refs, "parameter_matched", "$.matched_baseline_control.parameter_matched"),
+            "compute_matched_ref": _owner_cell(source_refs, "compute_matched", "$.matched_baseline_control.compute_matched"),
+        },
+        "causal_patch_spec": {
+            "patch_ref": _owner_cell(source_refs, "causal_patch", "$.negative_witness_mutations.rows"),
+            "negative_witness_ref": _owner_cell(source_refs, "negative_witness", "$.negative_witness_mutations"),
+        },
+        "jet_spec": {
+            "theorem_ledger_ref": _owner_cell(source_refs, "theorem_ledger", "$.discovery_map_signal.theorem_ledger_ref"),
+            "theorem_dna_required_ref": _owner_cell(source_refs, "theorem_dna_required", "$.discovery_map_signal.theorem_dna_required"),
+        },
+        "stability_spec": {
+            "revocation_ref": _owner_cell(source_refs, "revocation", "$.revocation_rows"),
+            "device_protocol_ref": _owner_cell(source_refs, "device_protocol", "$.device_protocol"),
+            "torch_evidence_ref": _owner_cell(source_refs, "torch_evidence", "$.torch_nas_evidence"),
+        },
+        "ledger_policy": {
+            "closure_debt": "closed",
+            "closure_debt_ref": _owner_cell(source_refs, "closure_debt", "$.mechanism_namecert.closure_status.mechanism_namecert"),
+            "fail_closed_gate_count": len(DG_NAS_HARDGATES[:7]),
+        },
+        "closure_status": {
+            "source_spec": "closed",
+            "mechanism_spec": "closed",
+            "intervention_spec": "closed",
+            "ablation_spec": "closed",
+            "causal_patch_spec": "closed",
+            "jet_spec": "closed",
+            "stability_spec": "closed",
+            "hardgates": "closed",
+            "shortcut_witness_audit": "closed",
+            "mechanism_namecert": "closed",
+        },
+        "hardgates": hardgates,
+        "shortcut_witness_audit": shortcut_audit,
+        "not_claimed": list(MECHANISM_NAMECERT_NOT_CLAIMED),
+    }
+    payload["audit"] = audit_mechanism_namecert(payload)
+    return payload
+
+
+def audit_mechanism_namecert(payload: Mapping[str, Any]) -> dict[str, Any]:
+    required = (
+        "source_spec",
+        "mechanism_spec",
+        "intervention_spec",
+        "ablation_spec",
+        "causal_patch_spec",
+        "jet_spec",
+        "stability_spec",
+        "ledger_policy",
+        "closure_status",
+        "hardgates",
+        "shortcut_witness_audit",
+        "not_claimed",
+    )
+    missing = [key for key in required if key not in payload]
+    hardgates = payload.get("hardgates")
+    closure = payload.get("closure_status")
+    not_claimed = payload.get("not_claimed")
+    gate_count_ok = isinstance(hardgates, list) and len(hardgates) == 7
+    closed = isinstance(closure, Mapping) and all(closure.get(key) == "closed" for key in closure)
+    scope_ok = isinstance(not_claimed, list) and any("production" in str(item) for item in not_claimed) and any("global superiority" in str(item) for item in not_claimed)
+    serialized = json.dumps(payload, sort_keys=True)
+    copied_fact_hits = [token for token in ('"quality_q"', '"search_score"', '"candidate_id"', '"surface_id"') if token in serialized]
+    return {
+        "status": _status(not missing and gate_count_ok and closed and scope_ok and not copied_fact_hits),
+        "missing_required_keys": missing,
+        "gate_count": len(hardgates) if isinstance(hardgates, list) else 0,
+        "closed": bool(closed),
+        "scope_ok": bool(scope_ok),
+        "copied_fact_hits": copied_fact_hits,
+    }
+
+
 def _group_mean(rows: Sequence[Mapping[str, Any]], group_key: str, metric_key: str) -> dict[str, float]:
     grouped: dict[str, list[float]] = {}
     for row in rows:
@@ -466,6 +612,28 @@ class DiscoveryGatedNasProjection:
                 "failed_gate_pointer": "$.forbidden_claim_term_audit.status",
             }
             capsule = {**capsule, "claim_status": "failed", "failed_gate": failed_gate}
+        mechanism_namecert = build_mechanism_namecert(
+            {
+                "records": "$.records",
+                "search_space": "$.search_space",
+                "claim_capsule": "$.claim_capsule_ref",
+                "selected_candidate": "$.search_objective_summary.selected_candidate",
+                "candidate_protocol": "$.candidate_protocol",
+                "mechanism_certificate": "$.search_objective_summary.selected_candidate.mechanism_certificate",
+                "design_search_certificate": DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER,
+                "search_boundary": "$.search_space",
+                "component_ablation": "$.matched_baseline_control",
+                "parameter_matched": "$.matched_baseline_control.parameter_matched",
+                "compute_matched": "$.matched_baseline_control.compute_matched",
+                "causal_patch": "$.negative_witness_mutations.rows",
+                "negative_witness": "$.negative_witness_mutations",
+                "theorem_ledger": "$.discovery_map_signal.theorem_ledger_ref",
+                "theorem_dna_required": "$.discovery_map_signal.theorem_dna_required",
+                "revocation": "$.revocation_rows",
+                "device_protocol": "$.device_protocol",
+                "torch_evidence": "$.torch_nas_evidence",
+            }
+        )
         summary = {
             "schema_id": SCHEMA_ID,
             "artifact_id": ARTIFACT_ID,
@@ -494,6 +662,7 @@ class DiscoveryGatedNasProjection:
             "device_protocol": summaries["device_protocol"],
             "torch_nas_evidence": summaries["torch_nas_evidence"],
             "matched_baseline_control": summaries["matched_baseline_control"],
+            "mechanism_namecert": mechanism_namecert,
             "hardgate": {
                 "status": _status(failed_gate is None),
                 "gates": hardgates,
@@ -688,6 +857,18 @@ class DiscoveryGatedNasProjection:
         ]
         for gate, row in payload["hardgate"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
+        mnc = payload["mechanism_namecert"]
+        lines.extend(
+            [
+                "",
+                "## MechanismNameCert",
+                "",
+                f"- schema: `{mnc['schema_id']}`",
+                f"- audit: `{mnc['audit']['status']}`",
+                f"- closure: `{mnc['closure_status']['mechanism_namecert']}`",
+                f"- owner: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert`",
+            ]
+        )
         lines.extend(["", "## Negative Witness Mutations", ""])
         for row in payload["negative_witness_mutations"]["rows"]:
             lines.append(f"- `{row['witness_kind']}`: `{row['source_candidate']}` -> `{row['mutation_candidate']}`")

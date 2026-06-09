@@ -19,14 +19,12 @@ MARKDOWN_ARTIFACT = "reports/canonical/experiment_proposals.md"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT = "reports/canonical/negative_discovery_reports.json"
 GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
-GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
 SOURCE_ARTIFACTS = {
     "discovery_map": DISCOVERY_MAP_ARTIFACT,
     "negative_discovery_reports": NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
     "claim_verdicts": "reports/canonical/claim_verdicts.jsonl",
     "claim_capsule": "reports/canonical/claim_capsule.json",
     "gap_head_attribution_capsule": GAP_HEAD_ATTRIBUTION_ARTIFACT,
-    "gap_head_mechanism_namecert": GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT,
 }
 PROPOSAL_TYPES = frozenset(
     {

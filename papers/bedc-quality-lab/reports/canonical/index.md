@@ -241,7 +241,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `109`
+- Nodes: `110`
 
 ## Claim capsule
 
@@ -287,15 +287,13 @@
 - D5-M: `blocked`
 - Mechanism case: `unresolved`
 
-## Gap-head mechanism NameCert candidate
+## Discovery-gated NAS
 
 - Status: `pointer-only`
-- JSON: `reports/gap_head_mechanism_namecert.json`
-- Markdown: `reports/gap_head_mechanism_namecert.md`
-- Ledger policy pointer: `$.ledger_policy.mechanism_closure_debt`
-- Closure status pointer: `$.closure_status.mechanism_spec`
-- Candidate mechanism: `unresolved`
-- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- JSON: `reports/canonical/discovery-gated-nas.json`
+- Markdown: `reports/canonical/discovery-gated-nas.md`
+- Mechanism NameCert: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert`
+- Mechanism audit: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert.audit.status`
 
 ## Release manifest sidecar
 

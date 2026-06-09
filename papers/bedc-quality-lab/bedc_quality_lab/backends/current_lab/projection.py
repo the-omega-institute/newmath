@@ -104,7 +104,6 @@ QUALITY_SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_ROWS_POINTER = "$.rows"
 DIMENSION_MISMATCH_TRANSFER_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
-MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     QUALITY_SCORECARD_ARTIFACT,
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
@@ -112,7 +111,6 @@ GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
     ATTRIBUTION_CAPSULE_ARTIFACT,
-    MECHANISM_NAMECERT_ARTIFACT,
 )
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
 GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER = "$.multi_surface_d5_o.decision"
@@ -124,9 +122,9 @@ DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer
 ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
 ATTRIBUTION_CAPSULE_MECHANISM_POINTER = MECHANISM_EVIDENCE_POINTER
 ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER = "$.mechanism_evidence.candidate_mechanism"
-MECHANISM_NAMECERT_LEDGER_POINTER = "$.ledger_policy.mechanism_closure_debt"
-MECHANISM_NAMECERT_CLOSURE_POINTER = "$.closure_status.mechanism_spec"
-MECHANISM_NAMECERT_CANDIDATE_POINTER = "$.mechanism_spec.candidate_mechanism"
+MECHANISM_NAMECERT_LEDGER_POINTER = "$.ledger_debt.0.status"
+MECHANISM_NAMECERT_CLOSURE_POINTER = "$.mechanism_evidence.mechanism_status"
+MECHANISM_NAMECERT_CANDIDATE_POINTER = "$.mechanism_evidence.candidate_mechanism"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT = "reports/canonical/negative_discovery_reports.json"
 SINGLE_THRESHOLD_ESCAPE_ARTIFACT = "runs/single_threshold_escape_witness.json"
 SINGLE_THRESHOLD_ESCAPE_MARKDOWN_ARTIFACT = "runs/single_threshold_escape_witness.md"
@@ -510,7 +508,7 @@ def _gap_head_on_h_projection(
     evidence_pointer = "$.treatment_verdict.positive"
     context_payloads = {} if context is None else context
     ledger = _gap_head_d5_readiness(context_payloads)
-    mechanism_namecert = context_payloads.get(MECHANISM_NAMECERT_ARTIFACT, {})
+    mechanism_namecert = context_payloads.get(ATTRIBUTION_CAPSULE_ARTIFACT, {})
     if pointer_value(payload, evidence_pointer) is True:
         overlay["positive_discovery"] = True
         overlay["net_positive_signal"] = True
@@ -534,8 +532,8 @@ def _gap_head_on_h_projection(
             }
             overlay["source_pointers"] = {
                 "operational": _artifact_pointer(GAP_HEAD_ROBUSTNESS_ARTIFACT, "$.acceptance_gates.status"),
-                "mechanism": f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_LEDGER_POINTER}",
-                "mechanism_case": f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_CLOSURE_POINTER}",
+                "mechanism": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:{MECHANISM_NAMECERT_LEDGER_POINTER}",
+                "mechanism_case": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:{MECHANISM_NAMECERT_CLOSURE_POINTER}",
             }
         return overlay, ProjectionEvidence(
             projection_status="projected",
@@ -2624,14 +2622,13 @@ def _sidecar_discovery_rows(*, root: Path | None = None) -> list[dict[str, Any]]
 
 def _gap_head_mechanism_blockage_rows(*, root: Path) -> list[dict[str, Any]]:
     capsule = _load_artifact_payload(ATTRIBUTION_CAPSULE_ARTIFACT, root=root)
-    sidecar = _load_artifact_payload(MECHANISM_NAMECERT_ARTIFACT, root=root)
     evidence = project_gap_head_mechanism_evidence(capsule)
     if evidence is None:
         return []
     if (
         evidence.base_status != "ready"
         or evidence.mechanism_status != "blocked"
-        or pointer_value(sidecar, MECHANISM_NAMECERT_LEDGER_POINTER) != "open"
+        or pointer_value(capsule, MECHANISM_NAMECERT_LEDGER_POINTER) != "open"
         or unresolved_mechanism_evidence_pointers(capsule, evidence)
     ):
         return []
@@ -2642,7 +2639,11 @@ def _gap_head_mechanism_blockage_rows(*, root: Path) -> list[dict[str, Any]]:
     )
     if any(pointer_value(capsule, pointer) is None for pointer in pointers):
         return []
-    not_claimed = pointer_value(sidecar, "$.source_spec.scope_seal.not_claimed")
+    not_claimed = pointer_value(capsule, "$.scope.not_claimed")
+    if not isinstance(not_claimed, list):
+        not_claimed = pointer_value(capsule, "$.not_claimed")
+    if not isinstance(not_claimed, list):
+        not_claimed = pointer_value(capsule, "$.scope_seal.not_claimed")
     if not isinstance(not_claimed, list):
         return []
     return [
@@ -2977,7 +2978,6 @@ def _manifest_audit(
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",
         "reports/canonical/experiment_proposals.json",
-        MECHANISM_NAMECERT_ARTIFACT,
     }
     directory_json = {
         f"reports/canonical/{path.name}"

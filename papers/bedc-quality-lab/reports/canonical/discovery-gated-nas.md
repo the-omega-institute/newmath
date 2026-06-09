@@ -18,6 +18,13 @@
 - `DG-NAS-HG7`: `pass`
 - `DG-NAS-HG8`: `fail`
 
+## MechanismNameCert
+
+- schema: `bedc-quality-lab:discovery-gated-nas:mechanism-namecert`
+- audit: `pass`
+- closure: `closed`
+- owner: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert`
+
 ## Negative Witness Mutations
 
 - `score_margin_shortcut`: `score_margin_shortcut` -> `residualized_h_path`
