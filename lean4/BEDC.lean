@@ -2384,6 +2384,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.NestedCompactnessHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.NetHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.NetUnblockPackage
 import BEDC.Derived.ClosedBoundedIntervalUp.ObligationClosure
+import BEDC.Derived.ClosedBoundedIntervalUp.PublicBridgeBoundary
 import BEDC.Derived.ClosedBoundedIntervalUp.PublicExport
 import BEDC.Derived.ClosedBoundedIntervalUp.RealCauchyModulusHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
@@ -5183,6 +5184,7 @@ import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
+import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
