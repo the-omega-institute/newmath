@@ -14,9 +14,53 @@
   },
   "generated_at": "run-local:discovery-regularized-training",
   "hardgates": {
+    "DGT-REPLAY-HG0-owner-ready": {
+      "evidence": "model-comparison owner must be ready before DGT replay can promote.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG1": {
+      "evidence": "Formal replay arm catalog must contain the exact public arm set.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG10": {
+      "evidence": "Forbidden claim audit must pass.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG2": {
+      "evidence": "Training replay bridge must emit one public row for each formal arm.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG3": {
+      "evidence": "Replay rows must carry matched parameter counts.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG4": {
+      "evidence": "Replay rows must carry matched compute budgets.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG5": {
+      "evidence": "Matched-random structural control must be explicitly randomized.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG6": {
+      "evidence": "DGT_full must have positive classifier shift.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG7": {
+      "evidence": "DGT_full must carry a net-positive replay signal.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG8": {
+      "evidence": "Matched-random classifier shift must remain zero.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG9": {
+      "evidence": "Compute ledger must be complete.",
+      "status": "pass"
+    },
     "DRT-HG1": {
-      "benefit_delta": 0.018,
-      "debt_delta": -0.07,
+      "benefit_delta": 0.02,
+      "debt_delta": -0.074,
       "evidence": "DRT must reduce debt while preserving benefit.",
       "status": "pass"
     },
@@ -125,28 +169,28 @@
   "result_snapshot": {
     "compute_ledger": {
       "backend_row_counts": {
-        "deterministic-anchor": 900,
+        "deterministic-anchor": 2160,
         "deterministic-mechanism-ablation": 1,
         "torch-training-arm": 16
       },
       "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
       "deterministic_seed_count": 3,
       "device": "mps",
-      "energy_proxy": 0.004502,
-      "flops_proxy": 45023232,
+      "energy_proxy": 0.010695,
+      "flops_proxy": 106954752,
       "missing_fields": [],
       "requested_device": "auto",
       "resolved_device": "mps",
       "status": "complete",
       "torch_seed_count": 2,
-      "total_steps": 10992,
-      "wall_time_seconds_proxy": 2.7
+      "total_steps": 26112,
+      "wall_time_seconds_proxy": 6.48
     },
     "constraint_summary": {
       "benefit_nondecreasing": true,
       "debt_down": true,
-      "drt_minus_task_only_benefit_q": 0.018,
-      "drt_minus_task_only_debt_q": -0.07
+      "drt_minus_task_only_benefit_q": 0.02,
+      "drt_minus_task_only_debt_q": -0.074
     },
     "discovery_map_signal": {
       "failed_gate": null,
@@ -158,42 +202,42 @@
     "lambda_summary": {
       "benefit_nondecreasing": true,
       "best_positive": {
-        "benefit_q_mean": 0.678267,
-        "debt_q_mean": 0.191733,
+        "benefit_q_mean": 0.680267,
+        "debt_q_mean": 0.187733,
         "delta_quality_ci_low_mean": 0.026,
         "discovery_lambda": "0.01",
-        "quality_q_mean": 0.661767
+        "quality_q_mean": 0.674767
       },
       "by_discovery_lambda": {
         "0.0": {
-          "benefit_q_mean": 0.662267,
-          "debt_q_mean": 0.199733,
+          "benefit_q_mean": 0.664267,
+          "debt_q_mean": 0.195733,
           "delta_quality_ci_low_mean": 0.01,
-          "quality_q_mean": 0.621767
+          "quality_q_mean": 0.634767
         },
         "0.0001": {
-          "benefit_q_mean": 0.666267,
-          "debt_q_mean": 0.197733,
+          "benefit_q_mean": 0.668267,
+          "debt_q_mean": 0.193733,
           "delta_quality_ci_low_mean": 0.014,
-          "quality_q_mean": 0.631767
+          "quality_q_mean": 0.644767
         },
         "0.001": {
-          "benefit_q_mean": 0.670267,
-          "debt_q_mean": 0.195733,
+          "benefit_q_mean": 0.672267,
+          "debt_q_mean": 0.191733,
           "delta_quality_ci_low_mean": 0.018,
-          "quality_q_mean": 0.641767
+          "quality_q_mean": 0.654767
         },
         "0.005": {
-          "benefit_q_mean": 0.674267,
-          "debt_q_mean": 0.193733,
+          "benefit_q_mean": 0.676267,
+          "debt_q_mean": 0.189733,
           "delta_quality_ci_low_mean": 0.022,
-          "quality_q_mean": 0.651767
+          "quality_q_mean": 0.664767
         },
         "0.01": {
-          "benefit_q_mean": 0.678267,
-          "debt_q_mean": 0.191733,
+          "benefit_q_mean": 0.680267,
+          "debt_q_mean": 0.187733,
           "delta_quality_ci_low_mean": 0.026,
-          "quality_q_mean": 0.661767
+          "quality_q_mean": 0.674767
         }
       },
       "delta_quality_ci_low_positive": true,
@@ -208,51 +252,51 @@
     "matched_random_control": {
       "certificate_loss_improvement": true,
       "control_positive": false,
-      "drt_certificate_loss_mean": 0.2182,
+      "drt_certificate_loss_mean": 0.2122,
       "matched_random_certificate_loss_mean": 0.3282
     },
     "quality_promotion_boundary": {
       "arm_comparisons": {
-        "DRT": {
-          "arm": "DRT",
+        "DGT_full": {
+          "arm": "DGT_full",
           "comparison_to_task_only": "above-task-only",
-          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
           "promotion_gate": "clears-boundary",
-          "quality_q": 0.641767,
+          "quality_q": 0.654767,
           "quality_q_ci_low": 0.607767,
           "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
-          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean",
           "render_order": 3,
           "slot_state": "present-but-fail-closed",
-          "source_arm": "drt",
+          "source_arm": "DGT_full",
           "task_only_quality_q": 0.581767
         },
-        "SIGReg": {
-          "arm": "SIGReg",
-          "comparison_to_task_only": "above-task-only",
-          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg",
-          "promotion_gate": "comparison-only",
-          "quality_q": 0.599767,
-          "quality_q_ci_low": 0.599767,
-          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
-          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
-          "render_order": 2,
+        "base_transformer": {
+          "arm": "base_transformer",
+          "comparison_to_task_only": "task-only-reference",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer",
+          "promotion_gate": "reference",
+          "quality_q": 0.581767,
+          "quality_q_ci_low": 0.581767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+          "render_order": 1,
           "slot_state": "present-but-fail-closed",
-          "source_arm": "sigreg",
+          "source_arm": "base_transformer",
           "task_only_quality_q": 0.581767
         },
-        "matched_random_DRT": {
-          "arm": "matched_random_DRT",
+        "matched_random_structural_control": {
+          "arm": "matched_random_structural_control",
           "comparison_to_task_only": "above-task-only",
-          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
           "promotion_gate": "comparison-only",
           "quality_q": 0.595767,
           "quality_q_ci_low": 0.595767,
-          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
-          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
           "render_order": 4,
           "slot_state": "present-but-fail-closed",
-          "source_arm": "matched_random",
+          "source_arm": "matched_random_structural_control",
           "task_only_quality_q": 0.581767
         },
         "old_certificate_guided": {
@@ -269,26 +313,26 @@
           "source_arm": null,
           "task_only_quality_q": 0.581767
         },
-        "task_only": {
-          "arm": "task_only",
-          "comparison_to_task_only": "task-only-reference",
-          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only",
-          "promotion_gate": "reference",
-          "quality_q": 0.581767,
-          "quality_q_ci_low": 0.581767,
-          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
-          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
-          "render_order": 1,
+        "parameter_matched": {
+          "arm": "parameter_matched",
+          "comparison_to_task_only": "above-task-only",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched",
+          "promotion_gate": "comparison-only",
+          "quality_q": 0.599767,
+          "quality_q_ci_low": 0.599767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+          "render_order": 2,
           "slot_state": "present-but-fail-closed",
-          "source_arm": "task_only",
+          "source_arm": "parameter_matched",
           "task_only_quality_q": 0.581767
         }
       },
       "arm_quality_order": [
-        "task_only",
-        "SIGReg",
-        "DRT",
-        "matched_random_DRT",
+        "base_transformer",
+        "parameter_matched",
+        "DGT_full",
+        "matched_random_structural_control",
         "old_certificate_guided"
       ],
       "hardgate": {
@@ -313,7 +357,7 @@
       },
       "slot_state": "present-but-fail-closed",
       "source_artifact": "reports/canonical/discovery-regularized-training.json",
-      "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean"
+      "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean"
     }
   },
   "revocation": {

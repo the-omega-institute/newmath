@@ -24,13 +24,40 @@
   "arm_protocol": {
     "deterministic_anchor": {
       "arms": [
-        "task_only",
-        "sigreg",
-        "drt",
-        "matched_random",
-        "drt_jet"
+        "base_transformer",
+        "parameter_matched",
+        "compute_matched",
+        "matched_random_structural_control",
+        "DGT_full",
+        "DGT_without_LAT",
+        "DGT_without_CGA",
+        "DGT_without_DRT",
+        "DGT_without_gap_ledger_route",
+        "DGT_without_mechanism_probe",
+        "DGT_without_certificate_gate",
+        "DGT_without_jet_loss"
       ],
       "evidence_pointer": "$.records",
+      "primary": true,
+      "replayable": true
+    },
+    "formal_replay": {
+      "arms": [
+        "base_transformer",
+        "parameter_matched",
+        "compute_matched",
+        "matched_random_structural_control",
+        "DGT_full",
+        "DGT_without_LAT",
+        "DGT_without_CGA",
+        "DGT_without_DRT",
+        "DGT_without_gap_ledger_route",
+        "DGT_without_mechanism_probe",
+        "DGT_without_certificate_gate",
+        "DGT_without_jet_loss"
+      ],
+      "catalog_pointer": "$.replay_arm_catalog",
+      "comparison_owner_pointer": "$.comparison_owner",
       "primary": true,
       "replayable": true
     },
@@ -83,48 +110,64 @@
   },
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
   "claim_capsule_status": "d5-m-candidate",
+  "comparison_owner": {
+    "artifact": "reports/canonical/model-comparison.json",
+    "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
+    "hardgates_status": "pass",
+    "models_pointer": "reports/canonical/model-comparison.json:$.models",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.comparison_owner",
+    "owner_status": "resolved",
+    "ready": true,
+    "required_owner_ids": [
+      "dgt",
+      "base_transformer",
+      "matched_random_structural_control"
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:comparison-owner",
+    "status": "ready"
+  },
   "component_ablation": {
     "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.component_ablation",
     "rows": [
       {
         "arm_id": "full_drt",
         "disabled_terms": [],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
-        "full_drt_quality_q": 0.641767,
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
         "quality_delta_vs_full_drt": 0.0,
-        "quality_q": 0.641767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "quality_q": 0.654767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean",
         "render_order": 1,
-        "source_arm": "drt"
+        "source_arm": "DGT_full"
       },
       {
         "arm_id": "without_discovery",
         "disabled_terms": [
           "discovery"
         ],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg",
-        "full_drt_quality_q": 0.641767,
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched",
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
-        "quality_delta_vs_full_drt": -0.042,
+        "quality_delta_vs_full_drt": -0.055,
         "quality_q": 0.599767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
         "render_order": 2,
-        "source_arm": "sigreg"
+        "source_arm": "parameter_matched"
       },
       {
         "arm_id": "without_ledger",
         "disabled_terms": [
           "ledger"
         ],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random",
-        "full_drt_quality_q": 0.641767,
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
-        "quality_delta_vs_full_drt": -0.046,
+        "quality_delta_vs_full_drt": -0.059,
         "quality_q": 0.595767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
         "render_order": 3,
-        "source_arm": "matched_random"
+        "source_arm": "matched_random_structural_control"
       },
       {
         "arm_id": "without_certificate",
@@ -132,13 +175,13 @@
           "certificate"
         ],
         "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
-        "full_drt_quality_q": 0.641767,
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
-        "quality_delta_vs_full_drt": -0.046,
+        "quality_delta_vs_full_drt": -0.059,
         "quality_q": 0.595767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
         "render_order": 4,
-        "source_arm": "matched_random"
+        "source_arm": "matched_random_structural_control"
       },
       {
         "arm_id": "without_mechanism",
@@ -146,13 +189,13 @@
           "mechanism"
         ],
         "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
-        "full_drt_quality_q": 0.641767,
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
-        "quality_delta_vs_full_drt": -0.046,
+        "quality_delta_vs_full_drt": -0.059,
         "quality_q": 0.595767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
         "render_order": 5,
-        "source_arm": "matched_random"
+        "source_arm": "matched_random_structural_control"
       },
       {
         "arm_id": "without_cost",
@@ -160,13 +203,13 @@
           "cost"
         ],
         "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
-        "full_drt_quality_q": 0.641767,
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
         "quality_delta_vs_full_drt": 0.0,
-        "quality_q": 0.641767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "quality_q": 0.654767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean",
         "render_order": 6,
-        "source_arm": "drt"
+        "source_arm": "DGT_full"
       },
       {
         "arm_id": "without_negative_witness",
@@ -174,29 +217,29 @@
           "negative_witness"
         ],
         "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
-        "full_drt_quality_q": 0.641767,
+        "full_drt_quality_q": 0.654767,
         "pointer_state": "present",
-        "quality_delta_vs_full_drt": -0.046,
+        "quality_delta_vs_full_drt": -0.059,
         "quality_q": 0.595767,
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
         "render_order": 7,
-        "source_arm": "matched_random"
+        "source_arm": "matched_random_structural_control"
       }
     ],
     "status": "pointer-only"
   },
   "compute_ledger": {
     "backend_row_counts": {
-      "deterministic-anchor": 900,
+      "deterministic-anchor": 2160,
       "deterministic-mechanism-ablation": 1,
       "torch-training-arm": 16
     },
     "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
     "deterministic_seed_count": 3,
     "device": "mps",
-    "energy_proxy": 0.004502,
+    "energy_proxy": 0.010695,
     "evidence_pointer": "$.records",
-    "flops_proxy": 45023232,
+    "flops_proxy": 106954752,
     "missing_fields": [],
     "protocols_pointer": "$.torch_training_evidence.protocols",
     "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
@@ -204,16 +247,23 @@
     "resolved_device": "mps",
     "status": "complete",
     "torch_seed_count": 2,
-    "total_steps": 10992,
-    "wall_time_seconds_proxy": 2.7
+    "total_steps": 26112,
+    "wall_time_seconds_proxy": 6.48
   },
   "config": {
     "arms": [
-      "task_only",
-      "sigreg",
-      "drt",
-      "matched_random",
-      "drt_jet"
+      "base_transformer",
+      "parameter_matched",
+      "compute_matched",
+      "matched_random_structural_control",
+      "DGT_full",
+      "DGT_without_LAT",
+      "DGT_without_CGA",
+      "DGT_without_DRT",
+      "DGT_without_gap_ledger_route",
+      "DGT_without_mechanism_probe",
+      "DGT_without_certificate_gate",
+      "DGT_without_jet_loss"
     ],
     "dependency_abi": {
       "torch": "2.7.0"
@@ -245,14 +295,15 @@
       23,
       37
     ],
+    "source_artifacts": {},
     "steps": 12,
     "torch_status": "available"
   },
   "constraint_summary": {
     "benefit_nondecreasing": true,
     "debt_down": true,
-    "drt_minus_task_only_benefit_q": 0.018,
-    "drt_minus_task_only_debt_q": -0.07
+    "drt_minus_task_only_benefit_q": 0.02,
+    "drt_minus_task_only_debt_q": -0.074
   },
   "device_protocol": {
     "dependency_abi": {
@@ -263,6 +314,34 @@
     "requested_device": "auto",
     "resolved_device": "mps",
     "status": "available"
+  },
+  "dgt_replay_claim_status": {
+    "gate_summary_pointer": "$.dgt_replay_gate_summary",
+    "level_candidate": "D5-M",
+    "not_claimed": "No production deployment or global model superiority is claimed.",
+    "status": "positive-candidate"
+  },
+  "dgt_replay_gate_summary": {
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "gate_order": [
+      "DGT-REPLAY-HG0-owner-ready",
+      "DGT-REPLAY-HG1",
+      "DGT-REPLAY-HG2",
+      "DGT-REPLAY-HG3",
+      "DGT-REPLAY-HG4",
+      "DGT-REPLAY-HG5",
+      "DGT-REPLAY-HG6",
+      "DGT-REPLAY-HG7",
+      "DGT-REPLAY-HG8",
+      "DGT-REPLAY-HG9",
+      "DGT-REPLAY-HG10"
+    ],
+    "level_candidate": "D5-M",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.dgt_replay_gate_summary",
+    "positive_claim_permitted": true,
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:dgt-replay-gate-summary",
+    "status": "pass"
   },
   "discovery_map_signal": {
     "control_pointer": "$.matched_random_control",
@@ -352,11 +431,11 @@
   },
   "generated_at": "run-local:discovery-regularized-training",
   "grid": {
-    "arm_count": 5,
+    "arm_count": 12,
     "discovery_lambda_count": 5,
-    "expected_record_count": 900,
+    "expected_record_count": 2160,
     "mixing_count": 3,
-    "record_count": 900,
+    "record_count": 2160,
     "rho_count": 4,
     "seed_count": 3,
     "torch_record_count": 16
@@ -364,9 +443,64 @@
   "hardgate": {
     "failed_gate": null,
     "gates": {
+      "DGT-REPLAY-HG0-owner-ready": {
+        "evidence": "model-comparison owner must be ready before DGT replay can promote.",
+        "evidence_pointer": "$.comparison_owner.status",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG1": {
+        "evidence": "Formal replay arm catalog must contain the exact public arm set.",
+        "evidence_pointer": "$.replay_arm_catalog.formal_arms",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG10": {
+        "evidence": "Forbidden claim audit must pass.",
+        "evidence_pointer": "$.positive_claim",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG2": {
+        "evidence": "Training replay bridge must emit one public row for each formal arm.",
+        "evidence_pointer": "$.training_replay_bridge.rows",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG3": {
+        "evidence": "Replay rows must carry matched parameter counts.",
+        "evidence_pointer": "$.training_replay_bridge.rows",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG4": {
+        "evidence": "Replay rows must carry matched compute budgets.",
+        "evidence_pointer": "$.training_replay_bridge.rows",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG5": {
+        "evidence": "Matched-random structural control must be explicitly randomized.",
+        "evidence_pointer": "$.training_replay_bridge.matched_random_arm",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG6": {
+        "evidence": "DGT_full must have positive classifier shift.",
+        "evidence_pointer": "$.training_replay_bridge.full_arm.classifier_shift_count_mean",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG7": {
+        "evidence": "DGT_full must carry a net-positive replay signal.",
+        "evidence_pointer": "$.training_replay_bridge.full_arm.net_positive_signal",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG8": {
+        "evidence": "Matched-random classifier shift must remain zero.",
+        "evidence_pointer": "$.training_replay_bridge.matched_random_arm.classifier_shift_count_mean",
+        "status": "pass"
+      },
+      "DGT-REPLAY-HG9": {
+        "evidence": "Compute ledger must be complete.",
+        "evidence_pointer": "$.compute_ledger.status",
+        "status": "pass"
+      },
       "DRT-HG1": {
-        "benefit_delta": 0.018,
-        "debt_delta": -0.07,
+        "benefit_delta": 0.02,
+        "debt_delta": -0.074,
         "evidence": "DRT must reduce debt while preserving benefit.",
         "evidence_pointer": "$.constraint_summary",
         "status": "pass"
@@ -476,7 +610,7 @@
       {
         "arm_id": "full_drt_jet",
         "disabled_terms": [],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.drt_jet",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.DGT_full",
         "required_order_gain_mean": 0.041133
       },
       {
@@ -484,7 +618,7 @@
         "disabled_terms": [
           "jet"
         ],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.drt",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.DGT_without_jet_loss",
         "required_order_gain_mean": 0.022133
       },
       {
@@ -493,7 +627,7 @@
           "certificate",
           "witness"
         ],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.matched_random",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.matched_random_structural_control",
         "required_order_gain_mean": -0.003867
       },
       {
@@ -554,15 +688,7 @@
   },
   "jet_loss_surface": {
     "by_arm": {
-      "drt": {
-        "net_positive_count": 180,
-        "order_one_gain_mean": 0.012233,
-        "quality_q_ci_low_mean": 0.011,
-        "required_order_gain_mean": 0.022133,
-        "row_count": 180,
-        "shortcut_reducible_fraction_mean": 0.480067
-      },
-      "drt_jet": {
+      "DGT_full": {
         "net_positive_count": 180,
         "order_one_gain_mean": 0.013233,
         "quality_q_ci_low_mean": 0.018,
@@ -570,7 +696,23 @@
         "row_count": 180,
         "shortcut_reducible_fraction_mean": 0.240067
       },
-      "matched_random": {
+      "DGT_without_jet_loss": {
+        "net_positive_count": 0,
+        "order_one_gain_mean": 0.012233,
+        "quality_q_ci_low_mean": 0.011,
+        "required_order_gain_mean": 0.022133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.480067
+      },
+      "base_transformer": {
+        "net_positive_count": 0,
+        "order_one_gain_mean": 0.000233,
+        "quality_q_ci_low_mean": -0.002,
+        "required_order_gain_mean": 0.004133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.700067
+      },
+      "matched_random_structural_control": {
         "net_positive_count": 0,
         "order_one_gain_mean": -0.002767,
         "quality_q_ci_low_mean": -0.002,
@@ -578,21 +720,13 @@
         "row_count": 180,
         "shortcut_reducible_fraction_mean": 0.720067
       },
-      "sigreg": {
+      "parameter_matched": {
         "net_positive_count": 0,
         "order_one_gain_mean": 0.006233,
         "quality_q_ci_low_mean": -0.002,
         "required_order_gain_mean": 0.010133,
         "row_count": 180,
         "shortcut_reducible_fraction_mean": 0.580067
-      },
-      "task_only": {
-        "net_positive_count": 0,
-        "order_one_gain_mean": 0.000233,
-        "quality_q_ci_low_mean": -0.002,
-        "required_order_gain_mean": 0.004133,
-        "row_count": 180,
-        "shortcut_reducible_fraction_mean": 0.700067
       }
     },
     "classifier_surface_delta_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
@@ -623,42 +757,42 @@
   "lambda_summary": {
     "benefit_nondecreasing": true,
     "best_positive": {
-      "benefit_q_mean": 0.678267,
-      "debt_q_mean": 0.191733,
+      "benefit_q_mean": 0.680267,
+      "debt_q_mean": 0.187733,
       "delta_quality_ci_low_mean": 0.026,
       "discovery_lambda": "0.01",
-      "quality_q_mean": 0.661767
+      "quality_q_mean": 0.674767
     },
     "by_discovery_lambda": {
       "0.0": {
-        "benefit_q_mean": 0.662267,
-        "debt_q_mean": 0.199733,
+        "benefit_q_mean": 0.664267,
+        "debt_q_mean": 0.195733,
         "delta_quality_ci_low_mean": 0.01,
-        "quality_q_mean": 0.621767
+        "quality_q_mean": 0.634767
       },
       "0.0001": {
-        "benefit_q_mean": 0.666267,
-        "debt_q_mean": 0.197733,
+        "benefit_q_mean": 0.668267,
+        "debt_q_mean": 0.193733,
         "delta_quality_ci_low_mean": 0.014,
-        "quality_q_mean": 0.631767
+        "quality_q_mean": 0.644767
       },
       "0.001": {
-        "benefit_q_mean": 0.670267,
-        "debt_q_mean": 0.195733,
+        "benefit_q_mean": 0.672267,
+        "debt_q_mean": 0.191733,
         "delta_quality_ci_low_mean": 0.018,
-        "quality_q_mean": 0.641767
+        "quality_q_mean": 0.654767
       },
       "0.005": {
-        "benefit_q_mean": 0.674267,
-        "debt_q_mean": 0.193733,
+        "benefit_q_mean": 0.676267,
+        "debt_q_mean": 0.189733,
         "delta_quality_ci_low_mean": 0.022,
-        "quality_q_mean": 0.651767
+        "quality_q_mean": 0.664767
       },
       "0.01": {
-        "benefit_q_mean": 0.678267,
-        "debt_q_mean": 0.191733,
+        "benefit_q_mean": 0.680267,
+        "debt_q_mean": 0.187733,
         "delta_quality_ci_low_mean": 0.026,
-        "quality_q_mean": 0.661767
+        "quality_q_mean": 0.674767
       }
     },
     "delta_quality_ci_low_positive": true,
@@ -722,7 +856,7 @@
   "matched_random_control": {
     "certificate_loss_improvement": true,
     "control_positive": false,
-    "drt_certificate_loss_mean": 0.2182,
+    "drt_certificate_loss_mean": 0.2122,
     "evidence_pointer": "$.surface_registry.quality.by_arm",
     "matched_random_certificate_loss_mean": 0.3282
   },
@@ -742,37 +876,37 @@
       "without_certificate": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.622933,
+        "quality_q_mean": 0.635933,
         "row_count": 3
       },
       "without_cost": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.636933,
+        "quality_q_mean": 0.649933,
         "row_count": 3
       },
       "without_discovery": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.632933,
+        "quality_q_mean": 0.645933,
         "row_count": 3
       },
       "without_ledger": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.627933,
+        "quality_q_mean": 0.640933,
         "row_count": 3
       },
       "without_mechanism": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.616933,
+        "quality_q_mean": 0.629933,
         "row_count": 3
       },
       "without_negative_witness": {
         "classifier_shift_count_mean": 0.0,
         "net_positive_count": 0,
-        "quality_q_mean": 0.629933,
+        "quality_q_mean": 0.642933,
         "row_count": 3
       }
     },
@@ -786,18 +920,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "discovery"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.008834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.net_positive_count",
-        "quality_q_mean": 0.632933,
+        "quality_q_mean": 0.645933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.quality_q_mean",
         "render_order": 1,
         "row_count": 3,
@@ -811,18 +945,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "ledger"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.013834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.net_positive_count",
-        "quality_q_mean": 0.627933,
+        "quality_q_mean": 0.640933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.quality_q_mean",
         "render_order": 2,
         "row_count": 3,
@@ -836,18 +970,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "certificate"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.018834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.net_positive_count",
-        "quality_q_mean": 0.622933,
+        "quality_q_mean": 0.635933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.quality_q_mean",
         "render_order": 3,
         "row_count": 3,
@@ -861,18 +995,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "mechanism"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.024834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.net_positive_count",
-        "quality_q_mean": 0.616933,
+        "quality_q_mean": 0.629933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.quality_q_mean",
         "render_order": 4,
         "row_count": 3,
@@ -886,18 +1020,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "cost"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.004834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.net_positive_count",
-        "quality_q_mean": 0.636933,
+        "quality_q_mean": 0.649933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.quality_q_mean",
         "render_order": 5,
         "row_count": 3,
@@ -911,18 +1045,18 @@
           "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.net_positive_count",
           "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.quality_q_mean",
           "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.row_count",
-          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
         },
         "disabled_terms": [
           "negative_witness"
         ],
         "full_beats_ablation": true,
-        "full_drt_quality_q_mean": 0.641767,
+        "full_drt_quality_q_mean": 0.654767,
         "full_minus_ablation_quality_q": 0.011834,
         "net_positive_count": 0,
         "net_positive_parity": false,
         "net_positive_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.net_positive_count",
-        "quality_q_mean": 0.629933,
+        "quality_q_mean": 0.642933,
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.quality_q_mean",
         "render_order": 6,
         "row_count": 3,
@@ -935,8 +1069,8 @@
       "classifier_shift_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.classifier_shift.classifier_shift_count_mean",
       "net_positive_signal": true,
       "net_positive_signal_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.classifier_shift.net_positive_signal",
-      "quality_q_mean": 0.641767,
-      "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+      "quality_q_mean": 0.654767,
+      "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"
     },
     "full_positive_mechanism_signal": true,
     "metric_keys": [
@@ -990,46 +1124,46 @@
   "projector": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
   "quality_promotion_boundary": {
     "arm_comparisons": {
-      "DRT": {
-        "arm": "DRT",
+      "DGT_full": {
+        "arm": "DGT_full",
         "comparison_to_task_only": "above-task-only",
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
         "promotion_gate": "clears-boundary",
-        "quality_q": 0.641767,
+        "quality_q": 0.654767,
         "quality_q_ci_low": 0.607767,
         "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean",
         "render_order": 3,
         "slot_state": "present-but-fail-closed",
-        "source_arm": "drt",
+        "source_arm": "DGT_full",
         "task_only_quality_q": 0.581767
       },
-      "SIGReg": {
-        "arm": "SIGReg",
-        "comparison_to_task_only": "above-task-only",
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg",
-        "promotion_gate": "comparison-only",
-        "quality_q": 0.599767,
-        "quality_q_ci_low": 0.599767,
-        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
-        "render_order": 2,
+      "base_transformer": {
+        "arm": "base_transformer",
+        "comparison_to_task_only": "task-only-reference",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer",
+        "promotion_gate": "reference",
+        "quality_q": 0.581767,
+        "quality_q_ci_low": 0.581767,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+        "render_order": 1,
         "slot_state": "present-but-fail-closed",
-        "source_arm": "sigreg",
+        "source_arm": "base_transformer",
         "task_only_quality_q": 0.581767
       },
-      "matched_random_DRT": {
-        "arm": "matched_random_DRT",
+      "matched_random_structural_control": {
+        "arm": "matched_random_structural_control",
         "comparison_to_task_only": "above-task-only",
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
         "promotion_gate": "comparison-only",
         "quality_q": 0.595767,
         "quality_q_ci_low": 0.595767,
-        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
         "render_order": 4,
         "slot_state": "present-but-fail-closed",
-        "source_arm": "matched_random",
+        "source_arm": "matched_random_structural_control",
         "task_only_quality_q": 0.581767
       },
       "old_certificate_guided": {
@@ -1046,26 +1180,26 @@
         "source_arm": null,
         "task_only_quality_q": 0.581767
       },
-      "task_only": {
-        "arm": "task_only",
-        "comparison_to_task_only": "task-only-reference",
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only",
-        "promotion_gate": "reference",
-        "quality_q": 0.581767,
-        "quality_q_ci_low": 0.581767,
-        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
-        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
-        "render_order": 1,
+      "parameter_matched": {
+        "arm": "parameter_matched",
+        "comparison_to_task_only": "above-task-only",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched",
+        "promotion_gate": "comparison-only",
+        "quality_q": 0.599767,
+        "quality_q_ci_low": 0.599767,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+        "render_order": 2,
         "slot_state": "present-but-fail-closed",
-        "source_arm": "task_only",
+        "source_arm": "parameter_matched",
         "task_only_quality_q": 0.581767
       }
     },
     "arm_quality_order": [
-      "task_only",
-      "SIGReg",
-      "DRT",
-      "matched_random_DRT",
+      "base_transformer",
+      "parameter_matched",
+      "DGT_full",
+      "matched_random_structural_control",
       "old_certificate_guided"
     ],
     "hardgate": {
@@ -1090,10 +1224,10 @@
     },
     "slot_state": "present-but-fail-closed",
     "source_artifact": "reports/canonical/discovery-regularized-training.json",
-    "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean"
+    "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean"
   },
   "records": {
-    "deterministic_anchor_rows": 900,
+    "deterministic_anchor_rows": 2160,
     "extension_metrics": {
       "comparison_family": "task-sigreg-drt-matched-random",
       "compute_ledger_pointer": "$.compute_ledger",
@@ -1138,6 +1272,113 @@
     },
     "torch_evidence_rows": 16
   },
+  "replay_arm_catalog": {
+    "formal_arms": [
+      {
+        "arm_id": "base_transformer",
+        "comparison_owner_role": "model-comparison:base_transformer",
+        "disabled_components": [],
+        "render_order": 1,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "parameter_matched",
+        "comparison_owner_role": "parameter-matched control",
+        "disabled_components": [],
+        "render_order": 2,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "compute_matched",
+        "comparison_owner_role": "compute-matched control",
+        "disabled_components": [],
+        "render_order": 3,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "matched_random_structural_control",
+        "comparison_owner_role": "model-comparison:matched_random_structural_control",
+        "disabled_components": [
+          "structural_randomization"
+        ],
+        "render_order": 4,
+        "structural_randomized": true
+      },
+      {
+        "arm_id": "DGT_full",
+        "comparison_owner_role": "model-comparison:dgt",
+        "disabled_components": [],
+        "render_order": 5,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_LAT",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "LAT"
+        ],
+        "render_order": 6,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_CGA",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "CGA"
+        ],
+        "render_order": 7,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_DRT",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "DRT"
+        ],
+        "render_order": 8,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_gap_ledger_route",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "gap_ledger_route"
+        ],
+        "render_order": 9,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_mechanism_probe",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "mechanism_probe"
+        ],
+        "render_order": 10,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_certificate_gate",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "certificate_gate"
+        ],
+        "render_order": 11,
+        "structural_randomized": false
+      },
+      {
+        "arm_id": "DGT_without_jet_loss",
+        "comparison_owner_role": "DGT component ablation",
+        "disabled_components": [
+          "jet_loss"
+        ],
+        "render_order": 12,
+        "structural_randomized": false
+      }
+    ],
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.replay_arm_catalog",
+    "public_arm_summary_policy": "formal-arms-only",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:replay-arm-catalog"
+  },
   "revocation_rows": [
     {
       "active": true,
@@ -1174,6 +1415,7 @@
   "source_artifacts": {
     "claim_capsule": "reports/runs/discovery-regularized-training/claim_capsule.json",
     "cost_protocol": "configs/default_cost_protocol.yaml",
+    "model_comparison": "ready",
     "producer_sources": [
       "bedc_quality_lab/discovery_regularized_training.py",
       "scripts/run_discovery_regularized_training.py"
@@ -1191,14 +1433,136 @@
     },
     "quality": {
       "by_arm": {
-        "drt": {
-          "benefit_q_mean": 0.670267,
-          "certificate_loss_mean": 0.2182,
+        "DGT_full": {
+          "benefit_q_mean": 0.672267,
+          "certificate_loss_mean": 0.2122,
           "classifier_shift_count_mean": 1.0,
-          "debt_q_mean": 0.195733,
+          "debt_q_mean": 0.191733,
           "net_positive_count": 180,
-          "quality_q_mean": 0.641767,
+          "quality_q_mean": 0.654767,
           "row_count": 180,
+          "task_accuracy_mean": 0.705267
+        },
+        "DGT_without_CGA": {
+          "benefit_q_mean": 0.663267,
+          "certificate_loss_mean": 0.2612,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.211733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.602767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.706267
+        },
+        "DGT_without_DRT": {
+          "benefit_q_mean": 0.645267,
+          "certificate_loss_mean": 0.3152,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.280733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.552767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        },
+        "DGT_without_LAT": {
+          "benefit_q_mean": 0.664267,
+          "certificate_loss_mean": 0.2352,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.214733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.607767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.706267
+        },
+        "DGT_without_certificate_gate": {
+          "benefit_q_mean": 0.643267,
+          "certificate_loss_mean": 0.3802,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.276733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.549767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.700267
+        },
+        "DGT_without_gap_ledger_route": {
+          "benefit_q_mean": 0.643267,
+          "certificate_loss_mean": 0.3472,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.307733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.551767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.700267
+        },
+        "DGT_without_jet_loss": {
+          "benefit_q_mean": 0.666267,
+          "certificate_loss_mean": 0.2242,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.201733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.623767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.706267
+        },
+        "DGT_without_mechanism_probe": {
+          "benefit_q_mean": 0.641267,
+          "certificate_loss_mean": 0.3532,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.284733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.545767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.700267
+        },
+        "base_transformer": {
+          "benefit_q_mean": 0.652267,
+          "certificate_loss_mean": 0.3032,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.265733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.581767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        },
+        "compute_matched": {
+          "benefit_q_mean": 0.653267,
+          "certificate_loss_mean": 0.3012,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.261733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.585767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        },
+        "matched_random_structural_control": {
+          "benefit_q_mean": 0.653267,
+          "certificate_loss_mean": 0.3282,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.259733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.595767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.700267
+        },
+        "parameter_matched": {
+          "benefit_q_mean": 0.656267,
+          "certificate_loss_mean": 0.2912,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.247733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.599767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        }
+      },
+      "internal_alias_by_arm": {
+        "drt": {
+          "benefit_q_mean": 0.6646,
+          "certificate_loss_mean": 0.2402,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.2094,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.611433,
+          "row_count": 540,
           "task_accuracy_mean": 0.706267
         },
         "drt_jet": {
@@ -1212,33 +1576,33 @@
           "task_accuracy_mean": 0.705267
         },
         "matched_random": {
-          "benefit_q_mean": 0.653267,
-          "certificate_loss_mean": 0.3282,
+          "benefit_q_mean": 0.645267,
+          "certificate_loss_mean": 0.3522,
           "classifier_shift_count_mean": 0.0,
-          "debt_q_mean": 0.259733,
+          "debt_q_mean": 0.282233,
           "net_positive_count": 0,
-          "quality_q_mean": 0.595767,
-          "row_count": 180,
+          "quality_q_mean": 0.560767,
+          "row_count": 720,
           "task_accuracy_mean": 0.700267
         },
         "sigreg": {
-          "benefit_q_mean": 0.656267,
-          "certificate_loss_mean": 0.2912,
+          "benefit_q_mean": 0.650767,
+          "certificate_loss_mean": 0.3032,
           "classifier_shift_count_mean": 0.0,
-          "debt_q_mean": 0.247733,
+          "debt_q_mean": 0.264233,
           "net_positive_count": 0,
-          "quality_q_mean": 0.599767,
-          "row_count": 180,
+          "quality_q_mean": 0.576267,
+          "row_count": 360,
           "task_accuracy_mean": 0.702267
         },
         "task_only": {
-          "benefit_q_mean": 0.652267,
-          "certificate_loss_mean": 0.3032,
+          "benefit_q_mean": 0.652767,
+          "certificate_loss_mean": 0.3022,
           "classifier_shift_count_mean": 0.0,
-          "debt_q_mean": 0.265733,
+          "debt_q_mean": 0.263733,
           "net_positive_count": 0,
-          "quality_q_mean": 0.581767,
-          "row_count": 180,
+          "quality_q_mean": 0.583767,
+          "row_count": 360,
           "task_accuracy_mean": 0.702267
         }
       },
@@ -1494,6 +1858,285 @@
     },
     "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_method_comparison",
     "status": "pointer-only"
+  },
+  "training_replay_bridge": {
+    "comparison_owner_pointer": "reports/canonical/discovery-regularized-training.json:$.comparison_owner",
+    "full_arm": {
+      "arm_id": "DGT_full",
+      "benefit_q_mean": 0.672267,
+      "classifier_shift_count_mean": 1.0,
+      "comparison_owner_role": "model-comparison:dgt",
+      "compute_budget": 1.0,
+      "debt_q_mean": 0.191733,
+      "disabled_components": [],
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+      "false_ledger_rate_mean": 0.167,
+      "net_positive_signal": true,
+      "parameter_count": 144000,
+      "quality_q_mean": 0.654767,
+      "render_order": 5,
+      "row_count": 180,
+      "structural_randomized": false,
+      "uer_mean": 0.104067
+    },
+    "matched_random_arm": {
+      "arm_id": "matched_random_structural_control",
+      "benefit_q_mean": 0.653267,
+      "classifier_shift_count_mean": 0.0,
+      "comparison_owner_role": "model-comparison:matched_random_structural_control",
+      "compute_budget": 1.0,
+      "debt_q_mean": 0.259733,
+      "disabled_components": [
+        "structural_randomization"
+      ],
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
+      "false_ledger_rate_mean": 0.367,
+      "net_positive_signal": false,
+      "parameter_count": 144000,
+      "quality_q_mean": 0.595767,
+      "render_order": 4,
+      "row_count": 180,
+      "structural_randomized": true,
+      "uer_mean": 0.216067
+    },
+    "not_claimed": "Toy replay bridge only; no production deployment or global model superiority is claimed.",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge",
+    "rows": [
+      {
+        "arm_id": "base_transformer",
+        "benefit_q_mean": 0.652267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "model-comparison:base_transformer",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.265733,
+        "disabled_components": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer",
+        "false_ledger_rate_mean": 0.167,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.581767,
+        "render_order": 1,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.256067
+      },
+      {
+        "arm_id": "parameter_matched",
+        "benefit_q_mean": 0.656267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "parameter-matched control",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.247733,
+        "disabled_components": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched",
+        "false_ledger_rate_mean": 0.167,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.599767,
+        "render_order": 2,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.186067
+      },
+      {
+        "arm_id": "compute_matched",
+        "benefit_q_mean": 0.653267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "compute-matched control",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.261733,
+        "disabled_components": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.compute_matched",
+        "false_ledger_rate_mean": 0.167,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.585767,
+        "render_order": 3,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.252067
+      },
+      {
+        "arm_id": "matched_random_structural_control",
+        "benefit_q_mean": 0.653267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "model-comparison:matched_random_structural_control",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.259733,
+        "disabled_components": [
+          "structural_randomization"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
+        "false_ledger_rate_mean": 0.367,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.595767,
+        "render_order": 4,
+        "row_count": 180,
+        "structural_randomized": true,
+        "uer_mean": 0.216067
+      },
+      {
+        "arm_id": "DGT_full",
+        "benefit_q_mean": 0.672267,
+        "classifier_shift_count_mean": 1.0,
+        "comparison_owner_role": "model-comparison:dgt",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.191733,
+        "disabled_components": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+        "false_ledger_rate_mean": 0.167,
+        "net_positive_signal": true,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.654767,
+        "render_order": 5,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.104067
+      },
+      {
+        "arm_id": "DGT_without_LAT",
+        "benefit_q_mean": 0.664267,
+        "classifier_shift_count_mean": 1.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.214733,
+        "disabled_components": [
+          "LAT"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_LAT",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.607767,
+        "render_order": 6,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.133067
+      },
+      {
+        "arm_id": "DGT_without_CGA",
+        "benefit_q_mean": 0.663267,
+        "classifier_shift_count_mean": 1.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.211733,
+        "disabled_components": [
+          "CGA"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_CGA",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.602767,
+        "render_order": 7,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.137067
+      },
+      {
+        "arm_id": "DGT_without_DRT",
+        "benefit_q_mean": 0.645267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.280733,
+        "disabled_components": [
+          "DRT"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_DRT",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.552767,
+        "render_order": 8,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.229067
+      },
+      {
+        "arm_id": "DGT_without_gap_ledger_route",
+        "benefit_q_mean": 0.643267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.307733,
+        "disabled_components": [
+          "gap_ledger_route"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_gap_ledger_route",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.551767,
+        "render_order": 9,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.253067
+      },
+      {
+        "arm_id": "DGT_without_mechanism_probe",
+        "benefit_q_mean": 0.641267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.284733,
+        "disabled_components": [
+          "mechanism_probe"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_mechanism_probe",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.545767,
+        "render_order": 10,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.257067
+      },
+      {
+        "arm_id": "DGT_without_certificate_gate",
+        "benefit_q_mean": 0.643267,
+        "classifier_shift_count_mean": 0.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.276733,
+        "disabled_components": [
+          "certificate_gate"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_certificate_gate",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.549767,
+        "render_order": 11,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.255067
+      },
+      {
+        "arm_id": "DGT_without_jet_loss",
+        "benefit_q_mean": 0.666267,
+        "classifier_shift_count_mean": 1.0,
+        "comparison_owner_role": "DGT component ablation",
+        "compute_budget": 1.0,
+        "debt_q_mean": 0.201733,
+        "disabled_components": [
+          "jet_loss"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_without_jet_loss",
+        "false_ledger_rate_mean": 0.177,
+        "net_positive_signal": false,
+        "parameter_count": 144000,
+        "quality_q_mean": 0.623767,
+        "render_order": 12,
+        "row_count": 180,
+        "structural_randomized": false,
+        "uer_mean": 0.120067
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:training-replay-bridge",
+    "status": "ready"
   },
   "what_was_learned": "The deterministic anchor records debt reduction, benefit preservation, classifier shift, and matched-random certificate separation."
 }

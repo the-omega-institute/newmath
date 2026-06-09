@@ -1,6 +1,6 @@
 # Irreducibility Report
 
-- Generated at: `2026-06-08T19:54:11.358660+00:00`
+- Generated at: `2026-06-08T21:23:06.393776+00:00`
 - Status: `pass`
 - Positive irreducibility: `True`
 - CMI table: `reports/canonical/conditional_information_table.json`
