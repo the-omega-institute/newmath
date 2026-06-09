@@ -47,11 +47,14 @@ protocol returns coverage-gap and source-debt rows rather than unsupported
 latent-meaning claims; a fixed-checkpoint MiniGrid latent-prediction study
 records linear-aligned latent score $0.981246$ without claiming official
 V-JEPA2-AC benchmark reproduction.  A CUDA retraining loss-term ablation on the torch
-boundary objective isolates the trained gap term: removing
+boundary objective runs true retraining rows for full S3 and for removing
+$\mathcal L_{\mathrm{unlogged}}$, $\mathcal L_{\mathrm{gap}}$,
+$\mathcal L_{\mathrm{stab}}$, or
+$\mathcal L_{\mathrm{intervention}}$.  It isolates the trained gap term: removing
 $\mathcal L_{\mathrm{gap}}$ preserves latent recovery but collapses gap
-ranking and certified coverage, while removing
-$\mathcal L_{\mathrm{unlogged}}$ does not increase unlogged error in this
-setting.  Under fixed or declared latent carriers, the trained BEDC-JEPA
+ranking and certified coverage, while the unlogged, stability, and
+intervention removals do not produce an independent positive effect in this
+boundary-gated setting.  Under fixed or declared latent carriers, the trained BEDC-JEPA
 systems reduce unlogged distinction failures in the controlled settings; the
 public MiniGrid study supports the UER direction while exposing weak debt
 reduction and a risk-success planning tradeoff.  The result is a ledgered

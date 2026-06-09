@@ -50,7 +50,7 @@
       "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
     },
     "torch_retraining_loss_ablation": {
-      "pass_condition": "target record status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
+      "pass_condition": "target record status is executed and full S3, minus L_unlogged, minus L_gap, minus L_stab, and minus L_intervention are true retraining rows under the declared OU-pair stability and intervention surfaces",
       "readiness_gate": "full_retraining_loss_ablation",
       "required_systems": [
         "full_s3",
@@ -61,14 +61,14 @@
       ],
       "run_command": "python scripts/run_torch_retraining_loss_ablation.py",
       "source_surface_contract": {
-        "minus_l_intervention": [
+        "intervention_bce": [
           "intervention_source_split",
           "pre_intervention_observation",
           "intervention_or_action",
           "post_intervention_label",
           "same_train_cal_test_split"
         ],
-        "minus_l_stab": [
+        "stability_consistency": [
           "stability_source_split",
           "paired_observations_or_augmentations",
           "stability_label_or_invariance_target",

@@ -60,11 +60,10 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["checks"]["vjepa2_ac_lccp_claim_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_latent_prediction_score"] >= 0.0
     remaining = bundle["remaining_evidence_contracts"]
-    assert remaining["true_retraining_loss_ablation"]["status"] == "source_surfaces_required"
-    assert remaining["true_retraining_loss_ablation"]["source_debt_rows"] == [
-        "minus_l_intervention",
-        "minus_l_stab",
-    ]
+    assert remaining["true_retraining_loss_ablation"]["status"] == "closed"
+    assert remaining["true_retraining_loss_ablation"]["source_debt_rows"] == []
+    assert "stability_consistency" in remaining["true_retraining_loss_ablation"]["supervision_surface_contract"]
+    assert "intervention_bce" in remaining["true_retraining_loss_ablation"]["supervision_surface_contract"]
     assert (
         "required_native_evidence"
         in remaining["vjepa2_ac_native_reproduction"]["native_acceptance_contract"]

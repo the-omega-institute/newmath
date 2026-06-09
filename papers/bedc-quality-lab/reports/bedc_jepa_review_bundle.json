@@ -33,37 +33,37 @@
       "executed_rows": [
         "full_s3",
         "minus_l_gap",
+        "minus_l_intervention",
+        "minus_l_stab",
         "minus_l_unlogged"
       ],
       "required_record": "true retraining loss-term ablation for every declared loss removal row",
-      "source_debt_contract": {
-        "minus_l_intervention": {
-          "acceptance_rule": "execute a true retraining row with L_intervention removed only after the intervention source split and effect labels are recorded",
-          "missing_supervision_surface": "declared intervention or action-effect labels over an operational distinction",
-          "required_fields_to_execute": [
+      "source_debt_contract": {},
+      "source_debt_rows": [],
+      "status": "closed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
             "intervention_source_split",
             "pre_intervention_observation",
             "intervention_or_action",
             "post_intervention_label",
             "same_train_cal_test_split"
-          ]
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
         },
-        "minus_l_stab": {
-          "acceptance_rule": "execute a true retraining row with L_stab removed only after the stability source split and invariance target are recorded",
-          "missing_supervision_surface": "declared stability pairs or augmentations over the same operational distinction",
-          "required_fields_to_execute": [
+        "stability_consistency": {
+          "fields": [
             "stability_source_split",
             "paired_observations_or_augmentations",
             "stability_label_or_invariance_target",
             "same_train_cal_test_split"
-          ]
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
         }
-      },
-      "source_debt_rows": [
-        "minus_l_intervention",
-        "minus_l_stab"
-      ],
-      "status": "source_surfaces_required"
+      }
     },
     "vjepa2_ac_native_reproduction": {
       "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
@@ -136,8 +136,8 @@
     "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "685c7196780257de494f373595b8d56b51f0b485",
-  "source_commit_observed_at_build": "685c7196780257de494f373595b8d56b51f0b485",
+  "source_commit_at_build": "beb8bd04f3a4a85a04da2066c4b65eff286402ea",
+  "source_commit_observed_at_build": "beb8bd04f3a4a85a04da2066c4b65eff286402ea",
   "source_commit_semantics": "commit observed by the review-bundle builder before the generated bundle is committed; not a self-referential assertion about the commit that contains this JSON file",
   "status": "review_ready"
 }

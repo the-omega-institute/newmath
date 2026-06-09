@@ -219,24 +219,31 @@ post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
 the public MiniGrid readout and not a full retraining ablation.  The CUDA
 retraining-ablation study runs true gradient retraining on the
 boundary-gated torch objective for full S3, minus
-$L_{\mathrm{unlogged}}$, and minus $L_{\mathrm{gap}}$ systems under the same
-data split and evaluation contract.  The three-seed study records full S3
+$L_{\mathrm{unlogged}}$, minus $L_{\mathrm{gap}}$, minus
+$L_{\mathrm{stab}}$, and minus $L_{\mathrm{intervention}}$ systems under the same
+data split and evaluation contract.  The stability surface is an outside-gap
+OU-pair consistency label, and the intervention surface is the post-transition
+inside/outside distinction of the same OU pair.  The three-seed study records full S3
 mean scores:
 $$
 \begin{array}{lccccc}
 \text{system} & \text{UER} & \text{gap AUROC} & \text{debt} &
 \text{coverage} & \text{latent }R^2\\
-\text{full S3} & 0.000000 & 0.998748 & 0.005658 & 0.911458 & 0.991944\\
-\text{minus }L_{\mathrm{gap}} & 0.000000 & 0.344842 & 0.184983 & 0.000000 & 0.991944\\
-\text{minus }L_{\mathrm{unlogged}} & 0.000000 & 0.998978 & 0.004653 & 0.911024 & 0.991944
+\text{full S3} & 0.000000 & 0.998626 & 0.004984 & 0.905816 & 0.991944\\
+\text{minus }L_{\mathrm{gap}} & 0.000000 & 0.344989 & 0.181002 & 0.000000 & 0.991944\\
+\text{minus }L_{\mathrm{unlogged}} & 0.000000 & 0.998977 & 0.004740 & 0.909288 & 0.991944\\
+\text{minus }L_{\mathrm{stab}} & 0.000000 & 0.998654 & 0.005000 & 0.905382 & 0.991944\\
+\text{minus }L_{\mathrm{intervention}} & 0.000000 & 0.998755 & 0.005635 & 0.911892 & 0.991944
 \end{array}
 $$
 Removing $L_{\mathrm{gap}}$ preserves the outside-gap distinction readback and
 latent recovery but collapses gap ranking and certified coverage.  Removing
-$L_{\mathrm{unlogged}}$ does not increase unlogged error in this
-boundary-gated setting, because all three retrained systems record mean
-unlogged error $0.000000$.  Terms whose required supervision surface is absent
-remain source-debt rows rather than score-level substitutes.
+$L_{\mathrm{unlogged}}$, $L_{\mathrm{stab}}$, or
+$L_{\mathrm{intervention}}$ does not increase unlogged error in this
+boundary-gated setting, because all five retrained systems record mean
+unlogged error $0.000000$.  The stability and intervention rows are therefore
+true retraining controls, but this setting does not establish independent
+positive effects for those terms.
 
 \paragraph{External evaluation status.}
 The evidence audit records three evaluated scopes for the declared study:

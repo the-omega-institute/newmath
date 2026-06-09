@@ -41,11 +41,14 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
     assert "minus_l_unlogged" in retraining["required_systems"]
     assert "minus_l_gap" in retraining["required_systems"]
-    assert "stability_source_split" in retraining["source_surface_contract"]["minus_l_stab"]
+    assert "minus_l_stab" in retraining["required_systems"]
+    assert "minus_l_intervention" in retraining["required_systems"]
+    assert "stability_source_split" in retraining["source_surface_contract"]["stability_consistency"]
     assert (
         "intervention_source_split"
-        in retraining["source_surface_contract"]["minus_l_intervention"]
+        in retraining["source_surface_contract"]["intervention_bce"]
     )
+    assert "true retraining rows" in retraining["pass_condition"]
     assert native_reproduction["readiness_gate"] == "vjepa2_ac_native_reproduction"
     assert native_reproduction["target_artifact"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     assert native_reproduction["boundary_record"] == "reports/bedc_jepa_vjepa2_ac_native_boundary.json"

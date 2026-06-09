@@ -90,13 +90,13 @@ declared critical scope must be accompanied by an activated gap head.  The
 model may be wrong, but it must not be confidently and silently wrong.
 
 The current true retraining loss-term record is scoped to the boundary-gated
-torch objective. It contains retrained `full_s3`, `minus_l_unlogged`, and
-`minus_l_gap` rows. In that setting, removing `L_gap` preserves latent recovery
-while collapsing gap ranking and certified coverage; removing
-`L_unlogged_error` does not create an independent UER effect because the
-retrained systems already have zero mean UER. `minus_l_stab` and
-`minus_l_intervention` are source-debt rows until a declared stability or
-intervention supervision surface is added.
+torch objective. It contains retrained `full_s3`, `minus_l_unlogged`,
+`minus_l_gap`, `minus_l_stab`, and `minus_l_intervention` rows. In that
+setting, removing `L_gap` preserves latent recovery while collapsing gap
+ranking and certified coverage; removing `L_unlogged_error`, `L_stability`,
+or `L_intervention` does not create an independent positive effect because the
+retrained systems already have zero mean UER and the declared stability and
+intervention surfaces are narrow OU-pair surfaces.
 
 ## Metrics
 

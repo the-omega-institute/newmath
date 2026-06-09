@@ -23,9 +23,9 @@ Python 侧只拥有 `QualityEvidenceEnvelope` 和一组 JSON/Markdown 记录。
 - fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation；
 - V-JEPA2-AC fixed-carrier LCCP certificate record；
 - true torch retraining loss-term ablation for `full_s3`,
-  `minus_l_unlogged`, and `minus_l_gap`, with `minus_l_stab` and
-  `minus_l_intervention` recorded as source debt in the current boundary-world
-  supervision surface.
+  `minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
+  `minus_l_intervention` under the declared boundary-world OU-pair stability
+  and intervention surfaces.
 
 These records do not claim public benchmark superiority, official/native
 V-JEPA2-AC benchmark reproduction, robotics-scale control, natural-language

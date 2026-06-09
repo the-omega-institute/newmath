@@ -207,6 +207,7 @@ def _remaining_evidence_contracts(
             "executed_rows": executed,
             "source_debt_rows": source_debt,
             "source_debt_contract": retraining_ablation.get("source_debt_contract", {}),
+            "supervision_surface_contract": retraining_ablation.get("supervision_surface_contract", {}),
             "required_record": "true retraining loss-term ablation for every declared loss removal row",
         }
 

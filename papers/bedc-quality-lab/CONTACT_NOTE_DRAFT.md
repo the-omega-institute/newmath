@@ -66,11 +66,12 @@ either a certified singleton operational claim or an explicit coverage/source
 
 The CUDA retraining loss-term record is scoped to the boundary-gated torch
 objective. It contains true retraining rows for `full_s3`,
-`minus_l_unlogged`, and `minus_l_gap`. Removing `L_gap` preserves latent
-recovery while collapsing gap ranking and certified coverage. Removing
-`L_unlogged` does not produce an independent UER effect in this setting because
-all retrained rows have zero mean UER. Stability and intervention ablations
-remain source-debt rows until a declared supervision surface is available.
+`minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
+`minus_l_intervention`. Removing `L_gap` preserves latent recovery while
+collapsing gap ranking and certified coverage. Removing `L_unlogged`,
+`L_stability`, or `L_intervention` does not produce an independent positive
+effect in this setting because all retrained rows have zero mean UER and the
+declared stability/intervention surfaces are narrow OU-pair surfaces.
 
 The public MiniGrid record supports the UER and gap-ranking directions while
 also exposing an unresolved debt-calibration problem and a risk-success

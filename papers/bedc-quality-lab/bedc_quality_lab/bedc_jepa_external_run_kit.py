@@ -66,13 +66,13 @@ def build_external_run_kit() -> dict[str, Any]:
                     "minus_l_intervention",
                 ],
                 "source_surface_contract": {
-                    "minus_l_stab": [
+                    "stability_consistency": [
                         "stability_source_split",
                         "paired_observations_or_augmentations",
                         "stability_label_or_invariance_target",
                         "same_train_cal_test_split",
                     ],
-                    "minus_l_intervention": [
+                    "intervention_bce": [
                         "intervention_source_split",
                         "pre_intervention_observation",
                         "intervention_or_action",
@@ -80,7 +80,7 @@ def build_external_run_kit() -> dict[str, Any]:
                         "same_train_cal_test_split",
                     ],
                 },
-                "pass_condition": "target record status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
+                "pass_condition": "target record status is executed and full S3, minus L_unlogged, minus L_gap, minus L_stab, and minus L_intervention are true retraining rows under the declared OU-pair stability and intervention surfaces",
             },
             "vjepa2_ac_native_reproduction": {
                 "readiness_gate": "vjepa2_ac_native_reproduction",
