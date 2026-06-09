@@ -120,13 +120,14 @@ def _require_hash_mapping(value: Any, field_name: str) -> None:
     _require_mapping(value, field_name)
     if not value:
         return
-    if _contains_prohibited_provenance(value) or _contains_bedc_prose(value):
-        raise ValueError(f"{field_name} must contain only opaque artifact hash metadata")
     if set(value) != {"algorithm", "value"}:
         raise ValueError(f"{field_name} must contain exactly: algorithm, value")
     if value["algorithm"] != "sha256":
         raise ValueError(f"{field_name}.algorithm must be 'sha256'")
     _require_non_empty_string(value["value"], f"{field_name}.value")
+    digest = value["value"]
+    if len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest):
+        raise ValueError(f"{field_name}.value must be a lowercase sha256 hex digest")
 
 
 @dataclass(frozen=True)

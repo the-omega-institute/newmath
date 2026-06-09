@@ -121,6 +121,67 @@ def test_schema_accepts_pointer_only_evidence_surfaces():
     }
 
 
+def test_schema_accepts_sha256_digest_with_prose_marker_substring():
+    kwargs = envelope_kwargs()
+    digest = f"{'a' * 30}d4{'b' * 32}"
+    kwargs["source_artifact_hash"] = {
+        "algorithm": "sha256",
+        "value": digest,
+    }
+
+    envelope = QualityEvidenceEnvelope(**kwargs)
+
+    assert envelope.source_artifact_hash == {
+        "algorithm": "sha256",
+        "value": digest,
+    }
+
+
+def test_schema_rejects_incomplete_source_artifact_hash_mapping():
+    for invalid_hash in (
+        {"value": "0" * 64},
+        {"algorithm": "sha256"},
+    ):
+        bad = envelope_kwargs()
+        bad["source_artifact_hash"] = invalid_hash
+        with pytest.raises(ValueError, match="source_artifact_hash"):
+            QualityEvidenceEnvelope(**bad)
+
+
+def test_schema_rejects_extra_source_artifact_hash_mapping_key():
+    bad = envelope_kwargs()
+    bad["source_artifact_hash"] = {
+        "algorithm": "sha256",
+        "value": "0" * 64,
+        "note": "report.json",
+    }
+
+    with pytest.raises(ValueError, match="source_artifact_hash"):
+        QualityEvidenceEnvelope(**bad)
+
+
+def test_schema_rejects_non_sha256_source_artifact_hash_algorithm():
+    bad = envelope_kwargs()
+    bad["source_artifact_hash"] = {
+        "algorithm": "md5",
+        "value": "0" * 64,
+    }
+
+    with pytest.raises(ValueError, match="source_artifact_hash"):
+        QualityEvidenceEnvelope(**bad)
+
+
+def test_schema_rejects_non_hex_source_artifact_hash_value():
+    for invalid_value in ("", "g" * 64, "A" * 64):
+        bad = envelope_kwargs()
+        bad["source_artifact_hash"] = {
+            "algorithm": "sha256",
+            "value": invalid_value,
+        }
+        with pytest.raises(ValueError, match="source_artifact_hash"):
+            QualityEvidenceEnvelope(**bad)
+
+
 def test_schema_rejects_terminal_verdict_and_payload_leakage():
     pointer_fields = (
         "claim_capsule_pointer",
@@ -148,14 +209,6 @@ def test_schema_rejects_terminal_verdict_and_payload_leakage():
             bad[field_name] = forbidden_value
             with pytest.raises(ValueError, match=field_name):
                 QualityEvidenceEnvelope(**bad)
-
-    bad_hash = envelope_kwargs()
-    bad_hash["source_artifact_hash"] = {
-        "algorithm": "sha256",
-        "value": "terminal_verdict",
-    }
-    with pytest.raises(ValueError, match="source_artifact_hash"):
-        QualityEvidenceEnvelope(**bad_hash)
 
     bad_missing_pointer = envelope_kwargs()
     bad_missing_pointer["claim_capsule_pointer"] = {"artifact": "report.json"}
