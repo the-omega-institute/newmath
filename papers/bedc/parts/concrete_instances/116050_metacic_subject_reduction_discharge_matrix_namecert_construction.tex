@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionDischargeMatrixUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-discharge-matrix-namecert}
+\origin{ai}
+
+The $\MetaCICSubjectReductionDischargeMatrixUp$ packet realizes the subject-reduction frontier of \autoref{sec:metacic-open-problems-subject-reduction} as a finite four-row discharge matrix. It sits beside the discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the closed application-argument route of \autoref{ch:concrete-instances-closed-app-argument-stability-namecert}, the closed Pi-domain route of \autoref{ch:concrete-instances-closed-pi-domain-subject-reduction-namecert}, the closed lambda-domain route of \autoref{ch:concrete-instances-closed-lam-domain-subject-reduction-namecert}, the proof-obligation gap of \autoref{ch:concrete-instances-proof-obligation-gap-namecert}, and the open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. The matrix is a finite audit object for the four simultaneous discharge rows; it does not assert a closed subject-reduction theorem.
+
+\falsifiablePrediction{Every accepted $\MetaCICSubjectReductionDischargeMatrixUp$ packet exposes all four discharge rows before any subject-reduction consumer reads it.}
+
+\independenceWitness{\texttt{closed-app-argument-stability}, \texttt{closed-pi-domain-subject-reduction}, \texttt{closed-lam-domain-subject-reduction}, \texttt{proof-obligation-gap}, \texttt{metacic-open-frontier-ledger}: none is bijective with $\MetaCICSubjectReductionDischargeMatrixUp$, because this packet binds the four subject-reduction discharge rows, the obstruction ledger, matrix coverage, transport, replay, provenance, and local naming as one finite surface.}
+
+\begin{definition}[MetaCIC subject-reduction discharge matrix carrier]
+\label{def:metacic-subject-reduction-discharge-matrix-carrier}
+A $\MetaCICSubjectReductionDischargeMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,A,L,P,O,S,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row.
+\item $A$ is the closed application-argument stability discharge row.
+\item $L$ is the closed lambda-domain subject-reduction discharge row.
+\item $P$ is the closed Pi-domain subject-reduction discharge row.
+\item $O$ is the proof-obligation gap row recording the absence of an unconditional closed theorem until the four discharge rows are supplied.
+\item $S$ is the $\SubjectReductionDischargeSocketUp$ row through which the subject-reduction consumer reads the four rows.
+\item $R$ is the matrix-coverage row, recording that the accepted packet exposes $B,A,L,P$ simultaneously and does not merge them.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay for the same matrix route.
+\item $Q$ is the $\Pkg$ provenance over $\MetaCICSubjectReductionDischargeMatrixUp$, $\SubjectReductionDischargeSocketUp$, the four discharge rows, $\ProofObligationGapUp$, $\MetaCICOpenFrontierLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionDischargeMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,A,L,P,O,S,R,H,C,Q,N$. It has no coordinate for a hidden subject-reduction proof, a quotient syntax equality, a host typing theorem, or an omitted fifth discharge row.
+\end{definition}
+
+\begin{theorem}[MetaCIC discharge matrix NameCert obligations]
+\label{thm:metacic-subject-reduction-discharge-matrix-namecert-obligations}
+For every accepted $\MetaCICSubjectReductionDischargeMatrixUp$ carrier $M=(B,A,L,P,O,S,R,H,C,Q,N)$, the local $\NameCert_{\MetaCICSubjectReductionDischargeMatrixUp}$ surface consists exactly of carrier admission for the beta-substitution row, application-argument row, lambda-domain row, Pi-domain row, proof-obligation gap row, discharge-socket row, matrix-coverage row, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-subject-reduction-discharge-matrix-carrier}. The four discharge rows are exactly $B,A,L,P$, and the obstruction row $O$ records why the matrix remains a finite interface rather than an unconditional theorem.
+
+The socket row $S$ fixes the consumer route. A subject-reduction consumer may enter through that socket only after the matrix-coverage row $R$ has displayed the four rows simultaneously and kept their coordinates distinct.
+
+The structural rows $H,C,Q,N$ transport, replay, source, and name the same route. Since the carrier has no hidden proof coordinate and no host typing coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC discharge matrix four-row coverage]
+\label{thm:metacic-subject-reduction-discharge-matrix-four-row-coverage}
+Every subject-reduction-facing consumer of an accepted $\MetaCICSubjectReductionDischargeMatrixUp$ carrier must read the four-row surface
+$$
+B,A,L,P \longmapsto O,S,R,H,C,Q,N .
+$$
+The beta-substitution, application-argument, lambda-domain, and Pi-domain rows are all required before the socket can be consumed, and none can be replaced by the proof-obligation gap, transport, replay, provenance, local naming, or a host closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the consumer request through the carrier. The first four coordinates $B,A,L,P$ are the only discharge coordinates, and the matrix-coverage row $R$ records them as simultaneous rows.
+
+The obstruction row $O$ has the opposite polarity from a discharge proof. It records that the closed theorem is unavailable without the four supplied rows, so it cannot replace any one of $B,A,L,P$.
+
+The socket row $S$ then exposes the consumer route, while $H,C,Q,N$ preserve the same displayed matrix under transport, replay, provenance, and naming. Therefore every accepted subject-reduction read receives the four rows together and cannot collapse the matrix to a smaller interface.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionDischargeMatrixUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionDischargeMatrixUp}
+  \constructivestory{A $\MetaCICSubjectReductionDischargeMatrixUp$ packet is generated from beta-substitution, application-argument, lambda-domain, Pi-domain, proof-obligation gap, discharge-socket, matrix-coverage, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-discharge-matrix-carrier}, \autoref{thm:metacic-subject-reduction-discharge-matrix-namecert-obligations}, and \autoref{thm:metacic-subject-reduction-discharge-matrix-four-row-coverage} seed the finite four-row discharge matrix over $B,A,L,P,O,S,R,H,C,Q,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove closed subject reduction, beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-row coverage, socket preservation, proof-obligation-gap polarity, transport, replay, provenance, and local naming rows for BEDC.Derived.MetaCICSubjectReductionDischargeMatrixUp.}
+\end{closurestatus}
