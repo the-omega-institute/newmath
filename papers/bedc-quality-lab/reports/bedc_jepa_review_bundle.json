@@ -12,6 +12,9 @@
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark": "closed",
     "native_unlogged_error_reduction": 0.125,
+    "public_coverage_debt_change": -0.065625,
+    "public_debt_diagnosis": "silent debt falls while coverage debt rises",
+    "public_silent_debt_reduction": 0.05,
     "seed_sweep_count": 5.0,
     "seed_sweep_unlogged_error_win_rate": 0.6
   },
@@ -19,6 +22,7 @@
   "reproduction_commands": [
     "python scripts/run_public_minigrid_native_benchmark.py",
     "python scripts/run_public_minigrid_native_seed_sweep.py",
+    "python scripts/build_public_minigrid_debt_closure.py",
     "python scripts/build_public_jepa_cuda_comparison.py",
     "python scripts/build_bedc_jepa_quality_packet.py",
     "python scripts/check_bedc_jepa_quality_gate.py",
@@ -33,6 +37,7 @@
   ],
   "required_artifacts": {
     "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "certified_coverage_curve": "reports/bedc_jepa_certified_coverage_curve.json",
     "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
     "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
     "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
@@ -40,14 +45,17 @@
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
     "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
+    "public_debt_closure_report": "reports/bedc_jepa_public_debt_closure_report.md",
+    "public_debt_decomposition": "reports/bedc_jepa_public_debt_decomposition.json",
     "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
     "quality_gap_ledger": "reports/bedc_jepa_gap_ledger.json",
     "quality_namecert": "reports/bedc_jepa_namecert.yaml",
     "quality_packet": "reports/bedc_jepa_quality_packet.json",
     "quality_report": "reports/bedc_jepa_quality_report.md",
-    "readiness": "reports/bedc_jepa_readiness.json"
+    "readiness": "reports/bedc_jepa_readiness.json",
+    "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "9c1e0b33ff90a08d7ab1cdfd4a224448eef8325b",
+  "source_commit_at_build": "2bdeb5ce005e213657b309127b52c0c6235a0ad5",
   "status": "review_ready"
 }

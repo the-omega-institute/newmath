@@ -19,6 +19,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/run_public_minigrid_native_seed_sweep.py"
     )
     assert (
+        manifest["commands"]["public_minigrid_debt_closure"]
+        == "python scripts/build_public_minigrid_debt_closure.py"
+    )
+    assert (
         manifest["commands"]["vjepa2_ac_native_boundary"]
         == "python scripts/build_vjepa2_ac_native_boundary.py"
     )
@@ -128,6 +132,22 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert (
         manifest["public_adapters"]["minigrid_native_seed_sweep"]
         == "reports/bedc_jepa_public_native_minigrid_seed_sweep.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_public_debt_decomposition"]
+        == "reports/bedc_jepa_public_debt_decomposition.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_certified_coverage_curve"]
+        == "reports/bedc_jepa_certified_coverage_curve.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_risk_constrained_planning"]
+        == "reports/bedc_jepa_risk_constrained_planning.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_public_debt_closure_report"]
+        == "reports/bedc_jepa_public_debt_closure_report.md"
     )
     assert (
         manifest["public_adapters"]["minigrid_external_result"]
