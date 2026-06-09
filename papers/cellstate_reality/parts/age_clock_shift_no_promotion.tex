@@ -1,0 +1,76 @@
+\chapter{AgeClockShift as the First Publishable Cell-State NameCert}
+\label{ch:age-clock-shift-no-promotion}
+\origin{ai}
+
+\paragraph{Boundary thesis.}
+The first publishable object in this domain is not $\IdentityPreservingAgeReset$, $\RejuvenationCandidate$, $\RenewableMaintenance$, or $\ImmortalityPotential$. It is the smaller carrier $\AgeClockShift$. The carrier says that a paired methylation clock signature moved in the younger direction under the listed reality contacts. It does not say that cell identity was preserved, that function was restored, that the intervention is safe, that repeated cycles form renewable maintenance, or that the organism has any immortal potential.
+
+\paragraph{Cell history and probe signature.}
+A cell-state claim is represented here as a finite CellHistory together with a probe-signature carrier. The CellHistory records sample pairing, treatment context, tissue or cell source, and the observation protocol. The probe-signature carrier records the measured rows and the readout functional used to compress those rows into a bounded signature. A claim crosses from one name to a stronger name only when the stronger carrier contains contacts at the layer being named. The age-clock layer can be contacted by methylation rows plus a clock coefficient row; identity, function, safety, repeat-cycle, and organismal maintenance require separate contacts.
+
+\begin{definition}[Age-clock carrier]
+\label{def:age-clock-carrier}
+The local age-clock carrier is
+$$
+B_A=(M,W,P,S_A,\Delta_A,L,N).
+$$
+Its rows have the following meanings:
+\begin{itemize}[leftmargin=2em]
+\item $M$ is the EPIC methylation matrix row contact from GSE142439.
+\item $W$ is the Horvath 2013 clock coefficient row restricted to covered CpG sites.
+\item $P$ is the paired normal/treated sample row.
+\item $S_A$ is the DNA methylation age signature computed from the covered coefficient row.
+\item $\Delta_A$ is the paired treated-minus-normal age-signature shift.
+\item $L$ is the no-promotion ledger.
+\item $N$ is the local NameCert row for $\AgeClockShift$.
+\end{itemize}
+The carrier is empirical and bounded by these rows. It contains no identity assay, functional assay, safety assay, repeat-cycle observation, or organismal maintenance observation.
+\end{definition}
+
+\paragraph{Reality contacts.}
+The present carrier uses GSE142439 EPIC methylation observations, the Horvath 2013 353-CpG methylation clock coefficients, and eight paired normal/treated observations. The contact between the Horvath clock and the EPIC matrix covers $334$ of $353$ clock CpG sites. Therefore the coverage ratio is
+$$
+\frac{334}{353}\approx 0.946 .
+$$
+This is sufficient for the stated age-clock contact threshold $334 \geq 0.93\cdot 353$. It is not a contact for mechanism, identity preservation, function, safety, repeat treatment, whole-organism maintenance, or open-ended survival.
+
+\begin{definition}[Support and break conditions]
+\label{def:age-clock-support-break}
+The local certificate is supported when all three conditions hold:
+$$
+\begin{aligned}
+&\text{the paired treated-minus-normal age-clock shift satisfies }\Delta_A<0,\\
+&\text{the Horvath-to-EPIC coverage satisfies }334\geq 0.93\cdot 353,\\
+&\text{the paired row }P\text{ links normal and treated observations from the listed contact.}
+\end{aligned}
+$$
+If $\Delta_A\geq 0$, or if coverage drops below $0.93\cdot 353$, or if the pairing row is absent, the result is $\needsdata$ or broken at the age-clock layer. No higher claim becomes available from a broken local certificate.
+\end{definition}
+
+\begin{theorem}[Thm3 clock-only no-promotion]
+\label{thm:clock-only-no-promotion}
+Assume the carrier $B_A=(M,W,P,S_A,\Delta_A,L,N)$ has the GSE142439 EPIC methylation matrix row, the Horvath 2013 353-CpG clock coefficient row restricted to the $334$ covered CpG sites, and eight paired normal/treated rows. If the paired DNA methylation age signature decreases, $\Delta_A<0$, then the local name $\AgeClockShift$ is admissible. The same carrier gives $\blockednull$ for promotion to $\IdentityPreservingAgeReset$, $\RejuvenationCandidate$, $\PartialReprogramming$, $\RenewableMaintenance$, and $\ImmortalityPotential$.
+\end{theorem}
+
+\begin{proof}
+The age-clock part of the carrier contains the rows needed to compute and compare a paired methylation age signature: $M$ supplies methylation values, $W$ supplies the clock coefficients on the covered CpG sites, $P$ supplies normal/treated pairing, $S_A$ supplies the resulting signature, and $\Delta_A$ supplies the paired shift. The assumptions $\Delta_A<0$ and $334\geq 0.93\cdot 353$ therefore support the local statement that the measured age-clock signature moved in the younger direction within the listed contact. That is exactly the scope of $\AgeClockShift$.
+
+The promotion targets require rows that $B_A$ explicitly does not contain. Identity-preserving age reset requires an identity-preservation contact. Rejuvenation requires a functional or phenotypic restoration contact beyond clock movement. Partial reprogramming requires a reprogramming-state and identity-boundary contact. Renewable maintenance requires repeated-cycle evidence over a stated time horizon $T$. Immortality potential requires organismal maintenance, risk, survival, and repeat-cycle contacts. Since none of those rows occur in $B_A$, each higher promotion is blocked by missing data rather than by a negative biological result. Thus the local name is admissible and every listed promotion is $\blockednull$.
+\end{proof}
+
+\paragraph{Cannot-claim ledger.}
+The no-promotion ledger $L$ records the missing contacts rather than rhetorical caution. Each blocked promotion has a precise absent row:
+\begin{itemize}[leftmargin=2em]
+\item $\IdentityPreservingAgeReset$: $\blockednull$ without identity retention across the treated state.
+\item $\RejuvenationCandidate$: $\blockednull$ without function, phenotype, or repair readout beyond DNAm age.
+\item $\PartialReprogramming$: $\blockednull$ without reprogramming-state boundary plus identity constraint.
+\item $\RenewableMaintenance$: $\blockednull$ without repeated cycles across time horizon $T$.
+\item $\ImmortalityPotential$: $\blockednull$ without organismal maintenance, risk, and survival horizon.
+\end{itemize}
+The ledger is part of the carrier. It prevents the age-clock NameCert from being rephrased as a stronger cell-state or organismal result.
+
+\paragraph{Promotion ladder.}
+The ladder is a sequence of re-certifications, not a sequence of prose intensifiers. DNA-as-source names genomic or epigenomic source rows. ContextDrift names a change in the state context. ContextRefresh names a bounded movement of a context signature. $\IdentityPreservingAgeReset$ requires the age reset to be paired with identity preservation. $\RejuvenationCandidate$ requires an independent functional contact. $\RenewableMaintenance$ requires repeated refresh cycles indexed by $T$. $\ImmortalityPotential$ requires organismal maintenance and risk contacts. $\Immortality$ remains outside the ladder as $\blockednull$ because the available carrier does not even attempt the required horizon.
+
+\paragraph{Falsifiable reading.}
+The support condition is narrow: paired $\Delta_A<0$ under covered Horvath-to-EPIC clock rows supports $\AgeClockShift$. The break condition is equally narrow: paired $\Delta_A\geq 0$, missing pair structure, or coverage below $0.93\cdot 353$ breaks or suspends the local claim. Either outcome is empirical. Neither outcome by itself proves or disproves rejuvenation, partial reprogramming, renewable maintenance, or immortality potential.
