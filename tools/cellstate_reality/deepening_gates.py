@@ -1412,7 +1412,7 @@ def self_test() -> int:
             },
             {
                 **conjecture,
-                "conjecture_id": "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
+                "conjecture_id": "function_realization.seed.boundary",
             },
         ],
         [
@@ -1474,8 +1474,8 @@ def self_test() -> int:
             "residual-basis.clock-topology-after-age-signature.cell-identity",
         ),
         "conjecture_id:5": (
-            "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
-            "maintenance-boundary.age-clock-shift-matrix.renewable-maintenance",
+            "function_realization.seed.boundary",
+            "function-realization.seed.boundary",
         ),
         "probe_id:5": (
             "cross_context.identity_marker_signal_correlates_with_clock_shift",
