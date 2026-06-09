@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.mechanism_dna import (
     DEFAULT_DETERMINISTIC_SEED,
@@ -14,6 +16,7 @@ from bedc_quality_lab.mechanism_dna import (
     mechanism_dna_artifacts,
     stable_json,
 )
+from scripts import run_mechanism_dna
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,6 +72,22 @@ def test_mechanism_dna_missing_required_ref_fails_closed():
 
     assert audit["status"] == "fail"
     assert "row-0-component_ref" in audit["failed_gates"]
+
+
+def test_mechanism_dna_writer_blocks_failed_audit_before_artifact_write(tmp_path, monkeypatch):
+    def failing_audit(payload, source_payloads):
+        return {"status": "fail", "failed_gates": ["row-0-component_ref"], "row_count": 1}
+
+    monkeypatch.setattr(run_mechanism_dna, "audit_mechanism_dna", failing_audit)
+
+    with pytest.raises(SystemExit, match="mechanism-dna audit failed: row-0-component_ref"):
+        run_mechanism_dna.write_mechanism_dna(
+            root=tmp_path,
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert not (tmp_path / JSON_ARTIFACT).exists()
+    assert not (tmp_path / run_mechanism_dna.MARKDOWN_ARTIFACT).exists()
 
 
 def test_mechanism_dna_has_no_terminal_verdict_alias_surface():

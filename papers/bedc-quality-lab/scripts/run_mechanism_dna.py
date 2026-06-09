@@ -52,7 +52,14 @@ def write_mechanism_dna(
         generated_at=timestamp,
         deterministic_seed=deterministic_seed,
     )
-    audit_mechanism_dna(payload, source_payloads)
+    audit = audit_mechanism_dna(payload, source_payloads)
+    if audit.get("status") != "pass":
+        failed_gates = audit.get("failed_gates")
+        if isinstance(failed_gates, list):
+            gate_summary = ", ".join(str(gate) for gate in failed_gates)
+        else:
+            gate_summary = str(failed_gates or audit.get("status") or "unknown")
+        raise SystemExit(f"mechanism-dna audit failed: {gate_summary}")
     json_path = root / JSON_ARTIFACT
     markdown_path = root / MARKDOWN_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)

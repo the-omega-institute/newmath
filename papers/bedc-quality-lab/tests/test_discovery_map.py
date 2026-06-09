@@ -227,6 +227,8 @@ def _minimal_payload(spec):
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "discovery-regularized-training":
         return runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    if spec.name == "discovery-gated-transformer":
+        return canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     if spec.name == "mechanism-seeking-network":
         payload.update({
             "records": {
@@ -486,7 +488,16 @@ def _minimal_payload(spec):
             "scope_seal": {"not_claimed": ["no global mechanism closure claim"]},
             "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
             "not_implemented": ["nonlinear_residualization", "full_causal_replacement_scope"],
-            "a4_hardgates": {"gates": {"A4-HG2": {"status": "pass"}, "A4-HG3": {"status": "pass"}, "A4-HG5": {"status": "fail"}}},
+            "a4_hardgates": {
+                "gates": {
+                    "A4-HG2": {"status": "pass"},
+                    "A4-HG3": {"status": "pass"},
+                    "A4-HG5": {"status": "fail"},
+                    "head_causal_patch": {"status": "pass"},
+                }
+            },
+            "head_channel_patch_evidence": {"causal_patch_claim": {"status": "pass"}},
+            "negative_witness": [{"status": "score-margin-channel-sufficient"}],
             "residualized_attribution": {"status": "pass"},
             "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
         })

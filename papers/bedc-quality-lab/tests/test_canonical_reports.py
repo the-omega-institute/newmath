@@ -473,6 +473,11 @@ def _payload_for_spec(spec):
                     "sparse_recall": {"accepted": True},
                 },
             },
+            "discovery_map_signal": {
+                "status": "d5-m-candidate",
+                "level_candidate": "D5-M",
+                "reason": "distinction-module-evidence-present",
+            },
             "distinction_module_evidence": {
                 "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence",
                 "owner_pointer": "$.distinction_module_evidence",
@@ -885,6 +890,8 @@ def _payload_for_spec(spec):
         payload["d5_m"] = {"status": "blocked", "passed": False, "failed_gate": "A4-HG5"}
         payload["residualized_attribution"] = {"status": "pass"}
         payload["score_margin_causal_evidence"] = {"channel_classification": "score_margin_sufficient"}
+        payload["head_channel_patch_evidence"] = {"causal_patch_claim": {"status": "pass"}}
+        payload["negative_witness"] = [{"status": "score-margin-channel-sufficient"}]
         payload["mechanism_evidence"] = {
             "evidence_level": "patch",
             "base_level": "D5-O",
@@ -918,6 +925,7 @@ def _payload_for_spec(spec):
                 "A4-HG2": {"status": "pass"},
                 "A4-HG3": {"status": "pass"},
                 "A4-HG5": {"status": "fail"},
+                "head_causal_patch": {"status": "pass"},
             },
         }
     return payload
