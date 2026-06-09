@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run LCCP over frozen V-JEPA2-AC Giant features on a public MiniGrid stream."""
+"""Run LCCP over fixed V-JEPA2-AC Giant features on a public MiniGrid stream."""
 
 from __future__ import annotations
 
