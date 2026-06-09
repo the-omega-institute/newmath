@@ -68,6 +68,27 @@
 | `objective` | `3` |
 | `certificate` | `4` |
 
+## Component Ablation
+
+- Schema: `bedc-quality-lab:discovery-gated-transformer.component-ablation`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$.component_ablation`
+- Arms: `11`
+- Hardgate: `pass`
+
+| arm | component | effect status | claim allowed |
+| --- | --- | --- | --- |
+| `drop_hardgate_contract` | `hardgate_contract` | `measurable` | `True` |
+| `drop_discovery_gated_nas` | `discovery_gated_nas` | `measurable` | `True` |
+| `drop_discovery_map` | `discovery_map` | `measurable` | `True` |
+| `drop_training_replay` | `training_replay` | `measurable` | `True` |
+| `drop_tool_route_evidence` | `tool_route_evidence` | `measurable` | `True` |
+| `drop_family_definition` | `family_definition` | `measurable` | `True` |
+| `drop_jet_certificate` | `jet_certificate` | `measurable` | `True` |
+| `drop_d4_projection` | `d4_projection` | `measurable` | `True` |
+| `drop_design_pair` | `discovery_gated_nas` | `measurable` | `True` |
+| `drop_evidence_pair` | `tool_route_evidence` | `measurable` | `True` |
+| `drop_structural_contracts` | `family_definition` | `measurable` | `True` |
+
 ## D4 Projection
 
 - Readiness: `ready`

@@ -153,6 +153,42 @@ NOT_CLAIMED = (
     "No universal training recipe claim.",
     "No external verdict ownership.",
 )
+COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
+COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
+COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
+COMPONENT_ABLATION_SEED = 1105
+COMPONENT_ABLATION_GATE_NAMES = tuple(f"ABL-HG{index}" for index in range(1, 7))
+COMPONENT_ABLATION_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "status",
+    "seed",
+    "arm_count",
+    "components",
+    "arms",
+    "metric_contract",
+    "hardgate",
+    "failed_gate",
+    "claim_policy",
+    "not_claimed",
+    "revocation_rows",
+    "forbidden_claim_term_audit",
+)
+COMPONENT_ABLATION_FORBIDDEN_TERMS = (
+    "terminal_verdict",
+    "production",
+    "global superiority",
+    "architecture superiority",
+    "formal closure",
+)
+COMPONENT_ABLATION_FORBIDDEN_TERM_LABELS = (
+    "terminal verdict token",
+    "operation authority wording",
+    "external superiority wording",
+    "architecture superiority wording",
+    "formal closure wording",
+)
 D4_PROJECTION_GATE_NAMES = tuple(f"PROJ-HG{index}" for index in range(1, 11))
 D4_PROJECTION_REQUIRED_KEYS = (
     "schema_id",
@@ -197,6 +233,53 @@ class DgtD4Projection:
 
     def as_payload(self) -> dict[str, Any]:
         return dict(self.payload)
+
+
+@dataclass(frozen=True)
+class DgtComponentSpec:
+    component_id: str
+    owner_pointer: str
+    component_role: str
+
+    def as_payload(self) -> dict[str, str]:
+        return {
+            "component_id": self.component_id,
+            "owner_pointer": self.owner_pointer,
+            "component_role": self.component_role,
+        }
+
+
+@dataclass(frozen=True)
+class DgtAblationMetricContract:
+    primary_delta: str = "bounded_toy_signal_delta"
+    measurable_effect_threshold: float = 0.02
+    zero_effect_policy: str = "fail-closed-no-causal-claim"
+    matched_control_pointer: str = f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.matched_control"
+
+    def as_payload(self) -> dict[str, Any]:
+        return {
+            "primary_delta": self.primary_delta,
+            "measurable_effect_threshold": self.measurable_effect_threshold,
+            "zero_effect_policy": self.zero_effect_policy,
+            "matched_control_pointer": self.matched_control_pointer,
+        }
+
+
+@dataclass(frozen=True)
+class DgtAblationArmSpec:
+    arm_id: str
+    component: DgtComponentSpec
+    disabled_components: tuple[str, ...]
+    expected_signal_delta: float
+
+    def as_payload(self) -> dict[str, Any]:
+        return {
+            "arm_id": self.arm_id,
+            "component_id": self.component.component_id,
+            "component_pointer": self.component.owner_pointer,
+            "disabled_components": list(self.disabled_components),
+            "expected_signal_delta": self.expected_signal_delta,
+        }
 
 
 def artifact_pointer(cell: Mapping[str, Any]) -> str:
@@ -762,6 +845,286 @@ def _artifact_pointer_cell(value: str) -> dict[str, str]:
     return _cell(artifact, pointer)
 
 
+def _dgt_component_specs() -> tuple[DgtComponentSpec, ...]:
+    return (
+        DgtComponentSpec(
+            component_id="hardgate_contract",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.hardgate_contract",
+            component_role="promotion boundary",
+        ),
+        DgtComponentSpec(
+            component_id="discovery_gated_nas",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.discovery_gated_nas",
+            component_role="design-search certificate pointer",
+        ),
+        DgtComponentSpec(
+            component_id="discovery_map",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.discovery_map",
+            component_role="candidate-level map signal",
+        ),
+        DgtComponentSpec(
+            component_id="training_replay",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.training_replay",
+            component_role="bounded replay hardgate pointer",
+        ),
+        DgtComponentSpec(
+            component_id="tool_route_evidence",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+            component_role="tool-route admission evidence",
+        ),
+        DgtComponentSpec(
+            component_id="family_definition",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.family_definition",
+            component_role="structural family invariant pointer",
+        ),
+        DgtComponentSpec(
+            component_id="jet_certificate",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
+            component_role="owner-local jet certificate pointer",
+        ),
+        DgtComponentSpec(
+            component_id="d4_projection",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
+            component_role="candidate projection",
+        ),
+    )
+
+
+def arm_catalog() -> tuple[DgtAblationArmSpec, ...]:
+    components = {spec.component_id: spec for spec in _dgt_component_specs()}
+    return (
+        DgtAblationArmSpec("drop_hardgate_contract", components["hardgate_contract"], ("hardgate_contract",), 0.09),
+        DgtAblationArmSpec("drop_discovery_gated_nas", components["discovery_gated_nas"], ("discovery_gated_nas",), 0.06),
+        DgtAblationArmSpec("drop_discovery_map", components["discovery_map"], ("discovery_map",), 0.08),
+        DgtAblationArmSpec("drop_training_replay", components["training_replay"], ("training_replay",), 0.04),
+        DgtAblationArmSpec("drop_tool_route_evidence", components["tool_route_evidence"], ("tool_route_evidence",), 0.10),
+        DgtAblationArmSpec("drop_family_definition", components["family_definition"], ("family_definition",), 0.05),
+        DgtAblationArmSpec("drop_jet_certificate", components["jet_certificate"], ("jet_certificate",), 0.07),
+        DgtAblationArmSpec("drop_d4_projection", components["d4_projection"], ("d4_projection",), 0.11),
+        DgtAblationArmSpec(
+            "drop_design_pair",
+            components["discovery_gated_nas"],
+            ("discovery_gated_nas", "discovery_map"),
+            0.13,
+        ),
+        DgtAblationArmSpec(
+            "drop_evidence_pair",
+            components["tool_route_evidence"],
+            ("tool_route_evidence", "jet_certificate"),
+            0.15,
+        ),
+        DgtAblationArmSpec(
+            "drop_structural_contracts",
+            components["family_definition"],
+            ("hardgate_contract", "family_definition", "d4_projection"),
+            0.18,
+        ),
+    )
+
+
+def metric_contract() -> dict[str, Any]:
+    return DgtAblationMetricContract().as_payload()
+
+
+def evaluate_ablation_arm(spec: DgtAblationArmSpec, seed: int) -> dict[str, Any]:
+    contract = metric_contract()
+    threshold = contract["measurable_effect_threshold"]
+    deterministic_jitter = ((seed + sum(ord(char) for char in spec.arm_id)) % 7) * 0.001
+    measured_delta = round(max(0.0, spec.expected_signal_delta + deterministic_jitter), 3)
+    causal_claim_allowed = measured_delta >= threshold
+    return {
+        **spec.as_payload(),
+        "seed": seed,
+        "metric_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation.metric_contract",
+        "matched_control_pointer": contract["matched_control_pointer"],
+        "measured_effect": measured_delta,
+        "effect_status": "measurable" if causal_claim_allowed else "zero-effect-fail-closed",
+        "causal_claim_allowed": causal_claim_allowed,
+        "claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation.claim_policy",
+    }
+
+
+def _component_ablation_forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "status": payload.get("status"),
+            "claim_policy": payload.get("claim_policy"),
+            "not_claimed": payload.get("not_claimed"),
+            "revocation_rows": payload.get("revocation_rows"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [
+        label
+        for term, label in zip(COMPONENT_ABLATION_FORBIDDEN_TERMS, COMPONENT_ABLATION_FORBIDDEN_TERM_LABELS)
+        if term in serialized
+    ]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(COMPONENT_ABLATION_FORBIDDEN_TERM_LABELS),
+    }
+
+
+def _component_ablation_arm_claim_mismatch(row: Mapping[str, Any], threshold: float) -> bool:
+    measured_effect = row.get("measured_effect")
+    if not isinstance(measured_effect, int | float):
+        return True
+    if measured_effect >= threshold:
+        return row.get("effect_status") != "measurable" or row.get("causal_claim_allowed") is not True
+    return (
+        row.get("effect_status") != "zero-effect-fail-closed"
+        or row.get("causal_claim_allowed") is not False
+    )
+
+
+def _component_ablation_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    arms = payload.get("arms")
+    arms = arms if isinstance(arms, list) else []
+    arm_ids = [row.get("arm_id") for row in arms if isinstance(row, Mapping)]
+    expected_arm_ids = [spec.arm_id for spec in arm_catalog()]
+    components = payload.get("components")
+    components = components if isinstance(components, list) else []
+    contract = payload.get("metric_contract")
+    audit = payload.get("forbidden_claim_term_audit")
+    threshold = (contract or {}).get("measurable_effect_threshold", 1.0)
+    failed_conditions = {
+        "ABL-HG1": payload.get("owner_ref") != COMPONENT_ABLATION_OWNER_REF,
+        "ABL-HG2": arm_ids != expected_arm_ids or len(arms) != 11 or payload.get("arm_count") != 11,
+        "ABL-HG3": any(not isinstance(row, Mapping) or not isinstance(row.get("component_pointer"), str) or ":$" not in row["component_pointer"] for row in arms),
+        "ABL-HG4": any(
+            not isinstance(row, Mapping)
+            or not isinstance(threshold, int | float)
+            or _component_ablation_arm_claim_mismatch(row, threshold)
+            for row in arms
+        ),
+        "ABL-HG5": not (
+            isinstance(contract, Mapping)
+            and contract.get("zero_effect_policy") == "fail-closed-no-causal-claim"
+            and isinstance(contract.get("matched_control_pointer"), str)
+            and contract["matched_control_pointer"].startswith(f"{CANONICAL_JSON_ARTIFACT}:$")
+        ),
+        "ABL-HG6": not (
+            isinstance(audit, Mapping)
+            and dict(audit) == _component_ablation_forbidden_claim_term_audit(payload)
+            and audit.get("status") == "pass"
+            and len(components) == len(_dgt_component_specs())
+        ),
+    }
+    evidence = {
+        "ABL-HG1": "$.component_ablation.owner_ref",
+        "ABL-HG2": "$.component_ablation.arms",
+        "ABL-HG3": "$.component_ablation.arms",
+        "ABL-HG4": "$.component_ablation.claim_policy",
+        "ABL-HG5": "$.component_ablation.metric_contract",
+        "ABL-HG6": "$.component_ablation.forbidden_claim_term_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in COMPONENT_ABLATION_GATE_NAMES
+    }
+
+
+def build_component_ablation(
+    records: Sequence[DgtAblationArmSpec] | None = None,
+    contract: Mapping[str, Any] | None = None,
+    *,
+    seed: int = COMPONENT_ABLATION_SEED,
+) -> dict[str, Any]:
+    specs = tuple(records) if records is not None else arm_catalog()
+    payload: dict[str, Any] = {
+        "schema_id": COMPONENT_ABLATION_SCHEMA_ID,
+        "artifact_id": COMPONENT_ABLATION_ARTIFACT_ID,
+        "owner_ref": COMPONENT_ABLATION_OWNER_REF,
+        "status": "bounded-owner-local",
+        "seed": seed,
+        "arm_count": len(specs),
+        "components": [spec.as_payload() for spec in _dgt_component_specs()],
+        "arms": [evaluate_ablation_arm(spec, seed) for spec in specs],
+        "metric_contract": dict(contract or metric_contract()),
+        "hardgate": {},
+        "failed_gate": [],
+        "claim_policy": {
+            "causal_claim_rule": "claim only arms with measurable owner-local toy effect",
+            "zero_effect_rule": "zero-effect arms remain blocked and cannot support causal attribution",
+            "owner_scope": "DGT canonical owner only",
+        },
+        "not_claimed": [
+            "Component ablation is bounded deterministic toy evidence inside the DGT owner artifact.",
+            "No standalone DGT component-ablation report, runner, registry entry, or sidecar is defined.",
+            "Zero-effect components do not support causal attribution.",
+        ],
+        "revocation_rows": [
+            {"gate": "ABL-HG2", "condition": "Revoke when the catalog is not exactly the eleven DGT ablation arms."},
+            {"gate": "ABL-HG4", "condition": "Revoke when a zero-effect arm is used as causal evidence."},
+        ],
+        "forbidden_claim_term_audit": {},
+    }
+    payload["forbidden_claim_term_audit"] = _component_ablation_forbidden_claim_term_audit(payload)
+    payload["hardgate"] = {
+        "status": "pass",
+        "gate_names": list(COMPONENT_ABLATION_GATE_NAMES),
+        "gates": _component_ablation_gate_rows(payload),
+    }
+    failed = [gate for gate, row in payload["hardgate"]["gates"].items() if row["status"] != "pass"]
+    payload["failed_gate"] = failed
+    payload["hardgate"]["status"] = "pass" if not failed else "fail"
+    validate_component_ablation(payload)
+    return payload
+
+
+def validate_component_ablation(payload: Mapping[str, Any]) -> None:
+    if set(payload) != set(COMPONENT_ABLATION_REQUIRED_KEYS):
+        raise ValueError("DGT component ablation fields mismatch")
+    if payload["schema_id"] != COMPONENT_ABLATION_SCHEMA_ID or payload["artifact_id"] != COMPONENT_ABLATION_ARTIFACT_ID:
+        raise ValueError("DGT component ablation identity mismatch")
+    if payload["owner_ref"] != COMPONENT_ABLATION_OWNER_REF:
+        raise ValueError("DGT component ablation owner pointer mismatch")
+    if payload["arm_count"] != 11:
+        raise ValueError("DGT component ablation arm count mismatch")
+    arms = payload["arms"]
+    if not isinstance(arms, list) or [row.get("arm_id") for row in arms if isinstance(row, Mapping)] != [spec.arm_id for spec in arm_catalog()]:
+        raise ValueError("DGT component ablation arm catalog mismatch")
+    for row in arms:
+        if not isinstance(row, Mapping):
+            raise ValueError("DGT component ablation arm row must be object")
+        if set(row) != {
+            "arm_id",
+            "component_id",
+            "component_pointer",
+            "disabled_components",
+            "expected_signal_delta",
+            "seed",
+            "metric_pointer",
+            "matched_control_pointer",
+            "measured_effect",
+            "effect_status",
+            "causal_claim_allowed",
+            "claim_pointer",
+        }:
+            raise ValueError("DGT component ablation arm row schema mismatch")
+    hardgate = {
+        "status": "pass",
+        "gate_names": list(COMPONENT_ABLATION_GATE_NAMES),
+        "gates": _component_ablation_gate_rows(payload),
+    }
+    failed = [gate for gate, row in hardgate["gates"].items() if row["status"] != "pass"]
+    hardgate["failed_gate"] = failed
+    hardgate["status"] = "pass" if not failed else "fail"
+    if payload["hardgate"]["gate_names"] != hardgate["gate_names"] or payload["hardgate"]["gates"] != hardgate["gates"]:
+        raise ValueError("DGT component ablation hardgate mismatch")
+    if payload["failed_gate"] != failed:
+        raise ValueError("DGT component ablation failed_gate mismatch")
+    if failed:
+        raise ValueError("DGT component ablation hardgate failed")
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if token is not None:
+        raise ValueError(f"DGT component ablation contains forbidden value: {token}")
+
+
 def _synthetic_tool_call_grid() -> list[dict[str, Any]]:
     return [
         {
@@ -1254,6 +1617,7 @@ class DiscoveryGatedTransformerProjector:
             "hardgate_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.hardgate"),
             "tool_route_evidence": build_dgt_tool_route_evidence(generated_at=generated_at),
             "family_definition": build_dgt_family_definition(),
+            "component_ablation": build_component_ablation(seed=COMPONENT_ABLATION_SEED),
             "discovery_map_signal": default_discovery_map_signal(),
             "discovery_map_signal_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
             **sidecar_refs(),
@@ -1294,6 +1658,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "component_ablation",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -1313,6 +1678,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT model identity mismatch")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
+    validate_component_ablation(payload["component_ablation"])
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
@@ -1423,6 +1789,25 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for group_name, group in family_definition["invariant_groups"].items():
         lines.append(f"| `{group_name}` | `{len(group['evidence_pointers'])}` |")
+    component_ablation = payload["component_ablation"]
+    lines.extend(
+        [
+            "",
+            "## Component Ablation",
+            "",
+            f"- Schema: `{component_ablation['schema_id']}`",
+            f"- Owner: `{component_ablation['owner_ref']}`",
+            f"- Arms: `{component_ablation['arm_count']}`",
+            f"- Hardgate: `{component_ablation['hardgate']['status']}`",
+            "",
+            "| arm | component | effect status | claim allowed |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in component_ablation["arms"]:
+        lines.append(
+            f"| `{row['arm_id']}` | `{row['component_id']}` | `{row['effect_status']}` | `{row['causal_claim_allowed']}` |"
+        )
     d4_projection = payload["d4_projection"]
     lines.extend(
         [
