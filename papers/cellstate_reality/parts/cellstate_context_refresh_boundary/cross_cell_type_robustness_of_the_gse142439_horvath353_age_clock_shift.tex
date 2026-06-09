@@ -1,0 +1,30 @@
+\subsection{Cross-cell-type robustness of the GSE142439 Horvath353 age-clock shift}
+\label{sec:age-clock-shift-gse142439-cross-cell-type-robustness}
+
+\paragraph{Claim record.}
+This record isolates a single age-signature claim for the paired GSE142439 methylation-array setting. The object under inspection is $\AgeClockShiftUp$ restricted to the frozen carrier
+$B_R=(M,W,P,S_A,\Delta_A,C,L,N)$. Here $M$ is the paired methylation beta matrix after restriction to covered Horvath353 clock CpGs, $W$ is the Horvath353 coefficient table together with its intercept, $P$ is the list of eight normal/treated donor pairs split across SkinFibroblasts and VeinEndothelialCells, $S_A$ is the Horvath DNAm age score computed from the available CpG coordinates, $\Delta_A$ is the treated-minus-normal paired clock-age difference, $C$ is the finite collection of descriptive robustness checks over cell-type strata and leave-one-donor-out subsets, $L$ records that the only layer under test is $\mathsf{age\_signature}$, and $N$ records the local refusal to promote the clock shift into identity, function, safety, rejuvenation, renewable maintenance, organismal maintenance, or immortality.
+
+\paragraph{Reality contact.}
+The contact $\mathsf{k\mbox{-}a.gse142439.horvath353}$ supplies methylation-array coordinates rather than a general biological state oracle. It contains sixteen samples arranged as eight normal/treated pairs. On the GPL21145 EPIC platform, $334$ of the $353$ Horvath clock CpGs are covered, so the recorded coverage fraction is
+$$
+\begin{aligned}
+\frac{334}{353} \approx 0.9462.
+\end{aligned}
+$$
+The finite data available to the packet therefore consist of CpG-level beta values for those covered Horvath markers, the Horvath coefficient weights and intercept, sample annotations, and person-level normal/treated pairing. The same contact explicitly does not measure cell identity, realized function, safety, renewable maintenance, organismal maintenance, or any relation between layers. Its noise boundary is consequently structural: partial CpG coverage can still support a DNAm-age readback above the fixed floor, but the methylation array does not become a phenotypic, mechanistic, or longitudinal assay.
+
+\paragraph{Scoring rule.}
+For every paired donor row, the age score $S_A$ is computed by applying the Horvath353 weights in $W$ to the covered coordinates of $M$ together with the intercept. The paired delta is recorded as treated minus normal,
+$$
+\begin{aligned}
+\Delta_A(d) &= S_A(d,\mathsf{treated})-S_A(d,\mathsf{normal}).
+\end{aligned}
+$$
+The cross-cell-type robustness predicate used here is descriptive and finite. It requires the SkinFibroblasts mean of $\Delta_A$ to be negative, the VeinEndothelialCells mean of $\Delta_A$ to be negative, and every leave-one-donor-out overall mean of $\Delta_A$ to remain negative after excluding one of the eight donor pairs. Thus the packet treats the sign of the paired clock shift as robust only if it survives both the cell-type partition and all eight one-donor exclusions.
+
+\paragraph{Verified finite outcome.}
+The verified fact $\mathsf{cellstate.age\mbox{-}clock\mbox{-}shift.robustness.gse142439}$ records experiment run $\mathsf{9539a4c50833}$ for experiment $\mathsf{gse142439\_horvath353\_age\_clock\_shift\_robustness}$. Its support flag is true, and its verdict is $\mathsf{directionally\_robust}$. Within this record, that verdict has only the following finite meaning: after applying the Horvath353 readback to the sixteen-sample, eight-pair matrix with $334$ covered clock CpGs, both named cell-type strata have negative mean paired DNAm-age deltas, and each of the eight leave-one-donor-out overall means remains negative. The record therefore supports a directional age-signature shift in this dataset and under this clock construction.
+
+\paragraph{No-promotion boundary.}
+The result is null outside the age-signature layer. A negative paired Horvath DNAm-age delta is not, by itself, a claim of identity preservation, translation into another assay system, folding state, physical admissibility, functional realization, safety, rejuvenation, renewable maintenance, organism-level maintenance, immortality potential, mechanism, or universal behavior across datasets. None of those conclusions follows unless a separate layer-matched contact supplies the relevant measurements and its own finite validation. In particular, the present record has no protein-state assay, no morphology or lineage-certification assay, no functional perturbation assay, no safety assay, no time-extended renewal design, and no organismal readout. The conclusion is therefore intentionally narrow: GSE142439, scored through the available Horvath353 CpGs, passes the stated sign-robustness checks for an age-signature clock shift, while all promoted biological interpretations remain unlicensed by this packet.
