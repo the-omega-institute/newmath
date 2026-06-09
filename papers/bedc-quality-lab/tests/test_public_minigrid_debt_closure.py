@@ -24,6 +24,7 @@ def test_public_minigrid_debt_closure_decomposes_public_debt_or_fails_closed():
     }
     assert contract["systems"]["S3"] == "public-minigrid-trained-bedc-jepa-readout"
     assert "public MiniGrid debt and planning accounting" in contract["claim_boundary"]
+    assert "no_certified_plan" in contract["risk_constrained_planning_rule"]
     assert set(packet["debt_decomposition"]) == {"S0", "S1", "S2", "S3"}
     s3 = packet["debt_decomposition"]["S3"]
     assert 0.0 <= s3["silent_debt"] <= 1.0
@@ -58,9 +59,13 @@ def test_public_minigrid_debt_closure_records_threshold_and_risk_curves():
     assert packet["analysis_contract"]["risk_budgets"] == packet["risk_constrained_planning"]["risk_budgets"]
     assert len(planning) == len(packet["risk_constrained_planning"]["risk_budgets"])
     for row in planning:
+        assert row["decision_status"] in {"selected_plan", "no_certified_plan"}
         assert 0.0 <= row["no_certified_plan_rate"] <= 1.0
         assert 0.0 <= row["effective_success_rate"] <= 1.0
         assert 0.0 <= row["high_gap_state_rate"] <= 1.0
+        if row["decision_status"] == "no_certified_plan":
+            assert row["selected_plan_count"] == 0.0
+            assert row["no_certified_plan_rate"] == 1.0
 
 
 def test_public_minigrid_pack_records_conformal_claim_and_predicate_surfaces():
@@ -105,8 +110,20 @@ def test_public_minigrid_pack_records_risk_success_pareto_and_loss_ablation():
 
     pareto = packet["risk_success_pareto"]
     assert pareto["baseline"]["risk_budget"] == 1.0
+    assert "risk_improvement requires lower high-gap rate" in pareto["claim_rule"]
     assert 0.0 <= pareto["best_low_gap"]["high_gap_state_rate"] <= 1.0
     assert 0.0 <= pareto["best_success_under_half_risk"]["effective_success_rate"] <= 1.0
+    assert len(pareto["frontier_rows"]) == len(packet["risk_constrained_planning"]["rows"])
+    for row in pareto["frontier_rows"]:
+        assert row["claim_status"] in {
+            "risk_improvement",
+            "risk_success_tradeoff",
+            "no_certified_plan_under_budget",
+            "no_risk_improvement",
+        }
+        assert "baseline_minus_high_gap_rate" in row
+        assert "success_delta_vs_baseline" in row
+        assert "no_certified_plan_delta_vs_baseline" in row
 
     ablation = packet["loss_ablation"]
     assert set(ablation["systems"]) == {
