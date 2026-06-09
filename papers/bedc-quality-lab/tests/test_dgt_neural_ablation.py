@@ -1,4 +1,5 @@
 import json
+import inspect
 
 import pytest
 
@@ -62,6 +63,19 @@ def test_metric_protocol_rejects_component_lookup_channels():
     assert set(payload["metric_protocol"]["inputs"]) == set(owner.OUTCOME_FIELDS)
     assert "disabled_component" not in payload["metric_protocol"]["inputs"]
     assert "removed_component" not in payload["metric_protocol"]["inputs"]
+
+
+def test_owner_source_has_no_component_lookup_channels():
+    source = inspect.getsource(owner)
+
+    forbidden_tokens = (
+        "COMPONENT_EFFECTS",
+        "component_effects",
+        "effect_prior",
+        "per_component_quality",
+        "per_component_penalty",
+    )
+    assert all(token not in source for token in forbidden_tokens)
 
 
 def test_forbidden_positive_claim_terms_are_audited():
