@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CofinalCauchyFilterUp$}
+\label{ch:concrete-instances-cofinal-cauchy-filter-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges on filters and constructive Cauchy approximation, the $\CofinalCauchyFilterUp$ packet records the finite BEDC route by which a filter-style Cauchy carrier is read through cofinal finite windows rather than through a quotient filter or a selected limit. It sits after the Cauchy carrier of \autoref{ch:concrete-instances-cauchy-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the completion boundary of \autoref{ch:concrete-instances-completion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet lets Completion and Real consumers ask for cofinal Cauchy evidence without importing host filter equality, countable choice, selected limits, or ambient Real completeness.
+
+\begin{definition}[Cofinal Cauchy filter carrier]
+\label{def:cofinal-cauchy-filter-carrier}
+A $\CofinalCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(C,S,R,Q,W,E,H,A,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $C$ is the $\CauchyUp$ source row exposing the Cauchy request interface.
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect named stream segments.
+\item $R$ is the $\RegSeqRatUp$ rational readback row for tolerance comparisons.
+\item $Q$ is the cofinal refinement row, recording which later windows refine a requested Cauchy witness.
+\item $W$ is the finite-window projection row, sending a filter request to an inspected stream window and a rational tolerance.
+\item $E$ is the completion-facing exactness row, exposed only after $C,S,R,Q,W$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy, stream, rational, cofinal, projection, and exactness rows.
+\item $A$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\CofinalCauchyFilterUp$, $\CauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected limits, countable choice, host equality of filters, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cofinal Cauchy filter NameCert obligations]
+\label{thm:cofinal-cauchy-filter-namecert-obligations}
+For every accepted $\CofinalCauchyFilterUp$ carrier $F=(C,S,R,Q,W,E,H,A,P,N)$, the local $\NameCert_{\CofinalCauchyFilterUp}$ surface consists exactly of Cauchy source exposure through $C$, stream-window exposure through $S$, regular rational readback through $R$, cofinal refinement through $Q$, finite-window projection through $W$, completion-facing exactness through $E$, componentwise transport through $H$, displayed replay through $A$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $C$ supplies the Cauchy request, while $S$ and $R$ expose the finite stream and rational tolerance data on which the request is inspected.
+
+The cofinal refinement row $Q$ records how later windows answer the same request, and $W$ projects each filter-style demand to the finite window actually read by the packet. The exactness row $E$ is therefore reached through finite-window projection and cofinal refinement, not through a quotient filter.
+
+The structural rows $H,A,P,N$ transport, replay, source, and name that same route. Since no further coordinate is present, the local NameCert cannot export selected limits, countable choice, host filter equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Cofinal Cauchy filter RegSeqRat handoff]
+\label{thm:cofinal-cauchy-filter-regseqrat-handoff}
+Every Completion or Real consumer of an accepted $\CofinalCauchyFilterUp$ carrier must read the regular rational handoff through the displayed route
+$$
+C,S,R,Q,W,E \longmapsto H,A,P,N .
+$$
+Consequently a cofinal Cauchy filter request reaches $\RegSeqRatUp$ only after the StreamName finite window and cofinal refinement rows are visible, and it reaches $\CompletionUp$ or $\RealUp$ only through the completion-facing exactness row.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy source row $C$ and the stream window row $S$. They determine which finite segment of the name is inspected for the current request.
+
+The regular rational row $R$ then supplies the tolerance comparison. Cofinal refinement through $Q$ and projection through $W$ ensure that later filter-style requests reuse a displayed finite-window route rather than a host-level filter representative.
+
+Only after those rows are exposed may the exactness row $E$ hand data to Completion or Real consumers. The rows $H,A,P,N$ preserve the same handoff under transport, replay, provenance, and local naming, so the consumer obtains no bypass around StreamName, RegSeqRat, cofinal refinement, or the Real seal.
+\end{proof}
+
+\closureat{CofinalCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\CofinalCauchyFilterUp}
+  \constructivestory{A $\CofinalCauchyFilterUp$ packet is generated from a Cauchy source row, StreamName finite windows, RegSeqRat readback, cofinal refinement, finite-window projection, completion-facing exactness, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-cauchy-filter-carrier}, \autoref{thm:cofinal-cauchy-filter-namecert-obligations}, and \autoref{thm:cofinal-cauchy-filter-regseqrat-handoff} seed the cofinal Cauchy-filter bridge for StreamName, RegSeqRat, Completion, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal refinement, finite-window projection, RegSeqRat handoff, completion exactness, transport, replay, provenance, and local naming for BEDC.Derived.CofinalCauchyFilterUp.}
+\end{closurestatus}
