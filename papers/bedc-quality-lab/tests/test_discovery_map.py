@@ -18,7 +18,12 @@ from bedc_quality_lab.discovery_regularized_training import (
 )
 from bedc_quality_lab import dgt_l0_controls as dgt_l0_controls_owner
 from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
-from bedc_quality_lab.discovery_gated_transformer import DGT_L0_CONTROLS_ARTIFACT, L0_CONTROL_POINTER_CONTRACT
+from bedc_quality_lab.discovery_gated_transformer import (
+    DGT_L0_CONTROLS_ARTIFACT,
+    L0_HARDGATE_SUMMARY_REF,
+    L0_REVIEW_STATUS_REF,
+    L0_TOY_PROJECTION_REF,
+)
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_certificate_gated_attention as cga_runner
@@ -219,11 +224,14 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
         return {
             "level_id": level_id,
             "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
-            "raw_claim_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+            "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
+            "review_status_ref": dict(L0_REVIEW_STATUS_REF),
+            "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "review_status_alias": "pass",
+            "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
             "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
-            "review_status": "review-line-ready",
-            **{key: dict(value) for key, value in L0_CONTROL_POINTER_CONTRACT.items()},
-            "hardgates": {"SCALE-HG2": "pass", "SCALE-HG3": "pass", "SCALE-HG4": "pass"},
+            "level_state": "open",
+            "promotion_status": "opened-from-l0-pass-pointer",
             "boundary_ledger": [],
             "not_claimed": [
                 "Bounded L0 toy training controls only.",
@@ -241,7 +249,8 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
         "raw_claim_pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/claim_capsule.json:$",
         "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
-        "review_status": "review-line-ready",
+        "level_state": "ready",
+        "promotion_status": "level-local-evidence-ready",
         "base_transformer_control": {"status": "pass", "pointer": f"fixture:{level_id}:base"},
         "matched_random_structural_control": {"status": "pass", "pointer": f"fixture:{level_id}:random"},
         "compute_param_ledger": {

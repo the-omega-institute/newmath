@@ -1531,7 +1531,7 @@
       {
         "failed_gate": "SCALE-HG5",
         "level_id": "L1_tiny_sequence",
-        "reason": "review status not ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer",
+        "reason": "level state not ready; promotion status not level-local ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer",
         "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
         "status": "failed"
       },
@@ -1624,41 +1624,30 @@
       },
       "status": "fail"
     },
+    "hardgate_summary_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection.hardgate_statuses.pass"
+    },
+    "l0_toy_projection_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection"
+    },
+    "level_state": "l0-open",
     "levels": [
       {
         "claim_capsule": {
-          "base_transformer_control": {
-            "artifact": "reports/canonical/dgt-l0-controls.json",
-            "pointer": "$.controls.base_transformer_control"
-          },
           "boundary_ledger": [],
           "claim_id": "claim:dgt_scaling_ladder_owner:L0_toy",
-          "compute_param_ledger": {
+          "hardgate_summary_ref": {
             "artifact": "reports/canonical/dgt-l0-controls.json",
-            "pointer": "$.compute_param_ledger"
+            "pointer": "$.l0_toy_projection.hardgate_statuses.pass"
           },
-          "hardgates": {
-            "SCALE-HG2": "pass",
-            "SCALE-HG3": "pass",
-            "SCALE-HG4": "pass"
-          },
-          "independent_replay": {
-            "artifact": "reports/canonical/dgt-l0-controls.json",
-            "pointer": "$.independent_replay"
-          },
-          "l0_control_projection": {
+          "l0_toy_projection_ref": {
             "artifact": "reports/canonical/dgt-l0-controls.json",
             "pointer": "$.l0_toy_projection"
           },
           "level_id": "L0_toy",
-          "matched_random_structural_control": {
-            "artifact": "reports/canonical/dgt-l0-controls.json",
-            "pointer": "$.controls.matched_random_structural_control"
-          },
-          "negative_witness_sweep": {
-            "artifact": "reports/canonical/dgt-l0-controls.json",
-            "pointer": "$.negative_witness_sweep"
-          },
+          "level_state": "open",
           "not_claimed": [
             "Bounded toy training control only.",
             "No production scale claim.",
@@ -1669,8 +1658,13 @@
             "No verdict inheritance to L1 or higher scaling levels."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule",
-          "raw_claim_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
-          "review_status": "review-line-ready"
+          "promotion_status": "opened-from-l0-pass-pointer",
+          "review_status_alias": "pass",
+          "review_status_alias_source": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.review_status",
+          "review_status_ref": {
+            "artifact": "reports/canonical/dgt-l0-controls.json",
+            "pointer": "$.l0_toy_projection.review_status"
+          }
         },
         "level_id": "L0_toy"
       },
@@ -1692,6 +1686,7 @@
             "SCALE-HG4": "fail"
           },
           "level_id": "L1_tiny_sequence",
+          "level_state": "blocked",
           "matched_random_structural_control": null,
           "negative_witness_sweep": null,
           "not_claimed": [
@@ -1704,8 +1699,8 @@
             "No unbounded scaling law claim."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.projected_claim",
-          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.raw_claim",
-          "review_status": "review-line-blocked"
+          "promotion_status": "blocked-until-level-local-evidence",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.raw_claim"
         },
         "level_id": "L1_tiny_sequence"
       },
@@ -1727,6 +1722,7 @@
             "SCALE-HG4": "fail"
           },
           "level_id": "L2_char_lm",
+          "level_state": "blocked",
           "matched_random_structural_control": null,
           "negative_witness_sweep": null,
           "not_claimed": [
@@ -1739,8 +1735,8 @@
             "No unbounded scaling law claim."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.projected_claim",
-          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.raw_claim",
-          "review_status": "review-line-blocked"
+          "promotion_status": "blocked-until-level-local-evidence",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.raw_claim"
         },
         "level_id": "L2_char_lm"
       },
@@ -1762,6 +1758,7 @@
             "SCALE-HG4": "fail"
           },
           "level_id": "L3_byte_lm",
+          "level_state": "blocked",
           "matched_random_structural_control": null,
           "negative_witness_sweep": null,
           "not_claimed": [
@@ -1774,8 +1771,8 @@
             "No unbounded scaling law claim."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.projected_claim",
-          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.raw_claim",
-          "review_status": "review-line-blocked"
+          "promotion_status": "blocked-until-level-local-evidence",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.raw_claim"
         },
         "level_id": "L3_byte_lm"
       },
@@ -1797,6 +1794,7 @@
             "SCALE-HG4": "fail"
           },
           "level_id": "L4_tool_use_toy",
+          "level_state": "blocked",
           "matched_random_structural_control": null,
           "negative_witness_sweep": null,
           "not_claimed": [
@@ -1809,8 +1807,8 @@
             "No unbounded scaling law claim."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.projected_claim",
-          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.raw_claim",
-          "review_status": "review-line-blocked"
+          "promotion_status": "blocked-until-level-local-evidence",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.raw_claim"
         },
         "level_id": "L4_tool_use_toy"
       },
@@ -1832,6 +1830,7 @@
             "SCALE-HG4": "fail"
           },
           "level_id": "L5_small_world_model",
+          "level_state": "blocked",
           "matched_random_structural_control": null,
           "negative_witness_sweep": null,
           "not_claimed": [
@@ -1844,8 +1843,8 @@
             "No unbounded scaling law claim."
           ],
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule.projected_claim",
-          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule.raw_claim",
-          "review_status": "review-line-blocked"
+          "promotion_status": "blocked-until-level-local-evidence",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule.raw_claim"
         },
         "level_id": "L5_small_world_model"
       }
@@ -1859,7 +1858,23 @@
       "No universal recipe claim.",
       "No unbounded scaling law claim."
     ],
+    "not_inherited_from_l0": [
+      "L1_tiny_sequence",
+      "L2_char_lm",
+      "L3_byte_lm",
+      "L4_tool_use_toy",
+      "L5_small_world_model"
+    ],
+    "opened_levels": [
+      "L0_toy"
+    ],
+    "overall_status": "l0-open-only",
+    "promotion_status": "l0-open-only",
     "review_status": "review-line-blocked",
+    "review_status_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection.review_status"
+    },
     "source_projection": {
       "discovery_level": "D5-M",
       "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
