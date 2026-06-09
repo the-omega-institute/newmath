@@ -131,4 +131,44 @@ theorem DiagonalLimitCompatibilityRootTailMeetRefinementRealSealCorrespondence
   }
   exact ⟨certRow, tailMeetUnary, refinementUnary, agreementUnary, endpointUnary⟩
 
+theorem DiagonalLimitCompatibilityRootTailmeetRefinementRealSealCorrespondence
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      tailLeft tailRight tailMeet realEndpoint namedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont windows readback tailLeft →
+        Cont windows readback tailRight →
+          Cont tailLeft tailRight tailMeet →
+            Cont tailMeet realSeal realEndpoint →
+              Cont realEndpoint cert namedEndpoint →
+                PkgSig bundle namedEndpoint pkg →
+                  UnaryHistory tailLeft ∧ UnaryHistory tailRight ∧ UnaryHistory tailMeet ∧
+                    UnaryHistory realEndpoint ∧ UnaryHistory namedEndpoint ∧
+                      hsame tailLeft tailRight ∧ Cont tailMeet realSeal realEndpoint ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle namedEndpoint pkg := by
+  -- BEDC touchpoint anchor: DiagonalLimitCompatibilityCarrier BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier windowsReadbackLeft windowsReadbackRight leftRightMeet meetRealEndpoint
+    endpointCertNamed namedPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealRowUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have tailLeftUnary : UnaryHistory tailLeft :=
+    unary_cont_closed windowsUnary readbackUnary windowsReadbackLeft
+  have tailRightUnary : UnaryHistory tailRight :=
+    unary_cont_closed windowsUnary readbackUnary windowsReadbackRight
+  have tailMeetUnary : UnaryHistory tailMeet :=
+    unary_cont_closed tailLeftUnary tailRightUnary leftRightMeet
+  have realEndpointUnary : UnaryHistory realEndpoint :=
+    unary_cont_closed tailMeetUnary realSealUnary meetRealEndpoint
+  have namedEndpointUnary : UnaryHistory namedEndpoint :=
+    unary_cont_closed realEndpointUnary certUnary endpointCertNamed
+  have sameTails : hsame tailLeft tailRight :=
+    cont_deterministic windowsReadbackLeft windowsReadbackRight
+  exact
+    ⟨tailLeftUnary, tailRightUnary, tailMeetUnary, realEndpointUnary, namedEndpointUnary,
+      sameTails, meetRealEndpoint, provenancePkg, namedPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

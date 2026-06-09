@@ -92,4 +92,28 @@ theorem CalculusRootUnblockRegSeqRatRealSealFactorization [AskSetup] [PackageSet
   }
   exact ⟨cert, sealUnary⟩
 
+theorem CalculusRealRegseqratErrorHandoff [AskSetup] [PackageSetup]
+    {R L C D I Q H T P N errorRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CalculusCarrier R L C D I Q H T P N bundle pkg →
+      Cont Q R errorRead →
+        Cont errorRead R realRead →
+          PkgSig bundle realRead pkg →
+            UnaryHistory Q ∧ UnaryHistory R ∧ UnaryHistory errorRead ∧
+              UnaryHistory realRead ∧ Cont Q R errorRead ∧ Cont errorRead R realRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: CalculusCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrierRows errorRoute realRoute realReadPkg
+  obtain ⟨realUnary, _limitUnary, _continuousUnary, _derivativeUnary, _integralUnary,
+    readbackUnary, _transportsUnary, _replayUnary, _provenanceUnary, _localCertUnary,
+    _realLimitContinuous, _continuousDerivativeIntegral, _derivativeReadbackTransports,
+    _transportsReplayLocalCert, provenancePkg⟩ := carrierRows
+  have errorUnary : UnaryHistory errorRead :=
+    unary_cont_closed readbackUnary realUnary errorRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed errorUnary realUnary realRoute
+  exact
+    ⟨readbackUnary, realUnary, errorUnary, realReadUnary, errorRoute, realRoute,
+      provenancePkg, realReadPkg⟩
+
 end BEDC.Derived.CalculusUp
