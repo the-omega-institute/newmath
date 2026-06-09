@@ -1,52 +1,32 @@
-\subsection{Modeled-tAI Complement Support in the B*\_Q6 Residual Basis}\label{sec:bior-b-star-q6-complement-support}\origin{ai}
+\origin{ai}
 
-\paragraph{Question.}
-This record asks whether the part of a protein-abundance projection left outside a modeled-tAI direction still has readable support in the nine B*\_Q6 synonymous residual coordinates. The computation is intentionally narrow. For each organism, the codon residual matrix $Q$ is first residualized against the declared control family $Z$: amino-acid composition, $\log$ CDS length, GC3, and the M-density baseline. The modeled tAI readout $T$ and the protein-abundance readout $P$ are placed on the same residualized rows. The object reported here is not a direct biological pathway. It is the coordinate readback of the component of the $Q$-explained abundance vector that is orthogonal to the modeled-tAI direction.
+\subsection{Modeled-translation complement support for the $B^{*}_{Q6}$ abundance component}
+\label{sec:bioreality-q6-translation-complement-support}
 
-\paragraph{Coordinate system and residual projection.}
-The nine residual coordinates are
+\paragraph{Object of the row.}
+This record concerns a finite cross-layer calculation in which the nine residual coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_{3}$-stress are first residualized against the declared control family.  The control family has $24$ columns and rank $23$ in each organism-specific panel: amino-acid composition, CDS length, GC3, and the $M$-density baseline are kept outside the tested $Q$-coordinates.  The readout side is protein abundance, while $T$ is the modeled tAI direction obtained from organism-matched tRNA-copy and wobble-weight inputs.  The computed object is not a direct translation-efficiency measurement.  It is the component $P_{Q}$ of abundance explained by residualized $B^{*}_{Q6}$ coordinates, followed by the part $P_{Q\perp T}$ not aligned with the modeled-tAI direction.
+
+\paragraph{Projection statistic.}
+For each organism the finite row reports
 $$
 \begin{aligned}
-&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
+P_{Q} &= \operatorname{proj}_{Q\mid Z}(P),\\
+P_{Q\perp T} &= P_{Q}-\operatorname{proj}_{T\mid Z}(P_{Q}),\\
+d &= \frac{\lVert P_{Q\perp T}\rVert^{2}}{\lVert P_{Q}\rVert^{2}},\qquad
+m=1-d.
 \end{aligned}
 $$
-For each organism $o$, let $P\_Q(o)$ be the abundance component explained by the residualized B*\_Q6 coordinates, and let $P\_{Q\perp T}(o)$ be its component outside the modeled-tAI direction. The reported complement fraction is $d(o)$, and the modeled-tAI-aligned remainder is $m(o)=1-d(o)$:
-$$
-\begin{aligned}
-d(o) &= \frac{\lVert P\_{Q\perp T}(o)\rVert^2}{\lVert P\_Q(o)\rVert^2},
-& m(o) &= 1-d(o).
-\end{aligned}
-$$
-The vector $a\_\perp(o)$ is then the nine-coordinate readback of $P\_{Q\perp T}(o)$. Its support is finite and organism-specific: it says which codon residual coordinates carry the modeled-tAI-complement abundance component in the fitted table.
+The six organism rows are all finite.  In \emph{Danio rerio}, $n=14410$, $R^{2}_{QP}=0.0461352981$, $\lVert P_{Q\perp T}\rVert^{2}=1005.3614102$, $d=0.8746287210$, and $m=0.1253712790$.  In \emph{Escherichia coli} K12 MG1655, $n=3739$, $R^{2}_{QP}=0.1076752667$, $\lVert P_{Q\perp T}\rVert^{2}=287.0046718$, $d=0.6629960039$, and $m=0.3370039961$.  In \emph{Gallus gallus}, $n=12418$, $R^{2}_{QP}=0.0398079360$, $\lVert P_{Q\perp T}\rVert^{2}=695.5324706$, $d=0.9400341806$, and $m=0.0599658194$.  In \emph{Homo sapiens}, $n=19053$, $R^{2}_{QP}=0.0445456512$, $\lVert P_{Q\perp T}\rVert^{2}=1262.2237679$, $d=0.9208949356$, and $m=0.0791050644$.  In \emph{Mycobacterium smegmatis} str. MC2 155, $n=4129$, $R^{2}_{QP}=0.0320900916$, $\lVert P_{Q\perp T}\rVert^{2}=164.9629139$, $d=0.8972672019$, and $m=0.1027327981$.  In \emph{Saccharomyces cerevisiae}, $n=5815$, $R^{2}_{QP}=0.2983762499$, $\lVert P_{Q\perp T}\rVert^{2}=186.8859775$, $d=0.2117321957$, and $m=0.7882678043$.
 
-\paragraph{Joined rows and ranks.}
-Six organism panels were computed. The residualized design used 24 control columns with $\operatorname{rank}(Z)=23$ in every panel. The joined row counts were $14410$ for Danio rerio, $3739$ for Escherichia coli K12 MG1655, $12418$ for Gallus gallus, $19053$ for Homo sapiens, $4129$ for Mycobacterium smegmatis str. MC2 155, and $5815$ for Saccharomyces cerevisiae. The tRNA organism labels matched the CDS organism labels except for Escherichia coli K12 MG1655, whose tRNA label was Escherichia coli. These row counts are part of the claim: the result is a finite multi-organism coordinate calculation, not an asymptotic biological law.
+\paragraph{Coordinate readback.}
+The residual complement is then read in the nine-coordinate $B^{*}_{Q6}$ basis.  The dominant support coordinates differ by organism.  The zebrafish row is led by $f_{3}$-stress, $Arg_{AGR}$, $Ile_{AUA}$, $K_{AAA}$, and $Leu_{UUA/UUG}$.  The \emph{E. coli} row is led by $Thr_{ACR/ACY}$, $Arg_{AGR}$, $Ile_{AUA}$, and $f_{3}$-stress.  The chicken row is led by $Arg_{AGR}$, $Leu_{CUN/UUR}$, $Ile_{AUA}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, and $K_{AAA}$.  The human row is led by $Arg_{AGR}$, $Ile_{AUA}$, $Ser_{UCA/UCG}$, $K_{AAA}$, and $f_{3}$-stress.  The mycobacterial row is led by $K_{AAA}$, $f_{3}$-stress, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, and $Ser_{UCA/UCG}$.  The yeast row is led by $Ser_{UCR/AGY}$, $Leu_{CUN/UUR}$, $Ser_{UCA/UCG}$, $Arg_{AGR}$, $Thr_{ACR/ACY}$, and $f_{3}$-stress.  The absolute support fractions sum to $1.0$ in every row up to numerical roundoff, with the \emph{E. coli} row reported as $1.0000000000000002$.
 
-\paragraph{Complement fractions.}
-The complement is large in five of the six organism panels and smaller in yeast. The finite list is
-$$
-\begin{aligned}
- d(\mathrm{Danio}) &= 0.8746287210, & m(\mathrm{Danio}) &= 0.1253712790,\\
- d(\mathrm{E.coli}) &= 0.6629960039, & m(\mathrm{E.coli}) &= 0.3370039961,\\
- d(\mathrm{Gallus}) &= 0.9400341806, & m(\mathrm{Gallus}) &= 0.0599658194,\\
- d(\mathrm{Human}) &= 0.9208949356, & m(\mathrm{Human}) &= 0.0791050644,\\
- d(\mathrm{M.smegmatis}) &= 0.8972672019, & m(\mathrm{M.smegmatis}) &= 0.1027327981,\\
- d(\mathrm{Yeast}) &= 0.2117321957, & m(\mathrm{Yeast}) &= 0.7882678043.
-\end{aligned}
-$$
-The corresponding $R^2\_{QP}$ abundance-survival values were $0.0461352981$, $0.1076752667$, $0.0398079360$, $0.0445456512$, $0.0320900916$, and $0.2983762499$ in the same organism order. Thus the largest overall residual abundance fit is in yeast, but the largest modeled-tAI-complement fraction is in chicken, followed by human, mycobacterium, and zebrafish.
+\paragraph{Comparison with the mediation row.}
+The scalar $m$ in this chapter is a projection-complement fraction, not the same estimator as the separate joint mediation calculation.  The agreement audit is therefore reported explicitly rather than forced.  The absolute differences from the joint-decomposition reference are $0.1903341164$ for zebrafish, $0.2759182567$ for \emph{E. coli}, $0.1377245771$ for chicken, $0.1929578272$ for human, $0.0187567689$ for \emph{M. smegmatis}, and $0.1608872998$ for yeast.  Only the mycobacterial row matches the reference within the $0.02$ tolerance.  Thus the chapter supports a coordinate-support description of the modeled-tAI complement, but it does not collapse the projection statistic into a general mediation statistic.
 
-\paragraph{Coordinate support.}
-The $a\_\perp$ readbacks have dimension $9$ in every organism, and the absolute support fractions sum to $1.0$ up to floating-point precision. The dominant coordinate lists are organism-dependent. Danio rerio is led by $f3\_stress$, $Arg\_AGR$, $Ile\_AUA$, $K\_AAA$, and $Leu\_UUA\_vs\_UUG$. Escherichia coli K12 MG1655 is led by $Thr\_ACR\_vs\_ACY$, $Arg\_AGR$, $Ile\_AUA$, and $f3\_stress$. Gallus gallus is led by $Arg\_AGR$, $Leu\_CUN\_vs\_UUR$, $Ile\_AUA$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, and $K\_AAA$. Homo sapiens is led by $Arg\_AGR$, $Ile\_AUA$, $Ser\_UCA\_vs\_UCG$, $K\_AAA$, and $f3\_stress$. Mycobacterium smegmatis is led by $K\_AAA$, $f3\_stress$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, and $Ser\_UCA\_vs\_UCG$. Saccharomyces cerevisiae is led by $Ser\_UCR\_vs\_AGY$, $Leu\_CUN\_vs\_UUR$, $Ser\_UCA\_vs\_UCG$, $Arg\_AGR$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
-
-\paragraph{Relation to mediation and neighboring readouts.}
-The complement fraction $m$ is not identical to the joint-decomposition mediation number from the separate mediation computation. Agreement within $0.02$ occurs only for Mycobacterium smegmatis, where $m=0.1027327981$ and the reference mediation value is $0.0839760292$, with absolute difference $0.0187567689$. The other differences are larger: $0.1903341164$ for Danio rerio, $0.2759182567$ for Escherichia coli, $0.1377245771$ for Gallus gallus, $0.1929578272$ for Homo sapiens, and $0.1608872998$ for Saccharomyces cerevisiae. This is a useful negative constraint: the complement readback is a coordinate-support decomposition, not a replacement for a mediation matrix.
-
-The neighboring non-translation ranking calculation used a stated regularizer $\lambda=0.01$ with $DL=\log\_2(1+n\_{col})$ and also reported raw $A\_H C\_H$. Its top selected modules were measured TE for Danio rerio, complex membership for Gallus gallus and Homo sapiens, mRNA for Saccharomyces cerevisiae, and no selected $H\_o^\star$ for Escherichia coli K12 MG1655 or Mycobacterium smegmatis. Bonferroni-supported examples included Danio measured TE with threshold $0.000719995$ and null $p95=0.000329746$, human complex membership with threshold $0.000264617$ and null $p95=0.000233442$, and yeast mRNA with threshold $0.001301475$ and null $p95=0.000474582$. These auxiliary facts support the interpretation that the complement points to additional readout families, but they do not identify a single universal module.
-
-\paragraph{Cross-checks from mRNA, condition, tissue, and modeled-tAI panels.}
-A yeast mRNA-stability panel joined $5085$ rows with a reported CDS join hit rate $0.9156038419$. It found $R^2\_{QM}=0.0517942904$, $R^2\_{QP}=0.2761140374$ on the same join, cosine $0.8040935468$ between $S^{QM}$ and $S^{QP}$, and dominant mRNA-stability coordinate $Leu\_CUN\_vs\_UUR$. A yeast growth-condition panel joined $2209$ shared proteins and gave $R^2\_{QP}=0.3050385538$ in SD and $0.3280825603$ in YEPD, both dominated by $f3\_stress$, with cross-condition cosine $0.9993775935$ and Pearson $0.9983880256$. A human tissue panel gave $R^2\_{QP}=0.0362611743$ in adult B cells, $0.0232089632$ in adult heart, and $0.0261334562$ in adult liver, with dominant coordinates $Arg\_AGR$, $Ser\_UCR\_vs\_AGY$, and $Ile\_AUA$, respectively. The modeled per-codon tAI survival panel across $40$ organisms had $\operatorname{rank}(X\_{\sim})=9$, $\operatorname{rank}(Z)=23$, residual degrees of freedom $17$, and $R^2\_{QT}=0.9003849000$. These checks place the complement-support result in a broader finite-row pattern: B*\_Q6 residuals survive in several bounded statistical readouts, but the dominant coordinate and readout layer vary.
+\paragraph{Adjacent finite checks.}
+The rank-powered modeled-tAI row used $40$ organisms, produced a $9\times 9$ $S^{QT}$ matrix, had $\operatorname{rank}(Z)=23$, residual degrees of freedom $17$, $\operatorname{rank}(\widetilde X)=9$, and total $R^{2}_{QT}=0.9003849000$.  This supplies a modeled translation-readout context, not measured ribosome occupancy.  A separate non-translation ranking row used a regularizer $\lambda=0.01$ with $DL=\log_{2}(1+n_{col})$; for example, the zebrafish ranking selected measured TE as $H^{\ast}_{o}$ with $A_{H}=0.0175942900$, $C_{H}=0.6573753096$, $A_{H}C_{H}=0.0115660518$, score $0.0015660518$, Bonferroni threshold $0.0007199950$, and null $p95=0.0003297458$.  The same ranking selected no $H^{\ast}_{o}$ for \emph{E. coli}, complex membership for chicken and human, and mRNA for yeast.  The yeast mRNA-stability companion row had $n=5085$, join hit rate $0.9156038419$, $R^{2}_{QM}=0.0517942904$, $R^{2}_{QP}=0.2761140374$ on the same join, cosine $0.8040935468$, and permutation right-tail $p=0.000999000999000999$; its mediation companion reported $R^{2}_{QP\mid M}=0.2485179953$, absorbed fraction $0.0275960421$, mediation fraction $0.0999443648$, null mean $0.0001967449$, and null $p95=0.0014571003$.  These numbers are useful calibration rows, but they do not substitute for the complement-support calculation above.
 
 \paragraph{Local boundary.}
-This section asserts only the computed finite-row support of $P\_{Q\perp T}$ in the nine B*\_Q6 residual coordinates and the associated scalar diagnostics. Modeled tAI is not measured ribosome occupancy or elongation speed. The $a\_\perp$ support lists do not identify a biochemical mechanism. Protein abundance, mRNA half-life, condition dependence, tissue dependence, complex membership, localization, folding, physical admissibility, molecular function, phenotype, and cross-organism universality require their own matched contacts and statistics. In particular, a positive coordinate in $a\_\perp$ is not by itself a translation-realization claim, and a positive $R^2\_{QP}$ is not by itself evidence for structure, function, or a general biological rule.
+The finite rows show that the modeled-tAI complement of the $B^{*}_{Q6}$ abundance component is nonzero, organism dependent, and readable in a sparse subset of the nine residual coordinates.  The result is a controlled statistical projection over paired codon, tRNA-copy, modeled-tAI, and abundance tables.  It does not by itself establish measured ribosome-mediated translation, protein folding, physical admissibility, molecular function, biochemical mechanism, organismal phenotype, or a universal biological law.  Such claims require separate layer-matched measurements and their own controlled statistics.
