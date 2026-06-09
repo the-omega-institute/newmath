@@ -14,14 +14,34 @@
 \providecommand{\hsame}{\equiv_h}
 \providecommand{\Cont}{\mathrm{Cont}}
 \providecommand{\Pkg}{\mathrm{Pkg}}
-% article 类无 \chapter: codex 偶尔在 namecert/conjecture 写 \chapter → Undefined control sequence 致命 build 断. 降级为 \section 兜底, 不让结构命令断 build.
+% Promotion-ladder NameCert objects; \<Name>Up renders the BEDC closed object \mathsf{...}^{\uparrow}. bio-W writeback emits these names, so define them here so the build never breaks on a ladder object.
+\providecommand{\GenomeSourceStable}{\mathsf{GenomeSourceStable}}
+\providecommand{\ContextDrift}{\mathsf{ContextDrift}}
+\providecommand{\ContextRefresh}{\mathsf{ContextRefresh}}
+\providecommand{\AgeClockShift}{\mathsf{AgeClockShift}}
+\providecommand{\AgeClockShiftUp}{\mathsf{AgeClockShift}^{\uparrow}}
+\providecommand{\IdentityPreservingAgeReset}{\mathsf{IdentityPreservingAgeReset}}
+\providecommand{\IdentityPreservingAgeResetUp}{\mathsf{IdentityPreservingAgeReset}^{\uparrow}}
+\providecommand{\RejuvenationCandidate}{\mathsf{RejuvenationCandidate}}
+\providecommand{\RejuvenationCandidateUp}{\mathsf{RejuvenationCandidate}^{\uparrow}}
+\providecommand{\Rejuvenation}{\mathsf{Rejuvenation}}
+\providecommand{\RejuvenationUp}{\mathsf{Rejuvenation}^{\uparrow}}
+\providecommand{\PartialReprogramming}{\mathsf{PartialReprogramming}}
+\providecommand{\PartialReprogrammingUp}{\mathsf{PartialReprogramming}^{\uparrow}}
+\providecommand{\RenewableMaintenance}{\mathsf{RenewableMaintenance}}
+\providecommand{\RenewableMaintenanceUp}{\mathsf{RenewableMaintenance}^{\uparrow}}
+\providecommand{\ImmortalityPotential}{\mathsf{ImmortalityPotential}}
+\providecommand{\ImmortalityPotentialUp}{\mathsf{ImmortalityPotential}^{\uparrow}}
+\providecommand{\Immortality}{\mathsf{Immortality}}
+\providecommand{\ImmortalityUp}{\mathsf{Immortality}^{\uparrow}}
+% article class has no \chapter: codex sometimes emits \chapter inside namecert/conjecture content, a fatal "Undefined control sequence". Degrade to \section so structural commands never break the build.
 \providecommand{\chapter}[1]{\section{#1}}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{theorem}[definition]{Theorem}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{proposition}[definition]{Proposition}
 
-\title{BioReality: Reality-Bound Biological Deepening}
+\title{CellStateReality: Reality-Bound Cell-State Promotion Deepening}
 \author{The Omega Institute}
 \date{}
 
@@ -29,9 +49,7 @@
 \maketitle
 
 \section{Scope}
-BioReality records biological conjecture deepening under explicit provenance boundaries. External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.
-
-\input{parts/cross_layer_synthesis}
+CellStateReality records cell-state conjecture deepening under explicit provenance boundaries. External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.
 
 \input{parts/cellstate_context_refresh_boundary}
 

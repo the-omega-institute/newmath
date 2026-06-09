@@ -4802,10 +4802,10 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             mismatches_by_probe.setdefault(probe_ref, []).append(mismatch)
 
     part_lines = [
-        r"\section{Codon Window Reality Boundary}",
-        r"\label{sec:codon-window-reality-boundary}",
+        r"\section{CellState Context Refresh Boundary}",
+        r"\label{sec:cellstate-context-refresh-boundary}",
         "",
-        "This section records gate-passed BioReality research memory. "
+        "This section records gate-passed CellStateReality research memory. "
         "Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.",
         "",
     ]
