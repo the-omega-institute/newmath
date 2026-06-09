@@ -70,6 +70,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "commands": {
             "generate": "python scripts/run_bedc_jepa_experiment.py",
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
+            "torch_retraining_loss_ablation": "python scripts/run_torch_retraining_loss_ablation.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
             "public_minigrid_native_benchmark": "python scripts/run_public_minigrid_native_benchmark.py",
             "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
@@ -118,6 +119,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "objective_artifacts": {
             "torch": "reports/bedc_jepa_torch_objective.json",
+            "torch_retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
         },
         "public_adapters": {
             "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",

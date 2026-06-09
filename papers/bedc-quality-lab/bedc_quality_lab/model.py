@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import os
 import random
 from typing import Any
 
 import numpy as np
+
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 
 def require_torch() -> Any:
@@ -33,6 +36,8 @@ def set_deterministic_seed(seed: int) -> None:
 
 def choose_device() -> str:
     torch = require_torch()
+    if torch.cuda.is_available():
+        return "cuda"
     if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
         return "mps"
     return "cpu"

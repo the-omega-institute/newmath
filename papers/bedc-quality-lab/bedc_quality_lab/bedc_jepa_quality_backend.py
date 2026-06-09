@@ -28,6 +28,7 @@ METRICS = (
     "checkpoint_contact_closed",
     "native_public_benchmark_closed",
     "artifact_review_bundle_closed",
+    "retraining_ablation_recorded",
 )
 
 LEDGER_ROWS = (
@@ -38,6 +39,7 @@ LEDGER_ROWS = (
     {"kind": "stability", "residue": "public-benchmark-contact-readiness"},
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
+    {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
 )
 
 NOT_CLAIMED = (
@@ -88,6 +90,9 @@ def _metric_payload(
         "checkpoint_contact_closed": _closed(str(boundary.get("checkpoint_contact") or "")),
         "native_public_benchmark_closed": _closed(str(boundary.get("native_public_benchmark") or "")),
         "artifact_review_bundle_closed": _closed(str(boundary.get("artifact_review_bundle") or "")),
+        "retraining_ablation_recorded": 1.0
+        if float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
+        else 0.0,
     }
 
 
@@ -109,6 +114,13 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
         elif row["residue"] == "mechanism-closure-debt":
             status = "open"
             evidence = "reports/bedc_jepa_review_bundle.json:$.cannot_claim"
+        elif row["residue"] == "full-retraining-loss-ablation":
+            status = (
+                "closed"
+                if float(review_bundle.get("checks", {}).get("retraining_ablation_system_count") or 0.0) >= 5.0
+                else "open"
+            )
+            evidence = "reports/bedc_jepa_retraining_loss_ablation.json"
         elif row["residue"] in {"distinction-head-certificate", "gap-head-certificate"}:
             status = "closed" if review_status == "review_ready" else "partial"
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
@@ -188,6 +200,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+            "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
         },
         "forbidden_surfaces": [
             "model runner execution",

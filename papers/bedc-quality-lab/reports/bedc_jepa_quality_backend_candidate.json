@@ -8,6 +8,7 @@
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
     "readiness": "reports/bedc_jepa_readiness.json",
+    "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "review_bundle": "reports/bedc_jepa_review_bundle.json"
   },
   "backend": {
@@ -56,6 +57,10 @@
       {
         "kind": "mechanism",
         "residue": "mechanism-closure-debt"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "full-retraining-loss-ablation"
       }
     ],
     "metrics": [
@@ -70,7 +75,8 @@
       "seed_sweep_unlogged_error_win_rate",
       "checkpoint_contact_closed",
       "native_public_benchmark_closed",
-      "artifact_review_bundle_closed"
+      "artifact_review_bundle_closed",
+      "retraining_ablation_recorded"
     ],
     "name": "bedc-jepa-world-model",
     "not_claimed": [
@@ -160,6 +166,15 @@
       "residue": "mechanism-closure-debt",
       "severity": "boundary",
       "status": "open"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "key": "mechanism/full-retraining-loss-ablation",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "full-retraining-loss-ablation",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
@@ -170,6 +185,7 @@
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark_closed": 1.0,
     "native_unlogged_error_reduction": 0.125,
+    "retraining_ablation_recorded": 1.0,
     "seed_sweep_unlogged_error_win_rate": 0.6,
     "torch_objective_debt_reduction_mean": 0.10288747050501545,
     "torch_objective_gap_auc_gain_mean": 0.4987624509356536,

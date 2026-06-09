@@ -32,7 +32,8 @@ $$
 \text{Paper writeback packet} & \texttt{bedc\_jepa\_paper\_writeback\_packet.json},\\
 \text{Latent claim certificates} & \texttt{bedc\_latent\_claim\_certificates.json},\\
 \text{Conformal gap sweep} & \texttt{bedc\_conformal\_gap\_sweep.json},\\
-\text{Claim boundary audit} & \texttt{bedc\_claim\_boundary\_audit.json}.
+\text{Claim boundary audit} & \texttt{bedc\_claim\_boundary\_audit.json},\\
+\text{Retraining loss ablation} & \texttt{bedc\_jepa\_retraining\_loss\_ablation.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -49,8 +50,8 @@ keeps unsupported candidates as ledger or cannot-claim rows.  In the current
 packet, the admitted latent operational claim is
 \texttt{door\_key\_context\_visible}; the source-gap predicates
 \texttt{has\_key}, \texttt{door\_open\_or\_unlocked}, and
-\texttt{goal\_reachable\_with\_current\_state} remain blocked from latent
-meaning claims.
+\texttt{goal\_reachable\_with\_current\_state} remain outside the admitted
+latent-meaning claim boundary.
 
 \paragraph{Source specification.}
 The source is \texttt{boundary-gated-ou-world}.  Its latent dimension is $2$,
@@ -172,7 +173,27 @@ $0.046875$.  The risk-success Pareto artifact records the same planning
 boundary as a constrained problem rather than a penalty-only sweep.  The local
 ablation artifact records an unlogged-penalty effect of $0.085938$ and a
 post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
-the public MiniGrid readout and not a full retraining ablation.
+the public MiniGrid readout and not a full retraining ablation.  The CUDA
+retraining-ablation artifact runs true gradient retraining on the
+boundary-gated torch objective for full S3, minus
+$L_{\mathrm{unlogged}}$, and minus $L_{\mathrm{gap}}$ systems under the same
+data split and evaluation contract.  The three-seed artifact records full S3
+mean scores:
+$$
+\begin{array}{lccccc}
+\text{system} & \text{UER} & \text{gap AUROC} & \text{debt} &
+\text{coverage} & \text{latent }R^2\\
+\text{full S3} & 0.000000 & 0.998748 & 0.005658 & 0.911458 & 0.991944\\
+\text{minus }L_{\mathrm{gap}} & 0.000000 & 0.344842 & 0.184983 & 0.000000 & 0.991944\\
+\text{minus }L_{\mathrm{unlogged}} & 0.000000 & 0.998978 & 0.004653 & 0.911024 & 0.991944
+\end{array}
+$$
+Removing $L_{\mathrm{gap}}$ preserves the outside-gap distinction readback and
+latent recovery but collapses gap ranking and certified coverage.  Removing
+$L_{\mathrm{unlogged}}$ does not increase unlogged error in this
+boundary-gated setting, because all three retrained systems record mean
+unlogged error $0.000000$.  Terms whose required supervision surface is absent
+remain source-debt rows rather than score-level substitutes.
 
 \paragraph{External review status.}
 The evidence audit records three completed boundaries for the declared study:

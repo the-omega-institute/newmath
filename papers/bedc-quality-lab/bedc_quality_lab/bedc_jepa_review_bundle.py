@@ -16,6 +16,13 @@ def _load_json(name: str) -> dict[str, Any]:
     return json.loads((REPORTS / name).read_text(encoding="utf-8"))
 
 
+def _load_optional_json(name: str) -> dict[str, Any] | None:
+    path = REPORTS / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _git_head() -> str | None:
     try:
         completed = subprocess.run(
@@ -43,6 +50,7 @@ def build_review_bundle() -> dict[str, Any]:
     public_debt = _load_json("bedc_jepa_public_debt_decomposition.json")
     conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
     ablation = _load_json("bedc_jepa_loss_ablation.json")
+    retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
@@ -60,6 +68,20 @@ def build_review_bundle() -> dict[str, Any]:
     )
     _check(conformal.get("status") == "executed", "public MiniGrid conformal certified coverage executed", failures)
     _check(ablation.get("status") == "executed", "public MiniGrid local ablation executed", failures)
+    retraining_executed = retraining_ablation is not None and retraining_ablation.get("status") == "executed"
+    if retraining_executed:
+        _check(
+            retraining_ablation.get("schema_id") == "bedc-jepa-retraining-loss-ablation",
+            "torch retraining ablation schema",
+            failures,
+        )
+        _check(retraining_ablation.get("status") == "executed", "torch retraining ablation executed", failures)
+        _check(
+            set(retraining_ablation.get("systems", {}))
+            == {"full_s3", "minus_l_unlogged", "minus_l_gap", "minus_l_stab", "minus_l_intervention"},
+            "torch retraining ablation systems",
+            failures,
+        )
     _check(sweep.get("status") == "executed", "native MiniGrid seed sweep executed", failures)
     _check(float(sweep.get("seed_count_executed", 0.0)) >= 5.0, "native MiniGrid seed sweep count", failures)
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
@@ -82,6 +104,7 @@ def build_review_bundle() -> dict[str, Any]:
             "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
             "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
             "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
+            "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
@@ -93,6 +116,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/run_public_minigrid_native_benchmark.py",
             "python scripts/run_public_minigrid_native_seed_sweep.py",
             "python scripts/build_public_minigrid_debt_closure.py",
+            "python scripts/run_torch_retraining_loss_ablation.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
@@ -120,6 +144,12 @@ def build_review_bundle() -> dict[str, Any]:
             "public_ablation_unlogged_penalty_effect": ablation["loss_ablation"]["mechanism_readout"][
                 "unlogged_penalty_effect"
             ],
+            "retraining_ablation_status": (
+                retraining_ablation.get("status") if retraining_ablation is not None else "not recorded"
+            ),
+            "retraining_ablation_system_count": (
+                float(len(retraining_ablation.get("systems", {}))) if retraining_executed else 0.0
+            ),
             "seed_sweep_count": sweep.get("seed_count_executed", 0.0),
             "seed_sweep_unlogged_error_win_rate": sweep["summary"].get("unlogged_error_win_rate") if sweep.get("summary") else None,
             "ac_giant_checkpoint_status": cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"],

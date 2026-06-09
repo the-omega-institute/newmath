@@ -9,6 +9,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["artifact"] == "reports/bedc_jepa_four_system_experiment.json"
     assert manifest["commands"]["generate"] == "python scripts/run_bedc_jepa_experiment.py"
     assert manifest["commands"]["torch_objective"] == "python scripts/run_torch_bedc_jepa.py"
+    assert (
+        manifest["commands"]["torch_retraining_loss_ablation"]
+        == "python scripts/run_torch_retraining_loss_ablation.py"
+    )
     assert manifest["commands"]["public_minigrid_probe"] == "python scripts/probe_public_minigrid.py"
     assert (
         manifest["commands"]["public_minigrid_native_benchmark"]
@@ -71,6 +75,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
+    assert (
+        manifest["objective_artifacts"]["torch_retraining_loss_ablation"]
+        == "reports/bedc_jepa_retraining_loss_ablation.json"
+    )
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
