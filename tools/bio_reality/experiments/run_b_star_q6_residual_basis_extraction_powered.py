@@ -51,10 +51,12 @@ CONJECTURE_ID = "q6.residual-basis-extraction.greedy-readout.cross-layer"
 
 SURVIVAL_EPS = 1e-12
 MODELED_ALIGNMENT_TOL = 0.02
-NULL_TRIALS = 64
+NULL_TRIALS = 128
 LAMBDA = 0.01
 COMPRESSIBLE_RHO_THRESHOLD = 0.50
 PERSISTENT_RHO_THRESHOLD = 0.80
+STRONG_PERSISTENT_RHO_FLOOR = 0.97
+MIN_COMPUTED_ORGANISMS_FOR_PERSISTENCE = 4
 
 READOUT_ORDER = [
     "mrna",
@@ -1322,27 +1324,40 @@ def main() -> None:
             }
             for organism, result in per_organism.items()
         }
+        computed_final_rhos = [
+            float(result["final_rho"])
+            for result in per_organism.values()
+            if result.get("status") == "computed" and isinstance(result.get("final_rho"), (int, float))
+        ]
+        strong_persistent_negative = (
+            computed_count >= MIN_COMPUTED_ORGANISMS_FOR_PERSISTENCE
+            and len(persistent) == computed_count
+            and not compressible
+            and not partial
+            and bool(computed_final_rhos)
+            and min(computed_final_rhos) >= STRONG_PERSISTENT_RHO_FLOOR
+        )
         checks = [
             {
-                "name": "inputs_joined",
+                "name": "computed_organism_scope",
                 "passed": all_inputs_ok and computed_count > 0,
                 "actual": checks_actual,
                 "expected": f"each computed organism uses a common readout join n >= {MIN_PROTEINS_PER_ORGANISM}; readouts below threshold are skipped",
             },
             {
-                "name": "complement_computed",
+                "name": "b_star_q6_residuals_computed",
                 "passed": all_complement_ok and computed_count > 0,
                 "actual": checks_actual,
                 "expected": f"per computed organism d_modeled aligns with full-join complement reference within {MODELED_ALIGNMENT_TOL}",
             },
             {
-                "name": "recursive_extraction_computed",
+                "name": "greedy_basis_extraction_computed",
                 "passed": all_recursive_ok and computed_count > 0,
                 "actual": checks_actual,
                 "expected": "rho_k is monotone nonincreasing and all rho values lie in [0,1]",
             },
             {
-                "name": "dof_null_per_step_computed",
+                "name": "dof_matched_null_computed",
                 "passed": all_null_ok and computed_count > 0,
                 "actual": {
                     organism: [
@@ -1361,25 +1376,38 @@ def main() -> None:
                 "expected": f"{NULL_TRIALS} deterministic dof-matched Gaussian null projections per selected step",
             },
             {
+                "name": "persistent_residual_negative_result",
+                "passed": strong_persistent_negative,
+                "actual": {
+                    "computed_count": computed_count,
+                    "persistent": persistent,
+                    "compressible": compressible,
+                    "partially_compressible": partial,
+                    "min_final_rho": min(computed_final_rhos) if computed_final_rhos else None,
+                    "rho_floor": STRONG_PERSISTENT_RHO_FLOOR,
+                },
+                "expected": f"at least {MIN_COMPUTED_ORGANISMS_FOR_PERSISTENCE} computed organisms, all persistent, no compressible or partial labels, and min final rho >= {STRONG_PERSISTENT_RHO_FLOOR}",
+            },
+            {
                 "name": "compressible_vs_persistent_labeled",
                 "passed": all_labeled and computed_count > 0,
                 "actual": labels,
                 "expected": "each computed organism receives compressible, persistent, or partially_compressible; skipped organisms are needs_data",
             },
             {
-                "name": "no_causal_promotion",
+                "name": "boundary_no_promotion",
                 "passed": True,
                 "actual": {"cannot_claim": cannot_claim()},
                 "expected": "descriptive statistical compression language only",
             },
         ]
 
-        status = "passed" if computed_count > 0 and all_recursive_ok and all_null_ok and all_labeled else "needs_data"
+        status = "passed" if computed_count > 0 and all_recursive_ok and all_null_ok and all_labeled and strong_persistent_negative else "needs_data"
         if computed_count > 0 and not all_complement_ok:
             status = "failed"
         reason = None
         if status == "needs_data":
-            reason = "no organism had enough common readout-basis data to compute the recursive extraction"
+            reason = "residual-basis extraction did not satisfy the strong persistent negative-result gate"
         elif status == "failed":
             reason = "one or more computation gates failed"
 
@@ -1400,6 +1428,8 @@ def main() -> None:
                     "min_joined_per_readout_per_organism": MIN_PROTEINS_PER_ORGANISM,
                     "compressible_rho_threshold": COMPRESSIBLE_RHO_THRESHOLD,
                     "persistent_rho_threshold": PERSISTENT_RHO_THRESHOLD,
+                    "strong_persistent_rho_floor": STRONG_PERSISTENT_RHO_FLOOR,
+                    "min_computed_organisms_for_persistence": MIN_COMPUTED_ORGANISMS_FOR_PERSISTENCE,
                 },
                 "decomposition": {
                     "Q": q_names,
