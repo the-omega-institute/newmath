@@ -1209,7 +1209,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         evidence_envelope_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
         backend_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.training_protocol",
         discovery_level_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
-        claim_graph_path_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.component_causal_claims",
+        claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[94]",
         negative_witness_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
     ),
