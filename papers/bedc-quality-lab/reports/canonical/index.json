@@ -225,7 +225,7 @@
         "bundle_role": "hg_p_core",
         "control_pointer": "$.d4_projection.matched_control",
         "no_control_rationale_pointer": null,
-        "positive_claim_pointer": "$.d5_m_projection",
+        "positive_claim_pointer": "$.scaling_ladder",
         "report": "discovery-gated-transformer"
       },
       {
@@ -425,6 +425,11 @@
     "robustness_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate",
     "robustness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
     "robustness_readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness",
+    "scaling_ladder_discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
+    "scaling_ladder_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.hardgate",
+    "scaling_ladder_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+    "scaling_ladder_source_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.source_projection",
+    "scaling_ladder_status_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
     "schema_id": "bedc-quality-lab:discovery-gated-transformer",
     "status": "pass",
     "tool_route_evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
@@ -3469,9 +3474,9 @@
         ],
         "no_control_rationale_pointer": null,
         "no_control_rationale_status": "not-applicable",
-        "not_claimed_pointer": "$.d5_o_projection.not_claimed",
+        "not_claimed_pointer": "$.scaling_ladder.not_claimed",
         "not_claimed_status": "present",
-        "positive_claim_pointer": "$.d5_m_projection",
+        "positive_claim_pointer": "$.scaling_ladder",
         "positive_claim_status": "present",
         "reporting_hardgate": {
           "applicability": "positive-promotion",
@@ -3502,7 +3507,7 @@
               "status": "missing"
             },
             "evidence_envelope": {
-              "pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+              "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
               "source_artifact": "reports/canonical/discovery-gated-transformer.json",
               "status": "present"
             },
@@ -3517,12 +3522,12 @@
               "status": "missing"
             },
             "not_claimed": {
-              "pointer": "$.d5_o_projection.not_claimed",
+              "pointer": "$.scaling_ladder.not_claimed",
               "source_artifact": "reports/canonical/discovery-gated-transformer.json",
               "status": "present"
             },
             "scope_seal": {
-              "pointer": "$.d5_o_projection.scope",
+              "pointer": "$.scaling_ladder",
               "source_artifact": "reports/canonical/discovery-gated-transformer.json",
               "status": "present"
             }
@@ -3537,7 +3542,7 @@
           ],
           "status": "pass"
         },
-        "scope_pointer": "$.d5_o_projection.scope",
+        "scope_pointer": "$.scaling_ladder",
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
@@ -3574,6 +3579,7 @@
           "operational_robustness",
           "d5_o_projection",
           "d5_m_projection",
+          "scaling_ladder",
           "discovery_map_signal",
           "discovery_map_signal_ref",
           "d4_projection_ref",

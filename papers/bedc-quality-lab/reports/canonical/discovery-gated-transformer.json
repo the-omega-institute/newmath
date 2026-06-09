@@ -1494,6 +1494,365 @@
       "gate": "DGT-HG20"
     }
   ],
+  "scaling_ladder": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG6",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG2",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG3",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG1",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D5-M",
+    "anti_triviality_status": "pass",
+    "boundary_ledger": [
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L0_toy",
+        "reason": "review status not ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule",
+        "status": "failed"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L1_tiny_sequence",
+        "reason": "blocked by earlier failed level L0_toy",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L2_char_lm",
+        "reason": "blocked by earlier failed level L0_toy",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L3_byte_lm",
+        "reason": "blocked by earlier failed level L0_toy",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L4_tool_use_toy",
+        "reason": "blocked by earlier failed level L0_toy",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L5_small_world_model",
+        "reason": "blocked by earlier failed level L0_toy",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule",
+        "status": "blocked"
+      }
+    ],
+    "discovery_level": "D5-M",
+    "evidence_scope": "bounded-model-prototype-scaling",
+    "hardgate": {
+      "blocked_reason": "blocked-by-SCALE-HG2",
+      "failed_gate": "SCALE-HG2",
+      "failed_gate_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels",
+      "gate_names": [
+        "SCALE-HG1",
+        "SCALE-HG2",
+        "SCALE-HG3",
+        "SCALE-HG4",
+        "SCALE-HG5",
+        "SCALE-HG6"
+      ],
+      "gates": {
+        "SCALE-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.d5_m_projection"
+          },
+          "status": "pass"
+        },
+        "SCALE-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.boundary_ledger"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.evidence_scope"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "fail"
+    },
+    "levels": [
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L0_toy",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L0_toy",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L0_toy",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L0_toy"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L1_tiny_sequence",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L1_tiny_sequence",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L1_tiny_sequence"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L2_char_lm",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L2_char_lm",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L2_char_lm",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L2_char_lm"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L3_byte_lm",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L3_byte_lm",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L3_byte_lm",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L3_byte_lm"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L4_tool_use_toy",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L4_tool_use_toy",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L4_tool_use_toy",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L4_tool_use_toy"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L5_small_world_model",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L5_small_world_model",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L5_small_world_model",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule.projected_claim",
+          "raw_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule.raw_claim",
+          "review_status": "review-line-blocked"
+        },
+        "level_id": "L5_small_world_model"
+      }
+    ],
+    "not_claimed": [
+      "Bounded model prototype scaling only.",
+      "No production scale claim.",
+      "No GPT or Llama claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal recipe claim.",
+      "No unbounded scaling law claim."
+    ],
+    "review_status": "review-line-blocked",
+    "source_projection": {
+      "discovery_level": "D5-M",
+      "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+      "mechanism_closure_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.mechanism_closure_status",
+      "mechanism_closure_status": "closed",
+      "status": "ready",
+      "status_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status"
+    },
+    "status": "blocked"
+  },
   "schema_id": "bedc-quality-lab:discovery-gated-transformer",
   "source_artifacts": {
     "component_refs": {

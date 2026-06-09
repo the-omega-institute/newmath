@@ -15,10 +15,10 @@
       },
       {
         "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
+        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
         "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.boundary_ledger",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
         "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[3]",
@@ -568,14 +568,15 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "DGT D5-M projection gates passed"
+        "dgt_scaling_ladder_owner-blocked-by-SCALE-HG2"
       ],
       "control_pointer": "$.d4_projection.matched_control",
       "discovery_level": "D5-M",
-      "evidence_pointer": "$.d5_m_projection",
+      "evidence_pointer": "$.scaling_ladder",
+      "failed_gate": "$.scaling_ladder.hardgate.gates.SCALE-HG2",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-      "projection_status": "projected",
+      "projection_status": "scaling-ladder-blocked",
       "report": "discovery-gated-transformer",
       "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
       "terminal_verdict": ""

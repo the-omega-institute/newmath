@@ -147,6 +147,43 @@
 | `D5M-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive` |
 | `D5M-HG10` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.forbidden_claim_audit` |
 
+## Scaling Ladder
+
+- Status: `blocked`
+- Review status: `review-line-blocked`
+- Discovery level: `D5-M`
+- Evidence scope: `bounded-model-prototype-scaling`
+- Blocked reason: `blocked-by-SCALE-HG2`
+
+| level | review | base control | random control | witness |
+| --- | --- | --- | --- | --- |
+| `L0_toy` | `review-line-blocked` | `missing` | `missing` | `missing` |
+| `L1_tiny_sequence` | `review-line-blocked` | `missing` | `missing` | `missing` |
+| `L2_char_lm` | `review-line-blocked` | `missing` | `missing` | `missing` |
+| `L3_byte_lm` | `review-line-blocked` | `missing` | `missing` | `missing` |
+| `L4_tool_use_toy` | `review-line-blocked` | `missing` | `missing` | `missing` |
+| `L5_small_world_model` | `review-line-blocked` | `missing` | `missing` | `missing` |
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `SCALE-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection` |
+| `SCALE-HG2` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels` |
+| `SCALE-HG3` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels` |
+| `SCALE-HG4` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels` |
+| `SCALE-HG5` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger` |
+| `SCALE-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.evidence_scope` |
+
+### Scaling Boundary Ledger
+
+| level | status | gate | reason |
+| --- | --- | --- | --- |
+| `L0_toy` | `failed` | `SCALE-HG5` | `review status not ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer` |
+| `L1_tiny_sequence` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L0_toy` |
+| `L2_char_lm` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L0_toy` |
+| `L3_byte_lm` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L0_toy` |
+| `L4_tool_use_toy` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L0_toy` |
+| `L5_small_world_model` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L0_toy` |
+
 ## D4 Projection
 
 - Readiness: `ready`
