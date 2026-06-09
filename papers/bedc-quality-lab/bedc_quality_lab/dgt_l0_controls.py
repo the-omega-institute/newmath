@@ -81,7 +81,7 @@ MR_GATE_NAMES = tuple(f"MR-L0-HG{index}" for index in range(1, 8))
 LEDGER_GATE_NAMES = tuple(f"LEDGER-L0-HG{index}" for index in range(1, 6))
 NW_GATE_NAMES = tuple(f"NW-L0-HG{index}" for index in range(1, 6))
 REPLAY_GATE_NAMES = tuple(f"REPLAY-L0-HG{index}" for index in range(1, 6))
-PTR_GATE_NAMES = tuple(f"PTR-HG{index}" for index in range(1, 6))
+PTR_GATE_NAMES = tuple(f"PTR-HG{index}" for index, _key in enumerate(CONTROL_POINTERS, start=1))
 PASS_GATE_NAMES = tuple(f"L0-PASS-HG{index}" for index in range(1, 7))
 NOT_CLAIMED = (
     "Bounded toy training control only.",
@@ -438,7 +438,6 @@ def _hardgate_bundle(
             f"{key} pointer resolves",
         )
         for index, key in enumerate(CONTROL_POINTERS, start=1)
-        if index <= 5
     }
     l0_gates = {
         "L0-HG1": _gate(base["status"] == "pass", "$.controls.base_transformer_control.status", "base control pass ptr"),

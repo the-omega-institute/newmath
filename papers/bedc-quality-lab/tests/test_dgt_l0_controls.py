@@ -141,6 +141,22 @@ def test_dgt_l0_controls_each_gate_group_fails_closed(group, mutate, expected_ga
     assert f"{group}:{expected_gate}" in payload["l0_toy_projection"]["failure_reasons"]
 
 
+def test_dgt_l0_controls_projection_pointer_fails_closed():
+    payload = _payload()
+    payload["l0_toy_projection"]["ref_pointers"]["l0_control_projection"]["pointer"] = "$.missing"
+    payload["l0_toy_projection"] = rebuild_l0_projection(payload)
+
+    pointer_gates = payload["l0_toy_projection"]["hardgate_statuses"]["pointer"]["gates"]
+
+    assert tuple(pointer_gates) == tuple(f"PTR-HG{index}" for index in range(1, len(CONTROL_POINTERS) + 1))
+    assert len(pointer_gates) == len(CONTROL_POINTERS) == 6
+    assert pointer_gates["PTR-HG6"]["status"] == "fail"
+    assert payload["l0_toy_projection"]["hardgate_statuses"]["pass"]["gates"]["L0-PASS-HG6"]["status"] == "fail"
+    assert payload["l0_toy_projection"]["review_status"] == "blocked"
+    assert "pointer:PTR-HG6" in payload["l0_toy_projection"]["failure_reasons"]
+    assert "pass:L0-PASS-HG6" in payload["l0_toy_projection"]["failure_reasons"]
+
+
 def test_dgt_l0_controls_rejects_stale_projection_after_mutation():
     payload = _payload()
     payload["compute_param_ledger"]["parameter_count"] = 0
