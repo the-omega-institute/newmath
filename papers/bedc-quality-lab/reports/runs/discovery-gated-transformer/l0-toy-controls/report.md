@@ -1,7 +1,7 @@
 # DGT L0 controls
 
 - Status: `pass`
-- Review status: `ready`
+- Review status: `pass`
 - Device: `mps`
 - Compute units: `7603.2`
 - Parameter count: `2175`

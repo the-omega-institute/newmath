@@ -118,7 +118,7 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
 
     assert payload["schema_id"] == "bedc-quality-lab:dgt-l0-controls"
     assert payload["artifact_id"] == "bedc-quality-lab:dgt-l0-controls"
-    assert payload["l0_toy_projection"]["review_status"] == "ready"
+    assert payload["l0_toy_projection"]["review_status"] == "pass"
     assert payload["l0_toy_projection"]["ref_pointers"] == CONTROL_POINTERS
     assert payload["controls"]["base_transformer_control"]["loss_decrease"] > 0
     assert payload["controls"]["base_transformer_control"]["parameter_l2_delta"] > 0
@@ -137,6 +137,29 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
     assert all(row["regression_test_pointer_resolves"] for row in payload["negative_witness_sweep"]["witness_rows"])
     assert payload["independent_replay"]["comparisons"]["dgt_quality_ci_low_gt_base"] is True
     assert payload["independent_replay"]["comparisons"]["dgt_uer_reduction_gt_matched_random"] is True
+
+
+def test_dgt_l0_controls_owns_l0_review_status_and_pass_hardgates():
+    payload = _payload()
+    projection = payload["l0_toy_projection"]
+    pass_gates = projection["hardgate_statuses"]["pass"]["gates"]
+
+    assert projection["review_status"] == "pass"
+    assert tuple(pass_gates) == tuple(f"L0-PASS-HG{index}" for index in range(1, 7))
+    assert all(row["status"] == "pass" for row in pass_gates.values())
+    assert projection["evidence_refs"] == {
+        key: CONTROL_POINTERS[key]
+        for key in (
+            "base_transformer_control",
+            "matched_random_structural_control",
+            "compute_param_ledger",
+            "negative_witness_sweep",
+            "independent_replay",
+        )
+    }
+    serialized = json.dumps({key: value for key, value in payload.items() if key != "l0_toy_projection"}, sort_keys=True)
+    assert "L0-PASS-HG" not in serialized
+    assert '"review_status"' not in serialized
 
 
 @pytest.mark.parametrize("witness_test", [benefit_debt_tradeoff, single_threshold_escape, control_positive, matched_random_positive])
@@ -202,7 +225,7 @@ def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
     )
     fingerprint = json.loads((tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").read_text(encoding="utf-8"))
 
-    assert canonical_payload["l0_toy_projection"]["review_status"] == "ready"
+    assert canonical_payload["l0_toy_projection"]["review_status"] == "pass"
     assert claim_capsule["owner_artifact"] == CANONICAL_JSON_ARTIFACT
     assert claim_capsule["owner_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection"
     assert "run_local_cache" in fingerprint["inputs"]
@@ -216,7 +239,7 @@ def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
     summary = json.loads(capsys.readouterr().out)
     assert summary["artifact_id"] == dgt_l0_controls.ARTIFACT_ID
     assert summary["status"] == "pass"
-    assert summary["review_status"] == "ready"
+    assert summary["review_status"] == "pass"
     assert summary["device"] == "cpu"
     assert summary["compute_units"] > 0
 

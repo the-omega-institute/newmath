@@ -533,9 +533,10 @@ def _status_from_bundle(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]]) -
 
 
 def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures: Sequence[str]) -> dict[str, Any]:
-    review_status = "ready" if not failures else "blocked"
+    review_status = "pass" if not failures else "blocked"
+    failed_gate = failures[0] if failures else None
     return {
-        "status": "pass" if review_status == "ready" else "fail",
+        "status": "pass" if review_status == "pass" else "fail",
         "review_status": review_status,
         "claim_scope": "bounded L0 toy training controls",
         "hardgate_statuses": {
@@ -545,8 +546,20 @@ def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures:
             }
             for group, gates in bundle.items()
         },
+        "evidence_refs": {
+            key: dict(CONTROL_POINTERS[key])
+            for key in (
+                "base_transformer_control",
+                "matched_random_structural_control",
+                "compute_param_ledger",
+                "negative_witness_sweep",
+                "independent_replay",
+            )
+        },
         "ref_pointers": {key: dict(value) for key, value in CONTROL_POINTERS.items()},
         "not_claimed": list(NOT_CLAIMED),
+        "failed_gate": failed_gate,
+        "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
         "failure_reasons": list(failures),
     }
 
@@ -840,11 +853,11 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     if set(controls) != {"base_transformer_control", "matched_random_structural_control"}:
         raise ValueError("DGT L0 controls schema mismatch")
     projection = payload["l0_toy_projection"]
-    is_ready = projection.get("review_status") == "ready"
-    if is_ready and controls["matched_random_structural_control"].get("classifier_shift_count") != 0:
+    is_pass = projection.get("review_status") == "pass"
+    if is_pass and controls["matched_random_structural_control"].get("classifier_shift_count") != 0:
         raise ValueError("DGT L0 matched-random classifier shift must be zero")
     ledger = payload["compute_param_ledger"]
-    if is_ready and (ledger.get("parameter_count", 0) <= 0 or ledger.get("compute_units", 0) <= 0):
+    if is_pass and (ledger.get("parameter_count", 0) <= 0 or ledger.get("compute_units", 0) <= 0):
         raise ValueError("DGT L0 ledger lacks positive compute or parameter count")
     witness = payload["negative_witness_sweep"]
     if witness.get("required_witnesses") != list(REQUIRED_WITNESSES):
@@ -861,10 +874,10 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT L0 negative witness rows mismatch")
     if any(not row.get("regression_test_pointer_resolves") for row in witness_rows):
         raise ValueError("DGT L0 negative witness regression test pointer unresolved")
-    if is_ready and witness.get("critical_hit_count") != 0:
+    if is_pass and witness.get("critical_hit_count") != 0:
         raise ValueError("DGT L0 critical negative witness hit")
     replay = payload["independent_replay"]
-    if is_ready and replay.get("status") != "pass":
+    if is_pass and replay.get("status") != "pass":
         raise ValueError("DGT L0 independent replay failed")
     hardgate_statuses = projection.get("hardgate_statuses")
     if not isinstance(hardgate_statuses, Mapping) or set(hardgate_statuses) != {
@@ -901,8 +914,13 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         for gate, row in state["gates"].items()
         if row.get("status") != "pass"
     ]
-    if projection.get("review_status") != ("ready" if not failures else "blocked"):
+    expected_failed_gate = failures[0] if failures else None
+    if projection.get("review_status") != ("pass" if not failures else "blocked"):
         raise ValueError("DGT L0 review status mismatch")
+    if projection.get("failed_gate") != expected_failed_gate:
+        raise ValueError("DGT L0 failed gate mismatch")
+    if projection.get("blocked_reason") != (None if expected_failed_gate is None else f"blocked-by-{expected_failed_gate}"):
+        raise ValueError("DGT L0 blocked reason mismatch")
     if projection.get("failure_reasons") != failures:
         raise ValueError("DGT L0 failure reasons mismatch")
     text = " ".join(str(item).lower() for item in payload["not_claimed"])
