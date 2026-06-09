@@ -46,8 +46,17 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def build_payload(*, generated_at: str = GENERATED_AT, component_refs: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    return build_projection(generated_at=generated_at, component_refs=component_refs)
+def build_payload(
+    *,
+    generated_at: str = GENERATED_AT,
+    component_refs: Mapping[str, Any] | None = None,
+    robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    return build_projection(
+        generated_at=generated_at,
+        component_refs=component_refs,
+        robustness_source_payloads=robustness_source_payloads,
+    )
 
 
 def validate_payload(payload: Mapping[str, Any]) -> None:

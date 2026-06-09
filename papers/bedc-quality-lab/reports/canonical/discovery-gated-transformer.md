@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-08T21:22:53.390414+00:00`
+- Generated at: `2026-06-09T02:07:57.744320+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -88,6 +88,24 @@
 | `drop_design_pair` | `discovery_gated_nas` | `measurable` | `True` |
 | `drop_evidence_pair` | `tool_route_evidence` | `measurable` | `True` |
 | `drop_structural_contracts` | `family_definition` | `measurable` | `True` |
+
+## Operational Robustness
+
+- Owner: `reports/canonical/discovery-gated-transformer.json:$.robustness`
+- Readiness: `ready`
+- Discovery level: `D5-O`
+- LAT evidence: `reports/canonical/ledger-aware-transformer.json:$`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `DGT-ROB-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.owner_ref` |
+| `DGT-ROB-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |
+| `DGT-ROB-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_ablation.hardgate` |
+| `DGT-ROB-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_evidence.ledger_aware_transformer` |
+| `DGT-ROB-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_evidence.model_comparison` |
+| `DGT-ROB-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_artifacts` |
+| `DGT-ROB-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.not_claimed` |
+| `DGT-ROB-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.forbidden_claim_term_audit` |
 
 ## D4 Projection
 
