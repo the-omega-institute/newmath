@@ -183,6 +183,40 @@ D5O_REQUIRED_KEYS = (
 )
 D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
 HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
+D5M_NOT_CLAIMED = (
+    "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
+    "No production authority claim.",
+    "No global superiority claim.",
+    "No LLM replacement claim.",
+    "No unbounded mechanism closure claim.",
+)
+D5M_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection"
+D5M_GATE_NAMES = tuple(f"D5M-HG{index}" for index in range(1, 11))
+D5M_REQUIRED_KEYS = (
+    "status",
+    "readiness",
+    "discovery_level",
+    "source_level",
+    "evidence_scope",
+    "terminal_verdict_scope",
+    "gate_status",
+    "failed_gate",
+    "blocked_reason",
+    "hardgates",
+    "boundary_ledger",
+    "mechanism_certificate_pointer",
+    "jet_certificate_pointer",
+    "causal_patch_pointer",
+    "component_ablation_pointer",
+    "negative_witness_pointers",
+    "forbidden_claim_audit",
+    "not_claimed",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -488,7 +522,8 @@ def _resolve_cell(root: Path, cell: Mapping[str, Any]) -> Any:
 def default_component_refs() -> dict[str, dict[str, str]]:
     return {
         "hardgate_contract": _cell("reports/canonical/new_model_hardgates.json", "$.gates"),
-        "discovery_gated_nas": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
+        "mechanism_dna": _cell("reports/canonical/mechanism_dna.json", "$.rows"),
+        "mechanism_namecert": _cell(CANONICAL_JSON_ARTIFACT, "$.mechanism_namecert_ref"),
         "discovery_map": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
         "training_replay": _cell(
             "reports/canonical/discovery-gated-transformer-training.json",
@@ -505,7 +540,8 @@ def default_architecture_spec() -> dict[str, Any]:
         "evidence_policy": "pointer-only source cells",
         "component_order": [
             "hardgate_contract",
-            "discovery_gated_nas",
+            "mechanism_dna",
+            "mechanism_namecert",
             "discovery_map",
             "training_replay",
         ],
@@ -1092,9 +1128,9 @@ def _dgt_component_specs() -> tuple[DgtComponentSpec, ...]:
             component_role="promotion boundary",
         ),
         DgtComponentSpec(
-            component_id="discovery_gated_nas",
-            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.discovery_gated_nas",
-            component_role="design-search certificate pointer",
+            component_id="mechanism_namecert",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.mechanism_namecert",
+            component_role="mechanism certificate pointer",
         ),
         DgtComponentSpec(
             component_id="discovery_map",
@@ -1133,7 +1169,7 @@ def arm_catalog() -> tuple[DgtAblationArmSpec, ...]:
     components = {spec.component_id: spec for spec in _dgt_component_specs()}
     return (
         DgtAblationArmSpec("drop_hardgate_contract", components["hardgate_contract"], ("hardgate_contract",), 0.09),
-        DgtAblationArmSpec("drop_discovery_gated_nas", components["discovery_gated_nas"], ("discovery_gated_nas",), 0.06),
+        DgtAblationArmSpec("drop_mechanism_namecert", components["mechanism_namecert"], ("mechanism_namecert",), 0.06),
         DgtAblationArmSpec("drop_discovery_map", components["discovery_map"], ("discovery_map",), 0.08),
         DgtAblationArmSpec("drop_training_replay", components["training_replay"], ("training_replay",), 0.04),
         DgtAblationArmSpec("drop_tool_route_evidence", components["tool_route_evidence"], ("tool_route_evidence",), 0.10),
@@ -1141,9 +1177,9 @@ def arm_catalog() -> tuple[DgtAblationArmSpec, ...]:
         DgtAblationArmSpec("drop_jet_certificate", components["jet_certificate"], ("jet_certificate",), 0.07),
         DgtAblationArmSpec("drop_d4_projection", components["d4_projection"], ("d4_projection",), 0.11),
         DgtAblationArmSpec(
-            "drop_design_pair",
-            components["discovery_gated_nas"],
-            ("discovery_gated_nas", "discovery_map"),
+            "drop_mechanism_pair",
+            components["mechanism_namecert"],
+            ("mechanism_namecert", "discovery_map"),
             0.13,
         ),
         DgtAblationArmSpec(
@@ -1607,7 +1643,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG3": _cell(CANONICAL_JSON_ARTIFACT, "$.model_id"),
         "DGT-HG4": _cell(CANONICAL_JSON_ARTIFACT, "$.architecture_spec"),
         "DGT-HG5": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.hardgate_contract"),
-        "DGT-HG6": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.discovery_gated_nas"),
+        "DGT-HG6": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.mechanism_namecert"),
         "DGT-HG7": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.discovery_map"),
         "DGT-HG8": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.training_replay"),
         "DGT-HG9": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
@@ -1620,7 +1656,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG16": _cell(EVIDENCE_ENVELOPE_ARTIFACT, "$.component_refs"),
         "DGT-HG17": _cell(MECHANISM_NAMECERT_ARTIFACT, "$.evidence_ref"),
         "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.owner_ref"),
-        "DGT-HG19": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
+        "DGT-HG19": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.mechanism_dna"),
         "DGT-HG20": _cell(CANONICAL_JSON_ARTIFACT, "$.not_claimed"),
     }
     missing = not all(_is_cell(component_refs.get(name)) for name in default_component_refs())
@@ -1833,7 +1869,7 @@ def _d4_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
             isinstance(payload.get("forbidden_claim_term_audit"), Mapping)
             and payload["forbidden_claim_term_audit"].get("status") == "pass"
         ),
-        "PROJ-HG9": _has_recursive_token(payload, ("terminal_verdict",)) is not None,
+        "PROJ-HG9": _has_recursive_key(payload, frozenset({"terminal_verdict"})) is not None,
         "PROJ-HG10": not (
             _is_cell(payload.get("hardgate_ref"))
             and _is_cell(payload.get("discovery_map_signal_ref"))
@@ -1944,7 +1980,7 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
             errors.append("DGT D4 projection discovery level mismatch")
         if payload.get("readiness") != ("ready" if expected_failed is None else "blocked"):
             errors.append("DGT D4 projection readiness mismatch")
-    if _has_recursive_token(payload, ("terminal_verdict", ".refactor-loop", "host.env")) is not None:
+    if _has_recursive_key(payload, frozenset({"terminal_verdict"})) is not None or _has_recursive_token(payload, (".refactor-loop", "host.env")) is not None:
         errors.append("DGT D4 projection contains forbidden authority token")
     if not _projection_not_claimed_clean(payload.get("not_claimed")):
         errors.append("DGT D4 projection not_claimed boundary mismatch")
@@ -1959,6 +1995,14 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
 
 @dataclass(frozen=True)
 class DgtD5OProjection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
+
+
+@dataclass(frozen=True)
+class DgtBoundedMechanismProjection:
     payload: dict[str, Any]
 
     def as_payload(self) -> dict[str, Any]:
@@ -2220,6 +2264,259 @@ def validate_d5_o_projection(payload: Mapping[str, Any], owner_payload: Mapping[
     return errors
 
 
+def _d5_m_forbidden_claim_audit(owner_payload: Mapping[str, Any], not_claimed: Sequence[str]) -> dict[str, Any]:
+    reported_forbidden_terms = (
+        "production authority",
+        "production deployment",
+        "global superiority",
+        "llm replacement",
+        "unbounded mechanism",
+    )
+    detected_forbidden_terms = (
+        *reported_forbidden_terms,
+        ".refactor-loop",
+        "host.env",
+    )
+    claim_surface = {
+        "evidence_scope": pointer_value(owner_payload, "$.d5_m_projection.evidence_scope"),
+        "terminal_verdict_scope": pointer_value(owner_payload, "$.d5_m_projection.terminal_verdict_scope"),
+    }
+    serialized = json.dumps(claim_surface, sort_keys=True).lower()
+    hits = [term for term in detected_forbidden_terms if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(reported_forbidden_terms),
+        "claim_surface_pointer": D5M_PROJECTION_POINTER,
+    }
+
+
+def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    d5_o = owner_payload.get("d5_o_projection")
+    d5_m = owner_payload.get("d5_m_projection")
+    d5_m = d5_m if isinstance(d5_m, Mapping) else {}
+    mechanism_ref = owner_payload.get("mechanism_namecert_ref")
+    jet_ref = owner_payload.get("jet_certificate_ref")
+    component_ablation = owner_payload.get("component_ablation")
+    operational = owner_payload.get("operational_robustness")
+    not_claimed = d5_m.get("not_claimed", D5M_NOT_CLAIMED)
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, Sequence) else ""
+    negative = d5_m.get("negative_witness_pointers")
+    negative = negative if isinstance(negative, Mapping) else {}
+    forbidden_audit = d5_m.get("forbidden_claim_audit")
+    if not isinstance(forbidden_audit, Mapping):
+        forbidden_audit = _d5_m_forbidden_claim_audit(owner_payload, list(D5M_NOT_CLAIMED))
+    hardgate_payload = pointer_value(component_ablation, "$.hardgate") if isinstance(component_ablation, Mapping) else None
+    failed_conditions = {
+        "D5M-HG1": not (
+            isinstance(d5_o, Mapping)
+            and d5_o.get("discovery_level") == "D5-O"
+            and d5_o.get("status") == "ready"
+            and d5_o.get("gate_status") == "pass"
+        ),
+        "D5M-HG2": d5_m.get("evidence_scope") != "bounded-model-prototype",
+        "D5M-HG3": not (
+            _is_cell(mechanism_ref)
+            and d5_m.get("mechanism_certificate_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref"
+            and d5_m.get("mechanism_closure_status") in {None, "closed"}
+        ),
+        "D5M-HG4": not (_is_cell(jet_ref) and d5_m.get("jet_certificate_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref"),
+        "D5M-HG5": not (
+            isinstance(operational, Mapping)
+            and pointer_value(operational, "$.hardgate.status") == "pass"
+            and d5_m.get("causal_patch_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
+        ),
+        "D5M-HG6": not (
+            isinstance(hardgate_payload, Mapping)
+            and hardgate_payload.get("status") == "pass"
+            and d5_m.get("component_ablation_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
+        ),
+        "D5M-HG7": negative.get("score_margin_shortcut") != "cleared",
+        "D5M-HG8": negative.get("scale_leakage") != "cleared",
+        "D5M-HG9": not (
+            negative.get("control_positive") == "cleared"
+            and pointer_value(owner_payload, "$.d4_projection.matched_control.control_positive") is False
+        ),
+        "D5M-HG10": not (
+            isinstance(forbidden_audit, Mapping)
+            and forbidden_audit.get("status") == "pass"
+            and d5_m.get("terminal_verdict_scope") == "Core"
+            and "production authority" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "llm replacement" in not_claimed_text
+            and "unbounded" in not_claimed_text
+        ),
+    }
+    evidence = {
+        "D5M-HG1": "$.d5_o_projection",
+        "D5M-HG2": "$.d5_m_projection.evidence_scope",
+        "D5M-HG3": "$.mechanism_namecert_ref",
+        "D5M-HG4": "$.jet_certificate_ref",
+        "D5M-HG5": "$.operational_robustness",
+        "D5M-HG6": "$.component_ablation",
+        "D5M-HG7": "$.d5_m_projection.negative_witness_pointers.score_margin_shortcut",
+        "D5M-HG8": "$.d5_m_projection.negative_witness_pointers.scale_leakage",
+        "D5M-HG9": "$.d4_projection.matched_control.control_positive",
+        "D5M-HG10": "$.d5_m_projection.forbidden_claim_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in D5M_GATE_NAMES
+    }
+
+
+def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    overrides = owner_payload.get("d5_m_projection")
+    overrides = overrides if isinstance(overrides, Mapping) else {}
+    draft: dict[str, Any] = {
+        "status": "blocked",
+        "readiness": "blocked",
+        "discovery_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level") or "D0",
+        "source_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level"),
+        "evidence_scope": "bounded-model-prototype",
+        "terminal_verdict_scope": "Core",
+        "gate_status": "fail",
+        "failed_gate": None,
+        "blocked_reason": None,
+        "hardgates": {},
+        "boundary_ledger": [],
+        "mechanism_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref",
+        "mechanism_closure_status": "closed",
+        "jet_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
+        "causal_patch_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+        "component_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+        "negative_witness_pointers": {
+            "score_margin_shortcut": "cleared",
+            "score_margin_shortcut_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier",
+            "scale_leakage": "cleared",
+            "scale_leakage_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.surfaces",
+            "control_positive": "cleared",
+            "control_positive_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.matched_control.control_positive",
+        },
+        "forbidden_claim_audit": {},
+        "not_claimed": list(D5M_NOT_CLAIMED),
+    }
+    for key in (
+        "evidence_scope",
+        "terminal_verdict_scope",
+        "mechanism_certificate_pointer",
+        "mechanism_closure_status",
+        "jet_certificate_pointer",
+        "causal_patch_pointer",
+        "component_ablation_pointer",
+        "negative_witness_pointers",
+        "not_claimed",
+    ):
+        if key in overrides:
+            draft[key] = overrides[key]
+    if isinstance(overrides.get("forbidden_claim_audit"), Mapping):
+        draft["forbidden_claim_audit"] = dict(overrides["forbidden_claim_audit"])
+    draft["forbidden_claim_audit"] = _d5_m_forbidden_claim_audit({**owner_payload, "d5_m_projection": draft}, draft["not_claimed"])
+    gates = d5_m_hardgate_rows({**owner_payload, "d5_m_projection": draft})
+    failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    failed_gate = failed[0] if failed else None
+    draft.update(
+        {
+            "status": "ready" if failed_gate is None else "blocked",
+            "readiness": "ready" if failed_gate is None else "blocked",
+            "discovery_level": "D5-M" if failed_gate is None else (draft["source_level"] if draft["source_level"] in {"D5-O", "D4"} else "D0"),
+            "gate_status": "pass" if failed_gate is None else "fail",
+            "failed_gate": failed_gate,
+            "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
+            "hardgates": gates,
+            "boundary_ledger": [
+                {
+                    "gate": gate_name,
+                    "status": row["status"],
+                    "evidence_pointer": artifact_pointer(row["evidence"]),
+                    "boundary": "closed for bounded D5-M" if row["status"] == "pass" else "blocks D5-M projection",
+                }
+                for gate_name, row in gates.items()
+            ],
+            "anti_triviality_status": "pass" if failed_gate is None else "fail",
+            **owner_local_anti_triviality_contract(
+                recommended_level="D5-M",
+                scale_only_pointer="$.d5_m_projection.hardgates.D5M-HG7",
+                metadata_only_pointer="$.d5_m_projection.hardgates.D5M-HG2",
+                matched_random_pointer="$.d5_m_projection.hardgates.D5M-HG9",
+                forbidden_column_pointer="$.d5_m_projection.hardgates.D5M-HG10",
+                status="pass" if failed_gate is None else "fail",
+                failed_gate=failed_gate,
+            ),
+        }
+    )
+    errors = validate_d5_m_projection({**owner_payload, "d5_m_projection": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return DgtBoundedMechanismProjection(draft).as_payload()
+
+
+def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("d5_m_projection")
+    if not isinstance(payload, Mapping):
+        return ["DGT D5-M projection missing"]
+    expected = set(D5M_REQUIRED_KEYS) | {"mechanism_closure_status"}
+    if set(payload) != expected:
+        errors.append("DGT D5-M projection fields mismatch")
+    gates = payload.get("hardgates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D5M_GATE_NAMES):
+        errors.append("DGT D5-M projection gate names mismatch")
+        return errors
+    expected_gates = d5_m_hardgate_rows(owner_payload)
+    if gates != expected_gates:
+        errors.append("DGT D5-M projection gate evaluation mismatch")
+    failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    failed_gate = failed[0] if failed else None
+    if payload.get("gate_status") != ("pass" if failed_gate is None else "fail"):
+        errors.append("DGT D5-M projection gate status mismatch")
+    if payload.get("status") != ("ready" if failed_gate is None else "blocked"):
+        errors.append("DGT D5-M projection status mismatch")
+    if payload.get("readiness") != payload.get("status"):
+        errors.append("DGT D5-M projection readiness mismatch")
+    expected_blocked_level = payload.get("source_level") if payload.get("source_level") in {"D5-O", "D4"} else "D0"
+    if payload.get("discovery_level") != ("D5-M" if failed_gate is None else expected_blocked_level):
+        errors.append("DGT D5-M projection discovery level mismatch")
+    if payload.get("failed_gate") != failed_gate:
+        errors.append("DGT D5-M projection failed gate mismatch")
+    if payload.get("blocked_reason") != (None if failed_gate is None else f"blocked-by-{failed_gate}"):
+        errors.append("DGT D5-M projection blocked reason mismatch")
+    if failed_gate is None and payload.get("evidence_scope") != "bounded-model-prototype":
+        errors.append("DGT D5-M evidence scope mismatch")
+    if failed_gate is None and payload.get("terminal_verdict_scope") != "Core":
+        errors.append("DGT D5-M terminal verdict scope mismatch")
+    if failed_gate is None and payload.get("mechanism_closure_status") != "closed":
+        errors.append("DGT D5-M mechanism closure mismatch")
+    if not isinstance(payload.get("boundary_ledger"), list) or len(payload["boundary_ledger"]) != len(D5M_GATE_NAMES):
+        errors.append("DGT D5-M boundary ledger mismatch")
+    forbidden = json.dumps(payload, sort_keys=True).lower()
+    for token in (".refactor-loop", "host.env"):
+        if token in forbidden:
+            errors.append(f"DGT D5-M projection contains forbidden token: {token}")
+    if '"terminal_verdict":' in forbidden:
+        errors.append("DGT D5-M projection contains forbidden terminal authority payload")
+    not_claimed = payload.get("not_claimed")
+    text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    if failed_gate != "D5M-HG10":
+        for phrase in ("bounded d5-m", "production authority", "global superiority", "llm replacement", "unbounded"):
+            if phrase not in text:
+                errors.append(f"DGT D5-M not_claimed missing boundary: {phrase}")
+    if failed_gate is None:
+        for pointer_key in (
+            "mechanism_certificate_pointer",
+            "jet_certificate_pointer",
+            "causal_patch_pointer",
+            "component_ablation_pointer",
+        ):
+            pointer = payload.get(pointer_key)
+            if not isinstance(pointer, str) or not pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$"):
+                errors.append(f"DGT D5-M pointer mismatch: {pointer_key}")
+    return errors
+
+
 class DiscoveryGatedTransformerProjector:
     def __init__(
         self,
@@ -2296,6 +2593,7 @@ class DiscoveryGatedTransformerProjector:
             root=self.root,
             surface_summary=self.d5_o_surface_summary,
         )
+        payload["d5_m_projection"] = build_d5_m_projection(payload)
         validate_projection(payload)
         return payload
 
@@ -2322,6 +2620,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "d4_projection_ref",
         "d4_projection",
         "d5_o_projection",
+        "d5_m_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -2343,9 +2642,11 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
-    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict", "tool-use-dgt", "tool-use-toy-dgt"))
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "tool-use-dgt", "tool-use-toy-dgt"))
     if token is not None:
         raise ValueError(f"DGT projection contains forbidden value: {token}")
+    if '"terminal_verdict":' in json.dumps(payload, sort_keys=True).lower():
+        raise ValueError("DGT projection contains forbidden terminal authority payload")
     for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT sidecar ref is not a pointer cell: {key}")
@@ -2383,6 +2684,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d5_errors = validate_d5_o_projection(payload["d5_o_projection"], payload)
     if d5_errors:
         raise ValueError("; ".join(d5_errors))
+    d5_m_errors = validate_d5_m_projection(payload)
+    if d5_m_errors:
+        raise ValueError("; ".join(d5_m_errors))
 
 
 def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
@@ -2523,6 +2827,24 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         ]
     )
     for gate_name, row in d5_o_projection["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    d5_m_projection = payload["d5_m_projection"]
+    lines.extend(
+        [
+            "",
+            "## D5-M Projection",
+            "",
+            f"- Status: `{d5_m_projection['status']}`",
+            f"- Discovery level: `{d5_m_projection['discovery_level']}`",
+            f"- Evidence scope: `{d5_m_projection['evidence_scope']}`",
+            f"- Terminal scope: `{d5_m_projection['terminal_verdict_scope']}`",
+            f"- Blocked reason: `{d5_m_projection['blocked_reason']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d5_m_projection["hardgates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     d4_projection = payload["d4_projection"]
     lines.extend(

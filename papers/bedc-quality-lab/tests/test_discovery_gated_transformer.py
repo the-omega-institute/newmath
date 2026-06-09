@@ -12,6 +12,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     COMPONENT_ABLATION_GATE_NAMES,
     COMPONENT_ABLATION_OWNER_REF,
     D4_PROJECTION_GATE_NAMES,
+    D5M_GATE_NAMES,
     D5O_GATE_NAMES,
     D5O_REVIEW_PHRASE,
     LAT_CANONICAL_ARTIFACT,
@@ -31,7 +32,9 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_d4_projection_payload,
     build_component_ablation,
     build_projection,
+    build_d5_m_projection,
     build_d5_o_projection,
+    d5_m_hardgate_rows,
     _toy_seed_surface_summary,
     default_robustness_source_payloads,
     evaluate_ablation_arm,
@@ -50,6 +53,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_dgt_jet_certificate,
     validate_dgt_tool_route_evidence,
     validate_d4_projection,
+    validate_d5_m_projection,
     validate_d5_o_projection,
     validate_operational_robustness,
 )
@@ -67,13 +71,12 @@ def _walk(value):
 
 
 def _write_required_dgt_external_artifacts(root):
-    path = root / "reports" / "canonical" / "discovery-gated-nas.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps({"candidate_protocol": {"design_search_certificate": {"slot_state": "present-but-fail-closed"}}})
-        + "\n",
-        encoding="utf-8",
-    )
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (canonical_dir / "new_model_hardgates.json").write_text(json.dumps({"gates": {"status": "pass"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
 
 
 def _accepted_dgt_review_rows():
@@ -258,7 +261,7 @@ def test_dgt_d4_projection_fails_closed_when_proj_gate_fails():
         ("PROJ-HG6", lambda payload: payload["claim_capsule_ref"].update({"pointer": ""})),
         ("PROJ-HG7", lambda payload: payload.update({"not_claimed": []})),
         ("PROJ-HG8", lambda payload: payload["forbidden_claim_term_audit"].update({"status": "fail"})),
-        ("PROJ-HG9", lambda payload: payload.update({"revocation_rows": [{"gate": "terminal_verdict"}]})),
+        ("PROJ-HG9", lambda payload: payload.update({"terminal_verdict": "accepted_positive_discovery"})),
         ("PROJ-HG10", lambda payload: payload["discovery_map_signal_ref"].update({"pointer": ""})),
     ],
 )
@@ -489,6 +492,82 @@ def test_dgt_d5_o_projection_high_impact_review_wording_present(tmp_path):
     )
 
     assert payload["d5_o_projection"]["scope"]["review"] == D5O_REVIEW_PHRASE
+
+
+def test_dgt_d5_m_projection_passes_with_closed_bounded_mechanism(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    projection = payload["d5_m_projection"]
+
+    assert tuple(projection["hardgates"]) == D5M_GATE_NAMES
+    assert projection["discovery_level"] == "D5-M"
+    assert projection["readiness"] == "ready"
+    assert projection["failed_gate"] is None
+    assert projection["evidence_scope"] == "bounded-model-prototype"
+    assert projection["terminal_verdict_scope"] == "Core"
+    assert projection["mechanism_certificate_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref"
+    assert projection["jet_certificate_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref"
+    assert projection["causal_patch_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
+    assert projection["component_ablation_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
+    assert validate_d5_m_projection(payload) == []
+
+
+def _assert_d5_m_fail_closed(owner_payload, gate_name):
+    projection = owner_payload["d5_m_projection"]
+    assert projection["hardgates"][gate_name]["status"] == "fail"
+    assert projection["gate_status"] == "fail"
+    assert projection["status"] == "blocked"
+    assert projection["readiness"] == "blocked"
+    assert projection["discovery_level"] == projection["source_level"]
+    assert projection["blocked_reason"] == f"blocked-by-{gate_name}"
+    assert projection["failed_gate"] == gate_name
+    assert any(row["gate"] == gate_name and row["status"] == "fail" for row in projection["boundary_ledger"])
+    assert validate_d5_m_projection(owner_payload) == []
+
+
+@pytest.mark.parametrize(
+    ("gate_name", "mutate"),
+    [
+        ("D5M-HG1", lambda payload: payload["d5_o_projection"].update({"status": "blocked"})),
+        ("D5M-HG2", lambda payload: payload["d5_m_projection"].update({"evidence_scope": "unbounded-model"})),
+        ("D5M-HG3", lambda payload: payload["d5_m_projection"].update({"mechanism_closure_status": "open"})),
+        ("D5M-HG4", lambda payload: payload["d5_m_projection"].update({"jet_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.missing_jet"})),
+        ("D5M-HG5", lambda payload: payload["operational_robustness"]["hardgate"].update({"status": "fail"})),
+        ("D5M-HG6", lambda payload: payload["component_ablation"]["hardgate"].update({"status": "fail"})),
+        ("D5M-HG7", lambda payload: payload["d5_m_projection"]["negative_witness_pointers"].update({"score_margin_shortcut": "uncleared"})),
+        ("D5M-HG8", lambda payload: payload["d5_m_projection"]["negative_witness_pointers"].update({"scale_leakage": "uncleared"})),
+        ("D5M-HG9", lambda payload: payload["d4_projection"]["matched_control"].update({"control_positive": True})),
+        ("D5M-HG10", lambda payload: payload["d5_m_projection"].update({"terminal_verdict_scope": "Global"})),
+    ],
+)
+def test_dgt_d5_m_projection_fails_closed_on_each_hardgate(tmp_path, gate_name, mutate):
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = json.loads(json.dumps(owner))
+    mutate(mutated)
+    mutated["d5_m_projection"] = build_d5_m_projection(mutated)
+
+    _assert_d5_m_fail_closed(mutated, gate_name)
+    assert d5_m_hardgate_rows(mutated)[gate_name]["status"] == "fail"
+
+
+def test_dgt_d5_m_projection_rejects_forbidden_claim_surface(tmp_path):
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = json.loads(json.dumps(owner))
+    mutated["d5_m_projection"]["not_claimed"] = ["Bounded D5-M mechanism claim only."]
+    mutated["d5_m_projection"] = build_d5_m_projection(mutated)
+
+    _assert_d5_m_fail_closed(mutated, "D5M-HG10")
 
 
 @pytest.mark.parametrize(

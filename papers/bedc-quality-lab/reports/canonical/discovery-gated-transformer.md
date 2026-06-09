@@ -11,7 +11,8 @@
 | component | artifact | pointer |
 | --- | --- | --- |
 | `hardgate_contract` | `reports/canonical/new_model_hardgates.json` | `$.gates` |
-| `discovery_gated_nas` | `reports/canonical/discovery-gated-nas.json` | `$.candidate_protocol.design_search_certificate` |
+| `mechanism_dna` | `reports/canonical/mechanism_dna.json` | `$.rows` |
+| `mechanism_namecert` | `reports/canonical/discovery-gated-transformer.json` | `$.mechanism_namecert_ref` |
 | `discovery_map` | `reports/canonical/discovery_map.json` | `$.coverage_matrix` |
 | `training_replay` | `reports/canonical/discovery-gated-transformer-training.json` | `$.hardgates` |
 
@@ -24,7 +25,7 @@
 | `DGT-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.model_id` |
 | `DGT-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.architecture_spec` |
 | `DGT-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.hardgate_contract` |
-| `DGT-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.discovery_gated_nas` |
+| `DGT-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.mechanism_namecert` |
 | `DGT-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.discovery_map` |
 | `DGT-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.training_replay` |
 | `DGT-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal` |
@@ -37,7 +38,7 @@
 | `DGT-HG16` | `pass` | `reports/runs/discovery-gated-transformer/evidence_envelope.json:$.component_refs` |
 | `DGT-HG17` | `pass` | `reports/runs/discovery-gated-transformer/mechanism_namecert.json:$.evidence_ref` |
 | `DGT-HG18` | `pass` | `reports/runs/discovery-gated-transformer/jet_certificate.json:$.owner_ref` |
-| `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate` |
+| `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.mechanism_dna` |
 | `DGT-HG20` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.not_claimed` |
 
 ## Tool Route Evidence
@@ -78,14 +79,14 @@
 | arm | component | effect status | claim allowed |
 | --- | --- | --- | --- |
 | `drop_hardgate_contract` | `hardgate_contract` | `measurable` | `True` |
-| `drop_discovery_gated_nas` | `discovery_gated_nas` | `measurable` | `True` |
+| `drop_mechanism_namecert` | `mechanism_namecert` | `measurable` | `True` |
 | `drop_discovery_map` | `discovery_map` | `measurable` | `True` |
 | `drop_training_replay` | `training_replay` | `measurable` | `True` |
 | `drop_tool_route_evidence` | `tool_route_evidence` | `measurable` | `True` |
 | `drop_family_definition` | `family_definition` | `measurable` | `True` |
 | `drop_jet_certificate` | `jet_certificate` | `measurable` | `True` |
 | `drop_d4_projection` | `d4_projection` | `measurable` | `True` |
-| `drop_design_pair` | `discovery_gated_nas` | `measurable` | `True` |
+| `drop_mechanism_pair` | `mechanism_namecert` | `measurable` | `True` |
 | `drop_evidence_pair` | `tool_route_evidence` | `measurable` | `True` |
 | `drop_structural_contracts` | `family_definition` | `measurable` | `True` |
 
@@ -124,6 +125,27 @@
 | `D5O-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.evidence_pointers.stronger_matched_random` |
 | `D5O-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.boundary_ledger` |
 | `D5O-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.not_claimed` |
+
+## D5-M Projection
+
+- Status: `ready`
+- Discovery level: `D5-M`
+- Evidence scope: `bounded-model-prototype`
+- Terminal scope: `Core`
+- Blocked reason: `None`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `D5M-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection` |
+| `D5M-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.evidence_scope` |
+| `D5M-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref` |
+| `D5M-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref` |
+| `D5M-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness` |
+| `D5M-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_ablation` |
+| `D5M-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.score_margin_shortcut` |
+| `D5M-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.scale_leakage` |
+| `D5M-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive` |
+| `D5M-HG10` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.forbidden_claim_audit` |
 
 ## D4 Projection
 

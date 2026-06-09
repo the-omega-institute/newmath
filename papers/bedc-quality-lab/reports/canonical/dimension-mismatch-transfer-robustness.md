@@ -19,5 +19,5 @@
 ## Audit
 
 - Audit status: `pass`
-- Audit pointer: `reports/canonical/negative_discovery_reports.json:$.rows[5]`
+- Audit pointer: `reports/canonical/negative_discovery_reports.json:$.rows[4]`
 - Failed or deferred gates: ``

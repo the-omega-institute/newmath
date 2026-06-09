@@ -32,7 +32,6 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
-    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
 }
 
 
@@ -378,40 +377,6 @@ def _minimal_payload(spec):
             },
             "source_artifacts": {"d5_o_source": None},
             "forbidden_claim_term_audit": {"status": "pass"},
-        })
-        return payload
-    if spec.name == "discovery-gated-nas":
-        payload.update({
-            "discovery_map_signal": {
-                "control_pointer": "$.matched_baseline_control",
-                "evidence_pointer": "$.search_objective_summary.selected_candidate",
-                "failed_gate": None,
-                "failed_gate_pointer": None,
-                "level_candidate": "D5-M",
-                "negative_witness_pointer": "$.negative_witness_mutations",
-                "reason": "discovery-gated-search-positive",
-                "search_objective_pointer": "$.search_objective_summary",
-                "search_space_pointer": "$.search_space",
-                "status": "d5-m-candidate",
-                "torch_nas_evidence_pointer": "$.torch_nas_evidence",
-            },
-            "hardgate": {
-                "failed_gate": None,
-                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 9)},
-                "status": "pass",
-            },
-            "search_space": {"status": "closed"},
-            "candidate_protocol": {
-                "search_space_pointer": "$.search_space",
-                "design_search_certificate": {
-                    "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
-                    "slot_state": "present",
-                },
-            },
-            "matched_baseline_control": {"control_positive_discovery": False},
-            "negative_witness_mutations": {"rows": []},
-            "search_objective_summary": {"selected_candidate": {"candidate_id": "fixture-candidate"}},
-            "torch_nas_evidence": {"status": "available"},
         })
         return payload
     if spec.name == "gap-head-transfer-atlas":
@@ -998,7 +963,7 @@ def test_discovery_map_coverage_matrix_matches_target_set(tmp_path):
     cells = payload["coverage_matrix"]["cells"]
 
     assert {cell["component_id"] for cell in cells} == discovery_map.COVERAGE_COMPONENT_IDS
-    assert len(cells) == 13
+    assert len(cells) == 12
     assert all(set(cell) == discovery_map.COVERAGE_CELL_FIELDS for cell in cells)
     assert set(payload["coverage_matrix"]) == {"status", "hardgates", "cells"}
     assert set(payload["coverage_matrix"]["hardgates"]) == set(discovery_map.COVERAGE_HARDGATE_IDS)
@@ -1028,7 +993,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["hardgate_status"] == "pass"
 
 
-def test_discovery_map_dgt_reads_d5_o_projection_pointer(tmp_path):
+def test_discovery_map_dgt_reads_d5_m_projection_pointer_only(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1036,22 +1001,25 @@ def test_discovery_map_dgt_reads_d5_o_projection_pointer(tmp_path):
     row = rows["discovery-gated-transformer"]
     dgt_cell = _coverage_cell(payload, "DGT")
 
-    assert row["discovery_level"] == "D4"
-    assert row["evidence_pointer"] == "$.d4_projection"
-    assert row["control_pointer"] == "$.d5_o_projection.evidence_pointers.stronger_matched_random"
-    assert row["projection_status"] == "d5-o-blocked"
-    assert row["failed_gate"] == "$.d5_o_projection.gates.D5O-HG1"
+    assert row["discovery_level"] == "D5-M"
+    assert row["evidence_pointer"] == "$.d5_m_projection"
+    assert row["control_pointer"] == "$.d4_projection.matched_control"
+    assert row["projection_status"] == "projected"
+    assert row.get("failed_gate") is None
     assert row["audit_status"] == "valid"
     assert "gates" not in row
+    assert "hardgates" not in row
     assert "d4_projection" not in row
+    assert "d5_m_projection" not in row
+    assert "D5M-HG1" not in json.dumps(row, sort_keys=True)
     assert "PROJ-HG1" not in json.dumps(row, sort_keys=True)
     assert dgt_cell["discovery_level_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level"
     )
-    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D4"
+    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D5-M"
 
 
-def test_discovery_map_dgt_unresolved_projection_pointer_fails_closed_to_d4(tmp_path):
+def test_discovery_map_dgt_failed_d5_o_gate_fails_closed_to_d4(tmp_path):
     _write_coverage_payloads(tmp_path)
     _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
@@ -1075,7 +1043,7 @@ def test_discovery_map_dgt_unresolved_projection_pointer_fails_closed_to_d4(tmp_
     assert _artifact_pointer_value(tmp_path, f"{row['json_artifact']}:{row['failed_gate']}") is not None
 
 
-def test_discovery_map_dgt_all_gates_pass_projects_d5_o(tmp_path):
+def test_discovery_map_dgt_all_gates_pass_projects_d5_m(tmp_path):
     _write_coverage_payloads(tmp_path)
     _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
@@ -1089,20 +1057,25 @@ def test_discovery_map_dgt_all_gates_pass_projects_d5_o(tmp_path):
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["discovery_level"] == "D5-O"
+    assert row["discovery_level"] == "D5-M"
     assert row["projection_status"] == "projected"
-    assert row["evidence_pointer"] == "$.d5_o_projection"
+    assert row["evidence_pointer"] == "$.d5_m_projection"
     assert row.get("failed_gate") is None
 
 
 def test_discovery_map_dgt_blocked_projection_exposes_resolvable_failed_gate(tmp_path):
     _write_coverage_payloads(tmp_path)
+    spec = canonical._specs_by_name()["discovery-gated-transformer"]
+    payload = _read_json_artifact(tmp_path, spec.json_artifact)
+    payload["d5_m_projection"]["evidence_scope"] = "unbounded-model"
+    payload["d5_m_projection"] = dgt_runner.build_d5_m_projection(payload)
+    _write_payload(tmp_path, spec, payload)
 
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["projection_status"] == "d5-o-blocked"
-    assert row["failed_gate"] == "$.d5_o_projection.gates.D5O-HG1"
+    assert row["projection_status"] == "d5-m-blocked"
+    assert row["failed_gate"] == "$.d5_m_projection.hardgates.D5M-HG2"
     assert row["audit_status"] == "valid"
     assert _artifact_pointer_value(tmp_path, f"{row['json_artifact']}:{row['failed_gate']}") is not None
 

@@ -152,22 +152,6 @@ MECHANISM_SOURCES: tuple[_MechanismSource, ...] = (
         ),
     ),
     _MechanismSource(
-        report="discovery-gated-nas",
-        artifact="reports/canonical/discovery-gated-nas.json",
-        mechanism_id="design-search-certificate-slot",
-        component_pointer="$.candidate_protocol",
-        causal_path_pointer="$.search_objective_summary.selected_candidate",
-        intervention_pointer="$.candidate_protocol.design_search_certificate",
-        ablation_dependency_pointer="$.matched_baseline_control",
-        negative_witness_pointer="$.negative_witness_mutations",
-        source_level_pointer="$.discovery_map_signal.level_candidate",
-        source_status_pointer="$.hardgate.status",
-        not_claimed=(
-            "A present slot is not treated as a closed design-search proof.",
-            "Candidate search rows remain in their source artifact.",
-        ),
-    ),
-    _MechanismSource(
         report="discovery-gated-transformer",
         artifact="reports/canonical/discovery-gated-transformer.json",
         mechanism_id="discovery-gated-transformer-namecert",
@@ -176,8 +160,8 @@ MECHANISM_SOURCES: tuple[_MechanismSource, ...] = (
         intervention_pointer="$.tool_route_evidence",
         ablation_dependency_pointer="$.component_ablation",
         negative_witness_pointer="$.revocation_rows",
-        source_level_pointer="$.d4_projection.discovery_level",
-        source_status_pointer="$.hardgate.status",
+        source_level_pointer="$.d5_m_projection.discovery_level",
+        source_status_pointer="$.d5_m_projection.status",
         not_claimed=(
             "No architecture superiority claim is made here.",
             "External mechanism certificate payloads stay behind pointers.",

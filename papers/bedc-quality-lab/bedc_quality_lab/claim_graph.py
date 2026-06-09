@@ -22,7 +22,6 @@ CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
-DG_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 NODE_TYPES = frozenset(
     {
         "raw_evidence",
@@ -183,11 +182,6 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
             "mechanism:gap-head-attribution-capsule",
             f"{GAP_HEAD_ATTRIBUTION_ARTIFACT}:$.mechanism_evidence",
             ("gap-head mechanism evidence remains owner-local to the attribution capsule",),
-        ),
-        (
-            "mechanism:discovery-gated-nas",
-            f"{DG_NAS_ARTIFACT}:$.mechanism_namecert",
-            ("DG-NAS mechanism certificate remains nested under the discovery-gated NAS canonical owner",),
         ),
     )
     nodes: list[ClaimGraphNode] = []
@@ -358,23 +352,20 @@ def _hardgates(
     discovery_rows: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
     by_id = _nodes_by_id(nodes)
-    d5_o_rows = [row for row in discovery_rows if row.get("discovery_level") == "D5-O"]
+    d5_o_rows = [row for row in discovery_rows if row.get("discovery_level") in {"D5-O", "D5-M"}]
     mechanism_entries = []
     for row in d5_o_rows:
         report = str(row["report"])
         mechanism_status = str(row.get("mechanism_status") or "blocked")
         mechanism_pointer = row.get("mechanism_pointer")
         mechanism_source_pointer = row.get("mechanism_ledger_pointer") or row.get("mechanism_closure_pointer") or row.get("mechanism_pointer")
-        if report == "discovery-gated-nas":
-            mechanism_node = by_id.get("mechanism:discovery-gated-nas")
-        else:
-            mechanism_node = by_id.get("mechanism:gap-head-attribution-capsule")
+        mechanism_node = by_id.get("mechanism:gap-head-attribution-capsule")
         mechanism_resolves = mechanism_node is not None and source_pointer_resolves(root, mechanism_node.source_pointer)
         mechanism_certificate_node_id = mechanism_node.node_id if mechanism_status == "ready" and mechanism_resolves and mechanism_node is not None else None
         mechanism_entries.append(
             {
                 "projected_node_id": f"projected:{report}",
-                "discovery_level": "D5-O",
+                "discovery_level": str(row.get("discovery_level")),
                 "mechanism_certificate_node_id": mechanism_certificate_node_id,
                 "mechanism_status": mechanism_status,
                 "mechanism_candidate_node_id": mechanism_node.node_id if mechanism_resolves and mechanism_node is not None else None,
@@ -398,7 +389,7 @@ def _hardgates(
         },
         "CG-HG2": {
             "status": "pass",
-            "criterion": "D5-O projected discoveries explicitly record whether a D5-M mechanism node exists",
+            "criterion": "D5 projected discoveries explicitly record whether a mechanism node exists",
             "d5_o_mechanism": mechanism_entries,
         },
         "CG-HG3": {
@@ -584,11 +575,11 @@ def _validate_cg_hg2(payload: Mapping[str, Any], by_id: Mapping[str, ClaimGraphN
     cg_hg2 = hardgates.get("CG-HG2") if isinstance(hardgates, Mapping) else None
     entries = cg_hg2.get("d5_o_mechanism") if isinstance(cg_hg2, Mapping) else None
     if not isinstance(entries, list):
-        return ["CG-HG2 must list D5-O mechanism entries"]
+        return ["CG-HG2 must list D5 mechanism entries"]
     projected_d5_o = {
         node.node_id
         for node in by_id.values()
-        if node.node_type == "projected_discovery" and node.discovery_level == "D5-O"
+        if node.node_type == "projected_discovery" and node.discovery_level in {"D5-O", "D5-M"}
     }
     entry_projected = set()
     for entry in entries:
@@ -605,7 +596,7 @@ def _validate_cg_hg2(payload: Mapping[str, Any], by_id: Mapping[str, ClaimGraphN
         elif not isinstance(mechanism_id, str) or mechanism_id not in by_id or by_id[mechanism_id].node_type != "mechanism_certificate":
             errors.append(f"CG-HG2 mechanism node missing or wrong type for {projected}")
     if projected_d5_o != entry_projected:
-        errors.append("CG-HG2 D5-O projected node coverage mismatch")
+        errors.append("CG-HG2 D5 projected node coverage mismatch")
     return errors
 
 

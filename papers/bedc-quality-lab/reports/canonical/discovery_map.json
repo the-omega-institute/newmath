@@ -14,25 +14,14 @@
         "negative_witness_pointer": null
       },
       {
-        "canonical_owner_pointer": "reports/canonical/discovery-gated-nas.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.status",
-        "component_id": "DG-NAS",
-        "debt_pointer": "reports/canonical/discovery-gated-nas.json:$.hardgate.gates.DG-NAS-HG7",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.level_candidate",
+        "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
+        "component_id": "DGT",
+        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
         "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[3]",
-        "negative_witness_pointer": null
-      },
-      {
-        "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
-        "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
-        "hardgate_reason": "pass",
-        "hardgate_status": "pass",
-        "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[4]",
         "negative_witness_pointer": null
       },
       {
@@ -182,9 +171,9 @@
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 1,
-    "D5-O": 3,
-    "DN": 8,
+    "D5-M": 2,
+    "D5-O": 2,
+    "DN": 7,
     "DR": 0
   },
   "manifest_audit": {
@@ -210,7 +199,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 30,
+  "row_count": 29,
   "rows": [
     {
       "audit_reason": "",
@@ -578,23 +567,12 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "discovery_level": "DN",
-      "evidence_pointer": null,
-      "json_artifact": "reports/canonical/discovery-gated-nas.json",
-      "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
-      "projection_status": "projected",
-      "report": "discovery-gated-nas"
-    },
-    {
-      "audit_reason": "",
-      "audit_status": "valid",
       "classifier_reasons": [
-        "DGT D5-O projection gates passed"
+        "DGT D5-M projection gates passed"
       ],
-      "control_pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
-      "discovery_level": "D5-O",
-      "evidence_pointer": "$.d5_o_projection",
+      "control_pointer": "$.d4_projection.matched_control",
+      "discovery_level": "D5-M",
+      "evidence_pointer": "$.d5_m_projection",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
       "projection_status": "projected",
@@ -651,7 +629,7 @@
       "evidence_pointer": null,
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
       "projection_status": "projected",
       "report": "spectral-ablation-hinge"
     },
@@ -690,7 +668,7 @@
       "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer"
     },
@@ -701,7 +679,7 @@
       "evidence_pointer": "$.single_threshold_basis",
       "json_artifact": "runs/single_threshold_escape_witness.json",
       "markdown_artifact": "runs/single_threshold_escape_witness.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
       "projection_status": "escaped-positive-captured",
       "report": "single-threshold-escape"
     },
@@ -712,7 +690,7 @@
       "evidence_pointer": "$.boundary_ledger",
       "json_artifact": "runs/training_choice_observability.json",
       "markdown_artifact": "runs/training_choice_observability.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
       "projection_status": "pointer-only",
       "report": "training-choice-observability"
     }
