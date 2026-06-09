@@ -22,6 +22,7 @@ CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 NODE_TYPES = frozenset(
     {
         "raw_evidence",
@@ -182,6 +183,11 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
             "mechanism:gap-head-attribution-capsule",
             f"{GAP_HEAD_ATTRIBUTION_ARTIFACT}:$.mechanism_evidence",
             ("gap-head mechanism evidence remains owner-local to the attribution capsule",),
+        ),
+        (
+            "mechanism:dgt-neural-ablation",
+            f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status",
+            ("DGT neural-module ablation evidence remains pointer-only in downstream claim graph rows",),
         ),
     )
     nodes: list[ClaimGraphNode] = []

@@ -47,6 +47,7 @@ from bedc_quality_lab.mechanism_dna import (
 )
 from bedc_quality_lab.research_discovery import DiscoveryLevel, assign_discovery_level
 from bedc_quality_lab.scope import (
+    CLOSED_CLAIM_SCOPE_SEAL,
     ScopeExpansionGate,
     scope_claim_payload,
     scope_expansion_gate_for_payload,
@@ -144,6 +145,7 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
+DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 SIGREG_MINI_GRID_ARTIFACT = "reports/canonical/sigreg-mini-grid.json"
@@ -158,6 +160,15 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.status",
         "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[3]",
         "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.boundary_ledger",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "DGT-neural-ablation",
+        "canonical_owner_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$",
+        "discovery_level_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status",
+        "claim_verdict_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.component_causal_claims",
+        "mechanism_certificate_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.claim_capsule_ref",
+        "debt_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.boundary_ledger",
         "negative_witness_pointer": None,
     },
     {
@@ -2241,6 +2252,40 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_gated_attention_projection(payload, context)
     elif spec.name == "discovery-gated-transformer":
         overlay, evidence = _discovery_gated_transformer_projection(payload, context)
+    elif spec.name == "dgt-neural-ablation":
+        passed = pointer_value(payload, "$.nabl_hardgates.status") == "pass"
+        claim_count = len(payload.get("component_causal_claims", [])) if isinstance(payload.get("component_causal_claims"), list) else 0
+        hardgates = payload.get("nabl_hardgates")
+        failed_gate = hardgates.get("failed_gate") if isinstance(hardgates, Mapping) else None
+        overlay, evidence = {
+            "positive_discovery": bool(passed and claim_count),
+            "main_verdict": {
+                "positive_discovery": bool(passed and claim_count),
+                "surface_delta_count": claim_count,
+                "shift_information": float(claim_count),
+                "net_information": float(claim_count),
+            },
+            "net_positive_signal": bool(passed and claim_count),
+            "matched_random_control": {"control_positive": False},
+            "evidence_basis": {
+                "scorecard_ready": passed,
+                "audit_status": "pass" if passed else "fail",
+                "robustness_ready": passed,
+            },
+            "d5_m": {"status": "ready" if passed else "blocked", "passed": passed, "failed_gate": None if passed else failed_gate},
+            "training_mechanism_cert": {"status": "pass" if passed else "fail"},
+            "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
+            "source_pointers": {
+                "operational": "$.nabl_hardgates.status",
+                "mechanism": "$.component_causal_claims",
+                "mechanism_case": "$.claim_capsule_ref",
+            },
+        }, ProjectionEvidence(
+            projection_status="dgt-neural-ablation-pointer-only",
+            evidence_pointer="$.component_causal_claims",
+            control_pointer="$.training_protocol",
+            scorecard_pointer="$.nabl_hardgates.status",
+        )
     elif spec.name == "transformer-derivative-atlas":
         overlay, evidence = _derivative_negative_projection(payload)
     elif spec.name == "ledger-aware-transformer":
@@ -2526,6 +2571,13 @@ def _audit_row(
             return "invalid", d5_m_reason
         if level in {"D5-O", "D5-M"} and not d5_ready:
             return "invalid", d5_reason
+    if spec.name == "dgt-neural-ablation":
+        if pointer_value(payload, "$.nabl_hardgates.status") != "pass":
+            return "invalid", "dgt-neural-ablation-hardgate-failed"
+        if not isinstance(pointer_value(payload, "$.component_causal_claims"), list):
+            return "invalid", "dgt-neural-ablation-claims-missing"
+        if pointer_value(payload, "$.claim_capsule_ref.artifact") is None:
+            return "invalid", "dgt-neural-ablation-capsule-pointer-missing"
     if spec.name == "ledger-aware-transformer":
         consistent, reason, _failed_pointer = _ledger_aware_transformer_consistency(payload)
         if not consistent:

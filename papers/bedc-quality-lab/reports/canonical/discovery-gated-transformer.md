@@ -141,7 +141,7 @@
 | `D5M-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref` |
 | `D5M-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref` |
 | `D5M-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness` |
-| `D5M-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_ablation` |
+| `D5M-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref` |
 | `D5M-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.score_margin_shortcut` |
 | `D5M-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.scale_leakage` |
 | `D5M-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive` |

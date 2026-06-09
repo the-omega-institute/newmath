@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-09T08:21:49.156738+00:00`
-- Rows: `29`
+- Rows: `30`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -25,6 +25,7 @@
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-dna` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
+| `dgt-neural-ablation` | `D5-M` | `` | `` | `dgt-neural-ablation-pointer-only` | `invalid` | `$.training_protocol` |
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
@@ -62,6 +63,7 @@
 | --- | --- | --- | --- |
 | `positive` | `CGA` | `reports/canonical/certificate-gated-attention.json:$` | `pass` |
 | `positive` | `DGT` | `reports/canonical/discovery-gated-transformer.json:$` | `pass` |
+| `positive` | `DGT-neural-ablation` | `reports/canonical/dgt-neural-ablation.json:$` | `pass` |
 | `positive` | `DRT` | `reports/canonical/discovery-regularized-training.json:$` | `pass` |
 | `positive` | `LAT` | `reports/canonical/ledger-aware-transformer.json:$` | `pass` |
 | `negative` | `LeJEPA-mini-grid-DN` | `reports/runs/lejepa-mini-grid/claim_capsule.json:$` | `pass` |

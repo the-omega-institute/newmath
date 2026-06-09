@@ -25,6 +25,17 @@
         "negative_witness_pointer": null
       },
       {
+        "canonical_owner_pointer": "reports/canonical/dgt-neural-ablation.json:$",
+        "claim_verdict_pointer": "reports/canonical/dgt-neural-ablation.json:$.component_causal_claims",
+        "component_id": "DGT-neural-ablation",
+        "debt_pointer": "reports/canonical/dgt-neural-ablation.json:$.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
+        "hardgate_reason": "pass",
+        "hardgate_status": "pass",
+        "mechanism_certificate_pointer": "reports/canonical/dgt-neural-ablation.json:$.claim_capsule_ref",
+        "negative_witness_pointer": null
+      },
+      {
         "canonical_owner_pointer": "reports/canonical/discovery-regularized-training.json:$",
         "claim_verdict_pointer": "reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.status",
         "component_id": "DRT",
@@ -171,7 +182,7 @@
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 2,
+    "D5-M": 3,
     "D5-O": 2,
     "DN": 7,
     "DR": 0
@@ -200,7 +211,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 29,
+  "row_count": 30,
   "rows": [
     {
       "audit_reason": "",
@@ -580,6 +591,29 @@
       "projection_status": "scaling-ladder-blocked",
       "report": "discovery-gated-transformer",
       "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "owner-anti-triviality-not-pass",
+      "audit_status": "invalid",
+      "classifier_reasons": [
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "audit_pass=true",
+        "robustness_ready=true",
+        "mechanism_ready=true"
+      ],
+      "control_pointer": "$.training_protocol",
+      "discovery_level": "D5-M",
+      "evidence_pointer": "$.component_causal_claims",
+      "json_artifact": "reports/canonical/dgt-neural-ablation.json",
+      "markdown_artifact": "reports/canonical/dgt-neural-ablation.md",
+      "projection_status": "dgt-neural-ablation-pointer-only",
+      "report": "dgt-neural-ablation",
+      "scorecard_pointer": "$.nabl_hardgates.status",
       "terminal_verdict": ""
     },
     {
