@@ -10,10 +10,12 @@ from bedc_quality_lab.mechanism_dna import (
     DEFAULT_DETERMINISTIC_SEED,
     FORBIDDEN_ALIAS_KEYS,
     JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT,
     REQUIRED_REF_FIELDS,
     audit_mechanism_dna,
     build_mechanism_dna,
     mechanism_dna_artifacts,
+    render_mechanism_dna_markdown,
     stable_json,
 )
 from scripts import run_mechanism_dna
@@ -88,6 +90,33 @@ def test_mechanism_dna_writer_blocks_failed_audit_before_artifact_write(tmp_path
 
     assert not (tmp_path / JSON_ARTIFACT).exists()
     assert not (tmp_path / run_mechanism_dna.MARKDOWN_ARTIFACT).exists()
+
+
+def test_mechanism_dna_writer_publishes_json_and_markdown(tmp_path):
+    for artifact, payload in _payloads().items():
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+
+    payload = run_mechanism_dna.write_mechanism_dna(
+        root=tmp_path,
+        generated_at="2030-01-01T00:00:00+00:00",
+        deterministic_seed=935,
+    )
+    json_path = tmp_path / JSON_ARTIFACT
+    markdown_path = tmp_path / MARKDOWN_ARTIFACT
+
+    assert json_path.exists()
+    assert markdown_path.exists()
+    assert json.loads(json_path.read_text(encoding="utf-8")) == payload
+    assert payload["generated_at"] == "2030-01-01T00:00:00+00:00"
+    assert payload["deterministic_seed"] == 935
+    assert audit_mechanism_dna(payload, run_mechanism_dna.load_source_payloads(tmp_path))["status"] == "pass"
+    markdown = markdown_path.read_text(encoding="utf-8")
+    assert markdown == render_mechanism_dna_markdown(payload)
+    assert "| row | mechanism | component | causal path | intervention | ablation | negative witness | status |" in (
+        markdown
+    )
 
 
 def test_mechanism_dna_has_no_terminal_verdict_alias_surface():

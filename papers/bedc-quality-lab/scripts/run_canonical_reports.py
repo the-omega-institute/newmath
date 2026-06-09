@@ -1854,6 +1854,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
 
         write_high_impact_review(root=ROOT, generated_at=generated_at)
         return
+    if spec.name == "mechanism-dna":
+        from scripts.run_mechanism_dna import write_mechanism_dna
+
+        write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
     if inspect.signature(module.main).parameters:
@@ -6011,7 +6016,6 @@ def run_reports(
     claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     high_impact_review_specs = [spec for spec in selected_specs if spec.name == "high-impact-review"]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
-    should_write_mechanism_dna = any(spec.name == "mechanism-dna" for spec in selected_specs)
     results = [
         _run_spec(spec, mode=mode, generated_at=timestamp)
         for spec in pre_verdict_specs
@@ -6040,10 +6044,6 @@ def run_reports(
 
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
-    if should_write_mechanism_dna:
-        from scripts.run_mechanism_dna import write_mechanism_dna
-
-        write_mechanism_dna(root=ROOT, generated_at=timestamp)
     require_full_negative_reports = only is None
     _compile_discovery_compat(
         compile_discovery,
@@ -6068,8 +6068,6 @@ def run_reports(
     _validate_committed_discovery_map_round_trip()
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     write_experiment_proposals(ROOT, generated_at=timestamp)
-    if should_write_mechanism_dna:
-        write_mechanism_dna(root=ROOT, generated_at=timestamp)
     from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
 
     write_negative_witness_mutation_ledger(root=ROOT, generated_at=timestamp)
