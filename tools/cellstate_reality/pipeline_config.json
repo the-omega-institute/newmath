@@ -124,6 +124,27 @@
     "block_mechanism_claims_without_mechanism_bridge": true,
     "block_total_biology_claims": true
   },
+  "packet_id_policy": {
+    "id_pattern": "^[a-z0-9][a-z0-9.:-]*$",
+    "id_fields_use": "lowercase dotted/kebab tokens only",
+    "layer_fields_use": "canonical underscore layer tokens",
+    "embedded_layer_tokens": {
+      "genome_source": "genome-source",
+      "age_signature": "age-signature",
+      "cell_identity": "cell-identity",
+      "function_realization": "function-realization",
+      "safety_boundary": "safety-boundary",
+      "renewable_maintenance": "renewable-maintenance",
+      "organismal_maintenance": "organismal-maintenance",
+      "cross_layer_relation": "cross-layer-relation"
+    },
+    "invalid_examples": [
+      "function_realization.seed.boundary"
+    ],
+    "valid_examples": [
+      "function-realization.seed.boundary"
+    ]
+  },
   "keep_lane": {
     "enabled": true,
     "branch": "feat/cellstate_reality-deepening",
