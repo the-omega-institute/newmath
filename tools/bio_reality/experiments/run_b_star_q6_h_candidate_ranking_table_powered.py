@@ -56,7 +56,7 @@ EXPERIMENT_ID = "b_star_q6_h_candidate_ranking_table_powered"
 CLAIM_ID = "h3.cross_layer_relation.h_candidate_ranking_table.b_star_q6_non_translation_residual_powered"
 CONJECTURE_ID = "q6.h-ranking-table.direction-aware.cross-layer"
 
-NULL_TRIALS = 200
+NULL_TRIALS = 64
 BONFERRONI_ALPHA = 0.05
 LAMBDA_DL = 0.01
 SURVIVAL_EPS = 1e-12

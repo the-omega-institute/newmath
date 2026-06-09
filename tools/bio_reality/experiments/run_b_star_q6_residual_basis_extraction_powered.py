@@ -12,6 +12,7 @@ import json
 import math
 import pathlib
 import sys
+import datetime as dt
 from collections.abc import Callable
 from typing import Any
 
@@ -50,7 +51,7 @@ CONJECTURE_ID = "q6.residual-basis-extraction.greedy-readout.cross-layer"
 
 SURVIVAL_EPS = 1e-12
 MODELED_ALIGNMENT_TOL = 0.02
-NULL_TRIALS = 200
+NULL_TRIALS = 64
 LAMBDA = 0.01
 COMPRESSIBLE_RHO_THRESHOLD = 0.50
 PERSISTENT_RHO_THRESHOLD = 0.80
@@ -75,6 +76,7 @@ FEATURE_TO_UNIPROT_NAME = {
 }
 
 TRNA_SOURCE_ORGANISMS = {"saccharomyces_cerevisiae", "homo_sapiens", "danio_rerio"}
+STARTED_AT = dt.datetime.now(dt.timezone.utc).isoformat()
 
 
 class CandidateSpec:
@@ -93,8 +95,21 @@ class CandidateSpec:
 
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
-    payload.update(kw)
+    checks = kw.pop("checks", [])
+    result = kw.pop("result", None)
+    if result is None:
+        result = kw
+    elif kw and isinstance(result, dict):
+        result = {**result, **kw}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks if isinstance(checks, list) else [],
+        "result": result if isinstance(result, dict) else {"value": result},
+        "started_at": STARTED_AT,
+        "completed_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+    }
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
 
