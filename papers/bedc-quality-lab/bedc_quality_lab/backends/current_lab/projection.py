@@ -72,6 +72,7 @@ DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 CLAIM_COMPLEXITY_ARTIFACT = "reports/canonical/claim_complexity.json"
 CLAIM_VERDICTS_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
+HIGH_IMPACT_REVIEW_ARTIFACT = "reports/canonical/high-impact-review.json"
 
 
 @dataclass(frozen=True)
@@ -1116,13 +1117,13 @@ def _discovery_gated_nas_projection(
 
 
 def _dgt_terminal_d4_accepted(context: Mapping[str, Mapping[str, Any]]) -> bool:
-    rows = context.get(CLAIM_VERDICTS_ARTIFACT, {}).get("rows")
+    rows = context.get(HIGH_IMPACT_REVIEW_ARTIFACT, {}).get("review_rows")
     if not isinstance(rows, list):
         return False
     return any(
         isinstance(row, Mapping)
         and row.get("claim_id") == "claim:discovery-gated-transformer"
-        and row.get("claim_verdict") == ACCEPTED_CLAIM_VERDICT
+        and row.get("status") == "pass"
         and row.get("reason") == POSITIVE_DISCOVERY_GATES_PASS_REASON
         for row in rows
     )
@@ -1188,7 +1189,12 @@ def _dgt_d5_o_projection_status(
         evidence = gate.get("evidence")
         if not isinstance(evidence, Mapping):
             return False, f"dgt-d5-o-unresolved-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
+        artifact = evidence.get("artifact")
         local_pointer = evidence.get("pointer")
+        if artifact != DISCOVERY_GATED_TRANSFORMER_ARTIFACT:
+            if not isinstance(artifact, str) or not isinstance(local_pointer, str) or not local_pointer.startswith("$."):
+                return False, f"dgt-d5-o-unresolved-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
+            continue
         if isinstance(local_pointer, str) and local_pointer.startswith("$.") and pointer_value(payload, local_pointer) is None:
             return False, f"dgt-d5-o-unresolved-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
     if projection.get("gate_status") != "pass" or projection.get("status") != "ready":
@@ -2713,6 +2719,9 @@ def build_source_discovery_rows(
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
     gap_head_d5_context = _load_gap_head_d5_context(root=root)
     gap_head_d5_context[CLAIM_VERDICTS_ARTIFACT] = {"rows": _load_claim_verdict_rows(root=root)}
+    high_impact_review = _load_artifact_payload(HIGH_IMPACT_REVIEW_ARTIFACT, root=root)
+    if high_impact_review:
+        gap_head_d5_context[HIGH_IMPACT_REVIEW_ARTIFACT] = high_impact_review
     rows = [discovery_row(spec, _load_payload(spec, root=root), gap_head_d5_context) for spec in reports]
     dimension_payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ARTIFACT, root=root)
     if dimension_payload:

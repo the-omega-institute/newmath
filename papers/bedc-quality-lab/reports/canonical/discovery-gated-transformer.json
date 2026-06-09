@@ -545,7 +545,7 @@
     "boundary_ledger": [
       {
         "boundary": "closed for bounded D5-O",
-        "evidence_pointer": "reports/canonical/claim_verdicts.jsonl:$",
+        "evidence_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
         "gate": "D5O-HG1",
         "status": "pass"
       },
@@ -595,18 +595,18 @@
     "discovery_level": "D5-O",
     "evidence_pointers": {
       "component_ablation": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
-      "high_impact_review": "reports/canonical/high-impact-review.json:$.dgt_gate",
+      "high_impact_review": "reports/canonical/high-impact-review.json:$.review_rows[0]",
       "operational_robustness": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
       "source_d4_projection": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
       "stronger_matched_random": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
-      "terminal_d4_acceptance": "reports/canonical/claim_verdicts.jsonl:$"
+      "terminal_d4_acceptance": "reports/canonical/high-impact-review.json:$.review_rows[0]"
     },
     "gate_status": "pass",
     "gates": {
       "D5O-HG1": {
         "evidence": {
-          "artifact": "reports/canonical/claim_verdicts.jsonl",
-          "pointer": "$"
+          "artifact": "reports/canonical/high-impact-review.json",
+          "pointer": "$.review_rows[0]"
         },
         "status": "pass"
       },

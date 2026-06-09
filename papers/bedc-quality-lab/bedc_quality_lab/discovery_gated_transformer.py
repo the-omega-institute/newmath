@@ -182,6 +182,7 @@ D5O_REQUIRED_KEYS = (
     "anti_triviality_gate_evidence",
 )
 D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
+HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -1964,14 +1965,24 @@ class DgtD5OProjection:
         return dict(self.payload)
 
 
-def _terminal_d4_accepted_row(claim_verdict_rows: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | None:
-    for row in claim_verdict_rows:
-        if (
-            row.get("claim_id") == "claim:discovery-gated-transformer"
-            and row.get("claim_verdict") == "accepted_positive_discovery"
-            and row.get("reason") == "positive-discovery-gates-pass"
-        ):
-            return row
+def _read_high_impact_review_rows(root: Path) -> list[Mapping[str, Any]]:
+    path = root / HIGH_IMPACT_REVIEW_JSON_ARTIFACT
+    if not path.exists():
+        return []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    rows = payload.get("review_rows") if isinstance(payload, Mapping) else None
+    if not isinstance(rows, list):
+        return []
+    return [row for row in rows if isinstance(row, Mapping)]
+
+
+def _terminal_d4_review_row(review_rows: Sequence[Mapping[str, Any]]) -> tuple[int, Mapping[str, Any]] | None:
+    for index, row in enumerate(review_rows):
+        if row.get("claim_id") == "claim:discovery-gated-transformer" and row.get("status") == "pass":
+            return index, row
     return None
 
 
@@ -2025,16 +2036,17 @@ def _toy_seed_surface_summary(seed: int = 1105) -> dict[str, Any]:
 
 def _d5_o_gate_rows(
     owner_payload: Mapping[str, Any],
-    claim_verdict_rows: Sequence[Mapping[str, Any]],
+    high_impact_review_rows: Sequence[Mapping[str, Any]],
     surface_summary: Mapping[str, Any],
+    not_claimed: Sequence[str],
 ) -> dict[str, dict[str, Any]]:
-    terminal_row = _terminal_d4_accepted_row(claim_verdict_rows)
+    terminal_row = _terminal_d4_review_row(high_impact_review_rows)
     d4_projection = owner_payload.get("d4_projection")
     operational = owner_payload.get("operational_robustness") or owner_payload.get("robustness")
     component_ablation = owner_payload.get("component_ablation")
     surface_rows = surface_summary.get("surfaces")
     evidence_pointers = {
-        "D5O-HG1": "reports/canonical/claim_verdicts.jsonl:$",
+        "D5O-HG1": f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$.review_rows[0]",
         "D5O-HG2": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
         "D5O-HG3": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary",
         "D5O-HG4": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.seed",
@@ -2043,7 +2055,7 @@ def _d5_o_gate_rows(
         "D5O-HG7": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.boundary_ledger",
         "D5O-HG8": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.not_claimed",
     }
-    not_claimed_text = " ".join(D5O_NOT_CLAIMED).lower()
+    not_claimed_text = " ".join(str(item) for item in not_claimed).lower()
     failed_conditions = {
         "D5O-HG1": terminal_row is None,
         "D5O-HG2": not (
@@ -2093,25 +2105,31 @@ def _d5_o_gate_rows(
 
 def build_d5_o_projection(
     owner_payload: Mapping[str, Any],
-    claim_verdict_rows: Sequence[Mapping[str, Any]],
+    high_impact_review_rows: Sequence[Mapping[str, Any]],
     *,
     root: Path,
+    surface_summary: Mapping[str, Any] | None = None,
+    not_claimed: Sequence[str] | None = None,
 ) -> dict[str, Any]:
     del root
-    surface_summary = _toy_seed_surface_summary()
-    gates = _d5_o_gate_rows(owner_payload, claim_verdict_rows, surface_summary)
+    surface_summary = dict(surface_summary or _toy_seed_surface_summary())
+    not_claimed_rows = list(not_claimed or D5O_NOT_CLAIMED)
+    gates = _d5_o_gate_rows(owner_payload, high_impact_review_rows, surface_summary, not_claimed_rows)
     failed = [gate_name for gate_name in D5O_GATE_NAMES if gates[gate_name]["status"] != "pass"]
-    terminal_row = _terminal_d4_accepted_row(claim_verdict_rows)
+    terminal_row = _terminal_d4_review_row(high_impact_review_rows)
     source_level = pointer_value(owner_payload, "$.d4_projection.discovery_level")
-    evidence_pointers = {
-        "terminal_d4_acceptance": "reports/canonical/claim_verdicts.jsonl:$"
+    terminal_pointer = (
+        f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$.review_rows[{terminal_row[0]}]"
         if terminal_row is not None
-        else "reports/canonical/claim_verdicts.jsonl:$.lines[0]",
+        else f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$.review_rows[0]"
+    )
+    evidence_pointers = {
+        "terminal_d4_acceptance": terminal_pointer,
         "source_d4_projection": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
         "operational_robustness": f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
         "component_ablation": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
         "stronger_matched_random": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
-        "high_impact_review": "reports/canonical/high-impact-review.json:$.dgt_gate",
+        "high_impact_review": terminal_pointer,
     }
     boundary_ledger = [
         {
@@ -2132,7 +2150,7 @@ def build_d5_o_projection(
         "evidence_pointers": evidence_pointers,
         "boundary_ledger": boundary_ledger,
         "blocked_reason": None if not failed else f"blocked-by-{failed[0]}",
-        "not_claimed": list(D5O_NOT_CLAIMED),
+        "not_claimed": not_claimed_rows,
         "scope": {
             "claim": "bounded deterministic toy operational robustness",
             "review": D5O_REVIEW_PHRASE,
@@ -2209,16 +2227,22 @@ class DiscoveryGatedTransformerProjector:
         component_refs: Mapping[str, Any] | None = None,
         robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
         claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+        high_impact_review_rows: Sequence[Mapping[str, Any]] | None = None,
+        d5_o_surface_summary: Mapping[str, Any] | None = None,
         root: Path | None = None,
     ) -> None:
+        del claim_verdict_rows
         self.component_refs = dict(component_refs) if component_refs is not None else default_component_refs()
         self.robustness_source_payloads = (
             dict(robustness_source_payloads)
             if robustness_source_payloads is not None
             else default_robustness_source_payloads()
         )
-        self.claim_verdict_rows = tuple(claim_verdict_rows or ())
         self.root = root or Path(".")
+        self.high_impact_review_rows = tuple(
+            high_impact_review_rows if high_impact_review_rows is not None else _read_high_impact_review_rows(self.root)
+        )
+        self.d5_o_surface_summary = dict(d5_o_surface_summary) if d5_o_surface_summary is not None else None
 
     def project(self, *, generated_at: str) -> dict[str, Any]:
         payload = {
@@ -2268,8 +2292,9 @@ class DiscoveryGatedTransformerProjector:
         )
         payload["d5_o_projection"] = build_d5_o_projection(
             payload,
-            self.claim_verdict_rows,
+            self.high_impact_review_rows,
             root=self.root,
+            surface_summary=self.d5_o_surface_summary,
         )
         validate_projection(payload)
         return payload
@@ -2377,12 +2402,16 @@ def build_projection(
     component_refs: Mapping[str, Any] | None = None,
     robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
     claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+    high_impact_review_rows: Sequence[Mapping[str, Any]] | None = None,
+    d5_o_surface_summary: Mapping[str, Any] | None = None,
     root: Path | None = None,
 ) -> dict[str, Any]:
     return DiscoveryGatedTransformerProjector(
         component_refs=component_refs,
         robustness_source_payloads=robustness_source_payloads,
         claim_verdict_rows=claim_verdict_rows,
+        high_impact_review_rows=high_impact_review_rows,
+        d5_o_surface_summary=d5_o_surface_summary,
         root=root,
     ).project(generated_at=generated_at)
 

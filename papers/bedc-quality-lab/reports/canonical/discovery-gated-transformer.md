@@ -116,7 +116,7 @@
 
 | gate | status | evidence |
 | --- | --- | --- |
-| `D5O-HG1` | `pass` | `reports/canonical/claim_verdicts.jsonl:$` |
+| `D5O-HG1` | `pass` | `reports/canonical/high-impact-review.json:$.review_rows[0]` |
 | `D5O-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |
 | `D5O-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary` |
 | `D5O-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.seed` |

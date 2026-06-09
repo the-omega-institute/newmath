@@ -23,6 +23,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     MECHANISM_NAMECERT_ARTIFACT,
     MODEL_ID,
     SOURCE_REFS_ARTIFACT,
+    _toy_seed_surface_summary,
     build_projection,
     default_sidecars,
     render_markdown,
@@ -40,6 +41,7 @@ SIDECAR_ARTIFACTS = {
     "jet_certificate": JET_CERTIFICATE_ARTIFACT,
 }
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
+HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
 
 
 def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
@@ -53,6 +55,8 @@ def build_payload(
     component_refs: Mapping[str, Any] | None = None,
     robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
     claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+    high_impact_review_rows: Sequence[Mapping[str, Any]] | None = None,
+    d5_o_surface_summary: Mapping[str, Any] | None = None,
     root: Path = ROOT,
 ) -> dict[str, Any]:
     return build_projection(
@@ -60,6 +64,8 @@ def build_payload(
         component_refs=component_refs,
         robustness_source_payloads=robustness_source_payloads,
         claim_verdict_rows=claim_verdict_rows,
+        high_impact_review_rows=high_impact_review_rows,
+        d5_o_surface_summary=d5_o_surface_summary,
         root=root,
     )
 
@@ -86,6 +92,17 @@ def _read_claim_verdict_rows(root: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _read_high_impact_review_rows(root: Path) -> list[dict[str, Any]]:
+    path = root / HIGH_IMPACT_REVIEW_JSON_ARTIFACT
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    rows = payload.get("review_rows") if isinstance(payload, Mapping) else None
+    if not isinstance(rows, list):
+        return []
+    return [row for row in rows if isinstance(row, dict)]
+
+
 def write_artifacts(payload: Mapping[str, Any], *, root: Path = ROOT) -> None:
     validate_projection(payload)
     sidecars = build_run_sidecars(generated_at=str(payload["generated_at"]))
@@ -105,7 +122,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     payload = build_payload(
         generated_at=args.generated_at,
-        claim_verdict_rows=_read_claim_verdict_rows(args.root),
+        high_impact_review_rows=_read_high_impact_review_rows(args.root),
         root=args.root,
     )
     write_artifacts(payload, root=args.root)

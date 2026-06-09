@@ -187,22 +187,23 @@ def _write_audit_complete_payload(root: Path, report: str):
     return spec, payload
 
 
-def _write_dgt_accepted_claim_verdict(root: Path):
-    path = root / "reports" / "canonical" / "claim_verdicts.jsonl"
+def _write_dgt_accepted_high_impact_review(root: Path):
+    path = root / "reports" / "canonical" / "high-impact-review.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps(
             {
-                "claim_id": "claim:discovery-gated-transformer",
-                "claim_graph_node_id": "terminal:discovery-gated-transformer",
-                "claim_verdict": "accepted_positive_discovery",
-                "reason": "positive-discovery-gates-pass",
-                "source": "reports/canonical/discovery_map.json:$.rows[0]",
-                "ledger_pointer": "reports/canonical/discovery_map.json:$.rows[0].discovery_level",
-                "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
-                "scorecard_hash": "fixture",
-                "scorecard_ready": True,
-                "formal_hardening_ready": True,
+                "schema_id": "bedc-quality-lab:high-impact-review",
+                "artifact_id": "bedc-quality-lab:high-impact-review",
+                "review_rows": [
+                    {
+                        "claim_id": "claim:discovery-gated-transformer",
+                        "status": "pass",
+                        "reason": "positive-discovery-gates-pass",
+                        "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+                        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+                    }
+                ],
             },
             sort_keys=True,
         )
@@ -1052,19 +1053,17 @@ def test_discovery_map_dgt_reads_d5_o_projection_pointer(tmp_path):
 
 def test_discovery_map_dgt_unresolved_projection_pointer_fails_closed_to_d4(tmp_path):
     _write_coverage_payloads(tmp_path)
-    _write_dgt_accepted_claim_verdict(tmp_path)
+    _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
+    surface_summary = dgt_runner._toy_seed_surface_summary()
+    surface_summary["surfaces"][0]["matched_random_pass"] = True
+    surface_summary["threshold_frontier"]["matched_random_pass_count"] = 1
     payload = dgt_runner.build_payload(
         generated_at="fixture-time",
-        claim_verdict_rows=dgt_runner._read_claim_verdict_rows(tmp_path),
+        high_impact_review_rows=dgt_runner._read_high_impact_review_rows(tmp_path),
         root=tmp_path,
+        d5_o_surface_summary=surface_summary,
     )
-    payload["d5_o_projection"]["surface_summary"]["threshold_frontier"].pop("matched_random_pass_count")
-    payload["d5_o_projection"]["gates"]["D5O-HG6"]["status"] = "fail"
-    payload["d5_o_projection"]["gate_status"] = "fail"
-    payload["d5_o_projection"]["status"] = "blocked"
-    payload["d5_o_projection"]["discovery_level"] = "D4"
-    payload["d5_o_projection"]["blocked_reason"] = "blocked-by-D5O-HG6"
     _write_payload(tmp_path, spec, payload)
 
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1078,11 +1077,11 @@ def test_discovery_map_dgt_unresolved_projection_pointer_fails_closed_to_d4(tmp_
 
 def test_discovery_map_dgt_all_gates_pass_projects_d5_o(tmp_path):
     _write_coverage_payloads(tmp_path)
-    _write_dgt_accepted_claim_verdict(tmp_path)
+    _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
     payload = dgt_runner.build_payload(
         generated_at="fixture-time",
-        claim_verdict_rows=dgt_runner._read_claim_verdict_rows(tmp_path),
+        high_impact_review_rows=dgt_runner._read_high_impact_review_rows(tmp_path),
         root=tmp_path,
     )
     _write_payload(tmp_path, spec, payload)
