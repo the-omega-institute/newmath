@@ -63,8 +63,15 @@
       "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json"
     },
     "vjepa2_ac_minigrid_claim_certificate": {
-      "pass_condition": "target artifact records each predicate as certified, coverage debt, or source debt under the Latent Claim Certificate Protocol",
+      "pass_condition": "target artifact records execution, checkpoint, and feature contracts and assigns each predicate to certified, coverage-debt, or source-debt status under LCCP",
       "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
+      "required_fields": [
+        "execution_contract",
+        "checkpoint_contract",
+        "feature_contract",
+        "claims",
+        "cannot_claim"
+      ],
       "required_predicates": [
         "door_key_context_visible",
         "unsafe_transition",
@@ -76,12 +83,15 @@
       "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     },
     "vjepa2_ac_minigrid_latent_prediction": {
-      "pass_condition": "target artifact status is executed and reports latent_prediction_score beside explicit cannot-claim rows",
+      "pass_condition": "target artifact status is executed and reports latent_prediction_score beside execution, checkpoint, feature, and cannot-claim contracts",
       "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
       "required_fields": [
         "candidate_id",
         "environment_id",
         "sample_counts",
+        "execution_contract",
+        "checkpoint_contract",
+        "feature_contract",
         "metrics",
         "claim_scope",
         "cannot_claim"

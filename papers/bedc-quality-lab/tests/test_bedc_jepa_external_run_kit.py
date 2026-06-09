@@ -42,10 +42,18 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert vjepa_lccp["readiness_gate"] == "vjepa2_ac_fixed_carrier_lccp"
     assert vjepa_lccp["target_artifact"] == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     assert vjepa_lccp["run_command"] == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
+    assert "execution_contract" in vjepa_lccp["required_fields"]
+    assert "checkpoint_contract" in vjepa_lccp["required_fields"]
+    assert "feature_contract" in vjepa_lccp["required_fields"]
     assert "door_key_context_visible" in vjepa_lccp["required_predicates"]
+    assert "source-debt status under LCCP" in vjepa_lccp["pass_condition"]
     assert vjepa_latent["target_artifact"] == "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     assert vjepa_latent["run_command"] == "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
+    assert "execution_contract" in vjepa_latent["required_fields"]
+    assert "checkpoint_contract" in vjepa_latent["required_fields"]
+    assert "feature_contract" in vjepa_latent["required_fields"]
     assert "metrics" in vjepa_latent["required_fields"]
+    assert "feature, and cannot-claim contracts" in vjepa_latent["pass_condition"]
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
     assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
