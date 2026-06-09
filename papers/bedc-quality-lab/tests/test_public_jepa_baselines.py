@@ -49,7 +49,7 @@ def test_public_jepa_baseline_comparison_records_missing_execution_contract():
         "debt_reduction_mean",
         "latent_r2_delta_abs_max",
     ]
-    assert "selected public baseline has not been executed" in comparison["blocking_reason"]
+    assert "selected public baseline has not been executed" in comparison["remaining_requirement"]
 
 
 def test_public_jepa_baseline_metrics_import_marks_comparison_executed():
@@ -113,11 +113,11 @@ def test_public_jepa_baseline_probe_records_dependency_and_repository_boundary()
     assert probe["repository_url"] == "https://github.com/facebookresearch/vjepa2"
     assert "torch" in probe["dependency_status"]
     assert "timm" in probe["dependency_status"]
-    assert probe["status"] in {"structure_loaded", "ready_to_import_metrics", "unavailable"}
+    assert probe["status"] in {"structure_loaded", "metrics_import_ready", "unavailable"}
     assert "hub_cache_present" in probe
     assert "model_load_attempt" in probe
 
-    if probe["status"] == "ready_to_import_metrics":
+    if probe["status"] == "metrics_import_ready":
         assert probe["cannot_execute"] == []
     else:
         assert probe["cannot_execute"]
@@ -133,7 +133,7 @@ def test_public_jepa_baseline_probe_model_load_attempt_is_fail_closed():
         assert attempt["stage"] == "dependency_check"
         assert "missing dependencies" in attempt["reason"]
     if attempt["status"] == "loaded":
-        assert probe["status"] in {"structure_loaded", "ready_to_import_metrics"}
+        assert probe["status"] in {"structure_loaded", "metrics_import_ready"}
         assert "model_type" in attempt
     if attempt["status"] == "failed":
         assert probe["status"] == "unavailable"
@@ -210,7 +210,7 @@ def test_public_jepa_ac_giant_adapter_fails_closed_without_cuda(monkeypatch):
     assert result["schema_id"] == "bedc-jepa-public-ac-giant-adapter"
     assert result["status"] == "unavailable"
     assert result["candidate_id"] == "vjepa2-ac-vit-giant"
-    assert "torch.cuda.is_available() is false" in result["blocking_reason"]
+    assert "torch.cuda.is_available() is false" in result["remaining_requirement"]
     assert "V-JEPA2-AC action-conditioned checkpoint comparison" in result["cannot_claim"]
 
 
@@ -254,7 +254,7 @@ def test_public_jepa_cuda_comparison_fails_closed_when_ac_missing():
         },
         ac_giant_adapter={
             "status": "unavailable",
-            "blocking_reason": "checkpoint boundary missing",
+            "remaining_requirement": "checkpoint boundary missing",
         },
     )
 

@@ -1,4 +1,4 @@
-"""MiniGrid latent-prediction contact for the public V-JEPA2-AC checkpoint."""
+"""MiniGrid latent-prediction evaluation for the public V-JEPA2-AC checkpoint."""
 
 from __future__ import annotations
 
@@ -112,7 +112,7 @@ def build_vjepa2_ac_latent_prediction_packet(
         "candidate_id": "vjepa2-ac-vit-giant",
         "carrier_id": carrier_id,
         "environment_id": environment_id,
-        "protocol": "fixed-checkpoint MiniGrid latent-prediction contact",
+        "protocol": "fixed-checkpoint MiniGrid latent-prediction evaluation",
         "sample_counts": {
             "total": float(source.shape[0]),
             "train": float(source_train.shape[0]),
@@ -159,7 +159,7 @@ def build_vjepa2_ac_latent_prediction_packet(
         "claim_scope": (
             "same MiniGrid image/action stream as the BEDC native packet; V-JEPA2-AC encoder and "
             "action-conditioned predictor are loaded from the public Giant checkpoint; a linear "
-            "alignment is fitted only on the train split for reporting latent-prediction contact"
+            "alignment is fitted only on the train split for reporting the fixed-checkpoint latent-prediction evaluation"
         ),
         "cannot_claim": [
             "public benchmark superiority",
@@ -220,7 +220,7 @@ def run_vjepa2_ac_minigrid_latent_prediction(
             "torch_environment": cuda,
             "reason": "CUDA was requested but torch.cuda.is_available() is false",
             "cannot_claim": [
-                "V-JEPA2-AC MiniGrid latent-prediction contact",
+                "V-JEPA2-AC MiniGrid latent-prediction evaluation",
                 "public benchmark superiority",
             ],
         }
@@ -291,7 +291,7 @@ def run_vjepa2_ac_minigrid_latent_prediction(
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-8:],
             "cannot_claim": [
-                "V-JEPA2-AC MiniGrid latent-prediction contact",
+                "V-JEPA2-AC MiniGrid latent-prediction evaluation",
                 "public benchmark superiority",
             ],
         }

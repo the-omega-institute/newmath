@@ -1,4 +1,4 @@
-"""Public JEPA-family baseline registry for BEDC-JEPA contact readiness."""
+"""Public JEPA-family baseline registry for BEDC-JEPA evaluation readiness."""
 
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ def _vjepa2_ac_candidate() -> dict[str, Any]:
         "repository_url": "https://github.com/facebookresearch/vjepa2",
         "baseline_role": "action-conditioned latent world-model baseline",
         "why_relevant": (
-            "V-JEPA 2-AC is the closest public JEPA-family contact because it "
+            "V-JEPA 2-AC is the closest public JEPA-family evaluation target because it "
             "uses action-conditioned latent prediction for world modeling."
         ),
         "expected_input_contract": [
@@ -51,7 +51,7 @@ def _vjepa2_ac_candidate() -> dict[str, Any]:
             "BEDC distinction head and gap head evaluated on the same rollout cases",
             "unlogged error, gap AUROC, certified coverage, and debt reported beside baseline scores",
         ],
-        "current_artifact_status": "not_executed",
+        "current_evidence_status": "not_executed",
     }
 
 
@@ -78,7 +78,7 @@ def _leworldmodel_candidate() -> dict[str, Any]:
             "baseline next-embedding prediction metrics",
             "BEDC objective readback metrics on the declared distinction/gap scope",
         ],
-        "current_artifact_status": "not_executed",
+        "current_evidence_status": "not_executed",
     }
 
 
@@ -130,7 +130,7 @@ def build_public_jepa_baseline_comparison() -> dict[str, Any]:
             "debt_reduction_mean",
             "latent_r2_delta_abs_max",
         ],
-        "blocking_reason": "selected public baseline has not been executed in this workspace",
+        "remaining_requirement": "selected public baseline has not been executed in this workspace",
         "cannot_claim": [
             "public JEPA baseline comparison",
             "JEPA-family checkpoint parity",
@@ -226,7 +226,7 @@ def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any
         "commit": str(result["commit"]),
         "checkpoint": str(result["checkpoint"]),
     }
-    comparison["blocking_reason"] = None
+    comparison["remaining_requirement"] = None
     comparison["cannot_claim"] = []
     return comparison
 
@@ -591,7 +591,7 @@ def run_public_jepa_ac_giant_adapter(
             "candidate_id": "vjepa2-ac-vit-giant",
             "repository_url": "https://github.com/facebookresearch/vjepa2",
             "cuda_environment": cuda,
-            "blocking_reason": "CUDA was requested but torch.cuda.is_available() is false",
+            "remaining_requirement": "CUDA was requested but torch.cuda.is_available() is false",
             "cannot_claim": [
                 "V-JEPA2-AC action-conditioned checkpoint comparison",
                 "public benchmark score superiority",
@@ -696,7 +696,7 @@ def run_public_jepa_ac_giant_adapter(
             "exception_type": type(exc).__name__,
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-8:],
-            "blocking_reason": "V-JEPA2-AC Giant checkpoint could not be loaded and evaluated inside the declared CUDA boundary",
+            "remaining_requirement": "V-JEPA2-AC Giant checkpoint could not be loaded and evaluated inside the declared CUDA boundary",
             "cannot_claim": [
                 "V-JEPA2-AC action-conditioned checkpoint comparison",
                 "public benchmark superiority",
@@ -775,7 +775,7 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
     if model_load_attempt["status"] == "loaded" and head is not None:
         status = "structure_loaded"
     if model_load_attempt["status"] == "loaded" and head is not None and not cannot_execute:
-        status = "ready_to_import_metrics"
+        status = "metrics_import_ready"
     return {
         "schema_id": "bedc-jepa-public-baseline-probe",
         "status": status,
