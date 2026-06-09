@@ -71,6 +71,7 @@ DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 CLAIM_COMPLEXITY_ARTIFACT = "reports/canonical/claim_complexity.json"
+CLAIM_VERDICTS_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 
 
 @dataclass(frozen=True)
@@ -124,6 +125,7 @@ DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status
 GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER = "$.multi_surface_d5_o.decision"
 GAP_HEAD_TRANSFER_ATLAS_CONTROL_POINTER = "$.config.control_arm"
 ACCEPTED_CLAIM_VERDICT = "accepted_positive_discovery"
+POSITIVE_DISCOVERY_GATES_PASS_REASON = "positive-discovery-gates-pass"
 MECHANISM_NOT_CLOSED_CLAIM_VERDICT = "mechanism_not_closed"
 DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
 DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
@@ -367,6 +369,23 @@ def _ensure_negative_sidecar_payloads(*, root: Path | None = None) -> None:
 def _load_gap_head_d5_context(*, root: Path | None = None) -> dict[str, dict[str, Any]]:
     _ensure_negative_sidecar_payloads(root=root)
     return {artifact: _load_artifact_payload(artifact, root=root) for artifact in GAP_HEAD_D5_CONTEXT_ARTIFACTS}
+
+
+def _load_claim_verdict_rows(*, root: Path | None = None) -> list[dict[str, Any]]:
+    path = _artifact_path(CLAIM_VERDICTS_ARTIFACT, root=root)
+    if not path.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(row, dict):
+            rows.append(row)
+    return rows
 
 
 def _scorecard_ready(context: Mapping[str, Mapping[str, Any]]) -> bool:
@@ -1096,7 +1115,23 @@ def _discovery_gated_nas_projection(
     )
 
 
-def _discovery_gated_transformer_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+def _dgt_terminal_d4_accepted(context: Mapping[str, Mapping[str, Any]]) -> bool:
+    rows = context.get(CLAIM_VERDICTS_ARTIFACT, {}).get("rows")
+    if not isinstance(rows, list):
+        return False
+    return any(
+        isinstance(row, Mapping)
+        and row.get("claim_id") == "claim:discovery-gated-transformer"
+        and row.get("claim_verdict") == ACCEPTED_CLAIM_VERDICT
+        and row.get("reason") == POSITIVE_DISCOVERY_GATES_PASS_REASON
+        for row in rows
+    )
+
+
+def _discovery_gated_transformer_consistency(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[bool, str, str]:
     projection = pointer_value(payload, "$.d4_projection")
     if not isinstance(projection, Mapping):
         return False, "missing-dgt-d4-projection", "$.d4_projection"
@@ -1133,16 +1168,47 @@ def _discovery_gated_transformer_consistency(payload: Mapping[str, Any]) -> tupl
     return True, "", "$.d4_projection.failed_gate" if failed is not None else "$.d4_projection.discovery_level"
 
 
+def _dgt_d5_o_projection_status(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[bool, str, str]:
+    context_payloads = {} if context is None else context
+    if not _dgt_terminal_d4_accepted(context_payloads):
+        return False, "dgt-terminal-d4-accepted-missing", "$.d5_o_projection.gates.D5O-HG1"
+    projection = pointer_value(payload, "$.d5_o_projection")
+    if not isinstance(projection, Mapping):
+        return False, "missing-dgt-d5-o-projection", "$.d5_o_projection"
+    gates = projection.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != {f"D5O-HG{index}" for index in range(1, 9)}:
+        return False, "dgt-d5-o-gates-mismatch", "$.d5_o_projection.gates"
+    for gate_name in (f"D5O-HG{index}" for index in range(1, 9)):
+        gate = gates.get(gate_name)
+        if not isinstance(gate, Mapping) or gate.get("status") != "pass":
+            return False, f"dgt-d5-o-blocked-by-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
+        evidence = gate.get("evidence")
+        if not isinstance(evidence, Mapping):
+            return False, f"dgt-d5-o-unresolved-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
+        local_pointer = evidence.get("pointer")
+        if isinstance(local_pointer, str) and local_pointer.startswith("$.") and pointer_value(payload, local_pointer) is None:
+            return False, f"dgt-d5-o-unresolved-{gate_name}", f"$.d5_o_projection.gates.{gate_name}"
+    if projection.get("gate_status") != "pass" or projection.get("status") != "ready":
+        return False, "dgt-d5-o-status-not-ready", "$.d5_o_projection.status"
+    if projection.get("discovery_level") != "D5-O":
+        return False, "dgt-d5-o-level-mismatch", "$.d5_o_projection.discovery_level"
+    return True, "", "$.d5_o_projection"
+
+
 def _discovery_gated_transformer_projection(
     payload: Mapping[str, Any],
     context: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], ProjectionEvidence]:
-    del context
-    consistent, _reason, failed_pointer = _discovery_gated_transformer_consistency(payload)
+    consistent, _reason, failed_pointer = _discovery_gated_transformer_consistency(payload, context)
     projection = pointer_value(payload, "$.d4_projection")
     projection = projection if isinstance(projection, Mapping) else {}
     level = projection.get("discovery_level")
     if consistent and level == "D4":
+        d5_ready, d5_reason, d5_pointer = _dgt_d5_o_projection_status(payload, context)
+        dgt_level = "D5-O" if d5_ready else "D4"
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -1152,9 +1218,10 @@ def _discovery_gated_transformer_projection(
                 "shift_information": 1,
                 "structural_discovery": True,
                 "discovery_gated_transformer": {
-                    "level_candidate": "D4",
-                    "status": "d4-projected",
-                    "evidence_pointer": "$.d4_projection",
+                    "level_candidate": dgt_level,
+                    "status": "d5-o-projected" if d5_ready else "d5-o-blocked",
+                    "evidence_pointer": "$.d5_o_projection" if d5_ready else "$.d4_projection",
+                    "blocked_reason": None if d5_ready else d5_reason,
                     "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
                 },
             },
@@ -1168,10 +1235,11 @@ def _discovery_gated_transformer_projection(
             },
             "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
         }, ProjectionEvidence(
-            projection_status="projected",
-            evidence_pointer="$.d4_projection",
-            control_pointer="$.d4_projection.matched_control",
+            projection_status="projected" if d5_ready else "d5-o-blocked",
+            evidence_pointer="$.d5_o_projection" if d5_ready else "$.d4_projection",
+            control_pointer="$.d5_o_projection.evidence_pointers.stronger_matched_random",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+            failed_gate=None if d5_ready else d5_pointer,
         )
     return {
         "verdict": "rejected",
@@ -2476,9 +2544,12 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if spec.name == "discovery-gated-transformer":
-        consistent, reason, _failed_pointer = _discovery_gated_transformer_consistency(payload)
+        consistent, reason, _failed_pointer = _discovery_gated_transformer_consistency(payload, context)
         if not consistent:
             return "invalid", reason
+        d5_ready, d5_reason, _d5_pointer = _dgt_d5_o_projection_status(payload, context)
+        if level == "D5-O" and not d5_ready:
+            return "invalid", d5_reason
     if spec.name == "ledger-aware-transformer":
         consistent, reason, _failed_pointer = _ledger_aware_transformer_consistency(payload)
         if not consistent:
@@ -2533,6 +2604,14 @@ def discovery_row(
     discovery_level: DiscoveryLevel = verdict.discovery_level
     terminal_verdict = verdict.terminal_verdict
     classifier_reasons = list(verdict.reasons)
+    if spec.name == "discovery-gated-transformer":
+        d5_ready, d5_reason, _d5_pointer = _dgt_d5_o_projection_status(payload, context_payloads)
+        if d5_ready:
+            discovery_level = "D5-O"
+            classifier_reasons = ["DGT D5-O projection gates passed"]
+        elif pointer_value(payload, "$.d4_projection.discovery_level") == "D4":
+            discovery_level = "D4"
+            classifier_reasons = [d5_reason or "DGT D5-O projection blocked"]
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if isinstance(claim, Mapping) and claim.get("discovery_level") in DISCOVERY_LEVELS:
@@ -2633,6 +2712,7 @@ def build_source_discovery_rows(
 ) -> list[dict[str, Any]]:
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
     gap_head_d5_context = _load_gap_head_d5_context(root=root)
+    gap_head_d5_context[CLAIM_VERDICTS_ARTIFACT] = {"rows": _load_claim_verdict_rows(root=root)}
     rows = [discovery_row(spec, _load_payload(spec, root=root), gap_head_d5_context) for spec in reports]
     dimension_payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ARTIFACT, root=root)
     if dimension_payload:

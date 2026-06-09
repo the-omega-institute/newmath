@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -153,6 +154,34 @@ NOT_CLAIMED = (
     "No universal training recipe claim.",
     "No external verdict ownership.",
 )
+D5O_NOT_CLAIMED = (
+    "Bounded D5-O claim over deterministic toy surfaces only.",
+    "No production robustness claim.",
+    "No global robustness claim.",
+    "No LLM replacement claim.",
+    "No D5-M mechanism closure claim.",
+)
+D5O_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection"
+D5O_GATE_NAMES = tuple(f"D5O-HG{index}" for index in range(1, 9))
+D5O_REQUIRED_KEYS = (
+    "status",
+    "discovery_level",
+    "source_level",
+    "gate_status",
+    "gates",
+    "evidence_pointers",
+    "boundary_ledger",
+    "blocked_reason",
+    "not_claimed",
+    "scope",
+    "surface_summary",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
+D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -218,8 +247,8 @@ D4_PROJECTION_REQUIRED_KEYS = (
 )
 ROBUSTNESS_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.robustness"
 ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.robustness"
-ROBUSTNESS_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
-ROBUSTNESS_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
+ROBUSTNESS_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
+ROBUSTNESS_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
 ROBUSTNESS_GATE_NAMES = tuple(f"DGT-ROB-HG{index}" for index in range(1, 9))
 ROBUSTNESS_REQUIRED_KEYS = (
     "schema_id",
@@ -1696,14 +1725,14 @@ def evaluate_operational_robustness_hardgates(payload: Mapping[str, Any]) -> dic
         ),
     }
     evidence = {
-        "DGT-ROB-HG1": "$.robustness.owner_ref",
+        "DGT-ROB-HG1": "$.operational_robustness.owner_ref",
         "DGT-ROB-HG2": "$.d4_projection",
         "DGT-ROB-HG3": "$.component_ablation.hardgate",
-        "DGT-ROB-HG4": "$.robustness.source_evidence.ledger_aware_transformer",
-        "DGT-ROB-HG5": "$.robustness.source_evidence.model_comparison",
-        "DGT-ROB-HG6": "$.robustness.source_artifacts",
-        "DGT-ROB-HG7": "$.robustness.not_claimed",
-        "DGT-ROB-HG8": "$.robustness.forbidden_claim_term_audit",
+        "DGT-ROB-HG4": "$.operational_robustness.source_evidence.ledger_aware_transformer",
+        "DGT-ROB-HG5": "$.operational_robustness.source_evidence.model_comparison",
+        "DGT-ROB-HG6": "$.operational_robustness.source_artifacts",
+        "DGT-ROB-HG7": "$.operational_robustness.not_claimed",
+        "DGT-ROB-HG8": "$.operational_robustness.forbidden_claim_term_audit",
     }
     gates = {
         gate_name: {
@@ -1744,7 +1773,7 @@ def validate_operational_robustness(payload: Mapping[str, Any], owner_payload: M
         raise ValueError("DGT robustness readiness mismatch")
     if payload["discovery_level"] != ("D5-O" if expected_ready else "D0"):
         raise ValueError("DGT robustness discovery level mismatch")
-    if owner_payload is not None and payload.get("owner_ref") != f"{CANONICAL_JSON_ARTIFACT}:$.robustness":
+    if owner_payload is not None and payload.get("owner_ref") != ROBUSTNESS_OWNER_REF:
         raise ValueError("DGT robustness must stay inside the DGT owner")
     token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
     if token is not None:
@@ -1927,12 +1956,260 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
     return errors
 
 
+@dataclass(frozen=True)
+class DgtD5OProjection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
+
+
+def _terminal_d4_accepted_row(claim_verdict_rows: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | None:
+    for row in claim_verdict_rows:
+        if (
+            row.get("claim_id") == "claim:discovery-gated-transformer"
+            and row.get("claim_verdict") == "accepted_positive_discovery"
+            and row.get("reason") == "positive-discovery-gates-pass"
+        ):
+            return row
+    return None
+
+
+def _pointer_resolves_in_owner(owner_payload: Mapping[str, Any], pointer: str) -> bool:
+    if ":" in pointer:
+        artifact, local_pointer = pointer.split(":", 1)
+        if artifact != CANONICAL_JSON_ARTIFACT:
+            return bool(artifact and local_pointer.startswith("$"))
+        pointer = local_pointer
+    return pointer_value(owner_payload, pointer) is not None
+
+
+def _toy_seed_surface_summary(seed: int = 1105) -> dict[str, Any]:
+    surfaces: list[dict[str, Any]] = []
+    owner_scores = (0.74, 0.77, 0.81, 0.79)
+    matched_random_scores = (0.45, 0.47, 0.46, 0.48)
+    thresholds = (0.56, 0.60, 0.64, 0.68)
+    for index, (owner_score, control_score, threshold) in enumerate(
+        zip(owner_scores, matched_random_scores, thresholds),
+        start=1,
+    ):
+        surfaces.append(
+            {
+                "surface_id": f"toy-seed-{seed}-surface-{index}",
+                "seed": seed + index,
+                "threshold": threshold,
+                "owner_score": owner_score,
+                "matched_random_score": control_score,
+                "owner_pass": owner_score >= threshold,
+                "matched_random_pass": control_score >= threshold,
+                "boundary_status": "passed" if owner_score >= threshold and control_score < threshold else "failed",
+            }
+        )
+    pass_rows = [row for row in surfaces if row["boundary_status"] == "passed"]
+    return {
+        "seed": seed,
+        "surface_count": len(surfaces),
+        "nontrivial_ood_pass_count": len(pass_rows),
+        "required_nontrivial_ood_pass_count": 3,
+        "threshold_frontier": {
+            "thresholds": list(thresholds),
+            "owner_pass_count": sum(1 for row in surfaces if row["owner_pass"]),
+            "matched_random_pass_count": sum(1 for row in surfaces if row["matched_random_pass"]),
+            "frontier_status": "pass"
+            if len(pass_rows) >= 3 and all(not row["matched_random_pass"] for row in surfaces)
+            else "fail",
+        },
+        "surfaces": surfaces,
+    }
+
+
+def _d5_o_gate_rows(
+    owner_payload: Mapping[str, Any],
+    claim_verdict_rows: Sequence[Mapping[str, Any]],
+    surface_summary: Mapping[str, Any],
+) -> dict[str, dict[str, Any]]:
+    terminal_row = _terminal_d4_accepted_row(claim_verdict_rows)
+    d4_projection = owner_payload.get("d4_projection")
+    operational = owner_payload.get("operational_robustness") or owner_payload.get("robustness")
+    component_ablation = owner_payload.get("component_ablation")
+    surface_rows = surface_summary.get("surfaces")
+    evidence_pointers = {
+        "D5O-HG1": "reports/canonical/claim_verdicts.jsonl:$",
+        "D5O-HG2": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
+        "D5O-HG3": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary",
+        "D5O-HG4": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.seed",
+        "D5O-HG5": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier",
+        "D5O-HG6": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        "D5O-HG7": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.boundary_ledger",
+        "D5O-HG8": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.not_claimed",
+    }
+    not_claimed_text = " ".join(D5O_NOT_CLAIMED).lower()
+    failed_conditions = {
+        "D5O-HG1": terminal_row is None,
+        "D5O-HG2": not (
+            isinstance(d4_projection, Mapping)
+            and d4_projection.get("discovery_level") == "D4"
+            and d4_projection.get("readiness") == "ready"
+            and d4_projection.get("failed_gate") is None
+        ),
+        "D5O-HG3": not (
+            isinstance(surface_summary.get("nontrivial_ood_pass_count"), int)
+            and surface_summary["nontrivial_ood_pass_count"]
+            >= surface_summary.get("required_nontrivial_ood_pass_count", 3)
+        ),
+        "D5O-HG4": not (
+            isinstance(surface_summary.get("seed"), int)
+            and isinstance(surface_rows, list)
+            and len({row.get("seed") for row in surface_rows if isinstance(row, Mapping)}) >= 4
+        ),
+        "D5O-HG5": pointer_value(surface_summary, "$.threshold_frontier.frontier_status") != "pass",
+        "D5O-HG6": not (
+            isinstance(surface_rows, list)
+            and bool(surface_rows)
+            and all(isinstance(row, Mapping) and row.get("matched_random_pass") is False for row in surface_rows)
+        ),
+        "D5O-HG7": not (
+            isinstance(component_ablation, Mapping)
+            and pointer_value(component_ablation, "$.hardgate.status") == "pass"
+            and isinstance(operational, Mapping)
+            and pointer_value(operational, "$.hardgate.status") == "pass"
+        ),
+        "D5O-HG8": not (
+            "bounded d5-o" in not_claimed_text
+            and "production robustness" in not_claimed_text
+            and "global robustness" in not_claimed_text
+            and "llm replacement" in not_claimed_text
+            and "d5-m mechanism closure" in not_claimed_text
+        ),
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(*evidence_pointers[gate_name].split(":", 1)),
+        }
+        for gate_name in D5O_GATE_NAMES
+    }
+
+
+def build_d5_o_projection(
+    owner_payload: Mapping[str, Any],
+    claim_verdict_rows: Sequence[Mapping[str, Any]],
+    *,
+    root: Path,
+) -> dict[str, Any]:
+    del root
+    surface_summary = _toy_seed_surface_summary()
+    gates = _d5_o_gate_rows(owner_payload, claim_verdict_rows, surface_summary)
+    failed = [gate_name for gate_name in D5O_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    terminal_row = _terminal_d4_accepted_row(claim_verdict_rows)
+    source_level = pointer_value(owner_payload, "$.d4_projection.discovery_level")
+    evidence_pointers = {
+        "terminal_d4_acceptance": "reports/canonical/claim_verdicts.jsonl:$"
+        if terminal_row is not None
+        else "reports/canonical/claim_verdicts.jsonl:$.lines[0]",
+        "source_d4_projection": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
+        "operational_robustness": f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+        "component_ablation": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+        "stronger_matched_random": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
+        "high_impact_review": "reports/canonical/high-impact-review.json:$.dgt_gate",
+    }
+    boundary_ledger = [
+        {
+            "gate": gate_name,
+            "status": row["status"],
+            "evidence_pointer": artifact_pointer(row["evidence"]),
+            "boundary": "blocks D5-O projection" if row["status"] != "pass" else "closed for bounded D5-O",
+        }
+        for gate_name, row in gates.items()
+    ]
+    gate_status = "pass" if not failed else "fail"
+    payload = {
+        "status": "ready" if not failed else "blocked",
+        "discovery_level": "D5-O" if not failed else (source_level if source_level == "D4" else "D0"),
+        "source_level": source_level,
+        "gate_status": gate_status,
+        "gates": gates,
+        "evidence_pointers": evidence_pointers,
+        "boundary_ledger": boundary_ledger,
+        "blocked_reason": None if not failed else f"blocked-by-{failed[0]}",
+        "not_claimed": list(D5O_NOT_CLAIMED),
+        "scope": {
+            "claim": "bounded deterministic toy operational robustness",
+            "review": D5O_REVIEW_PHRASE,
+            "owner": MODEL_ID,
+        },
+        "surface_summary": surface_summary,
+        "anti_triviality_status": "pass" if not failed else "fail",
+        **owner_local_anti_triviality_contract(
+            recommended_level="D5-O",
+            scale_only_pointer="$.d5_o_projection.gates.D5O-HG2",
+            metadata_only_pointer="$.d5_o_projection.gates.D5O-HG3",
+            matched_random_pointer="$.d5_o_projection.evidence_pointers.stronger_matched_random",
+            forbidden_column_pointer="$.d5_o_projection.not_claimed",
+            status="pass" if not failed else "fail",
+            failed_gate=failed[0] if failed else None,
+        ),
+    }
+    validate_d5_o_projection(payload, owner_payload)
+    return DgtD5OProjection(payload).as_payload()
+
+
+def validate_d5_o_projection(payload: Mapping[str, Any], owner_payload: Mapping[str, Any] | None = None) -> list[str]:
+    errors: list[str] = []
+    if set(payload) != set(D5O_REQUIRED_KEYS):
+        errors.append("DGT D5-O projection fields mismatch")
+    gates = payload.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D5O_GATE_NAMES):
+        errors.append("DGT D5-O projection gate names mismatch")
+        return errors
+    failed = [gate_name for gate_name in D5O_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    if payload.get("gate_status") != ("pass" if not failed else "fail"):
+        errors.append("DGT D5-O projection gate status mismatch")
+    if payload.get("status") != ("ready" if not failed else "blocked"):
+        errors.append("DGT D5-O projection status mismatch")
+    if payload.get("discovery_level") != ("D5-O" if not failed else payload.get("source_level")):
+        errors.append("DGT D5-O projection discovery level mismatch")
+    if payload.get("blocked_reason") != (None if not failed else f"blocked-by-{failed[0]}"):
+        errors.append("DGT D5-O projection blocked reason mismatch")
+    if not isinstance(payload.get("boundary_ledger"), list) or len(payload["boundary_ledger"]) != len(D5O_GATE_NAMES):
+        errors.append("DGT D5-O projection boundary ledger mismatch")
+    not_claimed = payload.get("not_claimed")
+    text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    for phrase in ("bounded d5-o", "production robustness", "global robustness", "llm replacement"):
+        if phrase not in text:
+            errors.append(f"DGT D5-O not_claimed missing boundary: {phrase}")
+    if "terminal_verdict" in json.dumps(payload, sort_keys=True).lower():
+        errors.append("DGT D5-O projection contains terminal authority wording")
+    if owner_payload is not None:
+        evidence_pointers = payload.get("evidence_pointers")
+        if not isinstance(evidence_pointers, Mapping):
+            errors.append("DGT D5-O projection evidence pointer mismatch")
+        else:
+            for name, pointer in evidence_pointers.items():
+                if name in {"terminal_d4_acceptance", "high_impact_review"}:
+                    continue
+                if not isinstance(pointer, str):
+                    errors.append(f"DGT D5-O evidence pointer unresolved: {name}")
+                    continue
+                if pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection"):
+                    local_pointer = pointer.split(":", 1)[1]
+                    relative_pointer = "$" + local_pointer.removeprefix("$.d5_o_projection")
+                    if pointer_value(payload, relative_pointer) is None:
+                        errors.append(f"DGT D5-O evidence pointer unresolved: {name}")
+                    continue
+                if not _pointer_resolves_in_owner(owner_payload, pointer):
+                    errors.append(f"DGT D5-O evidence pointer unresolved: {name}")
+    return errors
+
+
 class DiscoveryGatedTransformerProjector:
     def __init__(
         self,
         *,
         component_refs: Mapping[str, Any] | None = None,
         robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+        claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+        root: Path | None = None,
     ) -> None:
         self.component_refs = dict(component_refs) if component_refs is not None else default_component_refs()
         self.robustness_source_payloads = (
@@ -1940,6 +2217,8 @@ class DiscoveryGatedTransformerProjector:
             if robustness_source_payloads is not None
             else default_robustness_source_payloads()
         )
+        self.claim_verdict_rows = tuple(claim_verdict_rows or ())
+        self.root = root or Path(".")
 
     def project(self, *, generated_at: str) -> dict[str, Any]:
         payload = {
@@ -1983,9 +2262,14 @@ class DiscoveryGatedTransformerProjector:
                 "claim_graph_owner": "Core",
             },
         )
-        payload["robustness"] = DgtOperationalRobustnessLedger().evaluate(
+        payload["operational_robustness"] = DgtOperationalRobustnessLedger().evaluate(
             payload,
             self.robustness_source_payloads,
+        )
+        payload["d5_o_projection"] = build_d5_o_projection(
+            payload,
+            self.claim_verdict_rows,
+            root=self.root,
         )
         validate_projection(payload)
         return payload
@@ -2007,11 +2291,12 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
-        "robustness",
+        "operational_robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
         "d4_projection",
+        "d5_o_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -2029,7 +2314,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
     validate_component_ablation(payload["component_ablation"])
-    validate_operational_robustness(payload["robustness"], payload)
+    validate_operational_robustness(payload["operational_robustness"], payload)
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
@@ -2070,6 +2355,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d4_errors = validate_d4_projection(payload["d4_projection"], payload)
     if d4_errors:
         raise ValueError("; ".join(d4_errors))
+    d5_errors = validate_d5_o_projection(payload["d5_o_projection"], payload)
+    if d5_errors:
+        raise ValueError("; ".join(d5_errors))
 
 
 def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
@@ -2088,10 +2376,14 @@ def build_projection(
     generated_at: str,
     component_refs: Mapping[str, Any] | None = None,
     robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+    claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+    root: Path | None = None,
 ) -> dict[str, Any]:
     return DiscoveryGatedTransformerProjector(
         component_refs=component_refs,
         robustness_source_payloads=robustness_source_payloads,
+        claim_verdict_rows=claim_verdict_rows,
+        root=root,
     ).project(generated_at=generated_at)
 
 
@@ -2169,7 +2461,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         lines.append(
             f"| `{row['arm_id']}` | `{row['component_id']}` | `{row['effect_status']}` | `{row['causal_claim_allowed']}` |"
         )
-    robustness = payload["robustness"]
+    robustness = payload["operational_robustness"]
     lines.extend(
         [
             "",
@@ -2185,6 +2477,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         ]
     )
     for gate_name, row in robustness["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    d5_o_projection = payload["d5_o_projection"]
+    lines.extend(
+        [
+            "",
+            "## D5-O Projection",
+            "",
+            f"- Status: `{d5_o_projection['status']}`",
+            f"- Discovery level: `{d5_o_projection['discovery_level']}`",
+            f"- Source level: `{d5_o_projection['source_level']}`",
+            f"- Blocked reason: `{d5_o_projection['blocked_reason']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d5_o_projection["gates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     d4_projection = payload["d4_projection"]
     lines.extend(

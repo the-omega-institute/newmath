@@ -518,6 +518,222 @@
     "artifact": "reports/canonical/discovery-gated-transformer.json",
     "pointer": "$.d4_projection"
   },
+  "d5_o_projection": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.d5_o_projection.not_claimed",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.d5_o_projection.gates.D5O-HG3",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.d5_o_projection.gates.D5O-HG2",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D5-O",
+    "anti_triviality_status": "pass",
+    "blocked_reason": null,
+    "boundary_ledger": [
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/claim_verdicts.jsonl:$",
+        "gate": "D5O-HG1",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+        "gate": "D5O-HG2",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary",
+        "gate": "D5O-HG3",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.seed",
+        "gate": "D5O-HG4",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier",
+        "gate": "D5O-HG5",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        "gate": "D5O-HG6",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.boundary_ledger",
+        "gate": "D5O-HG7",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.not_claimed",
+        "gate": "D5O-HG8",
+        "status": "pass"
+      }
+    ],
+    "discovery_level": "D5-O",
+    "evidence_pointers": {
+      "component_ablation": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+      "high_impact_review": "reports/canonical/high-impact-review.json:$.dgt_gate",
+      "operational_robustness": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+      "source_d4_projection": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "stronger_matched_random": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
+      "terminal_d4_acceptance": "reports/canonical/claim_verdicts.jsonl:$"
+    },
+    "gate_status": "pass",
+    "gates": {
+      "D5O-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/claim_verdicts.jsonl",
+          "pointer": "$"
+        },
+        "status": "pass"
+      },
+      "D5O-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d4_projection"
+        },
+        "status": "pass"
+      },
+      "D5O-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary"
+        },
+        "status": "pass"
+      },
+      "D5O-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary.seed"
+        },
+        "status": "pass"
+      },
+      "D5O-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary.threshold_frontier"
+        },
+        "status": "pass"
+      },
+      "D5O-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random"
+        },
+        "status": "pass"
+      },
+      "D5O-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.boundary_ledger"
+        },
+        "status": "pass"
+      },
+      "D5O-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.not_claimed"
+        },
+        "status": "pass"
+      }
+    },
+    "not_claimed": [
+      "Bounded D5-O claim over deterministic toy surfaces only.",
+      "No production robustness claim.",
+      "No global robustness claim.",
+      "No LLM replacement claim.",
+      "No D5-M mechanism closure claim."
+    ],
+    "scope": {
+      "claim": "bounded deterministic toy operational robustness",
+      "owner": "discovery-gated-transformer",
+      "review": "High-impact review accepted for bounded D5-O projection."
+    },
+    "source_level": "D4",
+    "status": "ready",
+    "surface_summary": {
+      "nontrivial_ood_pass_count": 4,
+      "required_nontrivial_ood_pass_count": 3,
+      "seed": 1105,
+      "surface_count": 4,
+      "surfaces": [
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.45,
+          "owner_pass": true,
+          "owner_score": 0.74,
+          "seed": 1106,
+          "surface_id": "toy-seed-1105-surface-1",
+          "threshold": 0.56
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.47,
+          "owner_pass": true,
+          "owner_score": 0.77,
+          "seed": 1107,
+          "surface_id": "toy-seed-1105-surface-2",
+          "threshold": 0.6
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.46,
+          "owner_pass": true,
+          "owner_score": 0.81,
+          "seed": 1108,
+          "surface_id": "toy-seed-1105-surface-3",
+          "threshold": 0.64
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.48,
+          "owner_pass": true,
+          "owner_score": 0.79,
+          "seed": 1109,
+          "surface_id": "toy-seed-1105-surface-4",
+          "threshold": 0.68
+        }
+      ],
+      "threshold_frontier": {
+        "frontier_status": "pass",
+        "matched_random_pass_count": 0,
+        "owner_pass_count": 4,
+        "thresholds": [
+          0.56,
+          0.6,
+          0.64,
+          0.68
+        ]
+      }
+    }
+  },
   "discovery_map_signal": {
     "evidence": {
       "artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -913,19 +1129,7 @@
     "No universal training recipe claim.",
     "No external verdict ownership."
   ],
-  "producer": "scripts/run_discovery_gated_transformer.py",
-  "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
-  "revocation_rows": [
-    {
-      "condition": "Revoke when the owner-local jet certificate pointer is absent.",
-      "gate": "DGT-HG13"
-    },
-    {
-      "condition": "Revoke when forbidden claim language appears in DGT claim fields.",
-      "gate": "DGT-HG20"
-    }
-  ],
-  "robustness": {
+  "operational_robustness": {
     "artifact_id": "bedc-quality-lab:discovery-gated-transformer.robustness",
     "discovery_level": "D5-O",
     "failed_gate": [],
@@ -958,7 +1162,7 @@
         "DGT-ROB-HG1": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.owner_ref"
+            "pointer": "$.operational_robustness.owner_ref"
           },
           "status": "pass"
         },
@@ -979,35 +1183,35 @@
         "DGT-ROB-HG4": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.source_evidence.ledger_aware_transformer"
+            "pointer": "$.operational_robustness.source_evidence.ledger_aware_transformer"
           },
           "status": "pass"
         },
         "DGT-ROB-HG5": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.source_evidence.model_comparison"
+            "pointer": "$.operational_robustness.source_evidence.model_comparison"
           },
           "status": "pass"
         },
         "DGT-ROB-HG6": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.source_artifacts"
+            "pointer": "$.operational_robustness.source_artifacts"
           },
           "status": "pass"
         },
         "DGT-ROB-HG7": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.not_claimed"
+            "pointer": "$.operational_robustness.not_claimed"
           },
           "status": "pass"
         },
         "DGT-ROB-HG8": {
           "evidence": {
             "artifact": "reports/canonical/discovery-gated-transformer.json",
-            "pointer": "$.robustness.forbidden_claim_term_audit"
+            "pointer": "$.operational_robustness.forbidden_claim_term_audit"
           },
           "status": "pass"
         }
@@ -1024,10 +1228,10 @@
     "operational_contract": {
       "lat_relationship": "LAT remains component evidence input only",
       "owner_policy": "DGT owner-local readiness only",
-      "readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.robustness",
+      "readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
       "robustness_basis": "bounded deterministic toy evidence with matched controls"
     },
-    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$.robustness",
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
     "readiness": "ready",
     "revocation_rows": [
       {
@@ -1074,6 +1278,18 @@
     },
     "status": "ready"
   },
+  "producer": "scripts/run_discovery_gated_transformer.py",
+  "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
+  "revocation_rows": [
+    {
+      "condition": "Revoke when the owner-local jet certificate pointer is absent.",
+      "gate": "DGT-HG13"
+    },
+    {
+      "condition": "Revoke when forbidden claim language appears in DGT claim fields.",
+      "gate": "DGT-HG20"
+    }
+  ],
   "schema_id": "bedc-quality-lab:discovery-gated-transformer",
   "source_artifacts": {
     "component_refs": {

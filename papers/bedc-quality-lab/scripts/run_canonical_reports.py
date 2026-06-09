@@ -1189,7 +1189,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "tool_route_evidence",
             "family_definition",
             "component_ablation",
-            "robustness",
+            "operational_robustness",
+            "d5_o_projection",
             "discovery_map_signal",
             "discovery_map_signal_ref",
             "d4_projection",
@@ -1203,11 +1204,11 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=1,
         bundle_role="hg_p_core",
-        scope_pointer="$.not_claimed",
+        scope_pointer="$.d5_o_projection.scope",
         cost_pointer="$.architecture_spec",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.d4_projection",
-        control_pointer="$.d4_projection.matched_control",
+        not_claimed_pointer="$.d5_o_projection.not_claimed",
+        positive_claim_pointer="$.d5_o_projection",
+        control_pointer="$.d5_o_projection.evidence_pointers.stronger_matched_random",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
@@ -3991,7 +3992,9 @@ def _build_discovery_gated_transformer_payload(generated_at: str | None = None) 
     from scripts import run_discovery_gated_transformer as dgt_runner
 
     payload = dgt_runner.build_payload(
-        generated_at=generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+        generated_at=generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat(),
+        claim_verdict_rows=dgt_runner._read_claim_verdict_rows(ROOT),
+        root=ROOT,
     )
     _validate_discovery_gated_transformer_payload(payload)
     return payload
@@ -4016,7 +4019,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
-        "robustness",
+        "operational_robustness",
+        "d5_o_projection",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
@@ -4051,8 +4055,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT component ablation hardgate failed")
     if any(row.get("effect_status") == "zero-effect-fail-closed" and row.get("causal_claim_allowed") is not False for row in component_ablation["arms"]):
         raise ValueError("DGT component ablation zero-effect policy mismatch")
-    robustness = payload["robustness"]
-    if robustness["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness":
+    robustness = payload["operational_robustness"]
+    if robustness["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness":
         raise ValueError("DGT robustness owner pointer mismatch")
     if robustness["readiness"] != "ready" or robustness["discovery_level"] != "D5-O":
         raise ValueError("DGT robustness readiness mismatch")
@@ -4060,6 +4064,18 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT robustness LAT pointer mismatch")
     if robustness["hardgate"]["status"] != "pass":
         raise ValueError("DGT robustness hardgate failed")
+    d5_o_projection = payload["d5_o_projection"]
+    if set(d5_o_projection["gates"]) != {f"D5O-HG{index}" for index in range(1, 9)}:
+        raise ValueError("DGT D5-O projection hardgates must contain D5O-HG1..8")
+    d5_o_all_pass = all(row["status"] == "pass" for row in d5_o_projection["gates"].values())
+    if d5_o_projection["discovery_level"] != ("D5-O" if d5_o_all_pass else d5_o_projection["source_level"]):
+        raise ValueError("DGT D5-O projection discovery level mismatch")
+    if d5_o_projection["status"] != ("ready" if d5_o_all_pass else "blocked"):
+        raise ValueError("DGT D5-O projection status mismatch")
+    d5_o_not_claimed = " ".join(d5_o_projection["not_claimed"]).lower()
+    for phrase in ("bounded d5-o", "production robustness", "global robustness", "llm replacement"):
+        if phrase not in d5_o_not_claimed:
+            raise ValueError("DGT D5-O projection not_claimed boundary mismatch")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -4138,13 +4154,18 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "component_ablation_arm_catalog_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.arms"
         ),
-        "robustness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness",
+        "robustness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness",
         "robustness_readiness_pointer": (
-            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness.readiness"
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness.readiness"
         ),
         "robustness_hardgate_pointer": (
-            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness.hardgate"
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness.hardgate"
         ),
+        "d5_o_projection_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_o_projection",
+        "d5_o_projection_discovery_level_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_o_projection.discovery_level"
+        ),
+        "d5_o_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_o_projection.gates",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",

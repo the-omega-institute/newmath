@@ -3,7 +3,7 @@
     "generated_at": "2026-06-09T08:21:49.156738+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "1d2ea962b1c56e248683872b673858855117cdfbb1253cdc85d6e528069cc5dd",
+  "input_fingerprint": "00e13d0068828ff6ff63ace1f172b032d26b925afd6032beed2450c126576b1f",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -42,7 +42,7 @@
       },
       {
         "path": "bedc_quality_lab/discovery_gated_transformer.py",
-        "sha256": "b872455dc25c42e824e2183b0745168e4a421c7040e86f320fbaf1eae581d2ae"
+        "sha256": "48d4febec65d96f92a5b0e6902de097b72108ad80dfbac4d05f4c86b5e6b592c"
       },
       {
         "path": "bedc_quality_lab/latent_distribution.py",
@@ -70,7 +70,7 @@
       },
       {
         "path": "scripts/run_discovery_gated_transformer.py",
-        "sha256": "d19338a255372a18456f2b8b0ae156e8d6d8fba88191feb5f481b858feb620ff"
+        "sha256": "63066f8cbc487d886b4dad62fa5ba158ca07ee6bdb17adb8855f2f144df96bc6"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:discovery-gated-transformer",
@@ -91,7 +91,7 @@
         "python3",
         "scripts/run_discovery_gated_transformer.py"
       ],
-      "control_pointer": "$.d4_projection.matched_control",
+      "control_pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
       "cost_pointer": "$.architecture_spec",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
@@ -107,8 +107,8 @@
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
       "name": "discovery-gated-transformer",
       "no_control_rationale_pointer": null,
-      "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.d4_projection",
+      "not_claimed_pointer": "$.d5_o_projection.not_claimed",
+      "positive_claim_pointer": "$.d5_o_projection",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -124,7 +124,8 @@
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
-        "robustness",
+        "operational_robustness",
+        "d5_o_projection",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -136,12 +137,12 @@
         "revocation_rows",
         "not_claimed"
       ],
-      "scope_pointer": "$.not_claimed"
+      "scope_pointer": "$.d5_o_projection.scope"
     }
   },
   "json_artifact": "reports/canonical/discovery-gated-transformer.json",
   "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-  "output_digest": "245001a34f6c5950d5585f7b5167db0492abdf41379ab4b43916b7d302ed1dab",
+  "output_digest": "c1be1f3affe36684171f00d807fac103656a44339eb7c8fa39f1b6e1a8c7812b",
   "producer_command": [
     "python3",
     "scripts/run_discovery_gated_transformer.py"

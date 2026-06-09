@@ -25,7 +25,7 @@
 | `discovery-regularized-training` | `pass` | `pass` | `` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `pass` | `pass` | `` | `reports/canonical/mechanism-seeking-network.json` | `reports/canonical/mechanism-seeking-network.md` | `reports/canonical/mechanism-seeking-network.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `discovery-gated-nas` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-nas.json` | `reports/canonical/discovery-gated-nas.md` | `reports/canonical/discovery-gated-nas.fingerprint.json` | `$.search_space` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_baseline_control` |
-| `discovery-gated-transformer` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.not_claimed` | `$.architecture_spec` | `$.not_claimed` | `$.d4_projection` | `$.d4_projection.matched_control` |
+| `discovery-gated-transformer` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.d5_o_projection.scope` | `$.architecture_spec` | `$.d5_o_projection.not_claimed` | `$.d5_o_projection` | `$.d5_o_projection.evidence_pointers.stronger_matched_random` |
 | `order-k-benchmark` | `pass` | `pass` | `` | `reports/canonical/order-k-benchmark.json` | `reports/canonical/order-k-benchmark.md` | `reports/canonical/order-k-benchmark.fingerprint.json` | `$.task_specs` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_controls` |
 | `high-impact-review` | `pass` | `pass` | `` | `reports/canonical/high-impact-review.json` | `reports/canonical/high-impact-review.md` | `reports/canonical/high-impact-review.fingerprint.json` | `$.review_rows` | `$.hardgates` | `$.not_claimed` | `$.review_rows` | `$.hardgates` |
 
@@ -176,9 +176,9 @@
 - Family definition: `reports/canonical/discovery-gated-transformer.json:$.family_definition`
 - Family definition hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate`
 - Model family claim status: `reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status`
-- Robustness: `reports/canonical/discovery-gated-transformer.json:$.robustness`
-- Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.robustness.readiness`
-- Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.robustness.hardgate`
+- Robustness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness`
+- Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness`
+- Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
 - Not claimed: `reports/canonical/discovery-gated-transformer.json:$.not_claimed`
 - Discovery map signal: `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal`
 - Claim capsule: `reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref`
@@ -411,7 +411,7 @@
 | `discovery-regularized-training` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
-| `discovery-gated-transformer` | `hg_p_core` | `$.d4_projection` | `$.d4_projection.matched_control` | `None` |
+| `discovery-gated-transformer` | `hg_p_core` | `$.d5_o_projection` | `$.d5_o_projection.evidence_pointers.stronger_matched_random` | `None` |
 | `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |

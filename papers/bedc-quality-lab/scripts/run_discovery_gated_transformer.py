@@ -39,6 +39,7 @@ SIDECAR_ARTIFACTS = {
     "source_refs": SOURCE_REFS_ARTIFACT,
     "jet_certificate": JET_CERTIFICATE_ARTIFACT,
 }
+CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 
 
 def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
@@ -51,11 +52,15 @@ def build_payload(
     generated_at: str = GENERATED_AT,
     component_refs: Mapping[str, Any] | None = None,
     robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+    claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+    root: Path = ROOT,
 ) -> dict[str, Any]:
     return build_projection(
         generated_at=generated_at,
         component_refs=component_refs,
         robustness_source_payloads=robustness_source_payloads,
+        claim_verdict_rows=claim_verdict_rows,
+        root=root,
     )
 
 
@@ -65,6 +70,20 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
 
 def build_run_sidecars(*, generated_at: str) -> dict[str, dict[str, Any]]:
     return default_sidecars(generated_at=generated_at)
+
+
+def _read_claim_verdict_rows(root: Path) -> list[dict[str, Any]]:
+    path = root / CLAIM_VERDICTS_JSONL_ARTIFACT
+    if not path.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if isinstance(row, dict):
+            rows.append(row)
+    return rows
 
 
 def write_artifacts(payload: Mapping[str, Any], *, root: Path = ROOT) -> None:
@@ -84,9 +103,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--generated-at", default=GENERATED_AT)
     args = parser.parse_args(argv)
-    payload = build_payload(generated_at=args.generated_at)
+    payload = build_payload(
+        generated_at=args.generated_at,
+        claim_verdict_rows=_read_claim_verdict_rows(args.root),
+        root=args.root,
+    )
     write_artifacts(payload, root=args.root)
-    print(json.dumps({"model_id": MODEL_ID, "hardgate": payload["hardgate"]["status"]}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "model_id": MODEL_ID,
+                "hardgate": payload["hardgate"]["status"],
+                "discovery_level": payload["d5_o_projection"]["discovery_level"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 
