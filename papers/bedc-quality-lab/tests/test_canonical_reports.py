@@ -1389,6 +1389,24 @@ def _index_row_for_spec(spec):
     }
 
 
+def _patch_dgt_owner_fixture(monkeypatch, calls):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-gated-transformer"])
+
+    def fake_build_dgt(*, generated_at=None):
+        calls.append(("build-dgt", "discovery-gated-transformer"))
+        return dict(payload, generated_at=generated_at)
+
+    def fake_write_dgt_artifacts(payload, *, root):
+        calls.append(("write-dgt-artifacts", payload["model_id"]))
+
+    monkeypatch.setattr(canonical, "_build_discovery_gated_transformer_payload", fake_build_dgt)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_discovery_gated_transformer",
+        types.SimpleNamespace(write_artifacts=fake_write_dgt_artifacts),
+    )
+
+
 def _write_observed_debt_projection_fixtures(root):
     fixtures = {
         "reports/canonical/nongaussian-distribution-sweep.json": {
@@ -4227,6 +4245,61 @@ def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):
 
     assert calls == ["mixing-family-sweep"]
     assert payload["reports"][0]["producer_status"] == "completed"
+
+
+def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = canonical._specs_by_name()
+    l0_spec = reports["dgt-l0-controls"]
+    dgt_spec = reports["discovery-gated-transformer"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (l0_spec, dgt_spec))
+    _patch_dgt_owner_fixture(monkeypatch, calls)
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name))
+        return _index_row_for_spec(spec)
+
+    def fake_write_fingerprint(spec, *, generated_at=None):
+        calls.append(("fingerprint", spec.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    canonical.run_reports(only="discovery-gated-transformer", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls.index(("run-spec", "discovery-gated-transformer")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+    assert calls.index(("run-spec", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+    assert calls.index(("fingerprint", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+
+
+def test_run_reports_does_not_run_dgt_l0_controls_twice_when_selected(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = canonical._specs_by_name()
+    l0_spec = reports["dgt-l0-controls"]
+    dgt_spec = reports["discovery-gated-transformer"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (l0_spec, dgt_spec))
+    _patch_dgt_owner_fixture(monkeypatch, calls)
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name))
+        return _index_row_for_spec(spec)
+
+    def fake_write_fingerprint(spec, *, generated_at=None):
+        calls.append(("fingerprint", spec.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    canonical.run_reports(only="dgt-l0-controls", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls.count(("run-spec", "dgt-l0-controls")) == 1
+    assert ("fingerprint", "dgt-l0-controls") not in calls
 
 
 def test_run_reports_cold_only_matches_normalized_committed_artifact(tmp_path, monkeypatch):

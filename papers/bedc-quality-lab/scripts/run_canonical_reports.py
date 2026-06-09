@@ -6181,12 +6181,15 @@ def run_reports(
     claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     high_impact_review_specs = [spec for spec in selected_specs if spec.name == "high-impact-review"]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
-    results = [
-        _run_spec(spec, mode=mode, generated_at=timestamp)
-        for spec in pre_verdict_specs
-    ]
+    results = []
+    run_spec_names: set[str] = set()
+    for spec in pre_verdict_specs:
+        results.append(_run_spec(spec, mode=mode, generated_at=timestamp))
+        run_spec_names.add(spec.name)
     prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
-    results.extend(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp) for spec in claim_graph_prerequisite_specs)
+    for spec in claim_graph_prerequisite_specs:
+        results.append(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp))
+        run_spec_names.add(spec.name)
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
         consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
         if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
@@ -6248,8 +6251,9 @@ def run_reports(
     dgt_l0_spec = _specs_by_name().get("dgt-l0-controls")
     if dgt_l0_spec is not None:
         dgt_selected = any(spec.name in {"dgt-l0-controls", "discovery-gated-transformer"} for spec in selected_specs)
-        if only is None or dgt_selected:
+        if (only is None or dgt_selected) and dgt_l0_spec.name not in run_spec_names:
             _run_spec(dgt_l0_spec, mode=mode, generated_at=timestamp)
+            run_spec_names.add(dgt_l0_spec.name)
             _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
     from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
 
@@ -6290,6 +6294,7 @@ def run_reports(
             _run_spec(spec, mode="cold" if mode in {"verify", "cold"} else "changed", generated_at=timestamp)
             for spec in high_impact_review_specs
         )
+        run_spec_names.update(spec.name for spec in high_impact_review_specs)
         if mode in {"verify", "cold"}:
             for spec in high_impact_review_specs:
                 _write_fingerprint_sidecar(spec, generated_at=timestamp)
@@ -6313,7 +6318,9 @@ def run_reports(
     if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
         raise SystemExit(1)
     post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
-    results.extend(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp) for spec in post_verdict_specs)
+    for spec in post_verdict_specs:
+        results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
+        run_spec_names.add(spec.name)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
