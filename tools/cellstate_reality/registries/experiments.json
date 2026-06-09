@@ -1,4 +1,22 @@
 {
   "version": "cellstate-reality-experiments-v1",
-  "experiments": []
+  "experiments": [
+    {
+      "experiment_id": "gse142439_horvath353_age_clock_shift",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_horvath353_age_clock_shift.py",
+      "claim_id": "cellstate.age-clock-shift.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "paired.sample.structure",
+          "mean.delta.negative",
+          "paired.direction.statistic"
+        ]
+      }
+    }
+  ]
 }
