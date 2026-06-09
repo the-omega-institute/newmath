@@ -207,6 +207,43 @@ TOTAL_BIOLOGY_WORDS = {
     "general biological model",
     "total biology",
 }
+AGE_CLOCK_CONTEXT_WORDS = {
+    "ageclockshift",
+    "age-clock",
+    "age clock",
+    "clock shift",
+    "dnam age",
+    "dna methylation age",
+    "methylation age",
+    "horvath",
+}
+AGE_CLOCK_PROMOTION_REQUIREMENTS = [
+    (
+        "identity_retention",
+        {"identitypreservingagereset", "identity-preserving age reset", "identity preserving age reset", "age reset"},
+        {"cell_identity"},
+    ),
+    (
+        "functional_repair_or_rejuvenation",
+        {"rejuvenation", "rejuvenationcandidate", "functional repair", "phenotype repair"},
+        {"function_realization"},
+    ),
+    (
+        "partial_reprogramming_state_boundary",
+        {"partialreprogramming", "partial reprogramming"},
+        {"cell_identity", "safety_boundary"},
+    ),
+    (
+        "renewable_maintenance_horizon",
+        {"renewablemaintenance", "renewable maintenance", "repeat cycle", "repeat-cycle"},
+        {"renewable_maintenance"},
+    ),
+    (
+        "organismal_horizon",
+        {"immortalitypotential", "immortality potential", "immortality"},
+        {"organismal_maintenance"},
+    ),
+]
 
 
 def read_jsonl(path: Path, *, allow_missing: bool = True) -> list[dict[str, Any]]:
@@ -315,6 +352,43 @@ def _has_positive_mechanism_language(text: Any) -> bool:
     if any(re.search(rf"\b{re.escape(negation)}\b", lowered) for negation in MECHANISM_NEGATION_WORDS):
         return False
     return any(word in lowered for word in MECHANISM_STRONG_WORDS)
+
+
+def _has_layer_contact(can_test: list[str], required_layers: set[str]) -> bool:
+    return any(_layer_in_scope(layer, item) for layer in required_layers for item in can_test)
+
+
+def _positive_phrase_present(lowered: str, compact: str, phrase: str) -> bool:
+    if phrase in lowered:
+        start = lowered.find(phrase)
+        prefix = lowered[max(0, start - 40) : start]
+        if any(negation in prefix for negation in MECHANISM_NEGATION_WORDS):
+            return False
+        return True
+    compact_phrase = re.sub(r"[^a-z0-9]+", "", phrase)
+    if compact_phrase and compact_phrase in compact:
+        start = compact.find(compact_phrase)
+        prefix = compact[max(0, start - 40) : start]
+        return not any(negation.replace(" ", "") in prefix for negation in MECHANISM_NEGATION_WORDS)
+    return False
+
+
+def _age_clock_promotion_issues(statement_text: str, can_test: list[str]) -> list[str]:
+    lowered = statement_text.lower()
+    compact = re.sub(r"[^a-z0-9]+", "", lowered)
+    if not any(word in lowered or word in compact for word in AGE_CLOCK_CONTEXT_WORDS):
+        return []
+    issues: list[str] = []
+    for gate_name, phrases, required_layers in AGE_CLOCK_PROMOTION_REQUIREMENTS:
+        if any(_positive_phrase_present(lowered, compact, phrase) for phrase in phrases) and not _has_layer_contact(
+            can_test, required_layers
+        ):
+            required = ", ".join(sorted(required_layers))
+            issues.append(
+                f"age_clock_promotion_requires_separate_contact:{gate_name}: clock/DNAm age rows cannot be "
+                f"promoted to this claim without a reality contact whose can_test includes {required}"
+            )
+    return issues
 
 
 def validate_contact(record: dict[str, Any]) -> list[str]:
@@ -477,9 +551,15 @@ def validate_conjecture(
         str(record.get("informal_statement", "")),
         " ".join(str(item) for item in record.get("forbidden_claims", []) if isinstance(item, str)),
     ]
+    claim_text_parts = [
+        str(record.get("biological_object", "")),
+        str(record.get("informal_statement", "")),
+    ]
     if isinstance(form, dict):
         text_parts.extend([str(form.get("readback", "")), str(form.get("carrier", ""))])
+        claim_text_parts.extend([str(form.get("readback", "")), str(form.get("carrier", ""))])
     text = " ".join(text_parts)
+    claim_text = " ".join(claim_text_parts)
     if "external_reality" in evidence and not contacts:
         issues.append("external_reality evidence requires reality_contact_refs")
     if "derived_probe" in evidence and not probes:
@@ -541,6 +621,7 @@ def validate_conjecture(
                 "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
                 f"a layer-matched reality contact whose can_test includes {claimed_layer}"
             )
+        issues.extend(_age_clock_promotion_issues(claim_text, can_test))
     elif (
         OVERCLAIM_GATES_ENABLED
         and record.get("claimed_layer") in LAYERS
@@ -852,6 +933,23 @@ def self_test() -> int:
         "forbidden_claims": ["The assay does not establish renewable or organismal maintenance."],
         "null_reason": "",
     }
+    age_clock_rejuvenation_rephrase = {
+        "conjecture_id": "age.clock.rejuvenation.rephrase",
+        "biological_object": "AgeClockShiftUp",
+        "informal_statement": "The DNAm age clock shift is presented as rejuvenation.",
+        "bedc_minimal_form": {
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock delta"],
+            "readback": "Horvath clock shift",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "age_signature",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["clock.horvath.array"],
+        "probe_refs": [],
+        "forbidden_claims": ["The clock contact alone does not establish rejuvenation."],
+        "null_reason": "",
+    }
     results = gate_all(
         [
             conjecture,
@@ -865,6 +963,7 @@ def self_test() -> int:
             proxy_objective_overclaim,
             mechanism_without_contact,
             mechanism_layer_matched,
+            age_clock_rejuvenation_rephrase,
         ],
         [contact, perturbation_contact, function_contact],
         [b3_probe],
@@ -1695,6 +1794,12 @@ def self_test() -> int:
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
     if by_id["mechanism.layer.matched"]["gate_status"] != "gate_passed":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["age.clock.rejuvenation.rephrase"]["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("age_clock_promotion_requires_separate_contact:functional_repair_or_rejuvenation:")
+        for issue in by_id["age.clock.rejuvenation.rephrase"]["issues"]
+    ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
     print("[cellstate-reality-gates] self-test ok")

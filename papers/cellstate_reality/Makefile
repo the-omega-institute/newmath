@@ -1,5 +1,5 @@
 PDF=main.pdf
-PARTS=$(wildcard parts/*.tex)
+PARTS=$(wildcard parts/*.tex parts/*/*.tex)
 
 .PHONY: all precheck check clean
 
@@ -17,15 +17,15 @@ precheck: main.tex $(PARTS)
 	    exit 1; \
 	  fi; \
 	done
-	@if grep -R "\\\\leanchecked\\|\\\\leanstmt\\|\\\\leanvariant\\|\\\\leansorryd\\|\\\\leandef\\|\\\\leantarget" main.tex parts/*.tex >/dev/null 2>&1; then \
+	@if grep -R "\\\\leanchecked\\|\\\\leanstmt\\|\\\\leanvariant\\|\\\\leansorryd\\|\\\\leandef\\|\\\\leantarget" main.tex $(PARTS) >/dev/null 2>&1; then \
 	  echo "Lean marker macro found in CellStateReality paper"; \
 	  exit 1; \
 	fi
-	@if grep -R "\\\\\\[\\|\\\\\\]\\|\\\\begin{equation}\\|\\\\begin{equation\\*}\\|\\\\begin{align}\\|\\\\begin{align\\*}\\|\\\\begin{eqnarray}\\|\\\\begin{eqnarray\\*}" main.tex parts/*.tex >/dev/null 2>&1; then \
+	@if grep -R "\\\\\\[\\|\\\\\\]\\|\\\\begin{equation}\\|\\\\begin{equation\\*}\\|\\\\begin{align}\\|\\\\begin{align\\*}\\|\\\\begin{eqnarray}\\|\\\\begin{eqnarray\\*}" main.tex $(PARTS) >/dev/null 2>&1; then \
 	  echo "Forbidden display math environment found"; \
 	  exit 1; \
 	fi
-	@if grep -R "[一-龥]" main.tex parts/*.tex >/dev/null 2>&1; then \
+	@if grep -R "[一-龥]" main.tex $(PARTS) >/dev/null 2>&1; then \
 	  echo "Chinese text found inside CellStateReality paper body"; \
 	  exit 1; \
 	fi
