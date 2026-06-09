@@ -10,6 +10,7 @@ from typing import Any, Mapping, Sequence
 from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
 from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
+from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
@@ -716,6 +717,11 @@ def _validate_cg_hg8(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> l
         if row.get("claim_verdict") != "accepted_positive_discovery":
             continue
         claim_id = str(row.get("claim_id") or "")
+        if claim_id == "claim:discovery-gated-transformer":
+            gate = high_impact_review_dgt_gate(root)
+            if gate.get("status") != "pass":
+                errors.append(f"CG-HG8 high-impact-review-required: {claim_id} -> {gate.get('ledger_pointer')}")
+            continue
         report = claim_id.removeprefix("claim:")
         discovery_row = discovery_by_report.get(report)
         spec = specs.get(report)

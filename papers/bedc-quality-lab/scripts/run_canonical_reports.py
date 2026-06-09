@@ -50,6 +50,12 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.high_impact_review import (
+    ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
+    JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as HIGH_IMPACT_REVIEW_SCHEMA_ID,
+)
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
 from bedc_quality_lab.schema import SCHEMA_ID as EVIDENCE_ENVELOPE_SCHEMA_ID
 from scripts.literature_ledger import validate_literature_ledger
@@ -117,7 +123,7 @@ DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
 TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
-DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "claim-complexity"})
+DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "claim-complexity", "high-impact-review"})
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
@@ -1354,6 +1360,36 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
+        name="high-impact-review",
+        command=("python3", "scripts/run_high_impact_review.py"),
+        json_artifact=HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
+        markdown_artifact=HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "source_artifacts",
+            "review_rows",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.review_rows",
+        cost_pointer="$.hardgates",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.review_rows",
+        control_pointer="$.hardgates",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.review_rows",
+        evidence_envelope_pointer=f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$.hardgates",
+        backend_pointer=f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$",
+        discovery_level_pointer="$.review_rows",
+        claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes",
+        negative_witness_pointer=None,
+        formal_status_pointer=f"{HIGH_IMPACT_REVIEW_JSON_ARTIFACT}:$.review_rows",
+    ),
+    CanonicalReportSpec(
         name="causal-patch-suite",
         command=("python3", "scripts/run_causal_patch_suite.py"),
         json_artifact=CAUSAL_PATCH_SUITE_JSON_ARTIFACT,
@@ -1406,7 +1442,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer="$.not_claimed",
     ),
 )
-QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
+QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
 CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite"})
 
@@ -1775,6 +1811,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_causal_patch_suite import write_artifacts
 
         write_artifacts(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "high-impact-review":
+        from scripts.run_high_impact_review import write_high_impact_review
+
+        write_high_impact_review(root=ROOT, generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -5904,9 +5945,12 @@ def run_reports(
     pre_verdict_specs = [
         spec
         for spec in selected_specs
-        if spec.name not in POST_VERDICT_REPORTS and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+        if spec.name not in POST_VERDICT_REPORTS
+        and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+        and spec.name != "high-impact-review"
     ]
     claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
+    high_impact_review_specs = [spec for spec in selected_specs if spec.name == "high-impact-review"]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
     results = [
         _run_spec(spec, mode=mode, generated_at=timestamp)
@@ -5958,9 +6002,6 @@ def run_reports(
         require_required_negative_reports=require_full_negative_reports,
     )
     _validate_committed_discovery_map_round_trip()
-    claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
-    if only is None:
-        write_claim_graph(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     write_experiment_proposals(ROOT, generated_at=timestamp)
     from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
@@ -6003,6 +6044,29 @@ def run_reports(
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+    claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
+    if only is None:
+        write_claim_graph(root=ROOT, generated_at=timestamp)
+    if high_impact_review_specs:
+        results.extend(
+            _run_spec(spec, mode="cold" if mode in {"verify", "cold"} else "changed", generated_at=timestamp)
+            for spec in high_impact_review_specs
+        )
+        if mode in {"verify", "cold"}:
+            for spec in high_impact_review_specs:
+                _write_fingerprint_sidecar(spec, generated_at=timestamp)
+        if ROOT == SOURCE_ROOT:
+            _compile_discovery_compat(
+                compile_discovery,
+                root=ROOT,
+                generated_at=timestamp,
+                adapter=_canonical_discovery_adapter(),
+                require_required_negative_reports=require_full_negative_reports,
+            )
+            _validate_committed_discovery_map_round_trip()
+        claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
+        if only is None:
+            write_claim_graph(root=ROOT, generated_at=timestamp)
     post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     results.extend(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp) for spec in post_verdict_specs)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)

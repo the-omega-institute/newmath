@@ -15,6 +15,7 @@ MECHANISM_NOT_CLOSED = "mechanism-not-closed"
 NEGATIVE_DISCOVERY_FAILED_GATE_PREFIX = "negative-discovery-failed-gate"
 SOURCE_INSUFFICIENT = "source-insufficient"
 MODEL_COMPARISON_NOT_READY = "model-comparison-not-ready"
+POSITIVE_DISCOVERY_GATES_PASS = "positive-discovery-gates-pass"
 
 FIXED_TAXONOMY = frozenset(
     {
@@ -25,6 +26,7 @@ FIXED_TAXONOMY = frozenset(
         MECHANISM_NOT_CLOSED,
         SOURCE_INSUFFICIENT,
         MODEL_COMPARISON_NOT_READY,
+        POSITIVE_DISCOVERY_GATES_PASS,
     }
 )
 
@@ -70,6 +72,8 @@ def reason_for_claim_verdict(basis: ClaimVerdictReasonBasis) -> str:
         return MECHANISM_NOT_CLOSED
     if basis.report == "discovery-gated-transformer" and basis.discovery_level == "D0" and basis.model_comparison_ready is False:
         return MODEL_COMPARISON_NOT_READY
+    if basis.report == "discovery-gated-transformer" and basis.claim_verdict == "accepted_positive_discovery":
+        return POSITIVE_DISCOVERY_GATES_PASS
     if basis.discovery_level == "D5-M":
         return D5M_TRAINING_MECHANISM
     if basis.discovery_level == "D5-O":
@@ -113,7 +117,14 @@ def _looks_like_owned_taxonomy(reason: str) -> bool:
     return (
         reason.startswith("discovery-level-D")
         or reason.startswith("D5")
-        or reason in {PROJECTED_DISCOVERY_REQUIRED, MECHANISM_NOT_CLOSED, SOURCE_INSUFFICIENT, MODEL_COMPARISON_NOT_READY}
+        or reason
+        in {
+            PROJECTED_DISCOVERY_REQUIRED,
+            MECHANISM_NOT_CLOSED,
+            SOURCE_INSUFFICIENT,
+            MODEL_COMPARISON_NOT_READY,
+            POSITIVE_DISCOVERY_GATES_PASS,
+        }
         or reason.startswith("negative-discovery")
         or reason.startswith("positive-discovery")
     )

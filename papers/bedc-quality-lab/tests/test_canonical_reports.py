@@ -55,6 +55,7 @@ HG_P_CORE = {
     "mechanism-seeking-network",
     "discovery-gated-nas",
     "discovery-gated-transformer",
+    "high-impact-review",
     "order-k-benchmark",
 }
 QUALITY_SCORECARD_METRICS = {
@@ -221,6 +222,47 @@ def _payload_for_spec(spec):
             "models": [],
             "source_reports": [],
             "ordering": {"status": "not_ready"},
+        }
+    if spec.name == "high-impact-review":
+        return {
+            "schema_id": "bedc-quality-lab:high-impact-review",
+            "artifact_id": "bedc-quality-lab:high-impact-review",
+            "generated_at": "fixture-generated-at",
+            "seed": 1131,
+            "source_artifacts": {
+                "dgt": "reports/canonical/discovery-gated-transformer.json",
+                "model_comparison": "reports/canonical/model-comparison.json",
+                "claim_graph": "reports/canonical/claim_graph.json",
+            },
+            "review_rows": [
+                {
+                    "claim_id": "claim:discovery-gated-transformer",
+                    "status": "fail",
+                    "review_level": "bounded-D4-terminal-gate",
+                    "review_scope": "DGT bounded deterministic toy D4 positive-discovery terminal promotion only",
+                    "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+                    "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+                    "hardgate_pointer": "reports/canonical/high-impact-review.json:$.hardgates",
+                    "not_claimed_pointer": "reports/canonical/high-impact-review.json:$.not_claimed",
+                    "reason": "high-impact-review-required",
+                }
+            ],
+            "hardgates": {
+                f"HIR-HG{index}": {
+                    "status": "fail",
+                    "reason": "fixture; fail-closed",
+                    "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+                }
+                for index in range(1, 11)
+            },
+            "not_claimed": [
+                "Bounded D4 prototype only.",
+                "No production deployment authority is claimed.",
+                "No global model superiority claim is made.",
+                "No LLM replacement claim is made.",
+                "No universal training recipe is claimed.",
+                "No full BEDC closure is claimed.",
+            ],
         }
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -1503,6 +1545,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
+        "high-impact-review",
         "causal-patch-suite",
         "claim-complexity",
     ]
@@ -6052,6 +6095,83 @@ def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
     assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
     for artifact in forbidden_artifacts:
         assert artifact not in index_text
+
+
+def test_high_impact_review_canonical_spec_uses_hyphen_path_and_core_role():
+    spec = canonical._specs_by_name()["high-impact-review"]
+
+    assert spec.json_artifact == "reports/canonical/high-impact-review.json"
+    assert spec.markdown_artifact == "reports/canonical/high-impact-review.md"
+    assert spec.bundle_role == "hg_p_core"
+    assert "not_claimed" in spec.required_json_keys
+    assert {"schema_id", "artifact_id", "generated_at", "source_artifacts", "review_rows", "hardgates", "not_claimed"} <= set(spec.required_json_keys)
+    assert "reports/canonical/high_impact_review.json" not in {
+        item
+        for report in canonical.CANONICAL_REPORTS
+        for item in (report.json_artifact, report.markdown_artifact)
+    }
+
+
+def test_high_impact_review_required_keys_include_not_claimed():
+    spec = canonical._specs_by_name()["high-impact-review"]
+
+    assert "not_claimed" in spec.required_json_keys
+    assert spec.not_claimed_pointer == "$.not_claimed"
+
+
+def test_high_impact_review_existing_artifact_regen_is_idempotent(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["high-impact-review"]
+    payload = {
+        "schema_id": "bedc-quality-lab:high-impact-review",
+        "artifact_id": "bedc-quality-lab:high-impact-review",
+            "generated_at": "2030-01-01T00:00:00+00:00",
+            "seed": 1131,
+            "source_artifacts": {
+                "dgt": "reports/canonical/discovery-gated-transformer.json",
+                "model_comparison": "reports/canonical/model-comparison.json",
+                "claim_graph": "reports/canonical/claim_graph.json",
+            },
+            "review_rows": [
+            {
+                "claim_id": "claim:discovery-gated-transformer",
+                "status": "fail",
+                "review_level": "bounded-D4-terminal-gate",
+                "review_scope": "DGT bounded deterministic toy D4 positive-discovery terminal promotion only",
+                "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+                "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+                "hardgate_pointer": "reports/canonical/high-impact-review.json:$.hardgates",
+                "not_claimed_pointer": "reports/canonical/high-impact-review.json:$.not_claimed",
+                "reason": "high-impact-review-required",
+            }
+        ],
+        "hardgates": {
+            f"HIR-HG{index}": {
+                "status": "fail",
+                "reason": "fixture; fail-closed",
+                "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+            }
+            for index in range(1, 11)
+        },
+        "not_claimed": [
+            "Bounded D4 prototype only.",
+            "No production deployment authority is claimed.",
+            "No global model superiority claim is made.",
+            "No LLM replacement claim is made.",
+            "No universal training recipe is claimed.",
+            "No full BEDC closure is claimed.",
+        ],
+    }
+    json_path = tmp_path / spec.json_artifact
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    (tmp_path / spec.markdown_artifact).write_text("# High Impact Review\n", encoding="utf-8")
+
+    first = canonical._run_spec(spec, mode="verify", reuse_existing=True, generated_at="2030-01-01T00:00:00+00:00")
+    second = canonical._run_spec(spec, mode="verify", reuse_existing=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert first == second
+    assert first["validation"]["required_key_validation"]["status"] == "pass"
 
 
 def _reporting_spec(**overrides):
