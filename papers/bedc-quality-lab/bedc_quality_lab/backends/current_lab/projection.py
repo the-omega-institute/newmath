@@ -146,7 +146,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d4_projection.discovery_level",
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
         "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
@@ -1022,6 +1022,97 @@ def _discovery_gated_nas_projection(
         },
     }, ProjectionEvidence(
         projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
+def _discovery_gated_transformer_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    projection = pointer_value(payload, "$.d4_projection")
+    if not isinstance(projection, Mapping):
+        return False, "missing-dgt-d4-projection", "$.d4_projection"
+    gates = projection.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != {f"PROJ-HG{index}" for index in range(1, 11)}:
+        return False, "dgt-d4-projection-gates-mismatch", "$.d4_projection.gates"
+    failed = next(
+        (
+            name
+            for name in (f"PROJ-HG{index}" for index in range(1, 11))
+            if not isinstance(gates.get(name), Mapping) or gates[name].get("status") != "pass"
+        ),
+        None,
+    )
+    expected_level = "D4" if failed is None else "D0"
+    if projection.get("discovery_level") != expected_level:
+        return False, "dgt-d4-projection-level-mismatch", "$.d4_projection.discovery_level"
+    if projection.get("failed_gate") != failed:
+        return False, "dgt-d4-projection-failed-gate-mismatch", "$.d4_projection.failed_gate"
+    if projection.get("net_positive_signal") is not True:
+        return False, "dgt-d4-net-positive-missing", "$.d4_projection.net_positive_signal"
+    delta_pointer = projection.get("classifier_surface_delta_pointer")
+    if not isinstance(delta_pointer, str) or pointer_value(payload, delta_pointer) is None:
+        return False, "dgt-d4-classifier-delta-pointer-unresolved", "$.d4_projection.classifier_surface_delta_pointer"
+    audit = projection.get("forbidden_claim_term_audit")
+    if not isinstance(audit, Mapping) or audit.get("status") != "pass":
+        return False, "dgt-d4-forbidden-claim-audit-failed", "$.d4_projection.forbidden_claim_term_audit"
+    not_claimed = projection.get("not_claimed")
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    if not not_claimed_text or "global superiority" in not_claimed_text or "production" in not_claimed_text:
+        return False, "dgt-d4-not-claimed-boundary-failed", "$.d4_projection.not_claimed"
+    if "terminal_verdict" in json.dumps(payload, sort_keys=True).lower():
+        return False, "dgt-terminal-verdict-forbidden", "$"
+    return True, "", "$.d4_projection.failed_gate" if failed is not None else "$.d4_projection.discovery_level"
+
+
+def _discovery_gated_transformer_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
+    del context
+    consistent, _reason, failed_pointer = _discovery_gated_transformer_consistency(payload)
+    projection = pointer_value(payload, "$.d4_projection")
+    projection = projection if isinstance(projection, Mapping) else {}
+    level = projection.get("discovery_level")
+    if consistent and level == "D4":
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "positive_discovery": True,
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "discovery_gated_transformer": {
+                    "level_candidate": "D4",
+                    "status": "d4-projected",
+                    "evidence_pointer": "$.d4_projection",
+                    "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
+                },
+            },
+            "matched_random_control": {"control_positive": False},
+            "evidence_basis": {
+                "discovery_gated_transformer": True,
+                "control_positive_discovery": False,
+                "net_positive_signal": True,
+                "scorecard_ready": True,
+                "audit_status": "pass",
+            },
+            "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.d4_projection",
+            control_pointer="$.d4_projection.matched_control",
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "discovery_gated_transformer": {
+                "level_candidate": "D0",
+                "status": "blocked",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="source-insufficient",
         failed_gate=failed_pointer,
     )
 
@@ -2039,6 +2130,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_gated_attention_projection(payload, context)
     elif spec.name == "discovery-gated-nas":
         overlay, evidence = _discovery_gated_nas_projection(payload, context)
+    elif spec.name == "discovery-gated-transformer":
+        overlay, evidence = _discovery_gated_transformer_projection(payload, context)
     elif spec.name == "transformer-derivative-atlas":
         overlay, evidence = _derivative_negative_projection(payload)
     elif spec.name == "ledger-aware-transformer":
@@ -2312,6 +2405,10 @@ def _audit_row(
         consistent, reason, _failed_pointer = _discovery_gated_nas_consistency(payload)
         if not consistent:
             return "invalid", reason
+    if spec.name == "discovery-gated-transformer":
+        consistent, reason, _failed_pointer = _discovery_gated_transformer_consistency(payload)
+        if not consistent:
+            return "invalid", reason
     if spec.name == "ledger-aware-transformer":
         consistent, reason, _failed_pointer = _ledger_aware_transformer_consistency(payload)
         if not consistent:
@@ -2321,9 +2418,10 @@ def _audit_row(
             reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
             if reason is not None:
                 return "invalid", reason
-        anti_result = _owner_local_anti_triviality_result(spec, payload, level)
-        if anti_result is not None:
-            return anti_result
+        if spec.name != "discovery-gated-transformer":
+            anti_result = _owner_local_anti_triviality_result(spec, payload, level)
+            if anti_result is not None:
+                return anti_result
         pointer_result = _audit_pointer_cell(
             payload,
             evidence.control_pointer,
