@@ -103,6 +103,44 @@ TARGET_ORGANISMS = [
         "cds_source_name": "NCBI RefSeq GCF_000006765.1 ASM676v1 cds_from_genomic",
         "join_method": "PAXdb external id after taxid prefix is matched exactly to unique NCBI CDS header identifiers, primarily PA locus tags.",
     },
+    {
+        "organism": "bacillus_subtilis_subsp_subtilis_str_168",
+        "organism_label": "Bacillus subtilis subsp. subtilis str. 168",
+        "ncbi_taxid": "224308",
+        "cds_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/045/GCF_000009045.1_ASM904v1/GCF_000009045.1_ASM904v1_cds_from_genomic.fna.gz",
+        "cds_source_name": "NCBI RefSeq GCF_000009045.1 ASM904v1 cds_from_genomic",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to unique NCBI CDS header identifiers, primarily BSU locus tags.",
+    },
+    {
+        "organism": "mus_musculus",
+        "organism_label": "Mus musculus",
+        "ncbi_taxid": "10090",
+        "cds_url": "https://ftp.ensembl.org/pub/release-115/fasta/mus_musculus/cds/Mus_musculus.GRCm39.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Mus_musculus GRCm39 release 115 cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/release-115/gtf/mus_musculus/Mus_musculus.GRCm39.115.gtf.gz",
+        "gtf_source_name": "Ensembl Mus_musculus GRCm39 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "caenorhabditis_elegans",
+        "organism_label": "Caenorhabditis elegans",
+        "ncbi_taxid": "6239",
+        "cds_url": "https://ftp.ensembl.org/pub/release-115/fasta/caenorhabditis_elegans/cds/Caenorhabditis_elegans.WBcel235.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Caenorhabditis_elegans WBcel235 release 115 cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/release-115/gtf/caenorhabditis_elegans/Caenorhabditis_elegans.WBcel235.115.gtf.gz",
+        "gtf_source_name": "Ensembl Caenorhabditis_elegans WBcel235 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "drosophila_melanogaster",
+        "organism_label": "Drosophila melanogaster",
+        "ncbi_taxid": "7227",
+        "cds_url": "https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/cds/Drosophila_melanogaster.BDGP6.54.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Drosophila_melanogaster BDGP6.54 release 115 cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/release-115/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.54.115.gtf.gz",
+        "gtf_source_name": "Ensembl Drosophila_melanogaster BDGP6.54 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
 ]
 
 
@@ -207,14 +245,17 @@ def header_identifiers(header: str) -> set[str]:
         for value in fields.get(key, []):
             identifiers.add(value)
             identifiers.add(strip_version(value))
+            if re.fullmatch(r"[A-Za-z]+_[0-9]+", value):
+                identifiers.add(value.replace("_", ""))
     for key in ("gene", "gene_symbol"):
         for value in colon_fields.get(key, []):
             identifiers.add(value)
             identifiers.add(strip_version(value))
     for value in fields.get("db_xref", []):
-        identifiers.add(value)
-        if ":" in value:
-            identifiers.add(value.split(":", 1)[1])
+        for component in value.split(","):
+            identifiers.add(component)
+            if ":" in component:
+                identifiers.add(component.split(":", 1)[1])
     if "_cds_" in first_token:
         tail = first_token.split("_cds_", 1)[1]
         if "_" in tail:
