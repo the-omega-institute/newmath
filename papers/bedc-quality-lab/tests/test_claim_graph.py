@@ -179,6 +179,22 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
                 "readiness": "ready",
                 "matched_control": {"control_positive": False},
             },
+            "d5_o_projection": {
+                "status": "blocked",
+                "discovery_level": "D4",
+                "source_level": "D4",
+                "evidence_pointers": {
+                    "stronger_matched_random": "$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
+                },
+                "surface_summary": {"threshold_frontier": {"matched_random_pass_count": 0}},
+                "not_claimed": [
+                    "Bounded D5-O claim over deterministic toy surfaces only.",
+                    "No production robustness claim.",
+                    "No global robustness claim.",
+                    "No LLM replacement claim.",
+                ],
+                "scope": {"claim": "bounded deterministic toy operational robustness"},
+            },
             "not_claimed": ["bounded deterministic toy evidence only"],
             "claim_capsule_ref": {"artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json", "pointer": "$"},
         },
@@ -242,7 +258,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "classifier_reasons": ["fixture"],
             "projection_status": "projected",
             "evidence_pointer": "$.d4_projection",
-            "control_pointer": "$.d4_projection.matched_control",
+            "control_pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
             "audit_status": "valid",
             "audit_reason": "",
             "not_claimed": ["bounded deterministic toy evidence only"],
@@ -264,7 +280,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     _write_json(root, high_impact_review.JSON_ARTIFACT, payload)
     rows[-1]["claim_verdict"] = "accepted_positive_discovery"
     rows[-1]["reason"] = "positive-discovery-gates-pass"
-    rows[-1]["ledger_pointer"] = high_impact_review.DGT_REVIEW_ROW_POINTER
+    rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
     _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
 
 

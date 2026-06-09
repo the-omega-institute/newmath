@@ -12,6 +12,8 @@ from bedc_quality_lab.discovery_gated_transformer import (
     COMPONENT_ABLATION_GATE_NAMES,
     COMPONENT_ABLATION_OWNER_REF,
     D4_PROJECTION_GATE_NAMES,
+    D5O_GATE_NAMES,
+    D5O_REVIEW_PHRASE,
     LAT_CANONICAL_ARTIFACT,
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
@@ -29,6 +31,8 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_d4_projection_payload,
     build_component_ablation,
     build_projection,
+    build_d5_o_projection,
+    _toy_seed_surface_summary,
     default_robustness_source_payloads,
     evaluate_ablation_arm,
     evaluate_operational_robustness_hardgates,
@@ -46,6 +50,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_dgt_jet_certificate,
     validate_dgt_tool_route_evidence,
     validate_d4_projection,
+    validate_d5_o_projection,
     validate_operational_robustness,
 )
 from scripts import run_discovery_gated_transformer as dgt
@@ -69,6 +74,18 @@ def _write_required_dgt_external_artifacts(root):
         + "\n",
         encoding="utf-8",
     )
+
+
+def _accepted_dgt_review_rows():
+    return [
+        {
+            "claim_id": "claim:discovery-gated-transformer",
+            "status": "pass",
+            "reason": "positive-discovery-gates-pass",
+            "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+            "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+        }
+    ]
 
 
 def test_dgt_has_twenty_gate_names():
@@ -107,11 +124,11 @@ def test_dgt_complete_fixture_is_d4_candidate():
     assert payload["d4_projection"]["discovery_level"] == "D4"
     assert payload["d4_projection"]["readiness"] == "ready"
     assert payload["d4_projection"]["failed_gate"] is None
-    assert payload["robustness"]["owner_ref"] == ROBUSTNESS_OWNER_REF
-    assert payload["robustness"]["readiness"] == "ready"
-    assert payload["robustness"]["discovery_level"] == "D5-O"
-    assert tuple(payload["robustness"]["hardgate"]["gates"]) == ROBUSTNESS_GATE_NAMES
-    assert payload["robustness"]["source_artifacts"]["ledger_aware_transformer_pointer"] == f"{LAT_CANONICAL_ARTIFACT}:$"
+    assert payload["operational_robustness"]["owner_ref"] == ROBUSTNESS_OWNER_REF
+    assert payload["operational_robustness"]["readiness"] == "ready"
+    assert payload["operational_robustness"]["discovery_level"] == "D5-O"
+    assert tuple(payload["operational_robustness"]["hardgate"]["gates"]) == ROBUSTNESS_GATE_NAMES
+    assert payload["operational_robustness"]["source_artifacts"]["ledger_aware_transformer_pointer"] == f"{LAT_CANONICAL_ARTIFACT}:$"
     assert payload["source_artifacts"]["model_comparison_pointer"] == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
 
 
@@ -272,17 +289,219 @@ def test_dgt_d4_projection_rejects_terminal_verdict_surface():
     assert "forbidden authority token" in "; ".join(validate_d4_projection(mutated, payload))
 
 
+def test_dgt_d5_o_projection_requires_terminal_d4_acceptance(tmp_path):
+    payload = dgt.build_payload(generated_at="fixture-time", claim_verdict_rows=[], root=tmp_path)
+
+    projection = payload["d5_o_projection"]
+
+    assert projection["gates"]["D5O-HG1"]["status"] == "fail"
+    assert projection["status"] == "blocked"
+    assert projection["discovery_level"] == "D4"
+    assert projection["blocked_reason"] == "blocked-by-D5O-HG1"
+
+
+def test_dgt_d5_o_projection_passes_with_terminal_d4_acceptance(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+
+    projection = payload["d5_o_projection"]
+
+    assert tuple(projection["gates"]) == D5O_GATE_NAMES
+    assert projection["gate_status"] == "pass"
+    assert projection["status"] == "ready"
+    assert projection["discovery_level"] == "D5-O"
+    assert projection["source_level"] == "D4"
+    assert validate_d5_o_projection(projection, payload) == []
+
+
+def test_dgt_d5_o_projection_has_at_least_three_nontrivial_ood_passes(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    summary = payload["d5_o_projection"]["surface_summary"]
+
+    assert summary["nontrivial_ood_pass_count"] >= 3
+    assert summary["nontrivial_ood_pass_count"] >= summary["required_nontrivial_ood_pass_count"]
+    assert all(row["owner_pass"] for row in summary["surfaces"])
+
+
+def test_dgt_d5_o_projection_seed_expansion_passes(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    summary = payload["d5_o_projection"]["surface_summary"]
+
+    assert summary["seed"] == 1105
+    assert len({row["seed"] for row in summary["surfaces"]}) >= 4
+    assert payload["d5_o_projection"]["gates"]["D5O-HG4"]["status"] == "pass"
+
+
+def test_dgt_d5_o_projection_threshold_frontier_passes(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    frontier = payload["d5_o_projection"]["surface_summary"]["threshold_frontier"]
+
+    assert frontier["frontier_status"] == "pass"
+    assert frontier["owner_pass_count"] >= 3
+    assert payload["d5_o_projection"]["gates"]["D5O-HG5"]["status"] == "pass"
+
+
+def test_dgt_d5_o_projection_stronger_matched_random_remains_negative(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    frontier = payload["d5_o_projection"]["surface_summary"]["threshold_frontier"]
+
+    assert frontier["matched_random_pass_count"] == 0
+    assert payload["d5_o_projection"]["gates"]["D5O-HG6"]["status"] == "pass"
+
+
+def test_dgt_d5_o_projection_failed_surfaces_boundary_ledgers(tmp_path):
+    payload = dgt.build_payload(generated_at="fixture-time", claim_verdict_rows=[], root=tmp_path)
+    projection = payload["d5_o_projection"]
+
+    assert projection["gates"]["D5O-HG1"]["status"] == "fail"
+    assert any(row["gate"] == "D5O-HG1" and row["status"] == "fail" for row in projection["boundary_ledger"])
+    assert projection["blocked_reason"] == "blocked-by-D5O-HG1"
+    assert projection["evidence_pointers"]["terminal_d4_acceptance"].endswith("$.review_rows[0]")
+
+
+def _assert_d5_o_fail_closed(projection, gate_name):
+    assert projection["gates"][gate_name]["status"] == "fail"
+    assert projection["gate_status"] == "fail"
+    assert projection["status"] == "blocked"
+    assert projection["discovery_level"] == "D4"
+    assert projection["blocked_reason"] == f"blocked-by-{gate_name}"
+    assert projection["anti_triviality_status"] == "fail"
+    assert projection["anti_triviality_failed_gate"] == gate_name
+    assert any(row["gate"] == gate_name and row["status"] == "fail" for row in projection["boundary_ledger"])
+
+
+def test_dgt_d5_o_hg2_fails_closed_when_d4_source_not_ready(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutated["d4_projection"]["readiness"] = "blocked"
+    mutated["d4_projection"]["failed_gate"] = "PROJ-HG1"
+    projection = build_d5_o_projection(mutated, _accepted_dgt_review_rows(), root=tmp_path)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG2")
+    assert validate_d5_o_projection(projection, mutated) == []
+
+
+def test_dgt_d5_o_hg3_fails_closed_when_ood_surface_count_is_below_three(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    summary = _toy_seed_surface_summary()
+    summary["required_nontrivial_ood_pass_count"] = 5
+    projection = build_d5_o_projection(owner, _accepted_dgt_review_rows(), root=tmp_path, surface_summary=summary)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG3")
+    assert projection["surface_summary"]["nontrivial_ood_pass_count"] < projection["surface_summary"]["required_nontrivial_ood_pass_count"]
+
+
+def test_dgt_d5_o_hg4_fails_closed_when_seed_expansion_is_missing(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    summary = _toy_seed_surface_summary()
+    for row in summary["surfaces"]:
+        row["seed"] = 1105
+    projection = build_d5_o_projection(owner, _accepted_dgt_review_rows(), root=tmp_path, surface_summary=summary)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG4")
+    assert len({row["seed"] for row in projection["surface_summary"]["surfaces"]}) == 1
+
+
+def test_dgt_d5_o_hg5_fails_closed_when_threshold_frontier_is_missing(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    summary = _toy_seed_surface_summary()
+    summary.pop("threshold_frontier")
+    projection = build_d5_o_projection(owner, _accepted_dgt_review_rows(), root=tmp_path, surface_summary=summary)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG5")
+    assert projection["gates"]["D5O-HG5"]["evidence"]["pointer"].endswith("threshold_frontier")
+
+
+def test_dgt_d5_o_hg6_fails_closed_when_matched_random_is_not_negative(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    summary = _toy_seed_surface_summary()
+    summary["surfaces"][0]["matched_random_pass"] = True
+    projection = build_d5_o_projection(owner, _accepted_dgt_review_rows(), root=tmp_path, surface_summary=summary)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG6")
+    assert any(row["matched_random_pass"] is True for row in projection["surface_summary"]["surfaces"])
+
+
+def test_dgt_d5_o_hg7_fails_closed_when_operational_dependency_is_missing(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutated["operational_robustness"]["hardgate"]["status"] = "fail"
+    projection = build_d5_o_projection(mutated, _accepted_dgt_review_rows(), root=tmp_path)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG7")
+    assert projection["gates"]["D5O-HG7"]["evidence"]["pointer"].endswith("boundary_ledger")
+
+
+def test_dgt_d5_o_hg8_fails_closed_when_boundary_text_is_missing(tmp_path):
+    owner = dgt.build_payload(generated_at="fixture-time", high_impact_review_rows=_accepted_dgt_review_rows(), root=tmp_path)
+    not_claimed = ["Bounded D5-O claim over deterministic toy surfaces only."]
+    projection = build_d5_o_projection(owner, _accepted_dgt_review_rows(), root=tmp_path, not_claimed=not_claimed)
+
+    _assert_d5_o_fail_closed(projection, "D5O-HG8")
+    assert projection["not_claimed"] == not_claimed
+
+
+def test_dgt_d5_o_projection_no_global_robustness_claim_in_positive_text(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    projection = payload["d5_o_projection"]
+    positive_text = json.dumps(
+        {
+            "scope": projection["scope"],
+            "status": projection["status"],
+            "discovery_level": projection["discovery_level"],
+        },
+        sort_keys=True,
+    ).lower()
+
+    assert "global robustness" not in positive_text
+    assert "production" not in positive_text
+    assert "llm replacement" not in positive_text
+
+
+def test_dgt_d5_o_projection_high_impact_review_wording_present(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+
+    assert payload["d5_o_projection"]["scope"]["review"] == D5O_REVIEW_PHRASE
+
+
 @pytest.mark.parametrize(
     ("gate_name", "mutate"),
     [
-        ("DGT-ROB-HG1", lambda payload: payload["robustness"].update({"owner_ref": f"{CANONICAL_JSON_ARTIFACT}:$"})),
-        ("DGT-ROB-HG2", lambda payload: payload["robustness"]["source_evidence"]["owner"].update({"d4_readiness": "blocked"})),
-        ("DGT-ROB-HG3", lambda payload: payload["robustness"]["source_evidence"]["owner"].update({"component_ablation_status": "fail"})),
-        ("DGT-ROB-HG4", lambda payload: payload["robustness"]["source_evidence"]["ledger_aware_transformer"].update({"robustness_status": "fail"})),
-        ("DGT-ROB-HG5", lambda payload: payload["robustness"]["source_evidence"]["model_comparison"].update({"hardgate_status": "fail"})),
-        ("DGT-ROB-HG6", lambda payload: payload["robustness"]["source_artifacts"].update({"ledger_aware_transformer_pointer": "reports/canonical/lat.json:$"})),
-        ("DGT-ROB-HG7", lambda payload: payload["robustness"].update({"not_claimed": []})),
-        ("DGT-ROB-HG8", lambda payload: payload["robustness"]["operational_contract"].update({"owner_policy": "production"})),
+        ("DGT-ROB-HG1", lambda payload: payload["operational_robustness"].update({"owner_ref": f"{CANONICAL_JSON_ARTIFACT}:$"})),
+        ("DGT-ROB-HG2", lambda payload: payload["operational_robustness"]["source_evidence"]["owner"].update({"d4_readiness": "blocked"})),
+        ("DGT-ROB-HG3", lambda payload: payload["operational_robustness"]["source_evidence"]["owner"].update({"component_ablation_status": "fail"})),
+        ("DGT-ROB-HG4", lambda payload: payload["operational_robustness"]["source_evidence"]["ledger_aware_transformer"].update({"robustness_status": "fail"})),
+        ("DGT-ROB-HG5", lambda payload: payload["operational_robustness"]["source_evidence"]["model_comparison"].update({"hardgate_status": "fail"})),
+        ("DGT-ROB-HG6", lambda payload: payload["operational_robustness"]["source_artifacts"].update({"ledger_aware_transformer_pointer": "reports/canonical/lat.json:$"})),
+        ("DGT-ROB-HG7", lambda payload: payload["operational_robustness"].update({"not_claimed": []})),
+        ("DGT-ROB-HG8", lambda payload: payload["operational_robustness"]["operational_contract"].update({"owner_policy": "production"})),
     ],
 )
 def test_dgt_robustness_hardgates_fail_closed(gate_name, mutate):
@@ -290,41 +509,41 @@ def test_dgt_robustness_hardgates_fail_closed(gate_name, mutate):
     mutated = json.loads(json.dumps(payload))
     mutate(mutated)
     if gate_name == "DGT-ROB-HG8":
-        mutated["robustness"]["forbidden_claim_term_audit"] = {
+        mutated["operational_robustness"]["forbidden_claim_term_audit"] = {
             "status": "fail",
             "hits": ["operation authority wording"],
-            "forbidden_terms": mutated["robustness"]["forbidden_claim_term_audit"]["forbidden_terms"],
+            "forbidden_terms": mutated["operational_robustness"]["forbidden_claim_term_audit"]["forbidden_terms"],
         }
-    hardgate = evaluate_operational_robustness_hardgates(mutated["robustness"])
+    hardgate = evaluate_operational_robustness_hardgates(mutated["operational_robustness"])
     first_failed = hardgate["failed_gate"][0]
-    mutated["robustness"]["hardgate"] = hardgate
-    mutated["robustness"]["failed_gate"] = hardgate["failed_gate"]
-    mutated["robustness"]["failed_gate_pointer"] = f"{CANONICAL_JSON_ARTIFACT}:$.robustness.hardgate.gates.{first_failed}"
-    mutated["robustness"]["status"] = "blocked"
-    mutated["robustness"]["readiness"] = "blocked"
-    mutated["robustness"]["discovery_level"] = "D0"
+    mutated["operational_robustness"]["hardgate"] = hardgate
+    mutated["operational_robustness"]["failed_gate"] = hardgate["failed_gate"]
+    mutated["operational_robustness"]["failed_gate_pointer"] = f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness.hardgate.gates.{first_failed}"
+    mutated["operational_robustness"]["status"] = "blocked"
+    mutated["operational_robustness"]["readiness"] = "blocked"
+    mutated["operational_robustness"]["discovery_level"] = "D0"
 
     assert hardgate["gates"][gate_name]["status"] == "fail"
     if gate_name == "DGT-ROB-HG1":
         with pytest.raises(ValueError, match="owner"):
-            validate_operational_robustness(mutated["robustness"], mutated)
+            validate_operational_robustness(mutated["operational_robustness"], mutated)
         return
-    validate_operational_robustness(mutated["robustness"], mutated)
-    assert mutated["robustness"]["readiness"] == "blocked"
-    assert mutated["robustness"]["discovery_level"] == "D0"
+    validate_operational_robustness(mutated["operational_robustness"], mutated)
+    assert mutated["operational_robustness"]["readiness"] == "blocked"
+    assert mutated["operational_robustness"]["discovery_level"] == "D0"
 
     if gate_name == "DGT-ROB-HG8":
         with pytest.raises(ValueError, match="forbidden"):
-            bad_token = json.loads(json.dumps(mutated["robustness"]))
+            bad_token = json.loads(json.dumps(mutated["operational_robustness"]))
             bad_token["revocation_rows"].append({"gate": "DGT-ROB-HG8", "condition": "terminal_verdict"})
             validate_operational_robustness(bad_token, mutated)
 
 
 def test_dgt_robustness_uses_lat_as_evidence_input_only():
     payload = dgt.build_payload(generated_at="fixture-time")
-    robustness = payload["robustness"]
+    robustness = payload["operational_robustness"]
 
-    assert robustness["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
+    assert robustness["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
     assert robustness["source_evidence"]["ledger_aware_transformer"]["source_role"] == "component-evidence-input"
     assert robustness["source_evidence"]["ledger_aware_transformer"]["level_candidate"] == "D5-O"
     assert robustness["operational_contract"]["lat_relationship"] == "LAT remains component evidence input only"
@@ -337,9 +556,9 @@ def test_dgt_robustness_blocks_when_lat_source_evidence_not_ready():
 
     payload = dgt.build_payload(generated_at="fixture-time", robustness_source_payloads=sources)
 
-    assert payload["robustness"]["hardgate"]["gates"]["DGT-ROB-HG4"]["status"] == "fail"
-    assert payload["robustness"]["readiness"] == "blocked"
-    assert payload["robustness"]["discovery_level"] == "D0"
+    assert payload["operational_robustness"]["hardgate"]["gates"]["DGT-ROB-HG4"]["status"] == "fail"
+    assert payload["operational_robustness"]["readiness"] == "blocked"
+    assert payload["operational_robustness"]["discovery_level"] == "D0"
 
 
 def test_dgt_artifact_ids_are_unversioned():
@@ -356,7 +575,7 @@ def test_dgt_artifact_ids_are_unversioned():
 def test_dgt_not_claimed_excludes_forbidden_positive_claim_wording():
     payload = dgt.build_payload(generated_at="fixture-time")
     nonclaims = " ".join(payload["not_claimed"]).lower()
-    robustness_nonclaims = " ".join(payload["robustness"]["not_claimed"]).lower()
+    robustness_nonclaims = " ".join(payload["operational_robustness"]["not_claimed"]).lower()
 
     assert "global superiority" not in nonclaims
     assert "production" not in nonclaims

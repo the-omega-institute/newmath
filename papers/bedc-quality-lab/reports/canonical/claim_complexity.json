@@ -17,7 +17,7 @@
       "status": "pass"
     },
     "CC-HG3": {
-      "d4_row_count": 5,
+      "d4_row_count": 4,
       "evidence_pointer": "reports/canonical/discovery_map.json:$.rows",
       "gate_id": "CC-HG3",
       "reason": "D4 rows pass through without promotion authority",
@@ -792,14 +792,14 @@
     },
     {
       "claim_id": "claim:discovery-gated-transformer",
-      "complexity_score": 10,
+      "complexity_score": 11,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[20]",
       "scoring_dimensions": [
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[20].discovery_level",
           "name": "assumption_complexity",
-          "weight": 4
+          "weight": 5
         },
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[20].classifier_reasons",
@@ -807,12 +807,12 @@
           "weight": 2
         },
         {
-          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection",
           "name": "evidence_burden",
           "weight": 3
         },
         {
-          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.evidence_pointers.stronger_matched_random",
           "name": "backend_coupling",
           "weight": 1
         },

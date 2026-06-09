@@ -1599,6 +1599,11 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.markdown_artifact == "reports/canonical/discovery-gated-transformer.md"
     assert "tool_route_evidence" in spec.required_json_keys
     assert "component_ablation" in spec.required_json_keys
+    assert "d5_o_projection" in spec.required_json_keys
+    assert spec.positive_claim_pointer == "$.d5_o_projection"
+    assert spec.not_claimed_pointer == "$.d5_o_projection.not_claimed"
+    assert spec.scope_pointer == "$.d5_o_projection.scope"
+    assert spec.control_pointer == "$.d5_o_projection.evidence_pointers.stronger_matched_random"
     assert "discovery_gated_transformer" not in names
 
 
@@ -1615,6 +1620,8 @@ def test_no_standalone_dgt_component_ablation_registered():
     )
     assert "reports/canonical/dgt-component-ablation.json" not in artifacts
     assert "reports/canonical/discovery-gated-transformer-ablation.json" not in artifacts
+    assert "reports/canonical/dgt_d5o_readiness_ledger.json" not in artifacts
+    assert "reports/canonical/discovery-gated-transformer-d5-o-readiness.json" not in artifacts
 
 
 def test_no_standalone_tool_use_dgt_owner_registered():
@@ -3207,11 +3214,12 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
-        "robustness",
+        "operational_robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
         "d4_projection",
+        "d5_o_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -3247,6 +3255,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["d4_projection"]["discovery_level"] == "D4"
     assert payload["d4_projection"]["readiness"] == "ready"
     assert set(payload["d4_projection"]["gates"]) == {f"PROJ-HG{index}" for index in range(1, 11)}
+    assert set(payload["d5_o_projection"]["gates"]) == {f"D5O-HG{index}" for index in range(1, 9)}
+    assert payload["d5_o_projection"]["discovery_level"] in {"D4", "D5-O"}
     assert set(payload["component_refs"]) == {
         "hardgate_contract",
         "discovery_gated_nas",
@@ -3312,6 +3322,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "d4_projection_ref_pointer",
         "d4_projection_pointer",
         "d4_projection_discovery_level_pointer",
+        "d5_o_projection_pointer",
+        "d5_o_projection_discovery_level_pointer",
+        "d5_o_projection_hardgate_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
@@ -3358,6 +3371,15 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["d4_projection_discovery_level_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+    )
+    assert section["robustness_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.operational_robustness"
+    )
+    assert section["d5_o_projection_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection"
+    )
+    assert section["d5_o_projection_discovery_level_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.discovery_level"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (

@@ -29,7 +29,6 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
-from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.scope import (
@@ -401,33 +400,6 @@ def _row(
     return item
 
 
-def _dgt_high_impact_verdict_row(
-    *,
-    root: Path,
-    claim_id: str,
-    source: ClaimSource,
-    scorecard_snapshot: ScorecardSnapshot,
-) -> dict[str, Any]:
-    gate = high_impact_review_dgt_gate(root)
-    if gate["status"] != "pass":
-        return _row(
-            claim_id=claim_id,
-            claim_verdict="projected_discovery_required",
-            reason="high-impact-review-required",
-            source=source,
-            ledger_pointer=str(gate["ledger_pointer"]),
-            scorecard_snapshot=scorecard_snapshot,
-        )
-    return _row(
-        claim_id=claim_id,
-        claim_verdict="accepted_positive_discovery",
-        reason=POSITIVE_DISCOVERY_GATES_PASS,
-        source=source,
-        ledger_pointer=str(gate["ledger_pointer"]),
-        scorecard_snapshot=scorecard_snapshot,
-    )
-
-
 def _dimension_mismatch_negative_row(
     *,
     root: Path,
@@ -712,14 +684,11 @@ def _mapped_discovery_row(
                     ledger_pointer=evidence_result.ledger_pointer,
                     scorecard_snapshot=scorecard_snapshot,
                 )
-            high_impact_failure = high_impact_review_failure_pointer(root, spec, payload)
-            if report == "discovery-gated-transformer":
-                return _dgt_high_impact_verdict_row(
-                    root=root,
-                    claim_id=claim_id,
-                    source=source,
-                    scorecard_snapshot=scorecard_snapshot,
-                )
+            high_impact_failure = (
+                None
+                if report == "discovery-gated-transformer"
+                else high_impact_review_failure_pointer(root, spec, payload)
+            )
             if high_impact_failure is not None:
                 return _row(
                     claim_id=claim_id,
@@ -732,13 +701,17 @@ def _mapped_discovery_row(
             return _row(
                 claim_id=claim_id,
                 claim_verdict="mechanism_not_closed" if _is_mechanism_open(row, level) else "accepted_positive_discovery",
-                reason=reason_for_claim_verdict(
-                    ClaimVerdictReasonBasis(
-                        claim_verdict="mechanism_not_closed"
-                        if _is_mechanism_open(row, level)
-                        else "accepted_positive_discovery",
-                        discovery_level=level,
-                        mechanism_open=_is_mechanism_open(row, level),
+                reason=(
+                    POSITIVE_DISCOVERY_GATES_PASS
+                    if report == "discovery-gated-transformer" and not _is_mechanism_open(row, level)
+                    else reason_for_claim_verdict(
+                        ClaimVerdictReasonBasis(
+                            claim_verdict="mechanism_not_closed"
+                            if _is_mechanism_open(row, level)
+                            else "accepted_positive_discovery",
+                            discovery_level=level,
+                            mechanism_open=_is_mechanism_open(row, level),
+                        )
                     )
                 ),
                 source=source,

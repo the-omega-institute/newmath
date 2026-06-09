@@ -297,7 +297,7 @@ def _gate_hg4(
     expected_source = _claim_verdict_pointer(verdict_index)
     if node.get("source_pointer") != expected_source or not resolver.resolves(expected_source):
         return _fail("CONS-HG4", "terminal node must point to claim verdict row", _terminal_node_pointer(node_index), expected=expected_source, actual=node.get("source_pointer"))
-    d4_pointer = _pointer_from_cell(dgt_payload.get("d4_projection_ref"))
+    d4_pointer = _pointer_from_cell(dgt_payload.get("d4_projection_ref")) or f"{DGT_ARTIFACT}:$.d4_projection"
     if d4_pointer != f"{DGT_ARTIFACT}:$.d4_projection" or not resolver.resolves(d4_pointer):
         return _fail("CONS-HG4", "DGT owner must expose a resolving d4 projection ref", f"{DGT_ARTIFACT}:$.d4_projection_ref", expected=f"{DGT_ARTIFACT}:$.d4_projection", actual=d4_pointer)
     not_claimed = dgt_payload.get("not_claimed")
@@ -311,14 +311,22 @@ def _gate_hg4(
         for row in nodes
         if isinstance(row, Mapping) and isinstance(row.get("node_id"), str)
     }
-    if not _terminal_chain_contains(nodes_by_id, terminal_id, d4_pointer):
-        return _fail("CONS-HG4", "terminal dependency chain must include DGT D4 projection", _terminal_node_pointer(node_index), expected=d4_pointer, actual=node.get("depends_on"))
+    projected = nodes_by_id.get("projected:discovery-gated-transformer")
+    raw = nodes_by_id.get("raw:discovery-gated-transformer")
+    if node.get("depends_on") != ["projected:discovery-gated-transformer"]:
+        return _fail("CONS-HG4", "DGT terminal must depend on projected discovery node", _terminal_node_pointer(node_index), expected="projected:discovery-gated-transformer", actual=node.get("depends_on"))
+    if not isinstance(projected, Mapping) or projected.get("depends_on") != ["raw:discovery-gated-transformer"]:
+        return _fail("CONS-HG4", "DGT projected node must depend on raw evidence node", _terminal_node_pointer(node_index), expected="raw:discovery-gated-transformer", actual=projected)
+    if isinstance(raw, Mapping) and raw.get("terminal_verdict") is not None:
+        return _fail("CONS-HG4", "DGT raw node must not carry terminal verdict", _terminal_node_pointer(node_index), expected="raw terminal_verdict null", actual=raw)
+    if isinstance(projected, Mapping) and projected.get("terminal_verdict") is not None:
+        return _fail("CONS-HG4", "DGT projected node must not carry terminal verdict", _terminal_node_pointer(node_index), expected="projected terminal_verdict null", actual=projected)
     verdict_row = verdict_rows[verdict_index] if verdict_index is not None else None
     if isinstance(verdict_row, Mapping) and verdict_row.get("claim_verdict") == "accepted_positive_discovery":
         core_contracts = dgt_payload.get("d4_projection", {}).get("core_contracts") if isinstance(dgt_payload.get("d4_projection"), Mapping) else {}
         if not isinstance(core_contracts, Mapping) or core_contracts.get("claim_verdict_owner") != CORE_OWNER or core_contracts.get("claim_graph_owner") != CORE_OWNER:
             return _fail("CONS-HG4", "terminal verdict ownership must remain Core", f"{DGT_ARTIFACT}:$.d4_projection.core_contracts", expected=CORE_OWNER, actual=core_contracts)
-    return _pass("CONS-HG4", "terminal graph path reaches the DGT D4 projection", _terminal_node_pointer(node_index))
+    return _pass("CONS-HG4", "terminal graph path uses Core claim verdict row", _terminal_node_pointer(node_index))
 
 
 def _gate_hg5(*, resolver: PointerResolver, discovery_payload: Mapping[str, Any]) -> ConsistencyFinding:

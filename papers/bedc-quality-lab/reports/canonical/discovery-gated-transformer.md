@@ -91,21 +91,39 @@
 
 ## Operational Robustness
 
-- Owner: `reports/canonical/discovery-gated-transformer.json:$.robustness`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness`
 - Readiness: `ready`
 - Discovery level: `D5-O`
 - LAT evidence: `reports/canonical/ledger-aware-transformer.json:$`
 
 | gate | status | evidence |
 | --- | --- | --- |
-| `DGT-ROB-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.owner_ref` |
+| `DGT-ROB-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.owner_ref` |
 | `DGT-ROB-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |
 | `DGT-ROB-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_ablation.hardgate` |
-| `DGT-ROB-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_evidence.ledger_aware_transformer` |
-| `DGT-ROB-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_evidence.model_comparison` |
-| `DGT-ROB-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.source_artifacts` |
-| `DGT-ROB-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.not_claimed` |
-| `DGT-ROB-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness.forbidden_claim_term_audit` |
+| `DGT-ROB-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.source_evidence.ledger_aware_transformer` |
+| `DGT-ROB-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.source_evidence.model_comparison` |
+| `DGT-ROB-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.source_artifacts` |
+| `DGT-ROB-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.not_claimed` |
+| `DGT-ROB-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.forbidden_claim_term_audit` |
+
+## D5-O Projection
+
+- Status: `ready`
+- Discovery level: `D5-O`
+- Source level: `D4`
+- Blocked reason: `None`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `D5O-HG1` | `pass` | `reports/canonical/high-impact-review.json:$.review_rows[0]` |
+| `D5O-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |
+| `D5O-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary` |
+| `D5O-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.seed` |
+| `D5O-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier` |
+| `D5O-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.evidence_pointers.stronger_matched_random` |
+| `D5O-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.boundary_ledger` |
+| `D5O-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.not_claimed` |
 
 ## D4 Projection
 

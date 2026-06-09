@@ -1240,11 +1240,11 @@ def _dgt_fixture(tmp_path, monkeypatch):
         _spec(
             "discovery-gated-transformer",
             high_impact_review.DGT_ARTIFACT,
-            scope="$.not_claimed",
+            scope="$.d5_o_projection.scope",
             cost="$.architecture_spec",
-            not_claimed="$.not_claimed",
-            positive="$.d4_projection",
-            control="$.d4_projection.matched_control",
+            not_claimed="$.d5_o_projection.not_claimed",
+            positive="$.d5_o_projection",
+            control="$.d5_o_projection.evidence_pointers.stronger_matched_random",
         ),
     )
     _fixture_root(tmp_path, monkeypatch, rows, specs)
@@ -1290,6 +1290,22 @@ def _dgt_fixture(tmp_path, monkeypatch):
                 "not_claimed": ["bounded D4 prototype only"],
                 "scope_seal": VALID_SCOPE_SEAL,
             },
+            "d5_o_projection": {
+                "status": "blocked",
+                "discovery_level": "D4",
+                "source_level": "D4",
+                "gate_status": "fail",
+                "blocked_reason": "blocked-by-D5O-HG1",
+                "not_claimed": [
+                    "Bounded D5-O claim over deterministic toy surfaces only.",
+                    "No production robustness claim.",
+                    "No global robustness claim.",
+                    "No LLM replacement claim.",
+                ],
+                "scope": {"claim": "bounded deterministic toy operational robustness"},
+                "evidence_pointers": {"stronger_matched_random": "$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count"},
+                "surface_summary": {"threshold_frontier": {"matched_random_pass_count": 0}},
+            },
             "tool_route_evidence": {"classifier_surface_delta": {"status": "present"}},
         }
     )
@@ -1297,14 +1313,15 @@ def _dgt_fixture(tmp_path, monkeypatch):
     return tmp_path
 
 
-def test_dgt_without_high_impact_review_stays_projected_required(tmp_path, monkeypatch):
+def test_dgt_d4_row_routes_through_generic_accepted_positive_path(tmp_path, monkeypatch):
     _dgt_fixture(tmp_path, monkeypatch)
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "high-impact-review-required"
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
 def test_dgt_with_passing_high_impact_review_becomes_accepted(tmp_path, monkeypatch):
@@ -1316,7 +1333,18 @@ def test_dgt_with_passing_high_impact_review_becomes_accepted(tmp_path, monkeypa
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
     assert verdict["reason"] == "positive-discovery-gates-pass"
-    assert verdict["ledger_pointer"] == high_impact_review.DGT_REVIEW_ROW_POINTER
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+
+
+def test_dgt_blocked_d4_row_does_not_emit_d5_o_verdict(tmp_path, monkeypatch):
+    _dgt_fixture(tmp_path, monkeypatch)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["ledger_pointer"].endswith("$.rows[0].discovery_level")
+    assert "D5-O" not in json.dumps(verdict, sort_keys=True)
 
 
 def test_malformed_high_impact_review_does_not_affect_non_dgt(tmp_path, monkeypatch):
