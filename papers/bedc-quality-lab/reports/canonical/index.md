@@ -38,6 +38,7 @@
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
+| `mechanism-dna` | `pass` | `not-applicable` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
 | `model-comparison` | `pass` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
 | `claim-complexity` | `pass` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
@@ -61,7 +62,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `29`
+- Rows: `30`
 
 ## Experiment proposals
 
@@ -223,7 +224,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `38`
+- Rows: `39`
 
 ## Claim complexity
 
@@ -231,7 +232,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `29`
+- Rows: `30`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -242,7 +243,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `110`
+- Nodes: `113`
 
 ## Claim artifact consistency
 
@@ -382,7 +383,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -416,6 +417,7 @@
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
+| `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
 | `model-comparison` | `auxiliary` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.dgt_mechanism_cert` | `$.matched_controls` | `None` |
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
