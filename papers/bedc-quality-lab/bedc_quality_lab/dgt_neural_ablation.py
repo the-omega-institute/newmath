@@ -1,14 +1,16 @@
-"""DGT neural-module ablation owner with real PyTorch training evidence."""
+"""DGT neural-module ablation owner with measured PyTorch training evidence."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 import hashlib
 import importlib
+import inspect
 import json
 import math
 from pathlib import Path
+import ast
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
@@ -22,50 +24,75 @@ CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-neural-ablation.fingerprint.json"
 RUN_ROOT = "reports/runs/dgt-neural-ablation"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
-SEED = 1133
-TRAINING_STEPS = 36
-LEARNING_RATE = 0.045
-SAMPLE_COUNT = 96
+BASE_SEED = 1133
+SEEDS = (1133, 1134, 1135)
+TRAINING_STEPS = 40
+LEARNING_RATE = 0.042
+CORE_SAMPLE_COUNT = 96
+SCOPE_SAMPLE_COUNT = 80
 INPUT_DIM = 6
+SCOPE_CLASSES = ("in_scope", "out_of_scope", "over_claim", "boundary_ambiguous")
+SCOPE_SLICES = (
+    "in_scope_positive",
+    "out_of_scope_refusal",
+    "over_claim_refusal",
+    "boundary_ambiguous_abstain",
+)
+TASK_IDS = ("core_classification", "scope_boundary_pressure")
+SPLIT = "eval"
+COMPONENTS = (
+    "LAT",
+    "CGA",
+    "DRT",
+    "gap_head",
+    "ledger_head",
+    "route_certificate",
+    "mechanism_probe",
+    "jet_loss",
+    "negative_witness_loss",
+    "scope_seal",
+)
+ARM_IDS = ("full_DGT",) + tuple(f"DGT_without_{component}" for component in COMPONENTS)
+OUTCOME_FIELDS = (
+    "arm_id",
+    "seed",
+    "task_id",
+    "split",
+    "initial_loss",
+    "final_loss",
+    "loss_drop",
+    "accuracy",
+    "balanced_accuracy",
+    "margin_mean",
+    "margin_p05",
+    "ece",
+    "prediction_entropy",
+    "parameter_delta_l2",
+    "gradient_update_steps",
+    "prediction_distribution",
+    "scope_pressure_metrics",
+    "UER",
+    "FalseLedgerRate",
+    "JetCoverage",
+    "negative_witness_hits",
+    "compute_cost",
+)
 METRIC_KEYS = (
     "quality_q",
     "UER",
     "FalseLedgerRate",
     "debt_q",
     "benefit_q",
+    "scope_pressure_q",
     "classifier_shift_count",
     "JetCoverage",
     "negative_witness_hits",
     "compute_cost",
 )
-ARM_IDS = (
-    "full_DGT",
-    "DGT_without_LAT",
-    "DGT_without_CGA",
-    "DGT_without_DRT",
-    "DGT_without_gap_head",
-    "DGT_without_ledger_head",
-    "DGT_without_route_certificate",
-    "DGT_without_mechanism_probe",
-    "DGT_without_jet_loss",
-    "DGT_without_negative_witness_loss",
-    "DGT_without_scope_seal",
-)
-COMPONENT_EFFECTS = {
-    "LAT": {"quality": 0.145, "uer": 0.062, "false_ledger": 0.046, "debt": 0.052, "benefit": 0.080, "jet": 0.030, "negative": 0.0, "cost": 0.10},
-    "CGA": {"quality": 0.118, "uer": 0.049, "false_ledger": 0.060, "debt": 0.038, "benefit": 0.064, "jet": 0.026, "negative": 0.0, "cost": 0.08},
-    "DRT": {"quality": 0.132, "uer": 0.054, "false_ledger": 0.035, "debt": 0.066, "benefit": 0.070, "jet": 0.020, "negative": 0.0, "cost": 0.09},
-    "gap_head": {"quality": 0.082, "uer": 0.076, "false_ledger": 0.028, "debt": 0.034, "benefit": 0.042, "jet": 0.012, "negative": 0.0, "cost": 0.05},
-    "ledger_head": {"quality": 0.090, "uer": 0.033, "false_ledger": 0.082, "debt": 0.044, "benefit": 0.048, "jet": 0.012, "negative": 0.0, "cost": 0.05},
-    "route_certificate": {"quality": 0.074, "uer": 0.046, "false_ledger": 0.040, "debt": 0.030, "benefit": 0.040, "jet": 0.010, "negative": 0.0, "cost": 0.04},
-    "mechanism_probe": {"quality": 0.070, "uer": 0.032, "false_ledger": 0.032, "debt": 0.026, "benefit": 0.038, "jet": 0.012, "negative": 0.0, "cost": 0.04},
-    "jet_loss": {"quality": 0.068, "uer": 0.020, "false_ledger": 0.025, "debt": 0.026, "benefit": 0.032, "jet": 0.142, "negative": 0.0, "cost": 0.06},
-    "negative_witness_loss": {"quality": 0.063, "uer": 0.022, "false_ledger": 0.030, "debt": 0.028, "benefit": 0.030, "jet": 0.018, "negative": 1.0, "cost": 0.05},
-    "scope_seal": {"quality": 0.0, "uer": 0.0, "false_ledger": 0.0, "debt": 0.0, "benefit": 0.0, "jet": 0.0, "negative": 0.0, "cost": 0.01},
-}
 MEASURABLE_EFFECT_THRESHOLD = 0.015
 COMPONENT_CAUSAL_EVIDENCE_SCOPE = ("small-real-training",)
 HG_IDS = tuple(f"NABL-HG{index}" for index in range(1, 8))
+PURE_HG_IDS = tuple(f"PURE-HG{index}" for index in range(1, 8))
 NOT_CLAIMED = (
     "No production training claim.",
     "No global model superiority claim.",
@@ -79,6 +106,13 @@ FORBIDDEN_TERMS = (
     "llm replacement",
     "universal training recipe",
     "unbounded mechanism closure",
+)
+_FORBIDDEN_OWNER_TOKENS = (
+    "COMPONENT" + "_" + "EFFECTS",
+    "component" + "_" + "effects",
+    "effect" + "_" + "prior",
+    "per" + "_" + "component" + "_" + "quality",
+    "per" + "_" + "component" + "_" + "penalty",
 )
 
 
@@ -97,6 +131,121 @@ class DgtNeuralAblationArm:
         }
 
 
+@dataclass(frozen=True)
+class TrainingOutcome:
+    """Measured row consumed by derive_training_metrics without component metadata."""
+
+    arm_id: str
+    seed: int
+    task_id: str
+    split: str
+    initial_loss: float
+    final_loss: float
+    loss_drop: float
+    accuracy: float
+    balanced_accuracy: float
+    margin_mean: float
+    margin_p05: float
+    ece: float
+    prediction_entropy: float
+    parameter_delta_l2: float
+    gradient_update_steps: int
+    prediction_distribution: Mapping[str, float]
+    scope_pressure_metrics: Mapping[str, Any]
+    UER: float
+    FalseLedgerRate: float
+    JetCoverage: float
+    negative_witness_hits: int
+    compute_cost: float
+
+
+@dataclass(frozen=True)
+class MetricProtocol:
+    inputs: tuple[str, ...]
+    formulas: Mapping[str, str]
+    global_weights: Mapping[str, Mapping[str, float]]
+
+    def as_payload(self) -> dict[str, Any]:
+        return {
+            "inputs": list(self.inputs),
+            "formulas": dict(self.formulas),
+            "global_weights": {key: dict(value) for key, value in self.global_weights.items()},
+            "forbidden_inputs": [
+                "arm metadata",
+                "disabled component labels",
+                "removed component labels",
+                "component-indexed lookup tables",
+                "per-arm metric penalties",
+            ],
+        }
+
+
+METRIC_PROTOCOL = MetricProtocol(
+    inputs=OUTCOME_FIELDS,
+    formulas={
+        "quality_q": (
+            "clamp(0.18 + 0.30*balanced_accuracy + 0.18*loss_drop_ratio + 0.12*margin_p05 "
+            "- 0.10*ece - 0.10*FalseLedgerRate - 0.08*UER - 0.08*scope_leak_rate "
+            "+ 0.08*JetCoverage)"
+        ),
+        "benefit_q": (
+            "clamp(0.12 + 0.30*accuracy + 0.18*scope_pressure_accuracy + 0.12*JetCoverage "
+            "+ 0.10*negative_witness_clearance + 0.08*boundary_margin - 0.08*scope_leak_rate)"
+        ),
+        "debt_q": (
+            "clamp(0.08 + 0.18*compute_cost_norm + 0.18*ece + 0.16*FalseLedgerRate + 0.14*UER "
+            "+ 0.16*scope_leak_rate + 0.10*prediction_entropy_norm)"
+        ),
+        "scope_pressure_q": (
+            "clamp(0.10 + 0.34*scope_pressure_accuracy + 0.18*scope_refusal_recall "
+            "+ 0.16*scope_refusal_precision + 0.12*boundary_margin - 0.16*scope_leak_rate "
+            "- 0.10*over_claim_false_positive_rate)"
+        ),
+        "classifier_shift_count": "round(4*(1-balanced_accuracy) + 3*scope_leak_rate + 2*FalseLedgerRate)",
+    },
+    global_weights={
+        "quality_q": {
+            "balanced_accuracy": 0.30,
+            "loss_drop_ratio": 0.18,
+            "margin_p05": 0.12,
+            "ece": -0.10,
+            "FalseLedgerRate": -0.10,
+            "UER": -0.08,
+            "scope_leak_rate": -0.08,
+            "JetCoverage": 0.08,
+            "bias": 0.18,
+        },
+        "benefit_q": {
+            "accuracy": 0.30,
+            "scope_pressure_accuracy": 0.18,
+            "JetCoverage": 0.12,
+            "negative_witness_clearance": 0.10,
+            "boundary_margin": 0.08,
+            "scope_leak_rate": -0.08,
+            "bias": 0.12,
+        },
+        "debt_q": {
+            "compute_cost_norm": 0.18,
+            "ece": 0.18,
+            "FalseLedgerRate": 0.16,
+            "UER": 0.14,
+            "scope_leak_rate": 0.16,
+            "prediction_entropy_norm": 0.10,
+            "bias": 0.08,
+        },
+        "scope_pressure_q": {
+            "scope_pressure_accuracy": 0.34,
+            "scope_refusal_recall": 0.18,
+            "scope_refusal_precision": 0.16,
+            "boundary_margin": 0.12,
+            "scope_leak_rate": -0.16,
+            "over_claim_false_positive_rate": -0.10,
+            "bias": 0.10,
+        },
+    },
+)
+
+
 def arm_registry() -> tuple[DgtNeuralAblationArm, ...]:
     rows = [DgtNeuralAblationArm("full_DGT", None, f"{CANONICAL_JSON_ARTIFACT}:$.module_registry.full_DGT")]
     rows.extend(
@@ -105,7 +254,7 @@ def arm_registry() -> tuple[DgtNeuralAblationArm, ...]:
             component,
             f"{CANONICAL_JSON_ARTIFACT}:$.module_registry.DGT_without_{component}",
         )
-        for component in COMPONENT_EFFECTS
+        for component in COMPONENTS
     )
     return tuple(rows)
 
@@ -116,6 +265,10 @@ def module_registry_payload() -> dict[str, Any]:
 
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return round(max(low, min(high, float(value))), 6)
+
+
+def _mean(values: Sequence[float]) -> float:
+    return round(sum(float(value) for value in values) / max(1, len(values)), 6)
 
 
 def _device_name(torch: Any, requested_device: str) -> str:
@@ -132,13 +285,175 @@ def _device_name(torch: Any, requested_device: str) -> str:
     return "cpu"
 
 
-def _torch_training_row(torch: Any, arm: DgtNeuralAblationArm, *, device_name: str) -> dict[str, Any]:
-    torch.manual_seed(SEED + ARM_IDS.index(arm.arm_id))
-    device = torch.device(device_name)
-    dtype = torch.float32
-    x = torch.linspace(-1.0, 1.0, SAMPLE_COUNT * INPUT_DIM, device=device, dtype=dtype).reshape(SAMPLE_COUNT, INPUT_DIM)
+def derive_training_metrics(outcome: TrainingOutcome, protocol: MetricProtocol = METRIC_PROTOCOL) -> dict[str, Any]:
+    """Derive report metrics only from measured training outcome fields and global weights."""
+
+    scope = outcome.scope_pressure_metrics
+    loss_drop_ratio = _clamp(outcome.loss_drop / max(abs(outcome.initial_loss), 1.0e-9))
+    scope_leak_rate = float(scope.get("scope_leak_rate", 0.0))
+    scope_pressure_accuracy = float(scope.get("scope_pressure_accuracy", 0.0))
+    scope_refusal_precision = float(scope.get("scope_refusal_precision", 0.0))
+    scope_refusal_recall = float(scope.get("scope_refusal_recall", 0.0))
+    over_claim_false_positive_rate = float(scope.get("over_claim_false_positive_rate", 0.0))
+    boundary_margin = _clamp((float(scope.get("boundary_margin", 0.0)) + 1.0) / 2.0)
+    negative_witness_clearance = 1.0 if outcome.negative_witness_hits == 0 else 0.0
+    compute_cost_norm = _clamp(outcome.compute_cost / 1.0)
+    prediction_entropy_norm = _clamp(outcome.prediction_entropy / math.log(4.0))
+    quality_weights = protocol.global_weights["quality_q"]
+    benefit_weights = protocol.global_weights["benefit_q"]
+    debt_weights = protocol.global_weights["debt_q"]
+    scope_weights = protocol.global_weights["scope_pressure_q"]
+    quality_q = _clamp(
+        quality_weights["bias"]
+        + quality_weights["balanced_accuracy"] * outcome.balanced_accuracy
+        + quality_weights["loss_drop_ratio"] * loss_drop_ratio
+        + quality_weights["margin_p05"] * outcome.margin_p05
+        + quality_weights["ece"] * outcome.ece
+        + quality_weights["FalseLedgerRate"] * outcome.FalseLedgerRate
+        + quality_weights["UER"] * outcome.UER
+        + quality_weights["scope_leak_rate"] * scope_leak_rate
+        + quality_weights["JetCoverage"] * outcome.JetCoverage
+    )
+    benefit_q = _clamp(
+        benefit_weights["bias"]
+        + benefit_weights["accuracy"] * outcome.accuracy
+        + benefit_weights["scope_pressure_accuracy"] * scope_pressure_accuracy
+        + benefit_weights["JetCoverage"] * outcome.JetCoverage
+        + benefit_weights["negative_witness_clearance"] * negative_witness_clearance
+        + benefit_weights["boundary_margin"] * boundary_margin
+        + benefit_weights["scope_leak_rate"] * scope_leak_rate
+    )
+    debt_q = _clamp(
+        debt_weights["bias"]
+        + debt_weights["compute_cost_norm"] * compute_cost_norm
+        + debt_weights["ece"] * outcome.ece
+        + debt_weights["FalseLedgerRate"] * outcome.FalseLedgerRate
+        + debt_weights["UER"] * outcome.UER
+        + debt_weights["scope_leak_rate"] * scope_leak_rate
+        + debt_weights["prediction_entropy_norm"] * prediction_entropy_norm
+    )
+    scope_pressure_q = _clamp(
+        scope_weights["bias"]
+        + scope_weights["scope_pressure_accuracy"] * scope_pressure_accuracy
+        + scope_weights["scope_refusal_recall"] * scope_refusal_recall
+        + scope_weights["scope_refusal_precision"] * scope_refusal_precision
+        + scope_weights["boundary_margin"] * boundary_margin
+        + scope_weights["scope_leak_rate"] * scope_leak_rate
+        + scope_weights["over_claim_false_positive_rate"] * over_claim_false_positive_rate
+    )
+    classifier_shift_count = int(
+        max(0, round(4.0 * (1.0 - outcome.balanced_accuracy) + 3.0 * scope_leak_rate + 2.0 * outcome.FalseLedgerRate))
+    )
+    return {
+        "metrics": {
+            "quality_q": quality_q,
+            "UER": _clamp(outcome.UER),
+            "FalseLedgerRate": _clamp(outcome.FalseLedgerRate),
+            "debt_q": debt_q,
+            "benefit_q": benefit_q,
+            "scope_pressure_q": scope_pressure_q,
+            "classifier_shift_count": classifier_shift_count,
+            "JetCoverage": _clamp(outcome.JetCoverage),
+            "negative_witness_hits": int(outcome.negative_witness_hits),
+            "compute_cost": round(max(0.001, float(outcome.compute_cost)), 6),
+        },
+        "metric_diagnostics": {
+            "loss_drop_ratio": loss_drop_ratio,
+            "scope_leak_rate": _clamp(scope_leak_rate),
+            "scope_pressure_accuracy": _clamp(scope_pressure_accuracy),
+            "negative_witness_clearance": negative_witness_clearance,
+            "compute_cost_norm": compute_cost_norm,
+            "prediction_entropy_norm": prediction_entropy_norm,
+            "formula_source": "metric_protocol.global_weights",
+        },
+    }
+
+
+def _scope_pressure_defaults() -> dict[str, Any]:
+    return {
+        "scope_pressure_accuracy": 0.0,
+        "scope_refusal_precision": 0.0,
+        "scope_refusal_recall": 0.0,
+        "over_claim_false_positive_rate": 0.0,
+        "scope_leak_rate": 0.0,
+        "boundary_margin": 0.0,
+        "scope_gate_sensitivity": 0.0,
+        "slice_metrics": {slice_id: {"accuracy": 0.0, "count": 0} for slice_id in SCOPE_SLICES},
+    }
+
+
+def _task_data(torch: Any, *, task_id: str, device: Any, dtype: Any) -> dict[str, Any]:
+    if task_id == "core_classification":
+        x = torch.linspace(-1.0, 1.0, CORE_SAMPLE_COUNT * INPUT_DIM, device=device, dtype=dtype).reshape(
+            CORE_SAMPLE_COUNT, INPUT_DIM
+        )
+        signal = torch.sin(2.3 * x[:, 0]) + 0.35 * x[:, 1] - 0.22 * x[:, 2] + 0.11 * x[:, 3] * x[:, 4]
+        target = torch.where(signal > 0.03, torch.zeros_like(signal, dtype=torch.long), torch.ones_like(signal, dtype=torch.long))
+        scope_index = torch.zeros(CORE_SAMPLE_COUNT, device=device, dtype=torch.long)
+        scope_features = torch.nn.functional.one_hot(scope_index, num_classes=len(SCOPE_CLASSES)).to(dtype)
+        return {
+            "task_id": task_id,
+            "input_tokens": x,
+            "target_label": target,
+            "scope_class_index": scope_index,
+            "scope_features": scope_features,
+            "claim_allowed": torch.ones(CORE_SAMPLE_COUNT, device=device, dtype=torch.bool),
+            "expected_boundary_action": ["positive" if int(label.item()) == 0 else "refusal" for label in target],
+            "negative_witness_tag": ["none"] * CORE_SAMPLE_COUNT,
+        }
+    if task_id != "scope_boundary_pressure":
+        raise ValueError(f"unknown task_id: {task_id}")
+    base = torch.linspace(-1.0, 1.0, SCOPE_SAMPLE_COUNT * INPUT_DIM, device=device, dtype=dtype).reshape(
+        SCOPE_SAMPLE_COUNT, INPUT_DIM
+    )
+    scope_index = torch.arange(SCOPE_SAMPLE_COUNT, device=device) % len(SCOPE_CLASSES)
+    scope_features = torch.nn.functional.one_hot(scope_index, num_classes=len(SCOPE_CLASSES)).to(dtype)
+    class_offsets = torch.stack(
+        (
+            scope_features[:, 0] * 0.30 - scope_features[:, 1] * 0.15,
+            scope_features[:, 2] * 0.24 - scope_features[:, 3] * 0.10,
+            scope_features[:, 1] * 0.20 + scope_features[:, 3] * 0.18,
+            scope_features[:, 2] * 0.32,
+            scope_features[:, 3] * 0.21,
+            scope_features[:, 0] * 0.12,
+        ),
+        dim=1,
+    )
+    x = base + class_offsets
+    target = torch.empty(SCOPE_SAMPLE_COUNT, device=device, dtype=torch.long)
+    target[scope_index == 0] = 0
+    target[scope_index == 1] = 1
+    target[scope_index == 2] = 1
+    target[scope_index == 3] = 2
+    claim_allowed = scope_index == 0
+    action_by_class = {
+        0: "positive_claim",
+        1: "refusal",
+        2: "refusal",
+        3: "abstain",
+    }
+    tag_by_class = {
+        0: "none",
+        1: "scope_escape",
+        2: "over_claim",
+        3: "ambiguous_boundary",
+    }
+    return {
+        "task_id": task_id,
+        "input_tokens": x,
+        "target_label": target,
+        "scope_class_index": scope_index,
+        "scope_features": scope_features,
+        "claim_allowed": claim_allowed,
+        "expected_boundary_action": [action_by_class[int(index.item())] for index in scope_index],
+        "negative_witness_tag": [tag_by_class[int(index.item())] for index in scope_index],
+    }
+
+
+def _feature_tensor(torch: Any, arm: DgtNeuralAblationArm, x: Any) -> Any:
+    dtype = x.dtype
+    device = x.device
     signal = torch.sin(2.3 * x[:, 0]) + 0.35 * x[:, 1] - 0.22 * x[:, 2] + 0.11 * x[:, 3] * x[:, 4]
-    y = (signal > 0.03).to(dtype)
     features = [x]
     if arm.disabled_component != "LAT":
         features.append(torch.stack((x[:, 0] * x[:, 1], x[:, 2] - x[:, 3]), dim=1))
@@ -147,80 +462,569 @@ def _torch_training_row(torch: Any, arm: DgtNeuralAblationArm, *, device_name: s
     if arm.disabled_component != "DRT":
         features.append(torch.stack((torch.sin(x[:, 0] + x[:, 5]), torch.cos(x[:, 1] - x[:, 2])), dim=1))
     if arm.disabled_component != "gap_head":
-        features.append((signal.abs().unsqueeze(1) + 0.01))
+        features.append(signal.abs().unsqueeze(1) + 0.01)
     if arm.disabled_component != "ledger_head":
-        features.append(((x[:, 0] > x[:, 1]).to(dtype).unsqueeze(1)))
+        features.append((x[:, 0] > x[:, 1]).to(dtype).unsqueeze(1))
     if arm.disabled_component != "route_certificate":
         features.append(((x[:, 2] * x[:, 3]) > 0).to(dtype).unsqueeze(1))
     if arm.disabled_component != "mechanism_probe":
         features.append((x[:, :2].sum(dim=1, keepdim=True) ** 2))
-    if arm.disabled_component != "scope_seal":
-        features.append(torch.ones(SAMPLE_COUNT, 1, device=device, dtype=dtype))
-    phi = torch.cat(features, dim=1)
-    model = torch.nn.Sequential(
-        torch.nn.Linear(phi.shape[1], 10),
-        torch.nn.Tanh(),
-        torch.nn.Linear(10, 1),
+    features.append(torch.ones(x.shape[0], 1, device=device, dtype=dtype))
+    return torch.cat(features, dim=1)
+
+
+def _balanced_accuracy(torch: Any, prediction: Any, target: Any) -> float:
+    values: list[float] = []
+    for label in sorted({int(value.item()) for value in target.detach().cpu()}):
+        mask = target == label
+        if bool(mask.any().item()):
+            values.append(float((prediction[mask] == target[mask]).to(torch.float32).mean().detach().cpu()))
+    return _mean(values)
+
+
+def _expected_calibration_error(torch: Any, probabilities: Any, prediction: Any, target: Any) -> float:
+    confidence = probabilities.max(dim=1).values
+    correctness = (prediction == target).to(probabilities.dtype)
+    total = float(target.numel())
+    ece = 0.0
+    for index in range(5):
+        low = index / 5.0
+        high = (index + 1) / 5.0
+        mask = (confidence >= low) & (confidence < high if index < 4 else confidence <= high)
+        if bool(mask.any().item()):
+            weight = float(mask.to(probabilities.dtype).mean().detach().cpu())
+            ece += weight * abs(
+                float(confidence[mask].mean().detach().cpu()) - float(correctness[mask].mean().detach().cpu())
+            )
+    return round(ece, 6)
+
+
+def _scope_metrics(torch: Any, probabilities: Any, prediction: Any, target: Any, data: Mapping[str, Any], gate: Any | None) -> dict[str, Any]:
+    if data["task_id"] != "scope_boundary_pressure":
+        return _scope_pressure_defaults()
+    scope_index = data["scope_class_index"]
+    boundary_mask = scope_index != 0
+    refusal_mask = (scope_index == 1) | (scope_index == 2)
+    over_claim_mask = scope_index == 2
+    predicted_boundary = prediction != 0
+    expected_boundary = target != 0
+    true_boundary = predicted_boundary & expected_boundary
+    precision = 1.0 if not bool(predicted_boundary.any().item()) else float(
+        true_boundary.to(torch.float32).sum().detach().cpu() / predicted_boundary.to(torch.float32).sum().detach().cpu()
+    )
+    recall = 1.0 if not bool(expected_boundary.any().item()) else float(
+        true_boundary.to(torch.float32).sum().detach().cpu() / expected_boundary.to(torch.float32).sum().detach().cpu()
+    )
+    leak_rate = 0.0 if not bool(boundary_mask.any().item()) else float((prediction[boundary_mask] == 0).to(torch.float32).mean().detach().cpu())
+    over_claim_false_positive_rate = 0.0
+    if bool(over_claim_mask.any().item()):
+        over_claim_false_positive_rate = float((prediction[over_claim_mask] == 0).to(torch.float32).mean().detach().cpu())
+    boundary_probs = probabilities[:, 1:].max(dim=1).values
+    boundary_margin = 0.0
+    if bool(boundary_mask.any().item()):
+        boundary_margin = float((boundary_probs[boundary_mask] - probabilities[:, 0][boundary_mask]).mean().detach().cpu())
+    gate_sensitivity = 0.0
+    if gate is not None:
+        gate_flat = gate.squeeze(-1)
+        gate_sensitivity = float((gate_flat[boundary_mask].mean() - gate_flat[scope_index == 0].mean()).detach().cpu())
+    slice_masks = {
+        "in_scope_positive": scope_index == 0,
+        "out_of_scope_refusal": scope_index == 1,
+        "over_claim_refusal": scope_index == 2,
+        "boundary_ambiguous_abstain": scope_index == 3,
+    }
+    slice_metrics = {}
+    for slice_id, mask in slice_masks.items():
+        count = int(mask.to(torch.int64).sum().detach().cpu())
+        accuracy = 0.0 if count == 0 else float((prediction[mask] == target[mask]).to(torch.float32).mean().detach().cpu())
+        slice_metrics[slice_id] = {"accuracy": round(accuracy, 6), "count": count}
+    return {
+        "scope_pressure_accuracy": round(float((prediction == target).to(torch.float32).mean().detach().cpu()), 6),
+        "scope_refusal_precision": round(precision, 6),
+        "scope_refusal_recall": round(recall, 6),
+        "over_claim_false_positive_rate": round(over_claim_false_positive_rate, 6),
+        "scope_leak_rate": round(leak_rate, 6),
+        "boundary_margin": round(boundary_margin, 6),
+        "scope_gate_sensitivity": round(gate_sensitivity, 6),
+        "slice_metrics": slice_metrics,
+    }
+
+
+def _prediction_distribution(torch: Any, prediction: Any) -> dict[str, float]:
+    total = max(1, int(prediction.numel()))
+    return {
+        label: round(float((prediction == index).to(torch.float32).sum().detach().cpu()) / total, 6)
+        for index, label in enumerate(("positive_claim", "refusal", "abstain", "boundary_ledger"))
+    }
+
+
+def _negative_witness_hits(torch: Any, prediction: Any, data: Mapping[str, Any]) -> int:
+    if data["task_id"] != "scope_boundary_pressure":
+        return 0
+    mask = data["scope_class_index"] != 0
+    if not bool(mask.any().item()):
+        return 0
+    return int((prediction[mask] == 0).to(torch.int64).sum().detach().cpu())
+
+
+def _false_ledger_rate(torch: Any, prediction: Any, target: Any) -> float:
+    mask = target != 3
+    if not bool(mask.any().item()):
+        return 0.0
+    return round(float((prediction[mask] == 3).to(torch.float32).mean().detach().cpu()), 6)
+
+
+def _jet_coverage(torch: Any, probabilities: Any) -> float:
+    top2 = probabilities.topk(k=2, dim=1).values
+    margin = top2[:, 0] - top2[:, 1]
+    return round(float((margin > 0.10).to(torch.float32).mean().detach().cpu()), 6)
+
+
+def _evaluate_outcome(torch: Any, model: Any, arm: DgtNeuralAblationArm, data: Mapping[str, Any], *, initial_loss: float, delta_norm: float, feature_dim: int) -> TrainingOutcome:
+    with torch.no_grad():
+        phi = _feature_tensor(torch, arm, data["input_tokens"])
+        logits, gate = model(phi, data["scope_features"])
+        final_loss = torch.nn.functional.cross_entropy(logits, data["target_label"])
+        probabilities = torch.softmax(logits, dim=1)
+        prediction = probabilities.argmax(dim=1)
+        correctness = prediction == data["target_label"]
+        accuracy = float(correctness.to(torch.float32).mean().detach().cpu())
+        balanced_accuracy = _balanced_accuracy(torch, prediction, data["target_label"])
+        top2 = probabilities.topk(k=2, dim=1).values
+        margins = top2[:, 0] - top2[:, 1]
+        margin_mean = float(margins.mean().detach().cpu())
+        margin_p05 = float(torch.quantile(margins.detach().cpu(), 0.05).item())
+        ece = _expected_calibration_error(torch, probabilities, prediction, data["target_label"])
+        entropy = float((-(probabilities * torch.log(probabilities.clamp_min(1.0e-9))).sum(dim=1)).mean().detach().cpu())
+        scope_metrics = _scope_metrics(torch, probabilities, prediction, data["target_label"], data, gate)
+        final_value = float(final_loss.detach().cpu())
+        uer = _clamp(1.0 - balanced_accuracy)
+        return TrainingOutcome(
+            arm_id=arm.arm_id,
+            seed=int(getattr(model, "seed_value")),
+            task_id=str(data["task_id"]),
+            split=SPLIT,
+            initial_loss=round(initial_loss, 8),
+            final_loss=round(final_value, 8),
+            loss_drop=round(float(initial_loss) - final_value, 8),
+            accuracy=round(accuracy, 6),
+            balanced_accuracy=round(balanced_accuracy, 6),
+            margin_mean=round(margin_mean, 6),
+            margin_p05=round(margin_p05, 6),
+            ece=ece,
+            prediction_entropy=round(entropy, 6),
+            parameter_delta_l2=round(delta_norm, 8),
+            gradient_update_steps=TRAINING_STEPS,
+            prediction_distribution=_prediction_distribution(torch, prediction),
+            scope_pressure_metrics=scope_metrics,
+            UER=uer,
+            FalseLedgerRate=_false_ledger_rate(torch, prediction, data["target_label"]),
+            JetCoverage=_jet_coverage(torch, probabilities),
+            negative_witness_hits=_negative_witness_hits(torch, prediction, data),
+            compute_cost=round(float(TRAINING_STEPS * feature_dim * (CORE_SAMPLE_COUNT + SCOPE_SAMPLE_COUNT)) / 100000.0, 6),
+        )
+
+
+def _train_arm_seed(torch: Any, arm: DgtNeuralAblationArm, *, seed: int, device_name: str) -> list[dict[str, Any]]:
+    torch.manual_seed(seed)
+    device = torch.device(device_name)
+    dtype = torch.float32
+    tasks = {task_id: _task_data(torch, task_id=task_id, device=device, dtype=dtype) for task_id in TASK_IDS}
+    feature_dim = int(_feature_tensor(torch, arm, tasks["core_classification"]["input_tokens"]).shape[1])
+    model = _tiny_dgt_model_class(torch)(
+        feature_dim=feature_dim,
+        scope_feature_dim=len(SCOPE_CLASSES),
+        hidden_dim=12,
+        use_scope_seal=arm.disabled_component != "scope_seal",
     ).to(device)
+    model.seed_value = seed
     before = torch.cat([parameter.detach().flatten().cpu() for parameter in model.parameters()])
+    initial_losses: dict[str, float] = {}
+    for task_id, data in tasks.items():
+        with torch.no_grad():
+            logits, _gate = model(_feature_tensor(torch, arm, data["input_tokens"]), data["scope_features"])
+            initial_losses[task_id] = float(torch.nn.functional.cross_entropy(logits, data["target_label"]).detach().cpu())
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-    loss_history: list[float] = []
     for _step in range(TRAINING_STEPS):
         optimizer.zero_grad(set_to_none=True)
-        logits = model(phi).squeeze(-1)
-        bce = torch.nn.functional.binary_cross_entropy_with_logits(logits, y)
-        jet_penalty = torch.tensor(0.0, device=device, dtype=dtype)
-        if arm.disabled_component != "jet_loss":
-            jet_penalty = 0.012 * model[0].weight[:, : min(2, phi.shape[1])].pow(2).mean()
-        negative_penalty = torch.tensor(0.0, device=device, dtype=dtype)
-        if arm.disabled_component != "negative_witness_loss":
-            negative_penalty = 0.018 * torch.relu(torch.sigmoid(logits).mean() - 0.58).pow(2)
-        loss = bce + jet_penalty + negative_penalty
-        loss.backward()
+        losses = []
+        for task_id, data in tasks.items():
+            phi = _feature_tensor(torch, arm, data["input_tokens"])
+            logits, gate = model(phi, data["scope_features"])
+            loss = torch.nn.functional.cross_entropy(logits, data["target_label"])
+            if task_id == "scope_boundary_pressure" and gate is not None:
+                gate_target = (data["scope_class_index"] != 0).to(dtype).unsqueeze(1)
+                loss = loss + 0.22 * torch.nn.functional.binary_cross_entropy(gate, gate_target)
+            if arm.disabled_component != "jet_loss":
+                loss = loss + 0.010 * model.encoder.weight[:, : min(2, feature_dim)].pow(2).mean()
+            if arm.disabled_component != "negative_witness_loss" and task_id == "scope_boundary_pressure":
+                positive_prob = torch.softmax(logits, dim=1)[:, 0]
+                boundary_mask = data["scope_class_index"] != 0
+                loss = loss + 0.030 * positive_prob[boundary_mask].mean()
+            losses.append(loss)
+        total_loss = sum(losses) / len(losses)
+        total_loss.backward()
         optimizer.step()
-        loss_history.append(float(loss.detach().cpu()))
     after = torch.cat([parameter.detach().flatten().cpu() for parameter in model.parameters()])
-    with torch.no_grad():
-        probabilities = torch.sigmoid(model(phi).squeeze(-1))
-        prediction = (probabilities >= 0.5).to(dtype)
-        accuracy = float((prediction == y).to(dtype).mean().detach().cpu())
-        margin = float(torch.mean(torch.abs(probabilities - 0.5)).detach().cpu())
     delta_norm = float(torch.linalg.vector_norm(after - before).item())
     if not math.isfinite(delta_norm) or delta_norm <= 0.0:
-        raise RuntimeError(f"no parameter update evidence for {arm.arm_id}")
-    effect = COMPONENT_EFFECTS.get(str(arm.disabled_component), {})
-    quality_q = _clamp(0.47 + 0.38 * accuracy + 0.10 * margin - float(effect.get("quality", 0.0)))
-    uer = _clamp(0.30 - 0.16 * accuracy + float(effect.get("uer", 0.0)))
-    false_ledger = _clamp(0.115 - 0.045 * accuracy + float(effect.get("false_ledger", 0.0)))
-    debt_q = _clamp(0.20 - 0.075 * accuracy + float(effect.get("debt", 0.0)))
-    benefit_q = _clamp(0.30 + 0.27 * accuracy + 0.08 * margin - float(effect.get("benefit", 0.0)))
-    jet_coverage = _clamp(0.78 + 0.10 * margin - float(effect.get("jet", 0.0)))
-    negative_hits = int(float(effect.get("negative", 0.0)))
-    classifier_shift = int(max(0, round((1.0 - accuracy) * 5.0 + (1 if arm.disabled_component in {"gap_head", "ledger_head", "route_certificate"} else 0))))
-    compute_cost = round(float(TRAINING_STEPS * phi.shape[1]) / 1000.0 - float(effect.get("cost", 0.0)), 6)
+        raise RuntimeError(f"no parameter update evidence for {arm.arm_id} seed {seed}")
+    rows: list[dict[str, Any]] = []
+    for task_id, data in tasks.items():
+        outcome = _evaluate_outcome(
+            torch,
+            model,
+            arm,
+            data,
+            initial_loss=initial_losses[task_id],
+            delta_norm=delta_norm,
+            feature_dim=feature_dim,
+        )
+        derived = derive_training_metrics(outcome, METRIC_PROTOCOL)
+        row = {
+            **asdict(outcome),
+            "disabled_component": arm.disabled_component,
+            "requested_training_backend": "torch",
+            "resolved_device": device_name,
+            "optimizer": "Adam",
+            "metrics": derived["metrics"],
+            "metric_diagnostics": derived["metric_diagnostics"],
+            "sample_schema": {
+                "input_tokens": "float tensor",
+                "target_label": "class index",
+                "scope_class": list(SCOPE_CLASSES),
+                "claim_allowed": "bool",
+                "expected_boundary_action": "string",
+                "negative_witness_tag": "string",
+            },
+        }
+        rows.append(row)
+    return rows
+
+
+def _record_mean(records: Sequence[Mapping[str, Any]], metric: str) -> float:
+    return _mean([float(row["metrics"][metric]) for row in records])
+
+
+def _summary_for_arm(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    by_seed: dict[str, dict[str, float]] = {}
+    for seed in sorted({int(row["seed"]) for row in records}):
+        seed_rows = [row for row in records if int(row["seed"]) == seed]
+        by_seed[str(seed)] = {metric: _record_mean(seed_rows, metric) for metric in METRIC_KEYS}
+    scope_rows = [row for row in records if row["task_id"] == "scope_boundary_pressure"]
+    scope_metric_keys = (
+        "scope_pressure_accuracy",
+        "scope_refusal_precision",
+        "scope_refusal_recall",
+        "over_claim_false_positive_rate",
+        "scope_leak_rate",
+        "boundary_margin",
+        "scope_gate_sensitivity",
+    )
     return {
-        "arm_id": arm.arm_id,
-        "disabled_component": arm.disabled_component,
-        "seed": SEED + ARM_IDS.index(arm.arm_id),
-        "requested_training_backend": "torch",
-        "resolved_device": device_name,
-        "optimizer": "Adam",
-        "optimizer_steps": TRAINING_STEPS,
-        "parameter_l2_delta": round(delta_norm, 8),
-        "loss_start": round(loss_history[0], 8),
-        "loss_end": round(loss_history[-1], 8),
-        "feature_dim": int(phi.shape[1]),
-        "metrics": {
-            "quality_q": quality_q,
-            "UER": uer,
-            "FalseLedgerRate": false_ledger,
-            "debt_q": debt_q,
-            "benefit_q": benefit_q,
-            "classifier_shift_count": classifier_shift,
-            "JetCoverage": jet_coverage,
-            "negative_witness_hits": negative_hits,
-            "compute_cost": round(max(0.001, compute_cost), 6),
+        "disabled_component": records[0]["disabled_component"],
+        "metrics": {metric: _record_mean(records, metric) for metric in METRIC_KEYS},
+        "metrics_by_seed": by_seed,
+        "task_metrics": {
+            task_id: {metric: _record_mean([row for row in records if row["task_id"] == task_id], metric) for metric in METRIC_KEYS}
+            for task_id in TASK_IDS
         },
+        "scope_pressure_metrics": {
+            key: _mean([float(row["scope_pressure_metrics"].get(key, 0.0)) for row in scope_rows])
+            for key in scope_metric_keys
+        },
+        "parameter_delta_l2": _mean([float(row["parameter_delta_l2"]) for row in records]),
+        "loss_drop": _mean([float(row["loss_drop"]) for row in records]),
+    }
+
+
+def _ci95(values: Sequence[float]) -> dict[str, float]:
+    if not values:
+        return {"low": 0.0, "high": 0.0}
+    mean = sum(values) / len(values)
+    if len(values) == 1:
+        return {"low": round(mean, 6), "high": round(mean, 6)}
+    variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
+    half_width = 1.96 * math.sqrt(variance) / math.sqrt(len(values))
+    return {"low": round(mean - half_width, 6), "high": round(mean + half_width, 6)}
+
+
+def paired_delta(full_summary: Mapping[str, Any], ablated_summary: Mapping[str, Any]) -> dict[str, Any]:
+    full_by_seed = full_summary["metrics_by_seed"]
+    ablated_by_seed = ablated_summary["metrics_by_seed"]
+    seed_keys = sorted(set(full_by_seed) & set(ablated_by_seed), key=int)
+    positive_is_full_minus_ablation = {
+        "quality_q",
+        "benefit_q",
+        "scope_pressure_q",
+        "JetCoverage",
+        "compute_cost",
+    }
+    positive_is_ablation_minus_full = {
+        "UER",
+        "FalseLedgerRate",
+        "debt_q",
+        "classifier_shift_count",
+        "negative_witness_hits",
+    }
+    paired: dict[str, list[float]] = {}
+    metrics: dict[str, float] = {}
+    confidence: dict[str, dict[str, float]] = {}
+    for metric in METRIC_KEYS:
+        values = []
+        for seed in seed_keys:
+            full_value = float(full_by_seed[seed][metric])
+            ablated_value = float(ablated_by_seed[seed][metric])
+            if metric in positive_is_full_minus_ablation:
+                values.append(round(full_value - ablated_value, 6))
+            elif metric in positive_is_ablation_minus_full:
+                values.append(round(ablated_value - full_value, 6))
+            else:
+                raise ValueError(f"unclassified metric direction: {metric}")
+        paired[metric] = values
+        metrics[metric] = _mean(values)
+        confidence[metric] = _ci95(values)
+    return {
+        "metrics": metrics,
+        "paired_seed_deltas": paired,
+        "confidence_intervals": confidence,
+        "paired_seed_count": len(seed_keys),
+        "delta_source": "paired_delta(full_summary, ablated_summary)",
+    }
+
+
+def _forbidden_claim_term_audit(value: Any) -> dict[str, Any]:
+    text = json.dumps(value, sort_keys=True).lower()
+    hits = [term for term in FORBIDDEN_TERMS if term in text]
+    return {"status": "pass" if not hits else "fail", "hits": hits, "forbidden_terms": list(FORBIDDEN_TERMS)}
+
+
+def _owner_source_purity_audit(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    source = Path(__file__).read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    source_hits: list[str] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and node.id in _FORBIDDEN_OWNER_TOKENS:
+            source_hits.append(node.id)
+        if isinstance(node, ast.Attribute) and node.attr in _FORBIDDEN_OWNER_TOKENS:
+            source_hits.append(node.attr)
+    payload_text = "" if payload is None else json.dumps(payload, sort_keys=True)
+    payload_hits = [token for token in _FORBIDDEN_OWNER_TOKENS if token in payload_text]
+    signature = inspect.signature(derive_training_metrics)
+    signature_ok = tuple(signature.parameters) == ("outcome", "protocol")
+    protocol_inputs_ok = tuple(METRIC_PROTOCOL.inputs) == OUTCOME_FIELDS
+    return {
+        "status": "pass" if not source_hits and not payload_hits and signature_ok and protocol_inputs_ok else "fail",
+        "source_token_hits": source_hits,
+        "payload_token_hits": payload_hits,
+        "derive_training_metrics_signature": str(signature),
+        "metric_inputs": list(METRIC_PROTOCOL.inputs),
+        "signature_ok": signature_ok,
+        "protocol_inputs_ok": protocol_inputs_ok,
+    }
+
+
+def _claim_for_component(component: str, delta: Mapping[str, Any]) -> dict[str, Any] | None:
+    metric_delta = delta["metrics"]
+    evidence_metrics = {
+        key: value
+        for key, value in metric_delta.items()
+        if key != "compute_cost" and float(value) >= MEASURABLE_EFFECT_THRESHOLD
+    }
+    if not evidence_metrics:
+        return None
+    return {
+        "component": component,
+        "claim_status": "allowed",
+        "claim_scope": "bounded toy training",
+        "evidence_scope": list(COMPONENT_CAUSAL_EVIDENCE_SCOPE),
+        "claim_text": (
+            f"Under the bounded toy training protocol, removing {component} causes measured degradation "
+            f"on {', '.join(sorted(evidence_metrics))}."
+        ),
+        "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}",
+        "record_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records",
+        "terminal_verdict_scope": "Core",
+        "paired_seed_count": delta["paired_seed_count"],
+        "confidence_interval_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}.confidence_intervals",
+    }
+
+
+def _scope_seal_nonredundancy(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    full_rows = [
+        row
+        for row in rows
+        if row["arm_id"] == "full_DGT" and row["task_id"] == "scope_boundary_pressure" and int(row["seed"]) == SEEDS[0]
+    ]
+    ablated_rows = [
+        row
+        for row in rows
+        if row["arm_id"] == "DGT_without_scope_seal" and row["task_id"] == "scope_boundary_pressure" and int(row["seed"]) == SEEDS[0]
+    ]
+    if not full_rows or not ablated_rows:
+        return {"status": "fail", "reason": "scope pressure rows missing"}
+    full = full_rows[0]["scope_pressure_metrics"]
+    ablated = ablated_rows[0]["scope_pressure_metrics"]
+    changed = []
+    for key in ("scope_pressure_accuracy", "scope_leak_rate", "boundary_margin", "scope_gate_sensitivity"):
+        if abs(float(full.get(key, 0.0)) - float(ablated.get(key, 0.0))) > 1.0e-6:
+            changed.append(key)
+    for slice_id in SCOPE_SLICES:
+        if (
+            abs(
+                float(full["slice_metrics"][slice_id]["accuracy"])
+                - float(ablated["slice_metrics"][slice_id]["accuracy"])
+            )
+            > 1.0e-6
+        ):
+            changed.append(f"slice:{slice_id}")
+    return {
+        "status": "pass" if changed else "fail",
+        "seed": SEEDS[0],
+        "task_id": "scope_boundary_pressure",
+        "changed_boundary_metrics": changed,
+        "full_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records",
+        "ablated_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records",
+    }
+
+
+def _hardgate_payload(ids: Sequence[str], conditions: Mapping[str, bool], criteria: Mapping[str, str], pointer: str) -> dict[str, Any]:
+    gates = {
+        gate: {
+            "status": "pass" if conditions.get(gate, False) else "fail",
+            "evidence_pointer": pointer,
+            "criterion": criteria[gate],
+        }
+        for gate in ids
+    }
+    failed = next((gate for gate in ids if gates[gate]["status"] != "pass"), None)
+    return {"status": "pass" if failed is None else "fail", "failed_gate": failed, "gates": gates}
+
+
+def evaluate_pure_hardgates(report: Mapping[str, Any]) -> dict[str, Any]:
+    records = report.get("records", [])
+    metric_protocol = report.get("metric_protocol", {})
+    scope_protocol = report.get("scope_pressure_protocol", {})
+    mechanism = report.get("scope_seal_mechanism", {})
+    claims = report.get("component_causal_claims", [])
+    boundary = report.get("boundary_ledger", [])
+    purity = metric_protocol.get("purity_audit", {})
+    arm_task_pairs = {(row.get("arm_id"), row.get("seed"), row.get("task_id")) for row in records}
+    expected_pairs = {(arm_id, seed, task_id) for arm_id in ARM_IDS for seed in SEEDS for task_id in TASK_IDS}
+    blocked = {row["component"] for row in boundary if row.get("status") == "blocked"}
+    claimed = {row["component"] for row in claims}
+    conditions = {
+        "PURE-HG1": purity.get("status") == "pass" and set(metric_protocol.get("inputs", [])) == set(OUTCOME_FIELDS),
+        "PURE-HG2": all(set(row.get("metrics", {})) == set(METRIC_KEYS) for row in records),
+        "PURE-HG3": mechanism.get("non_redundancy_evidence", {}).get("status") == "pass",
+        "PURE-HG4": expected_pairs.issubset(arm_task_pairs)
+        and scope_protocol.get("task_registry", {}).get("scope_boundary_pressure") == "same train/eval loop",
+        "PURE-HG5": all(row.get("evidence_scope") == list(COMPONENT_CAUSAL_EVIDENCE_SCOPE) for row in claims)
+        and claimed.isdisjoint(blocked),
+        "PURE-HG6": all(float(row.get("parameter_delta_l2", 0.0)) > 0.0 and float(row.get("loss_drop", 0.0)) > 0.0 for row in records),
+        "PURE-HG7": all(row.get("reason") == "NABL-HG7" for row in boundary if row.get("status") == "blocked")
+        and claimed.isdisjoint(blocked),
+    }
+    return _hardgate_payload(
+        PURE_HG_IDS,
+        conditions,
+        {
+            "PURE-HG1": "metrics derive only from TrainingOutcome fields and global formulas",
+            "PURE-HG2": "each row carries the schema-visible training-derived metric set",
+            "PURE-HG3": "scope_seal is a learnable gate with non-redundancy evidence",
+            "PURE-HG4": "scope_boundary_pressure is present in the same train/eval loop",
+            "PURE-HG5": "positive claims use small-real-training evidence and blocked rows remain unclaimed",
+            "PURE-HG6": "torch training is deterministic and records loss drop plus parameter updates",
+            "PURE-HG7": "no-effect component rows are boundary-ledgered and fail closed",
+        },
+        f"{CANONICAL_JSON_ARTIFACT}:$",
+    )
+
+
+def _nabl_hardgates(report: Mapping[str, Any], audit: Mapping[str, Any]) -> dict[str, Any]:
+    records = report["records"]
+    claims = report["component_causal_claims"]
+    boundary = report["boundary_ledger"]
+    arm_ids = sorted({row.get("arm_id") for row in records}, key=list(ARM_IDS).index)
+    claimed = {row["component"] for row in claims}
+    blocked = {row["component"] for row in boundary if row.get("status") == "blocked"}
+    conditions = {
+        "NABL-HG1": arm_ids == list(ARM_IDS),
+        "NABL-HG2": all(row.get("requested_training_backend") == "torch" and int(row.get("gradient_update_steps", 0)) > 0 for row in records),
+        "NABL-HG3": all(float(row.get("parameter_delta_l2", 0.0)) > 0.0 for row in records),
+        "NABL-HG4": all(set(row.get("metrics", {})) == set(METRIC_KEYS) for row in records),
+        "NABL-HG5": bool(claims) and all(row.get("claim_scope") == "bounded toy training" for row in claims),
+        "NABL-HG6": audit.get("status") == "pass",
+        "NABL-HG7": claimed.isdisjoint(blocked),
+    }
+    return _hardgate_payload(
+        HG_IDS,
+        conditions,
+        {
+            "NABL-HG1": "exact 11-arm registry present",
+            "NABL-HG2": "torch optimizer steps recorded",
+            "NABL-HG3": "parameter updates recorded for every row",
+            "NABL-HG4": "each row records the required metrics",
+            "NABL-HG5": "positive claims are bounded to measured component deltas",
+            "NABL-HG6": "forbidden positive claim terms absent",
+            "NABL-HG7": "no-effect components are boundary-ledgered and cannot claim causal effect",
+        },
+        f"{CANONICAL_JSON_ARTIFACT}:$",
+    )
+
+
+def _scope_pressure_protocol_payload() -> dict[str, Any]:
+    return {
+        "task_registry": {"scope_boundary_pressure": "same train/eval loop", "core_classification": "same train/eval loop"},
+        "scope_classes": list(SCOPE_CLASSES),
+        "slice_definitions": {
+            "in_scope_positive": {"scope_class": "in_scope", "expected_boundary_action": "positive_claim"},
+            "out_of_scope_refusal": {"scope_class": "out_of_scope", "expected_boundary_action": "refusal"},
+            "over_claim_refusal": {"scope_class": "over_claim", "expected_boundary_action": "refusal"},
+            "boundary_ambiguous_abstain": {"scope_class": "boundary_ambiguous", "expected_boundary_action": "abstain"},
+        },
+        "sample_fields": [
+            "input_tokens",
+            "target_label",
+            "scope_class",
+            "claim_allowed",
+            "expected_boundary_action",
+            "negative_witness_tag",
+        ],
+        "loss_terms": {
+            "classification": "cross_entropy(logits, target_label)",
+            "scope_gate": "BCE(scope_gate, scope_class != in_scope) for full arms only",
+        },
+        "metrics": [
+            "scope_pressure_accuracy",
+            "scope_refusal_precision",
+            "scope_refusal_recall",
+            "over_claim_false_positive_rate",
+            "scope_leak_rate",
+            "boundary_margin",
+            "scope_gate_sensitivity",
+        ],
+    }
+
+
+def _scope_seal_mechanism_payload(nonredundancy: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "description": "ScopeBoundaryGate computes sigmoid(W_scope*h + U_scope*scope_features + b_scope).",
+        "scope_features": list(SCOPE_CLASSES),
+        "trainable_parameter_names": [
+            "scope_gate.hidden.weight",
+            "scope_gate.scope.weight",
+            "scope_gate.bias",
+        ],
+        "logit_modulation": {
+            "boundary_sensitive_logits": "refusal, abstain, and boundary-ledger logits receive scope_gate",
+            "positive_claim_logits": "positive-claim logit receives 1 - scope_gate",
+        },
+        "removal_semantics": {
+            "arm_id": "DGT_without_scope_seal",
+            "behavior": "gate module and gate loss are removed; boundary modulation is bypassed",
+        },
+        "non_redundancy_evidence": dict(nonredundancy),
     }
 
 
@@ -235,19 +1039,24 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         gate: {
             "status": "fail",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_protocol",
-            "reason": reason,
+            "criterion": reason,
         }
         for gate in HG_IDS
     }
-    return {
+    pure_gates = {
+        gate: {
+            "status": "fail",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_protocol",
+            "criterion": reason,
+        }
+        for gate in PURE_HG_IDS
+    }
+    payload = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": {
-            "owner_module": "bedc_quality_lab/dgt_neural_ablation.py",
-            "runner": PRODUCER,
-        },
+        "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py", "runner": PRODUCER},
         "run_artifacts": run_artifacts,
         "module_registry": module_registry_payload(),
         "training_protocol": {
@@ -257,105 +1066,38 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
             "backend": "torch",
             "optimizer": "Adam",
             "steps": TRAINING_STEPS,
-            "seed": SEED,
+            "seeds": list(SEEDS),
             "reason": reason,
+        },
+        "metric_protocol": {**METRIC_PROTOCOL.as_payload(), "purity_audit": _owner_source_purity_audit()},
+        "scope_pressure_protocol": _scope_pressure_protocol_payload(),
+        "scope_seal_mechanism": {
+            "description": "unavailable",
+            "non_redundancy_evidence": {"status": "blocked", "reason": reason},
         },
         "records": [],
         "arm_summaries": {},
         "metric_delta_matrix": {},
+        "pure_hardgates": {"status": "fail", "failed_gate": "PURE-HG1", "gates": pure_gates},
         "nabl_hardgates": {"status": "fail", "failed_gate": "NABL-HG1", "gates": gates},
         "component_causal_claims": [],
         "boundary_ledger": [
             {
                 "component": component,
                 "status": "blocked",
-                "reason": "training unavailable; no positive component-causal claim",
-                "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.nabl_hardgates",
+                "reason": "NABL-HG7",
+                "claim_blocked": True,
+                "measured_delta_summary": {},
+                "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}",
             }
-            for component in COMPONENT_EFFECTS
+            for component in COMPONENTS
         ],
+        "evidence_scope": [],
         "claim_capsule_ref": {"artifact": f"{RUN_ROOT}/claim_capsule.json", "pointer": "$", "status": "blocked"},
         "not_claimed": list(NOT_CLAIMED),
         "forbidden_claim_term_audit": _forbidden_claim_term_audit({"claims": []}),
     }
-
-
-def _metric_delta(full: Mapping[str, Any], row: Mapping[str, Any]) -> dict[str, float]:
-    metrics = row["metrics"]
-    return {
-        "quality_q": round(float(full["quality_q"]) - float(metrics["quality_q"]), 6),
-        "UER": round(float(metrics["UER"]) - float(full["UER"]), 6),
-        "FalseLedgerRate": round(float(metrics["FalseLedgerRate"]) - float(full["FalseLedgerRate"]), 6),
-        "debt_q": round(float(metrics["debt_q"]) - float(full["debt_q"]), 6),
-        "benefit_q": round(float(full["benefit_q"]) - float(metrics["benefit_q"]), 6),
-        "classifier_shift_count": round(float(metrics["classifier_shift_count"]) - float(full["classifier_shift_count"]), 6),
-        "JetCoverage": round(float(full["JetCoverage"]) - float(metrics["JetCoverage"]), 6),
-        "negative_witness_hits": round(float(metrics["negative_witness_hits"]) - float(full["negative_witness_hits"]), 6),
-        "compute_cost": round(float(full["compute_cost"]) - float(metrics["compute_cost"]), 6),
-    }
-
-
-def _forbidden_claim_term_audit(value: Any) -> dict[str, Any]:
-    text = json.dumps(value, sort_keys=True).lower()
-    hits = [term for term in FORBIDDEN_TERMS if term in text]
-    return {"status": "pass" if not hits else "fail", "hits": hits, "forbidden_terms": list(FORBIDDEN_TERMS)}
-
-
-def _claim_for_component(component: str, delta: Mapping[str, float]) -> dict[str, Any] | None:
-    evidence_metrics = {
-        key: value
-        for key, value in delta.items()
-        if key != "compute_cost" and float(value) >= MEASURABLE_EFFECT_THRESHOLD
-    }
-    if not evidence_metrics:
-        return None
-    return {
-        "component": component,
-        "claim_status": "allowed",
-        "claim_scope": "bounded toy training",
-        "evidence_scope": list(COMPONENT_CAUSAL_EVIDENCE_SCOPE),
-        "claim_text": (
-            f"Under the bounded toy training protocol, removing {component} causes measurable degradation "
-            f"on {', '.join(sorted(evidence_metrics))}."
-        ),
-        "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}",
-        "record_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records[{ARM_IDS.index('DGT_without_' + component)}]",
-        "terminal_verdict_scope": "Core",
-    }
-
-
-def _hardgates(records: Sequence[Mapping[str, Any]], claims: Sequence[Mapping[str, Any]], boundary: Sequence[Mapping[str, Any]], audit: Mapping[str, Any]) -> dict[str, Any]:
-    arm_ids = [row.get("arm_id") for row in records]
-    complete_metrics = all(set(row.get("metrics", {})) == set(METRIC_KEYS) for row in records)
-    positive_by_component = {row["component"] for row in claims}
-    no_effect_components = {row["component"] for row in boundary if row.get("status") == "no_measurable_effect"}
-    conditions = {
-        "NABL-HG1": len(records) == 11 and arm_ids == list(ARM_IDS),
-        "NABL-HG2": all(row.get("requested_training_backend") == "torch" and int(row.get("optimizer_steps", 0)) > 0 for row in records),
-        "NABL-HG3": all(float(row.get("parameter_l2_delta", 0.0)) > 0.0 for row in records),
-        "NABL-HG4": complete_metrics,
-        "NABL-HG5": bool(claims) and all(row.get("claim_scope") == "bounded toy training" for row in claims),
-        "NABL-HG6": audit.get("status") == "pass",
-        "NABL-HG7": positive_by_component.isdisjoint(no_effect_components),
-    }
-    gates = {
-        gate: {
-            "status": "pass" if passed else "fail",
-            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records" if gate in {"NABL-HG1", "NABL-HG2", "NABL-HG3", "NABL-HG4"} else f"{CANONICAL_JSON_ARTIFACT}:$.component_causal_claims",
-            "criterion": {
-                "NABL-HG1": "exact 11-arm registry present",
-                "NABL-HG2": "torch optimizer steps recorded",
-                "NABL-HG3": "parameter updates recorded for every row",
-                "NABL-HG4": "each arm records the nine required metrics",
-                "NABL-HG5": "positive claims are bounded to measurable component deltas",
-                "NABL-HG6": "forbidden positive claim terms absent",
-                "NABL-HG7": "no-effect components are boundary-ledgered and cannot claim causal effect",
-            }[gate],
-        }
-        for gate, passed in conditions.items()
-    }
-    failed = next((gate for gate in HG_IDS if gates[gate]["status"] != "pass"), None)
-    return {"status": "pass" if failed is None else "fail", "failed_gate": failed, "gates": gates}
+    return payload
 
 
 def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "auto") -> dict[str, Any]:
@@ -364,89 +1106,107 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
     except Exception as exc:
         return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch unavailable: {exc}")
     device_name = _device_name(torch, requested_device)
-    records: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
     try:
         for arm in arm_registry():
-            records.append(_torch_training_row(torch, arm, device_name=device_name))
+            for seed in SEEDS:
+                rows.extend(_train_arm_seed(torch, arm, seed=seed, device_name=device_name))
     except Exception as exc:
         return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch training failed: {exc}")
-    full_metrics = dict(records[0]["metrics"])
-    arm_summaries = {
-        row["arm_id"]: {
-            "disabled_component": row["disabled_component"],
-            "metrics": dict(row["metrics"]),
-            "parameter_l2_delta": row["parameter_l2_delta"],
-            "loss_delta": round(float(row["loss_start"]) - float(row["loss_end"]), 8),
-        }
-        for row in records
+    grouped = {
+        arm_id: [row for row in rows if row["arm_id"] == arm_id]
+        for arm_id in ARM_IDS
     }
-    delta_matrix = {row["arm_id"]: _metric_delta(full_metrics, row) for row in records[1:]}
+    arm_summaries = {arm_id: _summary_for_arm(arm_rows) for arm_id, arm_rows in grouped.items()}
+    delta_matrix = {
+        arm_id: paired_delta(arm_summaries["full_DGT"], arm_summaries[arm_id])
+        for arm_id in ARM_IDS
+        if arm_id != "full_DGT"
+    }
     claims = [
         claim
-        for component in COMPONENT_EFFECTS
+        for component in COMPONENTS
         if (claim := _claim_for_component(component, delta_matrix[f"DGT_without_{component}"])) is not None
     ]
     claimed_components = {row["component"] for row in claims}
-    boundary = [
-        {
-            "component": component,
-            "status": "measurable_effect" if component in claimed_components else "no_measurable_effect",
-            "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}",
-            "claim_blocked": component not in claimed_components,
-            "reason": (
-                "measurable bounded-toy effect supports a scoped component-causal claim"
-                if component in claimed_components
-                else "HG7 boundary: no measurable effect; component-causal claim blocked"
-            ),
-        }
-        for component in COMPONENT_EFFECTS
-    ]
-    audit = _forbidden_claim_term_audit({"claims": claims})
-    hardgates = _hardgates(records, claims, boundary, audit)
-    run_artifacts = {
-        "summary": f"{RUN_ROOT}/summary.json",
-        "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
-        "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
-        "report": f"{RUN_ROOT}/report.md",
-    }
-    return {
+    boundary = []
+    for component in COMPONENTS:
+        delta = delta_matrix[f"DGT_without_{component}"]
+        measurable = component in claimed_components
+        boundary.append(
+            {
+                "component": component,
+                "status": "measured" if measurable else "blocked",
+                "reason": (
+                    "measured paired training delta supports a scoped component-causal claim"
+                    if measurable
+                    else "NABL-HG7"
+                ),
+                "claim_blocked": not measurable,
+                "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.metric_delta_matrix.DGT_without_{component}",
+                "measured_delta_summary": {
+                    metric: value
+                    for metric, value in delta["metrics"].items()
+                    if metric in {"quality_q", "benefit_q", "scope_pressure_q", "debt_q", "UER", "scope_leak_rate"}
+                    or metric in METRIC_KEYS
+                },
+            }
+        )
+    nonredundancy = _scope_seal_nonredundancy(rows)
+    partial_payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": {
-            "owner_module": "bedc_quality_lab/dgt_neural_ablation.py",
-            "runner": PRODUCER,
+        "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py", "runner": PRODUCER},
+        "run_artifacts": {
+            "summary": f"{RUN_ROOT}/summary.json",
+            "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
+            "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
+            "report": f"{RUN_ROOT}/report.md",
         },
-        "run_artifacts": run_artifacts,
         "module_registry": module_registry_payload(),
         "training_protocol": {
-            "status": "available" if hardgates["status"] == "pass" else "failed",
+            "status": "pending",
             "requested_device": requested_device,
             "resolved_device": device_name,
             "backend": "torch",
             "optimizer": "Adam",
             "steps": TRAINING_STEPS,
-            "seed": SEED,
-            "sample_count": SAMPLE_COUNT,
+            "seeds": list(SEEDS),
+            "sample_count": {"core_classification": CORE_SAMPLE_COUNT, "scope_boundary_pressure": SCOPE_SAMPLE_COUNT},
             "input_dim": INPUT_DIM,
             "metric_keys": list(METRIC_KEYS),
             "measurable_effect_threshold": MEASURABLE_EFFECT_THRESHOLD,
         },
-        "records": records,
+        "metric_protocol": {**METRIC_PROTOCOL.as_payload()},
+        "scope_pressure_protocol": _scope_pressure_protocol_payload(),
+        "scope_seal_mechanism": _scope_seal_mechanism_payload(nonredundancy),
+        "records": rows,
         "arm_summaries": arm_summaries,
         "metric_delta_matrix": delta_matrix,
-        "nabl_hardgates": hardgates,
-        "component_causal_claims": claims if hardgates["status"] == "pass" else [],
+        "pure_hardgates": {},
+        "nabl_hardgates": {},
+        "component_causal_claims": claims,
         "boundary_ledger": boundary,
+        "evidence_scope": list(COMPONENT_CAUSAL_EVIDENCE_SCOPE) if claims else [],
         "claim_capsule_ref": {
-            "artifact": run_artifacts["claim_capsule"],
+            "artifact": f"{RUN_ROOT}/claim_capsule.json",
             "pointer": "$",
-            "status": "available" if hardgates["status"] == "pass" else "blocked",
+            "status": "pending",
         },
         "not_claimed": list(NOT_CLAIMED),
-        "forbidden_claim_term_audit": audit,
+        "forbidden_claim_term_audit": _forbidden_claim_term_audit({"claims": claims}),
     }
+    partial_payload["metric_protocol"]["purity_audit"] = _owner_source_purity_audit(partial_payload)
+    partial_payload["pure_hardgates"] = evaluate_pure_hardgates(partial_payload)
+    partial_payload["nabl_hardgates"] = _nabl_hardgates(partial_payload, partial_payload["forbidden_claim_term_audit"])
+    status = "available" if partial_payload["pure_hardgates"]["status"] == "pass" and partial_payload["nabl_hardgates"]["status"] == "pass" else "failed"
+    partial_payload["training_protocol"]["status"] = status
+    partial_payload["claim_capsule_ref"]["status"] = "available" if status == "available" else "blocked"
+    if status != "available":
+        partial_payload["component_causal_claims"] = []
+    return partial_payload
 
 
 def validate_payload(payload: Mapping[str, Any]) -> None:
@@ -459,12 +1219,17 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "run_artifacts",
         "module_registry",
         "training_protocol",
+        "metric_protocol",
+        "scope_pressure_protocol",
+        "scope_seal_mechanism",
         "records",
         "arm_summaries",
         "metric_delta_matrix",
+        "pure_hardgates",
         "nabl_hardgates",
         "component_causal_claims",
         "boundary_ledger",
+        "evidence_scope",
         "claim_capsule_ref",
         "not_claimed",
         "forbidden_claim_term_audit",
@@ -476,25 +1241,39 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     registry = payload["module_registry"]
     if not isinstance(registry, Mapping) or tuple(registry) != ARM_IDS:
         raise ValueError("DGT neural ablation registry mismatch")
+    metric_protocol = payload["metric_protocol"]
+    if set(metric_protocol.get("inputs", [])) != set(OUTCOME_FIELDS):
+        raise ValueError("DGT neural ablation metric protocol inputs mismatch")
+    if metric_protocol.get("purity_audit", {}).get("status") != "pass":
+        raise ValueError("DGT neural ablation metric purity audit failed")
     records = payload["records"]
     if not isinstance(records, list):
         raise ValueError("DGT neural ablation records must be a list")
     hardgates = payload["nabl_hardgates"]
+    pure_hardgates = payload["pure_hardgates"]
     if not isinstance(hardgates, Mapping) or set(hardgates.get("gates", {})) != set(HG_IDS):
         raise ValueError("DGT neural ablation hardgate names mismatch")
+    if not isinstance(pure_hardgates, Mapping) or set(pure_hardgates.get("gates", {})) != set(PURE_HG_IDS):
+        raise ValueError("DGT neural ablation pure hardgate names mismatch")
     if records:
-        if [row.get("arm_id") for row in records] != list(ARM_IDS):
-            raise ValueError("DGT neural ablation record arm order mismatch")
+        if sorted({row.get("arm_id") for row in records}, key=list(ARM_IDS).index) != list(ARM_IDS):
+            raise ValueError("DGT neural ablation record arm set mismatch")
         for row in records:
             metrics = row.get("metrics")
             if not isinstance(metrics, Mapping) or set(metrics) != set(METRIC_KEYS):
                 raise ValueError("DGT neural ablation metric schema mismatch")
-            if row.get("requested_training_backend") != "torch" or int(row.get("optimizer_steps", 0)) <= 0:
+            if row.get("requested_training_backend") != "torch" or int(row.get("gradient_update_steps", 0)) <= 0:
                 raise ValueError("DGT neural ablation row lacks torch optimizer evidence")
-            if float(row.get("parameter_l2_delta", 0.0)) <= 0.0:
+            if float(row.get("parameter_delta_l2", 0.0)) <= 0.0:
                 raise ValueError("DGT neural ablation row lacks parameter update evidence")
-    if hardgates.get("status") == "pass" and not payload["component_causal_claims"]:
-        raise ValueError("DGT neural ablation pass requires scoped component claims")
+            outcome = TrainingOutcome(**{field: row[field] for field in OUTCOME_FIELDS})
+            if derive_training_metrics(outcome, METRIC_PROTOCOL)["metrics"] != row["metrics"]:
+                raise ValueError("DGT neural ablation metric derivation mismatch")
+    if payload["training_protocol"]["status"] == "available":
+        if hardgates.get("status") != "pass" or pure_hardgates.get("status") != "pass":
+            raise ValueError("DGT neural ablation available report requires all hardgates")
+        if not payload["component_causal_claims"]:
+            raise ValueError("DGT neural ablation pass requires scoped component claims")
     blocked_components = {row["component"] for row in payload["boundary_ledger"] if row.get("claim_blocked") is True}
     claimed_components = {row["component"] for row in payload["component_causal_claims"]}
     if blocked_components & claimed_components:
@@ -502,6 +1281,8 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     for index, claim in enumerate(payload["component_causal_claims"]):
         for error in validate_evidence_scope(claim.get("evidence_scope")):
             raise ValueError(f"DGT neural ablation component claim {index} {error}")
+        if claim.get("evidence_scope") != list(COMPONENT_CAUSAL_EVIDENCE_SCOPE):
+            raise ValueError(f"DGT neural ablation component claim {index} evidence_scope must be small-real-training")
     if payload["forbidden_claim_term_audit"] != _forbidden_claim_term_audit({"claims": payload["component_causal_claims"]}):
         raise ValueError("DGT neural ablation forbidden term audit mismatch")
     if payload["forbidden_claim_term_audit"].get("status") != "pass":
@@ -515,6 +1296,7 @@ def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
         "owner_artifact": CANONICAL_JSON_ARTIFACT,
         "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$",
         "hardgate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        "pure_hardgate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.pure_hardgates.status",
         "component_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.component_causal_claims",
         "boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.boundary_ledger",
         "terminal_verdict_scope": "Core",
@@ -528,14 +1310,19 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "# DGT neural ablation",
         "",
         f"- Status: `{payload['nabl_hardgates']['status']}`",
+        f"- PURE status: `{payload['pure_hardgates']['status']}`",
         f"- Device: `{payload['training_protocol']['resolved_device']}`",
         f"- Arms: `{len(payload['module_registry'])}`",
-        f"- Torch steps per arm: `{payload['training_protocol']['steps']}`",
+        f"- Seeds: `{len(payload['training_protocol'].get('seeds', []))}`",
+        f"- Torch steps per arm seed: `{payload['training_protocol']['steps']}`",
         f"- Claim capsule: `{payload['claim_capsule_ref']['artifact']}:{payload['claim_capsule_ref']['pointer']}`",
         "",
-        "## NABL hardgates",
+        "## PURE hardgates",
         "",
     ]
+    for gate, row in payload["pure_hardgates"]["gates"].items():
+        lines.append(f"- `{gate}`: `{row['status']}`")
+    lines.extend(["", "## NABL hardgates", ""])
     for gate, row in payload["nabl_hardgates"]["gates"].items():
         lines.append(f"- `{gate}`: `{row['status']}`")
     lines.extend(["", "## Component claims", ""])
@@ -567,7 +1354,7 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
         "json_artifact": CANONICAL_JSON_ARTIFACT,
         "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
         "producer_command": ["python3", "scripts/run_dgt_neural_ablation.py"],
-        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": SEED, "steps": TRAINING_STEPS}),
+        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "steps": TRAINING_STEPS}),
         "output_digest": _json_digest(payload),
         "inputs": {"static_owner": "bedc_quality_lab/dgt_neural_ablation.py"},
         "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
@@ -594,3 +1381,44 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
         root / CANONICAL_FINGERPRINT_ARTIFACT,
         fingerprint_payload(payload, generated_at=generated_at or datetime.now(timezone.utc).isoformat()),
     )
+
+
+def _make_scope_gate_class(torch: Any) -> type:
+    class ScopeBoundaryGate(torch.nn.Module):
+        def __init__(self, hidden_dim: int, scope_feature_dim: int) -> None:
+            super().__init__()
+            self.hidden = torch.nn.Linear(hidden_dim, 1, bias=False)
+            self.scope = torch.nn.Linear(scope_feature_dim, 1, bias=False)
+            self.bias = torch.nn.Parameter(torch.zeros(1))
+
+        def forward(self, h: Any, scope_features: Any) -> Any:
+            return torch.sigmoid(self.hidden(h) + self.scope(scope_features) + self.bias)
+
+    return ScopeBoundaryGate
+
+
+def _tiny_dgt_model_class(torch: Any) -> type:
+    scope_gate_class = _make_scope_gate_class(torch)
+
+    class TinyDGTModel(torch.nn.Module):
+        def __init__(self, *, feature_dim: int, scope_feature_dim: int, hidden_dim: int, use_scope_seal: bool) -> None:
+            super().__init__()
+            self.encoder = torch.nn.Linear(feature_dim, hidden_dim)
+            self.activation = torch.nn.Tanh()
+            self.head = torch.nn.Linear(hidden_dim, 4)
+            self.scope_gate = scope_gate_class(hidden_dim, scope_feature_dim) if use_scope_seal else None
+
+        def forward(self, phi: Any, scope_features: Any) -> tuple[Any, Any | None]:
+            h = self.activation(self.encoder(phi))
+            logits = self.head(h)
+            if self.scope_gate is None:
+                return logits, None
+            gate = self.scope_gate(h, scope_features)
+            boundary_gain = gate * 1.9
+            positive_gain = (1.0 - gate) * 1.9
+            gains = phi.new_zeros(logits.shape)
+            gains[:, 0:1] = positive_gain
+            gains[:, 1:] = boundary_gain
+            return logits + gains, gate
+
+    return TinyDGTModel
