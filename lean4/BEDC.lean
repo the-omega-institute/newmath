@@ -7304,6 +7304,7 @@ import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
 import BEDC.Derived.ProximalMapUp.TasteGate
 import BEDC.Derived.ProximinalSetUp.TasteGate
+import BEDC.Derived.PseudoArcUp
 import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.ClassifierStability
 import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
