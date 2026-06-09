@@ -217,6 +217,41 @@ D5M_REQUIRED_KEYS = (
     "anti_triviality_failed_gate",
     "anti_triviality_gate_evidence",
 )
+SCALING_LADDER_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"
+SCALING_LADDER_LEVEL_IDS = (
+    "L0_toy",
+    "L1_tiny_sequence",
+    "L2_char_lm",
+    "L3_byte_lm",
+    "L4_tool_use_toy",
+    "L5_small_world_model",
+)
+SCALING_LADDER_GATE_NAMES = tuple(f"SCALE-HG{index}" for index in range(1, 7))
+SCALING_LADDER_NOT_CLAIMED = (
+    "Bounded model prototype scaling only.",
+    "No production scale claim.",
+    "No GPT or Llama claim.",
+    "No global superiority claim.",
+    "No LLM replacement claim.",
+    "No universal recipe claim.",
+    "No unbounded scaling law claim.",
+)
+SCALING_LADDER_REQUIRED_KEYS = (
+    "status",
+    "review_status",
+    "discovery_level",
+    "evidence_scope",
+    "source_projection",
+    "levels",
+    "boundary_ledger",
+    "hardgate",
+    "not_claimed",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -2009,6 +2044,14 @@ class DgtBoundedMechanismProjection:
         return dict(self.payload)
 
 
+@dataclass(frozen=True)
+class DgtScalingLadderProjection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
+
+
 def _read_high_impact_review_rows(root: Path) -> list[Mapping[str, Any]]:
     path = root / HIGH_IMPACT_REVIEW_JSON_ARTIFACT
     if not path.exists():
@@ -2517,6 +2560,394 @@ def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def _scaling_level_input_by_id(owner_payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    source = owner_payload.get("scaling_ladder")
+    levels = source.get("levels") if isinstance(source, Mapping) else None
+    if not isinstance(levels, list):
+        return {}
+    by_id: dict[str, Mapping[str, Any]] = {}
+    for row in levels:
+        if not isinstance(row, Mapping):
+            continue
+        capsule = row.get("claim_capsule")
+        if not isinstance(capsule, Mapping):
+            continue
+        level_id = capsule.get("level_id")
+        if isinstance(level_id, str):
+            by_id[level_id] = capsule
+    return by_id
+
+
+def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
+    index = SCALING_LADDER_LEVEL_IDS.index(level_id)
+    return {
+        "level_id": level_id,
+        "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+        "raw_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule.raw_claim",
+        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule.projected_claim",
+        "review_status": "review-line-blocked",
+        "base_transformer_control": None,
+        "matched_random_structural_control": None,
+        "compute_param_ledger": None,
+        "negative_witness_sweep": None,
+        "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail",
+        },
+        "boundary_ledger": [
+            {
+                "level_id": level_id,
+                "status": "blocked",
+                "reason": "missing bounded scaling level capsule evidence",
+            }
+        ],
+        "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
+    }
+
+
+def _scaling_level_capsule(level_id: str, input_capsules: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    default = _scaling_default_capsule(level_id)
+    raw = input_capsules.get(level_id)
+    if not isinstance(raw, Mapping):
+        return default
+    capsule = dict(default)
+    for key in (
+        "claim_id",
+        "raw_claim_pointer",
+        "projected_claim_pointer",
+        "review_status",
+        "base_transformer_control",
+        "matched_random_structural_control",
+        "compute_param_ledger",
+        "negative_witness_sweep",
+        "hardgates",
+        "boundary_ledger",
+        "not_claimed",
+    ):
+        if key in raw:
+            capsule[key] = raw[key]
+    capsule["level_id"] = level_id
+    return capsule
+
+
+def _scaling_capsule_failures(capsule: Mapping[str, Any]) -> list[str]:
+    failures: list[str] = []
+    if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "raw_claim_pointer", "projected_claim_pointer")):
+        failures.append("capsule identity or claim pointer missing")
+    if capsule.get("review_status") != "review-line-ready":
+        failures.append("review status not ready")
+    for key in ("base_transformer_control", "matched_random_structural_control"):
+        control = capsule.get(key)
+        if not isinstance(control, Mapping) or control.get("status") != "pass" or not isinstance(control.get("pointer"), str):
+            failures.append(f"{key} missing pass pointer")
+    ledger = capsule.get("compute_param_ledger")
+    if not isinstance(ledger, Mapping) or ledger.get("status") != "pass":
+        failures.append("compute/param ledger missing pass status")
+    for key in ("compute_units", "parameter_count"):
+        value = ledger.get(key) if isinstance(ledger, Mapping) else None
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0:
+            failures.append(f"{key} missing positive numeric value")
+    sweep = capsule.get("negative_witness_sweep")
+    if not isinstance(sweep, Mapping) or sweep.get("status") != "pass" or not isinstance(sweep.get("pointer"), str):
+        failures.append("negative witness sweep missing pass pointer")
+    if not isinstance(capsule.get("boundary_ledger"), list):
+        failures.append("boundary ledger missing")
+    text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+    if "production" not in text or "global superiority" not in text or "unbounded" not in text:
+        failures.append("not_claimed boundary missing")
+    return failures
+
+
+def _scaling_level_passes(capsule: Mapping[str, Any]) -> bool:
+    return not _scaling_capsule_failures(capsule)
+
+
+def _scaling_capsule_contract_passes(capsule: Mapping[str, Any]) -> bool:
+    if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "raw_claim_pointer", "projected_claim_pointer")):
+        return False
+    if capsule.get("review_status") != "review-line-ready":
+        return False
+    for key in ("base_transformer_control", "matched_random_structural_control"):
+        control = capsule.get(key)
+        if not isinstance(control, Mapping) or control.get("status") != "pass" or not isinstance(control.get("pointer"), str):
+            return False
+    if not isinstance(capsule.get("boundary_ledger"), list):
+        return False
+    text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+    return "production" in text and "global superiority" in text and "unbounded" in text
+
+
+def _scaling_ledgers_monotone(levels: Sequence[Mapping[str, Any]]) -> bool:
+    previous_compute = -1.0
+    previous_params = -1.0
+    for row in levels:
+        capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+        ledger = capsule.get("compute_param_ledger") if isinstance(capsule, Mapping) else None
+        if not isinstance(ledger, Mapping):
+            return False
+        compute = ledger.get("compute_units")
+        params = ledger.get("parameter_count")
+        if not isinstance(compute, (int, float)) or isinstance(compute, bool) or compute <= previous_compute:
+            return False
+        if not isinstance(params, (int, float)) or isinstance(params, bool) or params <= previous_params:
+            return False
+        if any(str(key).lower() in {"accuracy", "loss", "raw_metrics", "records"} for key in ledger):
+            return False
+        previous_compute = float(compute)
+        previous_params = float(params)
+    return True
+
+
+def _scaling_source_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.status",
+        "discovery_level_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.discovery_level",
+        "mechanism_closure_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.mechanism_closure_status",
+        "status": pointer_value(owner_payload, "$.d5_m_projection.status"),
+        "discovery_level": pointer_value(owner_payload, "$.d5_m_projection.discovery_level"),
+        "mechanism_closure_status": pointer_value(owner_payload, "$.d5_m_projection.mechanism_closure_status"),
+    }
+
+
+def _scaling_boundary_ledger(levels: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    failed_index: int | None = None
+    rows: list[dict[str, Any]] = []
+    for index, row in enumerate(levels):
+        capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+        level_id = SCALING_LADDER_LEVEL_IDS[index]
+        failures = _scaling_capsule_failures(capsule if isinstance(capsule, Mapping) else {})
+        if failures and failed_index is None:
+            failed_index = index
+            rows.append(
+                {
+                    "level_id": level_id,
+                    "status": "failed",
+                    "failed_gate": "SCALE-HG5",
+                    "reason": "; ".join(failures),
+                    "source_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+                }
+            )
+        elif failed_index is not None and index > failed_index:
+            rows.append(
+                {
+                    "level_id": level_id,
+                    "status": "blocked",
+                    "failed_gate": "SCALE-HG5",
+                    "reason": f"blocked by earlier failed level {SCALING_LADDER_LEVEL_IDS[failed_index]}",
+                    "source_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+                }
+            )
+    return rows
+
+
+def scaling_ladder_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    ladder = owner_payload.get("scaling_ladder")
+    ladder = ladder if isinstance(ladder, Mapping) else {}
+    levels = ladder.get("levels")
+    levels = levels if isinstance(levels, list) else []
+    source_projection = ladder.get("source_projection")
+    source_projection = source_projection if isinstance(source_projection, Mapping) else _scaling_source_projection(owner_payload)
+    not_claimed = ladder.get("not_claimed", SCALING_LADDER_NOT_CLAIMED)
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, Sequence) else ""
+    level_capsules = [
+        row.get("claim_capsule")
+        for row in levels
+        if isinstance(row, Mapping) and isinstance(row.get("claim_capsule"), Mapping)
+    ]
+    level_passes = [bool(isinstance(capsule, Mapping) and _scaling_level_passes(capsule)) for capsule in level_capsules]
+    contract_passes = [bool(isinstance(capsule, Mapping) and _scaling_capsule_contract_passes(capsule)) for capsule in level_capsules]
+    failed_level_count = len([passed for passed in level_passes if not passed])
+    boundary_ledger = ladder.get("boundary_ledger")
+    failed_conditions = {
+        "SCALE-HG1": not (
+            source_projection.get("status") == "ready"
+            and source_projection.get("discovery_level") == "D5-M"
+            and source_projection.get("mechanism_closure_status") == "closed"
+        ),
+        "SCALE-HG2": not (
+            len(level_capsules) == len(SCALING_LADDER_LEVEL_IDS)
+            and all(contract_passes)
+        ),
+        "SCALE-HG3": not (
+            len(levels) == len(SCALING_LADDER_LEVEL_IDS)
+            and _scaling_ledgers_monotone(levels)
+        ),
+        "SCALE-HG4": not (
+            len(level_capsules) == len(SCALING_LADDER_LEVEL_IDS)
+            and all(
+                isinstance(capsule, Mapping)
+                and isinstance(capsule.get("negative_witness_sweep"), Mapping)
+                and capsule["negative_witness_sweep"].get("status") == "pass"
+                for capsule in level_capsules
+            )
+        ),
+        "SCALE-HG5": failed_level_count != 0
+        or not isinstance(boundary_ledger, list)
+        or bool(boundary_ledger),
+        "SCALE-HG6": not (
+            ladder.get("evidence_scope") == "bounded-model-prototype-scaling"
+            and "production" in not_claimed_text
+            and "gpt" in not_claimed_text
+            and "llama" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "llm replacement" in not_claimed_text
+            and "universal recipe" in not_claimed_text
+            and "unbounded" in not_claimed_text
+        ),
+    }
+    evidence = {
+        "SCALE-HG1": "$.d5_m_projection",
+        "SCALE-HG2": "$.scaling_ladder.levels",
+        "SCALE-HG3": "$.scaling_ladder.levels",
+        "SCALE-HG4": "$.scaling_ladder.levels",
+        "SCALE-HG5": "$.scaling_ladder.boundary_ledger",
+        "SCALE-HG6": "$.scaling_ladder.evidence_scope",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in SCALING_LADDER_GATE_NAMES
+    }
+
+
+def build_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    overrides = owner_payload.get("scaling_ladder")
+    overrides = overrides if isinstance(overrides, Mapping) else {}
+    input_capsules = _scaling_level_input_by_id(owner_payload)
+    levels = [
+        {
+            "level_id": level_id,
+            "claim_capsule": _scaling_level_capsule(level_id, input_capsules),
+        }
+        for level_id in SCALING_LADDER_LEVEL_IDS
+    ]
+    source_projection = _scaling_source_projection(owner_payload)
+    boundary_ledger = _scaling_boundary_ledger(levels)
+    draft: dict[str, Any] = {
+        "status": "blocked",
+        "review_status": "review-line-blocked",
+        "discovery_level": source_projection["discovery_level"] if source_projection["discovery_level"] in {"D5-M", "D5-O", "D4"} else "D0",
+        "evidence_scope": overrides.get("evidence_scope", "bounded-model-prototype-scaling"),
+        "source_projection": source_projection,
+        "levels": levels,
+        "boundary_ledger": boundary_ledger,
+        "hardgate": {
+            "status": "fail",
+            "gate_names": list(SCALING_LADDER_GATE_NAMES),
+            "gates": {},
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+            "blocked_reason": None,
+        },
+        "not_claimed": list(overrides.get("not_claimed", SCALING_LADDER_NOT_CLAIMED)),
+    }
+    gates = scaling_ladder_hardgate_rows({**owner_payload, "scaling_ladder": draft})
+    failed = [gate_name for gate_name in SCALING_LADDER_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    failed_gate = failed[0] if failed else None
+    draft.update(
+        {
+            "status": "ready" if failed_gate is None else "blocked",
+            "review_status": "review-line-ready" if failed_gate is None else "review-line-blocked",
+            "discovery_level": "D5-M" if failed_gate is None else draft["discovery_level"],
+            "hardgate": {
+                "status": "pass" if failed_gate is None else "fail",
+                "gate_names": list(SCALING_LADDER_GATE_NAMES),
+                "gates": gates,
+                "failed_gate": failed_gate,
+                "failed_gate_pointer": None if failed_gate is None else artifact_pointer(gates[failed_gate]["evidence"]),
+                "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
+            },
+            "anti_triviality_status": "pass",
+            **owner_local_anti_triviality_contract(
+                recommended_level="D5-M",
+                scale_only_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG1",
+                metadata_only_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG3",
+                matched_random_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG2",
+                forbidden_column_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG6",
+                status="pass",
+                failed_gate=None,
+            ),
+        }
+    )
+    errors = validate_scaling_ladder_projection({**owner_payload, "scaling_ladder": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return DgtScalingLadderProjection(draft).as_payload()
+
+
+def validate_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("scaling_ladder")
+    if not isinstance(payload, Mapping):
+        return ["DGT scaling ladder projection missing"]
+    if set(payload) != set(SCALING_LADDER_REQUIRED_KEYS):
+        errors.append("DGT scaling ladder fields mismatch")
+    levels = payload.get("levels")
+    if not isinstance(levels, list) or [row.get("level_id") for row in levels if isinstance(row, Mapping)] != list(SCALING_LADDER_LEVEL_IDS):
+        errors.append("DGT scaling ladder level order mismatch")
+    else:
+        for index, row in enumerate(levels):
+            capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+            if not isinstance(capsule, Mapping) or capsule.get("level_id") != SCALING_LADDER_LEVEL_IDS[index]:
+                errors.append(f"DGT scaling ladder capsule mismatch: {SCALING_LADDER_LEVEL_IDS[index]}")
+    hardgate = payload.get("hardgate")
+    if not isinstance(hardgate, Mapping) or hardgate.get("gate_names") != list(SCALING_LADDER_GATE_NAMES):
+        errors.append("DGT scaling ladder hardgate names mismatch")
+        return errors
+    gates = hardgate.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != set(SCALING_LADDER_GATE_NAMES):
+        errors.append("DGT scaling ladder hardgate rows mismatch")
+        return errors
+    expected_gates = scaling_ladder_hardgate_rows(owner_payload)
+    if gates != expected_gates:
+        errors.append("DGT scaling ladder hardgate evaluation mismatch")
+    failed = [gate_name for gate_name in SCALING_LADDER_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    failed_gate = failed[0] if failed else None
+    if hardgate.get("status") != ("pass" if failed_gate is None else "fail"):
+        errors.append("DGT scaling ladder hardgate status mismatch")
+    if hardgate.get("failed_gate") != failed_gate:
+        errors.append("DGT scaling ladder failed gate mismatch")
+    expected_pointer = None if failed_gate is None else artifact_pointer(gates[failed_gate]["evidence"])
+    if hardgate.get("failed_gate_pointer") != expected_pointer:
+        errors.append("DGT scaling ladder failed gate pointer mismatch")
+    if hardgate.get("blocked_reason") != (None if failed_gate is None else f"blocked-by-{failed_gate}"):
+        errors.append("DGT scaling ladder blocked reason mismatch")
+    if payload.get("status") != ("ready" if failed_gate is None else "blocked"):
+        errors.append("DGT scaling ladder status mismatch")
+    if payload.get("review_status") != ("review-line-ready" if failed_gate is None else "review-line-blocked"):
+        errors.append("DGT scaling ladder review status mismatch")
+    source_level = pointer_value(owner_payload, "$.d5_m_projection.discovery_level")
+    expected_level = "D5-M" if failed_gate is None else (source_level if source_level in {"D5-M", "D5-O", "D4"} else "D0")
+    if payload.get("discovery_level") != expected_level:
+        errors.append("DGT scaling ladder discovery level mismatch")
+    if failed_gate != "SCALE-HG6" and payload.get("evidence_scope") != "bounded-model-prototype-scaling":
+        errors.append("DGT scaling ladder evidence scope mismatch")
+    source = payload.get("source_projection")
+    if not isinstance(source, Mapping):
+        errors.append("DGT scaling ladder source projection missing")
+    else:
+        expected_source = _scaling_source_projection(owner_payload)
+        if source != expected_source:
+            errors.append("DGT scaling ladder source projection mismatch")
+    boundary = payload.get("boundary_ledger")
+    if not isinstance(boundary, list):
+        errors.append("DGT scaling ladder boundary ledger mismatch")
+    elif levels and boundary != _scaling_boundary_ledger(levels):
+        errors.append("DGT scaling ladder boundary ledger evaluation mismatch")
+    text = " ".join(str(item).lower() for item in payload.get("not_claimed", []))
+    for phrase in ("production", "gpt", "llama", "global superiority", "llm replacement", "universal recipe", "unbounded"):
+        if phrase not in text:
+            errors.append(f"DGT scaling ladder not_claimed missing boundary: {phrase}")
+    forbidden = json.dumps(payload, sort_keys=True).lower()
+    for token in ("production scale authority", "global superiority accepted", "unbounded scaling law accepted"):
+        if token in forbidden:
+            errors.append(f"DGT scaling ladder contains forbidden claim token: {token}")
+    return errors
+
+
 class DiscoveryGatedTransformerProjector:
     def __init__(
         self,
@@ -2594,6 +3025,7 @@ class DiscoveryGatedTransformerProjector:
             surface_summary=self.d5_o_surface_summary,
         )
         payload["d5_m_projection"] = build_d5_m_projection(payload)
+        payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
         validate_projection(payload)
         return payload
 
@@ -2621,6 +3053,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -2687,6 +3120,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d5_m_errors = validate_d5_m_projection(payload)
     if d5_m_errors:
         raise ValueError("; ".join(d5_m_errors))
+    scaling_errors = validate_scaling_ladder_projection(payload)
+    if scaling_errors:
+        raise ValueError("; ".join(scaling_errors))
 
 
 def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
@@ -2846,6 +3282,41 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for gate_name, row in d5_m_projection["hardgates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    scaling_ladder = payload["scaling_ladder"]
+    lines.extend(
+        [
+            "",
+            "## Scaling Ladder",
+            "",
+            f"- Status: `{scaling_ladder['status']}`",
+            f"- Review status: `{scaling_ladder['review_status']}`",
+            f"- Discovery level: `{scaling_ladder['discovery_level']}`",
+            f"- Evidence scope: `{scaling_ladder['evidence_scope']}`",
+            f"- Blocked reason: `{scaling_ladder['hardgate']['blocked_reason']}`",
+            "",
+            "| level | review | base control | random control | witness |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+    )
+    for row in scaling_ladder["levels"]:
+        capsule = row["claim_capsule"]
+        base = capsule["base_transformer_control"]
+        random_control = capsule["matched_random_structural_control"]
+        witness = capsule["negative_witness_sweep"]
+        lines.append(
+            "| "
+            f"`{row['level_id']}` | "
+            f"`{capsule['review_status']}` | "
+            f"`{base.get('status') if isinstance(base, Mapping) else 'missing'}` | "
+            f"`{random_control.get('status') if isinstance(random_control, Mapping) else 'missing'}` | "
+            f"`{witness.get('status') if isinstance(witness, Mapping) else 'missing'}` |"
+        )
+    lines.extend(["", "| gate | status | evidence |", "| --- | --- | --- |"])
+    for gate_name, row in scaling_ladder["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    lines.extend(["", "### Scaling Boundary Ledger", "", "| level | status | gate | reason |", "| --- | --- | --- | --- |"])
+    for row in scaling_ladder["boundary_ledger"]:
+        lines.append(f"| `{row['level_id']}` | `{row['status']}` | `{row['failed_gate']}` | `{row['reason']}` |")
     d4_projection = payload["d4_projection"]
     lines.extend(
         [

@@ -1144,6 +1144,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "operational_robustness",
             "d5_o_projection",
             "d5_m_projection",
+            "scaling_ladder",
             "discovery_map_signal",
             "discovery_map_signal_ref",
             "d4_projection_ref",
@@ -1158,10 +1159,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=1,
         bundle_role="hg_p_core",
-        scope_pointer="$.d5_o_projection.scope",
+        scope_pointer="$.scaling_ladder",
         cost_pointer="$.architecture_spec",
-        not_claimed_pointer="$.d5_o_projection.not_claimed",
-        positive_claim_pointer="$.d5_m_projection",
+        not_claimed_pointer="$.scaling_ladder.not_claimed",
+        positive_claim_pointer="$.scaling_ladder",
         control_pointer="$.d4_projection.matched_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
@@ -3976,6 +3977,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "operational_robustness",
         "d5_o_projection",
         "d5_m_projection",
+        "scaling_ladder",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
@@ -4047,6 +4049,37 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     for phrase in ("bounded d5-m", "production authority", "global superiority", "llm replacement", "unbounded"):
         if phrase not in d5_m_not_claimed:
             raise ValueError("DGT D5-M projection not_claimed boundary mismatch")
+    scaling_ladder = payload["scaling_ladder"]
+    if [row["level_id"] for row in scaling_ladder["levels"]] != [
+        "L0_toy",
+        "L1_tiny_sequence",
+        "L2_char_lm",
+        "L3_byte_lm",
+        "L4_tool_use_toy",
+        "L5_small_world_model",
+    ]:
+        raise ValueError("DGT scaling ladder level order mismatch")
+    if set(scaling_ladder["hardgate"]["gates"]) != {f"SCALE-HG{index}" for index in range(1, 7)}:
+        raise ValueError("DGT scaling ladder hardgates must contain SCALE-HG1..6")
+    if scaling_ladder["evidence_scope"] != "bounded-model-prototype-scaling":
+        raise ValueError("DGT scaling ladder evidence scope mismatch")
+    if scaling_ladder["source_projection"]["status_pointer"] != (
+        f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.status"
+    ):
+        raise ValueError("DGT scaling ladder source status pointer mismatch")
+    if scaling_ladder["source_projection"]["discovery_level_pointer"] != (
+        f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level"
+    ):
+        raise ValueError("DGT scaling ladder source level pointer mismatch")
+    if scaling_ladder["source_projection"]["mechanism_closure_pointer"] != (
+        f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.mechanism_closure_status"
+    ):
+        raise ValueError("DGT scaling ladder source closure pointer mismatch")
+    scaling_all_pass = all(row["status"] == "pass" for row in scaling_ladder["hardgate"]["gates"].values())
+    if scaling_ladder["status"] != ("ready" if scaling_all_pass else "blocked"):
+        raise ValueError("DGT scaling ladder status mismatch")
+    if scaling_ladder["discovery_level"] != ("D5-M" if scaling_all_pass else scaling_ladder["source_projection"]["discovery_level"]):
+        raise ValueError("DGT scaling ladder discovery level mismatch")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -4144,6 +4177,15 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level"
         ),
         "d5_m_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.hardgates",
+        "scaling_ladder_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder",
+        "scaling_ladder_discovery_level_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.discovery_level"
+        ),
+        "scaling_ladder_status_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.status",
+        "scaling_ladder_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.hardgate",
+        "scaling_ladder_source_projection_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.source_projection"
+        ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",
@@ -4258,12 +4300,12 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
-            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level",
-            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.status",
+            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.discovery_level",
+            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.status",
             "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
-            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.boundary_ledger",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.not_claimed",
-            "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.negative_witness_pointers",
+            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.boundary_ledger",
+            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.not_claimed",
+            "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.levels",
             "hardgate_status": "pass",
             "hardgate_reason": "DGT design pointers resolve",
         },
@@ -5725,6 +5767,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Robustness hardgate: `{payload['discovery-gated-transformer']['robustness_hardgate_pointer']}`",
             f"- D5-M projection: `{payload['discovery-gated-transformer']['d5_m_projection_pointer']}`",
             f"- D5-M discovery level: `{payload['discovery-gated-transformer']['d5_m_projection_discovery_level_pointer']}`",
+            f"- Scaling ladder: `{payload['discovery-gated-transformer']['scaling_ladder_pointer']}`",
+            f"- Scaling ladder discovery level: `{payload['discovery-gated-transformer']['scaling_ladder_discovery_level_pointer']}`",
+            f"- Scaling ladder status: `{payload['discovery-gated-transformer']['scaling_ladder_status_pointer']}`",
             f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
             f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
             f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",

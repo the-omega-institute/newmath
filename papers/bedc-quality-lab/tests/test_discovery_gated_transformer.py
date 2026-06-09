@@ -15,6 +15,8 @@ from bedc_quality_lab.discovery_gated_transformer import (
     D5M_GATE_NAMES,
     D5O_GATE_NAMES,
     D5O_REVIEW_PHRASE,
+    SCALING_LADDER_GATE_NAMES,
+    SCALING_LADDER_LEVEL_IDS,
     LAT_CANONICAL_ARTIFACT,
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
@@ -34,7 +36,9 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_projection,
     build_d5_m_projection,
     build_d5_o_projection,
+    build_scaling_ladder_projection,
     d5_m_hardgate_rows,
+    scaling_ladder_hardgate_rows,
     _toy_seed_surface_summary,
     default_robustness_source_payloads,
     evaluate_ablation_arm,
@@ -55,6 +59,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_d4_projection,
     validate_d5_m_projection,
     validate_d5_o_projection,
+    validate_scaling_ladder_projection,
     validate_operational_robustness,
 )
 from scripts import run_discovery_gated_transformer as dgt
@@ -568,6 +573,178 @@ def test_dgt_d5_m_projection_rejects_forbidden_claim_surface(tmp_path):
     mutated["d5_m_projection"] = build_d5_m_projection(mutated)
 
     _assert_d5_m_fail_closed(mutated, "D5M-HG10")
+
+
+def _ready_scaling_level(level_id, index):
+    return {
+        "level_id": level_id,
+        "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+        "raw_claim_pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/claim_capsule.json:$",
+        "projected_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[{index}].claim_capsule",
+        "review_status": "review-line-ready",
+        "base_transformer_control": {
+            "status": "pass",
+            "pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/base_transformer_control.json:$",
+        },
+        "matched_random_structural_control": {
+            "status": "pass",
+            "pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/matched_random_structural_control.json:$",
+        },
+        "compute_param_ledger": {
+            "status": "pass",
+            "compute_units": (index + 1) * 100,
+            "parameter_count": (index + 1) * 10,
+            "pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/compute_param_ledger.json:$",
+        },
+        "negative_witness_sweep": {
+            "status": "pass",
+            "pointer": f"reports/runs/discovery-gated-transformer/scaling/{level_id}/negative_witness_sweep.json:$",
+        },
+        "hardgates": {"SCALE-HG2": "pass", "SCALE-HG3": "pass", "SCALE-HG4": "pass"},
+        "boundary_ledger": [],
+        "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim.",
+        ],
+    }
+
+
+def _owner_with_ready_scaling_ladder(tmp_path):
+    owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    owner["scaling_ladder"] = {
+        "levels": [
+            {"level_id": level_id, "claim_capsule": _ready_scaling_level(level_id, index)}
+            for index, level_id in enumerate(SCALING_LADDER_LEVEL_IDS)
+        ]
+    }
+    owner["scaling_ladder"] = build_scaling_ladder_projection(owner)
+    return owner
+
+
+def test_dgt_scaling_ladder_defaults_to_d5_m_boundary_without_claiming_scaling(tmp_path):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    ladder = payload["scaling_ladder"]
+
+    assert tuple(ladder["hardgate"]["gates"]) == SCALING_LADDER_GATE_NAMES
+    assert [row["level_id"] for row in ladder["levels"]] == list(SCALING_LADDER_LEVEL_IDS)
+    assert ladder["status"] == "blocked"
+    assert ladder["review_status"] == "review-line-blocked"
+    assert ladder["discovery_level"] == "D5-M"
+    assert ladder["hardgate"]["failed_gate"] == "SCALE-HG2"
+    assert ladder["evidence_scope"] == "bounded-model-prototype-scaling"
+    assert validate_scaling_ladder_projection(payload) == []
+
+
+def test_dgt_scaling_ladder_projects_only_when_all_levels_pass(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    ladder = owner["scaling_ladder"]
+
+    assert ladder["status"] == "ready"
+    assert ladder["review_status"] == "review-line-ready"
+    assert ladder["discovery_level"] == "D5-M"
+    assert ladder["hardgate"]["status"] == "pass"
+    assert ladder["hardgate"]["failed_gate"] is None
+    assert ladder["boundary_ledger"] == []
+    assert validate_scaling_ladder_projection(owner) == []
+
+
+@pytest.mark.parametrize(
+    ("gate_name", "mutate"),
+    [
+        ("SCALE-HG1", lambda payload: payload["d5_m_projection"].update({"status": "blocked"})),
+        ("SCALE-HG2", lambda payload: payload["scaling_ladder"]["levels"][0]["claim_capsule"].update({"review_status": "review-line-blocked"})),
+        ("SCALE-HG3", lambda payload: payload["scaling_ladder"]["levels"][2]["claim_capsule"]["compute_param_ledger"].update({"compute_units": 50})),
+        ("SCALE-HG4", lambda payload: payload["scaling_ladder"]["levels"][1]["claim_capsule"]["negative_witness_sweep"].update({"status": "fail"})),
+        ("SCALE-HG6", lambda payload: payload["scaling_ladder"].update({"evidence_scope": "production-scale"})),
+    ],
+)
+def test_dgt_scaling_ladder_fails_closed_on_each_hardgate(tmp_path, gate_name, mutate):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutate(mutated)
+    mutated["scaling_ladder"] = build_scaling_ladder_projection(mutated)
+    ladder = mutated["scaling_ladder"]
+
+    assert ladder["hardgate"]["gates"][gate_name]["status"] == "fail"
+    assert ladder["status"] == "blocked"
+    assert ladder["hardgate"]["failed_gate"] == gate_name
+    assert ladder["hardgate"]["blocked_reason"] == f"blocked-by-{gate_name}"
+    assert scaling_ladder_hardgate_rows(mutated)[gate_name]["status"] == "fail"
+    assert validate_scaling_ladder_projection(mutated) == []
+
+
+def test_dgt_scaling_ladder_hg5_fails_closed_on_unclosed_boundary_ledger(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutated["scaling_ladder"]["boundary_ledger"] = [
+        {
+            "level_id": "L3_byte_lm",
+            "status": "failed",
+            "failed_gate": "SCALE-HG5",
+            "reason": "fixture stale inherited verdict",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[3].claim_capsule",
+        }
+    ]
+
+    rows = scaling_ladder_hardgate_rows(mutated)
+
+    assert rows["SCALE-HG5"]["status"] == "fail"
+    assert rows["SCALE-HG2"]["status"] == "pass"
+
+
+def test_dgt_scaling_ladder_capsules_are_level_independent(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    capsules = [row["claim_capsule"] for row in owner["scaling_ladder"]["levels"]]
+
+    assert len({capsule["claim_id"] for capsule in capsules}) == len(SCALING_LADDER_LEVEL_IDS)
+    assert len({capsule["raw_claim_pointer"] for capsule in capsules}) == len(SCALING_LADDER_LEVEL_IDS)
+    assert all(capsule["level_id"] in capsule["claim_id"] for capsule in capsules)
+
+
+def test_dgt_scaling_ladder_requires_base_and_matched_random_controls(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutated["scaling_ladder"]["levels"][0]["claim_capsule"]["matched_random_structural_control"] = None
+    mutated["scaling_ladder"] = build_scaling_ladder_projection(mutated)
+
+    assert mutated["scaling_ladder"]["hardgate"]["gates"]["SCALE-HG2"]["status"] == "fail"
+    assert mutated["scaling_ladder"]["boundary_ledger"][0]["level_id"] == "L0_toy"
+
+
+def test_dgt_scaling_ladder_compute_param_ledger_is_strictly_monotone(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    ledgers = [
+        row["claim_capsule"]["compute_param_ledger"]
+        for row in owner["scaling_ladder"]["levels"]
+    ]
+
+    assert [ledger["compute_units"] for ledger in ledgers] == sorted(ledger["compute_units"] for ledger in ledgers)
+    assert [ledger["parameter_count"] for ledger in ledgers] == sorted(ledger["parameter_count"] for ledger in ledgers)
+
+
+def test_dgt_scaling_ladder_boundary_tail_blocks_following_levels(tmp_path):
+    owner = _owner_with_ready_scaling_ladder(tmp_path)
+    mutated = json.loads(json.dumps(owner))
+    mutated["scaling_ladder"]["levels"][2]["claim_capsule"]["review_status"] = "review-line-blocked"
+    mutated["scaling_ladder"] = build_scaling_ladder_projection(mutated)
+
+    boundary = mutated["scaling_ladder"]["boundary_ledger"]
+    assert [row["level_id"] for row in boundary] == ["L2_char_lm", "L3_byte_lm", "L4_tool_use_toy", "L5_small_world_model"]
+    assert boundary[0]["status"] == "failed"
+    assert {row["status"] for row in boundary[1:]} == {"blocked"}
 
 
 @pytest.mark.parametrize(
