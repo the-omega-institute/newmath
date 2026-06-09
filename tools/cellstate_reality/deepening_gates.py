@@ -1244,6 +1244,17 @@ def self_test() -> int:
                 "refinement_pressure": "Create the probe packet before mismatch review.",
                 "blocked_claims": ["Do not review a scope boundary without its probe packet."],
                 "null_reason": "",
+            },
+            {
+                "mismatch_id": "identity-preserving-age-reset.same-scope-identity-contact.scope-review",
+                "probe_ref": "identity-preserving-age-reset.same-scope-identity-contact",
+                "contact_ref": "clock.horvath.array",
+                "status": "blocked_null",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The scope-review packet cites a same-scope identity-contact probe that is not present.",
+                "refinement_pressure": "Create the identity-contact probe packet before mismatch review.",
+                "blocked_claims": ["Do not review identity-contact scope without its probe packet."],
+                "null_reason": "",
             }
         ],
     )
@@ -1259,6 +1270,22 @@ def self_test() -> int:
             "cannot be reviewed until probe_ref rejuvenation-candidate.same-scope-function-contact exists"
         )
         for issue in missing_probe_scope_review["issues"]
+    ):
+        print(json.dumps(missing_probe_scope_review_results, indent=2), file=sys.stderr)
+        return 1
+    identity_contact_scope_review = next(
+        result
+        for result in missing_probe_scope_review_results
+        if result["packet_id"] == "identity-preserving-age-reset.same-scope-identity-contact.scope-review"
+    )
+    if identity_contact_scope_review["gate_status"] != "gate_blocked" or not any(
+        issue
+        == (
+            "scope_review_requires_existing_probe: "
+            "identity-preserving-age-reset.same-scope-identity-contact.scope-review "
+            "cannot be reviewed until probe_ref identity-preserving-age-reset.same-scope-identity-contact exists"
+        )
+        for issue in identity_contact_scope_review["issues"]
     ):
         print(json.dumps(missing_probe_scope_review_results, indent=2), file=sys.stderr)
         return 1
