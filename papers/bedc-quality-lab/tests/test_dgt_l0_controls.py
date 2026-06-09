@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+import scripts.run_dgt_l0_controls as runner
 from bedc_quality_lab import dgt_l0_controls
 from bedc_quality_lab.dgt_l0_controls import (
     CANONICAL_JSON_ARTIFACT,
@@ -78,6 +79,30 @@ def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
     assert claim_capsule["owner_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection"
     assert "run_local_cache" in fingerprint["inputs"]
     assert "reports/runs/discovery-gated-transformer/l0-toy-controls/claim_capsule.json" in json.dumps(fingerprint)
+
+
+def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
+    exit_code = runner.main(["--root", str(tmp_path), "--generated-at", "fixture", "--requested-device", "cpu"])
+
+    assert exit_code == 0
+    summary = json.loads(capsys.readouterr().out)
+    assert summary["artifact_id"] == dgt_l0_controls.ARTIFACT_ID
+    assert summary["status"] == "pass"
+    assert summary["review_status"] == "ready"
+    assert summary["device"] == "cpu"
+    assert summary["compute_units"] > 0
+
+    run_artifacts = dgt_l0_controls.run_artifacts_payload()
+    expected_artifacts = [
+        dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
+        dgt_l0_controls.CANONICAL_MARKDOWN_ARTIFACT,
+        dgt_l0_controls.CANONICAL_FINGERPRINT_ARTIFACT,
+        run_artifacts["summary"],
+        run_artifacts["raw_metrics"],
+        run_artifacts["claim_capsule"],
+        run_artifacts["report"],
+    ]
+    assert all((tmp_path / artifact).exists() for artifact in expected_artifacts)
 
 
 @pytest.mark.parametrize(
