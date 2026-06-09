@@ -642,7 +642,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "2026-06-08T21:22:53.390414+00:00",
+  "generated_at": "2026-06-09T02:07:57.744320+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",
@@ -921,12 +921,163 @@
       "gate": "DGT-HG20"
     }
   ],
+  "robustness": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.robustness",
+    "discovery_level": "D5-O",
+    "failed_gate": [],
+    "failed_gate_pointer": null,
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording",
+        "host-private refactor path",
+        "host-private env path"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-ROB-HG1",
+        "DGT-ROB-HG2",
+        "DGT-ROB-HG3",
+        "DGT-ROB-HG4",
+        "DGT-ROB-HG5",
+        "DGT-ROB-HG6",
+        "DGT-ROB-HG7",
+        "DGT-ROB-HG8"
+      ],
+      "gates": {
+        "DGT-ROB-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.owner_ref"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.d4_projection"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.hardgate"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.source_evidence.ledger_aware_transformer"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.source_evidence.model_comparison"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.source_artifacts"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG7": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.not_claimed"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG8": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.robustness.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "model_id": "discovery-gated-transformer",
+    "not_claimed": [
+      "No deployment readiness is claimed.",
+      "No cross-model winner is claimed.",
+      "No external operation authority is claimed.",
+      "No D5-M mechanism closure is claimed."
+    ],
+    "operational_contract": {
+      "lat_relationship": "LAT remains component evidence input only",
+      "owner_policy": "DGT owner-local readiness only",
+      "readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.robustness",
+      "robustness_basis": "bounded deterministic toy evidence with matched controls"
+    },
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$.robustness",
+    "readiness": "ready",
+    "revocation_rows": [
+      {
+        "condition": "Revoke when the D4 owner projection is blocked.",
+        "gate": "DGT-ROB-HG2"
+      },
+      {
+        "condition": "Revoke when LAT multi-surface evidence is absent or not passing.",
+        "gate": "DGT-ROB-HG4"
+      },
+      {
+        "condition": "Revoke when forbidden authority wording appears in DGT robustness fields.",
+        "gate": "DGT-ROB-HG8"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.robustness",
+    "source_artifacts": {
+      "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+      "d4_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "ledger_aware_transformer_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+      "model_comparison_pointer": "reports/canonical/model-comparison.json:$"
+    },
+    "source_evidence": {
+      "ledger_aware_transformer": {
+        "artifact_id": "bedc-quality-lab:ledger-aware-transformer",
+        "hardgate_status": "pass",
+        "level_candidate": "D5-O",
+        "pass_surface_count": 3,
+        "required_pass_surface_count": 3,
+        "robustness_status": "pass",
+        "source_role": "component-evidence-input"
+      },
+      "model_comparison": {
+        "artifact_id": "bedc-quality-lab:model-comparison",
+        "hardgate_status": "pass",
+        "source_role": "matched-control-evidence-input"
+      },
+      "owner": {
+        "component_ablation_status": "pass",
+        "d4_discovery_level": "D4",
+        "d4_readiness": "ready",
+        "model_id": "discovery-gated-transformer"
+      }
+    },
+    "status": "ready"
+  },
   "schema_id": "bedc-quality-lab:discovery-gated-transformer",
   "source_artifacts": {
     "component_refs": {
       "artifact": "reports/canonical/discovery-gated-transformer.json",
       "pointer": "$.component_refs"
-    }
+    },
+    "ledger_aware_transformer_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+    "model_comparison_pointer": "reports/canonical/model-comparison.json:$"
   },
   "tool_route_evidence": {
     "admission_ledger": {

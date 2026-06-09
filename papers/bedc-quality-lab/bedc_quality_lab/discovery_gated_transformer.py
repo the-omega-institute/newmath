@@ -216,6 +216,47 @@ D4_PROJECTION_REQUIRED_KEYS = (
     "anti_triviality_failed_gate",
     "anti_triviality_gate_evidence",
 )
+ROBUSTNESS_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.robustness"
+ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.robustness"
+ROBUSTNESS_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
+ROBUSTNESS_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
+ROBUSTNESS_GATE_NAMES = tuple(f"DGT-ROB-HG{index}" for index in range(1, 9))
+ROBUSTNESS_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "model_id",
+    "status",
+    "readiness",
+    "discovery_level",
+    "source_artifacts",
+    "source_evidence",
+    "operational_contract",
+    "hardgate",
+    "failed_gate",
+    "failed_gate_pointer",
+    "not_claimed",
+    "revocation_rows",
+    "forbidden_claim_term_audit",
+)
+ROBUSTNESS_FORBIDDEN_TERMS = (
+    "terminal_verdict",
+    "production",
+    "global superiority",
+    "architecture superiority",
+    ".refactor-loop",
+    "host.env",
+)
+ROBUSTNESS_FORBIDDEN_TERM_LABELS = (
+    "terminal verdict token",
+    "operation authority wording",
+    "external superiority wording",
+    "architecture superiority wording",
+    "host-private refactor path",
+    "host-private env path",
+)
+LAT_CANONICAL_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
+MODEL_COMPARISON_CANONICAL_ARTIFACT = "reports/canonical/model-comparison.json"
 
 
 @dataclass(frozen=True)
@@ -233,6 +274,126 @@ class DgtD4Projection:
 
     def as_payload(self) -> dict[str, Any]:
         return dict(self.payload)
+
+
+class DgtOperationalRobustnessLedger:
+    def evaluate(
+        self,
+        owner_payload: Mapping[str, Any],
+        source_payloads: Mapping[str, Mapping[str, Any]],
+    ) -> dict[str, Any]:
+        lat = source_payloads.get("ledger_aware_transformer", {})
+        model_comparison = source_payloads.get("model_comparison", {})
+        robustness_signal = lat.get("robustness_signal") if isinstance(lat, Mapping) else None
+        lat_discovery = lat.get("discovery_map_signal") if isinstance(lat, Mapping) else None
+        d4_projection = owner_payload.get("d4_projection") if isinstance(owner_payload, Mapping) else None
+        component_ablation = owner_payload.get("component_ablation") if isinstance(owner_payload, Mapping) else None
+        source_artifacts = owner_payload.get("source_artifacts") if isinstance(owner_payload, Mapping) else None
+        source_payload = {
+            "ledger_aware_transformer_pointer": (
+                source_artifacts.get("ledger_aware_transformer_pointer")
+                if isinstance(source_artifacts, Mapping)
+                else None
+            ),
+            "model_comparison_pointer": (
+                source_artifacts.get("model_comparison_pointer")
+                if isinstance(source_artifacts, Mapping)
+                else None
+            ),
+            "d4_projection_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection",
+            "component_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+        }
+        source_evidence = {
+            "ledger_aware_transformer": {
+                "artifact_id": lat.get("artifact_id") if isinstance(lat, Mapping) else None,
+                "hardgate_status": _mapping_path(lat, ("hardgate", "status")),
+                "robustness_status": (
+                    robustness_signal.get("status") if isinstance(robustness_signal, Mapping) else None
+                ),
+                "pass_surface_count": (
+                    robustness_signal.get("pass_surface_count") if isinstance(robustness_signal, Mapping) else None
+                ),
+                "required_pass_surface_count": (
+                    robustness_signal.get("required_pass_surface_count")
+                    if isinstance(robustness_signal, Mapping)
+                    else None
+                ),
+                "level_candidate": (
+                    lat_discovery.get("level_candidate") if isinstance(lat_discovery, Mapping) else None
+                ),
+                "source_role": "component-evidence-input",
+            },
+            "model_comparison": {
+                "artifact_id": model_comparison.get("artifact_id") if isinstance(model_comparison, Mapping) else None,
+                "hardgate_status": _model_comparison_hardgate_status(model_comparison),
+                "source_role": "matched-control-evidence-input",
+            },
+            "owner": {
+                "model_id": owner_payload.get("model_id"),
+                "d4_readiness": d4_projection.get("readiness") if isinstance(d4_projection, Mapping) else None,
+                "d4_discovery_level": (
+                    d4_projection.get("discovery_level") if isinstance(d4_projection, Mapping) else None
+                ),
+                "component_ablation_status": _mapping_path(component_ablation, ("hardgate", "status")),
+            },
+        }
+        payload: dict[str, Any] = {
+            "schema_id": ROBUSTNESS_SCHEMA_ID,
+            "artifact_id": ROBUSTNESS_ARTIFACT_ID,
+            "owner_ref": ROBUSTNESS_OWNER_REF,
+            "model_id": MODEL_ID,
+            "status": "blocked",
+            "readiness": "blocked",
+            "discovery_level": "D0",
+            "source_artifacts": source_payload,
+            "source_evidence": source_evidence,
+            "operational_contract": {
+                "readiness_pointer": ROBUSTNESS_POINTER,
+                "owner_policy": "DGT owner-local readiness only",
+                "lat_relationship": "LAT remains component evidence input only",
+                "robustness_basis": "bounded deterministic toy evidence with matched controls",
+            },
+            "hardgate": {},
+            "failed_gate": [],
+            "failed_gate_pointer": None,
+            "not_claimed": [
+                "No deployment readiness is claimed.",
+                "No cross-model winner is claimed.",
+                "No external operation authority is claimed.",
+                "No D5-M mechanism closure is claimed.",
+            ],
+            "revocation_rows": [
+                {
+                    "gate": "DGT-ROB-HG2",
+                    "condition": "Revoke when the D4 owner projection is blocked.",
+                },
+                {
+                    "gate": "DGT-ROB-HG4",
+                    "condition": "Revoke when LAT multi-surface evidence is absent or not passing.",
+                },
+                {
+                    "gate": "DGT-ROB-HG8",
+                    "condition": "Revoke when forbidden authority wording appears in DGT robustness fields.",
+                },
+            ],
+            "forbidden_claim_term_audit": {},
+        }
+        payload["forbidden_claim_term_audit"] = _robustness_forbidden_claim_term_audit(payload)
+        payload["hardgate"] = self.hardgate_rows(payload)
+        payload["failed_gate"] = payload["hardgate"]["failed_gate"]
+        first_failed = payload["failed_gate"][0] if payload["failed_gate"] else None
+        payload["failed_gate_pointer"] = (
+            None if first_failed is None else f"{ROBUSTNESS_POINTER}.hardgate.gates.{first_failed}"
+        )
+        if first_failed is None:
+            payload["status"] = "ready"
+            payload["readiness"] = "ready"
+            payload["discovery_level"] = "D5-O"
+        validate_operational_robustness(payload, owner_payload)
+        return payload
+
+    def hardgate_rows(self, robustness: Mapping[str, Any]) -> dict[str, Any]:
+        return evaluate_operational_robustness_hardgates(robustness)
 
 
 @dataclass(frozen=True)
@@ -845,6 +1006,54 @@ def _artifact_pointer_cell(value: str) -> dict[str, str]:
     return _cell(artifact, pointer)
 
 
+def _mapping_path(value: Any, path: Sequence[str]) -> Any:
+    current = value
+    for key in path:
+        if not isinstance(current, Mapping):
+            return None
+        current = current.get(key)
+    return current
+
+
+def _model_comparison_hardgate_status(payload: Mapping[str, Any]) -> str | None:
+    hardgates = payload.get("hardgates") if isinstance(payload, Mapping) else None
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return None
+    return "pass" if all(isinstance(row, Mapping) and row.get("status") == "pass" for row in hardgates.values()) else "fail"
+
+
+def default_robustness_source_payloads() -> dict[str, dict[str, Any]]:
+    return {
+        "ledger_aware_transformer": {
+            "artifact_id": "bedc-quality-lab:ledger-aware-transformer",
+            "hardgate": {"status": "pass"},
+            "robustness_signal": {
+                "status": "pass",
+                "pass_surface_count": 3,
+                "required_pass_surface_count": 3,
+                "pass_surface_pointers": [
+                    "$.records.0.deltas.unlogged_error_rate",
+                    "$.records.1.deltas.unlogged_error_rate",
+                    "$.records.2.deltas.unlogged_error_rate",
+                ],
+            },
+            "discovery_map_signal": {
+                "level_candidate": "D5-O",
+                "status": "d5-o-candidate",
+                "robustness_evidence_pointer": "$.robustness_signal",
+            },
+        },
+        "model_comparison": {
+            "artifact_id": "bedc-quality-lab:model-comparison",
+            "hardgates": {
+                "MC-HG7": {"status": "pass"},
+                "MC-HG8": {"status": "pass"},
+                "MC-HG9": {"status": "pass"},
+            },
+        },
+    }
+
+
 def _dgt_component_specs() -> tuple[DgtComponentSpec, ...]:
     return (
         DgtComponentSpec(
@@ -1422,6 +1631,126 @@ def _projection_not_claimed_clean(not_claimed: Any) -> bool:
     return all(token not in text for token in ("global superiority", "production"))
 
 
+def _robustness_forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "status": payload.get("status"),
+            "readiness": payload.get("readiness"),
+            "discovery_level": payload.get("discovery_level"),
+            "operational_contract": payload.get("operational_contract"),
+            "not_claimed": payload.get("not_claimed"),
+            "revocation_rows": payload.get("revocation_rows"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [
+        label
+        for term, label in zip(ROBUSTNESS_FORBIDDEN_TERMS, ROBUSTNESS_FORBIDDEN_TERM_LABELS)
+        if term in serialized
+    ]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(ROBUSTNESS_FORBIDDEN_TERM_LABELS),
+    }
+
+
+def evaluate_operational_robustness_hardgates(payload: Mapping[str, Any]) -> dict[str, Any]:
+    source_artifacts = payload.get("source_artifacts")
+    source_artifacts = source_artifacts if isinstance(source_artifacts, Mapping) else {}
+    source_evidence = payload.get("source_evidence")
+    source_evidence = source_evidence if isinstance(source_evidence, Mapping) else {}
+    owner = source_evidence.get("owner")
+    owner = owner if isinstance(owner, Mapping) else {}
+    lat = source_evidence.get("ledger_aware_transformer")
+    lat = lat if isinstance(lat, Mapping) else {}
+    model_comparison = source_evidence.get("model_comparison")
+    model_comparison = model_comparison if isinstance(model_comparison, Mapping) else {}
+    audit = payload.get("forbidden_claim_term_audit")
+    expected_audit = _robustness_forbidden_claim_term_audit(payload)
+    failed_conditions = {
+        "DGT-ROB-HG1": payload.get("owner_ref") != ROBUSTNESS_OWNER_REF or payload.get("model_id") != MODEL_ID,
+        "DGT-ROB-HG2": owner.get("d4_readiness") != "ready" or owner.get("d4_discovery_level") != "D4",
+        "DGT-ROB-HG3": owner.get("component_ablation_status") != "pass",
+        "DGT-ROB-HG4": not (
+            lat.get("artifact_id") == "bedc-quality-lab:ledger-aware-transformer"
+            and lat.get("hardgate_status") == "pass"
+            and lat.get("robustness_status") == "pass"
+            and isinstance(lat.get("pass_surface_count"), int)
+            and isinstance(lat.get("required_pass_surface_count"), int)
+            and lat["pass_surface_count"] >= lat["required_pass_surface_count"]
+            and lat.get("level_candidate") == "D5-O"
+        ),
+        "DGT-ROB-HG5": model_comparison.get("hardgate_status") != "pass",
+        "DGT-ROB-HG6": not (
+            source_artifacts.get("ledger_aware_transformer_pointer")
+            == f"{LAT_CANONICAL_ARTIFACT}:$"
+            and source_artifacts.get("model_comparison_pointer")
+            == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
+        ),
+        "DGT-ROB-HG7": not _projection_not_claimed_clean(payload.get("not_claimed")),
+        "DGT-ROB-HG8": not (
+            isinstance(audit, Mapping)
+            and dict(audit) == expected_audit
+            and expected_audit["status"] == "pass"
+        ),
+    }
+    evidence = {
+        "DGT-ROB-HG1": "$.robustness.owner_ref",
+        "DGT-ROB-HG2": "$.d4_projection",
+        "DGT-ROB-HG3": "$.component_ablation.hardgate",
+        "DGT-ROB-HG4": "$.robustness.source_evidence.ledger_aware_transformer",
+        "DGT-ROB-HG5": "$.robustness.source_evidence.model_comparison",
+        "DGT-ROB-HG6": "$.robustness.source_artifacts",
+        "DGT-ROB-HG7": "$.robustness.not_claimed",
+        "DGT-ROB-HG8": "$.robustness.forbidden_claim_term_audit",
+    }
+    gates = {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in ROBUSTNESS_GATE_NAMES
+    }
+    failed_gate = [gate_name for gate_name in ROBUSTNESS_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    return {
+        "status": "pass" if not failed_gate else "fail",
+        "gate_names": list(ROBUSTNESS_GATE_NAMES),
+        "gates": gates,
+        "failed_gate": failed_gate,
+    }
+
+
+def validate_operational_robustness(payload: Mapping[str, Any], owner_payload: Mapping[str, Any] | None = None) -> None:
+    if set(payload) != set(ROBUSTNESS_REQUIRED_KEYS):
+        raise ValueError("DGT robustness fields mismatch")
+    if payload["schema_id"] != ROBUSTNESS_SCHEMA_ID or payload["artifact_id"] != ROBUSTNESS_ARTIFACT_ID:
+        raise ValueError("DGT robustness identity mismatch")
+    if payload["owner_ref"] != ROBUSTNESS_OWNER_REF or payload["model_id"] != MODEL_ID:
+        raise ValueError("DGT robustness owner mismatch")
+    hardgate = evaluate_operational_robustness_hardgates(payload)
+    if payload["hardgate"] != hardgate:
+        raise ValueError("DGT robustness hardgate mismatch")
+    if payload["failed_gate"] != hardgate["failed_gate"]:
+        raise ValueError("DGT robustness failed_gate mismatch")
+    first_failed = hardgate["failed_gate"][0] if hardgate["failed_gate"] else None
+    expected_pointer = None if first_failed is None else f"{ROBUSTNESS_POINTER}.hardgate.gates.{first_failed}"
+    if payload["failed_gate_pointer"] != expected_pointer:
+        raise ValueError("DGT robustness failed_gate_pointer mismatch")
+    expected_ready = first_failed is None
+    if payload["status"] != ("ready" if expected_ready else "blocked"):
+        raise ValueError("DGT robustness status mismatch")
+    if payload["readiness"] != ("ready" if expected_ready else "blocked"):
+        raise ValueError("DGT robustness readiness mismatch")
+    if payload["discovery_level"] != ("D5-O" if expected_ready else "D0"):
+        raise ValueError("DGT robustness discovery level mismatch")
+    if owner_payload is not None and payload.get("owner_ref") != f"{CANONICAL_JSON_ARTIFACT}:$.robustness":
+        raise ValueError("DGT robustness must stay inside the DGT owner")
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if token is not None:
+        raise ValueError(f"DGT robustness contains forbidden value: {token}")
+
+
 def _tool_route_positive(tool_route: Any) -> tuple[bool, bool]:
     if not isinstance(tool_route, Mapping):
         return False, False
@@ -1599,8 +1928,18 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
 
 
 class DiscoveryGatedTransformerProjector:
-    def __init__(self, *, component_refs: Mapping[str, Any] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        component_refs: Mapping[str, Any] | None = None,
+        robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+    ) -> None:
         self.component_refs = dict(component_refs) if component_refs is not None else default_component_refs()
+        self.robustness_source_payloads = (
+            dict(robustness_source_payloads)
+            if robustness_source_payloads is not None
+            else default_robustness_source_payloads()
+        )
 
     def project(self, *, generated_at: str) -> dict[str, Any]:
         payload = {
@@ -1610,7 +1949,11 @@ class DiscoveryGatedTransformerProjector:
             "producer": PRODUCER,
             "projector": PROJECTOR,
             "model_id": MODEL_ID,
-            "source_artifacts": {"component_refs": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs")},
+            "source_artifacts": {
+                "component_refs": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs"),
+                "ledger_aware_transformer_pointer": f"{LAT_CANONICAL_ARTIFACT}:$",
+                "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
+            },
             "component_refs": self.component_refs,
             "architecture_spec": default_architecture_spec(),
             "hardgate": {"status": "pass", "gate_names": list(GATE_NAMES), "gates": _gate_rows(self.component_refs)},
@@ -1639,6 +1982,10 @@ class DiscoveryGatedTransformerProjector:
                 "claim_graph_owner": "Core",
             },
         )
+        payload["robustness"] = DgtOperationalRobustnessLedger().evaluate(
+            payload,
+            self.robustness_source_payloads,
+        )
         validate_projection(payload)
         return payload
 
@@ -1659,6 +2006,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
+        "robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -1679,6 +2027,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
     validate_component_ablation(payload["component_ablation"])
+    validate_operational_robustness(payload["robustness"], payload)
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
@@ -1730,8 +2079,16 @@ def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: P
                 raise ValueError(f"DGT hardgate {key} pointer does not resolve: {gate_name}")
 
 
-def build_projection(*, generated_at: str, component_refs: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    return DiscoveryGatedTransformerProjector(component_refs=component_refs).project(generated_at=generated_at)
+def build_projection(
+    *,
+    generated_at: str,
+    component_refs: Mapping[str, Any] | None = None,
+    robustness_source_payloads: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    return DiscoveryGatedTransformerProjector(
+        component_refs=component_refs,
+        robustness_source_payloads=robustness_source_payloads,
+    ).project(generated_at=generated_at)
 
 
 def render_markdown(payload: Mapping[str, Any]) -> str:
@@ -1808,6 +2165,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         lines.append(
             f"| `{row['arm_id']}` | `{row['component_id']}` | `{row['effect_status']}` | `{row['causal_claim_allowed']}` |"
         )
+    robustness = payload["robustness"]
+    lines.extend(
+        [
+            "",
+            "## Operational Robustness",
+            "",
+            f"- Owner: `{robustness['owner_ref']}`",
+            f"- Readiness: `{robustness['readiness']}`",
+            f"- Discovery level: `{robustness['discovery_level']}`",
+            f"- LAT evidence: `{robustness['source_artifacts']['ledger_aware_transformer_pointer']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in robustness["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     d4_projection = payload["d4_projection"]
     lines.extend(
         [
