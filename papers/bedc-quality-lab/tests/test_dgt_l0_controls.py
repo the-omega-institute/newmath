@@ -32,6 +32,35 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
     assert payload["independent_replay"]["comparisons"]["dgt_uer_reduction_gt_matched_random"] is True
 
 
+@pytest.mark.parametrize("failure_mode", ["torch_unavailable", "training_failed"])
+def test_dgt_l0_controls_unavailable_payload_validates_blocked(monkeypatch, failure_mode):
+    if failure_mode == "torch_unavailable":
+        real_import_module = dgt_l0_controls.importlib.import_module
+
+        def unavailable_import(name):
+            if name == "torch":
+                raise ModuleNotFoundError("torch hidden for fail-closed test")
+            return real_import_module(name)
+
+        monkeypatch.setattr(dgt_l0_controls.importlib, "import_module", unavailable_import)
+    else:
+        def failing_train_arm(*_args, **_kwargs):
+            raise RuntimeError("training failed for fail-closed test")
+
+        monkeypatch.setattr(dgt_l0_controls, "_train_arm", failing_train_arm)
+
+    payload = dgt_l0_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
+    projection = payload["l0_toy_projection"]
+
+    validate_payload(payload)
+    assert projection["review_status"] == "blocked"
+    assert projection["status"] == "fail"
+    assert payload["compute_param_ledger"]["status"] == "fail"
+    assert projection["hardgate_statuses"]["ledger"]["gates"]["LEDGER-L0-HG1"]["status"] == "fail"
+    assert projection["hardgate_statuses"]["L0"]["gates"]["L0-HG3"]["status"] == "fail"
+    assert projection["hardgate_statuses"]["pass"]["status"] == "fail"
+
+
 def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
     payload = _payload()
     dgt_l0_controls.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")

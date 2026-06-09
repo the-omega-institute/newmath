@@ -508,38 +508,113 @@ def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures:
 
 
 def unavailable_payload(*, generated_at: str, requested_device: str, reason: str) -> dict[str, Any]:
-    gates = {
-        group: {
-            gate: _gate(False, "$.source_artifacts", "torch training available", reason)
-            for gate in names
-        }
-        for group, names in (
-            ("L0", L0_GATE_NAMES),
-            ("base", BASE_GATE_NAMES),
-            ("matched_random", MR_GATE_NAMES),
-            ("ledger", LEDGER_GATE_NAMES),
-            ("negative_witness", NW_GATE_NAMES),
-            ("replay", REPLAY_GATE_NAMES),
-            ("pointer", PTR_GATE_NAMES),
-            ("pass", PASS_GATE_NAMES),
-        )
-    }
-    failures = [f"{group}:{gate}" for group, rows in gates.items() for gate in rows]
     run_artifacts = run_artifacts_payload()
+    controls = {
+        "base_transformer_control": {
+            "status": "fail",
+            "reason": reason,
+            "surface_suite": "dgt_l0_toy_surface_suite",
+            "metric_keys": list(METRIC_KEYS),
+            "loss_decrease": 0.0,
+            "parameter_l2_delta": 0.0,
+            "quality_q": 0.0,
+            "UER": 0.0,
+            "uer_reduction": 0.0,
+            "classifier_shift_count": 0,
+            "raw_row_ref": {"artifact": f"{RUN_ROOT}/raw_metrics.jsonl", "pointer": "unavailable"},
+            "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.controls.base_transformer_control",
+        },
+        "matched_random_structural_control": {
+            "status": "fail",
+            "reason": reason,
+            "surface_suite": "dgt_l0_toy_surface_suite",
+            "metric_keys": list(METRIC_KEYS),
+            "loss_decrease": 0.0,
+            "parameter_l2_delta": 0.0,
+            "quality_q": 0.0,
+            "UER": 0.0,
+            "uer_reduction": 0.0,
+            "classifier_shift_count": 0,
+            "raw_row_ref": {"artifact": f"{RUN_ROOT}/raw_metrics.jsonl", "pointer": "unavailable"},
+            "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.controls.matched_random_structural_control",
+        },
+    }
+    ledger = {
+        "status": "fail",
+        "reason": reason,
+        "parameter_count": 0,
+        "trainable_parameter_count": 0,
+        "compute_units": 0,
+        "flops_proxy": 0,
+        "train_steps": 0,
+        "device": "unavailable",
+        "wall_time_proxy": 0,
+        "batch_size": BATCH_SIZE,
+        "seed_count": len(REPLAY_SEEDS),
+        "per_arm": {},
+        "pass_cells": {
+            "parameter_count_positive": False,
+            "trainable_parameter_count_positive": False,
+            "compute_units_positive": False,
+        },
+    }
+    witness_rows = [
+        {
+            "witness": witness,
+            "critical": witness in CRITICAL_WITNESSES,
+            "hit_count": 0,
+            "demotion_rule": "demote L0_toy to blocked when critical hit_count is positive",
+            "regression_test_pointer": f"tests/test_dgt_l0_controls.py::{witness}",
+        }
+        for witness in REQUIRED_WITNESSES
+    ]
+    witness = {
+        "status": "fail",
+        "reason": reason,
+        "required_witnesses": list(REQUIRED_WITNESSES),
+        "demotion_rule": "critical witness hit blocks L0_toy review_status",
+        "critical_hit_count": 0,
+        "witness_rows": witness_rows,
+        "pass_cells": {
+            "all_required_present": True,
+            "critical_hits_zero": True,
+            "demotion_rule_present": True,
+            "regression_test_pointers_present": True,
+        },
+    }
+    replay = {
+        "status": "fail",
+        "reason": reason,
+        "fixed_seeds": list(REPLAY_SEEDS),
+        "arms": {},
+        "comparisons": {
+            "dgt_quality_ci_low_gt_base": False,
+            "dgt_uer_reduction_gt_matched_random": False,
+        },
+        "pass_cells": {
+            "all_arms_replayed": False,
+            "seed_count_fixed": False,
+        },
+    }
+    bundle = _hardgate_bundle(
+        controls=controls,
+        ledger=ledger,
+        witness=witness,
+        replay=replay,
+        pointer_status={key: True for key in CONTROL_POINTERS},
+    )
+    _status, failures = _status_from_bundle(bundle)
     return {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
         "source_artifacts": source_artifacts_payload(run_artifacts, requested_device=requested_device),
-        "controls": {
-            "base_transformer_control": {"status": "fail", "reason": reason},
-            "matched_random_structural_control": {"status": "fail", "reason": reason, "classifier_shift_count": None},
-        },
-        "compute_param_ledger": {"status": "fail", "reason": reason, "parameter_count": 0, "compute_units": 0},
-        "negative_witness_sweep": {"status": "fail", "reason": reason, "critical_hit_count": None},
-        "independent_replay": {"status": "fail", "reason": reason, "fixed_seeds": list(REPLAY_SEEDS), "arms": {}},
-        "l0_toy_projection": _projection(gates, failures),
+        "controls": controls,
+        "compute_param_ledger": ledger,
+        "negative_witness_sweep": witness,
+        "independent_replay": replay,
+        "l0_toy_projection": _projection(bundle, failures),
         "not_claimed": list(NOT_CLAIMED),
     }
 
