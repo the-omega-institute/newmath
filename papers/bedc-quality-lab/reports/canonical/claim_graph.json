@@ -1,11 +1,13 @@
 {
   "artifact_id": "bedc-quality-lab:claim-graph",
-  "generated_at": "2026-06-09T07:58:37.488923+00:00",
+  "generated_at": "2026-06-09T08:21:49.156738+00:00",
   "hardgates": {
     "CG-HG1": {
       "criterion": "accepted_positive_discovery terminals trace to raw_evidence through projected_discovery",
       "status": "pass",
-      "terminal_ids": []
+      "terminal_ids": [
+        "terminal:discovery-gated-transformer"
+      ]
     },
     "CG-HG2": {
       "criterion": "D5-O projected discoveries explicitly record whether a D5-M mechanism node exists",
@@ -91,7 +93,8 @@
       "criterion": "accepted positive terminals have acceptance evidence bundle",
       "status": "pass",
       "terminal_ids": [
-        "terminal:gap-head-transfer-atlas"
+        "terminal:gap-head-transfer-atlas",
+        "terminal:discovery-gated-transformer"
       ]
     },
     "CG-HG7": {
@@ -108,7 +111,9 @@
     "CG-HG8": {
       "criterion": "accepted high-impact terminal claims have resolvable review pointers",
       "status": "pass",
-      "terminal_ids": []
+      "terminal_ids": [
+        "terminal:discovery-gated-transformer"
+      ]
     }
   },
   "node_count": 113,
@@ -1078,7 +1083,7 @@
       "node_type": "terminal_claim",
       "not_claimed": [],
       "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[20]",
-      "terminal_verdict": "projected_discovery_required"
+      "terminal_verdict": "accepted_positive_discovery"
     },
     {
       "depends_on": [
