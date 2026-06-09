@@ -1,0 +1,365 @@
+{
+  "applicability_boundary": {
+    "bedc_refs": [
+      "papers/bedc/parts/concrete_instances/108564_spectral_ablation_hinge_namecert_construction.tex"
+    ],
+    "claimed_scope": "Gaussian 2D latent + diagonal Gaussian OU transition + runner-local hinge ledger.",
+    "not_claimed": "This report does not claim full biological killed-walk coverage or formal BEDC closure."
+  },
+  "arms": [
+    "vanilla",
+    "hinge-ranked-treatment",
+    "two-axis-module-analogue",
+    "tail-mixing-perturbation",
+    "matched-random-single-axis",
+    "matched-random-module"
+  ],
+  "artifact": "reports/spectral_ablation_discovery.json",
+  "generated_at": "2026-06-07T17:00:17.235027+00:00",
+  "generated_from": {
+    "artifact": "reports/spectral_ablation_hinge.json",
+    "generated_at": "2026-06-02T05:10:30.689978+00:00"
+  },
+  "matched_random_baseline": {
+    "source": {
+      "comparison": "hinge-ranked-treatment vs matched-random-control",
+      "control_count": 2,
+      "control_scores": [
+        0.04338203707973348,
+        -0.2448832234863386
+      ],
+      "max_control_score": 0.04338203707973348,
+      "metric": "observed_degradation_score",
+      "treatment_better_than_all_controls": false,
+      "treatment_score": 0.0024959999999999427
+    },
+    "verdicts": [
+      {
+        "arm": "matched-random-single-axis",
+        "deletion_axes": [
+          1
+        ],
+        "family": "matched-random-control",
+        "net_information": -0.16338203707973348,
+        "observed_degradation_score": 0.04338203707973348,
+        "positive_discovery": false,
+        "shift_information": 6,
+        "structural_discovery": true,
+        "surface_delta": [
+          [
+            "metric:actual_recovery_error",
+            "metric:actual_recovery_error"
+          ],
+          [
+            "metric:bound_margin",
+            "metric:bound_margin"
+          ],
+          [
+            "metric:linear_identifiability_r2",
+            "metric:linear_identifiability_r2"
+          ],
+          [
+            "metric:quality_margin",
+            "metric:quality_margin"
+          ],
+          [
+            "metric:quality_q",
+            "metric:quality_q"
+          ],
+          [
+            "metric:theorem3_bound",
+            "metric:theorem3_bound"
+          ]
+        ],
+        "surface_delta_count": 6,
+        "verdict": "negative"
+      },
+      {
+        "arm": "matched-random-module",
+        "deletion_axes": [
+          1,
+          0
+        ],
+        "family": "matched-random-control",
+        "net_information": 0.1248832234863386,
+        "observed_degradation_score": -0.2448832234863386,
+        "positive_discovery": true,
+        "shift_information": 6,
+        "structural_discovery": true,
+        "surface_delta": [
+          [
+            "metric:actual_recovery_error",
+            "metric:actual_recovery_error"
+          ],
+          [
+            "metric:bound_margin",
+            "metric:bound_margin"
+          ],
+          [
+            "metric:linear_identifiability_r2",
+            "metric:linear_identifiability_r2"
+          ],
+          [
+            "metric:quality_margin",
+            "metric:quality_margin"
+          ],
+          [
+            "metric:quality_q",
+            "metric:quality_q"
+          ],
+          [
+            "metric:theorem3_bound",
+            "metric:theorem3_bound"
+          ]
+        ],
+        "surface_delta_count": 6,
+        "verdict": "positive"
+      }
+    ]
+  },
+  "projection_script": "scripts/run_spectral_ablation_discovery.py",
+  "rank_correlation": {
+    "method": "hinge-observed-degradation-vs-discovery-net-information",
+    "pairs": [
+      {
+        "arm": "hinge-ranked-treatment",
+        "hinge_rank": 1,
+        "net_information": -0.042495999999999944,
+        "observed_degradation_score": 0.0024959999999999427,
+        "spectral_loss_proxy": 0.72417984
+      },
+      {
+        "arm": "two-axis-module-analogue",
+        "hinge_rank": 3,
+        "net_information": 0.0016640000000000335,
+        "observed_degradation_score": -0.041664000000000034,
+        "spectral_loss_proxy": 1.0746336
+      },
+      {
+        "arm": "tail-mixing-perturbation",
+        "hinge_rank": 1,
+        "net_information": 0.24044705824420742,
+        "observed_degradation_score": -0.3604470582442074,
+        "spectral_loss_proxy": 0.72417984
+      }
+    ],
+    "source_hinge": {
+      "ci95": {
+        "high": 1.0,
+        "low": -1.0
+      },
+      "kendall": 0.0,
+      "method": "ledger-rank-vs-observed-degradation",
+      "n": 3,
+      "ordering_note": "observed metrics are read after arm execution and do not alter hinge ledger rank",
+      "pairs": [
+        {
+          "arm": "hinge-ranked-treatment",
+          "hinge_rank": 1,
+          "observed_degradation_score": 0.0024959999999999427,
+          "spectral_loss_proxy": 0.72417984
+        },
+        {
+          "arm": "two-axis-module-analogue",
+          "hinge_rank": 3,
+          "observed_degradation_score": -0.041664000000000034,
+          "spectral_loss_proxy": 1.0746336
+        },
+        {
+          "arm": "tail-mixing-perturbation",
+          "hinge_rank": 1,
+          "observed_degradation_score": -0.3604470582442074,
+          "spectral_loss_proxy": 0.72417984
+        }
+      ],
+      "spearman": 0.0
+    },
+    "spearman": -0.9999999999999998
+  },
+  "report": "reports/spectral_ablation_discovery.md",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
+  "source_artifacts": {
+    "source_json_artifact": "reports/spectral_ablation_hinge.json",
+    "source_report_artifact": "reports/spectral_ablation_hinge.md",
+    "source_runner": "scripts/run_spectral_ablation_hinge.py"
+  },
+  "verdicts": [
+    {
+      "arm": "hinge-ranked-treatment",
+      "deletion_axes": [
+        0
+      ],
+      "family": "hinge-ranked-treatment",
+      "net_information": -0.042495999999999944,
+      "observed_degradation_score": 0.0024959999999999427,
+      "positive_discovery": false,
+      "shift_information": 2,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:quality_margin",
+          "metric:quality_margin"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ]
+      ],
+      "surface_delta_count": 2,
+      "verdict": "negative"
+    },
+    {
+      "arm": "two-axis-module-analogue",
+      "deletion_axes": [
+        0,
+        1
+      ],
+      "family": "hinge-ranked-treatment",
+      "net_information": 0.0016640000000000335,
+      "observed_degradation_score": -0.041664000000000034,
+      "positive_discovery": true,
+      "shift_information": 2,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:quality_margin",
+          "metric:quality_margin"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ]
+      ],
+      "surface_delta_count": 2,
+      "verdict": "positive"
+    },
+    {
+      "arm": "tail-mixing-perturbation",
+      "deletion_axes": [
+        0
+      ],
+      "family": "tail-mixing-perturbation",
+      "net_information": 0.24044705824420742,
+      "observed_degradation_score": -0.3604470582442074,
+      "positive_discovery": true,
+      "shift_information": 6,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:actual_recovery_error",
+          "metric:actual_recovery_error"
+        ],
+        [
+          "metric:bound_margin",
+          "metric:bound_margin"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_margin",
+          "metric:quality_margin"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:theorem3_bound",
+          "metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 6,
+      "verdict": "positive"
+    },
+    {
+      "arm": "matched-random-single-axis",
+      "deletion_axes": [
+        1
+      ],
+      "family": "matched-random-control",
+      "net_information": -0.16338203707973348,
+      "observed_degradation_score": 0.04338203707973348,
+      "positive_discovery": false,
+      "shift_information": 6,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:actual_recovery_error",
+          "metric:actual_recovery_error"
+        ],
+        [
+          "metric:bound_margin",
+          "metric:bound_margin"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_margin",
+          "metric:quality_margin"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:theorem3_bound",
+          "metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 6,
+      "verdict": "negative"
+    },
+    {
+      "arm": "matched-random-module",
+      "deletion_axes": [
+        1,
+        0
+      ],
+      "family": "matched-random-control",
+      "net_information": 0.1248832234863386,
+      "observed_degradation_score": -0.2448832234863386,
+      "positive_discovery": true,
+      "shift_information": 6,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:actual_recovery_error",
+          "metric:actual_recovery_error"
+        ],
+        [
+          "metric:bound_margin",
+          "metric:bound_margin"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_margin",
+          "metric:quality_margin"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:theorem3_bound",
+          "metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 6,
+      "verdict": "positive"
+    }
+  ]
+}

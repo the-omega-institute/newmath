@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\PathConnectedSpaceUp$}
+\label{ch:concrete-instances-path-connected-space-namecert}
+\origin{human}
+
+Following Hausdorff and Bishop--Bridges topology, the $\PathConnectedSpaceUp$ packet records path connectedness as a finite endpoint-pair and displayed-path route over topology and continuity data. It sits beside the connectedness carrier of \autoref{ch:concrete-instances-connected-space-namecert}, the local comparison surface of \autoref{ch:concrete-instances-locally-connected-namecert}, the continuity route of \autoref{ch:concrete-instances-continuous-namecert}, and the interval-connectedness source of \autoref{ch:concrete-instances-interval-connectedness-namecert}. The certificate names the finite means by which endpoint pairs, path families, endpoint evaluations, continuous replay, and connectedness consumers are exposed without importing host path spaces, quotient path components, or selected paths.
+
+\begin{definition}[PathConnectedSpace carrier]
+\label{def:path-connected-space-carrier}
+A $\PathConnectedSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(E,F,V,C,G,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint-pair row. It records each displayed source and target point request through the ambient $\TopologyUp$ and names the pair before any path witness may be read.
+\item $F$ is the displayed path-family row. For each accepted endpoint pair it stores the finite path name, interval parameter ledger, and source-to-target scheduling row visible to consumers.
+\item $V$ is the endpoint-evaluation ledger. It records that the displayed path reads the left endpoint as the first point in $E$ and the right endpoint as the second point in $E$.
+\item $C$ is the $\ContinuousUp$ replay row for each displayed path, including the inverse-image open rows and the finite continuity evidence used by downstream readers.
+\item $G$ is the $\ConnectedSpaceUp$ consumer route. It records that a connectedness consumer may read the path route only after the endpoint, family, endpoint-evaluation, and continuity rows have been displayed.
+\item $L$ is the $\LocallyConnectedUp$ comparison row. It records local connectedness as a sibling comparison surface rather than as a source of path selection.
+\item $H$ records componentwise $\hsame$ transport for endpoint pairs, displayed path families, endpoint-evaluation ledgers, continuity replay, connectedness consumers, local comparison rows, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from endpoint-pair requests through the displayed path family, endpoint evaluations, continuity replay, connectedness consumer route, and local comparison row.
+\item $P$ is the $\Pkg$ provenance over $\PathConnectedSpaceUp$, $\TopologyUp$, $\ContinuousUp$, $\ConnectedSpaceUp$, $\LocallyConnectedUp$, $\IntervalConnectednessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PathConnectedSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,F,V,C,G,L,H,R,P,N$. It has no coordinate for host path spaces, quotient path components, selected paths, excluded middle, open-cover compactness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.PathConnectedSpaceUp.PathConnectedSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[PathConnectedSpace NameCert obligations]
+\label{thm:path-connected-space-namecert-obligations}
+For every accepted $\PathConnectedSpaceUp$ carrier
+$$
+K=(E,F,V,C,G,L,H,R,P,N),
+$$
+the local $\NameCert_{\PathConnectedSpaceUp}$ surface consists exactly of carrier admission for the endpoint-pair, displayed path-family, endpoint-evaluation, continuity replay, connectedness consumer, locally connected comparison, transport, replay, provenance, and naming rows; endpoint exactness through $V$; path-family stability through $F$ and $H$; continuous-image handoff through $C$; connectedness consumer routing through $G$; and ledger nonescape from host path spaces, quotient path components, selected paths, excluded middle, open-cover compactness, Lean verification, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:path-connected-space-carrier}. The projection exposes exactly the rows $E,F,V,C,G,L,H,R,P,N$, so carrier admission is exhausted by those coordinates.
+
+Endpoint exactness is read from $V$. The displayed path in $F$ is not available to a consumer until $V$ has tied its left and right endpoint evaluations back to the ordered endpoint pair in $E$.
+
+Path-family stability is transported componentwise through $H$. The same endpoint pair, path-family name, endpoint ledger, continuity replay, connectedness route, and local comparison row are then replayed by $R$ and sourced by $P,N$.
+
+Finally, continuous-image and connectedness consumers can inspect only $C$ and $G$. Since no carrier row stores a host path space, quotient component, selected path operator, excluded-middle split, or open-cover compactness principle, none of those objects can escape the local ledger.
+\end{proof}
+
+\begin{theorem}[PathConnectedSpace continuous image route]
+\label{thm:path-connected-space-continuous-image-route}
+Every continuous-image consumer of an accepted $\PathConnectedSpaceUp$ carrier
+$$
+K=(E,F,V,C,G,L,H,R,P,N)
+$$
+reads the displayed path route $E,F,V,C$ before any $\ConnectedSpaceUp$ consumer row or $\IntervalConnectednessUp$ interval consumer may use the packet. The exported image route is therefore a finite continuity-and-endpoint replay, not a host-space assertion that arbitrary path components have been selected.
+\end{theorem}
+\begin{proof}
+Start with a continuous-image request. Carrier admission exposes the endpoint row $E$ and the displayed path-family row $F$ before the request reaches any connectedness consumer.
+
+The endpoint-evaluation ledger $V$ is then forced into the route. It binds the left and right evaluations of the displayed path to the endpoint pair already named in $E$.
+
+The continuity replay row $C$ is read next. Its inverse-image open rows and finite continuity evidence are the only data made available to an image consumer before connectedness handoff.
+
+Only after $E,F,V,C$ have been read may the consumer pass through $G$ or through an interval-connectedness handoff named in $P$. Thus $\ConnectedSpaceUp$ and $\IntervalConnectednessUp$ consume the displayed path route; they do not create a separate selected path space or quotient path-component surface.
+\end{proof}
+
+\closureat{PathConnectedSpaceUp}{seedStr}
+
+\begin{closurestatus}{\PathConnectedSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:path-connected-space-carrier}, \autoref{thm:path-connected-space-namecert-obligations}, and \autoref{thm:path-connected-space-continuous-image-route} seed the finite endpoint-pair, displayed-path, continuity, connectedness-consumer, and local-comparison route over topology and interval-connectedness neighbours.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PathConnectedSpaceUp.PathConnectedSpaceTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host path spaces, quotient path components, selected paths, excluded middle, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, path-family stability, continuous-image handoff, connectedness consumer routing, and ledger nonescape for BEDC.Derived.PathConnectedSpaceUp.}
+  \constructivestory{A $\PathConnectedSpaceUp$ packet is generated from endpoint pairs, displayed path families, endpoint-evaluation ledgers, Continuous replay rows, ConnectedSpace consumer routes, LocallyConnected comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+\end{closurestatus}

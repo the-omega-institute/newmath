@@ -1,0 +1,59 @@
+{
+  "artifact_id": "bedc-quality-lab:claim-artifact-consistency",
+  "claim_id": "claim:discovery-gated-transformer",
+  "gates": [
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "CONS-HG1",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[20]",
+      "reason": "discovery level and verdict are coherent",
+      "status": "pass"
+    },
+    {
+      "actual": "1a75f3b5524cd9295dda160f580f03c3caee25dd5d43aab5f973772c5faa1c1b",
+      "expected": "1a75f3b5524cd9295dda160f580f03c3caee25dd5d43aab5f973772c5faa1c1b",
+      "gate_id": "CONS-HG2",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[20]",
+      "reason": "positive verdict uses the current scorecard hash",
+      "status": "pass"
+    },
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "CONS-HG3",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[20]",
+      "reason": "reason taxonomy matches scorecard readiness",
+      "status": "pass"
+    },
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "CONS-HG4",
+      "pointer": "reports/canonical/claim_graph.json:$.nodes[94]",
+      "reason": "terminal graph path uses Core claim verdict row",
+      "status": "pass"
+    },
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "CONS-HG5",
+      "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[2]",
+      "reason": "coverage matrix DGT cell points to the DGT owner",
+      "status": "pass"
+    },
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "CONS-HG6",
+      "pointer": "reports/canonical/high-impact-review.fingerprint.json:$.inputs.source_artifacts",
+      "reason": "artifact hashes are current",
+      "status": "pass"
+    }
+  ],
+  "generated_at": "2026-06-09T08:21:49.156738+00:00",
+  "json_artifact": "reports/canonical/claim-artifact-consistency.json",
+  "markdown_artifact": "reports/canonical/claim-artifact-consistency.md",
+  "schema_id": "bedc-quality-lab:claim-artifact-consistency",
+  "status": "pass"
+}

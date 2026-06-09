@@ -7,9 +7,8 @@ Python 侧只拥有 lab-local 的 `QualityEvidenceEnvelope` 证据边界。`bedc
 ## 运行
 
 ```bash
-python3 -m pytest -q
-make run-example
-python3 scripts/run_bedc_jepa_boundary_world.py
+make check
+python3 scripts/run_canonical_reports.py --help
 ```
 
 `make run-example` 会调用 `scripts/run_gaussian_ou_lejepa.py`，写出：
@@ -22,6 +21,21 @@ python3 scripts/run_bedc_jepa_boundary_world.py
 - `reports/bedc_jepa_boundary_envelope.json`
 - `reports/bedc_jepa_boundary_report.md`
 
+BEDC-JEPA evidence commands are exposed as Make targets:
+
+```bash
+make run-bedc-jepa-experiment
+make run-torch-bedc-jepa
+make build-bedc-jepa-manifest
+make build-bedc-jepa-quality-backend
+make build-public-minigrid-debt-closure
+```
+
+`make build-public-minigrid-debt-closure` writes the public MiniGrid debt
+decomposition, certified-coverage curve, risk-constrained planning artifact,
+and short closure report. It is a local debt-analysis artifact, not a native
+V-JEPA2-AC benchmark reproduction.
+
 ## BEDC-JEPA Direction
 
 `BEDC_JEPA_DIRECTIVE.md` records the next research boundary. The lab does not treat JEPA as a post-hoc report object. It studies a BEDC-native world-model principle in which state contains:
@@ -31,6 +45,11 @@ continuous latent state + operational distinctions + gap ledger
 ```
 
 The current boundary-gated OU world is the first executable protocol for that direction. It remains a protocol sketch, not a claim that full gradient-trained BEDC-JEPA has already been completed.
+
+`make check` 是本目录的一键验证入口：运行 lab-local pytest，并通过
+`scripts/run_canonical_reports.py --verify-fingerprints` 检查 committed canonical
+报告与 fingerprint sidecar 的一致性。canonical runner 的 changed-only、cold path
+和单报告选择语义以 `python3 scripts/run_canonical_reports.py --help` 为准。
 
 ## 依赖
 

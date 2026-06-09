@@ -1,0 +1,62 @@
+\origin{ai}
+
+\subsection{Translation-Ordered Protein-Readout Boundary for $B^*_{Q6}$ Residuals}
+\label{sec:q6-translation-ordered-protein-readout-boundary}
+
+\paragraph{Finite panel.}
+The record studies a finite coding-sequence panel in which each row carries an organism label, a projected $B^*_{Q6}$ synonymous-residual coordinate, a modeled translation-readout component, an mRNA covariate, and a protein-abundance readout when the identifier join is available. The residual-coordinate block has nine columns:
+$$
+\begin{aligned}
+&K\_{AAA},\ \mathrm{Arg}\_{AGR},\ \mathrm{Ile}\_{AUA},\ \mathrm{Leu}\_{CUN\,vs\,UUR},\ \mathrm{Leu}\_{UUA\,vs\,UUG},\\
+&\mathrm{Ser}\_{UCR\,vs\,AGY},\ \mathrm{Ser}\_{UCA\,vs\,UCG},\ \mathrm{Thr}\_{ACR\,vs\,ACY},\ f3\_{\mathrm{stress}}.
+\end{aligned}
+$$
+The control design $Z$ has twenty-four declared columns before rank loss: an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$ computed from codon counts, and the $M$-density baseline given by the fraction of sense codons lying in the union support of the nine projected $B^*_{Q6}$ vectors. In all four organisms the reported control rank is $\operatorname{rank}(Z)=23$ despite the twenty-four listed control columns, so the row-space calculation is explicitly rank-aware rather than a formal count of named covariates.
+
+\paragraph{Joined row counts.}
+The usable rows are organism-specific because protein abundance and mRNA availability do not induce the same identifier intersection. The joined all-readout panel sizes are
+$$
+\begin{aligned}
+ n_{\mathrm{Danio\ rerio}} &= 13140, & n_{\mathrm{Escherichia\ coli\ K12\ MG1655}} &= 3415,\\
+ n_{\mathrm{Homo\ sapiens}} &= 11554, & n_{\mathrm{Saccharomyces\ cerevisiae}} &= 5128.
+\end{aligned}
+$$
+The corresponding reported CDS-abundance joins before imposing the matched mRNA condition are $14410$, $3739$, $19053$, and $5815$. The valid protein-abundance counts keyed by protein are $14410$, $3747$, $19483$, and $6351$, while the valid mRNA-by-protein counts are exactly the joined all-readout row counts $13140$, $3415$, $11554$, and $5128$. Thus the finite panel is not merely a sequence panel: it is the intersection where residual codon coordinates, modeled translation information, transcript abundance, and protein abundance can be compared on the same rows.
+
+\paragraph{Ordered matrices.}
+The admissible interpretation is ordered. A $B^*_{Q6}$ coordinate may be discussed at a protein readout only after separating three matrices: a translation-readout survival matrix $S^{QT}_{ij}$, a direct protein-readout surface $S^{QP}_{ik}$, and a translation-conditioned component $M^{QTP}_{ijk}$. The modeled tAI or stAI coupling surface $A^{QT}_{ij}$ is not the same object as $S^{QT}_{ij}$, because $A^{QT}_{ij}$ is a coupling calculation whereas $S^{QT}_{ij}$ requires survival after amino-acid composition, organism, $GC3$, length, $M$-density, mRNA, and simpler-baseline controls. In symbols, the admissible route is
+$$
+\begin{aligned}
+q_i \longrightarrow T_j \quad &\text{first, through a controlled } S^{QT}_{ij},\\
+q_i \longrightarrow P_k \quad &\text{second, as a bounded direct protein readout } S^{QP}_{ik},\\
+q_i \longrightarrow T_j \longrightarrow P_k \quad &\text{third, only when conditioning on } T_j \text{ attenuates the direct component.}
+\end{aligned}
+$$
+This ordering prevents a protein-abundance association from being read as translation mediation unless the same coordinate first survives at a translation readout.
+
+\paragraph{Modeled-complement residual.}
+The computed protein-side quantity is the modeled-translation complement of the $B^*_{Q6}$ protein-abundance residual. For each organism the calculation reports $\|P_Q\|^2$, $\|P_{Q\perp T_{\mathrm{mod}}}\|^2$, and
+$$
+\begin{aligned}
+d_{\mathrm{modeled}}=\frac{\|P_{Q\perp T_{\mathrm{mod}}}\|^2}{\|P_Q\|^2}.
+\end{aligned}
+$$
+The values are highly organism-dependent: for \textit{Danio rerio}, $\|P_Q\|^2=1092.0114815505467$, $\|P_{Q\perp T_{\mathrm{mod}}}\|^2=919.9445878158525$, and $d_{\mathrm{modeled}}=0.8424312412078521$; for \textit{E. coli} K12 MG1655, the corresponding values are $393.78692095732885$, $261.0102870984463$, and $0.6628211177352172$; for \textit{Homo sapiens}, they are $565.3850201235074$, $484.31956581711796$, and $0.8566190269974241$; and for \textit{Saccharomyces cerevisiae}, they are $675.3275479192903$, $151.18264752811882$, and $0.22386566043976477$. The yeast value is therefore the smallest modeled complement fraction, while the human and zebrafish values remain large after removing the modeled translation component.
+
+\paragraph{mRNA absorption test.}
+The mRNA calculation treats transcript abundance as an $H$-candidate covariate by projecting the modeled-tAI complement abundance residual $\widehat P_{Q\perp T_{\mathrm{mod}}}$ onto residualized $\log_{10}(\mathrm{mRNA})$. It is a descriptive absorption statistic, not a causal transcript mechanism. The combined complement fractions and mRNA-absorbed portions are
+$$
+\begin{aligned}
+\mathrm{Danio\ rerio}:\quad &d_{\mathrm{combined}}=0.8322280386743373, & \mathrm{absorbed}_{\mathrm{mRNA}}&=0.011973033879985792,\\
+\mathrm{E.\ coli}:\quad &d_{\mathrm{combined}}=0.6615987644523418, & \mathrm{absorbed}_{\mathrm{mRNA}}&=0.0017706954554908886,\\
+\mathrm{Homo\ sapiens}:\quad &d_{\mathrm{combined}}=0.8498079619223776, & \mathrm{absorbed}_{\mathrm{mRNA}}&=0.007858222847072218,\\
+\mathrm{Saccharomyces\ cerevisiae}:\quad &d_{\mathrm{combined}}=0.223360891719316, & \mathrm{absorbed}_{\mathrm{mRNA}}&=0.0018976054721605224.
+\end{aligned}
+$$
+The observed absorption values are small on this panel: approximately $1.20\%$ in zebrafish, $0.18\%$ in \textit{E. coli}, $0.79\%$ in human, and $0.19\%$ in yeast. Consequently the finite-row result supports only a bounded statement: matched mRNA explains a measured fraction of the modeled-translation complement residual, and that fraction is reported without promoting the projection to transcript causality or to a completed translation mechanism.
+
+\paragraph{Join self-check.}
+The complement calculation was compared against a full-abundance CDS join reference. The absolute differences between the current all-readout join and the complement reference are $0.03219747984141397$ for zebrafish, $0.00017488612263594217$ for \textit{E. coli}, $0.06427590857052146$ for human, and $0.012133464712697745$ for yeast. With a tolerance of $0.02$, the \textit{E. coli} and yeast joins match the reference, while zebrafish and human do not. The failed cases are not biological counterexamples; they record that mRNA availability changes the protein-identifier join used by the projection. This matters because a protein-side comparison must be read on the rows actually present after all required readouts are attached.
+
+\paragraph{Local verdict.}
+This chapter records a rank-powered cross-layer boundary, not a completed biological mechanism. The finite rows establish that the nine $B^*_{Q6}$ residual coordinates and the twenty-four-column control design can be joined with mRNA and protein-abundance readouts in four organisms, and that the modeled-translation complement plus mRNA absorption quantities have been computed on those joined rows. The result does not yet compute a controlled $S^{QT}_{ij}$ matrix from measured ribosome-profiling or translation-efficiency rows, and it does not show a controlled $Q_i\to T_j\to P_k$ mediation matrix. Therefore no translation survival, protein mechanism, folding implication, physical admissibility, molecular function, phenotype, or universal biological rule follows from the present numbers. Those claims require their own layer-matched observations and controlled statistics after the translation-readout step has survived.

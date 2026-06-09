@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerAuditMapClosureUp$}
+\label{ch:concrete-instances-groundcompiler-audit-map-closure-namecert}
+\origin{ai}
+
+The $\GroundCompilerAuditMapClosureUp$ packet realizes the compiler audit-map methodology of \autoref{ch:bedc-groundcompiler-audit-map} as finite NameCert data. It packages event-flow rows, source-channel rows, recognizer rows, certificate-gate rows, metric-report rows, non-evidence rows, transport, replay, provenance, and local naming so that a self-compilation consumer can inspect the compiler channel boundary without reading reports, motifs, host packages, or generated code as proof evidence. The downstream consumer is the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, which reads those event-flow, source-channel, recognizer, certificate-gate, metric-report, and non-evidence rows before using compiler-channel audit data inside a finite critical-path route.
+
+\begin{definition}[GroundCompiler audit-map closure carrier]
+\label{def:groundcompiler-audit-map-closure-carrier}
+A $\GroundCompilerAuditMapClosureUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,S,R,K,M,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the compiler event-flow row.
+\item $S$ is the legal source-channel row, including the channel by which a displayed event flow may be read.
+\item $R$ is the generated recognizer row for packages, NameCert data, derivation certificates, theorem codes, and chapter codes.
+\item $K$ is the certificate-gate row, exposed only after the legal source channel and recognizer rows are displayed.
+\item $M$ is the metric-report row, recording counts and adequacy reports as reports rather than certificate evidence.
+\item $O$ is the non-evidence row, retaining the boundary around motifs, reports, host packages, readable code, and hidden compiler input.
+\item $H$ records componentwise $\hsame$ transport for event-flow, source-channel, recognizer, gate, metric, non-evidence, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from event flow to source channel, from source channel to recognizer and certificate-gate checks, and from those rows to metric and non-evidence reports.
+\item $P$ is the $\Pkg$ provenance over $\GroundCompilerAuditMapClosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GroundCompilerAuditMapClosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,R,K,M,O,H,C,P,N$. It has no coordinate for treating motif similarity, metric counts, generated source text, host packages, or hidden compiler state as proof or certificate evidence.
+\end{definition}
+
+\begin{theorem}[GroundCompiler audit-map closure obligations]
+\label{thm:groundcompiler-audit-map-closure-obligations}
+For every accepted $\GroundCompilerAuditMapClosureUp$ packet $G=(F,S,R,K,M,O,H,C,P,N)$, the local $\NameCert_{\GroundCompilerAuditMapClosureUp}$ surface consists exactly of event-flow exposure through $F$, legal source-channel exposure through $S$, generated recognizer exposure through $R$, certificate-gate exposure through $K$, metric-report exposure through $M$, non-evidence retention through $O$, and structural preservation through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:groundcompiler-audit-map-closure-carrier}. The compiler-facing rows are precisely $F,S,R,K,M,O$, and the structural rows are $H,C,P,N$.
+
+Read the rows in audit order. Event flow is displayed first, the legal source channel is displayed before recognizer and certificate-gate export, and metric reports remain downstream reports rather than evidence rows.
+
+The non-evidence row is retained through transport, replay, provenance, and naming. Since the carrier has no coordinate for report-as-proof, code-as-proof, motif-as-identity, host package input, or hidden compiler state, those readings are refused by exhaustion.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map legal-channel gate]
+\label{thm:groundcompiler-audit-map-legal-channel-gate}
+Every accepted $\GroundCompilerAuditMapClosureUp$ export exposes the legal source-channel row $S$ before the certificate-gate row $K$ can be consumed. Recognizers, metric reports, and non-evidence ledgers may be cited only along the displayed route
+$$
+F,S \longmapsto R,K \longmapsto M,O,H,C,P,N .
+$$
+The export does not promote readable code, motif reports, metric counts, hidden compiler input, or host package structure into proof or certificate evidence.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:groundcompiler-audit-map-closure-obligations}. It makes $S$ a first-class row of the accepted packet and places certificate-gate exposure among the rows that must remain visible to a consumer.
+
+The replay row $C$ preserves the channel order. A consumer moves from event flow through the legal channel before recognizer and certificate-gate rows are available, and metric or non-evidence reports are read only after that gate.
+
+Thus the legal-channel gate is finite and local to the packet. The refused compiler artifacts have no carrier coordinate from which they could be retyped as evidence.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map metric non-evidence boundary]
+\label{thm:groundcompiler-audit-map-metric-non-evidence-boundary}
+In every accepted $\GroundCompilerAuditMapClosureUp$ carrier, metric reports and motif counts remain in $M$ and the explicit non-evidence boundary remains in $O$ through $H,C,P,N$. A self-compilation consumer may use these rows to audit coverage and reporting, but not as proof evidence, certificate evidence, theorem-code equality, chapter-code equality, or hidden input authorization.
+\end{theorem}
+\begin{proof}
+Project $M$ and $O$ from the carrier. The metric row records reports, and the non-evidence row records the boundaries around motifs, readable code, host packages, and hidden compiler state.
+
+Apply the legal-channel gate theorem. Since $M$ and $O$ are downstream of the displayed event-flow, source-channel, recognizer, and certificate-gate rows, they cannot replace those rows.
+
+The structural rows transport and replay the same boundary. Therefore report and motif data remain audit metadata rather than proof or certificate evidence.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GroundCompilerAuditMapClosureUp$ packet exposes the legal source-channel row before certificate-gate export.}
+
+\independenceWitness{metacic-confluence-audit-packet, metaciccriticalpath, conceptregistrysurface, failurecertificate: $\GroundCompilerAuditMapClosureUp$ is not bijective to any listed sibling because it jointly carries compiler event-flow, source-channel, recognizer, certificate-gate, metric-report, non-evidence, transport, replay, provenance, and local naming rows.}
+
+The Lean TasteGate route for this packet must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances by separating accepted compiler-channel audit packets from refused report-as-proof and hidden-input packets.
+
+\closureat{GroundCompilerAuditMapClosureUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerAuditMapClosureUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-map-closure-carrier}, \autoref{thm:groundcompiler-audit-map-closure-obligations}, \autoref{thm:groundcompiler-audit-map-legal-channel-gate}, and \autoref{thm:groundcompiler-audit-map-metric-non-evidence-boundary} seed the finite compiler-channel audit-map closure over event-flow, source-channel, recognizer, certificate-gate, metric-report, non-evidence, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close proof evidence from reports, certificate evidence from motifs, theorem equality from code, chapter equality from topics, hidden compiler input authorization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, legal source-channel exposure, recognizer generatedness, certificate-gate ordering, metric-report non-evidence, non-evidence retention, TasteGate nontriviality, FieldFaithful coverage, and structural transport for BEDC.Derived.GroundCompilerAuditMapClosureUp.}
+  \constructivestory{A $\GroundCompilerAuditMapClosureUp$ packet is generated from compiler event-flow rows, legal source-channel rows, recognizer rows, certificate-gate rows, metric-report rows, non-evidence rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

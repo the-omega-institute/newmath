@@ -24,6 +24,7 @@ K=(S,N,O,U,D,H,C,P,L)
 $$
 be an accepted $\MetaCICCriticalPathUp$ packet. Any accepted route that consumes the residual diamond budget and the candidate-SN confluence checker must expose the four L10 source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before exporting local confluence or decidability consumers. The handoff exports no global strong-normalization theorem, global confluence theorem, beta-decidability procedure, quotient term equality, selected limit, ambient $\RealUp$ completeness principle, or full consistency claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedResidualDiamondL10Handoff}
 \begin{proof}
 Start from \autoref{thm:metacic-critical-path-residual-diamond-budget-scope}. It already places the residual substitution budget, candidate schedule, local join ledger, confluence checker factorization, and L10 source rows on one accepted packet route.
 
@@ -32,4 +33,56 @@ Use the candidate residual budget interface, \autoref{thm:metacic-critical-path-
 Now apply the checker factorization, \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization}, together with the residual-diamond local-confluence frontier, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. These results route local confluence and decidability consumers through the displayed checker and local join ledger rather than through a detached global theorem.
 
 Thus any accepted residual-diamond handoff must first display $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ on the same finite packet. Since none of the rows in $K$ carries global SN, global confluence, beta-decidability, quotient term equality, selected limits, ambient $\RealUp$ completeness, or full consistency, those exports remain outside the handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual diamond L10 locality obstruction]
+\label{thm:metacic-critical-path-residual-diamond-l10-locality-obstruction}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. If the residual-diamond route for $K$ lacks any one of the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, then the route cannot export the candidate-mediated local-confluence consumer or the candidate-mediated decidability consumer. The obstruction is local to the displayed packet route; it is not a global failure of strong normalization, global confluence, beta-conversion decidability, quotient term equality, selected limits, ambient $\RealUp$ completeness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-critical-path-residual-diamond-budget-scope}. It puts the residual substitution budget, candidate schedule, local join ledger, checker factorization, and L10 source rows on one finite route before any residual-diamond consumer can read the packet.
+
+Now use \autoref{thm:metacic-critical-path-candidate-mediated-residual-diamond-l10-handoff}. That handoff requires the four source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before local confluence or decidability can be exported.
+
+The same dependency is visible in the named candidate residual budget interface and in the candidate-SN confluence checker factorization, \autoref{thm:metacic-critical-path-candidate-residual-budget-interface} and \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization}. Removing any one L10 face breaks the displayed route from candidate budget to checker output, so the consumer has no finite packet coordinate from which to export local confluence or decidability.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path residual budget frontier]
+\label{thm:metacic-critical-path-residual-budget-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. The packet can export a residual-diamond consumer or a decidability consumer only when the candidate schedule, residual substitution budget, local join ledger, confluence checker factorization, and all four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are displayed on the same finite route through $S,N,O,U,D,H,C,P,L$. The frontier exports no global strong-normalization theorem, global confluence theorem, beta-decidability procedure, quotient equality, selected limits, ambient $\RealUp$ completeness, or kernel consistency claim.
+\end{theorem}
+\begin{proof}
+First read the candidate-facing budget. The residual diamond budget scope of \autoref{thm:metacic-critical-path-residual-diamond-budget-scope} and the candidate residual budget interface of \autoref{thm:metacic-critical-path-candidate-residual-budget-interface} place the schedule, residual substitution budget, and candidate rows on the displayed packet route.
+
+Next read the checker side. The candidate-SN confluence checker factorization of \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization} supplies the confluence checker route, while \autoref{thm:metacic-critical-path-candidate-mediated-residual-diamond-l10-handoff} forces the four L10 faces to remain visible before any local confluence or decidability export.
+
+Finally use the locality obstruction, \autoref{thm:metacic-critical-path-residual-diamond-l10-locality-obstruction}. If any one of the four L10 faces is absent from the finite route, the residual-diamond consumer and the decidability consumer have no packet coordinate from which to read their output.
+
+The only surviving frontier is therefore the displayed same-route packet containing the candidate schedule, residual substitution budget, local join ledger, checker factorization, and the four L10 faces. Since no cited row carries global SN, global confluence, beta-decidability, quotient equality, selected limits, ambient $\RealUp$ completeness, or consistency, none of those objects is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path residual budget factorization]
+\label{thm:metacic-critical-path-residual-budget-factorization}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any accepted packet route exporting a residual-diamond consumer or a decidability consumer factors through the candidate schedule, residual substitution budget, candidate residual budget interface, local join ledger, confluence checker factorization, and the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the consumer reads the output. The factorization is a finite route inside $K$ and exports no global strong-normalization theorem, global confluence theorem, beta-decidability procedure, quotient equality, selected limit, ambient $\RealUp$ completeness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the residual diamond budget scope and the candidate residual budget interface, \autoref{thm:metacic-critical-path-residual-diamond-budget-scope} and \autoref{thm:metacic-critical-path-candidate-residual-budget-interface}. These place the candidate schedule, residual substitution budget, candidate rows, and the four L10 source faces on the same accepted packet route.
+
+Next read the checker side. The residual-diamond local-confluence frontier and the candidate-SN confluence checker factorization, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier} and \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization}, supply the local join ledger and checker factorization without leaving the displayed packet.
+
+Finally apply the residual budget frontier, \autoref{thm:metacic-critical-path-residual-budget-frontier}. It states that a residual-diamond or decidability consumer can be exported only after the schedule, residual substitution budget, local join ledger, checker factorization, and all four L10 faces are present.
+
+The required factorization is therefore the single finite route through those rows of $K$. Since none of the cited rows carries global SN, global confluence, beta-decidability, quotient equality, selected limits, ambient $\RealUp$ completeness, or consistency, none of those objects is exported by the consumer route.
 \end{proof}
