@@ -11,6 +11,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_minigrid_execution",
         "public_jepa_baseline",
         "torch_retraining_loss_ablation",
+        "vjepa2_ac_native_reproduction",
         "vjepa2_ac_minigrid_claim_certificate",
         "vjepa2_ac_minigrid_latent_prediction",
     }
@@ -18,6 +19,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
     baseline = kit["required_external_results"]["public_jepa_baseline"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
+    native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
     vjepa_latent = kit["required_external_results"]["vjepa2_ac_minigrid_latent_prediction"]
 
@@ -39,6 +41,19 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
     assert "minus_l_unlogged" in retraining["required_systems"]
     assert "minus_l_gap" in retraining["required_systems"]
+    assert "stability_source_split" in retraining["source_surface_contract"]["minus_l_stab"]
+    assert (
+        "intervention_source_split"
+        in retraining["source_surface_contract"]["minus_l_intervention"]
+    )
+    assert native_reproduction["readiness_gate"] == "vjepa2_ac_native_reproduction"
+    assert native_reproduction["target_artifact"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
+    assert native_reproduction["boundary_record"] == "reports/bedc_jepa_vjepa2_ac_native_boundary.json"
+    assert "native_or_near_native_rollout_score" in native_reproduction["required_fields"]
+    assert "bedc_readback_metrics" in native_reproduction["required_fields"]
+    assert "same_train_cal_test_split" in native_reproduction["parity_protocol_fields"]
+    assert "same_bedc_predicate_set" in native_reproduction["parity_protocol_fields"]
+    assert "remains unevaluated" in native_reproduction["pass_condition"]
     assert vjepa_lccp["readiness_gate"] == "vjepa2_ac_fixed_carrier_lccp"
     assert vjepa_lccp["target_artifact"] == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     assert vjepa_lccp["run_command"] == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"

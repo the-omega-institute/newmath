@@ -60,6 +60,21 @@
         "minus_l_intervention"
       ],
       "run_command": "python scripts/run_torch_retraining_loss_ablation.py",
+      "source_surface_contract": {
+        "minus_l_intervention": [
+          "intervention_source_split",
+          "pre_intervention_observation",
+          "intervention_or_action",
+          "post_intervention_label",
+          "same_train_cal_test_split"
+        ],
+        "minus_l_stab": [
+          "stability_source_split",
+          "paired_observations_or_augmentations",
+          "stability_label_or_invariance_target",
+          "same_train_cal_test_split"
+        ]
+      },
       "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json"
     },
     "vjepa2_ac_minigrid_claim_certificate": {
@@ -98,6 +113,33 @@
       ],
       "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
       "target_artifact": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    },
+    "vjepa2_ac_native_reproduction": {
+      "boundary_record": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "comparison_artifact": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+      "parity_protocol_fields": [
+        "same_observation_preprocessing",
+        "same_action_encoding",
+        "same_train_cal_test_split",
+        "same_planning_or_rollout_target",
+        "same_bedc_predicate_set",
+        "same_alpha_grid"
+      ],
+      "pass_condition": "native reproduction remains unevaluated until the native score, checkpoint identity, command, stream split, and BEDC readback metrics are recorded together",
+      "readiness_gate": "vjepa2_ac_native_reproduction",
+      "required_fields": [
+        "public_environment_id",
+        "image_action_stream_split",
+        "vjepa2_repository_commit",
+        "checkpoint_identity",
+        "execution_command",
+        "native_or_near_native_rollout_score",
+        "latent_prediction_score",
+        "bedc_readback_metrics",
+        "lccp_certificate_metrics",
+        "cannot_claim_boundary"
+      ],
+      "target_artifact": "reports/bedc_vjepa2_ac_native_reproduction.json"
     }
   },
   "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
