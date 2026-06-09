@@ -3,6 +3,7 @@ import json
 import pytest
 
 from bedc_quality_lab import dgt_neural_ablation as owner
+from scripts import run_dgt_neural_ablation as runner
 
 
 def test_registry_has_exact_arms_and_metrics():
@@ -57,3 +58,61 @@ def test_forbidden_positive_claim_terms_are_audited():
 
     with pytest.raises(ValueError, match="forbidden term audit"):
         owner.validate_payload(mutated)
+
+
+def test_write_artifacts_emits_canonical_run_capsule_report_metrics_and_fingerprint(tmp_path):
+    payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
+
+    owner.write_artifacts(payload, root=tmp_path, generated_at="fixture")
+
+    emitted = [
+        owner.CANONICAL_JSON_ARTIFACT,
+        owner.CANONICAL_MARKDOWN_ARTIFACT,
+        owner.CANONICAL_FINGERPRINT_ARTIFACT,
+        payload["run_artifacts"]["summary"],
+        payload["run_artifacts"]["raw_metrics"],
+        payload["run_artifacts"]["claim_capsule"],
+        payload["run_artifacts"]["report"],
+    ]
+    assert all((tmp_path / artifact).exists() for artifact in emitted)
+
+    capsule = json.loads((tmp_path / payload["run_artifacts"]["claim_capsule"]).read_text(encoding="utf-8"))
+    assert capsule["owner_pointer"] == f"{owner.CANONICAL_JSON_ARTIFACT}:$"
+    assert capsule["hardgate_pointer"] == f"{owner.CANONICAL_JSON_ARTIFACT}:$.nabl_hardgates.status"
+    assert capsule["component_claim_pointer"] == f"{owner.CANONICAL_JSON_ARTIFACT}:$.component_causal_claims"
+    assert capsule["claim_count"] == len(payload["component_causal_claims"])
+
+    raw_rows = (tmp_path / payload["run_artifacts"]["raw_metrics"]).read_text(encoding="utf-8").splitlines()
+    assert len(raw_rows) == len(payload["records"])
+    assert json.loads(raw_rows[0])["arm_id"] == owner.ARM_IDS[0]
+
+    markdown = (tmp_path / owner.CANONICAL_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+    assert "# DGT neural ablation" in markdown
+    assert "- Status: `pass`" in markdown
+    assert f"- Claim capsule: `{payload['claim_capsule_ref']['artifact']}:$`" in markdown
+
+    fingerprint = json.loads((tmp_path / owner.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
+    assert fingerprint["report_name"] == "dgt-neural-ablation"
+    assert len(fingerprint["input_fingerprint"]) == 64
+    assert len(fingerprint["output_digest"]) == 64
+    assert fingerprint["generated_by"]["generated_at"] == "fixture"
+
+
+def test_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
+    exit_code = runner.main(["--root", str(tmp_path), "--generated-at", "fixture", "--requested-device", "cpu"])
+
+    assert exit_code == 0
+    summary = json.loads(capsys.readouterr().out)
+    assert summary["artifact_id"] == owner.ARTIFACT_ID
+    assert summary["status"] == "pass"
+    assert summary["device"] == "cpu"
+    assert summary["arm_count"] == len(owner.ARM_IDS)
+    assert summary["claim_count"] == len(owner.build_payload(generated_at="fixture", requested_device="cpu")["component_causal_claims"])
+
+    assert (tmp_path / owner.CANONICAL_JSON_ARTIFACT).exists()
+    assert (tmp_path / owner.CANONICAL_MARKDOWN_ARTIFACT).exists()
+    assert (tmp_path / owner.CANONICAL_FINGERPRINT_ARTIFACT).exists()
+    assert (tmp_path / owner.RUN_ROOT / "summary.json").exists()
+    assert (tmp_path / owner.RUN_ROOT / "raw_metrics.jsonl").exists()
+    assert (tmp_path / owner.RUN_ROOT / "claim_capsule.json").exists()
+    assert (tmp_path / owner.RUN_ROOT / "report.md").exists()

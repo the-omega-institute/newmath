@@ -16,6 +16,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_certificate_gated_attention as cga_runner
@@ -555,7 +556,10 @@ def _minimal_payload(spec):
 
 def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
-        _write_payload(root, spec, _minimal_payload(spec))
+        if spec.name == "dgt-neural-ablation":
+            _write_dgt_neural_ablation_payload(root)
+        else:
+            _write_payload(root, spec, _minimal_payload(spec))
     _write_dimension_mismatch_gap_witness_fixture(root)
     _write_lejepa_mini_grid_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
@@ -605,6 +609,11 @@ def _write_json_artifact(root: Path, artifact: str, payload):
     path = root / artifact
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+
+def _write_dgt_neural_ablation_payload(root: Path):
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    _write_payload(root, spec, _dgt_neural_ablation_payload())
 
 
 def _write_dimension_mismatch_gap_witness_fixture(root: Path):
@@ -993,7 +1002,7 @@ def test_discovery_map_coverage_matrix_matches_target_set(tmp_path):
     cells = payload["coverage_matrix"]["cells"]
 
     assert {cell["component_id"] for cell in cells} == discovery_map.COVERAGE_COMPONENT_IDS
-    assert len(cells) == 12
+    assert len(cells) == len(discovery_map.COVERAGE_COMPONENT_IDS)
     assert all(set(cell) == discovery_map.COVERAGE_CELL_FIELDS for cell in cells)
     assert set(payload["coverage_matrix"]) == {"status", "hardgates", "cells"}
     assert set(payload["coverage_matrix"]["hardgates"]) == set(discovery_map.COVERAGE_HARDGATE_IDS)
@@ -1119,15 +1128,15 @@ def test_discovery_map_dgt_blocked_projection_exposes_resolvable_failed_gate(tmp
     }
     payload["scaling_ladder"] = dgt_runner.build_scaling_ladder_projection(payload)
     payload["scaling_ladder"]["evidence_scope"] = "unbounded-model"
-    payload["scaling_ladder"] = dgt_runner.build_scaling_ladder_projection(payload)
     _write_payload(tmp_path, spec, payload)
 
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
     assert row["projection_status"] == "scaling-ladder-blocked"
-    assert row["failed_gate"] == "$.scaling_ladder.hardgate.gates.SCALE-HG6"
-    assert row["audit_status"] == "valid"
+    assert row["failed_gate"] == "$.scaling_ladder.evidence_scope"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dgt_scaling_ladder_owner-scope-mismatch"
     assert _artifact_pointer_value(tmp_path, f"{row['json_artifact']}:{row['failed_gate']}") is not None
 
 
@@ -1179,6 +1188,61 @@ def test_discovery_map_dgt_scaling_hg1_ignores_claim_verdict_rows(tmp_path):
     assert row["projection_status"] == "scaling-ladder-blocked"
     assert row["failed_gate"] == "$.d5_m_projection.status"
     assert "claim_verdict" not in json.dumps(row, sort_keys=True)
+
+
+def _dgt_neural_ablation_payload():
+    return dgt_neural_ablation_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+
+
+def test_discovery_map_dgt_neural_ablation_passing_payload_projects_positive_discovery():
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    payload = _dgt_neural_ablation_payload()
+
+    projected = discovery_map.projection_payload(spec, payload)
+    evidence = discovery_map._projection_evidence(spec, payload)
+    verdict = discovery_map.assign_discovery_level(projected)
+
+    assert projected["positive_discovery"] is True
+    assert projected["main_verdict"]["positive_discovery"] is True
+    assert projected["net_positive_signal"] is True
+    assert projected["d5_m"]["status"] == "ready"
+    assert evidence.projection_status == "dgt-neural-ablation-pointer-only"
+    assert evidence.evidence_pointer == "$.component_causal_claims"
+    assert verdict.discovery_level in {"D4", "D5-O", "D5-M"}
+
+
+def test_discovery_map_dgt_neural_ablation_failed_hardgate_is_invalid():
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    payload = _dgt_neural_ablation_payload()
+    payload["nabl_hardgates"]["status"] = "fail"
+    payload["nabl_hardgates"]["failed_gate"] = "NABL-HG2"
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dgt-neural-ablation-hardgate-failed"
+
+
+def test_discovery_map_dgt_neural_ablation_missing_claims_is_invalid():
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    payload = _dgt_neural_ablation_payload()
+    del payload["component_causal_claims"]
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dgt-neural-ablation-claims-missing"
+
+
+def test_discovery_map_dgt_neural_ablation_missing_claim_capsule_pointer_is_invalid():
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    payload = _dgt_neural_ablation_payload()
+    del payload["claim_capsule_ref"]["artifact"]
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dgt-neural-ablation-capsule-pointer-missing"
 
 
 def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):
@@ -2548,8 +2612,11 @@ def test_positive_discovery_rows_have_resolvable_gate_pointers(tmp_path):
         source = _read_json_artifact(tmp_path, row["json_artifact"])
         assert discovery_map.pointer_value(source, row["evidence_pointer"]) is not None
         assert discovery_map.pointer_value(source, row["control_pointer"]) is not None
-        scorecard_artifact, scorecard_pointer = row["scorecard_pointer"].split(":", 1)
-        assert discovery_map.pointer_value(_read_json_artifact(tmp_path, scorecard_artifact), scorecard_pointer) is not None
+        if ":" in row["scorecard_pointer"]:
+            scorecard_artifact, scorecard_pointer = row["scorecard_pointer"].split(":", 1)
+            assert discovery_map.pointer_value(_read_json_artifact(tmp_path, scorecard_artifact), scorecard_pointer) is not None
+        else:
+            assert discovery_map.pointer_value(source, row["scorecard_pointer"]) is not None
         if row["discovery_level"] in {"D5-O", "D5-M"} and "robustness_pointer" in row:
             robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
             assert discovery_map.pointer_value(_read_json_artifact(tmp_path, robustness_artifact), robustness_pointer) is not None
