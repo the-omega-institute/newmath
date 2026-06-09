@@ -17,7 +17,7 @@ def build_external_run_kit() -> dict[str, Any]:
                 "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
                 "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
                 "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",
-                "pass_condition": "target artifact status is executed and AC Giant checkpoint_status is loaded under CUDA",
+                "pass_condition": "target record status is executed and AC Giant checkpoint_status is loaded under CUDA",
             },
             "public_minigrid_execution": {
                 "readiness_gate": "public_minigrid_execution",
@@ -35,7 +35,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "certified_coverage",
                     "bedc_debt_score",
                 ],
-                "pass_condition": "target artifact status is available and sample_count_collected is positive",
+                "pass_condition": "target record status is available and sample_count_collected is positive",
             },
             "public_jepa_baseline": {
                 "readiness_gate": "native_public_jepa_benchmark",
@@ -52,7 +52,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "jepa_family_baseline_boundary",
                     "deltas",
                 ],
-                "pass_condition": "target artifact status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
+                "pass_condition": "target record status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
             },
             "torch_retraining_loss_ablation": {
                 "readiness_gate": "full_retraining_loss_ablation",
@@ -65,7 +65,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "minus_l_stab",
                     "minus_l_intervention",
                 ],
-                "pass_condition": "target artifact status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
+                "pass_condition": "target record status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
             },
             "vjepa2_ac_minigrid_claim_certificate": {
                 "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
@@ -85,7 +85,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "door_open_or_unlocked",
                     "goal_reachable_with_current_state",
                 ],
-                "pass_condition": "target artifact records execution, checkpoint, and feature contracts and assigns each predicate to certified, coverage-debt, or source-debt status under LCCP",
+                "pass_condition": "target record includes execution, checkpoint, and feature contracts and assigns each predicate to certified, coverage-debt, or source-debt status under LCCP",
             },
             "vjepa2_ac_minigrid_latent_prediction": {
                 "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
@@ -102,7 +102,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "claim_scope",
                     "cannot_claim",
                 ],
-                "pass_condition": "target artifact status is executed and reports latent_prediction_score beside execution, checkpoint, feature, and cannot-claim contracts",
+                "pass_condition": "target record status is executed and reports latent_prediction_score beside execution, checkpoint, feature, and cannot-claim contracts",
             },
         },
         "readiness_command": "python scripts/build_bedc_jepa_readiness.py",

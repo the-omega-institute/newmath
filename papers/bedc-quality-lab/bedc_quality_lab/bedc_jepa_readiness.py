@@ -197,14 +197,14 @@ def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
         and gates["artifact_review_bundle"]["status"] != "pass"
     ):
         return "native_public_benchmark_closed_artifact_bundle_open"
-    local_contact = [
+    local_evidence = [
         "torch_objective_seed_sweep",
         "local_visual_planning",
         "object_counterfactual_clutter",
         "public_minigrid_execution",
         "public_jepa_checkpoint_evaluation",
     ]
-    if all(gates[name]["status"] == "pass" for name in local_contact):
+    if all(gates[name]["status"] == "pass" for name in local_evidence):
         return "checkpoint_evaluation_closed_native_public_benchmark_open"
     return "evidence_boundary_open"
 
