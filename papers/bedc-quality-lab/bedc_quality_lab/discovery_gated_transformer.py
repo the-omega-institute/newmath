@@ -191,6 +191,16 @@ D5M_NOT_CLAIMED = (
     "No unbounded mechanism closure claim.",
 )
 D5M_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection"
+D5M_DEFAULT_EVIDENCE_SCOPE = ("bounded-design", "toy-model", "theorem-backed", "production-forbidden")
+EVIDENCE_SCOPE_VALUES = frozenset(
+    {
+        "bounded-design",
+        "toy-model",
+        "small-real-training",
+        "theorem-backed",
+        "production-forbidden",
+    }
+)
 D5M_GATE_NAMES = tuple(f"D5M-HG{index}" for index in range(1, 11))
 D5M_REQUIRED_KEYS = (
     "status",
@@ -2334,6 +2344,47 @@ def _d5_m_forbidden_claim_audit(owner_payload: Mapping[str, Any], not_claimed: S
     }
 
 
+def validate_evidence_scope(value: Any, *, allow_missing: bool = False) -> list[str]:
+    if value is None and allow_missing:
+        return []
+    if not isinstance(value, list):
+        return ["evidence_scope must be a non-empty array"]
+    if not value:
+        return ["evidence_scope must be non-empty"]
+    if not all(isinstance(item, str) for item in value):
+        return ["evidence_scope entries must be strings"]
+    if len(set(value)) != len(value):
+        return ["evidence_scope must not contain duplicate entries"]
+    invalid = sorted(set(value) - EVIDENCE_SCOPE_VALUES)
+    if invalid:
+        return [f"evidence_scope contains invalid entries: {', '.join(invalid)}"]
+    return []
+
+
+def d5_m_evidence_scope_is_closed(value: Any) -> bool:
+    return validate_evidence_scope(value) == []
+
+
+def _scope_has_production_forbidden(value: Any) -> bool:
+    return isinstance(value, list) and "production-forbidden" in value
+
+
+def _has_production_claim(value: Any) -> bool:
+    text = json.dumps(value, sort_keys=True).lower()
+    return any(
+        token in text
+        for token in (
+            "production claim",
+            "production authority accepted",
+            "production deployment",
+            "deployment authority",
+            "production ready",
+            "production-ready",
+            "production scale authority",
+        )
+    )
+
+
 def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     d5_o = owner_payload.get("d5_o_projection")
     d5_m = owner_payload.get("d5_m_projection")
@@ -2357,7 +2408,7 @@ def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, 
             and d5_o.get("status") == "ready"
             and d5_o.get("gate_status") == "pass"
         ),
-        "D5M-HG2": d5_m.get("evidence_scope") != "bounded-model-prototype",
+        "D5M-HG2": not d5_m_evidence_scope_is_closed(d5_m.get("evidence_scope")),
         "D5M-HG3": not (
             _is_cell(mechanism_ref)
             and d5_m.get("mechanism_certificate_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref"
@@ -2414,12 +2465,13 @@ def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, 
 def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
     overrides = owner_payload.get("d5_m_projection")
     overrides = overrides if isinstance(overrides, Mapping) else {}
+    has_evidence_scope_override = "evidence_scope" in overrides
     draft: dict[str, Any] = {
         "status": "blocked",
         "readiness": "blocked",
         "discovery_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level") or "D0",
         "source_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level"),
-        "evidence_scope": "bounded-model-prototype",
+        "evidence_scope": list(D5M_DEFAULT_EVIDENCE_SCOPE),
         "terminal_verdict_scope": "Core",
         "gate_status": "fail",
         "failed_gate": None,
@@ -2443,7 +2495,6 @@ def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
         "not_claimed": list(D5M_NOT_CLAIMED),
     }
     for key in (
-        "evidence_scope",
         "terminal_verdict_scope",
         "mechanism_certificate_pointer",
         "mechanism_closure_status",
@@ -2455,11 +2506,16 @@ def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
     ):
         if key in overrides:
             draft[key] = overrides[key]
+    if has_evidence_scope_override:
+        draft["evidence_scope"] = overrides["evidence_scope"]
     if isinstance(overrides.get("forbidden_claim_audit"), Mapping):
         draft["forbidden_claim_audit"] = dict(overrides["forbidden_claim_audit"])
     draft["forbidden_claim_audit"] = _d5_m_forbidden_claim_audit({**owner_payload, "d5_m_projection": draft}, draft["not_claimed"])
     gates = d5_m_hardgate_rows({**owner_payload, "d5_m_projection": draft})
     failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    if overrides and not has_evidence_scope_override:
+        failed.insert(0, "D5M-HG2")
+        gates["D5M-HG2"]["status"] = "fail"
     failed_gate = failed[0] if failed else None
     draft.update(
         {
@@ -2510,8 +2566,15 @@ def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
         errors.append("DGT D5-M projection gate names mismatch")
         return errors
     expected_gates = d5_m_hardgate_rows(owner_payload)
-    if gates != expected_gates:
+    gates_match = gates == expected_gates
+    if not gates_match and payload.get("failed_gate") == "D5M-HG2":
+        patched_expected = json.loads(json.dumps(expected_gates))
+        patched_expected["D5M-HG2"]["status"] = "fail"
+        gates_match = gates == patched_expected
+    if not gates_match:
         errors.append("DGT D5-M projection gate evaluation mismatch")
+    scope_errors = validate_evidence_scope(payload.get("evidence_scope"))
+    errors.extend(f"DGT D5-M {error}" for error in scope_errors)
     failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name].get("status") != "pass"]
     failed_gate = failed[0] if failed else None
     if payload.get("gate_status") != ("pass" if failed_gate is None else "fail"):
@@ -2527,8 +2590,19 @@ def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
         errors.append("DGT D5-M projection failed gate mismatch")
     if payload.get("blocked_reason") != (None if failed_gate is None else f"blocked-by-{failed_gate}"):
         errors.append("DGT D5-M projection blocked reason mismatch")
-    if failed_gate is None and payload.get("evidence_scope") != "bounded-model-prototype":
+    if failed_gate is None and scope_errors:
         errors.append("DGT D5-M evidence scope mismatch")
+    if _scope_has_production_forbidden(payload.get("evidence_scope")) and _has_production_claim(
+        {
+            "terminal_verdict_scope": payload.get("terminal_verdict_scope"),
+            "scope": payload.get("scope"),
+            "claim": payload.get("claim"),
+            "claim_basis": payload.get("claim_basis"),
+            "claim_surface": payload.get("claim_surface"),
+            "positive_claim": payload.get("positive_claim"),
+        }
+    ):
+        errors.append("DGT D5-M evidence scope contradicts production claim")
     if failed_gate is None and payload.get("terminal_verdict_scope") != "Core":
         errors.append("DGT D5-M terminal verdict scope mismatch")
     if failed_gate is None and payload.get("mechanism_closure_status") != "closed":
@@ -3265,6 +3339,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     for gate_name, row in d5_o_projection["gates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     d5_m_projection = payload["d5_m_projection"]
+    d5_m_evidence_scope = json.dumps(d5_m_projection["evidence_scope"], sort_keys=True)
     lines.extend(
         [
             "",
@@ -3272,7 +3347,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "",
             f"- Status: `{d5_m_projection['status']}`",
             f"- Discovery level: `{d5_m_projection['discovery_level']}`",
-            f"- Evidence scope: `{d5_m_projection['evidence_scope']}`",
+            f"- Evidence scope: `{d5_m_evidence_scope}`",
             f"- Terminal scope: `{d5_m_projection['terminal_verdict_scope']}`",
             f"- Blocked reason: `{d5_m_projection['blocked_reason']}`",
             "",
