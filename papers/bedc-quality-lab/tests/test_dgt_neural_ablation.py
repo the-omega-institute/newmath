@@ -1,4 +1,5 @@
 import json
+import inspect
 
 import pytest
 
@@ -10,38 +11,39 @@ def test_registry_has_exact_arms_and_metrics():
     payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
 
     assert tuple(payload["module_registry"]) == owner.ARM_IDS
-    assert len(payload["records"]) == 11
-    assert [row["arm_id"] for row in payload["records"]] == list(owner.ARM_IDS)
+    assert len(payload["records"]) == len(owner.ARM_IDS) * len(owner.SEEDS) * len(owner.TASK_IDS)
+    assert sorted({row["arm_id"] for row in payload["records"]}, key=list(owner.ARM_IDS).index) == list(owner.ARM_IDS)
     for row in payload["records"]:
         assert set(row["metrics"]) == set(owner.METRIC_KEYS)
+        assert set(owner.OUTCOME_FIELDS) <= set(row)
         assert row["requested_training_backend"] == "torch"
-        assert row["optimizer_steps"] > 0
-        assert row["parameter_l2_delta"] > 0.0
+        assert row["gradient_update_steps"] > 0
+        assert row["parameter_delta_l2"] > 0.0
+        outcome = owner.TrainingOutcome(**{field: row[field] for field in owner.OUTCOME_FIELDS})
+        assert owner.derive_training_metrics(outcome)["metrics"] == row["metrics"]
 
 
 def test_nabl_hardgates_and_hg7_boundary_fail_closed():
     payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
 
     owner.validate_payload(payload)
+    assert payload["pure_hardgates"]["status"] == "pass"
     assert payload["nabl_hardgates"]["status"] == "pass"
     assert set(payload["nabl_hardgates"]["gates"]) == set(owner.HG_IDS)
+    assert set(payload["pure_hardgates"]["gates"]) == set(owner.PURE_HG_IDS)
     blocked = [row for row in payload["boundary_ledger"] if row["claim_blocked"]]
-    assert blocked == [
-        {
-            "claim_blocked": True,
-            "component": "scope_seal",
-            "metric_delta_pointer": "reports/canonical/dgt-neural-ablation.json:$.metric_delta_matrix.DGT_without_scope_seal",
-            "reason": "HG7 boundary: no measurable effect; component-causal claim blocked",
-            "status": "no_measurable_effect",
-        }
-    ]
     claimed = {row["component"] for row in payload["component_causal_claims"]}
-    assert "scope_seal" not in claimed
+    assert claimed
+    assert claimed.isdisjoint({row["component"] for row in blocked})
+    assert {row["reason"] for row in blocked} == {"NABL-HG7"}
     assert {
         tuple(row["evidence_scope"])
         for row in payload["component_causal_claims"]
         if row["claim_status"] == "allowed"
     } == {("small-real-training",)}
+    assert payload["scope_seal_mechanism"]["non_redundancy_evidence"]["status"] == "pass"
+    scope_delta = payload["metric_delta_matrix"]["DGT_without_scope_seal"]["metrics"]["scope_pressure_q"]
+    assert scope_delta >= owner.MEASURABLE_EFFECT_THRESHOLD
 
 
 def test_unavailable_payload_has_no_positive_component_claim():
@@ -49,8 +51,31 @@ def test_unavailable_payload_has_no_positive_component_claim():
 
     owner.validate_payload(payload)
     assert payload["training_protocol"]["status"] == "unavailable"
+    assert payload["pure_hardgates"]["status"] == "fail"
     assert payload["nabl_hardgates"]["status"] == "fail"
     assert payload["component_causal_claims"] == []
+
+
+def test_metric_protocol_rejects_component_lookup_channels():
+    payload = owner.build_payload(generated_at="fixture", requested_device="cpu")
+
+    assert payload["metric_protocol"]["purity_audit"]["status"] == "pass"
+    assert set(payload["metric_protocol"]["inputs"]) == set(owner.OUTCOME_FIELDS)
+    assert "disabled_component" not in payload["metric_protocol"]["inputs"]
+    assert "removed_component" not in payload["metric_protocol"]["inputs"]
+
+
+def test_owner_source_has_no_component_lookup_channels():
+    source = inspect.getsource(owner)
+
+    forbidden_tokens = (
+        "COMPONENT_EFFECTS",
+        "component_effects",
+        "effect_prior",
+        "per_component_quality",
+        "per_component_penalty",
+    )
+    assert all(token not in source for token in forbidden_tokens)
 
 
 def test_forbidden_positive_claim_terms_are_audited():

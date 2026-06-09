@@ -1,10 +1,22 @@
 # DGT neural ablation
 
 - Status: `pass`
+- PURE status: `pass`
 - Device: `mps`
 - Arms: `11`
-- Torch steps per arm: `36`
+- Seeds: `3`
+- Torch steps per arm seed: `40`
 - Claim capsule: `reports/runs/dgt-neural-ablation/claim_capsule.json:$`
+
+## PURE hardgates
+
+- `PURE-HG1`: `pass`
+- `PURE-HG2`: `pass`
+- `PURE-HG3`: `pass`
+- `PURE-HG4`: `pass`
+- `PURE-HG5`: `pass`
+- `PURE-HG6`: `pass`
+- `PURE-HG7`: `pass`
 
 ## NABL hardgates
 
@@ -18,25 +30,19 @@
 
 ## Component claims
 
-- `LAT`: Under the bounded toy training protocol, removing LAT causes measurable degradation on FalseLedgerRate, JetCoverage, UER, benefit_q, debt_q, quality_q.
-- `CGA`: Under the bounded toy training protocol, removing CGA causes measurable degradation on FalseLedgerRate, JetCoverage, UER, benefit_q, debt_q, quality_q.
-- `DRT`: Under the bounded toy training protocol, removing DRT causes measurable degradation on FalseLedgerRate, JetCoverage, UER, benefit_q, debt_q, quality_q.
-- `gap_head`: Under the bounded toy training protocol, removing gap_head causes measurable degradation on FalseLedgerRate, UER, benefit_q, classifier_shift_count, debt_q, quality_q.
-- `ledger_head`: Under the bounded toy training protocol, removing ledger_head causes measurable degradation on FalseLedgerRate, UER, benefit_q, classifier_shift_count, debt_q, quality_q.
-- `route_certificate`: Under the bounded toy training protocol, removing route_certificate causes measurable degradation on FalseLedgerRate, UER, benefit_q, classifier_shift_count, debt_q, quality_q.
-- `mechanism_probe`: Under the bounded toy training protocol, removing mechanism_probe causes measurable degradation on FalseLedgerRate, UER, benefit_q, debt_q, quality_q.
-- `jet_loss`: Under the bounded toy training protocol, removing jet_loss causes measurable degradation on FalseLedgerRate, JetCoverage, UER, benefit_q, debt_q, quality_q.
-- `negative_witness_loss`: Under the bounded toy training protocol, removing negative_witness_loss causes measurable degradation on FalseLedgerRate, JetCoverage, UER, benefit_q, debt_q, negative_witness_hits, quality_q.
+- `DRT`: Under the bounded toy training protocol, removing DRT causes measured degradation on benefit_q, negative_witness_hits, quality_q.
+- `ledger_head`: Under the bounded toy training protocol, removing ledger_head causes measured degradation on JetCoverage, UER, benefit_q, classifier_shift_count, debt_q, quality_q, scope_pressure_q.
+- `scope_seal`: Under the bounded toy training protocol, removing scope_seal causes measured degradation on UER, benefit_q, classifier_shift_count, debt_q, negative_witness_hits, quality_q, scope_pressure_q.
 
 ## Boundary ledger
 
-- `LAT`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `CGA`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `DRT`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `gap_head`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `ledger_head`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `route_certificate`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `mechanism_probe`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `jet_loss`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `negative_witness_loss`: `measurable_effect` - measurable bounded-toy effect supports a scoped component-causal claim
-- `scope_seal`: `no_measurable_effect` - HG7 boundary: no measurable effect; component-causal claim blocked
+- `LAT`: `blocked` - NABL-HG7
+- `CGA`: `blocked` - NABL-HG7
+- `DRT`: `measured` - measured paired training delta supports a scoped component-causal claim
+- `gap_head`: `blocked` - NABL-HG7
+- `ledger_head`: `measured` - measured paired training delta supports a scoped component-causal claim
+- `route_certificate`: `blocked` - NABL-HG7
+- `mechanism_probe`: `blocked` - NABL-HG7
+- `jet_loss`: `blocked` - NABL-HG7
+- `negative_witness_loss`: `blocked` - NABL-HG7
+- `scope_seal`: `measured` - measured paired training delta supports a scoped component-causal claim
