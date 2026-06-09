@@ -478,7 +478,13 @@ def validate_mismatch(record: dict[str, Any], probe_ids: set[str], contact_ids: 
     _id("probe_ref", record.get("probe_ref"), issues)
     _id("contact_ref", record.get("contact_ref"), issues)
     if _is_id(record.get("probe_ref")) and record.get("probe_ref") not in probe_ids:
-        issues.append(f"probe_ref not found: {record.get('probe_ref')}")
+        probe_ref = str(record.get("probe_ref"))
+        issues.append(f"probe_ref not found: {probe_ref}")
+        mismatch_id = str(record.get("mismatch_id") or "")
+        if mismatch_id.endswith(".scope-review"):
+            issues.append(
+                f"scope_review_requires_existing_probe: {mismatch_id} cannot be reviewed until probe_ref {probe_ref} exists"
+            )
     if _is_id(record.get("contact_ref")) and record.get("contact_ref") not in contact_ids:
         issues.append(f"contact_ref not found: {record.get('contact_ref')}")
     if record.get("status") not in MISMATCH_STATUS:
@@ -1222,6 +1228,66 @@ def self_test() -> int:
         return 1
     if any(f"probe_ref not found: {invalid_probe_ref_id}" in issue for issue in invalid_probe_ref_mismatch["issues"]):
         print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    missing_probe_scope_review_results = gate_all(
+        [],
+        [contact],
+        [],
+        [
+            {
+                "mismatch_id": "rejuvenation-candidate.same-scope-function-contact.scope-review",
+                "probe_ref": "rejuvenation-candidate.same-scope-function-contact",
+                "contact_ref": "clock.horvath.array",
+                "status": "blocked_null",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The scope-review packet cites a probe that is not present.",
+                "refinement_pressure": "Create the probe packet before mismatch review.",
+                "blocked_claims": ["Do not review a scope boundary without its probe packet."],
+                "null_reason": "",
+            },
+            {
+                "mismatch_id": "identity-preserving-age-reset.same-scope-identity-contact.scope-review",
+                "probe_ref": "identity-preserving-age-reset.same-scope-identity-contact",
+                "contact_ref": "clock.horvath.array",
+                "status": "blocked_null",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The scope-review packet cites a same-scope identity-contact probe that is not present.",
+                "refinement_pressure": "Create the identity-contact probe packet before mismatch review.",
+                "blocked_claims": ["Do not review identity-contact scope without its probe packet."],
+                "null_reason": "",
+            }
+        ],
+    )
+    missing_probe_scope_review = next(
+        result
+        for result in missing_probe_scope_review_results
+        if result["packet_id"] == "rejuvenation-candidate.same-scope-function-contact.scope-review"
+    )
+    if missing_probe_scope_review["gate_status"] != "gate_blocked" or not any(
+        issue
+        == (
+            "scope_review_requires_existing_probe: rejuvenation-candidate.same-scope-function-contact.scope-review "
+            "cannot be reviewed until probe_ref rejuvenation-candidate.same-scope-function-contact exists"
+        )
+        for issue in missing_probe_scope_review["issues"]
+    ):
+        print(json.dumps(missing_probe_scope_review_results, indent=2), file=sys.stderr)
+        return 1
+    identity_contact_scope_review = next(
+        result
+        for result in missing_probe_scope_review_results
+        if result["packet_id"] == "identity-preserving-age-reset.same-scope-identity-contact.scope-review"
+    )
+    if identity_contact_scope_review["gate_status"] != "gate_blocked" or not any(
+        issue
+        == (
+            "scope_review_requires_existing_probe: "
+            "identity-preserving-age-reset.same-scope-identity-contact.scope-review "
+            "cannot be reviewed until probe_ref identity-preserving-age-reset.same-scope-identity-contact exists"
+        )
+        for issue in identity_contact_scope_review["issues"]
+    ):
+        print(json.dumps(missing_probe_scope_review_results, indent=2), file=sys.stderr)
         return 1
     invalid_required_contact_results = gate_all(
         [conjecture],
