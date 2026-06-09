@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
+from bedc_quality_lab import high_impact_review
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 
@@ -171,6 +172,8 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         root,
         dgt_artifact,
         {
+            "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+            "model_id": "discovery-gated-transformer",
             "d4_projection": {
                 "discovery_level": "D4",
                 "readiness": "ready",
@@ -188,6 +191,44 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "claim_status": "fixture",
             "not_claimed": ["bounded deterministic toy evidence only"],
             "what_was_learned": "fixture learned",
+        },
+    )
+    _write_json(
+        root,
+        high_impact_review.MODEL_COMPARISON_ARTIFACT,
+        {
+            "status": "ready",
+            "readiness": {"status": "ready", "failed_gates": []},
+            "models": [
+                {
+                    "model_id": "dgt",
+                    "metrics": {
+                        "quality_q": {"status": "resolved", "value": 0.76},
+                        "UER_reduction": {"status": "resolved", "value": 0.33},
+                        "classifier_shift_count": {"status": "resolved", "value": 2.0},
+                    },
+                },
+                {
+                    "model_id": "base_transformer",
+                    "metrics": {
+                        "quality_q": {"status": "resolved", "value": 0.50},
+                        "UER_reduction": {"status": "resolved", "value": 0.03},
+                        "classifier_shift_count": {"status": "resolved", "value": 0.0},
+                    },
+                },
+                {
+                    "model_id": "matched_random_structural_control",
+                    "metrics": {
+                        "quality_q": {"status": "resolved", "value": 0.44},
+                        "UER_reduction": {"status": "resolved", "value": 0.01},
+                        "classifier_shift_count": {"status": "resolved", "value": 0.0},
+                    },
+                },
+            ],
+            "hardgates": {
+                f"MC-HG{index}": {"status": "pass", "reason": "fixture"}
+                for index in range(1, 11)
+            },
         },
     )
     discovery_payload = json.loads((root / claim_graph.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
@@ -209,9 +250,21 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     )
     _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
     rows = claim_graph.load_claim_verdict_rows(root)
-    rows.append(_row("claim:discovery-gated-transformer", "accepted_positive_discovery"))
+    rows.append(_row("claim:discovery-gated-transformer", "projected_discovery_required"))
     rows[-1]["source"] = f"{dgt_artifact}:$.d4_projection"
     rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
+    _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+    provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
+    _write_json(root, high_impact_review.JSON_ARTIFACT, {"not_claimed": list(high_impact_review.NOT_CLAIMED)})
+    payload = high_impact_review.build_high_impact_review_payload(
+        root,
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+    _write_json(root, high_impact_review.JSON_ARTIFACT, payload)
+    rows[-1]["claim_verdict"] = "accepted_positive_discovery"
+    rows[-1]["reason"] = "positive-discovery-gates-pass"
+    rows[-1]["ledger_pointer"] = high_impact_review.DGT_REVIEW_ROW_POINTER
     _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
 
 

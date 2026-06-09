@@ -11,6 +11,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
 )
 from scripts import run_claim_verdict_demo as demo
 from scripts import run_canonical_reports as canonical
+from bedc_quality_lab import high_impact_review
 
 
 ALLOWED_KEYS = {
@@ -1183,6 +1184,153 @@ def test_high_impact_positive_with_resolving_review_pointers_accepts(tmp_path, m
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
     assert verdict["reason"] == "discovery-level-D4-positive"
+
+
+def _write_passing_dgt_hir(root):
+    payload = {
+        "schema_id": high_impact_review.SCHEMA_ID,
+        "artifact_id": high_impact_review.ARTIFACT_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "seed": 1131,
+        "source_artifacts": {
+            "dgt": high_impact_review.DGT_ARTIFACT,
+            "model_comparison": high_impact_review.MODEL_COMPARISON_ARTIFACT,
+            "claim_graph": high_impact_review.CLAIM_GRAPH_ARTIFACT,
+        },
+        "review_rows": [
+            {
+                "claim_id": high_impact_review.DGT_CLAIM_ID,
+                "status": "pass",
+                "review_level": "bounded-D4-terminal-gate",
+                "review_scope": "DGT bounded deterministic toy D4 positive-discovery terminal promotion only",
+                "ledger_pointer": high_impact_review.DGT_REVIEW_ROW_POINTER,
+                "claim_pointer": f"{high_impact_review.DGT_ARTIFACT}:$.d4_projection",
+                "hardgate_pointer": f"{high_impact_review.JSON_ARTIFACT}:$.hardgates",
+                "not_claimed_pointer": f"{high_impact_review.JSON_ARTIFACT}:$.not_claimed",
+                "reason": "positive-discovery-gates-pass",
+            }
+        ],
+        "hardgates": {
+            f"HIR-HG{index}": {
+                "status": "pass",
+                "reason": "fixture",
+                "evidence_pointer": f"{high_impact_review.DGT_ARTIFACT}:$.d4_projection",
+            }
+            for index in range(1, 11)
+        },
+        "not_claimed": list(high_impact_review.NOT_CLAIMED),
+    }
+    payload["hardgates"]["HIR-HG2"]["evidence_pointer"] = f"{high_impact_review.JSON_ARTIFACT}:$.not_claimed"
+    payload["hardgates"]["HIR-HG6"]["evidence_pointer"] = f"{high_impact_review.DGT_ARTIFACT}:$.d4_projection"
+    path = root / high_impact_review.JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _dgt_fixture(tmp_path, monkeypatch):
+    rows = [
+        _discovery_row(
+            "discovery-gated-transformer",
+            high_impact_review.DGT_ARTIFACT,
+            "D4",
+            pointer="$.d4_projection",
+        )
+    ]
+    specs = (
+        _spec(
+            "discovery-gated-transformer",
+            high_impact_review.DGT_ARTIFACT,
+            scope="$.not_claimed",
+            cost="$.architecture_spec",
+            not_claimed="$.not_claimed",
+            positive="$.d4_projection",
+            control="$.d4_projection.matched_control",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / high_impact_review.DGT_ARTIFACT
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+            "model_id": "discovery-gated-transformer",
+            "architecture_spec": {"status": "present"},
+            "not_claimed": ["Bounded deterministic toy evidence only."],
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "positive_discovery": True,
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "net_positive_signal": True,
+                "deltas": {"debt_delta": 0},
+            },
+            "evidence_basis": {
+                "control_positive_discovery": False,
+                "scorecard_ready": True,
+                "audit_status": "valid",
+                "net_positive_signal": True,
+            },
+            "matched_random_control": {"control_verdict": {"positive": False}},
+            "scope_seal": VALID_SCOPE_SEAL,
+            "d4_projection": {
+                "discovery_level": "D4",
+                "readiness": "ready",
+                "positive_discovery": True,
+                "net_positive_signal": True,
+                "matched_control": {"control_positive": False},
+                "failed_gate": None,
+                "gates": {
+                    f"PROJ-HG{index}": {"status": "pass"}
+                    for index in range(1, 11)
+                },
+                "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
+                "forbidden_claim_term_audit": {"status": "pass"},
+                "not_claimed": ["bounded D4 prototype only"],
+                "scope_seal": VALID_SCOPE_SEAL,
+            },
+            "tool_route_evidence": {"classifier_surface_delta": {"status": "present"}},
+        }
+    )
+    payload_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    return tmp_path
+
+
+def test_dgt_without_high_impact_review_stays_projected_required(tmp_path, monkeypatch):
+    _dgt_fixture(tmp_path, monkeypatch)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "high-impact-review-required"
+
+
+def test_dgt_with_passing_high_impact_review_becomes_accepted(tmp_path, monkeypatch):
+    root = _dgt_fixture(tmp_path, monkeypatch)
+    _write_passing_dgt_hir(root)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["ledger_pointer"] == high_impact_review.DGT_REVIEW_ROW_POINTER
+
+
+def test_malformed_high_impact_review_does_not_affect_non_dgt(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    path = tmp_path / high_impact_review.JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("{malformed\n", encoding="utf-8")
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:d4"
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
 
 
 def test_accepted_positive_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
