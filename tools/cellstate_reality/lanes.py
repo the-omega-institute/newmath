@@ -3403,7 +3403,7 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\usepackage{amsmath,amssymb,amsthm}",
         r"\usepackage{hyperref}",
         "",
-        r"% BEDC-style macros stubbed for the standalone BioReality paper.",
+        r"% BEDC-style macros stubbed for the standalone CellStateReality paper.",
         r"\newcommand{\origin}[1]{}",
         r"\newcommand{\closureat}[2]{}",
         r"\providecommand{\path}{}\renewcommand{\path}[1]{\texttt{#1}}",
@@ -3411,15 +3411,34 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\providecommand{\hsame}{\equiv_h}",
         r"\providecommand{\Cont}{\mathrm{Cont}}",
         r"\providecommand{\Pkg}{\mathrm{Pkg}}",
-        r"% article 类无 \chapter: codex 偶尔在 namecert/conjecture 写 \chapter → "
-        r"Undefined control sequence 致命 build 断. 降级为 \section 兜底, 不让结构命令断 build.",
+        r"\providecommand{\GenomeSourceStable}{\mathsf{GenomeSourceStable}}",
+        r"\providecommand{\ContextDrift}{\mathsf{ContextDrift}}",
+        r"\providecommand{\ContextRefresh}{\mathsf{ContextRefresh}}",
+        r"\providecommand{\AgeClockShift}{\mathsf{AgeClockShift}}",
+        r"\providecommand{\AgeClockShiftUp}{\mathsf{AgeClockShift}^{\uparrow}}",
+        r"\providecommand{\IdentityPreservingAgeReset}{\mathsf{IdentityPreservingAgeReset}}",
+        r"\providecommand{\IdentityPreservingAgeResetUp}{\mathsf{IdentityPreservingAgeReset}^{\uparrow}}",
+        r"\providecommand{\RejuvenationCandidate}{\mathsf{RejuvenationCandidate}}",
+        r"\providecommand{\RejuvenationCandidateUp}{\mathsf{RejuvenationCandidate}^{\uparrow}}",
+        r"\providecommand{\Rejuvenation}{\mathsf{Rejuvenation}}",
+        r"\providecommand{\RejuvenationUp}{\mathsf{Rejuvenation}^{\uparrow}}",
+        r"\providecommand{\PartialReprogramming}{\mathsf{PartialReprogramming}}",
+        r"\providecommand{\PartialReprogrammingUp}{\mathsf{PartialReprogramming}^{\uparrow}}",
+        r"\providecommand{\RenewableMaintenance}{\mathsf{RenewableMaintenance}}",
+        r"\providecommand{\RenewableMaintenanceUp}{\mathsf{RenewableMaintenance}^{\uparrow}}",
+        r"\providecommand{\ImmortalityPotential}{\mathsf{ImmortalityPotential}}",
+        r"\providecommand{\ImmortalityPotentialUp}{\mathsf{ImmortalityPotential}^{\uparrow}}",
+        r"\providecommand{\Immortality}{\mathsf{Immortality}}",
+        r"\providecommand{\ImmortalityUp}{\mathsf{Immortality}^{\uparrow}}",
+        r"% article class has no \chapter: codex sometimes emits \chapter inside namecert/conjecture content, "
+        r"a fatal Undefined control sequence. Degrade to \section so structural commands never break the build.",
         r"\providecommand{\chapter}[1]{\section{#1}}",
         r"\newtheorem{definition}{Definition}[section]",
         r"\newtheorem{theorem}[definition]{Theorem}",
         r"\newtheorem{lemma}[definition]{Lemma}",
         r"\newtheorem{proposition}[definition]{Proposition}",
         r"",
-        r"\title{BioReality: Reality-Bound Biological Deepening}",
+        r"\title{CellStateReality: Reality-Bound Cell-State Promotion Deepening}",
         r"\author{The Omega Institute}",
         r"\date{}",
         "",
@@ -3427,10 +3446,8 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\maketitle",
         "",
         r"\section{Scope}",
-        "BioReality records biological conjecture deepening under explicit provenance boundaries. "
+        "CellStateReality records cell-state conjecture deepening under explicit provenance boundaries. "
         "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
-        "",
-        r"\input{parts/cross_layer_synthesis}",
         "",
         r"\input{parts/cellstate_context_refresh_boundary}",
         "",
@@ -4802,10 +4819,10 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             mismatches_by_probe.setdefault(probe_ref, []).append(mismatch)
 
     part_lines = [
-        r"\section{Codon Window Reality Boundary}",
-        r"\label{sec:codon-window-reality-boundary}",
+        r"\section{CellState Context Refresh Boundary}",
+        r"\label{sec:cellstate-context-refresh-boundary}",
         "",
-        "This section records gate-passed BioReality research memory. "
+        "This section records gate-passed CellStateReality research memory. "
         "Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.",
         "",
     ]
