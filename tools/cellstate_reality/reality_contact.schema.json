@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://the-omega-institute.github.io/newmath/schemas/cellstate-reality/reality-contact.schema.json",
-  "title": "BioReality contact packet",
+  "title": "CellStateReality contact packet",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -19,26 +19,26 @@
   "properties": {
     "contact_id": {
       "type": "string",
-      "description": "Lowercase BioReality contact id; use dotted/kebab tokens, not underscores or uppercase.",
+      "description": "Lowercase CellStateReality contact id; use dotted/kebab tokens, not underscores or uppercase.",
       "examples": [
-        "codon-usage-per-organism",
-        "matched-mrna-abundance-control"
+        "paired-methylation-clock-control",
+        "identity-marker-panel-control"
       ],
       "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "source_kind": {
       "type": "string",
       "enum": [
-        "genetic_code_table",
-        "sequence_database",
-        "transcript_evidence",
-        "protein_measurement",
-        "structure_experiment",
-        "structure_prediction",
-        "physical_assay",
+        "methylation_array",
+        "clock_coefficient_table",
+        "rnaseq_expression",
+        "identity_marker_panel",
+        "pluripotency_marker_panel",
         "functional_assay",
-        "phenotype_assay",
+        "safety_assay",
         "perturbation_data",
+        "longitudinal_cycle_data",
+        "organismal_phenotype",
         "curated_annotation",
         "manual_observation"
       ]

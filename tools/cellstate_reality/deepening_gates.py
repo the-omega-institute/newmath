@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic gates for biological conjecture deepening packets."""
+"""Deterministic gates for cell-state conjecture deepening packets."""
 
 from __future__ import annotations
 
@@ -23,25 +23,25 @@ ID_SYNTAX = f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, no
 ID_RE = re.compile(ID_PATTERN)
 
 LAYERS = {
-    "code_read",
-    "codon_usage_topology",
-    "orf_eligibility",
-    "translation_realization",
-    "structural_order",
-    "physical_admissibility",
+    "genome_source",
+    "context",
+    "age_signature",
+    "cell_identity",
     "function_realization",
-    "system_phenotype",
+    "safety_boundary",
+    "renewable_maintenance",
+    "organismal_maintenance",
     "cross_layer_relation",
 }
 LAYER_ORDER = [
-    "code_read",
-    "codon_usage_topology",
-    "orf_eligibility",
-    "translation_realization",
-    "structural_order",
-    "physical_admissibility",
+    "genome_source",
+    "context",
+    "age_signature",
+    "cell_identity",
     "function_realization",
-    "system_phenotype",
+    "safety_boundary",
+    "renewable_maintenance",
+    "organismal_maintenance",
     "cross_layer_relation",
 ]
 LAYER_RANK = {layer: index for index, layer in enumerate(LAYER_ORDER)}
@@ -58,58 +58,65 @@ EVIDENCE_BASIS = {
     "mechanism_bridge",
 }
 CONTACT_KINDS = {
-    "genetic_code_table",
-    "sequence_database",
-    "transcript_evidence",
-    "protein_measurement",
-    "structure_experiment",
-    "structure_prediction",
-    "physical_assay",
+    "methylation_array",
+    "clock_coefficient_table",
+    "rnaseq_expression",
+    "identity_marker_panel",
+    "pluripotency_marker_panel",
     "functional_assay",
-    "phenotype_assay",
+    "safety_assay",
     "perturbation_data",
+    "longitudinal_cycle_data",
+    "organismal_phenotype",
     "curated_annotation",
     "manual_observation",
 }
 REALIZATION_CONTACT_KINDS_BY_LAYER = {
-    "translation_realization": {
-        "sequence_database",
-        "transcript_evidence",
-        "protein_measurement",
+    "age_signature": {
+        "methylation_array",
+        "clock_coefficient_table",
         "perturbation_data",
     },
-    "structural_order": {
-        "protein_measurement",
-        "structure_experiment",
-        "structure_prediction",
+    "context": {
+        "methylation_array",
+        "rnaseq_expression",
         "perturbation_data",
     },
-    "physical_admissibility": {
-        "structure_experiment",
-        "structure_prediction",
-        "physical_assay",
+    "cell_identity": {
+        "rnaseq_expression",
+        "identity_marker_panel",
         "perturbation_data",
     },
     "function_realization": {
         "functional_assay",
-        "phenotype_assay",
         "perturbation_data",
     },
-    "system_phenotype": {
+    "safety_boundary": {
+        "pluripotency_marker_panel",
+        "safety_assay",
+        "rnaseq_expression",
+        "perturbation_data",
+    },
+    "renewable_maintenance": {
+        "longitudinal_cycle_data",
+        "perturbation_data",
+    },
+    "organismal_maintenance": {
+        "organismal_phenotype",
         "functional_assay",
-        "phenotype_assay",
         "perturbation_data",
     },
     "cross_layer_relation": {
-        "sequence_database",
-        "transcript_evidence",
-        "protein_measurement",
-        "structure_experiment",
-        "structure_prediction",
-        "physical_assay",
+        "methylation_array",
+        "clock_coefficient_table",
+        "rnaseq_expression",
+        "identity_marker_panel",
+        "pluripotency_marker_panel",
         "functional_assay",
-        "phenotype_assay",
+        "safety_assay",
         "perturbation_data",
+        "longitudinal_cycle_data",
+        "organismal_phenotype",
     },
 }
 PROBE_KINDS = {
@@ -368,7 +375,7 @@ def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str,
         claimed_layer = conjecture.get("claimed_layer")
         evidence = conjecture.get("evidence_basis")
         if (
-            claimed_layer not in {"code_read", "orf_eligibility"}
+            claimed_layer not in {"genome_source"}
             and (not isinstance(evidence, list) or "mechanism_bridge" not in evidence)
         ):
             issues.append(
@@ -499,8 +506,8 @@ def validate_conjecture(
         realization_kinds = REALIZATION_CONTACT_KINDS_BY_LAYER.get(str(claimed_layer))
         if realization_kinds is not None and not (contact_kinds & realization_kinds):
             issues.append(
-                f"claimed_layer {claimed_layer} requires a non-code realization reality contact; "
-                f"genetic-code tables and BEDC geometry do not establish translation, structure, physical admissibility, function, or cross-layer law"
+                f"claimed_layer {claimed_layer} requires a layer-matched realization reality contact; "
+                f"source signatures and BEDC geometry do not establish context, identity, function, safety, maintenance, or cross-layer law"
             )
         if not layer_in_can_test and layer_in_cannot_test:
             issues.append(
@@ -611,27 +618,27 @@ def _result(packet_kind: str, packet_id: str, issues: list[str]) -> dict[str, An
 
 def self_test() -> int:
     contact = {
-        "contact_id": "ncbi.standard.code",
-        "source_kind": "genetic_code_table",
-        "source_ref": "NCBI translation table",
+        "contact_id": "clock.horvath.array",
+        "source_kind": "methylation_array",
+        "source_ref": "paired methylation age-clock fixture",
         "source_snapshot": "fixture",
-        "observed_fact": "A curated table maps codons to amino-acid or stop labels.",
-        "resolution": "codon assignment",
+        "observed_fact": "A paired methylation fixture records a named age-clock shift.",
+        "resolution": "clock CpG readback",
         "known_noise_or_bias": "fixture only",
-        "can_test": ["code_read layer"],
-        "cannot_test": ["protein realization", "biological function", "function realization"],
+        "can_test": ["age_signature layer"],
+        "cannot_test": ["cell identity", "function realization", "safety boundary", "renewable maintenance"],
         "null_reason": "",
     }
     perturbation_contact = {
-        "contact_id": "translation.perturbation.fixture",
+        "contact_id": "reprogramming.perturbation.fixture",
         "source_kind": "perturbation_data",
-        "source_ref": "fixture perturbation matrix",
+        "source_ref": "fixture perturbation matrix for clock and identity readbacks",
         "source_snapshot": "fixture",
-        "observed_fact": "A perturbation fixture records a translation-layer response.",
-        "resolution": "translation perturbation readback",
+        "observed_fact": "A perturbation fixture records age-signature and cross-layer responses.",
+        "resolution": "perturbation readback",
         "known_noise_or_bias": "fixture only",
-        "can_test": ["translation_realization", "cross_layer_relation"],
-        "cannot_test": ["global biological law"],
+        "can_test": ["age_signature", "cross_layer_relation"],
+        "cannot_test": ["immortality", "organismal maintenance"],
         "null_reason": "",
     }
     function_contact = {
@@ -643,195 +650,195 @@ def self_test() -> int:
         "resolution": "function assay readback",
         "known_noise_or_bias": "fixture only",
         "can_test": ["function_realization"],
-        "cannot_test": ["system phenotype", "global biological law"],
+        "cannot_test": ["renewable maintenance", "organismal maintenance"],
         "null_reason": "",
     }
     conjecture = {
-        "conjecture_id": "codon.code.read",
-        "biological_object": "codon table",
-        "informal_statement": "Codon assignment can be read as a code-layer reality contact.",
+        "conjecture_id": "age-clock-shift.clock.read",
+        "biological_object": "AgeClockShiftUp",
+        "informal_statement": "A named clock records an age-signature shift under paired methylation contact.",
         "bedc_minimal_form": {
-            "carrier": "codon stream",
-            "distinctions": ["codon label", "stop label"],
-            "readback": "named genetic-code table",
+            "carrier": "paired methylation profile",
+            "distinctions": ["pre perturbation clock value", "post perturbation clock value"],
+            "readback": "named clock coefficient table applied to the pair",
             "internal_structure": ["coordinate"],
         },
-        "claimed_layer": "code_read",
+        "claimed_layer": "age_signature",
         "evidence_basis": ["external_reality", "bedc_coordinate"],
-        "reality_contact_refs": ["ncbi.standard.code"],
+        "reality_contact_refs": ["clock.horvath.array"],
         "probe_refs": [],
-        "forbidden_claims": ["Codon assignment alone is not protein realization."],
+        "forbidden_claims": ["An age-clock shift alone is not identity preservation, function, safety, rejuvenation, or immortality."],
         "null_reason": "",
     }
     overclaim = {
-        "conjecture_id": "protein.world.model",
-        "biological_object": "DNA to protein",
-        "informal_statement": "This is a full biology explanation for DNA-to-protein function.",
+        "conjecture_id": "cellstate.world.model",
+        "biological_object": "AgeClockShiftUp",
+        "informal_statement": "This is a full biology explanation for rejuvenation and immortal potential.",
         "bedc_minimal_form": {
-            "carrier": "sequence",
-            "distinctions": ["base"],
-            "readback": "sequence",
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock delta"],
+            "readback": "clock shift",
             "internal_structure": ["none"],
         },
-        "claimed_layer": "function_realization",
+        "claimed_layer": "renewable_maintenance",
         "evidence_basis": ["external_reality"],
-        "reality_contact_refs": ["ncbi.standard.code"],
+        "reality_contact_refs": ["clock.horvath.array"],
         "probe_refs": [],
         "forbidden_claims": ["No forbidden claim."],
         "null_reason": "",
     }
     b1_overclaim = {
-        "conjecture_id": "function.overclaim",
-        "biological_object": "gene product",
-        "informal_statement": "The coordinate is presented as a function-layer packet.",
+        "conjecture_id": "identity.overclaim",
+        "biological_object": "IdentityPreservingAgeResetUp",
+        "informal_statement": "The age-clock coordinate is presented as a cell-identity packet.",
         "bedc_minimal_form": {
-            "carrier": "annotated sequence",
-            "distinctions": ["label"],
-            "readback": "sequence annotation",
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock delta"],
+            "readback": "age-signature readback",
             "internal_structure": ["coordinate"],
         },
-        "claimed_layer": "function_realization",
+        "claimed_layer": "cell_identity",
         "evidence_basis": ["external_reality", "bedc_coordinate"],
-        "reality_contact_refs": ["ncbi.standard.code"],
+        "reality_contact_refs": ["clock.horvath.array"],
         "probe_refs": [],
-        "forbidden_claims": ["The code table alone does not establish biological function."],
+        "forbidden_claims": ["The clock contact alone does not establish identity preservation."],
         "null_reason": "",
     }
     b3_conjecture = {
-        "conjecture_id": "structure.probe.overreach",
-        "biological_object": "gene product",
-        "informal_statement": "The packet is placed at the function layer.",
+        "conjecture_id": "identity.probe.overreach",
+        "biological_object": "IdentityPreservingAgeResetUp",
+        "informal_statement": "The packet is placed at the cell-identity layer.",
         "bedc_minimal_form": {
-            "carrier": "annotated sequence",
-            "distinctions": ["label"],
-            "readback": "sequence annotation",
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock delta"],
+            "readback": "age-signature readback",
             "internal_structure": ["coordinate"],
         },
-        "claimed_layer": "function_realization",
+        "claimed_layer": "cell_identity",
         "evidence_basis": ["external_reality", "bedc_coordinate"],
-        "reality_contact_refs": ["ncbi.standard.code"],
-        "probe_refs": ["boundary.probe.overreach"],
-        "forbidden_claims": ["The structural probe is not a functional assay."],
+        "reality_contact_refs": ["clock.horvath.array"],
+        "probe_refs": ["identity.boundary.probe.overreach"],
+        "forbidden_claims": ["The boundary probe is not an identity-marker contact."],
         "null_reason": "",
     }
     b3_probe = {
-        "probe_id": "boundary.probe.overreach",
-        "conjecture_ref": "structure.probe.overreach",
+        "probe_id": "identity.boundary.probe.overreach",
+        "conjecture_ref": "identity.probe.overreach",
         "probe_kind": "boundary_mismatch",
         "derived_from": ["bedc_coordinate"],
-        "test_statement": "Check whether a coordinate boundary mismatches the readback.",
-        "support_condition": "The boundary is stable under the finite reading.",
-        "break_condition": "The boundary does not survive contact with the readback.",
-        "required_contacts": ["ncbi.standard.code"],
-        "forbidden_interpretations": ["The boundary alone proves function."],
+        "test_statement": "Check whether a coordinate boundary mismatches the clock readback.",
+        "support_condition": "The boundary is stable under the finite age-signature reading.",
+        "break_condition": "The boundary does not survive contact with the paired clock readback.",
+        "required_contacts": ["clock.horvath.array"],
+        "forbidden_interpretations": ["The boundary alone proves identity preservation."],
         "null_reason": "",
     }
     bedc_without_structure = {
         "conjecture_id": "bedc.structure.missing",
-        "biological_object": "codon window",
+        "biological_object": "AgeClockShiftUp",
         "informal_statement": "The packet has BEDC coordinate evidence but no internal structure.",
         "bedc_minimal_form": {
-            "carrier": "codon window",
-            "distinctions": ["window boundary"],
-            "readback": "window enumeration",
+            "carrier": "clock window",
+            "distinctions": ["clock boundary"],
+            "readback": "clock enumeration",
             "internal_structure": [],
         },
-        "claimed_layer": "orf_eligibility",
+        "claimed_layer": "genome_source",
         "evidence_basis": ["bedc_coordinate"],
         "reality_contact_refs": [],
         "probe_refs": [],
-        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "forbidden_claims": ["Coordinate evidence alone is not age-signature realization."],
         "null_reason": "",
     }
     mixed_none_structure = {
         "conjecture_id": "bedc.structure.mixed",
-        "biological_object": "codon window",
+        "biological_object": "AgeClockShiftUp",
         "informal_statement": "The packet mixes no internal structure with an explicit coordinate.",
         "bedc_minimal_form": {
-            "carrier": "codon window",
-            "distinctions": ["window boundary"],
-            "readback": "window enumeration",
+            "carrier": "clock window",
+            "distinctions": ["clock boundary"],
+            "readback": "clock enumeration",
             "internal_structure": ["none", "coordinate"],
         },
-        "claimed_layer": "orf_eligibility",
+        "claimed_layer": "genome_source",
         "evidence_basis": ["bedc_coordinate"],
         "reality_contact_refs": [],
         "probe_refs": [],
-        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "forbidden_claims": ["Coordinate evidence alone is not age-signature realization."],
         "null_reason": "",
     }
     cross_layer_code_only = {
-        "conjecture_id": "cross.layer.code.only",
-        "biological_object": "DNA to protein",
+        "conjecture_id": "cross.layer.clock.only",
+        "biological_object": "AgeClockShiftUp to IdentityPreservingAgeResetUp",
         "informal_statement": "The packet claims only a cross-layer relation.",
         "bedc_minimal_form": {
-            "carrier": "codon window",
-            "distinctions": ["window boundary"],
-            "readback": "code table",
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock boundary"],
+            "readback": "clock table",
             "internal_structure": ["coordinate"],
         },
         "claimed_layer": "cross_layer_relation",
         "evidence_basis": ["external_reality", "bedc_coordinate"],
-        "reality_contact_refs": ["ncbi.standard.code"],
+        "reality_contact_refs": ["clock.horvath.array"],
         "probe_refs": [],
-        "forbidden_claims": ["The code table alone does not establish a cross-layer relation."],
+        "forbidden_claims": ["The clock contact alone does not establish a cross-layer promotion."],
         "null_reason": "",
     }
     cross_layer_perturbed = {
         "conjecture_id": "cross.layer.perturbed",
-        "biological_object": "DNA to protein",
+        "biological_object": "AgeClockShiftUp to context response",
         "informal_statement": "The packet claims a bounded cross-layer relation with perturbation contact.",
         "bedc_minimal_form": {
-            "carrier": "codon window",
-            "distinctions": ["window boundary"],
+            "carrier": "paired perturbation readback",
+            "distinctions": ["clock boundary"],
             "readback": "perturbation readback",
             "internal_structure": ["coordinate", "relation"],
         },
         "claimed_layer": "cross_layer_relation",
         "evidence_basis": ["external_reality", "bedc_coordinate"],
-        "reality_contact_refs": ["translation.perturbation.fixture"],
+        "reality_contact_refs": ["reprogramming.perturbation.fixture"],
         "probe_refs": [],
-        "forbidden_claims": ["The perturbation readback is not a global biological law."],
+        "forbidden_claims": ["The perturbation readback is not a rejuvenation or immortality law."],
         "null_reason": "",
     }
     proxy_objective_overclaim = {
         "conjecture_id": "proxy.objective.overclaim",
-        "biological_object": "gene product",
-        "informal_statement": "The internal coordinate is presented as a function-layer packet.",
+        "biological_object": "IdentityPreservingAgeResetUp",
+        "informal_statement": "The internal coordinate is presented as a cell-identity packet.",
         "bedc_minimal_form": {
-            "carrier": "annotated sequence",
-            "distinctions": ["label"],
-            "readback": "sequence annotation",
+            "carrier": "paired methylation profile",
+            "distinctions": ["clock delta"],
+            "readback": "age-signature readback",
             "internal_structure": ["coordinate"],
         },
-        "claimed_layer": "function_realization",
+        "claimed_layer": "cell_identity",
         "evidence_basis": ["external_reality", "internal_structure"],
-        "reality_contact_refs": ["ncbi.standard.code"],
+        "reality_contact_refs": ["clock.horvath.array"],
         "probe_refs": [],
-        "forbidden_claims": ["The code table alone does not establish biological function."],
+        "forbidden_claims": ["The clock contact alone does not establish identity preservation."],
         "null_reason": "",
     }
     mechanism_without_contact = {
         "conjecture_id": "mechanism.contact.missing",
-        "biological_object": "translation packet",
-        "informal_statement": "The coordinate realizes translation in the packet.",
+        "biological_object": "AgeClockShiftUp",
+        "informal_statement": "The coordinate realizes age-signature resetting in the packet.",
         "bedc_minimal_form": {
-            "carrier": "codon window",
-            "distinctions": ["window boundary"],
-            "readback": "window enumeration",
+            "carrier": "clock window",
+            "distinctions": ["clock boundary"],
+            "readback": "clock enumeration",
             "internal_structure": ["coordinate"],
         },
-        "claimed_layer": "translation_realization",
+        "claimed_layer": "age_signature",
         "evidence_basis": ["bedc_coordinate"],
         "reality_contact_refs": [],
         "probe_refs": [],
-        "forbidden_claims": ["Coordinate evidence alone is not a translation mechanism."],
+        "forbidden_claims": ["Coordinate evidence alone is not an age-signature mechanism."],
         "null_reason": "",
     }
     mechanism_layer_matched = {
         "conjecture_id": "mechanism.layer.matched",
         "biological_object": "functional assay packet",
-        "informal_statement": "The assay realizes bounded biological function for the packet.",
+        "informal_statement": "The assay realizes bounded cell function for the packet.",
         "bedc_minimal_form": {
             "carrier": "assay readback",
             "distinctions": ["activity label"],
@@ -842,7 +849,7 @@ def self_test() -> int:
         "evidence_basis": ["external_reality", "mechanism_bridge"],
         "reality_contact_refs": ["function.assay.fixture"],
         "probe_refs": [],
-        "forbidden_claims": ["The assay does not establish system phenotype."],
+        "forbidden_claims": ["The assay does not establish renewable or organismal maintenance."],
         "null_reason": "",
     }
     results = gate_all(
@@ -865,8 +872,8 @@ def self_test() -> int:
     )
     by_id = {str(result["packet_id"]): result for result in results}
     invalid_contact_id_cases = {
-        "matched_mRNA_abundance_control": "matched-mrna-abundance-control",
-        "tai_or_stai_weights": "tai-or-stai-weights",
+        "paired_methylation_clock_control": "paired-methylation-clock-control",
+        "identity_marker_panel_A": "identity-marker-panel-a",
     }
     for invalid_contact_id, normalized_contact_id in invalid_contact_id_cases.items():
         invalid_contact_results = gate_all(
@@ -904,21 +911,21 @@ def self_test() -> int:
             for index in range(1, 8)
         ]
         + [
-            {
-                **contact,
-                "contact_id": "matched_mRNA_abundance_control",
-            }
+                {
+                    **contact,
+                    "contact_id": "paired_methylation_clock_control",
+                }
         ],
         [
             {
-                "probe_id": "b-star-q6-survival-matrix-break-condition",
-                "conjecture_ref": "b-star.q6.survival.matrix",
+                "probe_id": "age-clock-shift-boundary-break-condition",
+                "conjecture_ref": "age-clock-shift.boundary.matrix",
                 "derived_from": ["bedc_spectrum"],
-                "test_statement": "Check whether the survival matrix break condition has a bounded reality contact.",
-                "support_condition": "A separate curated biological contact supports the bounded claim.",
-                "break_condition": "The packet lacks the contact or promotes the matrix beyond its evidence layer.",
+                "test_statement": "Check whether the age-clock boundary break condition has a bounded reality contact.",
+                "support_condition": "A separate curated cell-state contact supports the bounded claim.",
+                "break_condition": "The packet lacks the contact or promotes the clock boundary beyond its evidence layer.",
                 "forbidden_interpretations": [
-                    "Do not infer translation, structure, function, or global biological law from the matrix geometry alone."
+                    "Do not infer identity, function, safety, rejuvenation, or immortality from the clock geometry alone."
                 ],
             }
         ],
@@ -927,7 +934,7 @@ def self_test() -> int:
     recurring_probe_failure = next(
         result
         for result in recurring_probe_failure_results
-        if result["packet_id"] == "b-star-q6-survival-matrix-break-condition"
+        if result["packet_id"] == "age-clock-shift-boundary-break-condition"
     )
     recurring_probe_issues = set(recurring_probe_failure["issues"])
     if recurring_probe_failure["gate_status"] != "gate_blocked" or not {
@@ -938,8 +945,8 @@ def self_test() -> int:
         print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
         return 1
     if not any(
-        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
-        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        issue.startswith("contact_id:8: contact_id: invalid id: paired_methylation_clock_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['paired_methylation_clock_control']}" in issue
         for issue in recurring_probe_failure["issues"]
     ):
         print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
@@ -951,15 +958,15 @@ def self_test() -> int:
             for index in range(1, 8)
         ]
         + [
-            {
-                **contact,
-                "contact_id": "matched_mRNA_abundance_control",
-            }
+                {
+                    **contact,
+                    "contact_id": "paired_methylation_clock_control",
+                }
         ],
         [],
         [
             {
-                "mismatch_id": "curated.standard.code_table.cross_organism_id_shape_boundary",
+                "mismatch_id": "curated.clock-table.cross-cellstate-id-shape-boundary",
                 "probe_ref": "fixture.probe",
                 "contact_ref": "fixture.contact.1",
                 "status": "underdetermined",
@@ -974,11 +981,11 @@ def self_test() -> int:
     event_mismatch_failure = next(
         result
         for result in event_mismatch_failure_results
-        if result["packet_id"] == "curated.standard.code_table.cross_organism_id_shape_boundary"
+        if result["packet_id"] == "curated.clock-table.cross-cellstate-id-shape-boundary"
     )
     if event_mismatch_failure["gate_status"] != "gate_blocked" or not any(
-        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
-        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        issue.startswith("contact_id:8: contact_id: invalid id: paired_methylation_clock_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['paired_methylation_clock_control']}" in issue
         for issue in event_mismatch_failure["issues"]
     ):
         print(json.dumps(event_mismatch_failure_results, indent=2), file=sys.stderr)
@@ -988,16 +995,16 @@ def self_test() -> int:
         [
             {
                 **contact,
-                "contact_id": "matched-mrna-abundance-control",
-                "can_test": "code_read layer",
-                "cannot_test": "translation realization",
+                "contact_id": "paired-methylation-clock-control",
+                "can_test": "age_signature layer",
+                "cannot_test": "cell identity",
             }
         ],
         [],
         [],
     )
     scalar_test_scope = next(
-        result for result in scalar_test_scope_results if result["packet_id"] == "matched-mrna-abundance-control"
+        result for result in scalar_test_scope_results if result["packet_id"] == "paired-methylation-clock-control"
     )
     if scalar_test_scope["gate_status"] != "gate_blocked" or not {
         "can_test must be an array",
@@ -1010,9 +1017,9 @@ def self_test() -> int:
         [
             {
                 **contact,
-                "contact_id": "matched_mRNA_abundance_control",
-                "can_test": "code_read layer",
-                "cannot_test": "translation realization",
+                "contact_id": "paired_methylation_clock_control",
+                "can_test": "age_signature layer",
+                "cannot_test": "cell identity",
             }
         ],
         [],
@@ -1021,7 +1028,7 @@ def self_test() -> int:
     invalid_contact_scalar_scope = next(
         result
         for result in invalid_contact_scalar_scope_results
-        if result["packet_id"] == "matched_mRNA_abundance_control"
+        if result["packet_id"] == "paired_methylation_clock_control"
     )
     if invalid_contact_scalar_scope["gate_status"] != "gate_blocked" or not {
         "can_test must be an array",
@@ -1030,12 +1037,12 @@ def self_test() -> int:
         print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
         return 1
     if not any(
-        f"contact_id: invalid id: matched_mRNA_abundance_control" in issue
+        f"contact_id: invalid id: paired_methylation_clock_control" in issue
         for issue in invalid_contact_scalar_scope["issues"]
     ):
         print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
         return 1
-    invalid_contact_id = "matched_mRNA_abundance_control"
+    invalid_contact_id = "paired_methylation_clock_control"
     normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
     invalid_contact_mismatch_results = gate_all(
         [],
@@ -1048,8 +1055,8 @@ def self_test() -> int:
         [],
         [
             {
-                "mismatch_id": "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
-                "probe_ref": "boundary.probe.overreach",
+                "mismatch_id": "age-clock-shift.identity-boundary.no-promotion.scope-review",
+                "probe_ref": "identity.boundary.probe.overreach",
                 "contact_ref": invalid_contact_id,
                 "status": "underdetermined",
                 "mismatch_kind": "missing_context",
@@ -1063,7 +1070,7 @@ def self_test() -> int:
     invalid_contact_mismatch = next(
         result
         for result in invalid_contact_mismatch_results
-        if result["packet_id"] == "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review"
+        if result["packet_id"] == "age-clock-shift.identity-boundary.no-promotion.scope-review"
     )
     if invalid_contact_mismatch["gate_status"] != "gate_blocked" or not any(
         f"contact_id: invalid id: {invalid_contact_id}" in issue
@@ -1082,17 +1089,17 @@ def self_test() -> int:
     if any(f"contact_ref not found: {invalid_contact_id}" in issue for issue in invalid_contact_mismatch["issues"]):
         print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
         return 1
-    invalid_probe_ref_id = "leu_cun_uur_multi_organism_extension"
-    normalized_probe_ref_id = "leu-cun-uur-multi-organism-extension"
+    invalid_probe_ref_id = "identity_marker_multi_context_extension"
+    normalized_probe_ref_id = "identity-marker-multi-context-extension"
     invalid_probe_ref_mismatch_results = gate_all(
         [],
         [contact],
         [],
         [
             {
-                "mismatch_id": "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+                "mismatch_id": "identity-marker-multi-context-extension.contact-gap",
                 "probe_ref": invalid_probe_ref_id,
-                "contact_ref": "ncbi.standard.code",
+                "contact_ref": "clock.horvath.array",
                 "status": "underdetermined",
                 "mismatch_kind": "missing_context",
                 "observed_delta": "The packet cites an invalid probe id.",
@@ -1105,7 +1112,7 @@ def self_test() -> int:
     invalid_probe_ref_mismatch = next(
         result
         for result in invalid_probe_ref_mismatch_results
-        if result["packet_id"] == "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap"
+        if result["packet_id"] == "identity-marker-multi-context-extension.contact-gap"
     )
     if invalid_probe_ref_mismatch["gate_status"] != "gate_blocked" or not any(
         f"probe_ref: invalid id: {invalid_probe_ref_id}" in issue
@@ -1124,7 +1131,7 @@ def self_test() -> int:
             {
                 **b3_probe,
                 "required_contacts": [invalid_contact_id],
-                "conjecture_ref": "codon.code.read",
+                "conjecture_ref": "age-clock-shift.clock.read",
             }
         ],
         [],
@@ -1148,7 +1155,7 @@ def self_test() -> int:
         [
             {
                 **conjecture,
-                "conjecture_id": "codon.code.invalid-contact-ref",
+                "conjecture_id": "age-clock-shift.invalid-contact-ref",
                 "reality_contact_refs": [invalid_contact_id],
             }
         ],
@@ -1175,7 +1182,7 @@ def self_test() -> int:
         [
             {
                 **conjecture,
-                "conjecture_id": "codon.code.invalid-probe-ref",
+                "conjecture_id": "age-clock-shift.invalid-probe-ref",
                 "evidence_basis": ["derived_probe"],
                 "probe_refs": [invalid_probe_ref_id],
             }
@@ -1199,8 +1206,8 @@ def self_test() -> int:
     ):
         print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
         return 1
-    invalid_conjecture_id = "cross_organism.cun_uur_leu_gate.translation_realization"
-    normalized_conjecture_id = "cross-organism.cun-uur-leu-gate.translation-realization"
+    invalid_conjecture_id = "cross_context.identity_marker_gate.cell_identity"
+    normalized_conjecture_id = "cross-context.identity-marker-gate.cell-identity"
     invalid_conjecture_id_results = gate_all(
         [
             {**conjecture, "conjecture_id": "fixture.conjecture.1"},
@@ -1229,27 +1236,27 @@ def self_test() -> int:
     mixed_invalid_id_results = gate_all(
         [
             {**conjecture, "conjecture_id": "fixture.conjecture.1"},
-            {**conjecture, "conjecture_id": "orf_eligibility.seed.boundary"},
+            {**conjecture, "conjecture_id": "genome_source.seed.boundary"},
             {
                 **conjecture,
-                "conjecture_id": "cross_organism.cun_uur_leu_gate.translation_realization",
+                "conjecture_id": "cross_context.identity_marker_gate.cell_identity",
             },
             {
                 **conjecture,
-                "conjecture_id": "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+                "conjecture_id": "residual_basis.clock_topology_after_age_signature.cell_identity",
             },
             {
                 **conjecture,
-                "conjecture_id": "translation_survival.b_star_q6_survival_matrix.translation_realization",
+                "conjecture_id": "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
             },
         ],
         [
             {**contact, "contact_id": "fixture.contact.1"},
             {**contact, "contact_id": "fixture.contact.2"},
-            {**contact, "contact_id": "codon_usage_per_organism"},
+            {**contact, "contact_id": "clock_shift_per_context"},
             {**contact, "contact_id": "fixture.contact.4"},
             {**contact, "contact_id": "fixture.contact.5"},
-            {**contact, "contact_id": "ribosome_profiling_translation_efficiency"},
+            {**contact, "contact_id": "rna_expression_identity_panel"},
         ],
         [
             {**b3_probe, "probe_id": f"fixture.probe.{index}", "conjecture_ref": "fixture.conjecture.1"}
@@ -1258,71 +1265,71 @@ def self_test() -> int:
         + [
             {
                 **b3_probe,
-                "probe_id": "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+                "probe_id": "cross_context.identity_marker_signal_correlates_with_clock_shift",
                 "conjecture_ref": "fixture.conjecture.1",
             },
             {
                 **b3_probe,
-                "probe_id": "residual_basis.m_only_local_optimum_insufficiency",
+                "probe_id": "residual_basis.clock_only_local_optimum_insufficiency",
                 "conjecture_ref": "fixture.conjecture.1",
             },
             {
                 **b3_probe,
-                "probe_id": "cross_organism.cun_uur_translation_boundary.no_promotion",
+                "probe_id": "cross_context.identity_boundary.no_promotion",
                 "conjecture_ref": "fixture.conjecture.1",
             },
             {
                 **b3_probe,
-                "probe_id": "residual_basis.translation_readout_boundary.no_promotion",
+                "probe_id": "residual_basis.clock_readout_boundary.no_promotion",
                 "conjecture_ref": "fixture.conjecture.1",
             },
             {
                 **b3_probe,
-                "probe_id": "b_star_q6_survival_matrix_break_condition",
+                "probe_id": "age_clock_shift_matrix_break_condition",
                 "conjecture_ref": "fixture.conjecture.1",
             },
             {
                 **b3_probe,
-                "probe_id": "leu_cun_uur_multi_organism_extension",
+                "probe_id": "identity_marker_multi_context_extension",
                 "conjecture_ref": "fixture.conjecture.1",
             },
         ],
         [],
     )
     mixed_invalid_id_expectations = {
-        "contact_id:3": ("codon_usage_per_organism", "codon-usage-per-organism"),
-        "contact_id:6": ("ribosome_profiling_translation_efficiency", "ribosome-profiling-translation-efficiency"),
-        "conjecture_id:2": ("orf_eligibility.seed.boundary", "orf-eligibility.seed.boundary"),
+        "contact_id:3": ("clock_shift_per_context", "clock-shift-per-context"),
+        "contact_id:6": ("rna_expression_identity_panel", "rna-expression-identity-panel"),
+        "conjecture_id:2": ("genome_source.seed.boundary", "genome-source.seed.boundary"),
         "conjecture_id:3": (
-            "cross_organism.cun_uur_leu_gate.translation_realization",
-            "cross-organism.cun-uur-leu-gate.translation-realization",
+            "cross_context.identity_marker_gate.cell_identity",
+            "cross-context.identity-marker-gate.cell-identity",
         ),
         "conjecture_id:4": (
-            "residual_basis.q6_topology_after_aa_quotient.translation_realization",
-            "residual-basis.q6-topology-after-aa-quotient.translation-realization",
+            "residual_basis.clock_topology_after_age_signature.cell_identity",
+            "residual-basis.clock-topology-after-age-signature.cell-identity",
         ),
         "conjecture_id:5": (
-            "translation_survival.b_star_q6_survival_matrix.translation_realization",
-            "translation-survival.b-star-q6-survival-matrix.translation-realization",
+            "maintenance_boundary.age_clock_shift_matrix.renewable_maintenance",
+            "maintenance-boundary.age-clock-shift-matrix.renewable-maintenance",
         ),
         "probe_id:5": (
-            "cross_organism.cun_uur_sign_correlates_with_trna_leu",
-            "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+            "cross_context.identity_marker_signal_correlates_with_clock_shift",
+            "cross-context.identity-marker-signal-correlates-with-clock-shift",
         ),
         "probe_id:6": (
-            "residual_basis.m_only_local_optimum_insufficiency",
-            "residual-basis.m-only-local-optimum-insufficiency",
+            "residual_basis.clock_only_local_optimum_insufficiency",
+            "residual-basis.clock-only-local-optimum-insufficiency",
         ),
         "probe_id:7": (
-            "cross_organism.cun_uur_translation_boundary.no_promotion",
-            "cross-organism.cun-uur-translation-boundary.no-promotion",
+            "cross_context.identity_boundary.no_promotion",
+            "cross-context.identity-boundary.no-promotion",
         ),
         "probe_id:8": (
-            "residual_basis.translation_readout_boundary.no_promotion",
-            "residual-basis.translation-readout-boundary.no-promotion",
+            "residual_basis.clock_readout_boundary.no_promotion",
+            "residual-basis.clock-readout-boundary.no-promotion",
         ),
-        "probe_id:9": ("b_star_q6_survival_matrix_break_condition", "b-star-q6-survival-matrix-break-condition"),
-        "probe_id:10": ("leu_cun_uur_multi_organism_extension", "leu-cun-uur-multi-organism-extension"),
+        "probe_id:9": ("age_clock_shift_matrix_break_condition", "age-clock-shift-matrix-break-condition"),
+        "probe_id:10": ("identity_marker_multi_context_extension", "identity-marker-multi-context-extension"),
     }
     mixed_invalid_id_issues = [issue for result in mixed_invalid_id_results for issue in result["issues"]]
     for prefix, (invalid_id, normalized_id) in mixed_invalid_id_expectations.items():
@@ -1518,8 +1525,8 @@ def self_test() -> int:
         [
             {
                 **b3_probe,
-                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
-                "conjecture_ref": "codon.code.read",
+                "probe_id": "cross_context.identity_marker_signal_correlates_with_RNASeq",
+                "conjecture_ref": "age-clock-shift.clock.read",
             }
         ],
         [],
@@ -1529,7 +1536,7 @@ def self_test() -> int:
         return 1
     if not any(
         issue.startswith(
-            f"probe_id:1: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"probe_id:1: probe_id: invalid id: cross_context.identity_marker_signal_correlates_with_RNASeq; "
             f"ids must match {ID_PATTERN}"
         )
         for result in invalid_probe_results
@@ -1538,7 +1545,7 @@ def self_test() -> int:
         print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
         return 1
     if not any(
-        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        "suggested normalized id: cross-context.identity-marker-signal-correlates-with-rnaseq" in issue
         for result in invalid_probe_results
         for issue in result["issues"]
     ):
@@ -1551,22 +1558,22 @@ def self_test() -> int:
             {
                 **b3_probe,
                 "probe_id": f"fixture.probe.{index}",
-                "conjecture_ref": "codon.code.read",
+                "conjecture_ref": "age-clock-shift.clock.read",
             }
             for index in range(1, 5)
         ]
         + [
             {
                 **b3_probe,
-                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
-                "conjecture_ref": "codon.code.read",
+                "probe_id": "cross_context.identity_marker_signal_correlates_with_RNASeq",
+                "conjecture_ref": "age-clock-shift.clock.read",
             }
         ],
         [],
     )
     if not any(
         issue.startswith(
-            f"probe_id:5: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"probe_id:5: probe_id: invalid id: cross_context.identity_marker_signal_correlates_with_RNASeq; "
             f"ids must match {ID_PATTERN}"
         )
         for result in indexed_invalid_probe_results
@@ -1575,7 +1582,7 @@ def self_test() -> int:
         print(json.dumps(indexed_invalid_probe_results, indent=2), file=sys.stderr)
         return 1
     if not any(
-        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        "suggested normalized id: cross-context.identity-marker-signal-correlates-with-rnaseq" in issue
         for result in indexed_invalid_probe_results
         for issue in result["issues"]
     ):
@@ -1641,19 +1648,19 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
-    if by_id["codon.code.read"]["gate_status"] != "gate_passed":
+    if by_id["age-clock-shift.clock.read"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
-    if by_id["protein.world.model"]["gate_status"] != "gate_blocked":
+    if by_id["cellstate.world.model"]["gate_status"] != "gate_blocked":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
-    if by_id["function.overclaim"]["gate_status"] != "gate_blocked" or not any(
-        "in cannot_test" in issue for issue in by_id["function.overclaim"]["issues"]
+    if by_id["identity.overclaim"]["gate_status"] != "gate_blocked" or not any(
+        "in cannot_test" in issue for issue in by_id["identity.overclaim"]["issues"]
     ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
-    if by_id["boundary.probe.overreach"]["gate_status"] != "gate_blocked" or not any(
-        "structural probe_kind" in issue for issue in by_id["boundary.probe.overreach"]["issues"]
+    if by_id["identity.boundary.probe.overreach"]["gate_status"] != "gate_blocked" or not any(
+        "structural probe_kind" in issue for issue in by_id["identity.boundary.probe.overreach"]["issues"]
     ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
@@ -1667,8 +1674,8 @@ def self_test() -> int:
     ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
-    if by_id["cross.layer.code.only"]["gate_status"] != "gate_blocked" or not any(
-        "non-code realization reality contact" in issue for issue in by_id["cross.layer.code.only"]["issues"]
+    if by_id["cross.layer.clock.only"]["gate_status"] != "gate_blocked" or not any(
+        "is not addressed by any attached reality contact" in issue for issue in by_id["cross.layer.clock.only"]["issues"]
     ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
@@ -1695,7 +1702,7 @@ def self_test() -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run BioReality deepening gates")
+    parser = argparse.ArgumentParser(description="Run CellStateReality deepening gates")
     parser.add_argument("--conjectures", default=str(DEFAULT_CONJECTURES), help="conjecture JSONL")
     parser.add_argument("--contacts", default=str(DEFAULT_CONTACTS), help="reality contact JSONL")
     parser.add_argument("--probes", default=str(DEFAULT_PROBES), help="probe JSONL")
