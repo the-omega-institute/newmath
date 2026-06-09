@@ -327,6 +327,18 @@ Next apply discharge obstruction and the sibling route, \autoref{thm:metacic-par
 Finally use premise preservation \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation}. Since its full spine includes $P,K,J,R,S,C,B,O,H,T,G,N$, any exported budget that forgets $P$ or $O$ has left the displayed packet and cannot be consumed as a BEDC parallel-diamond frontier.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier obstruction monotonicity]
+\label{thm:metacic-parallel-diamond-frontier-obstruction-monotonicity}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ packet. Any refinement of $F$ that preserves the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$ may strengthen the finite evidence attached to those rows, but it cannot weaken the obstruction row $O$ or discharge the residual-substitution premise row $P$ unless it also supplies a separate residual-substitution compatibility certificate. Consequently the refined packet remains a conditional frontier and cannot be consumed as full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. The premise row $P$ and obstruction row $O$ are carrier coordinates of the accepted packet, not side assumptions that a refinement may silently erase.
+
+Apply premise retention and discharge obstruction, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention} and \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. They force the local-diamond handoff to keep $P$ visible and keep $O$ active unless a separate compatibility certificate supplies the missing residual-substitution discharge.
+
+Finally use the residual budget theorem \autoref{thm:metacic-parallel-diamond-frontier-budget}. A refinement that preserves $P,K,J,R,S,C,B,O,H,T,G,N$ preserves the same budget boundary, so it cannot convert retained obstruction data into a premise-free endpoint. The stronger claims listed in the statement therefore remain outside the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual confluence]
 \label{thm:metacic-parallel-diamond-frontier-residual-confluence}
 Every confluence consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must factor its exported result through the full residual spine
