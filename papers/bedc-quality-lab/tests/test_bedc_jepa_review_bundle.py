@@ -6,6 +6,8 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
 
     assert bundle["schema_id"] == "bedc-jepa-review-bundle"
     assert bundle["status"] in {"review_ready", "incomplete"}
+    assert bundle["source_commit_at_build"] == bundle["source_commit_observed_at_build"]
+    assert "not a self-referential assertion" in bundle["source_commit_semantics"]
     assert bundle["required_artifacts"]["readiness"] == "reports/bedc_jepa_readiness.json"
     assert bundle["required_artifacts"]["native_minigrid_seed_sweep"] == (
         "reports/bedc_jepa_public_native_minigrid_seed_sweep.json"

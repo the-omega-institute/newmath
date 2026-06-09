@@ -106,10 +106,16 @@ def build_review_bundle() -> dict[str, Any]:
     _check(cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"] == "loaded", "AC Giant checkpoint loaded", failures)
     _check(manifest.get("schema_id") == "bedc-jepa-artifact-manifest", "artifact manifest schema", failures)
     status = "review_ready" if not failures else "incomplete"
+    source_commit = _git_head()
     return {
         "schema_id": "bedc-jepa-review-bundle",
         "status": status,
-        "source_commit_at_build": _git_head(),
+        "source_commit_at_build": source_commit,
+        "source_commit_observed_at_build": source_commit,
+        "source_commit_semantics": (
+            "commit observed by the review-bundle builder before the generated bundle is committed; "
+            "not a self-referential assertion about the commit that contains this JSON file"
+        ),
         "required_artifacts": {
             "readiness": "reports/bedc_jepa_readiness.json",
             "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
