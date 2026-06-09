@@ -1,0 +1,43 @@
+\subsection{Translation-First Three-Matrix Readout for the $B^*_{Q6}$ Residual Panel}
+\label{sec:q6-three-matrix-translation-first-protein-readout-cross-layer}
+
+\paragraph{Finite carrier.}
+This chapter records a cross-layer BioReality claim for a finite panel of coding sequences indexed by organism, a $B^*_{Q6}$ synonymous residual coordinate, a translation readout, and an optional downstream protein-abundance readout. The carrier is not an amino-acid sequence claim. It is a residual-coordinate claim after the amino-acid quotient: the entries distinguish a synonymous coordinate that survives amino-acid composition from the amino-acid sequence component itself. The nine residual coordinates used in the computed panel are
+$$
+\begin{aligned}
+&K\_AAA,\quad Arg\_AGR,\quad Ile\_AUA,\quad Leu\_CUN\_vs\_UUR,\quad Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\quad Ser\_UCA\_vs\_UCG,\quad Thr\_ACR\_vs\_ACY,\quad f3\_stress.
+\end{aligned}
+$$
+The control block $Z$ consists of an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$ computed from real coding-sequence codon counts, and an $M$-density baseline equal to the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ vectors. Thus the finite row space tests whether a synonymous residual coordinate contributes after the main sequence-composition explanations have already been removed.
+
+\paragraph{Ordered matrix semantics.}
+The readout boundary is ordered. First, for a residual coordinate $q_i$ and a translation readout $T_j$, the survival entry $S^{QT}_{ij}$ must be estimated under the full $Z$ controls. This object is not the same as a modeled codon-adaptation coupling $A^{QT}_{ij}$: $A^{QT}_{ij}$ can record a rank-degenerate association, whereas $S^{QT}_{ij}$ is a controlled survival score in the finite panel. Only after a positive and rank-powered $S^{QT}_{ij}$ has been obtained may a protein readout $P_k$ enter the record. At that stage the direct protein entry $S^{QP}_{ik}$ and the translation-mediated entry $M^{QTP}_{ijk}$ are separated by conditioning on the matched translation readout. The local admissibility rule is therefore
+$$
+\begin{aligned}
+q_i \leadsto P_k\quad \hbox{is interpretable only through}\quad
+S^{QT}_{ij}\ \hbox{first, then}\ S^{QP}_{ik}\ \hbox{and}\ M^{QTP}_{ijk}.
+\end{aligned}
+$$
+If all controlled $S^{QT}_{ij}$ entries are nonpositive, the $B^*_{Q6}$ basis remains a code-read or codon-usage residual basis, and no downstream protein-readout mediation statement is admitted.
+
+\paragraph{Rows and ranks.}
+The finite computation joined four organism panels. For \emph{Danio rerio}, the all-readout join contains $n=13140$ rows, with $14410$ coding sequences reported in the abundance join, $14410$ valid abundance records by protein, $13140$ valid mRNA records by protein, $24$ control columns, and $\operatorname{rank}(Z)=23$. For \emph{Escherichia coli} K-12 MG1655, the corresponding numbers are $n=3415$, $3739$, $3747$, $3415$, $24$, and $23$. For \emph{Homo sapiens}, they are $n=11554$, $19053$, $19483$, $11554$, $24$, and $23$. For \emph{Saccharomyces cerevisiae}, they are $n=5128$, $5815$, $6351$, $5128$, $24$, and $23$. These ranks are part of the claim: an all-$1.0$ residual fit on a tiny saturated row space is not treated as survival. The computation is meaningful here because the residual panel is tested against thousands of joined rows while the control design has rank $23$.
+
+\paragraph{Modeled complement and mRNA absorption.}
+The existing finite calculation is a downstream descriptive projection, not the translation-survival matrix itself. It projects the modeled-tAI complement abundance residual $\widehat P_{Q\perp Tmod}$ onto residualized $\log_{10}$ mRNA. The squared norms and modeled complements are organism-specific:
+$$
+\begin{aligned}
+\mathrm{Danio\ rerio}:&\quad \|P_Q\|^2=1092.0114815505467,\quad \|P_{Q\perp Tmod}\|^2=919.9445878158525,\quad d=0.8424312412078521,\\
+\mathrm{E.\ coli\ K12}:&\quad \|P_Q\|^2=393.78692095732885,\quad \|P_{Q\perp Tmod}\|^2=261.0102870984463,\quad d=0.6628211177352172,\\
+\mathrm{Homo\ sapiens}:&\quad \|P_Q\|^2=565.3850201235074,\quad \|P_{Q\perp Tmod}\|^2=484.31956581711796,\quad d=0.8566190269974241,\\
+\mathrm{S.\ cerevisiae}:&\quad \|P_Q\|^2=675.3275479192903,\quad \|P_{Q\perp Tmod}\|^2=151.18264752811882,\quad d=0.22386566043976477.
+\end{aligned}
+$$
+The same run reports small mRNA absorption fractions: $0.011973033879985792$ for \emph{Danio rerio}, $0.0017706954554908886$ for \emph{E. coli} K-12, $0.007858222847072218$ for \emph{Homo sapiens}, and $0.0018976054721605224$ for \emph{S. cerevisiae}. The combined descriptive quantities are respectively $0.8322280386743373$, $0.6615987644523418$, $0.8498079619223776$, and $0.223360891719316$. These numbers say that the mRNA projection has been computed and bounded in the joined panels; they do not identify a causal transcript mechanism.
+
+\paragraph{Join sensitivity.}
+The modeled complement was also compared against the abundance-only complement experiment. The absolute differences are $0.03219747984141397$ for \emph{Danio rerio}, $0.00017488612263594217$ for \emph{E. coli} K-12, $0.06427590857052146$ for \emph{Homo sapiens}, and $0.012133464712697745$ for \emph{S. cerevisiae}. The $0.02$ match criterion is met for \emph{E. coli} K-12 and \emph{S. cerevisiae}, but not for \emph{Danio rerio} or \emph{Homo sapiens}. The failure cases are informative because mRNA availability changes the protein-identifier join used by the projection. They are not negative biological laws; they mark where the finite panel changes when the transcript contact is imposed.
+
+\paragraph{Local boundary.}
+The claim is deliberately narrow. Codon-usage tables provide per-organism sequence composition. tAI or stAI weights provide modeled organism-scoped codon-adaptation weights. Ribosome profiling and matched mRNA abundance can supply a translation-efficiency readout when identifier matching and normalization are under control. Proteomics contacts can supply steady-state protein abundance. None of these contacts, alone or in the present descriptive projection, licenses translation realization, folding, physical admissibility, protein function, mechanism, phenotype, or universality. A positive protein-abundance association is not promoted unless a separate matched translation readout first yields a controlled $S^{QT}$ entry and the subsequent $q_i\to P_k$ signal is partitioned into translation-mediated and non-mediated components. The present finite record therefore supports a translation-first protocol for testing $B^*_{Q6}$ cross-layer readouts, while leaving the central survival matrix $S^{QT}$ as the required gate for any stronger biological interpretation.

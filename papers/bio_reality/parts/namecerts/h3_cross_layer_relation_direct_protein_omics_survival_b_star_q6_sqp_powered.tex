@@ -1,43 +1,43 @@
+\subsection{Direct $B^\ast_{Q_6}$ protein-omics survival with a translation boundary}
+\label{sec:b-star-q6-direct-protein-omics-survival}
 \origin{ai}
-\subsection{Direct Protein-Omics Survival of $B^*_{Q6}$ Synonymous Residual Coordinates}
-\label{sec:bior_reality-q6-direct-protein-omics-survival}
 
-\paragraph{Finite carrier.}
-The finite record considered here is a CDS-by-organism table in which each coding sequence is assigned a $B^*_{Q6}$ synonymous residual vector, a controlled protein-omics readout, and the baseline covariates needed to keep the readout from being mistaken for amino-acid composition or simple sequence composition.  The residual coordinates used in the protein-omics fit are
+\paragraph{Finite row object.}
+This record tests whether synonymous residual coordinates from the $B^\ast_{Q_6}$ codon-topology packet retain direct predictive contact with measured protein abundance after amino-acid-level and sequence-composition controls have already been removed.  The carrier is a finite CDS-by-organism table whose rows are protein-coding sequences matched to measured PAXdb abundance and real CDS codon counts.  The residual coordinate block has nine columns:
 $$
 \begin{aligned}
-q \in \{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+Q=\{&K_{AAA},\operatorname{Arg}_{AGR},\operatorname{Ile}_{AUA},\operatorname{Leu}_{CUN\;vs\;UUR},\operatorname{Leu}_{UUA\;vs\;UUG},\\
+&\operatorname{Ser}_{UCR\;vs\;AGY},\operatorname{Ser}_{UCA\;vs\;UCG},\operatorname{Thr}_{ACR\;vs\;ACY},f3_{stress}\}.
 \end{aligned}
 $$
-Thus the coordinate dimension is $9$.  These coordinates are not raw codon frequencies.  They are residual codon-topology coordinates retained after the amino-acid quotient, so their intended question is whether synonymous structure leaves information in a downstream measured table after standard compositional explanations have been removed.
+The response variable is $\log_{10}(\operatorname{abundance\_ppm})$ from measured PAXdb protein abundance.  The control block contains length, amino-acid composition, $GC3$, $M$-density, and organism-specific baseline columns as implemented in the finite run.  The statistic reported here is direct protein-omics survival $S^{QP}_{ik}$, summarized per organism by the controlled partial $R^2_{QP}$ and by the number of $Q$ coordinates with strictly positive post-control contribution above the threshold $10^{-12}$.
 
-\paragraph{Observed protein-abundance rows.}
-The protein-omics contact uses measured PAXdb protein abundance, read as $\log_{10}(\mathrm{abundance\_ppm})$, joined to real CDS codon counts.  Seven organism-level joined tables were available.  The joined row counts and hit rates were $14410$ rows at hit rate $1.000000$ for \emph{Danio rerio}, $3739$ rows at hit rate $0.997865$ for \emph{Escherichia coli} K-12 MG1655, $12418$ rows at hit rate $1.000000$ for \emph{Gallus gallus}, $19053$ rows at hit rate $0.977929$ for \emph{Homo sapiens}, $4129$ rows at hit rate $1.000000$ for \emph{Mycobacterium smegmatis} str. MC$^2$ 155, $5006$ rows at hit rate $0.994438$ for \emph{Pseudomonas aeruginosa} PAO1, and $5815$ rows at hit rate $0.915604$ for \emph{Saccharomyces cerevisiae}.  These are finite observed rows, not a universal biological population.
+\paragraph{Matched abundance rows.}
+The finite join is nontrivial in every organism used in the run.  The joined protein counts are $14410$ for \texttt{danio\_rerio} with hit rate $1.0$, $3739$ for \texttt{escherichia\_coli\_k12\_mg1655} with hit rate $0.9978649586335735$, $12418$ for \texttt{gallus\_gallus} with hit rate $1.0$, $19053$ for \texttt{homo\_sapiens} with hit rate $0.9779294769799313$, $4129$ for \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} with hit rate $1.0$, $5006$ for \texttt{pseudomonas\_aeruginosa\_pao1} with hit rate $0.9944378228049265$, and $5815$ for \texttt{saccharomyces\_cerevisiae} with hit rate $0.9156038419146592$.  These row counts make the computation a finite protein-omics readback rather than a three-organism rank-saturated surface.
 
-\paragraph{Controlled survival statistic.}
-For each organism, the protein-abundance response was residualized against the baseline controls before testing the $B^*_{Q6}$ residual coordinates.  The control design used $24$ columns, with $\operatorname{rank}(Z)=23$ in every organism, and the residual coordinate matrix retained full coordinate rank $\operatorname{rank}(\widetilde X)=9$.  The residual degrees of freedom after the control fit were $14387$, $3716$, $12395$, $19030$, $4106$, $4983$, and $5792$ for \emph{D. rerio}, \emph{E. coli}, \emph{G. gallus}, \emph{H. sapiens}, \emph{M. smegmatis}, \emph{P. aeruginosa}, and \emph{S. cerevisiae}, respectively.  The degeneracy threshold was $R^2=0.999999$, and each organism was marked rank-sufficient for the finite fit.  The positive-entry threshold for partial $R^2$ was $10^{-12}$.
+\paragraph{Residualized design ranks.}
+After residualizing against the control block, the $Q$ block remains full rank in every organism: $\operatorname{rank}(\widetilde X)=9$ for all seven organism-specific fits.  The control rank is $23$ in every case, with $24$ supplied control columns and degeneracy threshold $0.999999$.  The residual degrees of freedom after controls are $14387$ for \texttt{danio\_rerio}, $3716$ for \texttt{escherichia\_coli\_k12\_mg1655}, $12395$ for \texttt{gallus\_gallus}, $19030$ for \texttt{homo\_sapiens}, $4106$ for \texttt{mycobacterium\_smegmatis\_str\_mc2\_155}, $4983$ for \texttt{pseudomonas\_aeruginosa\_pao1}, and $5792$ for \texttt{saccharomyces\_cerevisiae}.  The residual response energies after the same control projection are, respectively, $24915.244071805108$, $4020.333671802061$, $18586.77768412634$, $30769.5367150478$, $5729.194538214237$, $5221.627438262674$, and $2958.1865890925337$.  Thus the reported association is not produced by an exhausted residual design: each organism retains nine independent residual codon-topology coordinates after the baseline has been removed.
 
-\paragraph{Finite readback.}
-The direct protein-omics survival score $S^{QP}$ was positive in every available organism-level table.  The fitted $R^2_{QP}$ values were
+\paragraph{Observed direct protein-omics survival.}
+The controlled direct $Q\to P$ surface is positive in all seven organism-specific fits, and all nine residual coordinates survive in each fit under the stated positive threshold.  The organism-level summaries are
 $$
 \begin{aligned}
-R^2_{QP}(\emph{D.\ rerio}) &= 0.04613529807085213,\\
-R^2_{QP}(\emph{E.\ coli}\ K\text{-}12) &= 0.10767526677985896,\\
-R^2_{QP}(\emph{G.\ gallus}) &= 0.03980793596647631,\\
-R^2_{QP}(\emph{H.\ sapiens}) &= 0.04454565118019448,\\
-R^2_{QP}(\emph{M.\ smegmatis}) &= 0.03209009170649934,\\
-R^2_{QP}(\emph{P.\ aeruginosa}) &= 0.0646471273126996,\\
-R^2_{QP}(\emph{S.\ cerevisiae}) &= 0.29837624994140827.
+R^2_{QP}(\texttt{danio\_rerio})&=0.04613529807085213,\\
+R^2_{QP}(\texttt{escherichia\_coli\_k12\_mg1655})&=0.10767526677985896,\\
+R^2_{QP}(\texttt{gallus\_gallus})&=0.03980793596647631,\\
+R^2_{QP}(\texttt{homo\_sapiens})&=0.04454565118019448,\\
+R^2_{QP}(\texttt{mycobacterium\_smegmatis\_str\_mc2\_155})&=0.03209009170649934,\\
+R^2_{QP}(\texttt{pseudomonas\_aeruginosa\_pao1})&=0.0646471273126996,\\
+R^2_{QP}(\texttt{saccharomyces\_cerevisiae})&=0.29837624994140827.
 \end{aligned}
 $$
-In each case all $9$ residual coordinates had positive survival under the declared threshold.  The largest organism-level value in this finite panel was the yeast value $0.29837624994140827$, while the smallest was the \emph{M. smegmatis} value $0.03209009170649934$.  The result is therefore a finite, controlled association between amino-acid-quotient synonymous residual coordinates and measured protein abundance.
-
-\paragraph{Energy and rank checks.}
-The controlled fits were not accepted merely because rows existed.  The response residual energies after the control projection were $24915.244071805108$ for \emph{D. rerio}, $4020.333671802061$ for \emph{E. coli}, $18586.77768412634$ for \emph{G. gallus}, $30769.5367150478$ for \emph{H. sapiens}, $5729.194538214237$ for \emph{M. smegmatis}, $5221.627438262674$ for \emph{P. aeruginosa}, and $2958.1865890925337$ for \emph{S. cerevisiae}.  The corresponding explained energies of the $B^*_{Q6}$ residual block were $1149.47221176076$, $432.89050065533684$, $739.9012558728322$, $1370.6490494847067$, $183.85037813566998$, $337.5632137808526$, and $882.6526210803958$.  These finite values support the reading that the positive $S^{QP}$ entries are measured residual associations rather than a rank-saturated all-positive artifact.
+The strongest organism-level value in this finite table is the yeast value $0.29837624994140827$, while the smallest is the \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} value $0.03209009170649934$.  Since every organism reports $9$ surviving coordinates out of $9$, the finite result supports a direct codon-residual to measured protein-abundance association under the implemented baseline controls.
 
 \paragraph{Translation boundary.}
-This chapter records a direct $q_i \to P_k$ protein-omics association.  It does not by itself record a measured translation path $q_i \to T_j \to P_k$.  The available companion translation record used only three organisms for modelled tAI readout, with nonzero bounded coupling above threshold $0.01$ in $81$ entries and maximum absolute coupling $3801961.031607896$; that three-organism contact was explicitly underpowered for a rank-powered survival claim.  Consequently, the protein-omics result here is not a translation-rate result, not ribosome occupancy, and not mediation.  Conditioning on an actually measured translation readout $T_j$ could remove, reduce, or leave the direct $q_i \to P_k$ association, but that mediation surface is not present in this finite table.
+This chapter does not identify a translation mechanism.  A direct $S^{QP}_{ik}$ entry is a protein-omics association after controls, not a measured $q_i\to T_j$ translation step and not a mediation surface $q_i\to T_j\to P_k$.  The finite evidence explicitly says that the PAXdb abundance readout is cross-sectional protein abundance, not a ribosome-occupancy or translation-rate measurement, and that the run does not use perturbation, rescue, ribosome profiling, or matched transcript controls.  Therefore positive $R^2_{QP}$ values may be read only as DNA-to-protein-omics predictive irreducibility under the stated covariates.  They may not be promoted to translation, folding, localization, post-translational modification, pathway function, stability, physical admissibility, organismal phenotype, causal mechanism, or universal biological law.
 
-\paragraph{Local no-promotion rule.}
-The only supported statement is that, in the seven joined PAXdb-CDS tables listed above, $B^*_{Q6}$ synonymous residual coordinates retain positive direct protein-abundance association after the declared sequence-composition controls.  No claim about translation mechanism, folding, physical admissibility, localization, post-translational modification, protein stability, biochemical function, phenotype, causality, or biological universality follows from this score.  Any such stronger interpretation requires its own layer-matched measurement and its own controlled statistic.  In particular, a future translation-mediated claim must join the same CDS or organism rows to measured translation readouts and matched mRNA controls, then show whether the $q_i \to T_j$ step survives and whether conditioning on $T_j$ attenuates the $q_i \to P_k$ association.
+\paragraph{Relation to the modeled translation contact.}
+A separate finite modeled-tAI contact exists for three organisms, using GtRNAdb tRNA gene-copy input and dos Reis wobble weights.  That contact computed all $61$ sense-codon modeled weights in \texttt{escherichia\_coli\_k12}, \texttt{homo\_sapiens}, and \texttt{saccharomyces\_cerevisiae}, with zero raw-weight fallback count $0$ in each case.  It found $81$ bounded-coupling entries above threshold $0.01$, with maximum absolute modeled coupling $3801961.031607896$.  However, the same record marks $3$ organisms as insufficient for powered survival and classifies the result as modeled-tAI bounded coupling rather than ribo-seq or proteomics validation.  That modeled contact is useful as a translation-readout boundary, but it does not absorb or explain the direct $Q\to P$ protein-omics association reported here.
+
+\paragraph{Local verdict.}
+The finite table is ready as a direct protein-omics survival record for $B^\ast_{Q_6}$ residual coordinates.  Its positive content is narrow: seven organism-specific controlled fits, all with $\operatorname{rank}(\widetilde X)=9$, all with positive $R^2_{QP}$, and all with nine surviving coordinates.  Its negative content is equally important: without matched measured translation readouts $T_j$, matched mRNA controls inside the same mediation design, and an explicit mediation fit, the result remains a direct protein-abundance association and not a translation-mediated biological mechanism.
