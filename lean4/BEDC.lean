@@ -5346,6 +5346,7 @@ import BEDC.Derived.IntervalConnectednessUp.TasteGate
 import BEDC.Derived.IntervalCoverRefinementTreeUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.CarrierAdmission
 import BEDC.Derived.IntervalDomainUp.CompletionApproximationScope
+import BEDC.Derived.IntervalDomainUp.DirectedApproximationInduction
 import BEDC.Derived.IntervalDomainUp.DirectedCompletionScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementObligationScope
@@ -5535,6 +5536,7 @@ import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
+import BEDC.Derived.LeastUpperBoundUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LeibnizSeriesTestUp.NameCertObligations
@@ -8082,6 +8084,7 @@ import BEDC.Derived.RegularCauchyExtensionalityUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFieldDistributivityUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
 import BEDC.Derived.RegularCauchyFilterUp.BasisRows
@@ -9486,6 +9489,7 @@ import BEDC.Derived.UniformEntourageBasisUp.TasteGate
 import BEDC.Derived.UniformEntourageRegularNameUp.TasteGate
 import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
 import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
+import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
