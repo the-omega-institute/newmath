@@ -423,24 +423,24 @@
     "markdown_artifact": "reports/canonical/discovery-regularized-training.md",
     "ordered_arm_comparison_pointers": [
       {
-        "arm": "task_only",
+        "arm": "base_transformer",
         "order": 1,
-        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.task_only"
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.base_transformer"
       },
       {
-        "arm": "SIGReg",
+        "arm": "parameter_matched",
         "order": 2,
-        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.SIGReg"
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.parameter_matched"
       },
       {
-        "arm": "DRT",
+        "arm": "DGT_full",
         "order": 3,
-        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DRT"
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DGT_full"
       },
       {
-        "arm": "matched_random_DRT",
+        "arm": "matched_random_structural_control",
         "order": 4,
-        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.matched_random_DRT"
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.matched_random_structural_control"
       },
       {
         "arm": "old_certificate_guided",
@@ -543,7 +543,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T19:53:58.207159+00:00",
+  "generated_at": "2026-06-08T21:22:53.390414+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -958,7 +958,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "f3ab3db1827b4b09570e9db316dcbf7f5745fe29c83fb1a0a5694ff3168b23d1",
+    "source_sidecar_digest": "faa5fc31aa303c9b4ec94115d405741c810019227d152a227dc6660802fb9a15",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -3224,6 +3224,9 @@
           "lambda_summary",
           "constraint_summary",
           "arm_protocol",
+          "replay_arm_catalog",
+          "comparison_owner",
+          "training_replay_bridge",
           "device_protocol",
           "compute_ledger",
           "torch_training_evidence",
@@ -3246,6 +3249,8 @@
           "hardgate",
           "failed_gate",
           "discovery_map_signal",
+          "dgt_replay_gate_summary",
+          "dgt_replay_claim_status",
           "positive_claim",
           "claim_capsule_ref",
           "not_claimed",

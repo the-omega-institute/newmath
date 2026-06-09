@@ -966,6 +966,18 @@ def _component_ablation_forbidden_claim_term_audit(payload: Mapping[str, Any]) -
     }
 
 
+def _component_ablation_arm_claim_mismatch(row: Mapping[str, Any], threshold: float) -> bool:
+    measured_effect = row.get("measured_effect")
+    if not isinstance(measured_effect, int | float):
+        return True
+    if measured_effect >= threshold:
+        return row.get("effect_status") != "measurable" or row.get("causal_claim_allowed") is not True
+    return (
+        row.get("effect_status") != "zero-effect-fail-closed"
+        or row.get("causal_claim_allowed") is not False
+    )
+
+
 def _component_ablation_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     arms = payload.get("arms")
     arms = arms if isinstance(arms, list) else []
@@ -975,17 +987,15 @@ def _component_ablation_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[
     components = components if isinstance(components, list) else []
     contract = payload.get("metric_contract")
     audit = payload.get("forbidden_claim_term_audit")
+    threshold = (contract or {}).get("measurable_effect_threshold", 1.0)
     failed_conditions = {
         "ABL-HG1": payload.get("owner_ref") != COMPONENT_ABLATION_OWNER_REF,
         "ABL-HG2": arm_ids != expected_arm_ids or len(arms) != 11 or payload.get("arm_count") != 11,
         "ABL-HG3": any(not isinstance(row, Mapping) or not isinstance(row.get("component_pointer"), str) or ":$" not in row["component_pointer"] for row in arms),
         "ABL-HG4": any(
             not isinstance(row, Mapping)
-            or row.get("measured_effect") is None
-            or (
-                row.get("measured_effect") < (contract or {}).get("measurable_effect_threshold", 1.0)
-                and row.get("causal_claim_allowed") is not False
-            )
+            or not isinstance(threshold, int | float)
+            or _component_ablation_arm_claim_mismatch(row, threshold)
             for row in arms
         ),
         "ABL-HG5": not (

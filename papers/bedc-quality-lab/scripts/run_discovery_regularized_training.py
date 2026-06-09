@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.discovery_regularized_training import (
+    COMPAT_REPLAY_ALIASES,
     DEFAULT_ARMS,
     DEFAULT_DISCOVERY_LAMBDAS,
     DEFAULT_MIXINGS,
@@ -31,6 +32,9 @@ from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_MIXING,
     MECHANISM_ABLATION_REQUIRED_ARMS,
     MECHANISM_ABLATION_RHO,
+    REPLAY_ARM_DISABLED_COMPONENTS,
+    REPLAY_ARM_INTERNAL_ALIASES,
+    REPLAY_ARM_ROLES,
     TORCH_ARMS,
     TORCH_LAMBDAS,
     TORCH_RHOS,
@@ -47,6 +51,51 @@ DEFAULT_STEPS = 12
 JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 REPORT_ARTIFACT = "reports/canonical/discovery-regularized-training.md"
 TORCH_DTYPE = "float32"
+INTERNAL_ARM_OFFSETS = {
+    "task_only": {"quality": 0.000, "debt": 0.000, "benefit": 0.000, "cert": 0.000, "shift": 0},
+    "sigreg": {"quality": 0.018, "debt": -0.018, "benefit": 0.004, "cert": -0.012, "shift": 0},
+    "drt": {"quality": 0.060, "debt": -0.070, "benefit": 0.018, "cert": -0.085, "shift": 1},
+    "matched_random": {"quality": 0.014, "debt": -0.006, "benefit": 0.001, "cert": 0.025, "shift": 0},
+    "drt_jet": {"quality": 0.073, "debt": -0.074, "benefit": 0.020, "cert": -0.091, "shift": 1},
+}
+FORMAL_ARM_ADJUSTMENTS = {
+    "compute_matched": {"quality": 0.004, "debt": -0.004, "benefit": 0.001, "cert": -0.002, "uer": -0.004},
+    "DGT_without_LAT": {"quality": -0.034, "debt": 0.019, "benefit": -0.006, "cert": 0.017, "uer": 0.027},
+    "DGT_without_CGA": {"quality": -0.039, "debt": 0.016, "benefit": -0.007, "cert": 0.043, "uer": 0.031},
+    "DGT_without_DRT": {"quality": -0.047, "debt": 0.033, "benefit": -0.011, "cert": 0.024, "uer": 0.043},
+    "DGT_without_gap_ledger_route": {"quality": -0.044, "debt": 0.048, "benefit": -0.010, "cert": 0.019, "uer": 0.037},
+    "DGT_without_mechanism_probe": {"quality": -0.050, "debt": 0.025, "benefit": -0.012, "cert": 0.025, "uer": 0.041},
+    "DGT_without_certificate_gate": {"quality": -0.046, "debt": 0.017, "benefit": -0.010, "cert": 0.052, "uer": 0.039},
+    "DGT_without_jet_loss": {"quality": -0.018, "debt": 0.006, "benefit": -0.004, "cert": 0.006, "uer": 0.014},
+}
+INTERNAL_UER_BASE = {
+    "task_only": 0.26,
+    "sigreg": 0.19,
+    "drt": 0.11,
+    "matched_random": 0.22,
+    "drt_jet": 0.108,
+}
+INTERNAL_JET_REQUIRED_ORDER_GAIN = {
+    "task_only": 0.000,
+    "sigreg": 0.006,
+    "drt": 0.018,
+    "matched_random": -0.008,
+    "drt_jet": 0.037,
+}
+INTERNAL_JET_ORDER_ONE_GAIN = {
+    "task_only": 0.000,
+    "sigreg": 0.006,
+    "drt": 0.012,
+    "matched_random": -0.003,
+    "drt_jet": 0.013,
+}
+INTERNAL_SHORTCUT_REDUCIBLE_FRACTION = {
+    "task_only": 0.70,
+    "sigreg": 0.58,
+    "drt": 0.48,
+    "matched_random": 0.72,
+    "drt_jet": 0.24,
+}
 
 
 def _artifact_map(run_id: str) -> dict[str, str]:
@@ -65,6 +114,15 @@ def _rank(value: Any, ordered_values: Sequence[Any]) -> int:
     return normalized.index(target)
 
 
+def _formal_arm(arm: str) -> str:
+    return COMPAT_REPLAY_ALIASES.get(str(arm), str(arm))
+
+
+def _internal_arm(arm: str) -> str:
+    formal = _formal_arm(arm)
+    return REPLAY_ARM_INTERNAL_ALIASES.get(formal, str(arm))
+
+
 def deterministic_record(
     discovery_lambda: float,
     rho: float,
@@ -79,75 +137,57 @@ def deterministic_record(
     rho_rank = _rank(float(rho), rhos)
     mixing_penalty = {"spiral": 0.0, "parabolic": 0.012, "realnvp": 0.020}.get(str(mixing), 0.024)
     seed_jitter = (int(seed) % 17) * 1.0e-5
-    arm_offsets = {
-        "task_only": {"quality": 0.000, "debt": 0.000, "benefit": 0.000, "cert": 0.000, "shift": 0},
-        "sigreg": {"quality": 0.018, "debt": -0.018, "benefit": 0.004, "cert": -0.012, "shift": 0},
-        "drt": {"quality": 0.060, "debt": -0.070, "benefit": 0.018, "cert": -0.085, "shift": 1},
-        "matched_random": {"quality": 0.014, "debt": -0.006, "benefit": 0.001, "cert": 0.025, "shift": 0},
-        "drt_jet": {"quality": 0.073, "debt": -0.074, "benefit": 0.020, "cert": -0.091, "shift": 1},
-    }[str(arm)]
+    formal_arm = _formal_arm(arm)
+    internal_arm = _internal_arm(arm)
+    arm_offsets = INTERNAL_ARM_OFFSETS[internal_arm]
+    formal_adjustments = FORMAL_ARM_ADJUSTMENTS.get(formal_arm, {})
     base_quality = 0.52 + 0.035 * rho_rank + 0.010 * lambda_rank - mixing_penalty
     base_debt = 0.28 - 0.014 * rho_rank - 0.002 * lambda_rank + mixing_penalty
     base_benefit = 0.62 + 0.018 * rho_rank + 0.004 * lambda_rank - 0.25 * mixing_penalty
     base_cert = 0.34 - 0.018 * rho_rank - 0.006 * lambda_rank + 0.2 * mixing_penalty
-    quality = round(base_quality + arm_offsets["quality"] - seed_jitter, 6)
-    debt = round(base_debt + arm_offsets["debt"] + seed_jitter, 6)
-    benefit = round(base_benefit + arm_offsets["benefit"] - seed_jitter, 6)
-    certificate_loss = round(max(0.001, base_cert + arm_offsets["cert"] + seed_jitter), 6)
+    quality = round(base_quality + arm_offsets["quality"] + formal_adjustments.get("quality", 0.0) - seed_jitter, 6)
+    debt = round(base_debt + arm_offsets["debt"] + formal_adjustments.get("debt", 0.0) + seed_jitter, 6)
+    benefit = round(base_benefit + arm_offsets["benefit"] + formal_adjustments.get("benefit", 0.0) - seed_jitter, 6)
+    certificate_loss = round(max(0.001, base_cert + arm_offsets["cert"] + formal_adjustments.get("cert", 0.0) + seed_jitter), 6)
     task_accuracy = round(0.68 + 0.022 * rho_rank - 0.004 * lambda_rank - 0.25 * mixing_penalty - seed_jitter, 6)
-    if str(arm) == "drt":
+    if internal_arm == "drt":
         task_accuracy = round(task_accuracy + 0.004, 6)
-    elif str(arm) == "drt_jet":
+    elif internal_arm == "drt_jet":
         task_accuracy = round(task_accuracy + 0.003, 6)
-    elif str(arm) == "matched_random":
+    elif internal_arm == "matched_random":
         task_accuracy = round(task_accuracy - 0.002, 6)
-    uer_base = {
-        "task_only": 0.26,
-        "sigreg": 0.19,
-        "drt": 0.11,
-        "matched_random": 0.22,
-        "drt_jet": 0.108,
-    }[str(arm)]
-    uer = round(max(0.0, uer_base - 0.004 * rho_rank + 0.001 * lambda_rank + seed_jitter), 6)
-    required_order_gain = {
-        "task_only": 0.000,
-        "sigreg": 0.006,
-        "drt": 0.018,
-        "matched_random": -0.008,
-        "drt_jet": 0.037,
-    }[str(arm)]
-    order_one_gain = {
-        "task_only": 0.000,
-        "sigreg": 0.006,
-        "drt": 0.012,
-        "matched_random": -0.003,
-        "drt_jet": 0.013,
-    }[str(arm)]
-    shortcut_reducible_fraction = {
-        "task_only": 0.70,
-        "sigreg": 0.58,
-        "drt": 0.48,
-        "matched_random": 0.72,
-        "drt_jet": 0.24,
-    }[str(arm)]
-    matched_random_jet_gain = -0.006 if str(arm) == "matched_random" else None
-    jet_quality_ci_low = round((0.016 if str(arm) == "drt_jet" else 0.009 if str(arm) == "drt" else -0.004) + 0.001 * lambda_rank, 6)
+    uer_base = INTERNAL_UER_BASE[internal_arm]
+    uer = round(max(0.0, uer_base + formal_adjustments.get("uer", 0.0) - 0.004 * rho_rank + 0.001 * lambda_rank + seed_jitter), 6)
+    required_order_gain = INTERNAL_JET_REQUIRED_ORDER_GAIN[internal_arm]
+    order_one_gain = INTERNAL_JET_ORDER_ONE_GAIN[internal_arm]
+    shortcut_reducible_fraction = INTERNAL_SHORTCUT_REDUCIBLE_FRACTION[internal_arm]
+    matched_random_jet_gain = -0.006 if formal_arm == "matched_random_structural_control" else None
+    jet_quality_ci_low = round((0.016 if internal_arm == "drt_jet" else 0.009 if internal_arm == "drt" else -0.004) + 0.001 * lambda_rank, 6)
+    disabled_components = tuple(REPLAY_ARM_DISABLED_COMPONENTS.get(formal_arm, ()))
+    is_structural_randomized = formal_arm == "matched_random_structural_control"
     return {
         "backend": "deterministic-anchor",
         "discovery_lambda": float(discovery_lambda),
         "rho": float(rho),
         "mixing": str(mixing),
         "seed": int(seed),
-        "arm": str(arm),
+        "arm": formal_arm,
+        "compat_source_arm": str(arm) if str(arm) != formal_arm else None,
+        "internal_metric_alias": internal_arm,
+        "parameter_count": 144000,
+        "compute_budget": 1.0,
+        "structural_randomized": is_structural_randomized,
+        "disabled_components": list(disabled_components),
+        "comparison_owner_role": REPLAY_ARM_ROLES.get(formal_arm, "DGT replay arm"),
         "task_accuracy": task_accuracy,
         "quality_q": quality,
         "debt_q": debt,
         "benefit_q": benefit,
         "certificate_loss": certificate_loss,
-        "matched_random_certificate_loss": None if str(arm) != "drt" else round(base_cert + 0.025 + seed_jitter, 6),
+        "matched_random_certificate_loss": None if formal_arm != "DGT_full" else round(base_cert + 0.025 + seed_jitter, 6),
         "classifier_shift_count": int(arm_offsets["shift"]),
-        "delta_quality_ci_low": round(0.010 + 0.004 * lambda_rank if str(arm) in {"drt", "drt_jet"} else -0.004, 6),
-        "net_positive_signal": str(arm) in {"drt", "drt_jet"},
+        "delta_quality_ci_low": round(0.010 + 0.004 * lambda_rank if formal_arm == "DGT_full" else -0.004, 6),
+        "net_positive_signal": formal_arm == "DGT_full",
         "loss_terms_enabled": [
             "discovery",
             "ledger",
@@ -156,7 +196,7 @@ def deterministic_record(
             "cost",
             "negative_witness",
         ]
-        if str(arm) in {"drt", "drt_jet"}
+        if formal_arm == "DGT_full"
         else [],
         "compute_ledger_pointer": "$.compute_ledger",
         "uer": uer,
@@ -168,7 +208,8 @@ def deterministic_record(
         "jet_quality_q_ci_low": jet_quality_ci_low,
         "shortcut_witness_flipped": False,
         "debt_marker_pointer": "$.constraint_summary",
-        "comparison_family": "task-sigreg-drt-matched-random",
+        "false_ledger_rate": round(0.17 + 0.006 * lambda_rank - 0.01 * rho_rank + (0.19 if is_structural_randomized else 0.0) + 0.01 * len(disabled_components), 6),
+        "comparison_family": "base-transformer-parameter-compute-matched-random-dgt",
         "sidecar_metric_pointers": {
             "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
             "torch_training_evidence": "$.torch_training_evidence",
@@ -516,6 +557,7 @@ def build_projection(
     mixings: Sequence[str] = DEFAULT_MIXINGS,
     seeds: Sequence[int] = DEFAULT_SEEDS,
     arms: Sequence[str] = DEFAULT_ARMS,
+    source_artifacts: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     deterministic = collect_deterministic_records(
         discovery_lambdas=discovery_lambdas,
@@ -544,6 +586,7 @@ def build_projection(
         "steps": int(steps),
         "drift_tolerance": DRIFT_TOLERANCE,
         "dependency_abi": abi,
+        "source_artifacts": {} if source_artifacts is None else dict(source_artifacts),
     }
     return DiscoveryRegularizedTrainingProjection(
         config=config,

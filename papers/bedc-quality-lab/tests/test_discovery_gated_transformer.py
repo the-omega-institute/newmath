@@ -138,6 +138,23 @@ def test_dgt_component_ablation_has_exact_eleven_owner_local_arms():
         assert row["claim_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation.claim_policy"
 
 
+def test_dgt_component_ablation_measurable_arms_allow_causal_claims():
+    spec = arm_catalog()[0]
+    row = evaluate_ablation_arm(spec, 1105)
+
+    assert row["measured_effect"] >= metric_contract()["measurable_effect_threshold"]
+    assert row["effect_status"] == "measurable"
+    assert row["causal_claim_allowed"] is True
+
+    ablation = build_component_ablation()
+    mutated = json.loads(json.dumps(ablation))
+    mutated["arms"][0]["effect_status"] = "zero-effect-fail-closed"
+    mutated["arms"][0]["causal_claim_allowed"] = False
+
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_component_ablation(mutated)
+
+
 def test_dgt_component_ablation_zero_effect_fails_closed():
     spec = arm_catalog()[0]
     zero_spec = type(spec)(
