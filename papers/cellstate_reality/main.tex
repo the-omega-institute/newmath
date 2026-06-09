@@ -4,31 +4,24 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{booktabs}
-\usepackage{enumitem}
 \usepackage{hyperref}
 
-% BEDC-style standalone macros for the CellStateReality paper.
+% BEDC-style macros stubbed for the standalone BioReality paper.
 \newcommand{\origin}[1]{}
 \newcommand{\closureat}[2]{}
 \providecommand{\path}{}\renewcommand{\path}[1]{\texttt{#1}}
+\providecommand{\BHist}{\mathsf{BHist}}
+\providecommand{\hsame}{\equiv_h}
+\providecommand{\Cont}{\mathrm{Cont}}
+\providecommand{\Pkg}{\mathrm{Pkg}}
+% article 类无 \chapter: codex 偶尔在 namecert/conjecture 写 \chapter → Undefined control sequence 致命 build 断. 降级为 \section 兜底, 不让结构命令断 build.
 \providecommand{\chapter}[1]{\section{#1}}
-\newcommand{\UpMark}{^{\uparrow}}
-\newcommand{\blockednull}{\mathsf{blocked\_null}}
-\newcommand{\needsdata}{\mathsf{needs\_data}}
-\newcommand{\AgeClockShift}{\mathsf{AgeClockShift}^{\uparrow}}
-\newcommand{\IdentityPreservingAgeReset}{\mathsf{IdentityPreservingAgeReset}^{\uparrow}}
-\newcommand{\RejuvenationCandidate}{\mathsf{RejuvenationCandidate}^{\uparrow}}
-\newcommand{\PartialReprogramming}{\mathsf{PartialReprogramming}^{\uparrow}}
-\newcommand{\RenewableMaintenance}{\mathsf{RenewableMaintenance}_{T}}
-\newcommand{\ImmortalityPotential}{\mathsf{ImmortalityPotential}^{\uparrow}}
-\newcommand{\Immortality}{\mathsf{Immortality}^{\uparrow}}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{theorem}[definition]{Theorem}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{proposition}[definition]{Proposition}
 
-\title{CellStateReality: Context Refresh Boundaries for Cell-State Claims}
+\title{BioReality: Reality-Bound Biological Deepening}
 \author{The Omega Institute}
 \date{}
 
@@ -36,27 +29,9 @@
 \maketitle
 
 \section{Scope}
-CellStateReality records cell reprogramming, aging, and maintenance claims under explicit BEDC-style reality contacts. A promotion is not obtained by enlarging language around a local result. A promotion is obtained only when the NameCert is re-certified at the higher scope by contacts that measure the higher layer.
+BioReality records biological conjecture deepening under explicit provenance boundaries. External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.
 
-The ladder studied here is
-$$
-\begin{aligned}
-\text{DNA-as-source}
-&\rightarrow
-\text{ContextDrift}
-\rightarrow
-\text{ContextRefresh}
-\rightarrow
-\IdentityPreservingAgeReset\\
-&\rightarrow
-\RejuvenationCandidate
-\rightarrow
-\RenewableMaintenance
-\rightarrow
-\ImmortalityPotential .
-\end{aligned}
-$$
-The name $\Immortality$ is not a target certified by the present paper. It remains $\blockednull$ because the required organismal, repeat-cycle, risk, and time-horizon contacts are absent.
+\input{parts/cross_layer_synthesis}
 
 \input{parts/cellstate_context_refresh_boundary}
 
