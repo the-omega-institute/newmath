@@ -1,0 +1,62 @@
+\subsection{The $B^{\ast}_{Q6}$ Translation-Survival Matrix}
+\label{subsec:translation-survival-b-star-q6-survival-matrix}
+
+\paragraph{Claim.}
+Let $Q=\{q_1,\ldots,q_9\}$ denote the nine synonymous-residual coordinates
+$$
+\begin{aligned}
+&K_{AAA},\quad Arg_{AGR},\quad Ile_{AUA},\quad Leu_{CUN/UUR},\quad Leu_{UUA/UUG},\\
+&Ser_{UCR/AGY},\quad Ser_{UCA/UCG},\quad Thr_{ACR/ACY},\quad f3_{stress}.
+\end{aligned}
+$$
+For a family of translation-related readouts $R=\{r_j\}$, the survival matrix records whether a residual coordinate keeps explanatory mass after quotienting by amino-acid composition and the declared contextual controls.  In the finite rows available here the controlled design uses amino-acid composition, organism context, GC3, coding-sequence length, and the $M$-density baseline as the covariate block $Z$.  The central statistic is the residual readout survival score $S_{ij}=S_{q_i}(r_j\mid Z)$, reported through partial $R^2$ or the equivalent description-length gain after the baseline has already absorbed the simpler codon-density effects.  The chapter-level assertion is therefore not that every coordinate survives, and not that the sign of a coordinate is universal; it is only that at least one $B^{\ast}_{Q6}$ coordinate remains non-absorbed by the amino-acid-plus-context-plus-baseline model on a bounded translation readout.
+
+\paragraph{Finite coordinate carrier.}
+The nine residual coordinates were computed in two independent finite rows.  In the three-organism coupling row the codon-count space had dimension $61$, with organisms $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$.  Against the proxy tRNA-Leu CUN-versus-UUR log-copy spectrum, the break condition was that all nine entries satisfy $|A_{ij}|<0.01$.  That break condition was false: all nine entries were nonzero above threshold, and the maximum absolute coupling was
+$$
+\begin{aligned}
+\max_{i,j}|A_{ij}|=1882464.1106377328.
+\end{aligned}
+$$
+This row establishes that the residual coordinate system is not numerically silent against the proxy readout.  It does not itself establish $S_{ij}>0$, because $A_{ij}$ is a covariance coupling and not the controlled survival statistic.
+
+\paragraph{Powered modeled-translation row.}
+The finite survival row with modeled translation weights used $40$ organisms and the same nine residual coordinates as both coordinate and readout directions after projection onto modeled per-codon tAI weights from tRNA gene-copy counts and dos Reis wobble weights.  The residualized control matrix had $24$ control columns, rank $23$, and residual degrees of freedom $17$.  The powered-rank check reported $rank(\widetilde X)=9$, so the nine-coordinate survival surface was not the all-saturated three-row artefact.  The computed matrix shape was $9\times 9$, and the global modeled $Q\to T$ fit was
+$$
+\begin{aligned}
+R^2_{QT}=0.9003849000036579,
+\end{aligned}
+$$
+with a positive-entry threshold $10^{-12}$ and a degeneracy cutoff $0.999999$.  Since $R^2_{QT}$ is positive and below the saturation cutoff, this row supplies a bounded modeled-translation survival witness for the claim: the $B^{\ast}_{Q6}$ residual block is not wholly absorbed by $Z$ on the modeled tAI readout surface.
+
+\paragraph{Leucine finite-row contact.}
+A separate CUN-versus-UUR leucine contact used the same three organisms $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$.  The Pearson coefficient and the amino-acid-controlled partial Pearson coefficient were both reported as $1.0$ at $n=3$.  The signed log-ratio row was
+$$
+\begin{aligned}
+(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702),
+\end{aligned}
+$$
+with signs $(1,-1,1)$.  Thus the row is useful as a finite contact showing that the leucine gate is visible in the available organism table, but it is not a population-level direction estimate.  The sign reversal is part of the evidence: it forces the translation-survival statement to remain coordinate-and-context local rather than becoming a universal monotonic law.
+
+\paragraph{Downstream complement readback.}
+The modeled translation complement was also read back through matched protein-abundance rows for six organisms.  The number of joined coding-sequence rows was $19053$ for $homo\_sapiens$, $5815$ for $saccharomyces\_cerevisiae$, $3739$ for $escherichia\_coli\_k12\_mg1655$, $14410$ for $danio\_rerio$, $12418$ for $gallus\_gallus$, and $4129$ for $mycobacterium\_smegmatis\_str\_mc2\_155$.  Each organism used a $24$-column control block of rank $23$.  The modeled-complement projection reported the following $R^2_{QP}$ values:
+$$
+\begin{aligned}
+R^2_{QP}(danio\_rerio)&=0.04613529805760884,\\
+R^2_{QP}(escherichia\_coli\_k12\_mg1655)&=0.10767526667768725,\\
+R^2_{QP}(gallus\_gallus)&=0.03980793595345331,\\
+R^2_{QP}(homo\_sapiens)&=0.04454565117192484,\\
+R^2_{QP}(mycobacterium\_smegmatis\_str\_mc2\_155)&=0.032090091625816136,\\
+R^2_{QP}(saccharomyces\_cerevisiae)&=0.29837624987287115.
+\end{aligned}
+$$
+The associated complement fractions $m$ were $0.12537127895073397$, $0.3370039961421468$, $0.05996581936972245$, $0.07910506443205445$, $0.10273279812535108$, and $0.788267804272933$, in the same organism order.  Only $mycobacterium\_smegmatis\_str\_mc2\_155$ matched the separate mediation-reference value within $0.02$, with absolute difference $0.018756768926738165$; the other five organisms did not.  This is why the complement readback is kept as a statistical projection result, not as a mechanism claim.
+
+\paragraph{Dominant residual supports.}
+The complement readback is nevertheless coordinate-specific.  The dominant $a_{\perp}$ supports include $f3_{stress}$, $Arg_{AGR}$, $Ile_{AUA}$, $K_{AAA}$, and $Leu_{UUA/UUG}$ in $danio\_rerio$; $Thr_{ACR/ACY}$, $Arg_{AGR}$, $Ile_{AUA}$, and $f3_{stress}$ in $escherichia\_coli\_k12\_mg1655$; $Arg_{AGR}$, $Leu_{CUN/UUR}$, $Ile_{AUA}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, and $K_{AAA}$ in $gallus\_gallus$; $Arg_{AGR}$, $Ile_{AUA}$, $Ser_{UCA/UCG}$, $K_{AAA}$, and $f3_{stress}$ in $homo\_sapiens$; $K_{AAA}$, $f3_{stress}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, and $Ser_{UCA/UCG}$ in $mycobacterium\_smegmatis\_str\_mc2\_155$; and $Ser_{UCR/AGY}$, $Leu_{CUN/UUR}$, $Ser_{UCA/UCG}$, $Arg_{AGR}$, $Thr_{ACR/ACY}$, and $f3_{stress}$ in $saccharomyces\_cerevisiae$.  Each support vector had absolute-fraction sum $1.0$ up to floating-point roundoff, with the Escherichia row reported as $1.0000000000000002$.
+
+\paragraph{Verdict.}
+The finite matrix evidence supports the bounded statement that $B^{\ast}_{Q6}$ has positive modeled translation-readout survival under the declared controls.  The strongest finite number is the powered $40$-organism modeled-tAI result $R^2_{QT}=0.9003849000036579$ with residual degrees of freedom $17$ and full nine-coordinate rank.  The three-organism coupling and leucine rows are retained as contact and orientation checks, not as survival proofs.  The protein-complement rows show that residual support can be read through abundance-associated projections, but they do not turn the modeled translation row into a causal mediation result.
+
+\paragraph{Local boundary.}
+No ribosome-mediated translation mechanism follows from this chapter unless a measured ribosome-profiling or translation-efficiency contact supplies joined rows and the same $Z$-controlled statistic is recomputed.  No protein folding, structural order, physical admissibility, molecular function, phenotype, pathway mechanism, or universal biological law follows from the modeled tAI survival row, the tRNA-copy coupling row, the leucine finite row, or the abundance-complement projection.  tRNA gene copy is used here only as a bounded modeled-readout ingredient, not as tRNA abundance or charging.  Protein abundance is a downstream readout class, not a folding or function assay.  The valid conclusion is narrower: within the finite modeled-translation contact, the nine-coordinate $B^{\ast}_{Q6}$ residual block survives the declared baseline rather than disappearing into amino-acid composition, organism context, GC3, length, and $M$-density controls.

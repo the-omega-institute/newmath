@@ -1,0 +1,32 @@
+\subsection{Direct protein-omics survival of $B^{*}_{Q6}$ residual coordinates under a translation boundary}
+\label{sec:q6-direct-protein-omics-survival-translation-boundary}
+\origin{ai}
+
+\paragraph{Finite object.}
+The finite table considered here has one row for each CDS--organism entry that can be joined to a protein-abundance readout, together with nine synonymous residual coordinates from the $B^{*}_{Q6}$ amino-acid quotient. The coordinates used in the protein-omics run are $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. The protein column is $\log_{10}(\mathrm{abundance\_ppm})$ from measured PAXdb protein abundance joined to real CDS codon counts. The baseline control block removes amino-acid composition, organism-scoped sequence effects, GC3, length, and methionine-density effects before the $Q6$ coordinates are tested against the protein column. In the intended stronger experiment, matched translation readouts $T_j$ and matched mRNA controls are also present, so that a direct $q_i \to P_k$ association can be compared with a mediated $q_i \to T_j \to P_k$ fit. That stronger joint table is not yet available in the finite row data below.
+
+\paragraph{Protein-omics contact actually present.}
+The direct protein-omics run joined seven organism-specific CDS-abundance tables. The joined row counts and hit rates were: $14{,}410$ rows at hit rate $1.0000000000$ for \textit{Danio rerio}; $3{,}739$ rows at hit rate $0.9978649586$ for \textit{Escherichia coli} K-12 MG1655; $12{,}418$ rows at hit rate $1.0000000000$ for \textit{Gallus gallus}; $19{,}053$ rows at hit rate $0.9779294770$ for \textit{Homo sapiens}; $4{,}129$ rows at hit rate $1.0000000000$ for \textit{Mycobacterium smegmatis} str. MC2 155; $5{,}006$ rows at hit rate $0.9944378228$ for \textit{Pseudomonas aeruginosa} PAO1; and $5{,}815$ rows at hit rate $0.9156038419$ for \textit{Saccharomyces cerevisiae}. For every organism in this run the residualized $Q6$ design retained rank $9$ after controls, with $24$ control columns and control rank $23$. The residual degrees of freedom after controls were $14{,}387$, $3{,}716$, $12{,}395$, $19{,}030$, $4{,}106$, $4{,}983$, and $5{,}792$ in the same organism order. The corresponding residual protein-output energies were $24{,}915.244071805108$, $4{,}020.333671802061$, $18{,}586.77768412634$, $30{,}769.5367150478$, $5{,}729.194538214237$, $5{,}221.627438262674$, and $2{,}958.1865890925337$.
+
+\paragraph{Direct survival readback.}
+After residualization by the baseline block, every one of the nine $B^{*}_{Q6}$ coordinates survived the positive partial-$R^2$ threshold $10^{-12}$ in each of the seven organism-specific protein-abundance fits. The measured direct protein-omics values were
+$$
+\begin{aligned}
+R^2_{QP}(\textit{D. rerio}) &= 0.04613529807085213,\\
+R^2_{QP}(\textit{E. coli}\ \mathrm{K12}) &= 0.10767526677985896,\\
+R^2_{QP}(\textit{G. gallus}) &= 0.03980793596647631,\\
+R^2_{QP}(\textit{H. sapiens}) &= 0.04454565118019448,\\
+R^2_{QP}(\textit{M. smegmatis}) &= 0.03209009170649934,\\
+R^2_{QP}(\textit{P. aeruginosa}) &= 0.0646471273126996,\\
+R^2_{QP}(\textit{S. cerevisiae}) &= 0.29837624994140827.
+\end{aligned}
+$$
+These values show a finite direct association between synonymous residual coordinates and measured protein abundance after the stated sequence-composition controls. The largest reported direct value in this table is the yeast value $0.29837624994140827$, and the smallest is the \textit{M. smegmatis} value $0.03209009170649934$. This is enough to record a protein-omics association at the controlled sequence layer, but it is not enough to identify the association as a translation-mediated effect.
+
+\paragraph{Translation boundary check.}
+The available translation-side computation is a modeled tAI contact, not a matched ribosome-profiling or translation-efficiency measurement paired with the same abundance rows. In that modeled run, the codon count space had $61$ sense codons and used GtRNAdb tRNA gene-copy data with dos Reis wobble weights. The three organisms in the modeled tAI table were \textit{E. coli} K-12, \textit{H. sapiens}, and \textit{S. cerevisiae}. Their standard amino-acid family counts were all $20$; the FASTA header counts were $89$, $432$, and $275$, with matched counts $87$, $432$, and $275$, and with unmatched counts $2$, $0$, and $0$. The modeled readout had zero raw-weight fallback count $0$ for all three organisms and $61$ sense codons in each organism. It produced $81$ entries above the bounded-contact threshold $0.01$, with maximum absolute score $3{,}801{,}961.031607896$ and maximum absolute diagonal score $3{,}801{,}961.031607896$. However, the modeled translation table has only $3$ organisms and is explicitly underpowered for survival claims requiring at least $40$ matched species. It is therefore a bounded translation annotation, not a measured mediator table for the seven-organism protein-omics association.
+
+\paragraph{Local verdict.}
+The direct $Q6$-to-protein-abundance association is numerically present in the finite protein-omics contact, and the rank checks show that the residualized $Q6$ block is not collapsed by the baseline controls. The conjecture nevertheless remains data-incomplete because the required matched translation readout and matched mRNA control are missing from the same finite rows. The admissible statement is: $B^{*}_{Q6}$ synonymous residual coordinates retain direct predictive signal against measured PAXdb abundance after sequence-composition controls in seven organisms. The inadmissible stronger statement is that this signal is a translation mechanism, ribosome-dynamics effect, folded-structure effect, physical admissibility certificate, biological function claim, causal claim, organism-level fitness claim, or universal biological rule. Any such promotion would require a separate contact at the relevant layer. In particular, a mediation matrix comparing $q_i \to P_k$ with $q_i \to T_j \to P_k$ is still absent, so the result is held at direct protein-omics association status rather than translation-mediated mechanism status.
+
+\origin{ai}
