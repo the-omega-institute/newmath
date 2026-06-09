@@ -339,6 +339,29 @@ def protein_feature_data_path(repo: pathlib.Path, slug: str) -> pathlib.Path:
 
 def load_or_fetch_protein_features(repo: pathlib.Path, pair: dict[str, str]) -> tuple[dict[str, object] | None, dict[str, object]]:
     path = protein_feature_data_path(repo, pair["data_slug"])
+    # Cache hit: a valid local payload (with a recorded sha256) is authoritative.
+    # UniProt reviewed features are stable, so re-downloading on every run only
+    # rewrites fetched_at on byte-identical data (commit churn) and re-loads UniProt.
+    # Loading the cache also avoids the delete-on-fetch-error hazard below, where a
+    # transient network blip during a rerun would wipe otherwise-good cached data.
+    if path.exists():
+        try:
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            provenance = cached.get("provenance", {})
+            cached_sha = provenance.get("payload_sha256")
+            if cached_sha:
+                return cached, {
+                    "organism": pair["organism"],
+                    "data_path": str(path.relative_to(repo)),
+                    "loaded_existing": True,
+                    "payload_sha256": cached_sha,
+                    "payload_byte_size": provenance.get("payload_byte_size"),
+                    "fetch_method": "cache",
+                    "source_url": pair["url"],
+                    "downloaded_url": provenance.get("downloaded_url"),
+                }
+        except Exception:
+            pass  # corrupt cache → fall through to a real fetch
     try:
         raw, fetch_method, downloaded_url = fetch_uniprot_payload(pair["url"])
         sha = hashlib.sha256(raw).hexdigest()
