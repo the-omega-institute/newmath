@@ -1,41 +1,93 @@
 # BEDC Model Quality Lab
 
-本目录是 BEDC Model Quality Lab 的最小实验环境。实验闭环使用 Gaussian-OU toy world、一个 tiny encoder、线性可辨识指标和证据 envelope，生成可审阅的质量报告。
+本目录是 BEDC-JEPA 质量实验与证据记录环境。它不定义 BEDC
+正文语义，也不替代论文或 Lean 侧验证；它只生成可复现的
+lab-local evidence records，用来支撑论文中的 bounded claims。
 
-Python 侧只拥有 lab-local 的 `QualityEvidenceEnvelope` 证据边界。`bedc_refs` 只保存不透明指针，例如章节路径、label 或 Lean 目标名；这里不复制 BEDC rule 正文，也不定义 NameCert、closurestatus、origin 或 ledger 的 BEDC 语义。
+Python 侧只拥有 `QualityEvidenceEnvelope` 和一组 JSON/Markdown 记录。
+`bedc_refs` 只保存不透明指针，例如章节路径、label 或 Lean 目标名。
+这里不重新定义 NameCert、closurestatus、origin、ledger 等 BEDC
+语义。
 
-## 运行
+## 当前证据范围
 
-```bash
-python3 -m pytest -q
-make run-example
-python3 scripts/run_bedc_jepa_boundary_world.py
+当前 BEDC-JEPA 证据包包含：
+
+- boundary-gated OU world 的四系统 S0/S1/S2/S3 对照；
+- fixed-latent torch objective seed sweep；
+- grid-pixel learned-transition 与 MiniGrid-style visual-planning 研究；
+- two-object、four-slot、six-slot object-counterfactual / distractor 研究；
+- public MiniGrid-DoorKey S0/S1/S2/S3 native readback packet 与 seed sweep；
+- public MiniGrid debt decomposition、conformal coverage sweep、risk-success Pareto；
+- public V-JEPA2-AC Giant CUDA checkpoint-scope adapter evaluation；
+- fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation；
+- V-JEPA2-AC fixed-carrier LCCP certificate record；
+- true torch retraining loss-term ablation for `full_s3`,
+  `minus_l_unlogged`, and `minus_l_gap`, with `minus_l_stab` and
+  `minus_l_intervention` recorded as source debt in the current boundary-world
+  supervision surface.
+
+These records do not claim public benchmark superiority, official/native
+V-JEPA2-AC benchmark reproduction, robotics-scale control, natural-language
+grounding, or full pixel-control world modeling.
+
+## Common Commands
+
+Use the project CUDA environment when available:
+
+```powershell
+.\.venv-cuda\Scripts\python.exe -m pytest -q
 ```
 
-`make run-example` 会调用 `scripts/run_gaussian_ou_lejepa.py`，写出：
+The main record-building commands are:
 
-- `reports/example_envelope.json`
-- `reports/quality_report.md`
-
-`make run-bedc-jepa` calls `scripts/run_bedc_jepa_boundary_world.py` and writes:
-
-- `reports/bedc_jepa_boundary_envelope.json`
-- `reports/bedc_jepa_boundary_report.md`
-
-## BEDC-JEPA Direction
-
-`BEDC_JEPA_DIRECTIVE.md` records the next research boundary. The lab does not treat JEPA as a post-hoc report object. It studies a BEDC-native world-model principle in which state contains:
-
-```text
-continuous latent state + operational distinctions + gap ledger
+```powershell
+.\.venv-cuda\Scripts\python.exe scripts\run_bedc_jepa_experiment.py
+.\.venv-cuda\Scripts\python.exe scripts\run_torch_bedc_jepa.py
+.\.venv-cuda\Scripts\python.exe scripts\run_torch_retraining_loss_ablation.py
+.\.venv-cuda\Scripts\python.exe scripts\run_bedc_latent_claim_certificate.py
+.\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_claim_certificate.py
+.\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_latent_prediction.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_baseline_registry.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_external_run_kit.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_artifact_manifest.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_readiness.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_review_bundle.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_backend_candidate.py
 ```
 
-The current boundary-gated OU world is the first executable protocol for that direction. It remains a protocol sketch, not a claim that full gradient-trained BEDC-JEPA has already been completed.
+## Primary Records
 
-## 依赖
+Important generated records live under `reports/`:
 
-测试主体只需要 `numpy` 和 `pytest`。`torch` 是可选依赖；如果当前环境没有安装，smoke experiment 测试会跳过，其他测试仍应通过。
+- `bedc_jepa_four_system_experiment.json`
+- `bedc_jepa_torch_objective.json`
+- `bedc_jepa_retraining_loss_ablation.json`
+- `bedc_latent_claim_certificates.json`
+- `bedc_conformal_gap_sweep.json`
+- `bedc_claim_boundary_audit.json`
+- `bedc_jepa_public_native_minigrid_benchmark.json`
+- `bedc_jepa_public_native_minigrid_seed_sweep.json`
+- `bedc_jepa_public_debt_decomposition.json`
+- `bedc_jepa_risk_success_pareto.json`
+- `bedc_jepa_public_ac_giant_adapter.json`
+- `bedc_jepa_public_cuda_adapter_comparison.json`
+- `bedc_vjepa2_ac_minigrid_claim_certificate.json`
+- `bedc_vjepa2_ac_minigrid_latent_prediction.json`
+- `bedc_jepa_vjepa2_ac_native_boundary.json`
+- `bedc_jepa_external_run_kit.json`
+- `bedc_jepa_artifact_manifest.json`
+- `bedc_jepa_readiness.json`
+- `bedc_jepa_review_bundle.json`
+- `bedc_jepa_quality_backend_candidate.json`
 
-## 证据边界
+## Evidence Boundary
 
-Envelope 记录一次实验的来源、模式、分类器、稳定性设置、指标、ledger gaps、debt items、artifact 指针和 BEDC 指针。报告只投影 envelope 中已有值，不重新计算实验指标。
+The lab is fail-closed. If a carrier, predicate, or benchmark setting does not
+support a certified claim, the corresponding record must return coverage debt,
+source debt, or a cannot-claim row rather than silently upgrading the claim.
+
+The remaining manuscript-bearing evidence boundary is not another local toy
+world. It is an official/native V-JEPA2-AC benchmark reproduction or a
+rollout-benchmark parity protocol, plus stronger public MiniGrid calibration
+and risk-success summaries.
