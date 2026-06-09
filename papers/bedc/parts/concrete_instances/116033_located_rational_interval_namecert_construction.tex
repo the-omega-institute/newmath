@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRationalIntervalUp$}
+\label{ch:concrete-instances-located-rational-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive treatment of located intervals and regular rational approximation, the $\LocatedRationalIntervalUp$ packet records the finite interval-location object used on the L10 real-completion path. It sits between the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational interval carrier of \autoref{ch:concrete-instances-rationalinterval-namecert}, the located endpoint carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the interval-domain consumer of \autoref{ch:concrete-instances-intervaldomain-namecert}. The chapter names only a finite location certificate for rational intervals; it is not a quotient-cut construction, endpoint selector, trichotomy principle, host real equality, or ambient completeness theorem.
+
+\begin{definition}[LocatedRationalInterval carrier]
+\label{def:located-rational-interval-carrier}
+A $\LocatedRationalIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(R,L,D,W,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the $\RationalIntervalUp$ row carrying rational endpoint order, containment, and rational width data.
+\item $L$ is the located-endpoint row inherited from $\LocatedIntervalUp$, binding each endpoint read to a displayed location witness.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare rational widths and endpoint windows.
+\item $W$ is the $\StreamNameUp$ window row through which finite endpoint requests are read.
+\item $Q$ is the $\RegSeqRatUp$ readback row serving the same endpoint windows with regular rational observations.
+\item $E$ is the $\RealUp$ seal row reached only after $R,L,D,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational interval, located endpoints, dyadic tolerance, stream window, regular readback, and Real seal rows.
+\item $C$ records displayed $\Cont$ replay for the same row order.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRationalIntervalUp$, $\RationalIntervalUp$, $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRationalIntervalUp}$ evidence row.
+\end{enumerate}
+The classifier compares packets only by these displayed finite rows and their transports. No carrier coordinate supplies quotient cuts, selected endpoints, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[LocatedRationalInterval NameCert obligations]
+\label{thm:located-rational-interval-namecert-obligations}
+For an accepted $\LocatedRationalIntervalUp$ carrier $I=(R,L,D,W,Q,E,H,C,P,N)$, the local $\NameCert_{\LocatedRationalIntervalUp}$ surface consists exactly of carrier admission, located-endpoint stability, dyadic tolerance stability, stream-window readback, Real-seal non-escape, componentwise transport, displayed replay, provenance, and local naming. Every interval-location read must display the rational interval row, located endpoints, dyadic tolerance, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before a completion-facing consumer can inspect the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-rational-interval-carrier}. The tuple lists $R,L,D,W,Q,E,H,C,P,N$ as the complete visible surface of the packet.
+
+Located-endpoint stability reads $R,L,H,C$. The rational interval row supplies endpoint order and containment, while the located endpoint row supplies the displayed location witnesses transported with the same interval read.
+
+Dyadic tolerance stability and stream-window readback read $D,W,Q$. The dyadic row supplies the finite tolerance budget for endpoint windows, the stream row names the finite requests, and the regular rational row supplies the readbacks for those same requests.
+
+The Real-seal clause follows because $E$ is downstream of $R,L,D,W,Q$ and the structural rows. Since the carrier has no quotient-cut, endpoint-selector, trichotomy, host-equality, or completeness coordinate, none of those principles is exported by the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[LocatedRationalInterval Real seal handoff]
+\label{thm:located-rational-interval-real-seal-handoff}
+Let $I=(R,L,D,W,Q,E,H,C,P,N)$ be an accepted $\LocatedRationalIntervalUp$ carrier. Any $\IntervalDomainUp$ or $\RealUp$ completion-facing consumer of the seal row $E$ must first read the finite route
+$$
+\RationalIntervalUp,\LocatedIntervalUp,\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The handoff is a displayed interval-location route over rational endpoints and regular readbacks; it exports no quotient cuts, selected endpoints, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:located-rational-interval-namecert-obligations}. They force a completion-facing read to expose $R,L,D,W,Q,E,H,C,P,N$ before the seal can be consumed.
+
+Read $R$ and $L$ through the sibling rational and located interval routes. The rational interval row supplies endpoint order and width data, while the located interval row supplies the finite endpoint-location witnesses.
+
+Read $D,W,Q$ next. The dyadic tolerance row supports the displayed endpoint windows, the $\StreamNameUp$ row names those requests, and the $\RegSeqRatUp$ row gives the regular rational readback used by the downstream completion route.
+
+Only then can the consumer inspect $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the handoff remains available to $\IntervalDomainUp$ and $\RealUp$ without adding quotient cuts, selected endpoints, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
+\closureat{LocatedRationalIntervalUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRationalIntervalUp}
+  \constructivestory{A $\LocatedRationalIntervalUp$ packet is generated from a RationalIntervalUp row, located endpoint rows, a DyadicRatCoreUp tolerance row, StreamNameUp windows, RegSeqRatUp readbacks, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-rational-interval-carrier}, \autoref{thm:located-rational-interval-namecert-obligations}, and \autoref{thm:located-rational-interval-real-seal-handoff} seed the finite located rational interval route for L10 completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, selected endpoints, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-endpoint stability, dyadic tolerance stability, stream-window readback, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedRationalIntervalUp.}
+\end{closurestatus}
