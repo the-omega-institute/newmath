@@ -53,7 +53,6 @@ HG_P_CORE = {
     "sigreg-mini-grid",
     "discovery-regularized-training",
     "mechanism-seeking-network",
-    "discovery-gated-nas",
     "discovery-gated-transformer",
     "high-impact-review",
     "order-k-benchmark",
@@ -77,7 +76,6 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
-    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
     "discovery-gated-transformer": "bedc-quality-lab:discovery-gated-transformer",
 }
 
@@ -102,36 +100,6 @@ def _matched_random_audit_fixture() -> dict[str, object]:
             )
         },
     }
-
-
-def _dg_nas_negative_witness_mutation_rows() -> list[dict[str, object]]:
-    return [
-        {
-            "witness_kind": "score_margin_shortcut",
-            "witness_ref": "score_margin_shortcut",
-            "source_candidate": "score_margin_shortcut",
-            "mutation_candidate": "residualized_h_path",
-            "source_candidate_demoted": True,
-            "mutation_pointer": "$.search_objective_summary.by_candidate.residualized_h_path",
-        },
-        {
-            "witness_kind": "scale_leakage",
-            "witness_ref": "scale_leakage",
-            "source_candidate": "residualized_h_path",
-            "mutation_candidate": "scale_invariant_norm",
-            "source_candidate_demoted": True,
-            "mutation_pointer": "$.search_objective_summary.by_candidate.scale_invariant_norm",
-        },
-        {
-            "witness_kind": "control_positive",
-            "witness_ref": "control_positive",
-            "source_candidate": "scale_invariant_norm",
-            "mutation_candidate": "control_separated_route",
-            "source_candidate_demoted": True,
-            "mutation_pointer": "$.search_objective_summary.by_candidate.control_separated_route",
-        },
-    ]
-
 
 def _atlas_fixture_rows():
     row = {
@@ -654,63 +622,6 @@ def _payload_for_spec(spec):
                 ],
             }
         )
-    if spec.name == "discovery-gated-nas":
-        payload.update(
-            {
-                "search_objective_summary": {
-                    "selected_candidate": {
-                        "candidate_id": "bounded_discovery_gate",
-                        "classifier_shift_count": 3,
-                        "multi_surface_robust": True,
-                        "mechanism_certificate": True,
-                        "witness_violation_count": 0,
-                        "search_score": 1.0,
-                    },
-                    "by_candidate": {"bounded_discovery_gate": {"search_score": 1.0}},
-                },
-                "negative_witness_mutations": {
-                    "mutation_map": {
-                        "score_margin_shortcut": "residualized_h_path",
-                        "scale_leakage": "scale_invariant_norm",
-                        "control_positive": "control_separated_route",
-                    },
-                    "rows": _dg_nas_negative_witness_mutation_rows(),
-                    "witness_violating_candidate_count": 3,
-                    "demoted_candidate_count": 3,
-                    "selected_candidate_has_violation": False,
-                },
-                "candidate_protocol": {
-                    "search_space_pointer": "$.search_space",
-                    "deterministic_anchor": {"primary": True},
-                    "design_search_certificate": {
-                        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
-                        "slot_state": "present",
-                    },
-                },
-                "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
-                "torch_nas_evidence": {"status": "unavailable", "row_count": 0},
-                "search_space": {"status": "closed"},
-                "matched_baseline_control": {
-                    "parameter_matched_present": True,
-                    "compute_matched_present": True,
-                    "parameter_matched": {"row_count": 1},
-                    "compute_matched": {"row_count": 1},
-                    "control_positive": False,
-                },
-                "discovery_map_signal": {
-                    "status": "d5-m-candidate",
-                    "level_candidate": "D5-M",
-                    "reason": "discovery-gated-search-positive",
-                    "failed_gate": None,
-                    "failed_gate_pointer": None,
-                    "candidate_protocol_pointer": "$.candidate_protocol",
-                    "search_space_pointer": "$.search_space",
-                    "search_objective_pointer": "$.search_objective_summary",
-                    "negative_witness_pointer": "$.negative_witness_mutations",
-                    "torch_nas_evidence_pointer": "$.torch_nas_evidence",
-                },
-            }
-        )
     if spec.name == "discovery-regularized-training":
         return runner.build_projection(generated_at="fixture-time")["summary_payload"]
         payload.update(
@@ -1062,15 +973,6 @@ def _write_derivative_bridge_sidecar_fixtures(canonical_module, root):
             path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
-    spec = canonical._specs_by_name()["discovery-gated-nas"]
-    payload = _payload_for_spec(spec)
-    rows = payload["negative_witness_mutations"]["rows"]
-
-    assert len(rows) == 3
-    assert {row["witness_ref"] for row in rows} == {"score_margin_shortcut", "scale_leakage", "control_positive"}
-
-
 def test_order_k_benchmark_canonical_spec_required_keys():
     spec = canonical._specs_by_name()["order-k-benchmark"]
 
@@ -1158,13 +1060,12 @@ def _set_canonical_tmp_root(monkeypatch, tmp_path):
 
 def _write_release_pointer_fixture(root):
     (root / "docs" / "lit").mkdir(parents=True, exist_ok=True)
-    dgt_external = root / "reports" / "canonical" / "discovery-gated-nas.json"
-    dgt_external.parent.mkdir(parents=True, exist_ok=True)
-    dgt_external.write_text(
-        json.dumps({"candidate_protocol": {"design_search_certificate": {"slot_state": "present-but-fail-closed"}}})
-        + "\n",
-        encoding="utf-8",
-    )
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (canonical_dir / "new_model_hardgates.json").write_text(json.dumps({"gates": {"status": "pass"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (root / "docs" / "artifact_manifest.md").write_text(
         "# Artifact Manifest\n\n"
         "## Quality Baseline Surfaces\n\n"
@@ -1546,7 +1447,6 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-regularized-training",
         "mechanism-seeking-network",
         "mechanism-dna",
-        "discovery-gated-nas",
         "discovery-gated-transformer",
         "order-k-benchmark",
         "transformer-derivative-atlas",
@@ -1600,10 +1500,11 @@ def test_dgt_owner_path_is_hyphen_only():
     assert "tool_route_evidence" in spec.required_json_keys
     assert "component_ablation" in spec.required_json_keys
     assert "d5_o_projection" in spec.required_json_keys
-    assert spec.positive_claim_pointer == "$.d5_o_projection"
+    assert "d5_m_projection" in spec.required_json_keys
+    assert spec.positive_claim_pointer == "$.d5_m_projection"
     assert spec.not_claimed_pointer == "$.d5_o_projection.not_claimed"
     assert spec.scope_pointer == "$.d5_o_projection.scope"
-    assert spec.control_pointer == "$.d5_o_projection.evidence_pointers.stronger_matched_random"
+    assert spec.control_pointer == "$.d4_projection.matched_control"
     assert "discovery_gated_transformer" not in names
 
 
@@ -2479,44 +2380,6 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert "residualized-attribution" not in {item.name for item in canonical.CANONICAL_REPORTS}
 
 
-def test_canonical_index_exposes_dg_nas_mechanism_namecert_ref_only(tmp_path, monkeypatch):
-    payload_path = tmp_path / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT
-    payload_path.parent.mkdir(parents=True)
-    payload_path.write_text(
-        json.dumps(
-            {
-                "artifact_id": "bedc-quality-lab:discovery-gated-nas",
-                "mechanism_namecert": {
-                    "schema_id": "bedc-quality-lab:discovery-gated-nas:mechanism-namecert",
-                    "closure_status": {"mechanism_namecert": "closed"},
-                    "audit": {"status": "pass"},
-                    "hardgates": [{"gate": "DG-NAS-HG1"}],
-                },
-            }
-        ),
-        encoding="utf-8",
-    )
-    monkeypatch.setattr(canonical, "ROOT", tmp_path)
-    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
-
-    section = canonical._discovery_gated_nas_index_section()
-    payload = canonical._index([])
-    markdown = canonical._render_index_markdown(payload)
-
-    assert "gap-head-mechanism-namecert" not in names
-    assert section["mechanism_namecert_ref"] == {
-        "artifact": canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-        "pointer": "$.mechanism_namecert",
-    }
-    assert section["mechanism_namecert_ref_pointer"] == "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert"
-    assert "mechanism_namecert" not in section
-    assert "gap_head_mechanism_namecert" not in payload
-    assert payload["discovery-gated-nas"]["mechanism_namecert_ref_pointer"] == section["mechanism_namecert_ref_pointer"]
-    assert "Discovery-gated NAS" in markdown
-    assert "Gap-head mechanism NameCert candidate" not in markdown
-
-
 def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(monkeypatch, tmp_path):
     payload = {
         "run_id": "fixture",
@@ -3220,6 +3083,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "d4_projection_ref",
         "d4_projection",
         "d5_o_projection",
+        "d5_m_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -3259,7 +3123,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["d5_o_projection"]["discovery_level"] in {"D4", "D5-O"}
     assert set(payload["component_refs"]) == {
         "hardgate_contract",
-        "discovery_gated_nas",
+        "mechanism_dna",
+        "mechanism_namecert",
         "discovery_map",
         "training_replay",
     }
@@ -3325,6 +3190,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "d5_o_projection_pointer",
         "d5_o_projection_discovery_level_pointer",
         "d5_o_projection_hardgate_pointer",
+        "d5_m_projection_pointer",
+        "d5_m_projection_discovery_level_pointer",
+        "d5_m_projection_hardgate_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
@@ -3387,7 +3255,7 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "loss",
         "records",
         "raw_metrics",
-        "terminal_verdict",
+        '"terminal_verdict":',
         "schema_id\": \"bedc-quality-lab:dgt-claim-capsule",
         "schema_id\": \"bedc-quality-lab:dgt-evidence-envelope",
         "schema_id\": \"bedc-quality-lab:dgt-mechanism-namecert",
@@ -3407,7 +3275,7 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
     for forbidden in (
         ".refactor-loop",
         "host.env",
-        "terminal_verdict",
+        '"terminal_verdict":',
         "raw positive claim",
         "dgt-family-definition",
         "run_dgt_family_definition",

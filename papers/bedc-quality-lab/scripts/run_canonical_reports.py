@@ -120,7 +120,6 @@ NEW_MODEL_HARDGATES_SCHEMA_ID = "bedc-quality-lab:new-model-hardgates"
 DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT = "reports/canonical/discovery-regularized-training.md"
 MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
-DISCOVERY_GATED_NAS_JSON_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -257,7 +256,6 @@ CANONICAL_REPORT_CLAIM_CAPSULE_POINTERS = {
     "sigreg-mini-grid": "$.run_artifacts.claim_capsule",
     "discovery-regularized-training": "$.source_artifacts.claim_capsule",
     "mechanism-seeking-network": "$.source_artifacts.claim_capsule",
-    "discovery-gated-nas": "$.source_artifacts.claim_capsule",
     "discovery-gated-transformer": "$.claim_capsule_ref",
 }
 
@@ -1124,52 +1122,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         forbidden_claim_terms=("terminal_verdict", "final_verdict", "terminal verdict"),
     ),
     CanonicalReportSpec(
-        name="discovery-gated-nas",
-        command=("python3", "scripts/run_discovery_gated_nas.py"),
-        json_artifact="reports/canonical/discovery-gated-nas.json",
-        markdown_artifact="reports/canonical/discovery-gated-nas.md",
-        required_json_keys=(
-            "schema_id",
-            "artifact_id",
-            "generated_at",
-            "run_id",
-            "producer",
-            "projector",
-            "run_artifacts",
-            "source_artifacts",
-            "config",
-            "grid",
-            "search_space",
-            "records",
-            "surface_registry",
-            "search_objective_summary",
-            "negative_witness_mutations",
-            "candidate_protocol",
-            "device_protocol",
-            "torch_nas_evidence",
-            "matched_baseline_control",
-            "mechanism_namecert",
-            "hardgate",
-            "failed_gate",
-            "discovery_map_signal",
-            "positive_claim",
-            "claim_capsule_ref",
-            "not_claimed",
-            "what_was_learned",
-            "revocation_rows",
-            "forbidden_claim_term_audit",
-        ),
-        estimated_seconds=2,
-        bundle_role="hg_p_core",
-        scope_pointer="$.search_space",
-        cost_pointer="$.source_artifacts.cost_protocol",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.positive_claim",
-        control_pointer="$.matched_baseline_control",
-        no_control_rationale_pointer=None,
-        literature_ref_ids=("lit-lejepa-theorem-ledger",),
-    ),
-    CanonicalReportSpec(
         name="discovery-gated-transformer",
         command=("python3", "scripts/run_discovery_gated_transformer.py"),
         json_artifact=DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
@@ -1191,8 +1143,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "component_ablation",
             "operational_robustness",
             "d5_o_projection",
+            "d5_m_projection",
             "discovery_map_signal",
             "discovery_map_signal_ref",
+            "d4_projection_ref",
             "d4_projection",
             "claim_capsule_ref",
             "evidence_envelope_ref",
@@ -1207,8 +1161,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         scope_pointer="$.d5_o_projection.scope",
         cost_pointer="$.architecture_spec",
         not_claimed_pointer="$.d5_o_projection.not_claimed",
-        positive_claim_pointer="$.d5_o_projection",
-        control_pointer="$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        positive_claim_pointer="$.d5_m_projection",
+        control_pointer="$.d4_projection.matched_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
@@ -4021,6 +3975,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "component_ablation",
         "operational_robustness",
         "d5_o_projection",
+        "d5_m_projection",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
@@ -4076,6 +4031,22 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     for phrase in ("bounded d5-o", "production robustness", "global robustness", "llm replacement"):
         if phrase not in d5_o_not_claimed:
             raise ValueError("DGT D5-O projection not_claimed boundary mismatch")
+    d5_m_projection = payload["d5_m_projection"]
+    if set(d5_m_projection["hardgates"]) != {f"D5M-HG{index}" for index in range(1, 11)}:
+        raise ValueError("DGT D5-M projection hardgates must contain D5M-HG1..10")
+    d5_m_all_pass = all(row["status"] == "pass" for row in d5_m_projection["hardgates"].values())
+    if d5_m_projection["discovery_level"] != ("D5-M" if d5_m_all_pass else d5_m_projection["source_level"]):
+        raise ValueError("DGT D5-M projection discovery level mismatch")
+    if d5_m_projection["status"] != ("ready" if d5_m_all_pass else "blocked"):
+        raise ValueError("DGT D5-M projection status mismatch")
+    if d5_m_projection["evidence_scope"] != "bounded-model-prototype":
+        raise ValueError("DGT D5-M evidence scope mismatch")
+    if d5_m_projection["terminal_verdict_scope"] != "Core":
+        raise ValueError("DGT D5-M terminal scope mismatch")
+    d5_m_not_claimed = " ".join(d5_m_projection["not_claimed"]).lower()
+    for phrase in ("bounded d5-m", "production authority", "global superiority", "llm replacement", "unbounded"):
+        if phrase not in d5_m_not_claimed:
+            raise ValueError("DGT D5-M projection not_claimed boundary mismatch")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -4112,9 +4083,11 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     if not payload["revocation_rows"]:
         raise ValueError("DGT revocation rows missing")
     forbidden = json.dumps(payload, sort_keys=True).lower()
-    for token in ("terminal_verdict", ".refactor-loop", "host.env", "raw positive claim", "dgt-boundary-causal-jet"):
+    for token in (".refactor-loop", "host.env", "raw positive claim", "dgt-boundary-causal-jet"):
         if token in forbidden:
             raise ValueError(f"discovery_gated_transformer payload contains forbidden value: {token}")
+    if '"terminal_verdict":' in forbidden:
+        raise ValueError("discovery_gated_transformer payload contains forbidden terminal authority payload")
 
 
 def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> str:
@@ -4166,6 +4139,11 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_o_projection.discovery_level"
         ),
         "d5_o_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_o_projection.gates",
+        "d5_m_projection_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection",
+        "d5_m_projection_discovery_level_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level"
+        ),
+        "d5_m_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.hardgates",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",
@@ -4278,26 +4256,14 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "hardgate_reason": "mechanism-seeking owner and hardgate pointers resolve",
         },
         {
-            "component_id": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.artifact_id",
-            "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$",
-            "discovery_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.discovery_map_signal",
-            "verdict_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.status",
-            "mechanism_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.search_space",
-            "debt_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.gates.DG-NAS-HG8",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
-            "hardgate_status": "pass",
-            "hardgate_reason": "DG-NAS owner and hardgate pointers resolve",
-        },
-        {
             "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
-            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
-            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
+            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level",
+            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.status",
             "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
-            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.boundary_ledger",
+            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.not_claimed",
+            "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.negative_witness_pointers",
             "hardgate_status": "pass",
             "hardgate_reason": "DGT design pointers resolve",
         },
@@ -4505,7 +4471,6 @@ def _validate_committed_model_design_suite_round_trip() -> None:
         "bedc-quality-lab:certificate-gated-attention",
         "bedc-quality-lab:discovery-regularized-training",
         "bedc-quality-lab:mechanism-seeking-network",
-        "bedc-quality-lab:discovery-gated-nas",
         DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
     }
     expected_owner_artifacts = {
@@ -4513,7 +4478,6 @@ def _validate_committed_model_design_suite_round_trip() -> None:
         "reports/canonical/certificate-gated-attention.json",
         DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
         MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
-        DISCOVERY_GATED_NAS_JSON_ARTIFACT,
         DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
     }
     if component_ids != expected_components:
@@ -5221,22 +5185,6 @@ def _gap_head_transfer_atlas_index_section(discovery_map_payload: Mapping[str, A
     }
 
 
-def _discovery_gated_nas_index_section() -> dict[str, Any]:
-    payload = _load_artifact_payload(DISCOVERY_GATED_NAS_JSON_ARTIFACT)
-    return {
-        "status": "pointer-only",
-        "artifact_id": payload.get("artifact_id", "bedc-quality-lab:discovery-gated-nas"),
-        "json_artifact": DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-        "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
-        "mechanism_namecert_ref": {
-            "artifact": DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-            "pointer": "$.mechanism_namecert",
-        },
-        "mechanism_namecert_ref_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert",
-        "mechanism_namecert_audit_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert.audit.status",
-        "mechanism_namecert_closure_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.mechanism_namecert.closure_status.mechanism_namecert",
-    }
-
 def _gap_head_attribution_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT)
     return {
@@ -5550,7 +5498,6 @@ def _index(
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
-        "discovery-gated-nas": _discovery_gated_nas_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
@@ -5776,6 +5723,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Robustness: `{payload['discovery-gated-transformer']['robustness_pointer']}`",
             f"- Robustness readiness: `{payload['discovery-gated-transformer']['robustness_readiness_pointer']}`",
             f"- Robustness hardgate: `{payload['discovery-gated-transformer']['robustness_hardgate_pointer']}`",
+            f"- D5-M projection: `{payload['discovery-gated-transformer']['d5_m_projection_pointer']}`",
+            f"- D5-M discovery level: `{payload['discovery-gated-transformer']['d5_m_projection_discovery_level_pointer']}`",
             f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
             f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
             f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",
@@ -5902,14 +5851,6 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- D5-O: `{payload['gap_head_attribution_capsule']['d5_o_status']}`",
             f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
             f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
-            "",
-            "## Discovery-gated NAS",
-            "",
-            f"- Status: `{payload['discovery-gated-nas']['status']}`",
-            f"- JSON: `{payload['discovery-gated-nas']['json_artifact']}`",
-            f"- Markdown: `{payload['discovery-gated-nas']['markdown_artifact']}`",
-            f"- Mechanism NameCert: `{payload['discovery-gated-nas']['mechanism_namecert_ref_pointer']}`",
-            f"- Mechanism audit: `{payload['discovery-gated-nas']['mechanism_namecert_audit_pointer']}`",
             "",
             "## Release manifest sidecar",
             "",
