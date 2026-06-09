@@ -33,6 +33,8 @@ METRICS = (
     "full_retraining_loss_ablation_closed",
     "vjepa2_ac_lccp_recorded",
     "vjepa2_ac_latent_prediction_score",
+    "vjepa2_ac_near_native_recorded",
+    "vjepa2_ac_official_reproduction_evaluated",
 )
 
 LEDGER_ROWS = (
@@ -47,6 +49,7 @@ LEDGER_ROWS = (
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
     {"kind": "classifier", "residue": "vjepa2-ac-fixed-carrier-lccp"},
     {"kind": "mechanism", "residue": "vjepa2-ac-minigrid-latent-prediction"},
+    {"kind": "mechanism", "residue": "vjepa2-ac-near-native-minigrid-record"},
 )
 
 NOT_CLAIMED = (
@@ -115,6 +118,12 @@ def _metric_payload(
         if float(checks.get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0
         else 0.0,
         "vjepa2_ac_latent_prediction_score": float(checks.get("vjepa2_ac_latent_prediction_score") or 0.0),
+        "vjepa2_ac_near_native_recorded": 1.0
+        if str(checks.get("vjepa2_ac_near_native_status") or "") == "evaluated_near_native"
+        else 0.0,
+        "vjepa2_ac_official_reproduction_evaluated": 1.0
+        if str(checks.get("vjepa2_ac_official_native_reproduction_status") or "") != "not_evaluated"
+        else 0.0,
     }
 
 
@@ -166,6 +175,14 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
                 else "open"
             )
             evidence = "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+        elif row["residue"] == "vjepa2-ac-near-native-minigrid-record":
+            status = (
+                "closed"
+                if str(review_bundle.get("checks", {}).get("vjepa2_ac_near_native_status") or "")
+                == "evaluated_near_native"
+                else "open"
+            )
+            evidence = "reports/bedc_vjepa2_ac_native_reproduction.json"
         elif row["residue"] in {"distinction-head-certificate", "gap-head-certificate"}:
             status = "closed" if review_status == "review_ready" else "partial"
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
@@ -252,6 +269,8 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
             "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+            "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json",
+            "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
         },
         "forbidden_surfaces": [
             "model runner execution",

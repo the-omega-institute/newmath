@@ -41,6 +41,12 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["vjepa2_ac_minigrid_latent_prediction"] == (
         "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     )
+    assert bundle["required_artifacts"]["vjepa2_ac_near_native_reproduction"] == (
+        "reports/bedc_vjepa2_ac_native_reproduction.json"
+    )
+    assert bundle["required_artifacts"]["vjepa2_ac_native_readback_comparison"] == (
+        "reports/bedc_vjepa2_ac_native_readback_comparison.json"
+    )
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_minigrid_debt_closure.py" in bundle["reproduction_commands"]
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
@@ -48,6 +54,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_vjepa2_ac_near_native_reproduction.py" in bundle["reproduction_commands"]
     assert "pdflatex -interaction=nonstopmode -halt-on-error main.tex" in bundle["reproduction_commands"]
     assert bundle["checks"]["checkpoint_evaluation"] == "closed"
     assert bundle["checks"]["native_public_benchmark"] == "closed"
@@ -59,6 +66,12 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["checks"]["retraining_ablation_system_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_lccp_claim_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_latent_prediction_score"] >= 0.0
+    assert bundle["checks"]["vjepa2_ac_near_native_status"] in {"evaluated_near_native", "not recorded"}
+    assert bundle["checks"]["vjepa2_ac_official_native_reproduction_status"] in {
+        "not_evaluated",
+        "not recorded",
+    }
+    assert bundle["checks"]["vjepa2_ac_near_native_latent_prediction_score"] >= 0.0
     remaining = bundle["remaining_evidence_contracts"]
     assert remaining["true_retraining_loss_ablation"]["status"] == "closed"
     assert remaining["true_retraining_loss_ablation"]["source_debt_rows"] == []
@@ -68,6 +81,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "required_native_evidence"
         in remaining["vjepa2_ac_native_reproduction"]["native_acceptance_contract"]
     )
+    assert remaining["vjepa2_ac_native_reproduction"]["near_native_record_status"] == "evaluated_near_native"
 
     if bundle["status"] == "review_ready":
         assert bundle["failures"] == []

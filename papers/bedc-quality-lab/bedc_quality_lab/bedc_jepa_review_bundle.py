@@ -53,6 +53,8 @@ def build_review_bundle() -> dict[str, Any]:
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
     vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
+    vjepa_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
+    vjepa_readback_comparison = _load_optional_json("bedc_vjepa2_ac_native_readback_comparison.json")
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
@@ -120,6 +122,34 @@ def build_review_bundle() -> dict[str, Any]:
             "torch retraining ablation systems",
             failures,
         )
+    if vjepa_near_native is not None:
+        _check(
+            vjepa_near_native.get("schema_id") == "bedc-vjepa2-ac-near-native-minigrid-reproduction",
+            "V-JEPA2-AC near-native MiniGrid schema",
+            failures,
+        )
+        _check(
+            vjepa_near_native.get("status") == "evaluated_near_native",
+            "V-JEPA2-AC near-native MiniGrid evaluated",
+            failures,
+        )
+        _check(
+            vjepa_near_native.get("official_native_reproduction_status") == "not_evaluated",
+            "V-JEPA2-AC official benchmark boundary",
+            failures,
+        )
+        _check(
+            "official V-JEPA2-AC benchmark reproduction"
+            in vjepa_near_native.get("cannot_claim_boundary", []),
+            "V-JEPA2-AC near-native cannot-claim boundary",
+            failures,
+        )
+    if vjepa_readback_comparison is not None:
+        _check(
+            vjepa_readback_comparison.get("schema_id") == "bedc-vjepa2-ac-native-readback-comparison",
+            "V-JEPA2-AC readback comparison schema",
+            failures,
+        )
     _check(sweep.get("status") == "executed", "native MiniGrid seed sweep executed", failures)
     _check(float(sweep.get("seed_count_executed", 0.0)) >= 5.0, "native MiniGrid seed sweep count", failures)
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
@@ -157,6 +187,8 @@ def build_review_bundle() -> dict[str, Any]:
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
             "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+            "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json",
+            "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
         },
         "reproduction_commands": [
             "python scripts/run_public_minigrid_native_benchmark.py",
@@ -171,6 +203,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/run_bedc_latent_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+            "python scripts/build_vjepa2_ac_near_native_reproduction.py",
             "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
@@ -206,6 +239,24 @@ def build_review_bundle() -> dict[str, Any]:
             "vjepa2_ac_latent_prediction_score": (
                 float(vjepa_latent_prediction.get("metrics", {}).get("latent_prediction_score", 0.0))
                 if vjepa_latent_prediction is not None
+                else 0.0
+            ),
+            "vjepa2_ac_near_native_status": (
+                vjepa_near_native.get("status") if vjepa_near_native is not None else "not recorded"
+            ),
+            "vjepa2_ac_official_native_reproduction_status": (
+                vjepa_near_native.get("official_native_reproduction_status")
+                if vjepa_near_native is not None
+                else "not recorded"
+            ),
+            "vjepa2_ac_near_native_latent_prediction_score": (
+                float(vjepa_near_native.get("latent_prediction_score", 0.0))
+                if vjepa_near_native is not None
+                else 0.0
+            ),
+            "vjepa2_ac_near_native_gap_claim_count": (
+                float(vjepa_near_native.get("bedc_readback_metrics", {}).get("gap_claim_count", 0.0))
+                if vjepa_near_native is not None
                 else 0.0
             ),
             "seed_sweep_count": sweep.get("seed_count_executed", 0.0),

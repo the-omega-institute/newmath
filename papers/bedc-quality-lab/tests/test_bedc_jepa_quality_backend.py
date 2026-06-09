@@ -49,6 +49,8 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["full_retraining_loss_ablation_closed"] == 1.0
     assert metrics["vjepa2_ac_lccp_recorded"] in {0.0, 1.0}
     assert metrics["vjepa2_ac_latent_prediction_score"] >= 0.0
+    assert metrics["vjepa2_ac_near_native_recorded"] == 1.0
+    assert metrics["vjepa2_ac_official_reproduction_evaluated"] == 0.0
     assert "terminal_verdict" not in metrics
     assert "raw_records" not in packet
 
@@ -72,6 +74,7 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     )
     assert rows["classifier/vjepa2-ac-fixed-carrier-lccp"]["status"] in {"open", "closed"}
     assert rows["mechanism/vjepa2-ac-minigrid-latent-prediction"]["status"] in {"open", "closed"}
+    assert rows["mechanism/vjepa2-ac-near-native-minigrid-record"]["status"] == "closed"
     assert all(row["owner"] == "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate" for row in rows.values())
     assert "large-scale real-world conclusion" in packet["not_claimed"]
     assert "mechanism closure" in packet["not_claimed"]
@@ -86,6 +89,7 @@ def test_quality_backend_projects_remaining_evidence_contracts():
     assert "stability_consistency" in remaining["true_retraining_loss_ablation"]["supervision_surface_contract"]
     assert "intervention_bce" in remaining["true_retraining_loss_ablation"]["supervision_surface_contract"]
     assert remaining["vjepa2_ac_native_reproduction"]["status"] == "not_evaluated"
+    assert remaining["vjepa2_ac_native_reproduction"]["near_native_record_status"] == "evaluated_near_native"
     assert (
         "native_acceptance_contract"
         in remaining["vjepa2_ac_native_reproduction"]
@@ -110,4 +114,12 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
     assert (
         packet["artifacts"]["vjepa2_ac_minigrid_latent_prediction"]
         == "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    )
+    assert (
+        packet["artifacts"]["vjepa2_ac_near_native_reproduction"]
+        == "reports/bedc_vjepa2_ac_native_reproduction.json"
+    )
+    assert (
+        packet["artifacts"]["vjepa2_ac_native_readback_comparison"]
+        == "reports/bedc_vjepa2_ac_native_readback_comparison.json"
     )

@@ -181,6 +181,25 @@ def _vjepa2_latent_prediction_gate(packet: dict[str, Any] | None) -> dict[str, s
     )
 
 
+def _vjepa2_near_native_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_vjepa2_ac_native_reproduction.json"
+    if packet is None:
+        return _gate("missing", evidence, "V-JEPA2-AC MiniGrid near-native fixed-checkpoint record")
+    passes = (
+        packet.get("schema_id") == "bedc-vjepa2-ac-near-native-minigrid-reproduction"
+        and packet.get("status") == "evaluated_near_native"
+        and packet.get("official_native_reproduction_status") == "not_evaluated"
+        and float(packet.get("latent_prediction_score", 0.0)) > 0.0
+        and bool(packet.get("bedc_readback_metrics"))
+        and "official V-JEPA2-AC benchmark reproduction" in packet.get("cannot_claim_boundary", [])
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "V-JEPA2-AC MiniGrid near-native fixed-checkpoint record with official reproduction boundary",
+    )
+
+
 def _public_minigrid_calibration_pareto_gate(
     debt: dict[str, Any] | None,
     conformal: dict[str, Any] | None,
@@ -225,6 +244,7 @@ def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, st
 def _remaining_evidence_contracts(
     retraining_ablation: dict[str, Any] | None,
     native_boundary: dict[str, Any] | None,
+    near_native_reproduction: dict[str, Any] | None,
 ) -> dict[str, Any]:
     retraining_contract: dict[str, Any] = {
         "status": "missing",
@@ -255,6 +275,10 @@ def _remaining_evidence_contracts(
             "status": native_boundary.get("native_reproduction_status", native_boundary.get("status")),
             "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
             "native_acceptance_contract": native_boundary.get("native_acceptance_contract", {}),
+            "near_native_record_status": (
+                near_native_reproduction.get("status") if near_native_reproduction is not None else "missing"
+            ),
+            "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
             "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
         }
 
@@ -293,6 +317,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
     vjepa2_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
+    vjepa2_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
     public_debt = _load_optional_json("bedc_jepa_public_debt_decomposition.json")
     public_conformal = _load_optional_json("bedc_jepa_conformal_certified_coverage.json")
     public_pareto = _load_optional_json("bedc_jepa_risk_success_pareto.json")
@@ -306,6 +331,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
         "public_jepa_checkpoint_evaluation": _public_checkpoint_evaluation_gate(public_cuda_comparison),
         "vjepa2_ac_minigrid_latent_prediction": _vjepa2_latent_prediction_gate(vjepa2_latent_prediction),
+        "vjepa2_ac_near_native_reproduction": _vjepa2_near_native_gate(vjepa2_near_native),
         "public_minigrid_calibration_pareto": _public_minigrid_calibration_pareto_gate(
             public_debt,
             public_conformal,
@@ -325,6 +351,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             "vjepa2_ac_minigrid_latent_prediction": "closed"
             if gates["vjepa2_ac_minigrid_latent_prediction"]["status"] == "pass"
             else "open",
+            "vjepa2_ac_near_native_reproduction": "closed"
+            if gates["vjepa2_ac_near_native_reproduction"]["status"] == "pass"
+            else "open",
             "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
             "public_minigrid_calibration_pareto": "closed"
             if gates["public_minigrid_calibration_pareto"]["status"] == "pass"
@@ -334,11 +363,12 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "remaining_evidence_contracts": _remaining_evidence_contracts(
             retraining_ablation,
             vjepa2_native_boundary,
+            vjepa2_near_native,
         ),
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
-            "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies",
+            "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
             "extend public MiniGrid calibration and risk-success Pareto summaries to larger seeds, horizons, and task variants",
             "run a public object-interaction benchmark with natural clutter or control",

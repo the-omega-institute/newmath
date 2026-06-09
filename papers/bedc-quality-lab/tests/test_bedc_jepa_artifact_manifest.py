@@ -43,6 +43,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
     )
     assert (
+        manifest["commands"]["vjepa2_ac_near_native_reproduction"]
+        == "python scripts/build_vjepa2_ac_near_native_reproduction.py"
+    )
+    assert (
         manifest["commands"]["import_public_minigrid_benchmark_metrics"]
         == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
     )
@@ -119,6 +123,14 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     assert (
         manifest["public_baselines"]["jepa_ac_minigrid_latent_prediction"]
         == "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_ac_near_native_reproduction"]
+        == "reports/bedc_vjepa2_ac_native_reproduction.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_ac_near_native_readback_comparison"]
+        == "reports/bedc_vjepa2_ac_native_readback_comparison.json"
     )
     assert (
         manifest["public_baselines"]["jepa_cuda_adapter_comparison"]

@@ -11,7 +11,9 @@
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "review_bundle": "reports/bedc_jepa_review_bundle.json",
     "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
-    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+    "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+    "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json"
   },
   "backend": {
     "assumptions": [
@@ -31,7 +33,8 @@
       "public_minigrid_calibration_pareto",
       "public_minigrid_execution",
       "torch_objective_seed_sweep",
-      "vjepa2_ac_minigrid_latent_prediction"
+      "vjepa2_ac_minigrid_latent_prediction",
+      "vjepa2_ac_near_native_reproduction"
     ],
     "ledger_rows": [
       {
@@ -77,6 +80,10 @@
       {
         "kind": "mechanism",
         "residue": "vjepa2-ac-minigrid-latent-prediction"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "vjepa2-ac-near-native-minigrid-record"
       }
     ],
     "metrics": [
@@ -96,7 +103,9 @@
       "retraining_ablation_recorded",
       "full_retraining_loss_ablation_closed",
       "vjepa2_ac_lccp_recorded",
-      "vjepa2_ac_latent_prediction_score"
+      "vjepa2_ac_latent_prediction_score",
+      "vjepa2_ac_near_native_recorded",
+      "vjepa2_ac_official_reproduction_evaluated"
     ],
     "name": "bedc-jepa-world-model",
     "not_claimed": [
@@ -222,6 +231,15 @@
       "residue": "vjepa2-ac-minigrid-latent-prediction",
       "severity": "none",
       "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "key": "mechanism/vjepa2-ac-near-native-minigrid-record",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "vjepa2-ac-near-native-minigrid-record",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
@@ -241,7 +259,9 @@
     "torch_objective_gap_auc_win_rate": 1.0,
     "torch_objective_latent_r2_delta_abs_max": 0.0,
     "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
-    "vjepa2_ac_lccp_recorded": 1.0
+    "vjepa2_ac_lccp_recorded": 1.0,
+    "vjepa2_ac_near_native_recorded": 1.0,
+    "vjepa2_ac_official_reproduction_evaluated": 0.0
   },
   "not_claimed": [
     "global model quality",
@@ -331,6 +351,8 @@
           "reports/bedc_vjepa2_ac_native_readback_comparison.json"
         ]
       },
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
       "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
       "status": "not_evaluated"
     }

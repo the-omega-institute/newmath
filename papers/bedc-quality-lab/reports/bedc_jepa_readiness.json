@@ -6,7 +6,8 @@
     "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
     "public_minigrid_calibration_pareto": "closed",
-    "vjepa2_ac_minigrid_latent_prediction": "closed"
+    "vjepa2_ac_minigrid_latent_prediction": "closed",
+    "vjepa2_ac_near_native_reproduction": "closed"
   },
   "gates": {
     "artifact_review_bundle": {
@@ -53,10 +54,15 @@
       "evidence": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
       "requirement": "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction study",
       "status": "pass"
+    },
+    "vjepa2_ac_near_native_reproduction": {
+      "evidence": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "requirement": "V-JEPA2-AC MiniGrid near-native fixed-checkpoint record with official reproduction boundary",
+      "status": "pass"
     }
   },
   "next_actions": [
-    "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies",
+    "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
     "record baseline commit, checkpoint, dataset, command line, and native metric contract",
     "extend public MiniGrid calibration and risk-success Pareto summaries to larger seeds, horizons, and task variants",
     "run a public object-interaction benchmark with natural clutter or control"
@@ -128,6 +134,8 @@
           "reports/bedc_vjepa2_ac_native_readback_comparison.json"
         ]
       },
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
       "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
       "status": "not_evaluated"
     }

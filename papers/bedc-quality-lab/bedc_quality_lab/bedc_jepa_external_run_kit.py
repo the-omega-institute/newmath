@@ -87,6 +87,7 @@ def build_external_run_kit() -> dict[str, Any]:
                 "target_artifact": "reports/bedc_vjepa2_ac_native_reproduction.json",
                 "comparison_artifact": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
                 "boundary_record": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+                "run_command": "python scripts/build_vjepa2_ac_near_native_reproduction.py",
                 "required_fields": [
                     "public_environment_id",
                     "image_action_stream_split",
@@ -107,7 +108,7 @@ def build_external_run_kit() -> dict[str, Any]:
                     "same_bedc_predicate_set",
                     "same_alpha_grid",
                 ],
-                "pass_condition": "native reproduction remains unevaluated until the native score, checkpoint identity, command, stream split, and BEDC readback metrics are recorded together",
+                "pass_condition": "near-native fixed-checkpoint record may be evaluated when fixed-checkpoint score, checkpoint identity, command, stream split, and BEDC readback metrics are recorded together; official native reproduction remains unevaluated until the official benchmark protocol is run",
             },
             "vjepa2_ac_minigrid_claim_certificate": {
                 "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
@@ -154,6 +155,7 @@ def build_external_run_kit() -> dict[str, Any]:
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
         "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+        "vjepa2_ac_near_native_reproduction_command": "python scripts/build_vjepa2_ac_near_native_reproduction.py",
         "verification_commands": [
             "python -m pytest -q",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",

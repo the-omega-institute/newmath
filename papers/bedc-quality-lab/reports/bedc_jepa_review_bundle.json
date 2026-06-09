@@ -24,7 +24,11 @@
     "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
     "vjepa2_ac_latent_prediction_status": "executed",
     "vjepa2_ac_lccp_claim_count": 5.0,
-    "vjepa2_ac_lccp_status": "executed"
+    "vjepa2_ac_lccp_status": "executed",
+    "vjepa2_ac_near_native_gap_claim_count": 5.0,
+    "vjepa2_ac_near_native_latent_prediction_score": 0.9812458076166543,
+    "vjepa2_ac_near_native_status": "evaluated_near_native",
+    "vjepa2_ac_official_native_reproduction_status": "not_evaluated"
   },
   "failures": [],
   "remaining_evidence_contracts": {
@@ -94,6 +98,8 @@
           "reports/bedc_vjepa2_ac_native_readback_comparison.json"
         ]
       },
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
       "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
       "status": "not_evaluated"
     }
@@ -111,6 +117,7 @@
     "python scripts/run_bedc_latent_claim_certificate.py",
     "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
     "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+    "python scripts/build_vjepa2_ac_near_native_reproduction.py",
     "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
@@ -133,11 +140,13 @@
     "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
     "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
     "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
-    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+    "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+    "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "852534bf96bf41bc44648709c38538275ec41582",
-  "source_commit_observed_at_build": "852534bf96bf41bc44648709c38538275ec41582",
+  "source_commit_at_build": "39659bd06e1f14c6d1541e56bba2d40f472c267b",
+  "source_commit_observed_at_build": "39659bd06e1f14c6d1541e56bba2d40f472c267b",
   "source_commit_semantics": "commit observed by the review-bundle builder before the generated bundle is committed; not a self-referential assertion about the commit that contains this JSON file",
   "status": "review_ready"
 }

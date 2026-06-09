@@ -52,6 +52,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert native_reproduction["readiness_gate"] == "vjepa2_ac_native_reproduction"
     assert native_reproduction["target_artifact"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     assert native_reproduction["boundary_record"] == "reports/bedc_jepa_vjepa2_ac_native_boundary.json"
+    assert native_reproduction["run_command"] == "python scripts/build_vjepa2_ac_near_native_reproduction.py"
     assert "native_or_near_native_rollout_score" in native_reproduction["required_fields"]
     assert "bedc_readback_metrics" in native_reproduction["required_fields"]
     assert "same_train_cal_test_split" in native_reproduction["parity_protocol_fields"]
@@ -93,6 +94,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["vjepa2_ac_minigrid_latent_prediction_command"]
         == "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
+    )
+    assert (
+        kit["vjepa2_ac_near_native_reproduction_command"]
+        == "python scripts/build_vjepa2_ac_near_native_reproduction.py"
     )
     assert (
         minigrid["export_command"]

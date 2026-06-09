@@ -76,6 +76,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
             "public_minigrid_debt_closure": "python scripts/build_public_minigrid_debt_closure.py",
             "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
+            "vjepa2_ac_near_native_reproduction": "python scripts/build_vjepa2_ac_near_native_reproduction.py",
             "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
             "vjepa2_ac_minigrid_claim_certificate": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
             "vjepa2_ac_minigrid_latent_prediction": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
@@ -150,6 +151,8 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "public_baselines": {
             "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+            "jepa_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json",
+            "jepa_ac_near_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
             "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",
             "jepa_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
             "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
