@@ -17,22 +17,30 @@ def build_vjepa2_ac_native_boundary() -> dict[str, Any]:
         "target_public_benchmark": "MiniGrid-DoorKey-8x8-v0",
         "native_reproduction_status": "not_evaluated",
         "fixed_checkpoint_latent_prediction_status": "executed",
+        "fixed_checkpoint_lccp_status": "executed",
         "required_native_contract": [
             "same public image/action stream as the native MiniGrid BEDC-JEPA packet",
             "official V-JEPA2-AC benchmark reproduction or rollout benchmark score",
             "checkpoint commit and command line",
             "BEDC readback metrics reported beside native score",
         ],
-        "current_contact_artifacts": [
+        "current_evidence_artifacts": [
             "reports/bedc_jepa_public_ac_giant_adapter.json",
             "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "reports/bedc_jepa_public_native_minigrid_benchmark.json",
+            "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
             "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
         ],
-        "blocking_boundary": (
+        "fixed_checkpoint_contract_requirements": [
+            "execution_contract",
+            "checkpoint_contract",
+            "feature_contract",
+            "cannot_claim",
+        ],
+        "remaining_boundary": (
             "The current AC Giant evidence is a checkpoint-scope evaluation on a declared tiny-world adapter protocol. "
             "The current native public MiniGrid evidence is a BEDC-JEPA S0/S1/S2/S3 packet with a JEPA-style S0 control row. "
-            "A fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction contact artifact is evaluated. "
+            "The fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction and LCCP studies are evaluated with explicit execution, checkpoint, and feature contracts. "
             "The remaining unevaluated scope is official V-JEPA2-AC benchmark reproduction or rollout benchmark parity."
         ),
         "cannot_claim": [

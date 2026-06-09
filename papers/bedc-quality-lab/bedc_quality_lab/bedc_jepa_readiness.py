@@ -166,7 +166,7 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
 def _vjepa2_latent_prediction_gate(packet: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     if packet is None:
-        return _gate("missing", evidence, "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact")
+        return _gate("missing", evidence, "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction study")
     metrics = packet.get("metrics", {})
     passes = (
         packet.get("status") == "executed"
@@ -177,7 +177,7 @@ def _vjepa2_latent_prediction_gate(packet: dict[str, Any] | None) -> dict[str, s
     return _gate(
         "pass" if passes else "missing",
         evidence,
-        "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact",
+        "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction study",
     )
 
 
@@ -243,7 +243,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
-            "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid contact protocol",
+            "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
             "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
             "run a public object-interaction benchmark with natural clutter or control",

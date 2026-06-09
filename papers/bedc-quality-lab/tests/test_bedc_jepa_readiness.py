@@ -38,7 +38,7 @@ def test_bedc_jepa_readiness_records_checkpoint_contact_and_open_native_gate():
         "artifact_review_bundle": "closed",
     }
     assert (
-        "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid contact protocol"
+        "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies"
         in readiness["next_actions"]
     )
 
