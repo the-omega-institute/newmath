@@ -26,6 +26,14 @@ def test_vjepa2_ac_claim_certificate_packet_is_fail_closed():
     assert packet["status"] == "executed"
     assert packet["carrier_id"] == "vjepa2-ac-giant-fixed-minigrid-carrier"
     assert packet["torch_environment"]["cuda_device_name"] == "test-device"
+    assert packet["execution_contract"]["run_command"] == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
+    assert "LCCP readback" in packet["execution_contract"]["split_rule"]
+    assert packet["checkpoint_contract"]["repository_url"] == "https://github.com/facebookresearch/vjepa2"
+    assert packet["checkpoint_contract"]["hub_entry"] == "vjepa2_ac_vit_giant"
+    assert packet["checkpoint_contract"]["checkpoint_url"].endswith("/vjepa2-ac-vitg.pt")
+    assert packet["checkpoint_contract"]["loaded_components"] == ["encoder", "predictor"]
+    assert "action-conditioned predictor pooled token features" in packet["feature_contract"]["carrier_features"]
+    assert "split conformal singleton claims" in packet["feature_contract"]["certificate_protocol"]
     assert {claim["predicate"] for claim in packet["claims"]} == {
         "door_key_context_visible",
         "unsafe_transition",

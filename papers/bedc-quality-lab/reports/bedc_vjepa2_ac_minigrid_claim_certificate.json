@@ -14,6 +14,18 @@
     "global latent interpretability"
   ],
   "carrier_id": "vjepa2-ac-giant-fixed-minigrid-carrier",
+  "checkpoint_contract": {
+    "candidate_id": "vjepa2-ac-vit-giant",
+    "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt",
+    "hub_entry": "vjepa2_ac_vit_giant",
+    "loaded_components": [
+      "encoder",
+      "predictor"
+    ],
+    "official_benchmark_boundary": "this packet certifies fixed-carrier readback on a MiniGrid stream and does not reproduce the official V-JEPA2-AC benchmark protocol",
+    "repository_url": "https://github.com/facebookresearch/vjepa2"
+  },
   "claims": [
     {
       "alpha": 0.05,
@@ -303,6 +315,28 @@
     "torch": "installed"
   },
   "environment_id": "MiniGrid-DoorKey-8x8-v0",
+  "execution_contract": {
+    "batch_size": 1.0,
+    "calibration_count": 16.0,
+    "calibration_seed": 20260609.0,
+    "device": "cuda",
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+    "seed": 20260608.0,
+    "split_rule": "disjoint seeded transition streams; train fits readouts, calibration sets conformal thresholds, test reports claims and gaps",
+    "test_count": 16.0,
+    "test_seed": 20260610.0,
+    "train_count": 16.0,
+    "train_seed": 20260608.0,
+    "use_amp": true
+  },
+  "feature_contract": {
+    "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+    "carrier_features": "action-conditioned predictor pooled token features over two-frame MiniGrid transition videos",
+    "certificate_protocol": "split conformal singleton claims over linear readout scores; non-singleton sets are ledgered as coverage debt",
+    "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+    "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action"
+  },
   "gap_claim_count": 5.0,
   "protocol": "Latent Claim Certificate Protocol",
   "risk_level": 0.05,
