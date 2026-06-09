@@ -96,11 +96,27 @@ Finally apply ledger nonescape. Theorem~\ref{thm:theorem-gap-registry-ledger-non
 
 The future Lean \texttt{TasteGate.lean} must provide explicit $\Nontrivial\ \TheoremGapRegistryUp$ and $\FieldFaithful\ \TheoremGapRegistryUp$ instances. Those instances must preserve $T,D,S,G,C,F,A,L,H,P,N$ as separate displayed fields before any checked theorem may cite the $\TheoremGapRegistryUp$ packet as a field-faithful registry surface.
 
-\closureat{TheoremGapRegistryUp}{publicStr}
+\begin{theorem}[Theorem-gap registry bridge surface]
+\label{thm:theorem-gap-registry-bridge-surface}
+Every theorem/gap export from an accepted $\TheoremGapRegistryUp$ packet bridges to downstream registry consumers only through
+$$
+T,D,S,G,C,F,A,L,H,P,N.
+$$
+The rows expose theorem entries, dependency strengths, theorem strengths, gap entries, gap gates, refusals, audit export, ledger nonescape, transport, provenance, and local naming together with the sibling registry surfaces $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TruthResidueLedgerUp$, and $\GapFailureBridgeAuditUp$.
+\end{theorem}
+\begin{proof}
+Start with the public export surface of \autoref{thm:theorem-gap-registry-public-export-surface}. It already identifies the accepted export rows as $T,D,S,G,C,F,A,L,H,P,N$ and rules out hidden theorem tables, hidden gap gates, and outside ledger coordinates.
+
+Next use ledger nonescape from \autoref{thm:theorem-gap-registry-ledger-nonescape}. The export row $A$ passes through \autoref{ch:concrete-instances-registrylayer-namecert}, \autoref{ch:concrete-instances-claimregistrylayer-namecert}, \autoref{ch:concrete-instances-truth-residue-ledger-namecert}, and \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}, while $L$ records that neither theorem strength nor gap coverage may be supplied outside the displayed packet.
+
+Finally, componentwise transport $H$, provenance $P$, and local naming $N$ preserve the same rows for downstream consumers. Hence the only bridge surface available to theorem/gap exports is the displayed row list together with the sibling registry surfaces named above.
+\end{proof}
+
+\closureat{TheoremGapRegistryUp}{bridgedStr}
 
 \begin{closurestatus}{\TheoremGapRegistryUp}
   \constructivestory{A $\TheoremGapRegistryUp$ packet is generated from theorem-entry, dependency-strength, theorem-strength, gap-entry, gap-gate coverage, refusal, audit-export, ledger nonescape, hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:theorem-gap-registry-carrier}, \autoref{thm:theorem-gap-registry-strength-gate}, \autoref{thm:theorem-gap-registry-gap-gate-coverage}, \autoref{thm:theorem-gap-registry-ledger-nonescape}, \autoref{thm:theorem-gap-registry-public-export-surface}, and the displayed TasteGate marker bind theorem-strength, gap-gate scope, and public registry export to visible $\BHist$, $\hsame$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
