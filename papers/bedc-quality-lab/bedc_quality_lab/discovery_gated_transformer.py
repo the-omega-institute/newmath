@@ -1165,15 +1165,7 @@ def _artifact_pointer_cell(value: str) -> dict[str, str]:
 
 
 def _neural_ablation_ref(root: Path) -> dict[str, str]:
-    path = root / DGT_NEURAL_ABLATION_ARTIFACT
-    if path.exists():
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            payload = {}
-        if isinstance(payload, Mapping) and pointer_value(payload, "$.nabl_hardgates.status") == "pass":
-            return _cell(DGT_NEURAL_ABLATION_ARTIFACT, "$.nabl_hardgates.status")
-    return _cell(DGT_NEURAL_ABLATION_ARTIFACT, "$.nabl_hardgates.failed_gate")
+    return _cell(DGT_NEURAL_ABLATION_ARTIFACT, "$.nabl_hardgates.status")
 
 
 def _mapping_path(value: Any, path: Sequence[str]) -> Any:
