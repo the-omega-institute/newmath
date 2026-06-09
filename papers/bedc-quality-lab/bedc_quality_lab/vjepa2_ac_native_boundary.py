@@ -27,9 +27,9 @@ def build_vjepa2_ac_native_boundary() -> dict[str, Any]:
             "reports/bedc_jepa_public_native_minigrid_benchmark.json",
         ],
         "blocking_boundary": (
-            "The current AC Giant evidence is checkpoint-contact on a declared tiny-world adapter scope. "
+            "The current AC Giant evidence is a checkpoint-scope evaluation on a declared tiny-world adapter protocol. "
             "The current native public MiniGrid evidence is a BEDC-JEPA S0/S1/S2/S3 packet with a JEPA-style S0 control row. "
-            "No native V-JEPA2-AC rollout or latent-prediction protocol has been executed on the MiniGrid stream."
+            "The native V-JEPA2-AC rollout or latent-prediction protocol has not been evaluated on the MiniGrid stream."
         ),
         "cannot_claim": [
             "native V-JEPA2-AC benchmark reproduction",

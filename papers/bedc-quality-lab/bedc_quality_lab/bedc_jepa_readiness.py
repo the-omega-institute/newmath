@@ -145,7 +145,7 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
         return _gate(
             "missing",
             evidence,
-            "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+            "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
         )
     adapter = cuda_comparison.get("public_adapters", {}).get("ac_giant", {})
     model = adapter.get("model", {})
@@ -159,7 +159,7 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
     return _gate(
         "pass" if loaded else "missing",
         evidence,
-        "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+        "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
     )
 
 

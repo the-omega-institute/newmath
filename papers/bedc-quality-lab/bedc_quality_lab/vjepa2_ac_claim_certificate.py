@@ -236,7 +236,7 @@ def build_vjepa2_ac_claim_certificate_packet(
             predicate="has_key",
             test_surface="pickup intervention changes carried-key state",
             stability_condition="inventory-state source split",
-            reason="the frozen-carrier packet uses image/action observations and does not expose a carried-key source trace",
+            reason="the fixed-carrier packet uses image/action observations and does not expose a carried-key source trace",
         ),
         source_gap_claim(
             carrier_id=carrier_id,
@@ -244,7 +244,7 @@ def build_vjepa2_ac_claim_certificate_packet(
             predicate="door_open_or_unlocked",
             test_surface="toggle intervention changes door transition state",
             stability_condition="door-state source split",
-            reason="the frozen-carrier packet does not preserve a separate door-state label split",
+            reason="the fixed-carrier packet does not preserve a separate door-state label split",
         ),
         source_gap_claim(
             carrier_id=carrier_id,
@@ -252,7 +252,7 @@ def build_vjepa2_ac_claim_certificate_packet(
             predicate="goal_reachable_with_current_state",
             test_surface="planner feasibility under current known state",
             stability_condition="environment-graph source split",
-            reason="the frozen-carrier packet does not expose a graph-level reachability source split",
+            reason="the fixed-carrier packet does not expose a graph-level reachability source split",
         ),
     ]
     return {

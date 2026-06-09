@@ -102,7 +102,7 @@ def build_review_bundle() -> dict[str, Any]:
     _check(sweep.get("status") == "executed", "native MiniGrid seed sweep executed", failures)
     _check(float(sweep.get("seed_count_executed", 0.0)) >= 5.0, "native MiniGrid seed sweep count", failures)
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
-    _check(cuda.get("status") == "executed", "CUDA checkpoint-contact comparison", failures)
+    _check(cuda.get("status") == "executed", "CUDA checkpoint-scope comparison", failures)
     _check(cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"] == "loaded", "AC Giant checkpoint loaded", failures)
     _check(manifest.get("schema_id") == "bedc-jepa-artifact-manifest", "artifact manifest schema", failures)
     status = "review_ready" if not failures else "incomplete"
