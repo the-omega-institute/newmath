@@ -4730,6 +4730,62 @@ def _is_stub_namecert(text: str) -> bool:
     return False
 
 
+def _subsection_slug(title_line: str, ordinal: int) -> str:
+    """Stable, number-free filename slug for one \\subsection block. Conjecture
+    ids (q6.x.y / h3.x.y) and human titles both reduce to lowercase underscore
+    tokens; the conjecture id is unique so slugs do not collide in practice."""
+    body = title_line
+    body = re.sub(r"^\\subsection\*?\{", "", body)
+    body = re.sub(r"\}\s*(\\label\{.*)?$", "", body)
+    body = re.sub(r"\\label\{[^}]*\}", "", body)
+    body = re.sub(r"\$[^$]*\$", " ", body)          # drop inline math
+    body = re.sub(r"\\[A-Za-z]+", " ", body)         # drop latex commands
+    body = body.replace("{", " ").replace("}", " ")
+    body = body.lower()
+    body = re.sub(r"[^a-z0-9]+", "_", body).strip("_")
+    if not body:
+        body = f"section_{ordinal}"
+    return body[:90]
+
+
+def _write_part_hub_and_siblings(paper_part: Path, part_text: str) -> list[str]:
+    """Write the assembled part as a structural hub (section header + \\input
+    routing) plus one sibling file per \\subsection under a same-stem subdir.
+    Each conjecture is an independent subtopic, so every sibling stays far below
+    the 800-line file cap and a changed conjecture only rewrites its own file.
+    The subdir is regenerated wholesale each cycle (stale siblings are removed)
+    to mirror the daemon's whole-part regeneration. Returns the sibling slugs."""
+    lines = part_text.split("\n")
+    sub_idx = [i for i, l in enumerate(lines) if l.startswith("\\subsection{") or l.startswith("\\subsection*{")]
+    if not sub_idx:
+        paper_part.write_text(part_text, encoding="utf-8")
+        return []
+    subdir = paper_part.parent / paper_part.stem
+    if subdir.exists():
+        for old in subdir.glob("*.tex"):
+            old.unlink()
+    subdir.mkdir(parents=True, exist_ok=True)
+    preamble = "\n".join(lines[: sub_idx[0]]).rstrip()
+    bounds = sub_idx + [len(lines)]
+    slugs: list[str] = []
+    used: set[str] = set()
+    for k, start in enumerate(sub_idx):
+        block = "\n".join(lines[start : bounds[k + 1]]).rstrip()
+        slug = _subsection_slug(lines[start], k)
+        base, n = slug, 1
+        while slug in used:
+            n += 1
+            slug = f"{base}_{n}"
+        used.add(slug)
+        slugs.append(slug)
+        (subdir / f"{slug}.tex").write_text(block + "\n", encoding="utf-8")
+    hub = [preamble, ""]
+    hub.extend(f"\\input{{parts/{paper_part.stem}/{slug}}}" for slug in slugs)
+    hub.append("")
+    paper_part.write_text("\n".join(hub), encoding="utf-8")
+    return slugs
+
+
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     writer_config = _bio_w_codex_writer_config(_load_writeback_lane_config())
     repo_root = store.paths.root.parent.parent
@@ -4799,7 +4855,10 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
-    paths.paper_part.write_text(_sanitize_textmode_underscores("\n".join(part_lines)), encoding="utf-8")
+    _write_part_hub_and_siblings(
+        paths.paper_part,
+        _sanitize_textmode_underscores("\n".join(part_lines)),
+    )
     namecert_slugs = _write_namecert_proposals(
         paths,
         conjectures,
