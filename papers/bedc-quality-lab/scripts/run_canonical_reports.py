@@ -124,6 +124,10 @@ DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery-gated-t
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
+DGT_NEURAL_ABLATION_JSON_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
+DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
+DGT_NEURAL_ABLATION_ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
+DGT_NEURAL_ABLATION_SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -257,6 +261,7 @@ CANONICAL_REPORT_CLAIM_CAPSULE_POINTERS = {
     "discovery-regularized-training": "$.source_artifacts.claim_capsule",
     "mechanism-seeking-network": "$.source_artifacts.claim_capsule",
     "discovery-gated-transformer": "$.claim_capsule_ref",
+    "dgt-neural-ablation": "$.claim_capsule_ref",
 }
 
 
@@ -1141,6 +1146,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "tool_route_evidence",
             "family_definition",
             "component_ablation",
+            "neural_ablation_ref",
             "operational_robustness",
             "d5_o_projection",
             "d5_m_projection",
@@ -1166,6 +1172,46 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer="$.d4_projection.matched_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+    ),
+    CanonicalReportSpec(
+        name="dgt-neural-ablation",
+        command=("python3", "scripts/run_dgt_neural_ablation.py"),
+        json_artifact=DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        markdown_artifact=DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "run_artifacts",
+            "module_registry",
+            "training_protocol",
+            "records",
+            "arm_summaries",
+            "metric_delta_matrix",
+            "nabl_hardgates",
+            "component_causal_claims",
+            "boundary_ledger",
+            "claim_capsule_ref",
+            "not_claimed",
+            "forbidden_claim_term_audit",
+        ),
+        estimated_seconds=10,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.training_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.component_causal_claims",
+        control_pointer="$.training_protocol",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.claim_capsule_ref",
+        evidence_envelope_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        backend_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.training_protocol",
+        discovery_level_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        claim_graph_path_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.component_causal_claims",
+        negative_witness_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
     ),
     CanonicalReportSpec(
         name="order-k-benchmark",
@@ -3974,6 +4020,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
+        "neural_ablation_ref",
         "operational_robustness",
         "d5_o_projection",
         "d5_m_projection",
@@ -4010,6 +4057,10 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT component ablation arm count mismatch")
     if component_ablation["hardgate"]["status"] != "pass":
         raise ValueError("DGT component ablation hardgate failed")
+    if payload["neural_ablation_ref"].get("artifact") != DGT_NEURAL_ABLATION_JSON_ARTIFACT or payload[
+        "neural_ablation_ref"
+    ].get("pointer") not in {"$.nabl_hardgates.status", "$.nabl_hardgates.failed_gate"}:
+        raise ValueError("DGT neural ablation ref mismatch")
     if any(row.get("effect_status") == "zero-effect-fail-closed" and row.get("causal_claim_allowed") is not False for row in component_ablation["arms"]):
         raise ValueError("DGT component ablation zero-effect policy mismatch")
     robustness = payload["operational_robustness"]
@@ -4160,6 +4211,10 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "component_ablation_arm_catalog_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.arms"
         ),
+        "neural_ablation_hardgate_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        "neural_ablation_component_claim_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.component_causal_claims",
+        "neural_ablation_claim_capsule_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.claim_capsule_ref",
+        "neural_ablation_hg7_boundary_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
         "robustness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness",
         "robustness_readiness_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.operational_robustness.readiness"
@@ -4302,7 +4357,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.discovery_level",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.status",
-            "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
+            "mechanism_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
             "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.boundary_ledger",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.not_claimed",
             "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.levels",

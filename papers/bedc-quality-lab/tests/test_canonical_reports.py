@@ -1445,10 +1445,11 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
-        "mechanism-seeking-network",
-        "mechanism-dna",
-        "discovery-gated-transformer",
-        "order-k-benchmark",
+            "mechanism-seeking-network",
+            "mechanism-dna",
+            "discovery-gated-transformer",
+            "dgt-neural-ablation",
+            "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
@@ -3079,6 +3080,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
+        "neural_ablation_ref",
         "operational_robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
@@ -3114,6 +3116,16 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     )
     assert payload["component_ablation"]["arm_count"] == 11
     assert payload["component_ablation"]["hardgate"]["status"] == "pass"
+    assert payload["neural_ablation_ref"] == {
+        "artifact": canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        "pointer": "$.nabl_hardgates.status",
+    }
+    assert payload["d5_m_projection"]["component_ablation_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref"
+    )
+    assert payload["d5_m_projection"]["neural_ablation_pointer"] == (
+        "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status"
+    )
     assert all(
         row["causal_claim_allowed"] is False
         for row in payload["component_ablation"]["arms"]
@@ -3153,6 +3165,38 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["evidence_envelope_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/evidence_envelope.json"
     assert payload["mechanism_namecert_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/mechanism_namecert.json"
     assert payload["jet_certificate_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/jet_certificate.json"
+
+
+def test_dgt_neural_ablation_canonical_spec_is_single_auxiliary_owner():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-neural-ablation"]
+
+    assert len(specs) == 1
+    spec = specs[0]
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_neural_ablation.py")
+    assert spec.json_artifact == canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT
+    assert spec.required_json_keys == (
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "run_artifacts",
+        "module_registry",
+        "training_protocol",
+        "records",
+        "arm_summaries",
+        "metric_delta_matrix",
+        "nabl_hardgates",
+        "component_causal_claims",
+        "boundary_ledger",
+        "claim_capsule_ref",
+        "not_claimed",
+        "forbidden_claim_term_audit",
+    )
+    assert spec.positive_claim_pointer == "$.component_causal_claims"
+    assert spec.claim_capsule_pointer == "$.claim_capsule_ref"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
@@ -3200,6 +3244,10 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "component_ablation_pointer",
         "component_ablation_hardgate_pointer",
         "component_ablation_arm_catalog_pointer",
+        "neural_ablation_hardgate_pointer",
+        "neural_ablation_component_claim_pointer",
+        "neural_ablation_claim_capsule_pointer",
+        "neural_ablation_hg7_boundary_pointer",
         "robustness_pointer",
         "robustness_readiness_pointer",
         "robustness_hardgate_pointer",
@@ -3262,6 +3310,18 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["component_ablation_arm_catalog_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.component_ablation.arms"
+    )
+    assert section["neural_ablation_hardgate_pointer"] == (
+        "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status"
+    )
+    assert section["neural_ablation_component_claim_pointer"] == (
+        "reports/canonical/dgt-neural-ablation.json:$.component_causal_claims"
+    )
+    assert section["neural_ablation_claim_capsule_pointer"] == (
+        "reports/canonical/dgt-neural-ablation.json:$.claim_capsule_ref"
+    )
+    assert section["neural_ablation_hg7_boundary_pointer"] == (
+        "reports/canonical/dgt-neural-ablation.json:$.boundary_ledger"
     )
     assert section["d4_projection_discovery_level_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"

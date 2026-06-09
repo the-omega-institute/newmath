@@ -580,7 +580,7 @@
       },
       {
         "boundary": "closed for bounded D5-M",
-        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref",
         "gate": "D5M-HG6",
         "status": "pass"
       },
@@ -610,7 +610,7 @@
       }
     ],
     "causal_patch_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
-    "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+    "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref",
     "discovery_level": "D5-M",
     "evidence_scope": [
       "bounded-design",
@@ -678,7 +678,7 @@
       "D5M-HG6": {
         "evidence": {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
-          "pointer": "$.component_ablation"
+          "pointer": "$.neural_ablation_ref"
         },
         "status": "pass"
       },
@@ -715,6 +715,7 @@
       "score_margin_shortcut": "cleared",
       "score_margin_shortcut_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier"
     },
+    "neural_ablation_pointer": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
     "not_claimed": [
       "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
       "No production authority claim.",
@@ -1332,6 +1333,10 @@
     "pointer": "$"
   },
   "model_id": "discovery-gated-transformer",
+  "neural_ablation_ref": {
+    "artifact": "reports/canonical/dgt-neural-ablation.json",
+    "pointer": "$.nabl_hardgates.status"
+  },
   "not_claimed": [
     "Bounded deterministic toy evidence only.",
     "No external operation authority.",

@@ -187,6 +187,11 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
             f"{GAP_HEAD_ATTRIBUTION_ARTIFACT}:$.mechanism_evidence",
             ("gap-head mechanism evidence remains owner-local to the attribution capsule",),
         ),
+        (
+            "mechanism:dgt-neural-ablation",
+            f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status",
+            ("DGT neural-module ablation evidence remains pointer-only in downstream claim graph rows",),
+        ),
     )
     nodes: list[ClaimGraphNode] = []
     for node_id, source_pointer, not_claimed in specs:

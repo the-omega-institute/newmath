@@ -83,6 +83,7 @@ def _write_required_dgt_external_artifacts(root):
     (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "dgt-neural-ablation.json").write_text(json.dumps({"nabl_hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
 
 
 def _accepted_dgt_review_rows():
@@ -903,6 +904,24 @@ def test_dgt_rejects_inline_source_metric_bodies():
 
     with pytest.raises(ValueError, match="inline source body"):
         validate_projection(mutated)
+
+
+def test_dgt_d5_m_neural_ablation_fails_closed_without_new_owner(tmp_path):
+    _write_required_dgt_external_artifacts(tmp_path)
+    (tmp_path / "reports" / "canonical" / "dgt-neural-ablation.json").write_text(
+        json.dumps({"nabl_hardgates": {"status": "fail", "failed_gate": "NABL-HG2"}}) + "\n",
+        encoding="utf-8",
+    )
+
+    payload = dgt.build_payload(generated_at="fixture-time", root=tmp_path)
+
+    assert payload["component_ablation"]["hardgate"]["status"] == "pass"
+    assert payload["neural_ablation_ref"] == {
+        "artifact": "reports/canonical/dgt-neural-ablation.json",
+        "pointer": "$.nabl_hardgates.failed_gate",
+    }
+    assert payload["d5_m_projection"]["hardgates"]["D5M-HG6"]["status"] == "fail"
+    assert payload["d5_m_projection"]["status"] == "blocked"
 
 
 def test_dgt_written_sidecars_resolve(tmp_path):
