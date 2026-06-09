@@ -90,4 +90,4 @@ source debt, or a cannot-claim row rather than silently upgrading the claim.
 The remaining manuscript-bearing evidence boundary is not another local toy
 world. It is an official/native V-JEPA2-AC benchmark reproduction or a
 rollout-benchmark parity protocol, plus stronger public MiniGrid calibration
-and risk-success summaries.
+across larger seeds, horizons, and task variants.

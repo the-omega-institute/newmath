@@ -27,6 +27,7 @@ METRICS = (
     "seed_sweep_unlogged_error_win_rate",
     "checkpoint_evaluation_closed",
     "native_public_benchmark_closed",
+    "public_minigrid_calibration_pareto_closed",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
     "full_retraining_loss_ablation_closed",
@@ -40,6 +41,7 @@ LEDGER_ROWS = (
     {"kind": "classifier", "residue": "distinction-head-certificate"},
     {"kind": "classifier", "residue": "gap-head-certificate"},
     {"kind": "stability", "residue": "public-benchmark-evidence-readiness"},
+    {"kind": "calibration", "residue": "public-minigrid-calibration-pareto"},
     {"kind": "generalization", "residue": "global-claim-boundary"},
     {"kind": "mechanism", "residue": "mechanism-closure-debt"},
     {"kind": "mechanism", "residue": "full-retraining-loss-ablation"},
@@ -99,6 +101,9 @@ def _metric_payload(
         "seed_sweep_unlogged_error_win_rate": float(checks["seed_sweep_unlogged_error_win_rate"]),
         "checkpoint_evaluation_closed": _closed(str(boundary.get("checkpoint_evaluation") or "")),
         "native_public_benchmark_closed": _closed(str(boundary.get("native_public_benchmark") or "")),
+        "public_minigrid_calibration_pareto_closed": _closed(
+            str(boundary.get("public_minigrid_calibration_pareto") or "")
+        ),
         "artifact_review_bundle_closed": _closed(str(boundary.get("artifact_review_bundle") or "")),
         "retraining_ablation_recorded": 1.0
         if float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
@@ -130,6 +135,9 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
         if row["residue"] == "public-benchmark-evidence-readiness":
             status = "closed" if boundary.get("native_public_benchmark") == "closed" else "open"
             evidence = "reports/bedc_jepa_readiness.json:$.evidence_boundary.native_public_benchmark"
+        elif row["residue"] == "public-minigrid-calibration-pareto":
+            status = "closed" if boundary.get("public_minigrid_calibration_pareto") == "closed" else "open"
+            evidence = "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_pareto"
         elif row["residue"] == "global-claim-boundary":
             status = "closed"
             evidence = "reports/bedc_jepa_review_bundle.json:$.cannot_claim"
@@ -221,6 +229,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
         "stability_spec": {
             "checkpoint_evaluation": readiness.get("evidence_boundary", {}).get("checkpoint_evaluation"),
             "native_public_benchmark": readiness.get("evidence_boundary", {}).get("native_public_benchmark"),
+            "public_minigrid_calibration_pareto": readiness.get("evidence_boundary", {}).get(
+                "public_minigrid_calibration_pareto"
+            ),
             "artifact_review_bundle": readiness.get("evidence_boundary", {}).get("artifact_review_bundle"),
             "seed_sweep_count": review_bundle.get("checks", {}).get("seed_sweep_count"),
         },

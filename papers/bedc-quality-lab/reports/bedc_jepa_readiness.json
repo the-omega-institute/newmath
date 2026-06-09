@@ -5,6 +5,7 @@
     "artifact_review_bundle": "closed",
     "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
+    "public_minigrid_calibration_pareto": "closed",
     "vjepa2_ac_minigrid_latent_prediction": "closed"
   },
   "gates": {
@@ -33,6 +34,11 @@
       "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
       "status": "pass"
     },
+    "public_minigrid_calibration_pareto": {
+      "evidence": "reports/bedc_jepa_public_debt_decomposition.json; reports/bedc_jepa_conformal_certified_coverage.json; reports/bedc_jepa_risk_success_pareto.json",
+      "requirement": "public MiniGrid threshold, conformal, debt-decomposition, and risk-success Pareto records",
+      "status": "pass"
+    },
     "public_minigrid_execution": {
       "evidence": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
       "requirement": "executed public MiniGrid DoorKey readback/gap benchmark",
@@ -52,7 +58,7 @@
   "next_actions": [
     "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies",
     "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-    "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+    "extend public MiniGrid calibration and risk-success Pareto summaries to larger seeds, horizons, and task variants",
     "run a public object-interaction benchmark with natural clutter or control"
   ],
   "remaining_evidence_contracts": {

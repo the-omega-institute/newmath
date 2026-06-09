@@ -28,6 +28,7 @@
       "native_public_jepa_benchmark",
       "object_counterfactual_clutter",
       "public_jepa_checkpoint_evaluation",
+      "public_minigrid_calibration_pareto",
       "public_minigrid_execution",
       "torch_objective_seed_sweep",
       "vjepa2_ac_minigrid_latent_prediction"
@@ -52,6 +53,10 @@
       {
         "kind": "stability",
         "residue": "public-benchmark-evidence-readiness"
+      },
+      {
+        "kind": "calibration",
+        "residue": "public-minigrid-calibration-pareto"
       },
       {
         "kind": "generalization",
@@ -86,6 +91,7 @@
       "seed_sweep_unlogged_error_win_rate",
       "checkpoint_evaluation_closed",
       "native_public_benchmark_closed",
+      "public_minigrid_calibration_pareto_closed",
       "artifact_review_bundle_closed",
       "retraining_ablation_recorded",
       "full_retraining_loss_ablation_closed",
@@ -164,6 +170,15 @@
       "status": "closed"
     },
     {
+      "evidence_pointer": "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_pareto",
+      "key": "calibration/public-minigrid-calibration-pareto",
+      "kind": "calibration",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-minigrid-calibration-pareto",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
       "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.cannot_claim",
       "key": "generalization/global-claim-boundary",
       "kind": "generalization",
@@ -218,6 +233,7 @@
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark_closed": 1.0,
     "native_unlogged_error_reduction": 0.125,
+    "public_minigrid_calibration_pareto_closed": 1.0,
     "retraining_ablation_recorded": 1.0,
     "seed_sweep_unlogged_error_win_rate": 0.6,
     "torch_objective_debt_reduction_mean": 0.10288747050501545,
@@ -331,6 +347,7 @@
     "artifact_review_bundle": "closed",
     "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
+    "public_minigrid_calibration_pareto": "closed",
     "seed_sweep_count": 5.0
   }
 }

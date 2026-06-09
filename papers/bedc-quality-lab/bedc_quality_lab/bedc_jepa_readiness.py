@@ -181,6 +181,40 @@ def _vjepa2_latent_prediction_gate(packet: dict[str, Any] | None) -> dict[str, s
     )
 
 
+def _public_minigrid_calibration_pareto_gate(
+    debt: dict[str, Any] | None,
+    conformal: dict[str, Any] | None,
+    pareto: dict[str, Any] | None,
+) -> dict[str, str]:
+    evidence = (
+        "reports/bedc_jepa_public_debt_decomposition.json; "
+        "reports/bedc_jepa_conformal_certified_coverage.json; "
+        "reports/bedc_jepa_risk_success_pareto.json"
+    )
+    if debt is None or conformal is None or pareto is None:
+        return _gate("missing", evidence, "public MiniGrid calibration and risk-success Pareto records")
+    conformal_packet = conformal.get("conformal_certified_coverage", {})
+    pareto_packet = pareto.get("risk_success_pareto", {})
+    predicates = conformal_packet.get("predicates", {})
+    frontier_rows = pareto_packet.get("frontier_rows", [])
+    passes = (
+        debt.get("status") == "executed"
+        and conformal.get("status") == "executed"
+        and pareto.get("status") == "executed"
+        and debt.get("interpretation", {}).get("diagnosis") == "silent debt falls while coverage debt rises"
+        and len(conformal_packet.get("alphas", [])) >= 5
+        and len(predicates) >= 5
+        and len(frontier_rows) >= 5
+        and bool(pareto_packet.get("claim_rule"))
+        and all("claim_status" in row for row in frontier_rows)
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "public MiniGrid threshold, conformal, debt-decomposition, and risk-success Pareto records",
+    )
+
+
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
@@ -259,6 +293,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
     vjepa2_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
+    public_debt = _load_optional_json("bedc_jepa_public_debt_decomposition.json")
+    public_conformal = _load_optional_json("bedc_jepa_conformal_certified_coverage.json")
+    public_pareto = _load_optional_json("bedc_jepa_risk_success_pareto.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
     vjepa2_native_boundary = _load_optional_json("bedc_jepa_vjepa2_ac_native_boundary.json")
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
@@ -269,6 +306,11 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
         "public_jepa_checkpoint_evaluation": _public_checkpoint_evaluation_gate(public_cuda_comparison),
         "vjepa2_ac_minigrid_latent_prediction": _vjepa2_latent_prediction_gate(vjepa2_latent_prediction),
+        "public_minigrid_calibration_pareto": _public_minigrid_calibration_pareto_gate(
+            public_debt,
+            public_conformal,
+            public_pareto,
+        ),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
     }
@@ -284,6 +326,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             if gates["vjepa2_ac_minigrid_latent_prediction"]["status"] == "pass"
             else "open",
             "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
+            "public_minigrid_calibration_pareto": "closed"
+            if gates["public_minigrid_calibration_pareto"]["status"] == "pass"
+            else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
         "remaining_evidence_contracts": _remaining_evidence_contracts(
@@ -295,7 +340,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "next_actions": [
             "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-            "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+            "extend public MiniGrid calibration and risk-success Pareto summaries to larger seeds, horizons, and task variants",
             "run a public object-interaction benchmark with natural clutter or control",
         ],
     }
