@@ -3495,6 +3495,7 @@ import BEDC.Derived.DiagonalCofinalTailUp.TasteGateHiddenInputRefusal
 import BEDC.Derived.DiagonalCofinalTailUp.TerminalSealFactorization
 import BEDC.Derived.DiagonalCofinalTailUp.WindowExhaustion
 import BEDC.Derived.DiagonalCofinalTailUp.WindowProjectionExactness
+import BEDC.Derived.DiagonalCofinalTailUp.ZeroSourceTerminalCoincidence
 import BEDC.Derived.DiagonalConvergenceBoundUp
 import BEDC.Derived.DiagonalConvergenceBoundUp.TasteGate
 import BEDC.Derived.DiagonalIndexCofinalityUp
@@ -7021,6 +7022,7 @@ import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
 import BEDC.Derived.ParsevalUp.FiniteEnergyInductionReadback
+import BEDC.Derived.ParsevalUp.FiniteFourierCarrierAdmission
 import BEDC.Derived.ParsevalUp.FinitePartialSumInduction
 import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
@@ -8508,6 +8510,7 @@ import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricSpaceUp.TasteGate
 import BEDC.Derived.SeparableMetricUp.CompletionConsumerHandoff
+import BEDC.Derived.SeparableMetricUp.FiniteDensityPublicExport
 import BEDC.Derived.SeparableMetricUp.ObligationFrontier
 import BEDC.Derived.SeparableMetricUp.PublicDensityExport
 import BEDC.Derived.SeparableMetricUp.RegSeqRatDensityHandoff
