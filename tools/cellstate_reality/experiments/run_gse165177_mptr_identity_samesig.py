@@ -20,6 +20,7 @@ CONTACT_ID = "k-i.gse165177-mptr"
 CONJECTURE_ID = "identity-preserving-age-reset.gse165177-mptr"
 IDENTITY_RMS_THRESHOLD = 1.5
 PLURIPOTENCY_MAX_DELTA = 1.0
+STRICT_PLURIPOTENCY_MAX_DELTA = 0.0
 MIN_DONOR_PAIRS = 3
 REQUIRED_PLURIPOTENCY = ["POU5F1", "NANOG", "LIN28A", "LIN28B", "SOX2"]
 BLOCKED_PROMOTIONS = [
@@ -125,6 +126,20 @@ def main() -> int:
         for row in rows
         if row.get("pluripotency_max_delta") is not None
     ]
+    pluripotency_donor_marker_deltas = [
+        {
+            "donor": row["donor"],
+            "marker": marker,
+            "delta": delta,
+        }
+        for row in rows
+        for marker, delta in row["pluripotency_marker_deltas"].items()
+    ]
+    positive_pluripotency_deltas = [
+        item
+        for item in pluripotency_donor_marker_deltas
+        if float(item["delta"]) > STRICT_PLURIPOTENCY_MAX_DELTA
+    ]
     max_identity_rms = max(identity_rms_values) if identity_rms_values else None
     max_pluri_delta = max(pluri_max_values) if pluri_max_values else None
     sample_structure_ok = n_pairs >= MIN_DONOR_PAIRS and len({row["donor"] for row in rows}) >= MIN_DONOR_PAIRS
@@ -132,8 +147,16 @@ def main() -> int:
     pluri_coverage_ok = len(covered_pluripotency) == len(REQUIRED_PLURIPOTENCY)
     identity_distance_ok = max_identity_rms is not None and max_identity_rms <= IDENTITY_RMS_THRESHOLD
     pluripotency_exclusion_ok = max_pluri_delta is not None and max_pluri_delta <= PLURIPOTENCY_MAX_DELTA
+    strict_pluripotency_no_positive_ok = (
+        bool(pluripotency_donor_marker_deltas) and not positive_pluripotency_deltas
+    )
     data_ready = sample_structure_ok and identity_coverage_ok and pluri_coverage_ok
-    same_sig_support = data_ready and identity_distance_ok and pluripotency_exclusion_ok
+    same_sig_support = (
+        data_ready
+        and identity_distance_ok
+        and pluripotency_exclusion_ok
+        and strict_pluripotency_no_positive_ok
+    )
 
     checks = [
         check(
@@ -190,6 +213,17 @@ def main() -> int:
             },
         ),
         check(
+            "pluripotency.strict.no_positive_donor_marker",
+            strict_pluripotency_no_positive_ok,
+            "Stronger sameSig_I exclusion requires every donor-marker pluripotency delta to be non-positive.",
+            {
+                "positive_delta_count": len(positive_pluripotency_deltas),
+                "n_donor_marker_comparisons": len(pluripotency_donor_marker_deltas),
+                "strict_threshold": STRICT_PLURIPOTENCY_MAX_DELTA,
+                "positive_deltas": positive_pluripotency_deltas,
+            },
+        ),
+        check(
             "promotion.boundary",
             True,
             "Even a positive sameSig_I result would not establish IdentityPreservingAgeResetUp without a separate safety-layer contact.",
@@ -220,6 +254,7 @@ def main() -> int:
         "thresholds": {
             "identity_rms_delta_max": IDENTITY_RMS_THRESHOLD,
             "pluripotency_delta_max": PLURIPOTENCY_MAX_DELTA,
+            "strict_pluripotency_delta_max": STRICT_PLURIPOTENCY_MAX_DELTA,
             "min_donor_pairs": MIN_DONOR_PAIRS,
         },
         "summary": {
@@ -228,6 +263,9 @@ def main() -> int:
             "max_pluripotency_delta": max_pluri_delta,
             "identity_distance_ok": identity_distance_ok,
             "pluripotency_exclusion_ok": pluripotency_exclusion_ok,
+            "strict_pluripotency_no_positive_ok": strict_pluripotency_no_positive_ok,
+            "pluripotency_positive_delta_count": len(positive_pluripotency_deltas),
+            "pluripotency_donor_marker_comparisons": len(pluripotency_donor_marker_deltas),
         },
         "paired_marker_deltas": rows,
         "checks": checks,
