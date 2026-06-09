@@ -29,7 +29,6 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
-    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
 }
 
 
@@ -950,7 +949,7 @@ def test_discovery_map_coverage_matrix_matches_target_set(tmp_path):
     cells = payload["coverage_matrix"]["cells"]
 
     assert {cell["component_id"] for cell in cells} == discovery_map.COVERAGE_COMPONENT_IDS
-    assert len(cells) == 13
+    assert len(cells) == 12
     assert all(set(cell) == discovery_map.COVERAGE_CELL_FIELDS for cell in cells)
     assert set(payload["coverage_matrix"]) == {"status", "hardgates", "cells"}
     assert set(payload["coverage_matrix"]["hardgates"]) == set(discovery_map.COVERAGE_HARDGATE_IDS)
@@ -980,7 +979,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["hardgate_status"] == "pass"
 
 
-def test_discovery_map_dgt_reads_single_d4_projection_pointer(tmp_path):
+def test_discovery_map_dgt_reads_single_d5_m_projection_pointer(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -988,17 +987,17 @@ def test_discovery_map_dgt_reads_single_d4_projection_pointer(tmp_path):
     row = rows["discovery-gated-transformer"]
     dgt_cell = _coverage_cell(payload, "DGT")
 
-    assert row["discovery_level"] == "D4"
-    assert row["evidence_pointer"] == "$.d4_projection"
-    assert row["control_pointer"] == "$.d4_projection.matched_control"
+    assert row["discovery_level"] == "D5-M"
+    assert row["evidence_pointer"] == "$.d5_m_projection"
+    assert row["control_pointer"] == "$.d5_m_projection.matched_control"
     assert row["audit_status"] == "valid"
     assert "gates" not in row
-    assert "d4_projection" not in row
-    assert "PROJ-HG1" not in json.dumps(row, sort_keys=True)
+    assert "d5_m_projection" not in row
+    assert "D5M-HG1" not in json.dumps(row, sort_keys=True)
     assert dgt_cell["discovery_level_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level"
     )
-    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D4"
+    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D5-M"
 
 
 def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):

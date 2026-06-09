@@ -143,16 +143,6 @@ def _fixture_root(tmp_path: Path) -> Path:
             "ledger_debt": [{"status": "open"}],
         },
     )
-    _write_json(
-        tmp_path,
-        "reports/canonical/discovery-gated-nas.json",
-        {
-            "mechanism_namecert": {
-                "closure_status": {"mechanism_namecert": "closed"},
-                "not_claimed": ["not a production architecture certificate"],
-            },
-        },
-    )
     return tmp_path
 
 
@@ -176,6 +166,11 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
                 "readiness": "ready",
                 "matched_control": {"control_positive": False},
             },
+            "d5_m_projection": {
+                "discovery_level": "D5-M",
+                "readiness": "ready",
+                "matched_control": {"control_positive": False},
+            },
             "not_claimed": ["bounded deterministic toy evidence only"],
             "claim_capsule_ref": {"artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json", "pointer": "$"},
         },
@@ -196,12 +191,12 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "report": "discovery-gated-transformer",
             "json_artifact": dgt_artifact,
             "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-            "discovery_level": "D4",
+            "discovery_level": "D5-M",
             "terminal_verdict": "",
             "classifier_reasons": ["fixture"],
             "projection_status": "projected",
-            "evidence_pointer": "$.d4_projection",
-            "control_pointer": "$.d4_projection.matched_control",
+            "evidence_pointer": "$.d5_m_projection",
+            "control_pointer": "$.d5_m_projection.matched_control",
             "audit_status": "valid",
             "audit_reason": "",
             "not_claimed": ["bounded deterministic toy evidence only"],
@@ -210,7 +205,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
     rows = claim_graph.load_claim_verdict_rows(root)
     rows.append(_row("claim:discovery-gated-transformer", "accepted_positive_discovery"))
-    rows[-1]["source"] = f"{dgt_artifact}:$.d4_projection"
+    rows[-1]["source"] = f"{dgt_artifact}:$.d5_m_projection"
     rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
     _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
 

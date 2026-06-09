@@ -86,7 +86,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     payload = build_payload(generated_at=args.generated_at)
     write_artifacts(payload, root=args.root)
-    print(json.dumps({"model_id": MODEL_ID, "hardgate": payload["hardgate"]["status"]}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "model_id": MODEL_ID,
+                "hardgate": payload["hardgate"]["status"],
+                "discovery_level": payload["d5_m_projection"]["discovery_level"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

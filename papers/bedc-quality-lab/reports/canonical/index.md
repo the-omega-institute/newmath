@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-09T02:07:57.744320+00:00`
+- Generated at: `2026-06-09T04:15:58.263169+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -24,8 +24,7 @@
 | `sigreg-mini-grid` | `pass` | `pass` | `` | `reports/canonical/sigreg-mini-grid.json` | `reports/canonical/sigreg-mini-grid.md` | `reports/canonical/sigreg-mini-grid.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.not_claimed` |
 | `discovery-regularized-training` | `pass` | `pass` | `` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `pass` | `pass` | `` | `reports/canonical/mechanism-seeking-network.json` | `reports/canonical/mechanism-seeking-network.md` | `reports/canonical/mechanism-seeking-network.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
-| `discovery-gated-nas` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-nas.json` | `reports/canonical/discovery-gated-nas.md` | `reports/canonical/discovery-gated-nas.fingerprint.json` | `$.search_space` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_baseline_control` |
-| `discovery-gated-transformer` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.not_claimed` | `$.architecture_spec` | `$.not_claimed` | `$.d4_projection` | `$.d4_projection.matched_control` |
+| `discovery-gated-transformer` | `pass` | `pass` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.not_claimed` | `$.architecture_spec` | `$.not_claimed` | `$.d5_m_projection` | `$.d5_m_projection.matched_control` |
 | `order-k-benchmark` | `pass` | `pass` | `` | `reports/canonical/order-k-benchmark.json` | `reports/canonical/order-k-benchmark.md` | `reports/canonical/order-k-benchmark.fingerprint.json` | `$.task_specs` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_controls` |
 
 ## Auxiliary reports
@@ -60,14 +59,14 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `29`
+- Rows: `28`
 
 ## Experiment proposals
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/experiment_proposals.json`
 - Markdown: `reports/canonical/experiment_proposals.md`
-- Rows: `8`
+- Rows: `7`
 - Proposal rows: `reports/canonical/experiment_proposals.json:$.rows`
 - Source artifacts: `reports/canonical/experiment_proposals.json:$.source_artifacts`
 
@@ -126,7 +125,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/negative_discovery_reports.json`
 - Markdown: `reports/canonical/negative_discovery_reports.md`
-- Rows: `8`
+- Rows: `7`
 - Audit: `pass`
 
 ## Negative witness mutation ledger
@@ -177,6 +176,9 @@
 - Robustness: `reports/canonical/discovery-gated-transformer.json:$.robustness`
 - Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.robustness.readiness`
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.robustness.hardgate`
+- Bounded mechanism projection: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection`
+- Bounded mechanism level: `D5-M`
+- Bounded mechanism hardgate: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.gates`
 - Not claimed: `reports/canonical/discovery-gated-transformer.json:$.not_claimed`
 - Discovery map signal: `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal`
 - Claim capsule: `reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref`
@@ -222,7 +224,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `38`
+- Rows: `37`
 
 ## Claim complexity
 
@@ -230,7 +232,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `29`
+- Rows: `28`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -241,7 +243,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `110`
+- Nodes: `106`
 
 ## Claim capsule
 
@@ -256,7 +258,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `17`
+- Rows: `16`
 - Audit: `pass`
 
 ## Formal hardening
@@ -286,14 +288,6 @@
 - D5-O: `blocked`
 - D5-M: `blocked`
 - Mechanism case: `unresolved`
-
-## Discovery-gated NAS
-
-- Status: `pointer-only`
-- JSON: `reports/canonical/discovery-gated-nas.json`
-- Markdown: `reports/canonical/discovery-gated-nas.md`
-- Mechanism NameCert: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert`
-- Mechanism audit: `reports/canonical/discovery-gated-nas.json:$.mechanism_namecert.audit.status`
 
 ## Release manifest sidecar
 
@@ -372,7 +366,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer, order-k-benchmark`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark`
 - Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -400,8 +394,7 @@
 | `sigreg-mini-grid` | `hg_p_core` | `$.positive_claim` | `None` | `$.not_claimed` |
 | `discovery-regularized-training` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
-| `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
-| `discovery-gated-transformer` | `hg_p_core` | `$.d4_projection` | `$.d4_projection.matched_control` | `None` |
+| `discovery-gated-transformer` | `hg_p_core` | `$.d5_m_projection` | `$.d5_m_projection.matched_control` | `None` |
 | `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |

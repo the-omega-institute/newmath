@@ -27,7 +27,25 @@ from bedc_quality_lab.backends.current_lab.projection import (
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from scripts import run_discovery_gated_nas as runner
 from scripts import run_lejepa_theorem_ledger
-from scripts.run_canonical_reports import _specs_by_name
+from scripts.run_canonical_reports import CanonicalReportSpec
+
+
+def _dg_nas_spec():
+    return CanonicalReportSpec(
+        name="discovery-gated-nas",
+        command=("python3", "scripts/run_discovery_gated_nas.py"),
+        json_artifact="reports/canonical/discovery-gated-nas.json",
+        markdown_artifact="reports/canonical/discovery-gated-nas.md",
+        required_json_keys=(),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.search_space",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer="$.matched_baseline_control",
+        no_control_rationale_pointer=None,
+    )
 
 
 def _payload():
@@ -77,7 +95,7 @@ def _with_recomputed_signal(payload):
 
 
 def _assert_dn_projection(payload, gate):
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
     projected = projection_payload(spec, payload, context)
     verdict = assign_discovery_level(projected)
@@ -310,7 +328,7 @@ def test_search_space_gate_fails_closed_for_open_or_out_of_space_rows():
 
 def test_discovery_map_signal_requires_search_space_pointer():
     payload = _ready_payload()
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
     mutated = {
         **payload,
@@ -327,7 +345,7 @@ def test_discovery_map_signal_requires_search_space_pointer():
 
 def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_surface():
     payload = _ready_payload()
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     context = {
         "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
         run_lejepa_theorem_ledger.JSON_ARTIFACT: run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time"),
@@ -344,7 +362,7 @@ def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_sur
 
 def test_d5_m_projection_rejects_when_context_ledger_rows_lack_theorem_dna():
     payload = _ready_payload()
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
     ledger_without_dna = {
         **ledger,
@@ -369,7 +387,7 @@ def test_d5_m_projection_rejects_when_context_ledger_rows_lack_theorem_dna():
 
 def _assert_d5_m_projection_rejects_ledger(ledger):
     payload = _ready_payload()
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     context = {
         "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
         run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger,
@@ -773,7 +791,7 @@ def test_negative_dg_nas_projection_maps_failed_hardgate_to_dn_row():
     projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]
     payload = _project_from_rows(rows)
-    spec = _specs_by_name()["discovery-gated-nas"]
+    spec = _dg_nas_spec()
     context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
 
     projected = projection_payload(spec, payload, context)

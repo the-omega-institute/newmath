@@ -17,7 +17,6 @@ EXPECTED_MODEL_DESIGN_COMPONENTS = {
     "bedc-quality-lab:certificate-gated-attention",
     "bedc-quality-lab:discovery-regularized-training",
     "bedc-quality-lab:mechanism-seeking-network",
-    "bedc-quality-lab:discovery-gated-nas",
     canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
 }
 EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
@@ -25,7 +24,6 @@ EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
     "reports/canonical/certificate-gated-attention.json",
     canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
     canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
-    canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
     canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
 }
 
@@ -142,17 +140,6 @@ def _write_suite_dependencies(root):
             "not_claimed": ["fixture"],
         },
     )
-    canonical._write_json_atomic(
-        root / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-        {
-            "artifact_id": "bedc-quality-lab:discovery-gated-nas",
-            "discovery_map_signal": {"status": "available"},
-            "hardgate": {"status": "fail-closed", "gates": {"DG-NAS-HG8": {"status": "fail"}}},
-            "candidate_protocol": {"search_space_pointer": "$.search_space", "status": "available"},
-            "search_space": {"status": "closed"},
-            "not_claimed": ["fixture"],
-        },
-    )
 
 
 def _payload_with_root(tmp_path):
@@ -190,7 +177,6 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
         if canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT in row["negative_witness_pointer"]
     } == {
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",

@@ -53,7 +53,6 @@ HG_P_CORE = {
     "sigreg-mini-grid",
     "discovery-regularized-training",
     "mechanism-seeking-network",
-    "discovery-gated-nas",
     "discovery-gated-transformer",
     "order-k-benchmark",
 }
@@ -76,7 +75,6 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
-    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
     "discovery-gated-transformer": "bedc-quality-lab:discovery-gated-transformer",
 }
 
@@ -1012,15 +1010,6 @@ def _write_derivative_bridge_sidecar_fixtures(canonical_module, root):
             path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
-    spec = canonical._specs_by_name()["discovery-gated-nas"]
-    payload = _payload_for_spec(spec)
-    rows = payload["negative_witness_mutations"]["rows"]
-
-    assert len(rows) == 3
-    assert {row["witness_ref"] for row in rows} == {"score_margin_shortcut", "scale_leakage", "control_positive"}
-
-
 def test_order_k_benchmark_canonical_spec_required_keys():
     spec = canonical._specs_by_name()["order-k-benchmark"]
 
@@ -1495,7 +1484,6 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-mini-grid",
         "discovery-regularized-training",
         "mechanism-seeking-network",
-        "discovery-gated-nas",
         "discovery-gated-transformer",
         "order-k-benchmark",
         "transformer-derivative-atlas",
@@ -2419,44 +2407,6 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert "residualized-attribution" not in {item.name for item in canonical.CANONICAL_REPORTS}
 
 
-def test_canonical_index_exposes_dg_nas_mechanism_namecert_ref_only(tmp_path, monkeypatch):
-    payload_path = tmp_path / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT
-    payload_path.parent.mkdir(parents=True)
-    payload_path.write_text(
-        json.dumps(
-            {
-                "artifact_id": "bedc-quality-lab:discovery-gated-nas",
-                "mechanism_namecert": {
-                    "schema_id": "bedc-quality-lab:discovery-gated-nas:mechanism-namecert",
-                    "closure_status": {"mechanism_namecert": "closed"},
-                    "audit": {"status": "pass"},
-                    "hardgates": [{"gate": "DG-NAS-HG1"}],
-                },
-            }
-        ),
-        encoding="utf-8",
-    )
-    monkeypatch.setattr(canonical, "ROOT", tmp_path)
-    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
-
-    section = canonical._discovery_gated_nas_index_section()
-    payload = canonical._index([])
-    markdown = canonical._render_index_markdown(payload)
-
-    assert "gap-head-mechanism-namecert" not in names
-    assert section["mechanism_namecert_ref"] == {
-        "artifact": canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-        "pointer": "$.mechanism_namecert",
-    }
-    assert section["mechanism_namecert_ref_pointer"] == "reports/canonical/discovery-gated-nas.json:$.mechanism_namecert"
-    assert "mechanism_namecert" not in section
-    assert "gap_head_mechanism_namecert" not in payload
-    assert payload["discovery-gated-nas"]["mechanism_namecert_ref_pointer"] == section["mechanism_namecert_ref_pointer"]
-    assert "Discovery-gated NAS" in markdown
-    assert "Gap-head mechanism NameCert candidate" not in markdown
-
-
 def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(monkeypatch, tmp_path):
     payload = {
         "run_id": "fixture",
@@ -3125,6 +3075,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
+        "d5_m_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -3220,6 +3171,11 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "robustness_pointer",
         "robustness_readiness_pointer",
         "robustness_hardgate_pointer",
+        "d5_m_projection_pointer",
+        "d5_m_discovery_level_pointer",
+        "d5_m_discovery_level",
+        "d5_m_readiness_pointer",
+        "d5_m_hardgate_pointer",
         "discovery_map_signal_pointer",
         "discovery_map_signal_ref_pointer",
         "d4_projection_pointer",
@@ -3267,6 +3223,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["component_ablation_arm_catalog_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.component_ablation.arms"
+    )
+    assert section["d5_m_discovery_level_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level"
     )
     assert section["d4_projection_discovery_level_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"

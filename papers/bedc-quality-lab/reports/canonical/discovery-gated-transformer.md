@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-09T02:07:57.744320+00:00`
+- Generated at: `2026-06-09T04:15:58.263169+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -11,7 +11,7 @@
 | component | artifact | pointer |
 | --- | --- | --- |
 | `hardgate_contract` | `reports/canonical/new_model_hardgates.json` | `$.gates` |
-| `discovery_gated_nas` | `reports/canonical/discovery-gated-nas.json` | `$.candidate_protocol.design_search_certificate` |
+| `discovery_gated_nas` | `reports/canonical/discovery-gated-transformer.json` | `$.d5_m_projection` |
 | `discovery_map` | `reports/canonical/discovery_map.json` | `$.coverage_matrix` |
 | `training_replay` | `reports/canonical/discovery-gated-transformer-training.json` | `$.hardgates` |
 
@@ -37,7 +37,7 @@
 | `DGT-HG16` | `pass` | `reports/runs/discovery-gated-transformer/evidence_envelope.json:$.component_refs` |
 | `DGT-HG17` | `pass` | `reports/runs/discovery-gated-transformer/mechanism_namecert.json:$.evidence_ref` |
 | `DGT-HG18` | `pass` | `reports/runs/discovery-gated-transformer/jet_certificate.json:$.owner_ref` |
-| `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate` |
+| `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_refs.discovery_gated_nas` |
 | `DGT-HG20` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.not_claimed` |
 
 ## Tool Route Evidence
@@ -125,6 +125,25 @@
 | `PROJ-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.forbidden_claim_term_audit` |
 | `PROJ-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$` |
 | `PROJ-HG10` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal_ref` |
+
+## Bounded Mechanism Projection
+
+- Readiness: `ready`
+- Discovery level: `D5-M`
+- Failed gate: `None`
+- Evidence scope: `bounded-model-prototype`
+- Verdict scope: `Core`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `D5M-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |
+| `D5M-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref` |
+| `D5M-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref` |
+| `D5M-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.causal_patch_pointer` |
+| `D5M-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.robustness` |
+| `D5M-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.component_ablation` |
+| `D5M-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_audit` |
+| `D5M-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.forbidden_claim_term_audit` |
 
 ## Sidecars
 

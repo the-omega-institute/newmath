@@ -133,7 +133,6 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
-DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 SIGREG_MINI_GRID_ARTIFACT = "reports/canonical/sigreg-mini-grid.json"
@@ -144,11 +143,11 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d4_projection.discovery_level",
+        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d5_m_projection.discovery_level",
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
-        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
-        "negative_witness_pointer": None,
+        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d5_m_projection.mechanism_certificate_pointer",
+        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d5_m_projection.evidence_scope",
+        "negative_witness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.d5_m_projection.negative_witness_audit",
     },
     {
         "component_id": "LAT",
@@ -184,15 +183,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.mechanism_gate_summary",
         "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.revocation_rows",
-        "negative_witness_pointer": None,
-    },
-    {
-        "component_id": "DG-NAS",
-        "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.level_candidate",
-        "claim_verdict_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.candidate_protocol",
-        "debt_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
         "negative_witness_pointer": None,
     },
     {
@@ -1025,10 +1015,10 @@ def _discovery_gated_nas_projection(
 
 
 def _discovery_gated_transformer_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
-    projection = pointer_value(payload, "$.d4_projection")
-    if not isinstance(projection, Mapping):
+    d4_projection = pointer_value(payload, "$.d4_projection")
+    if not isinstance(d4_projection, Mapping):
         return False, "missing-dgt-d4-projection", "$.d4_projection"
-    gates = projection.get("gates")
+    gates = d4_projection.get("gates")
     if not isinstance(gates, Mapping) or set(gates) != {f"PROJ-HG{index}" for index in range(1, 11)}:
         return False, "dgt-d4-projection-gates-mismatch", "$.d4_projection.gates"
     failed = next(
@@ -1040,24 +1030,55 @@ def _discovery_gated_transformer_consistency(payload: Mapping[str, Any]) -> tupl
         None,
     )
     expected_level = "D4" if failed is None else "D0"
-    if projection.get("discovery_level") != expected_level:
+    if d4_projection.get("discovery_level") != expected_level:
         return False, "dgt-d4-projection-level-mismatch", "$.d4_projection.discovery_level"
-    if projection.get("failed_gate") != failed:
+    if d4_projection.get("failed_gate") != failed:
         return False, "dgt-d4-projection-failed-gate-mismatch", "$.d4_projection.failed_gate"
-    if projection.get("net_positive_signal") is not True:
+    if d4_projection.get("net_positive_signal") is not True:
         return False, "dgt-d4-net-positive-missing", "$.d4_projection.net_positive_signal"
-    delta_pointer = projection.get("classifier_surface_delta_pointer")
+    delta_pointer = d4_projection.get("classifier_surface_delta_pointer")
     if not isinstance(delta_pointer, str) or pointer_value(payload, delta_pointer) is None:
         return False, "dgt-d4-classifier-delta-pointer-unresolved", "$.d4_projection.classifier_surface_delta_pointer"
-    audit = projection.get("forbidden_claim_term_audit")
+    audit = d4_projection.get("forbidden_claim_term_audit")
     if not isinstance(audit, Mapping) or audit.get("status") != "pass":
         return False, "dgt-d4-forbidden-claim-audit-failed", "$.d4_projection.forbidden_claim_term_audit"
-    not_claimed = projection.get("not_claimed")
+    not_claimed = d4_projection.get("not_claimed")
     not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
     if not not_claimed_text or "global superiority" in not_claimed_text or "production" in not_claimed_text:
         return False, "dgt-d4-not-claimed-boundary-failed", "$.d4_projection.not_claimed"
     if "terminal_verdict" in json.dumps(payload, sort_keys=True).lower():
         return False, "dgt-terminal-verdict-forbidden", "$"
+    d5_m_projection = pointer_value(payload, "$.d5_m_projection")
+    if not isinstance(d5_m_projection, Mapping):
+        return False, "missing-dgt-d5-m-projection", "$.d5_m_projection"
+    d5_gates = d5_m_projection.get("gates")
+    if not isinstance(d5_gates, Mapping) or set(d5_gates) != {f"D5M-HG{index}" for index in range(1, 9)}:
+        return False, "dgt-d5-m-projection-gates-mismatch", "$.d5_m_projection.gates"
+    d5_failed = next(
+        (
+            name
+            for name in (f"D5M-HG{index}" for index in range(1, 9))
+            if not isinstance(d5_gates.get(name), Mapping) or d5_gates[name].get("status") != "pass"
+        ),
+        None,
+    )
+    expected_d5_level = "D5-M" if d5_failed is None else "D4"
+    if d5_m_projection.get("discovery_level") != expected_d5_level:
+        return False, "dgt-d5-m-projection-level-mismatch", "$.d5_m_projection.discovery_level"
+    if d5_m_projection.get("failed_gate") != d5_failed:
+        return False, "dgt-d5-m-projection-failed-gate-mismatch", "$.d5_m_projection.failed_gate"
+    if d5_m_projection.get("evidence_scope") != "bounded-model-prototype":
+        return False, "dgt-d5-m-evidence-scope-mismatch", "$.d5_m_projection.evidence_scope"
+    if d5_m_projection.get("verdict_scope") != "Core":
+        return False, "dgt-d5-m-verdict-scope-mismatch", "$.d5_m_projection.verdict_scope"
+    if d5_m_projection.get("mechanism_closure_status") != "closed":
+        return False, "dgt-d5-m-mechanism-closure-mismatch", "$.d5_m_projection.mechanism_closure_status"
+    negative_audit = d5_m_projection.get("negative_witness_audit")
+    if not isinstance(negative_audit, Mapping) or negative_audit.get("status") != "pass":
+        return False, "dgt-d5-m-negative-witness-audit-failed", "$.d5_m_projection.negative_witness_audit"
+    d5_audit = d5_m_projection.get("forbidden_claim_term_audit")
+    if not isinstance(d5_audit, Mapping) or d5_audit.get("status") != "pass":
+        return False, "dgt-d5-m-forbidden-claim-audit-failed", "$.d5_m_projection.forbidden_claim_term_audit"
     return True, "", "$.d4_projection.failed_gate" if failed is not None else "$.d4_projection.discovery_level"
 
 
@@ -1067,22 +1088,36 @@ def _discovery_gated_transformer_projection(
 ) -> tuple[dict[str, Any], ProjectionEvidence]:
     del context
     consistent, _reason, failed_pointer = _discovery_gated_transformer_consistency(payload)
-    projection = pointer_value(payload, "$.d4_projection")
+    projection = pointer_value(payload, "$.d5_m_projection")
     projection = projection if isinstance(projection, Mapping) else {}
     level = projection.get("discovery_level")
-    if consistent and level == "D4":
+    if consistent and level in {"D4", "D5-M"}:
+        d5_ready = level == "D5-M"
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
+            **({"acceptance_gates": {"status": "pass"}, "final_status": "pass"} if d5_ready else {}),
+            "mechanism_attribution": {
+                "all_pass": d5_ready,
+                "status": "ready" if d5_ready else "blocked",
+                "failed_gate": None if d5_ready else "$.d5_m_projection.failed_gate",
+                "channel": "bounded-mechanism-projection",
+            },
+            "source_pointers": {
+                "operational": "$.robustness",
+                "mechanism": "$.d5_m_projection",
+                "mechanism_case": "$.component_ablation",
+            },
+            "training_mechanism_cert": {"status": "pass"} if d5_ready else {"status": "blocked"},
             "main_verdict": {
                 "positive_discovery": True,
                 "surface_delta_count": 1,
                 "shift_information": 1,
                 "structural_discovery": True,
                 "discovery_gated_transformer": {
-                    "level_candidate": "D4",
-                    "status": "d4-projected",
-                    "evidence_pointer": "$.d4_projection",
+                    "level_candidate": level,
+                    "status": "d5-m-projected" if d5_ready else "d4-fail-closed",
+                    "evidence_pointer": "$.d5_m_projection",
                     "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
                 },
             },
@@ -1097,8 +1132,8 @@ def _discovery_gated_transformer_projection(
             "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
         }, ProjectionEvidence(
             projection_status="projected",
-            evidence_pointer="$.d4_projection",
-            control_pointer="$.d4_projection.matched_control",
+            evidence_pointer="$.d5_m_projection",
+            control_pointer="$.d5_m_projection.matched_control",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
     return {

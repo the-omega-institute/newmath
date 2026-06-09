@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-09T02:07:57.744320+00:00`
-- Rows: `29`
+- Generated at: `2026-06-09T04:15:58.263169+00:00`
+- Rows: `28`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -23,17 +23,16 @@
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
 | `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
-| `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
-| `discovery-gated-transformer` | `D4` | `` | `` | `projected` | `valid` | `$.d4_projection.matched_control` |
+| `discovery-gated-transformer` | `D5-M` | `` | `` | `projected` | `valid` | `$.d5_m_projection.matched_control` |
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
-| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
-| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
+| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
+| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
 
 ## D5 readiness
 
@@ -61,7 +60,6 @@
 | group | component | owner pointer | hardgate |
 | --- | --- | --- | --- |
 | `positive` | `CGA` | `reports/canonical/certificate-gated-attention.json:$` | `pass` |
-| `positive` | `DG-NAS` | `reports/canonical/discovery-gated-nas.json:$` | `pass` |
 | `positive` | `DGT` | `reports/canonical/discovery-gated-transformer.json:$` | `pass` |
 | `positive` | `DRT` | `reports/canonical/discovery-regularized-training.json:$` | `pass` |
 | `positive` | `LAT` | `reports/canonical/ledger-aware-transformer.json:$` | `pass` |
