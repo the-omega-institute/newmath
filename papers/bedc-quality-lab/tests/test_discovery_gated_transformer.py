@@ -12,6 +12,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     COMPONENT_ABLATION_GATE_NAMES,
     COMPONENT_ABLATION_OWNER_REF,
     D4_PROJECTION_GATE_NAMES,
+    LAT_CANONICAL_ARTIFACT,
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
     GATE_NAMES,
@@ -20,12 +21,17 @@ from bedc_quality_lab.discovery_gated_transformer import (
     JET_REQUIRED_SURFACES,
     JET_SURFACE_SLOTS,
     MODEL_ID,
+    MODEL_COMPARISON_CANONICAL_ARTIFACT,
+    ROBUSTNESS_GATE_NAMES,
+    ROBUSTNESS_OWNER_REF,
     SCHEMA_ID,
     build_dgt_jet_certificate,
     build_d4_projection_payload,
     build_component_ablation,
     build_projection,
+    default_robustness_source_payloads,
     evaluate_ablation_arm,
+    evaluate_operational_robustness_hardgates,
     evaluate_dgt_family_definition_hardgate,
     evaluate_dgt_jet_hardgates,
     evaluate_dgt_tool_route_hardgates,
@@ -40,6 +46,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_dgt_jet_certificate,
     validate_dgt_tool_route_evidence,
     validate_d4_projection,
+    validate_operational_robustness,
 )
 from scripts import run_discovery_gated_transformer as dgt
 
@@ -100,6 +107,12 @@ def test_dgt_complete_fixture_is_d4_candidate():
     assert payload["d4_projection"]["discovery_level"] == "D4"
     assert payload["d4_projection"]["readiness"] == "ready"
     assert payload["d4_projection"]["failed_gate"] is None
+    assert payload["robustness"]["owner_ref"] == ROBUSTNESS_OWNER_REF
+    assert payload["robustness"]["readiness"] == "ready"
+    assert payload["robustness"]["discovery_level"] == "D5-O"
+    assert tuple(payload["robustness"]["hardgate"]["gates"]) == ROBUSTNESS_GATE_NAMES
+    assert payload["robustness"]["source_artifacts"]["ledger_aware_transformer_pointer"] == f"{LAT_CANONICAL_ARTIFACT}:$"
+    assert payload["source_artifacts"]["model_comparison_pointer"] == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
 
 
 def test_dgt_component_evidence_is_pointer_only():
@@ -259,6 +272,76 @@ def test_dgt_d4_projection_rejects_terminal_verdict_surface():
     assert "forbidden authority token" in "; ".join(validate_d4_projection(mutated, payload))
 
 
+@pytest.mark.parametrize(
+    ("gate_name", "mutate"),
+    [
+        ("DGT-ROB-HG1", lambda payload: payload["robustness"].update({"owner_ref": f"{CANONICAL_JSON_ARTIFACT}:$"})),
+        ("DGT-ROB-HG2", lambda payload: payload["robustness"]["source_evidence"]["owner"].update({"d4_readiness": "blocked"})),
+        ("DGT-ROB-HG3", lambda payload: payload["robustness"]["source_evidence"]["owner"].update({"component_ablation_status": "fail"})),
+        ("DGT-ROB-HG4", lambda payload: payload["robustness"]["source_evidence"]["ledger_aware_transformer"].update({"robustness_status": "fail"})),
+        ("DGT-ROB-HG5", lambda payload: payload["robustness"]["source_evidence"]["model_comparison"].update({"hardgate_status": "fail"})),
+        ("DGT-ROB-HG6", lambda payload: payload["robustness"]["source_artifacts"].update({"ledger_aware_transformer_pointer": "reports/canonical/lat.json:$"})),
+        ("DGT-ROB-HG7", lambda payload: payload["robustness"].update({"not_claimed": []})),
+        ("DGT-ROB-HG8", lambda payload: payload["robustness"]["operational_contract"].update({"owner_policy": "production"})),
+    ],
+)
+def test_dgt_robustness_hardgates_fail_closed(gate_name, mutate):
+    payload = dgt.build_payload(generated_at="fixture-time")
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+    if gate_name == "DGT-ROB-HG8":
+        mutated["robustness"]["forbidden_claim_term_audit"] = {
+            "status": "fail",
+            "hits": ["operation authority wording"],
+            "forbidden_terms": mutated["robustness"]["forbidden_claim_term_audit"]["forbidden_terms"],
+        }
+    hardgate = evaluate_operational_robustness_hardgates(mutated["robustness"])
+    first_failed = hardgate["failed_gate"][0]
+    mutated["robustness"]["hardgate"] = hardgate
+    mutated["robustness"]["failed_gate"] = hardgate["failed_gate"]
+    mutated["robustness"]["failed_gate_pointer"] = f"{CANONICAL_JSON_ARTIFACT}:$.robustness.hardgate.gates.{first_failed}"
+    mutated["robustness"]["status"] = "blocked"
+    mutated["robustness"]["readiness"] = "blocked"
+    mutated["robustness"]["discovery_level"] = "D0"
+
+    assert hardgate["gates"][gate_name]["status"] == "fail"
+    if gate_name == "DGT-ROB-HG1":
+        with pytest.raises(ValueError, match="owner"):
+            validate_operational_robustness(mutated["robustness"], mutated)
+        return
+    validate_operational_robustness(mutated["robustness"], mutated)
+    assert mutated["robustness"]["readiness"] == "blocked"
+    assert mutated["robustness"]["discovery_level"] == "D0"
+
+    if gate_name == "DGT-ROB-HG8":
+        with pytest.raises(ValueError, match="forbidden"):
+            bad_token = json.loads(json.dumps(mutated["robustness"]))
+            bad_token["revocation_rows"].append({"gate": "DGT-ROB-HG8", "condition": "terminal_verdict"})
+            validate_operational_robustness(bad_token, mutated)
+
+
+def test_dgt_robustness_uses_lat_as_evidence_input_only():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    robustness = payload["robustness"]
+
+    assert robustness["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$.robustness"
+    assert robustness["source_evidence"]["ledger_aware_transformer"]["source_role"] == "component-evidence-input"
+    assert robustness["source_evidence"]["ledger_aware_transformer"]["level_candidate"] == "D5-O"
+    assert robustness["operational_contract"]["lat_relationship"] == "LAT remains component evidence input only"
+    assert "ledger-aware-transformer" not in robustness["owner_ref"]
+
+
+def test_dgt_robustness_blocks_when_lat_source_evidence_not_ready():
+    sources = default_robustness_source_payloads()
+    sources["ledger_aware_transformer"]["robustness_signal"]["pass_surface_count"] = 2
+
+    payload = dgt.build_payload(generated_at="fixture-time", robustness_source_payloads=sources)
+
+    assert payload["robustness"]["hardgate"]["gates"]["DGT-ROB-HG4"]["status"] == "fail"
+    assert payload["robustness"]["readiness"] == "blocked"
+    assert payload["robustness"]["discovery_level"] == "D0"
+
+
 def test_dgt_artifact_ids_are_unversioned():
     payload = dgt.build_payload(generated_at="fixture-time")
     serialized = json.dumps(payload, sort_keys=True)
@@ -273,9 +356,12 @@ def test_dgt_artifact_ids_are_unversioned():
 def test_dgt_not_claimed_excludes_forbidden_positive_claim_wording():
     payload = dgt.build_payload(generated_at="fixture-time")
     nonclaims = " ".join(payload["not_claimed"]).lower()
+    robustness_nonclaims = " ".join(payload["robustness"]["not_claimed"]).lower()
 
     assert "global superiority" not in nonclaims
     assert "production" not in nonclaims
+    assert "global superiority" not in robustness_nonclaims
+    assert "production" not in robustness_nonclaims
     assert payload["forbidden_claim_term_audit"]["status"] == "pass"
 
 

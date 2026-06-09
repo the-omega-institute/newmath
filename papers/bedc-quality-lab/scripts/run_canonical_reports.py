@@ -1146,6 +1146,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "tool_route_evidence",
             "family_definition",
             "component_ablation",
+            "robustness",
             "discovery_map_signal",
             "discovery_map_signal_ref",
             "d4_projection",
@@ -3892,6 +3893,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
+        "robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection",
@@ -3925,6 +3927,15 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT component ablation hardgate failed")
     if any(row.get("effect_status") == "zero-effect-fail-closed" and row.get("causal_claim_allowed") is not False for row in component_ablation["arms"]):
         raise ValueError("DGT component ablation zero-effect policy mismatch")
+    robustness = payload["robustness"]
+    if robustness["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness":
+        raise ValueError("DGT robustness owner pointer mismatch")
+    if robustness["readiness"] != "ready" or robustness["discovery_level"] != "D5-O":
+        raise ValueError("DGT robustness readiness mismatch")
+    if robustness["source_artifacts"]["ledger_aware_transformer_pointer"] != "reports/canonical/ledger-aware-transformer.json:$":
+        raise ValueError("DGT robustness LAT pointer mismatch")
+    if robustness["hardgate"]["status"] != "pass":
+        raise ValueError("DGT robustness hardgate failed")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -3997,6 +4008,13 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         ),
         "component_ablation_arm_catalog_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.arms"
+        ),
+        "robustness_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness",
+        "robustness_readiness_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness.readiness"
+        ),
+        "robustness_hardgate_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.robustness.hardgate"
         ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
@@ -5581,6 +5599,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Family definition: `{payload['discovery-gated-transformer']['family_definition_pointer']}`",
             f"- Family definition hardgate: `{payload['discovery-gated-transformer']['family_definition_hardgate_pointer']}`",
             f"- Model family claim status: `{payload['discovery-gated-transformer']['model_family_claim_status_pointer']}`",
+            f"- Robustness: `{payload['discovery-gated-transformer']['robustness_pointer']}`",
+            f"- Robustness readiness: `{payload['discovery-gated-transformer']['robustness_readiness_pointer']}`",
+            f"- Robustness hardgate: `{payload['discovery-gated-transformer']['robustness_hardgate_pointer']}`",
             f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
             f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
             f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",
