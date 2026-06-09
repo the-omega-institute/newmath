@@ -44,6 +44,8 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["native_public_benchmark_closed"] == 1.0
     assert metrics["artifact_review_bundle_closed"] == 1.0
     assert metrics["retraining_ablation_recorded"] in {0.0, 1.0}
+    assert metrics["retraining_ablation_recorded"] == 1.0
+    assert metrics["full_retraining_loss_ablation_closed"] == 0.0
     assert metrics["vjepa2_ac_lccp_recorded"] in {0.0, 1.0}
     assert metrics["vjepa2_ac_latent_prediction_score"] >= 0.0
     assert "terminal_verdict" not in metrics
@@ -62,12 +64,31 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["generalization/global-claim-boundary"]["status"] == "closed"
     assert rows["mechanism/mechanism-closure-debt"]["status"] == "open"
     assert rows["mechanism/mechanism-closure-debt"]["severity"] == "boundary"
-    assert rows["mechanism/full-retraining-loss-ablation"]["status"] in {"open", "closed"}
+    assert rows["mechanism/full-retraining-loss-ablation"]["status"] == "open"
+    assert rows["mechanism/full-retraining-loss-ablation"]["evidence_pointer"] == (
+        "reports/bedc_jepa_review_bundle.json:$.remaining_evidence_contracts.true_retraining_loss_ablation"
+    )
     assert rows["classifier/vjepa2-ac-fixed-carrier-lccp"]["status"] in {"open", "closed"}
     assert rows["mechanism/vjepa2-ac-minigrid-latent-prediction"]["status"] in {"open", "closed"}
     assert all(row["owner"] == "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate" for row in rows.values())
     assert "large-scale real-world conclusion" in packet["not_claimed"]
     assert "mechanism closure" in packet["not_claimed"]
+
+
+def test_quality_backend_projects_remaining_evidence_contracts():
+    packet = build_quality_backend_candidate()
+    remaining = packet["remaining_evidence_contracts"]
+
+    assert remaining["true_retraining_loss_ablation"]["status"] == "source_surfaces_required"
+    assert remaining["true_retraining_loss_ablation"]["source_debt_rows"] == [
+        "minus_l_intervention",
+        "minus_l_stab",
+    ]
+    assert remaining["vjepa2_ac_native_reproduction"]["status"] == "not_evaluated"
+    assert (
+        "native_acceptance_contract"
+        in remaining["vjepa2_ac_native_reproduction"]
+    )
 
 
 def test_quality_backend_artifacts_are_existing_report_pointers():

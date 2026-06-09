@@ -27,6 +27,77 @@
     "vjepa2_ac_lccp_status": "executed"
   },
   "failures": [],
+  "remaining_evidence_contracts": {
+    "true_retraining_loss_ablation": {
+      "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "executed_rows": [
+        "full_s3",
+        "minus_l_gap",
+        "minus_l_unlogged"
+      ],
+      "required_record": "true retraining loss-term ablation for every declared loss removal row",
+      "source_debt_contract": {
+        "minus_l_intervention": {
+          "acceptance_rule": "execute a true retraining row with L_intervention removed only after the intervention source split and effect labels are recorded",
+          "missing_supervision_surface": "declared intervention or action-effect labels over an operational distinction",
+          "required_fields_to_execute": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ]
+        },
+        "minus_l_stab": {
+          "acceptance_rule": "execute a true retraining row with L_stab removed only after the stability source split and invariance target are recorded",
+          "missing_supervision_surface": "declared stability pairs or augmentations over the same operational distinction",
+          "required_fields_to_execute": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ]
+        }
+      },
+      "source_debt_rows": [
+        "minus_l_intervention",
+        "minus_l_stab"
+      ],
+      "status": "source_surfaces_required"
+    },
+    "vjepa2_ac_native_reproduction": {
+      "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "native_acceptance_contract": {
+        "native_acceptance_rule": "mark native reproduction as evaluated only when the same public stream, official or near-native rollout score, command, checkpoint identity, and BEDC readback metrics are recorded in one packet",
+        "parity_protocol_fields": [
+          "same_observation_preprocessing",
+          "same_action_encoding",
+          "same_train_cal_test_split",
+          "same_planning_or_rollout_target",
+          "same_bedc_predicate_set",
+          "same_alpha_grid"
+        ],
+        "required_native_evidence": [
+          "public_environment_id",
+          "image_action_stream_split",
+          "vjepa2_repository_commit",
+          "checkpoint_identity",
+          "execution_command",
+          "native_or_near_native_rollout_score",
+          "latent_prediction_score",
+          "bedc_readback_metrics",
+          "lccp_certificate_metrics",
+          "cannot_claim_boundary"
+        ],
+        "successor_record_requirements": [
+          "reports/bedc_vjepa2_ac_native_reproduction.json",
+          "reports/bedc_vjepa2_ac_native_readback_comparison.json"
+        ]
+      },
+      "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+      "status": "not_evaluated"
+    }
+  },
   "reproduction_commands": [
     "python scripts/run_public_minigrid_native_benchmark.py",
     "python scripts/run_public_minigrid_native_seed_sweep.py",
@@ -65,8 +136,8 @@
     "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "ca9f737daf97d5380f09a3234c9891c7bdf0552b",
-  "source_commit_observed_at_build": "ca9f737daf97d5380f09a3234c9891c7bdf0552b",
+  "source_commit_at_build": "de6e89bd6dcb5f430389840437af2d842b468b66",
+  "source_commit_observed_at_build": "de6e89bd6dcb5f430389840437af2d842b468b66",
   "source_commit_semantics": "commit observed by the review-bundle builder before the generated bundle is committed; not a self-referential assertion about the commit that contains this JSON file",
   "status": "review_ready"
 }

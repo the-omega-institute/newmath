@@ -188,6 +188,47 @@ def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, st
     return _gate("missing", evidence, "clean external review artifact bundle")
 
 
+def _remaining_evidence_contracts(
+    retraining_ablation: dict[str, Any] | None,
+    native_boundary: dict[str, Any] | None,
+) -> dict[str, Any]:
+    retraining_contract: dict[str, Any] = {
+        "status": "missing",
+        "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+        "required_record": "true retraining loss-term ablation for every declared loss removal row",
+    }
+    if retraining_ablation is not None:
+        systems = retraining_ablation.get("systems", {})
+        executed = sorted(name for name, row in systems.items() if row.get("status") == "executed")
+        source_debt = sorted(name for name, row in systems.items() if row.get("status") == "source_debt")
+        retraining_contract = {
+            "status": "source_surfaces_required" if source_debt else "closed",
+            "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+            "executed_rows": executed,
+            "source_debt_rows": source_debt,
+            "source_debt_contract": retraining_ablation.get("source_debt_contract", {}),
+            "required_record": "true retraining loss-term ablation for every declared loss removal row",
+        }
+
+    native_contract: dict[str, Any] = {
+        "status": "missing",
+        "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+        "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+    }
+    if native_boundary is not None:
+        native_contract = {
+            "status": native_boundary.get("native_reproduction_status", native_boundary.get("status")),
+            "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+            "native_acceptance_contract": native_boundary.get("native_acceptance_contract", {}),
+            "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+        }
+
+    return {
+        "true_retraining_loss_ablation": retraining_contract,
+        "vjepa2_ac_native_reproduction": native_contract,
+    }
+
+
 def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
     if not blocking:
         return "external_bundle_ready"
@@ -217,6 +258,8 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
     vjepa2_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
+    retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
+    vjepa2_native_boundary = _load_optional_json("bedc_jepa_vjepa2_ac_native_boundary.json")
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
@@ -242,6 +285,10 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
+        "remaining_evidence_contracts": _remaining_evidence_contracts(
+            retraining_ablation,
+            vjepa2_native_boundary,
+        ),
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [

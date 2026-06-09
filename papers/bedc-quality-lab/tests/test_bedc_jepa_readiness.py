@@ -37,6 +37,17 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
         "native_public_benchmark": "closed",
         "artifact_review_bundle": "closed",
     }
+    remaining = readiness["remaining_evidence_contracts"]
+    retraining = remaining["true_retraining_loss_ablation"]
+    native = remaining["vjepa2_ac_native_reproduction"]
+    assert retraining["status"] == "source_surfaces_required"
+    assert retraining["executed_rows"] == ["full_s3", "minus_l_gap", "minus_l_unlogged"]
+    assert retraining["source_debt_rows"] == ["minus_l_intervention", "minus_l_stab"]
+    assert "minus_l_stab" in retraining["source_debt_contract"]
+    assert "minus_l_intervention" in retraining["source_debt_contract"]
+    assert native["status"] == "not_evaluated"
+    assert "native_acceptance_contract" in native
+    assert "required_native_evidence" in native["native_acceptance_contract"]
     assert (
         "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid studies"
         in readiness["next_actions"]

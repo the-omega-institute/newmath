@@ -212,6 +212,7 @@ def build_review_bundle() -> dict[str, Any]:
             "seed_sweep_unlogged_error_win_rate": sweep["summary"].get("unlogged_error_win_rate") if sweep.get("summary") else None,
             "ac_giant_checkpoint_status": cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"],
         },
+        "remaining_evidence_contracts": readiness.get("remaining_evidence_contracts", {}),
         "failures": failures,
         "cannot_claim": [
             "public benchmark superiority",

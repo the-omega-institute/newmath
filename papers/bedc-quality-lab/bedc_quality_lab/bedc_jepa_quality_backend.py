@@ -29,6 +29,7 @@ METRICS = (
     "native_public_benchmark_closed",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
+    "full_retraining_loss_ablation_closed",
     "vjepa2_ac_lccp_recorded",
     "vjepa2_ac_latent_prediction_score",
 )
@@ -79,6 +80,11 @@ def _metric_payload(
     claims = manifest.get("evidence_ready_claims", {})
     checks = review_bundle.get("checks", {})
     boundary = readiness.get("evidence_boundary", {})
+    remaining = review_bundle.get("remaining_evidence_contracts", {})
+    retraining_contract = remaining.get("true_retraining_loss_ablation", {}) if isinstance(remaining, Mapping) else {}
+    source_debt_rows = (
+        retraining_contract.get("source_debt_rows", []) if isinstance(retraining_contract, Mapping) else []
+    )
     if not isinstance(claims, Mapping) or not isinstance(checks, Mapping) or not isinstance(boundary, Mapping):
         raise ValueError("quality backend inputs must expose claims, checks, and evidence boundaries")
     return {
@@ -97,6 +103,9 @@ def _metric_payload(
         "retraining_ablation_recorded": 1.0
         if float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
         else 0.0,
+        "full_retraining_loss_ablation_closed": 1.0
+        if not source_debt_rows and float(checks.get("retraining_ablation_system_count") or 0.0) >= 5.0
+        else 0.0,
         "vjepa2_ac_lccp_recorded": 1.0
         if float(checks.get("vjepa2_ac_lccp_claim_count") or 0.0) >= 1.0
         else 0.0,
@@ -110,6 +119,11 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
         raise ValueError("readiness evidence_boundary must be a mapping")
     review_status = str(review_bundle.get("status") or "")
     readiness_decision = str(readiness.get("decision") or "")
+    remaining = review_bundle.get("remaining_evidence_contracts", {})
+    retraining_contract = remaining.get("true_retraining_loss_ablation", {}) if isinstance(remaining, Mapping) else {}
+    source_debt_rows = (
+        retraining_contract.get("source_debt_rows", []) if isinstance(retraining_contract, Mapping) else []
+    )
     rows: list[dict[str, str]] = []
     for row in LEDGER_ROWS:
         key = f"{row['kind']}/{row['residue']}"
@@ -125,10 +139,11 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
         elif row["residue"] == "full-retraining-loss-ablation":
             status = (
                 "closed"
-                if float(review_bundle.get("checks", {}).get("retraining_ablation_system_count") or 0.0) >= 5.0
+                if not source_debt_rows
+                and float(review_bundle.get("checks", {}).get("retraining_ablation_system_count") or 0.0) >= 5.0
                 else "open"
             )
-            evidence = "reports/bedc_jepa_retraining_loss_ablation.json"
+            evidence = "reports/bedc_jepa_review_bundle.json:$.remaining_evidence_contracts.true_retraining_loss_ablation"
         elif row["residue"] == "vjepa2-ac-fixed-carrier-lccp":
             status = (
                 "closed"
@@ -209,6 +224,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "artifact_review_bundle": readiness.get("evidence_boundary", {}).get("artifact_review_bundle"),
             "seed_sweep_count": review_bundle.get("checks", {}).get("seed_sweep_count"),
         },
+        "remaining_evidence_contracts": review_bundle.get("remaining_evidence_contracts", {}),
         "metrics": metrics,
         "ledger_rows": _ledger_rows(readiness, review_bundle),
         "not_claimed": list(NOT_CLAIMED),
