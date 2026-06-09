@@ -61,6 +61,24 @@ The sibling chapters supply the named surfaces of that route. The nested interva
 Finally use the structural rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same finite route, while $P$ and $N$ source and name it. No row remains from which a consumer could recover ambient completeness, compactness, choice, a host endpoint selector, quotient stream equality, or a completed selected real.
 \end{proof}
 
+\begin{theorem}[Dyadic nested interval selector prefix seal]
+\label{thm:dyadic-nested-interval-selector-prefix-seal}
+Let $K=(I,D,S,R,E,H,C,P,N)$ be an accepted $\DyadicNestedIntervalSelectorUp$ carrier. Every prefix-window restriction of the selector packet preserves the route
+$$
+\NestedIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before it exposes the terminal seal row $E$. Thus a Real-facing consumer cannot skip the nested interval row $I$, the dyadic ledger $D$, the finite stream window $S$, or the regular rational readback $R$ by appealing to interval compactness, selected endpoints, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-nested-interval-selector-carrier}. A prefix-window restriction can only retain rows already displayed by the packet, so its visible selector data begins with $I,D,S,R$.
+
+Use the NameCert obligations of \autoref{thm:dyadic-nested-interval-selector-namecert-obligations}. They force nested-chain exposure through $I$, dyadic center-radius exposure through $D$, finite-window exposure through $S$, and regular rational readback through $R$ before the seal row can be consumed.
+
+Apply the Real handoff theorem \autoref{thm:dyadic-nested-interval-selector-real-handoff}. It identifies the terminal route through $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $H,C,P,N$ preserving the same finite prefix under transport, replay, provenance, and naming.
+
+No carrier coordinate supplies interval compactness, a selected endpoint, quotient stream equality, countable choice, or ambient Real completeness. The prefix seal therefore remains a finite displayed route rather than a completed-host selection principle.
+\end{proof}
+
 \closureat{DyadicNestedIntervalSelectorUp}{seedStr}
 
 \begin{closurestatus}{\DyadicNestedIntervalSelectorUp}

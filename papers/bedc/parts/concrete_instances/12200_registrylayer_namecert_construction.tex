@@ -79,16 +79,30 @@ Apply claim nonescape, \autoref{thm:registry-layer-claim-nonescape}. Since a pro
 
 The obligation boundary is anchored by the TasteGate carrier in \texttt{lean4/BEDC/Derived/RegistryLayerUp/TasteGate.lean}, preserving $C,T,G,D,S,K,U,F,H,P,N$ as separate displayed rows for $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$.
 
+\begin{theorem}[Registry layer bridge surface]
+\label{thm:registrylayer-bridge-surface}
+Every accepted $\RegistryLayerUp$ public export route bridges exactly the displayed concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, transport, provenance, and local $\NameCert$ rows to downstream registry consumers. The bridge exports no hidden verification claim, private package override, host truth oracle, unledgered registry entry, or undisplayed standard-model assertion.
+\end{theorem}
+\begin{proof}
+Start with the public export route of \autoref{thm:registrylayer-public-export-route}. It exhausts every downstream read through the displayed registry rows, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert$ row.
+
+Use export-control exactness from \autoref{thm:registry-layer-export-control-exactness}. The row $F$ can admit a claim only through the concept, theorem, tradition-and-science, or formalization-target rows, and can block a claim only through the gap, cannot-claim, or upgrade rows.
+
+Apply claim nonescape from \autoref{thm:registry-layer-claim-nonescape}. A consumer with no displayed admission row and no displayed blocking row has no route through the packet, so there is no private package override or hidden verification surface.
+
+The TasteGate marker $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$ remains visible at the boundary. Since the carrier has no further coordinate, the bridge surface is exactly the displayed public registry route.
+\end{proof}
+
 \falsifiablePrediction{If the cannot-claim row is removed, the packet cannot distinguish blocked export from unregistered absence; if the theorem-registry row is removed, theorem export cannot be audited.}
 
 \independenceWitness{selectorledger, focused-multi-hist-ledger, choicerecipeledger, axiomrequirementledger, witnesseddescentledger: none is bijective because RegistryLayer carries simultaneous admit/block/export rows, while those siblings carry selector, focused-record, recipe, axiom-requirement, or descent rows only.}
 
-\closureat{RegistryLayerUp}{publicStr}[BEDC.Derived.RegistryLayerUp.taste\_gate]
+\closureat{RegistryLayerUp}{bridgedStr}[BEDC.Derived.RegistryLayerUp.taste\_gate]
 
 \begin{closurestatus}{\RegistryLayerUp}
   \constructivestory{A $\RegistryLayerUp$ packet is generated from concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, \autoref{thm:registry-layer-claim-nonescape}, and \autoref{thm:registrylayer-public-export-route} bind the public export route through the carrier, NameCert obligations, export-control exactness, claim nonescape, TasteGate marker \leanchecked{BEDC.Derived.RegistryLayerUp.taste\_gate}, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows for $C,T,G,D,S,K,U,F,H,P,N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, \autoref{thm:registry-layer-claim-nonescape}, \autoref{thm:registrylayer-public-export-route}, and \autoref{thm:registrylayer-bridge-surface} bind the public bridge route through the carrier, NameCert obligations, export-control exactness, claim nonescape, TasteGate marker \leanchecked{BEDC.Derived.RegistryLayerUp.taste\_gate}, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows for $C,T,G,D,S,K,U,F,H,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
