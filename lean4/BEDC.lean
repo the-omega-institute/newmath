@@ -1590,6 +1590,7 @@ import BEDC.Derived.CauchyInterlacingUp.TasteGate
 import BEDC.Derived.CauchyInterleavingComparisonUp.TasteGate
 import BEDC.Derived.CauchyInterleavingCriterionUp.TasteGate
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
+import BEDC.Derived.CauchyIntersectionPrincipleUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.CauchyLimitClassifierLockUp.TasteGate
@@ -3139,6 +3140,7 @@ import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.Derived.CoreStateGraphUp.TasteGate
 import BEDC.Derived.CorpusSupplyDistillationUp.MaturePackageBoundary
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
+import BEDC.Derived.CosetSpaceUp.TasteGate
 import BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
@@ -7051,6 +7053,7 @@ import BEDC.Derived.ParsevalUp.RootFiniteCoefficientLedger
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
+import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
@@ -8764,6 +8767,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SierpinskiCarpetUp.TasteGate
 import BEDC.Derived.SierpinskiContinuityClassifierUp
 import BEDC.Derived.SierpinskiSpaceUp.TasteGate
 import BEDC.Derived.SigmaCompactUp.ProperMetricExhaustion
@@ -9104,6 +9108,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
+import BEDC.Derived.TheoremGapRegistryUp.BridgeSurface
 import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
