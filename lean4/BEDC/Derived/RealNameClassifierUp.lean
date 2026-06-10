@@ -232,5 +232,95 @@ theorem RealNameClassifierSharedWindowEquivalence [AskSetup] [PackageSetup]
   }
   exact ⟨cert, swappedUnary, composedUnary, sharedUnary⟩
 
+theorem RealNameClassifierWindowCoverage [AskSetup] [PackageSetup]
+    {sourceA sourceB commonWindow dyadicA dyadicB toleranceA toleranceB classifierRead
+      readbackA readbackB sealRead transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealNameClassifierUp sourceA commonWindow dyadicA dyadicB toleranceA readbackA sealRead
+        transport replay provenance localName bundle pkg →
+      Cont commonWindow dyadicA toleranceA →
+        Cont commonWindow dyadicB toleranceB →
+          Cont toleranceA toleranceB classifierRead →
+            Cont classifierRead readbackA readbackB →
+              Cont readbackB sealRead localName →
+                PkgSig bundle localName pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row commonWindow ∨ hsame row dyadicA ∨ hsame row dyadicB ∨
+                          hsame row toleranceA ∨ hsame row toleranceB ∨
+                            hsame row classifierRead ∨ hsame row localName)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont commonWindow dyadicA toleranceA ∧
+                          Cont commonWindow dyadicB toleranceB ∧
+                            Cont toleranceA toleranceB classifierRead ∧
+                              Cont classifierRead readbackA readbackB ∧
+                                Cont readbackB sealRead localName ∧
+                                  PkgSig bundle localName pkg)
+                      hsame ∧
+                    UnaryHistory toleranceA ∧ UnaryHistory toleranceB ∧
+                      UnaryHistory classifierRead ∧ UnaryHistory readbackB ∧
+                        UnaryHistory localName := by
+  -- BEDC touchpoint anchor: RealNameClassifierUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier toleranceARoute toleranceBRoute classifierRoute readbackRoute sealRoute localPkg
+  have _sourceBReflexive : hsame sourceB sourceB := hsame_refl sourceB
+  obtain ⟨_sourceUnary, commonWindowUnary, dyadicAUnary, dyadicBUnary, _toleranceAUnary,
+    readbackAUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _sourceWindowReplay, _dyadicToleranceRoute, _toleranceReadbackSeal,
+    _transportReplay, _provenancePkg, _carrierLocalPkg⟩ := carrier
+  have toleranceAUnaryFromWindow : UnaryHistory toleranceA :=
+    unary_cont_closed commonWindowUnary dyadicAUnary toleranceARoute
+  have toleranceBUnary : UnaryHistory toleranceB :=
+    unary_cont_closed commonWindowUnary dyadicBUnary toleranceBRoute
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed toleranceAUnaryFromWindow toleranceBUnary classifierRoute
+  have readbackBUnary : UnaryHistory readbackB :=
+    unary_cont_closed classifierUnary readbackAUnary readbackRoute
+  have localNameUnary : UnaryHistory localName :=
+    unary_cont_closed readbackBUnary sealUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row commonWindow ∨ hsame row dyadicA ∨ hsame row dyadicB ∨
+              hsame row toleranceA ∨ hsame row toleranceB ∨ hsame row classifierRead ∨
+                hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont commonWindow dyadicA toleranceA ∧
+              Cont commonWindow dyadicB toleranceB ∧
+                Cont toleranceA toleranceB classifierRead ∧
+                  Cont classifierRead readbackA readbackB ∧
+                    Cont readbackB sealRead localName ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localName ⟨hsame_refl localName, localNameUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, toleranceARoute, toleranceBRoute, classifierRoute, readbackRoute,
+          sealRoute, localPkg⟩
+  }
+  exact
+    ⟨cert, toleranceAUnaryFromWindow, toleranceBUnary, classifierUnary, readbackBUnary,
+      localNameUnary⟩
+
 end RealNameClassifierUp
 end BEDC.Derived
