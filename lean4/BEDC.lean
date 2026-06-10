@@ -5366,6 +5366,7 @@ import BEDC.Derived.IntervalDomainUp.DirectedApproximationInduction
 import BEDC.Derived.IntervalDomainUp.DirectedCompletionScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementObligationScope
+import BEDC.Derived.IntervalDomainUp.DirectedWidthNoncompletion
 import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
 import BEDC.Derived.IntervalDomainUp.EndpointDirectednessScope
 import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
