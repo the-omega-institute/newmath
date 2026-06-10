@@ -158,7 +158,7 @@
 | level | state | promotion | evidence |
 | --- | --- | --- | --- |
 | `L0_toy` | `open` | `opened-from-l0-pass-pointer` | `reports/canonical/dgt-l0-controls.json:$.l0_toy_projection` |
-| `L1_tiny_sequence` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule.raw_claim` |
+| `L1_tiny_sequence` | `ready` | `level-local-evidence-ready` | `missing` |
 | `L2_char_lm` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule.raw_claim` |
 | `L3_byte_lm` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule.raw_claim` |
 | `L4_tool_use_toy` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule.raw_claim` |
@@ -177,11 +177,10 @@
 
 | level | status | gate | reason |
 | --- | --- | --- | --- |
-| `L1_tiny_sequence` | `failed` | `SCALE-HG5` | `level state not ready; promotion status not level-local ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer` |
-| `L2_char_lm` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L1_tiny_sequence` |
-| `L3_byte_lm` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L1_tiny_sequence` |
-| `L4_tool_use_toy` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L1_tiny_sequence` |
-| `L5_small_world_model` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L1_tiny_sequence` |
+| `L2_char_lm` | `failed` | `SCALE-HG5` | `level state not ready; promotion status not level-local ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer` |
+| `L3_byte_lm` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L2_char_lm` |
+| `L4_tool_use_toy` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L2_char_lm` |
+| `L5_small_world_model` | `blocked` | `SCALE-HG5` | `blocked by earlier failed level L2_char_lm` |
 
 ## D4 Projection
 
