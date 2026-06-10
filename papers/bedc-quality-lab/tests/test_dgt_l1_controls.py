@@ -342,6 +342,8 @@ def test_l1_step_ladder_grid_verdict_and_no_sidecar(tmp_path):
     assert all(set(step["training_arms"]) == set(l1.ARM_IDS) for step in ladder["per_step"])
     assert all(all(count == 8 for count in step["seed_counts"].values()) for step in ladder["per_step"])
     assert ladder["convergence_crossover"] == l1.derive_l1_step_ladder_crossover(ladder["step_rows"])
+    assert ladder["convergence_crossover"]["anchor_training_steps"] == 36
+    assert ladder["convergence_crossover"]["anchor_accuracy_mean"] == ladder["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
     assert ladder["verdict"] == l1.derive_l1_step_ladder_verdict(ladder["convergence_crossover"], ladder["hardgates"])
     serialized = json.dumps(ladder, sort_keys=True)
     for forbidden in ("claim_capsule_ref", "discovery_map", "stable_causal_attribution"):
@@ -410,6 +412,36 @@ def test_l1_step_ladder_crossover_derivation_fail_closed():
         mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
     )
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
+
+
+def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
+    rows = [
+        {
+            "training_steps": 36,
+            "metrics": {
+                "dgt_accuracy_mean": 0.8,
+                "base_accuracy_mean": 0.5,
+                "matched_random_accuracy_mean": 0.4,
+            },
+        },
+        {
+            "training_steps": 72,
+            "metrics": {
+                "dgt_accuracy_mean": 0.95,
+                "base_accuracy_mean": 0.79,
+                "matched_random_accuracy_mean": 0.4,
+            },
+        },
+    ]
+    crossover = l1.derive_l1_step_ladder_crossover(rows)
+    gates = {gate_id: {"status": "pass"} for gate_id in l1.L1STEP_GATE_IDS}
+
+    assert crossover["anchor_accuracy_mean"] == 0.8
+    assert crossover["crossover_threshold_accuracy"] == 0.78
+    assert crossover["base_catches_up"] is True
+    assert crossover["first_base_crossover_step"] == 72
+    assert crossover["rows"][1]["same_step_dgt_minus_base_accuracy"] > l1.L1_CROSSOVER_TOLERANCE_ACC
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "base-catches-up"
 
 
 def test_l1_step_ladder_verdict_table_branches():

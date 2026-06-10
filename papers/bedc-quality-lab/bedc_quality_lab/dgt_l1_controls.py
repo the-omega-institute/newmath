@@ -37,6 +37,7 @@ BASE_SEED = 1174
 DEFAULT_SEEDS = (1174, 1175, 1176, 1177, 1178, 1179, 1180, 1181)
 DEFAULT_TRAINING_STEPS = 36
 L1_STEP_GRID = (36, 72, 144, 288, 576)
+L1_CROSSOVER_ANCHOR_STEPS = 36
 L1_CROSSOVER_TOLERANCE_ACC = 0.02
 DEFAULT_TRAIN_EXAMPLES = 1024
 DEFAULT_EVAL_EXAMPLES = 256
@@ -411,33 +412,56 @@ def _arm_summaries(
 
 
 def derive_l1_step_ladder_crossover(step_rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    anchor_row = next((row for row in step_rows if int(row.get("training_steps", -1)) == L1_CROSSOVER_ANCHOR_STEPS), None)
+    anchor_accuracy = None
+    if anchor_row is not None:
+        anchor_accuracy = float(anchor_row.get("metrics", {}).get("dgt_accuracy_mean", 0.0))
+    crossover_threshold = (
+        round(anchor_accuracy - L1_CROSSOVER_TOLERANCE_ACC, 6)
+        if anchor_accuracy is not None
+        else None
+    )
     crossover_rows: list[dict[str, Any]] = []
     for row in step_rows:
         metrics = row.get("metrics", {})
         dgt_accuracy = float(metrics.get("dgt_accuracy_mean", 0.0))
         base_accuracy = float(metrics.get("base_accuracy_mean", 0.0))
         matched_accuracy = float(metrics.get("matched_random_accuracy_mean", 0.0))
-        base_gap = round(dgt_accuracy - base_accuracy, 6)
-        matched_gap = round(dgt_accuracy - matched_accuracy, 6)
-        base_within = base_gap <= L1_CROSSOVER_TOLERANCE_ACC
-        matched_within = matched_gap <= L1_CROSSOVER_TOLERANCE_ACC
+        same_step_base_gap = round(dgt_accuracy - base_accuracy, 6)
+        same_step_matched_gap = round(dgt_accuracy - matched_accuracy, 6)
+        anchor_base_gap = round(anchor_accuracy - base_accuracy, 6) if anchor_accuracy is not None else None
+        anchor_matched_gap = round(anchor_accuracy - matched_accuracy, 6) if anchor_accuracy is not None else None
+        base_reaches_anchor = (
+            crossover_threshold is not None
+            and base_accuracy >= crossover_threshold
+        )
+        matched_reaches_anchor = (
+            crossover_threshold is not None
+            and matched_accuracy >= crossover_threshold
+        )
         crossover_rows.append(
             {
                 "training_steps": int(row["training_steps"]),
                 "dgt_accuracy_mean": dgt_accuracy,
                 "base_accuracy_mean": base_accuracy,
                 "matched_random_accuracy_mean": matched_accuracy,
-                "dgt_minus_base_accuracy": base_gap,
-                "dgt_minus_matched_accuracy": matched_gap,
-                "base_within_tolerance": base_within,
-                "matched_random_within_tolerance": matched_within,
+                "same_step_dgt_minus_base_accuracy": same_step_base_gap,
+                "same_step_dgt_minus_matched_accuracy": same_step_matched_gap,
+                "anchor_minus_base_accuracy": anchor_base_gap,
+                "anchor_minus_matched_random_accuracy": anchor_matched_gap,
+                "base_reaches_anchor_tolerance": base_reaches_anchor,
+                "matched_random_reaches_anchor_tolerance": matched_reaches_anchor,
             }
         )
-    base_steps = [row["training_steps"] for row in crossover_rows if row["base_within_tolerance"]]
-    matched_steps = [row["training_steps"] for row in crossover_rows if row["matched_random_within_tolerance"]]
+    base_steps = [row["training_steps"] for row in crossover_rows if row["base_reaches_anchor_tolerance"]]
+    matched_steps = [row["training_steps"] for row in crossover_rows if row["matched_random_reaches_anchor_tolerance"]]
     return {
         "status": "base-crossover-observed" if base_steps else "no-base-crossover-observed",
         "tolerance_accuracy": L1_CROSSOVER_TOLERANCE_ACC,
+        "anchor_arm": "dgt_l1",
+        "anchor_training_steps": L1_CROSSOVER_ANCHOR_STEPS,
+        "anchor_accuracy_mean": anchor_accuracy,
+        "crossover_threshold_accuracy": crossover_threshold,
         "base_catches_up": bool(base_steps),
         "first_base_crossover_step": min(base_steps) if base_steps else None,
         "matched_random_catches_up": bool(matched_steps),
@@ -457,6 +481,8 @@ def derive_l1_step_ladder_verdict(
         return "inconclusive"
     if bool(crossover.get("base_catches_up")):
         return "base-catches-up"
+    if crossover.get("anchor_accuracy_mean") is None:
+        return "inconclusive"
     rows = crossover.get("rows", [])
     if isinstance(rows, Sequence) and rows:
         return "separation-persists"
@@ -1009,7 +1035,7 @@ def _gate_l1step_hg4(crossover: Mapping[str, Any], step_rows: Sequence[Any]) -> 
     return _gate(
         crossover_derived,
         "L1STEP-HG4",
-        "crossover is mechanically derived from per-step accuracy means",
+        "crossover is mechanically derived from the 36-step DGT anchor and per-step accuracy means",
         "$.l1_step_ladder.convergence_crossover",
     )
 
@@ -1019,7 +1045,7 @@ def _gate_l1step_hg5(crossover: Mapping[str, Any]) -> dict[str, Any]:
     return _gate(
         matched_random_clear,
         "L1STEP-HG5",
-        "matched-random structural arm must not reach the DGT tolerance band",
+        "matched-random structural arm must not reach the 36-step DGT anchor tolerance band",
         "$.l1_step_ladder.convergence_crossover",
     )
 

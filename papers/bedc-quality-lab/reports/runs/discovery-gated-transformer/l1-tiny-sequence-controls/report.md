@@ -33,8 +33,8 @@
 - `L1STEP-HG1`: `pass` - canonical step grid has 120 step/arm/seed CPU training cells
 - `L1STEP-HG2`: `pass` - every ladder cell is true CPU training with parameter updates and loss decrease
 - `L1STEP-HG3`: `pass` - every ladder step has positive compute and parameter ledgers
-- `L1STEP-HG4`: `pass` - crossover is mechanically derived from per-step accuracy means
-- `L1STEP-HG5`: `pass` - matched-random structural arm must not reach the DGT tolerance band
+- `L1STEP-HG4`: `pass` - crossover is mechanically derived from the 36-step DGT anchor and per-step accuracy means
+- `L1STEP-HG5`: `pass` - matched-random structural arm must not reach the 36-step DGT anchor tolerance band
 
 ## Claim Capsule
 
