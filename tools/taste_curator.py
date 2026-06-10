@@ -1741,7 +1741,13 @@ def refresh_current_observation_snapshot(state: dict[str, Any], dry_run: bool) -
 
 
 def commit_dossier_refresh_if_needed(changed: bool, dry_run: bool) -> None:
-    if dry_run or not changed:
+    """Commit dossier refreshes when the file is dirty.
+
+    The `changed` flag only reports writes from this cycle; porcelain status is
+    the commit gate so dirty content left by an earlier failed commit is retried.
+    """
+    del changed
+    if dry_run:
         return
     status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
     if status.returncode != 0 or not status.stdout.strip():
