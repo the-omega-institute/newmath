@@ -8083,6 +8083,7 @@ import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionReflectorUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionSeparationUp.TasteGate
