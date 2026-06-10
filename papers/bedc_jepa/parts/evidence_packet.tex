@@ -24,6 +24,8 @@ $$
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
 \text{Public baseline metric contract} &
 \begin{array}{l}\texttt{bedc\_jepa\_public\_baseline}\\\texttt{\_native\_metric\_contract.json}\end{array},\\
+\text{Public baseline metric template} &
+\begin{array}{l}\texttt{bedc\_jepa\_public\_baseline}\\\texttt{\_native\_metric\_template.json}\end{array},\\
 \text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
 \text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
 \text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
@@ -244,12 +246,14 @@ ablation record reports an unlogged-penalty effect of $0.085938$ and a
 post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
 the public MiniGrid readout and not a full retraining ablation.  The public
 MiniGrid calibration extension applies the same calibration and risk-success
-analysis over $12$ executed rows: three seeds, two planning-state budgets, and
-two DoorKey-sized task variants.  It records mean risk reduction $0.359776$
-and risk-reduction win rate $0.500000$, with mean success change $-0.364583$
+analysis over $45$ executed rows: five seeds, three planning-state budgets
+$(8,16,32)$, and three DoorKey-sized task variants
+\texttt{MiniGrid-DoorKey-5x5-v0}, \texttt{MiniGrid-DoorKey-6x6-v0}, and
+\texttt{MiniGrid-DoorKey-8x8-v0}.  It records mean risk reduction $0.404747$
+and risk-reduction win rate $0.511111$, with mean success change $-0.411806$
 at the best low-gap point.  It also records mean silent-debt change
-$-0.004167$, silent-debt win rate $0.500000$, mean total-debt change
-$-0.039112$, and total-debt win rate $0.333333$.  This extension supports the
+$-0.009444$, silent-debt win rate $0.400000$, mean total-debt change
+$-0.042191$, and total-debt win rate $0.400000$.  This extension supports the
 risk-success tradeoff boundary across more public MiniGrid rows, but it does
 not establish total-debt closure or public benchmark superiority.  The CUDA
 retraining-ablation study runs true gradient retraining on the
@@ -297,11 +301,12 @@ the V-JEPA2-AC near-native MiniGrid build command, the public MiniGrid
 calibration-extension command, and the evidence-audit command needed to
 reproduce the record-level checks.
 The older baseline external result remains an unevaluated import scope for
-external public benchmark metrics.  The public baseline metric contract records
-the required repository commit, checkpoint identity, dataset identity, exact
-execution command, observation/action stream contract, native metric names,
-BEDC readback metrics, LCCP certificate metrics, and cannot-claim boundary for
-any imported V-JEPA2-AC or JEPA-family baseline result.  The CUDA adapter record
+external public benchmark metrics.  The public baseline metric contract and
+fillable metric template record the required repository commit, checkpoint
+identity, dataset identity, exact execution command, observation/action stream
+contract, native metric names, BEDC readback metrics, LCCP certificate metrics,
+and cannot-claim boundary for any imported V-JEPA2-AC or JEPA-family baseline
+result.  The CUDA adapter record
 and the MiniGrid latent-prediction record and near-native MiniGrid record are
 the executed checkpoint records for the selected V-JEPA 2-AC candidate.  The
 official V-JEPA2-AC evaluation-scope record remains necessary because these
