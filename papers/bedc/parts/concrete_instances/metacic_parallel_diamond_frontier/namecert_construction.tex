@@ -138,6 +138,24 @@ Now use \autoref{thm:metacic-parallel-diamond-frontier-handoff} and \autoref{thm
 The obstruction row is not removed by this comparison. It is carried in both packets and remains part of the consumer-visible handoff, so the theorem records a local-diamond frontier fact rather than a proof of the missing residual-substitution or closed confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual square]
+\label{thm:metacic-parallel-diamond-frontier-residual-square}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ carrier
+$$
+F=(P,K,J,R,S,C,B,O,H,T,G,N)
+$$
+exposes a residual square only through the retained residual-substitution premise row $P$, the critical-pair row $K$, the candidate-join row $J$, the residual-frontier row $R$, the closed-checker seal $S$, the closed-normal fragment $C$, the bounded-check row $B$, the obstruction row $O$, and the transport, replay, provenance, and local naming rows $H,T,G,N$. Any consumer of the square must therefore factor through those rows before using a conditional local-diamond handoff. The square does not discharge residual substitution, subject reduction, full closed Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:metacic-parallel-diamond-frontier-carrier}. Its confluence-facing rows are exactly $P,K,J,R,S,C,B,O$, and its structural rows are exactly $H,T,G,N$.
+
+Use critical-pair exhaustion, \autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion}. It places the local peak data inside the displayed critical-pair row $K$ and keeps the closed-checker and obstruction rows visible.
+
+Apply the local-diamond frontier theorem \autoref{thm:metacic-local-diamond-frontier}. A conditional local-diamond read can compare candidate joins only through the residual-frontier row $R$, with $S,C,B,O,H,T,G,N$ still present in the handoff.
+
+Finally route the resulting read through \autoref{thm:metacic-parallel-diamond-frontier-route}. Since that route retains $P,K,J,R,S,C,B,O,H,T,G,N$ before any consumer sees the handoff, the residual square is a frontier obligation over the displayed rows rather than any of the refused residual-substitution, typing, confluence, equality, quotient, or kernel endpoints.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-substitution scope]
 \label{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}
 Every use of the $\MetaCICParallelDiamondFrontierUp$ local-diamond frontier must pass through the residual-substitution boundary, the confluence critical-pair boundary, and the closed-normal fragment before it claims a local join. In carrier terms, a consumer must expose the residual-substitution premise row $P$, the critical-pair row $K$, the residual-frontier row $R$, the closed checker seal row $S$, and the closed-normal fragment row $C$ before reading the candidate-join handoff. The resulting claim remains a local frontier claim; it does not close full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.

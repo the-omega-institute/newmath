@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalNestingUp$}
+\label{ch:concrete-instances-bishop-interval-nesting-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopIntervalNestingUp$ packet records a constructive nested-interval argument as finite interval-window data rather than as an ambient completeness theorem. It sits between the dyadic endpoint rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a named interval-nesting boundary without importing quotient streams or a host-selected limit.
+
+\begin{definition}[Bishop interval nesting carrier]
+\label{def:bishop-interval-nesting-carrier}
+A $\BishopIntervalNestingUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,R,S,Q,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are paired $\DyadicRatCoreUp$ endpoint rows for the left and right interval endpoints in each displayed stage.
+\item $S$ is the finite $\StreamNameUp$ window listing the inspected interval stages and endpoint observations.
+\item $Q$ is the $\RegSeqRatUp$ readback row that repacks the endpoint windows as regular rational data before any Real-facing seal is read.
+\item $W$ is the finite nesting ledger, recording endpoint order, containment of each displayed successor interval in its predecessor, and the local diameter budget.
+\item $H$ stores componentwise $\hsame$ transport for the endpoint rows, stream windows, regular readback row, nesting ledger, replay row, provenance row, and local name.
+\item $C$ stores displayed $\Cont$ replay from the endpoint observations through the nesting ledger and regular readback boundary.
+\item $P$ records $\Pkg$ provenance over $\BishopIntervalNestingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalNestingUp}$ row.
+\end{enumerate}
+The packet contains no coordinate for quotient stream equality, host real equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop interval nesting NameCert obligations]
+\label{thm:bishop-interval-nesting-namecert-obligations}
+For every accepted $\BishopIntervalNestingUp$ carrier $I=(L,R,S,Q,W,H,C,P,N)$, the local $\NameCert_{\BishopIntervalNestingUp}$ surface consists exactly of carrier admission, endpoint order and containment, finite-window nesting, $\RegSeqRatUp$ readback and terminal $\RealUp$ seal handoff, structural transport, displayed replay, provenance, and local naming. Every obligation is read through $L,R,S,Q,W,H,C,P,N$ and through the sibling rows named in \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+The certificate exports only the finite nested-interval route. It does not export quotient streams, host real equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-interval-nesting-carrier}. The accepted packet displays the dyadic endpoint rows $L,R$, the stream window $S$, the regular rational readback $Q$, the nesting ledger $W$, and the structural rows $H,C,P,N$.
+
+Endpoint order and containment are read from $W$ after the dyadic endpoint rows have been exposed. Thus every displayed successor interval is compared inside the same finite $\DyadicRatCoreUp$ ledger, before any terminal real seal can be consumed.
+
+The finite-window nesting clause uses $S$ to restrict the argument to the inspected stages. The $\RegSeqRatUp$ row $Q$ repacks only those displayed windows, and the $\RealUp$ handoff can read the resulting regular data only through $Q$ and the replay row $C$.
+
+Finally, $H$, $P$, and $N$ certify that transport, provenance, and local naming preserve the same packet. Since no row stores quotient stream equality, host real equality, selected limits, countable choice, trichotomy, or ambient completeness, none of those principles is a local obligation.
+\end{proof}
+
+\closureat{BishopIntervalNestingUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalNestingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-nesting-carrier} and \autoref{thm:bishop-interval-nesting-namecert-obligations} seed the finite dyadic endpoint, stream-window, regular-readback, and Real-seal route for constructive interval nesting.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim $\RealUp$ completeness, quotient stream equality, host real equality, selected limits, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked endpoint order, containment, finite-window nesting, regular readback, Real seal handoff, transport, replay, provenance, and local naming for the same carrier.}
+  \constructivestory{A $\BishopIntervalNestingUp$ packet is generated from dyadic left and right endpoint rows, finite StreamName windows, RegSeqRat readback rows, a nested containment ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
