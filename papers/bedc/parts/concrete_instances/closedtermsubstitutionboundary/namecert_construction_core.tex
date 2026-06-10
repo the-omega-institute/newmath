@@ -91,6 +91,18 @@ Apply \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{th
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryValueClosednessAdmission}
 
+\begin{theorem}[Closed-term substitution boundary closed-value preservation]
+\label{thm:closed-term-substitution-boundary-closed-value-preservation}
+Any accepted substitution-row read that preserves the $\ClosedTermSubstitutionBoundaryUp$ packet must keep the value closedness row $C_{\mathsf{val}}$ displayed through $R,L,A,H,C,P,N$. The read cannot replace $C_{\mathsf{val}}$ by host substitution semantics, hidden equality, or an ambient subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. The row $C_{\mathsf{val}}$ is a named coordinate of the same finite packet as the substitution row $R$, ledger $L$, audit row $A$, transport $H$, route $C$, provenance $P$, and local name $N$.
+
+Use \autoref{thm:closed-term-substitution-boundary-value-closedness-admission} and \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}. The first admits the displayed value-closedness row, and the second requires any substitution-row read to expose that row before $R$ is consumed.
+
+Thus preservation of the boundary preserves the displayed $C_{\mathsf{val}}$ row. No carrier coordinate supplies host substitution semantics, hidden equality, or subject reduction.
+\end{proof}
+
 \begin{theorem}[Closed-term substitution boundary substitution-row exactness]
 \label{thm:closed-term-substitution-boundary-substitution-row-exactness}
 In an accepted $\ClosedTermSubstitutionBoundaryUp$ packet

@@ -147,6 +147,24 @@ completeness coordinate, the finite-window consumption route is exhausted by
 the displayed packet.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric completion separation]
+\label{thm:pointwise-stream-metric-completion-separation}
+Every completion-facing read of an accepted $\PointwiseStreamMetricUp$ carrier
+$$
+Q=(S,W,D,R,E,M,H,C,P,N)
+$$
+must expose $S,W,D,R,E,M,H,C,P,N$ before a completion consumer may inspect the metric-distance row. The read cannot infer ambient completeness, quotient stream equality, selected representatives, countable-choice schedules, or host function equality unless the displayed $\RegSeqRatUp$ readback row $R$ and terminal $\RealUp$ seal row $E$ are present in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-stream-metric-carrier}. The only available rows are the certified stream source, finite window schedule, dyadic tolerance ledger, regular-rational readback, terminal Real seal, metric row, transport, replay, provenance, and local naming row.
+
+Apply the pointwise classifier theorem \autoref{thm:pointwise-stream-metric-pointwise-classifier}. It forces the distance read through $S,W,D,R,E$ before $M$ is inspected, so a completion consumer cannot start from an ambient completed stream space.
+
+Use the Real-completion anchor \autoref{thm:pointwise-stream-metric-real-completion-anchor} and the finite-window consumption theorem \autoref{thm:pointwise-stream-metric-finite-window-consumption}. Together they place every completion-facing request on the displayed stream-window, dyadic-ledger, RegSeqRat readback, Real-seal, and metric route.
+
+The conclusion is the carrier inventory. Since no coordinate stores ambient completeness, quotient stream equality, selected representatives, countable choice, or host function equality, the completion-facing read can use such data only by leaving the accepted $\PointwiseStreamMetricUp$ packet.
+\end{proof}
+
 \closureat{PointwiseStreamMetricUp}{seedStr}
 
 \begin{closurestatus}{\PointwiseStreamMetricUp}
