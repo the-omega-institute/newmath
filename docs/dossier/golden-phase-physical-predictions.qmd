@@ -317,17 +317,18 @@ inverting the measurement, the formula has no predictive force. The
 denominator must instead be supplied by an internal Window6 rule:
 
 ```text
-D_6 = Gamma(Window6),
+D_6 = Gamma(Window6, Gamma_alpha),
 ```
 
 where `Gamma` may use the Window6 fold, visible type count, boundary parity,
-tail ladder, hidden residual dimensions, and phase-sector data, but not the
-experimental value of `alpha`.
+tail ladder, hidden residual dimensions, phase-sector data, and an auditable
+projection gate `Gamma_alpha`, but not the experimental value of `alpha`.
 
-## Pure Window6 minimal closure
+## Protocol-gated Window6 closure
 
-Only Window6-internal data are allowed in the denominator rule. The usable
-packet is:
+The denominator is not claimed to flow automatically from Window6 alone. It is
+the minimal Window6 residual ledger after a legal low-energy projection gate
+has selected a cross-scale return branch. The Window6 data packet is:
 
 ```text
 |X_6| = F_8 = 21,
@@ -393,22 +394,34 @@ phi^-7 = phi^{-(F_5 + F_3)}.
 Thus `phi^-7` is not an arbitrary first small quantity. It is the golden shell
 shadow of the Window6 deep tail `F_7`.
 
-The residual step is controlled by the top uplift return. The nonzero
-Window6 uplift tail offsets are:
+The return step needs a protocol gate. Window6 itself supplies a two-sheet
+boundary difference:
 
 ```text
-F_8, F_9, F_10 = 21, 34, 55.
+Delta_bdry(6) = {0, F_9} = {0, 34}.
 ```
 
-Here `F_8` is the visible stable-type count and `F_9` is the boundary alias
-already used by the projection. The remaining top closure scale for repeated
-residual return is:
+This two-sheet parity cannot be transported to higher windows without an
+extra protocol. The next boundary uplifts have three branches:
 
 ```text
-F_10 = 55.
+Delta_bdry(7) = {0, F_10, F_11} = {0, 55, 89},
+
+Delta_bdry(8) = {0, F_11, F_12} = {0, 89, 144}.
 ```
 
-Its golden exponent is `10`, so the return step is:
+The low-energy alpha-projection gate is therefore an explicit part of the
+ledger:
+
+```text
+Gamma_alpha_7 : {0, F_10, F_11} -> {0, F_10},
+
+Gamma_alpha_7 : {0, 55, 89} -> {0, 55}.
+```
+
+It keeps `F_10 = 55` as the first Window6 residual return scale and excludes
+the un-locked `F_11 = 89` branch from the low-energy residual ledger. Only
+after this gate is supplied does the return step become:
 
 ```text
 u_6 = phi^-10 = phi^{-(F_6 + F_3)}.
@@ -427,11 +440,26 @@ D_6 =
   47 + phi^-7(q_0 + q_1 phi^-10 + q_2 phi^-20 + ...).
 ```
 
-The pure Window6 minimal closure stops at three terms because the fiber multiplicities
-are only `2`, `3`, and `4`; equivalently the tail ladder has
-`N_{>=2}(6)`, `N_{>=3}(6)`, and `N_{>=4}(6)`, with no Window6-internal
-`N_{>=5}(6)`. Terms `u^3`, `u^4`, and beyond require a higher-window or
-cross-window refinement source. The Window6 polynomial is therefore:
+A natural candidate for this gate is the square-residue projection at
+`p_* = 571`. In that gate candidate:
+
+```text
+ord_571(34) = 285,
+ord_571(55) = 19,
+ord_571(89) = 570,
+ord_571(144) = 285.
+```
+
+The low-energy projection keeps the re-lockable residue branch and excludes
+the primitive diffusion branch. This remains a protocol-gate or NameCert
+obligation, not a closed theorem supplied by the scalar value.
+
+The Window6 minimal closure stops at three displayed residual terms because
+the fiber multiplicities are only `2`, `3`, and `4`; equivalently the tail
+ladder has `N_{>=2}(6)`, `N_{>=3}(6)`, and `N_{>=4}(6)`, with no
+Window6-internal `N_{>=5}(6)`. Terms `u^3`, `u^4`, and beyond require a
+higher-window or cross-window refinement source. The Window6 polynomial is
+therefore:
 
 ```text
 Q_6^*(u) = q_0 + q_1 u + q_2 u^2.
@@ -496,23 +524,33 @@ D_6^*
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
 ```
 
-This gives the pure Window6 minimal-closure denominator. It is not obtained
-from the measured value of `alpha`; it is forced by the internal ledger once
-the residual ladder and two-sheet sign conventions are admitted. The remaining
-formalization obligations are:
+This gives the protocol-gated Window6 minimal denominator. It is not obtained
+from the measured value of `alpha`; it is obtained from the Window6 ledger
+only after the projection gate and two-sheet sign conventions are admitted.
+The remaining formalization obligations are:
 
 ```text
+ProtocolGateLegality:
+  Gamma_alpha_7 : {0, F_10, F_11} -> {0, F_10}
+  is an allowed low-energy projection gate,
+
 GoldenResidualLadder:
-  D_6 - D_0 in phi^-7 Q_Z[phi^-10],
+  D_6 - D_0 in phi^-7 Q_Z[phi^-10]
+  follows from Gamma_alpha_7,
 
 TwoSheetMobius:
-  q_1 = -1/2.
+  q_1 = -1/2,
+
+ParityDeepestTailNormalization:
+  q_2 = |C_bdry| / N_{>=4}(6)
+      = #{d_6 = 2} / #{d_6 = 4}
+      = 8/9.
 ```
 
 Once these are discharged inside BEDC, the inference chain becomes:
 
 ```text
-Window6 -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
+Window6 + Gamma_alpha -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
 ```
 
 as a low-energy projection prediction, rather than:
@@ -525,6 +563,7 @@ In compact form:
 
 ```text
 Window6
+  + Gamma_alpha
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-27]
   -> D_6^*.
 ```
@@ -537,6 +576,17 @@ outer boundary
 - two-sheet alias
 + eightfold parity / nine-dimensional residual compensation.
 ```
+
+Corrections beyond this displayed denominator are not pure Window6 data:
+
+```text
+D_{6,Gamma}
+  = D_6^* + q_3 phi^-37 + q_4 phi^-47 + ...
+```
+
+The coefficients `q_3`, `q_4`, and beyond belong to cross-window protocol
+refinement. Window6 plus the low-energy gate determines the displayed minimal
+ledger; an infinite residual series needs additional protocol data.
 
 ## Present status
 
@@ -553,7 +603,8 @@ The candidate is consistent with five broad facts:
 
 The open obligations are equally sharp:
 
-- derive `D_6^*` from Window6 without using the measured value of `alpha`;
+- derive `D_6^*` from Window6 plus `Gamma_alpha` without using the measured
+  value of `alpha`;
 - construct a scale-dependent `D(Q)` or `Window_m(Q)` flow;
 - bind atom recoil, electron `g-2`, spectroscopy, and impedance routes to one
   representation certificate;

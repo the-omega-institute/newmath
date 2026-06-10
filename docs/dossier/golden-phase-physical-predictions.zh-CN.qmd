@@ -292,16 +292,17 @@ dR/dD < 0.
 这个 `D` 是从测量值反解来的, 公式就没有预测力. 分母必须由内部 Window6 规则给出:
 
 ```text
-D_6 = Gamma(Window6),
+D_6 = Gamma(Window6, Gamma_alpha),
 ```
 
 其中 `Gamma` 可以使用 Window6 fold、visible type count、boundary parity、
-tail ladder、hidden residual dimensions 与 phase-sector data, 但不能使用
-`alpha` 的实验值.
+tail ladder、hidden residual dimensions、phase-sector data 和一个可审计的
+projection gate `Gamma_alpha`, 但不能使用 `alpha` 的实验值.
 
-## 纯 Window6 最小闭包
+## Protocol-gated Window6 闭包
 
-分母规则只允许使用 Window6 内部数据. 可用数据包是:
+分母不是声称从 Window6 单独流出. 更准确地说, 它是合法低能 projection
+gate 选定跨尺度返回分支之后的最小 Window6 residual ledger. Window6 数据包是:
 
 ```text
 |X_6| = F_8 = 21,
@@ -363,20 +364,31 @@ phi^-7 = phi^{-(F_5 + F_3)}.
 因此 `phi^-7` 不是随意选择的第一个小量. 它是 Window6 deep tail `F_7`
 的黄金壳层影子.
 
-Residual step 由 top uplift return 控制. Window6 的非零 uplift tail offsets 是:
+Return step 需要 protocol gate. Window6 自身给出的 boundary difference 是二层:
 
 ```text
-F_8, F_9, F_10 = 21, 34, 55.
+Delta_bdry(6) = {0, F_9} = {0, 34}.
 ```
 
-其中 `F_8` 是 visible stable-type count, `F_9` 是 projection 已经使用的
-boundary alias. 用于重复 residual return 的剩余顶层闭合尺度是:
+这个 two-sheet parity 不能无协议地传到更高窗口. 下一层 boundary uplift 已经是三分支:
 
 ```text
-F_10 = 55.
+Delta_bdry(7) = {0, F_10, F_11} = {0, 55, 89},
+
+Delta_bdry(8) = {0, F_11, F_12} = {0, 89, 144}.
 ```
 
-它的黄金指数是 `10`, 因此 return step 是:
+因此低能 alpha-projection gate 是 ledger 的显式组成部分:
+
+```text
+Gamma_alpha_7 : {0, F_10, F_11} -> {0, F_10},
+
+Gamma_alpha_7 : {0, 55, 89} -> {0, 55}.
+```
+
+它保留 `F_10 = 55` 作为 Window6 residual 的第一返回尺度, 并把未锁定的
+`F_11 = 89` 分支排除在低能 residual ledger 之外. 只有给出这个 gate 后,
+return step 才成为:
 
 ```text
 u_6 = phi^-10 = phi^{-(F_6 + F_3)}.
@@ -395,10 +407,23 @@ D_6 =
   47 + phi^-7(q_0 + q_1 phi^-10 + q_2 phi^-20 + ...).
 ```
 
-纯 Window6 最小闭包停在三项, 因为 fiber multiplicities 只有 `2`, `3`, `4`;
-等价地说, tail ladder 只有 `N_{>=2}(6)`, `N_{>=3}(6)`,
-`N_{>=4}(6)`, 没有 Window6 内部的 `N_{>=5}(6)`. `u^3`, `u^4`
-及之后的项需要更高窗口或跨窗口 refinement source. 因此 Window6 polynomial 是:
+这个 gate 的自然候选是 `p_* = 571` 上的 square-residue projection. 在这个候选中:
+
+```text
+ord_571(34) = 285,
+ord_571(55) = 19,
+ord_571(89) = 570,
+ord_571(144) = 285.
+```
+
+低能 projection 保留可二层重锁定的 residue branch, 排除 primitive diffusion
+branch. 这仍是 protocol-gate 或 NameCert 义务, 不是由标量值直接给出的闭合定理.
+
+Window6 最小闭包停在三个展示 residual terms, 因为 fiber multiplicities 只有
+`2`, `3`, `4`; 等价地说, tail ladder 只有 `N_{>=2}(6)`,
+`N_{>=3}(6)`, `N_{>=4}(6)`, 没有 Window6 内部的 `N_{>=5}(6)`.
+`u^3`, `u^4` 及之后的项需要更高窗口或跨窗口 refinement source. 因此
+Window6 polynomial 是:
 
 ```text
 Q_6^*(u) = q_0 + q_1 u + q_2 u^2.
@@ -460,22 +485,32 @@ D_6^*
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
 ```
 
-这给出纯 Window6 最小闭包分母. 它不是从 measured `alpha` 得到的; 一旦接受
-residual ladder 和 two-sheet sign conventions, 它就由内部 ledger 强制给出.
-剩余形式化义务是:
+这给出 protocol-gated Window6 最小分母. 它不是从 measured `alpha` 得到的;
+它是在接受 projection gate 与 two-sheet sign conventions 后由 Window6 ledger
+给出的. 剩余形式化义务是:
 
 ```text
+ProtocolGateLegality:
+  Gamma_alpha_7 : {0, F_10, F_11} -> {0, F_10}
+  is an allowed low-energy projection gate,
+
 GoldenResidualLadder:
-  D_6 - D_0 in phi^-7 Q_Z[phi^-10],
+  D_6 - D_0 in phi^-7 Q_Z[phi^-10]
+  follows from Gamma_alpha_7,
 
 TwoSheetMobius:
-  q_1 = -1/2.
+  q_1 = -1/2,
+
+ParityDeepestTailNormalization:
+  q_2 = |C_bdry| / N_{>=4}(6)
+      = #{d_6 = 2} / #{d_6 = 4}
+      = 8/9.
 ```
 
 一旦这些义务在 BEDC 内部消解, 推理链就变成:
 
 ```text
-Window6 -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
+Window6 + Gamma_alpha -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
 ```
 
 作为低能投影预言, 而不是:
@@ -488,6 +523,7 @@ measured alpha -> fitted D_6.
 
 ```text
 Window6
+  + Gamma_alpha
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-27]
   -> D_6^*.
 ```
@@ -501,6 +537,16 @@ outer boundary
 + eightfold parity / nine-dimensional residual compensation.
 ```
 
+超过这个展示分母的修正项不再是纯 Window6 数据:
+
+```text
+D_{6,Gamma}
+  = D_6^* + q_3 phi^-37 + q_4 phi^-47 + ...
+```
+
+`q_3`, `q_4` 及之后的系数属于跨窗口 protocol refinement. Window6 加低能
+gate 决定展示出的最小 ledger; 无限 residual series 需要额外 protocol data.
+
 ## 当前状态
 
 这个候选与五类事实相容:
@@ -513,7 +559,7 @@ outer boundary
 
 未闭合义务同样清楚:
 
-- 不使用 measured `alpha`, 从 Window6 推出 `D_6^*`;
+- 不使用 measured `alpha`, 从 Window6 加 `Gamma_alpha` 推出 `D_6^*`;
 - 构造 scale-dependent 的 `D(Q)` 或 `Window_m(Q)` flow;
 - 把 atom recoil、electron `g-2`、spectroscopy 与 impedance routes 绑定到同一个
   representation certificate;

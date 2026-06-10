@@ -151,9 +151,47 @@ denominator be supplied by the Window-six ledger before comparison with
 the physical scalar.
 \end{proof}
 
-\begin{principle}[Pure Window-six minimal residual closure]
-\label{prin:zeckendorf-pure-window-six-minimal-residual-closure}
-The pure Window-six minimal closure route treats the coarse denominator
+\begin{definition}[Low-energy alpha-projection gate]
+\label{def:zeckendorf-low-energy-alpha-projection-gate}
+A low-energy alpha-projection gate is protocol data
+\(\Gamma^\alpha\) for the electromagnetic representation certificate that
+selects an admissible cross-scale boundary-return branch before the
+Window-six residual ledger is evaluated. At the first post-Window-six
+boundary it has the form
+$$
+  \Gamma^\alpha_7:
+  \{0,F_{10},F_{11}\}
+  \longrightarrow
+  \{0,F_{10}\}.
+$$
+Equivalently, it retains the \(F_{10}=55\) return branch from
+\(\{0,55,89\}\) and excludes the \(F_{11}=89\) diffusion branch from the
+low-energy residual ledger. This gate is a separate protocol field; it is
+not inferred from the measured electromagnetic scalar.
+\end{definition}
+
+\begin{principle}[Square-residue gate candidate]
+\label{prin:zeckendorf-square-residue-gate-candidate}
+A natural candidate implementation of
+\autoref{def:zeckendorf-low-energy-alpha-projection-gate} is the
+square-residue projection at \(p_\ast=571\). The candidate is guided by
+the order data
+$$
+  \operatorname{ord}_{571}(34)=285,\qquad
+  \operatorname{ord}_{571}(55)=19,\qquad
+  \operatorname{ord}_{571}(89)=570,\qquad
+  \operatorname{ord}_{571}(144)=285.
+$$
+Under this reading the low-energy projection keeps the re-lockable
+residue branch and excludes the primitive diffusion branch. This remains
+protocol-gate data until a NameCert supplies the corresponding internal
+certificate.
+\end{principle}
+
+\begin{principle}[Protocol-gated Window-six minimal residual closure]
+\label{prin:zeckendorf-protocol-gated-window-six-minimal-residual-closure}
+The protocol-gated Window-six minimal closure route treats the coarse
+denominator
 $$
   D_0=F_{10}-F_6=F_9+F_7=47
 $$
@@ -188,16 +226,28 @@ $$
   =
   \{21,34,55\}.
 $$
-Since \(F_8\) is the visible stable-type count and \(F_9\) is the
-boundary alias, the residual return is controlled by the remaining top
-closure scale \(F_{10}\). Hence the minimal closure recurrence step is
-required to be
+The Window-six boundary difference itself is only two-sheeted,
+$$
+  \Delta^{\mathrm{bdry}}_6=\{0,F_9\},
+$$
+whereas the next boundary differences have three branches,
+$$
+  \Delta^{\mathrm{bdry}}_7=\{0,F_{10},F_{11}\},
+  \qquad
+  \Delta^{\mathrm{bdry}}_8=\{0,F_{11},F_{12}\}.
+$$
+Therefore the Window-six sheet parity is not transported across scales
+without protocol data. Given the low-energy gate \(\Gamma^\alpha_7\) of
+\autoref{def:zeckendorf-low-energy-alpha-projection-gate}, the first
+cross-scale return branch is \(F_{10}\). Hence the minimal closure
+recurrence step is
 $$
   u_6:=\varphi^{-(F_6+F_3)}=\varphi^{-10}.
 $$
-The pure Window-six closure truncates after three terms because the
-fiber multiplicities are only \(2,3,4\), equivalently because the tail
-ledger stops at \(N_{\geq 4}(6)\) inside Window six. Its three
+The Window-six closure displays three residual terms because the fiber
+multiplicities are only \(2,3,4\), equivalently because the tail ledger
+stops at \(N_{\geq 4}(6)\) inside Window six. Further terms require
+cross-window protocol refinement. Its three
 coefficient normalizations are
 $$
   q_0=1,\qquad
@@ -211,12 +261,12 @@ deepest residual sector. The same \(8/9\) is also the ratio between the
 fiber histogram layers \(\#\{d_6=2\}=8\) and \(\#\{d_6=4\}=9\).
 \end{principle}
 
-\begin{theorem}[Pure Window-six minimal closure determines the denominator]
-\label{thm:zeckendorf-pure-window-six-closed-denominator-derivation}
-Assume the pure Window-six minimal residual closure of
-\autoref{prin:zeckendorf-pure-window-six-minimal-residual-closure}. The
-three-term residual polynomial forced by the Window-six fiber-depth
-cutoff
+\begin{theorem}[Protocol-gated Window-six closure determines the denominator]
+\label{thm:zeckendorf-protocol-gated-window-six-closed-denominator-derivation}
+Assume the protocol-gated Window-six minimal residual closure of
+\autoref{prin:zeckendorf-protocol-gated-window-six-minimal-residual-closure}.
+The three-term residual polynomial selected by the Window-six fiber-depth
+cutoff and the low-energy gate
 $$
   Q_6(u)=q_0+q_1u+q_2u^2
 $$
@@ -251,7 +301,8 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-By the pure Window-six minimal closure, the denominator has the form
+By the protocol-gated Window-six minimal closure, the denominator has the
+form
 $$
   D_6
   =
@@ -277,45 +328,60 @@ then give \(F_9+F_7=47\), \(F_5+F_3=7\),
 
 \begin{principle}[Remaining formalization obligations]
 \label{prin:zeckendorf-unclosed-denominator-obligations}
-The pure Window-six minimal closure becomes a fully internal Window-six
-theorem only after two further obligations are discharged. First, the
-GoldenResidualLadder obligation must derive
+The protocol-gated Window-six closure becomes a fully internal
+Window-six theorem only after three further obligations are discharged.
+First, the ProtocolGateLegality obligation must certify
+$$
+  \Gamma^\alpha_7:
+  \{0,F_{10},F_{11}\}\to\{0,F_{10}\}
+$$
+as an allowed low-energy projection gate. If the square-residue gate is
+used, this obligation must certify the \(p_\ast=571\) residue-stratum
+separation in \autoref{prin:zeckendorf-square-residue-gate-candidate}.
+Second, the GoldenResidualLadder obligation must derive
 $$
   D_6-D_0\in\varphi^{-7}\mathbb{Q}_{Z}[\varphi^{-10}],
 $$
-from the deep-tail seam and the \(F_{10}\) uplift-return rule. Second,
-the TwoSheetMobius obligation must derive
+from the deep-tail seam and the gated \(F_{10}\) uplift-return rule.
+Third, the TwoSheetMobius obligation must derive
 $$
   q_1=\frac{1-2}{2}=-\frac12.
 $$
-Until these obligations are supplied, the closed denominator is a
-conditioned Window-six ledger conclusion rather than a fully certified
-internal theorem.
+The parity/deepest-tail normalization of \(q_2=8/9\) must also be
+identified as the same trace-normalized coefficient as the fiber-sector
+ratio \(\#\{d_6=2\}/\#\{d_6=4\}\). Until these obligations are supplied,
+the closed denominator is a protocol-gated Window-six ledger conclusion
+rather than a fully certified internal theorem.
 \end{principle}
 
 \begin{theorem}[Physical refutation surface for the Window-six readout]
 \label{thm:zeckendorf-window-six-physical-refutation-surface}
 The physical interpretation of \(R_{Z6}^\star\) is refutable at the
 derived-interface level by any of the following failures:
+no admissible low-energy projection gate selects the \(F_{10}\) branch;
 the coefficient \(8/9\) remains a fitted rational rather than a
 boundary-parity over hidden-residual derivation; independent low-energy
 routes converge to incompatible values after systematic corrections; a
 high-energy comparison reuses \(R_{Z6}^\star\) without a scale-indexed
 ledger or window-refinement flow; or later residual corrections require
-terms outside the ladder
+terms outside the gated ladder
 $$
   \varphi^{-7-10k}\qquad(k\geq 0).
 $$
 \end{theorem}
 \begin{proof}
-The first failure violates the residual closure principle in
-\autoref{prin:zeckendorf-window-six-residual-closure} and the
-interpretation of \(8/9\) in
-\autoref{rem:zeckendorf-eight-nine-closure-coefficient}. The second
+The first failure violates the protocol-gate requirement in
+\autoref{def:zeckendorf-low-energy-alpha-projection-gate}. The second
+violates the residual closure principle in
+\autoref{prin:zeckendorf-window-six-residual-closure}, the
+protocol-gated closure principle in
+\autoref{prin:zeckendorf-protocol-gated-window-six-minimal-residual-closure},
+and the interpretation of \(8/9\) in
+\autoref{rem:zeckendorf-eight-nine-closure-coefficient}. The third
 violates the route-convergence requirement of
-\autoref{prin:zeckendorf-independent-route-convergence}. The third
+\autoref{prin:zeckendorf-independent-route-convergence}. The fourth
 violates the infrared boundary of
-\autoref{prin:zeckendorf-running-coupling-window-refinement}. The fourth
+\autoref{prin:zeckendorf-running-coupling-window-refinement}. The fifth
 violates the displayed Window-six residual denominator, whose correction
 terms occur at exponents \(7\), \(17\), and \(27\), and hence on the
 ladder \(7+10k\). Each failure breaks an explicit interface condition
