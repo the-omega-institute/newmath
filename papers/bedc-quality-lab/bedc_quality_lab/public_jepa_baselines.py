@@ -84,15 +84,35 @@ def _leworldmodel_candidate() -> dict[str, Any]:
 
 def build_public_jepa_baseline_registry() -> dict[str, Any]:
     candidates = [_vjepa2_ac_candidate(), _leworldmodel_candidate()]
+    external_result_path = Path(__file__).resolve().parents[1] / "reports" / "bedc_jepa_public_baseline_external_result.json"
+    execution_status = {
+        "status": "missing",
+        "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
+    }
+    if external_result_path.exists():
+        external_result = json.loads(external_result_path.read_text(encoding="utf-8"))
+        if isinstance(external_result, dict):
+            result_status = str(external_result.get("status") or "")
+            if result_status == "near_native_candidate_not_importable":
+                execution_status = {
+                    "status": "near_native_candidate_not_importable",
+                    "reason": "near-native fixed-checkpoint evidence is recorded but does not satisfy the native metric import contract",
+                    "source_record": str(external_result.get("source_record") or ""),
+                    "candidate_id": str(external_result.get("candidate_id") or ""),
+                    "cannot_export": list(external_result.get("cannot_export", [])),
+                }
+            elif result_status == "available":
+                execution_status = {
+                    "status": "external_result_available",
+                    "reason": "a fillable native-metric result is available for import",
+                    "candidate_id": str(external_result.get("candidate_id") or ""),
+                }
     return {
         "schema_id": "bedc-jepa-public-baseline-registry",
         "status": "contract_only",
         "selected_candidate_id": "vjepa2-ac",
         "candidates": candidates,
-        "execution_status": {
-            "status": "missing",
-            "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
-        },
+        "execution_status": execution_status,
         "next_actions": [
             "clone or vendor the selected public baseline in an approved environment",
             "record the exact commit, checkpoint, dataset, and command line",

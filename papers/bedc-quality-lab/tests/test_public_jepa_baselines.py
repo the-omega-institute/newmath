@@ -67,7 +67,14 @@ def test_public_jepa_baseline_registry_records_action_conditioned_candidates():
     assert selected["baseline_role"] == "action-conditioned latent world-model baseline"
     assert selected["repository_url"] == "https://github.com/facebookresearch/vjepa2"
     assert "action-conditioned" in selected["why_relevant"]
-    assert registry["execution_status"]["status"] == "missing"
+    assert registry["execution_status"]["status"] in {
+        "missing",
+        "near_native_candidate_not_importable",
+        "external_result_available",
+    }
+    if registry["execution_status"]["status"] == "near_native_candidate_not_importable":
+        assert registry["execution_status"]["source_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
+        assert "native metric import contract" in registry["execution_status"]["reason"]
     assert "clone or vendor the selected public baseline in an approved environment" in registry["next_actions"]
 
 
