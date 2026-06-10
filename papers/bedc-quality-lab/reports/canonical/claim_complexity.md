@@ -37,7 +37,7 @@
 | `claim:mechanism-dna` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:dgt-l0-controls` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:discovery-gated-transformer` | `12` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `assumption_complexity=6, proof_burden=2, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
-| `claim:dgt-neural-ablation` | `12` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `assumption_complexity=6, proof_burden=2, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-neural-ablation` | `4` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `assumption_complexity=0, proof_burden=0, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
 | `claim:order-k-benchmark` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:lejepa-theorem-ledger` | `2` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `assumption_complexity=0, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:observed-debt-sweep` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
