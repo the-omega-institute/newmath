@@ -20,19 +20,21 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-10T17:27:48Z
+> 最后刷新: 2026-06-10T20:20:57Z
 
-**Daemon 状态**: monitor (monitor cycle 25, adjust_since_research 0, round_counter 5721, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 26, adjust_since_research 0, round_counter 5906, last_adjust none)
 
-**待处理 queue** (169 条 finding):
+**待处理 queue** (171 条 finding):
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 59 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 61 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 6 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 - missing_origin: 4 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=unauthorized_capstone: 19 次
-- TASTE ALERT category=low_entropy_template: 1 次
+- TASTE ALERT category=isolated_theorem: 7 次
+- TASTE ALERT category=low_entropy_template: 5 次
+- TASTE ALERT category=cycle_exception: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -225,6 +227,10 @@ to case-by-case judgment.
 - 2026-06-10T11:44:21Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_uniform_modulus_consumer_boundary` (flag `isolated_theorem`, finding `isolated_theorem:equicontinuity:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_uniform_modulus_consumer_boundary:aaa108ab`). Rationale: The target is not a trivial wrapper: it packages the uniform-modulus-to-finite-boundary route with unary closure and package evidence. I connected it to the Arzela-Ascoli boundary sibling by proving a NameCert consumer that invokes this theorem, then extends the finite boundary evidence through the Arzela and terminal boundary rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-10T17:27:25Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_transport_replay_provenance` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_transport_replay_provenance:6137c810`). Rationale: The theorem is not a trivial wrapper: it constructs the consumer-row SemanticNameCert tying replay, provenance, hsame transport, and UnaryHistory for an EquicontinuityCarrier consumer boundary. Repo grep showed no prior downstream Lean consumer or paper marker for the exact target, so I added a sibling downstream theorem in UniformModulusConsumerBoundary that directly invokes it and carries the certified consumer row into a finite-boundary continuation through T. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-10T19:18:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_shared_radius_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_shared_radius_obligation:6137c810`). Rationale: The target has real BEDC content: it packages the shared-radius path into a SemanticNameCert rather than merely restating the stability theorem, but it had no Lean downstream consumer. I added EquicontinuitySharedRadiusObligationCoverConsumer in the related EquicontinuityUp shared-radius family-cover sibling; the new theorem explicitly invokes the target and combines its shared-radius certificate with a later modulus/cover-read SemanticNameCert, tying the obligation into the finite cover consumer route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-10T20:20:48Z: `resolved` `leave_with_rationale` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_shared_radius_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_shared_radius_obligation:6137c810`). Rationale: The isolated_theorem finding is stale or too literal: exact fully qualified grep only finds the dossier entry, but the theorem has a real Lean downstream consumer inside the same namespace. `lean4/BEDC/Derived/EquicontinuityUp/SharedRadiusFamilyCoverReadiness.lean` calls `EquicontinuityCarrier_shared_radius_obligation` in `EquicontinuitySharedRadiusObligationCoverConsumer`, extracts `sharedCert`, and combines it with a cover-consumer certificate, so the theorem is not an unused staging wrapper. The paper chapter `109364_equicontinuity_namecert_construction.tex` also presents both the shared-radius obligation and the downstream shared-radius family-cover readiness route. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
