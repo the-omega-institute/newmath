@@ -2483,7 +2483,6 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BoundaryRoutes
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceBudgetSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceDownstreamCoverage
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValuePreservation
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
@@ -2538,7 +2537,6 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerAuditFactorizat
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueBridgeDeterminacy
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueConsumerDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
@@ -2550,7 +2548,6 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationReadbackLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteExhaustion
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteLDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootSelfCompileHandoffReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootShiftSubstitutionTotality
@@ -3916,7 +3913,6 @@ import BEDC.Derived.DyadicCompactnessExtractorUp.TasteGate
 import BEDC.Derived.DyadicCompactnessUp
 import BEDC.Derived.DyadicCompactnessUp.TasteGate
 import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
-import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -5120,6 +5116,7 @@ import BEDC.Derived.HardyCesaroMeanUp.TasteGate
 import BEDC.Derived.HardyInequalityUp.TasteGate
 import BEDC.Derived.HardyLittlewoodMaximalUp.TasteGate
 import BEDC.Derived.HardyLittlewoodTauberianUp.TasteGate
+import BEDC.Derived.HarnackInequalityUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
