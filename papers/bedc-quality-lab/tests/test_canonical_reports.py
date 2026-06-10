@@ -180,6 +180,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_neural_ablation
 
         return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
+    if spec.name == "dgt-ablation-null-decomposition":
+        from bedc_quality_lab import dgt_ablation_null_decomposition
+
+        return dgt_ablation_null_decomposition.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1477,6 +1481,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "dgt-l0-controls",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
+            "dgt-ablation-null-decomposition",
             "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
@@ -2762,6 +2767,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
             continue
+        if spec.name == "dgt-ablation-null-decomposition":
+            assert "source_artifact" in keys
+            continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
         set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
@@ -3266,6 +3274,35 @@ def test_dgt_neural_ablation_canonical_spec_is_single_auxiliary_owner():
     )
     assert spec.positive_claim_pointer == "$.component_causal_claims"
     assert spec.claim_capsule_pointer == "$.claim_capsule_ref"
+
+
+def test_dgt_ablation_null_decomposition_canonical_spec_is_read_only_auxiliary_owner():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-ablation-null-decomposition"]
+
+    assert len(specs) == 1
+    spec = specs[0]
+    neural_index = [item.name for item in canonical.CANONICAL_REPORTS].index("dgt-neural-ablation")
+    null_index = [item.name for item in canonical.CANONICAL_REPORTS].index("dgt-ablation-null-decomposition")
+    assert neural_index < null_index
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_ablation_null_decomposition.py")
+    assert spec.json_artifact == canonical.DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_ABLATION_NULL_DECOMPOSITION_MARKDOWN_ARTIFACT
+    assert spec.required_json_keys == (
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifact",
+        "threshold_schema",
+        "decision_table",
+        "null_decomposition",
+        "hardgates",
+        "not_claimed",
+    )
+    assert spec.cost_pointer == "$.source_artifact"
+    assert spec.control_pointer == "$.source_artifact"
+    assert spec.positive_claim_pointer == "$.null_decomposition.verdict"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
