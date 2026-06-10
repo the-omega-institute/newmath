@@ -49,12 +49,20 @@ def _mirror_branch_default() -> str:
 
 
 def _upstream_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
+    """Mirror tools/auto_heal_base.py BEDC_ROLLUP_TARGET_BRANCH topology.
+
+    Keep this fallback chain synchronized with auto_heal_base when the rollup
+    topology changes.
+    """
+    rollup_target = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH")
+    if rollup_target is not None:
+        return rollup_target
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
 
 
 SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
+UPSTREAM_BRANCH = _upstream_branch_default()
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 VALIDATION_WORKTREE = host_path(
     REPO_ROOT,
