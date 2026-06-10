@@ -12,6 +12,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_jepa_baseline",
         "public_baseline_native_metric_contract",
         "public_minigrid_calibration_extension",
+        "public_benchmark_scope_contracts",
         "torch_retraining_loss_ablation",
         "vjepa2_ac_native_reproduction",
         "vjepa2_ac_minigrid_claim_certificate",
@@ -24,6 +25,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     baseline = kit["required_external_results"]["public_jepa_baseline"]
     native_metric_contract = kit["required_external_results"]["public_baseline_native_metric_contract"]
     extension = kit["required_external_results"]["public_minigrid_calibration_extension"]
+    benchmark_scope = kit["required_external_results"]["public_benchmark_scope_contracts"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
     native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
@@ -73,6 +75,14 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "minimum_planning_budget_count": 3,
     }
     assert "at least 30 public MiniGrid calibration rows" in extension["pass_condition"]
+    assert benchmark_scope["readiness_gate"] == "public_benchmark_scope_contracts"
+    assert benchmark_scope["target_artifact"] == "reports/bedc_jepa_public_benchmark_scope_contracts.json"
+    assert benchmark_scope["build_command"] == "python scripts/build_public_benchmark_scope_contracts.py"
+    assert benchmark_scope["required_contracts"] == [
+        "public_pixel_world_benchmark",
+        "public_object_interaction_benchmark",
+    ]
+    assert "source gaps" in benchmark_scope["pass_condition"]
     assert retraining["readiness_gate"] == "full_retraining_loss_ablation"
     assert retraining["target_artifact"] == "reports/bedc_jepa_retraining_loss_ablation.json"
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"
@@ -146,6 +156,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["public_minigrid_calibration_extension_command"]
         == "python scripts/build_public_minigrid_calibration_extension.py"
+    )
+    assert (
+        kit["public_benchmark_scope_contracts_command"]
+        == "python scripts/build_public_benchmark_scope_contracts.py"
     )
     assert (
         kit["vjepa2_ac_minigrid_claim_certificate_command"]

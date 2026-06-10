@@ -31,6 +31,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/build_public_minigrid_calibration_extension.py"
     )
     assert (
+        manifest["commands"]["public_benchmark_scope_contracts"]
+        == "python scripts/build_public_benchmark_scope_contracts.py"
+    )
+    assert (
         manifest["commands"]["vjepa2_ac_native_boundary"]
         == "python scripts/build_vjepa2_ac_native_boundary.py"
     )
@@ -131,6 +135,9 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     )
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
+    assert manifest["public_baselines"]["public_benchmark_scope_contracts"] == (
+        "reports/bedc_jepa_public_benchmark_scope_contracts.json"
+    )
     assert manifest["public_baselines"]["jepa_native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
     )

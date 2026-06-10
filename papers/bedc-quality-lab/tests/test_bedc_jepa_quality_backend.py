@@ -156,3 +156,7 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
         packet["artifacts"]["public_baseline_native_metric_template"]
         == "reports/bedc_jepa_public_baseline_native_metric_template.json"
     )
+    assert (
+        packet["artifacts"]["public_benchmark_scope_contracts"]
+        == "reports/bedc_jepa_public_benchmark_scope_contracts.json"
+    )

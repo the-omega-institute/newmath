@@ -98,6 +98,16 @@ def build_external_run_kit() -> dict[str, Any]:
                 },
                 "pass_condition": "target record executes at least 30 public MiniGrid calibration rows across at least five seeds, three task variants, and three planning budgets",
             },
+            "public_benchmark_scope_contracts": {
+                "readiness_gate": "public_benchmark_scope_contracts",
+                "target_artifact": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
+                "build_command": "python scripts/build_public_benchmark_scope_contracts.py",
+                "required_contracts": [
+                    "public_pixel_world_benchmark",
+                    "public_object_interaction_benchmark",
+                ],
+                "pass_condition": "scope contracts are ready; public pixel-world and object-interaction benchmark claims remain source gaps until executed results satisfying the contracts are imported",
+            },
             "torch_retraining_loss_ablation": {
                 "readiness_gate": "full_retraining_loss_ablation",
                 "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json",
@@ -234,6 +244,7 @@ def build_external_run_kit() -> dict[str, Any]:
             "python scripts/build_public_baseline_native_metric_template.py"
         ),
         "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
+        "public_benchmark_scope_contracts_command": "python scripts/build_public_benchmark_scope_contracts.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
         "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
         "vjepa2_ac_native_boundary_command": "python scripts/build_vjepa2_ac_native_boundary.py",

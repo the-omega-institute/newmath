@@ -16,11 +16,14 @@ def test_makefile_rollup_runs_vjepa2_and_paper_writeback_records():
 
     assert "build-vjepa2-native-boundary" in makefile
     assert "build-vjepa2-near-native-reproduction" in makefile
+    assert "build-public-benchmark-scope-contracts" in makefile
     assert "export-public-jepa-baseline-result" in makefile
     assert "build-public-baseline-native-metric-template" in makefile
     assert "build-bedc-jepa-paper-writeback-packet" in makefile
     rollup = next(line for line in makefile.splitlines() if line.startswith("build-bedc-jepa-rollup:"))
+    assert "build-public-benchmark-scope-contracts" in rollup
     assert "export-public-jepa-baseline-result" in rollup
+    assert rollup.index("build-public-benchmark-scope-contracts") < rollup.index("build-bedc-jepa-run-kit")
     assert rollup.index("export-public-jepa-baseline-result") < rollup.index("build-public-jepa-registry")
     assert "build-vjepa2-native-boundary" in rollup
     assert "build-vjepa2-near-native-reproduction" in rollup
@@ -35,6 +38,7 @@ def test_makefile_exposes_public_minigrid_and_jepa_entrypoints():
         "run-public-minigrid-native-seed-sweep": "scripts/run_public_minigrid_native_seed_sweep.py",
         "build-public-minigrid-debt-closure": "scripts/build_public_minigrid_debt_closure.py",
         "build-public-minigrid-calibration-extension": "scripts/build_public_minigrid_calibration_extension.py",
+        "build-public-benchmark-scope-contracts": "scripts/build_public_benchmark_scope_contracts.py",
         "export-public-minigrid-result": "scripts/export_public_minigrid_benchmark_result.py",
         "import-public-minigrid-result": "scripts/import_public_minigrid_benchmark_metrics.py",
         "probe-public-jepa-baseline": "scripts/probe_public_jepa_baseline.py",

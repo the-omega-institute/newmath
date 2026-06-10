@@ -350,6 +350,7 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "public_baseline_native_metric_template": (
                 "reports/bedc_jepa_public_baseline_native_metric_template.json"
             ),
+            "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
         },
         "forbidden_surfaces": [
             "model runner execution",

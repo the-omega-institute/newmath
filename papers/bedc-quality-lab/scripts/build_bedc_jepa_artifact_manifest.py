@@ -76,6 +76,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
             "public_minigrid_debt_closure": "python scripts/build_public_minigrid_debt_closure.py",
             "public_minigrid_calibration_extension": "python scripts/build_public_minigrid_calibration_extension.py",
+            "public_benchmark_scope_contracts": "python scripts/build_public_benchmark_scope_contracts.py",
             "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
             "vjepa2_ac_near_native_reproduction": "python scripts/build_vjepa2_ac_near_native_reproduction.py",
             "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
@@ -162,6 +163,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
         },
         "public_baselines": {
+            "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
             "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
             "jepa_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json",
             "jepa_ac_near_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",

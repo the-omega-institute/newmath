@@ -480,7 +480,8 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "next_actions": [
             "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
             "execute the recorded public baseline native metric contract on an official or external benchmark stream",
-            "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets",
+            "extend public MiniGrid calibration beyond the current symbolic-control readback scope",
+            "import a public pixel-world benchmark result satisfying the recorded scope contract",
             "run a public object-interaction benchmark with natural clutter or control",
         ],
     }

@@ -58,6 +58,7 @@ def build_review_bundle() -> dict[str, Any]:
     public_baseline_native_metric_template = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_template.json"
     )
+    public_benchmark_scope_contracts = _load_optional_json("bedc_jepa_public_benchmark_scope_contracts.json")
     quality_lab_export = _load_optional_json("bedc_jepa_quality_lab_exports.json")
     paper_writeback_packet = _load_optional_json("bedc_jepa_paper_writeback_packet.json")
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
@@ -138,6 +139,28 @@ def build_review_bundle() -> dict[str, Any]:
             public_baseline_native_metric_template.get("schema_id")
             == "bedc-jepa-public-baseline-native-metric-template",
             "public baseline native metric template schema",
+            failures,
+        )
+    if public_benchmark_scope_contracts is not None:
+        _check(
+            public_benchmark_scope_contracts.get("schema_id")
+            == "bedc-jepa-public-benchmark-scope-contracts",
+            "public benchmark scope contract schema",
+            failures,
+        )
+        _check(
+            public_benchmark_scope_contracts.get("status") == "contract_ready",
+            "public benchmark scope contract ready",
+            failures,
+        )
+        contract_ids = {
+            str(row.get("contract_id"))
+            for row in public_benchmark_scope_contracts.get("contracts", [])
+            if isinstance(row, dict)
+        }
+        _check(
+            {"public_pixel_world_benchmark", "public_object_interaction_benchmark"} <= contract_ids,
+            "public benchmark scope contract ids",
             failures,
         )
         _check(
@@ -285,6 +308,7 @@ def build_review_bundle() -> dict[str, Any]:
             "public_baseline_native_metric_template": (
                 "reports/bedc_jepa_public_baseline_native_metric_template.json"
             ),
+            "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
@@ -306,6 +330,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/run_torch_retraining_loss_ablation.py",
             "python scripts/build_public_baseline_native_metric_contract.py",
             "python scripts/build_public_baseline_native_metric_template.py",
+            "python scripts/build_public_benchmark_scope_contracts.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
@@ -376,6 +401,16 @@ def build_review_bundle() -> dict[str, Any]:
             ),
             "public_baseline_native_metric_template_status": (
                 "recorded" if public_baseline_native_metric_template is not None else "not recorded"
+            ),
+            "public_benchmark_scope_contract_status": (
+                public_benchmark_scope_contracts.get("status")
+                if public_benchmark_scope_contracts is not None
+                else "not recorded"
+            ),
+            "public_benchmark_scope_contract_count": (
+                float(len(public_benchmark_scope_contracts.get("contracts", [])))
+                if public_benchmark_scope_contracts is not None
+                else 0.0
             ),
             "quality_lab_export_status": "recorded" if quality_lab_export is not None else "not recorded",
             "quality_lab_export_count": (

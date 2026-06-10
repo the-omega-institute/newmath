@@ -85,7 +85,11 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
         in readiness["next_actions"]
     )
     assert (
-        "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets"
+        "extend public MiniGrid calibration beyond the current symbolic-control readback scope"
+        in readiness["next_actions"]
+    )
+    assert (
+        "import a public pixel-world benchmark result satisfying the recorded scope contract"
         in readiness["next_actions"]
     )
 
