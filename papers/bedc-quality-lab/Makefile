@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-vjepa2-native-boundary build-vjepa2-near-native-reproduction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -27,6 +27,12 @@ run-vjepa2-lccp:
 run-vjepa2-latent-prediction:
 	python3 scripts/run_vjepa2_ac_minigrid_latent_prediction.py
 
+build-vjepa2-native-boundary:
+	python3 scripts/build_vjepa2_ac_native_boundary.py
+
+build-vjepa2-near-native-reproduction:
+	python3 scripts/build_vjepa2_ac_near_native_reproduction.py
+
 build-public-jepa-registry:
 	python3 scripts/build_public_jepa_baseline_registry.py
 
@@ -54,7 +60,7 @@ build-bedc-jepa-quality-lab-export:
 build-bedc-jepa-paper-writeback-packet:
 	python3 scripts/build_bedc_jepa_paper_writeback_packet.py
 
-build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-review-bundle build-bedc-jepa-manifest
+build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-vjepa2-native-boundary build-vjepa2-near-native-reproduction build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-review-bundle build-bedc-jepa-manifest
 
 probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py

@@ -29,7 +29,7 @@ The BEDC-JEPA evidence packet contains:
   `minus_l_intervention`;
 - public baseline native-metric contract for importing an official or external
   V-JEPA2-AC / JEPA-family baseline result;
-- quality-lab export registry for rollup-style downstream consumption.
+- quality-lab export registry for rollup-style downstream consumption;
 - paper writeback packet for admitted manuscript-facing claims.
 
 These records do not claim public benchmark superiority, official V-JEPA2-AC
@@ -53,6 +53,8 @@ Main record-building commands:
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_latent_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_latent_prediction.py
+.\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_native_boundary.py
+.\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_near_native_reproduction.py
 .\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_baseline_registry.py
 .\.venv-cuda\Scripts\python.exe scripts\build_public_baseline_native_metric_contract.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_external_run_kit.py
