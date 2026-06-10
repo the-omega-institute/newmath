@@ -9328,6 +9328,7 @@ import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
+import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
