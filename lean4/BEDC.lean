@@ -2483,6 +2483,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BoundaryRoutes
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceBudgetSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceDownstreamCoverage
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValuePreservation
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
@@ -3913,6 +3914,7 @@ import BEDC.Derived.DyadicCompactnessExtractorUp.TasteGate
 import BEDC.Derived.DyadicCompactnessUp
 import BEDC.Derived.DyadicCompactnessUp.TasteGate
 import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
+import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -9327,6 +9329,7 @@ import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
+import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
