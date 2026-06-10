@@ -2829,8 +2829,31 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
             try:
                 pop = _run_command(repo_root, ["git", "stash", "pop"], timeout=120.0)
                 if pop.returncode != 0:
-                    # pop 冲突: drift 留在 stash (下个 cycle daemon 会重生成), 不阻断 sync.
+                    # pop 冲突 (常见于跨 worktree 共享 .git: stash 的 runtime drift 与 merge 引入的
+                    # 同路径 tracked 更新撞车, 尤其 cellstate 跨项目文件). git 会在工作树留下 unmerged
+                    # (UU) 路径且不 drop stash —— 若不清理, 后续每个 cycle 的 git 操作都被 UU 阻塞,
+                    # daemon wedge; stash 也逐 cycle 堆积. 清理: 冲突路径取 stash 侧 (--theirs = 我方
+                    # runtime drift, 优先保住本地科研态如 registries), add 清除 unmerged; 全部解决后
+                    # drop 该 stash (drift 已落工作树, 不丢). 仍有残留 unmerged 则 hard reset 兜底防 wedge.
                     _append_sync_log(store, "pre_merge_stash_pop_conflict", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+                    try:
+                        uu = _run_command(repo_root, ["git", "diff", "--name-only", "--diff-filter=U"], timeout=30.0)
+                        unmerged = [p for p in (uu.stdout or "").splitlines() if p.strip()]
+                    except (OSError, subprocess.TimeoutExpired):
+                        unmerged = []
+                    for path in unmerged:
+                        side = _run_command(repo_root, ["git", "checkout", "--theirs", "--", path], timeout=30.0)
+                        if side.returncode != 0:
+                            _run_command(repo_root, ["git", "checkout", "HEAD", "--", path], timeout=30.0)
+                        _run_command(repo_root, ["git", "add", "--", path], timeout=30.0)
+                    check = _run_command(repo_root, ["git", "diff", "--name-only", "--diff-filter=U"], timeout=30.0)
+                    if (check.stdout or "").strip():
+                        _run_command(repo_root, ["git", "reset", "--hard", "HEAD"], timeout=60.0)
+                        _append_sync_log(store, "pre_merge_stash_pop_force_cleared", {"remaining": (check.stdout or "")[-500:]})
+                    else:
+                        _run_command(repo_root, ["git", "stash", "drop"], timeout=30.0)
+                        # unstage 上面 add 的解决结果, 留作普通 working drift (与正常 runtime 态一致).
+                        _run_command(repo_root, ["git", "reset", "--quiet", "HEAD"], timeout=30.0)
             except (OSError, subprocess.TimeoutExpired) as exc:
                 _append_sync_log(store, "pre_merge_stash_pop_failed", {"error": str(exc)})
 
