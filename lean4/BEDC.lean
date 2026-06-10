@@ -2538,6 +2538,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerAuditFactorizat
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueBridgeDeterminacy
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueConsumerDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
@@ -2549,6 +2550,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationReadbackLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteLDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootSelfCompileHandoffReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootShiftSubstitutionTotality
@@ -9329,7 +9331,6 @@ import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
-import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
