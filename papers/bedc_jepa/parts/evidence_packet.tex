@@ -22,6 +22,8 @@ $$
 \text{Public JEPA registry} & \texttt{bedc\_jepa\_public\_baseline\_registry.json},\\
 \text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
+\text{Public baseline metric contract} &
+\begin{array}{l}\texttt{bedc\_jepa\_public\_baseline}\\\texttt{\_native\_metric\_contract.json}\end{array},\\
 \text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
 \text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
 \text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
@@ -294,12 +296,16 @@ the V-JEPA2-AC near-native MiniGrid build command, the public MiniGrid
 calibration-extension command, and the evidence-audit command needed to
 reproduce the record-level checks.
 The older baseline external result remains an unevaluated import scope for
-external public benchmark metrics.  The CUDA adapter record and the MiniGrid
-latent-prediction record and near-native MiniGrid record are the executed
-checkpoint records for the selected V-JEPA 2-AC candidate.  The official
-V-JEPA2-AC evaluation-scope record remains necessary because these studies are
-fixed-checkpoint evaluations, not the checkpoint's official benchmark
-reproduction.
+external public benchmark metrics.  The public baseline metric contract records
+the required repository commit, checkpoint identity, dataset identity, exact
+execution command, observation/action stream contract, native metric names,
+BEDC readback metrics, LCCP certificate metrics, and cannot-claim boundary for
+any imported V-JEPA2-AC or JEPA-family baseline result.  The CUDA adapter record
+and the MiniGrid latent-prediction record and near-native MiniGrid record are
+the executed checkpoint records for the selected V-JEPA 2-AC candidate.  The
+official V-JEPA2-AC evaluation-scope record remains necessary because these
+studies are fixed-checkpoint evaluations, not the checkpoint's official
+benchmark reproduction.
 
 \paragraph{Quality-backend projection.}
 The quality-backend candidate is a non-canonical projection of the same

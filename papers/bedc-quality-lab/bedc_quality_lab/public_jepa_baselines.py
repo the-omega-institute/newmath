@@ -123,6 +123,7 @@ def build_public_jepa_baseline_comparison() -> dict[str, Any]:
             "rollout_or_planning_score": None,
             "reported_benchmark_name": None,
         },
+        "native_metric_contract_source": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
         "bedc_metrics_source": "reports/bedc_jepa_torch_objective.json",
         "bedc_metrics_required": [
             "gap_auc_gain_mean",
@@ -190,17 +191,19 @@ def build_public_jepa_adapter_comparison(
 
 
 def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any]:
-    required = {
-        "candidate_id",
-        "commit",
-        "checkpoint",
-        "reported_benchmark_name",
-        "latent_prediction_score",
-        "rollout_or_planning_score",
-    }
-    missing = sorted(required - set(result))
-    if missing:
-        raise ValueError(f"missing public baseline result fields: {', '.join(missing)}")
+    from bedc_quality_lab.public_baseline_native_metric_contract import (
+        validate_public_baseline_native_metric_result,
+    )
+
+    if "repository_commit" not in result and "commit" in result:
+        result = {
+            **result,
+            "repository_commit": result["commit"],
+            "checkpoint_identity": result.get("checkpoint"),
+            "dataset_identity": result.get("reported_benchmark_name"),
+            "environment_or_benchmark_name": result.get("reported_benchmark_name"),
+        }
+    validate_public_baseline_native_metric_result(result)
     registry = build_public_jepa_baseline_registry()
     candidates = {candidate["candidate_id"]: candidate for candidate in registry["candidates"]}
     candidate_id = str(result["candidate_id"])
@@ -220,11 +223,21 @@ def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any
     comparison["baseline_metrics"] = {
         "latent_prediction_score": float(result["latent_prediction_score"]),
         "rollout_or_planning_score": float(result["rollout_or_planning_score"]),
-        "reported_benchmark_name": str(result["reported_benchmark_name"]),
+        "reported_benchmark_name": str(result["environment_or_benchmark_name"]),
     }
     comparison["execution_record"] = {
-        "commit": str(result["commit"]),
-        "checkpoint": str(result["checkpoint"]),
+        "repository_commit": str(result["repository_commit"]),
+        "checkpoint_identity": str(result["checkpoint_identity"]),
+        "dataset_identity": str(result["dataset_identity"]),
+        "environment_or_benchmark_name": str(result["environment_or_benchmark_name"]),
+        "execution_command": str(result["execution_command"]),
+        "observation_action_stream_contract": result["observation_action_stream_contract"],
+        "native_metric_contract": result["native_metric_contract"],
+        "bedc_readback_metrics": {
+            key: float(value) for key, value in result["bedc_readback_metrics"].items()
+        },
+        "lccp_certificate_metrics": result["lccp_certificate_metrics"],
+        "cannot_claim_boundary": list(result["cannot_claim_boundary"]),
     }
     comparison["remaining_requirement"] = None
     comparison["cannot_claim"] = []

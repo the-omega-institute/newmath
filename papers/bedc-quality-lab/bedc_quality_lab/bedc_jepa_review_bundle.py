@@ -52,6 +52,9 @@ def build_review_bundle() -> dict[str, Any]:
     conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
     ablation = _load_json("bedc_jepa_loss_ablation.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
+    public_baseline_native_metric_contract = _load_optional_json(
+        "bedc_jepa_public_baseline_native_metric_contract.json"
+    )
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
     vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     vjepa_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
@@ -99,6 +102,30 @@ def build_review_bundle() -> dict[str, Any]:
         _check(
             retraining_ablation.get("schema_id") == "bedc-jepa-retraining-loss-ablation",
             "torch retraining ablation schema",
+            failures,
+        )
+    if public_baseline_native_metric_contract is not None:
+        _check(
+            public_baseline_native_metric_contract.get("schema_id")
+            == "bedc-jepa-public-baseline-native-metric-contract",
+            "public baseline native metric contract schema",
+            failures,
+        )
+        _check(
+            public_baseline_native_metric_contract.get("status") == "contract_ready",
+            "public baseline native metric contract ready",
+            failures,
+        )
+        _check(
+            "repository_commit"
+            in public_baseline_native_metric_contract.get("required_execution_fields", []),
+            "public baseline native metric contract repository commit",
+            failures,
+        )
+        _check(
+            "execution_command"
+            in public_baseline_native_metric_contract.get("required_execution_fields", []),
+            "public baseline native metric contract execution command",
             failures,
         )
     if vjepa_lccp is not None:
@@ -200,6 +227,9 @@ def build_review_bundle() -> dict[str, Any]:
             ),
             "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
+            "public_baseline_native_metric_contract": (
+                "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+            ),
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
@@ -217,6 +247,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_public_minigrid_debt_closure.py",
             "python scripts/build_public_minigrid_calibration_extension.py",
             "python scripts/run_torch_retraining_loss_ablation.py",
+            "python scripts/build_public_baseline_native_metric_contract.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
@@ -272,6 +303,16 @@ def build_review_bundle() -> dict[str, Any]:
             ),
             "retraining_ablation_system_count": (
                 float(len(retraining_ablation.get("systems", {}))) if retraining_executed else 0.0
+            ),
+            "public_baseline_native_metric_contract_status": (
+                public_baseline_native_metric_contract.get("status")
+                if public_baseline_native_metric_contract is not None
+                else "not recorded"
+            ),
+            "public_baseline_native_metric_required_field_count": (
+                float(len(public_baseline_native_metric_contract.get("required_execution_fields", [])))
+                if public_baseline_native_metric_contract is not None
+                else 0.0
             ),
             "vjepa2_ac_lccp_status": vjepa_lccp.get("status") if vjepa_lccp is not None else "not recorded",
             "vjepa2_ac_lccp_claim_count": float(len(vjepa_lccp.get("claims", []))) if vjepa_lccp is not None else 0.0,

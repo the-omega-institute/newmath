@@ -10,6 +10,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_jepa_checkpoint_evaluation",
         "public_minigrid_execution",
         "public_jepa_baseline",
+        "public_baseline_native_metric_contract",
         "public_minigrid_calibration_extension",
         "torch_retraining_loss_ablation",
         "vjepa2_ac_native_reproduction",
@@ -19,6 +20,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     checkpoint = kit["required_external_results"]["public_jepa_checkpoint_evaluation"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
     baseline = kit["required_external_results"]["public_jepa_baseline"]
+    native_metric_contract = kit["required_external_results"]["public_baseline_native_metric_contract"]
     extension = kit["required_external_results"]["public_minigrid_calibration_extension"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
     native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
@@ -38,6 +40,18 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert "jepa_family_baseline_boundary" in baseline["required_fields"]
     assert minigrid["readiness_gate"] == "public_minigrid_execution"
     assert baseline["readiness_gate"] == "native_public_jepa_benchmark"
+    assert native_metric_contract["readiness_gate"] == "public_baseline_native_metric_contract"
+    assert native_metric_contract["target_artifact"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert native_metric_contract["build_command"] == "python scripts/build_public_baseline_native_metric_contract.py"
+    assert "repository_commit" in native_metric_contract["required_execution_fields"]
+    assert "checkpoint_identity" in native_metric_contract["required_execution_fields"]
+    assert "dataset_identity" in native_metric_contract["required_execution_fields"]
+    assert "execution_command" in native_metric_contract["required_execution_fields"]
+    assert "bedc_readback_metrics" in native_metric_contract["required_execution_fields"]
+    assert "lccp_certificate_metrics" in native_metric_contract["required_execution_fields"]
+    assert "result satisfying this contract is imported" in native_metric_contract["pass_condition"]
     assert extension["readiness_gate"] == "public_minigrid_calibration_extension"
     assert extension["target_artifact"] == "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     assert extension["run_command"] == "python scripts/build_public_minigrid_calibration_extension.py"
@@ -91,6 +105,9 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["torch_retraining_loss_ablation_command"]
         == "python scripts/run_torch_retraining_loss_ablation.py"
+    )
+    assert kit["public_baseline_native_metric_contract_command"] == (
+        "python scripts/build_public_baseline_native_metric_contract.py"
     )
     assert (
         kit["public_minigrid_calibration_extension_command"]

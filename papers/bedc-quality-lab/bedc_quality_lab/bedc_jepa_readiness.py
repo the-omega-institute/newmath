@@ -255,6 +255,36 @@ def _public_minigrid_calibration_extension_gate(packet: dict[str, Any] | None) -
     )
 
 
+def _public_baseline_native_metric_contract_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    if packet is None:
+        return _gate("missing", evidence, "public baseline native metric contract")
+    required_fields = set(packet.get("required_execution_fields", []))
+    contract = packet.get("native_metric_contract", {})
+    passes = (
+        packet.get("schema_id") == "bedc-jepa-public-baseline-native-metric-contract"
+        and packet.get("status") == "contract_ready"
+        and packet.get("selected_candidate_id") == "vjepa2-ac"
+        and {
+            "repository_commit",
+            "checkpoint_identity",
+            "dataset_identity",
+            "execution_command",
+            "native_metric_contract",
+            "bedc_readback_metrics",
+            "lccp_certificate_metrics",
+        }
+        <= required_fields
+        and "same public observation/action stream" in contract.get("same_protocol_requirements", [])
+        and "official V-JEPA2-AC benchmark reproduction" in packet.get("cannot_claim", [])
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "public baseline native metric contract",
+    )
+
+
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
@@ -266,6 +296,7 @@ def _remaining_evidence_contracts(
     retraining_ablation: dict[str, Any] | None,
     native_boundary: dict[str, Any] | None,
     near_native_reproduction: dict[str, Any] | None,
+    native_metric_contract: dict[str, Any] | None,
 ) -> dict[str, Any]:
     retraining_contract: dict[str, Any] = {
         "status": "missing",
@@ -296,6 +327,10 @@ def _remaining_evidence_contracts(
             "status": native_boundary.get("native_reproduction_status", native_boundary.get("status")),
             "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
             "native_acceptance_contract": native_boundary.get("native_acceptance_contract", {}),
+            "native_metric_contract_status": (
+                native_metric_contract.get("status") if native_metric_contract is not None else "missing"
+            ),
+            "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
             "near_native_record_status": (
                 near_native_reproduction.get("status") if near_native_reproduction is not None else "missing"
             ),
@@ -345,6 +380,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_calibration_extension = _load_optional_json("bedc_jepa_public_minigrid_calibration_extension.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
     vjepa2_native_boundary = _load_optional_json("bedc_jepa_vjepa2_ac_native_boundary.json")
+    public_baseline_native_metric_contract = _load_optional_json(
+        "bedc_jepa_public_baseline_native_metric_contract.json"
+    )
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
@@ -361,6 +399,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         ),
         "public_minigrid_calibration_extension": _public_minigrid_calibration_extension_gate(
             public_calibration_extension,
+        ),
+        "public_baseline_native_metric_contract": _public_baseline_native_metric_contract_gate(
+            public_baseline_native_metric_contract,
         ),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
@@ -386,18 +427,22 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             "public_minigrid_calibration_extension": "closed"
             if gates["public_minigrid_calibration_extension"]["status"] == "pass"
             else "open",
+            "public_baseline_native_metric_contract": "closed"
+            if gates["public_baseline_native_metric_contract"]["status"] == "pass"
+            else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
         "remaining_evidence_contracts": _remaining_evidence_contracts(
             retraining_ablation,
             vjepa2_native_boundary,
             vjepa2_near_native,
+            public_baseline_native_metric_contract,
         ),
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
             "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
-            "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+            "execute the recorded public baseline native metric contract on an official or external benchmark stream",
             "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets",
             "run a public object-interaction benchmark with natural clutter or control",
         ],

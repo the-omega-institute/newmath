@@ -4,10 +4,33 @@
     "native V-JEPA2-AC checkpoint reproduction"
   ],
   "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
+  "public_baseline_native_metric_contract_command": "python scripts/build_public_baseline_native_metric_contract.py",
   "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
   "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
+    "public_baseline_native_metric_contract": {
+      "build_command": "python scripts/build_public_baseline_native_metric_contract.py",
+      "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+      "pass_condition": "contract record is ready; external baseline comparison remains unevaluated until a result satisfying this contract is imported",
+      "readiness_gate": "public_baseline_native_metric_contract",
+      "required_execution_fields": [
+        "candidate_id",
+        "repository_commit",
+        "checkpoint_identity",
+        "dataset_identity",
+        "environment_or_benchmark_name",
+        "execution_command",
+        "observation_action_stream_contract",
+        "native_metric_contract",
+        "latent_prediction_score",
+        "rollout_or_planning_score",
+        "bedc_readback_metrics",
+        "lccp_certificate_metrics",
+        "cannot_claim_boundary"
+      ],
+      "target_artifact": "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    },
     "public_jepa_baseline": {
       "export_command": "python scripts/export_public_jepa_baseline_result.py",
       "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",

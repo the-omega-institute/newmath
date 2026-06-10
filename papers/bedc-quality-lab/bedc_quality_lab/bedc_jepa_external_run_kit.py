@@ -54,6 +54,28 @@ def build_external_run_kit() -> dict[str, Any]:
                 ],
                 "pass_condition": "target record status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
             },
+            "public_baseline_native_metric_contract": {
+                "readiness_gate": "public_baseline_native_metric_contract",
+                "target_artifact": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+                "build_command": "python scripts/build_public_baseline_native_metric_contract.py",
+                "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+                "required_execution_fields": [
+                    "candidate_id",
+                    "repository_commit",
+                    "checkpoint_identity",
+                    "dataset_identity",
+                    "environment_or_benchmark_name",
+                    "execution_command",
+                    "observation_action_stream_contract",
+                    "native_metric_contract",
+                    "latent_prediction_score",
+                    "rollout_or_planning_score",
+                    "bedc_readback_metrics",
+                    "lccp_certificate_metrics",
+                    "cannot_claim_boundary",
+                ],
+                "pass_condition": "contract record is ready; external baseline comparison remains unevaluated until a result satisfying this contract is imported",
+            },
             "public_minigrid_calibration_extension": {
                 "readiness_gate": "public_minigrid_calibration_extension",
                 "target_artifact": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
@@ -167,6 +189,9 @@ def build_external_run_kit() -> dict[str, Any]:
         "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
         "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
+        "public_baseline_native_metric_contract_command": (
+            "python scripts/build_public_baseline_native_metric_contract.py"
+        ),
         "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
         "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",

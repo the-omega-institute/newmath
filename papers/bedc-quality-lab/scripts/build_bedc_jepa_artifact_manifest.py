@@ -84,6 +84,9 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
+            "public_baseline_native_metric_contract": (
+                "python scripts/build_public_baseline_native_metric_contract.py"
+            ),
             "probe_public_jepa_baseline": "python scripts/probe_public_jepa_baseline.py",
             "run_public_jepa_ac_giant_adapter": "python scripts/run_public_jepa_ac_giant_adapter.py",
             "build_public_jepa_cuda_comparison": "python scripts/build_public_jepa_cuda_comparison.py",
@@ -159,6 +162,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "jepa_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
             "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
+            "jepa_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
             "jepa_external_result": "reports/bedc_jepa_public_baseline_external_result.json",
             "jepa_probe": "reports/bedc_jepa_public_baseline_probe.json",
             "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json",

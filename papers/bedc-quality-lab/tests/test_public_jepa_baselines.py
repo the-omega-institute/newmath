@@ -11,6 +11,46 @@ from bedc_quality_lab.public_jepa_baselines import (
 )
 
 
+def _native_metric_result():
+    return {
+        "candidate_id": "vjepa2-ac",
+        "repository_commit": "abc123",
+        "checkpoint_identity": "vjepa2_ac_test_checkpoint.pt",
+        "dataset_identity": "MiniGrid-DoorKey-8x8-v0 stream",
+        "environment_or_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
+        "execution_command": "python run_vjepa2_ac_baseline.py --env MiniGrid-DoorKey-8x8-v0",
+        "observation_action_stream_contract": {
+            "observation_preprocessing": "rgb frames",
+            "action_encoding": "discrete actions",
+            "split": "declared train/cal/test split",
+        },
+        "native_metric_contract": {
+            "latent_prediction_score": "R2, higher is better",
+            "rollout_or_planning_score": "success rate, higher is better",
+        },
+        "latent_prediction_score": 0.73,
+        "rollout_or_planning_score": 0.61,
+        "bedc_readback_metrics": {
+            "distinction_accuracy": 0.8,
+            "gap_detection_auc": 0.7,
+            "unlogged_error": 0.1,
+            "certified_coverage": 0.6,
+            "debt": 0.2,
+        },
+        "lccp_certificate_metrics": {
+            "alpha_grid": [0.2, 0.1, 0.05],
+            "certified_claim_count": 1.0,
+            "gap_claim_count": 2.0,
+            "mean_certified_coverage": 0.7,
+            "mean_unlogged_error": 0.03,
+            "mean_conformal_miscoverage": 0.04,
+        },
+        "cannot_claim_boundary": [
+            "public benchmark superiority unless comparative acceptance rule passes",
+        ],
+    }
+
+
 def test_public_jepa_baseline_registry_records_action_conditioned_candidates():
     registry = build_public_jepa_baseline_registry()
 
@@ -42,6 +82,9 @@ def test_public_jepa_baseline_comparison_records_missing_execution_contract():
         "rollout_or_planning_score": None,
         "reported_benchmark_name": None,
     }
+    assert comparison["native_metric_contract_source"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
     assert comparison["bedc_metrics_source"] == "reports/bedc_jepa_torch_objective.json"
     assert comparison["bedc_metrics_required"] == [
         "gap_auc_gain_mean",
@@ -53,23 +96,44 @@ def test_public_jepa_baseline_comparison_records_missing_execution_contract():
 
 
 def test_public_jepa_baseline_metrics_import_marks_comparison_executed():
-    comparison = import_public_jepa_baseline_metrics(
-        {
-            "candidate_id": "vjepa2-ac",
-            "commit": "abc123",
-            "checkpoint": "vjepa2_ac_test_checkpoint.pt",
-            "reported_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
-            "latent_prediction_score": 0.73,
-            "rollout_or_planning_score": 0.61,
-        }
-    )
+    comparison = import_public_jepa_baseline_metrics(_native_metric_result())
 
     assert comparison["schema_id"] == "bedc-jepa-public-baseline-comparison"
     assert comparison["status"] == "executed"
     assert comparison["selected_candidate_id"] == "vjepa2-ac"
     assert comparison["execution_record"] == {
-        "commit": "abc123",
-        "checkpoint": "vjepa2_ac_test_checkpoint.pt",
+        "repository_commit": "abc123",
+        "checkpoint_identity": "vjepa2_ac_test_checkpoint.pt",
+        "dataset_identity": "MiniGrid-DoorKey-8x8-v0 stream",
+        "environment_or_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
+        "execution_command": "python run_vjepa2_ac_baseline.py --env MiniGrid-DoorKey-8x8-v0",
+        "observation_action_stream_contract": {
+            "observation_preprocessing": "rgb frames",
+            "action_encoding": "discrete actions",
+            "split": "declared train/cal/test split",
+        },
+        "native_metric_contract": {
+            "latent_prediction_score": "R2, higher is better",
+            "rollout_or_planning_score": "success rate, higher is better",
+        },
+        "bedc_readback_metrics": {
+            "distinction_accuracy": 0.8,
+            "gap_detection_auc": 0.7,
+            "unlogged_error": 0.1,
+            "certified_coverage": 0.6,
+            "debt": 0.2,
+        },
+        "lccp_certificate_metrics": {
+            "alpha_grid": [0.2, 0.1, 0.05],
+            "certified_claim_count": 1.0,
+            "gap_claim_count": 2.0,
+            "mean_certified_coverage": 0.7,
+            "mean_unlogged_error": 0.03,
+            "mean_conformal_miscoverage": 0.04,
+        },
+        "cannot_claim_boundary": [
+            "public benchmark superiority unless comparative acceptance rule passes",
+        ],
     }
     assert comparison["baseline_metrics"] == {
         "latent_prediction_score": 0.73,
@@ -90,11 +154,18 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
             "status",
             "candidate_id",
             "repository_url",
-            "commit",
-            "checkpoint",
-            "reported_benchmark_name",
+            "repository_commit",
+            "checkpoint_identity",
+            "dataset_identity",
+            "environment_or_benchmark_name",
+            "execution_command",
+            "observation_action_stream_contract",
+            "native_metric_contract",
             "latent_prediction_score",
             "rollout_or_planning_score",
+            "bedc_readback_metrics",
+            "lccp_certificate_metrics",
+            "cannot_claim_boundary",
         }
         comparison = import_public_jepa_baseline_metrics(result)
         assert comparison["status"] == "executed"

@@ -5,6 +5,7 @@
     "artifact_review_bundle": "closed",
     "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
+    "public_baseline_native_metric_contract": "closed",
     "public_minigrid_calibration_extension": "closed",
     "public_minigrid_calibration_pareto": "closed",
     "vjepa2_ac_minigrid_latent_prediction": "closed",
@@ -29,6 +30,11 @@
     "object_counterfactual_clutter": {
       "evidence": "reports/bedc_jepa_four_system_experiment.json",
       "requirement": "object-level counterfactual readback under clutter",
+      "status": "pass"
+    },
+    "public_baseline_native_metric_contract": {
+      "evidence": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "requirement": "public baseline native metric contract",
       "status": "pass"
     },
     "public_jepa_checkpoint_evaluation": {
@@ -69,7 +75,7 @@
   },
   "next_actions": [
     "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
-    "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+    "execute the recorded public baseline native metric contract on an official or external benchmark stream",
     "extend the public MiniGrid calibration extension beyond DoorKey-sized task variants and local planning budgets",
     "run a public object-interaction benchmark with natural clutter or control"
   ],
@@ -140,6 +146,8 @@
           "reports/bedc_vjepa2_ac_native_readback_comparison.json"
         ]
       },
+      "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "native_metric_contract_status": "contract_ready",
       "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
       "near_native_record_status": "evaluated_near_native",
       "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",

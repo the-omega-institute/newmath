@@ -7,6 +7,7 @@
     "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "public_baseline_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
     "public_minigrid_calibration_extension": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
@@ -30,6 +31,7 @@
       "local_visual_planning",
       "native_public_jepa_benchmark",
       "object_counterfactual_clutter",
+      "public_baseline_native_metric_contract",
       "public_jepa_checkpoint_evaluation",
       "public_minigrid_calibration_extension",
       "public_minigrid_calibration_pareto",
@@ -90,6 +92,10 @@
       {
         "kind": "mechanism",
         "residue": "vjepa2-ac-near-native-minigrid-record"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "public-baseline-native-metric-contract"
       }
     ],
     "metrics": [
@@ -112,6 +118,7 @@
       "vjepa2_ac_lccp_recorded",
       "vjepa2_ac_latent_prediction_score",
       "vjepa2_ac_near_native_recorded",
+      "public_baseline_native_metric_contract_recorded",
       "vjepa2_ac_official_reproduction_evaluated"
     ],
     "name": "bedc-jepa-world-model",
@@ -256,6 +263,15 @@
       "residue": "vjepa2-ac-near-native-minigrid-record",
       "severity": "none",
       "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "key": "mechanism/public-baseline-native-metric-contract",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-baseline-native-metric-contract",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
@@ -267,6 +283,7 @@
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark_closed": 1.0,
     "native_unlogged_error_reduction": 0.125,
+    "public_baseline_native_metric_contract_recorded": 1.0,
     "public_minigrid_calibration_extension_closed": 1.0,
     "public_minigrid_calibration_pareto_closed": 1.0,
     "retraining_ablation_recorded": 1.0,
@@ -368,6 +385,8 @@
           "reports/bedc_vjepa2_ac_native_readback_comparison.json"
         ]
       },
+      "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "native_metric_contract_status": "contract_ready",
       "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
       "near_native_record_status": "evaluated_near_native",
       "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
