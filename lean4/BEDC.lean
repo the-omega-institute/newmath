@@ -6220,6 +6220,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetDischargeFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetSocketRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
@@ -6232,6 +6233,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10LocalityObstruction
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
@@ -7087,8 +7089,10 @@ import BEDC.Derived.ParsevalUp.RootFiniteCoefficientLedger
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
 import BEDC.Derived.ParsevalUp.RootFourierInnerProductRoute
 import BEDC.Derived.ParsevalUp.RootFourierIntegralEnergyExhaustion
+import BEDC.Derived.ParsevalUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
+import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
