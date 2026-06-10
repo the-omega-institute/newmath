@@ -223,6 +223,8 @@ to case-by-case judgment.
 
 - 2026-06-10T11:44:21Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_uniform_modulus_consumer_boundary` (flag `isolated_theorem`, finding `isolated_theorem:equicontinuity:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_uniform_modulus_consumer_boundary:aaa108ab`). Rationale: The target is not a trivial wrapper: it packages the uniform-modulus-to-finite-boundary route with unary closure and package evidence. I connected it to the Arzela-Ascoli boundary sibling by proving a NameCert consumer that invokes this theorem, then extends the finite boundary evidence through the Arzela and terminal boundary rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-10T17:27:25Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_transport_replay_provenance` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_transport_replay_provenance:6137c810`). Rationale: The theorem is not a trivial wrapper: it constructs the consumer-row SemanticNameCert tying replay, provenance, hsame transport, and UnaryHistory for an EquicontinuityCarrier consumer boundary. Repo grep showed no prior downstream Lean consumer or paper marker for the exact target, so I added a sibling downstream theorem in UniformModulusConsumerBoundary that directly invokes it and carries the certified consumer row into a finite-boundary continuation through T. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
