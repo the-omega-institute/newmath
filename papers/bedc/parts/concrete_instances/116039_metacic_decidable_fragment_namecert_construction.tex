@@ -53,6 +53,33 @@ The closed checker handoff is then ordered by the carrier. The input row $I$ is 
 Finally $H,C,P,N$ preserve the same finite route. A consumer that wants global conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency must supply a separate certificate outside this packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable fragment bounded-normal refusal]
+\label{thm:metacic-decidable-fragment-bounded-normal-refusal}
+An accepted $\MetaCICDecidableFragmentUp$ packet may consume bounded normal endpoint rows and bounded comparison rows through $E$ and $Q$, after the closed input $I$ and checker seal $S$ have been displayed, but it exports no arbitrary-fuel normalizer, no global conversion decider, no subject-reduction theorem, no evaluator equality, no quotient syntax equality, and no kernel-consistency certificate. The refusal row $R$ remains part of the public finite route
+$$
+I,S,E,Q,R,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(I,S,E,Q,R,H,C,P,N)$ of \autoref{def:metacic-decidable-fragment-carrier}. The rows $E$ and $Q$ are named only as bounded normal endpoint and bounded comparison data, and the preceding rows $I$ and $S$ keep the read tied to the displayed closed input and checker seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same finite route. They do not add a coordinate for arbitrary fuel, global conversion, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+The refusal row $R$ is therefore not auxiliary prose; it is one of the displayed carrier rows. Any consumer that reads $E$ or $Q$ must retain $R$ with the same package provenance, so the bounded-normal surface cannot be reinterpreted as an unrestricted conversion procedure.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable fragment gallery handoff]
+\label{thm:metacic-decidable-fragment-gallery-handoff}
+Gallery sanity rows attached to a $\MetaCICDecidableFragmentUp$ packet are audit-facing examples of the finite route $I,S,E,Q,R,H,C,P,N$. They may witness that the bounded checker, endpoint, comparison, and refusal rows are populated in displayed cases, but they are not the source of general typing completeness, global conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the gallery row only through the carrier of \autoref{def:metacic-decidable-fragment-carrier}. A gallery example can expose a closed input $I$, a checker seal $S$, a bounded endpoint $E$, a comparison result $Q$, the refusal row $R$, and the structural rows $H,C,P,N$.
+
+That exposure is example-facing rather than theorem-generating. The NameCert obligations of \autoref{thm:metacic-decidable-fragment-namecert-obligations} already identify the complete public surface, and \autoref{thm:metacic-decidable-fragment-bounded-normal-refusal} keeps the bounded-normal read from escaping its refusal boundary.
+
+Thus a gallery handoff can support audit rows for particular closed checks, but no gallery row supplies a new coordinate for general typing completeness or for any endpoint named in $R$.
+\end{proof}
+
 \independenceWitness{metacicdecidableboundary, closed-type-checker-seal, bounded-normal-equality-checker, metacicnormalizationfrontier: $\MetaCICDecidableFragmentUp$ is not bijective to any listed sibling because it jointly stores closed-term input, checker seal, bounded normal endpoint, comparison result, refusal boundary, transport, replay, provenance, and local NameCert rows.}
 
 \closureat{MetaCICDecidableFragmentUp}{seedStr}
