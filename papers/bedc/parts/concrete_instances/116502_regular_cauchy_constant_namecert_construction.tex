@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyConstantUp$}
+\label{ch:concrete-instances-regular-cauchy-constant-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyConstantUp$ packet records the constant regular Cauchy name generated from one $\DyadicRatCoreUp$ row through $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and a $\RealUp$ seal. It sits beside the dyadic row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the algebraic sum route of \autoref{ch:concrete-instances-regularcauchysum-namecert}.
+
+\begin{definition}[Regular Cauchy constant carrier]
+\label{def:regular-cauchy-constant-carrier}
+A $\RegularCauchyConstantUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the source $\DyadicRatCoreUp$ row that supplies the single dyadic value, scale, and comparison ledger.
+\item $W$ is the constant $\StreamNameUp$ schedule that repeats the same dyadic source through every displayed finite window.
+\item $E$ is the repeated dyadic observation ledger, recording that each visible window reads the source row $D$ rather than a moving sequence of host rationals.
+\item $R$ is the $\RegSeqRatUp$ readback obtained from the constant stream windows and the repeated dyadic ledger.
+\item $S$ is the terminal $\RealUp$ seal reached only after $D,W,E,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the dyadic source, constant window schedule, observation ledger, regular readback, Real seal, continuation row, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from the dyadic source to each constant window, from the windows to the regular readback, and from the readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyConstantUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyConstantUp}$ row.
+\end{enumerate}
+The classifier compares accepted constant-name carriers only through these nine rows. It contains no coordinate for quotient streams, selected host limits, host equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy constant NameCert obligations]
+\label{thm:regular-cauchy-constant-namecert-obligations}
+For every accepted $\RegularCauchyConstantUp$ carrier $K=(D,W,E,R,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchyConstantUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed nine-row packet;
+\item constant-window exactness, stating that every displayed $\StreamNameUp$ window in $W$ reads the same $\DyadicRatCoreUp$ source row $D$;
+\item repeated-observation exactness, stating that $E$ records no observation outside the dyadic source and its visible windows;
+\item $\RegSeqRatUp$ regularity handoff, stating that $R$ is read from $D,W,E$ before any Real-facing seal is available;
+\item $\RealUp$ seal nonescape, stating that $S$ exports no quotient stream, selected limit, host equality, countable-choice row, or ambient completeness witness;
+\item componentwise transport, replay, provenance, and local naming for $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-constant-carrier}. The dyadic source, constant window schedule, repeated observation ledger, regular readback, Real seal, transport, continuation, provenance, and local naming rows are exactly the classifier-visible coordinates.
+
+The constant-window obligation follows by reading $W$ only through the source row $D$. The observation ledger $E$ then records repeated readings of the same dyadic value, so no moving host sequence or off-carrier rational stream is introduced.
+
+The regular handoff is the next displayed row. Since $R$ is available only after $D,W,E$ have been read, any Real-facing consumer must pass through the regular rational readback before reaching $S$.
+
+The transport, replay, provenance, and naming rows preserve this same nine-row packet. Because the carrier has no quotient, selected-limit, host-equality, choice, or completeness coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy constant Real seal handoff]
+\label{thm:regular-cauchy-constant-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyConstantUp$ carrier $K=(D,W,E,R,S,H,C,P,N)$ reads the dyadic source $D$, constant window schedule $W$, repeated dyadic observation ledger $E$, regular readback $R$, Real seal $S$, componentwise transport $H$, replay row $C$, provenance $P$, and local naming row $N$. The consumer receives no quotient stream, selected limit, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer and project the accepted carrier. The only source value available is the dyadic row $D$, and the only sequence-facing schedule is the constant $\StreamNameUp$ row $W$.
+
+The repeated observation ledger $E$ records the finite window reads of $D$, and the $\RegSeqRatUp$ row $R$ is read back from those displayed observations. The continuation row $C$ replays this route without inserting an additional stream or limit selector.
+
+The seal row $S$ is reached only after $D,W,E,R$ have been displayed. Transport through $H$ and provenance through $P$ preserve the same packet, while $N$ records the local naming boundary.
+
+Thus every Real-facing read factors through $D,W,E,R,S,H,C,P,N$. Since the carrier has no quotient stream, selected limit, host equality, or ambient completeness row, none is exported by the handoff.
+\end{proof}
+
+\closureat{RegularCauchyConstantUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyConstantUp}
+  \constructivestory{A $\RegularCauchyConstantUp$ packet is generated from one DyadicRatCore source row, a constant StreamName schedule, repeated dyadic observations, RegSeqRat readback, RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-constant-carrier}, \autoref{thm:regular-cauchy-constant-namecert-obligations}, and \autoref{thm:regular-cauchy-constant-real-seal-handoff} declare the finite carrier, its local NameCert obligations, and the Real seal handoff boundary for constant regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal closure requires a Lean carrier and checked NameCert obligations for the same constant regular Cauchy packet.}
+\end{closurestatus}
