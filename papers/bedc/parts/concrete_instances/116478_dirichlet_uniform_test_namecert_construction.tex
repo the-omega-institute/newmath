@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DirichletUniformTestUp$}
+\label{ch:concrete-instances-dirichlet-uniform-test-namecert}
+\origin{human}
+
+Following Hardy's treatment of Dirichlet's test for uniform convergence, the $\DirichletUniformTestUp$ packet records a finite certificate for a source function-series window whose bounded partial sums and controlled coefficient variation produce a uniform Cauchy handoff. It sits beside the real-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, the uniform Cauchy criterion of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the uniform-limit boundary of \autoref{ch:concrete-instances-uniformlimit-namecert}, the finite StreamName schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite rows; it does not import host uniform convergence, selected limits, quotient function equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dirichlet uniform test carrier]
+\label{def:dirichlet-uniform-test-carrier}
+A $\DirichletUniformTestUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,A,V,W,U,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row, exposing only finite function-series windows and their inspected partial sums.
+\item $B$ is the bounded-partial-sum ledger, giving a displayed bound for every inspected source window.
+\item $A$ is the coefficient monotonicity ledger, recording the finite order comparisons used by the coefficient row on the inspected tail.
+\item $V$ is the coefficient variation ledger, recording the finite total-variation budget that replaces any appeal to host monotone convergence.
+\item $W$ is the $\StreamNameUp$ window schedule naming the source indices and parameter windows visible to the test.
+\item $U$ is the $\UniformCauchyCriterionUp$ handoff row, storing the uniform tail-window request produced by $B,A,V,W$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational estimates exported by the tail-window ledger.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the dyadic and regular readbacks have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, boundedness, coefficient, variation, window, handoff, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from $S,W$ into $B,A,V$, from those ledgers into $U$, and from $U$ through $R$ into $E$.
+\item $P$ is the $\Pkg$ provenance over $\DirichletUniformTestUp$, $\RealSeriesUp$, $\UniformCauchyCriterionUp$, $\UniformLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirichletUniformTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,B,A,V,W,U,R,E,H,C,P,N$. It has no coordinate for a selected infinite sum, host uniform convergence, quotient equality of functions, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dirichlet uniform test NameCert obligations]
+\label{thm:dirichlet-uniform-test-namecert-obligations}
+For every accepted $\DirichletUniformTestUp$ carrier $K=(S,B,A,V,W,U,R,E,H,C,P,N)$, the local $\NameCert_{\DirichletUniformTestUp}$ surface consists exactly of carrier admission, bounded-partial-sum exposure, coefficient monotonicity exposure, coefficient-variation exposure, StreamName window admission, UniformCauchyCriterion handoff readiness, RegSeqRat readback, Real seal non-escape, componentwise transport, displayed replay, provenance, and local naming. A downstream consumer may read a uniform Cauchy tail certificate only through those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:dirichlet-uniform-test-carrier}. The source row $S$ gives only finite function-series windows, while $B,A,V$ give the bounded partial-sum, monotonicity, and variation ledgers visible on those windows.
+
+The window schedule $W$ fixes which tails may be inspected before the handoff row $U$ is read. Thus a consumer cannot reach a uniform tail claim until the same finite source, boundedness, coefficient, and variation rows have already been displayed.
+
+Finally read $R,E,H,C,P,N$. The regular readback and Real seal are downstream of $U$, and the structural rows preserve exactly the same displayed route. No selected infinite sum, quotient function equality, host uniform convergence theorem, countable-choice schedule, or ambient $\RealUp$ completeness witness is introduced.
+\end{proof}
+
+\begin{theorem}[Dirichlet uniform test uniform Cauchy handoff]
+\label{thm:dirichlet-uniform-test-uniform-cauchy-handoff}
+Every $\UniformCauchyCriterionUp$ or $\UniformLimitUp$ consumer of an accepted $\DirichletUniformTestUp$ carrier factors through the finite tail-window route
+$$
+\DirichletUniformTestUp \longmapsto \RealSeriesUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \UniformCauchyCriterionUp \longmapsto \RealUp .
+$$
+The handoff row $U$ receives only the displayed bounded-partial-sum ledger $B$, coefficient monotonicity ledger $A$, variation ledger $V$, and window schedule $W$ before it exports a uniform Cauchy request.
+\end{theorem}
+\begin{proof}
+Start with the rows $S$ and $W$. They determine the inspected source windows and the tail windows visible to the packet, so every later estimate is tied to a finite $\StreamNameUp$ route.
+
+Next use $B,A,V$ to form the Dirichlet tail estimate on the displayed window. The bounded partial sums provide the uniform bound, the monotonicity ledger orders the coefficient row, and the variation ledger supplies the finite loss budget needed to route the estimate into $U$.
+
+The readback row $R$ and seal row $E$ are then consumed after the $\UniformCauchyCriterionUp$ handoff. Therefore a $\UniformLimitUp$ consumer receives only the finite uniform Cauchy surface supplied by $U,R,E,H,C,P,N$, not a selected host limit, quotient equality of functions, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{DirichletUniformTestUp}{seedStr}
+
+\begin{closurestatus}{\DirichletUniformTestUp}
+  \constructivestory{A $\DirichletUniformTestUp$ packet is generated from RealSeries source windows, bounded partial-sum rows, coefficient monotonicity and variation ledgers, StreamName windows, a UniformCauchyCriterion handoff, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-uniform-test-carrier}, \autoref{thm:dirichlet-uniform-test-namecert-obligations}, and \autoref{thm:dirichlet-uniform-test-uniform-cauchy-handoff} seed the finite uniform Dirichlet-test route over source windows, bounded partial sums, coefficient variation, uniform tail windows, regular readback, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host uniform convergence, selected sums, quotient function equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-partial-sum exposure, coefficient monotonicity and variation exposure, uniform tail-window routing, readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.DirichletUniformTestUp.}
+\end{closurestatus}
