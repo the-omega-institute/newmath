@@ -1119,6 +1119,7 @@ import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.TasteGate
+import BEDC.Derived.BoundedRealFamilyUp.TasteGate
 import BEDC.Derived.BoundedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
@@ -1412,6 +1413,7 @@ import BEDC.Derived.CauchyCompletionComparisonNaturalityUp.TasteGate
 import BEDC.Derived.CauchyCompletionComparisonUp.CarrierAlignment
 import BEDC.Derived.CauchyCompletionComparisonUp.TasteGate
 import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
+import BEDC.Derived.CauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseReflectorUp.TasteGate
 import BEDC.Derived.CauchyCompletionDensitySourceUp.TasteGate
 import BEDC.Derived.CauchyCompletionEliminatorUp.TasteGate
@@ -5137,6 +5139,7 @@ import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
+import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
