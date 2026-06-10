@@ -269,11 +269,27 @@ def _seed_heal_lake_cache() -> None:
 
 
 def ensure_heal_worktree() -> bool:
-    """Ensure the dedicated detached heal worktree exists."""
+    """Ensure the dedicated detached heal worktree exists.
+
+    Self-heals a stale orphan HEAL_WT: if the path exists but is not a
+    valid worktree (leftover from an interrupted `worktree add` or a
+    manual `.git` removal), `git worktree add` fails every cycle with
+    `'<path>' already exists` and auto_heal heals nothing (observed
+    2026-06-10: every tick failing for hours). Force-remove the orphan and
+    prune before re-adding."""
     if (HEAL_WT / ".git").exists():
         _seed_heal_lake_cache()
         return True
     try:
+        if HEAL_WT.exists():
+            run(["git", "worktree", "remove", "--force", str(HEAL_WT)],
+                cwd=REPO_ROOT, check=False, capture=True, timeout=60)
+            if HEAL_WT.exists():
+                shutil.rmtree(HEAL_WT, ignore_errors=True)
+            run(["git", "worktree", "prune"],
+                cwd=REPO_ROOT, check=False, capture=True, timeout=60)
+            print(f"[heal] cleared stale orphan heal worktree {HEAL_WT}",
+                  flush=True)
         HEAL_WT.parent.mkdir(parents=True, exist_ok=True)
         fetch = run(["git", "fetch", "origin", BASE_BRANCH],
                     cwd=REPO_ROOT, check=False, capture=True, timeout=120)
@@ -3133,6 +3149,106 @@ def push_to_origin(target_branch: str | None = None) -> bool:
 
 INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
 
+_GIT_MUTATING_RE = re.compile(
+    r"\bgit\b.*\b(commit|merge|add|rm|mv|update-ref|update-index|"
+    r"checkout|reset|rebase|stash|cherry-pick|am|apply|"
+    r"write-tree|read-tree|gc|repack)\b"
+)
+
+
+def _live_git_mutation() -> bool:
+    """True if any git index/ref-mutating process is currently running.
+
+    Read-only git ops (fetch/status/log/diff/rev-parse/ls-tree) are
+    excluded — they don't hold `index.lock` for any meaningful duration.
+    Gates stale-lock removal: never remove a lock a live process may
+    legitimately hold. Fails safe (returns True) if `ps` can't be read."""
+    try:
+        out = subprocess.run(
+            ["ps", "-axo", "command"],
+            capture_output=True, text=True, timeout=15,
+        ).stdout
+    except Exception:
+        return True
+    return any(_GIT_MUTATING_RE.search(line) for line in out.splitlines())
+
+
+def sweep_stale_git_locks(git_root: Path, *, label: str = "main") -> int:
+    """Remove stale git plumbing locks under a checkout's git common dir.
+
+    The keystone failure this heals: an interrupted `git add`/commit on
+    the SHARED main checkout leaves a 0-byte `.git/index.lock`. Every
+    orchestrator `ff update <BASE>` then fails with
+    `Unable to create '.../index.lock': File exists` and retries forever
+    as a phantom "transient diverge" — the pipeline freezes with no actor
+    clearing the lock (observed 2026-06-10: ~24h freeze from a Jun-9
+    18:23 stale lock; codex-auto-dev never advanced, rollup went
+    permanently no-op; taste_curator skipped every cycle on the dirt).
+
+    A lock is swept only when unambiguously abandoned: age has exceeded
+    INDEX_LOCK_STALE_SECONDS (10 min — no real git index/ref op ever holds
+    a lock that long) AND no live git index/ref-mutating process is
+    running. Size is NOT a trigger: git creates a fresh `index.lock` at 0
+    bytes before writing, so under active concurrent merging a 0-byte lock
+    is a NORMAL transient state, not a stale one — keying on size would
+    nuke a live worker's in-flight commit. App-level `*.push.lock` files
+    are NEVER touched — those are self-relieving orchestrator push
+    serialization, not git plumbing."""
+    try:
+        common = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=git_root, capture_output=True, text=True, timeout=15,
+        ).stdout.strip()
+    except Exception:
+        return 0
+    if not common:
+        return 0
+    cdir = Path(common)
+    if not cdir.is_absolute():
+        cdir = (Path(git_root) / cdir).resolve()
+    candidates = [
+        cdir / "index.lock",
+        cdir / "HEAD.lock",
+        cdir / "packed-refs.lock",
+        cdir / "refs" / "heads" / f"{BASE_BRANCH}.lock",
+    ]
+    wt_dir = cdir / "worktrees"
+    if wt_dir.is_dir():
+        for wt in wt_dir.iterdir():
+            candidates.append(wt / "index.lock")
+    stale: list[tuple[Path, int, int]] = []
+    for lock in candidates:
+        try:
+            st = lock.stat()
+        except FileNotFoundError:
+            continue
+        except Exception:
+            continue
+        age = int(time.time() - st.st_mtime)
+        if age >= INDEX_LOCK_STALE_SECONDS:
+            stale.append((lock, age, st.st_size))
+    if not stale:
+        return 0
+    if _live_git_mutation():
+        names = ", ".join(p.name for p, _, _ in stale)
+        print(f"[heal] stale lock candidate(s) under {label} ({names}) but a "
+              f"live git-mutating process is running; deferring sweep",
+              flush=True)
+        return 0
+    removed = 0
+    for lock, age, size in stale:
+        try:
+            lock.unlink()
+            removed += 1
+            print(f"[heal] swept stale git lock: {lock} "
+                  f"(age={age}s size={size}B, root={label})", flush=True)
+        except FileNotFoundError:
+            continue
+        except Exception as exc:
+            print(f"[heal] could not remove stale lock {lock}: {exc}",
+                  file=sys.stderr)
+    return removed
+
 
 def heal_stale_index_lock() -> bool:
     """Remove a stale `.git/index.lock` in the dedicated heal worktree."""
@@ -3197,6 +3313,15 @@ def cycle() -> None:
     _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
+    # Self-heal FIRST: clear stale git plumbing locks on the SHARED main
+    # checkout. An abandoned 0-byte index.lock here freezes every
+    # orchestrator ff-update (phantom "transient diverge") with no other
+    # actor clearing it — the single worst silent-freeze mode. Runs before
+    # any heal phase so a frozen pipeline recovers within one 15-min tick.
+    try:
+        sweep_stale_git_locks(REPO_ROOT, label="main-checkout")
+    except Exception as exc:
+        print(f"[heal] sweep_stale_git_locks crashed: {exc}", file=sys.stderr)
     if process_ci_watch_callbacks():
         return  # one heal per cycle is enough
     if not _prepare_clean_base_checkout():
