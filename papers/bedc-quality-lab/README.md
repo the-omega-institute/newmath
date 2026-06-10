@@ -85,6 +85,13 @@ On systems with `make`, the rollup target runs the record-level build chain:
 make build-bedc-jepa-rollup
 ```
 
+External result import targets take explicit source paths:
+
+```powershell
+make import-public-minigrid-result MINIGRID_RESULT=<minigrid-result.json>
+make import-public-jepa-baseline-result BASELINE_RESULT=<baseline-result.json>
+```
+
 The current Windows shell used for this workspace may not provide `make`; in
 that case, run the Python commands directly.
 

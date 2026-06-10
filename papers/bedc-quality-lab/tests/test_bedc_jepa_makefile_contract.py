@@ -73,3 +73,13 @@ def test_readme_python_script_references_exist():
                     missing.append(part)
 
     assert missing == []
+
+
+def test_makefile_import_targets_take_explicit_source_paths():
+    makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert "python3 scripts/import_public_minigrid_benchmark_metrics.py $(MINIGRID_RESULT)" in makefile
+    assert "python3 scripts/import_public_jepa_baseline_metrics.py $(BASELINE_RESULT)" in makefile
+    assert "make import-public-minigrid-result MINIGRID_RESULT=<minigrid-result.json>" in readme
+    assert "make import-public-jepa-baseline-result BASELINE_RESULT=<baseline-result.json>" in readme

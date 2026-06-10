@@ -49,7 +49,7 @@ export-public-minigrid-result:
 	python3 scripts/export_public_minigrid_benchmark_result.py
 
 import-public-minigrid-result:
-	python3 scripts/import_public_minigrid_benchmark_metrics.py
+	python3 scripts/import_public_minigrid_benchmark_metrics.py $(MINIGRID_RESULT)
 
 probe-public-jepa-baseline:
 	python3 scripts/probe_public_jepa_baseline.py
@@ -70,7 +70,7 @@ export-public-jepa-baseline-result:
 	python3 scripts/export_public_jepa_baseline_result.py
 
 import-public-jepa-baseline-result:
-	python3 scripts/import_public_jepa_baseline_metrics.py
+	python3 scripts/import_public_jepa_baseline_metrics.py $(BASELINE_RESULT)
 
 build-public-jepa-registry:
 	python3 scripts/build_public_jepa_baseline_registry.py
