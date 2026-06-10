@@ -36,8 +36,8 @@ a measured constant.
 
 ## Low-energy value
 
-The preferred low-energy electromagnetic candidate is the Window6
-local full-phase-register readout:
+The fixed Window6 syntax selects the low-energy electromagnetic candidate as
+the local full-phase-register readout:
 
 ```text
 D_{6,alpha}^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
@@ -63,7 +63,7 @@ R_{6,alpha}^* = 137.035999177006279...
 The prediction surface is therefore:
 
 ```text
-alpha_EM^-1(0) -> 137.035999177006279...    anchor-local mode
+alpha_EM^-1(0) -> 137.035999177006279...    local full-phase-register
 ```
 
 where `(0)` denotes the low-energy or infrared limit. CODATA 2022 reports
@@ -103,12 +103,15 @@ walk + curvature-residual:
 ```
 
 All four values are currently inside the CODATA 2022 standard uncertainty
-`2.1 x 10^-8`. Future low-energy measurements at the `10^-10` to `10^-11`
-level would distinguish the closure mode and the readout mode. The
+`2.1 x 10^-8`, but they are not selected by numerical closeness. The fixed
+`R_6(D)` formula still uses the visible `F_8 = 21` state space and the
+`F_9 = 34` boundary feedback, so its residual closure must remain
+anchor-local. A walking closure belongs to a running or refinement object
+`R_m(D_m)`, not to the fixed low-energy `R_6(D)` readout. The
 fine-structure constant is an electromagnetic `U(1)` phase-coupling readout,
-so the local full-phase-register branch is the natural low-energy candidate;
-the curvature-residual branch is the natural comparison for a purely
-geometric curvature target.
+so it reads the full phase register rather than the geometry-quotiented
+curvature residual. These two syntax constraints select local plus
+phase-register before comparing with CODATA.
 
 ## Vacuum impedance
 
@@ -291,7 +294,8 @@ D_{6,local}^{(curv)}
 ```
 
 Walking-gate closure keeps the first two exponents and moves the third
-displayed exponent to `29`:
+displayed exponent to `29`; it belongs to a running or refinement readout
+rather than to the fixed `R_6(D)` formula:
 
 ```text
 D_{6,walk}^{(phase)}
@@ -598,8 +602,8 @@ The curvature-residual coefficient is instead:
 ```
 
 This mode records only the boundary phase that cannot be absorbed by local
-geometry. It is not the preferred electromagnetic readout, but it is part of
-the physical prediction family.
+geometry. It is not the electromagnetic phase-coupling readout, but it is
+part of the physical prediction family.
 
 Therefore, under the anchor-local phase-register closure mode:
 
@@ -638,6 +642,18 @@ closure modes and two readout modes. They are not obtained from the measured
 value of `alpha`; they are obtained from the Window6 ledger only after the
 projection gate, closure mode, readout mode, and two-sheet sign conventions
 are admitted.
+
+For the fixed low-energy electromagnetic readout, the two choices are no
+longer free. Fixed `R_6(D)` keeps the visible pair `(F_8,F_9)`, hence selects
+local closure. Electromagnetic `U(1)` coupling reads the full phase register,
+hence selects `q_2 = 8/9`. Therefore:
+
+```text
+D_{6,alpha}^*
+  = D_6(Gamma_alpha, local, phase-register)
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
+```
+
 The remaining formalization obligations are:
 
 ```text
@@ -655,10 +671,11 @@ TwoSheetMobius:
 ReadoutMode:
   q_2 = 8/9 for full phase-register readout,
   q_2 = 4/9 for irreducible curvature-residual readout,
+  and electromagnetic U(1) phase coupling selects full phase-register,
 
 ClosureMode:
-  decide anchor-local versus walking-gate from the physical representation
-  rather than from numerical fit alone.
+  fixed R_6(D) selects local closure,
+  while walking-gate belongs to R_m(D_m) running/refinement.
 ```
 
 Once these are discharged inside BEDC, the inference chain becomes:
@@ -747,6 +764,8 @@ The open obligations are equally sharp:
 - derive the four-member family
   `D_6(Gamma_alpha, ClosureMode, ReadoutMode)` without using the measured
   value of `alpha`;
+- certify the selection rule that fixed low-energy electromagnetic readout
+  chooses `D_6(Gamma_alpha, local, phase-register)`;
 - construct a scale-dependent `D(Q)` or `Window_m(Q)` flow;
 - bind atom recoil, electron `g-2`, spectroscopy, and impedance routes to one
   representation certificate;

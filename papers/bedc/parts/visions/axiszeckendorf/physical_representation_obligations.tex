@@ -375,6 +375,35 @@ Substituting the two allowed readout coefficients gives the displayed
 walking-gate readouts.
 \end{proof}
 
+\begin{theorem}[Fixed electromagnetic readout selects the local phase branch]
+\label{thm:zeckendorf-fixed-electromagnetic-readout-selection}
+Assume the readout is the fixed Window-six projection formula whose visible
+state and boundary rows are \(F_8\) and \(F_9\). Assume also that the
+physical target is the low-energy electromagnetic \(U(1)\) phase-coupling
+readout. Then the admissible low-energy denominator selected from
+\autoref{thm:zeckendorf-protocol-gated-window-six-closed-denominator-derivation}
+is
+$$
+  D_{6,\alpha}^{\star}
+  =
+  D_{6,\mathrm{loc}}^{\mathrm{phase}}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}+\frac89\varphi^{-27}.
+$$
+\end{theorem}
+\begin{proof}
+The fixed Window-six projection formula keeps the visible pair
+\((F_8,F_9)\). A walking residual would move the residual ledger to the
+next retained branch \(F_{12}\) while the visible readout remains fixed at
+\((F_8,F_9)\). Thus the fixed low-energy formula selects the
+anchor-local closure. The electromagnetic target is a \(U(1)\)
+phase-coupling readout, not a pure curvature-residual quotient, so it reads
+the full boundary phase register \(C_\partial\) rather than
+\(C_\partial/P_6^{\mathrm{geo}}\). Thus the readout coefficient is
+\(q_2=8/9\). Substitution into the readout-family theorem gives the
+displayed denominator.
+\end{proof}
+
 \begin{principle}[Remaining formalization obligations]
 \label{prin:zeckendorf-unclosed-denominator-obligations}
 The protocol-gated Window-six closure becomes a fully internal
@@ -399,12 +428,14 @@ $$
 Fourth, the ReadoutMode obligation must decide whether the target reads
 the full phase register \(C_\partial\), giving \(q_2=8/9\), or the
 irreducible curvature-residual quotient
-\(C_\partial/P_6^{\mathrm{geo}}\), giving \(q_2=4/9\). Finally, the
-ClosureMode obligation must decide whether the low-energy representation
-is anchor-local or walking-gate by physical representation data rather
-than by numerical fit alone. Until these obligations are supplied, the
-closed denominator is a protocol-gated Window-six ledger conclusion
-rather than a fully certified internal theorem.
+\(C_\partial/P_6^{\mathrm{geo}}\), giving \(q_2=4/9\); for
+electromagnetic \(U(1)\) phase coupling it must select the full phase
+register. Finally, the ClosureMode obligation must certify that fixed
+\(R_6(D)\) readouts select anchor-local closure, while walking-gate
+closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Until
+these obligations are supplied, the closed denominator is a
+protocol-gated Window-six ledger conclusion rather than a fully certified
+internal theorem.
 \end{principle}
 
 \begin{theorem}[Physical refutation surface for the Window-six readout]

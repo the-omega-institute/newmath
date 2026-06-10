@@ -34,7 +34,7 @@ physical representation certificate, 才能把标量读数识别为测得常数.
 
 ## 低能值
 
-低能电磁的首选候选是 Window6 局域锚定的全相位寄存器读数:
+固定 Window6 语法把低能电磁候选选为局域锚定的全相位寄存器读数:
 
 ```text
 D_{6,alpha}^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
@@ -60,7 +60,7 @@ R_{6,alpha}^* = 137.035999177006279...
 因此预言面是:
 
 ```text
-alpha_EM^-1(0) -> 137.035999177006279...    anchor-local mode
+alpha_EM^-1(0) -> 137.035999177006279...    local full-phase-register
 ```
 
 其中 `(0)` 表示低能或红外极限. CODATA 2022 给出 inverse
@@ -97,11 +97,14 @@ walk + curvature-residual:
   R = 137.035999178980968...
 ```
 
-四个值目前都落在 CODATA 2022 标准不确定度 `2.1 x 10^-8` 内. 未来如果低能测量
-达到 `10^-10` 到 `10^-11` 量级, 就能区分 closure mode 与 readout mode.
-fine-structure constant 是 electromagnetic `U(1)` phase-coupling readout,
-所以 local full-phase-register branch 是自然的低能候选; curvature-residual
-branch 则更像纯几何曲率目标的比较项.
+四个值目前都落在 CODATA 2022 标准不确定度 `2.1 x 10^-8` 内, 但选择原则不是
+数值最接近. 固定 `R_6(D)` 公式仍使用可见的 `F_8 = 21` 状态空间和
+`F_9 = 34` 边界反馈, 所以 residual closure 必须保持 anchor-local.
+walking closure 属于 running 或 refinement 对象 `R_m(D_m)`, 不属于固定低能
+`R_6(D)` 读数. fine-structure constant 是 electromagnetic `U(1)`
+phase-coupling readout, 所以它读取 full phase register, 而不是
+geometry-quotiented curvature residual. 这两条语法约束在比较 CODATA 前就选出
+local + phase-register.
 
 ## 真空阻抗
 
@@ -267,7 +270,8 @@ D_{6,local}^{(curv)}
   = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27.
 ```
 
-walking-gate closure 保留前两个指数, 并把第三个展示指数移动到 `29`:
+walking-gate closure 保留前两个指数, 并把第三个展示指数移动到 `29`;
+它属于 running 或 refinement readout, 不属于固定 `R_6(D)` 公式:
 
 ```text
 D_{6,walk}^{(phase)}
@@ -552,8 +556,8 @@ curvature-residual 系数则是:
 4/9 = |C_bdry / P_6^geo| / N_{>=4}(6).
 ```
 
-这个 mode 只记录不能被局域几何吸收的 boundary phase. 它不是首选的
-electromagnetic readout, 但属于物理预言族.
+这个 mode 只记录不能被局域几何吸收的 boundary phase. 它不是 electromagnetic
+phase-coupling readout, 但属于物理预言族.
 
 于是, 在 anchor-local phase-register closure mode 下:
 
@@ -590,7 +594,19 @@ D_{6,walk}^{(curv)}
 这给出两个 closure mode 与两个 readout mode 下的 protocol-gated Window6
 最小分母. 它们不是从 measured `alpha` 得到的; 它们是在接受 projection gate、
 closure mode、readout mode 与 two-sheet sign conventions 后由 Window6 ledger
-给出的. 剩余形式化义务是:
+给出的.
+
+对固定低能电磁读数, 这两个选择不再自由. 固定 `R_6(D)` 保持可见 pair
+`(F_8,F_9)`, 因此选择 local closure. electromagnetic `U(1)` coupling 读取
+full phase register, 因此选择 `q_2 = 8/9`. 所以:
+
+```text
+D_{6,alpha}^*
+  = D_6(Gamma_alpha, local, phase-register)
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
+```
+
+剩余形式化义务是:
 
 ```text
 ProtocolGateLegality:
@@ -607,10 +623,11 @@ TwoSheetMobius:
 ReadoutMode:
   q_2 = 8/9 for full phase-register readout,
   q_2 = 4/9 for irreducible curvature-residual readout,
+  and electromagnetic U(1) phase coupling selects full phase-register,
 
 ClosureMode:
-  decide anchor-local versus walking-gate from the physical representation
-  rather than from numerical fit alone.
+  fixed R_6(D) selects local closure,
+  while walking-gate belongs to R_m(D_m) running/refinement.
 ```
 
 一旦这些义务在 BEDC 内部消解, 推理链就变成:
@@ -694,6 +711,8 @@ local full-phase-register 候选与五类事实相容:
 
 - 不使用 measured `alpha`, 推出四成员族
   `D_6(Gamma_alpha, ClosureMode, ReadoutMode)`;
+- 认证 fixed low-energy electromagnetic readout 选择
+  `D_6(Gamma_alpha, local, phase-register)`;
 - 构造 scale-dependent 的 `D(Q)` 或 `Window_m(Q)` flow;
 - 把 atom recoil、electron `g-2`、spectroscopy 与 impedance routes 绑定到同一个
   representation certificate;
