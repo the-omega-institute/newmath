@@ -808,6 +808,70 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
 
 
 def build_public_jepa_baseline_external_result() -> dict[str, Any]:
+    near_native_path = Path(__file__).resolve().parents[1] / "reports" / "bedc_vjepa2_ac_native_reproduction.json"
+    if near_native_path.exists():
+        near_native = json.loads(near_native_path.read_text(encoding="utf-8"))
+        if isinstance(near_native, dict) and near_native.get("status") == "evaluated_near_native":
+            readback = near_native.get("bedc_readback_metrics", {})
+            lccp = near_native.get("lccp_certificate_metrics", {})
+            checkpoint = near_native.get("checkpoint_identity", {})
+            split = near_native.get("image_action_stream_split", {})
+            latent_split = split.get("latent_prediction", {}) if isinstance(split, dict) else {}
+            lccp_split = split.get("lccp_certificate", {}) if isinstance(split, dict) else {}
+            repository_commit = str(near_native.get("vjepa2_repository_commit") or "")
+            return {
+                "status": "near_native_candidate_not_importable",
+                "candidate_id": "vjepa2-ac",
+                "near_native_candidate_id": str(near_native.get("candidate_id") or ""),
+                "repository_url": "https://github.com/facebookresearch/vjepa2",
+                "repository_commit": repository_commit,
+                "checkpoint_identity": checkpoint.get("checkpoint_url"),
+                "dataset_identity": str(near_native.get("public_environment_id") or ""),
+                "environment_or_benchmark_name": str(near_native.get("public_environment_id") or ""),
+                "execution_command": " && ".join(str(item) for item in near_native.get("execution_command", [])),
+                "observation_action_stream_contract": {
+                    "observation_preprocessing": "MiniGrid two-frame 256x256 RGB video contracts",
+                    "action_encoding": "one-hot MiniGrid action contracts",
+                    "split": {
+                        "latent_prediction": latent_split,
+                        "lccp_certificate": lccp_split,
+                    },
+                },
+                "native_metric_contract": {
+                    "latent_prediction_score": "fixed-checkpoint latent prediction score, higher is better",
+                    "rollout_or_planning_score": "fixed-checkpoint latent prediction score used as near-native score; official rollout score not evaluated",
+                },
+                "latent_prediction_score": float(near_native.get("latent_prediction_score", 0.0)),
+                "rollout_or_planning_score": float(
+                    near_native.get("native_or_near_native_rollout_score", {}).get("value", 0.0)
+                ),
+                "bedc_readback_metrics": {
+                    "distinction_accuracy": float(readback.get("mean_outside_gap_accuracy", 0.0)),
+                    "gap_detection_auc": 0.0,
+                    "unlogged_error": float(readback.get("mean_unlogged_error", 0.0)),
+                    "certified_coverage": float(readback.get("mean_certified_coverage", 0.0)),
+                    "debt": float(
+                        1.0
+                        - float(readback.get("mean_certified_coverage", 0.0))
+                        + float(readback.get("mean_unlogged_error", 0.0))
+                    ),
+                },
+                "lccp_certificate_metrics": {
+                    "alpha_grid": lccp.get("alphas", []),
+                    "certified_claim_count": float(lccp.get("accepted_claim_count", 0.0)),
+                    "gap_claim_count": float(lccp.get("gap_claim_count", 0.0)),
+                    "mean_certified_coverage": float(readback.get("mean_certified_coverage", 0.0)),
+                    "mean_unlogged_error": float(readback.get("mean_unlogged_error", 0.0)),
+                    "mean_conformal_miscoverage": float(readback.get("mean_conformal_miscoverage", 0.0)),
+                },
+                "cannot_claim_boundary": list(near_native.get("cannot_claim_boundary", [])),
+                "cannot_export": [
+                    "repository commit is not recorded for the fixed-checkpoint MiniGrid reports",
+                    "official V-JEPA2-AC benchmark protocol was not executed",
+                    "gap detection AUROC is not separately evaluated in the near-native candidate",
+                ],
+                "source_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+            }
     probe = build_public_jepa_baseline_probe()
     return {
         "status": "unavailable",

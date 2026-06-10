@@ -54,6 +54,17 @@ def _load_optional_json(name: str) -> dict[str, Any] | None:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _is_unrecorded(value: Any) -> bool:
+    text = str(value).strip()
+    lowered = text.lower()
+    return (
+        not text
+        or (text.startswith("<") and text.endswith(">"))
+        or lowered in {"none", "null", "unknown", "not_evaluated"}
+        or "not recorded" in lowered
+    )
+
+
 def _selected_candidate() -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     selected_id = registry["selected_candidate_id"]
@@ -69,6 +80,12 @@ def build_public_baseline_native_metric_contract() -> dict[str, Any]:
         official_execution = "executed"
     near_native_status = (
         str(near_native.get("status")) if near_native is not None else "not_recorded"
+    )
+    near_native_commit = (
+        near_native.get("vjepa2_repository_commit") if near_native is not None else None
+    )
+    near_native_importable = near_native_status == "evaluated_near_native" and not _is_unrecorded(
+        near_native_commit
     )
     return {
         "schema_id": "bedc-jepa-public-baseline-native-metric-contract",
@@ -129,6 +146,10 @@ def build_public_baseline_native_metric_contract() -> dict[str, Any]:
         "current_status": {
             "official_execution": official_execution,
             "near_native_fixed_checkpoint_record": near_native_status,
+            "near_native_metric_importable": "yes" if near_native_importable else "no",
+            "near_native_metric_import_gap": (
+                "none" if near_native_importable else "repository commit is not recorded"
+            ),
             "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
             "public_baseline_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
         },
@@ -145,6 +166,15 @@ def validate_public_baseline_native_metric_result(result: dict[str, Any]) -> Non
     missing = sorted(set(REQUIRED_EXECUTION_FIELDS) - set(result))
     if missing:
         raise ValueError(f"missing public baseline native-metric fields: {', '.join(missing)}")
+    for field in (
+        "repository_commit",
+        "checkpoint_identity",
+        "dataset_identity",
+        "environment_or_benchmark_name",
+        "execution_command",
+    ):
+        if _is_unrecorded(result[field]):
+            raise ValueError(f"{field} must be recorded before native-metric import")
     selected = _selected_candidate()
     if str(result["candidate_id"]) != selected["candidate_id"]:
         raise ValueError(f"unknown public baseline candidate: {result['candidate_id']}")

@@ -58,6 +58,7 @@ def test_public_baseline_native_metric_contract_records_required_fields():
     assert "repository commit is recorded" in contract["native_metric_contract"]["native_result_requirements"]
     assert contract["current_status"]["official_execution"] in {"not_evaluated", "executed"}
     assert contract["current_status"]["near_native_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
+    assert contract["current_status"]["near_native_metric_importable"] in {"yes", "no"}
     assert "official V-JEPA2-AC benchmark reproduction" in contract["cannot_claim"]
     assert "public benchmark superiority" in contract["cannot_claim"]
 
@@ -86,6 +87,14 @@ def test_public_baseline_native_metric_contract_rejects_missing_native_fields():
     del result["execution_command"]
 
     with pytest.raises(ValueError, match="execution_command"):
+        validate_public_baseline_native_metric_result(result)
+
+
+def test_public_baseline_native_metric_contract_rejects_unrecorded_source_identity():
+    result = _valid_result()
+    result["repository_commit"] = "not recorded by the fixed-checkpoint MiniGrid reports"
+
+    with pytest.raises(ValueError, match="repository_commit"):
         validate_public_baseline_native_metric_result(result)
 
 

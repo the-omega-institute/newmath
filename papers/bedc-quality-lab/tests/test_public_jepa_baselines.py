@@ -169,6 +169,13 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
         }
         comparison = import_public_jepa_baseline_metrics(result)
         assert comparison["status"] == "executed"
+    elif result["status"] == "near_native_candidate_not_importable":
+        assert result["near_native_candidate_id"] == "vjepa2-ac-vit-giant"
+        assert result["latent_prediction_score"] > 0.0
+        assert result["rollout_or_planning_score"] > 0.0
+        assert "repository commit is not recorded" in result["cannot_export"][0]
+        assert "official V-JEPA2-AC benchmark protocol was not executed" in result["cannot_export"]
+        assert result["source_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     else:
         assert result["status"] == "unavailable"
         assert result["cannot_export"] == [
