@@ -2667,6 +2667,7 @@ import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
+import BEDC.Derived.CompactNetModulusSelectorUp.CenterLedgerExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
 import BEDC.Derived.CompactNetModulusSelectorUp.FiniteNetExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
@@ -3156,6 +3157,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.BoundaryTriggerSeparation
 import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
+import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
@@ -6259,6 +6261,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICCriticalPathUp.TypedCandidateFrontierBridge
 import BEDC.Derived.MetaCICCriticalPathUp.TypedReductionCandidateSNHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.VisibleResidualSocketExhaustion
 import BEDC.Derived.MetaCICDecidableBoundaryUp
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateSubstitutionExhaustion
@@ -7057,6 +7060,7 @@ import BEDC.Derived.ParsevalUp.FiniteEnergyInductionReadback
 import BEDC.Derived.ParsevalUp.FiniteFourierCarrierAdmission
 import BEDC.Derived.ParsevalUp.FinitePartialSumInduction
 import BEDC.Derived.ParsevalUp.FourierEnergyWindow
+import BEDC.Derived.ParsevalUp.FourierRealReadbackBoundary
 import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
@@ -7528,6 +7532,7 @@ import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp
 import BEDC.Derived.RealApartnessCompletionUp.LocatedRealSealNonescape
 import BEDC.Derived.RealApartnessCompletionUp.Nonescape
+import BEDC.Derived.RealApartnessCompletionUp.SeparatedCompletionHandoff
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
 import BEDC.Derived.RealApartnessSignUp.TasteGate
