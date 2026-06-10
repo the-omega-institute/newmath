@@ -44,3 +44,32 @@ def test_makefile_exposes_public_minigrid_and_jepa_entrypoints():
     for target, script in expected_targets.items():
         assert f"{target}:" in makefile
         assert f"python3 {script}" in makefile
+
+
+def test_every_script_entrypoint_is_discoverable_from_makefile_or_readme():
+    makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    undiscoverable = [
+        script.name
+        for script in sorted((ROOT / "scripts").glob("*.py"))
+        if not script.name.startswith("__")
+        and script.name not in makefile
+        and script.name not in readme
+    ]
+
+    assert undiscoverable == []
+
+
+def test_readme_python_script_references_exist():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    missing = []
+    for line in readme.splitlines():
+        if "scripts\\" not in line and "scripts/" not in line:
+            continue
+        parts = line.replace("\\", "/").split()
+        for part in parts:
+            if part.startswith("scripts/") and part.endswith(".py"):
+                if not (ROOT / part).exists():
+                    missing.append(part)
+
+    assert missing == []
