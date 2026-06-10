@@ -109,6 +109,23 @@
           "promotion.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse142439_missing_cpg_bound",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_missing_cpg_bound.py",
+      "claim_id": "cellstate.age-clock-shift.coverage-bound.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "clock.coverage.partition",
+          "paired.delta-z.produced",
+          "missing-cpg.bound.produced",
+          "age_signature.scope_boundary"
+        ]
+      }
     }
   ]
 }
