@@ -1,0 +1,677 @@
+{
+  "artifact_id": "bedc-quality-lab:dgt-l1-controls",
+  "boundary_ledger": [],
+  "claim_capsule_ref": {
+    "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
+    "claim_id": "claim:dgt-l1-tiny-sequence",
+    "evidence_pointers": [
+      "reports/canonical/dgt-l1-controls.json:$.task_spec",
+      "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+      "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
+      "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
+      "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
+      "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
+      "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
+      "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "reports/canonical/dgt-l1-controls.json:$.review_status"
+    ],
+    "evidence_scope": "bounded-tiny-sequence",
+    "failed_gate": null,
+    "hardgate_pointers": {
+      "L1-HG1": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG1",
+      "L1-HG2": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG2",
+      "L1-HG3": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG3",
+      "L1-HG4": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG4",
+      "L1-HG5": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG5",
+      "L1-HG6": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG6",
+      "L1-HG7": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG7",
+      "L1-HG8": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-HG8"
+    },
+    "model_claim": {
+      "allowed_claim": "DGT L1 controls are ready for independent review on bounded tiny-sequence order-k training.",
+      "base_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
+      "candidate_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+      "compute_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
+      "forbidden_claims": [
+        "production deployment",
+        "global superiority",
+        "LLM replacement",
+        "universal training recipe",
+        "full BEDC closure",
+        "L2+ scaling",
+        "natural-language capability",
+        "component-causal stability beyond the #1168 measured owner"
+      ],
+      "independent_replay_pointer": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "matched_random_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
+      "model_id": "discovery-gated-transformer",
+      "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
+      "parameter_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
+      "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
+      "task_family": "bounded_tiny_sequence_order_k",
+      "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
+    },
+    "not_claimed": [
+      "Bounded tiny-sequence order-k training only.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal training recipe claim.",
+      "No full BEDC closure claim.",
+      "No L2 or higher scaling claim.",
+      "No natural-language capability claim.",
+      "No component-causal stability beyond the #1168 measured owner."
+    ],
+    "report": "dgt-l1-controls",
+    "schema_id": "bedc.quality.claim_capsule",
+    "source": "reports/canonical/dgt-l1-controls.json",
+    "source_pointer": "$.l1_tiny_sequence_projection",
+    "status": "ready"
+  },
+  "component_ablation_boundary": {
+    "measured_status": "measured-owner-required",
+    "not_recreated_here": true,
+    "owner_artifact": "reports/canonical/dgt-neural-ablation.json",
+    "owner_issue": "github:issue:1168",
+    "owner_pointer": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
+    "status": "boundary-only"
+  },
+  "compute_ledger": {
+    "compute_units": 183.877632,
+    "per_arm": {
+      "base_transformer_l1": {
+        "compute_units": 60.604416,
+        "seed_count": 8
+      },
+      "dgt_l1": {
+        "compute_units": 62.6688,
+        "seed_count": 8
+      },
+      "matched_random_structural_l1": {
+        "compute_units": 60.604416,
+        "seed_count": 8
+      }
+    },
+    "per_seed_step_cell": {
+      "base_transformer_l1:1174": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1174,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1175": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1175,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1176": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1176,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1177": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1177,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1178": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1178,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1179": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1179,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1180": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1180,
+        "training_steps": 36
+      },
+      "base_transformer_l1:1181": {
+        "arm_id": "base_transformer_l1",
+        "compute_units": 7.575552,
+        "seed": 1181,
+        "training_steps": 36
+      },
+      "dgt_l1:1174": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1174,
+        "training_steps": 36
+      },
+      "dgt_l1:1175": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1175,
+        "training_steps": 36
+      },
+      "dgt_l1:1176": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1176,
+        "training_steps": 36
+      },
+      "dgt_l1:1177": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1177,
+        "training_steps": 36
+      },
+      "dgt_l1:1178": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1178,
+        "training_steps": 36
+      },
+      "dgt_l1:1179": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1179,
+        "training_steps": 36
+      },
+      "dgt_l1:1180": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1180,
+        "training_steps": 36
+      },
+      "dgt_l1:1181": {
+        "arm_id": "dgt_l1",
+        "compute_units": 7.8336,
+        "seed": 1181,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1174": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1174,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1175": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1175,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1176": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1176,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1177": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1177,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1178": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1178,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1179": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1179,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1180": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1180,
+        "training_steps": 36
+      },
+      "matched_random_structural_l1:1181": {
+        "arm_id": "matched_random_structural_l1",
+        "compute_units": 7.575552,
+        "seed": 1181,
+        "training_steps": 36
+      }
+    },
+    "status": "pass"
+  },
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "hardgates": {
+    "L1-HG1": {
+      "criterion": "base transformer true-training control is parameter/compute matched",
+      "evidence_pointer": "$.training_arms.base_transformer_l1",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG1",
+      "status": "pass"
+    },
+    "L1-HG2": {
+      "criterion": "matched-random structural true-training control preserves marginals and fails positive claim",
+      "evidence_pointer": "$.training_arms.matched_random_structural_l1",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG2",
+      "status": "pass"
+    },
+    "L1-HG3": {
+      "criterion": "compute ledger has positive compute units for every arm/seed/step cell",
+      "evidence_pointer": "$.compute_ledger",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG3",
+      "status": "pass"
+    },
+    "L1-HG4": {
+      "criterion": "parameter ledger has positive parameter counts for every trained model arm",
+      "evidence_pointer": "$.parameter_ledger",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG4",
+      "status": "pass"
+    },
+    "L1-HG5": {
+      "criterion": "negative witness sweep has real hit logic and resolving regression pointers",
+      "evidence_pointer": "$.negative_witness_sweep",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG5",
+      "status": "pass"
+    },
+    "L1-HG6": {
+      "criterion": "independent replay records task digest, seed digest, and metric tolerance rows",
+      "evidence_pointer": "$.independent_replay",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG6",
+      "status": "pass"
+    },
+    "L1-HG7": {
+      "criterion": "ClaimCapsule scope is bounded-tiny-sequence and all evidence pointers are owner pointers",
+      "evidence_pointer": "$.claim_capsule_ref",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG7",
+      "status": "pass"
+    },
+    "L1-HG8": {
+      "criterion": "initial L1 output is ready for independent review but not review pass",
+      "evidence_pointer": "$.review_status",
+      "fail_closed_reason": null,
+      "gate_id": "L1-HG8",
+      "status": "pass"
+    }
+  },
+  "independent_replay": {
+    "fixed_seeds": [
+      1174,
+      1175,
+      1176,
+      1177,
+      1178,
+      1179,
+      1180,
+      1181
+    ],
+    "metric_tolerance": 0.08,
+    "metric_tolerance_rows": [
+      {
+        "dgt_minus_base_accuracy": 0.230469,
+        "dgt_minus_matched_accuracy": 0.175782,
+        "seed": 1174,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.210938,
+        "dgt_minus_matched_accuracy": 0.210938,
+        "seed": 1175,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.230469,
+        "dgt_minus_matched_accuracy": 0.269532,
+        "seed": 1176,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.214844,
+        "dgt_minus_matched_accuracy": 0.214844,
+        "seed": 1177,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.238281,
+        "dgt_minus_matched_accuracy": 0.238281,
+        "seed": 1178,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.230469,
+        "dgt_minus_matched_accuracy": 0.257812,
+        "seed": 1179,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.195312,
+        "dgt_minus_matched_accuracy": 0.1875,
+        "seed": 1180,
+        "status": "pass"
+      },
+      {
+        "dgt_minus_base_accuracy": 0.253906,
+        "dgt_minus_matched_accuracy": 0.285156,
+        "seed": 1181,
+        "status": "pass"
+      }
+    ],
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+    "seed_count": 8,
+    "seed_digest": "4ee5211d8de26ecfa8a4a6036b7f3c6d684f6037dd37d2c478636e7129004acc",
+    "status": "pass",
+    "summary_metrics": {
+      "base_transformer_l1": {
+        "accuracy_mean": 0.0625,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.113838,
+        "ood_accuracy_mean": 0.072754,
+        "parameter_l2_delta_mean": 3.51013,
+        "positive_margin_over_chance_mean": -0.0
+      },
+      "dgt_l1": {
+        "accuracy_mean": 0.288086,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.969112,
+        "ood_accuracy_mean": 0.065918,
+        "parameter_l2_delta_mean": 7.440571,
+        "positive_margin_over_chance_mean": 0.225586
+      },
+      "matched_random_structural_l1": {
+        "accuracy_mean": 0.058105,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.214839,
+        "ood_accuracy_mean": 0.062988,
+        "parameter_l2_delta_mean": 4.662303,
+        "positive_margin_over_chance_mean": -0.004395
+      }
+    },
+    "task_spec_digest": "cd4e7116829521b776f05aae16f34a1c63c6ed67a6cccfc2d9451a1db9383469"
+  },
+  "l1_tiny_sequence_projection": {
+    "boundary_ledger": [],
+    "claim_capsule_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref",
+    "evidence_scope": "bounded-tiny-sequence",
+    "failed_gate": null,
+    "hardgate_pointer": "reports/canonical/dgt-l1-controls.json:$.hardgates",
+    "level_id": "L1_tiny_sequence",
+    "not_claimed": [
+      "Bounded tiny-sequence order-k training only.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal training recipe claim.",
+      "No full BEDC closure claim.",
+      "No L2 or higher scaling claim.",
+      "No natural-language capability claim.",
+      "No component-causal stability beyond the #1168 measured owner."
+    ],
+    "promotion_readiness": "ready-for-independent-review",
+    "review_status": "ready",
+    "status": "ready",
+    "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
+  },
+  "negative_witness_sweep": {
+    "critical_hit_count": 0,
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
+    "required_witnesses": [
+      "order_one_proxy_leakage",
+      "matched_random_positive_control",
+      "ood_pair_shuffle_instability",
+      "scripted_metric_table"
+    ],
+    "source_regression_guard": {
+      "forbidden_hits": [],
+      "missing_training_terms": [],
+      "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
+      "required_training_terms": [
+        "torch.optim.Adam",
+        "loss.backward()",
+        "optimizer.step()"
+      ],
+      "status": "pass"
+    },
+    "status": "pass",
+    "witness_rows": [
+      {
+        "critical": true,
+        "hit_count": 0,
+        "hit_logic": "base accuracy mean must stay below DGT mean minus L1 margin",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
+        "regression_test_pointer_resolves": true,
+        "witness": "order_one_proxy_leakage"
+      },
+      {
+        "critical": true,
+        "hit_count": 0,
+        "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
+        "regression_test_pointer_resolves": true,
+        "witness": "matched_random_positive_control"
+      },
+      {
+        "critical": true,
+        "hit_count": 0,
+        "hit_logic": "OOD shuffled-pair dependency must not inflate the positive slice",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
+        "regression_test_pointer_resolves": true,
+        "witness": "ood_pair_shuffle_instability"
+      },
+      {
+        "critical": true,
+        "hit_count": 0,
+        "hit_logic": "owner source must contain real torch optimizer updates and no scripted metric table token",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
+        "regression_test_pointer_resolves": true,
+        "witness": "scripted_metric_table"
+      }
+    ]
+  },
+  "not_claimed": [
+    "Bounded tiny-sequence order-k training only.",
+    "No production deployment claim.",
+    "No global superiority claim.",
+    "No LLM replacement claim.",
+    "No universal training recipe claim.",
+    "No full BEDC closure claim.",
+    "No L2 or higher scaling claim.",
+    "No natural-language capability claim.",
+    "No component-causal stability beyond the #1168 measured owner."
+  ],
+  "parameter_ledger": {
+    "match_tolerance": 0.22,
+    "parameter_count": 4988,
+    "per_arm": {
+      "base_transformer_l1": {
+        "parameter_count": 1644,
+        "parameter_match_ratio_to_dgt": 0.967059,
+        "trainable_parameter_count": 1644
+      },
+      "dgt_l1": {
+        "parameter_count": 1700,
+        "parameter_match_ratio_to_dgt": 1.0,
+        "trainable_parameter_count": 1700
+      },
+      "matched_random_structural_l1": {
+        "parameter_count": 1644,
+        "parameter_match_ratio_to_dgt": 0.967059,
+        "trainable_parameter_count": 1644
+      }
+    },
+    "status": "pass"
+  },
+  "producer": "scripts/run_dgt_l1_controls.py",
+  "promotion_readiness": "ready-for-independent-review",
+  "review_status": "ready",
+  "schema_id": "bedc-quality-lab:dgt-l1-controls",
+  "source_artifacts": {
+    "command": [
+      "python3",
+      "scripts/run_dgt_l1_controls.py"
+    ],
+    "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
+    "device_policy": {
+      "fallback": "mps-or-cpu",
+      "requested_device": "auto"
+    },
+    "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
+    "run_local_claim_capsule": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/claim_capsule.json",
+    "run_local_raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+    "run_local_report": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/report.md",
+    "run_local_summary": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
+    "runner": "scripts/run_dgt_l1_controls.py",
+    "seed_policy": {
+      "base_seed": 1174,
+      "deterministic_seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181
+      ],
+      "minimum_seed_count": 8
+    }
+  },
+  "task_spec": {
+    "dependency_rule": "target[t] = (3*x[t-1] + 5*x[t-2] + seed_offset) mod vocab_size",
+    "eval_examples": 256,
+    "not_claimed": [
+      "Bounded tiny-sequence order-k training only.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal training recipe claim.",
+      "No full BEDC closure claim.",
+      "No L2 or higher scaling claim.",
+      "No natural-language capability claim.",
+      "No component-causal stability beyond the #1168 measured owner."
+    ],
+    "ood_slices": [
+      "pair_rule_offset",
+      "shuffled_pair_dependency"
+    ],
+    "order_k": 2,
+    "prediction_target": "next token at position t",
+    "seed_protocol": {
+      "base_seed": 1174,
+      "deterministic_seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181
+      ],
+      "minimum_seed_count": 8
+    },
+    "sequence_dependency_window": [
+      "x[t-1]",
+      "x[t-2]"
+    ],
+    "sequence_length": 24,
+    "task_family": "bounded_tiny_sequence_order_k",
+    "task_id": "dgt_l1_order2_pair_rule",
+    "train_examples": 1024,
+    "vocab_size": 16
+  },
+  "training_arms": {
+    "base_transformer_l1": {
+      "arm_id": "base_transformer_l1",
+      "compute_units": 60.604416,
+      "device_requested": "auto",
+      "device_resolved": "mps",
+      "metrics": {
+        "accuracy_mean": 0.0625,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.113838,
+        "ood_accuracy_mean": 0.072754,
+        "parameter_l2_delta_mean": 3.51013,
+        "positive_margin_over_chance_mean": -0.0
+      },
+      "parameter_count": 1644,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
+      "seed_count": 8,
+      "seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181
+      ],
+      "status": "pass",
+      "training_steps": 36
+    },
+    "dgt_l1": {
+      "arm_id": "dgt_l1",
+      "compute_units": 62.6688,
+      "device_requested": "auto",
+      "device_resolved": "mps",
+      "metrics": {
+        "accuracy_mean": 0.288086,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.969112,
+        "ood_accuracy_mean": 0.065918,
+        "parameter_l2_delta_mean": 7.440571,
+        "positive_margin_over_chance_mean": 0.225586
+      },
+      "parameter_count": 1700,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+      "seed_count": 8,
+      "seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181
+      ],
+      "status": "pass",
+      "training_steps": 36
+    },
+    "matched_random_structural_l1": {
+      "arm_id": "matched_random_structural_l1",
+      "compute_units": 60.604416,
+      "device_requested": "auto",
+      "device_resolved": "mps",
+      "metrics": {
+        "accuracy_mean": 0.058105,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.214839,
+        "ood_accuracy_mean": 0.062988,
+        "parameter_l2_delta_mean": 4.662303,
+        "positive_margin_over_chance_mean": -0.004395
+      },
+      "parameter_count": 1644,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
+      "seed_count": 8,
+      "seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181
+      ],
+      "status": "pass",
+      "structural_marginals_preserved": true,
+      "training_steps": 36
+    }
+  }
+}

@@ -176,6 +176,11 @@ def _payload_for_spec(spec):
 
         payload = dgt_l0_controls.build_payload(generated_at="fixture", requested_device="cpu")
         return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-l1-controls":
+        from bedc_quality_lab import dgt_l1_controls
+
+        payload = dgt_l1_controls.build_payload(generated_at="fixture", requested_device="cpu")
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
     if spec.name == "dgt-neural-ablation":
         from bedc_quality_lab import dgt_neural_ablation
 
@@ -1475,6 +1480,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "mechanism-seeking-network",
             "mechanism-dna",
             "dgt-l0-controls",
+            "dgt-l1-controls",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "order-k-benchmark",
@@ -3330,6 +3336,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "l0_control_projection_pointer",
         "l0_control_ledger_pointer",
         "l0_control_negative_witness_pointer",
+        "l1_control_projection_pointer",
+        "l1_control_review_status_pointer",
+        "l1_control_promotion_readiness_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",

@@ -132,6 +132,10 @@ DGT_L0_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 DGT_L0_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l0-controls.md"
 DGT_L0_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l0-controls"
 DGT_L0_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l0-controls"
+DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
+DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
+DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
+DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -140,7 +144,7 @@ DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
 TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
-DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "claim-complexity", "high-impact-review"})
+DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "claim-complexity", "high-impact-review", "dgt-l1-controls"})
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
@@ -1164,6 +1168,48 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[95]",
         negative_witness_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.status",
+    ),
+    CanonicalReportSpec(
+        name="dgt-l1-controls",
+        command=("python3", "scripts/run_dgt_l1_controls.py"),
+        json_artifact=DGT_L1_CONTROLS_JSON_ARTIFACT,
+        markdown_artifact=DGT_L1_CONTROLS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "task_spec",
+            "training_arms",
+            "compute_ledger",
+            "parameter_ledger",
+            "negative_witness_sweep",
+            "independent_replay",
+            "review_status",
+            "promotion_readiness",
+            "component_ablation_boundary",
+            "hardgates",
+            "claim_capsule_ref",
+            "l1_tiny_sequence_projection",
+            "boundary_ledger",
+            "not_claimed",
+        ),
+        estimated_seconds=10,
+        bundle_role="auxiliary",
+        scope_pointer="$.l1_tiny_sequence_projection.evidence_scope",
+        cost_pointer="$.compute_ledger",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.l1_tiny_sequence_projection.review_status",
+        control_pointer="$.training_arms",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.claim_capsule_ref",
+        evidence_envelope_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        backend_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.task_spec",
+        discovery_level_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
+        claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[96]",
+        negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
+        formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -4288,6 +4334,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "l0_control_projection_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection",
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
+        "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "l1_control_review_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
+        "l1_control_promotion_readiness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.promotion_readiness",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "d4_projection_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection_ref",
@@ -4312,6 +4361,29 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
             )
             for index in range(1, 21)
         },
+    }
+
+
+def _dgt_l1_controls_index_section() -> dict[str, Any]:
+    path = _artifact_path(DGT_L1_CONTROLS_JSON_ARTIFACT)
+    payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
+    return {
+        "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
+        "review_status": payload.get("review_status", "missing") if isinstance(payload, Mapping) else "missing",
+        "promotion_readiness": payload.get("promotion_readiness", "missing") if isinstance(payload, Mapping) else "missing",
+        "artifact_id": DGT_L1_CONTROLS_ARTIFACT_ID,
+        "schema_id": DGT_L1_CONTROLS_SCHEMA_ID,
+        "json_artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "markdown_artifact": DGT_L1_CONTROLS_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
+        "projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "review_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
+        "promotion_readiness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.promotion_readiness",
+        "claim_capsule_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.claim_capsule_ref",
+        "hardgate_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.hardgates",
+        "task_spec_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.task_spec",
+        "negative_witness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
     }
 
 
@@ -5643,6 +5715,7 @@ def _index(
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
+        "dgt_l1_controls": _dgt_l1_controls_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
@@ -5872,6 +5945,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Scaling ladder: `{payload['discovery-gated-transformer']['scaling_ladder_pointer']}`",
             f"- Scaling ladder discovery level: `{payload['discovery-gated-transformer']['scaling_ladder_discovery_level_pointer']}`",
             f"- Scaling ladder status: `{payload['discovery-gated-transformer']['scaling_ladder_status_pointer']}`",
+            f"- L1 control projection: `{payload['discovery-gated-transformer']['l1_control_projection_pointer']}`",
+            f"- L1 review status: `{payload['discovery-gated-transformer']['l1_control_review_status_pointer']}`",
             f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
             f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
             f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",
