@@ -75,6 +75,8 @@ def test_public_jepa_baseline_registry_records_action_conditioned_candidates():
     if registry["execution_status"]["status"] == "near_native_candidate_not_importable":
         assert registry["execution_status"]["source_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
         assert "native metric import contract" in registry["execution_status"]["reason"]
+    if registry["execution_status"]["status"] == "external_result_available":
+        assert registry["execution_status"]["source_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     assert "clone or vendor the selected public baseline in an approved environment" in registry["next_actions"]
 
 
@@ -160,6 +162,7 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
         assert set(result) == {
             "status",
             "candidate_id",
+            "near_native_candidate_id",
             "repository_url",
             "repository_commit",
             "checkpoint_identity",
@@ -173,7 +176,14 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
             "bedc_readback_metrics",
             "lccp_certificate_metrics",
             "cannot_claim_boundary",
+            "cannot_export",
+            "scope_boundary",
+            "source_record",
         }
+        assert result["near_native_candidate_id"] == "vjepa2-ac-vit-giant"
+        assert result["repository_commit"] == "204698b45b3712590f06245fbfba32d3be539812"
+        assert result["cannot_export"] == []
+        assert "official V-JEPA2-AC benchmark protocol was not executed" in result["scope_boundary"]
         comparison = import_public_jepa_baseline_metrics(result)
         assert comparison["status"] == "executed"
     elif result["status"] == "near_native_candidate_not_importable":
@@ -181,7 +191,7 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
         assert result["latent_prediction_score"] > 0.0
         assert result["rollout_or_planning_score"] > 0.0
         assert "repository commit is not recorded" in result["cannot_export"][0]
-        assert "official V-JEPA2-AC benchmark protocol was not executed" in result["cannot_export"]
+        assert "official V-JEPA2-AC benchmark protocol was not executed" in result["scope_boundary"]
         assert result["source_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     else:
         assert result["status"] == "unavailable"

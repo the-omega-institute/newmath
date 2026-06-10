@@ -9,6 +9,8 @@ from typing import Any, Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports"
+VJEPA2_REPOSITORY_URL = "https://github.com/facebookresearch/vjepa2"
+VJEPA2_REPOSITORY_HEAD = "204698b45b3712590f06245fbfba32d3be539812"
 
 
 def _load_json(name: str) -> dict[str, Any]:
@@ -104,7 +106,16 @@ def build_vjepa2_ac_near_native_reproduction(
                 "planning_state_count_collected": float(native.get("planning_state_count_collected", 0.0)),
             },
         },
-        "vjepa2_repository_commit": "not recorded by the fixed-checkpoint MiniGrid reports",
+        "vjepa2_repository_commit": VJEPA2_REPOSITORY_HEAD,
+        "repository_identity": {
+            "repository_url": VJEPA2_REPOSITORY_URL,
+            "repository_commit": VJEPA2_REPOSITORY_HEAD,
+            "identity_command": "git ls-remote https://github.com/facebookresearch/vjepa2 HEAD",
+            "identity_scope": (
+                "public repository identity for the torch hub source target used by the fixed-checkpoint "
+                "MiniGrid record; this does not assert official V-JEPA2-AC benchmark reproduction"
+            ),
+        },
         "checkpoint_identity": {
             "repository_url": checkpoint.get("repository_url"),
             "hub_entry": checkpoint.get("hub_entry"),

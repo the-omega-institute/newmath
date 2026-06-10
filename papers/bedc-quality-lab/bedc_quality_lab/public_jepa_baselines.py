@@ -106,6 +106,7 @@ def build_public_jepa_baseline_registry() -> dict[str, Any]:
                     "status": "external_result_available",
                     "reason": "a fillable native-metric result is available for import",
                     "candidate_id": str(external_result.get("candidate_id") or ""),
+                    "source_record": str(external_result.get("source_record") or ""),
                 }
     return {
         "schema_id": "bedc-jepa-public-baseline-registry",
@@ -839,8 +840,14 @@ def build_public_jepa_baseline_external_result() -> dict[str, Any]:
             latent_split = split.get("latent_prediction", {}) if isinstance(split, dict) else {}
             lccp_split = split.get("lccp_certificate", {}) if isinstance(split, dict) else {}
             repository_commit = str(near_native.get("vjepa2_repository_commit") or "")
+            cannot_export = []
+            if "not recorded" in repository_commit.lower() or not repository_commit:
+                cannot_export.append("repository commit is not recorded for the fixed-checkpoint MiniGrid reports")
+            if not checkpoint.get("checkpoint_url"):
+                cannot_export.append("checkpoint URL is not recorded")
+            status = "available" if not cannot_export else "near_native_candidate_not_importable"
             return {
-                "status": "near_native_candidate_not_importable",
+                "status": status,
                 "candidate_id": "vjepa2-ac",
                 "near_native_candidate_id": str(near_native.get("candidate_id") or ""),
                 "repository_url": "https://github.com/facebookresearch/vjepa2",
@@ -885,8 +892,8 @@ def build_public_jepa_baseline_external_result() -> dict[str, Any]:
                     "mean_conformal_miscoverage": float(readback.get("mean_conformal_miscoverage", 0.0)),
                 },
                 "cannot_claim_boundary": list(near_native.get("cannot_claim_boundary", [])),
-                "cannot_export": [
-                    "repository commit is not recorded for the fixed-checkpoint MiniGrid reports",
+                "cannot_export": cannot_export,
+                "scope_boundary": [
                     "official V-JEPA2-AC benchmark protocol was not executed",
                     "gap detection AUROC is not separately evaluated in the near-native candidate",
                 ],

@@ -75,9 +75,9 @@ def build_public_baseline_native_metric_contract() -> dict[str, Any]:
     selected = _selected_candidate()
     near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
     comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
-    official_execution = "not_evaluated"
+    fixed_checkpoint_metric_import = "not_evaluated"
     if comparison is not None and comparison.get("status") == "executed":
-        official_execution = "executed"
+        fixed_checkpoint_metric_import = "executed"
     near_native_status = (
         str(near_native.get("status")) if near_native is not None else "not_recorded"
     )
@@ -144,7 +144,8 @@ def build_public_baseline_native_metric_contract() -> dict[str, Any]:
             ],
         },
         "current_status": {
-            "official_execution": official_execution,
+            "official_protocol_execution": "not_evaluated",
+            "fixed_checkpoint_metric_import": fixed_checkpoint_metric_import,
             "near_native_fixed_checkpoint_record": near_native_status,
             "near_native_metric_importable": "yes" if near_native_importable else "no",
             "near_native_metric_import_gap": (

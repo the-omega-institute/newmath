@@ -56,7 +56,8 @@ def test_public_baseline_native_metric_contract_records_required_fields():
     assert tuple(contract["native_metric_contract"]["lccp_certificate_fields"]) == LCCP_FIELDS
     assert "same public observation/action stream" in contract["native_metric_contract"]["same_protocol_requirements"]
     assert "repository commit is recorded" in contract["native_metric_contract"]["native_result_requirements"]
-    assert contract["current_status"]["official_execution"] in {"not_evaluated", "executed"}
+    assert contract["current_status"]["official_protocol_execution"] == "not_evaluated"
+    assert contract["current_status"]["fixed_checkpoint_metric_import"] in {"not_evaluated", "executed"}
     assert contract["current_status"]["near_native_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     assert contract["current_status"]["near_native_metric_importable"] in {"yes", "no"}
     assert "official V-JEPA2-AC benchmark reproduction" in contract["cannot_claim"]

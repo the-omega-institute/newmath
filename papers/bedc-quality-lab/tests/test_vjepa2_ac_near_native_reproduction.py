@@ -13,6 +13,11 @@ def test_vjepa2_ac_near_native_reproduction_records_fail_closed_boundary():
     assert packet["near_native_protocol_status"] == "executed"
     assert packet["candidate_id"] == "vjepa2-ac-vit-giant"
     assert packet["public_environment_id"] == "MiniGrid-DoorKey-8x8-v0"
+    assert packet["vjepa2_repository_commit"] == "204698b45b3712590f06245fbfba32d3be539812"
+    assert packet["repository_identity"]["repository_url"] == "https://github.com/facebookresearch/vjepa2"
+    assert packet["repository_identity"]["identity_command"] == (
+        "git ls-remote https://github.com/facebookresearch/vjepa2 HEAD"
+    )
     assert packet["native_or_near_native_rollout_score"]["score_name"] == (
         "fixed_checkpoint_latent_prediction_score"
     )
