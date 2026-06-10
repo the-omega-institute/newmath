@@ -66,6 +66,13 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert extension["readiness_gate"] == "public_minigrid_calibration_extension"
     assert extension["target_artifact"] == "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     assert extension["run_command"] == "python scripts/build_public_minigrid_calibration_extension.py"
+    assert extension["coverage_requirements"] == {
+        "minimum_executed_rows": 30,
+        "minimum_seed_count": 5,
+        "minimum_task_variant_count": 3,
+        "minimum_planning_budget_count": 3,
+    }
+    assert "at least 30 public MiniGrid calibration rows" in extension["pass_condition"]
     assert retraining["readiness_gate"] == "full_retraining_loss_ablation"
     assert retraining["target_artifact"] == "reports/bedc_jepa_retraining_loss_ablation.json"
     assert retraining["run_command"] == "python scripts/run_torch_retraining_loss_ablation.py"

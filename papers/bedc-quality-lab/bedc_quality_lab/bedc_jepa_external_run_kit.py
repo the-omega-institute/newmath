@@ -90,7 +90,13 @@ def build_external_run_kit() -> dict[str, Any]:
                     "rows",
                     "cannot_claim",
                 ],
-                "pass_condition": "target record executes at least one public MiniGrid calibration row and records seed, task, and planning-budget coverage",
+                "coverage_requirements": {
+                    "minimum_executed_rows": 30,
+                    "minimum_seed_count": 5,
+                    "minimum_task_variant_count": 3,
+                    "minimum_planning_budget_count": 3,
+                },
+                "pass_condition": "target record executes at least 30 public MiniGrid calibration rows across at least five seeds, three task variants, and three planning budgets",
             },
             "torch_retraining_loss_ablation": {
                 "readiness_gate": "full_retraining_loss_ablation",

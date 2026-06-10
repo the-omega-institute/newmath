@@ -67,3 +67,19 @@ def test_bedc_jepa_tex_files_stay_below_project_line_limit():
     ]
 
     assert too_long == []
+
+
+def test_bedc_jepa_paper_records_current_minigrid_calibration_scope():
+    evidence = (PAPER / "parts" / "evidence_packet.tex").read_text(encoding="utf-8")
+    boundary = (PAPER / "parts" / "cannot_claim_boundary.tex").read_text(encoding="utf-8")
+
+    assert "Public baseline metric template" in evidence
+    assert "analysis over $45$ executed rows" in evidence
+    assert "five seeds, three planning-state budgets" in evidence
+    assert "\\texttt{MiniGrid-DoorKey-5x5-v0}" in evidence
+    assert "\\texttt{MiniGrid-DoorKey-6x6-v0}" in evidence
+    assert "$0.404747$" in evidence
+    assert "$-0.042191$" in evidence
+    assert "analysis over $12$ executed rows" not in evidence
+    assert "$0.359776$" not in evidence
+    assert "fillable metric template" in boundary
