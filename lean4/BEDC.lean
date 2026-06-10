@@ -1816,6 +1816,7 @@ import BEDC.Derived.CauchyNetCompletionUp.RootSealNonescape
 import BEDC.Derived.CauchyNetCompletionUp.SeparatedComparisonExhaustion
 import BEDC.Derived.CauchyNetCompletionUp.TasteGate
 import BEDC.Derived.CauchyNetCompletionUp.UniformHandoffNonescape
+import BEDC.Derived.CauchyNetConvergenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyNetDiagonalUp.NameCertObligations
 import BEDC.Derived.CauchyNetDiagonalUp.TasteGate
 import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
@@ -6220,6 +6221,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetDischargeFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetSocketRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
@@ -6232,6 +6234,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10LocalityObstruction
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
