@@ -182,6 +182,27 @@
           "cohort.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165180_horvath353_reversal_decomposition",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_horvath353_reversal_decomposition.py",
+      "claim_id": "cellstate.age-clock-shift.reversal-decomposition.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "coverage.floor",
+          "additive.z-decomposition",
+          "dnam-age.direction.sanity",
+          "top-k.localization",
+          "concentration.quantified",
+          "age-signature.scope-boundary",
+          "annotation.boundary"
+        ]
+      }
     }
   ]
 }
