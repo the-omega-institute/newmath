@@ -54,7 +54,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 32,
+    "row_count": 33,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -77,13 +77,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 119,
+    "node_count": 122,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 41,
+    "row_count": 42,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -255,6 +255,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.null_decomposition.verdict",
         "report": "dgt-ablation-null-decomposition"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.component_redundancy_audit.source_artifacts",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
+        "report": "dgt-component-redundancy-audit"
       },
       {
         "bundle_role": "hg_p_core",
@@ -495,7 +502,7 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 12,
+      "D0": 13,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -506,7 +513,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 32,
+    "row_count": 33,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -988,6 +995,7 @@
       "dgt-l1-controls",
       "dgt-neural-ablation",
       "dgt-ablation-null-decomposition",
+      "dgt-component-redundancy-audit",
       "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
@@ -3724,9 +3732,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 10,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/dgt-l1-controls.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/dgt-l1-controls.json",
       "markdown_artifact": "reports/canonical/dgt-l1-controls.md",
       "name": "dgt-l1-controls",
@@ -3734,7 +3742,7 @@
         "python3",
         "scripts/run_dgt_l1_controls.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -4158,6 +4166,116 @@
           "null_decomposition",
           "hardgates",
           "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.component_redundancy_audit.source_artifacts",
+        "control_status": "present",
+        "cost_pointer": "$.component_redundancy_audit.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.component_redundancy_audit.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.component_redundancy_audit.global_recommendation",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:dgt-component-redundancy-audit]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.component_redundancy_audit.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.global_recommendation",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.audit_status",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.audit_status",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.components",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.component_redundancy_audit.not_claimed",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.component_redundancy_audit.scope",
+              "source_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.component_redundancy_audit.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/dgt-component-redundancy-audit.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+      "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
+      "name": "dgt-component-redundancy-audit",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_component_redundancy_audit.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "component_redundancy_audit"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -5022,9 +5140,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -5032,7 +5150,7 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -5262,9 +5380,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -5272,7 +5390,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -5378,9 +5496,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -5388,7 +5506,7 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
