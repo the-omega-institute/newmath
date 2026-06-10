@@ -1124,28 +1124,28 @@
       }
     },
     {
-      "packet_id": "q6.four-case.translation-protein-discriminant.cross-layer",
-      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
+      "packet_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "claim_id": "h0.f3.saturation",
       "claimed_layer": "cross_layer_relation",
       "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
           "codon-usage-per-organism",
+          "trna-gene-copy-numbers",
           "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
-          "matched-proteomics-protein-abundance",
           "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers"
+          "matched-proteomics-protein-abundance"
         ],
         "can_test": [
           "translation_realization",
           "cross_layer_relation",
           "codon usage distribution",
+          "tRNA-Leu gene-copy spectrum",
           "codon adaptation weight readback",
           "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
-          "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached",
           "isolation of translation-layer signal from transcription-layer signal via TE residual",
-          "tRNA-Leu gene-copy spectrum"
+          "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached"
         ],
         "cannot_test": [
           "folded structure",
@@ -1153,23 +1153,22 @@
           "function realization",
           "global biological law",
           "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
-          "folding pathway dynamics",
-          "physical admissibility from steady-state abundance alone",
           "translation realization from transcript abundance alone",
           "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
-          "protein folding, physical admissibility, function, or universality from transcript counts alone"
+          "protein folding, physical admissibility, function, or universality from transcript counts alone",
+          "folding pathway dynamics",
+          "physical admissibility from steady-state abundance alone"
         ]
       },
       "pattern_spec": {
         "internal_surfaces": [
           "relation",
-          "rank",
-          "closure"
+          "spectrum",
+          "trigger"
         ],
         "probe_refs": [
           "residual-basis.translation-readout-boundary.no-promotion",
-          "b-star-q6-survival-matrix-break-condition",
-          "q6.three-matrix.protein-readout-boundary.no-promotion"
+          "b-star-q6-survival-matrix-break-condition"
         ]
       },
       "classifier_spec": {
@@ -1183,7 +1182,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 66,
+        "finite_row_count": 63,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -1561,14 +1560,6 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.protein-localization.operator-review-mediated-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
@@ -1601,40 +1592,31 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.protein-localization-readout.operator-review-mediated-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "Do not claim folding, function, phenotype, localization, stability, PTM, or physical admissibility from a B*_Q6 residual coordinate unless the matched translation-readout step is first computed and reported.",
-        "Do not interpret S^QP > 0 as mechanism by itself; direct protein-omics survival without S^QT and mediation only marks a protein-readout predictive residual or an unmeasured/confounded path.",
-        "Do not report n=3 all-1.0 survival as passed; rank-degenerate fits are null-boundary outputs, not evidence of translation realization."
+        "Do not claim f_3-stress affects protein abundance, structure, localization, stability, function, or phenotype unless the mandatory translation-readout survival entry is first non-vacuous and positive under controls.",
+        "Do not treat the three-organism all-1.0 S^{QT} matrix as survival; rank-degenerate readout is a null boundary, not evidence.",
+        "Do not infer general directionality from codon topology or modeled tAI coupling alone; the f_3 coordinate becomes dynamical only where context tRNA or wobble weights break f_3 symmetry."
       ],
       "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/115315_bioreality_q_six_four_case_discriminant_ledger_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/q6_four_case_translation_protein_discriminant_cross_layer.tex"
+        "bedc_module": "papers/bedc/parts/concrete_instances/115313_bioreality_q_six_translation_complement_residual_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/a_wobble_broken_translation_readout_for_the_stress_coordinate.tex"
       },
       "fact_owner": {
         "contact_refs": [
           "codon-usage-per-organism",
+          "trna-gene-copy-numbers",
           "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
-          "matched-proteomics-protein-abundance",
           "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers"
+          "matched-proteomics-protein-abundance"
         ],
         "probe_refs": [
           "residual-basis.translation-readout-boundary.no-promotion",
-          "b-star-q6-survival-matrix-break-condition",
-          "q6.three-matrix.protein-readout-boundary.no-promotion"
+          "b-star-q6-survival-matrix-break-condition"
         ],
         "mismatch_refs": [
           "cross-organism.cun-uur-trna-leu.paired-statistic-gap",
@@ -1685,15 +1667,13 @@
           "q6.translation-protein-mediated.functional-annotation-boundary.operator-review-function-contact-gap",
           "q6.translation-conditioned.protein-localization.operator-review-localization-statistic-gap",
           "q6.translation-conditioned.protein-localization-readout.operator-review-localization-statistic-gap",
-          "q6.translation-mediated.protein-localization.operator-review-mediated-statistic-gap",
           "q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
           "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-statistic-gap",
           "q6.mrna-controlled.translation-efficiency-survival.operator-review-joined-te-matrix-gap",
           "q6.three-organism.rank-degenerate.translation-survival-refusal.operator-review-measured-readout-boundary",
-          "q6.translation-mediated.protein-localization-readout.operator-review-mediated-statistic-gap",
           "q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap"
         ],
-        "gate_result_ref": "conjecture:q6.four-case.translation-protein-discriminant.cross-layer"
+        "gate_result_ref": "conjecture:q6.f3-stress.wobble-broken.translation-readout.cross-layer"
       }
     }
   ]

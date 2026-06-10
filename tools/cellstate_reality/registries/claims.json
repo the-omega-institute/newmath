@@ -130,6 +130,125 @@
         "organismal outcome"
       ],
       "linked_conjecture_id": "cellstate.promotion-frontier.gse165180"
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.coverage-bound.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Coverage-bound AgeClockShift-up: on GSE142439 paired normal/treated EPIC arrays, the Horvath353 coefficient table has 334 covered CpGs and 19 missing CpGs; the missing-coordinate absolute coefficient bound makes the admissible age_signature-layer name CoveredHorvath334AgeClockShift↑ rather than Horvath353AgeClockShift↑. This does not entail identity, function, safety, rejuvenation, maintenance, or immortality claims.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "open",
+      "experiment_id": "gse142439_missing_cpg_bound",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.coverage-bound.gse142439"
+    },
+    {
+      "claim_id": "cellstate.function-signature-shift.gse190665",
+      "hypothesis_level": "H0",
+      "phase": 3,
+      "statement": "FunctionSignatureShift-up mouse marker-direction probe: GSE190986 RNA-seq SubSeries linked to the GSE190665/GSE190986 in-vivo partial reprogramming study provide processed mouse count matrices for age-matched OSKM or dox-treated versus control tissue samples. The predeclared senescence and SASP/inflammation marker panels have complete coverage and aggregate treated-minus-control deltas are negative, but only 10 of 18 accession-by-tissue scopes satisfy both directions, so the claim remains needs_data rather than passed.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "gse190665-function-signature",
+      "cannot_claim": [
+        "functional rejuvenation",
+        "human generalization",
+        "IdentityPreservingAgeResetUp",
+        "RejuvenationUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp",
+        "mouse age clock"
+      ],
+      "linked_conjecture_id": "function-signature-shift.gse190665"
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.crossmethod.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Cross-method AgeClockShift-up probe: the GSE165180 SuperSeries points to the GSE165179 MPTR lentiviral methylation SubSeries with processed EPIC beta values. Horvath353 scoring over same-donor baseline fibroblast versus day-10 exp2 transiently reprogrammed MPTR fibroblast samples gives a negative mean DNAm-age delta, but the fixed deterministic null is not small enough, so this remains an age_signature-layer needs_data contact and does not promote identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "open",
+      "experiment_id": "gse165180_age_clock_shift_crossmethod",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.crossmethod.gse165180"
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.dose-response.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Dose-response AgeClockShift-up probe: GSE165180/GSE165179 true transiently reprogrammed fibroblast methylation timepoints at day 10, 13, 15, and 17 can be scored in the same Horvath353 no-promotion frame against same-donor day-0 fibroblast baselines. The all-timepoint run has a negative pooled treated-minus-baseline DNAm-age mean, but the deterministic direction null is not small enough and the donor-day collapsed trend is reverse or mixed, so this remains an age_signature-layer needs_data contact rather than a passed dose-response claim. It does not promote identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.crossmethod.gse165180"
+      ],
+      "status": "open",
+      "experiment_id": "gse165180_age_clock_shift_dose_response",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.dose-response.gse165180"
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.reversal-decomposition.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Horvath353 reversal-decomposition probe: GSE165180/GSE165179 MPTR day17 positive age-clock reversal is localized to covered age_signature coordinates. The top 20 day17-vs-day10 reversal CpGs account for 56.06% of day17 positive z-space displacement; their mean abs weight is 0.475877 versus the covered median 0.130244. Day17 has 183 positive and 151 negative CpG contributions. The top-20 mean beta is 0.361864; mean abs(beta-0.5) is 0.254466 at day17 versus 0.277212 at matched baseline, so beta extremity is reported as a clock-internal coordinate readback rather than external functional annotation. This passed certificate characterizes the late-MPTR AgeClockShiftUp failure boundary and does not claim age decrease, identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.dose-response.gse165180"
+      ],
+      "status": "open",
+      "experiment_id": "gse165180_horvath353_reversal_decomposition",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.reversal-decomposition.gse165180"
+    },
+    {
+      "claim_id": "cellstate.function-signature-shift.gse165177-mptr-human",
+      "hypothesis_level": "H0",
+      "phase": 3,
+      "statement": "FunctionSignatureShift-up human marker-direction probe: GSE165177 MPTR processed RNA-seq provides donor-matched human fibroblast negative-control versus transiently reprogrammed day-10 exp2 samples under a genetic MPTR OSKM lentiviral generator. The predeclared senescence/SASP panel has complete marker coverage, but DeltaSen=0.268456 after LMNB1 reverse correction and DeltaSASP=-0.707862; because both deltas are not negative, the claim remains needs_data/open. This is function-signature-only and no-promotion: it is not a direct functional assay and does not establish identity, age, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "gse165177-function-signature",
+      "cannot_claim": [
+        "identity",
+        "age",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality",
+        "direct functional rejuvenation",
+        "chemical-generator equivalence"
+      ],
+      "linked_conjecture_id": "function-signature-shift.gse165177-mptr-human"
     }
   ]
 }

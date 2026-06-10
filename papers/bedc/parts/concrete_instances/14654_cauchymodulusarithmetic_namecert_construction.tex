@@ -100,6 +100,78 @@ limits, host real equality, or ambient completeness. Hence the five listed
 rows exhaust the local naming obligations.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus arithmetic carrier admission row]
+\label{thm:cauchy-modulus-arithmetic-namecert-obligation-carrier}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)$, the
+carrier-admission obligation for $\NameCert_{\CauchyModulusArithmeticUp}$ is
+exactly the displayed row admitting $S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,
+\pi,D,W,R,E,H,C,P,N$. No source stream, modulus schedule, meet row, arithmetic
+consumer, tolerance ledger, window ledger, readback, seal, transport, replay,
+provenance, or local name may be read outside this finite carrier row.
+\end{theorem}
+\begin{proof}
+Project the first obligation row of
+\autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. It is the
+carrier-admission row for the tuple displayed in
+\autoref{def:cauchy-modulus-arithmetic-carrier}.
+
+The listed coordinates already contain the two source streams, the two source
+moduli, the meet row, the sum and product consumers, the dyadic ledger, the
+window ledger, the regular readbacks, the Real seal, and the structural rows.
+Since the carrier definition has no further coordinate, admission is exhausted
+by this one finite row.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus arithmetic classifier transport row]
+\label{thm:cauchy-modulus-arithmetic-namecert-obligation-classifier}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)$, classifier
+transport is permitted only through the common finite surface made from
+$\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$,
+$\CauchyModulusMeetUp$, and $\DyadicRatCoreUp$. In particular the classifier
+cannot compare arithmetic carriers by quotient stream equality, selected
+limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the classifier-transport row of
+\autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. It names exactly
+the stream, regular rational, source modulus, meet modulus, and dyadic
+tolerance surfaces.
+
+The componentwise $\hsame$ rows in $H$ move the two source streams, the two
+source schedules, the meet row, the arithmetic consumers, the tolerance ledger,
+and the readbacks to that same surface. The classifier therefore has only this
+transport route; no quotient, selected-limit, host-equality, or completeness
+coordinate is present to compare instead.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus arithmetic ledger nonescape row]
+\label{thm:cauchy-modulus-arithmetic-namecert-obligation-ledger}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)$, every
+completion-facing or $\RealUp$ consumer that reads the seal row $E$ must first
+pass through the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row
+$P$, and the local $\NameCert_{\CauchyModulusArithmeticUp}$ row $N$. Thus $E$
+is a ledger endpoint for the displayed arithmetic route, not an escape hatch
+to quotient streams, selected limits, host real equality, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Start from a consumer that asks for $E$. The carrier definition places $E$
+after the source schedules, shared meet, arithmetic consumers, dyadic ledger,
+windows, and regular readbacks.
+
+Replay must then pass through $C$. The continuation row records the finite
+route from a precision request through the displayed source schedules and
+ledger rows before the Real seal is available.
+
+Finally attach $P$ and $N$. These rows record provenance and local naming for
+the same packet, so a consumer of $E$ remains inside the displayed
+$\NameCert_{\CauchyModulusArithmeticUp}$ route and cannot extract any
+unlisted completion or equality principle.
+\end{proof}
+
 \begin{theorem}[Cauchy-modulus arithmetic sum and meet closure]
 \label{thm:cauchy-modulus-arithmetic-sum-meet-closure}
 Let $A$ be an accepted $\CauchyModulusArithmeticUp$ carrier. Every displayed

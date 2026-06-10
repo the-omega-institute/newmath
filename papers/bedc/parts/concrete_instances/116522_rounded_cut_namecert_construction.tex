@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RoundedCutUp$}
+\label{ch:concrete-instances-rounded-cut-namecert}
+\origin{human}
+
+Following Bishop and Bridges, rounded cuts are the constructive boundary object that records rational approximation by finite open improvement data rather than by a completed quotient of predicates. The $\RoundedCutUp$ packet sits between the located-cut carrier of \autoref{ch:concrete-instances-locatedcut-namecert}, the one-sided lower-real surface of \autoref{ch:concrete-instances-lowerreal-namecert}, the located-real interfaces of \autoref{ch:concrete-instances-locatedreal-namecert} and \autoref{ch:concrete-instances-located-real-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names a finite rounded-cut certificate used by L10 Real and Completion consumers; it does not construct $\RealUp$ by Dedekind cuts.
+
+\begin{definition}[Rounded cut carrier]
+\label{def:rounded-cut-carrier}
+A $\RoundedCutUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,O,Q,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedCutUp$ source row, carrying the lower and upper rational-observation boundary.
+\item $O$ is the rounded-open improvement row: every accepted rational observation is witnessed by a strictly better displayed observation on the same side.
+\item $Q$ is the $\LowerRealUp$ and $\LocatedRealUp$ comparison row consumed by one-sided lower reads and located real reads.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the finite rational gaps used by roundedness and located comparison.
+\item $W$ is the finite window ledger for the rational observations inspected by downstream consumers.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $L,O,Q,D,W$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the located-cut source, rounded improvement, comparison, dyadic ledger, window, real seal, continuation, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a rational or dyadic request through $L,O,Q,D,W$ before the seal row $E$ is read.
+\item $P$ is the $\Pkg$ provenance over $\RoundedCutUp$, $\LocatedCutUp$, $\LowerRealUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for a quotient cut, selected representative, host real equality, ambient completeness theorem, or construction of $\RealUp$ by Dedekind cuts.
+\end{definition}
+
+\begin{theorem}[Rounded cut NameCert obligations]
+\label{thm:rounded-cut-namecert-obligations}
+For every accepted $\RoundedCutUp$ carrier $R=(L,O,Q,D,W,E,H,C,P,N)$, the local $\NameCert_{\RoundedCutUp}$ surface consists exactly of carrier admission for the displayed located-cut source, rounded-open improvement row, lower and located real comparison row, dyadic tolerance ledger, finite observation window, terminal real seal, componentwise transport, displayed replay, provenance, and local naming rows. No obligation is stored in a quotient predicate, a selected cut representative, host real equality, ambient completeness, or a Dedekind-cut construction of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rounded-cut-carrier}. The rows $L,O,Q,D,W,E,H,C,P,N$ are the complete inventory of the packet.
+
+The rounded-open row $O$ and the dyadic ledger $D$ witness improvement by finite rational data, while $Q$ records how lower-real and located-real consumers read the same finite boundary. The structural rows $H,C,P,N$ only transport, replay, source, and name that displayed packet.
+
+Since no further coordinate is present, the NameCert obligations are exhausted by the listed rows. In particular the packet is a finite rounded-cut certificate and does not construct $\RealUp$ by Dedekind cuts.
+\end{proof}
+
+\begin{theorem}[Rounded cut located-real handoff]
+\label{thm:rounded-cut-located-real-handoff}
+Every $\LocatedRealUp$, $\LowerRealUp$, or $\RealUp$ consumer of an accepted $\RoundedCutUp$ carrier must first read the route
+$$
+L,O,Q,D,W,E,H,C,P,N.
+$$
+The handoff exports rounded located rational observations, dyadic gap data, finite windows, and the terminal real seal only as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Begin with a located-real or lower-real consumer. Carrier admission exposes the located-cut row $L$, the rounded-open improvement row $O$, and the comparison row $Q$ before any real-facing seal can be inspected.
+
+Next read the dyadic ledger $D$ and window row $W$. These rows provide the finite gap and observation data used by roundedness and located comparison.
+
+Finally replay through $C$ and attach $H,P,N$ before reading $E$. The consumer therefore receives only the finite route named above, not a quotient cut, selected representative, host equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Rounded cut non-Dedekind completion boundary]
+\label{thm:rounded-cut-no-dedekind-completion}
+The $\RoundedCutUp$ packet is a finite rounded-cut certificate for dependency routing between located cuts, lower reals, located reals, dyadic witnesses, and the terminal $\RealUp$ seal. It is not a construction of $\RealUp$ by Dedekind cuts, not a quotient completion, not a selected-limit principle, and not an ambient real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory of \autoref{def:rounded-cut-carrier}. Its analytic rows are the displayed located-cut source, rounded-open improvement, lower and located real comparison, dyadic tolerance ledger, finite window, and terminal seal.
+
+Apply \autoref{thm:rounded-cut-namecert-obligations} and \autoref{thm:rounded-cut-located-real-handoff}. They force every consumer to remain inside the finite rounded-cut certificate before reaching any $\RealUp$ seal.
+
+Thus the chapter records a boundary and handoff surface only. It does not supply Dedekind-cut construction of $\RealUp$, quotient equality of cuts, selected representatives, selected limits, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\RoundedCutUp$ consumer that reaches a $\LocatedRealUp$, $\LowerRealUp$, or $\RealUp$ row without first reading the displayed located-cut source, rounded-open improvement, dyadic tolerance ledger, finite observation window, replay, provenance, and local NameCert rows refutes this carrier surface.}
+
+\independenceWitness{locatedcut, lowerreal, locatedreal, dyadicratcore, real: no listed sibling jointly binds rounded-open improvement, dyadic gap data, lower and located real handoff, terminal Real seal, and local NameCert routing in one finite packet.}
+
+\closureat{RoundedCutUp}{seedStr}
+
+\begin{closurestatus}{\RoundedCutUp}
+  \constructivestory{A $\RoundedCutUp$ packet is generated from a displayed located-cut source, rounded-open improvement row, lower and located real comparison row, dyadic tolerance ledger, finite observation window, terminal Real seal, componentwise transport, replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rounded-cut-carrier}, \autoref{thm:rounded-cut-namecert-obligations}, \autoref{thm:rounded-cut-located-real-handoff}, and \autoref{thm:rounded-cut-no-dedekind-completion} bind the finite rounded-cut certificate over $\LocatedCutUp$, $\LowerRealUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, quotient cuts, selected representatives, selected limits, ambient completeness, or a Dedekind-cut construction of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, rounded-open improvement replay, located-real handoff, and non-Dedekind completion boundary for BEDC.Derived.RoundedCutUp.}
+\end{closurestatus}
