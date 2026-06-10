@@ -92,6 +92,8 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
                 "python scripts/build_public_baseline_native_metric_template.py"
             ),
             "probe_public_jepa_baseline": "python scripts/probe_public_jepa_baseline.py",
+            "run_public_jepa_structure_adapter": "python scripts/run_public_jepa_structure_adapter.py",
+            "build_public_jepa_adapter_comparison": "python scripts/build_public_jepa_adapter_comparison.py",
             "run_public_jepa_ac_giant_adapter": "python scripts/run_public_jepa_ac_giant_adapter.py",
             "build_public_jepa_cuda_comparison": "python scripts/build_public_jepa_cuda_comparison.py",
             "export_public_jepa_baseline_result": "python scripts/export_public_jepa_baseline_result.py",
@@ -131,6 +133,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             **torch_claims,
         },
         "objective_artifacts": {
+            "boundary_envelope": "reports/bedc_jepa_boundary_envelope.json",
             "torch": "reports/bedc_jepa_torch_objective.json",
             "torch_retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
         },
@@ -170,6 +173,9 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",
             "jepa_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
             "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+            "jepa_public_adapter_comparison": "reports/bedc_jepa_public_adapter_comparison.json",
+            "jepa_public_pretrained_vitb_adapter": "reports/bedc_jepa_public_pretrained_vitb_adapter.json",
+            "jepa_public_structure_adapter": "reports/bedc_jepa_public_structure_adapter.json",
             "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
             "jepa_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
             "jepa_native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",

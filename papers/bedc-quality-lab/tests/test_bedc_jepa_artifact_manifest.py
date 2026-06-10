@@ -79,6 +79,14 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/probe_public_jepa_baseline.py"
     )
     assert (
+        manifest["commands"]["run_public_jepa_structure_adapter"]
+        == "python scripts/run_public_jepa_structure_adapter.py"
+    )
+    assert (
+        manifest["commands"]["build_public_jepa_adapter_comparison"]
+        == "python scripts/build_public_jepa_adapter_comparison.py"
+    )
+    assert (
         manifest["commands"]["run_public_jepa_ac_giant_adapter"]
         == "python scripts/run_public_jepa_ac_giant_adapter.py"
     )
@@ -107,6 +115,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     )
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
+    assert (
+        manifest["objective_artifacts"]["boundary_envelope"]
+        == "reports/bedc_jepa_boundary_envelope.json"
+    )
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert (
         manifest["objective_artifacts"]["torch_retraining_loss_ablation"]
@@ -167,6 +179,18 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     assert (
         manifest["public_baselines"]["jepa_cuda_adapter_comparison"]
         == "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_public_adapter_comparison"]
+        == "reports/bedc_jepa_public_adapter_comparison.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_public_structure_adapter"]
+        == "reports/bedc_jepa_public_structure_adapter.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_public_pretrained_vitb_adapter"]
+        == "reports/bedc_jepa_public_pretrained_vitb_adapter.json"
     )
     assert manifest["public_baselines"]["jepa_registry"] == "reports/bedc_jepa_public_baseline_registry.json"
     assert (

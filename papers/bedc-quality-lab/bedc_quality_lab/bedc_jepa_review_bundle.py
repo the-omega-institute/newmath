@@ -45,6 +45,7 @@ def _check(condition: bool, name: str, failures: list[str]) -> None:
 
 def build_review_bundle() -> dict[str, Any]:
     readiness = _load_json("bedc_jepa_readiness.json")
+    boundary_envelope = _load_json("bedc_jepa_boundary_envelope.json")
     native = _load_json("bedc_jepa_public_native_minigrid_benchmark.json")
     sweep = _load_json("bedc_jepa_public_native_minigrid_seed_sweep.json")
     public_debt = _load_json("bedc_jepa_public_debt_decomposition.json")
@@ -65,6 +66,9 @@ def build_review_bundle() -> dict[str, Any]:
     vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     vjepa_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
     vjepa_readback_comparison = _load_optional_json("bedc_vjepa2_ac_native_readback_comparison.json")
+    public_adapter_comparison = _load_optional_json("bedc_jepa_public_adapter_comparison.json")
+    public_structure_adapter = _load_optional_json("bedc_jepa_public_structure_adapter.json")
+    public_pretrained_vitb_adapter = _load_optional_json("bedc_jepa_public_pretrained_vitb_adapter.json")
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
@@ -74,6 +78,11 @@ def build_review_bundle() -> dict[str, Any]:
         failures,
     )
     _check(readiness["evidence_boundary"]["native_public_benchmark"] == "closed", "native public benchmark boundary", failures)
+    _check(
+        boundary_envelope.get("schema_id") == "bedc-quality-lab:evidence-envelope",
+        "boundary envelope schema",
+        failures,
+    )
     _check(native.get("status") == "executed", "native MiniGrid benchmark executed", failures)
     _check(set(native.get("systems", {})) == {"S0", "S1", "S2", "S3"}, "native MiniGrid S0/S1/S2/S3 systems", failures)
     _check(float(native["deltas"]["s0_minus_s3_unlogged_error"]) > 0.05, "native MiniGrid UER reduction", failures)
@@ -275,6 +284,31 @@ def build_review_bundle() -> dict[str, Any]:
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
     _check(cuda.get("status") == "executed", "CUDA checkpoint-scope comparison", failures)
     _check(cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"] == "loaded", "AC Giant checkpoint loaded", failures)
+    if public_adapter_comparison is not None:
+        _check(
+            public_adapter_comparison.get("schema_id") == "bedc-jepa-public-adapter-comparison",
+            "public adapter comparison schema",
+            failures,
+        )
+        _check(public_adapter_comparison.get("status") == "executed", "public adapter comparison executed", failures)
+    if public_structure_adapter is not None:
+        _check(
+            public_structure_adapter.get("schema_id") == "bedc-jepa-public-structure-adapter",
+            "public structure adapter schema",
+            failures,
+        )
+        _check(public_structure_adapter.get("status") == "available", "public structure adapter available", failures)
+    if public_pretrained_vitb_adapter is not None:
+        _check(
+            public_pretrained_vitb_adapter.get("schema_id") == "bedc-jepa-public-structure-adapter",
+            "public pretrained adapter schema",
+            failures,
+        )
+        _check(
+            public_pretrained_vitb_adapter.get("status") == "available",
+            "public pretrained adapter available",
+            failures,
+        )
     _check(manifest.get("schema_id") == "bedc-jepa-artifact-manifest", "artifact manifest schema", failures)
     status = "review_ready" if not failures else "incomplete"
     source_commit = _git_head()
@@ -289,6 +323,7 @@ def build_review_bundle() -> dict[str, Any]:
         ),
         "required_artifacts": {
             "readiness": "reports/bedc_jepa_readiness.json",
+            "boundary_envelope": "reports/bedc_jepa_boundary_envelope.json",
             "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
             "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
             "public_debt_decomposition": "reports/bedc_jepa_public_debt_decomposition.json",
@@ -309,6 +344,9 @@ def build_review_bundle() -> dict[str, Any]:
                 "reports/bedc_jepa_public_baseline_native_metric_template.json"
             ),
             "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
+            "public_adapter_comparison": "reports/bedc_jepa_public_adapter_comparison.json",
+            "public_structure_adapter": "reports/bedc_jepa_public_structure_adapter.json",
+            "public_pretrained_vitb_adapter": "reports/bedc_jepa_public_pretrained_vitb_adapter.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
@@ -331,6 +369,8 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_public_baseline_native_metric_contract.py",
             "python scripts/build_public_baseline_native_metric_template.py",
             "python scripts/build_public_benchmark_scope_contracts.py",
+            "python scripts/run_public_jepa_structure_adapter.py",
+            "python scripts/build_public_jepa_adapter_comparison.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
@@ -411,6 +451,17 @@ def build_review_bundle() -> dict[str, Any]:
                 float(len(public_benchmark_scope_contracts.get("contracts", [])))
                 if public_benchmark_scope_contracts is not None
                 else 0.0
+            ),
+            "public_adapter_comparison_status": (
+                public_adapter_comparison.get("status") if public_adapter_comparison is not None else "not recorded"
+            ),
+            "public_structure_adapter_status": (
+                public_structure_adapter.get("status") if public_structure_adapter is not None else "not recorded"
+            ),
+            "public_pretrained_vitb_adapter_status": (
+                public_pretrained_vitb_adapter.get("status")
+                if public_pretrained_vitb_adapter is not None
+                else "not recorded"
             ),
             "quality_lab_export_status": "recorded" if quality_lab_export is not None else "not recorded",
             "quality_lab_export_count": (

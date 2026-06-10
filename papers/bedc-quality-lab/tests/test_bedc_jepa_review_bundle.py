@@ -9,6 +9,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["source_commit_at_build"] == bundle["source_commit_observed_at_build"]
     assert "not a self-referential assertion" in bundle["source_commit_semantics"]
     assert bundle["required_artifacts"]["readiness"] == "reports/bedc_jepa_readiness.json"
+    assert bundle["required_artifacts"]["boundary_envelope"] == "reports/bedc_jepa_boundary_envelope.json"
     assert bundle["required_artifacts"]["native_minigrid_seed_sweep"] == (
         "reports/bedc_jepa_public_native_minigrid_seed_sweep.json"
     )
@@ -34,6 +35,15 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     )
     assert bundle["required_artifacts"]["public_benchmark_scope_contracts"] == (
         "reports/bedc_jepa_public_benchmark_scope_contracts.json"
+    )
+    assert bundle["required_artifacts"]["public_adapter_comparison"] == (
+        "reports/bedc_jepa_public_adapter_comparison.json"
+    )
+    assert bundle["required_artifacts"]["public_structure_adapter"] == (
+        "reports/bedc_jepa_public_structure_adapter.json"
+    )
+    assert bundle["required_artifacts"]["public_pretrained_vitb_adapter"] == (
+        "reports/bedc_jepa_public_pretrained_vitb_adapter.json"
     )
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
@@ -70,6 +80,8 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/build_public_baseline_native_metric_contract.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_baseline_native_metric_template.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_benchmark_scope_contracts.py" in bundle["reproduction_commands"]
+    assert "python scripts/run_public_jepa_structure_adapter.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_public_jepa_adapter_comparison.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_lab_export.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_paper_writeback_packet.py" in bundle["reproduction_commands"]
@@ -104,6 +116,9 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "not recorded",
     }
     assert bundle["checks"]["public_benchmark_scope_contract_count"] >= 0.0
+    assert bundle["checks"]["public_adapter_comparison_status"] in {"executed", "not recorded"}
+    assert bundle["checks"]["public_structure_adapter_status"] in {"available", "not recorded"}
+    assert bundle["checks"]["public_pretrained_vitb_adapter_status"] in {"available", "not recorded"}
     assert bundle["checks"]["quality_lab_export_status"] in {"recorded", "not recorded"}
     assert bundle["checks"]["quality_lab_export_count"] >= 0.0
     assert bundle["checks"]["paper_writeback_packet_status"] in {"paper_ready", "partial", "not recorded"}
