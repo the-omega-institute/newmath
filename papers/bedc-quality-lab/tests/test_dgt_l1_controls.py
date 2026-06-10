@@ -3,6 +3,7 @@ import json
 import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 def _payload():
@@ -17,18 +18,26 @@ def _expect_invalid(payload, match):
 def test_l1_task_spec_is_order_k_sequence_not_tabular_fixture():
     payload = _payload()
     task = payload["task_spec"]
+    source = task["required_order_source"]
 
     assert task["task_family"] == "bounded_tiny_sequence_order_k"
-    assert task["order_k"] == 2
     assert task["vocab_size"] <= 16
     assert task["sequence_length"] <= 64
     assert task["train_examples"] <= 4096
-    assert "x[t-1]" in task["sequence_dependency_window"]
-    assert "x[t-2]" in task["sequence_dependency_window"]
+    assert source["status"] == "pointer-backed"
+    assert source["ledger_rows_pointer"] == "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows"
+    assert source["ledger_row_pointer"] == "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1]"
+    assert source["required_order_pointer"].endswith(".required_order")
+    resolved = resolve_artifact_pointer(l1.LAB_ROOT, source["ledger_row_pointer"])
+    assert resolved["task_id"] == "B2"
+    assert resolved["required_order"] == 2
+
+    for forbidden in ("order_k", "dependency_rule", "sequence_dependency_window", "ood_slices"):
+        assert forbidden not in task
 
     mutated = json.loads(json.dumps(payload))
-    mutated["task_spec"]["sequence_dependency_window"] = ["x[t-1]"]
-    _expect_invalid(mutated, "dependency window")
+    mutated["task_spec"]["required_order_source"]["ledger_row_pointer"] = "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[0]"
+    _expect_invalid(mutated, "ledger row pointer")
 
 
 def test_l1_training_requires_real_torch_updates():

@@ -14,6 +14,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.order_k_benchmark import LEDGER_ROWS_POINTER as ORDER_K_LEDGER_ROWS_POINTER
+from bedc_quality_lab.order_k_benchmark import REPORT_ARTIFACT as ORDER_K_REPORT_ARTIFACT
 
 
 SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
@@ -37,11 +39,15 @@ DEFAULT_TRAIN_EXAMPLES = 1024
 DEFAULT_EVAL_EXAMPLES = 256
 VOCAB_SIZE = 16
 SEQUENCE_LENGTH = 24
-ORDER_K = 2
 LEARNING_RATE = 0.018
 BATCH_SIZE = 128
 EMBED_DIM = 16
 HIDDEN_DIM = 28
+ORDER_K_TASK_ID = "B2"
+ORDER_K_SURFACE_ID = "surface-order-two-xor"
+ORDER_K_TASK_LEDGER_POINTER = (
+    f"{ORDER_K_REPORT_ARTIFACT}:$.surface_required_order_ledger.rows[1]"
+)
 QUALITY_MARGIN = 0.055
 REPLAY_TOLERANCE = 0.08
 MATCH_TOLERANCE = 0.22
@@ -94,23 +100,19 @@ CONTROL_POINTERS = {
 @dataclass(frozen=True)
 class L1TinySequenceTaskSpec:
     task_id: str
-    order_k: int
     vocab_size: int
     sequence_length: int
     train_examples: int
     eval_examples: int
     prediction_target: str
-    dependency_rule: str
-    ood_slices: tuple[str, ...]
     seed_protocol: Mapping[str, Any]
+    required_order_source: Mapping[str, Any]
     not_claimed: tuple[str, ...]
 
     def as_payload(self) -> dict[str, Any]:
         payload = asdict(self)
-        payload["ood_slices"] = list(self.ood_slices)
         payload["not_claimed"] = list(self.not_claimed)
         payload["task_family"] = "bounded_tiny_sequence_order_k"
-        payload["sequence_dependency_window"] = ["x[t-1]", "x[t-2]"]
         return payload
 
 
@@ -158,15 +160,24 @@ def default_task_spec(config: L1TrainingConfig | None = None) -> L1TinySequenceT
     cfg = config or L1TrainingConfig()
     return L1TinySequenceTaskSpec(
         task_id="dgt_l1_order2_pair_rule",
-        order_k=ORDER_K,
         vocab_size=cfg.vocab_size,
         sequence_length=cfg.sequence_length,
         train_examples=cfg.train_examples,
         eval_examples=cfg.eval_examples,
         prediction_target="next token at position t",
-        dependency_rule="target[t] = (3*x[t-1] + 5*x[t-2] + seed_offset) mod vocab_size",
-        ood_slices=("pair_rule_offset", "shuffled_pair_dependency"),
         seed_protocol={"base_seed": BASE_SEED, "deterministic_seeds": list(cfg.seeds), "minimum_seed_count": 8},
+        required_order_source={
+            "status": "pointer-backed",
+            "task_spec_owner": "single-owner",
+            "owner_module": "bedc_quality_lab.order_k_benchmark",
+            "ledger_rows_pointer": ORDER_K_LEDGER_ROWS_POINTER,
+            "ledger_row_pointer": ORDER_K_TASK_LEDGER_POINTER,
+            "task_id": ORDER_K_TASK_ID,
+            "surface_id": ORDER_K_SURFACE_ID,
+            "required_order_pointer": (
+                f"{ORDER_K_REPORT_ARTIFACT}:$.surface_required_order_ledger.rows[1].required_order"
+            ),
+        },
         not_claimed=NOT_CLAIMED,
     )
 
@@ -535,6 +546,8 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "owner_module": OWNER_MODULE,
         "runner": PRODUCER,
         "command": ["python3", PRODUCER],
+        "order_k_required_order_source": ORDER_K_LEDGER_ROWS_POINTER,
+        "order_k_required_order_row": ORDER_K_TASK_LEDGER_POINTER,
         "run_local_claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
         "run_local_raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
         "run_local_summary": f"{RUN_ROOT}/summary.json",
@@ -543,6 +556,27 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "device_policy": {"requested_device": requested_device, "fallback": "mps-or-cpu"},
         "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
     }
+
+
+def _resolve_order_k_source(task: Mapping[str, Any], *, root: Path | None = None) -> Mapping[str, Any]:
+    source = task.get("required_order_source")
+    if not isinstance(source, Mapping):
+        raise ValueError("DGT L1 required-order source missing")
+    if source.get("status") != "pointer-backed" or source.get("task_spec_owner") != "single-owner":
+        raise ValueError("DGT L1 required-order source must be pointer-backed")
+    if source.get("ledger_rows_pointer") != ORDER_K_LEDGER_ROWS_POINTER:
+        raise ValueError("DGT L1 required-order ledger rows pointer mismatch")
+    if source.get("ledger_row_pointer") != ORDER_K_TASK_LEDGER_POINTER:
+        raise ValueError("DGT L1 required-order ledger row pointer mismatch")
+    resolved_root = root or LAB_ROOT
+    row = resolve_artifact_pointer(resolved_root, str(source["ledger_row_pointer"]))
+    if not isinstance(row, Mapping):
+        raise ValueError("DGT L1 required-order pointer does not resolve")
+    if row.get("task_id") != ORDER_K_TASK_ID or row.get("surface_id") != ORDER_K_SURFACE_ID:
+        raise ValueError("DGT L1 required-order pointer resolved to wrong task")
+    if int(row.get("required_order", -1)) != 2:
+        raise ValueError("DGT L1 required-order pointer must resolve to order two")
+    return row
 
 
 def _gate(status: bool, gate_id: str, criterion: str, evidence_pointer: str, reason: str | None = None) -> dict[str, Any]:
@@ -775,6 +809,7 @@ def build_payload(
         raise RuntimeError(f"torch unavailable for DGT L1 controls: {exc}") from exc
     device_name = _device_name(torch, requested_device)
     task_spec = default_task_spec(cfg)
+    _resolve_order_k_source(task_spec.as_payload(), root=root)
     records: list[dict[str, Any]] = []
     for seed in cfg.seeds:
         for arm_id in ARM_IDS:
@@ -863,14 +898,13 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     task = payload["task_spec"]
     if not isinstance(task, Mapping):
         raise ValueError("DGT L1 task spec missing")
-    if task.get("task_family") != "bounded_tiny_sequence_order_k" or task.get("order_k") != 2:
+    if task.get("task_family") != "bounded_tiny_sequence_order_k":
         raise ValueError("DGT L1 task must be order-k tiny sequence")
     if not (1 < int(task.get("vocab_size", 999)) <= 16 and 2 < int(task.get("sequence_length", 999)) <= 64):
         raise ValueError("DGT L1 task exceeds tiny sequence bounds")
     if int(task.get("train_examples", 999999)) > 4096 or int(task.get("eval_examples", 999999)) > 1024:
         raise ValueError("DGT L1 task exceeds example bounds")
-    if "x[t-1]" not in task.get("sequence_dependency_window", []) or "x[t-2]" not in task.get("sequence_dependency_window", []):
-        raise ValueError("DGT L1 dependency window missing order-2 sequence evidence")
+    _resolve_order_k_source(task, root=root)
     arms = payload["training_arms"]
     if not isinstance(arms, Mapping) or tuple(arms) != ARM_IDS:
         raise ValueError("DGT L1 training arms mismatch")

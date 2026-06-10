@@ -391,7 +391,7 @@
         "positive_margin_over_chance_mean": -0.004395
       }
     },
-    "task_spec_digest": "cd4e7116829521b776f05aae16f34a1c63c6ed67a6cccfc2d9451a1db9383469"
+    "task_spec_digest": "ed9bf78d784ad332e2cf13dda0dc7d42b8fa2b29faf9a15b29df0230f0e2623c"
   },
   "l1_tiny_sequence_projection": {
     "boundary_ledger": [],
@@ -519,6 +519,8 @@
       "fallback": "mps-or-cpu",
       "requested_device": "auto"
     },
+    "order_k_required_order_row": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1]",
+    "order_k_required_order_source": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
     "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
     "run_local_claim_capsule": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/claim_capsule.json",
     "run_local_raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
@@ -541,7 +543,6 @@
     }
   },
   "task_spec": {
-    "dependency_rule": "target[t] = (3*x[t-1] + 5*x[t-2] + seed_offset) mod vocab_size",
     "eval_examples": 256,
     "not_claimed": [
       "Bounded tiny-sequence order-k training only.",
@@ -554,12 +555,17 @@
       "No natural-language capability claim.",
       "No component-causal stability beyond the #1168 measured owner."
     ],
-    "ood_slices": [
-      "pair_rule_offset",
-      "shuffled_pair_dependency"
-    ],
-    "order_k": 2,
     "prediction_target": "next token at position t",
+    "required_order_source": {
+      "ledger_row_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1]",
+      "ledger_rows_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
+      "owner_module": "bedc_quality_lab.order_k_benchmark",
+      "required_order_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1].required_order",
+      "status": "pointer-backed",
+      "surface_id": "surface-order-two-xor",
+      "task_id": "B2",
+      "task_spec_owner": "single-owner"
+    },
     "seed_protocol": {
       "base_seed": 1174,
       "deterministic_seeds": [
@@ -574,10 +580,6 @@
       ],
       "minimum_seed_count": 8
     },
-    "sequence_dependency_window": [
-      "x[t-1]",
-      "x[t-2]"
-    ],
     "sequence_length": 24,
     "task_family": "bounded_tiny_sequence_order_k",
     "task_id": "dgt_l1_order2_pair_rule",
