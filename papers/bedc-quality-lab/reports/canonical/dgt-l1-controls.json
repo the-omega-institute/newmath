@@ -13,6 +13,7 @@
       "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
       "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
       "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "reports/canonical/dgt-l1-controls.json:$.review_status"
     ],
     "evidence_scope": "bounded-tiny-sequence",
@@ -48,6 +49,7 @@
       "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
       "parameter_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
       "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
+      "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "task_family": "bounded_tiny_sequence_order_k",
       "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
     },
@@ -393,6 +395,1743 @@
     },
     "task_spec_digest": "ed9bf78d784ad332e2cf13dda0dc7d42b8fa2b29faf9a15b29df0230f0e2623c"
   },
+  "l1_step_ladder": {
+    "arms": [
+      "dgt_l1",
+      "base_transformer_l1",
+      "matched_random_structural_l1"
+    ],
+    "convergence_crossover": {
+      "base_catches_up": false,
+      "first_base_crossover_step": null,
+      "first_matched_random_crossover_step": null,
+      "matched_random_catches_up": false,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
+      "rows": [
+        {
+          "base_accuracy_mean": 0.0625,
+          "base_within_tolerance": false,
+          "dgt_accuracy_mean": 0.288086,
+          "dgt_minus_base_accuracy": 0.225586,
+          "dgt_minus_matched_accuracy": 0.229981,
+          "matched_random_accuracy_mean": 0.058105,
+          "matched_random_within_tolerance": false,
+          "training_steps": 36
+        },
+        {
+          "base_accuracy_mean": 0.069824,
+          "base_within_tolerance": false,
+          "dgt_accuracy_mean": 0.604004,
+          "dgt_minus_base_accuracy": 0.53418,
+          "dgt_minus_matched_accuracy": 0.544434,
+          "matched_random_accuracy_mean": 0.05957,
+          "matched_random_within_tolerance": false,
+          "training_steps": 72
+        },
+        {
+          "base_accuracy_mean": 0.070312,
+          "base_within_tolerance": false,
+          "dgt_accuracy_mean": 0.942383,
+          "dgt_minus_base_accuracy": 0.872071,
+          "dgt_minus_matched_accuracy": 0.884766,
+          "matched_random_accuracy_mean": 0.057617,
+          "matched_random_within_tolerance": false,
+          "training_steps": 144
+        },
+        {
+          "base_accuracy_mean": 0.068359,
+          "base_within_tolerance": false,
+          "dgt_accuracy_mean": 0.981934,
+          "dgt_minus_base_accuracy": 0.913575,
+          "dgt_minus_matched_accuracy": 0.92334,
+          "matched_random_accuracy_mean": 0.058594,
+          "matched_random_within_tolerance": false,
+          "training_steps": 288
+        },
+        {
+          "base_accuracy_mean": 0.068359,
+          "base_within_tolerance": false,
+          "dgt_accuracy_mean": 0.982422,
+          "dgt_minus_base_accuracy": 0.914063,
+          "dgt_minus_matched_accuracy": 0.920899,
+          "matched_random_accuracy_mean": 0.061523,
+          "matched_random_within_tolerance": false,
+          "training_steps": 576
+        }
+      ],
+      "status": "no-base-crossover-observed",
+      "tolerance_accuracy": 0.02
+    },
+    "hardgates": {
+      "L1STEP-HG1": {
+        "criterion": "canonical step grid has 120 step/arm/seed CPU training cells",
+        "evidence_pointer": "$.l1_step_ladder.step_rows",
+        "fail_closed_reason": null,
+        "gate_id": "L1STEP-HG1",
+        "status": "pass"
+      },
+      "L1STEP-HG2": {
+        "criterion": "every ladder cell is true CPU training with parameter updates and loss decrease",
+        "evidence_pointer": "$.l1_step_ladder.per_step",
+        "fail_closed_reason": null,
+        "gate_id": "L1STEP-HG2",
+        "status": "pass"
+      },
+      "L1STEP-HG3": {
+        "criterion": "every ladder step has positive compute and parameter ledgers",
+        "evidence_pointer": "$.l1_step_ladder.per_step",
+        "fail_closed_reason": null,
+        "gate_id": "L1STEP-HG3",
+        "status": "pass"
+      },
+      "L1STEP-HG4": {
+        "criterion": "crossover is mechanically derived from per-step accuracy means",
+        "evidence_pointer": "$.l1_step_ladder.convergence_crossover",
+        "fail_closed_reason": null,
+        "gate_id": "L1STEP-HG4",
+        "status": "pass"
+      },
+      "L1STEP-HG5": {
+        "criterion": "matched-random structural arm must not reach the DGT tolerance band",
+        "evidence_pointer": "$.l1_step_ladder.convergence_crossover",
+        "fail_closed_reason": null,
+        "gate_id": "L1STEP-HG5",
+        "status": "pass"
+      }
+    },
+    "mechanical_decision_table": {
+      "any_l1step_hardgate_failure_or_matched_random_crossover": "inconclusive",
+      "base_catches_up_and_matched_random_clear": "base-catches-up",
+      "no_base_crossover_and_matched_random_clear": "separation-persists"
+    },
+    "not_claimed": [
+      "Bounded tiny-sequence order-k training only.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal training recipe claim.",
+      "No full BEDC closure claim.",
+      "No L2 or higher scaling claim.",
+      "No natural-language capability claim.",
+      "No component-causal stability beyond the #1168 measured owner."
+    ],
+    "per_step": [
+      {
+        "compute_ledger": {
+          "compute_units": 183.877632,
+          "per_arm": {
+            "base_transformer_l1": {
+              "compute_units": 60.604416,
+              "seed_count": 8
+            },
+            "dgt_l1": {
+              "compute_units": 62.6688,
+              "seed_count": 8
+            },
+            "matched_random_structural_l1": {
+              "compute_units": 60.604416,
+              "seed_count": 8
+            }
+          },
+          "per_seed_step_cell": {
+            "base_transformer_l1:1174": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1174,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1175": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1175,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1176": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1176,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1177": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1177,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1178": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1178,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1179": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1179,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1180": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1180,
+              "training_steps": 36
+            },
+            "base_transformer_l1:1181": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 7.575552,
+              "seed": 1181,
+              "training_steps": 36
+            },
+            "dgt_l1:1174": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1174,
+              "training_steps": 36
+            },
+            "dgt_l1:1175": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1175,
+              "training_steps": 36
+            },
+            "dgt_l1:1176": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1176,
+              "training_steps": 36
+            },
+            "dgt_l1:1177": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1177,
+              "training_steps": 36
+            },
+            "dgt_l1:1178": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1178,
+              "training_steps": 36
+            },
+            "dgt_l1:1179": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1179,
+              "training_steps": 36
+            },
+            "dgt_l1:1180": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1180,
+              "training_steps": 36
+            },
+            "dgt_l1:1181": {
+              "arm_id": "dgt_l1",
+              "compute_units": 7.8336,
+              "seed": 1181,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1174": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1174,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1175": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1175,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1176": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1176,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1177": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1177,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1178": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1178,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1179": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1179,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1180": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1180,
+              "training_steps": 36
+            },
+            "matched_random_structural_l1:1181": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 7.575552,
+              "seed": 1181,
+              "training_steps": 36
+            }
+          },
+          "status": "pass"
+        },
+        "metrics": {
+          "base_accuracy_mean": 0.0625,
+          "base_loss_decrease_mean": 0.113838,
+          "base_ood_accuracy_mean": 0.072754,
+          "dgt_accuracy_mean": 0.288086,
+          "dgt_loss_decrease_mean": 0.969112,
+          "dgt_minus_base_accuracy": 0.225586,
+          "dgt_minus_matched_accuracy": 0.229981,
+          "dgt_ood_accuracy_mean": 0.065918,
+          "matched_random_accuracy_mean": 0.058105,
+          "matched_random_loss_decrease_mean": 0.214839,
+          "matched_random_ood_accuracy_mean": 0.062988
+        },
+        "parameter_ledger": {
+          "match_tolerance": 0.22,
+          "parameter_count": 4988,
+          "per_arm": {
+            "base_transformer_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            },
+            "dgt_l1": {
+              "parameter_count": 1700,
+              "parameter_match_ratio_to_dgt": 1.0,
+              "trainable_parameter_count": 1700
+            },
+            "matched_random_structural_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            }
+          },
+          "status": "pass"
+        },
+        "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[0]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_arms": {
+          "base_transformer_l1": {
+            "arm_id": "base_transformer_l1",
+            "compute_units": 60.604416,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.0625,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.113838,
+              "ood_accuracy_mean": 0.072754,
+              "parameter_l2_delta_mean": 3.51013,
+              "positive_margin_over_chance_mean": -0.0
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.base_transformer_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 36
+          },
+          "dgt_l1": {
+            "arm_id": "dgt_l1",
+            "compute_units": 62.6688,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.288086,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.969112,
+              "ood_accuracy_mean": 0.065918,
+              "parameter_l2_delta_mean": 7.440571,
+              "positive_margin_over_chance_mean": 0.225586
+            },
+            "parameter_count": 1700,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.dgt_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 36
+          },
+          "matched_random_structural_l1": {
+            "arm_id": "matched_random_structural_l1",
+            "compute_units": 60.604416,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.058105,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.214839,
+              "ood_accuracy_mean": 0.062988,
+              "parameter_l2_delta_mean": 4.662303,
+              "positive_margin_over_chance_mean": -0.004395
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.matched_random_structural_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "structural_marginals_preserved": true,
+            "training_steps": 36
+          }
+        },
+        "training_steps": 36
+      },
+      {
+        "compute_ledger": {
+          "compute_units": 367.755264,
+          "per_arm": {
+            "base_transformer_l1": {
+              "compute_units": 121.208832,
+              "seed_count": 8
+            },
+            "dgt_l1": {
+              "compute_units": 125.3376,
+              "seed_count": 8
+            },
+            "matched_random_structural_l1": {
+              "compute_units": 121.208832,
+              "seed_count": 8
+            }
+          },
+          "per_seed_step_cell": {
+            "base_transformer_l1:1174": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1174,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1175": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1175,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1176": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1176,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1177": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1177,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1178": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1178,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1179": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1179,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1180": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1180,
+              "training_steps": 72
+            },
+            "base_transformer_l1:1181": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 15.151104,
+              "seed": 1181,
+              "training_steps": 72
+            },
+            "dgt_l1:1174": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1174,
+              "training_steps": 72
+            },
+            "dgt_l1:1175": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1175,
+              "training_steps": 72
+            },
+            "dgt_l1:1176": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1176,
+              "training_steps": 72
+            },
+            "dgt_l1:1177": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1177,
+              "training_steps": 72
+            },
+            "dgt_l1:1178": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1178,
+              "training_steps": 72
+            },
+            "dgt_l1:1179": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1179,
+              "training_steps": 72
+            },
+            "dgt_l1:1180": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1180,
+              "training_steps": 72
+            },
+            "dgt_l1:1181": {
+              "arm_id": "dgt_l1",
+              "compute_units": 15.6672,
+              "seed": 1181,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1174": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1174,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1175": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1175,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1176": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1176,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1177": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1177,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1178": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1178,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1179": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1179,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1180": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1180,
+              "training_steps": 72
+            },
+            "matched_random_structural_l1:1181": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 15.151104,
+              "seed": 1181,
+              "training_steps": 72
+            }
+          },
+          "status": "pass"
+        },
+        "metrics": {
+          "base_accuracy_mean": 0.069824,
+          "base_loss_decrease_mean": 0.134564,
+          "base_ood_accuracy_mean": 0.072266,
+          "dgt_accuracy_mean": 0.604004,
+          "dgt_loss_decrease_mean": 1.78754,
+          "dgt_minus_base_accuracy": 0.53418,
+          "dgt_minus_matched_accuracy": 0.544434,
+          "dgt_ood_accuracy_mean": 0.058594,
+          "matched_random_accuracy_mean": 0.05957,
+          "matched_random_loss_decrease_mean": 0.352539,
+          "matched_random_ood_accuracy_mean": 0.064453
+        },
+        "parameter_ledger": {
+          "match_tolerance": 0.22,
+          "parameter_count": 4988,
+          "per_arm": {
+            "base_transformer_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            },
+            "dgt_l1": {
+              "parameter_count": 1700,
+              "parameter_match_ratio_to_dgt": 1.0,
+              "trainable_parameter_count": 1700
+            },
+            "matched_random_structural_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            }
+          },
+          "status": "pass"
+        },
+        "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[24]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_arms": {
+          "base_transformer_l1": {
+            "arm_id": "base_transformer_l1",
+            "compute_units": 121.208832,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.069824,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.134564,
+              "ood_accuracy_mean": 0.072266,
+              "parameter_l2_delta_mean": 4.386022,
+              "positive_margin_over_chance_mean": 0.007324
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.base_transformer_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 72
+          },
+          "dgt_l1": {
+            "arm_id": "dgt_l1",
+            "compute_units": 125.3376,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.604004,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 1.78754,
+              "ood_accuracy_mean": 0.058594,
+              "parameter_l2_delta_mean": 13.526241,
+              "positive_margin_over_chance_mean": 0.541504
+            },
+            "parameter_count": 1700,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.dgt_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 72
+          },
+          "matched_random_structural_l1": {
+            "arm_id": "matched_random_structural_l1",
+            "compute_units": 121.208832,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.05957,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.352539,
+              "ood_accuracy_mean": 0.064453,
+              "parameter_l2_delta_mean": 7.174845,
+              "positive_margin_over_chance_mean": -0.00293
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.matched_random_structural_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "structural_marginals_preserved": true,
+            "training_steps": 72
+          }
+        },
+        "training_steps": 72
+      },
+      {
+        "compute_ledger": {
+          "compute_units": 735.510528,
+          "per_arm": {
+            "base_transformer_l1": {
+              "compute_units": 242.417664,
+              "seed_count": 8
+            },
+            "dgt_l1": {
+              "compute_units": 250.6752,
+              "seed_count": 8
+            },
+            "matched_random_structural_l1": {
+              "compute_units": 242.417664,
+              "seed_count": 8
+            }
+          },
+          "per_seed_step_cell": {
+            "base_transformer_l1:1174": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1174,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1175": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1175,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1176": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1176,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1177": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1177,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1178": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1178,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1179": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1179,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1180": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1180,
+              "training_steps": 144
+            },
+            "base_transformer_l1:1181": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 30.302208,
+              "seed": 1181,
+              "training_steps": 144
+            },
+            "dgt_l1:1174": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1174,
+              "training_steps": 144
+            },
+            "dgt_l1:1175": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1175,
+              "training_steps": 144
+            },
+            "dgt_l1:1176": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1176,
+              "training_steps": 144
+            },
+            "dgt_l1:1177": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1177,
+              "training_steps": 144
+            },
+            "dgt_l1:1178": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1178,
+              "training_steps": 144
+            },
+            "dgt_l1:1179": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1179,
+              "training_steps": 144
+            },
+            "dgt_l1:1180": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1180,
+              "training_steps": 144
+            },
+            "dgt_l1:1181": {
+              "arm_id": "dgt_l1",
+              "compute_units": 31.3344,
+              "seed": 1181,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1174": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1174,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1175": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1175,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1176": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1176,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1177": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1177,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1178": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1178,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1179": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1179,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1180": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1180,
+              "training_steps": 144
+            },
+            "matched_random_structural_l1:1181": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 30.302208,
+              "seed": 1181,
+              "training_steps": 144
+            }
+          },
+          "status": "pass"
+        },
+        "metrics": {
+          "base_accuracy_mean": 0.070312,
+          "base_loss_decrease_mean": 0.149384,
+          "base_ood_accuracy_mean": 0.068359,
+          "dgt_accuracy_mean": 0.942383,
+          "dgt_loss_decrease_mean": 2.636632,
+          "dgt_minus_base_accuracy": 0.872071,
+          "dgt_minus_matched_accuracy": 0.884766,
+          "dgt_ood_accuracy_mean": 0.061523,
+          "matched_random_accuracy_mean": 0.057617,
+          "matched_random_loss_decrease_mean": 0.627755,
+          "matched_random_ood_accuracy_mean": 0.05957
+        },
+        "parameter_ledger": {
+          "match_tolerance": 0.22,
+          "parameter_count": 4988,
+          "per_arm": {
+            "base_transformer_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            },
+            "dgt_l1": {
+              "parameter_count": 1700,
+              "parameter_match_ratio_to_dgt": 1.0,
+              "trainable_parameter_count": 1700
+            },
+            "matched_random_structural_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            }
+          },
+          "status": "pass"
+        },
+        "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[48]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_arms": {
+          "base_transformer_l1": {
+            "arm_id": "base_transformer_l1",
+            "compute_units": 242.417664,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.070312,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.149384,
+              "ood_accuracy_mean": 0.068359,
+              "parameter_l2_delta_mean": 5.153791,
+              "positive_margin_over_chance_mean": 0.007812
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.base_transformer_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 144
+          },
+          "dgt_l1": {
+            "arm_id": "dgt_l1",
+            "compute_units": 250.6752,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.942383,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 2.636632,
+              "ood_accuracy_mean": 0.061523,
+              "parameter_l2_delta_mean": 22.052639,
+              "positive_margin_over_chance_mean": 0.879883
+            },
+            "parameter_count": 1700,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.dgt_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 144
+          },
+          "matched_random_structural_l1": {
+            "arm_id": "matched_random_structural_l1",
+            "compute_units": 242.417664,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.057617,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.627755,
+              "ood_accuracy_mean": 0.05957,
+              "parameter_l2_delta_mean": 12.354832,
+              "positive_margin_over_chance_mean": -0.004883
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.matched_random_structural_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "structural_marginals_preserved": true,
+            "training_steps": 144
+          }
+        },
+        "training_steps": 144
+      },
+      {
+        "compute_ledger": {
+          "compute_units": 1471.021056,
+          "per_arm": {
+            "base_transformer_l1": {
+              "compute_units": 484.835328,
+              "seed_count": 8
+            },
+            "dgt_l1": {
+              "compute_units": 501.3504,
+              "seed_count": 8
+            },
+            "matched_random_structural_l1": {
+              "compute_units": 484.835328,
+              "seed_count": 8
+            }
+          },
+          "per_seed_step_cell": {
+            "base_transformer_l1:1174": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1174,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1175": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1175,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1176": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1176,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1177": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1177,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1178": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1178,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1179": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1179,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1180": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1180,
+              "training_steps": 288
+            },
+            "base_transformer_l1:1181": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 60.604416,
+              "seed": 1181,
+              "training_steps": 288
+            },
+            "dgt_l1:1174": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1174,
+              "training_steps": 288
+            },
+            "dgt_l1:1175": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1175,
+              "training_steps": 288
+            },
+            "dgt_l1:1176": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1176,
+              "training_steps": 288
+            },
+            "dgt_l1:1177": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1177,
+              "training_steps": 288
+            },
+            "dgt_l1:1178": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1178,
+              "training_steps": 288
+            },
+            "dgt_l1:1179": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1179,
+              "training_steps": 288
+            },
+            "dgt_l1:1180": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1180,
+              "training_steps": 288
+            },
+            "dgt_l1:1181": {
+              "arm_id": "dgt_l1",
+              "compute_units": 62.6688,
+              "seed": 1181,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1174": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1174,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1175": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1175,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1176": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1176,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1177": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1177,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1178": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1178,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1179": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1179,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1180": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1180,
+              "training_steps": 288
+            },
+            "matched_random_structural_l1:1181": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 60.604416,
+              "seed": 1181,
+              "training_steps": 288
+            }
+          },
+          "status": "pass"
+        },
+        "metrics": {
+          "base_accuracy_mean": 0.068359,
+          "base_loss_decrease_mean": 0.15372,
+          "base_ood_accuracy_mean": 0.065918,
+          "dgt_accuracy_mean": 0.981934,
+          "dgt_loss_decrease_mean": 2.7797,
+          "dgt_minus_base_accuracy": 0.913575,
+          "dgt_minus_matched_accuracy": 0.92334,
+          "dgt_ood_accuracy_mean": 0.063477,
+          "matched_random_accuracy_mean": 0.058594,
+          "matched_random_loss_decrease_mean": 0.906542,
+          "matched_random_ood_accuracy_mean": 0.057617
+        },
+        "parameter_ledger": {
+          "match_tolerance": 0.22,
+          "parameter_count": 4988,
+          "per_arm": {
+            "base_transformer_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            },
+            "dgt_l1": {
+              "parameter_count": 1700,
+              "parameter_match_ratio_to_dgt": 1.0,
+              "trainable_parameter_count": 1700
+            },
+            "matched_random_structural_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            }
+          },
+          "status": "pass"
+        },
+        "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[72]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_arms": {
+          "base_transformer_l1": {
+            "arm_id": "base_transformer_l1",
+            "compute_units": 484.835328,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.068359,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.15372,
+              "ood_accuracy_mean": 0.065918,
+              "parameter_l2_delta_mean": 5.689821,
+              "positive_margin_over_chance_mean": 0.005859
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.base_transformer_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 288
+          },
+          "dgt_l1": {
+            "arm_id": "dgt_l1",
+            "compute_units": 501.3504,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.981934,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 2.7797,
+              "ood_accuracy_mean": 0.063477,
+              "parameter_l2_delta_mean": 27.113986,
+              "positive_margin_over_chance_mean": 0.919434
+            },
+            "parameter_count": 1700,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.dgt_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 288
+          },
+          "matched_random_structural_l1": {
+            "arm_id": "matched_random_structural_l1",
+            "compute_units": 484.835328,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.058594,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.906542,
+              "ood_accuracy_mean": 0.057617,
+              "parameter_l2_delta_mean": 18.498936,
+              "positive_margin_over_chance_mean": -0.003906
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.matched_random_structural_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "structural_marginals_preserved": true,
+            "training_steps": 288
+          }
+        },
+        "training_steps": 288
+      },
+      {
+        "compute_ledger": {
+          "compute_units": 2942.042112,
+          "per_arm": {
+            "base_transformer_l1": {
+              "compute_units": 969.670656,
+              "seed_count": 8
+            },
+            "dgt_l1": {
+              "compute_units": 1002.7008,
+              "seed_count": 8
+            },
+            "matched_random_structural_l1": {
+              "compute_units": 969.670656,
+              "seed_count": 8
+            }
+          },
+          "per_seed_step_cell": {
+            "base_transformer_l1:1174": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1174,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1175": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1175,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1176": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1176,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1177": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1177,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1178": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1178,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1179": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1179,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1180": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1180,
+              "training_steps": 576
+            },
+            "base_transformer_l1:1181": {
+              "arm_id": "base_transformer_l1",
+              "compute_units": 121.208832,
+              "seed": 1181,
+              "training_steps": 576
+            },
+            "dgt_l1:1174": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1174,
+              "training_steps": 576
+            },
+            "dgt_l1:1175": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1175,
+              "training_steps": 576
+            },
+            "dgt_l1:1176": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1176,
+              "training_steps": 576
+            },
+            "dgt_l1:1177": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1177,
+              "training_steps": 576
+            },
+            "dgt_l1:1178": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1178,
+              "training_steps": 576
+            },
+            "dgt_l1:1179": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1179,
+              "training_steps": 576
+            },
+            "dgt_l1:1180": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1180,
+              "training_steps": 576
+            },
+            "dgt_l1:1181": {
+              "arm_id": "dgt_l1",
+              "compute_units": 125.3376,
+              "seed": 1181,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1174": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1174,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1175": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1175,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1176": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1176,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1177": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1177,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1178": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1178,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1179": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1179,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1180": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1180,
+              "training_steps": 576
+            },
+            "matched_random_structural_l1:1181": {
+              "arm_id": "matched_random_structural_l1",
+              "compute_units": 121.208832,
+              "seed": 1181,
+              "training_steps": 576
+            }
+          },
+          "status": "pass"
+        },
+        "metrics": {
+          "base_accuracy_mean": 0.068359,
+          "base_loss_decrease_mean": 0.155599,
+          "base_ood_accuracy_mean": 0.065918,
+          "dgt_accuracy_mean": 0.982422,
+          "dgt_loss_decrease_mean": 2.799806,
+          "dgt_minus_base_accuracy": 0.914063,
+          "dgt_minus_matched_accuracy": 0.920899,
+          "dgt_ood_accuracy_mean": 0.063965,
+          "matched_random_accuracy_mean": 0.061523,
+          "matched_random_loss_decrease_mean": 1.08052,
+          "matched_random_ood_accuracy_mean": 0.059082
+        },
+        "parameter_ledger": {
+          "match_tolerance": 0.22,
+          "parameter_count": 4988,
+          "per_arm": {
+            "base_transformer_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            },
+            "dgt_l1": {
+              "parameter_count": 1700,
+              "parameter_match_ratio_to_dgt": 1.0,
+              "trainable_parameter_count": 1700
+            },
+            "matched_random_structural_l1": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
+            }
+          },
+          "status": "pass"
+        },
+        "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[96]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_arms": {
+          "base_transformer_l1": {
+            "arm_id": "base_transformer_l1",
+            "compute_units": 969.670656,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.068359,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.155599,
+              "ood_accuracy_mean": 0.065918,
+              "parameter_l2_delta_mean": 6.169015,
+              "positive_margin_over_chance_mean": 0.005859
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.base_transformer_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 576
+          },
+          "dgt_l1": {
+            "arm_id": "dgt_l1",
+            "compute_units": 1002.7008,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.982422,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 2.799806,
+              "ood_accuracy_mean": 0.063965,
+              "parameter_l2_delta_mean": 30.64446,
+              "positive_margin_over_chance_mean": 0.919922
+            },
+            "parameter_count": 1700,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.dgt_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "training_steps": 576
+          },
+          "matched_random_structural_l1": {
+            "arm_id": "matched_random_structural_l1",
+            "compute_units": 969.670656,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "accuracy_mean": 0.061523,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 1.08052,
+              "ood_accuracy_mean": 0.059082,
+              "parameter_l2_delta_mean": 24.196753,
+              "positive_margin_over_chance_mean": -0.000977
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.matched_random_structural_l1",
+            "seed_count": 8,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181
+            ],
+            "status": "pass",
+            "structural_marginals_preserved": true,
+            "training_steps": 576
+          }
+        },
+        "training_steps": 576
+      }
+    ],
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+    "seed_count_per_arm_per_step": 8,
+    "status": "pass",
+    "step_grid": [
+      36,
+      72,
+      144,
+      288,
+      576
+    ],
+    "step_rows": [
+      {
+        "metrics": {
+          "base_accuracy_mean": 0.0625,
+          "base_loss_decrease_mean": 0.113838,
+          "base_ood_accuracy_mean": 0.072754,
+          "dgt_accuracy_mean": 0.288086,
+          "dgt_loss_decrease_mean": 0.969112,
+          "dgt_minus_base_accuracy": 0.225586,
+          "dgt_minus_matched_accuracy": 0.229981,
+          "dgt_ood_accuracy_mean": 0.065918,
+          "matched_random_accuracy_mean": 0.058105,
+          "matched_random_loss_decrease_mean": 0.214839,
+          "matched_random_ood_accuracy_mean": 0.062988
+        },
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_steps": 36
+      },
+      {
+        "metrics": {
+          "base_accuracy_mean": 0.069824,
+          "base_loss_decrease_mean": 0.134564,
+          "base_ood_accuracy_mean": 0.072266,
+          "dgt_accuracy_mean": 0.604004,
+          "dgt_loss_decrease_mean": 1.78754,
+          "dgt_minus_base_accuracy": 0.53418,
+          "dgt_minus_matched_accuracy": 0.544434,
+          "dgt_ood_accuracy_mean": 0.058594,
+          "matched_random_accuracy_mean": 0.05957,
+          "matched_random_loss_decrease_mean": 0.352539,
+          "matched_random_ood_accuracy_mean": 0.064453
+        },
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_steps": 72
+      },
+      {
+        "metrics": {
+          "base_accuracy_mean": 0.070312,
+          "base_loss_decrease_mean": 0.149384,
+          "base_ood_accuracy_mean": 0.068359,
+          "dgt_accuracy_mean": 0.942383,
+          "dgt_loss_decrease_mean": 2.636632,
+          "dgt_minus_base_accuracy": 0.872071,
+          "dgt_minus_matched_accuracy": 0.884766,
+          "dgt_ood_accuracy_mean": 0.061523,
+          "matched_random_accuracy_mean": 0.057617,
+          "matched_random_loss_decrease_mean": 0.627755,
+          "matched_random_ood_accuracy_mean": 0.05957
+        },
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_steps": 144
+      },
+      {
+        "metrics": {
+          "base_accuracy_mean": 0.068359,
+          "base_loss_decrease_mean": 0.15372,
+          "base_ood_accuracy_mean": 0.065918,
+          "dgt_accuracy_mean": 0.981934,
+          "dgt_loss_decrease_mean": 2.7797,
+          "dgt_minus_base_accuracy": 0.913575,
+          "dgt_minus_matched_accuracy": 0.92334,
+          "dgt_ood_accuracy_mean": 0.063477,
+          "matched_random_accuracy_mean": 0.058594,
+          "matched_random_loss_decrease_mean": 0.906542,
+          "matched_random_ood_accuracy_mean": 0.057617
+        },
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_steps": 288
+      },
+      {
+        "metrics": {
+          "base_accuracy_mean": 0.068359,
+          "base_loss_decrease_mean": 0.155599,
+          "base_ood_accuracy_mean": 0.065918,
+          "dgt_accuracy_mean": 0.982422,
+          "dgt_loss_decrease_mean": 2.799806,
+          "dgt_minus_base_accuracy": 0.914063,
+          "dgt_minus_matched_accuracy": 0.920899,
+          "dgt_ood_accuracy_mean": 0.063965,
+          "matched_random_accuracy_mean": 0.061523,
+          "matched_random_loss_decrease_mean": 1.08052,
+          "matched_random_ood_accuracy_mean": 0.059082
+        },
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "seed_counts": {
+          "base_transformer_l1": 8,
+          "dgt_l1": 8,
+          "matched_random_structural_l1": 8
+        },
+        "training_steps": 576
+      }
+    ],
+    "verdict": "separation-persists",
+    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict"
+  },
   "l1_tiny_sequence_projection": {
     "boundary_ledger": [],
     "claim_capsule_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref",
@@ -414,6 +2153,7 @@
     "promotion_readiness": "ready-for-independent-review",
     "review_status": "ready",
     "status": "ready",
+    "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
     "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
   },
   "negative_witness_sweep": {
