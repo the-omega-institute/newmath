@@ -56,6 +56,7 @@ def build_review_bundle() -> dict[str, Any]:
         "bedc_jepa_public_baseline_native_metric_contract.json"
     )
     quality_lab_export = _load_optional_json("bedc_jepa_quality_lab_exports.json")
+    paper_writeback_packet = _load_optional_json("bedc_jepa_paper_writeback_packet.json")
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
     vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     vjepa_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
@@ -138,6 +139,23 @@ def build_review_bundle() -> dict[str, Any]:
         _check(
             len(quality_lab_export.get("exports", [])) >= 1,
             "BEDC-JEPA quality-lab export row",
+            failures,
+        )
+    if paper_writeback_packet is not None:
+        _check(
+            paper_writeback_packet.get("schema_id") == "bedc-jepa-paper-writeback-packet",
+            "BEDC-JEPA paper writeback packet schema",
+            failures,
+        )
+        _check(
+            paper_writeback_packet.get("status") in {"paper_ready", "partial"},
+            "BEDC-JEPA paper writeback packet status",
+            failures,
+        )
+        _check(
+            paper_writeback_packet.get("record", {}).get("admitted_operational_name")
+            == "door_key_context_visible",
+            "BEDC-JEPA paper writeback admitted name",
             failures,
         )
     if vjepa_lccp is not None:
@@ -246,6 +264,7 @@ def build_review_bundle() -> dict[str, Any]:
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
             "quality_lab_export": "reports/bedc_jepa_quality_lab_exports.json",
+            "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
@@ -267,6 +286,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_bedc_jepa_review_bundle.py",
             "python scripts/build_bedc_jepa_quality_backend_candidate.py",
             "python scripts/build_bedc_jepa_quality_lab_export.py",
+            "python scripts/build_bedc_jepa_paper_writeback_packet.py",
             "python scripts/run_bedc_latent_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
@@ -331,6 +351,14 @@ def build_review_bundle() -> dict[str, Any]:
             "quality_lab_export_status": "recorded" if quality_lab_export is not None else "not recorded",
             "quality_lab_export_count": (
                 float(len(quality_lab_export.get("exports", []))) if quality_lab_export is not None else 0.0
+            ),
+            "paper_writeback_packet_status": (
+                paper_writeback_packet.get("status") if paper_writeback_packet is not None else "not recorded"
+            ),
+            "paper_writeback_admitted_name": (
+                paper_writeback_packet.get("record", {}).get("admitted_operational_name")
+                if paper_writeback_packet is not None
+                else "not recorded"
             ),
             "vjepa2_ac_lccp_status": vjepa_lccp.get("status") if vjepa_lccp is not None else "not recorded",
             "vjepa2_ac_lccp_claim_count": float(len(vjepa_lccp.get("claims", []))) if vjepa_lccp is not None else 0.0,

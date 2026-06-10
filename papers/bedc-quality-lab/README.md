@@ -30,6 +30,7 @@ The BEDC-JEPA evidence packet contains:
 - public baseline native-metric contract for importing an official or external
   V-JEPA2-AC / JEPA-family baseline result;
 - quality-lab export registry for rollup-style downstream consumption.
+- paper writeback packet for admitted manuscript-facing claims.
 
 These records do not claim public benchmark superiority, official V-JEPA2-AC
 benchmark reproduction, robotics-scale control, natural-language grounding, or
@@ -60,6 +61,7 @@ Main record-building commands:
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_review_bundle.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_backend_candidate.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_lab_export.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_paper_writeback_packet.py
 ```
 
 On systems with `make`, the rollup target runs the record-level build chain:
@@ -97,6 +99,7 @@ Important generated records live under `reports/`:
 - `bedc_jepa_review_bundle.json`
 - `bedc_jepa_quality_backend_candidate.json`
 - `bedc_jepa_quality_lab_exports.json`
+- `bedc_jepa_paper_writeback_packet.json`
 
 ## Evidence Boundary
 

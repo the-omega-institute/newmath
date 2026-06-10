@@ -93,6 +93,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
     )
     assert manifest["commands"]["quality_lab_export"] == "python scripts/build_bedc_jepa_quality_lab_export.py"
+    assert (
+        manifest["commands"]["paper_writeback_packet"]
+        == "python scripts/build_bedc_jepa_paper_writeback_packet.py"
+    )
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
@@ -105,6 +109,7 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
     assert manifest["quality_backend_candidate"] == "reports/bedc_jepa_quality_backend_candidate.json"
     assert manifest["quality_lab_export"] == "reports/bedc_jepa_quality_lab_exports.json"
+    assert manifest["paper_writeback_packet"] == "reports/bedc_jepa_paper_writeback_packet.json"
     assert (
         manifest["latent_claim_certificates"]["certificates"]
         == "reports/bedc_latent_claim_certificates.json"

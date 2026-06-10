@@ -17,6 +17,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "vjepa2_ac_minigrid_claim_certificate",
         "vjepa2_ac_minigrid_latent_prediction",
         "quality_lab_export",
+        "paper_writeback_packet",
     }
     checkpoint = kit["required_external_results"]["public_jepa_checkpoint_evaluation"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
@@ -28,6 +29,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
     vjepa_latent = kit["required_external_results"]["vjepa2_ac_minigrid_latent_prediction"]
     quality_lab_export = kit["required_external_results"]["quality_lab_export"]
+    paper_writeback = kit["required_external_results"]["paper_writeback_packet"]
 
     assert checkpoint["readiness_gate"] == "public_jepa_checkpoint_evaluation"
     assert checkpoint["run_command"] == "python scripts/run_public_jepa_ac_giant_adapter.py"
@@ -99,6 +101,11 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert quality_lab_export["build_command"] == "python scripts/build_bedc_jepa_quality_lab_export.py"
     assert "exports" in quality_lab_export["required_fields"]
     assert "rollup-style quality-lab export registry" in quality_lab_export["pass_condition"]
+    assert paper_writeback["readiness_gate"] == "paper_writeback_packet"
+    assert paper_writeback["target_artifact"] == "reports/bedc_jepa_paper_writeback_packet.json"
+    assert paper_writeback["build_command"] == "python scripts/build_bedc_jepa_paper_writeback_packet.py"
+    assert "record" in paper_writeback["required_fields"]
+    assert "without adding empirical claims" in paper_writeback["pass_condition"]
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
     assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
@@ -106,6 +113,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
     )
     assert kit["quality_lab_export_command"] == "python scripts/build_bedc_jepa_quality_lab_export.py"
+    assert kit["paper_writeback_packet_command"] == "python scripts/build_bedc_jepa_paper_writeback_packet.py"
     assert (
         kit["latent_claim_certificate_command"]
         == "python scripts/run_bedc_latent_claim_certificate.py"

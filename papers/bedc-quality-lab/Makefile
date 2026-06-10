@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-rollup probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -51,7 +51,10 @@ build-bedc-jepa-quality-backend:
 build-bedc-jepa-quality-lab-export:
 	python3 scripts/build_bedc_jepa_quality_lab_export.py
 
-build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-review-bundle build-bedc-jepa-manifest
+build-bedc-jepa-paper-writeback-packet:
+	python3 scripts/build_bedc_jepa_paper_writeback_packet.py
+
+build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-review-bundle build-bedc-jepa-manifest
 
 probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py
