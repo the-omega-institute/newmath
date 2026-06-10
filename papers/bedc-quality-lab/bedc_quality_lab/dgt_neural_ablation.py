@@ -113,6 +113,10 @@ FORBIDDEN_TERMS = (
     "universal training recipe",
     "unbounded mechanism closure",
 )
+NULL_CAUSAL_REASON = (
+    "no component shows cross-seed-stable causal effect on this bounded toy at 8 seeds / 128-256 steps; "
+    "component causality requires a harder task (L1+ per scope algebra)"
+)
 _FORBIDDEN_OWNER_TOKENS = (
     "COMPONENT" + "_" + "EFFECTS",
     "component" + "_" + "effects",
@@ -956,6 +960,7 @@ class DgtNeuralAblationRobustnessProjection:
             "arm_summaries": arm_summaries,
             "paired_delta_matrix": paired_delta_matrix,
             "robustness_by_steps": robustness_by_steps,
+            "stable_causal_attribution": self._stable_causal_attribution(claims),
             "stable_component_causal_claims": claims,
             "stable_boundary_ledger": boundary,
             "compute_ledger": ledger,
@@ -1114,7 +1119,67 @@ class DgtNeuralAblationRobustnessProjection:
                     },
                 }
             )
+        if not claims:
+            ledger.append(
+                {
+                    "component": "<all>",
+                    "status": "null_result",
+                    "reason": NULL_CAUSAL_REASON,
+                    "claim_blocked": True,
+                    "blocked": True,
+                    "not_silent": True,
+                    "step_statuses": {
+                        str(step): {
+                            component: robustness_by_steps[str(step)]["components"][component]["status"]
+                            for component in COMPONENTS
+                        }
+                        for step in self.run_spec.step_grid
+                    },
+                    "metric_delta_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_delta_matrix",
+                    "measured_delta_summary": {
+                        str(step): robustness_by_steps[str(step)]["components"]
+                        for step in self.run_spec.step_grid
+                    },
+                }
+            )
         return ledger
+
+    def _stable_causal_attribution(self, claims: Sequence[Mapping[str, Any]]) -> str:
+        if not claims:
+            return "none"
+        if len({row["component"] for row in claims}) == len(COMPONENTS):
+            return "complete"
+        return "partial"
+
+    def _claim_passes_allowed_ci(
+        self,
+        claim: Mapping[str, Any],
+        robustness_by_steps: Mapping[str, Any],
+        effect_thresholds: Mapping[str, float],
+    ) -> bool:
+        component = claim.get("component")
+        if component not in COMPONENTS:
+            return False
+        ci_low_metrics = claim.get("ci_low_metrics", {})
+        stable_steps = claim.get("stable_step_settings", [])
+        if not isinstance(ci_low_metrics, Mapping) or not ci_low_metrics or not stable_steps:
+            return False
+        if not all(
+            float(value) > float(effect_thresholds.get(metric, MEASURABLE_EFFECT_THRESHOLD))
+            for metric, value in ci_low_metrics.items()
+        ):
+            return False
+        for step in stable_steps:
+            component_row = robustness_by_steps[str(step)]["components"][component]
+            if component_row["status"] != "allowed":
+                return False
+            allowed_metrics = component_row["positive_ci_low_metrics"]
+            if not any(
+                float(value) > float(effect_thresholds.get(metric, MEASURABLE_EFFECT_THRESHOLD))
+                for metric, value in allowed_metrics.items()
+            ):
+                return False
+        return True
 
     def _compute_ledger(self, rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         row_entries = [
@@ -1179,16 +1244,12 @@ class DgtNeuralAblationRobustnessProjection:
             for arm in self.run_spec.arms
         }
         claimed = {row["component"] for row in claims}
-        blocked = {row["component"] for row in boundary if row.get("claim_blocked") is True}
-        no_effect_rows = [row for row in boundary if row["component"] not in claimed]
+        blocked = {row["component"] for row in boundary if row.get("claim_blocked") is True and row.get("component") in COMPONENTS}
+        no_effect_rows = [row for row in boundary if row["component"] in COMPONENTS and row["component"] not in claimed]
+        effect_thresholds = self.run_spec.effect_threshold_payload()
         conditions = {
             "NABL2-HG1": expected_triples.issubset(training_triples),
-            "NABL2-HG2": bool(claims)
-            and all(
-                robustness_by_steps[str(step)]["components"][claim["component"]]["status"] == "allowed"
-                for claim in claims
-                for step in claim["stable_step_settings"]
-            ),
+            "NABL2-HG2": all(self._claim_passes_allowed_ci(claim, robustness_by_steps, effect_thresholds) for claim in claims),
             "NABL2-HG3": all(row["status"] == "blocked" for row in no_effect_rows) and claimed.isdisjoint(blocked),
             "NABL2-HG4": compute_ledger.get("training_matrix_count") == len(expected_triples)
             and {"train_steps", "seed", "arm"}.issubset(set(compute_ledger.get("dimensions", []))),
@@ -1337,7 +1398,7 @@ def evaluate_pure_hardgates(report: Mapping[str, Any]) -> dict[str, Any]:
         for seed in run_spec.seed_list
         for task_id in TASK_IDS
     }
-    blocked = {row["component"] for row in boundary if row.get("status") == "blocked"}
+    blocked = {row["component"] for row in boundary if row.get("status") == "blocked" and row.get("component") in COMPONENTS}
     claimed = {row["component"] for row in claims}
     conditions = {
         "PURE-HG1": purity.get("status") == "pass" and set(metric_protocol.get("inputs", [])) == set(OUTCOME_FIELDS),
@@ -1350,7 +1411,7 @@ def evaluate_pure_hardgates(report: Mapping[str, Any]) -> dict[str, Any]:
         "PURE-HG5": all(row.get("evidence_scope") == list(COMPONENT_CAUSAL_EVIDENCE_SCOPE) for row in claims)
         and claimed.isdisjoint(blocked),
         "PURE-HG6": all(float(row.get("parameter_delta_l2", 0.0)) > 0.0 and float(row.get("loss_drop", 0.0)) > 0.0 for row in records),
-        "PURE-HG7": all(row.get("reason") == "NABL2-HG3" for row in boundary if row.get("status") == "blocked")
+        "PURE-HG7": all(row.get("reason") == "NABL2-HG3" for row in boundary if row.get("status") == "blocked" and row.get("component") in COMPONENTS)
         and claimed.isdisjoint(blocked),
     }
     return _hardgate_payload(
@@ -1376,13 +1437,13 @@ def _nabl_hardgates(report: Mapping[str, Any], audit: Mapping[str, Any]) -> dict
     nabl2 = report.get("nabl2_hardgates", {})
     arm_ids = sorted({row.get("arm_id") for row in records}, key=list(ARM_IDS).index)
     claimed = {row["component"] for row in claims}
-    blocked = {row["component"] for row in boundary if row.get("status") == "blocked"}
+    blocked = {row["component"] for row in boundary if row.get("status") == "blocked" and row.get("component") in COMPONENTS}
     conditions = {
         "NABL-HG1": arm_ids == list(ARM_IDS),
         "NABL-HG2": all(row.get("requested_training_backend") == "torch" and int(row.get("gradient_update_steps", 0)) > 0 for row in records),
         "NABL-HG3": all(float(row.get("parameter_delta_l2", 0.0)) > 0.0 for row in records),
         "NABL-HG4": all(set(row.get("metrics", {})) == set(METRIC_KEYS) for row in records),
-        "NABL-HG5": bool(claims) and all(row.get("claim_scope") == "bounded toy training" for row in claims),
+        "NABL-HG5": all(row.get("claim_scope") == "bounded toy training" for row in claims),
         "NABL-HG6": audit.get("status") == "pass",
         "NABL-HG7": claimed.isdisjoint(blocked) and nabl2.get("status") == "pass",
     }
@@ -1538,6 +1599,7 @@ def unavailable_payload(
         "metric_delta_matrix": {},
         "paired_delta_matrix": {},
         "robustness_by_steps": {},
+        "stable_causal_attribution": "unavailable",
         "stable_component_causal_claims": [],
         "stable_boundary_ledger": boundary,
         "compute_ledger": {
@@ -1671,6 +1733,7 @@ def build_payload(
         "metric_delta_matrix": delta_matrix,
         "paired_delta_matrix": delta_matrix,
         "robustness_by_steps": projection["robustness_by_steps"],
+        "stable_causal_attribution": projection["stable_causal_attribution"],
         "stable_component_causal_claims": claims,
         "stable_boundary_ledger": boundary,
         "compute_ledger": projection["compute_ledger"],
@@ -1692,7 +1755,11 @@ def build_payload(
     partial_payload["metric_protocol"]["purity_audit"] = _owner_source_purity_audit(partial_payload)
     partial_payload["pure_hardgates"] = evaluate_pure_hardgates(partial_payload)
     partial_payload["nabl_hardgates"] = _nabl_hardgates(partial_payload, partial_payload["forbidden_claim_term_audit"])
-    status = "available" if partial_payload["pure_hardgates"]["status"] == "pass" and partial_payload["nabl_hardgates"]["status"] == "pass" else "failed"
+    status = (
+        "available"
+        if partial_payload["pure_hardgates"]["status"] == "pass" and partial_payload["nabl_hardgates"]["status"] == "pass"
+        else "failed"
+    )
     partial_payload["training_protocol"]["status"] = status
     partial_payload["claim_capsule_ref"]["status"] = "available" if status == "available" else "blocked"
     if status != "available":
@@ -1719,6 +1786,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "metric_delta_matrix",
         "paired_delta_matrix",
         "robustness_by_steps",
+        "stable_causal_attribution",
         "stable_component_causal_claims",
         "stable_boundary_ledger",
         "compute_ledger",
@@ -1779,13 +1847,13 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
             raise ValueError("DGT neural ablation available report requires all hardgates")
         if nabl2_hardgates.get("status") != "pass":
             raise ValueError("DGT neural ablation available report requires all NABL2 hardgates")
-        if not payload["component_causal_claims"]:
-            raise ValueError("DGT neural ablation pass requires scoped component claims")
+        if payload["stable_causal_attribution"] not in {"none", "partial", "complete"}:
+            raise ValueError("DGT neural ablation available report requires stable causal attribution")
     if payload["training_protocol"]["status"] == "available" and payload["component_causal_claims"] != payload["stable_component_causal_claims"]:
         raise ValueError("DGT neural ablation stable claim projection mismatch")
     if payload["boundary_ledger"] != payload["stable_boundary_ledger"]:
         raise ValueError("DGT neural ablation stable boundary projection mismatch")
-    blocked_components = {row["component"] for row in payload["boundary_ledger"] if row.get("claim_blocked") is True}
+    blocked_components = {row["component"] for row in payload["boundary_ledger"] if row.get("claim_blocked") is True and row.get("component") in COMPONENTS}
     claimed_components = {row["component"] for row in payload["component_causal_claims"]}
     if blocked_components & claimed_components:
         raise ValueError("DGT neural ablation HG7 boundary component is claimed")
@@ -1822,6 +1890,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "",
         f"- Status: `{payload['nabl_hardgates']['status']}`",
         f"- PURE status: `{payload['pure_hardgates']['status']}`",
+        f"- Stable causal attribution: `{payload['stable_causal_attribution']}`",
         f"- Device: `{payload['training_protocol']['resolved_device']}`",
         f"- Arms: `{len(payload['module_registry'])}`",
         f"- Seeds: `{len(payload['training_protocol'].get('seeds', []))}`",

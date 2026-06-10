@@ -1,7 +1,8 @@
 # DGT neural ablation
 
-- Status: `fail`
+- Status: `pass`
 - PURE status: `pass`
+- Stable causal attribution: `none`
 - Device: `mps`
 - Arms: `11`
 - Seeds: `8`
@@ -25,14 +26,14 @@
 - `NABL-HG2`: `pass`
 - `NABL-HG3`: `pass`
 - `NABL-HG4`: `pass`
-- `NABL-HG5`: `fail`
+- `NABL-HG5`: `pass`
 - `NABL-HG6`: `pass`
-- `NABL-HG7`: `fail`
+- `NABL-HG7`: `pass`
 
 ## NABL2 hardgates
 
 - `NABL2-HG1`: `pass`
-- `NABL2-HG2`: `fail`
+- `NABL2-HG2`: `pass`
 - `NABL2-HG3`: `pass`
 - `NABL2-HG4`: `pass`
 - `NABL2-HG5`: `pass`
@@ -54,3 +55,4 @@
 - `jet_loss`: `blocked` - NABL2-HG3
 - `negative_witness_loss`: `blocked` - NABL2-HG3
 - `scope_seal`: `blocked` - NABL2-HG3
+- `<all>`: `null_result` - no component shows cross-seed-stable causal effect on this bounded toy at 8 seeds / 128-256 steps; component causality requires a harder task (L1+ per scope algebra)

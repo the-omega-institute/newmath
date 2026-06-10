@@ -1235,6 +1235,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "metric_delta_matrix",
             "paired_delta_matrix",
             "robustness_by_steps",
+            "stable_causal_attribution",
             "stable_component_causal_claims",
             "stable_boundary_ledger",
             "compute_ledger",

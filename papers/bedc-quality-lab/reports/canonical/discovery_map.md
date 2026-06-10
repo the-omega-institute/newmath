@@ -26,7 +26,7 @@
 | `mechanism-dna` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-l0-controls` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
-| `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `invalid` | `$.training_protocol` |
+| `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

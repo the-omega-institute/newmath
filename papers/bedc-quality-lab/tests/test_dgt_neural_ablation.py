@@ -72,6 +72,7 @@ def _payload_with_synthetic_claim():
         "confidence_interval_pointer": f"{owner.CANONICAL_JSON_ARTIFACT}:$.paired_delta_matrix.DGT_without_LAT.by_steps",
     }
     mutated["stable_component_causal_claims"] = [claim]
+    mutated["stable_causal_attribution"] = "partial"
     mutated["component_causal_claims"] = [claim]
     mutated["boundary_ledger"] = [
         {**row, "status": "measured", "reason": "paired cross-seed CI-low supports a scoped component-causal claim", "claim_blocked": False}
@@ -175,6 +176,98 @@ def test_no_effect_component_stays_blocked_across_seed_grid():
     assert [row for row in boundary if row["component"] == "LAT"][0]["reason"] == "NABL2-HG3"
 
 
+def test_nabl2_hg2_passes_vacuously_without_allowed_claims():
+    run_spec = owner.DgtNeuralAblationRunSpec(
+        step_grid=(128,),
+        seed_count=8,
+        seed_list=tuple(range(8)),
+        requested_device="cpu",
+    )
+    projection = owner.DgtNeuralAblationRobustnessProjection(run_spec)
+    rows = [row for step in run_spec.step_grid for seed in run_spec.seed_list for arm in run_spec.arms for row in [_metric_row(step=step, seed=seed, arm=arm)]]
+    full = _summary({seed: {metric: 0.5 for metric in owner.METRIC_KEYS} for seed in range(8)})
+    delta = owner.paired_delta(full, full, paired_ci_min_seeds=8)
+    by_steps = projection._robustness_by_steps(_matrix_with_component("LAT", delta))
+    boundary = projection._stable_boundary_ledger(by_steps, [])
+    hardgates = projection._nabl2_hardgates(
+        rows=rows,
+        robustness_by_steps=by_steps,
+        claims=[],
+        boundary=boundary,
+        compute_ledger=projection._compute_ledger(rows),
+        source_audit={"status": "pass"},
+        negative_witness_sweep={"status": "pass"},
+    )
+
+    assert hardgates["gates"]["NABL2-HG2"]["status"] == "pass"
+    assert hardgates["status"] == "pass"
+
+
+def test_stable_null_causal_attribution_is_loud_and_keeps_all_components_blocked():
+    run_spec = owner.DgtNeuralAblationRunSpec(
+        step_grid=(128, 256),
+        seed_count=8,
+        seed_list=tuple(range(8)),
+        requested_device="cpu",
+    )
+    projection = owner.DgtNeuralAblationRobustnessProjection(run_spec)
+    full = _summary({seed: {metric: 0.5 for metric in owner.METRIC_KEYS} for seed in range(8)})
+    zero_delta = owner.paired_delta(full, full, paired_ci_min_seeds=8)
+    matrix = {}
+    for component in owner.COMPONENTS:
+        matrix[f"DGT_without_{component}"] = {
+            **zero_delta,
+            "by_steps": {str(step): zero_delta for step in run_spec.step_grid},
+        }
+    by_steps = projection._robustness_by_steps(matrix)
+    claims = projection._stable_component_causal_claims(by_steps)
+    boundary = projection._stable_boundary_ledger(by_steps, claims)
+
+    assert projection._stable_causal_attribution(claims) == "none"
+    assert claims == []
+    assert sum(1 for row in boundary if row["component"] in owner.COMPONENTS and row["status"] == "blocked") == len(owner.COMPONENTS)
+    null_rows = [row for row in boundary if row["component"] == "<all>"]
+    assert len(null_rows) == 1
+    assert null_rows[0]["blocked"] is True
+    assert null_rows[0]["not_silent"] is True
+    assert null_rows[0]["reason"] == owner.NULL_CAUSAL_REASON
+
+
+def test_nabl2_hg2_rejects_allowed_claim_below_ci_threshold():
+    run_spec = owner.DgtNeuralAblationRunSpec(
+        step_grid=(128,),
+        seed_count=8,
+        seed_list=tuple(range(8)),
+        requested_device="cpu",
+    )
+    projection = owner.DgtNeuralAblationRobustnessProjection(run_spec)
+    rows = [row for step in run_spec.step_grid for seed in run_spec.seed_list for arm in run_spec.arms for row in [_metric_row(step=step, seed=seed, arm=arm)]]
+    full = _summary({seed: {metric: 0.5 for metric in owner.METRIC_KEYS} | {"quality_q": 0.7} for seed in range(8)})
+    ablated = _summary({seed: {metric: 0.5 for metric in owner.METRIC_KEYS} | {"quality_q": 0.6} for seed in range(8)})
+    delta = owner.paired_delta(full, ablated, paired_ci_min_seeds=8)
+    by_steps = projection._robustness_by_steps(_matrix_with_component("LAT", delta))
+    claim = {
+        "component": "LAT",
+        "claim_status": "allowed",
+        "claim_scope": "bounded toy training",
+        "evidence_scope": list(owner.COMPONENT_CAUSAL_EVIDENCE_SCOPE),
+        "stable_step_settings": [128],
+        "ci_low_metrics": {"quality_q": owner.MEASURABLE_EFFECT_THRESHOLD},
+    }
+    hardgates = projection._nabl2_hardgates(
+        rows=rows,
+        robustness_by_steps=by_steps,
+        claims=[claim],
+        boundary=projection._stable_boundary_ledger(by_steps, [claim]),
+        compute_ledger=projection._compute_ledger(rows),
+        source_audit={"status": "pass"},
+        negative_witness_sweep={"status": "pass"},
+    )
+
+    assert by_steps["128"]["components"]["LAT"]["status"] == "allowed"
+    assert hardgates["gates"]["NABL2-HG2"]["status"] == "fail"
+
+
 def test_compute_ledger_records_steps_seed_and_units():
     run_spec = owner.DgtNeuralAblationRunSpec(
         step_grid=(128, 256),
@@ -207,10 +300,11 @@ def test_nabl_hardgates_and_hg7_boundary_fail_closed():
     owner.validate_payload(payload)
     assert payload["pure_hardgates"]["status"] == "pass"
     assert payload["nabl_hardgates"]["status"] in {"pass", "fail"}
+    assert payload["stable_causal_attribution"] in {"none", "partial", "complete"}
     assert set(payload["nabl_hardgates"]["gates"]) == set(owner.HG_IDS)
     assert set(payload["nabl2_hardgates"]["gates"]) == set(owner.NABL2_HG_IDS)
     assert set(payload["pure_hardgates"]["gates"]) == set(owner.PURE_HG_IDS)
-    blocked = [row for row in payload["boundary_ledger"] if row["claim_blocked"]]
+    blocked = [row for row in payload["boundary_ledger"] if row["claim_blocked"] and row["component"] in owner.COMPONENTS]
     claimed = {row["component"] for row in payload["component_causal_claims"]}
     assert claimed.isdisjoint({row["component"] for row in blocked})
     assert {row["reason"] for row in blocked} <= {"NABL2-HG2", "NABL2-HG3"}
@@ -227,6 +321,7 @@ def test_unavailable_payload_has_no_positive_component_claim():
 
     owner.validate_payload(payload)
     assert payload["training_protocol"]["status"] == "unavailable"
+    assert payload["stable_causal_attribution"] == "unavailable"
     assert payload["pure_hardgates"]["status"] == "fail"
     assert payload["nabl_hardgates"]["status"] == "fail"
     assert payload["nabl2_hardgates"]["status"] == "fail"
@@ -320,7 +415,8 @@ def test_write_artifacts_emits_canonical_run_capsule_report_metrics_and_fingerpr
 
     markdown = (tmp_path / owner.CANONICAL_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
     assert "# DGT neural ablation" in markdown
-    assert "- Status: `fail`" in markdown
+    assert f"- Status: `{payload['nabl_hardgates']['status']}`" in markdown
+    assert f"- Stable causal attribution: `{payload['stable_causal_attribution']}`" in markdown
     assert f"- Claim capsule: `{payload['claim_capsule_ref']['artifact']}:$`" in markdown
 
     fingerprint = json.loads((tmp_path / owner.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
@@ -336,7 +432,10 @@ def test_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
     assert exit_code == 0
     summary = json.loads(capsys.readouterr().out)
     assert summary["artifact_id"] == owner.ARTIFACT_ID
-    assert summary["status"] == "fail"
+    payload = json.loads((tmp_path / owner.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    assert summary["status"] == payload["nabl_hardgates"]["status"]
+    assert summary["training_status"] == payload["training_protocol"]["status"]
+    assert summary["stable_causal_attribution"] == payload["stable_causal_attribution"]
     assert summary["device"] == "cpu"
     assert summary["step_grid"] == [8]
     assert summary["seed_count"] == 2

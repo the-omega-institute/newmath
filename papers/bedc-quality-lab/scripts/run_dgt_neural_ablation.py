@@ -68,6 +68,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "artifact_id": payload["artifact_id"],
                 "status": payload["nabl_hardgates"]["status"],
                 "pure_status": payload["pure_hardgates"]["status"],
+                "training_status": payload["training_protocol"]["status"],
+                "stable_causal_attribution": payload["stable_causal_attribution"],
                 "device": payload["training_protocol"]["resolved_device"],
                 "step_grid": payload["training_protocol"].get("step_grid"),
                 "seed_count": payload["training_protocol"].get("seed_count"),

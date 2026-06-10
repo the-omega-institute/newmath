@@ -3249,6 +3249,7 @@ def test_dgt_neural_ablation_canonical_spec_is_single_auxiliary_owner():
         "metric_delta_matrix",
         "paired_delta_matrix",
         "robustness_by_steps",
+        "stable_causal_attribution",
         "stable_component_causal_claims",
         "stable_boundary_ledger",
         "compute_ledger",
