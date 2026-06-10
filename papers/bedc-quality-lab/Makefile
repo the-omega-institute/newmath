@@ -66,4 +66,4 @@ probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py
 
 clean-reports:
-	rm -f reports/example_envelope.json reports/quality_report.md reports/bedc_jepa_boundary_envelope.json reports/bedc_jepa_boundary_report.md reports/bedc_jepa_four_system_experiment.json reports/bedc_jepa_artifact_manifest.json reports/bedc_jepa_quality_backend_candidate.json reports/bedc_jepa_public_minigrid_probe.json reports/bedc_jepa_torch_objective.json
+	rm -f reports/*.json reports/*.md
