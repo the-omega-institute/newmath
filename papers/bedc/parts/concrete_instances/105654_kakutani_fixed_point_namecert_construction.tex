@@ -58,6 +58,17 @@ Use the carrier rows $D,G,V$ from \autoref{def:kakutani-fixed-point-carrier}. Th
 The only downstream consumers are the selector windows $S$ and the fixed-point witness ledger $F$. The structural rows $H,C,P,N$ then keep the value evidence tied to the same finite NameCert route rather than an ambient hyperspace or choice construction.
 \end{proof}
 
+\begin{theorem}[Kakutani Brouwer Schauder handoff]\label{thm:kakutani-fixed-point-brouwer-schauder-handoff}
+Every accepted $\KakutaniFixedPointUp$ fixed-point read that is later consumed by $\BrouwerFixedPointUp$, $\SchauderFixedPointUp$, $\MarkovKakutaniFixedPointUp$, or $\NashEquilibriumUp$ factors first through the compact-convex domain row $D$, the finite set-valued graph row $G$, the nonempty compact convex value row $V$, approximate selector windows $S$, and the fixed-point witness ledger $F$ of \autoref{def:kakutani-fixed-point-carrier}. The handoff reaches the Brouwer and Schauder fixed-point surfaces only through those displayed rows together with $H,C,P,N$; it exports no host choice selector, unrestricted hyperspace compactness theorem, selected fixed point, ambient $\RealUp$ completeness theorem, or equilibrium/common-fixed-point shortcut.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations of \autoref{def:kakutani-fixed-point-carrier} and \autoref{thm:kakutani-fixed-point-namecert-obligations}. These fix the only admissible rows for the domain, graph, values, selectors, witness ledger, transport, replay, provenance, and local naming.
+
+Next apply \autoref{thm:kakutani-fixed-point-graph-selector-nonescape}. A Brouwer or Schauder consumer can read selector data only after $D,G,V$ have been displayed, and the selector window can be repacked into $F$ only as finite approximate self-contact data.
+
+Finally use \autoref{thm:kakutani-fixed-point-convex-compact-value-scope}. The value row remains a displayed nonempty compact convex row relative to the graph and domain. Therefore downstream equilibrium or common-fixed-point consumers receive the Brouwer/Schauder handoff through the finite Kakutani route, with no host selector, hyperspace compactness oracle, chosen fixed point, or ambient real-completeness principle.
+\end{proof}
+
 \falsifiablePrediction{Every $\KakutaniFixedPointUp$ fixed-point read factors through a compact convex domain row, finite set-valued graph row, nonempty compact convex value row, approximate selector windows, fixed-point witness ledger, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{compact, convexset, schauder-fixed-point, fixed-point-iteration, metricspace: $\KakutaniFixedPointUp$ is not bijective to any listed sibling because it jointly carries a compact convex domain, set-valued graph, nonempty compact convex values, approximate selector windows, fixed-point witness ledger, transport, continuation, provenance, and local naming.}
@@ -67,7 +78,7 @@ The only downstream consumers are the selector windows $S$ and the fixed-point w
 \begin{closurestatus}{\KakutaniFixedPointUp}
   \constructivestory{A $\KakutaniFixedPointUp$ packet is generated from finite rows for a compact convex domain, set-valued graph, nonempty compact convex values, approximate selector windows, a fixed-point witness ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kakutani-fixed-point-carrier}, \autoref{thm:kakutani-fixed-point-namecert-obligations}, \autoref{thm:kakutani-fixed-point-graph-selector-nonescape}, and \autoref{thm:kakutani-fixed-point-convex-compact-value-scope} bind the finite Kakutani fixed-point certificate surface.}
+  \scopeclosed{\autoref{def:kakutani-fixed-point-carrier}, \autoref{thm:kakutani-fixed-point-namecert-obligations}, \autoref{thm:kakutani-fixed-point-graph-selector-nonescape}, \autoref{thm:kakutani-fixed-point-convex-compact-value-scope}, and \autoref{thm:kakutani-fixed-point-brouwer-schauder-handoff} bind the finite Kakutani fixed-point certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host choice, full classical compactness, ambient real completeness, unrestricted hyperspace compactness, bridge checking, or Lean verification.}
