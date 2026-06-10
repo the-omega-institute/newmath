@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRankOperatorUp$}
+\label{ch:concrete-instances-finite-rank-operator-namecert}
+\origin{human}
+
+Following finite-dimensional linear algebra and bounded-operator theory, the $\FiniteRankOperatorUp$ packet records the displayed finite-rank route by which a linear operator factors through a finite-dimensional image row before compactness, spectral, Hilbert, or functional-analysis consumers may read it. It sits after the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the finite matrix readback of \autoref{ch:concrete-instances-matrix-namecert}, the bounded-linear-operator boundary of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, and the compact-operator sibling of \autoref{ch:concrete-instances-compactoperator-namecert}. The packet names the finite image ledger and its operator handoff; it does not assert compact approximation, spectral decomposition, a selected basis for every image, quotient function equality, or an ambient functional-analysis theorem.
+
+\begin{definition}[Finite-rank operator carrier]
+\label{def:finite-rank-operator-carrier}
+A $\FiniteRankOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,Y,T,I,B,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the source and target $\VecSpaceUp$ rows.
+\item $T$ is the $\LinearMapUp$ row from $X$ to $Y$; when norm control is requested, the same row is also read through $\BoundedLinearOperatorUp$.
+\item $I$ is the finite image-window row, listing displayed target vectors that span the image of $T$ for the requested source window.
+\item $B$ is the finite-dimensional basis or spanning ledger for $I$, read only as BEDC rows and not as a host basis selector.
+\item $M$ is the optional $\MatrixUp$ presentation row tying the displayed coefficients of $T$ to the finite image ledger.
+\item $E$ is the exactness row saying that every displayed operator value in the request lands in the span recorded by $I$ and $B$.
+\item $H$ records componentwise $\hsame$ transport for the vector-space endpoints, operator row, image ledger, basis ledger, matrix presentation, exactness row, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from an operator read through the finite image rows and back to bounded, compact, spectral, Hilbert, or functional-analysis consumers.
+\item $P$ is the $\Pkg$ provenance over $\FiniteRankOperatorUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\BoundedLinearOperatorUp$, $\CompactOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteRankOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient operator algebra, an infinite basis, a quotient representative of the image, a compactness theorem, or a spectral theorem.
+\end{definition}
+
+\begin{theorem}[Finite-rank operator NameCert obligations]
+\label{thm:finite-rank-operator-namecert-obligations}
+For every accepted $\FiniteRankOperatorUp$ carrier $R=(X,Y,T,I,B,M,E,H,C,P,N)$, the local $\NameCert_{\FiniteRankOperatorUp}$ surface consists exactly of carrier admission, source and target vector-space exposure, linear-map action exposure, finite image-window exactness, optional matrix readback compatibility, bounded-operator handoff when norm control is displayed, compact-operator handoff through the finite image rows, componentwise transport, continuation replay, provenance, and local naming.
+
+Any $\CompactOperatorUp$, $\SpectralRadiusUp$, $\HilbertUp$, or $\FunctionalAnalysisUp$ consumer that reads finite-rank data from $R$ must first pass through $X,Y,T,I,B,M,E,H,C,P,N$. The read exports no ambient compactness theorem, no selected infinite approximation scheme, no spectral decomposition, no quotient image equality, and no host operator-space object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-rank-operator-carrier}. The vector-space endpoints $X,Y$, the operator row $T$, the finite image rows $I,B$, and the exactness row $E$ are displayed before any consumer-facing row is available.
+
+Matrix compatibility is only a readback route. If $M$ is present, its coefficients are tied to the same $T,I,B$ rows; if it is absent, the carrier still exposes finite image exactness directly through $E$.
+
+Bounded and compact consumers receive only the finite route recorded by $C$ and $P$. The bounded handoff reads the norm-controlled operator row when it is displayed, while the compact handoff reads finite-rankness through the finite image ledger rather than through an ambient compactness theorem.
+
+Transport is componentwise through $H$, and naming is local through $N$. Since no carrier coordinate stores an infinite basis, a selected approximation sequence, quotient image equality, spectral decomposition, or host operator space, the obligations listed above exhaust the $\FiniteRankOperatorUp$ naming surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteRankOperatorUp$ consumer must display $\VecSpaceUp$, $\LinearMapUp$, finite image-window, spanning-ledger, exactness, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows before finite-rank operator data is available.}
+
+\independenceWitness{vecspace, linearmap, matrix, boundedlinearoperator, compactoperator: $\FiniteRankOperatorUp$ is not bijective to any listed sibling because it jointly carries source and target vector rows, a linear action row, finite image-window rows, spanning or basis ledger rows, optional matrix readback, exactness, transport, replay, provenance, and local naming in one operator-facing packet.}
+
+\closureat{FiniteRankOperatorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRankOperatorUp}
+  \constructivestory{A $\FiniteRankOperatorUp$ packet is generated from source and target VecSpaceUp rows, a LinearMapUp action row, a finite image-window row, a spanning or basis ledger, optional MatrixUp readback, finite image exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-rank-operator-carrier}, \autoref{thm:finite-rank-operator-namecert-obligations}, the falsifiable prediction, and the independence witness seed the finite-rank operator interface over displayed vector-space, linear-map, matrix, bounded-operator, compact-operator, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim compact approximation, spectral decomposition, selected infinite bases, quotient image equality, an ambient operator-space object, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite image exactness, optional matrix compatibility, bounded and compact handoff, classifier transport, and consumer non-escape for BEDC.Derived.FiniteRankOperatorUp.}
+\end{closurestatus}
