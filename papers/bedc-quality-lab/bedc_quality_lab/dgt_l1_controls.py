@@ -11,6 +11,7 @@ import inspect
 import json
 import math
 from pathlib import Path
+import random
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
@@ -169,14 +170,32 @@ def default_task_spec(config: L1TrainingConfig | None = None) -> L1TinySequenceT
 
 def _device_name(torch: Any, requested_device: str) -> str:
     if requested_device == "auto":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        return "mps" if mps is not None and mps.is_available() else "cpu"
+        return "cpu"
     if requested_device == "mps":
         mps = getattr(getattr(torch, "backends", None), "mps", None)
         return "mps" if mps is not None and mps.is_available() else "cpu"
     if requested_device != "cpu":
         raise ValueError(f"unsupported requested device: {requested_device}")
     return "cpu"
+
+
+def _seed_all_rngs(torch: Any, seed: int) -> None:
+    random.seed(seed)
+    try:
+        numpy = importlib.import_module("numpy")
+    except Exception:
+        numpy = None
+    if numpy is not None:
+        numpy.random.seed(seed)
+    torch.manual_seed(seed)
+    mps = getattr(torch, "mps", None)
+    mps_manual_seed = getattr(mps, "manual_seed", None)
+    if callable(mps_manual_seed):
+        mps_manual_seed(seed)
+    cuda = getattr(torch, "cuda", None)
+    cuda_manual_seed_all = getattr(cuda, "manual_seed_all", None)
+    if callable(cuda_manual_seed_all):
+        cuda_manual_seed_all(seed)
 
 
 def _make_sequences(torch: Any, *, seed: int, examples: int, spec: L1TinySequenceTaskSpec, device_name: str, ood: bool = False) -> tuple[Any, Any]:
@@ -245,7 +264,7 @@ def _train_arm(
     requested_device: str,
     device_name: str,
 ) -> dict[str, Any]:
-    torch.manual_seed(seed + ARM_IDS.index(arm_id) * 997)
+    _seed_all_rngs(torch, seed + ARM_IDS.index(arm_id) * 997)
     model = _TinySequenceModel(torch, arm_id=arm_id, vocab_size=task_spec.vocab_size, device_name=device_name)
     before = _snapshot(torch, model)
     x_train, y_train = _make_sequences(torch, seed=seed, examples=task_spec.train_examples, spec=task_spec, device_name=device_name)
@@ -538,7 +557,7 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "run_local_summary": f"{RUN_ROOT}/summary.json",
         "run_local_report": f"{RUN_ROOT}/report.md",
         "seed_policy": {"base_seed": BASE_SEED, "deterministic_seeds": list(DEFAULT_SEEDS), "minimum_seed_count": 8},
-        "device_policy": {"requested_device": requested_device, "fallback": "mps-or-cpu"},
+        "device_policy": {"requested_device": requested_device, "canonical_default": "cpu", "mps_allowed_when_explicit": True},
         "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
     }
 

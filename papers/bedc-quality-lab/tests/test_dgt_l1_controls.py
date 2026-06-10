@@ -253,6 +253,44 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert run_artifacts["claim_capsule"] in json.dumps(fingerprint, sort_keys=True)
 
 
+def test_dgt_l1_controls_regeneration_is_byte_stable(tmp_path, capsys):
+    config_args = [
+        "--root",
+        str(tmp_path),
+        "--generated-at",
+        "fixture-time",
+        "--seeds",
+        "1174,1175,1176,1177,1178,1179,1180,1181",
+        "--training-steps",
+        "8",
+        "--train-examples",
+        "64",
+        "--eval-examples",
+        "64",
+    ]
+    run_artifacts = l1.run_artifacts_payload()
+    checked_paths = [
+        tmp_path / run_artifacts["raw_metrics"],
+        tmp_path / l1.CANONICAL_JSON_ARTIFACT,
+        tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT,
+    ]
+
+    assert runner.main(config_args) == 0
+    capsys.readouterr()
+    first = {path: path.read_bytes() for path in checked_paths}
+    first_payload = json.loads((tmp_path / l1.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert runner.main(config_args) == 0
+    capsys.readouterr()
+    second = {path: path.read_bytes() for path in checked_paths}
+    second_payload = json.loads((tmp_path / l1.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert first == second
+    assert first_payload["training_arms"]["dgt_l1"]["device_requested"] == "cpu"
+    assert first_payload["training_arms"]["dgt_l1"]["device_resolved"] == "cpu"
+    assert first_payload["independent_replay"] == second_payload["independent_replay"]
+
+
 def test_l1_component_ablation_reuses_measured_owner_without_component_effects():
     payload = _payload()
     boundary = payload["component_ablation_boundary"]

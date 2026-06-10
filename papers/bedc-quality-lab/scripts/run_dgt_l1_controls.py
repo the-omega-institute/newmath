@@ -27,7 +27,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--generated-at", default=GENERATED_AT)
-    parser.add_argument("--requested-device", choices=("auto", "cpu", "mps"), default="auto")
+    parser.add_argument("--requested-device", choices=("auto", "cpu", "mps"), default="cpu")
     parser.add_argument("--seeds", default=None, help="Comma-separated deterministic seeds; default uses the canonical eight seeds.")
     parser.add_argument("--training-steps", type=int, default=None)
     parser.add_argument("--train-examples", type=int, default=None)
