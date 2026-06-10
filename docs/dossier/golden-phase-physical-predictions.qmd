@@ -36,33 +36,34 @@ a measured constant.
 
 ## Low-energy value
 
-The closed Window6 candidate is:
+The preferred low-energy electromagnetic candidate is the Window6
+local full-phase-register readout:
 
 ```text
-D_6^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
+D_{6,alpha}^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
 
-C_6^* =
+C_{6,alpha} =
   1/2
   + (1/4) cos^2(pi/phi)
-  + 1 / (D_6^* phi^5),
+  + 1 / (D_{6,alpha}^* phi^5),
 
-R_Z6^* =
+R_{6,alpha}^* =
   2 pi phi^5
-  (21 + 34 C_6^*)
+  (21 + 34 C_{6,alpha})
   /
-  (21 phi^-1 + 34 C_6^* phi^-2).
+  (21 phi^-1 + 34 C_{6,alpha} phi^-2).
 ```
 
 It gives:
 
 ```text
-R_Z6^* = 137.035999177006279...
+R_{6,alpha}^* = 137.035999177006279...
 ```
 
 The prediction surface is therefore:
 
 ```text
-alpha_EM^-1(0) -> 137.035999177006279...
+alpha_EM^-1(0) -> 137.035999177006279...    anchor-local mode
 ```
 
 where `(0)` denotes the low-energy or infrared limit. CODATA 2022 reports
@@ -72,10 +73,42 @@ by about `6.28 x 10^-12`, roughly `2.99 x 10^-4` of the quoted standard
 uncertainty. See [NIST CODATA values][nist-codata] and the
 [CODATA 2022 recommended-values paper][codata-2022].
 
-This numerical agreement is not enough by itself. If `D_6^*` is tuned after
-looking at `alpha`, it is a fit. It becomes a prediction only if the `8/9`
-coefficient is independently obtained from the Window6 eightfold boundary
-parity and the nine-dimensional hidden residual layer.
+This numerical agreement is not enough by itself. If `D_{6,alpha}^*` is
+tuned after looking at `alpha`, it is a fit. It becomes a prediction only
+if the protocol gate, closure mode, and readout mode are selected without
+using the measured value.
+
+The readout family has two closure modes and two residual readout modes.
+The phase-register readout sees the full boundary phase register
+`C_bdry ~= (Z/2Z)^3`, giving `q_2 = 8/9`. The curvature-residual readout
+quotients the locally absorbable diagonal bit `P_6^geo`, giving
+`q_2 = 4/9`. The four low-energy candidates are:
+
+```text
+local + phase-register:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27
+  R = 137.035999177006279...
+
+local + curvature-residual:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27
+  R = 137.035999178226704...
+
+walk + phase-register:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29
+  R = 137.035999178514807...
+
+walk + curvature-residual:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29
+  R = 137.035999178980968...
+```
+
+All four values are currently inside the CODATA 2022 standard uncertainty
+`2.1 x 10^-8`. Future low-energy measurements at the `10^-10` to `10^-11`
+level would distinguish the closure mode and the readout mode. The
+fine-structure constant is an electromagnetic `U(1)` phase-coupling readout,
+so the local full-phase-register branch is the natural low-energy candidate;
+the curvature-residual branch is the natural comparison for a purely
+geometric curvature target.
 
 ## Vacuum impedance
 
@@ -90,10 +123,10 @@ where `R_K = h/e^2` is the von Klitzing resistance and `Z_0` is the
 characteristic impedance of vacuum. NIST lists
 `Z_0 = 376.730313412(59) ohm` [nist-codata].
 
-Using `R_Z6^*` as the inverse coupling readout gives:
+Using `R_{6,alpha}^*` as the inverse coupling readout gives:
 
 ```text
-Z_0^Z6 = 2 R_K / R_Z6^*
+Z_0^Z6 = 2 R_K / R_{6,alpha}^*
        = 376.7303134114809... ohm.
 ```
 
@@ -123,8 +156,8 @@ Standard Model prediction, with a reported inverse value
 The falsifiable prediction is:
 
 ```text
-independent low-energy alpha measurements should converge to R_Z6^*
-after route-specific systematic errors are removed.
+independent low-energy alpha measurements should converge to one gated
+Window6 low-energy branch after route-specific systematic errors are removed.
 ```
 
 If electron `g-2`, cesium or rubidium recoil, spectroscopy, and impedance
@@ -155,9 +188,10 @@ well separated from the low-energy value near `137.036`
 The research obligation is therefore:
 
 ```text
-R_Z6^* = alpha_EM^-1(Q -> 0),
+R_{6,alpha}^* = alpha_EM^-1(Q -> 0)
+  if the low-energy representation is local full-phase-register,
 
-D_6^* -> D(Q)
+D_6(Gamma_alpha, ClosureMode, ReadoutMode) -> D(Q)
 or
 Window6 -> Window_m(Q).
 ```
@@ -229,14 +263,14 @@ discrete and hidden from continuous probes.
 
 ## Residual ladder
 
-The denominator can be written:
+In anchor-local phase-register closure the denominator can be written:
 
 ```text
-D_6^* =
+D_{6,local}^{(phase)} =
   47 + phi^-7 [1 - (1/2) phi^-10 + (8/9) phi^-20].
 ```
 
-The allowed correction exponents are:
+The anchor-local correction exponents are:
 
 ```text
 7, 17, 27, ...
@@ -248,12 +282,33 @@ or:
 7 + 10 k.
 ```
 
+Anchor-local curvature-residual closure quotients the locally absorbable
+diagonal boundary bit and changes only the third coefficient:
+
+```text
+D_{6,local}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27.
+```
+
+Walking-gate closure keeps the first two exponents and moves the third
+displayed exponent to `29`:
+
+```text
+D_{6,walk}^{(phase)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
+```
+
 This is a strong constraint. If future precision requires inserting ad hoc
 terms such as `phi^-8`, `phi^-9`, `phi^-11`, or `phi^-12`, the Window6
-interpretation fails. If residual improvement continues along
-`phi^-37`, `phi^-47`, and the same ladder, that would support the model.
+interpretation fails. If residual improvement continues along the selected
+gated ladder, that would support the model; if it requires another ladder,
+that extra structure belongs to the protocol rather than to bare Window6.
 
-The `8/9` coefficient is the key obligation. In the Window6 reading:
+The third coefficient is a readout-mode obligation. In the full
+phase-register reading:
 
 ```text
 8 = |C_bdry| = 2^3,
@@ -268,7 +323,16 @@ interpretable as:
 eightfold boundary parity / nine hidden residual degrees.
 ```
 
-The coefficient must be derived from that parity-residual structure. If it
+In the irreducible curvature-residual reading, the diagonal subgroup
+`P_6^geo ~= Z/2Z` is locally absorbable, so the visible residual phase group is
+`C_bdry / P_6^geo ~= (Z/2Z)^2`. The corresponding coefficient is:
+
+```text
+4/9 =
+  |C_bdry / P_6^geo| / N_{>=4}(6).
+```
+
+The coefficient must be derived from the chosen readout interface. If it
 remains only a fitted rational, the physical reading is not certified.
 
 ## Predictivity
@@ -454,6 +518,25 @@ The low-energy projection keeps the re-lockable residue branch and excludes
 the primitive diffusion branch. This remains a protocol-gate or NameCert
 obligation, not a closed theorem supplied by the scalar value.
 
+After the gate is chosen, there are two closure semantics. In anchor-local
+mode, Window6 remains the low-energy anchor and the selected `F_10` return is
+iterated at the same anchor:
+
+```text
+7, 17, 27, 37, ...
+```
+
+In walking-gate mode, the gate walks along the next window:
+
+```text
+7, 17, 29, ...
+```
+
+The primitive `F_11 = 89` branch would instead give a low-energy readout near
+`137.035999114014...`, about `-6.30 x 10^-8` away from the CODATA center,
+which is roughly three current standard uncertainties. This does not prove
+the square-residue gate, but it is a strong external compatibility check.
+
 The Window6 minimal closure stops at three displayed residual terms because
 the fiber multiplicities are only `2`, `3`, and `4`; equivalently the tail
 ladder has `N_{>=2}(6)`, `N_{>=3}(6)`, and `N_{>=4}(6)`, with no
@@ -465,12 +548,13 @@ therefore:
 Q_6^*(u) = q_0 + q_1 u + q_2 u^2.
 ```
 
-The coefficients are fixed by three Window6 ledger readings:
+The coefficients are fixed after choosing a readout mode:
 
 ```text
 q_0 = 1,
 q_1 = -F_2/F_3 = -1/2,
-q_2 = F_6/(F_6 + F_2) = 8/9.
+q_2^{phase} = F_6/(F_6 + F_2) = 8/9,
+q_2^{curv} = 4/9.
 ```
 
 Here `q_0 = 1` records that the `F_7` deep-tail seam appears once in the
@@ -478,8 +562,8 @@ Zeckendorf ledger. The coefficient `q_1 = -1/2` is the two-sheet overlap
 subtraction: a boundary lift has two sheets, while the quotient ledger records
 one state, giving `(1 - 2) / 2 = -1/2`.
 
-The coefficient `q_2 = 8/9` has two independent Window6 witnesses. The first
-is parity over deepest hidden tail:
+The phase-register coefficient `q_2 = 8/9` has two independent Window6
+witnesses. The first is parity over deepest hidden tail:
 
 ```text
 8 = |C_bdry| = 2^3,
@@ -503,12 +587,24 @@ Thus `8/9` is also:
 
 The same ratio is therefore seen both as eightfold boundary parity over the
 nine-dimensional deepest rational tail and as the light fiber layer over the
-heavy fiber layer. This is stronger than a single post hoc rational choice.
+heavy fiber layer. This is stronger than a single post hoc rational choice,
+but it certifies the full phase-register readout, not every possible physical
+readout.
 
-Therefore, under these Window6 residual-ledger principles:
+The curvature-residual coefficient is instead:
 
 ```text
-D_6^* =
+4/9 = |C_bdry / P_6^geo| / N_{>=4}(6).
+```
+
+This mode records only the boundary phase that cannot be absorbed by local
+geometry. It is not the preferred electromagnetic readout, but it is part of
+the physical prediction family.
+
+Therefore, under the anchor-local phase-register closure mode:
+
+```text
+D_{6,alpha}^* =
   F_9 + F_7
   + phi^{-(F_5 + F_3)}
       [1
@@ -519,14 +615,29 @@ D_6^* =
 Substituting the Fibonacci values gives:
 
 ```text
-D_6^*
+D_{6,alpha}^*
   = 47 + phi^-7 [1 - (1/2) phi^-10 + (8/9) phi^-20]
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
 ```
 
-This gives the protocol-gated Window6 minimal denominator. It is not obtained
-from the measured value of `alpha`; it is obtained from the Window6 ledger
-only after the projection gate and two-sheet sign conventions are admitted.
+The other readout branches are:
+
+```text
+D_{6,local}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27,
+
+D_{6,walk}^{(phase)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
+```
+
+These give the protocol-gated Window6 minimal denominators for the two
+closure modes and two readout modes. They are not obtained from the measured
+value of `alpha`; they are obtained from the Window6 ledger only after the
+projection gate, closure mode, readout mode, and two-sheet sign conventions
+are admitted.
 The remaining formalization obligations are:
 
 ```text
@@ -541,16 +652,21 @@ GoldenResidualLadder:
 TwoSheetMobius:
   q_1 = -1/2,
 
-ParityDeepestTailNormalization:
-  q_2 = |C_bdry| / N_{>=4}(6)
-      = #{d_6 = 2} / #{d_6 = 4}
-      = 8/9.
+ReadoutMode:
+  q_2 = 8/9 for full phase-register readout,
+  q_2 = 4/9 for irreducible curvature-residual readout,
+
+ClosureMode:
+  decide anchor-local versus walking-gate from the physical representation
+  rather than from numerical fit alone.
 ```
 
 Once these are discharged inside BEDC, the inference chain becomes:
 
 ```text
-Window6 + Gamma_alpha -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
+Window6 + Gamma_alpha + ClosureMode + ReadoutMode
+  -> D_6(Gamma_alpha, ClosureMode, ReadoutMode)
+  -> R_{6,mode}^* -> alpha_EM^-1(0)
 ```
 
 as a low-energy projection prediction, rather than:
@@ -564,8 +680,31 @@ In compact form:
 ```text
 Window6
   + Gamma_alpha
+  + local
+  + phase-register
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-27]
-  -> D_6^*.
+  -> D_{6,alpha}^*.
+
+Window6
+  + Gamma_alpha
+  + local
+  + curvature-residual
+  -> [47, phi^-7, -(1/2) phi^-17, (4/9) phi^-27]
+  -> D_{6,local}^{(curv)}.
+
+Window6
+  + Gamma_alpha
+  + walk
+  + phase-register
+  -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-29]
+  -> D_{6,walk}^{(phase)}.
+
+Window6
+  + Gamma_alpha
+  + walk
+  + curvature-residual
+  -> [47, phi^-7, -(1/2) phi^-17, (4/9) phi^-29]
+  -> D_{6,walk}^{(curv)}.
 ```
 
 The denominator is the compressed ledger:
@@ -574,23 +713,25 @@ The denominator is the compressed ledger:
 outer boundary
 + deep-tail seam
 - two-sheet alias
-+ eightfold parity / nine-dimensional residual compensation.
++ readout-mode residual compensation.
 ```
 
 Corrections beyond this displayed denominator are not pure Window6 data:
 
 ```text
-D_{6,Gamma}
-  = D_6^* + q_3 phi^-37 + q_4 phi^-47 + ...
+D_{6,mode,Gamma}
+  = D_6(Gamma_alpha, ClosureMode, ReadoutMode)
+    + protocol-controlled higher terms.
 ```
 
 The coefficients `q_3`, `q_4`, and beyond belong to cross-window protocol
-refinement. Window6 plus the low-energy gate determines the displayed minimal
-ledger; an infinite residual series needs additional protocol data.
+refinement. Window6 plus the low-energy gate, closure mode, and readout mode
+determines a displayed minimal ledger; an infinite residual series needs
+additional protocol data.
 
 ## Present status
 
-The candidate is consistent with five broad facts:
+The local full-phase-register candidate is consistent with five broad facts:
 
 - it gives the correct low-energy inverse fine-structure value within current
   CODATA uncertainty;
@@ -603,13 +744,14 @@ The candidate is consistent with five broad facts:
 
 The open obligations are equally sharp:
 
-- derive `D_6^*` from Window6 plus `Gamma_alpha` without using the measured
+- derive the four-member family
+  `D_6(Gamma_alpha, ClosureMode, ReadoutMode)` without using the measured
   value of `alpha`;
 - construct a scale-dependent `D(Q)` or `Window_m(Q)` flow;
 - bind atom recoil, electron `g-2`, spectroscopy, and impedance routes to one
   representation certificate;
-- identify whether eightfold boundary parity can leave a measurable
-  topological or coherent phase residual.
+- decide whether a physical target reads the full phase register or the
+  irreducible curvature residual.
 
 ## Compact claim
 
@@ -626,7 +768,7 @@ twist and vacuum propagation.
 The concrete low-energy prediction is:
 
 ```text
-alpha_EM^-1(0) = 137.035999177006279...
+alpha_EM^-1(0) = 137.035999177006279...    local full-phase-register
 ```
 
 with the equivalent impedance reading:

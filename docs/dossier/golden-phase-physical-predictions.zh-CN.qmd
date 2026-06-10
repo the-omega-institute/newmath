@@ -34,33 +34,33 @@ physical representation certificate, 才能把标量读数识别为测得常数.
 
 ## 低能值
 
-闭合的 Window6 候选是:
+低能电磁的首选候选是 Window6 局域锚定的全相位寄存器读数:
 
 ```text
-D_6^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
+D_{6,alpha}^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
 
-C_6^* =
+C_{6,alpha} =
   1/2
   + (1/4) cos^2(pi/phi)
-  + 1 / (D_6^* phi^5),
+  + 1 / (D_{6,alpha}^* phi^5),
 
-R_Z6^* =
+R_{6,alpha}^* =
   2 pi phi^5
-  (21 + 34 C_6^*)
+  (21 + 34 C_{6,alpha})
   /
-  (21 phi^-1 + 34 C_6^* phi^-2).
+  (21 phi^-1 + 34 C_{6,alpha} phi^-2).
 ```
 
 它给出:
 
 ```text
-R_Z6^* = 137.035999177006279...
+R_{6,alpha}^* = 137.035999177006279...
 ```
 
 因此预言面是:
 
 ```text
-alpha_EM^-1(0) -> 137.035999177006279...
+alpha_EM^-1(0) -> 137.035999177006279...    anchor-local mode
 ```
 
 其中 `(0)` 表示低能或红外极限. CODATA 2022 给出 inverse
@@ -70,9 +70,38 @@ fine-structure constant 为 `137.035999177(21)`, fine-structure constant
 [NIST CODATA values][nist-codata] 与
 [CODATA 2022 recommended-values paper][codata-2022].
 
-仅有数值一致性还不够. 如果 `D_6^*` 是看过 `alpha` 后调出来的, 它只是拟合.
-只有当 `8/9` 系数能从 Window6 的八重 boundary parity 和九维 hidden
-residual layer 中独立推出时, 它才成为预言.
+仅有数值一致性还不够. 如果 `D_{6,alpha}^*` 是看过 `alpha` 后调出来的,
+它只是拟合. 只有当 protocol gate、closure mode 与 readout mode 都不使用
+measured value 被选出时, 它才成为预言.
+
+读出族有两种 closure mode 与两种 residual readout mode. phase-register
+readout 读取完整 boundary phase register `C_bdry ~= (Z/2Z)^3`, 给出
+`q_2 = 8/9`. curvature-residual readout 则 quotient 掉局域可吸收的
+diagonal bit `P_6^geo`, 给出 `q_2 = 4/9`. 四个低能候选是:
+
+```text
+local + phase-register:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27
+  R = 137.035999177006279...
+
+local + curvature-residual:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27
+  R = 137.035999178226704...
+
+walk + phase-register:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29
+  R = 137.035999178514807...
+
+walk + curvature-residual:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29
+  R = 137.035999178980968...
+```
+
+四个值目前都落在 CODATA 2022 标准不确定度 `2.1 x 10^-8` 内. 未来如果低能测量
+达到 `10^-10` 到 `10^-11` 量级, 就能区分 closure mode 与 readout mode.
+fine-structure constant 是 electromagnetic `U(1)` phase-coupling readout,
+所以 local full-phase-register branch 是自然的低能候选; curvature-residual
+branch 则更像纯几何曲率目标的比较项.
 
 ## 真空阻抗
 
@@ -86,10 +115,10 @@ alpha_EM^-1 = 2 R_K / Z_0,
 其中 `R_K = h/e^2` 是 von Klitzing resistance, `Z_0` 是真空特性阻抗.
 NIST 列出 `Z_0 = 376.730313412(59) ohm` [nist-codata].
 
-把 `R_Z6^*` 当作 inverse coupling readout, 得到:
+把 `R_{6,alpha}^*` 当作 inverse coupling readout, 得到:
 
 ```text
-Z_0^Z6 = 2 R_K / R_Z6^*
+Z_0^Z6 = 2 R_K / R_{6,alpha}^*
        = 376.7303134114809... ohm.
 ```
 
@@ -115,7 +144,8 @@ fine-structure constant 测量, 并把它作为 Standard Model 一致性检验
 可反证预言是:
 
 ```text
-独立低能 alpha 测量在消除各自系统误差后, 应向 R_Z6^* 收敛.
+独立低能 alpha 测量在消除各自系统误差后, 应向一个 gated Window6
+低能分支收敛.
 ```
 
 如果 electron `g-2`、cesium/rubidium recoil、spectroscopy 与 impedance
@@ -142,9 +172,10 @@ alpha^-1(M_Z^2) = 128.946 +/- 0.015,
 研究义务因此是:
 
 ```text
-R_Z6^* = alpha_EM^-1(Q -> 0),
+R_{6,alpha}^* = alpha_EM^-1(Q -> 0)
+  if the low-energy representation is local full-phase-register,
 
-D_6^* -> D(Q)
+D_6(Gamma_alpha, ClosureMode, ReadoutMode) -> D(Q)
 or
 Window6 -> Window_m(Q).
 ```
@@ -209,14 +240,14 @@ boundary-condition-sensitive 或 coherent phase-residual experiments 显现.
 
 ## Residual 阶梯
 
-分母可写为:
+在 anchor-local phase-register closure mode 下, 分母可写为:
 
 ```text
-D_6^* =
+D_{6,local}^{(phase)} =
   47 + phi^-7 [1 - (1/2) phi^-10 + (8/9) phi^-20].
 ```
 
-允许的修正指数是:
+anchor-local 修正指数是:
 
 ```text
 7, 17, 27, ...
@@ -228,11 +259,30 @@ D_6^* =
 7 + 10 k.
 ```
 
+anchor-local curvature-residual closure quotient 掉局域可吸收的 diagonal
+boundary bit, 只改变第三个系数:
+
+```text
+D_{6,local}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27.
+```
+
+walking-gate closure 保留前两个指数, 并把第三个展示指数移动到 `29`:
+
+```text
+D_{6,walk}^{(phase)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
+```
+
 这是一条强约束. 如果未来精度要求插入 `phi^-8`、`phi^-9`、`phi^-11`
 或 `phi^-12` 这样的临时项, Window6 解释就失败. 如果 residual improvement
-继续沿着 `phi^-37`、`phi^-47` 和同一阶梯前进, 那会支持模型.
+继续沿选定的 gated ladder 前进, 那会支持模型; 如果它要求另一条 ladder,
+额外结构就属于 protocol, 而不是裸 Window6.
 
-关键义务是 `8/9` 系数. 在 Window6 读法里:
+第三系数是 readout-mode 义务. 在 full phase-register 读法里:
 
 ```text
 8 = |C_bdry| = 2^3,
@@ -246,7 +296,16 @@ D_6^* =
 eightfold boundary parity / nine hidden residual degrees.
 ```
 
-这个系数必须从 parity-residual structure 推出. 如果它只是一个 fitted rational,
+在 irreducible curvature-residual 读法里, diagonal subgroup
+`P_6^geo ~= Z/2Z` 可被局域几何吸收, 所以可见 residual phase group 是
+`C_bdry / P_6^geo ~= (Z/2Z)^2`. 对应系数为:
+
+```text
+4/9 =
+  |C_bdry / P_6^geo| / N_{>=4}(6).
+```
+
+系数必须从选定 readout interface 推出. 如果它只是一个 fitted rational,
 物理读法就没有被认证.
 
 ## 预测性
@@ -419,6 +478,24 @@ ord_571(144) = 285.
 低能 projection 保留可二层重锁定的 residue branch, 排除 primitive diffusion
 branch. 这仍是 protocol-gate 或 NameCert 义务, 不是由标量值直接给出的闭合定理.
 
+选定 gate 后, 仍有两种 closure semantics. 在 anchor-local mode 中, Window6
+保持为低能锚点, 被选中的 `F_10` return 在同一锚点反复迭代:
+
+```text
+7, 17, 27, 37, ...
+```
+
+在 walking-gate mode 中, gate 沿下一窗口继续行走:
+
+```text
+7, 17, 29, ...
+```
+
+如果选择 primitive `F_11 = 89` 分支, 低能读数会接近
+`137.035999114014...`, 与 CODATA 中心值相差约 `-6.30 x 10^-8`,
+大约是当前标准不确定度的三倍. 这不是 square-residue gate 的证明, 但它是很强的
+外部相容性检查.
+
 Window6 最小闭包停在三个展示 residual terms, 因为 fiber multiplicities 只有
 `2`, `3`, `4`; 等价地说, tail ladder 只有 `N_{>=2}(6)`,
 `N_{>=3}(6)`, `N_{>=4}(6)`, 没有 Window6 内部的 `N_{>=5}(6)`.
@@ -429,19 +506,21 @@ Window6 polynomial 是:
 Q_6^*(u) = q_0 + q_1 u + q_2 u^2.
 ```
 
-系数由三条 Window6 ledger readings 固定:
+系数在选定 readout mode 后固定:
 
 ```text
 q_0 = 1,
 q_1 = -F_2/F_3 = -1/2,
-q_2 = F_6/(F_6 + F_2) = 8/9.
+q_2^{phase} = F_6/(F_6 + F_2) = 8/9,
+q_2^{curv} = 4/9.
 ```
 
 这里 `q_0 = 1` 表示 `F_7` deep-tail seam 在 Zeckendorf ledger 中出现一次.
 `q_1 = -1/2` 是 two-sheet overlap subtraction: boundary lift 有两个 sheet,
 而 quotient ledger 只记录一个状态, 因而给出 `(1 - 2) / 2 = -1/2`.
 
-`q_2 = 8/9` 有两个独立 Window6 见证. 第一个是 parity over deepest hidden tail:
+phase-register 系数 `q_2 = 8/9` 有两个独立 Window6 见证. 第一个是
+parity over deepest hidden tail:
 
 ```text
 8 = |C_bdry| = 2^3,
@@ -464,12 +543,22 @@ Z_6(q) = 8*2^q + 4*3^q + 9*4^q
 ```
 
 同一个比例同时作为八重 boundary parity / 九维 deepest rational tail, 以及
-light fiber layer / heavy fiber layer 出现. 这比单独挑一个 rational 更强.
+light fiber layer / heavy fiber layer 出现. 这比单独挑一个 rational 更强,
+但它认证的是 full phase-register readout, 不是所有可能的物理读出.
 
-于是, 在这些 Window6 residual-ledger principles 下:
+curvature-residual 系数则是:
 
 ```text
-D_6^* =
+4/9 = |C_bdry / P_6^geo| / N_{>=4}(6).
+```
+
+这个 mode 只记录不能被局域几何吸收的 boundary phase. 它不是首选的
+electromagnetic readout, 但属于物理预言族.
+
+于是, 在 anchor-local phase-register closure mode 下:
+
+```text
+D_{6,alpha}^* =
   F_9 + F_7
   + phi^{-(F_5 + F_3)}
       [1
@@ -480,13 +569,27 @@ D_6^* =
 代入 Fibonacci 值得到:
 
 ```text
-D_6^*
+D_{6,alpha}^*
   = 47 + phi^-7 [1 - (1/2) phi^-10 + (8/9) phi^-20]
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
 ```
 
-这给出 protocol-gated Window6 最小分母. 它不是从 measured `alpha` 得到的;
-它是在接受 projection gate 与 two-sheet sign conventions 后由 Window6 ledger
+其他读出分支是:
+
+```text
+D_{6,local}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27,
+
+D_{6,walk}^{(phase)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(curv)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
+```
+
+这给出两个 closure mode 与两个 readout mode 下的 protocol-gated Window6
+最小分母. 它们不是从 measured `alpha` 得到的; 它们是在接受 projection gate、
+closure mode、readout mode 与 two-sheet sign conventions 后由 Window6 ledger
 给出的. 剩余形式化义务是:
 
 ```text
@@ -501,16 +604,21 @@ GoldenResidualLadder:
 TwoSheetMobius:
   q_1 = -1/2,
 
-ParityDeepestTailNormalization:
-  q_2 = |C_bdry| / N_{>=4}(6)
-      = #{d_6 = 2} / #{d_6 = 4}
-      = 8/9.
+ReadoutMode:
+  q_2 = 8/9 for full phase-register readout,
+  q_2 = 4/9 for irreducible curvature-residual readout,
+
+ClosureMode:
+  decide anchor-local versus walking-gate from the physical representation
+  rather than from numerical fit alone.
 ```
 
 一旦这些义务在 BEDC 内部消解, 推理链就变成:
 
 ```text
-Window6 + Gamma_alpha -> D_6^* -> R_Z6^* -> alpha_EM^-1(0)
+Window6 + Gamma_alpha + ClosureMode + ReadoutMode
+  -> D_6(Gamma_alpha, ClosureMode, ReadoutMode)
+  -> R_{6,mode}^* -> alpha_EM^-1(0)
 ```
 
 作为低能投影预言, 而不是:
@@ -524,8 +632,31 @@ measured alpha -> fitted D_6.
 ```text
 Window6
   + Gamma_alpha
+  + local
+  + phase-register
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-27]
-  -> D_6^*.
+  -> D_{6,alpha}^*.
+
+Window6
+  + Gamma_alpha
+  + local
+  + curvature-residual
+  -> [47, phi^-7, -(1/2) phi^-17, (4/9) phi^-27]
+  -> D_{6,local}^{(curv)}.
+
+Window6
+  + Gamma_alpha
+  + walk
+  + phase-register
+  -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-29]
+  -> D_{6,walk}^{(phase)}.
+
+Window6
+  + Gamma_alpha
+  + walk
+  + curvature-residual
+  -> [47, phi^-7, -(1/2) phi^-17, (4/9) phi^-29]
+  -> D_{6,walk}^{(curv)}.
 ```
 
 这个分母是压缩账本:
@@ -534,22 +665,24 @@ Window6
 outer boundary
 + deep-tail seam
 - two-sheet alias
-+ eightfold parity / nine-dimensional residual compensation.
++ readout-mode residual compensation.
 ```
 
 超过这个展示分母的修正项不再是纯 Window6 数据:
 
 ```text
-D_{6,Gamma}
-  = D_6^* + q_3 phi^-37 + q_4 phi^-47 + ...
+D_{6,mode,Gamma}
+  = D_6(Gamma_alpha, ClosureMode, ReadoutMode)
+    + protocol-controlled higher terms.
 ```
 
 `q_3`, `q_4` 及之后的系数属于跨窗口 protocol refinement. Window6 加低能
-gate 决定展示出的最小 ledger; 无限 residual series 需要额外 protocol data.
+gate、closure mode 与 readout mode 决定一个展示出的最小 ledger; 无限 residual
+series 需要额外 protocol data.
 
 ## 当前状态
 
-这个候选与五类事实相容:
+local full-phase-register 候选与五类事实相容:
 
 - 它在当前 CODATA 不确定度内给出正确的低能 inverse fine-structure value;
 - 它通过 `2 pi` 与 `cos^2(pi/phi)` 自然落在 electromagnetic `U(1)` phase interface 上;
@@ -559,11 +692,12 @@ gate 决定展示出的最小 ledger; 无限 residual series 需要额外 protoc
 
 未闭合义务同样清楚:
 
-- 不使用 measured `alpha`, 从 Window6 加 `Gamma_alpha` 推出 `D_6^*`;
+- 不使用 measured `alpha`, 推出四成员族
+  `D_6(Gamma_alpha, ClosureMode, ReadoutMode)`;
 - 构造 scale-dependent 的 `D(Q)` 或 `Window_m(Q)` flow;
 - 把 atom recoil、electron `g-2`、spectroscopy 与 impedance routes 绑定到同一个
   representation certificate;
-- 判断八重 boundary parity 是否能留下可测的 topological 或 coherent phase residual.
+- 判断物理目标读取 full phase register 还是 irreducible curvature residual.
 
 ## 紧凑表述
 
@@ -580,7 +714,7 @@ impedance-matching readout.
 具体低能预言是:
 
 ```text
-alpha_EM^-1(0) = 137.035999177006279...
+alpha_EM^-1(0) = 137.035999177006279...    local full-phase-register
 ```
 
 等价的阻抗读数是:
