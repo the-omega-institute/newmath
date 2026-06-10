@@ -5482,6 +5482,7 @@ import BEDC.Derived.KonigLemmaUp.TasteGate
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KreinMilmanFiniteExtremeUp.TasteGate
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
+import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KummerTestUp.TasteGate
@@ -9595,6 +9596,7 @@ import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
 import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
+import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
 import BEDC.Derived.VariationOfConstantsUp.TasteGate
