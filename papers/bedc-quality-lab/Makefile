@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-vjepa2-native-boundary build-vjepa2-near-native-reproduction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-vjepa2-native-boundary build-vjepa2-near-native-reproduction run-public-minigrid-native run-public-minigrid-native-seed-sweep build-public-minigrid-debt-closure build-public-minigrid-calibration-extension export-public-minigrid-result import-public-minigrid-result probe-public-jepa-baseline run-public-jepa-structure-adapter run-public-jepa-ac-giant-adapter build-public-jepa-adapter-comparison build-public-jepa-cuda-comparison export-public-jepa-baseline-result import-public-jepa-baseline-result build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -32,6 +32,45 @@ build-vjepa2-native-boundary:
 
 build-vjepa2-near-native-reproduction:
 	python3 scripts/build_vjepa2_ac_near_native_reproduction.py
+
+run-public-minigrid-native:
+	python3 scripts/run_public_minigrid_native_benchmark.py
+
+run-public-minigrid-native-seed-sweep:
+	python3 scripts/run_public_minigrid_native_seed_sweep.py
+
+build-public-minigrid-debt-closure:
+	python3 scripts/build_public_minigrid_debt_closure.py
+
+build-public-minigrid-calibration-extension:
+	python3 scripts/build_public_minigrid_calibration_extension.py
+
+export-public-minigrid-result:
+	python3 scripts/export_public_minigrid_benchmark_result.py
+
+import-public-minigrid-result:
+	python3 scripts/import_public_minigrid_benchmark_metrics.py
+
+probe-public-jepa-baseline:
+	python3 scripts/probe_public_jepa_baseline.py
+
+run-public-jepa-structure-adapter:
+	python3 scripts/run_public_jepa_structure_adapter.py
+
+run-public-jepa-ac-giant-adapter:
+	python3 scripts/run_public_jepa_ac_giant_adapter.py
+
+build-public-jepa-adapter-comparison:
+	python3 scripts/build_public_jepa_adapter_comparison.py
+
+build-public-jepa-cuda-comparison:
+	python3 scripts/build_public_jepa_cuda_comparison.py
+
+export-public-jepa-baseline-result:
+	python3 scripts/export_public_jepa_baseline_result.py
+
+import-public-jepa-baseline-result:
+	python3 scripts/import_public_jepa_baseline_metrics.py
 
 build-public-jepa-registry:
 	python3 scripts/build_public_jepa_baseline_registry.py

@@ -55,6 +55,19 @@ Main record-building commands:
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_latent_prediction.py
 .\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_native_boundary.py
 .\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_near_native_reproduction.py
+.\.venv-cuda\Scripts\python.exe scripts\run_public_minigrid_native_benchmark.py
+.\.venv-cuda\Scripts\python.exe scripts\run_public_minigrid_native_seed_sweep.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_minigrid_debt_closure.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_minigrid_calibration_extension.py
+.\.venv-cuda\Scripts\python.exe scripts\export_public_minigrid_benchmark_result.py
+.\.venv-cuda\Scripts\python.exe scripts\import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
+.\.venv-cuda\Scripts\python.exe scripts\probe_public_jepa_baseline.py
+.\.venv-cuda\Scripts\python.exe scripts\run_public_jepa_structure_adapter.py
+.\.venv-cuda\Scripts\python.exe scripts\run_public_jepa_ac_giant_adapter.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_adapter_comparison.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_cuda_comparison.py
+.\.venv-cuda\Scripts\python.exe scripts\export_public_jepa_baseline_result.py
+.\.venv-cuda\Scripts\python.exe scripts\import_public_jepa_baseline_metrics.py <baseline-result.json>
 .\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_baseline_registry.py
 .\.venv-cuda\Scripts\python.exe scripts\build_public_baseline_native_metric_contract.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_external_run_kit.py
