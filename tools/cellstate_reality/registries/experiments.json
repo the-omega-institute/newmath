@@ -74,6 +74,24 @@
           "promotion.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165177_pluripotency_break_decomposition",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165177_pluripotency_break_decomposition.py",
+      "claim_id": "cellstate.identity-samesig.break-decomposition.gse165177",
+      "required_data": [
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "pluripotency.marker.coverage",
+          "donor.decomposition.produced",
+          "negative_evidence.structured",
+          "promotion.boundary"
+        ]
+      }
     }
   ]
 }
