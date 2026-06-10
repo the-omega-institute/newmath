@@ -102,7 +102,7 @@ build-bedc-jepa-quality-lab-export:
 build-bedc-jepa-paper-writeback-packet:
 	python3 scripts/build_bedc_jepa_paper_writeback_packet.py
 
-build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-public-baseline-native-metric-template build-vjepa2-native-boundary build-vjepa2-near-native-reproduction build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-review-bundle build-bedc-jepa-manifest
+build-bedc-jepa-rollup: export-public-jepa-baseline-result build-public-jepa-registry build-public-baseline-native-metric-contract build-public-baseline-native-metric-template build-vjepa2-native-boundary build-vjepa2-near-native-reproduction build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-review-bundle build-bedc-jepa-manifest
 
 probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py
