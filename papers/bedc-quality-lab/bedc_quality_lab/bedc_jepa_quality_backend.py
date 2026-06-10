@@ -29,6 +29,11 @@ METRICS = (
     "native_public_benchmark_closed",
     "public_minigrid_calibration_pareto_closed",
     "public_minigrid_calibration_extension_closed",
+    "public_minigrid_calibration_row_count",
+    "public_minigrid_calibration_executed_row_count",
+    "public_minigrid_calibration_source_gap_row_count",
+    "public_minigrid_calibration_risk_reduction_mean",
+    "public_minigrid_calibration_total_debt_direction_win_rate",
     "artifact_review_bundle_closed",
     "retraining_ablation_recorded",
     "full_retraining_loss_ablation_closed",
@@ -87,16 +92,23 @@ def _metric_payload(
     manifest: Mapping[str, Any],
     readiness: Mapping[str, Any],
     review_bundle: Mapping[str, Any],
+    calibration_extension: Mapping[str, Any],
 ) -> dict[str, float]:
     claims = manifest.get("evidence_ready_claims", {})
     checks = review_bundle.get("checks", {})
     boundary = readiness.get("evidence_boundary", {})
+    calibration_summary = calibration_extension.get("summary", {})
     remaining = review_bundle.get("remaining_evidence_contracts", {})
     retraining_contract = remaining.get("true_retraining_loss_ablation", {}) if isinstance(remaining, Mapping) else {}
     source_debt_rows = (
         retraining_contract.get("source_debt_rows", []) if isinstance(retraining_contract, Mapping) else []
     )
-    if not isinstance(claims, Mapping) or not isinstance(checks, Mapping) or not isinstance(boundary, Mapping):
+    if (
+        not isinstance(claims, Mapping)
+        or not isinstance(checks, Mapping)
+        or not isinstance(boundary, Mapping)
+        or not isinstance(calibration_summary, Mapping)
+    ):
         raise ValueError("quality backend inputs must expose claims, checks, and evidence boundaries")
     return {
         "torch_objective_gap_auc_gain_mean": float(claims["torch_objective_gap_auc_gain_mean"]),
@@ -115,6 +127,19 @@ def _metric_payload(
         ),
         "public_minigrid_calibration_extension_closed": _closed(
             str(boundary.get("public_minigrid_calibration_extension") or "")
+        ),
+        "public_minigrid_calibration_row_count": float(calibration_summary.get("row_count") or 0.0),
+        "public_minigrid_calibration_executed_row_count": float(
+            calibration_summary.get("executed_row_count") or 0.0
+        ),
+        "public_minigrid_calibration_source_gap_row_count": float(
+            calibration_summary.get("source_gap_row_count") or 0.0
+        ),
+        "public_minigrid_calibration_risk_reduction_mean": float(
+            calibration_summary.get("risk_reduction_mean") or 0.0
+        ),
+        "public_minigrid_calibration_total_debt_direction_win_rate": float(
+            calibration_summary.get("total_debt_direction_win_rate") or 0.0
         ),
         "artifact_review_bundle_closed": _closed(str(boundary.get("artifact_review_bundle") or "")),
         "retraining_ablation_recorded": 1.0
@@ -245,7 +270,8 @@ def build_quality_backend_candidate() -> dict[str, Any]:
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     readiness = _load_json("bedc_jepa_readiness.json")
     review_bundle = _load_json("bedc_jepa_review_bundle.json")
-    metrics = _metric_payload(manifest, readiness, review_bundle)
+    calibration_extension = _load_json("bedc_jepa_public_minigrid_calibration_extension.json")
+    metrics = _metric_payload(manifest, readiness, review_bundle, calibration_extension)
     return {
         "schema_id": SCHEMA_ID,
         "backend": {
@@ -270,6 +296,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "readiness": "reports/bedc_jepa_readiness.json",
             "review_bundle": "reports/bedc_jepa_review_bundle.json",
+            "public_minigrid_calibration_extension": (
+                "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+            ),
         },
         "pattern_spec": {
             "systems": ["S0", "S1", "S2", "S3"],
