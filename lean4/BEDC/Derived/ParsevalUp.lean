@@ -1,4 +1,5 @@
 import BEDC.Derived.ParsevalUp.NameCertObligations
+import BEDC.Derived.ParsevalUp.RootFourierIntegralEnergyExhaustion
 
 namespace BEDC.Derived.ParsevalUp
 
