@@ -87,7 +87,7 @@ class HostContextTests(unittest.TestCase):
 
 
 class DaemonHostIntegrationTests(unittest.TestCase):
-    def import_module_with_env(self, relative_path: str, name: str):
+    def import_module_with_env(self, relative_path: str, name: str, extra_env: dict[str, str] | None = None):
         env = {
             "REPO_ROOT": str(REPO_ROOT),
             "BEDC_LEAN_BASE_BRANCH": "lean-host",
@@ -97,6 +97,8 @@ class DaemonHostIntegrationTests(unittest.TestCase):
             "BEDC_CODEX_PATH": "/tmp/codex-host",
             "BEDC_SYNC_VALIDATION_WORKTREE": "sync-host-wt",
         }
+        if extra_env is not None:
+            env.update(extra_env)
         path = REPO_ROOT / relative_path
         spec = importlib.util.spec_from_file_location(name, path)
         self.assertIsNotNone(spec)
@@ -140,7 +142,15 @@ class DaemonHostIntegrationTests(unittest.TestCase):
             with mock.patch.object(module, "run", side_effect=fake_run):
                 self.assertEqual(module.detect_ci_failures(), [])
 
-        self.assertEqual(branches, ["pipeline-host", "mirror-host"])
+        self.assertEqual(
+            branches,
+            [
+                "rollup-pipeline-host-to-upstream-host",
+                "upstream-host",
+                "pipeline-host",
+                "mirror-host",
+            ],
+        )
 
     def test_sync_uses_bedc_host_branches_for_prompt_and_worktree(self):
         module = self.import_module_with_env("tools/sync_with_auto_dev.py", "sync_host_test")
@@ -154,6 +164,22 @@ class DaemonHostIntegrationTests(unittest.TestCase):
             "codex-auto-dev merges auto-dev and dev"
         )
         self.assertEqual(rendered, "pipeline-host merges mirror-host and upstream-host")
+
+    def test_rollup_target_branch_takes_priority_in_daemons(self):
+        env = {"BEDC_ROLLUP_TARGET_BRANCH": "rollup-target-host"}
+        auto_heal = self.import_module_with_env(
+            "tools/auto_heal_base.py",
+            "auto_heal_rollup_target_host_test",
+            extra_env=env,
+        )
+        sync = self.import_module_with_env(
+            "tools/sync_with_auto_dev.py",
+            "sync_rollup_target_host_test",
+            extra_env=env,
+        )
+
+        self.assertEqual(auto_heal.UPSTREAM_BRANCH, "rollup-target-host")
+        self.assertEqual(sync.UPSTREAM_BRANCH, "rollup-target-host")
 
     def test_codex_formalize_uses_bedc_host_values(self):
         module = self.import_module_with_env(
