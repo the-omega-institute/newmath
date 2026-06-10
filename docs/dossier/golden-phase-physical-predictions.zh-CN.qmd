@@ -812,20 +812,36 @@ outer boundary
 超过这个展示分母的修正项不再是纯 Window6 数据:
 
 ```text
-D_{6,mode,Gamma}
-  = D_6(Gamma_alpha, ClosureMode, ReadoutMode)
-    + protocol-controlled higher terms.
+D_{6,alpha}^G
+  = D_{6,alpha}^*
+    + q_3 phi^-37
+    + O(phi^-47).
 ```
 
 下一条 local ladder 指数会是 `phi^-37`. 在该位置放入单位 `q_3` 系数只会在
 `10^-11` 量级改变 inverse readout, 但 Window6 没有能固定它的 `N_{>=5}(6)`
-fiber layer. 因此 `q_3`, `q_4` 及之后的系数属于跨窗口 protocol refinement.
-Window6 加低能 gate、closure mode 与 readout mode 决定一个展示出的最小 ledger;
-无限 residual series 需要额外 protocol data.
+fiber layer. 因此 `q_3` 不是第四个纯 Window6 系数. 它属于 Green-resolved
+层级: 要么 static low-energy limit 给出 `q_3 = 0`, 要么 Green certificate
+把它的非 Window6 部分放入 `571` 控制的类, 例如 `571^-1 Z[1/6]`;
+global cut-flux density `Phi_R = 1/12` 只有在另有 FluxGreen coupling
+certificate 时才进入. Window6 加低能 gate、closure mode 与 readout mode
+只决定到 `phi^-27` 为止的展示最小 ledger.
+
+在展示出的 reservoir readout 附近, 一阶响应为:
+
+```text
+R(q_3) - R(0) approx -2.232631918e-11 q_3.
+```
+
+由此得到的证书类别互不相同. StaticLimit certificate 给出 `q_3 = 0`,
+使展示分母成为 stationary low-energy readout. GreenClass certificate 把
+`q_3` 放入 `571` 控制的类, 其中 `q_3 = 1/571` 对应约 `-3.91e-14`
+的偏移. FluxGreenCoupling certificate 更强: 如果 global cut-flux density
+也参与, 最小尺度为 `q_3 = 1/(12*571)`, 对应约 `-3.26e-15` 的偏移.
 
 ## 当前状态
 
-local phase-reservoir 候选与五类事实相容:
+local phase-reservoir 候选与六类事实相容:
 
 - 它在当前 CODATA 不确定度内给出正确的低能 inverse fine-structure value;
 - 它通过 `2 pi` 与 `cos^2(pi/phi)` 自然落在 electromagnetic `U(1)` phase interface 上;

@@ -481,7 +481,7 @@ readout-family theorem gives the displayed denominator.
 \begin{principle}[Remaining formalization obligations]
 \label{prin:zeckendorf-unclosed-denominator-obligations}
 The protocol-gated Window-six closure becomes a fully internal
-Window-six theorem only after five further obligations are discharged.
+Window-six theorem only after six further obligations are discharged.
 First, the ProtocolGateLegality obligation must certify
 $$
   \Gamma^\alpha_7:
@@ -507,11 +507,29 @@ obligation must distinguish the phase reservoir
 \(C_\partial/P_6^{\mathrm{geo}}\), giving \(q_2=4/9\); for
 \(\alpha_{\mathrm{EM}}^{-1}(0)\) it must select the phase-reservoir
 impedance readout gated by \(Z_6\), using the local conditional escape
-flux \(8/9\) rather than the global cut-flux density \(1/12\). Finally,
+flux \(8/9\) rather than the global cut-flux density \(1/12\). Fifth,
 the ClosureMode obligation
 must certify that fixed
 \(R_6(D)\) readouts select anchor-local closure, while walking-gate
-closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Until
+closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Sixth,
+the
+GreenResolved obligation must keep the pure Window-six denominator closed
+at \(\varphi^{-27}\) unless a separate certificate supplies
+$$
+  D_{6,\alpha}^{G}
+  =
+  D_{6,\alpha}^{\star}
+  +
+  q_3\varphi^{-37}
+  +
+  O(\varphi^{-47}).
+$$
+The StaticLimit branch sets \(q_3=0\). The GreenClass branch must show
+that the non-Window-six part of \(q_3\) carries the single \(571\)-adic
+Green-kernel certificate, for example
+\(q_3\in 571^{-1}\mathbb{Z}[1/6]\). The FluxGreenCoupling branch must
+decide separately whether the global cut-flux density
+\(\Phi_R=1/12\) participates in that Green coefficient. Until
 these obligations are supplied, the closed denominator is a
 protocol-gated Window-six ledger conclusion rather than a fully certified
 internal theorem.

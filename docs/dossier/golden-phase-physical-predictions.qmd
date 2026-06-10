@@ -872,22 +872,40 @@ outer boundary
 Corrections beyond this displayed denominator are not pure Window6 data:
 
 ```text
-D_{6,mode,Gamma}
-  = D_6(Gamma_alpha, ClosureMode, ReadoutMode)
-    + protocol-controlled higher terms.
+D_{6,alpha}^G
+  = D_{6,alpha}^*
+    + q_3 phi^-37
+    + O(phi^-47).
 ```
 
 The next local ladder exponent would be `phi^-37`. A unit `q_3` coefficient
 at that position changes the inverse readout only at the `10^-11` scale, but
 Window6 does not contain an `N_{>=5}(6)` fiber layer that fixes it. The
-coefficients `q_3`, `q_4`, and beyond therefore belong to cross-window
-protocol refinement. Window6 plus the low-energy gate, closure mode, and
-readout mode determines a displayed minimal ledger; an infinite residual
-series needs additional protocol data.
+`q_3` coefficient is therefore not a fourth pure Window6 coefficient. It
+belongs to a Green-resolved layer: either the static low-energy limit sets
+`q_3 = 0`, or a Green certificate places its non-Window6 part in a
+`571`-controlled class such as `571^-1 Z[1/6]`, with the global cut-flux
+density `Phi_R = 1/12` entering only if a separate FluxGreen coupling
+certificate is supplied. Window6 plus the low-energy gate, closure mode, and
+readout mode determines the displayed minimal ledger through `phi^-27`.
+
+At first order around the displayed reservoir readout,
+
+```text
+R(q_3) - R(0) approx -2.232631918e-11 q_3.
+```
+
+The resulting certificate classes are distinct. The StaticLimit certificate
+sets `q_3 = 0`, making the displayed denominator the stationary low-energy
+readout. The GreenClass certificate places `q_3` in a `571`-controlled class,
+with `q_3 = 1/571` giving a shift of about `-3.91e-14`. The
+FluxGreenCoupling certificate is stronger: if the global cut-flux density also
+participates, the minimal scale is `q_3 = 1/(12*571)`, with a shift of about
+`-3.26e-15`.
 
 ## Present status
 
-The local phase-reservoir candidate is consistent with five broad facts:
+The local phase-reservoir candidate is consistent with six broad facts:
 
 - it gives the correct low-energy inverse fine-structure value within current
   CODATA uncertainty;
