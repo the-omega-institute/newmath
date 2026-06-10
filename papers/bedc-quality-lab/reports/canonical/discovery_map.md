@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-09T08:21:49.156738+00:00`
-- Rows: `32`
+- Rows: `33`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -28,6 +28,7 @@
 | `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
 | `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `dgt-component-redundancy-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

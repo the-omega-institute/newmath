@@ -905,7 +905,7 @@
       ]
     },
     {
-      "claim_id": "claim:order-k-benchmark",
+      "claim_id": "claim:dgt-component-redundancy-audit",
       "complexity_score": 1,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[23]",
@@ -921,12 +921,12 @@
           "weight": 0
         },
         {
-          "evidence_pointer": "reports/canonical/order-k-benchmark.json:$",
+          "evidence_pointer": "reports/canonical/dgt-component-redundancy-audit.json:$",
           "name": "evidence_burden",
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/order-k-benchmark.json:$",
+          "evidence_pointer": "reports/canonical/dgt-component-redundancy-audit.json:$",
           "name": "backend_coupling",
           "weight": 0
         },
@@ -943,8 +943,8 @@
       ]
     },
     {
-      "claim_id": "claim:lejepa-theorem-ledger",
-      "complexity_score": 2,
+      "claim_id": "claim:order-k-benchmark",
+      "complexity_score": 1,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[24]",
       "scoring_dimensions": [
@@ -959,12 +959,12 @@
           "weight": 0
         },
         {
-          "evidence_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+          "evidence_pointer": "reports/canonical/order-k-benchmark.json:$",
           "name": "evidence_burden",
-          "weight": 2
+          "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/lejepa_theorem_ledger.json:$",
+          "evidence_pointer": "reports/canonical/order-k-benchmark.json:$",
           "name": "backend_coupling",
           "weight": 0
         },
@@ -981,8 +981,8 @@
       ]
     },
     {
-      "claim_id": "claim:observed-debt-sweep",
-      "complexity_score": 1,
+      "claim_id": "claim:lejepa-theorem-ledger",
+      "complexity_score": 2,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
       "scoring_dimensions": [
@@ -997,12 +997,12 @@
           "weight": 0
         },
         {
-          "evidence_pointer": "reports/canonical/observed-debt-sweep.json:$",
+          "evidence_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
           "name": "evidence_burden",
-          "weight": 1
+          "weight": 2
         },
         {
-          "evidence_pointer": "reports/canonical/observed-debt-sweep.json:$",
+          "evidence_pointer": "reports/canonical/lejepa_theorem_ledger.json:$",
           "name": "backend_coupling",
           "weight": 0
         },
@@ -1019,18 +1019,56 @@
       ]
     },
     {
-      "claim_id": "claim:spectral-ablation-hinge",
-      "complexity_score": 6,
+      "claim_id": "claim:observed-debt-sweep",
+      "complexity_score": 1,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[26]",
       "scoring_dimensions": [
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[26].discovery_level",
           "name": "assumption_complexity",
-          "weight": 2
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[26].classifier_reasons",
+          "name": "proof_burden",
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/observed-debt-sweep.json:$",
+          "name": "evidence_burden",
+          "weight": 1
+        },
+        {
+          "evidence_pointer": "reports/canonical/observed-debt-sweep.json:$",
+          "name": "backend_coupling",
+          "weight": 0
         },
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[26]",
+          "name": "witness_exposure",
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[26].projection_status",
+          "name": "revocation_fragility",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "claim_id": "claim:spectral-ablation-hinge",
+      "complexity_score": 6,
+      "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
+      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[27]",
+      "scoring_dimensions": [
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27].discovery_level",
+          "name": "assumption_complexity",
+          "weight": 2
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27]",
           "name": "proof_burden",
           "weight": 0
         },
@@ -1050,7 +1088,7 @@
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[26].projection_status",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27].projection_status",
           "name": "revocation_fragility",
           "weight": 2
         }
@@ -1058,44 +1096,6 @@
     },
     {
       "claim_id": "claim:model-comparison",
-      "complexity_score": 1,
-      "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
-      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[27]",
-      "scoring_dimensions": [
-        {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27].discovery_level",
-          "name": "assumption_complexity",
-          "weight": 0
-        },
-        {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27].classifier_reasons",
-          "name": "proof_burden",
-          "weight": 0
-        },
-        {
-          "evidence_pointer": "reports/canonical/model-comparison.json:$",
-          "name": "evidence_burden",
-          "weight": 1
-        },
-        {
-          "evidence_pointer": "reports/canonical/model-comparison.json:$",
-          "name": "backend_coupling",
-          "weight": 0
-        },
-        {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27]",
-          "name": "witness_exposure",
-          "weight": 0
-        },
-        {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[27].projection_status",
-          "name": "revocation_fragility",
-          "weight": 0
-        }
-      ]
-    },
-    {
-      "claim_id": "claim:causal-patch-suite",
       "complexity_score": 1,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[28]",
@@ -1111,12 +1111,12 @@
           "weight": 0
         },
         {
-          "evidence_pointer": "reports/canonical/causal_patch_suite.json:$",
+          "evidence_pointer": "reports/canonical/model-comparison.json:$",
           "name": "evidence_burden",
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/causal_patch_suite.json:$",
+          "evidence_pointer": "reports/canonical/model-comparison.json:$",
           "name": "backend_coupling",
           "weight": 0
         },
@@ -1133,18 +1133,56 @@
       ]
     },
     {
-      "claim_id": "claim:dimension-mismatch-debt-transfer",
-      "complexity_score": 7,
+      "claim_id": "claim:causal-patch-suite",
+      "complexity_score": 1,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[29]",
       "scoring_dimensions": [
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[29].discovery_level",
           "name": "assumption_complexity",
-          "weight": 2
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[29].classifier_reasons",
+          "name": "proof_burden",
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/causal_patch_suite.json:$",
+          "name": "evidence_burden",
+          "weight": 1
+        },
+        {
+          "evidence_pointer": "reports/canonical/causal_patch_suite.json:$",
+          "name": "backend_coupling",
+          "weight": 0
         },
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[29]",
+          "name": "witness_exposure",
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[29].projection_status",
+          "name": "revocation_fragility",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "claim_id": "claim:dimension-mismatch-debt-transfer",
+      "complexity_score": 7,
+      "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
+      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[30]",
+      "scoring_dimensions": [
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30].discovery_level",
+          "name": "assumption_complexity",
+          "weight": 2
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30]",
           "name": "proof_burden",
           "weight": 0
         },
@@ -1164,7 +1202,7 @@
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[29].projection_status",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30].projection_status",
           "name": "revocation_fragility",
           "weight": 2
         }
@@ -1174,15 +1212,15 @@
       "claim_id": "claim:single-threshold-escape",
       "complexity_score": 7,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
-      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[30]",
+      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[31]",
       "scoring_dimensions": [
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30].discovery_level",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31].discovery_level",
           "name": "assumption_complexity",
           "weight": 2
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30]",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31]",
           "name": "proof_burden",
           "weight": 0
         },
@@ -1202,7 +1240,7 @@
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[30].projection_status",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31].projection_status",
           "name": "revocation_fragility",
           "weight": 2
         }
@@ -1212,15 +1250,15 @@
       "claim_id": "claim:training-choice-observability",
       "complexity_score": 7,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
-      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[31]",
+      "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[32]",
       "scoring_dimensions": [
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31].discovery_level",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[32].discovery_level",
           "name": "assumption_complexity",
           "weight": 2
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31]",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[32]",
           "name": "proof_burden",
           "weight": 0
         },
@@ -1240,7 +1278,7 @@
           "weight": 1
         },
         {
-          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[31].projection_status",
+          "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[32].projection_status",
           "name": "revocation_fragility",
           "weight": 2
         }

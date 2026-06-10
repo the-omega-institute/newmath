@@ -132,6 +132,10 @@ DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT = "reports/canonical/dgt-ablation-
 DGT_ABLATION_NULL_DECOMPOSITION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-ablation-null-decomposition.md"
 DGT_ABLATION_NULL_DECOMPOSITION_ARTIFACT_ID = "dgt-ablation-null-decomposition"
 DGT_ABLATION_NULL_DECOMPOSITION_SCHEMA_ID = "bedc-quality-lab:dgt-ablation-null-decomposition"
+DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-component-redundancy-audit.json"
+DGT_COMPONENT_REDUNDANCY_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-component-redundancy-audit.md"
+DGT_COMPONENT_REDUNDANCY_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-component-redundancy-audit"
+DGT_COMPONENT_REDUNDANCY_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-component-redundancy-audit"
 DGT_L0_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 DGT_L0_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l0-controls.md"
 DGT_L0_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l0-controls"
@@ -1349,6 +1353,26 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.null_decomposition.analysis_status",
     ),
     CanonicalReportSpec(
+        name="dgt-component-redundancy-audit",
+        command=("python3", "scripts/run_dgt_component_redundancy_audit.py"),
+        json_artifact=DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT,
+        markdown_artifact=DGT_COMPONENT_REDUNDANCY_AUDIT_MARKDOWN_ARTIFACT,
+        required_json_keys=("component_redundancy_audit",),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.component_redundancy_audit.scope",
+        cost_pointer="$.component_redundancy_audit.source_artifacts",
+        not_claimed_pointer="$.component_redundancy_audit.not_claimed",
+        positive_claim_pointer="$.component_redundancy_audit.global_recommendation",
+        control_pointer="$.component_redundancy_audit.source_artifacts",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.audit_status",
+        backend_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.source_artifacts",
+        discovery_level_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.global_recommendation",
+        negative_witness_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.components",
+        formal_status_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.audit_status",
+    ),
+    CanonicalReportSpec(
         name="order-k-benchmark",
         command=("python3", "scripts/run_order_k_benchmark.py"),
         json_artifact="reports/canonical/order-k-benchmark.json",
@@ -1831,6 +1855,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         from bedc_quality_lab.mechanism_dna import mechanism_dna_artifacts
 
         paths.update(mechanism_dna_artifacts())
+    if spec.name == "dgt-component-redundancy-audit":
+        paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]

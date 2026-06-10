@@ -189,6 +189,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_ablation_null_decomposition
 
         return dgt_ablation_null_decomposition.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "dgt-component-redundancy-audit":
+        from bedc_quality_lab import dgt_component_redundancy_audit
+
+        return dgt_component_redundancy_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1488,6 +1492,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
+            "dgt-component-redundancy-audit",
             "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
@@ -2769,12 +2774,18 @@ def test_certificate_guided_discovery_required_keys_do_not_require_audit_fields(
 def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
         keys = set(spec.required_json_keys)
+        if spec.name == "dgt-component-redundancy-audit":
+            assert keys == {"component_redundancy_audit"}
+            continue
         assert "generated_at" in keys
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
             continue
         if spec.name == "dgt-ablation-null-decomposition":
             assert "source_artifact" in keys
+            continue
+        if spec.name == "dgt-component-redundancy-audit":
+            assert "component_redundancy_audit" in keys
             continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
@@ -3309,6 +3320,25 @@ def test_dgt_ablation_null_decomposition_canonical_spec_is_read_only_auxiliary_o
     assert spec.cost_pointer == "$.source_artifact"
     assert spec.control_pointer == "$.source_artifact"
     assert spec.positive_claim_pointer == "$.null_decomposition.verdict"
+
+
+def test_dgt_component_redundancy_audit_canonical_spec_follows_null_decomposition():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-component-redundancy-audit"]
+
+    assert len(specs) == 1
+    spec = specs[0]
+    names = [item.name for item in canonical.CANONICAL_REPORTS]
+    assert names.index("dgt-ablation-null-decomposition") < names.index("dgt-component-redundancy-audit")
+    assert names.index("dgt-component-redundancy-audit") < names.index("order-k-benchmark")
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_component_redundancy_audit.py")
+    assert spec.json_artifact == canonical.DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_COMPONENT_REDUNDANCY_AUDIT_MARKDOWN_ARTIFACT
+    assert spec.required_json_keys == ("component_redundancy_audit",)
+    assert spec.scope_pointer == "$.component_redundancy_audit.scope"
+    assert spec.cost_pointer == "$.component_redundancy_audit.source_artifacts"
+    assert spec.not_claimed_pointer == "$.component_redundancy_audit.not_claimed"
+    assert spec.positive_claim_pointer == "$.component_redundancy_audit.global_recommendation"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
