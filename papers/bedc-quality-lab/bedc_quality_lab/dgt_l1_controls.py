@@ -26,16 +26,19 @@ OWNER_MODULE = "bedc_quality_lab/dgt_l1_controls.py"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-l1-controls.fingerprint.json"
-LADDER_JSON_ARTIFACT = "reports/canonical/discovery_gated_transformer_scaling_ladder.json"
 RUN_ROOT = "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 LAB_ROOT = Path(__file__).resolve().parents[1]
 
 ARM_IDS = ("dgt_l1", "base_transformer_l1", "matched_random_structural_l1")
 L1_GATE_IDS = tuple(f"L1-HG{index}" for index in range(1, 9))
+L1STEP_GATE_IDS = tuple(f"L1STEP-HG{index}" for index in range(1, 6))
 BASE_SEED = 1174
 DEFAULT_SEEDS = (1174, 1175, 1176, 1177, 1178, 1179, 1180, 1181)
 DEFAULT_TRAINING_STEPS = 36
+L1_STEP_GRID = (36, 72, 144, 288, 576)
+L1_CROSSOVER_ANCHOR_STEPS = 36
+L1_CROSSOVER_TOLERANCE_ACC = 0.02
 DEFAULT_TRAIN_EXAMPLES = 1024
 DEFAULT_EVAL_EXAMPLES = 256
 VOCAB_SIZE = 16
@@ -106,6 +109,7 @@ class L1TinySequenceTaskSpec:
 class L1TrainingConfig:
     seeds: tuple[int, ...] = DEFAULT_SEEDS
     training_steps: int = DEFAULT_TRAINING_STEPS
+    step_grid: tuple[int, ...] = L1_STEP_GRID
     train_examples: int = DEFAULT_TRAIN_EXAMPLES
     eval_examples: int = DEFAULT_EVAL_EXAMPLES
     vocab_size: int = VOCAB_SIZE
@@ -334,11 +338,53 @@ def _train_arm(
     ).as_payload()
 
 
+def _train_l1_grid(
+    torch: Any,
+    *,
+    task_spec: L1TinySequenceTaskSpec,
+    config: L1TrainingConfig,
+    requested_device: str,
+    device_name: str,
+) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for step in config.step_grid:
+        step_config = L1TrainingConfig(
+            seeds=config.seeds,
+            training_steps=step,
+            step_grid=config.step_grid,
+            train_examples=config.train_examples,
+            eval_examples=config.eval_examples,
+            vocab_size=config.vocab_size,
+            sequence_length=config.sequence_length,
+            batch_size=config.batch_size,
+        )
+        for seed in config.seeds:
+            for arm_id in ARM_IDS:
+                row = _train_arm(
+                    torch,
+                    arm_id=arm_id,
+                    seed=seed,
+                    task_spec=task_spec,
+                    config=step_config,
+                    requested_device=requested_device,
+                    device_name=device_name,
+                )
+                row["run_artifact_ref"] = (
+                    f"{RUN_ROOT}/raw_metrics.jsonl:$.lines[{len(records)}]"
+                )
+                records.append(row)
+    return records
+
+
 def _mean(rows: Sequence[Mapping[str, Any]], key: str) -> float:
     return round(sum(float(row["metrics"][key]) for row in rows) / len(rows), 6) if rows else 0.0
 
 
-def _arm_summaries(records: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, Any]]:
+def _arm_summaries(
+    records: Sequence[Mapping[str, Any]],
+    *,
+    pointer_prefix: str = "training_arms",
+) -> dict[str, dict[str, Any]]:
     by_arm = {arm_id: [row for row in records if row["arm_id"] == arm_id] for arm_id in ARM_IDS}
     return {
         arm_id: {
@@ -359,9 +405,170 @@ def _arm_summaries(records: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, 
                 "parameter_l2_delta_mean": _mean(rows, "parameter_l2_delta"),
                 "positive_margin_over_chance_mean": _mean(rows, "positive_margin_over_chance"),
             },
-            "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.{arm_id}",
+            "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.{pointer_prefix}.{arm_id}",
         }
         for arm_id, rows in by_arm.items()
+    }
+
+
+def derive_l1_step_ladder_crossover(step_rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    anchor_row = next((row for row in step_rows if int(row.get("training_steps", -1)) == L1_CROSSOVER_ANCHOR_STEPS), None)
+    anchor_accuracy = None
+    if anchor_row is not None:
+        anchor_accuracy = float(anchor_row.get("metrics", {}).get("dgt_accuracy_mean", 0.0))
+    crossover_threshold = (
+        round(anchor_accuracy - L1_CROSSOVER_TOLERANCE_ACC, 6)
+        if anchor_accuracy is not None
+        else None
+    )
+    crossover_rows: list[dict[str, Any]] = []
+    for row in step_rows:
+        metrics = row.get("metrics", {})
+        dgt_accuracy = float(metrics.get("dgt_accuracy_mean", 0.0))
+        base_accuracy = float(metrics.get("base_accuracy_mean", 0.0))
+        matched_accuracy = float(metrics.get("matched_random_accuracy_mean", 0.0))
+        same_step_base_gap = round(dgt_accuracy - base_accuracy, 6)
+        same_step_matched_gap = round(dgt_accuracy - matched_accuracy, 6)
+        anchor_base_gap = round(anchor_accuracy - base_accuracy, 6) if anchor_accuracy is not None else None
+        anchor_matched_gap = round(anchor_accuracy - matched_accuracy, 6) if anchor_accuracy is not None else None
+        base_reaches_anchor = (
+            crossover_threshold is not None
+            and base_accuracy >= crossover_threshold
+        )
+        matched_reaches_anchor = (
+            crossover_threshold is not None
+            and matched_accuracy >= crossover_threshold
+        )
+        crossover_rows.append(
+            {
+                "training_steps": int(row["training_steps"]),
+                "dgt_accuracy_mean": dgt_accuracy,
+                "base_accuracy_mean": base_accuracy,
+                "matched_random_accuracy_mean": matched_accuracy,
+                "same_step_dgt_minus_base_accuracy": same_step_base_gap,
+                "same_step_dgt_minus_matched_accuracy": same_step_matched_gap,
+                "anchor_minus_base_accuracy": anchor_base_gap,
+                "anchor_minus_matched_random_accuracy": anchor_matched_gap,
+                "base_reaches_anchor_tolerance": base_reaches_anchor,
+                "matched_random_reaches_anchor_tolerance": matched_reaches_anchor,
+            }
+        )
+    base_steps = [row["training_steps"] for row in crossover_rows if row["base_reaches_anchor_tolerance"]]
+    matched_steps = [row["training_steps"] for row in crossover_rows if row["matched_random_reaches_anchor_tolerance"]]
+    return {
+        "status": "base-crossover-observed" if base_steps else "no-base-crossover-observed",
+        "tolerance_accuracy": L1_CROSSOVER_TOLERANCE_ACC,
+        "anchor_arm": "dgt_l1",
+        "anchor_training_steps": L1_CROSSOVER_ANCHOR_STEPS,
+        "anchor_accuracy_mean": anchor_accuracy,
+        "crossover_threshold_accuracy": crossover_threshold,
+        "base_catches_up": bool(base_steps),
+        "first_base_crossover_step": min(base_steps) if base_steps else None,
+        "matched_random_catches_up": bool(matched_steps),
+        "first_matched_random_crossover_step": min(matched_steps) if matched_steps else None,
+        "rows": crossover_rows,
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
+    }
+
+
+def derive_l1_step_ladder_verdict(
+    crossover: Mapping[str, Any],
+    hardgates: Mapping[str, Mapping[str, Any]] | None = None,
+) -> str:
+    if hardgates is not None and any(row.get("status") != "pass" for row in hardgates.values()):
+        return "inconclusive"
+    if bool(crossover.get("matched_random_catches_up")):
+        return "inconclusive"
+    if bool(crossover.get("base_catches_up")):
+        return "base-catches-up"
+    if crossover.get("anchor_accuracy_mean") is None:
+        return "inconclusive"
+    rows = crossover.get("rows", [])
+    if isinstance(rows, Sequence) and rows:
+        return "separation-persists"
+    return "inconclusive"
+
+
+def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1TrainingConfig) -> dict[str, Any]:
+    step_rows: list[dict[str, Any]] = []
+    per_step: list[dict[str, Any]] = []
+    for step_index, step in enumerate(config.step_grid):
+        rows = [row for row in records if int(row.get("training_steps", -1)) == step]
+        summaries = _arm_summaries(rows, pointer_prefix=f"l1_step_ladder.per_step[{step_index}].training_arms")
+        if "matched_random_structural_l1" in summaries:
+            summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
+        dgt = summaries.get("dgt_l1", {}).get("metrics", {})
+        base = summaries.get("base_transformer_l1", {}).get("metrics", {})
+        matched = summaries.get("matched_random_structural_l1", {}).get("metrics", {})
+        metrics = {
+            "dgt_accuracy_mean": float(dgt.get("accuracy_mean", 0.0)),
+            "base_accuracy_mean": float(base.get("accuracy_mean", 0.0)),
+            "matched_random_accuracy_mean": float(matched.get("accuracy_mean", 0.0)),
+            "dgt_ood_accuracy_mean": float(dgt.get("ood_accuracy_mean", 0.0)),
+            "base_ood_accuracy_mean": float(base.get("ood_accuracy_mean", 0.0)),
+            "matched_random_ood_accuracy_mean": float(matched.get("ood_accuracy_mean", 0.0)),
+            "dgt_loss_decrease_mean": float(dgt.get("loss_decrease_mean", 0.0)),
+            "base_loss_decrease_mean": float(base.get("loss_decrease_mean", 0.0)),
+            "matched_random_loss_decrease_mean": float(matched.get("loss_decrease_mean", 0.0)),
+        }
+        metrics["dgt_minus_base_accuracy"] = round(
+            metrics["dgt_accuracy_mean"] - metrics["base_accuracy_mean"],
+            6,
+        )
+        metrics["dgt_minus_matched_accuracy"] = round(
+            metrics["dgt_accuracy_mean"] - metrics["matched_random_accuracy_mean"],
+            6,
+        )
+        seed_counts = {
+            arm_id: int(summary.get("seed_count", 0))
+            for arm_id, summary in summaries.items()
+        }
+        per_step.append({
+            "training_steps": step,
+            "training_arms": summaries,
+            "compute_ledger": _compute_ledger(summaries),
+            "parameter_ledger": _parameter_ledger(summaries),
+            "seed_counts": seed_counts,
+            "metrics": metrics,
+            "raw_record_start_pointer": f"{RUN_ROOT}/raw_metrics.jsonl:$.lines[{step_index * len(config.seeds) * len(ARM_IDS)}]",
+        })
+        step_rows.append(
+            {
+                "training_steps": step,
+                "seed_counts": seed_counts,
+                "metrics": metrics,
+                "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder.per_step[{step_index}]",
+            }
+        )
+    crossover = derive_l1_step_ladder_crossover(step_rows)
+    provisional = {
+        "status": "provisional",
+        "step_grid": list(config.step_grid),
+        "arms": list(ARM_IDS),
+        "seed_count_per_arm_per_step": len(config.seeds),
+        "per_step": per_step,
+        "step_rows": step_rows,
+        "convergence_crossover": crossover,
+        "verdict": "inconclusive",
+        "hardgates": {},
+        "not_claimed": list(NOT_CLAIMED),
+    }
+    hardgates = evaluate_l1step_hardgates(provisional)
+    verdict = derive_l1_step_ladder_verdict(crossover, hardgates)
+    status = "pass" if all(row["status"] == "pass" for row in hardgates.values()) else "fail"
+    return {
+        **provisional,
+        "status": status,
+        "verdict": verdict,
+        "verdict_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
+        "convergence_crossover": crossover,
+        "hardgates": hardgates,
+        "mechanical_decision_table": {
+            "base_catches_up_and_matched_random_clear": "base-catches-up",
+            "no_base_crossover_and_matched_random_clear": "separation-persists",
+            "any_l1step_hardgate_failure_or_matched_random_crossover": "inconclusive",
+        },
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
     }
 
 
@@ -748,6 +955,118 @@ def _gate_l1_hg8(context: Mapping[str, Any]) -> dict[str, Any]:
     )
 
 
+def _gate_l1step_hg1(
+    step_grid: Sequence[int],
+    per_step: Sequence[Any],
+    step_rows: Sequence[Any],
+    seed_count: int,
+) -> dict[str, Any]:
+    expected_cells = len(step_grid) * len(ARM_IDS) * seed_count
+    complete_cells = (
+        bool(step_grid)
+        and tuple(sorted(step_grid)) == tuple(step_grid)
+        and len(per_step) == len(step_grid)
+        and all(
+            isinstance(step, Mapping)
+            and tuple(step.get("training_arms", {})) == ARM_IDS
+            and int(step.get("training_steps", -1)) == step_grid[index]
+            and all(int(count) == seed_count and int(count) >= 8 for count in step.get("seed_counts", {}).values())
+            for index, step in enumerate(per_step)
+        )
+        and len(step_rows) == len(step_grid)
+        and all(
+            isinstance(row, Mapping)
+            and int(row.get("training_steps", -1)) == step_grid[index]
+            for index, row in enumerate(step_rows)
+        )
+    )
+    return _gate(
+        complete_cells,
+        "L1STEP-HG1",
+        f"canonical step grid has {expected_cells} step/arm/seed CPU training cells",
+        "$.l1_step_ladder.step_rows",
+    )
+
+
+def _gate_l1step_hg2(per_step: Sequence[Any]) -> dict[str, Any]:
+    true_cpu = all(
+        isinstance(step, Mapping)
+        and all(
+            row.get("status") == "pass"
+            and row.get("device_resolved") == "cpu"
+            and int(row.get("training_steps", 0)) == int(step.get("training_steps", 0))
+            and float(row.get("metrics", {}).get("parameter_l2_delta_mean", 0.0)) > 0.0
+            and float(row.get("metrics", {}).get("loss_decrease_mean", 0.0)) > 0.0
+            for row in step.get("training_arms", {}).values()
+        )
+        for step in per_step
+    )
+    return _gate(
+        true_cpu,
+        "L1STEP-HG2",
+        "every ladder cell is true CPU training with parameter updates and loss decrease",
+        "$.l1_step_ladder.per_step",
+    )
+
+
+def _gate_l1step_hg3(per_step: Sequence[Any]) -> dict[str, Any]:
+    ledgers = all(
+        isinstance(step, Mapping)
+        and step.get("compute_ledger", {}).get("status") == "pass"
+        and step.get("parameter_ledger", {}).get("status") == "pass"
+        and float(step.get("compute_ledger", {}).get("compute_units", 0.0)) > 0.0
+        and int(step.get("parameter_ledger", {}).get("parameter_count", 0)) > 0
+        for step in per_step
+    )
+    return _gate(
+        ledgers,
+        "L1STEP-HG3",
+        "every ladder step has positive compute and parameter ledgers",
+        "$.l1_step_ladder.per_step",
+    )
+
+
+def _gate_l1step_hg4(crossover: Mapping[str, Any], step_rows: Sequence[Any]) -> dict[str, Any]:
+    crossover_derived = (
+        isinstance(crossover, Mapping)
+        and crossover
+        and crossover == derive_l1_step_ladder_crossover(step_rows)
+    )
+    return _gate(
+        crossover_derived,
+        "L1STEP-HG4",
+        "crossover is mechanically derived from the 36-step DGT anchor and per-step accuracy means",
+        "$.l1_step_ladder.convergence_crossover",
+    )
+
+
+def _gate_l1step_hg5(crossover: Mapping[str, Any]) -> dict[str, Any]:
+    matched_random_clear = isinstance(crossover, Mapping) and crossover.get("matched_random_catches_up") is False
+    return _gate(
+        matched_random_clear,
+        "L1STEP-HG5",
+        "matched-random structural arm must not reach the 36-step DGT anchor tolerance band",
+        "$.l1_step_ladder.convergence_crossover",
+    )
+
+
+def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    step_grid = tuple(int(step) for step in ladder.get("step_grid", ()))
+    per_step = ladder.get("per_step", [])
+    step_rows = ladder.get("step_rows", [])
+    crossover = ladder.get("convergence_crossover", {})
+    seed_count = int(ladder.get("seed_count_per_arm_per_step", 0))
+    per_step_rows = per_step if isinstance(per_step, Sequence) else []
+    summary_rows = step_rows if isinstance(step_rows, Sequence) else []
+    return {
+        "L1STEP-HG1": _gate_l1step_hg1(step_grid, per_step_rows, summary_rows, seed_count),
+        "L1STEP-HG2": _gate_l1step_hg2(per_step_rows),
+        "L1STEP-HG3": _gate_l1step_hg3(per_step_rows),
+        "L1STEP-HG4": _gate_l1step_hg4(crossover, summary_rows),
+        "L1STEP-HG5": _gate_l1step_hg5(crossover),
+    }
+
+
 def evaluate_hardgates(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     context = _control_context(payload)
     return {
@@ -790,6 +1109,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "parameter_ledger_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
             "negative_witness_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
             "independent_replay_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
+            "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.review_status",
             "allowed_claim": ALLOWED_CLAIM,
             "forbidden_claims": list(FORBIDDEN_CLAIMS),
@@ -807,6 +1127,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
             f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
             f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
+            f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             f"{CANONICAL_JSON_ARTIFACT}:$.review_status",
         ],
         "not_claimed": list(NOT_CLAIMED),
@@ -838,6 +1159,7 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
         "task_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
         "claim_capsule_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.claim_capsule_ref",
         "hardgate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.hardgates",
+        "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
         "failed_gate": failures[0] if failures else None,
         "boundary_ledger": [
             {
@@ -854,23 +1176,6 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
     }
 
 
-def _ladder_pointer_payload(projection: Mapping[str, Any]) -> dict[str, Any]:
-    opened = ["L1_tiny_sequence"] if projection.get("review_status") == "ready" else []
-    return {
-        "schema_id": "bedc-quality-lab:discovery-gated-transformer-scaling-ladder",
-        "artifact_id": "bedc-quality-lab:discovery-gated-transformer-scaling-ladder",
-        "levels": {
-            "L1_tiny_sequence": {
-                "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
-                "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.review_status",
-                "promotion_readiness_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.promotion_readiness",
-            }
-        },
-        "opened_levels": opened,
-        "not_claimed": list(NOT_CLAIMED),
-    }
-
-
 def build_payload(
     *,
     generated_at: str = GENERATED_AT,
@@ -881,6 +1186,8 @@ def build_payload(
     cfg = config or L1TrainingConfig()
     if len(cfg.seeds) < 8:
         raise ValueError("L1 canonical training requires at least eight deterministic seeds")
+    if len(cfg.step_grid) == 0 or cfg.training_steps not in cfg.step_grid:
+        raise ValueError("L1 training_steps must be included in the step grid")
     try:
         torch = importlib.import_module("torch")
     except Exception as exc:
@@ -888,26 +1195,21 @@ def build_payload(
     device_name = _device_name(torch, requested_device)
     task_spec = default_task_spec(cfg)
     _resolve_order_k_source(task_spec.as_payload(), root=root)
-    records: list[dict[str, Any]] = []
-    for seed in cfg.seeds:
-        for arm_id in ARM_IDS:
-            records.append(
-                _train_arm(
-                    torch,
-                    arm_id=arm_id,
-                    seed=seed,
-                    task_spec=task_spec,
-                    config=cfg,
-                    requested_device=requested_device,
-                    device_name=device_name,
-                )
-            )
-    summaries = _arm_summaries(records)
+    records = _train_l1_grid(
+        torch,
+        task_spec=task_spec,
+        config=cfg,
+        requested_device=requested_device,
+        device_name=device_name,
+    )
+    primary_records = [row for row in records if int(row["training_steps"]) == cfg.training_steps]
+    summaries = _arm_summaries(primary_records)
     summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
     compute = _compute_ledger(summaries)
     params = _parameter_ledger(summaries)
     negative = _negative_witness_sweep(summaries)
-    replay = _independent_replay(task_spec.as_payload(), records, summaries)
+    replay = _independent_replay(task_spec.as_payload(), primary_records, summaries)
+    step_ladder = build_l1_step_ladder(records, cfg)
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -920,6 +1222,7 @@ def build_payload(
         "parameter_ledger": params,
         "negative_witness_sweep": negative,
         "independent_replay": replay,
+        "l1_step_ladder": step_ladder,
         "review_status": "ready",
         "promotion_readiness": "ready-for-independent-review",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -955,6 +1258,7 @@ def _required_fields() -> set[str]:
         "parameter_ledger",
         "negative_witness_sweep",
         "independent_replay",
+        "l1_step_ladder",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -1005,6 +1309,23 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 component ablation must point to measured owner")
     if "COMPONENT" + "_" + "EFFECTS" in json.dumps(payload, sort_keys=True):
         raise ValueError("DGT L1 must not recreate component effect tables")
+    ladder = payload["l1_step_ladder"]
+    if not isinstance(ladder, Mapping):
+        raise ValueError("DGT L1 step ladder missing")
+    ladder_gates = evaluate_l1step_hardgates(ladder)
+    if ladder.get("hardgates") != ladder_gates:
+        raise ValueError("DGT L1 step ladder hardgate mismatch")
+    crossover = derive_l1_step_ladder_crossover(ladder.get("step_rows", []))
+    if ladder.get("convergence_crossover") != crossover:
+        raise ValueError("DGT L1 step ladder crossover mismatch")
+    expected_verdict = derive_l1_step_ladder_verdict(crossover, ladder_gates)
+    if ladder.get("verdict") not in {"separation-persists", "base-catches-up", "inconclusive"}:
+        raise ValueError("DGT L1 step ladder verdict invalid")
+    if ladder.get("verdict") != expected_verdict:
+        raise ValueError("DGT L1 step ladder verdict mismatch")
+    expected_ladder_status = "pass" if all(row["status"] == "pass" for row in ladder_gates.values()) else "fail"
+    if ladder.get("status") != expected_ladder_status:
+        raise ValueError("DGT L1 step ladder status mismatch")
     expected_gates = evaluate_hardgates(payload)
     if payload["hardgates"] != expected_gates:
         raise ValueError("DGT L1 hardgate evaluation mismatch")
@@ -1039,12 +1360,15 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
 
 def render_markdown(payload: Mapping[str, Any]) -> str:
     projection = payload["l1_tiny_sequence_projection"]
+    ladder = payload["l1_step_ladder"]
     lines = [
         "# DGT L1 tiny-sequence controls",
         "",
         f"- Status: `{projection['status']}`",
         f"- Review status: `{projection['review_status']}`",
         f"- Evidence scope: `{projection['evidence_scope']}`",
+        f"- Step-ladder verdict: `{ladder['verdict']}`",
+        f"- Step-ladder crossover: `{ladder['convergence_crossover']['status']}`",
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
@@ -1053,6 +1377,20 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "",
     ]
     for gate_id, row in payload["hardgates"].items():
+        lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
+    lines.extend(["", "## L1 Step Ladder", ""])
+    for row in ladder["step_rows"]:
+        metrics = row["metrics"]
+        lines.append(
+            "- "
+            f"`{row['training_steps']}` steps: "
+            f"DGT acc `{metrics['dgt_accuracy_mean']:.6f}`, "
+            f"base acc `{metrics['base_accuracy_mean']:.6f}`, "
+            f"matched-random acc `{metrics['matched_random_accuracy_mean']:.6f}`, "
+            f"DGT-base gap `{metrics['dgt_minus_base_accuracy']:.6f}`"
+        )
+    lines.extend(["", "## L1 Step Hardgates", ""])
+    for gate_id, row in ladder["hardgates"].items():
         lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
     lines.extend(["", "## Claim Capsule", ""])
     lines.append(f"- Scope: `{payload['claim_capsule_ref']['evidence_scope']}`")
@@ -1085,7 +1423,7 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
         "json_artifact": CANONICAL_JSON_ARTIFACT,
         "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
         "producer_command": ["python3", PRODUCER],
-        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "steps": DEFAULT_TRAINING_STEPS}),
+        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "step_grid": L1_STEP_GRID}),
         "output_digest": _json_digest(payload),
         "inputs": {"static_owner": OWNER_MODULE, "run_artifacts": run_artifacts_payload()},
         "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
@@ -1108,7 +1446,6 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
     report_path.write_text(report, encoding="utf-8")
     _write_json(root / CANONICAL_JSON_ARTIFACT, public_payload)
     (root / CANONICAL_MARKDOWN_ARTIFACT).write_text(report, encoding="utf-8")
-    _write_json(root / LADDER_JSON_ARTIFACT, _ladder_pointer_payload(public_payload["l1_tiny_sequence_projection"]))
     _write_json(root / CANONICAL_FINGERPRINT_ARTIFACT, fingerprint_payload(public_payload, generated_at=generated_at or datetime.now(timezone.utc).isoformat()))
 
 
@@ -1117,12 +1454,17 @@ __all__ = [
     "CANONICAL_JSON_ARTIFACT",
     "CANONICAL_MARKDOWN_ARTIFACT",
     "GENERATED_AT",
-    "LADDER_JSON_ARTIFACT",
+    "L1_CROSSOVER_TOLERANCE_ACC",
+    "L1_STEP_GRID",
     "L1TrainingConfig",
     "SCHEMA_ID",
     "build_claim_capsule",
+    "build_l1_step_ladder",
     "build_payload",
+    "derive_l1_step_ladder_crossover",
+    "derive_l1_step_ladder_verdict",
     "evaluate_hardgates",
+    "evaluate_l1step_hardgates",
     "render_markdown",
     "source_regression_guard",
     "validate_payload",

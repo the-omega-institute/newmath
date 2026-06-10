@@ -1194,6 +1194,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "parameter_ledger",
             "negative_witness_sweep",
             "independent_replay",
+            "l1_step_ladder",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -4405,6 +4406,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
+        "l1_control_step_ladder_verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
+        "l1_control_step_ladder_crossover_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
         "l1_control_review_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
         "l1_control_promotion_readiness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.promotion_readiness",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
@@ -4438,16 +4442,23 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     path = _artifact_path(DGT_L1_CONTROLS_JSON_ARTIFACT)
     payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
+    ladder = payload.get("l1_step_ladder") if isinstance(payload, Mapping) else {}
+    crossover = ladder.get("convergence_crossover") if isinstance(ladder, Mapping) else {}
     return {
         "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
         "review_status": payload.get("review_status", "missing") if isinstance(payload, Mapping) else "missing",
         "promotion_readiness": payload.get("promotion_readiness", "missing") if isinstance(payload, Mapping) else "missing",
+        "step_ladder_verdict": ladder.get("verdict", "missing") if isinstance(ladder, Mapping) else "missing",
+        "step_ladder_crossover": crossover.get("status", "missing") if isinstance(crossover, Mapping) else "missing",
         "artifact_id": DGT_L1_CONTROLS_ARTIFACT_ID,
         "schema_id": DGT_L1_CONTROLS_SCHEMA_ID,
         "json_artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
         "markdown_artifact": DGT_L1_CONTROLS_MARKDOWN_ARTIFACT,
         "fingerprint_artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
         "projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
+        "step_ladder_verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
+        "step_ladder_crossover_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
         "review_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
         "promotion_readiness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.promotion_readiness",
         "claim_capsule_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.claim_capsule_ref",
@@ -4544,11 +4555,11 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
-            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.discovery_level",
-            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.status",
+            "discovery_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
+            "verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
             "mechanism_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
-            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.boundary_ledger",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.not_claimed",
+            "debt_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.hardgates",
+            "not_claimed_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.not_claimed",
             "negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
             "hardgate_status": "pass",
             "hardgate_reason": "DGT design pointers resolve",
