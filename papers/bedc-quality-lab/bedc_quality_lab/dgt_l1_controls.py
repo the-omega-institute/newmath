@@ -929,18 +929,16 @@ def _gate_l1_hg8(context: Mapping[str, Any]) -> dict[str, Any]:
     )
 
 
-def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
-    step_grid = tuple(int(step) for step in ladder.get("step_grid", ()))
-    per_step = ladder.get("per_step", [])
-    step_rows = ladder.get("step_rows", [])
-    crossover = ladder.get("convergence_crossover", {})
-    seed_count = int(ladder.get("seed_count_per_arm_per_step", 0))
+def _gate_l1step_hg1(
+    step_grid: Sequence[int],
+    per_step: Sequence[Any],
+    step_rows: Sequence[Any],
+    seed_count: int,
+) -> dict[str, Any]:
     expected_cells = len(step_grid) * len(ARM_IDS) * seed_count
-
     complete_cells = (
         bool(step_grid)
-        and tuple(sorted(step_grid)) == step_grid
-        and isinstance(per_step, Sequence)
+        and tuple(sorted(step_grid)) == tuple(step_grid)
         and len(per_step) == len(step_grid)
         and all(
             isinstance(step, Mapping)
@@ -949,7 +947,6 @@ def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, 
             and all(int(count) == seed_count and int(count) >= 8 for count in step.get("seed_counts", {}).values())
             for index, step in enumerate(per_step)
         )
-        and isinstance(step_rows, Sequence)
         and len(step_rows) == len(step_grid)
         and all(
             isinstance(row, Mapping)
@@ -957,6 +954,15 @@ def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, 
             for index, row in enumerate(step_rows)
         )
     )
+    return _gate(
+        complete_cells,
+        "L1STEP-HG1",
+        f"canonical step grid has {expected_cells} step/arm/seed CPU training cells",
+        "$.l1_step_ladder.step_rows",
+    )
+
+
+def _gate_l1step_hg2(per_step: Sequence[Any]) -> dict[str, Any]:
     true_cpu = all(
         isinstance(step, Mapping)
         and all(
@@ -969,50 +975,69 @@ def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, 
         )
         for step in per_step
     )
+    return _gate(
+        true_cpu,
+        "L1STEP-HG2",
+        "every ladder cell is true CPU training with parameter updates and loss decrease",
+        "$.l1_step_ladder.per_step",
+    )
+
+
+def _gate_l1step_hg3(per_step: Sequence[Any]) -> dict[str, Any]:
     ledgers = all(
         isinstance(step, Mapping)
         and step.get("compute_ledger", {}).get("status") == "pass"
         and step.get("parameter_ledger", {}).get("status") == "pass"
         and float(step.get("compute_ledger", {}).get("compute_units", 0.0)) > 0.0
+        and int(step.get("parameter_ledger", {}).get("parameter_count", 0)) > 0
         for step in per_step
     )
+    return _gate(
+        ledgers,
+        "L1STEP-HG3",
+        "every ladder step has positive compute and parameter ledgers",
+        "$.l1_step_ladder.per_step",
+    )
+
+
+def _gate_l1step_hg4(crossover: Mapping[str, Any], step_rows: Sequence[Any]) -> dict[str, Any]:
     crossover_derived = (
         isinstance(crossover, Mapping)
         and crossover
-        and crossover == derive_l1_step_ladder_crossover(step_rows if isinstance(step_rows, Sequence) else [])
+        and crossover == derive_l1_step_ladder_crossover(step_rows)
     )
+    return _gate(
+        crossover_derived,
+        "L1STEP-HG4",
+        "crossover is mechanically derived from per-step accuracy means",
+        "$.l1_step_ladder.convergence_crossover",
+    )
+
+
+def _gate_l1step_hg5(crossover: Mapping[str, Any]) -> dict[str, Any]:
     matched_random_clear = isinstance(crossover, Mapping) and crossover.get("matched_random_catches_up") is False
+    return _gate(
+        matched_random_clear,
+        "L1STEP-HG5",
+        "matched-random structural arm must not reach the DGT tolerance band",
+        "$.l1_step_ladder.convergence_crossover",
+    )
+
+
+def evaluate_l1step_hardgates(ladder: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    step_grid = tuple(int(step) for step in ladder.get("step_grid", ()))
+    per_step = ladder.get("per_step", [])
+    step_rows = ladder.get("step_rows", [])
+    crossover = ladder.get("convergence_crossover", {})
+    seed_count = int(ladder.get("seed_count_per_arm_per_step", 0))
+    per_step_rows = per_step if isinstance(per_step, Sequence) else []
+    summary_rows = step_rows if isinstance(step_rows, Sequence) else []
     return {
-        "L1STEP-HG1": _gate(
-            complete_cells,
-            "L1STEP-HG1",
-            f"canonical step grid has {expected_cells} step/arm/seed CPU training cells",
-            "$.l1_step_ladder.step_rows",
-        ),
-        "L1STEP-HG2": _gate(
-            true_cpu,
-            "L1STEP-HG2",
-            "every ladder cell is true CPU training with parameter updates and loss decrease",
-            "$.l1_step_ladder.per_step",
-        ),
-        "L1STEP-HG3": _gate(
-            ledgers,
-            "L1STEP-HG3",
-            "every ladder step has positive compute and parameter ledgers",
-            "$.l1_step_ladder.per_step",
-        ),
-        "L1STEP-HG4": _gate(
-            crossover_derived,
-            "L1STEP-HG4",
-            "crossover is mechanically derived from per-step accuracy means",
-            "$.l1_step_ladder.convergence_crossover",
-        ),
-        "L1STEP-HG5": _gate(
-            matched_random_clear,
-            "L1STEP-HG5",
-            "matched-random structural arm must not reach the DGT tolerance band",
-            "$.l1_step_ladder.convergence_crossover",
-        ),
+        "L1STEP-HG1": _gate_l1step_hg1(step_grid, per_step_rows, summary_rows, seed_count),
+        "L1STEP-HG2": _gate_l1step_hg2(per_step_rows),
+        "L1STEP-HG3": _gate_l1step_hg3(per_step_rows),
+        "L1STEP-HG4": _gate_l1step_hg4(crossover, summary_rows),
+        "L1STEP-HG5": _gate_l1step_hg5(crossover),
     }
 
 

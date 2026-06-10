@@ -17,6 +17,17 @@ def _expect_invalid(payload, match):
         l1.validate_payload(payload)
 
 
+def _refresh_ladder_fail_closed(payload, gate_id):
+    ladder = payload["l1_step_ladder"]
+    ladder["hardgates"] = l1.evaluate_l1step_hardgates(ladder)
+    ladder["status"] = "pass" if all(row["status"] == "pass" for row in ladder["hardgates"].values()) else "fail"
+    ladder["verdict"] = l1.derive_l1_step_ladder_verdict(ladder["convergence_crossover"], ladder["hardgates"])
+
+    assert ladder["hardgates"][gate_id]["status"] == "fail"
+    assert ladder["status"] == "fail"
+    assert ladder["verdict"] == "inconclusive"
+
+
 def test_l1_task_spec_is_order_k_sequence_not_tabular_fixture():
     payload = _payload()
     task = payload["task_spec"]
@@ -335,6 +346,70 @@ def test_l1_step_ladder_grid_verdict_and_no_sidecar(tmp_path):
     serialized = json.dumps(ladder, sort_keys=True)
     for forbidden in ("claim_capsule_ref", "discovery_map", "stable_causal_attribution"):
         assert forbidden not in serialized
+
+
+def test_l1_step_ladder_grid_cell_integrity_fail_closed():
+    payload = _payload()
+    assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG1"]["status"] == "pass"
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0].pop("training_steps")
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0]["training_arms"].pop("base_transformer_l1")
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0]["seed_counts"]["dgt_l1"] = 7
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
+
+
+def test_l1_step_ladder_cpu_training_evidence_fail_closed():
+    payload = _payload()
+    assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG2"]["status"] == "pass"
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0]["training_arms"]["dgt_l1"]["device_resolved"] = "mps"
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG2")
+
+    mutated = json.loads(json.dumps(payload))
+    metrics = mutated["l1_step_ladder"]["per_step"][0]["training_arms"]["dgt_l1"]["metrics"]
+    metrics["loss_decrease_mean"] = 0.0
+    metrics["parameter_l2_delta_mean"] = 0.0
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG2")
+
+
+def test_l1_step_ladder_compute_parameter_ledger_fail_closed():
+    payload = _payload()
+    assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG3"]["status"] == "pass"
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0]["compute_ledger"]["compute_units"] = 0.0
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG3")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0]["parameter_ledger"]["parameter_count"] = 0
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG3")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["per_step"][0].pop("compute_ledger")
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG3")
+
+
+def test_l1_step_ladder_crossover_derivation_fail_closed():
+    payload = _payload()
+    assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG4"]["status"] == "pass"
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["convergence_crossover"]["rows"][0]["base_accuracy_mean"] = 1.0
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["base_accuracy_mean"] = (
+        mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
+    )
+    _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
 
 
 def test_l1_step_ladder_verdict_table_branches():
