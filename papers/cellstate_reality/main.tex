@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+% BEDC-style macros stubbed for the standalone CellStateReality paper.
+\newcommand{\origin}[1]{}
+\newcommand{\closureat}[2]{}
+\providecommand{\path}{}\renewcommand{\path}[1]{\texttt{#1}}
+\providecommand{\BHist}{\mathsf{BHist}}
+\providecommand{\hsame}{\equiv_h}
+\providecommand{\Cont}{\mathrm{Cont}}
+\providecommand{\Pkg}{\mathrm{Pkg}}
+\providecommand{\GenomeSourceStable}{\mathsf{GenomeSourceStable}}
+\providecommand{\ContextDrift}{\mathsf{ContextDrift}}
+\providecommand{\ContextRefresh}{\mathsf{ContextRefresh}}
+\providecommand{\AgeClockShift}{\mathsf{AgeClockShift}}
+\providecommand{\AgeClockShiftUp}{\mathsf{AgeClockShift}^{\uparrow}}
+\providecommand{\IdentityPreservingAgeReset}{\mathsf{IdentityPreservingAgeReset}}
+\providecommand{\IdentityPreservingAgeResetUp}{\mathsf{IdentityPreservingAgeReset}^{\uparrow}}
+\providecommand{\RejuvenationCandidate}{\mathsf{RejuvenationCandidate}}
+\providecommand{\RejuvenationCandidateUp}{\mathsf{RejuvenationCandidate}^{\uparrow}}
+\providecommand{\Rejuvenation}{\mathsf{Rejuvenation}}
+\providecommand{\RejuvenationUp}{\mathsf{Rejuvenation}^{\uparrow}}
+\providecommand{\PartialReprogramming}{\mathsf{PartialReprogramming}}
+\providecommand{\PartialReprogrammingUp}{\mathsf{PartialReprogramming}^{\uparrow}}
+\providecommand{\RenewableMaintenance}{\mathsf{RenewableMaintenance}}
+\providecommand{\RenewableMaintenanceUp}{\mathsf{RenewableMaintenance}^{\uparrow}}
+\providecommand{\ImmortalityPotential}{\mathsf{ImmortalityPotential}}
+\providecommand{\ImmortalityPotentialUp}{\mathsf{ImmortalityPotential}^{\uparrow}}
+\providecommand{\Immortality}{\mathsf{Immortality}}
+\providecommand{\ImmortalityUp}{\mathsf{Immortality}^{\uparrow}}
+% article class has no \chapter: codex sometimes emits \chapter inside namecert/conjecture content, a fatal Undefined control sequence. Degrade to \section so structural commands never break the build.
+\providecommand{\chapter}[1]{\section{#1}}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+
+\title{CellStateReality: Reality-Bound Cell-State Promotion Deepening}
+\author{The Omega Institute}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+CellStateReality records cell-state conjecture deepening under explicit provenance boundaries. External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.
+
+\input{parts/cellstate_context_refresh_boundary}
+
+\section{NameCert Proposals}
+These deterministic writeback chapters promote draft NameCert proposal notes into reviewable paper text.
+
+\input{parts/namecerts/cellstate_age_clock_shift_gse142439}
+
+\input{parts/namecerts/cellstate_age_clock_shift_robustness_gse142439}
+
+\end{document}

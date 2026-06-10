@@ -1,0 +1,40 @@
+\subsection{Rank-powered translation-conditioned protein mediation for $B^*_{Q6}$}
+\label{sec:q6-rank-powered-translation-conditioned-protein-mediation}
+
+\paragraph{Finite object.}
+This record concerns a finite matrix surface whose rows are coding-sequence units and whose columns combine nine $B^*_{Q6}$ synonymous residual coordinates, matched translation-efficiency readouts, matched protein-abundance readouts, and transcript controls.  The nine residual coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3_{stress}$.  The common residualization block uses an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions computed from the same CDS codon counts, GC3, and an $M$-density baseline defined on the union support of the projected $B^*_{Q6}$ coordinates.  This gives $24$ control columns and observed rank $23$ in the powered runs.
+
+\paragraph{Measured translation contact.}
+The measured protein-abundance decomposition uses $T=\log_{10}(\mathrm{TE})$, where $\mathrm{TE}$ is ribosome footprint divided by matched mRNA abundance, and $P=\log_{10}(\mathrm{abundance\_ppm})$ from matched protein-abundance files.  The three-way codon--TE--protein joins are rank-sufficient rather than boundary artifacts: danio has $13{,}140$ joined rows from $14{,}410$ reported CDS rows, \textit{E. coli} K12 has $3{,}415$ joined rows from $3{,}739$ reported CDS rows, human has $11{,}554$ joined rows from $19{,}053$ reported CDS rows, and yeast has $5{,}128$ joined rows from $5{,}815$ reported CDS rows.  In every case the residualized $Q$ block has rank $9$, the residualized measured-TE block has rank $1$, and the joint $(Q,T)$ block has rank $10$.
+
+\paragraph{Direct and translation-conditioned protein signal.}
+The measured-TE mediation calculation gives positive $S^{QP}$ and positive $S^{QT}$ in all four organisms, but the fraction of the $Q\to P$ association absorbed by measured TE is strongly organism-dependent.  The finite values are
+$$
+\begin{aligned}
+\mathrm{danio}:&\quad S^{QP}=0.0492657845,\quad S^{QT}=0.0403421761,\quad M^{QTP}_{\mathrm{meas}}=0,\\
+\mathrm{E.coli}:&\quad S^{QP}=0.1094153595,\quad S^{QT}=0.0093942668,\quad M^{QTP}_{\mathrm{meas}}=0.0409115834,\\
+\mathrm{human}:&\quad S^{QP}=0.0428846500,\quad S^{QT}=0.0188379113,\quad M^{QTP}_{\mathrm{meas}}=0.0027966485,\\
+\mathrm{yeast}:&\quad S^{QP}=0.3146818503,\quad S^{QT}=0.1368193134,\quad M^{QTP}_{\mathrm{meas}}=0.4793069656.
+\end{aligned}
+$$
+Thus the strongest measured translation-conditioned absorption is in yeast, where about $47.93\%$ of the direct $B^*_{Q6}$ protein-abundance association is removed by conditioning on measured TE.  \textit{E. coli} shows a small positive measured-TE component, human shows a near-null component, and danio is clipped to zero because the raw fraction is negative $-0.0480148605$.  These numbers support a finite cross-layer readout: the same $Q$ surface can survive both translation and protein contacts, but measured TE is not uniformly the dominant absorber of the protein-abundance association.
+
+\paragraph{Joint TE and mRNA-stability partition.}
+A stricter four-way join adds mRNA stability as a second measured mediator.  The joined row counts are $2{,}517$ for \textit{E. coli}, $11{,}322$ for human, and $4{,}759$ for yeast, with reported join hit rates $0.9133458144$, $0.6064136881$, and $0.8818572657$, respectively.  The direct residual protein association and the association remaining after conditioning on measured TE and mRNA stability are
+$$
+\begin{aligned}
+\mathrm{E.coli}:&\quad R^2_{QP}=0.1181743523,\quad R^2_{QP\mid T,M}=0.0897573252,\\
+\mathrm{human}:&\quad R^2_{QP}=0.0427417849,\quad R^2_{QP\mid T,M}=0.0355223931,\\
+\mathrm{yeast}:&\quad R^2_{QP}=0.2715520808,\quad R^2_{QP\mid T,M}=0.1304758265.
+\end{aligned}
+$$
+The resulting joint mediation fractions are $0.2404669587$ for \textit{E. coli}, $0.1689071210$ for human, and $0.5195182226$ for yeast.  Each right-tail permutation value is $0.0009990010$ under the deterministic pair-permutation scheme.  The single-mediator decomposition separates the signal further: \textit{E. coli} has TE-only fraction $0.0197552134$ and stability-only fraction $0.2305205632$; human has TE-only fraction $0.0054949086$ and stability-only fraction $0.1531467987$; yeast has TE-only fraction $0.4697188320$ and stability-only fraction $0.0626618595$.  The overlap diagnostic classifies all three cases as approximately independent at tolerance $0.05$, with joint-minus-single-sum values $-0.0098088180$, $0.0102654137$, and $-0.0128624689$.
+
+\paragraph{Residual routes beyond measured translation.}
+The finite rows also test two non-translation absorbers without promoting them to mechanism.  Multi-label UniProt localization absorbs $0.0095088645$ in danio, $0.0092549133$ in human, and $0.0112251056$ in yeast.  Relative to the degree-of-freedom matched null $95$th percentiles, these are below the danio null $0.0113213287$ but above the human and yeast nulls $0.0013758521$ and $0.0049581170$.  The localization joins use $1{,}984$ danio rows, $16{,}008$ human rows, and $4{,}656$ yeast rows, with $12$ localization columns in each organism.  Human protein turnover gives an even smaller residual absorber: on $8{,}057$ joined rows, $\log_{10}$ half-life absorbs $3.57407649\times 10^{-6}$ of the modeled complement, below the null $95$th percentile $0.0004342285$, with $R^2_{Q,Tturn}=0.0046154088$ and combined diagnostic $d=0.8901589777$.
+
+\paragraph{Readback.}
+The four-case interpretation is therefore finite and local.  A coordinate block is translation-surviving when $S^{QT}>0$ after the stated controls; it is translation-null when this value fails.  It is protein-omics-surviving when $S^{QP}>0$ after the same controls; it is protein-omics-null when that value fails.  A protein signal is counted as translation-conditioned only to the extent that the measured TE column reduces the direct $Q\to P$ association on the matched rows.  On the present rows, yeast realizes the clearest $Q\to T\to P$ statistical pattern, \textit{E. coli} and human retain substantial non-TE residuals, and danio has a positive translation readout but no positive measured-TE absorption of the protein association.
+
+\paragraph{Local restriction.}
+These computations are observational variance partitions on finite matched data.  They do not establish causal mediation, temporal ordering, synonymous-edit effects, folding behavior, physical admissibility, molecular function, phenotype, evolutionary direction, or universality.  Ribosome profiling, mRNA abundance, protein abundance, localization, and turnover each supply only the layer they measure.  Any stronger biological assertion would require a separate perturbational or mechanistic contact at that same layer rather than promotion from the $B^*_{Q6}$ residual geometry alone.

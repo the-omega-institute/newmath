@@ -29,6 +29,14 @@ ORGANISMS = [
     "danio_rerio",
     "gallus_gallus",
     "pseudomonas_aeruginosa_pao1",
+    "bacillus_subtilis_subsp_subtilis_str_168",
+    "mus_musculus",
+    "caenorhabditis_elegans",
+    "drosophila_melanogaster",
+    "halobacterium_salinarum",
+    "sulfolobus_solfataricus",
+    "dictyostelium_discoideum",
+    "rattus_norvegicus",
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500

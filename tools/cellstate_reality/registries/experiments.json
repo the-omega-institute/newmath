@@ -1,0 +1,79 @@
+{
+  "version": "cellstate-reality-experiments-v1",
+  "experiments": [
+    {
+      "experiment_id": "gse142439_horvath353_age_clock_shift",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_horvath353_age_clock_shift.py",
+      "claim_id": "cellstate.age-clock-shift.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "paired.sample.structure",
+          "mean.delta.negative",
+          "paired.direction.statistic"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse142439_horvath353_age_clock_shift_robustness",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_horvath353_age_clock_shift_robustness.py",
+      "claim_id": "cellstate.age-clock-shift.robustness.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "paired.sample.structure",
+          "per_cell_type.direction_consistency",
+          "leave_one_donor_out.all_negative",
+          "age_signature.scope_boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165177_mptr_identity_samesig",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165177_mptr_identity_samesig.py",
+      "claim_id": "cellstate.identity-samesig.gse165177-mptr",
+      "required_data": [
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "sample.structure",
+          "identity.marker.coverage",
+          "pluripotency.marker.coverage",
+          "identity.distance.threshold",
+          "pluripotency.exclusion",
+          "promotion.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_samescope_identity_age_reset",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_samescope_identity_age_reset.py",
+      "claim_id": "cellstate.identity-preserving-age-reset.samescope.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_transient_clock_inputs.json",
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "age.coverage.floor",
+          "age.same-donor.baseline-treated-pairs",
+          "age.clock.shift",
+          "same-scope.join",
+          "identity.marker.coverage",
+          "pluripotency.marker.coverage",
+          "promotion.boundary"
+        ]
+      }
+    }
+  ]
+}

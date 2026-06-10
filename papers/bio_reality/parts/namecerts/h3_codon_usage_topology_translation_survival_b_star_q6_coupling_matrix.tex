@@ -1,74 +1,51 @@
-\origin{ai}
+\subsection{B-star-Q6 codon residual coupling against translation-layer readouts}\label{sec:bioreality-b-star-q6-codon-residual-coupling}\origin{ai}
 
-\subsection{A bounded residual-codon coupling matrix for the $B^{*}_{Q6}$ translation interface}
-\label{subsec:b-star-q6-coupling-matrix}
+\paragraph{Finite object.}
+This record tests whether the nine synonymous residual coordinates named $B^*_{Q6}$ leave a measurable trace after the amino-acid quotient is imposed.  The finite carrier is a $9\times K$ matrix whose rows are
+$$\begin{aligned}
+&K_{AAA},\ \operatorname{Arg}_{AGR},\ \operatorname{Ile}_{AUA},\ \operatorname{Leu}_{CUN/UUR},\ \operatorname{Leu}_{UUA/UUG},\\
+&\operatorname{Ser}_{UCR/AGY},\ \operatorname{Ser}_{UCA/UCG},\ \operatorname{Thr}_{ACR/ACY},\ f_3\text{-stress}.
+\end{aligned}$$
+For each residual coordinate $q_i$ and readout $r_j$, the intended statistic is a residualized survival entry $S_{ij}=S_{q_i}(r_j\mid Z)$, where $Z$ includes amino-acid composition, organism context, $GC3$, coding-sequence length, and the $M$-density baseline.  The finite computation presently has two different kinds of rows: a three-organism proxy coupling row and several powered readout rows.  The proxy row is classified as codon-usage topology, not direct translation realization; the powered rows give bounded modeled or downstream readbacks and must not be promoted beyond their own measurement layer.
 
-\paragraph{Finite row.}
-This record isolates the nine synonymous-residual coordinates of $B^{*}_{Q6}$ and asks whether any of them remains visible after the amino-acid quotient and ordinary sequence-context controls have been imposed.  The finite carrier is a $9\times K$ matrix whose row coordinates are
-$$
-\begin{aligned}
-&K_{AAA},\quad Arg_{AGR},\quad Ile_{AUA},\quad Leu_{CUN/UUR},\quad Leu_{UUA/UUG},\\
-&Ser_{UCR/AGY},\quad Ser_{UCA/UCG},\quad Thr_{ACR/ACY},\quad f3\text{-}stress .
-\end{aligned}
-$$
-For the direct coupling run, the codon-count space had dimension $61$ and the loaded organisms were \textit{Homo sapiens}, \textit{Saccharomyces cerevisiae}, and \textit{Escherichia coli} K12.  The readout in that run was not ribosome profiling and not measured protein output; it was the tRNA-Leu CUN-versus-UUR log-copy spectrum.  The break rule was
-$$
-\begin{aligned}
-\text{break if}\quad |A_{ij}|<0.01\quad\text{for all nine residual coordinates against the proxy readout}.
-\end{aligned}
-$$
-The break condition was not met.  All nine entries were nonzero at the declared threshold, and the largest absolute coupling was
-$$
-\begin{aligned}
-\max_{i,j}|A_{ij}|=1882464.1106377328 .
-\end{aligned}
-$$
-Thus the observed finite row says that the $B^{*}_{Q6}$ residual directions are not numerically silent against this Leu-copy proxy.  It does not, by itself, say that any coordinate survives as a controlled translation readout.
-
-\paragraph{Controlled modeled-readout surface.}
-A separate powered row used modeled per-codon tAI weights derived from tRNA gene-copy counts and dos Reis wobble weights.  That row covered $40$ organisms, used the same nine $B^{*}_{Q6}$ residual coordinates as both coordinate and modeled-readout columns, and produced a $9\times 9$ modeled survival surface.  The control design had $24$ columns, rank $23$, and residual degrees of freedom $17$.  The residualized coordinate block had rank $9$, and the reported modeled translation-readout fit was
-$$
-\begin{aligned}
-R^{2}_{QT}=0.9003849000036579 .
-\end{aligned}
-$$
-The run was rank-sufficient under the declared degeneracy cutoff $0.999999$, since the observed $R^{2}_{QT}$ stayed below that cutoff.  Positive partial-$R^{2}$ entries were judged against threshold $10^{-12}$.  This supplies a bounded modeled tAI survival statement, not a measured ribosome-occupancy statement.  The readout is an adaptation-weight construction from codon usage and tRNA-copy annotation; it is not ribo-seq, not measured elongation speed, not proteomics, and not a protein-folding or function assay.
-
-\paragraph{Complement and mediation diagnostics.}
-The complement-support run examined six organism-specific joined matrices with residualized $Q$, modeled $T$, protein-abundance $P$, and controls $Z$.  The joined row counts were $19053$ for \textit{Homo sapiens}, $5815$ for \textit{S. cerevisiae}, $3739$ for \textit{E. coli} K12 MG1655, $14410$ for \textit{Danio rerio}, $12418$ for \textit{Gallus gallus}, and $4129$ for \textit{Mycobacterium smegmatis} str. mc2 155.  Each organism used $24$ control columns of rank $23$.
-
-The modeled complement projection reported the following $R^{2}_{QP}$ values:
-$$
-\begin{aligned}
-R^{2}_{QP}(\textit{H. sapiens})&=0.04454565117192484,\\
-R^{2}_{QP}(\textit{S. cerevisiae})&=0.29837624987287115,\\
-R^{2}_{QP}(\textit{E. coli})&=0.10767526667768725,\\
-R^{2}_{QP}(\textit{D. rerio})&=0.04613529805760884,\\
-R^{2}_{QP}(\textit{G. gallus})&=0.03980793595345331,\\
-R^{2}_{QP}(\textit{M. smegmatis})&=0.032090091625816136 .
-\end{aligned}
-$$
-The same row reported complement-mediated fractions
-$$
-\begin{aligned}
-m(\textit{H. sapiens})&=0.07910506443205445,\\
-m(\textit{S. cerevisiae})&=0.788267804272933,\\
-m(\textit{E. coli})&=0.3370039961421468,\\
-m(\textit{D. rerio})&=0.12537127895073397,\\
-m(\textit{G. gallus})&=0.05996581936972245,\\
-m(\textit{M. smegmatis})&=0.10273279812535108 .
-\end{aligned}
-$$
-Only the \textit{M. smegmatis} complement fraction matched the separate mediation reference within $0.02$, with absolute difference $0.018756768926738165$.  The other absolute differences were $0.19295782716913712$ for \textit{H. sapiens}, $0.16088729984876438$ for \textit{S. cerevisiae}, $0.27591825665152014$ for \textit{E. coli}, $0.19033411641073011$ for \textit{D. rerio}, and $0.13772457710273214$ for \textit{G. gallus}.  The complement readback therefore identifies where a modeled-tAI-complement abundance residual lies in the nine-coordinate basis, but it is not a causal mechanism and does not establish that translation mediates abundance in the measured biological sense.
+\paragraph{Proxy coupling row.}
+The coupling-matrix run $4a783972e74b$ used codon-count vectors in the $61$-codon sense space for Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12.  The proxy readout was the tRNA-Leu $CUN$-versus-$UUR$ log-copy spectrum, not ribosome occupancy, measured elongation, or protein output.  With the break rule
+$$\begin{aligned}
+\text{null} \quad \Longleftrightarrow \quad |A_{ij}|<0.01\ \text{for all nine }q_i,
+\end{aligned}$$
+the finite row did not break to null: all $9$ entries were nonzero above the threshold, and the largest absolute coupling was $1{,}882{,}464.1106377328$.  This establishes only that the $B^*_{Q6}$ residual basis is not invisible to the selected tRNA-copy proxy on the three available organism rows.  It does not establish a positive survival entry $S_{ij}$, because the run did not contain a direct translation readout and did not estimate the full controlled partial-$R^2$ survival matrix against ribosome profiling, stAI, or protein abundance.
 
 \paragraph{Three-organism Leu gate.}
-The Leu CUN/UUR contact gives a deliberately small finite-row check.  Across \textit{H. sapiens}, \textit{S. cerevisiae}, and \textit{E. coli} K12, the reported Pearson value and the amino-acid-controlled partial Pearson value were both $1.0$ with $n=3$.  The organism-level log-ratio signs were not uniform:
-$$
-\begin{aligned}
-(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702)
-\end{aligned}
-$$
-with signs $(1,-1,1)$.  The statistic is therefore a finite-row contact, not a population estimate and not a universal direction law.  Its role is to show that the Leu split is experimentally addressable with paired codon-usage and tRNA-copy summaries; it does not transform tRNA gene-copy ratio into tRNA abundance, charging state, ribosome transit, protein output, or biological function.
+The companion Leu gate row $675fdddb3187$ gives a sharper finite diagnostic.  On the same three organisms, the partial Pearson value between the Leu $CUN/UUR$ codon-usage contrast and the tRNA-Leu copy-ratio contrast was $1.0$ with $n=3$.  The log-ratio signs were $(1,-1,1)$, so the sign was not uniform across organisms.  This is useful as a rank-one contact check and useless as a universal direction claim.  A three-row Pearson value of $1.0$ is a finite-table event; it is not a population estimate and not a law of codon usage.
+
+\paragraph{Modeled translation readout.}
+The powered modeled-tAI run $09209aa516a0$ supplies a separate $9\times 9$ modeled translation matrix built from GtRNAdb tRNA gene-copy counts and dos Reis wobble weights.  It loaded $40$ organisms, used $24$ control columns with $\operatorname{rank}(Z)=23$, and left $17$ residual degrees of freedom after controls.  The residualized $B^*_{Q6}$ design had $\operatorname{rank}(\widetilde X)=9$, and the modeled translation matrix achieved
+$$\begin{aligned}
+R^2_{QT}=0.9003849000036579.
+\end{aligned}$$
+The positive-entry threshold was $10^{-12}$.  This row is strong evidence that the nine-coordinate residual basis has a nondegenerate modeled tAI readback after the declared controls.  It remains modeled translation-readout survival only: gene-copy-derived tAI is not ribosome profiling, not measured elongation speed, not ribosome occupancy, not proteomics, and not protein folding.
+
+\paragraph{Protein abundance and translation complement.}
+The modeled-translation complement run $c82328895912$ reads the part of the $B^*_{Q6}$ abundance component not aligned with modeled tAI back into the same nine coordinates.  The joined row counts were $14{,}410$ for Danio rerio, $3{,}739$ for Escherichia coli K-12 MG1655, $12{,}418$ for Gallus gallus, $19{,}053$ for Homo sapiens, $4{,}129$ for Mycobacterium smegmatis str. mc2 155, and $5{,}815$ for Saccharomyces cerevisiae, each with $24$ control columns and $\operatorname{rank}(Z)=23$.  The observed abundance-side $R^2_{QP}$ values were $0.04613529805760884$, $0.10767526667768725$, $0.03980793595345331$, $0.04454565117192484$, $0.032090091625816136$, and $0.29837624987287115$, respectively.  The complement fractions $d$ were $0.874628721049266$, $0.6629960038578532$, $0.9400341806302775$, $0.9208949355679455$, $0.8972672018746489$, and $0.21173219572706703$.  Equivalently, the modeled-translation-aligned fractions $m=1-d$ were $0.12537127895073397$, $0.3370039961421468$, $0.05996581936972245$, $0.07910506443205445$, $0.10273279812535108$, and $0.788267804272933$.  Yeast is therefore the outlying case in which the abundance component is mostly aligned with the modeled translation component, while the vertebrate rows and Mycobacterium row retain most of the abundance component outside modeled tAI.
+
+\paragraph{Candidate residual readouts.}
+The non-translation residual ranking run $8d1c6dbe3879$ used the score $A_H C_H-\lambda DL_H$ with $\lambda=0.01$.  For Danio rerio, measured translation efficiency ranked first with $A_H=0.017594290015070787$, $C_H=0.6573753096184687$, $A_HC_H=0.011566051846174291$, score $0.001566051846174291$, $n=13{,}140$, Bonferroni threshold $0.000719994971498518$, and null $p95=0.0003297458343745959$.  For Homo sapiens, complex membership was the top listed readout with $A_H=0.007527199987780841$, $C_H=0.8723071163246565$, score $-0.0034339698846599055$, $n=18{,}335$, Bonferroni threshold $0.0002646171322365322$, and null $p95=0.0002334419901244703$.  For Saccharomyces cerevisiae, mRNA abundance ranked first with $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, score $-0.008853737772559931$, $n=5{,}128$, Bonferroni threshold $0.0013014749238591248$, and null $p95=0.0004745820831535835$.  Escherichia coli K-12 MG1655 and Mycobacterium smegmatis did not produce a positive selected $H_o^*$ row under this scoring rule.  These rows classify where residual abundance energy can be described statistically; they do not identify a biochemical mechanism.
+
+\paragraph{Condition and tissue dependence.}
+In yeast protein-abundance rows from the Newman-labeled PAXdb condition files, the two-condition comparison joined $2{,}209$ shared proteins.  The rich-medium row had $R^2_{QP}=0.3280825603424665$ and the minimal-medium row had $R^2_{QP}=0.3050385538305022$, with $f_3$-stress dominant in both.  The condition-vector cosine was $0.9993775935182967$ and the Pearson value was $0.9983880256003688$ over $1000$ permutations, so this particular yeast abundance readback is condition-stable at the vector level.  In human adult tissue proteomics, the B-cell, heart, and liver rows joined $9{,}244$, $6{,}468$, and $8{,}664$ proteins, with $R^2_{QP}=0.03626117434944674$, $0.02320896321347296$, and $0.026133456228248052$.  Their dominant coordinates were $\operatorname{Arg}_{AGR}$, $\operatorname{Ser}_{UCR/AGY}$, and $\operatorname{Ile}_{AUA}$, and the pairwise cosines were $0.6883655232187615$, $0.8990093450963941$, and $0.9176793373754919$ over $1000$ permutations.  The tissue rows therefore show common residual structure but not a single invariant dominant coordinate.
+
+\paragraph{mRNA stability side tests.}
+The yeast mRNA half-life row joined $5{,}085$ genes against the Neymotin table, with a reported CDS join hit rate of $0.9156038419146592$.  It obtained $R^2_{QM}=0.05179429044975085$, same-join $R^2_{QP}=0.2761140373962526$, cosine $0.8040935468384264$, and permutation $p=0.000999000999000999$ over $1000$ permutations, with $\operatorname{Leu}_{CUN/UUR}$ dominant for half-life and $f_3$-stress dominant for protein abundance.  The corresponding E. coli half-life row joined $2{,}720$ genes with hit rate $0.9978649586335735$, obtained $R^2_{QM}=0.02298556640056076$, same-join $R^2_{QP}=0.11632311854858134$, cosine $-0.7784923375569599$, and dominant $\operatorname{Arg}_{AGR}$.  The human consensus half-life row joined $16{,}165$ genes with hit rate $0.9779294769799313$ across $54$ dataset columns, obtained $R^2_{QM}=0.010503670362051522$, same-join $R^2_{QP}=0.04095215557813418$, cosine $0.6351183883924848$, and dominant $\operatorname{Leu}_{CUN/UUR}$.  These rows show that $B^*_{Q6}$ residuals also interact with transcript-stability readouts, but the sign and dominant coordinate vary by organism and readout construction.
+
+\paragraph{Mediation scalar.}
+The yeast abundance-residual mediation row $fb4b0c5b925a$ decomposed the $B^*_{Q6}$ protein-abundance association by conditioning on residualized log$_{10}$ mRNA half-life.  On $5{,}085$ joined genes it reported
+$$\begin{aligned}
+R^2_{QP}&=0.2761140373962526,\\
+R^2_{QP\mid M}&=0.24851799532219632,\\
+R^2_{\text{absorbed by }M}&=0.027596042074056304,\\
+\text{mediation fraction}&=0.09994436477872035.
+\end{aligned}$$
+The permutation null mean was $0.00019674487584783138$, the null $p95$ was $0.0014571003414947088$, and the right-tail permutation value was $0.000999000999000999$.  This is a variance decomposition, not a causal pathway claim: conditioning on half-life removes about ten percent of the yeast abundance association in this construction, but the observational row does not identify the direction of biological causation.
 
 \paragraph{Local verdict.}
-The coupling matrix row is retained as a positive proxy-coupling record: the stated null $|A_{ij}|<0.01$ for all nine coordinates was false, and the maximum absolute coupling was $1882464.1106377328$.  The powered modeled-tAI row supplies a separate, controlled modeled-readout surface with $R^{2}_{QT}=0.9003849000036579$, rank $9$ after residualization, and residual degrees of freedom $17$.  The stronger measured-survival claim remains narrower: a positive $A_{ij}$ is not automatically a positive $S_{ij}$, and modeled tAI is not the same object as ribosome profiling, translation efficiency measured by RPF over mRNA, or protein abundance.  No ribosome-mediated translation realization, folding, physical admissibility, biological function, biochemical mechanism, phenotype, or universal biological law follows from this chapter unless an additional matched contact supplies that layer and the corresponding controlled statistic is computed.
+The finite data support a bounded statement: the nine $B^*_{Q6}$ synonymous residual coordinates are not absorbed by amino-acid composition, organism context, $GC3$, coding-sequence length, and the $M$-density baseline across the recorded proxy, modeled-tAI, abundance, tissue, condition, and transcript-stability rows.  The most direct coupling row has $9$ nonzero entries above $0.01$ and maximum absolute proxy coupling $1{,}882{,}464.1106377328$; the strongest powered modeled-translation row has $R^2_{QT}=0.9003849000036579$ with $40$ organisms and residual rank $9$.  The scientific boundary is equally important: no measured ribosome-mediated translation conclusion, protein folding conclusion, physical-admissibility conclusion, molecular-function conclusion, mechanism claim, phenotype claim, or universal biological law follows from these rows unless a separate layer-matched contact supplies the relevant measurement and the same controlled statistic is recomputed for that layer.
