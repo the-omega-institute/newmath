@@ -1,0 +1,273 @@
+{
+  "status": "needs_data",
+  "scan_id": "maturation.case3.scan",
+  "question": "Does a post-OSKM-withdrawal, maturation, recovered, or re-differentiated partial-reprogramming phase contain Case 3: DNAm age gain with bounded identity cost and bounded pluripotency risk?",
+  "decision": "No accession located in this scan met all hard requirements: explicit post-withdrawal or recovered phase, human EPIC or 450k methylation values usable with Horvath353, processed RNA or expression values covering fibroblast identity markers and POU5F1/NANOG/LIN28A/LIN28B/SOX2, and stdlib-readable processed files.",
+  "hard_requirements": [
+    "post-OSKM-withdrawal, maturation, recovered, or re-differentiated samples, not only transient intermediate samples",
+    "human EPIC or 450k methylation processed beta values sufficient to score covered Horvath353 CpGs",
+    "processed RNA or expression matrix covering identity markers and pluripotency markers",
+    "same donor, sample, or phase labels sufficient to join methylation and RNA readbacks",
+    "processed files readable with Python stdlib; raw SRA, IDAT-only, RDS-only, H5/H5AD-only, and anti-bot document sources are not sufficient"
+  ],
+  "queries": [
+    {
+      "source": "NCBI GEO eutils",
+      "query": "\"transient reprogramming\" AND (methylation OR EPIC OR 450k)",
+      "result_accessions": [
+        "GSE165179",
+        "GSE165178",
+        "GSE165177",
+        "GSE165176",
+        "GSE156557",
+        "GSE142439"
+      ]
+    },
+    {
+      "source": "NCBI GEO eutils",
+      "query": "(\"partial reprogramming\" OR \"transient reprogramming\")",
+      "notes": "Wide scan exposed recent partial-reprogramming RNA-only, mouse-only, array-only, RDS-only, and raw-only candidates; inspected candidates are listed below."
+    },
+    {
+      "source": "GEO FTP directory and series_matrix metadata",
+      "query": "Direct curl inspection of candidate matrix and supplementary directories",
+      "notes": "Phase labels were checked from !Sample_title, !Sample_source_name_ch1, and !Sample_characteristics_ch1 where series_matrix files were available."
+    }
+  ],
+  "candidates": [
+    {
+      "accession": "GSE165180",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE165180",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165180/",
+      "study": "Gill MPTR SuperSeries",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Series summary states MPTR uses factor withdrawal after a maturation point, but the SuperSeries supplementary directory only exposes RAW.tar and filelist at the SuperSeries level.",
+      "processed_data": "SubSeries have processed data, but the SuperSeries itself does not provide a joined processed methylation plus RNA recovered-phase table.",
+      "verdict": "not_qualified",
+      "reason": "Need subseries-level sample labels and processed matrices; the SuperSeries summary alone is not a recover-phase sample certificate."
+    },
+    {
+      "accession": "GSE165177",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE165177",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165177/",
+      "study": "Gill MPTR transient RNA-seq",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles include O1/O2/O3_Fib, negative_control_10/13/15/17days, negative_control_intermediate_10/13/15/17days, transient_reprogramming_intermediate_10/13/15/17days, transiently_reprogrammed_10/13/15/17days, failed_to_transiently_reprogram_10/13/15/17days, and iPSC_13/iPSC_21.",
+      "exact_relevant_titles_checked": [
+        "O1_transiently_reprogrammed_10days_exp2",
+        "O2_transiently_reprogrammed_13days_exp2",
+        "O3_transiently_reprogrammed_17days_exp2",
+        "O1_transient_reprogramming_intermediate_17days_exp2",
+        "O1_Fib",
+        "iPSC_13",
+        "iPSC_21"
+      ],
+      "processed_data": "Processed Log2 RPM matrices are available as GSE165177_Log2_RPM_Transient_reprogramming.txt.gz and GSE165177_Log2_RPM_Transient_reprogramming_part2_170621.txt.gz.",
+      "verdict": "not_qualified",
+      "reason": "Processed RNA is available, but metadata labels are transient/intermediate/fibroblast/iPSC; no explicit post-withdrawal recovered or maturation-after-withdrawal samples were found."
+    },
+    {
+      "accession": "GSE165179",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE165179",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165179/",
+      "study": "Gill MPTR transient methylation array",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles include O1/O2/O3 Fib, transiently_reprogrammed_10/13/15/17days, transient_reprogramming_intermediate_10/13/15/17days, negative_control, negative_control_intermediate, failed_to_transiently_reprogram, failing_to_transiently_reprogram_intermediate, and iPSC 13/iPSC 21.",
+      "exact_relevant_titles_checked": [
+        "O1_transiently_reprogrammed_10days_exp2",
+        "O2_transiently_reprogrammed_13days_exp2",
+        "O3_transiently_reprogrammed_17days_exp2",
+        "O1_transient_reprogramming_intermediate_17days_exp2",
+        "O1 Fib",
+        "iPSC 13",
+        "iPSC 21"
+      ],
+      "processed_data": "Processed EPIC beta matrix is available as GSE165179_Matrix_processed_transient.txt.gz.",
+      "verdict": "not_qualified",
+      "reason": "Horvath353 scoring is possible for the transient array contact, but no explicit recovered or post-withdrawal sample labels were found."
+    },
+    {
+      "accession": "GSE165176",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE165176",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165176/",
+      "study": "Gill Sendai reprogramming RNA-seq",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles are Sendai time-course labels such as O1_d21_SSEA4_Sendai_Exp2, O1_d29_CD13_Sendai_Exp2, O1_d54_SSEA4_Sendai_Exp2, and O1_Fib_Sendai_Exp2.",
+      "exact_relevant_titles_checked": [
+        "O1_d21_SSEA4_Sendai_Exp2",
+        "O1_d29_CD13_Sendai_Exp2",
+        "O1_d54_SSEA4_Sendai_Exp2",
+        "O1_Fib_Sendai_Exp2"
+      ],
+      "processed_data": "Processed RNA matrix is available as GSE165176_Log2_RPM_Sendai_reprogramming.txt.gz.",
+      "verdict": "not_qualified",
+      "reason": "RNA-only Sendai iPSC reprogramming time course; no paired processed EPIC/450k recovered-phase methylation data in this accession."
+    },
+    {
+      "accession": "GSE165178",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE165178",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165178/",
+      "study": "Gill Sendai reprogramming methylation array",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles include Y2_d11_SSEA4, Y2_d11_CD13, O1_d15_SSEA4, and O2_d15_CD13; characteristics list reprogramming/failing-to-reprogram cell type and days of reprogramming.",
+      "exact_relevant_titles_checked": [
+        "O1_d11_SSEA4",
+        "O1_d15_CD13",
+        "O2_d15_SSEA4",
+        "Y2_d15_CD13"
+      ],
+      "processed_data": "Processed EPIC beta matrix is available as GSE165178_Matrix_processed_sendai.txt.gz.",
+      "verdict": "not_qualified",
+      "reason": "Methylation-only Sendai iPSC reprogramming time course; no explicit post-withdrawal recovered labels and no matching processed RNA recovered contact in this accession."
+    },
+    {
+      "accession": "GSE142439",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE142439",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE142nnn/GSE142439/",
+      "study": "Sarkar transient non-integrative reprogramming",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles are paired Normal/Treated fibroblast and endothelial samples, such as Person 1 SkinFibroblasts Normal and Person 1 SkinFibroblasts Treated.",
+      "processed_data": "Processed EPIC methylation text is available and already supports an age-clock shift contact.",
+      "verdict": "not_qualified",
+      "reason": "Methylation-only for the needed marker join; no processed RNA marker matrix and no explicit post-withdrawal recovered phase labels."
+    },
+    {
+      "accession": "GSE156558",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE156558",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE156nnn/GSE156558/",
+      "study": "Browder single-cycle transient reprogramming SuperSeries",
+      "organism": "Mus musculus",
+      "phase_evidence": "SuperSeries sample titles include explicit recovery wording: JCX1025: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery); JCX1011: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery); JXC384: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery); JCX1027: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery).",
+      "exact_recovered_titles_checked": [
+        "JCX1025: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery)",
+        "JCX1011: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery)",
+        "JXC384: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery)",
+        "JCX1027: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery)"
+      ],
+      "processed_data": "RRBS COV methylation and RNA-seq exist across subseries, but this is mouse tissue data rather than human EPIC/450k Horvath353 input.",
+      "verdict": "not_qualified",
+      "reason": "Explicit recovery phase exists, but organism/platform fail the required human EPIC/450k Horvath353 criterion."
+    },
+    {
+      "accession": "GSE156557",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE156557",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE156nnn/GSE156557/",
+      "study": "Browder transient reprogramming RRBS",
+      "organism": "Mus musculus",
+      "phase_evidence": "Sample titles include old_OSKM and old_ctrl pancreas, liver, and spleen samples.",
+      "processed_data": "Processed COV files are reported by GEO summary.",
+      "verdict": "not_qualified",
+      "reason": "Mouse RRBS methylation, not human EPIC/450k Horvath353; expression marker matrix is not paired in this accession."
+    },
+    {
+      "accession": "GSE247179",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE247179",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE247nnn/GSE247179/",
+      "study": "partial chemical reprogramming array",
+      "organism": "Mus musculus",
+      "phase_evidence": "Mouse dermal fibroblasts treated with vehicle, 2c, or 7c for 6 days; no withdrawal/recovered phase in checked titles.",
+      "processed_data": "Methylation data are RDS.gz sesame objects plus raw IDAT.",
+      "verdict": "not_qualified",
+      "reason": "Mouse mammalian methylation array, RDS-only processed methylation, and no explicit recovered phase."
+    },
+    {
+      "accession": "GSE246954",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE246954",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE246nnn/GSE246954/",
+      "study": "partial chemical reprogramming RNA-seq",
+      "organism": "Mus musculus",
+      "phase_evidence": "Mouse fibroblast samples treated with 2c, 7c, or untreated for 6 days.",
+      "processed_data": "raw_genecounts xls.gz is available.",
+      "verdict": "not_qualified",
+      "reason": "Mouse RNA-only contact; no human EPIC/450k Horvath353 methylation and no post-withdrawal recovered phase."
+    },
+    {
+      "accession": "GSE190665",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE190665",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE190nnn/GSE190665/",
+      "study": "in vivo partial reprogramming in 4F mice",
+      "organism": "Mus musculus with mixed species GEO summary",
+      "phase_evidence": "Long-term dox-treated and control mouse tissue groups; durationtreatment fields include 0, 1, 7, and 10.",
+      "processed_data": "datBetaNormalized.csv.gz is available.",
+      "verdict": "not_qualified",
+      "reason": "Mostly mouse tissue methylation array contact; no matched processed RNA marker matrix for human fibroblast identity/pluripotency and no Horvath353 human EPIC/450k scope."
+    },
+    {
+      "accession": "GSE201710",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE201710",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE201nnn/GSE201710/",
+      "study": "targeted partial reprogramming of age-associated cell states",
+      "organism": "Homo sapiens and Mus musculus",
+      "phase_evidence": "Supplementary directory includes IMR90 OSK TPM xlsx and mouse tissues raw text.",
+      "processed_data": "Processed RNA-like xlsx is available; no processed human EPIC/450k methylation matrix located.",
+      "verdict": "not_qualified",
+      "reason": "No processed human Horvath353-compatible methylation contact found."
+    },
+    {
+      "accession": "GSE300477",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE300477",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE300nnn/GSE300477/",
+      "study": "single-short partial reprogramming of endothelial cells",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Series design states human aortic endothelial cells were treated with OSK or EGFP Sendai virus for 3 or 7 days; sample title is endothelial scRNA-seq.",
+      "processed_data": "Only RAW.tar was present in the supplementary directory at scan time.",
+      "verdict": "not_qualified",
+      "reason": "Raw scRNA-only for this task; no processed methylation matrix and no explicit recovered phase."
+    },
+    {
+      "accession": "GSE297233",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE297233",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE297nnn/GSE297233/",
+      "study": "mesenchymal drift reversed by partial reprogramming RNA-seq",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Sample titles are OSK or O4YRSK with no dox or dox for 4 days in GM00731 fibroblasts.",
+      "processed_data": "raw_counts_matrix.csv.gz is available.",
+      "verdict": "not_qualified",
+      "reason": "Human RNA-only contact; no processed methylation matrix and no post-withdrawal recovered phase."
+    },
+    {
+      "accession": "GSE297234",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE297234",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE297nnn/GSE297234/",
+      "study": "mesenchymal drift reversed by partial reprogramming scRNA-seq",
+      "organism": "Homo sapiens",
+      "phase_evidence": "Partial reprogramming scRNA-seq objects for GM00731 and combined fibroblast datasets.",
+      "processed_data": "Large RDS objects and RAW.tar only.",
+      "verdict": "not_qualified",
+      "reason": "RDS/scRNA-only for this task; no stdlib-readable processed methylation matrix and no human Horvath353 methylation contact."
+    },
+    {
+      "accession": "GSE231658",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE231658",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE231nnn/GSE231658/",
+      "study": "PRC2-target epigenetic alterations WGBS",
+      "organism": "Mus musculus",
+      "phase_evidence": "Partial reprogramming and rejuvenation WGBS hit in wide search.",
+      "processed_data": "Supplementary directory exposes RAW.tar and filelist only.",
+      "verdict": "not_qualified",
+      "reason": "Mouse WGBS/raw-only for this task; no human EPIC/450k Horvath353 and no processed RNA marker matrix."
+    },
+    {
+      "accession": "GSE289856",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE289856",
+      "ftp": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE289nnn/GSE289856/",
+      "study": "PRC2-target epigenetic alterations methylation profiling",
+      "organism": "Mus musculus",
+      "phase_evidence": "Rejuvenation methylation hit in wide search.",
+      "processed_data": "Supplementary directory exposes RAW.tar and filelist only.",
+      "verdict": "not_qualified",
+      "reason": "Mouse/raw-only methylation; no human EPIC/450k Horvath353 and no processed RNA marker matrix."
+    }
+  ],
+  "recovered_phase_evidence_found_but_not_qualified": [
+    {
+      "accession": "GSE156558",
+      "sample_title": "JCX1025: Pancreas sample from OSKM treated mouse of age 58 weeks (55 + 1 week treatment + 2 weeks revovery)",
+      "why_not_case3_input": "Explicit recovery wording, but mouse RRBS/tissue data cannot be scored with the required human Horvath353 EPIC/450k pipeline."
+    }
+  ],
+  "case3_evaluation": {
+    "status": "not_run",
+    "reason": "No qualified recovered-phase processed dataset was found. Running Case 3 on transient or mouse recovery data would over-claim the requested recovered human EPIC/RNA test."
+  }
+}
