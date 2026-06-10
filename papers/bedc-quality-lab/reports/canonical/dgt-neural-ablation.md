@@ -2,10 +2,12 @@
 
 - Status: `pass`
 - PURE status: `pass`
+- Stable causal attribution: `none`
 - Device: `mps`
 - Arms: `11`
-- Seeds: `3`
-- Torch steps per arm seed: `40`
+- Seeds: `8`
+- Torch step grid: `[128, 256]`
+- Arm trainings: `176`
 - Claim capsule: `reports/runs/dgt-neural-ablation/claim_capsule.json:$`
 
 ## PURE hardgates
@@ -28,21 +30,29 @@
 - `NABL-HG6`: `pass`
 - `NABL-HG7`: `pass`
 
+## NABL2 hardgates
+
+- `NABL2-HG1`: `pass`
+- `NABL2-HG2`: `pass`
+- `NABL2-HG3`: `pass`
+- `NABL2-HG4`: `pass`
+- `NABL2-HG5`: `pass`
+- `NABL2-HG6`: `pass`
+
 ## Component claims
 
-- `DRT`: Under the bounded toy training protocol, removing DRT causes measured degradation on benefit_q, negative_witness_hits, quality_q.
-- `ledger_head`: Under the bounded toy training protocol, removing ledger_head causes measured degradation on JetCoverage, UER, benefit_q, classifier_shift_count, debt_q, quality_q, scope_pressure_q.
-- `scope_seal`: Under the bounded toy training protocol, removing scope_seal causes measured degradation on UER, benefit_q, classifier_shift_count, debt_q, negative_witness_hits, quality_q, scope_pressure_q.
+- No positive component-causal claim.
 
 ## Boundary ledger
 
-- `LAT`: `blocked` - NABL-HG7
-- `CGA`: `blocked` - NABL-HG7
-- `DRT`: `measured` - measured paired training delta supports a scoped component-causal claim
-- `gap_head`: `blocked` - NABL-HG7
-- `ledger_head`: `measured` - measured paired training delta supports a scoped component-causal claim
-- `route_certificate`: `blocked` - NABL-HG7
-- `mechanism_probe`: `blocked` - NABL-HG7
-- `jet_loss`: `blocked` - NABL-HG7
-- `negative_witness_loss`: `blocked` - NABL-HG7
-- `scope_seal`: `measured` - measured paired training delta supports a scoped component-causal claim
+- `LAT`: `blocked` - NABL2-HG3
+- `CGA`: `blocked` - NABL2-HG3
+- `DRT`: `blocked` - NABL2-HG3
+- `gap_head`: `blocked` - NABL2-HG3
+- `ledger_head`: `blocked` - NABL2-HG3
+- `route_certificate`: `blocked` - NABL2-HG3
+- `mechanism_probe`: `blocked` - NABL2-HG3
+- `jet_loss`: `blocked` - NABL2-HG3
+- `negative_witness_loss`: `blocked` - NABL2-HG3
+- `scope_seal`: `blocked` - NABL2-HG3
+- `<all>`: `null_result` - no component shows cross-seed-stable causal effect on this bounded toy at 8 seeds / 128-256 steps; component causality requires a harder task (L1+ per scope algebra)

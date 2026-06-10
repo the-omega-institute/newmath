@@ -22,6 +22,8 @@ CANONICAL_JSON_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 RUN_ROOT = "reports/runs/discovery-gated-transformer"
 DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
+NABL_HARDGATE_STATUS_POINTER = "$.nabl_hardgates.status"
+NABL_HARDGATE_FAILED_GATE_POINTER = "$.nabl_hardgates.failed_gate"
 DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
 EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
@@ -1165,15 +1167,9 @@ def _artifact_pointer_cell(value: str) -> dict[str, str]:
 
 
 def _neural_ablation_ref(root: Path) -> dict[str, str]:
-    path = root / DGT_NEURAL_ABLATION_ARTIFACT
-    if path.exists():
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            payload = {}
-        if isinstance(payload, Mapping) and pointer_value(payload, "$.nabl_hardgates.status") == "pass":
-            return _cell(DGT_NEURAL_ABLATION_ARTIFACT, "$.nabl_hardgates.status")
-    return _cell(DGT_NEURAL_ABLATION_ARTIFACT, "$.nabl_hardgates.failed_gate")
+    status = resolve_artifact_pointer(root, f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_STATUS_POINTER}")
+    pointer = NABL_HARDGATE_STATUS_POINTER if status == "pass" else NABL_HARDGATE_FAILED_GATE_POINTER
+    return _cell(DGT_NEURAL_ABLATION_ARTIFACT, pointer)
 
 
 def _mapping_path(value: Any, path: Sequence[str]) -> Any:
@@ -2459,6 +2455,7 @@ def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, 
     if not isinstance(forbidden_audit, Mapping):
         forbidden_audit = _d5_m_forbidden_claim_audit(owner_payload, list(D5M_NOT_CLAIMED))
     neural_ref = owner_payload.get("neural_ablation_ref")
+    neural_ablation_pointer = artifact_pointer(neural_ref) if _is_cell(neural_ref) else None
     failed_conditions = {
         "D5M-HG1": not (
             isinstance(d5_o, Mapping)
@@ -2480,9 +2477,9 @@ def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, 
         ),
         "D5M-HG6": not (
             _is_cell(neural_ref)
-            and artifact_pointer(neural_ref) == f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status"
+            and neural_ablation_pointer == f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_STATUS_POINTER}"
             and d5_m.get("component_ablation_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref"
-            and d5_m.get("neural_ablation_pointer") == f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status"
+            and d5_m.get("neural_ablation_pointer") == neural_ablation_pointer
         ),
         "D5M-HG7": negative.get("score_margin_shortcut") != "cleared",
         "D5M-HG8": negative.get("scale_leakage") != "cleared",
@@ -2542,7 +2539,9 @@ def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
         "jet_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
         "causal_patch_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
         "component_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref",
-        "neural_ablation_pointer": f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status",
+        "neural_ablation_pointer": artifact_pointer(owner_payload["neural_ablation_ref"])
+        if _is_cell(owner_payload.get("neural_ablation_ref"))
+        else f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_FAILED_GATE_POINTER}",
         "negative_witness_pointers": {
             "score_margin_shortcut": "cleared",
             "score_margin_shortcut_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier",
