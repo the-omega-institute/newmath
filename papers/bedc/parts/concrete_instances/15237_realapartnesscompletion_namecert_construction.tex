@@ -67,6 +67,20 @@ Apply the obligation surface of \autoref{thm:real-apartness-completion-obligatio
 Finally use the non-escape boundary of \autoref{thm:real-apartness-completion-nonescape}. Since quotient completion, choice, trichotomy, host equality, and ambient completeness rows are absent, the obligation surface has no route outside the displayed packet.
 \end{proof}
 
+\begin{theorem}[RealApartnessCompletion obligation partition]
+\label{thm:real-apartness-completion-obligation-partition}
+For every accepted $\RealApartnessCompletionUp$ packet $A=(X,Q,M,S,R,D,E,H,C,P,N)$, the local obligation surface partitions into separated-source rows $(X,Q,M)$, finite window and readback rows $(S,R,D)$, the terminal seal row $E$, and structural ledger rows $(H,C,P,N)$. No consumer may discharge an obligation in one partition by borrowing a row from another partition unless an explicit displayed transport or replay row in $H$ or $C$ carries that row across the named boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-apartness-completion-carrier}. The tuple displays the apartness source $X$, Hausdorff separation row $Q$, constructive completion row $M$, stream window $S$, regular readback $R$, dyadic tolerance row $D$, seal $E$, and structural rows $H,C,P,N$ as distinct coordinates.
+
+Apply the obligation surface of \autoref{thm:real-apartness-completion-obligation-surface} and the routing theorem of \autoref{thm:real-apartness-completion-obligation-routing}. Their carrier, separated-source, regular readback, stability, and ledger clauses are projections of the same ordered packet, so the source rows, window/readback rows, seal row, and structural rows cannot be identified by prose alone.
+
+The non-escape boundary of \autoref{thm:real-apartness-completion-nonescape} prevents quotient completion, selected limits, choice, trichotomy, host equality, and ambient completeness from supplying substitute rows. The separated-source exactness and regular readback discipline theorems, \autoref{thm:real-apartness-completion-separated-source-exactness} and \autoref{thm:real-apartness-completion-regular-readback-discipline}, fix the entry to $M$ through $X,Q$ and the entry to $E$ through $S,R,D$.
+
+It remains only to account for permitted movement between partitions. Such movement must be displayed by $H$ or $C$, because those are the only transport and replay rows in the carrier. Hence a consumer cannot satisfy one partition by borrowing from another unless the borrowing is itself recorded as an explicit structural route.
+\end{proof}
+
 \begin{theorem}[RealApartnessCompletion non-escape boundary]
 \label{thm:real-apartness-completion-nonescape}
 Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every separated completion read of $A$ factors through the finite route
