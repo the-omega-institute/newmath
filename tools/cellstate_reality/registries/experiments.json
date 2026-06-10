@@ -126,6 +126,26 @@
           "age_signature.scope_boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse190665-function-signature",
+      "script_path": "tools/cellstate_reality/experiments/run_gse190665_function_signature.py",
+      "claim_id": "cellstate.function-signature-shift.gse190665",
+      "required_data": [
+        "tools/cellstate_reality/data/gse190665_function_signature_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "marker.panel.coverage",
+          "age-matched.sample.structure",
+          "mean.delta.senescence.negative",
+          "mean.delta.sasp.negative",
+          "finite-scope.direction.consistency",
+          "function-assay.boundary"
+        ]
+      }
     }
   ]
 }
