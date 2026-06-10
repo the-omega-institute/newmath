@@ -124,6 +124,31 @@ Thus the only regular-rational readback available to the handoff is the named $\
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierRegSeqRatHandoff}
 
+\begin{theorem}[MetaCIC candidate frontier source-window determinacy]
+\label{thm:metacic-critical-path-candidate-frontier-source-window-determinacy}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Suppose two candidate-mediated handoff reads expose the same four L10 source faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+with the same visible obstruction row $O$ and discharge socket $D$. Then the handoff row $U$ has the same finite source-window classifier before any confluence-facing or decidability-facing consumer reads it. The conclusion is only determinacy of that displayed source window; it does not close subject reduction, global confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated frontier and L10 readback theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. They force both reads of $U$ to pass through the same four displayed L10 faces before any confluence-facing or decidability-facing consumer can inspect the handoff.
+
+Use the Real source-lock and RegSeqRat handoff theorems, \autoref{thm:metacic-critical-path-candidate-frontier-real-source-lock} and \autoref{thm:metacic-critical-path-candidate-frontier-regseqrat-handoff}. These identify the $\RealUp$ face as a named source row and make $\RegSeqRatUp$ the only regular-rational route available to the handoff, so the two reads have no alternate source-window classifier to choose.
+
+Apply socket separation and handoff totality, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. Since $O$ and $D$ are the same visible boundary rows in both reads, totality exhausts $U$ by $S,N,U,H,C,P,L$ together with that fixed boundary and the same four source faces.
+
+Finally read discharge coverage and source exhaustion, \autoref{thm:metacic-critical-path-candidate-frontier-discharge-coverage} and \autoref{thm:metacic-critical-path-candidate-frontier-source-exhaustion}. They leave no hidden source row, quotient source, selected-limit source, host-equality source, confluence source, beta-decidability source, or Real-completeness source. The finite classifier visible at $U$ is therefore determined by the shared L10 window and the shared $O,D$ boundary.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN L10 completion lock]
 \label{thm:metacic-critical-path-candidate-mediated-sn-l10-completion-lock}
 Let
