@@ -112,6 +112,7 @@ obtained by reading the local-linearization rows $E,R,D,L,J,H,C,P,N$ together wi
 
 The package compares accepted calculus reads only through those rows. It has no coordinate for a host function space, selected antiderivative, selected derivative operator, quotient equality of functions, host limit operator, host integral functional, or ambient $\RealUp$ completeness.
 \end{definition}
+\leandef{BEDC.Derived.CalculusUp.CalculusRootPublicPackage}
 
 \begin{definition}[Calculus root obligation surface]
 \label{def:calculus-root-obligation-surface}
@@ -713,6 +714,18 @@ Use the Real-seal nonescape theorem \autoref{thm:calculus-root-real-seal-nonesca
 Finally apply \autoref{thm:calculus-root-operation-ledger-exhaustion}. The exhaustion statement identifies the ledger as the full consumer-facing route, so the root unblock surface is a finite operation ledger and not a host analytic structure or ambient completeness principle.
 \end{proof}
 \leanchecked{BEDC.Derived.CalculusUp.CalculusRootUnblockRealOperationLedger}
+
+\begin{theorem}[Calculus root Real-completion operation handoff]
+\label{thm:calculus-root-real-completion-operation-handoff}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, any consumer that combines derivative, integral, or limit rows with a Real-facing value must route through the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ tolerance ledger $Y$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$ before reading the terminal $\RealUp$ boundary $R$. The handoff is the Phase Real and Completion route of the finite root carrier, not an ambient completion or host analytic-value principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:calculus-root-derivative-integral-boundary} to keep the derivative and integral rows separate over the common support.
+
+Use \autoref{thm:calculus-root-real-seal-nonescape} and \autoref{thm:calculus-root-operation-ledger-exhaustion}. These force every derivative, integral, limit, or Real-facing read through $Q,Y$ before $R$ is public.
+
+Finally apply \autoref{thm:calculus-root-local-linearization-cauchy-handoff} for the completion-facing derivative window. The structural rows $H,T,P,N$ preserve the same finite route, so the consumer reaches Phase Real and Completion only through the displayed root ledger.
+\end{proof}
 
 \begin{theorem}[Calculus root local linearization Cauchy handoff]
 \label{thm:calculus-root-local-linearization-cauchy-handoff}
