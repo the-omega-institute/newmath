@@ -128,6 +128,10 @@ DGT_NEURAL_ABLATION_JSON_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
 DGT_NEURAL_ABLATION_ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
 DGT_NEURAL_ABLATION_SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
+DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT = "reports/canonical/dgt-ablation-null-decomposition.json"
+DGT_ABLATION_NULL_DECOMPOSITION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-ablation-null-decomposition.md"
+DGT_ABLATION_NULL_DECOMPOSITION_ARTIFACT_ID = "dgt-ablation-null-decomposition"
+DGT_ABLATION_NULL_DECOMPOSITION_SCHEMA_ID = "bedc-quality-lab:dgt-ablation-null-decomposition"
 DGT_L0_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 DGT_L0_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l0-controls.md"
 DGT_L0_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l0-controls"
@@ -1311,6 +1315,37 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[94]",
         negative_witness_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+    ),
+    CanonicalReportSpec(
+        name="dgt-ablation-null-decomposition",
+        command=("python3", "scripts/run_dgt_ablation_null_decomposition.py"),
+        json_artifact=DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+        markdown_artifact=DGT_ABLATION_NULL_DECOMPOSITION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifact",
+            "threshold_schema",
+            "decision_table",
+            "null_decomposition",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifact",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.null_decomposition.verdict",
+        control_pointer="$.source_artifact",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.null_decomposition.analysis_status",
+        backend_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.source_artifact",
+        discovery_level_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.null_decomposition.verdict",
+        negative_witness_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.hardgates",
+        formal_status_pointer=f"{DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT}:$.null_decomposition.analysis_status",
     ),
     CanonicalReportSpec(
         name="order-k-benchmark",

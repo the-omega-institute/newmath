@@ -3,7 +3,7 @@
     "generated_at": "2026-06-09T08:21:49.156738+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "c78701b430f84dd08b83cd828a92769d78d7a7363ad121f6770e4ac120fc854c",
+  "input_fingerprint": "e009a7de8fadcbf22f354cba4a584ea0306648879c3766c1888dd0cd57468930",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -25,47 +25,34 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/claim_complexity.py",
-        "sha256": "f01c3319271335b25b779fb25f299c47322e581c52bee884b5994bf3cd78bb13"
+        "path": "bedc_quality_lab/dgt_ablation_null_decomposition.py",
+        "sha256": "6bae72305e89b6bf5ab6ad40688045a3affbab6484223d032c3186dc10819785"
       },
       {
-        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
-        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
-      },
-      {
-        "path": "scripts/run_claim_complexity_score.py",
-        "sha256": "2b067378fa8904f8c99ef4f9d7d008e08f70701dffb243b5cdfd3e333546bc2c"
+        "path": "scripts/run_dgt_ablation_null_decomposition.py",
+        "sha256": "6f3d96a3569aa5803e7825d760d6c04b5fe40231537eb903c03869541440426f"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:claim-complexity",
+    "report_output_schema_id": "bedc-quality-lab:dgt-ablation-null-decomposition",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_claim_complexity_score.py"
+        "scripts/run_dgt_ablation_null_decomposition.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
       }
     },
-    "source_artifacts": [
-      {
-        "path": "reports/canonical/claim_verdicts.jsonl",
-        "sha256": "13409b0f06a8f45e0ad5a6fca18c9a507f8d951ea5e93f90a5fcd4d5141ff026"
-      },
-      {
-        "path": "reports/canonical/discovery_map.json",
-        "sha256": "f4b5398efa1a1b89f67006451df0dc31ac764593568a6190021fd394c35975f6"
-      }
-    ],
+    "source_artifacts": [],
     "spec": {
       "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_claim_complexity_score.py"
+        "scripts/run_dgt_ablation_null_decomposition.py"
       ],
-      "control_pointer": null,
-      "cost_pointer": "$.source_artifacts",
+      "control_pointer": "$.source_artifact",
+      "cost_pointer": "$.source_artifact",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
@@ -73,32 +60,35 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/claim_complexity.json",
+      "json_artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/claim_complexity.md",
-      "name": "claim-complexity",
-      "no_control_rationale_pointer": "$.not_claimed",
+      "markdown_artifact": "reports/canonical/dgt-ablation-null-decomposition.md",
+      "name": "dgt-ablation-null-decomposition",
+      "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.rows",
+      "positive_claim_pointer": "$.null_decomposition.verdict",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
-        "source_artifacts",
-        "rows",
+        "producer",
+        "source_artifact",
+        "threshold_schema",
+        "decision_table",
+        "null_decomposition",
         "hardgates",
         "not_claimed"
       ],
       "scope_pointer": "$.not_claimed"
     }
   },
-  "json_artifact": "reports/canonical/claim_complexity.json",
-  "markdown_artifact": "reports/canonical/claim_complexity.md",
-  "output_digest": "4fc11f6f814365aea2e6b6bfbf49e05a19a52def57bb8757b1cd75f240d5d97c",
+  "json_artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
+  "markdown_artifact": "reports/canonical/dgt-ablation-null-decomposition.md",
+  "output_digest": "69edd0aef781fef50dcced30f1b67907d7bde765e610aaf06082334d254c569d",
   "producer_command": [
     "python3",
-    "scripts/run_claim_complexity_score.py"
+    "scripts/run_dgt_ablation_null_decomposition.py"
   ],
-  "report_name": "claim-complexity",
+  "report_name": "dgt-ablation-null-decomposition",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
