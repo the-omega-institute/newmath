@@ -48,7 +48,14 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert native_metric_contract["target_artifact"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
     )
+    assert native_metric_contract["template_artifact"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
+    )
     assert native_metric_contract["build_command"] == "python scripts/build_public_baseline_native_metric_contract.py"
+    assert (
+        native_metric_contract["template_command"]
+        == "python scripts/build_public_baseline_native_metric_template.py"
+    )
     assert "repository_commit" in native_metric_contract["required_execution_fields"]
     assert "checkpoint_identity" in native_metric_contract["required_execution_fields"]
     assert "dataset_identity" in native_metric_contract["required_execution_fields"]
@@ -125,6 +132,9 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     )
     assert kit["public_baseline_native_metric_contract_command"] == (
         "python scripts/build_public_baseline_native_metric_contract.py"
+    )
+    assert kit["public_baseline_native_metric_template_command"] == (
+        "python scripts/build_public_baseline_native_metric_template.py"
     )
     assert (
         kit["public_minigrid_calibration_extension_command"]

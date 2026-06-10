@@ -117,6 +117,8 @@ def build_public_baseline_native_metric_contract() -> dict[str, Any]:
                 "latent_prediction_score": "<score name, direction, and aggregation>",
                 "rollout_or_planning_score": "<score name, direction, and aggregation>",
             },
+            "latent_prediction_score": "<float>",
+            "rollout_or_planning_score": "<float>",
             "bedc_readback_metrics": {field: "<float>" for field in BEDC_READBACK_FIELDS},
             "lccp_certificate_metrics": {field: "<value>" for field in LCCP_FIELDS},
             "cannot_claim_boundary": [
@@ -175,3 +177,34 @@ def write_public_baseline_native_metric_contract(path: str | Path) -> dict[str, 
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(contract, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return contract
+
+
+def build_public_baseline_native_metric_template() -> dict[str, Any]:
+    contract = build_public_baseline_native_metric_contract()
+    return {
+        "schema_id": "bedc-jepa-public-baseline-native-metric-template",
+        "template_for": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+        "candidate_id": contract["selected_candidate_id"],
+        "repository_url": contract["repository_url"],
+        "required_execution_fields": contract["required_execution_fields"],
+        "native_metric_contract": contract["native_metric_contract"],
+        "result": contract["execution_template"],
+        "instructions": [
+            "Fill every placeholder before importing the result.",
+            "Do not change cannot_claim_boundary unless the corresponding evidence is present.",
+            "Import with: python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+        ],
+        "cannot_claim": [
+            "executed external baseline result",
+            "official V-JEPA2-AC benchmark reproduction",
+            "public benchmark superiority",
+        ],
+    }
+
+
+def write_public_baseline_native_metric_template(path: str | Path) -> dict[str, Any]:
+    template = build_public_baseline_native_metric_template()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(template, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return template

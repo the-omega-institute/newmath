@@ -67,6 +67,10 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
         == "python scripts/build_public_baseline_native_metric_contract.py"
     )
     assert (
+        manifest["commands"]["public_baseline_native_metric_template"]
+        == "python scripts/build_public_baseline_native_metric_template.py"
+    )
+    assert (
         manifest["commands"]["probe_public_jepa_baseline"]
         == "python scripts/probe_public_jepa_baseline.py"
     )
@@ -129,6 +133,9 @@ def test_bedc_jepa_artifact_manifest_records_evidence_ready_claims():
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
     assert manifest["public_baselines"]["jepa_native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert manifest["public_baselines"]["jepa_native_metric_template"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
     )
     assert (
         manifest["public_baselines"]["jepa_ac_native_boundary"]

@@ -5,6 +5,7 @@ from bedc_quality_lab.public_baseline_native_metric_contract import (
     LCCP_FIELDS,
     REQUIRED_EXECUTION_FIELDS,
     build_public_baseline_native_metric_contract,
+    build_public_baseline_native_metric_template,
     validate_public_baseline_native_metric_result,
 )
 
@@ -63,6 +64,21 @@ def test_public_baseline_native_metric_contract_records_required_fields():
 
 def test_public_baseline_native_metric_contract_validates_result_shape():
     validate_public_baseline_native_metric_result(_valid_result())
+
+
+def test_public_baseline_native_metric_template_is_fillable_without_claiming_execution():
+    template = build_public_baseline_native_metric_template()
+
+    assert template["schema_id"] == "bedc-jepa-public-baseline-native-metric-template"
+    assert template["template_for"] == "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    assert template["candidate_id"] == "vjepa2-ac"
+    assert tuple(template["required_execution_fields"]) == REQUIRED_EXECUTION_FIELDS
+    assert set(template["result"]) == set(REQUIRED_EXECUTION_FIELDS)
+    assert template["result"]["candidate_id"] == "vjepa2-ac"
+    assert set(template["result"]["bedc_readback_metrics"]) == set(BEDC_READBACK_FIELDS)
+    assert set(template["result"]["lccp_certificate_metrics"]) == set(LCCP_FIELDS)
+    assert "executed external baseline result" in template["cannot_claim"]
+    assert "public benchmark superiority" in template["cannot_claim"]
 
 
 def test_public_baseline_native_metric_contract_rejects_missing_native_fields():

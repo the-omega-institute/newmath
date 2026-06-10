@@ -16,10 +16,12 @@ def test_makefile_rollup_runs_vjepa2_and_paper_writeback_records():
 
     assert "build-vjepa2-native-boundary" in makefile
     assert "build-vjepa2-near-native-reproduction" in makefile
+    assert "build-public-baseline-native-metric-template" in makefile
     assert "build-bedc-jepa-paper-writeback-packet" in makefile
     rollup = next(line for line in makefile.splitlines() if line.startswith("build-bedc-jepa-rollup:"))
     assert "build-vjepa2-native-boundary" in rollup
     assert "build-vjepa2-near-native-reproduction" in rollup
+    assert "build-public-baseline-native-metric-template" in rollup
     assert "build-bedc-jepa-paper-writeback-packet" in rollup
 
 

@@ -57,7 +57,9 @@ def build_external_run_kit() -> dict[str, Any]:
             "public_baseline_native_metric_contract": {
                 "readiness_gate": "public_baseline_native_metric_contract",
                 "target_artifact": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+                "template_artifact": "reports/bedc_jepa_public_baseline_native_metric_template.json",
                 "build_command": "python scripts/build_public_baseline_native_metric_contract.py",
+                "template_command": "python scripts/build_public_baseline_native_metric_template.py",
                 "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
                 "required_execution_fields": [
                     "candidate_id",
@@ -221,6 +223,9 @@ def build_external_run_kit() -> dict[str, Any]:
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
         "public_baseline_native_metric_contract_command": (
             "python scripts/build_public_baseline_native_metric_contract.py"
+        ),
+        "public_baseline_native_metric_template_command": (
+            "python scripts/build_public_baseline_native_metric_template.py"
         ),
         "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
         "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
