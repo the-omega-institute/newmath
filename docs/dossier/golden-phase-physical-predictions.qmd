@@ -37,7 +37,7 @@ a measured constant.
 ## Low-energy value
 
 The fixed Window6 syntax selects the low-energy electromagnetic candidate as
-the local full-phase-register readout:
+the local phase-reservoir impedance readout:
 
 ```text
 D_{6,alpha}^* = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27,
@@ -63,7 +63,7 @@ R_{6,alpha}^* = 137.035999177006279...
 The prediction surface is therefore:
 
 ```text
-alpha_EM^-1(0) -> 137.035999177006279...    local full-phase-register
+alpha_EM^-1(0) -> 137.035999177006279...    local phase-reservoir
 ```
 
 where `(0)` denotes the low-energy or infrared limit. CODATA 2022 reports
@@ -78,40 +78,71 @@ tuned after looking at `alpha`, it is a fit. It becomes a prediction only
 if the protocol gate, closure mode, and readout mode are selected without
 using the measured value.
 
-The readout family has two closure modes and two residual readout modes.
-The phase-register readout sees the full boundary phase register
-`C_bdry ~= (Z/2Z)^3`, giving `q_2 = 8/9`. The curvature-residual readout
+The fixed local readout family has three residual readout modes. The
+phase-reservoir readout sees the full boundary phase reservoir
+`C_bdry ~= (Z/2Z)^3` and the canonical right-boundary escape flux,
+giving `q_2 = 8/9`. The `Z_6 -> U(1)` image readout
+uses the six-element phase image assembled from boundary parity and
+edge-flux torsion, giving `q_2 = 2/3`. The curvature-residual readout
 quotients the locally absorbable diagonal bit `P_6^geo`, giving
-`q_2 = 4/9`. The four low-energy candidates are:
+`q_2 = 4/9`. The three fixed-local candidates are:
 
 ```text
-local + phase-register:
+local + reservoir:
   D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27
   R = 137.035999177006279...
+
+local + image:
+  D = 47 + phi^-7 - (1/2) phi^-17 + (2/3) phi^-27
+  R = 137.035999177616491...
 
 local + curvature-residual:
   D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27
   R = 137.035999178226704...
-
-walk + phase-register:
-  D = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29
-  R = 137.035999178514807...
-
-walk + curvature-residual:
-  D = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29
-  R = 137.035999178980968...
 ```
 
-All four values are currently inside the CODATA 2022 standard uncertainty
+All three fixed-local values are currently inside the CODATA 2022 standard uncertainty
 `2.1 x 10^-8`, but they are not selected by numerical closeness. The fixed
 `R_6(D)` formula still uses the visible `F_8 = 21` state space and the
 `F_9 = 34` boundary feedback, so its residual closure must remain
 anchor-local. A walking closure belongs to a running or refinement object
-`R_m(D_m)`, not to the fixed low-energy `R_6(D)` readout. The
-fine-structure constant is an electromagnetic `U(1)` phase-coupling readout,
-so it reads the full phase register rather than the geometry-quotiented
-curvature residual. These two syntax constraints select local plus
-phase-register before comparing with CODATA.
+`R_m(D_m)`, not to the fixed low-energy `R_6(D)` readout. The internal
+`Z_6` image gates the admissible `U(1)` phase observations, while
+`alpha_EM^-1` is an impedance readout of the phase reservoir behind that
+gate rather than a bare charge-image count. The reservoir coefficient is
+also the normalized escape flux of the right edge-flux block:
+
+```text
+|U_R| = 6,
+|partial U_R| = 32,
+Q_6 is 6-regular,
+P(leave U_R | U_R) = 32 / (6*6) = 8/9.
+```
+
+These syntax and flux constraints select local plus reservoir before
+comparing with CODATA.
+
+The same formula also exposes the `Z_6` shell if the outer `phi^5` is moved
+into the denominator:
+
+```text
+R_6(D) =
+  2 pi
+  (21 + 34 C(D))
+  /
+  (21 phi^-6 + 34 C(D) phi^-7).
+```
+
+Here `phi^-6` is the `Z_6` phase shell and `phi^-7` is the first boundary
+seam beyond it. This is why the leading `2 pi` belongs to the formula: it is
+the circumference interface for the `Z_6 -> U(1)` phase readout.
+
+The three local branches are separated by about `6.10 x 10^-10`. Present
+low-energy measurements do not resolve that spacing. A future infrared
+central value tending to `137.035999177006279...` would support the
+reservoir impedance reading; a value tending to `137.035999177616491...`
+would support the direct `Z_6 -> U(1)` image reading; a value tending to
+`137.035999178226704...` would support the curvature-residual reading.
 
 ## Vacuum impedance
 
@@ -192,7 +223,7 @@ The research obligation is therefore:
 
 ```text
 R_{6,alpha}^* = alpha_EM^-1(Q -> 0)
-  if the low-energy representation is local full-phase-register,
+  if the low-energy representation is local phase-reservoir,
 
 D_6(Gamma_alpha, ClosureMode, ReadoutMode) -> D(Q)
 or
@@ -266,10 +297,10 @@ discrete and hidden from continuous probes.
 
 ## Residual ladder
 
-In anchor-local phase-register closure the denominator can be written:
+In anchor-local phase-reservoir closure the denominator can be written:
 
 ```text
-D_{6,local}^{(phase)} =
+D_{6,local}^{(reservoir)} =
   47 + phi^-7 [1 - (1/2) phi^-10 + (8/9) phi^-20].
 ```
 
@@ -285,6 +316,13 @@ or:
 7 + 10 k.
 ```
 
+Anchor-local `Z_6` image closure uses the actual six-element phase image:
+
+```text
+D_{6,local}^{(image)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (2/3) phi^-27.
+```
+
 Anchor-local curvature-residual closure quotients the locally absorbable
 diagonal boundary bit and changes only the third coefficient:
 
@@ -298,8 +336,11 @@ displayed exponent to `29`; it belongs to a running or refinement readout
 rather than to the fixed `R_6(D)` formula:
 
 ```text
-D_{6,walk}^{(phase)}
+D_{6,walk}^{(reservoir)}
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(image)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (2/3) phi^-29.
 
 D_{6,walk}^{(curv)}
   = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
@@ -311,8 +352,8 @@ interpretation fails. If residual improvement continues along the selected
 gated ladder, that would support the model; if it requires another ladder,
 that extra structure belongs to the protocol rather than to bare Window6.
 
-The third coefficient is a readout-mode obligation. In the full
-phase-register reading:
+The third coefficient is a readout-mode obligation. In the phase-reservoir
+reading:
 
 ```text
 8 = |C_bdry| = 2^3,
@@ -325,6 +366,14 @@ interpretable as:
 
 ```text
 eightfold boundary parity / nine hidden residual degrees.
+```
+
+In the `Z_6 -> U(1)` image reading, the boundary parity combines with the
+edge-flux torsion source `T ~= Z/3Z` through the phase map
+`C_bdry x T -> Z/6Z -> U(1)`. The corresponding coefficient is:
+
+```text
+2/3 = 6 / N_{>=4}(6).
 ```
 
 In the irreducible curvature-residual reading, the diagonal subgroup
@@ -557,7 +606,8 @@ The coefficients are fixed after choosing a readout mode:
 ```text
 q_0 = 1,
 q_1 = -F_2/F_3 = -1/2,
-q_2^{phase} = F_6/(F_6 + F_2) = 8/9,
+q_2^{reservoir} = F_6/(F_6 + F_2) = 8/9,
+q_2^{image} = 2/3,
 q_2^{curv} = 4/9.
 ```
 
@@ -566,7 +616,7 @@ Zeckendorf ledger. The coefficient `q_1 = -1/2` is the two-sheet overlap
 subtraction: a boundary lift has two sheets, while the quotient ledger records
 one state, giving `(1 - 2) / 2 = -1/2`.
 
-The phase-register coefficient `q_2 = 8/9` has two independent Window6
+The phase-reservoir coefficient `q_2 = 8/9` has three independent Window6
 witnesses. The first is parity over deepest hidden tail:
 
 ```text
@@ -589,11 +639,34 @@ Thus `8/9` is also:
 #{d_6 = 2} / #{d_6 = 4}.
 ```
 
-The same ratio is therefore seen both as eightfold boundary parity over the
-nine-dimensional deepest rational tail and as the light fiber layer over the
-heavy fiber layer. This is stronger than a single post hoc rational choice,
-but it certifies the full phase-register readout, not every possible physical
-readout.
+The third witness is the right-block escape flux in the Window6 edge-flux
+skeleton:
+
+```text
+|U_R| = 6,
+|partial U_R| = 32,
+P(leave U_R | U_R) = |partial U_R| / (6 |U_R|)
+                   = 32 / 36
+                   = 8/9.
+```
+
+The same ratio is therefore seen as eightfold boundary parity over the
+nine-dimensional deepest rational tail, as the light fiber layer over the
+heavy fiber layer, and as the canonical escape probability of the right
+edge-flux block. This is stronger than a single post hoc rational choice,
+but it certifies the full flux-reservoir readout, not every possible
+physical readout.
+
+The `Z_6` image coefficient is instead:
+
+```text
+2/3 = 6 / N_{>=4}(6).
+```
+
+This mode records the actual `Z_6 -> U(1)` phase image obtained by combining
+the invariant boundary parity bit with the `Z/3Z` edge-flux torsion source.
+It is a serious comparison branch for direct phase-image or charge-image
+readouts.
 
 The curvature-residual coefficient is instead:
 
@@ -605,7 +678,7 @@ This mode records only the boundary phase that cannot be absorbed by local
 geometry. It is not the electromagnetic phase-coupling readout, but it is
 part of the physical prediction family.
 
-Therefore, under the anchor-local phase-register closure mode:
+Therefore, under the anchor-local phase-reservoir closure mode:
 
 ```text
 D_{6,alpha}^* =
@@ -630,27 +703,36 @@ The other readout branches are:
 D_{6,local}^{(curv)}
   = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-27,
 
-D_{6,walk}^{(phase)}
+D_{6,local}^{(image)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (2/3) phi^-27,
+
+D_{6,walk}^{(reservoir)}
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-29.
+
+D_{6,walk}^{(image)}
+  = 47 + phi^-7 - (1/2) phi^-17 + (2/3) phi^-29.
 
 D_{6,walk}^{(curv)}
   = 47 + phi^-7 - (1/2) phi^-17 + (4/9) phi^-29.
 ```
 
 These give the protocol-gated Window6 minimal denominators for the two
-closure modes and two readout modes. They are not obtained from the measured
+closure modes and three readout modes. They are not obtained from the measured
 value of `alpha`; they are obtained from the Window6 ledger only after the
 projection gate, closure mode, readout mode, and two-sheet sign conventions
 are admitted.
 
 For the fixed low-energy electromagnetic readout, the two choices are no
 longer free. Fixed `R_6(D)` keeps the visible pair `(F_8,F_9)`, hence selects
-local closure. Electromagnetic `U(1)` coupling reads the full phase register,
-hence selects `q_2 = 8/9`. Therefore:
+local closure. The `Z_6 -> U(1)` image gates admissible phase observations,
+while the inverse fine-structure constant reads the phase-reservoir impedance
+behind that gate. Since `8/9` is also the canonical boundary escape flux
+`P(leave U_R | U_R)`, the electromagnetic coupling or impedance readout
+selects the flux-reservoir coefficient. Therefore:
 
 ```text
 D_{6,alpha}^*
-  = D_6(Gamma_alpha, local, phase-register)
+  = D_6(Gamma_alpha, local, reservoir, Z_6)
   = 47 + phi^-7 - (1/2) phi^-17 + (8/9) phi^-27.
 ```
 
@@ -669,9 +751,10 @@ TwoSheetMobius:
   q_1 = -1/2,
 
 ReadoutMode:
-  q_2 = 8/9 for full phase-register readout,
+  q_2 = 8/9 for phase-reservoir impedance readout,
+  q_2 = 2/3 for direct Z_6 -> U(1) image readout,
   q_2 = 4/9 for irreducible curvature-residual readout,
-  and electromagnetic U(1) phase coupling selects full phase-register,
+  and alpha_EM^-1 selects phase-reservoir impedance gated by Z_6,
 
 ClosureMode:
   fixed R_6(D) selects local closure,
@@ -698,9 +781,16 @@ In compact form:
 Window6
   + Gamma_alpha
   + local
-  + phase-register
+  + reservoir
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-27]
   -> D_{6,alpha}^*.
+
+Window6
+  + Gamma_alpha
+  + local
+  + image
+  -> [47, phi^-7, -(1/2) phi^-17, (2/3) phi^-27]
+  -> D_{6,local}^{(image)}.
 
 Window6
   + Gamma_alpha
@@ -712,9 +802,16 @@ Window6
 Window6
   + Gamma_alpha
   + walk
-  + phase-register
+  + reservoir
   -> [47, phi^-7, -(1/2) phi^-17, (8/9) phi^-29]
-  -> D_{6,walk}^{(phase)}.
+  -> D_{6,walk}^{(reservoir)}.
+
+Window6
+  + Gamma_alpha
+  + walk
+  + image
+  -> [47, phi^-7, -(1/2) phi^-17, (2/3) phi^-29]
+  -> D_{6,walk}^{(image)}.
 
 Window6
   + Gamma_alpha
@@ -748,7 +845,7 @@ additional protocol data.
 
 ## Present status
 
-The local full-phase-register candidate is consistent with five broad facts:
+The local phase-reservoir candidate is consistent with five broad facts:
 
 - it gives the correct low-energy inverse fine-structure value within current
   CODATA uncertainty;
@@ -761,16 +858,16 @@ The local full-phase-register candidate is consistent with five broad facts:
 
 The open obligations are equally sharp:
 
-- derive the four-member family
+- derive the six-branch family
   `D_6(Gamma_alpha, ClosureMode, ReadoutMode)` without using the measured
   value of `alpha`;
 - certify the selection rule that fixed low-energy electromagnetic readout
-  chooses `D_6(Gamma_alpha, local, phase-register)`;
+  chooses `D_6(Gamma_alpha, local, reservoir, Z_6)`;
 - construct a scale-dependent `D(Q)` or `Window_m(Q)` flow;
 - bind atom recoil, electron `g-2`, spectroscopy, and impedance routes to one
   representation certificate;
-- decide whether a physical target reads the full phase register or the
-  irreducible curvature residual.
+- decide whether a physical target reads the phase reservoir, the direct
+  `Z_6 -> U(1)` image, or the irreducible curvature residual.
 
 ## Compact claim
 
@@ -787,7 +884,7 @@ twist and vacuum propagation.
 The concrete low-energy prediction is:
 
 ```text
-alpha_EM^-1(0) = 137.035999177006279...    local full-phase-register
+alpha_EM^-1(0) = 137.035999177006279...    local phase-reservoir
 ```
 
 with the equivalent impedance reading:

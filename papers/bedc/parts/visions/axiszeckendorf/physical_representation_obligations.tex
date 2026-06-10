@@ -89,6 +89,72 @@ constrains the parity row to remain hidden from continuous probes; it
 does not by itself identify or eliminate the discrete row.
 \end{principle}
 
+\begin{principle}[Sixfold phase-circumference interface]
+\label{prin:zeckendorf-sixfold-phase-circumference-interface}
+The boundary-parity row enters electromagnetic readouts through a
+sixfold phase interface, not as three independently exposed parity bits.
+The admissible phase route has the form
+$$
+  C_\partial\times T
+  \longrightarrow
+  \mathbb{Z}/6\mathbb{Z}
+  \longrightarrow
+  U(1),
+$$
+where \(T\cong\mathbb{Z}/3\mathbb{Z}\) is the edge-flux torsion source
+and the \(C_\partial\cong(\mathbb{Z}/2\mathbb{Z})^3\) contribution is
+read through the invariant parity character. Equivalently, the fixed
+Window-six projection formula
+$$
+  R_6(D)
+  =
+  2\pi\varphi^5
+  \frac{21+34C(D)}{21\varphi^{-1}+34C(D)\varphi^{-2}}
+$$
+may be written as
+$$
+  R_6(D)
+  =
+  2\pi
+  \frac{21+34C(D)}{21\varphi^{-6}+34C(D)\varphi^{-7}}.
+$$
+In this form \(\varphi^{-6}\) records the sixfold phase shell,
+\(\varphi^{-7}\) records the first boundary seam beyond that shell, and
+\(2\pi\) is the circumference interface for the \(Z_6\to U(1)\) readout.
+This does not collapse the phase reservoir coefficient to the six-element
+image coefficient; it separates the admissible phase gate from the
+reservoir, image, and curvature-residual readout modes.
+\end{principle}
+
+\begin{principle}[Right-block flux-reservoir coefficient]
+\label{prin:zeckendorf-right-block-flux-reservoir-coefficient}
+The phase-reservoir coefficient also has an edge-flux normalization
+inside Window six. Let \(U_R\) be the right edge-flux block in the
+Window-six partition of the binary cube. The edge-flux skeleton supplies
+$$
+  |U_R|=6,
+  \qquad
+  |\partial U_R|=32.
+$$
+Since \(Q_6\) is \(6\)-regular, the normalized probability of leaving
+the right block is
+$$
+  P(\mathrm{leave}\ U_R\mid U_R)
+  =
+  \frac{|\partial U_R|}{6|U_R|}
+  =
+  \frac{32}{36}
+  =
+  \frac89.
+$$
+Thus the same coefficient \(8/9\) is not only the capacity ratio
+\(|C_\partial|/N_{\geq4}(6)\) and the light-to-heavy fiber ratio; it is
+also the canonical boundary escape flux of the right edge-flux block.
+This is the coefficient relevant to impedance or coupling readouts, while
+the \(2/3\) branch records the direct six-element phase image and the
+\(4/9\) branch records the curvature-residual quotient.
+\end{principle}
+
 \begin{theorem}[Independent denominator is required for predictivity]
 \label{thm:zeckendorf-denominator-predictivity-requirement}
 Let
@@ -261,14 +327,24 @@ $$
 Here \(q_0=1\) reads the single occurrence of the \(F_7\) deep-tail seam,
 \(q_1=-1/2\) reads the two-sheet overlap subtraction. The third
 coefficient is fixed only after a readout mode is chosen. The full
-phase-register readout sees
+phase-reservoir readout sees
 $$
   C_\partial\cong(\mathbb{Z}/2\mathbb{Z})^3,
   \qquad
-  q_2^{\mathrm{phase}}=\frac{|C_\partial|}{N_{\geq4}(6)}=\frac89,
+  q_2^{\mathrm{res}}=\frac{|C_\partial|}{N_{\geq4}(6)}=\frac89,
 $$
 also matching the ratio between the fiber histogram layers
-\(\#\{d_6=2\}=8\) and \(\#\{d_6=4\}=9\). The irreducible
+\(\#\{d_6=2\}=8\) and \(\#\{d_6=4\}=9\), and matching the right-block
+escape flux in
+\autoref{prin:zeckendorf-right-block-flux-reservoir-coefficient}. The
+\(U(1)\)-image readout
+uses the six-element phase image supplied by the \(Z_6\) interface
+$$
+  C_\partial\times T\to\mathbb{Z}/6\mathbb{Z}\to U(1),
+  \qquad
+  q_2^{\mathrm{img}}=\frac6{N_{\geq4}(6)}=\frac23.
+$$
+The irreducible
 curvature-residual readout quotients the locally absorbable diagonal
 subgroup
 $$
@@ -301,11 +377,12 @@ $$
   q_1=-\frac{F_2}{F_3},\qquad
   q_2\in
   \left\{
-    \frac89,\frac49
+    \frac89,\frac23,\frac49
   \right\},
 $$
-where \(q_2=8/9\) is the full phase-register readout and \(q_2=4/9\)
-is the irreducible curvature-residual readout. In anchor-local mode the
+where \(q_2=8/9\) is the phase-reservoir readout, \(q_2=2/3\) is the
+\(Z_6\to U(1)\) image readout, and \(q_2=4/9\) is the irreducible
+curvature-residual readout. In anchor-local mode the
 resulting three-term Window-six residual denominator is
 $$
 \begin{aligned}
@@ -323,21 +400,29 @@ $$
   \right].
 \end{aligned}
 $$
-Equivalently, the two anchor-local readouts are
+Equivalently, the three anchor-local readouts are
 $$
-  D_{6,\mathrm{loc}}^{\mathrm{phase}}
+  D_{6,\mathrm{loc}}^{\mathrm{res}}
   =
   47+\varphi^{-7}-\frac12\varphi^{-17}+\frac89\varphi^{-27},
+  \qquad
+  D_{6,\mathrm{loc}}^{\mathrm{img}}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}+\frac23\varphi^{-27},
   \qquad
   D_{6,\mathrm{loc}}^{\mathrm{curv}}
   =
   47+\varphi^{-7}-\frac12\varphi^{-17}+\frac49\varphi^{-27}.
 $$
-In walking-gate mode the two readouts are
+In walking-gate mode the three readouts are
 $$
-  D_{6,\mathrm{walk}}^{\mathrm{phase}}
+  D_{6,\mathrm{walk}}^{\mathrm{res}}
   =
   47+\varphi^{-7}-\frac12\varphi^{-17}+\frac89\varphi^{-29},
+  \qquad
+  D_{6,\mathrm{walk}}^{\mathrm{img}}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}+\frac23\varphi^{-29},
   \qquad
   D_{6,\mathrm{walk}}^{\mathrm{curv}}
   =
@@ -367,26 +452,28 @@ $$
 $$
 then give \(F_9+F_7=47\), \(F_5+F_3=7\),
 \(F_6+F_3=10\), and \(F_2/F_3=1/2\). Substituting
-\(q_2=8/9\) and \(q_2=4/9\) gives the two anchor-local readouts.
+\(q_2=8/9\), \(q_2=2/3\), and \(q_2=4/9\) gives the three
+anchor-local readouts.
 For walking-gate mode, the first two exponents remain \(7\) and \(17\),
 while the third exponent walks from the \(F_{10}\) return to the next
 retained \(F_{12}\) branch. Thus the third exponent is \(7+10+12=29\).
-Substituting the two allowed readout coefficients gives the displayed
+Substituting the three allowed readout coefficients gives the displayed
 walking-gate readouts.
 \end{proof}
 
-\begin{theorem}[Fixed electromagnetic readout selects the local phase branch]
+\begin{theorem}[Fixed electromagnetic readout selects the local reservoir branch]
 \label{thm:zeckendorf-fixed-electromagnetic-readout-selection}
 Assume the readout is the fixed Window-six projection formula whose visible
 state and boundary rows are \(F_8\) and \(F_9\). Assume also that the
-physical target is the low-energy electromagnetic \(U(1)\) phase-coupling
-readout. Then the admissible low-energy denominator selected from
+physical target is the low-energy electromagnetic impedance readout whose
+phase observations are gated by the \(Z_6\to U(1)\) image. Then the
+admissible low-energy denominator selected from
 \autoref{thm:zeckendorf-protocol-gated-window-six-closed-denominator-derivation}
 is
 $$
   D_{6,\alpha}^{\star}
   =
-  D_{6,\mathrm{loc}}^{\mathrm{phase}}
+  D_{6,\mathrm{loc}}^{\mathrm{res}}
   =
   47+\varphi^{-7}-\frac12\varphi^{-17}+\frac89\varphi^{-27}.
 $$
@@ -396,12 +483,17 @@ The fixed Window-six projection formula keeps the visible pair
 \((F_8,F_9)\). A walking residual would move the residual ledger to the
 next retained branch \(F_{12}\) while the visible readout remains fixed at
 \((F_8,F_9)\). Thus the fixed low-energy formula selects the
-anchor-local closure. The electromagnetic target is a \(U(1)\)
-phase-coupling readout, not a pure curvature-residual quotient, so it reads
-the full boundary phase register \(C_\partial\) rather than
-\(C_\partial/P_6^{\mathrm{geo}}\). Thus the readout coefficient is
-\(q_2=8/9\). Substitution into the readout-family theorem gives the
-displayed denominator.
+anchor-local closure. The \(Z_6\to U(1)\) image supplies the admissible
+phase observation gate, but \(\alpha_{\mathrm{EM}}^{-1}(0)\) is an
+impedance readout of the phase reservoir behind that gate rather than a
+bare image-cardinality readout. By
+\autoref{prin:zeckendorf-right-block-flux-reservoir-coefficient}, the
+same reservoir coefficient is also the normalized right-block escape
+flux \(P(\mathrm{leave}\ U_R\mid U_R)=8/9\). Thus the selected
+coefficient is the flux-reservoir coefficient \(q_2=8/9\), not the image
+coefficient \(q_2=2/3\) or the curvature quotient \(q_2=4/9\).
+Substitution into the
+readout-family theorem gives the displayed denominator.
 \end{proof}
 
 \begin{principle}[Remaining formalization obligations]
@@ -425,12 +517,13 @@ Third, the TwoSheetMobius obligation must derive
 $$
   q_1=\frac{1-2}{2}=-\frac12.
 $$
-Fourth, the ReadoutMode obligation must decide whether the target reads
-the full phase register \(C_\partial\), giving \(q_2=8/9\), or the
-irreducible curvature-residual quotient
+Fourth, the ReadoutMode obligation must distinguish the phase reservoir
+\(C_\partial\), giving \(q_2=8/9\), the \(Z_6\to U(1)\) image, giving
+\(q_2=2/3\), and the irreducible curvature-residual quotient
 \(C_\partial/P_6^{\mathrm{geo}}\), giving \(q_2=4/9\); for
-electromagnetic \(U(1)\) phase coupling it must select the full phase
-register. Finally, the ClosureMode obligation must certify that fixed
+\(\alpha_{\mathrm{EM}}^{-1}(0)\) it must select the phase-reservoir
+impedance readout gated by \(Z_6\). Finally, the ClosureMode obligation
+must certify that fixed
 \(R_6(D)\) readouts select anchor-local closure, while walking-gate
 closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Until
 these obligations are supplied, the closed denominator is a
@@ -447,7 +540,8 @@ no admissible low-energy projection gate selects the \(F_{10}\) branch;
 the physical representation cannot decide the anchor-local versus
 walking-gate closure mode at the required precision;
 the physical representation cannot decide whether the target reads the
-full phase register or the irreducible curvature-residual quotient; the
+phase reservoir, the \(Z_6\to U(1)\) image, or the irreducible
+curvature-residual quotient; the
 selected third coefficient remains a fitted rational rather than a
 readout-mode normalization; independent low-energy routes converge to
 incompatible values after systematic corrections; a high-energy
