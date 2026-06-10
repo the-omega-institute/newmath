@@ -5714,6 +5714,8 @@ import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterUp.BasisRefinementRoute
 import BEDC.Derived.LocatedCauchyFilterUp.ChoiceFreeBasis
 import BEDC.Derived.LocatedCauchyFilterUp.NameCertObligations
+import BEDC.Derived.LocatedCauchyFilterUp.RealSealBoundary
+import BEDC.Derived.LocatedCauchyFilterUp.RegularSequenceHandoff
 import BEDC.Derived.LocatedCauchyFilterUp.RegularTailLocation
 import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusSelectorUp.RealSealHandoff
@@ -8370,6 +8372,7 @@ import BEDC.Derived.RegularCauchyTailMeetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
 import BEDC.Derived.RegularCauchyTailModulusReuseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
