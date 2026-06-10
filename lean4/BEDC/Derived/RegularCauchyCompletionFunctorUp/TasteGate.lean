@@ -60,27 +60,42 @@ def regularCauchyCompletionFunctorToEventFlow :
         regularCauchyCompletionFunctorEncodeBHist provenance,
         regularCauchyCompletionFunctorEncodeBHist localName]
 
-def regularCauchyCompletionFunctorFromEventFlow :
-    EventFlow → Option RegularCauchyCompletionFunctorUp
+private def regularCauchyCompletionFunctorEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | metricSource :: uniformlyContinuousMap :: finiteWindow :: dyadicTolerance ::
-      regSeqReadback :: realSeal :: identityLedger :: compositionLedger :: transport :: replay ::
-      provenance :: localName :: [] =>
-      some
-        (RegularCauchyCompletionFunctorUp.mk
-          (regularCauchyCompletionFunctorDecodeBHist metricSource)
-          (regularCauchyCompletionFunctorDecodeBHist uniformlyContinuousMap)
-          (regularCauchyCompletionFunctorDecodeBHist finiteWindow)
-          (regularCauchyCompletionFunctorDecodeBHist dyadicTolerance)
-          (regularCauchyCompletionFunctorDecodeBHist regSeqReadback)
-          (regularCauchyCompletionFunctorDecodeBHist realSeal)
-          (regularCauchyCompletionFunctorDecodeBHist identityLedger)
-          (regularCauchyCompletionFunctorDecodeBHist compositionLedger)
-          (regularCauchyCompletionFunctorDecodeBHist transport)
-          (regularCauchyCompletionFunctorDecodeBHist replay)
-          (regularCauchyCompletionFunctorDecodeBHist provenance)
-          (regularCauchyCompletionFunctorDecodeBHist localName))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyCompletionFunctorEventAt index rest
+
+def regularCauchyCompletionFunctorFromEventFlow (ef : EventFlow) :
+    Option RegularCauchyCompletionFunctorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyCompletionFunctorUp.mk
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 0 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 1 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 2 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 3 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 4 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 5 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 6 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 7 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 8 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 9 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 10 ef))
+      (regularCauchyCompletionFunctorDecodeBHist
+        (regularCauchyCompletionFunctorEventAt 11 ef)))
 
 private theorem RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RegularCauchyCompletionFunctorUp,
@@ -92,9 +107,38 @@ private theorem RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment
   cases x with
   | mk metricSource uniformlyContinuousMap finiteWindow dyadicTolerance regSeqReadback realSeal
       identityLedger compositionLedger transport replay provenance localName =>
-      rw [regularCauchyCompletionFunctorToEventFlow,
-        regularCauchyCompletionFunctorFromEventFlow,
-        RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment_decode metricSource,
+      change
+        some
+          (RegularCauchyCompletionFunctorUp.mk
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist metricSource))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist uniformlyContinuousMap))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist finiteWindow))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist dyadicTolerance))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist regSeqReadback))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist realSeal))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist identityLedger))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist compositionLedger))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist transport))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist replay))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist provenance))
+            (regularCauchyCompletionFunctorDecodeBHist
+              (regularCauchyCompletionFunctorEncodeBHist localName))) =
+          some
+            (RegularCauchyCompletionFunctorUp.mk metricSource uniformlyContinuousMap finiteWindow
+              dyadicTolerance regSeqReadback realSeal identityLedger compositionLedger transport
+              replay provenance localName)
+      rw [RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment_decode metricSource,
         RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment_decode
           uniformlyContinuousMap,
         RegularCauchyCompletionFunctorTasteGate_single_carrier_alignment_decode finiteWindow,
