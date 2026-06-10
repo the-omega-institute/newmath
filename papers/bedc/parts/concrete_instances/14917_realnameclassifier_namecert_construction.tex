@@ -97,6 +97,20 @@ Finally apply the seal boundary and ledger exhaustion, \autoref{thm:real-name-cl
 \end{proof}
 \leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierSharedWindowEquivalence}
 
+\begin{theorem}[RealNameClassifier finite window coverage]
+\label{thm:real-name-classifier-window-coverage}
+Every accepted $\RealNameClassifierUp$ classifier route assembled from the reflexive window route, common-window symmetry route, and common-window transitivity route consumes exactly one displayed $\StreamNameUp$ window $W$, the two $\DyadicRatCoreUp$ tolerance rows attached to that window, and the two $\RegSeqRatUp$ readback rows before reaching the terminal $\RealUp$ seal. The route may reuse the displayed window through componentwise $\hsame$ transport and $\Cont$ replay, but it may not introduce a second precision schedule, an external equality oracle, or a completion principle outside the carrier rows of \autoref{def:real-name-classifier-source}.
+\end{theorem}
+\begin{proof}
+Start with the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. It forces every classifier query to expose the common window $W$, the two dyadic tolerance rows, and the finite classifier row before any readback or seal row can be consumed.
+
+For reflexive reads, use \autoref{thm:realnameclassifier-reflexive-window}. The two source entries are the same displayed row, so the single window is reused rather than copied into a second schedule.
+
+For exchanged and composed reads, use \autoref{thm:real-name-classifier-common-window-symmetry} and \autoref{thm:real-name-classifier-common-window-transitivity}. Symmetry swaps the endpoint rows while leaving $W$ fixed, and transitivity transports the middle source through compatible dyadic and regular readback rows on the same window.
+
+Finally apply the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. They place the $\RealUp$ seal after the displayed window, tolerance, classifier, readback, transport, replay, provenance, and naming rows, and they leave no coordinate for a second window, external equality oracle, quotient completion, selected limit, trichotomy, choice, or Real completeness.
+\end{proof}
+
 \begin{theorem}[RealNameClassifier window trichotomy refusal]
 \label{thm:real-name-classifier-window-trichotomy-refusal}
 Every accepted $\RealNameClassifierUp$ read over a common $\StreamNameUp$ window exports only tolerance comparison, regular-rational readback, transport, replay, provenance, and terminal $\RealUp$ seal rows for the two displayed real names. Consequently the classifier cannot decide a constructive trichotomy row for those names: no accepted read supplies a row deciding equality, strict left order, or strict right order as an exhaustive alternative.
