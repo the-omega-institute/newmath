@@ -1,35 +1,39 @@
 # BEDC Model Quality Lab
 
-本目录是 BEDC-JEPA 质量实验与证据记录环境。它不定义 BEDC
-正文语义，也不替代论文或 Lean 侧验证；它只生成可复现的
-lab-local evidence records，用来支撑论文中的 bounded claims。
+This directory contains the BEDC-JEPA quality-lab environment.  It generates
+reproducible lab-local evidence records for the BEDC-JEPA paper; it does not
+define BEDC semantics, replace the paper, or replace Lean-side verification.
 
-Python 侧只拥有 `QualityEvidenceEnvelope` 和一组 JSON/Markdown 记录。
-`bedc_refs` 只保存不透明指针，例如章节路径、label 或 Lean 目标名。
-这里不重新定义 NameCert、closurestatus、origin、ledger 等 BEDC
-语义。
+Python-side records are evidence envelopes, metric packets, certificate
+records, and review artifacts.  References to BEDC names, paper sections,
+labels, and Lean targets are opaque pointers.  NameCert, closure status,
+origin, and ledger semantics remain owned by the BEDC paper and formal layers.
 
-## 当前证据范围
+## Evidence Scope
 
-当前 BEDC-JEPA 证据包包含：
+The BEDC-JEPA evidence packet contains:
 
-- boundary-gated OU world 的四系统 S0/S1/S2/S3 对照；
-- fixed-latent torch objective seed sweep；
-- grid-pixel learned-transition 与 MiniGrid-style visual-planning 研究；
-- two-object、four-slot、six-slot object-counterfactual / distractor 研究；
-- public MiniGrid-DoorKey S0/S1/S2/S3 native readback packet 与 seed sweep；
-- public MiniGrid debt decomposition、conformal coverage sweep、risk-success Pareto；
-- public V-JEPA2-AC Giant CUDA checkpoint-scope adapter evaluation；
-- fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation；
-- V-JEPA2-AC fixed-carrier LCCP certificate record；
+- boundary-gated OU-world S0/S1/S2/S3 comparisons;
+- fixed-latent torch objective seed sweeps;
+- grid-pixel learned-transition and MiniGrid-style visual-planning records;
+- two-object, four-slot, and six-slot object-counterfactual and distractor
+  records;
+- public MiniGrid-DoorKey native S0/S1/S2/S3 readback and seed-sweep records;
+- public MiniGrid debt decomposition, conformal coverage, risk-success Pareto,
+  and calibration-extension records;
+- public V-JEPA2-AC Giant CUDA checkpoint-scope adapter evaluation;
+- fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation;
+- fixed-carrier V-JEPA2-AC latent-claim certificate record;
 - true torch retraining loss-term ablation for `full_s3`,
   `minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
-  `minus_l_intervention` under the declared boundary-world OU-pair stability
-  and intervention surfaces.
+  `minus_l_intervention`;
+- public baseline native-metric contract for importing an official or external
+  V-JEPA2-AC / JEPA-family baseline result;
+- quality-lab export registry for rollup-style downstream consumption.
 
-These records do not claim public benchmark superiority, official/native
-V-JEPA2-AC benchmark reproduction, robotics-scale control, natural-language
-grounding, or full pixel-control world modeling.
+These records do not claim public benchmark superiority, official V-JEPA2-AC
+benchmark reproduction, robotics-scale control, natural-language grounding, or
+full pixel-control world modeling.
 
 ## Common Commands
 
@@ -39,7 +43,7 @@ Use the project CUDA environment when available:
 .\.venv-cuda\Scripts\python.exe -m pytest -q
 ```
 
-The main record-building commands are:
+Main record-building commands:
 
 ```powershell
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_jepa_experiment.py
@@ -57,6 +61,15 @@ The main record-building commands are:
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_backend_candidate.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_lab_export.py
 ```
+
+On systems with `make`, the rollup target runs the record-level build chain:
+
+```powershell
+make build-bedc-jepa-rollup
+```
+
+The current Windows shell used for this workspace may not provide `make`; in
+that case, run the Python commands directly.
 
 ## Primary Records
 
@@ -87,11 +100,13 @@ Important generated records live under `reports/`:
 
 ## Evidence Boundary
 
-The lab is fail-closed. If a carrier, predicate, or benchmark setting does not
-support a certified claim, the corresponding record must return coverage debt,
-source debt, or a cannot-claim row rather than silently upgrading the claim.
+The lab is fail-closed.  If a carrier, predicate, or benchmark setting does
+not support a certified claim, the corresponding record must return coverage
+debt, source debt, or a cannot-claim row rather than silently upgrading the
+claim.
 
-The remaining manuscript-bearing evidence boundary is not another local toy
-world. It is an official/native V-JEPA2-AC benchmark reproduction or a
-rollout-benchmark parity protocol, plus stronger public MiniGrid calibration
-across larger seeds, horizons, and task variants.
+The remaining manuscript-bearing evidence boundary is an official V-JEPA2-AC
+benchmark reproduction or external baseline run under the recorded
+native-metric contract, stronger public MiniGrid calibration across larger
+seeds, horizons, and task variants, a public pixel-world benchmark comparison,
+and a public object-interaction benchmark with natural clutter or control.
