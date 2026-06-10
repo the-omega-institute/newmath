@@ -8604,6 +8604,7 @@ import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
 import BEDC.Derived.SequentialCompactUp.FiniteWindowClusterObligation
 import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.PublicFiniteClusterRoute
+import BEDC.Derived.SequentialCompactUp.PublicNamecertRoute
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
@@ -9456,6 +9457,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
+import BEDC.Derived.UniformCompletionFunctorUp.CofinalWindowFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.CompletionConsumerFrontier
 import BEDC.Derived.UniformCompletionFunctorUp.CompletionHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.DyadicWindowStability
