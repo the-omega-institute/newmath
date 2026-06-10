@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.PreorderUp
@@ -9,6 +10,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.ConvexSetUp
@@ -276,5 +278,80 @@ theorem LPDualityFiniteOrderedFieldFeasibilityRow_primal_objective_binary_affine
     cases affineRow
     rfl
   exact ⟨leftUnary, rightUnary, affineUnary, affineReadback, endpointPkg⟩
+
+theorem LPDualityFarkasAlternativeHandoff [AskSetup] [PackageSetup]
+    {region field polytope order transport replay provenance localCert alternativeRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory region ->
+      UnaryHistory field ->
+        UnaryHistory polytope ->
+          UnaryHistory order ->
+            UnaryHistory localCert ->
+              Cont region field alternativeRead ->
+                Cont alternativeRead polytope replay ->
+                  Cont replay order namedRead ->
+                    PkgSig bundle provenance pkg ->
+                      PkgSig bundle localCert pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row region ∨ hsame row field ∨ hsame row polytope ∨
+                                hsame row order ∨ hsame row namedRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont region field alternativeRead ∧
+                                Cont alternativeRead polytope replay ∧
+                                  Cont replay order namedRead ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle localCert pkg)
+                            hsame ∧ UnaryHistory alternativeRead ∧
+                          UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame UnaryHistory
+  intro regionUnary fieldUnary polytopeUnary orderUnary _localUnary alternativeRow replayRow
+    namedRow provenancePkg localPkg
+  have alternativeUnary : UnaryHistory alternativeRead :=
+    unary_cont_closed regionUnary fieldUnary alternativeRow
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed alternativeUnary polytopeUnary replayRow
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed replayUnary orderUnary namedRow
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row region ∨ hsame row field ∨ hsame row polytope ∨ hsame row order ∨
+              hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont region field alternativeRead ∧
+              Cont alternativeRead polytope replay ∧ Cont replay order namedRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localCert pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead
+        (And.intro (hsame_refl namedRead) namedUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, alternativeRow, replayRow, namedRow, provenancePkg, localPkg⟩
+  }
+  exact ⟨cert, alternativeUnary, namedUnary⟩
 
 end BEDC.Derived.LPDualityUp
