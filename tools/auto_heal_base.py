@@ -66,6 +66,39 @@ DEFAULT_INTERVAL = 900  # 15 min
 CI_HEAL_CODEX_TIMEOUT = int(os.environ.get("AUTO_HEAL_CODEX_TIMEOUT_SECONDS", "3600"))
 CI_POLL_FALLBACK = os.environ.get("AUTO_HEAL_CI_POLL_FALLBACK", "0") == "1"
 
+
+def _branch_slug(branch: str) -> str:
+    slug = branch.strip().removeprefix("origin/")
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "-", slug)
+    slug = re.sub(r"-+", "-", slug).strip("-._")
+    return slug.lower() or "branch"
+
+
+def _rollup_branch_name(source: str, target: str) -> str:
+    """同构于 tools/sync_with_auto_dev.py 的 _rollup_branch_name；拓扑改变时两处同步。"""
+    return f"rollup-{_branch_slug(source)}-to-{_branch_slug(target)}"
+
+
+def _ci_detection_branches() -> list[str]:
+    """Return ordered branches whose GitHub Actions runs observe BASE health."""
+    family = [
+        _rollup_branch_name(BASE_BRANCH, UPSTREAM_BRANCH),
+        UPSTREAM_BRANCH,
+        BASE_BRANCH,
+        MIRROR_BRANCH,
+    ]
+    out: list[str] = []
+    seen: set[str] = set()
+    for branch in family:
+        if branch and branch not in seen:
+            seen.add(branch)
+            out.append(branch)
+    return out
+
+
+def _ci_heal_target_branch() -> str:
+    return BASE_BRANCH
+
 _HEAL_VERIFY_FOOTER = """
 
 Before committing or claiming done: run every verification command named
@@ -1150,7 +1183,7 @@ def run_ci_watch_callback_self_test() -> int:
                     "run_id": run_id,
                     "workflow": "BEDC Build",
                     "name": "BEDC Build",
-                    "branch": MIRROR_BRANCH,
+                    "branch": _ci_heal_target_branch(),
                     "head_sha": "abc123",
                     "url": "https://example.invalid/run",
                     "pid": 0,
@@ -1168,7 +1201,7 @@ def run_ci_watch_callback_self_test() -> int:
                     "workflow": fallback.get("workflow", ""),
                     "name": fallback.get("name", ""),
                     "created_at": "",
-                    "branch": fallback.get("branch", MIRROR_BRANCH),
+                    "branch": fallback.get("branch", _ci_heal_target_branch()),
                     "head_sha": fallback.get("head_sha", ""),
                     "url": fallback.get("url", ""),
                 }
@@ -1179,7 +1212,7 @@ def run_ci_watch_callback_self_test() -> int:
 
             def fake_verify(_phase: str, *, target_branch: str | None = None, ci_log_tail: str | None = None) -> bool:
                 calls.append(("verify", run_id))
-                return target_branch == MIRROR_BRANCH and bool(ci_log_tail)
+                return target_branch == _ci_heal_target_branch() and bool(ci_log_tail)
 
             globals()["_run_view_failure"] = fake_run_view
             globals()["heal_ci_failure"] = fake_heal
@@ -1556,7 +1589,7 @@ Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after a
 """
 
 
-HEAL_CI_PROMPT = """You are healing a failed CI run on the BEDC target branch `auto-dev`.
+HEAL_CI_PROMPT = """You are healing a failed CI run observed in the BEDC rollup topology.
 
 The daemon has already selected the CI run. Treat this run id as fixed
 authority; do not scan for a different run and do not switch to another branch.
@@ -1564,7 +1597,7 @@ authority; do not scan for a different run and do not switch to another branch.
 - **Workflow**: __WORKFLOW__
 - **Run ID**: __RUN_ID__
 - **Run URL**: __RUN_URL__
-- **Target branch**: __BRANCH__
+- **Observed failure branch**: __BRANCH__
 - **Failed head SHA**: __HEAD_SHA__
 - **Failing job/step (daemon guess)**: __JOB__
 
@@ -1585,9 +1618,12 @@ The daemon's current focused failure excerpt is:
 __LOG__
 ```
 
-## Important — the failure may NOT reproduce locally
+## Important — repair lands on the current BASE checkout
 
-The daemon has reset this checkout to the target branch `auto-dev`, but some
+The branch above is the observation source only: it may be the managed rollup
+branch, the upstream branch, BASE itself, or a retired read-only mirror. The
+daemon has reset this checkout to the current BASE branch content, and any fix
+you commit here will be validated by the next rollup candidate. Some
 log-named defects can still be legacy / non-blocking under the quick local
 precheck. Do NOT conclude "nothing to fix" just because `make precheck` /
 `audit` already pass here. **Fix the SPECIFIC defect named in the log tail
@@ -1597,8 +1633,8 @@ local blocking status — a `legacy` unresolved marker is still a real defect to
 resolve (drop the marker / downgrade `\\formalstatus` to a level that needs no
 resolving target, or add the missing Lean decl). After fixing, the local gates
 must still pass. Only if, after carefully reading the log AND the named files,
-there is genuinely no defect present in the current tree (the run is stale and
-the defect was already fixed) do you make no commit.
+there is genuinely no defect present in the current BASE tree (the observed
+run is stale and the defect was already fixed) do you make no commit.
 
 ## Your task
 
@@ -1651,8 +1687,8 @@ the defect was already fixed) do you make no commit.
 4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.
 
-Target branch: auto-dev. Do NOT push (the heal daemon handles push). Stop
-after the failing gate passes locally.
+Commit on the current BASE checkout. Do NOT push (the heal daemon handles
+push). Stop after the failing gate passes locally.
 """
 
 
@@ -1794,7 +1830,7 @@ def _failure_from_run_row(row: dict) -> dict:
         "workflow": row.get("workflowName", "?"),
         "name": row.get("name", "?"),
         "created_at": row.get("createdAt", ""),
-        "branch": row.get("headBranch", "") or MIRROR_BRANCH,
+        "branch": row.get("headBranch", "") or _ci_heal_target_branch(),
         "head_sha": row.get("headSha", ""),
         "url": row.get("url", ""),
     }
@@ -1806,7 +1842,7 @@ def _watch_log_path(run_id: int) -> Path:
 
 def _arm_ci_watch_for_head(head_sha: str, target_branch: str) -> None:
     """Start one blocking `gh run watch` process for the pushed head SHA."""
-    if target_branch != MIRROR_BRANCH:
+    if target_branch != _ci_heal_target_branch():
         return
     if not head_sha or not shutil.which("gh"):
         return
@@ -1946,7 +1982,7 @@ def process_ci_watch_callbacks() -> bool:
             changed = False
         ci_log_tail = heal_ci_failure(failure)
         if ci_log_tail is not None:
-            if verify_then_push("CI watch fix", target_branch=MIRROR_BRANCH, ci_log_tail=ci_log_tail):
+            if verify_then_push("CI watch fix", target_branch=_ci_heal_target_branch(), ci_log_tail=ci_log_tail):
                 _mark_ci_seen(run_id)
             else:
                 _ci_mark_failed_attempt(
@@ -1982,63 +2018,73 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
+    """Query GitHub Actions for recent failures across the rollup observation family.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
-    Empty if `gh` CLI is unavailable, no runs in the window failed, or any
-    query error occurred (auto_heal stays passive).
+    Empty if `gh` CLI is unavailable, no runs in the window failed, or all
+    branch queries fail (auto_heal stays passive).
     """
     if not shutil.which("gh"):
         return []
 
-    failures: list[dict] = []
+    failures_by_id: dict[int, dict] = {}
+    detection_branches = _ci_detection_branches()
+    detection_set = set(detection_branches)
     cutoff = time.time() - window_minutes * 60
-    try:
-        r = run([
-            "gh", "run", "list",
-            "--branch", MIRROR_BRANCH,
-            "--limit", "80",
-            "--json",
-            "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
-        ], check=False, capture=True, timeout=60)
-    except Exception:
-        return failures
-    if r.returncode != 0:
-        return failures
-    try:
-        rows = json.loads(r.stdout or "[]")
-    except Exception:
-        return failures
     import calendar as _calendar
-    for row in rows:
-        if row.get("status") != "completed":
-            continue
-        if row.get("conclusion") != "failure":
-            continue
-        head = row.get("headBranch", "") or ""
-        if head != MIRROR_BRANCH:
-            continue
-        ts = row.get("createdAt", "")
-        # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
-        # time.mktime interprets strptime() output as LOCAL time, so a UTC
-        # timestamp would be read 8h in the past under CST/UTC+8 and dropped
-        # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
+    for branch in detection_branches:
         try:
-            t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            r = run([
+                "gh", "run", "list",
+                "--branch", branch,
+                "--limit", "80",
+                "--json",
+                "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
+            ], check=False, capture=True, timeout=60)
         except Exception:
-            t = time.time()
-        if t < cutoff:
             continue
-        failures.append({
-            "run_id": int(row.get("databaseId", 0)),
-            "workflow": row.get("workflowName", "?"),
-            "name": row.get("name", "?"),
-            "created_at": ts,
-            "branch": head,
-            "head_sha": row.get("headSha", ""),
-            "url": row.get("url", ""),
-        })
-    return failures
+        if r.returncode != 0:
+            continue
+        try:
+            rows = json.loads(r.stdout or "[]")
+        except Exception:
+            continue
+        for row in rows:
+            if row.get("status") != "completed":
+                continue
+            if row.get("conclusion") != "failure":
+                continue
+            head = row.get("headBranch", "") or ""
+            if head not in detection_set:
+                continue
+            ts = row.get("createdAt", "")
+            # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
+            # time.mktime interprets strptime() output as LOCAL time, so a UTC
+            # timestamp would be read 8h in the past under CST/UTC+8 and dropped
+            # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
+            try:
+                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                t = time.time()
+            if t < cutoff:
+                continue
+            run_id = int(row.get("databaseId", 0) or 0)
+            if run_id <= 0:
+                continue
+            failures_by_id.setdefault(run_id, {
+                "run_id": run_id,
+                "workflow": row.get("workflowName", "?"),
+                "name": row.get("name", "?"),
+                "created_at": ts,
+                "branch": head,
+                "head_sha": row.get("headSha", ""),
+                "url": row.get("url", ""),
+            })
+    return sorted(
+        failures_by_id.values(),
+        key=lambda failure: failure.get("created_at", ""),
+        reverse=True,
+    )
 
 
 def heal_ci_failure(failure: dict) -> str | None:
@@ -2102,11 +2148,12 @@ def heal_ci_failure(failure: dict) -> str | None:
             "到下一档。仅当日志明显是 runaway argument / 宏无限展开时，才转去定位并修"
             "那个失控宏。不要为绕开容量而删除章节。\n"
         )
-    run(["git", "fetch", "origin", MIRROR_BRANCH], check=False, capture=True, timeout=120)
-    r = run(["git", "reset", "--hard", f"origin/{MIRROR_BRANCH}"],
+    heal_target = _ci_heal_target_branch()
+    run(["git", "fetch", "origin", heal_target], check=False, capture=True, timeout=120)
+    r = run(["git", "reset", "--hard", f"origin/{heal_target}"],
             check=False, capture=True, timeout=60)
     if r.returncode != 0:
-        print(f"[heal] reset to origin/{MIRROR_BRANCH} failed; skip: "
+        print(f"[heal] reset to origin/{heal_target} failed; skip: "
               f"{(r.stderr or '')[-200:]}", file=sys.stderr)
         return None
     run(["git", "clean", "-fd"], check=False, capture=True, timeout=60)
@@ -2135,7 +2182,7 @@ def heal_ci_failure(failure: dict) -> str | None:
               .replace("__WORKFLOW__", failure.get("workflow", "?"))
               .replace("__RUN_ID__", str(run_id))
               .replace("__RUN_URL__", failure.get("url", ""))
-              .replace("__BRANCH__", failure.get("branch", MIRROR_BRANCH))
+              .replace("__BRANCH__", failure.get("branch", heal_target))
               .replace("__HEAD_SHA__", failure.get("head_sha", ""))
               .replace("__JOB__", job_guess))
     prompt += capacity_hint
@@ -3367,7 +3414,7 @@ def cycle() -> None:
                       flush=True)
                 ci_log_tail = heal_ci_failure(failure)
                 if ci_log_tail is not None:
-                    if verify_then_push("CI fix", target_branch=MIRROR_BRANCH, ci_log_tail=ci_log_tail):
+                    if verify_then_push("CI fix", target_branch=_ci_heal_target_branch(), ci_log_tail=ci_log_tail):
                         _mark_ci_seen(failure["run_id"])
                     else:
                         _ci_mark_failed_attempt(
@@ -3455,7 +3502,7 @@ def main() -> int:
     p.add_argument("--base-branch", default=None,
                     help="Integration branch name (default: host BEDC_PIPELINE_BRANCH)")
     p.add_argument("--mirror-branch", default=None,
-                    help="Mirror branch checked for CI failures (default: host BEDC_MIRROR_BRANCH)")
+                    help="Read-only compatibility branch included in CI detection (default: host BEDC_MIRROR_BRANCH)")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
