@@ -98,6 +98,63 @@ class SyncDevCatchupPrTests(unittest.TestCase):
 
 
 class RollupPrTests(unittest.TestCase):
+    def rollup_pr(self, mergeable: str, conclusions: list[str]) -> dict:
+        return {
+            "number": 1192,
+            "mergeable": mergeable,
+            "statusCheckRollup": [{"conclusion": conclusion} for conclusion in conclusions],
+            "createdAt": "2026-06-03T00:00:00Z",
+        }
+
+    def test_rollup_pr_action_waits_on_pending_candidate(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("MERGEABLE", ["SUCCESS", "IN_PROGRESS"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "wait")
+
+    def test_rollup_pr_action_waits_when_checks_green_but_mergeable_unknown(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("UNKNOWN", ["SUCCESS", "SUCCESS"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "wait")
+
+    def test_rollup_pr_action_merges_green_mergeable_pr(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("MERGEABLE", ["SUCCESS", "SUCCESS"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "merge")
+
+    def test_rollup_pr_action_rebuilds_conflicting_pr(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("CONFLICTING", ["SUCCESS", "SUCCESS"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "rebuild")
+
+    def test_rollup_pr_action_waits_on_cancelled_check(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("MERGEABLE", ["SUCCESS", "CANCELLED"])
+
+        self.assertFalse(module._pr_has_failed_check(pr))
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "wait")
+
+    def test_rollup_pr_action_rebuilds_failed_check(self) -> None:
+        module = load_sync_module()
+        pr = self.rollup_pr("MERGEABLE", ["SUCCESS", "FAILURE"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 1.0), "rebuild")
+
+    def test_rollup_pr_action_rebuilds_old_non_green_pr(self) -> None:
+        module = load_sync_module()
+        module.PR_REPLACE_OPEN_HOURS = 6.0
+        pr = self.rollup_pr("MERGEABLE", ["SUCCESS", "IN_PROGRESS"])
+
+        self.assertEqual(module._rollup_pr_action(pr, 7.0), "rebuild")
+
+    def test_rollup_pr_action_creates_when_no_pr_exists(self) -> None:
+        module = load_sync_module()
+
+        self.assertEqual(module._rollup_pr_action(None, None), "create")
+
     def test_source_in_target_is_noop_without_pr_creation(self) -> None:
         module = load_sync_module()
         target_sha = "12837a0ec5abcdef"
