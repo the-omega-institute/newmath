@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-public-jepa-registry build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-rollup probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-rollup probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -30,6 +30,9 @@ run-vjepa2-latent-prediction:
 build-public-jepa-registry:
 	python3 scripts/build_public_jepa_baseline_registry.py
 
+build-public-baseline-native-metric-contract:
+	python3 scripts/build_public_baseline_native_metric_contract.py
+
 build-bedc-jepa-manifest:
 	python3 scripts/build_bedc_jepa_artifact_manifest.py
 
@@ -45,7 +48,10 @@ build-bedc-jepa-review-bundle:
 build-bedc-jepa-quality-backend:
 	python3 scripts/build_bedc_jepa_quality_backend_candidate.py
 
-build-bedc-jepa-rollup: build-public-jepa-registry build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend
+build-bedc-jepa-quality-lab-export:
+	python3 scripts/build_bedc_jepa_quality_lab_export.py
+
+build-bedc-jepa-rollup: build-public-jepa-registry build-public-baseline-native-metric-contract build-bedc-jepa-run-kit build-bedc-jepa-manifest build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-review-bundle build-bedc-jepa-manifest
 
 probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py

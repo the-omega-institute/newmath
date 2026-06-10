@@ -49,11 +49,13 @@ The main record-building commands are:
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_latent_prediction.py
 .\.venv-cuda\Scripts\python.exe scripts\build_public_jepa_baseline_registry.py
+.\.venv-cuda\Scripts\python.exe scripts\build_public_baseline_native_metric_contract.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_external_run_kit.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_artifact_manifest.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_readiness.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_review_bundle.py
 .\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_backend_candidate.py
+.\.venv-cuda\Scripts\python.exe scripts\build_bedc_jepa_quality_lab_export.py
 ```
 
 ## Primary Records
@@ -75,11 +77,13 @@ Important generated records live under `reports/`:
 - `bedc_vjepa2_ac_minigrid_claim_certificate.json`
 - `bedc_vjepa2_ac_minigrid_latent_prediction.json`
 - `bedc_jepa_vjepa2_ac_native_boundary.json`
+- `bedc_jepa_public_baseline_native_metric_contract.json`
 - `bedc_jepa_external_run_kit.json`
 - `bedc_jepa_artifact_manifest.json`
 - `bedc_jepa_readiness.json`
 - `bedc_jepa_review_bundle.json`
 - `bedc_jepa_quality_backend_candidate.json`
+- `bedc_jepa_quality_lab_exports.json`
 
 ## Evidence Boundary
 
