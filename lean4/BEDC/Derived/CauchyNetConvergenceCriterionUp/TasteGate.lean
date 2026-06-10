@@ -172,13 +172,15 @@ theorem CauchyNetConvergenceCriterionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         cauchyNetConvergenceCriterionDecodeBHist
           (cauchyNetConvergenceCriterionEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier CauchyNetConvergenceCriterionUp) ∧
-        Nonempty (ChapterTasteGate CauchyNetConvergenceCriterionUp) ∧
-          cauchyNetConvergenceCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+      cauchyNetConvergenceCriterionFields
+          (CauchyNetConvergenceCriterionUp.mk BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨cauchyNetConvergenceCriterion_decode_encode_bhist,
-      Nonempty.intro cauchyNetConvergenceCriterionBHistCarrier,
-      Nonempty.intro cauchyNetConvergenceCriterionChapterTasteGate, rfl⟩
+  constructor
+  · exact cauchyNetConvergenceCriterion_decode_encode_bhist
+  · rfl
 
 end BEDC.Derived.CauchyNetConvergenceCriterionUp
