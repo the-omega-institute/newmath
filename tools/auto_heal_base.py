@@ -58,9 +58,21 @@ def _mirror_branch_default() -> str:
     return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
 
 
+def _upstream_branch_default() -> str:
+    """Mirror tools/sync_with_auto_dev.py BEDC_ROLLUP_TARGET_BRANCH topology.
+
+    Keep this fallback chain synchronized with sync when the rollup topology
+    changes.
+    """
+    rollup_target = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH")
+    if rollup_target is not None:
+        return rollup_target
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+
+
 BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+UPSTREAM_BRANCH = _upstream_branch_default()
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 CI_HEAL_CODEX_TIMEOUT = int(os.environ.get("AUTO_HEAL_CODEX_TIMEOUT_SECONDS", "3600"))
@@ -1239,6 +1251,46 @@ def run_ci_watch_callback_self_test() -> int:
         CI_HEAL_CACHE = old_heal_cache
         CI_WATCH_CACHE = old_cache
         HEAL_WT = old_heal_wt
+
+
+def run_rollup_ci_topology_self_test() -> int:
+    global BASE_BRANCH, UPSTREAM_BRANCH, MIRROR_BRANCH, CI_WATCH_CACHE, CI_WATCH_LOG_DIR
+    old_base = BASE_BRANCH
+    old_upstream = UPSTREAM_BRANCH
+    old_mirror = MIRROR_BRANCH
+    old_watch_cache = CI_WATCH_CACHE
+    old_watch_log_dir = CI_WATCH_LOG_DIR
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            BASE_BRANCH = "codex-auto-dev"
+            UPSTREAM_BRANCH = "release-target"
+            MIRROR_BRANCH = "auto-dev"
+            CI_WATCH_CACHE = root / "watchers.json"
+            CI_WATCH_LOG_DIR = root / "watch-logs"
+
+            branches = _ci_detection_branches()
+            expected_rollup = _rollup_branch_name(BASE_BRANCH, UPSTREAM_BRANCH)
+            branches_ok = (
+                branches[:3] == [expected_rollup, UPSTREAM_BRANCH, BASE_BRANCH]
+                and len(branches) == len(set(branches))
+            )
+
+            _arm_ci_watch_for_head("deadbeef", "topic-ci-branch")
+            watch_side_effect_ok = _read_ci_watchers() == {} and not CI_WATCH_CACHE.exists()
+
+            print(
+                f"[heal] rollup CI topology self-test: branches={branches} "
+                f"watch_side_effect={watch_side_effect_ok}",
+                file=sys.stderr,
+            )
+            return 0 if branches_ok and watch_side_effect_ok else 1
+    finally:
+        BASE_BRANCH = old_base
+        UPSTREAM_BRANCH = old_upstream
+        MIRROR_BRANCH = old_mirror
+        CI_WATCH_CACHE = old_watch_cache
+        CI_WATCH_LOG_DIR = old_watch_log_dir
 
 
 def verify_then_push(
@@ -3520,11 +3572,13 @@ def main() -> int:
         noisy_red_rc = run_noisy_red_self_test()
         ci_log_focus_rc = run_ci_log_focus_self_test()
         ci_watch_rc = run_ci_watch_callback_self_test()
+        rollup_ci_rc = run_rollup_ci_topology_self_test()
         return 0 if (
             cooldown_rc == 0
             and noisy_red_rc == 0
             and ci_log_focus_rc == 0
             and ci_watch_rc == 0
+            and rollup_ci_rc == 0
         ) else 1
 
     if args.verify_only:
