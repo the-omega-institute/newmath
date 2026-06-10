@@ -2784,6 +2784,31 @@ def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[st
     return capsule
 
 
+def _l1_default_scaling_capsule() -> dict[str, Any]:
+    index = SCALING_LADDER_LEVEL_IDS.index("L1_tiny_sequence")
+    return {
+        "level_id": "L1_tiny_sequence",
+        "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+        "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+        "review_status_alias": "missing",
+        "promotion_readiness_alias": "missing",
+        "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+        "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
+        "level_state": "blocked",
+        "promotion_status": "blocked-by-l1-review-status-pointer",
+        "boundary_ledger": [
+            {
+                "level_id": "L1_tiny_sequence",
+                "status": "blocked",
+                "reason": "missing dgt-l1-controls projection",
+                "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+            }
+        ],
+        "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
+    }
+
+
 def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
     index = SCALING_LADDER_LEVEL_IDS.index(level_id)
     if level_id == "L0_toy":
@@ -2818,29 +2843,7 @@ def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
             ],
         }
     if level_id == "L1_tiny_sequence":
-        return {
-            "level_id": level_id,
-            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
-            "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
-            "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
-            "review_status_alias": "missing",
-            "promotion_readiness_alias": "missing",
-            "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
-            "promotion_readiness_alias_source": (
-                f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness"
-            ),
-            "level_state": "blocked",
-            "promotion_status": "blocked-by-l1-review-status-pointer",
-            "boundary_ledger": [
-                {
-                    "level_id": level_id,
-                    "status": "blocked",
-                    "reason": "missing dgt-l1-controls projection",
-                    "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
-                }
-            ],
-            "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
-        }
+        return _l1_default_scaling_capsule()
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -2870,28 +2873,7 @@ def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
 
 
 def _l1_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
-    index = SCALING_LADDER_LEVEL_IDS.index("L1_tiny_sequence")
-    capsule = {
-        "level_id": "L1_tiny_sequence",
-        "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
-        "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
-        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
-        "review_status_alias": "missing",
-        "promotion_readiness_alias": "missing",
-        "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
-        "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
-        "level_state": "blocked",
-        "promotion_status": "blocked-by-l1-review-status-pointer",
-        "boundary_ledger": [
-            {
-                "level_id": "L1_tiny_sequence",
-                "status": "blocked",
-                "reason": "missing dgt-l1-controls projection",
-                "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
-            }
-        ],
-        "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
-    }
+    capsule = _l1_default_scaling_capsule()
     if not isinstance(projection, Mapping):
         return capsule
     ready = projection.get("review_status") == "ready" and projection.get("promotion_readiness") == "ready-for-independent-review"

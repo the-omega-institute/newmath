@@ -80,21 +80,6 @@ REQUIRED_WITNESSES = (
     "scripted_metric_table",
 )
 CRITICAL_WITNESSES = REQUIRED_WITNESSES
-CONTROL_POINTERS = {
-    "task_spec": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.task_spec"},
-    "candidate": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.training_arms.dgt_l1"},
-    "base_control": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.training_arms.base_transformer_l1"},
-    "matched_random_control": {
-        "artifact": CANONICAL_JSON_ARTIFACT,
-        "pointer": "$.training_arms.matched_random_structural_l1",
-    },
-    "compute_ledger": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.compute_ledger"},
-    "parameter_ledger": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.parameter_ledger"},
-    "negative_witness_sweep": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.negative_witness_sweep"},
-    "independent_replay": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.independent_replay"},
-    "review_status": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.review_status"},
-    "l1_projection": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.l1_tiny_sequence_projection"},
-}
 
 
 @dataclass(frozen=True)
@@ -589,98 +574,172 @@ def _gate(status: bool, gate_id: str, criterion: str, evidence_pointer: str, rea
     ).as_payload()
 
 
-def evaluate_hardgates(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
-    arms = payload.get("training_arms") if isinstance(payload.get("training_arms"), Mapping) else {}
-    compute = payload.get("compute_ledger") if isinstance(payload.get("compute_ledger"), Mapping) else {}
-    params = payload.get("parameter_ledger") if isinstance(payload.get("parameter_ledger"), Mapping) else {}
-    negative = payload.get("negative_witness_sweep") if isinstance(payload.get("negative_witness_sweep"), Mapping) else {}
-    replay = payload.get("independent_replay") if isinstance(payload.get("independent_replay"), Mapping) else {}
-    capsule = payload.get("claim_capsule_ref") if isinstance(payload.get("claim_capsule_ref"), Mapping) else {}
-    review_status = payload.get("review_status")
-    dgt = arms.get("dgt_l1") if isinstance(arms, Mapping) else None
-    base = arms.get("base_transformer_l1") if isinstance(arms, Mapping) else None
-    matched = arms.get("matched_random_structural_l1") if isinstance(arms, Mapping) else None
-    dgt_params = int(dgt.get("parameter_count", 0)) if isinstance(dgt, Mapping) else 0
-    base_params = int(base.get("parameter_count", 0)) if isinstance(base, Mapping) else 0
-    matched_params = int(matched.get("parameter_count", 0)) if isinstance(matched, Mapping) else 0
-    dgt_compute = float(dgt.get("compute_units", 0)) if isinstance(dgt, Mapping) else 0.0
-    base_compute = float(base.get("compute_units", 0)) if isinstance(base, Mapping) else 0.0
-    matched_compute = float(matched.get("compute_units", 0)) if isinstance(matched, Mapping) else 0.0
-    base_match = dgt_params > 0 and abs(base_params - dgt_params) / dgt_params <= MATCH_TOLERANCE and dgt_compute > 0 and abs(base_compute - dgt_compute) / dgt_compute <= MATCH_TOLERANCE
-    matched_match = dgt_params > 0 and abs(matched_params - dgt_params) / dgt_params <= MATCH_TOLERANCE and dgt_compute > 0 and abs(matched_compute - dgt_compute) / dgt_compute <= MATCH_TOLERANCE
-    matched_positive = (
-        isinstance(matched, Mapping)
-        and isinstance(dgt, Mapping)
-        and matched.get("metrics", {}).get("accuracy_mean", 1.0) >= dgt.get("metrics", {}).get("accuracy_mean", 0.0) - QUALITY_MARGIN
-    )
-    compute_cells = compute.get("per_seed_step_cell") if isinstance(compute, Mapping) else {}
-    param_cells = params.get("per_arm") if isinstance(params, Mapping) else {}
-    evidence_pointers = capsule.get("evidence_pointers") if isinstance(capsule, Mapping) else []
+def _mapping_cell(payload: Mapping[str, Any], key: str) -> Mapping[str, Any]:
+    cell = payload.get(key)
+    return cell if isinstance(cell, Mapping) else {}
+
+
+def _arm_cell(arms: Mapping[str, Any], arm_id: str) -> Mapping[str, Any] | None:
+    cell = arms.get(arm_id)
+    return cell if isinstance(cell, Mapping) else None
+
+
+def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
+    arms = _mapping_cell(payload, "training_arms")
     return {
-        "L1-HG1": _gate(isinstance(base, Mapping) and base.get("status") == "pass" and base_match, "L1-HG1", "base transformer true-training control is parameter/compute matched", "$.training_arms.base_transformer_l1"),
-        "L1-HG2": _gate(
-            isinstance(matched, Mapping)
-            and matched.get("status") == "pass"
-            and matched_match
-            and matched.get("structural_marginals_preserved") is True
-            and not matched_positive,
-            "L1-HG2",
-            "matched-random structural true-training control preserves marginals and fails positive claim",
-            "$.training_arms.matched_random_structural_l1",
-        ),
-        "L1-HG3": _gate(
-            compute.get("status") == "pass"
-            and bool(compute_cells)
-            and all(isinstance(row, Mapping) and float(row.get("compute_units", 0)) > 0 for row in compute_cells.values()),
-            "L1-HG3",
-            "compute ledger has positive compute units for every arm/seed/step cell",
-            "$.compute_ledger",
-        ),
-        "L1-HG4": _gate(
-            params.get("status") == "pass"
-            and bool(param_cells)
-            and all(isinstance(row, Mapping) and int(row.get("parameter_count", 0)) > 0 for row in param_cells.values()),
-            "L1-HG4",
-            "parameter ledger has positive parameter counts for every trained model arm",
-            "$.parameter_ledger",
-        ),
-        "L1-HG5": _gate(
-            negative.get("status") == "pass"
-            and bool(negative.get("witness_rows"))
-            and all(row.get("regression_test_pointer_resolves") for row in negative.get("witness_rows", [])),
-            "L1-HG5",
-            "negative witness sweep has real hit logic and resolving regression pointers",
-            "$.negative_witness_sweep",
-        ),
-        "L1-HG6": _gate(
-            replay.get("status") == "pass"
-            and isinstance(replay.get("task_spec_digest"), str)
-            and bool(replay.get("task_spec_digest"))
-            and isinstance(replay.get("seed_digest"), str)
-            and bool(replay.get("seed_digest"))
-            and all(row.get("status") == "pass" for row in replay.get("metric_tolerance_rows", [])),
-            "L1-HG6",
-            "independent replay records task digest, seed digest, and metric tolerance rows",
-            "$.independent_replay",
-        ),
-        "L1-HG7": _gate(
-            capsule.get("schema_id") == "bedc.quality.claim_capsule"
-            and capsule.get("capsule_subtype") == "bedc.model.dgt_l1_tiny_sequence_claim_capsule"
-            and capsule.get("evidence_scope") == "bounded-tiny-sequence"
-            and bool(evidence_pointers)
-            and all(isinstance(pointer, str) and pointer.startswith(CANONICAL_JSON_ARTIFACT + ":$") for pointer in evidence_pointers),
-            "L1-HG7",
-            "ClaimCapsule scope is bounded-tiny-sequence and all evidence pointers are owner pointers",
-            "$.claim_capsule_ref",
-        ),
-        "L1-HG8": _gate(
-            review_status == "ready"
-            and payload.get("promotion_readiness") == "ready-for-independent-review"
-            and capsule.get("status") == "ready",
-            "L1-HG8",
-            "initial L1 output is ready for independent review but not review pass",
-            "$.review_status",
-        ),
+        "arms": arms,
+        "compute": _mapping_cell(payload, "compute_ledger"),
+        "params": _mapping_cell(payload, "parameter_ledger"),
+        "negative": _mapping_cell(payload, "negative_witness_sweep"),
+        "replay": _mapping_cell(payload, "independent_replay"),
+        "capsule": _mapping_cell(payload, "claim_capsule_ref"),
+        "review_status": payload.get("review_status"),
+        "promotion_readiness": payload.get("promotion_readiness"),
+        "dgt": _arm_cell(arms, "dgt_l1"),
+        "base": _arm_cell(arms, "base_transformer_l1"),
+        "matched": _arm_cell(arms, "matched_random_structural_l1"),
+    }
+
+
+def _params_and_compute_match(candidate: Mapping[str, Any] | None, control: Mapping[str, Any] | None) -> bool:
+    if not isinstance(candidate, Mapping) or not isinstance(control, Mapping):
+        return False
+    candidate_params = int(candidate.get("parameter_count", 0))
+    control_params = int(control.get("parameter_count", 0))
+    candidate_compute = float(candidate.get("compute_units", 0))
+    control_compute = float(control.get("compute_units", 0))
+    return (
+        candidate_params > 0
+        and abs(control_params - candidate_params) / candidate_params <= MATCH_TOLERANCE
+        and candidate_compute > 0
+        and abs(control_compute - candidate_compute) / candidate_compute <= MATCH_TOLERANCE
+    )
+
+
+def _matched_random_positive_control(dgt: Mapping[str, Any] | None, matched: Mapping[str, Any] | None) -> bool:
+    if not isinstance(dgt, Mapping) or not isinstance(matched, Mapping):
+        return False
+    return matched.get("metrics", {}).get("accuracy_mean", 1.0) >= dgt.get("metrics", {}).get("accuracy_mean", 0.0) - QUALITY_MARGIN
+
+
+def _gate_l1_hg1(context: Mapping[str, Any]) -> dict[str, Any]:
+    base = context["base"]
+    return _gate(
+        isinstance(base, Mapping)
+        and base.get("status") == "pass"
+        and _params_and_compute_match(context["dgt"], base),
+        "L1-HG1",
+        "base transformer true-training control is parameter/compute matched",
+        "$.training_arms.base_transformer_l1",
+    )
+
+
+def _gate_l1_hg2(context: Mapping[str, Any]) -> dict[str, Any]:
+    matched = context["matched"]
+    return _gate(
+        isinstance(matched, Mapping)
+        and matched.get("status") == "pass"
+        and _params_and_compute_match(context["dgt"], matched)
+        and matched.get("structural_marginals_preserved") is True
+        and not _matched_random_positive_control(context["dgt"], matched),
+        "L1-HG2",
+        "matched-random structural true-training control preserves marginals and fails positive claim",
+        "$.training_arms.matched_random_structural_l1",
+    )
+
+
+def _gate_l1_hg3(context: Mapping[str, Any]) -> dict[str, Any]:
+    compute = context["compute"]
+    compute_cells = compute.get("per_seed_step_cell") if isinstance(compute, Mapping) else {}
+    return _gate(
+        compute.get("status") == "pass"
+        and bool(compute_cells)
+        and all(isinstance(row, Mapping) and float(row.get("compute_units", 0)) > 0 for row in compute_cells.values()),
+        "L1-HG3",
+        "compute ledger has positive compute units for every arm/seed/step cell",
+        "$.compute_ledger",
+    )
+
+
+def _gate_l1_hg4(context: Mapping[str, Any]) -> dict[str, Any]:
+    params = context["params"]
+    param_cells = params.get("per_arm") if isinstance(params, Mapping) else {}
+    return _gate(
+        params.get("status") == "pass"
+        and bool(param_cells)
+        and all(isinstance(row, Mapping) and int(row.get("parameter_count", 0)) > 0 for row in param_cells.values()),
+        "L1-HG4",
+        "parameter ledger has positive parameter counts for every trained model arm",
+        "$.parameter_ledger",
+    )
+
+
+def _gate_l1_hg5(context: Mapping[str, Any]) -> dict[str, Any]:
+    negative = context["negative"]
+    witness_rows = negative.get("witness_rows", [])
+    return _gate(
+        negative.get("status") == "pass"
+        and bool(witness_rows)
+        and all(row.get("regression_test_pointer_resolves") for row in witness_rows),
+        "L1-HG5",
+        "negative witness sweep has real hit logic and resolving regression pointers",
+        "$.negative_witness_sweep",
+    )
+
+
+def _gate_l1_hg6(context: Mapping[str, Any]) -> dict[str, Any]:
+    replay = context["replay"]
+    return _gate(
+        replay.get("status") == "pass"
+        and isinstance(replay.get("task_spec_digest"), str)
+        and bool(replay.get("task_spec_digest"))
+        and isinstance(replay.get("seed_digest"), str)
+        and bool(replay.get("seed_digest"))
+        and all(row.get("status") == "pass" for row in replay.get("metric_tolerance_rows", [])),
+        "L1-HG6",
+        "independent replay records task digest, seed digest, and metric tolerance rows",
+        "$.independent_replay",
+    )
+
+
+def _gate_l1_hg7(context: Mapping[str, Any]) -> dict[str, Any]:
+    capsule = context["capsule"]
+    evidence_pointers = capsule.get("evidence_pointers") if isinstance(capsule, Mapping) else []
+    return _gate(
+        capsule.get("schema_id") == "bedc.quality.claim_capsule"
+        and capsule.get("capsule_subtype") == "bedc.model.dgt_l1_tiny_sequence_claim_capsule"
+        and capsule.get("evidence_scope") == "bounded-tiny-sequence"
+        and bool(evidence_pointers)
+        and all(isinstance(pointer, str) and pointer.startswith(CANONICAL_JSON_ARTIFACT + ":$") for pointer in evidence_pointers),
+        "L1-HG7",
+        "ClaimCapsule scope is bounded-tiny-sequence and all evidence pointers are owner pointers",
+        "$.claim_capsule_ref",
+    )
+
+
+def _gate_l1_hg8(context: Mapping[str, Any]) -> dict[str, Any]:
+    capsule = context["capsule"]
+    return _gate(
+        context["review_status"] == "ready"
+        and context["promotion_readiness"] == "ready-for-independent-review"
+        and capsule.get("status") == "ready",
+        "L1-HG8",
+        "initial L1 output is ready for independent review but not review pass",
+        "$.review_status",
+    )
+
+
+def evaluate_hardgates(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    context = _control_context(payload)
+    return {
+        "L1-HG1": _gate_l1_hg1(context),
+        "L1-HG2": _gate_l1_hg2(context),
+        "L1-HG3": _gate_l1_hg3(context),
+        "L1-HG4": _gate_l1_hg4(context),
+        "L1-HG5": _gate_l1_hg5(context),
+        "L1-HG6": _gate_l1_hg6(context),
+        "L1-HG7": _gate_l1_hg7(context),
+        "L1-HG8": _gate_l1_hg8(context),
     }
 
 
@@ -1038,7 +1097,6 @@ __all__ = [
     "ARTIFACT_ID",
     "CANONICAL_JSON_ARTIFACT",
     "CANONICAL_MARKDOWN_ARTIFACT",
-    "CONTROL_POINTERS",
     "GENERATED_AT",
     "LADDER_JSON_ARTIFACT",
     "L1TrainingConfig",

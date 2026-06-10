@@ -4,6 +4,7 @@ import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from scripts import run_dgt_l1_controls as runner
 
 
 def _payload():
@@ -170,6 +171,86 @@ def test_l1_review_status_ready_not_pass():
     mutated["review_status"] = "pass"
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "review status")
+
+
+def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp_path, capsys, monkeypatch):
+    seen = {}
+    real_build_payload = l1.build_payload
+
+    def recording_build_payload(*, generated_at, requested_device, config, root=None):
+        seen["generated_at"] = generated_at
+        seen["requested_device"] = requested_device
+        seen["config"] = config
+        return real_build_payload(
+            generated_at=generated_at,
+            requested_device=requested_device,
+            config=config,
+            root=root,
+        )
+
+    monkeypatch.setattr(runner, "build_payload", recording_build_payload)
+    exit_code = runner.main(
+        [
+            "--root",
+            str(tmp_path),
+            "--generated-at",
+            "fixture-time",
+            "--requested-device",
+            "cpu",
+            "--seeds",
+            "1174,1175,1176,1177,1178,1179,1180,1181",
+            "--training-steps",
+            "8",
+            "--train-examples",
+            "32",
+            "--eval-examples",
+            "64",
+        ]
+    )
+
+    assert exit_code == 0
+    config = seen["config"]
+    assert seen["generated_at"] == "fixture-time"
+    assert seen["requested_device"] == "cpu"
+    assert config == l1.L1TrainingConfig(
+        seeds=(1174, 1175, 1176, 1177, 1178, 1179, 1180, 1181),
+        training_steps=8,
+        train_examples=32,
+        eval_examples=64,
+    )
+
+    summary = json.loads(capsys.readouterr().out)
+    assert summary["artifact_id"] == l1.ARTIFACT_ID
+    assert summary["status"] == "ready"
+    assert summary["review_status"] == "ready"
+    assert summary["promotion_readiness"] == "ready-for-independent-review"
+    assert summary["device"] == "cpu"
+    assert summary["compute_units"] > 0
+    assert summary["opened_ladder_level"] == "L1_tiny_sequence"
+
+    run_artifacts = l1.run_artifacts_payload()
+    expected_artifacts = [
+        l1.CANONICAL_JSON_ARTIFACT,
+        l1.CANONICAL_MARKDOWN_ARTIFACT,
+        l1.CANONICAL_FINGERPRINT_ARTIFACT,
+        l1.LADDER_JSON_ARTIFACT,
+        run_artifacts["summary"],
+        run_artifacts["raw_metrics"],
+        run_artifacts["claim_capsule"],
+        run_artifacts["report"],
+    ]
+    assert all((tmp_path / artifact).exists() for artifact in expected_artifacts)
+
+    canonical_payload = json.loads((tmp_path / l1.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    assert canonical_payload["task_spec"]["seed_protocol"]["deterministic_seeds"] == list(config.seeds)
+    assert canonical_payload["task_spec"]["train_examples"] == 32
+    assert canonical_payload["task_spec"]["eval_examples"] == 64
+    assert canonical_payload["training_arms"]["dgt_l1"]["training_steps"] == 8
+    claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
+    fingerprint = json.loads((tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
+    assert claim_capsule == canonical_payload["claim_capsule_ref"]
+    assert "run_artifacts" in fingerprint["inputs"]
+    assert run_artifacts["claim_capsule"] in json.dumps(fingerprint, sort_keys=True)
 
 
 def test_l1_component_ablation_reuses_measured_owner_without_component_effects():
