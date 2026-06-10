@@ -3157,6 +3157,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.BoundaryTriggerSeparation
 import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
+import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
@@ -4802,6 +4803,7 @@ import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteWindowObserverUp
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
