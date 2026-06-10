@@ -15,6 +15,12 @@ def test_paper_writeback_packet_records_paper_ready_claim_boundary():
     assert packet["metrics"]["native_unlogged_error_reduction"] > 0.05
     assert packet["metrics"]["vjepa2_ac_latent_prediction_score"] > 0.0
     assert packet["metrics"]["native_metric_contract_field_count"] >= 10.0
+    assert packet["metrics"]["native_metric_template_result_field_count"] >= 10.0
+    assert packet["metrics"]["public_minigrid_calibration_row_count"] == 45.0
+    assert packet["metrics"]["public_minigrid_calibration_executed_row_count"] == 45.0
+    assert packet["metrics"]["public_minigrid_calibration_source_gap_row_count"] == 0.0
+    assert packet["metrics"]["public_minigrid_calibration_risk_reduction_mean"] > 0.0
+    assert 0.0 <= packet["metrics"]["public_minigrid_calibration_total_debt_direction_win_rate"] <= 1.0
     assert packet["record"]["admitted_operational_name"] == "door_key_context_visible"
     assert "has_key" in packet["record"]["source_gap_predicates"]
     assert "public benchmark superiority" in packet["record"]["cannot_upgrade_to"]
@@ -40,6 +46,12 @@ def test_paper_writeback_packet_records_artifacts_and_fact_owner():
     assert packet["artifacts"]["quality_lab_export"] == "reports/bedc_jepa_quality_lab_exports.json"
     assert packet["artifacts"]["native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert packet["artifacts"]["native_metric_template"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
+    )
+    assert packet["artifacts"]["public_minigrid_calibration_extension"] == (
+        "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     )
     assert packet["fact_owner"]["owner"] == OWNER
     assert packet["fact_owner"]["review_bundle_status"] == "review_ready"

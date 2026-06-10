@@ -31,8 +31,10 @@ def build_paper_writeback_packet() -> dict[str, Any]:
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     quality_export = _load_json("bedc_jepa_quality_lab_exports.json")
     native = _load_json("bedc_jepa_public_native_minigrid_benchmark.json")
+    calibration_extension = _load_json("bedc_jepa_public_minigrid_calibration_extension.json")
     retraining = _load_json("bedc_jepa_retraining_loss_ablation.json")
     contract = _load_json("bedc_jepa_public_baseline_native_metric_contract.json")
+    template = _load_json("bedc_jepa_public_baseline_native_metric_template.json")
     checks = review.get("checks", {})
     if not isinstance(checks, Mapping):
         raise ValueError("review bundle checks must be a JSON object")
@@ -40,6 +42,7 @@ def build_paper_writeback_packet() -> dict[str, Any]:
     if not isinstance(export_rows, list) or not export_rows:
         raise ValueError("quality-lab export must contain at least one export row")
     export = export_rows[0]
+    calibration_summary = calibration_extension.get("summary", {})
     return {
         "schema_id": SCHEMA_ID,
         "status": "paper_ready" if review.get("status") == "review_ready" else "partial",
@@ -60,8 +63,24 @@ def build_paper_writeback_packet() -> dict[str, Any]:
             "seed_sweep_unlogged_error_win_rate": _float(checks.get("seed_sweep_unlogged_error_win_rate")),
             "vjepa2_ac_latent_prediction_score": _float(checks.get("vjepa2_ac_latent_prediction_score")),
             "native_minigrid_sample_count": _float(native.get("sample_count_collected")),
+            "public_minigrid_calibration_row_count": _float(calibration_summary.get("row_count")),
+            "public_minigrid_calibration_executed_row_count": _float(
+                calibration_summary.get("executed_row_count")
+            ),
+            "public_minigrid_calibration_source_gap_row_count": _float(
+                calibration_summary.get("source_gap_row_count")
+            ),
+            "public_minigrid_calibration_risk_reduction_mean": _float(
+                calibration_summary.get("risk_reduction_mean")
+            ),
+            "public_minigrid_calibration_total_debt_direction_win_rate": _float(
+                calibration_summary.get("total_debt_direction_win_rate")
+            ),
             "retraining_system_count": _float(len(retraining.get("systems", {}))),
             "native_metric_contract_field_count": _float(len(contract.get("required_execution_fields", []))),
+            "native_metric_template_result_field_count": _float(
+                len(template.get("result", {})) if isinstance(template.get("result"), dict) else 0
+            ),
         },
         "ledger_rows": export.get("ledger_rows", []),
         "not_claimed": export.get("not_claimed", []),
@@ -85,6 +104,10 @@ def build_paper_writeback_packet() -> dict[str, Any]:
             "paper_pdf": "papers/bedc_jepa/main.pdf",
             "quality_lab_export": str(manifest.get("quality_lab_export") or "reports/bedc_jepa_quality_lab_exports.json"),
             "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+            "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+            "public_minigrid_calibration_extension": (
+                "reports/bedc_jepa_public_minigrid_calibration_extension.json"
+            ),
         },
         "fact_owner": {
             "owner": OWNER,
