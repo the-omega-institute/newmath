@@ -415,6 +415,9 @@ def promote_next_layer(store: BioRealityStore) -> dict[str, Any]:
 
 
 def run_packet_lane(store: BioRealityStore) -> dict[str, Any]:
+    packet_cfg = _load_pipeline_config().get("packet_lane") or {}
+    if not packet_cfg.get("enabled", True):
+        return {"lane": "bio-P", "status": "skipped", "reason": "conjecture/probe/mismatch discovery delegated to orchestrator + codex"}
     bootstrap = bootstrap_research_memory(store)
     promotion = promote_next_layer(store)
     conjectures = store.load_conjectures()
