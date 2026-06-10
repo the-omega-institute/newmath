@@ -4838,6 +4838,8 @@ import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirstCountableSequentialClosureUp.TasteGate
 import BEDC.Derived.FirstCountableSpaceUp
 import BEDC.Derived.FirstCountableSpaceUp.TasteGate
+import BEDC.Derived.FirstExitChannelUp.NameCertObligations
+import BEDC.Derived.FirstExitChannelUp.TasteGate
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FixedPointIterationUp.TasteGate
@@ -5889,6 +5891,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrierAdmission
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrierScope
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverage
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverageExactness
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterBasisClosure
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterDirectedness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
