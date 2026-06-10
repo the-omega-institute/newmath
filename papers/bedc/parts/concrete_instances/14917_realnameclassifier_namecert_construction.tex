@@ -96,6 +96,18 @@ Transitivity is supplied by \autoref{thm:real-name-classifier-common-window-tran
 Finally apply the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. These theorems account for every consumed row and prevent the equivalence-style route from becoming quotient equality, selected limits, host sequence equality, trichotomy, choice, or Real completeness.
 \end{proof}
 
+\begin{theorem}[RealNameClassifier window trichotomy refusal]
+\label{thm:real-name-classifier-window-trichotomy-refusal}
+Every accepted $\RealNameClassifierUp$ read over a common $\StreamNameUp$ window exports only tolerance comparison, regular-rational readback, transport, replay, provenance, and terminal $\RealUp$ seal rows for the two displayed real names. Consequently the classifier cannot decide a constructive trichotomy row for those names: no accepted read supplies a row deciding equality, strict left order, or strict right order as an exhaustive alternative.
+\end{theorem}
+\begin{proof}
+Apply the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. A classifier read must first pass through the common window, the two dyadic tolerance rows, and the finite tolerance classifier row; this produces only bounded comparison data on the inspected window.
+
+The shared-window equivalence route of \autoref{thm:real-name-classifier-shared-window-equivalence} then assembles reflexive, symmetric, and transitive classifier behavior from the same displayed rows. It does not add an order row or a decision row beyond the tolerance classifier.
+
+Finally use the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. The terminal seal is reached only after the displayed tolerance, readback, transport, replay, provenance, and naming rows have been consumed, and the ledger has no coordinate for trichotomy. Hence no constructive trichotomy witness can be exported from the accepted classifier packet.
+\end{proof}
+
 \begin{theorem}[RealNameClassifier refinement stability]
 \label{thm:real-name-classifier-refinement-stability}
 Let $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet. If a downstream consumer refines the common window $W$ by a displayed $\StreamNameUp$ transport and replays the two dyadic rows through $H$ and $K$, then the resulting classifier read is the same local $\NameCert_{\RealNameClassifierUp}$ surface. The refinement changes only the finite observation window, not the two source names, dyadic tolerance obligation, regular rational readbacks, package provenance, or terminal seal boundary.
