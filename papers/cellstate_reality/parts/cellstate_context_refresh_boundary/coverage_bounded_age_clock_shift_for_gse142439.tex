@@ -1,0 +1,33 @@
+\subsection{Coverage-bounded age-clock shift for GSE142439}
+\label{sec:age-clock-shift-coverage-bound-gse142439}
+
+\paragraph{Finite record.}
+The packet records an age-signature claim for the paired methylation-array data identified by the contact $k\text{-}a.gse142439.horvath353$.  The empirical table contains sixteen samples arranged as eight normal/treated donor pairs.  The clock coordinate system is the Horvath353 coefficient list together with its intercept.  Of the $353$ coefficient CpGs, $334$ are present in the curated GPL21145 EPIC beta matrix and $19$ coefficient CpGs are absent.  The finite carrier is therefore organized as
+$$
+\begin{aligned}
+B_C &= (M,W,C,U,P,\Delta_C,B_U,L,N),\\
+|C| &= 334,\\
+|U| &= 19,\\
+|P| &= 8,\\
+L &= \mathrm{age\_signature}.
+\end{aligned}
+$$
+Here $M$ is the curated beta matrix restricted to the observed Horvath353 coordinates, $W$ is the full coefficient table with intercept, $C$ is the observed coordinate set, $U$ is the absent coordinate set, $P$ is the list of paired donors, $\Delta_C$ is the treated-minus-normal covered-coordinate z-space displacement for each pair, $B_U$ is the absolute-coefficient envelope for the missing coordinates, and $N$ records the local refusal to promote the result outside the age-signature layer.
+
+\paragraph{Observed certificate.}
+The verified fact $cellstate.age\text{-}clock\text{-}shift.coverage\text{-}bound.gse142439$ was produced by experiment run $92b10d89a95a$ and verified at $2026\text{-}06\text{-}10T15{:}37{:}45+00{:}00$.  Its contact identifier is $k\text{-}a.gse142439.horvath353$, its experiment identifier is $gse142439\_missing\_cpg\_bound$, and its recorded support flag is true.  The recorded verdict is $covered\_only$.  This means that the available coordinates support a named covered-coordinate age-clock-shift certificate, while the missing-coordinate envelope prevents a stronger whole-clock conclusion from being read off without additional measurements.
+
+\paragraph{Coverage-bound computation.}
+For each donor pair $p \in P$, the covered part of the Horvath353 shift is computed from the treated-minus-normal z-space difference over the observed coordinate set $C$.  The missing-coordinate contribution is not imputed.  Instead, it is bounded in the sign-worst direction by the sum of absolute missing-coordinate coefficients.  If $w_i$ is the Horvath coefficient at coordinate $i$, the unavailable part is bounded by
+$$
+\begin{aligned}
+B_U &= \sum_{i\in U} |w_i|.
+\end{aligned}
+$$
+Thus the admissible mean age-signature bound is determined from the covered pairwise shifts and the worst-case missing term, rather than from a fabricated value for the $19$ absent CpGs.  The finite name selected by the record is the covered-coordinate certificate: $CoveredHorvath334AgeClockShift^{\uparrow}$.  The name is deliberately tied to $334$ observed CpGs, not to the full $353$-coordinate clock, because the unobserved coordinates remain capable of altering the complete-clock interpretation under the permitted beta range.
+
+\paragraph{Layer interpretation.}
+The contact can test methylation-array age signatures only.  Its resolution consists of CpG-level beta values for covered Horvath353 markers, coefficient weights, the intercept, sample annotations, and the person-level normal/treated pairing.  It does not measure cell-identity markers, protein translation, folding state, biophysical admissibility, realized cellular function, safety, renewable maintenance, organismal maintenance, or cross-layer relations.  The result therefore says that this finite GSE142439 table supports a coverage-bounded age-signature statement, with eight paired comparisons and $334/353$ Horvath coordinates observed.  It does not by itself establish identity preservation, rejuvenation, maintenance, immortality, mechanism, universality across datasets, or any functional improvement.
+
+\paragraph{No-promotion boundary.}
+The local null condition is essential to the certificate.  If the missing-coordinate worst-case mean bound is nonnegative, the packet names only the covered-coordinate Horvath334 age-clock shift.  Even if a negative bound is obtained after applying the missing-coordinate envelope, the conclusion remains inside the age-signature layer.  No translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate layer-matched contact supplies those measurements.  Likewise, no claim about identity, safety, rejuvenation, maintenance, or immortality is licensed by this methylation-array contact.  The empirical role of the packet is narrower: it records that the GSE142439 normal/treated pairs can be scored on the observed Horvath coordinates and that the $19$ absent coordinates are handled by an explicit worst-case coefficient bound rather than by silent completion.
