@@ -134,6 +134,86 @@ theorem EquicontinuityCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, radiusUnary, handoffUnary⟩
 
+theorem EquicontinuityCarrier_namecert_consumer_replay [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K F radiusRead ->
+      Cont radiusRead rho handoffRead ->
+        PkgSig bundle P pkg ->
+          UnaryHistory K ->
+            UnaryHistory F ->
+              UnaryHistory rho ->
+                UnaryHistory R ->
+                  Cont handoffRead R consumerRead ->
+                    PkgSig bundle consumerRead pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row handoffRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row K ∨ hsame row F ∨ hsame row eps ∨ hsame row rho ∨
+                              hsame row M ∨ hsame row T ∨ hsame row R ∨ hsame row P ∨
+                                hsame row N ∨ hsame row radiusRead ∨ hsame row handoffRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont K F radiusRead ∧
+                              Cont radiusRead rho handoffRead ∧ PkgSig bundle P pkg)
+                          hsame ∧
+                        SemanticNameCert
+                            (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row K ∨ hsame row F ∨ hsame row rho ∨ hsame row R ∨
+                                hsame row P ∨ hsame row handoffRead ∨ hsame row consumerRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont handoffRead R consumerRead ∧
+                                PkgSig bundle P pkg ∧ PkgSig bundle consumerRead pkg)
+                            hsame ∧
+                          UnaryHistory radiusRead ∧ UnaryHistory handoffRead ∧
+                            UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro compactFamily radiusHandoff pkgP unaryK unaryF unaryRho unaryR handoffConsumer
+    consumerPkg
+  obtain ⟨baseCert, radiusUnary, handoffUnary⟩ :=
+    EquicontinuityCarrier_namecert_obligations (K := K) (F := F) (eps := eps)
+      (rho := rho) (M := M) (T := T) (R := R) (P := P) (N := N)
+      (radiusRead := radiusRead) (handoffRead := handoffRead) (bundle := bundle)
+      (pkg := pkg) compactFamily radiusHandoff pkgP unaryK unaryF unaryRho
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed handoffUnary unaryR handoffConsumer
+  have consumerCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row F ∨ hsame row rho ∨ hsame row R ∨ hsame row P ∨
+              hsame row handoffRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont handoffRead R consumerRead ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, handoffConsumer, pkgP, consumerPkg⟩
+  }
+  exact ⟨baseCert, consumerCert, radiusUnary, handoffUnary, consumerUnary⟩
+
 theorem EquicontinuityCompactMetricRoute [AskSetup] [PackageSetup]
     {K F eps rho M T R P N radiusRead handoffRead compactRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
