@@ -1,0 +1,27 @@
+\begin{theorem}[StreamName pointwise finite-window transport]
+\label{thm:streamname-pointwise-window-transport}
+Let $s,t,s',t':\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows and let $\mathcal{P}:\mathsf{ProbeBundle}$ be a finite certified observation window. Suppose the source window exposes
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+$$
+together with the finite request ledger rows $\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal{P})$ for every selected observation. If each selected observation carries pointwise transports $\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$, and the same $\Cont$, $\Pkg$, and local $\NameCert_{\StreamNameUp}$ rows replay the transported window, then the transported packet preserves StreamCarrier membership, StreamSame classification, and the finite request ledger:
+$$
+\mathsf{RatStreamNameCarrier}(s'),\quad
+\mathsf{RatStreamNameCarrier}(t'),\quad
+\mathsf{RatStreamNameClassifier}(s',t'),\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P}).
+$$
+The handoff exports exactly the same finite bundle, unary-history ledger, membership rows, pointwise $\hsame$ transports, replay, provenance, and local naming rows to downstream $\RegSeqRatUp$ and $\RealUp$ consumers. It exports no quotient stream equality, host sequence equality, selected real value, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the source finite window. Carrier membership for $s$ and $t$, the StreamSame classifier, the finite-window classifier, and the ledger rows are all displayed before any downstream consumer reads the packet.
+
+Apply the pointwise transport rows at each certified observation of $\mathcal{P}$. The rows $\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$ transport the opened $\BHist$ observations without changing the bundle membership or unary-history ledger.
+
+Use the finite-window transport obligations of \autoref{thm:streamname-window-pointwise-transport} together with the RegSeqRat pointwise handoff of \autoref{thm:streamname-regseqrat-pointwise-handoff}. They identify the transported carrier and classifier rows over the same finite bundle and keep regular readback and Real sealing on the consumer side.
+
+Finally replay the transported packet through the displayed $\Cont$ row and record its $\Pkg$ provenance and local $\NameCert_{\StreamNameUp}$ row. Since every exported coordinate is one of the displayed finite rows, no quotient stream equality, host sequence equality, selected real value, countable-choice schedule, or ambient completeness datum can enter the handoff.
+\end{proof}
