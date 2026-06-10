@@ -39,6 +39,11 @@ def test_bedc_jepa_quality_lab_export_projects_metrics_and_boundaries():
     assert metrics["full_retraining_loss_ablation_closed"] == 1.0
     assert metrics["public_baseline_native_metric_contract_recorded"] == 1.0
     assert metrics["public_baseline_native_metric_template_recorded"] == 1.0
+    assert metrics["public_minigrid_calibration_row_count"] == 45.0
+    assert metrics["public_minigrid_calibration_executed_row_count"] == 45.0
+    assert metrics["public_minigrid_calibration_source_gap_row_count"] == 0.0
+    assert metrics["public_minigrid_calibration_risk_reduction_mean"] > 0.0
+    assert 0.0 <= metrics["public_minigrid_calibration_total_debt_direction_win_rate"] <= 1.0
     assert rows["public-baseline-native-metric-contract"]["status"] == "closed"
     assert rows["public-baseline-native-metric-contract"]["owner"] == OWNER
     assert rows["public-baseline-native-metric-template"]["status"] == "closed"

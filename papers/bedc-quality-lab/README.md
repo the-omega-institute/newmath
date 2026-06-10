@@ -136,7 +136,7 @@ claim.
 
 The remaining manuscript-bearing evidence boundary is an official V-JEPA2-AC
 benchmark reproduction or external baseline run under the recorded
-native-metric contract and template, stronger public MiniGrid calibration
-across larger seeds, horizons, and task variants, a public pixel-world
-benchmark comparison, and a public object-interaction benchmark with natural
-clutter or control.
+native-metric contract and template, public MiniGrid calibration beyond the
+current DoorKey-family readback scope, a public pixel-world benchmark
+comparison, and a public object-interaction benchmark with natural clutter or
+control.

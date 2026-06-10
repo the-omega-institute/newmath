@@ -130,6 +130,7 @@ def build_quality_lab_export(*, generated_at: str = DEFAULT_GENERATED_AT) -> dic
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     quality_backend = _load_json("bedc_jepa_quality_backend_candidate.json")
     native = _load_json("bedc_jepa_public_native_minigrid_benchmark.json")
+    calibration_extension = _load_json("bedc_jepa_public_minigrid_calibration_extension.json")
     checks = review_bundle.get("checks", {})
     metrics = quality_backend.get("metrics", {})
     if not isinstance(checks, Mapping) or not isinstance(metrics, Mapping):
@@ -202,6 +203,21 @@ def build_quality_lab_export(*, generated_at: str = DEFAULT_GENERATED_AT) -> dic
                 metrics.get("public_baseline_native_metric_template_recorded")
             ),
             "native_minigrid_sample_count": _as_float(native.get("sample_count_collected")),
+            "public_minigrid_calibration_row_count": _as_float(
+                calibration_extension.get("summary", {}).get("row_count")
+            ),
+            "public_minigrid_calibration_executed_row_count": _as_float(
+                calibration_extension.get("summary", {}).get("executed_row_count")
+            ),
+            "public_minigrid_calibration_source_gap_row_count": _as_float(
+                calibration_extension.get("summary", {}).get("source_gap_row_count")
+            ),
+            "public_minigrid_calibration_risk_reduction_mean": _as_float(
+                calibration_extension.get("summary", {}).get("risk_reduction_mean")
+            ),
+            "public_minigrid_calibration_total_debt_direction_win_rate": _as_float(
+                calibration_extension.get("summary", {}).get("total_debt_direction_win_rate")
+            ),
         },
         "ledger_rows": _native_boundary_rows(readiness) + _review_ledger_rows(review_bundle),
         "not_claimed": [
