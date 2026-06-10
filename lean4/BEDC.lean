@@ -2667,6 +2667,7 @@ import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
+import BEDC.Derived.CompactNetModulusSelectorUp.CenterLedgerExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
 import BEDC.Derived.CompactNetModulusSelectorUp.FiniteNetExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
@@ -3156,6 +3157,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.BoundaryTriggerSeparation
 import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
+import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
@@ -6259,6 +6261,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICCriticalPathUp.TypedCandidateFrontierBridge
 import BEDC.Derived.MetaCICCriticalPathUp.TypedReductionCandidateSNHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.VisibleResidualSocketExhaustion
 import BEDC.Derived.MetaCICDecidableBoundaryUp
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateSubstitutionExhaustion
