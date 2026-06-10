@@ -1,3 +1,4 @@
+import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.RootObligationSurface
 
 namespace BEDC.Derived.SequentialCompactUp
@@ -66,7 +67,13 @@ theorem SequentialCompactPublicNameCertRoute [AskSetup] [PackageSetup]
       }
       pattern_sound := by
         intro _row source
-        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+        right
+        right
+        right
+        right
+        right
+        right
+        exact source.left
       ledger_sound := by
         intro _row source
         exact
