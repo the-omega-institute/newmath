@@ -1122,6 +1122,7 @@ import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
 import BEDC.Derived.BoundedRealIntervalPartitionUp.TasteGate
+import BEDC.Derived.BoundedRealOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
 import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNet
@@ -4189,6 +4190,7 @@ import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplySocketUp.TasteGate
 import BEDC.Derived.ExternalSupplyWitnessUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
+import BEDC.Derived.ExtremeValueTheoremUp.TasteGate
 import BEDC.Derived.ExtremeValueUp.TasteGate
 import BEDC.Derived.FaberSchauderSystemUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
