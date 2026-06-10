@@ -29,6 +29,9 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["public_baseline_native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
     )
+    assert bundle["required_artifacts"]["public_baseline_native_metric_template"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
+    )
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
     )
@@ -62,6 +65,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/build_public_minigrid_calibration_extension.py" in bundle["reproduction_commands"]
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_baseline_native_metric_contract.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_public_baseline_native_metric_template.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_lab_export.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_paper_writeback_packet.py" in bundle["reproduction_commands"]
@@ -87,6 +91,10 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "not recorded",
     }
     assert bundle["checks"]["public_baseline_native_metric_required_field_count"] >= 0.0
+    assert bundle["checks"]["public_baseline_native_metric_template_status"] in {
+        "recorded",
+        "not recorded",
+    }
     assert bundle["checks"]["quality_lab_export_status"] in {"recorded", "not recorded"}
     assert bundle["checks"]["quality_lab_export_count"] >= 0.0
     assert bundle["checks"]["paper_writeback_packet_status"] in {"paper_ready", "partial", "not recorded"}

@@ -52,6 +52,7 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["vjepa2_ac_latent_prediction_score"] >= 0.0
     assert metrics["vjepa2_ac_near_native_recorded"] == 1.0
     assert metrics["public_baseline_native_metric_contract_recorded"] == 1.0
+    assert metrics["public_baseline_native_metric_template_recorded"] == 1.0
     assert metrics["vjepa2_ac_official_reproduction_evaluated"] == 0.0
     assert "terminal_verdict" not in metrics
     assert "raw_records" not in packet
@@ -81,6 +82,10 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["mechanism/public-baseline-native-metric-contract"]["status"] == "closed"
     assert rows["mechanism/public-baseline-native-metric-contract"]["evidence_pointer"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert rows["mechanism/public-baseline-native-metric-template"]["status"] == "closed"
+    assert rows["mechanism/public-baseline-native-metric-template"]["evidence_pointer"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
     )
     assert all(row["owner"] == "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate" for row in rows.values())
     assert "large-scale real-world conclusion" in packet["not_claimed"]
@@ -141,4 +146,8 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
     assert (
         packet["artifacts"]["public_baseline_native_metric_contract"]
         == "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert (
+        packet["artifacts"]["public_baseline_native_metric_template"]
+        == "reports/bedc_jepa_public_baseline_native_metric_template.json"
     )

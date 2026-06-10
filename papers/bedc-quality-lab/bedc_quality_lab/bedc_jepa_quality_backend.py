@@ -36,6 +36,7 @@ METRICS = (
     "vjepa2_ac_latent_prediction_score",
     "vjepa2_ac_near_native_recorded",
     "public_baseline_native_metric_contract_recorded",
+    "public_baseline_native_metric_template_recorded",
     "vjepa2_ac_official_reproduction_evaluated",
 )
 
@@ -54,6 +55,7 @@ LEDGER_ROWS = (
     {"kind": "mechanism", "residue": "vjepa2-ac-minigrid-latent-prediction"},
     {"kind": "mechanism", "residue": "vjepa2-ac-near-native-minigrid-record"},
     {"kind": "mechanism", "residue": "public-baseline-native-metric-contract"},
+    {"kind": "mechanism", "residue": "public-baseline-native-metric-template"},
 )
 
 NOT_CLAIMED = (
@@ -131,6 +133,9 @@ def _metric_payload(
         "public_baseline_native_metric_contract_recorded": 1.0
         if str(checks.get("public_baseline_native_metric_contract_status") or "") == "contract_ready"
         else 0.0,
+        "public_baseline_native_metric_template_recorded": 1.0
+        if str(checks.get("public_baseline_native_metric_template_status") or "") == "recorded"
+        else 0.0,
         "vjepa2_ac_official_reproduction_evaluated": 1.0
         if str(checks.get("vjepa2_ac_official_native_reproduction_status") or "") != "not_evaluated"
         else 0.0,
@@ -206,6 +211,16 @@ def _ledger_rows(readiness: Mapping[str, Any], review_bundle: Mapping[str, Any])
                 else "open"
             )
             evidence = "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+        elif row["residue"] == "public-baseline-native-metric-template":
+            status = (
+                "closed"
+                if str(
+                    review_bundle.get("checks", {}).get("public_baseline_native_metric_template_status") or ""
+                )
+                == "recorded"
+                else "open"
+            )
+            evidence = "reports/bedc_jepa_public_baseline_native_metric_template.json"
         elif row["residue"] in {"distinction-head-certificate", "gap-head-certificate"}:
             status = "closed" if review_status == "review_ready" else "partial"
             evidence = "reports/bedc_jepa_review_bundle.json:$.checks"
@@ -302,6 +317,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
             "public_baseline_native_metric_contract": (
                 "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+            ),
+            "public_baseline_native_metric_template": (
+                "reports/bedc_jepa_public_baseline_native_metric_template.json"
             ),
         },
         "forbidden_surfaces": [

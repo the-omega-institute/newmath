@@ -55,6 +55,9 @@ def build_review_bundle() -> dict[str, Any]:
     public_baseline_native_metric_contract = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_contract.json"
     )
+    public_baseline_native_metric_template = _load_optional_json(
+        "bedc_jepa_public_baseline_native_metric_template.json"
+    )
     quality_lab_export = _load_optional_json("bedc_jepa_quality_lab_exports.json")
     paper_writeback_packet = _load_optional_json("bedc_jepa_paper_writeback_packet.json")
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
@@ -128,6 +131,25 @@ def build_review_bundle() -> dict[str, Any]:
             "execution_command"
             in public_baseline_native_metric_contract.get("required_execution_fields", []),
             "public baseline native metric contract execution command",
+            failures,
+        )
+    if public_baseline_native_metric_template is not None:
+        _check(
+            public_baseline_native_metric_template.get("schema_id")
+            == "bedc-jepa-public-baseline-native-metric-template",
+            "public baseline native metric template schema",
+            failures,
+        )
+        _check(
+            public_baseline_native_metric_template.get("template_for")
+            == "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+            "public baseline native metric template target",
+            failures,
+        )
+        _check(
+            "official V-JEPA2-AC benchmark reproduction"
+            in public_baseline_native_metric_template.get("cannot_claim", []),
+            "public baseline native metric template claim boundary",
             failures,
         )
     if quality_lab_export is not None:
@@ -260,6 +282,9 @@ def build_review_bundle() -> dict[str, Any]:
             "public_baseline_native_metric_contract": (
                 "reports/bedc_jepa_public_baseline_native_metric_contract.json"
             ),
+            "public_baseline_native_metric_template": (
+                "reports/bedc_jepa_public_baseline_native_metric_template.json"
+            ),
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
@@ -280,6 +305,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_public_minigrid_calibration_extension.py",
             "python scripts/run_torch_retraining_loss_ablation.py",
             "python scripts/build_public_baseline_native_metric_contract.py",
+            "python scripts/build_public_baseline_native_metric_template.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
@@ -347,6 +373,9 @@ def build_review_bundle() -> dict[str, Any]:
                 float(len(public_baseline_native_metric_contract.get("required_execution_fields", [])))
                 if public_baseline_native_metric_contract is not None
                 else 0.0
+            ),
+            "public_baseline_native_metric_template_status": (
+                "recorded" if public_baseline_native_metric_template is not None else "not recorded"
             ),
             "quality_lab_export_status": "recorded" if quality_lab_export is not None else "not recorded",
             "quality_lab_export_count": (
