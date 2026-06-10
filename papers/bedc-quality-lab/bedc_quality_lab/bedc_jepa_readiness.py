@@ -242,10 +242,10 @@ def _public_minigrid_calibration_extension_gate(packet: dict[str, Any] | None) -
     passes = (
         packet.get("schema_id") == "bedc-jepa-public-minigrid-calibration-extension"
         and packet.get("status") == "executed"
-        and float(summary.get("executed_row_count", 0.0)) >= 1.0
-        and len(packet.get("seeds", [])) >= 1
-        and len(packet.get("planning_state_counts", [])) >= 1
-        and len(packet.get("task_variants", [])) >= 1
+        and float(summary.get("executed_row_count", 0.0)) >= 30.0
+        and len(packet.get("seeds", [])) >= 5
+        and len(packet.get("planning_state_counts", [])) >= 3
+        and len(packet.get("task_variants", [])) >= 3
         and "public benchmark superiority" in packet.get("cannot_claim", [])
     )
     return _gate(

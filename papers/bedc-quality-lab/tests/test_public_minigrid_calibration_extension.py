@@ -1,4 +1,7 @@
 from bedc_quality_lab.public_minigrid_calibration_extension import (
+    DEFAULT_EXTENSION_SEEDS,
+    DEFAULT_PLANNING_STATE_COUNTS,
+    DEFAULT_TASK_VARIANTS,
     build_public_minigrid_calibration_extension,
 )
 
@@ -33,3 +36,11 @@ def test_public_minigrid_calibration_extension_records_seed_budget_and_variant_r
             "source_gap",
         }
     assert "public benchmark superiority" in packet["cannot_claim"]
+
+
+def test_public_minigrid_calibration_extension_defaults_cover_multiple_seeds_budgets_and_variants():
+    assert len(DEFAULT_EXTENSION_SEEDS) >= 5
+    assert len(DEFAULT_TASK_VARIANTS) >= 3
+    assert len(DEFAULT_PLANNING_STATE_COUNTS) >= 3
+    assert "MiniGrid-DoorKey-8x8-v0" in DEFAULT_TASK_VARIANTS
+    assert 32 in DEFAULT_PLANNING_STATE_COUNTS

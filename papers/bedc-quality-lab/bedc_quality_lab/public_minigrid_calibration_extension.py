@@ -13,9 +13,9 @@ from bedc_quality_lab.public_minigrid_debt_closure import build_public_minigrid_
 from bedc_quality_lab.public_minigrid_native_benchmark import DEFAULT_ENVIRONMENT_ID
 
 
-DEFAULT_EXTENSION_SEEDS = (20260602, 20260603, 20260604)
-DEFAULT_TASK_VARIANTS = (DEFAULT_ENVIRONMENT_ID, "MiniGrid-DoorKey-6x6-v0")
-DEFAULT_PLANNING_STATE_COUNTS = (8, 16)
+DEFAULT_EXTENSION_SEEDS = (20260602, 20260603, 20260604, 20260605, 20260606)
+DEFAULT_TASK_VARIANTS = ("MiniGrid-DoorKey-5x5-v0", "MiniGrid-DoorKey-6x6-v0", DEFAULT_ENVIRONMENT_ID)
+DEFAULT_PLANNING_STATE_COUNTS = (8, 16, 32)
 
 
 def _mean(values: list[float]) -> float:
