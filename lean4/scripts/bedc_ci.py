@@ -11374,8 +11374,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if payload["case_collisions"]:
             print(
                 "[bedc-ci] case-only-different paths in git index: "
-                f"{payload['case_collisions_new_count']} new (BLOCKING), "
-                f"{payload['case_collisions_legacy_count']} legacy (warning)"
+                f"{payload['case_collisions_count']} collision(s) (ALWAYS BLOCKING)"
             )
             for item in payload["case_collisions"][:50]:
                 print(f"  {' , '.join(item['paths'])}")
@@ -11655,7 +11654,9 @@ def cmd_audit(args: argparse.Namespace) -> int:
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_new_count"]
         + len(payload["duplicate_part_labels"])
-        + payload["case_collisions_new_count"]
+        # Case-only index collisions have no legacy-safe state: they poison every
+        # case-insensitive checkout with APFS-style phantom dirty paths.
+        + payload["case_collisions_count"]
         + payload["preamble_duplicate_commands_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]

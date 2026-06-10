@@ -1,0 +1,13 @@
+\begin{theorem}[Cauchy metastability-filter sibling route]
+\label{thm:cauchy-orphan-sibling-route}
+Every $\CauchyUp$ completion-facing read that uses finite tail control factors through $\CauchyMetastabilityUp$ and $\CauchyFilterUp$ before reaching $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. Concretely, the consumer first reads the finite-tail stability packet of \autoref{ch:concrete-instances-cauchy-metastability-namecert} and the finite-filterbase carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}; only then may it inspect stream windows, regular rational readback, dyadic tolerance ledgers, terminal real seals, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the Cauchy hub dependency surface. Its completion-facing children already route through finite stream windows and regular rational readback before the terminal real seal is visible.
+
+For finite tail control, use \autoref{ch:concrete-instances-cauchy-metastability-namecert}. The metastability packet exposes the precision request, control row, finite tail-window answer, dyadic ledger, RegSeqRat readback, RealUp seal, transport, replay, provenance, and local name.
+
+For filter-facing Cauchy data, use \autoref{ch:concrete-instances-cauchyfilter-namecert}. The CauchyFilter packet exposes the finite filterbase carrier, directed refinement row, Cauchy modulus row, stream schedules, regular observations, dyadic neighbourhood witnesses, transport, replay, provenance, and local name.
+
+Combining the two sibling packets gives the stated route. No completion-facing $\CauchyUp$ read can reach the StreamName, RegSeqRat, DyadicRatCore, or RealUp rows by bypassing both finite-tail stability and finite-filterbase data.
+\end{proof}
