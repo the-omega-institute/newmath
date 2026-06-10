@@ -1,0 +1,87 @@
+\chapter{Tucker Lemma NameCert Construction}
+\label{ch:concrete-instances-tucker-lemma-namecert}
+\origin{human}
+
+Following Tucker and the standard combinatorial proof of Borsuk--Ulam, the $\TuckerLemmaUp$ packet records the finite antipodal labeling obstruction as NameCert data. It sits between the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the adjacent-color argument of \autoref{ch:concrete-instances-sperner-lemma-namecert}, and the antipodal conclusion route of \autoref{ch:concrete-instances-borsuk-ulam-namecert}. The packet is a finite combinatorial certificate: it exposes triangulation rows, boundary antipodality rows, complementary-edge witnesses, structural transport, replay, provenance, and local naming, but it does not import compactness, quotient spheres, choice of subdivisions, or a host topological Borsuk--Ulam theorem.
+
+\begin{definition}[Tucker lemma carrier]
+\label{def:tucker-lemma-carrier}
+A $\TuckerLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,B,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the finite antipodal triangulation row, read as a $\SimplicialComplexUp$ face inventory with a displayed vertex-pair involution.
+\item $B$ is the boundary labeling row, recording the antipodal sign rule on boundary vertex pairs.
+\item $L$ is the interior labeling row, assigning each displayed vertex one signed label from a finite symmetric label alphabet.
+\item $E$ is the complementary-edge witness row, naming an inspected edge whose two endpoint labels are opposite signs with the same absolute label.
+\item $H$ records componentwise $\hsame$ transport for the triangulation, boundary rule, labeling, edge witness, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite triangulation and labeling data to the complementary-edge witness.
+\item $P$ is the $\Pkg$ provenance over $\TuckerLemmaUp$, $\SimplicialComplexUp$, $\SpernerLemmaUp$, $\BorsukUlamUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TuckerLemmaUp}$ row naming exactly this finite antipodal labeling packet.
+\end{enumerate}
+The classifier compares accepted packets only through $K,B,L,E,H,C,P,N$. It has no coordinate for an ambient sphere quotient, a selected subdivision sequence, real compactness, or a host topological fixed-point theorem.
+\end{definition}
+
+\begin{theorem}[Tucker lemma finite complementary edge route]
+\label{thm:tucker-lemma-finite-complementary-edge-route}
+For every accepted $\TuckerLemmaUp$ carrier $T=(K,B,L,E,H,C,P,N)$, every complementary-edge read factors through the displayed finite route
+$$
+\SimplicialComplexUp
+\longmapsto
+\text{antipodal boundary labels}
+\longmapsto
+\text{signed interior labels}
+\longmapsto
+\text{complementary edge}.
+$$
+Equivalently, the consumer-visible surface is exactly $K,B,L,E,H,C,P,N$: the finite antipodal triangulation is inspected first, the boundary and interior label rows are replayed on that triangulation, and the edge witness is then exposed through the structural transport and naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tucker-lemma-carrier}. The row $K$ is the only triangulation source, $B$ is the only boundary antipodality source, and $L$ is the only signed-label source.
+
+Read the route in order. A consumer first receives a finite face inventory through $\SimplicialComplexUp$. The boundary rule $B$ then fixes the antipodal sign comparison on displayed boundary pairs, and the labeling row $L$ supplies the signed labels on all inspected vertices.
+
+The witness row $E$ is exposed only after those rows have been transported by $H$ and replayed by $C$. The provenance and naming rows $P,N$ name the same finite packet, so the complementary edge cannot be replaced by a host sphere argument or a hidden subdivision choice.
+
+Since no coordinate records quotient spheres, compactness, selected subdivision sequences, or ambient fixed-point data, every accepted complementary-edge read remains inside the finite $K,B,L,E,H,C,P,N$ surface.
+\end{proof}
+
+\begin{theorem}[Tucker lemma NameCert obligations]
+\label{thm:tucker-lemma-namecert-obligations}
+For every accepted $\TuckerLemmaUp$ carrier $T=(K,B,L,E,H,C,P,N)$, the local $\NameCert_{\TuckerLemmaUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $T$;
+\item finite antipodal $\SimplicialComplexUp$ triangulation exposure through $K$;
+\item boundary antipodality of the labeling row through $B$;
+\item signed interior label exposure through $L$;
+\item complementary-edge witness exposure through $E$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No additional NameCert obligation is exported for compactness, quotient-sphere equality, selected subdivisions, real vector topology, or a host Borsuk--Ulam theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite tuple displayed in \autoref{def:tucker-lemma-carrier}. Each listed obligation is one of its coordinates, so a local name can inspect it without leaving the packet.
+
+The finite complementary-edge route of \autoref{thm:tucker-lemma-finite-complementary-edge-route} orders the obligations. The triangulation row supplies the finite complex, the boundary and interior label rows supply the signed data, and the edge row supplies the complementary witness.
+
+The structural rows $H,C,P,N$ preserve and name that same packet. Because the excluded objects are not carrier coordinates, they cannot create extra NameCert obligations or a second route to the witness.
+\end{proof}
+\leanstmt{BEDC.Derived.TuckerLemmaUp}
+
+\falsifiablePrediction{Every accepted $\TuckerLemmaUp$ consumer can be audited by checking that its complementary-edge witness first displays a finite $\SimplicialComplexUp$ antipodal triangulation, then boundary and interior signed-label rows, before $E,H,C,P,N$ are consumed.}
+
+\independenceWitness{simplicialcomplex, spernerlemma, borsukulam: $\TuckerLemmaUp$ is not bijective to any listed sibling because it jointly carries the antipodal triangulation row, boundary labeling row, interior signed-label row, complementary-edge witness, componentwise transport, replay, provenance, and local naming rows.}
+
+\closureat{TuckerLemmaUp}{seedStr}
+
+\begin{closurestatus}{\TuckerLemmaUp}
+  \constructivestory{A $\TuckerLemmaUp$ packet is generated from a finite antipodal SimplicialComplex row, boundary antipodality rows, signed interior label rows, a complementary-edge witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tucker-lemma-carrier}, \autoref{thm:tucker-lemma-finite-complementary-edge-route}, and \autoref{thm:tucker-lemma-namecert-obligations} seed the finite antipodal-labeling certificate route from SimplicialComplex data to a complementary-edge witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim compactness, quotient-sphere equality, selected subdivisions, real vector topology, Lean proof coverage for the combinatorial theorem, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, antipodal triangulation exposure, boundary labeling, signed interior labeling, complementary-edge witness exposure, transport, replay, provenance, and local naming for BEDC.Derived.TuckerLemmaUp.}
+\end{closurestatus}
