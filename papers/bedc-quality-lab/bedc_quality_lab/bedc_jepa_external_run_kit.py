@@ -183,10 +183,22 @@ def build_external_run_kit() -> dict[str, Any]:
                 ],
                 "pass_condition": "target record status is executed and reports latent_prediction_score beside execution, checkpoint, feature, and cannot-claim contracts",
             },
+            "quality_lab_export": {
+                "readiness_gate": "quality_lab_export_registry",
+                "target_artifact": "reports/bedc_jepa_quality_lab_exports.json",
+                "build_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
+                "required_fields": [
+                    "schema_id",
+                    "generated_at",
+                    "exports",
+                ],
+                "pass_condition": "target record compiles the BEDC-JEPA review bundle, readiness, manifest, and quality backend into a rollup-style quality-lab export registry",
+            },
         },
         "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
         "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
         "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+        "quality_lab_export_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
         "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
         "public_baseline_native_metric_contract_command": (

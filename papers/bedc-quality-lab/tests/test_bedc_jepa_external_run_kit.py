@@ -16,6 +16,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "vjepa2_ac_native_reproduction",
         "vjepa2_ac_minigrid_claim_certificate",
         "vjepa2_ac_minigrid_latent_prediction",
+        "quality_lab_export",
     }
     checkpoint = kit["required_external_results"]["public_jepa_checkpoint_evaluation"]
     minigrid = kit["required_external_results"]["public_minigrid_execution"]
@@ -26,6 +27,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
     vjepa_latent = kit["required_external_results"]["vjepa2_ac_minigrid_latent_prediction"]
+    quality_lab_export = kit["required_external_results"]["quality_lab_export"]
 
     assert checkpoint["readiness_gate"] == "public_jepa_checkpoint_evaluation"
     assert checkpoint["run_command"] == "python scripts/run_public_jepa_ac_giant_adapter.py"
@@ -92,12 +94,18 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert "feature_contract" in vjepa_latent["required_fields"]
     assert "metrics" in vjepa_latent["required_fields"]
     assert "feature, and cannot-claim contracts" in vjepa_latent["pass_condition"]
+    assert quality_lab_export["readiness_gate"] == "quality_lab_export_registry"
+    assert quality_lab_export["target_artifact"] == "reports/bedc_jepa_quality_lab_exports.json"
+    assert quality_lab_export["build_command"] == "python scripts/build_bedc_jepa_quality_lab_export.py"
+    assert "exports" in quality_lab_export["required_fields"]
+    assert "rollup-style quality-lab export registry" in quality_lab_export["pass_condition"]
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
     assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
         kit["quality_backend_candidate_command"]
         == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
     )
+    assert kit["quality_lab_export_command"] == "python scripts/build_bedc_jepa_quality_lab_export.py"
     assert (
         kit["latent_claim_certificate_command"]
         == "python scripts/run_bedc_latent_claim_certificate.py"

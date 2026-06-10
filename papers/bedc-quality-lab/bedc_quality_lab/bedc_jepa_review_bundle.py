@@ -55,6 +55,7 @@ def build_review_bundle() -> dict[str, Any]:
     public_baseline_native_metric_contract = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_contract.json"
     )
+    quality_lab_export = _load_optional_json("bedc_jepa_quality_lab_exports.json")
     vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
     vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     vjepa_near_native = _load_optional_json("bedc_vjepa2_ac_native_reproduction.json")
@@ -126,6 +127,17 @@ def build_review_bundle() -> dict[str, Any]:
             "execution_command"
             in public_baseline_native_metric_contract.get("required_execution_fields", []),
             "public baseline native metric contract execution command",
+            failures,
+        )
+    if quality_lab_export is not None:
+        _check(
+            quality_lab_export.get("schema_id") == "bedc-jepa:quality-lab-exports",
+            "BEDC-JEPA quality-lab export schema",
+            failures,
+        )
+        _check(
+            len(quality_lab_export.get("exports", [])) >= 1,
+            "BEDC-JEPA quality-lab export row",
             failures,
         )
     if vjepa_lccp is not None:
@@ -233,6 +245,7 @@ def build_review_bundle() -> dict[str, Any]:
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+            "quality_lab_export": "reports/bedc_jepa_quality_lab_exports.json",
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
@@ -253,6 +266,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_bedc_jepa_readiness.py",
             "python scripts/build_bedc_jepa_review_bundle.py",
             "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+            "python scripts/build_bedc_jepa_quality_lab_export.py",
             "python scripts/run_bedc_latent_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
             "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
@@ -313,6 +327,10 @@ def build_review_bundle() -> dict[str, Any]:
                 float(len(public_baseline_native_metric_contract.get("required_execution_fields", [])))
                 if public_baseline_native_metric_contract is not None
                 else 0.0
+            ),
+            "quality_lab_export_status": "recorded" if quality_lab_export is not None else "not recorded",
+            "quality_lab_export_count": (
+                float(len(quality_lab_export.get("exports", []))) if quality_lab_export is not None else 0.0
             ),
             "vjepa2_ac_lccp_status": vjepa_lccp.get("status") if vjepa_lccp is not None else "not recorded",
             "vjepa2_ac_lccp_claim_count": float(len(vjepa_lccp.get("claims", []))) if vjepa_lccp is not None else 0.0,

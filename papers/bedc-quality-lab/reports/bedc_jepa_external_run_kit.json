@@ -7,6 +7,7 @@
   "public_baseline_native_metric_contract_command": "python scripts/build_public_baseline_native_metric_contract.py",
   "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
   "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+  "quality_lab_export_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
     "public_baseline_native_metric_contract": {
@@ -86,6 +87,17 @@
         "bedc_debt_score"
       ],
       "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
+    },
+    "quality_lab_export": {
+      "build_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
+      "pass_condition": "target record compiles the BEDC-JEPA review bundle, readiness, manifest, and quality backend into a rollup-style quality-lab export registry",
+      "readiness_gate": "quality_lab_export_registry",
+      "required_fields": [
+        "schema_id",
+        "generated_at",
+        "exports"
+      ],
+      "target_artifact": "reports/bedc_jepa_quality_lab_exports.json"
     },
     "torch_retraining_loss_ablation": {
       "pass_condition": "target record status is executed and full S3, minus L_unlogged, minus L_gap, minus L_stab, and minus L_intervention are true retraining rows under the declared OU-pair stability and intervention surfaces",

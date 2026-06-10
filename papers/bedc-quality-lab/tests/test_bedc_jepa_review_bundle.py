@@ -32,6 +32,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
     )
+    assert bundle["required_artifacts"]["quality_lab_export"] == "reports/bedc_jepa_quality_lab_exports.json"
     assert bundle["required_artifacts"]["latent_claim_certificates"] == (
         "reports/bedc_latent_claim_certificates.json"
     )
@@ -59,6 +60,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_baseline_native_metric_contract.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_bedc_jepa_quality_lab_export.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py" in bundle["reproduction_commands"]
@@ -81,6 +83,8 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "not recorded",
     }
     assert bundle["checks"]["public_baseline_native_metric_required_field_count"] >= 0.0
+    assert bundle["checks"]["quality_lab_export_status"] in {"recorded", "not recorded"}
+    assert bundle["checks"]["quality_lab_export_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_lccp_claim_count"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_latent_prediction_score"] >= 0.0
     assert bundle["checks"]["vjepa2_ac_near_native_status"] in {"evaluated_near_native", "not recorded"}
