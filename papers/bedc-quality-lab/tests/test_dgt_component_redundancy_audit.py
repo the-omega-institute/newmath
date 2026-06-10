@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from bedc_quality_lab import dgt_component_redundancy_audit as audit
 
 
@@ -16,6 +18,36 @@ def _rows(payload):
         row["component_id"]: row
         for row in payload["component_redundancy_audit"]["components"]
     }
+
+
+SOURCE_ARTIFACTS = {
+    "dgt_neural_ablation": audit.NEURAL_SOURCE_ARTIFACT,
+    "dgt_ablation_null_decomposition": audit.NULL_SOURCE_ARTIFACT,
+}
+
+
+def _copy_source_artifacts(tmp_path):
+    for relative in SOURCE_ARTIFACTS.values():
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / relative).read_bytes())
+
+
+def _assert_source_artifact_fail_closed(payload, *, source_key: str, status: str):
+    audit_payload = payload["component_redundancy_audit"]
+    source = audit_payload["source_artifacts"][source_key]
+
+    assert audit_payload["audit_status"] == "inconclusive"
+    assert audit_payload["components"] == []
+    assert audit_payload["verdict_counts"] == {
+        "confirmed-redundant": 0,
+        "independent": 0,
+        "inconclusive": 0,
+    }
+    assert source["path"] == SOURCE_ARTIFACTS[source_key]
+    assert source["status"] == status
+    assert source["json_pointer"] == "$"
+    assert source["required_pointers"] == [f"{SOURCE_ARTIFACTS[source_key]}:$"]
 
 
 def test_component_redundancy_audit_verdicts_are_derived_from_canonical_sources():
@@ -95,6 +127,27 @@ def test_component_redundancy_missing_pointer_is_inconclusive():
         "reports/canonical/dgt-neural-ablation.json:"
         "$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q"
     ]
+
+
+@pytest.mark.parametrize("source_key", tuple(SOURCE_ARTIFACTS))
+def test_component_redundancy_missing_source_artifact_fails_closed(tmp_path, source_key):
+    _copy_source_artifacts(tmp_path)
+    (tmp_path / SOURCE_ARTIFACTS[source_key]).unlink()
+
+    payload = audit.build_payload(root=tmp_path, generated_at="fixture")
+
+    _assert_source_artifact_fail_closed(payload, source_key=source_key, status="missing")
+
+
+@pytest.mark.parametrize("source_key", tuple(SOURCE_ARTIFACTS))
+@pytest.mark.parametrize("raw_json", ("{not-json", "[]"))
+def test_component_redundancy_invalid_source_artifact_fails_closed(tmp_path, source_key, raw_json):
+    _copy_source_artifacts(tmp_path)
+    (tmp_path / SOURCE_ARTIFACTS[source_key]).write_text(raw_json, encoding="utf-8")
+
+    payload = audit.build_payload(root=tmp_path, generated_at="fixture")
+
+    _assert_source_artifact_fail_closed(payload, source_key=source_key, status="invalid")
 
 
 def test_component_redundancy_artifact_writes_are_byte_idempotent(tmp_path):
