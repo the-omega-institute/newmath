@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\KripkeSemanticsUp$}
+\label{ch:concrete-instances-kripke-semantics-namecert}
+\origin{human}
+
+Following Kripke and standard intuitionistic semantics, the $\KripkeSemanticsUp$ packet records a finite forcing model as a NameCert surface rather than as an ambient metatheorem about all intuitionistic consequence. It reads the preorder-world discipline of \autoref{ch:concrete-instances-preorder-namecert}, the formula and syntax handoff of \autoref{ch:concrete-instances-firstorder-namecert}, and the model-facing valuation surface of \autoref{ch:concrete-instances-modeltheory-namecert}. The packet keeps monotone forcing visible as a finite $\BHist$ route before any consumer may read a semantic validity claim.
+
+\begin{definition}[Kripke semantics carrier]
+\label{def:kripke-semantics-carrier}
+A $\KripkeSemanticsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,F,V,R,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the preorder-world row, read through $\PreorderUp$, listing the finite worlds and the accessibility relation used by forcing.
+\item $F$ is the formula row, read through $\FirstOrderUp$, exposing the finite intuitionistic formulas inspected by the packet.
+\item $V$ is the valuation row, read through $\ModelTheoryUp$, assigning atomic forcing data at the displayed worlds.
+\item $R$ is the monotone forcing row, recording that atomic valuation and compound forcing are preserved along the preorder accessibility route.
+\item $M$ is the $\ModelTheoryUp$ and $\FirstOrderUp$ handoff row, keeping syntactic formula reads and semantic valuation reads on the same finite packet.
+\item $H$ records componentwise $\hsame$ transport for $W,F,V,R,M$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a forcing request through preorder access, formula inspection, valuation readback, monotone forcing, provenance, and naming.
+\item $P$ is the $\Pkg$ provenance over $\KripkeSemanticsUp$, $\PreorderUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KripkeSemanticsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,F,V,R,M,H,C,P,N$. It has no coordinate for classical truth tables, Boolean completeness, global proof search, quotient syntax equality, or a standard bridge theorem.
+\end{definition}
+
+\begin{theorem}[Kripke semantics NameCert obligations]
+\label{thm:kripke-semantics-namecert-obligations}
+For every accepted $\KripkeSemanticsUp$ carrier $K=(W,F,V,R,M,H,C,P,N)$, the local $\NameCert_{\KripkeSemanticsUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item expose the preorder-world row $W$ through the $\PreorderUp$ sibling surface;
+\item expose the formula row $F$ through the $\FirstOrderUp$ sibling surface;
+\item expose the valuation row $V$ and model handoff row $M$ through the $\ModelTheoryUp$ sibling surface;
+\item preserve forcing by the monotone row $R$ under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item retain $\Pkg$ provenance and local naming in $P,N$ without exporting classical completeness, Boolean collapse, quotient syntax equality, or bridge checking.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kripke-semantics-carrier}. The rows $W,F,V,R,M$ are the complete forcing-facing data, while $H,C,P,N$ are the structural rows that transport, replay, source, and name that data.
+
+The preorder, first-order, and model-theory rows are read from their sibling NameCert packets. Thus a forcing consumer cannot inspect worlds without the preorder row, formulas without the syntax row, or valuations without the model row.
+
+The monotone forcing row is then local. It preserves the valuation and compound forcing reads along the displayed preorder accessibility route, and the structural rows keep that route attached to the same finite packet.
+
+Since no carrier coordinate contains classical completeness, Boolean collapse, quotient syntax equality, or bridge data, those endpoints are not exported by the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Kripke semantics monotone forcing route]
+\label{thm:kripke-semantics-monotone-forcing-route}
+Every forcing consumer of an accepted $\KripkeSemanticsUp$ carrier factors through the preorder-world row $W$, formula row $F$, valuation row $V$, monotone forcing row $R$, model handoff row $M$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The route is therefore
+$$
+\PreorderUp,\ \FirstOrderUp,\ \ModelTheoryUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+before any intuitionistic forcing read is accepted.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:kripke-semantics-namecert-obligations}. They require the world, formula, valuation, monotonicity, handoff, transport, replay, provenance, and naming rows to be visible before a forcing consumer reads the packet.
+
+The preorder row supplies the accessibility relation used by monotonicity. The formula row supplies the finite syntax being forced, and the model row supplies the valuation surface from which atomic forcing is read.
+
+Now use the monotone forcing row $R$. Any forcing read that moves along accessibility must preserve the relevant valuation and compound forcing data through $R$, then pass through $H$ and $C$ so that the read is transported and replayed on the same $\BHist$ packet.
+
+Finally $P$ and $N$ package the route as a local NameCert. A consumer omitting one of these rows has not produced a $\KripkeSemanticsUp$ forcing read; it has only a detached preorder, syntax, or valuation fragment.
+\end{proof}
+
+\leanstmt{BEDC.Derived.KripkeSemanticsUp}
+
+\closureat{KripkeSemanticsUp}{seedStr}
+
+\begin{closurestatus}{\KripkeSemanticsUp}
+  \constructivestory{A $\KripkeSemanticsUp$ packet is generated from preorder-world rows, formula rows, valuation rows, monotone forcing rows, model-theory handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kripke-semantics-carrier}, \autoref{thm:kripke-semantics-namecert-obligations}, and \autoref{thm:kripke-semantics-monotone-forcing-route} seed the finite Kripke forcing route over preorder worlds, formula reads, valuation reads, monotonicity, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.KripkeSemanticsUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical completeness, Boolean semantics, global proof search, quotient syntax equality, Lean-checked NameCert obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, preorder-world exposure, formula exposure, valuation exposure, monotone forcing stability, transport, replay, provenance, and local naming for BEDC.Derived.KripkeSemanticsUp.}
+\end{closurestatus}
