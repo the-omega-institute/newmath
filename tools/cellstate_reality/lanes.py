@@ -1696,6 +1696,9 @@ def _maybe_propose_frontier_conjecture(
 
 def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     """Detect phase-advance and stuck-claim signals, emit events for bio-R."""
+    plan_cfg = _load_pipeline_config().get("plan_lane") or {}
+    if not plan_cfg.get("enabled", True):
+        return {"lane": "bio-Plan", "status": "skipped", "reason": "planning delegated to orchestrator + codex"}
     claims_document = _load_claims_document(store.paths.claims_registry)
     experiments_document = _load_experiments_document(store.paths.experiments_registry)
     claims = [
