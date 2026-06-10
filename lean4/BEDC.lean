@@ -1222,6 +1222,7 @@ import BEDC.Derived.CalculusUp.RootCommonRealReadback
 import BEDC.Derived.CalculusUp.RootContinuityCompositionLedger
 import BEDC.Derived.CalculusUp.RootDerivativeIntegralBoundary
 import BEDC.Derived.CalculusUp.RootDerivativeRealHandoff
+import BEDC.Derived.CalculusUp.RootFtcBoundaryRefusal
 import BEDC.Derived.CalculusUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
@@ -6220,6 +6221,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetDischargeFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetSocketRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
@@ -6232,6 +6234,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10LocalityObstruction
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
@@ -7674,6 +7677,7 @@ import BEDC.Derived.RealLocatorUp.TasteGate
 import BEDC.Derived.RealLogarithmUp.TasteGate
 import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
 import BEDC.Derived.RealMetricUp
+import BEDC.Derived.RealMetricUp.LocatedDistanceHandoff
 import BEDC.Derived.RealMetricUp.NameCertObligations
 import BEDC.Derived.RealMetricUp.TasteGate
 import BEDC.Derived.RealMinMaxUp.TasteGate
