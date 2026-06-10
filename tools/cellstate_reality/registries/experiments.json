@@ -146,6 +146,24 @@
           "function-assay.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165180_age_clock_shift_crossmethod",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_age_clock_shift_crossmethod.py",
+      "claim_id": "cellstate.age-clock-shift.crossmethod.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_crossmethod_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "paired.sample.structure",
+          "mean.delta.negative",
+          "age-signature.scope-boundary",
+          "cohort.boundary"
+        ]
+      }
     }
   ]
 }
