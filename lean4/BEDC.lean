@@ -1881,6 +1881,7 @@ import BEDC.Derived.CauchyProductMertensUp.TasteGate
 import BEDC.Derived.CauchyProductMetricUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
+import BEDC.Derived.CauchyProductSeriesUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.BilinearTailWindow
 import BEDC.Derived.CauchyProductUp.BudgetProductAssociativeRoute
