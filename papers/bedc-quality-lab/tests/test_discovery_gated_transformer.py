@@ -924,8 +924,8 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
     l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
 
     assert l1_capsule["pointer"] == "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
-    assert l1_capsule["review_status_alias"] == "ready"
-    assert l1_capsule["promotion_readiness_alias"] == "ready-for-independent-review"
+    assert l1_capsule["review_status_alias"] == "pass"
+    assert l1_capsule["promotion_readiness_alias"] == "ready-pass"
     serialized = json.dumps(l1_capsule, sort_keys=True)
     for forbidden in ("metrics", "hardgates", "claim_capsule_ref", "discovery_map", "verdict", "stable_causal_attribution"):
         assert forbidden not in serialized

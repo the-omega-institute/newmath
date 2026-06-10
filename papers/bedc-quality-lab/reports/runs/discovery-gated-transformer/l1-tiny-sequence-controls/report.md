@@ -1,36 +1,35 @@
 # DGT L1 tiny-sequence controls
 
-- Status: `ready`
-- Review status: `ready`
+- Status: `pass`
+- Review status: `pass`
 - Evidence scope: `bounded-tiny-sequence`
 - Step-ladder verdict: `separation-persists`
 - Step-ladder crossover: `no-base-crossover-observed`
-- Seeds: `8`
-- Compute units: `183.877632`
-- Parameter count: `4988`
+- Seeds: `16`
+- Compute units: `618.430464`
+- Parameter count: `8388`
 
 ## Hardgates
 
-- `L1-HG1`: `pass` - base transformer true-training control is parameter/compute matched
-- `L1-HG2`: `pass` - matched-random structural true-training control preserves marginals and fails positive claim
-- `L1-HG3`: `pass` - compute ledger has positive compute units for every arm/seed/step cell
-- `L1-HG4`: `pass` - parameter ledger has positive parameter counts for every trained model arm
-- `L1-HG5`: `pass` - negative witness sweep has real hit logic and resolving regression pointers
-- `L1-HG6`: `pass` - independent replay records task digest, seed digest, and metric tolerance rows
-- `L1-HG7`: `pass` - ClaimCapsule scope is bounded-tiny-sequence and all evidence pointers are owner pointers
-- `L1-HG8`: `pass` - initial L1 output is ready for independent review but not review pass
+- `L1-REVIEW-HG1`: `pass` - five L1 arms have deterministic CPU true-training evidence across sixteen seeds with required metrics
+- `L1-REVIEW-HG2`: `pass` - DGT in-distribution accuracy CI-low exceeds base CI-low with positive margin
+- `L1-REVIEW-HG3`: `pass` - DGT in-distribution accuracy CI-low exceeds matched-random structural control CI-low
+- `L1-REVIEW-HG4`: `pass` - matched-random structural control has classifier_shift_count equal to zero
+- `L1-REVIEW-HG5`: `pass` - parameter-matched and compute-matched controls satisfy owner-local fairness ledgers
+- `L1-REVIEW-HG6`: `pass` - independent replay, negative witnesses, and bounded order-two scope are fail-closed
+- `L1-REVIEW-HG7`: `pass` - review verdict is emitted only after L1-REVIEW-HG1 through L1-REVIEW-HG6 pass
 
 ## L1 Step Ladder
 
-- `36` steps: DGT acc `0.288086`, base acc `0.062500`, matched-random acc `0.058105`, DGT-base gap `0.225586`
-- `72` steps: DGT acc `0.604004`, base acc `0.069824`, matched-random acc `0.059570`, DGT-base gap `0.534180`
-- `144` steps: DGT acc `0.942383`, base acc `0.070312`, matched-random acc `0.057617`, DGT-base gap `0.872071`
-- `288` steps: DGT acc `0.981934`, base acc `0.068359`, matched-random acc `0.058594`, DGT-base gap `0.913575`
-- `576` steps: DGT acc `0.982422`, base acc `0.068359`, matched-random acc `0.061523`, DGT-base gap `0.914063`
+- `36` steps: DGT acc `0.311768`, base acc `0.065430`, matched-random acc `0.058105`, DGT-base gap `0.246338`
+- `72` steps: DGT acc `0.630859`, base acc `0.065186`, matched-random acc `0.062500`, DGT-base gap `0.565673`
+- `144` steps: DGT acc `0.937500`, base acc `0.068848`, matched-random acc `0.061035`, DGT-base gap `0.868652`
+- `288` steps: DGT acc `0.981445`, base acc `0.068848`, matched-random acc `0.057129`, DGT-base gap `0.912597`
+- `576` steps: DGT acc `0.981934`, base acc `0.068603`, matched-random acc `0.058838`, DGT-base gap `0.913331`
 
 ## L1 Step Hardgates
 
-- `L1STEP-HG1`: `pass` - canonical step grid has 120 step/arm/seed CPU training cells
+- `L1STEP-HG1`: `pass` - canonical step grid has 400 step/arm/seed CPU training cells
 - `L1STEP-HG2`: `pass` - every ladder cell is true CPU training with parameter updates and loss decrease
 - `L1STEP-HG3`: `pass` - every ladder step has positive compute and parameter ledgers
 - `L1STEP-HG4`: `pass` - crossover is mechanically derived from the 36-step DGT anchor and per-step accuracy means

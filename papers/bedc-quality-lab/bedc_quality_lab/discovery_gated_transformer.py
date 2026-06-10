@@ -2876,7 +2876,7 @@ def _l1_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[st
     capsule = _l1_default_scaling_capsule()
     if not isinstance(projection, Mapping):
         return capsule
-    ready = projection.get("review_status") == "ready" and projection.get("promotion_readiness") == "ready-for-independent-review"
+    ready = projection.get("review_status") == "pass" and projection.get("promotion_readiness") == "ready-pass"
     capsule.update(
         {
             "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
@@ -2901,7 +2901,7 @@ def _l1_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[st
             {
                 "level_id": "L1_tiny_sequence",
                 "status": "blocked",
-                "reason": "dgt-l1-controls projection not ready for independent review",
+                "reason": "dgt-l1-controls projection has not passed independent review",
                 "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
             }
         ]
@@ -2979,10 +2979,10 @@ def _scaling_capsule_failures(capsule: Mapping[str, Any]) -> list[str]:
             failures.append("level state not ready")
         if capsule.get("promotion_status") != "level-local-evidence-ready":
             failures.append("promotion status not level-local ready")
-        if capsule.get("review_status_alias") != "ready":
-            failures.append("L1 review status not ready")
-        if capsule.get("promotion_readiness_alias") != "ready-for-independent-review":
-            failures.append("L1 promotion readiness not ready")
+        if capsule.get("review_status_alias") != "pass":
+            failures.append("L1 review status not pass")
+        if capsule.get("promotion_readiness_alias") != "ready-pass":
+            failures.append("L1 promotion readiness not pass")
         copied_keys = sorted(
             key
             for key in (
@@ -3057,8 +3057,8 @@ def _scaling_capsule_contract_passes(capsule: Mapping[str, Any]) -> bool:
             capsule.get("pointer") == L1_TINY_SEQUENCE_PROJECTION_POINTER
             and capsule.get("level_state") == "ready"
             and capsule.get("promotion_status") == "level-local-evidence-ready"
-            and capsule.get("review_status_alias") == "ready"
-            and capsule.get("promotion_readiness_alias") == "ready-for-independent-review"
+            and capsule.get("review_status_alias") == "pass"
+            and capsule.get("promotion_readiness_alias") == "ready-pass"
             and all(
                 key not in capsule
                 for key in (
@@ -3206,8 +3206,8 @@ def scaling_ladder_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, 
                     or (
                         capsule.get("level_id") == "L1_tiny_sequence"
                         and capsule.get("pointer") == L1_TINY_SEQUENCE_PROJECTION_POINTER
-                        and capsule.get("review_status_alias") == "ready"
-                        and capsule.get("promotion_readiness_alias") == "ready-for-independent-review"
+                        and capsule.get("review_status_alias") == "pass"
+                        and capsule.get("promotion_readiness_alias") == "ready-pass"
                     )
                     or (
                         isinstance(capsule.get("negative_witness_sweep"), Mapping)

@@ -34,7 +34,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--generated-at", default=GENERATED_AT)
     parser.add_argument("--requested-device", choices=("auto", "cpu", "mps"), default="cpu")
-    parser.add_argument("--seeds", default=None, help="Comma-separated deterministic seeds; default uses the canonical eight seeds.")
+    parser.add_argument("--seeds", default=None, help="Comma-separated deterministic seeds; default uses the canonical sixteen seeds.")
     parser.add_argument("--training-steps", type=int, default=None)
     parser.add_argument("--step-grid", default=None, help="Comma-separated training steps; default uses the canonical L1 grid.")
     parser.add_argument("--train-examples", type=int, default=None)
@@ -58,6 +58,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "status": payload["l1_tiny_sequence_projection"]["status"],
                 "review_status": payload["review_status"],
                 "promotion_readiness": payload["promotion_readiness"],
+                "verdict": payload["l1_tiny_sequence_projection"]["verdict"],
+                "ood_generalization_claim": payload["l1_tiny_sequence_projection"]["ood_generalization_claim"],
                 "device": payload["training_arms"]["dgt_l1"]["device_resolved"],
                 "compute_units": payload["compute_ledger"]["compute_units"],
                 "opened_ladder_level": "L1_tiny_sequence",

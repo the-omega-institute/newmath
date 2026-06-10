@@ -244,6 +244,27 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
                 "No verdict inheritance to L1 or higher scaling levels.",
             ],
         }
+    if level_id == "L1_tiny_sequence":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+            "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
+            "review_status_alias": "pass",
+            "promotion_readiness_alias": "ready-pass",
+            "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+            "level_state": "ready",
+            "promotion_status": "level-local-evidence-ready",
+            "boundary_ledger": [],
+            "not_claimed": [
+                "Bounded tiny-sequence order-2 controls only.",
+                "No production scale claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No L2 verdict inheritance.",
+            ],
+        }
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -1235,7 +1256,16 @@ def test_discovery_map_dgt_scaling_hg1_ignores_claim_verdict_rows(tmp_path):
 
 
 def _dgt_neural_ablation_payload():
-    return dgt_neural_ablation_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+    payload = dgt_neural_ablation_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+    payload["component_causal_claims"] = [
+        {
+            "claim_scope": "bounded toy training",
+            "claim_status": "allowed",
+            "component": "LAT",
+            "evidence_scope": ["small-real-training"],
+        }
+    ]
+    return payload
 
 
 def test_discovery_map_dgt_neural_ablation_passing_payload_projects_positive_discovery():
