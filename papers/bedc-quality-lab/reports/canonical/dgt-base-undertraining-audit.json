@@ -1,0 +1,171 @@
+{
+  "base_undertraining_audit": {
+    "artifact_id": "bedc-quality-lab:dgt-base-undertraining-audit",
+    "boundary_ledger": [],
+    "claim_action": "strengthen_l1_evidence",
+    "comparison_rows": [
+      {
+        "base_metric": 0.0625,
+        "ci_low_separation": 0.225586,
+        "ci_overlap": false,
+        "comparison_id": "equal_step",
+        "decision": "dgt-separated",
+        "dgt_metric": 0.288086,
+        "match_axis": "training_steps",
+        "match_value": 36,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "base_metric": 0.0625,
+        "ci_low_separation": 0.225586,
+        "ci_overlap": false,
+        "comparison_id": "equal_compute",
+        "decision": "dgt-separated",
+        "dgt_metric": 0.288086,
+        "match_axis": "compute_units",
+        "match_value": 62.6688,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "base_metric": 0.068359,
+        "ci_low_separation": 0.914063,
+        "ci_overlap": false,
+        "comparison_id": "equal_loss_decrease",
+        "decision": "dgt-separated",
+        "dgt_metric": 0.982422,
+        "match_axis": "loss_decrease",
+        "match_value": 0.969112,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "status": "resolved"
+      }
+    ],
+    "evidence_ledger": [
+      {
+        "ci_low_separation": 0.225586,
+        "comparison_id": "equal_step",
+        "ledger_id": "base-undertraining-equal_step",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]"
+      },
+      {
+        "ci_low_separation": 0.225586,
+        "comparison_id": "equal_compute",
+        "ledger_id": "base-undertraining-equal_compute",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]"
+      },
+      {
+        "ci_low_separation": 0.914063,
+        "comparison_id": "equal_loss_decrease",
+        "ledger_id": "base-undertraining-equal_loss_decrease",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]"
+      }
+    ],
+    "generated_at": "2026-06-10T00:00:00+00:00",
+    "hardgates": {
+      "BASE-UNDER-HG1": {
+        "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG2": {
+        "criterion": "base step grid covers the DGT fair compute and loss-decrease interval",
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG3": {
+        "criterion": "missing comparison evidence fails closed to inconclusive",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG4": {
+        "criterion": "fair compute or loss catch-up records a bounded downgrade ledger",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.boundary_ledger",
+        "status": "not-triggered"
+      },
+      "BASE-UNDER-HG5": {
+        "criterion": "fair rows retain positive CI-low separation",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.evidence_ledger",
+        "status": "pass"
+      }
+    },
+    "mechanical_decision_table": [
+      {
+        "claim_action": "hold",
+        "condition": "any required comparison row is missing or has unresolved source evidence",
+        "verdict": "inconclusive"
+      },
+      {
+        "claim_action": "hold",
+        "condition": "base grid does not cover DGT fair-compute and fair-loss-decrease intervals",
+        "verdict": "inconclusive"
+      },
+      {
+        "claim_action": "fair_compute_artifact",
+        "condition": "equal-compute row has CI overlap or nonpositive CI-low separation",
+        "verdict": "downgrade"
+      },
+      {
+        "claim_action": "fair_loss_decrease_artifact",
+        "condition": "equal-loss-decrease row has CI overlap or nonpositive CI-low separation",
+        "verdict": "downgrade"
+      },
+      {
+        "claim_action": "strengthen_l1_evidence",
+        "condition": "all required rows resolve and fair rows retain positive CI-low separation",
+        "verdict": "evidence-strengthen"
+      }
+    ],
+    "not_claimed": [
+      "Bounded L1 tiny-sequence base-undertraining audit only.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No cross-level verdict inheritance."
+    ],
+    "producer": "scripts/run_dgt_base_undertraining_audit.py",
+    "revoke_if": [
+      "Any required L1 canonical pointer becomes missing or unresolvable.",
+      "A fair compute or fair loss-decrease row loses positive CI-low separation.",
+      "The audit is used as evidence outside bounded L1 tiny-sequence scope."
+    ],
+    "schema_id": "bedc-quality-lab:dgt-base-undertraining-audit",
+    "source_contract": {
+      "base_step_grid_coverage": {
+        "covers_dgt_compute_loss_interval": true,
+        "observed_grid": [
+          36,
+          72,
+          144,
+          288,
+          576
+        ],
+        "required_grid": [
+          36,
+          72,
+          128,
+          256,
+          512
+        ],
+        "required_grid_present": false,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+      },
+      "pointer_only": true,
+      "required_pointers": [
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+      ],
+      "sha256": "2868ef5d6243eae9b4706b38e81711014268f61ec893c00570eff6f558891e72",
+      "source_artifact": "reports/canonical/dgt-l1-controls.json",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+      "status": "resolved"
+    },
+    "verdict": "evidence-strengthen"
+  }
+}

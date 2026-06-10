@@ -244,6 +244,27 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
                 "No verdict inheritance to L1 or higher scaling levels.",
             ],
         }
+    if level_id == "L1_tiny_sequence":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+            "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
+            "review_status_alias": "ready",
+            "promotion_readiness_alias": "ready-for-independent-review",
+            "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+            "level_state": "ready",
+            "promotion_status": "level-local-evidence-ready",
+            "boundary_ledger": [],
+            "not_claimed": [
+                "Bounded tiny-sequence order-k training only.",
+                "No production deployment claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No L2 or higher scaling claim.",
+            ],
+        }
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -1246,13 +1267,13 @@ def test_discovery_map_dgt_neural_ablation_passing_payload_projects_positive_dis
     evidence = discovery_map._projection_evidence(spec, payload)
     verdict = discovery_map.assign_discovery_level(projected)
 
-    assert projected["positive_discovery"] is True
-    assert projected["main_verdict"]["positive_discovery"] is True
-    assert projected["net_positive_signal"] is True
+    assert projected["positive_discovery"] is False
+    assert projected["main_verdict"]["positive_discovery"] is False
+    assert projected["net_positive_signal"] is False
     assert projected["d5_m"]["status"] == "ready"
     assert evidence.projection_status == "dgt-neural-ablation-pointer-only"
     assert evidence.evidence_pointer == "$.component_causal_claims"
-    assert verdict.discovery_level in {"D4", "D5-O", "D5-M"}
+    assert verdict.discovery_level == "D0"
 
 
 def test_discovery_map_dgt_neural_ablation_failed_hardgate_is_invalid():

@@ -1489,6 +1489,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "mechanism-dna",
             "dgt-l0-controls",
             "dgt-l1-controls",
+            "dgt-base-undertraining-audit",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
@@ -2777,6 +2778,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "dgt-component-redundancy-audit":
             assert keys == {"component_redundancy_audit"}
             continue
+        if spec.name == "dgt-base-undertraining-audit":
+            assert keys == {"base_undertraining_audit"}
+            continue
         assert "generated_at" in keys
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
@@ -3339,6 +3343,28 @@ def test_dgt_component_redundancy_audit_canonical_spec_follows_null_decompositio
     assert spec.cost_pointer == "$.component_redundancy_audit.source_artifacts"
     assert spec.not_claimed_pointer == "$.component_redundancy_audit.not_claimed"
     assert spec.positive_claim_pointer == "$.component_redundancy_audit.global_recommendation"
+
+
+def test_dgt_base_undertraining_audit_canonical_spec_follows_l1_controls():
+    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-base-undertraining-audit"]
+
+    assert len(specs) == 1
+    spec = specs[0]
+    names = [item.name for item in canonical.CANONICAL_REPORTS]
+    assert names.index("dgt-l1-controls") < names.index("dgt-base-undertraining-audit")
+    assert names.index("dgt-base-undertraining-audit") < names.index("discovery-gated-transformer")
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_base_undertraining_audit.py")
+    assert spec.json_artifact == canonical.DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT
+    assert spec.required_json_keys == ("base_undertraining_audit",)
+    assert spec.scope_pointer == "$.base_undertraining_audit.not_claimed"
+    assert spec.cost_pointer == "$.base_undertraining_audit.source_contract"
+    assert spec.not_claimed_pointer == "$.base_undertraining_audit.not_claimed"
+    assert spec.positive_claim_pointer == "$.base_undertraining_audit.verdict"
+    assert spec.discovery_level_pointer == (
+        "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.verdict"
+    )
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
