@@ -525,6 +525,17 @@ ord_571(144) = 285.
 低能 projection 保留可二层重锁定的 residue branch, 排除 primitive diffusion
 branch. 这仍是 protocol-gate 或 NameCert 义务, 不是由标量值直接给出的闭合定理.
 
+第一次返回的系数还有一个谱证书. 同一个 `-1/2` 是 Window6 fold-gauge
+dynamics 中的 alternating phase eigenvalue; 未扭转的 mismatch operator 有谱行:
+
+```text
+spec(A_0) = {1, 1/2, -1/2}.
+```
+
+在统计投影里, `-1/2` 模态表现为 Jordan alternating tail, 而不是任意的
+half-subtraction. 因此 `-(1/2) phi^-17` 同时有 two-sheet boundary alias
+与 Jordan alternating phase return 两个证书.
+
 选定 gate 后, 仍有两种 closure semantics. 在 anchor-local mode 中, Window6
 保持为低能锚点, 被选中的 `F_10` return 在同一锚点反复迭代:
 
@@ -599,6 +610,24 @@ P(leave U_R | U_R) = |partial U_R| / (6 |U_R|)
                    = 32 / 36
                    = 8/9.
 ```
+
+fold-gauge mismatch mean 从另一侧给出同一层级:
+
+```text
+E[g_t] = 4/9,
+2 E[g_t] = 8/9.
+```
+
+因此 `4/9` 是 one-way mismatch 或 curvature-residual rate, 而 `8/9`
+是适合 phase-reservoir impedance 读数的 two-sided boundary flux.
+global cut-flux density 是另一种量:
+
+```text
+Phi_R = |partial U_R| / (64*6) = 1/12.
+```
+
+它是整个 cube edge budget 上的 global density, 不是 `D_{6,alpha}^*`
+里的 local conditional coefficient.
 
 同一个比例同时作为八重 boundary parity / 九维 deepest rational tail,
 light fiber layer / heavy fiber layer, 以及 right edge-flux block 的规范逃逸概率出现.
@@ -770,8 +799,8 @@ Window6
 ```text
 outer boundary
 + deep-tail seam
-- two-sheet alias
-+ readout-mode residual compensation.
++ Jordan alternating return
++ boundary escape flux.
 ```
 
 超过这个展示分母的修正项不再是纯 Window6 数据:
@@ -782,9 +811,11 @@ D_{6,mode,Gamma}
     + protocol-controlled higher terms.
 ```
 
-`q_3`, `q_4` 及之后的系数属于跨窗口 protocol refinement. Window6 加低能
-gate、closure mode 与 readout mode 决定一个展示出的最小 ledger; 无限 residual
-series 需要额外 protocol data.
+下一条 local ladder 指数会是 `phi^-37`. 在该位置放入单位 `q_3` 系数只会在
+`10^-11` 量级改变 inverse readout, 但 Window6 没有能固定它的 `N_{>=5}(6)`
+fiber layer. 因此 `q_3`, `q_4` 及之后的系数属于跨窗口 protocol refinement.
+Window6 加低能 gate、closure mode 与 readout mode 决定一个展示出的最小 ledger;
+无限 residual series 需要额外 protocol data.
 
 ## 当前状态
 

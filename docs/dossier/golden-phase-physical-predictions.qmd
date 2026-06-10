@@ -571,6 +571,20 @@ The low-energy projection keeps the re-lockable residue branch and excludes
 the primitive diffusion branch. This remains a protocol-gate or NameCert
 obligation, not a closed theorem supplied by the scalar value.
 
+The coefficient of the first return also has a spectral certificate. The
+same value `-1/2` is the alternating phase eigenvalue in the Window6
+fold-gauge dynamics, where the untwisted mismatch operator carries the
+spectral row:
+
+```text
+spec(A_0) = {1, 1/2, -1/2}.
+```
+
+In the statistical projection, the `-1/2` mode appears as a Jordan
+alternating tail rather than as an arbitrary half-subtraction. Thus the
+term `-(1/2) phi^-17` has two aligned certificates: the two-sheet boundary
+alias and the Jordan alternating phase return.
+
 After the gate is chosen, there are two closure semantics. In anchor-local
 mode, Window6 remains the low-energy anchor and the selected `F_10` return is
 iterated at the same anchor:
@@ -649,6 +663,24 @@ P(leave U_R | U_R) = |partial U_R| / (6 |U_R|)
                    = 32 / 36
                    = 8/9.
 ```
+
+The fold-gauge mismatch mean gives the same hierarchy from the other side:
+
+```text
+E[g_t] = 4/9,
+2 E[g_t] = 8/9.
+```
+
+Thus `4/9` is the one-way mismatch or curvature-residual rate, while `8/9`
+is the two-sided boundary flux appropriate to a phase-reservoir impedance
+reading. The global cut-flux density is different:
+
+```text
+Phi_R = |partial U_R| / (64*6) = 1/12.
+```
+
+It is a global density over the full cube edge budget, not the local
+conditional coefficient in `D_{6,alpha}^*`.
 
 The same ratio is therefore seen as eightfold boundary parity over the
 nine-dimensional deepest rational tail, as the light fiber layer over the
@@ -826,8 +858,8 @@ The denominator is the compressed ledger:
 ```text
 outer boundary
 + deep-tail seam
-- two-sheet alias
-+ readout-mode residual compensation.
++ Jordan alternating return
++ boundary escape flux.
 ```
 
 Corrections beyond this displayed denominator are not pure Window6 data:
@@ -838,10 +870,13 @@ D_{6,mode,Gamma}
     + protocol-controlled higher terms.
 ```
 
-The coefficients `q_3`, `q_4`, and beyond belong to cross-window protocol
-refinement. Window6 plus the low-energy gate, closure mode, and readout mode
-determines a displayed minimal ledger; an infinite residual series needs
-additional protocol data.
+The next local ladder exponent would be `phi^-37`. A unit `q_3` coefficient
+at that position changes the inverse readout only at the `10^-11` scale, but
+Window6 does not contain an `N_{>=5}(6)` fiber layer that fixes it. The
+coefficients `q_3`, `q_4`, and beyond therefore belong to cross-window
+protocol refinement. Window6 plus the low-energy gate, closure mode, and
+readout mode determines a displayed minimal ledger; an infinite residual
+series needs additional protocol data.
 
 ## Present status
 

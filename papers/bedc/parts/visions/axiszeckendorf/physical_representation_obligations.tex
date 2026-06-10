@@ -126,34 +126,7 @@ image coefficient; it separates the admissible phase gate from the
 reservoir, image, and curvature-residual readout modes.
 \end{principle}
 
-\begin{principle}[Right-block flux-reservoir coefficient]
-\label{prin:zeckendorf-right-block-flux-reservoir-coefficient}
-The phase-reservoir coefficient also has an edge-flux normalization
-inside Window six. Let \(U_R\) be the right edge-flux block in the
-Window-six partition of the binary cube. The edge-flux skeleton supplies
-$$
-  |U_R|=6,
-  \qquad
-  |\partial U_R|=32.
-$$
-Since \(Q_6\) is \(6\)-regular, the normalized probability of leaving
-the right block is
-$$
-  P(\mathrm{leave}\ U_R\mid U_R)
-  =
-  \frac{|\partial U_R|}{6|U_R|}
-  =
-  \frac{32}{36}
-  =
-  \frac89.
-$$
-Thus the same coefficient \(8/9\) is not only the capacity ratio
-\(|C_\partial|/N_{\geq4}(6)\) and the light-to-heavy fiber ratio; it is
-also the canonical boundary escape flux of the right edge-flux block.
-This is the coefficient relevant to impedance or coupling readouts, while
-the \(2/3\) branch records the direct six-element phase image and the
-\(4/9\) branch records the curvature-residual quotient.
-\end{principle}
+\input{parts/visions/axiszeckendorf/right_block_flux_reservoir_coefficient}
 
 \begin{theorem}[Independent denominator is required for predictivity]
 \label{thm:zeckendorf-denominator-predictivity-requirement}
@@ -325,7 +298,14 @@ $$
   q_1=-\frac{F_2}{F_3}.
 $$
 Here \(q_0=1\) reads the single occurrence of the \(F_7\) deep-tail seam,
-\(q_1=-1/2\) reads the two-sheet overlap subtraction. The third
+\(q_1=-1/2\) reads the two-sheet overlap subtraction. The same
+coefficient is also the alternating phase eigenvalue in the untwisted
+fold-gauge mismatch spectrum
+$$
+  \operatorname{spec}(A_0)=\{1,\tfrac12,-\tfrac12\},
+$$
+where the \(-1/2\) mode is the Jordan alternating return seen by the
+statistical projection. The third
 coefficient is fixed only after a readout mode is chosen. The full
 phase-reservoir readout sees
 $$
@@ -517,12 +497,16 @@ Third, the TwoSheetMobius obligation must derive
 $$
   q_1=\frac{1-2}{2}=-\frac12.
 $$
-Fourth, the ReadoutMode obligation must distinguish the phase reservoir
+It must also identify the same coefficient with the Jordan alternating
+phase mode of the fold-gauge mismatch spectrum. Fourth, the ReadoutMode
+obligation must distinguish the phase reservoir
 \(C_\partial\), giving \(q_2=8/9\), the \(Z_6\to U(1)\) image, giving
 \(q_2=2/3\), and the irreducible curvature-residual quotient
 \(C_\partial/P_6^{\mathrm{geo}}\), giving \(q_2=4/9\); for
 \(\alpha_{\mathrm{EM}}^{-1}(0)\) it must select the phase-reservoir
-impedance readout gated by \(Z_6\). Finally, the ClosureMode obligation
+impedance readout gated by \(Z_6\), using the local conditional escape
+flux \(8/9\) rather than the global cut-flux density \(1/12\). Finally,
+the ClosureMode obligation
 must certify that fixed
 \(R_6(D)\) readouts select anchor-local closure, while walking-gate
 closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Until
