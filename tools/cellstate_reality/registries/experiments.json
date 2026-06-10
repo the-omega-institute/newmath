@@ -164,6 +164,24 @@
           "cohort.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165180_age_clock_shift_dose_response",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_age_clock_shift_dose_response.py",
+      "claim_id": "cellstate.age-clock-shift.dose-response.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "timecourse.sample.structure",
+          "pooled.mean.delta.negative",
+          "age-signature.scope-boundary",
+          "cohort.boundary"
+        ]
+      }
     }
   ]
 }
