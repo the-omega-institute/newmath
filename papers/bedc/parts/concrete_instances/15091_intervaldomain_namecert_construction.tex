@@ -167,6 +167,21 @@ Next apply \autoref{thm:interval-domain-regular-cauchy-directed-width}. The dire
 Finally use \autoref{thm:interval-domain-directed-completion-scope}. That theorem records the complete completion-facing route as the finite BEDC surface through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the structural rows. Since none of the cited rows contains quotient cuts, selected endpoints, trichotomy, host equality, or ambient completeness, directed width remains a finite approximation route and not a completion principle.
 \end{proof}
 
+\begin{theorem}[IntervalDomain directed approximation induction]
+\label{thm:interval-domain-directed-approximation-induction}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet, and let a finite displayed chain of nested refinements be read from the rows $L,R,N$. Induction on the accepted refinement rows gives a stable route through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any completion-facing consumer reads the seal row $E$. The induction exports no quotient cuts, selected endpoints, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the base refinement row, use the finite endpoint order theorem and the dyadic endpoint coverage theorem, \autoref{thm:interval-domain-finite-endpoint-order} and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. They place endpoint order, containment, rational width, and dyadic tolerance support inside the displayed $\LocatedIntervalUp$ and $\RationalIntervalUp$ rows before any stream or seal read occurs.
+
+For the induction step, apply rational-width monotonicity, \autoref{thm:intervaldomain-rational-width-monotonicity}. A later nested row can only be read as the transported tightening of the earlier displayed rational-width budget along the same $\NestedIntervalUp$ route.
+
+Next apply regular-Cauchy directed width, \autoref{thm:interval-domain-regular-cauchy-directed-width}. The tightened rational-width row preserves the paired $\StreamNameUp$ window and $\RegSeqRatUp$ readback before the $\RealUp$ seal is inspected.
+
+Finally use directed width non-completion, \autoref{thm:interval-domain-directed-width-noncompletion}. It identifies the resulting chain as a finite approximation route through the seven displayed faces and excludes quotient cuts, selected endpoints, trichotomy, host equality, and ambient $\RealUp$ completeness at every induction stage.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedApproximationInduction}
+
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.

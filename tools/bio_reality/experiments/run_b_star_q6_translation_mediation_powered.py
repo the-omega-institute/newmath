@@ -40,6 +40,12 @@ ORGANISM_PAIRS = [
     {"organism": "homo_sapiens", "trna_organism": "homo_sapiens"},
     {"organism": "danio_rerio", "trna_organism": "danio_rerio"},
     {"organism": "gallus_gallus", "trna_organism": "gallus_gallus"},
+    {"organism": "bacillus_subtilis_subsp_subtilis_str_168", "trna_organism": "bacillus_subtilis_subsp_subtilis_str_168"},
+    {"organism": "mus_musculus", "trna_organism": "mus_musculus"},
+    {"organism": "caenorhabditis_elegans", "trna_organism": "caenorhabditis_elegans"},
+    {"organism": "drosophila_melanogaster", "trna_organism": "drosophila_melanogaster"},
+    {"organism": "sulfolobus_solfataricus", "trna_organism": "sulfolobus_solfataricus"},
+    {"organism": "rattus_norvegicus", "trna_organism": "rattus_norvegicus"},
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500

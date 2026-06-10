@@ -1,0 +1,94 @@
+{
+  "version": "cellstate-reality-claims-v1",
+  "claims": [
+    {
+      "claim_id": "cellstate.age-clock-shift.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "AgeClockShift-up: on GSE142439 paired normal/treated EPIC arrays, the Horvath353 DNAm age signature decreases in treated samples relative to paired normal within each donor; this is a local age_signature-layer NameCert and does not entail cell identity, function, safety, rejuvenation, partial reprogramming, renewable maintenance, or immortality potential.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "gse142439_horvath353_age_clock_shift",
+      "cannot_claim": [
+        "IdentityPreservingAgeReset↑",
+        "Rejuvenation↑",
+        "PartialReprogramming↑",
+        "RenewableMaintenance↑",
+        "ImmortalityPotential↑"
+      ],
+      "linked_conjecture_id": "age-clock-shift.gse142439.horvath353",
+      "history": [
+        {
+          "ts": "2026-06-09T15:46:31+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d79addaacf6d",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          },
+          "script_sha": "2bd65f60e47f6238"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.robustness.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "AgeClockShift-up robustness: on the frozen GSE142439 paired normal/treated EPIC arrays scored by Horvath353, support is limited to age_signature-layer directional robustness when both cell-type strata have negative mean paired DNAm age deltas and every leave-one-donor-out overall mean delta remains negative; this does not entail cell identity, function, safety, rejuvenation, partial reprogramming, renewable maintenance, or immortality potential.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "open",
+      "experiment_id": "gse142439_horvath353_age_clock_shift_robustness",
+      "cannot_claim": [
+        "IdentityPreservingAgeReset↑",
+        "Rejuvenation↑",
+        "PartialReprogramming↑",
+        "RenewableMaintenance↑",
+        "ImmortalityPotential↑"
+      ],
+      "linked_conjecture_id": "age-clock-shift.gse142439.cross-cell-type-robustness"
+    },
+    {
+      "claim_id": "cellstate.identity-samesig.gse165177-mptr",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "GSE165177 MPTR processed RNA-seq provides a cell_identity-layer sameSig_I test over donor-matched exp2 day-10 negative-control and transiently reprogrammed fibroblast samples; under the fixed marker thresholds the identity distance check is within bound but pluripotency exclusion breaks, so this packet is negative evidence for this sameSig_I join and does not promote IdentityPreservingAgeResetUp.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "failed",
+      "experiment_id": "gse165177_mptr_identity_samesig",
+      "cannot_claim": [
+        "IdentityPreservingAgeResetUp",
+        "RejuvenationUp",
+        "PartialReprogrammingUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp"
+      ],
+      "linked_conjecture_id": "identity-preserving-age-reset.gse165177-mptr"
+    },
+    {
+      "claim_id": "cellstate.identity-preserving-age-reset.samescope.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "Same-scope MPTR IdentityPreservingAgeReset-up test: join GSE165179 EPIC methylation DNAm age and GSE165177 RNA identity markers by donor plus day-10 exp2 transiently reprogrammed scope; support requires DNAm age decrease and sameSig_I with pluripotency exclusion in the joined scope, while a pluripotency break blocks the joint carrier even when age decreases.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439",
+        "cellstate.identity-samesig.gse165177-mptr"
+      ],
+      "status": "failed",
+      "experiment_id": "gse165180_samescope_identity_age_reset",
+      "cannot_claim": [
+        "Rejuvenation↑",
+        "RenewableMaintenance↑",
+        "organismal maintenance",
+        "immortality",
+        "safety K_S"
+      ],
+      "linked_conjecture_id": "identity-preserving-age-reset.gse165180-samescope"
+    }
+  ]
+}
