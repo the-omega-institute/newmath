@@ -246,16 +246,26 @@ ablation record reports an unlogged-penalty effect of $0.085938$ and a
 post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
 the public MiniGrid readout and not a full retraining ablation.  The public
 MiniGrid calibration extension applies the same calibration and risk-success
-analysis over $45$ executed rows: five seeds, three planning-state budgets
-$(8,16,32)$, and three DoorKey-sized task variants
-\texttt{MiniGrid-DoorKey-5x5-v0}, \texttt{MiniGrid-DoorKey-6x6-v0}, and
-\texttt{MiniGrid-DoorKey-8x8-v0}.  It records mean risk reduction $0.404747$
-and risk-reduction win rate $0.511111$, with mean success change $-0.411806$
+analysis over $75$ executed rows: five seeds, three planning-state budgets
+$(8,16,32)$, and five public MiniGrid task variants across DoorKey, Unlock,
+and KeyCorridor families.  The five variants are:
+$$
+\begin{gathered}
+\texttt{MiniGrid-DoorKey-5x5-v0},\quad
+\texttt{MiniGrid-DoorKey-6x6-v0},\quad
+\texttt{MiniGrid-DoorKey-8x8-v0},\\
+\texttt{MiniGrid-Unlock-v0},\quad
+\texttt{MiniGrid-KeyCorridorS3R1-v0}.
+\end{gathered}
+$$
+It records mean risk reduction $0.482848$
+and risk-reduction win rate $0.546667$, with mean success change $-0.487083$
 at the best low-gap point.  It also records mean silent-debt change
-$-0.009444$, silent-debt win rate $0.400000$, mean total-debt change
-$-0.042191$, and total-debt win rate $0.400000$.  This extension supports the
-risk-success tradeoff boundary across more public MiniGrid rows, but it does
-not establish total-debt closure or public benchmark superiority.  The CUDA
+$-0.010667$, silent-debt win rate $0.240000$, mean total-debt change
+$-0.051649$, and total-debt win rate $0.280000$.  This extension records cross-family
+public MiniGrid calibration coverage, but the aggregate directional gains are
+not closed and it does not establish total-debt closure or public benchmark
+superiority.  The CUDA
 retraining-ablation study runs true gradient retraining on the
 boundary-gated torch objective for full S3, minus
 $L_{\mathrm{unlogged}}$, minus $L_{\mathrm{gap}}$, minus

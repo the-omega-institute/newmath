@@ -74,12 +74,14 @@ def test_bedc_jepa_paper_records_current_minigrid_calibration_scope():
     boundary = (PAPER / "parts" / "cannot_claim_boundary.tex").read_text(encoding="utf-8")
 
     assert "Public baseline metric template" in evidence
-    assert "analysis over $45$ executed rows" in evidence
+    assert "analysis over $75$ executed rows" in evidence
     assert "five seeds, three planning-state budgets" in evidence
     assert "\\texttt{MiniGrid-DoorKey-5x5-v0}" in evidence
     assert "\\texttt{MiniGrid-DoorKey-6x6-v0}" in evidence
-    assert "$0.404747$" in evidence
-    assert "$-0.042191$" in evidence
+    assert "\\texttt{MiniGrid-Unlock-v0}" in evidence
+    assert "\\texttt{MiniGrid-KeyCorridorS3R1-v0}" in evidence
+    assert "$0.482848$" in evidence
+    assert "$-0.051649$" in evidence
     assert "analysis over $12$ executed rows" not in evidence
     assert "$0.359776$" not in evidence
     assert "fillable metric template" in boundary

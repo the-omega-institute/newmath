@@ -14,7 +14,13 @@ from bedc_quality_lab.public_minigrid_native_benchmark import DEFAULT_ENVIRONMEN
 
 
 DEFAULT_EXTENSION_SEEDS = (20260602, 20260603, 20260604, 20260605, 20260606)
-DEFAULT_TASK_VARIANTS = ("MiniGrid-DoorKey-5x5-v0", "MiniGrid-DoorKey-6x6-v0", DEFAULT_ENVIRONMENT_ID)
+DEFAULT_TASK_VARIANTS = (
+    "MiniGrid-DoorKey-5x5-v0",
+    "MiniGrid-DoorKey-6x6-v0",
+    DEFAULT_ENVIRONMENT_ID,
+    "MiniGrid-Unlock-v0",
+    "MiniGrid-KeyCorridorS3R1-v0",
+)
 DEFAULT_PLANNING_STATE_COUNTS = (8, 16, 32)
 
 
@@ -27,10 +33,21 @@ def _win_rate(values: list[float]) -> float:
     return float(np.mean(arr > 0.0)) if arr.size else 0.0
 
 
+def _task_family(environment_id: str) -> str:
+    name = environment_id
+    if name.startswith("MiniGrid-"):
+        name = name[len("MiniGrid-") :]
+    for separator in ("-", "_"):
+        if separator in name:
+            return name.split(separator, 1)[0]
+    return name
+
+
 def _extract_row(packet: dict[str, Any], *, seed: int, environment_id: str, planning_state_count: int) -> dict[str, Any]:
     base = {
         "seed": float(seed),
         "environment_id": environment_id,
+        "task_family": _task_family(environment_id),
         "planning_state_count_requested": float(planning_state_count),
         "status": packet.get("status"),
     }
@@ -81,6 +98,7 @@ def _extract_row(packet: dict[str, Any], *, seed: int, environment_id: str, plan
 
 def _summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     executed = [row for row in rows if row.get("status") == "executed"]
+    families = sorted({str(row.get("task_family") or "") for row in rows if row.get("task_family")})
     silent = [float(row["silent_debt_delta_s0_minus_s3"]) for row in executed]
     total = [float(row["total_debt_delta_s0_minus_s3"]) for row in executed]
     coverage = [float(row["coverage_debt_delta_s0_minus_s3"]) for row in executed]
@@ -90,6 +108,8 @@ def _summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "row_count": float(len(rows)),
         "executed_row_count": float(len(executed)),
         "source_gap_row_count": float(len(rows) - len(executed)),
+        "task_family_count": float(len(families)),
+        "task_families": families,
         "silent_debt_delta_mean": _mean(silent),
         "silent_debt_direction_win_rate": _win_rate(silent),
         "total_debt_delta_mean": _mean(total),

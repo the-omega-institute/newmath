@@ -16,8 +16,8 @@ def test_paper_writeback_packet_records_paper_ready_claim_boundary():
     assert packet["metrics"]["vjepa2_ac_latent_prediction_score"] > 0.0
     assert packet["metrics"]["native_metric_contract_field_count"] >= 10.0
     assert packet["metrics"]["native_metric_template_result_field_count"] >= 10.0
-    assert packet["metrics"]["public_minigrid_calibration_row_count"] == 45.0
-    assert packet["metrics"]["public_minigrid_calibration_executed_row_count"] == 45.0
+    assert packet["metrics"]["public_minigrid_calibration_row_count"] == 75.0
+    assert packet["metrics"]["public_minigrid_calibration_executed_row_count"] == 75.0
     assert packet["metrics"]["public_minigrid_calibration_source_gap_row_count"] == 0.0
     assert packet["metrics"]["public_minigrid_calibration_risk_reduction_mean"] > 0.0
     assert 0.0 <= packet["metrics"]["public_minigrid_calibration_total_debt_direction_win_rate"] <= 1.0

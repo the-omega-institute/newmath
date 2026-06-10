@@ -25,8 +25,11 @@ def test_public_minigrid_calibration_extension_records_seed_budget_and_variant_r
     assert packet["summary"]["row_count"] == 2.0
     assert packet["summary"]["executed_row_count"] >= 0.0
     assert packet["summary"]["source_gap_row_count"] >= 0.0
+    assert packet["summary"]["task_family_count"] == 1.0
+    assert packet["summary"]["task_families"] == ["DoorKey"]
     for row in packet["rows"]:
         assert row["environment_id"] == "MiniGrid-DoorKey-8x8-v0"
+        assert row["task_family"] == "DoorKey"
         assert row["seed"] == 101.0
         assert row["claim_status"] in {
             "silent_debt_and_risk_direction",
@@ -40,7 +43,9 @@ def test_public_minigrid_calibration_extension_records_seed_budget_and_variant_r
 
 def test_public_minigrid_calibration_extension_defaults_cover_multiple_seeds_budgets_and_variants():
     assert len(DEFAULT_EXTENSION_SEEDS) >= 5
-    assert len(DEFAULT_TASK_VARIANTS) >= 3
+    assert len(DEFAULT_TASK_VARIANTS) >= 5
     assert len(DEFAULT_PLANNING_STATE_COUNTS) >= 3
     assert "MiniGrid-DoorKey-8x8-v0" in DEFAULT_TASK_VARIANTS
+    assert "MiniGrid-Unlock-v0" in DEFAULT_TASK_VARIANTS
+    assert "MiniGrid-KeyCorridorS3R1-v0" in DEFAULT_TASK_VARIANTS
     assert 32 in DEFAULT_PLANNING_STATE_COUNTS

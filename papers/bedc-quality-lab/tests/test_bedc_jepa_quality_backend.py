@@ -44,8 +44,8 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["native_public_benchmark_closed"] == 1.0
     assert metrics["public_minigrid_calibration_pareto_closed"] == 1.0
     assert metrics["public_minigrid_calibration_extension_closed"] == 1.0
-    assert metrics["public_minigrid_calibration_row_count"] == 45.0
-    assert metrics["public_minigrid_calibration_executed_row_count"] == 45.0
+    assert metrics["public_minigrid_calibration_row_count"] == 75.0
+    assert metrics["public_minigrid_calibration_executed_row_count"] == 75.0
     assert metrics["public_minigrid_calibration_source_gap_row_count"] == 0.0
     assert metrics["public_minigrid_calibration_risk_reduction_mean"] > 0.0
     assert 0.0 <= metrics["public_minigrid_calibration_total_debt_direction_win_rate"] <= 1.0

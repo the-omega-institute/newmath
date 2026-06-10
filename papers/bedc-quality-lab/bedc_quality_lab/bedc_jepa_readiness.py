@@ -246,6 +246,7 @@ def _public_minigrid_calibration_extension_gate(packet: dict[str, Any] | None) -
         and len(packet.get("seeds", [])) >= 5
         and len(packet.get("planning_state_counts", [])) >= 3
         and len(packet.get("task_variants", [])) >= 3
+        and float(summary.get("task_family_count", 0.0)) >= 2.0
         and "public benchmark superiority" in packet.get("cannot_claim", [])
     )
     return _gate(
