@@ -24,6 +24,7 @@ def test_bedc_jepa_quality_lab_export_records_rollup_shape():
         == "continuous latent state plus operational distinctions plus gap ledger"
     )
     assert export["classifier_spec"]["native_metric_contract_status"] == "contract_ready"
+    assert export["classifier_spec"]["native_metric_template_status"] == "recorded"
     assert export["stability_spec"]["population_claim"] is False
 
 
@@ -37,8 +38,11 @@ def test_bedc_jepa_quality_lab_export_projects_metrics_and_boundaries():
     assert metrics["vjepa2_ac_latent_prediction_score"] > 0.0
     assert metrics["full_retraining_loss_ablation_closed"] == 1.0
     assert metrics["public_baseline_native_metric_contract_recorded"] == 1.0
+    assert metrics["public_baseline_native_metric_template_recorded"] == 1.0
     assert rows["public-baseline-native-metric-contract"]["status"] == "closed"
     assert rows["public-baseline-native-metric-contract"]["owner"] == OWNER
+    assert rows["public-baseline-native-metric-template"]["status"] == "closed"
+    assert rows["public-baseline-native-metric-template"]["owner"] == OWNER
     assert rows["official-vjepa2-ac-benchmark-reproduction"]["status"] == "open"
     assert rows["public-minigrid-total-debt-direction"]["status"] == "open"
     assert "public benchmark superiority" in export["not_claimed"]
@@ -51,6 +55,9 @@ def test_bedc_jepa_quality_lab_export_records_artifact_fact_owner():
     assert export["artifacts"]["paper"] == "papers/bedc_jepa/main.pdf"
     assert export["artifacts"]["native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+    )
+    assert export["artifacts"]["native_metric_template"] == (
+        "reports/bedc_jepa_public_baseline_native_metric_template.json"
     )
     assert export["fact_owner"]["owner"] == OWNER
     assert "reports/bedc_jepa_review_bundle.json" in export["fact_owner"]["source_records"]

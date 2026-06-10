@@ -285,6 +285,27 @@ def _public_baseline_native_metric_contract_gate(packet: dict[str, Any] | None) 
     )
 
 
+def _public_baseline_native_metric_template_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_baseline_native_metric_template.json"
+    if packet is None:
+        return _gate("missing", evidence, "public baseline native metric template")
+    result = packet.get("result", {})
+    passes = (
+        packet.get("schema_id") == "bedc-jepa-public-baseline-native-metric-template"
+        and packet.get("template_for") == "reports/bedc_jepa_public_baseline_native_metric_contract.json"
+        and packet.get("candidate_id") == "vjepa2-ac"
+        and isinstance(result, dict)
+        and "latent_prediction_score" in result
+        and "rollout_or_planning_score" in result
+        and "official V-JEPA2-AC benchmark reproduction" in packet.get("cannot_claim", [])
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "public baseline native metric template",
+    )
+
+
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
@@ -297,6 +318,7 @@ def _remaining_evidence_contracts(
     native_boundary: dict[str, Any] | None,
     near_native_reproduction: dict[str, Any] | None,
     native_metric_contract: dict[str, Any] | None,
+    native_metric_template: dict[str, Any] | None,
 ) -> dict[str, Any]:
     retraining_contract: dict[str, Any] = {
         "status": "missing",
@@ -331,6 +353,10 @@ def _remaining_evidence_contracts(
                 native_metric_contract.get("status") if native_metric_contract is not None else "missing"
             ),
             "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+            "native_metric_template_status": (
+                "recorded" if native_metric_template is not None else "missing"
+            ),
+            "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
             "near_native_record_status": (
                 near_native_reproduction.get("status") if near_native_reproduction is not None else "missing"
             ),
@@ -383,6 +409,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_baseline_native_metric_contract = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_contract.json"
     )
+    public_baseline_native_metric_template = _load_optional_json(
+        "bedc_jepa_public_baseline_native_metric_template.json"
+    )
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
@@ -402,6 +431,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         ),
         "public_baseline_native_metric_contract": _public_baseline_native_metric_contract_gate(
             public_baseline_native_metric_contract,
+        ),
+        "public_baseline_native_metric_template": _public_baseline_native_metric_template_gate(
+            public_baseline_native_metric_template,
         ),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
@@ -430,6 +462,9 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             "public_baseline_native_metric_contract": "closed"
             if gates["public_baseline_native_metric_contract"]["status"] == "pass"
             else "open",
+            "public_baseline_native_metric_template": "closed"
+            if gates["public_baseline_native_metric_template"]["status"] == "pass"
+            else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
         "remaining_evidence_contracts": _remaining_evidence_contracts(
@@ -437,6 +472,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
             vjepa2_native_boundary,
             vjepa2_near_native,
             public_baseline_native_metric_contract,
+            public_baseline_native_metric_template,
         ),
         "gates": gates,
         "blocking_gates": blocking,

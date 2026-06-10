@@ -63,6 +63,16 @@ def _native_boundary_rows(readiness: Mapping[str, Any]) -> list[dict[str, str]]:
             "reports/bedc_jepa_public_baseline_native_metric_contract.json",
         )
     )
+    template_status = str(native.get("native_metric_template_status") or "")
+    rows.append(
+        _ledger_row(
+            "mechanism",
+            "public-baseline-native-metric-template",
+            "closed" if template_status == "recorded" else "open",
+            "none" if template_status == "recorded" else "boundary",
+            "reports/bedc_jepa_public_baseline_native_metric_template.json",
+        )
+    )
     return rows
 
 
@@ -166,6 +176,9 @@ def build_quality_lab_export(*, generated_at: str = DEFAULT_GENERATED_AT) -> dic
             "native_metric_contract_status": str(
                 checks.get("public_baseline_native_metric_contract_status") or "not recorded"
             ),
+            "native_metric_template_status": str(
+                checks.get("public_baseline_native_metric_template_status") or "not recorded"
+            ),
         },
         "stability_spec": {
             "sample_scope": "bounded evidence packet",
@@ -184,6 +197,9 @@ def build_quality_lab_export(*, generated_at: str = DEFAULT_GENERATED_AT) -> dic
             ),
             "public_baseline_native_metric_contract_recorded": _as_float(
                 metrics.get("public_baseline_native_metric_contract_recorded")
+            ),
+            "public_baseline_native_metric_template_recorded": _as_float(
+                metrics.get("public_baseline_native_metric_template_recorded")
             ),
             "native_minigrid_sample_count": _as_float(native.get("sample_count_collected")),
         },
@@ -204,6 +220,7 @@ def build_quality_lab_export(*, generated_at: str = DEFAULT_GENERATED_AT) -> dic
             "review_bundle": "reports/bedc_jepa_review_bundle.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
             "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+            "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
         },
         "fact_owner": {
             "source_records": [

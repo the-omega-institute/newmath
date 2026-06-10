@@ -29,6 +29,8 @@ The BEDC-JEPA evidence packet contains:
   `minus_l_intervention`;
 - public baseline native-metric contract for importing an official or external
   V-JEPA2-AC / JEPA-family baseline result;
+- fillable public baseline native-metric template for the same import
+  contract;
 - quality-lab export registry for rollup-style downstream consumption;
 - paper writeback packet for admitted manuscript-facing claims.
 
@@ -134,6 +136,7 @@ claim.
 
 The remaining manuscript-bearing evidence boundary is an official V-JEPA2-AC
 benchmark reproduction or external baseline run under the recorded
-native-metric contract, stronger public MiniGrid calibration across larger
-seeds, horizons, and task variants, a public pixel-world benchmark comparison,
-and a public object-interaction benchmark with natural clutter or control.
+native-metric contract and template, stronger public MiniGrid calibration
+across larger seeds, horizons, and task variants, a public pixel-world
+benchmark comparison, and a public object-interaction benchmark with natural
+clutter or control.
