@@ -143,5 +143,94 @@ theorem RealNameClassifierCommonWindowSymmetry [AskSetup] [PackageSetup]
   }
   exact ⟨cert, swappedUnary⟩
 
+theorem RealNameClassifierSharedWindowEquivalence [AskSetup] [PackageSetup]
+    {source stream rat dyadic tolerance refinement sealRow transport replay provenance
+      localName swappedSeal composedSeal sharedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealNameClassifierUp source stream rat dyadic tolerance refinement sealRow transport replay
+        provenance localName bundle pkg →
+      Cont dyadic rat tolerance →
+        Cont tolerance refinement swappedSeal →
+          Cont swappedSeal sealRow composedSeal →
+            Cont composedSeal localName sharedRead →
+              PkgSig bundle swappedSeal pkg →
+                PkgSig bundle sharedRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row sharedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row source ∨ hsame row stream ∨ hsame row rat ∨
+                          hsame row dyadic ∨ hsame row tolerance ∨ hsame row swappedSeal ∨
+                            hsame row composedSeal ∨ hsame row sharedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont dyadic rat tolerance ∧
+                          Cont tolerance refinement swappedSeal ∧
+                            Cont swappedSeal sealRow composedSeal ∧
+                              Cont composedSeal localName sharedRead ∧
+                                PkgSig bundle sharedRead pkg)
+                      hsame ∧
+                    UnaryHistory swappedSeal ∧
+                      UnaryHistory composedSeal ∧ UnaryHistory sharedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro carrier dyadicRatRoute swappedSealRoute composedSealRoute sharedReadRoute _swappedPkg
+    sharedPkg
+  obtain ⟨_sourceUnary, _streamUnary, ratUnary, dyadicUnary, _toleranceUnary,
+    refinementUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    localNameUnary, _sourceStreamReplay, _ratDyadicTolerance, _toleranceRefinementSeal,
+    _transportReplay, _provenancePkg, _localNamePkg⟩ := carrier
+  have toleranceUnaryFromSharedWindow : UnaryHistory tolerance :=
+    unary_cont_closed dyadicUnary ratUnary dyadicRatRoute
+  have swappedUnary : UnaryHistory swappedSeal :=
+    unary_cont_closed toleranceUnaryFromSharedWindow refinementUnary swappedSealRoute
+  have composedUnary : UnaryHistory composedSeal :=
+    unary_cont_closed swappedUnary sealUnary composedSealRoute
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed composedUnary localNameUnary sharedReadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sharedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row stream ∨ hsame row rat ∨ hsame row dyadic ∨
+              hsame row tolerance ∨ hsame row swappedSeal ∨ hsame row composedSeal ∨
+                hsame row sharedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont dyadic rat tolerance ∧
+              Cont tolerance refinement swappedSeal ∧ Cont swappedSeal sealRow composedSeal ∧
+                Cont composedSeal localName sharedRead ∧ PkgSig bundle sharedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sharedRead ⟨hsame_refl sharedRead, sharedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceData
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceData.left,
+            unary_transport sourceData.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceData
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr sourceData.left))))))
+    ledger_sound := by
+      intro _row sourceData
+      exact
+        ⟨sourceData.right, dyadicRatRoute, swappedSealRoute, composedSealRoute,
+          sharedReadRoute, sharedPkg⟩
+  }
+  exact ⟨cert, swappedUnary, composedUnary, sharedUnary⟩
+
 end RealNameClassifierUp
 end BEDC.Derived
