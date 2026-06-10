@@ -66,4 +66,32 @@ theorem DyadicUpRealSealFactorization [AskSetup] [PackageSetup]
   }
   exact ⟨cert, realReadUnary⟩
 
+theorem DyadicUp_streamname_regseqrat_route [AskSetup] [PackageSetup]
+    {Q S R E H C P N request streamRead regRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCarrier Q S R E H C P N bundle pkg →
+      UnaryHistory request →
+        Cont request Q streamRead →
+          Cont streamRead S regRead →
+            Cont regRead R sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory Q ∧ UnaryHistory S ∧ UnaryHistory R ∧
+                  UnaryHistory streamRead ∧ UnaryHistory regRead ∧ UnaryHistory sealRead ∧
+                    Cont request Q streamRead ∧ Cont streamRead S regRead ∧
+                      Cont regRead R sealRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier requestUnary requestRoute streamRoute regRoute sealPkg
+  obtain ⟨qUnary, sUnary, rUnary, _eUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _qsrRoute, _recRoute, provenancePkg, _namePkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed requestUnary qUnary requestRoute
+  have regUnary : UnaryHistory regRead :=
+    unary_cont_closed streamUnary sUnary streamRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regUnary rUnary regRoute
+  exact
+    ⟨qUnary, sUnary, rUnary, streamUnary, regUnary, sealUnary, requestRoute, streamRoute,
+      regRoute, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.DyadicUp
