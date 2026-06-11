@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
 import ast
 import hashlib
 import importlib
@@ -12,8 +11,11 @@ import json
 import math
 from pathlib import Path
 import random
+import sys
+import tempfile
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.canonical_cell_cache import CellInputRecord, load_cell_entry, store_cell_entry
 from bedc_quality_lab.construct_validity import (
     ConstructValidityEvidence,
     construct_validity_projection,
@@ -848,6 +850,139 @@ def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[
 
 def _json_digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _path_digest(relative_path: str) -> str:
+    path = LAB_ROOT / relative_path
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else "missing"
+
+
+def _callable_digest(function: Any) -> str:
+    try:
+        source = inspect.getsource(function)
+    except (OSError, TypeError):
+        source = repr(function)
+    return hashlib.sha256(source.encode("utf-8")).hexdigest()
+
+
+def _runtime_abi(torch: Any) -> dict[str, str]:
+    abi = {"python": sys.version.split()[0], "executable": sys.executable, "torch": str(getattr(torch, "__version__", "unknown"))}
+    try:
+        numpy = importlib.import_module("numpy")
+    except Exception:
+        abi["numpy"] = "not-installed"
+    else:
+        abi["numpy"] = str(getattr(numpy, "__version__", "unknown"))
+    return abi
+
+
+def _producer_source_closure() -> tuple[dict[str, str], ...]:
+    paths = (
+        OWNER_MODULE,
+        PRODUCER,
+        "bedc_quality_lab/canonical_cell_cache.py",
+        "bedc_quality_lab/order_k_benchmark.py",
+    )
+    return tuple({"path": path, "sha256": _path_digest(path)} for path in paths)
+
+
+def _cell_input_record(
+    torch: Any,
+    *,
+    requested_device: str,
+    device_name: str,
+    config: L1TrainingConfig,
+    task_spec: L1TinySequenceTaskSpec,
+) -> CellInputRecord:
+    return CellInputRecord(
+        producer_id="dgt-l1-controls",
+        producer_command=("python3", PRODUCER),
+        report_artifacts={
+            "canonical_json": CANONICAL_JSON_ARTIFACT,
+            "canonical_markdown": CANONICAL_MARKDOWN_ARTIFACT,
+            **run_artifacts_payload(),
+        },
+        producer_source_closure=_producer_source_closure(),
+        extra_input_paths=(ORDER_K_REPORT_ARTIFACT,),
+        config_payload={
+            "schema_id": SCHEMA_ID,
+            "arm_ids": list(ARM_IDS),
+            "training_config": asdict(config),
+            "task_spec": task_spec.as_payload(),
+            "trainer_digest": _callable_digest(_train_arm),
+        },
+        seed_protocol={
+            "base_seed": BASE_SEED,
+            "deterministic_seeds": list(config.seeds),
+            "step_grid": list(config.step_grid),
+        },
+        source_artifact_digests={ORDER_K_REPORT_ARTIFACT: _path_digest(ORDER_K_REPORT_ARTIFACT)},
+        requested_device=requested_device,
+        resolved_device=device_name,
+        runtime_abi=_runtime_abi(torch),
+    )
+
+
+def _raw_metrics_text(records: Sequence[Mapping[str, Any]]) -> str:
+    return "".join(json.dumps(row, sort_keys=True) + "\n" for row in records)
+
+
+def _load_raw_records(path: Path, config: L1TrainingConfig) -> list[dict[str, Any]]:
+    records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    expected_count = len(config.step_grid) * len(config.seeds) * len(ARM_IDS)
+    if len(records) != expected_count:
+        raise ValueError("cached L1 raw record count mismatch")
+    if {str(row.get("arm_id")) for row in records} != set(ARM_IDS):
+        raise ValueError("cached L1 raw arm set mismatch")
+    if {int(row.get("seed", -1)) for row in records} != set(config.seeds):
+        raise ValueError("cached L1 raw seed set mismatch")
+    if {int(row.get("training_steps", -1)) for row in records} != set(config.step_grid):
+        raise ValueError("cached L1 raw step set mismatch")
+    return records
+
+
+def _store_raw_records(record: CellInputRecord, records: Sequence[Mapping[str, Any]]) -> None:
+    with tempfile.TemporaryDirectory(prefix="bedc-l1-cell-") as temp_dir:
+        raw_path = Path(temp_dir) / "raw_metrics.jsonl"
+        raw_path.write_text(_raw_metrics_text(records), encoding="utf-8")
+        store_cell_entry(
+            record,
+            {"raw_metrics.jsonl": {"path": raw_path, "media_role": "raw_metrics_jsonl"}},
+        )
+
+
+def _training_records(
+    torch: Any,
+    *,
+    task_spec: L1TinySequenceTaskSpec,
+    config: L1TrainingConfig,
+    requested_device: str,
+    device_name: str,
+) -> list[dict[str, Any]]:
+    record = _cell_input_record(
+        torch,
+        requested_device=requested_device,
+        device_name=device_name,
+        config=config,
+        task_spec=task_spec,
+    )
+    lookup = load_cell_entry(record)
+    if lookup.status == "hit":
+        raw_path = lookup.verified_blob_paths.get("raw_metrics.jsonl")
+        if raw_path is not None:
+            try:
+                return _load_raw_records(raw_path, config)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                pass
+    records = _train_l1_grid(
+        torch,
+        task_spec=task_spec,
+        config=config,
+        requested_device=requested_device,
+        device_name=device_name,
+    )
+    _store_raw_records(record, records)
+    return records
 
 
 def _independent_replay(task_spec: Mapping[str, Any], records: Sequence[Mapping[str, Any]], summaries: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -1689,7 +1824,7 @@ def build_payload(
     device_name = _device_name(torch, requested_device)
     task_spec = default_task_spec(cfg)
     _resolve_order_k_source(task_spec.as_payload(), root=root)
-    records = _train_l1_grid(
+    records = _training_records(
         torch,
         task_spec=task_spec,
         config=cfg,
@@ -2039,17 +2174,7 @@ def run_artifacts_payload() -> dict[str, str]:
 
 
 def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:
-    return {
-        "schema_id": "bedc-quality-lab:canonical-report-fingerprint",
-        "report_name": "dgt-l1-controls",
-        "json_artifact": CANONICAL_JSON_ARTIFACT,
-        "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
-        "producer_command": ["python3", PRODUCER],
-        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "step_grid": L1_STEP_GRID}),
-        "output_digest": _json_digest(payload),
-        "inputs": {"static_owner": OWNER_MODULE, "run_artifacts": run_artifacts_payload()},
-        "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
-    }
+    raise RuntimeError("canonical report fingerprints are written by scripts/run_canonical_reports.py")
 
 
 def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str | None = None) -> None:
@@ -2060,7 +2185,7 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
     raw_rows = list(payload.get("_raw_records", []))
     raw_path = root / run_artifacts["raw_metrics"]
     raw_path.parent.mkdir(parents=True, exist_ok=True)
-    raw_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in raw_rows), encoding="utf-8")
+    raw_path.write_text(_raw_metrics_text(raw_rows), encoding="utf-8")
     _write_json(root / run_artifacts["claim_capsule"], public_payload["claim_capsule_ref"])
     report = render_markdown(public_payload)
     report_path = root / run_artifacts["report"]
@@ -2068,7 +2193,6 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
     report_path.write_text(report, encoding="utf-8")
     _write_json(root / CANONICAL_JSON_ARTIFACT, public_payload)
     (root / CANONICAL_MARKDOWN_ARTIFACT).write_text(report, encoding="utf-8")
-    _write_json(root / CANONICAL_FINGERPRINT_ARTIFACT, fingerprint_payload(public_payload, generated_at=generated_at or datetime.now(timezone.utc).isoformat()))
 
 
 __all__ = [

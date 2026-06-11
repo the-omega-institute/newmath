@@ -2016,7 +2016,7 @@ def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str |
 
 def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
     sidecar = _load_fingerprint_sidecar(spec)
-    input_fingerprint, _inputs = _input_fingerprint(spec)
+    input_fingerprint, inputs = _input_fingerprint(spec)
     expected = {
         "report_name": spec.name,
         "json_artifact": spec.json_artifact,
@@ -2028,6 +2028,8 @@ def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
     for key, value in expected.items():
         if sidecar.get(key) != value:
             return False, key.replace("_", "-")
+    if _json_normalized(sidecar.get("inputs")) != _json_normalized(inputs):
+        return False, "inputs"
     return True, "match"
 
 
