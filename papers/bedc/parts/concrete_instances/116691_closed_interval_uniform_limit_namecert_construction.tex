@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ClosedIntervalUniformLimitUp$}
+\label{ch:concrete-instances-closed-interval-uniform-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, uniform limits on closed intervals are read constructively through displayed interval bounds, explicit uniform tail control, named stream windows, regular rational readbacks, and a terminal real-name seal. The $\ClosedIntervalUniformLimitUp$ packet records that finite handoff surface between the closed-bounded-interval route of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names the closed-interval uniform-limit packet as BEDC data only; it does not claim Real completeness, Heine--Borel compactness, selected limits, quotient functions, countable choice, or host function equality.
+
+\begin{definition}[Closed-interval uniform-limit carrier]
+\label{def:closed-interval-uniform-limit-carrier}
+A $\ClosedIntervalUniformLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,U,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, carrying the closed interval endpoints and boundedness ledger used by the read.
+\item $U$ is the $\UniformLimitUp$ tail-control row, carrying the displayed uniform tolerance budget over the interval.
+\item $S$ is the $\StreamNameUp$ row, recording the finite windows opened on the approximating function names before any limit-facing read is consumed.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational values inspected inside the interval windows.
+\item $E$ is the terminal $\RealUp$ seal row attached to the finite readback route.
+\item $H$ records componentwise $\hsame$ transport for $I,U,S,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from closed-interval and uniform-tail requests through the same stream, regular-rational, and real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\ClosedIntervalUniformLimitUp$, $\ClosedBoundedIntervalUp$, $\UniformLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedIntervalUniformLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,U,S,Q,E,H,C,P,N$. It has no coordinate for interval compactness by Heine--Borel, selected limit functions, quotient function equality, countable choice, host extensional equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed-interval uniform-limit NameCert obligations]
+\label{thm:closed-interval-uniform-limit-namecert-obligations}
+For every accepted $\ClosedIntervalUniformLimitUp$ carrier
+$$
+L=(I,U,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\ClosedIntervalUniformLimitUp}$ surface consists exactly of closed-bounded-interval admission, uniform-tail budget exposure, stream-window accounting, regular rational readback, terminal real-name sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any closed-interval uniform-limit consumer must read the sibling routes of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, \autoref{ch:concrete-instances-uniformlimit-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} through these rows before it can consume the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-interval-uniform-limit-carrier}. The closed interval source, uniform tail budget, stream windows, regular rational readback, and real seal are separate displayed rows, and the structural rows $H,C,P,N$ preserve the same packet.
+
+The analytic obligations are exhausted by $I,U,S,Q,E$. The interval row supplies the closed-bounded source, the uniform-limit row supplies the tolerance budget, the stream row opens the finite observation windows, the regular rational row gives the readback, and the real row seals the terminal observation.
+
+The certificate obligations are exhausted by $H,C,P,N$. These rows transport, replay, source, and name the same finite route. Since the carrier contains no row for Heine--Borel compactness, selected limits, quotient functions, countable choice, host equality, or ambient completeness, the listed rows are exactly the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Closed-interval uniform-limit L10 handoff]
+\label{thm:closed-interval-uniform-limit-l10-handoff}
+Every L10 consumer of an accepted $\ClosedIntervalUniformLimitUp$ packet receives the finite route
+$$
+\ClosedBoundedIntervalUp,\ \UniformLimitUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff exports closed-interval source data, displayed uniform tail control, finite stream windows, regular rational readback, a terminal real-name seal, transport, replay, provenance, and local naming only. It does not export Real completeness, Heine--Borel compactness, selected limit functions, quotient function equality, countable choice, or host equality of functions.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closed-interval-uniform-limit-namecert-obligations}. A consumer first reads the closed-bounded-interval row $I$, the uniform-limit row $U$, the stream row $S$, the regular rational readback row $Q$, and the real seal row $E$.
+
+The rows $H,C,P,N$ then carry the handoff as componentwise transport, displayed replay, provenance, and local naming. They do not add analytic content beyond the already displayed finite route.
+
+Field exclusion completes the boundary. The carrier has no Heine--Borel row, no completed-real compactness row, no selected limit row, no quotient-function row, no countable-choice row, and no host function-equality row, so the L10 handoff is exactly the finite packet stated above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ClosedIntervalUniformLimitUp$ consumer displays a $\ClosedBoundedIntervalUp$ source row, a $\UniformLimitUp$ tail-budget row, a $\StreamNameUp$ window row, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any closed-interval uniform-limit claim is public.}
+
+\independenceWitness{closed-bounded-interval, uniformlimit, streamname, regseqrat, real: $\ClosedIntervalUniformLimitUp$ is not bijective to any listed sibling because it binds the interval source, uniform tail budget, finite stream windows, regular rational readback, terminal real seal, transport, replay, provenance, and local naming into one packet.}
+
+\closureat{ClosedIntervalUniformLimitUp}{seedStr}
+
+\begin{closurestatus}{\ClosedIntervalUniformLimitUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-interval-uniform-limit-carrier}, \autoref{thm:closed-interval-uniform-limit-namecert-obligations}, and \autoref{thm:closed-interval-uniform-limit-l10-handoff} seed the finite closed-interval uniform-limit route through interval, uniform-tail, stream, regular-rational, real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, Real completeness, Heine--Borel compactness, selected limits, quotient functions, countable choice, host function equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-interval exposure, uniform-tail budget exposure, stream-window accounting, regular rational readback, real-seal boundary, transport, replay, provenance, local naming, and non-escape over the same displayed packet.}
+  \constructivestory{A $\ClosedIntervalUniformLimitUp$ packet is generated from closed-bounded-interval source data, displayed uniform-tail control, finite stream windows, regular rational readback, a real-name seal, componentwise transport, displayed continuation replay, package provenance, and local naming evidence.}
+\end{closurestatus}
