@@ -8,6 +8,7 @@
 - Seeds: `16`
 - Compute units: `618.430464`
 - Parameter count: `8388`
+- Construct validity: `pass`
 
 ## Hardgates
 

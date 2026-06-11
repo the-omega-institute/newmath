@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-11T08:40:06.580397+00:00",
+    "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "03c7dc238fd00ea5757b59bed56c4ec9c459859ee802c3df4b98b1552205eb9b",
+  "input_fingerprint": "c13c50d772e417e603bbf52fdba2c2fff6b4a831f63de40b3849860f4942d43d",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -25,8 +25,12 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "6f2ad7cf1c2f9d4ededc8237d6b5e15ed09816eb91a9deab99d5f6caaf386f99"
+      },
+      {
         "path": "bedc_quality_lab/dgt_l0_controls.py",
-        "sha256": "1093fffa3a981d3afe9a87abf0f31e2dbf722da27c304646169c69b7ea9d17ce"
+        "sha256": "8da623e99590860fdcd5333cc6e29bd9eecac0d799c06144c64512b18ac01768"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
@@ -51,7 +55,7 @@
     "source_artifacts": [
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/claim_capsule.json",
-        "sha256": "9d070838a80cca0a9f88c16de7b49ce1df836504848cfc56ea89269d3c5f58b9"
+        "sha256": "71e82d0df0326fcbd7f8c812eb60d0cf59869c1f9c47950259dbea62f4da3554"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
@@ -59,11 +63,11 @@
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/report.md",
-        "sha256": "8fcd520c7faba0090d2152c9456cf7f8d47a75d76eb24fd6991be76c6768671b"
+        "sha256": "4598055116e5ad5ae3214e42ec8ca196e4162bba7483c11bce0f49037c3dd81d"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json",
-        "sha256": "92693d1b3ea3f4330ca3401d172a4cd1a95c2b0605dc9bf5ef59d2e8b5b17ebb"
+        "sha256": "2a7090df3ba29bc521631823e93fdeca4167f321f277b2115ccdbb52e80e2cfe"
       }
     ],
     "spec": {
@@ -72,6 +76,7 @@
         "python3",
         "scripts/run_dgt_l0_controls.py"
       ],
+      "construct_validity_pointer": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
       "control_pointer": "$.l0_toy_projection",
       "cost_pointer": "$.compute_param_ledger",
       "estimated_seconds": 10,
@@ -98,6 +103,7 @@
         "compute_param_ledger",
         "negative_witness_sweep",
         "independent_replay",
+        "construct_validity_hardgates",
         "l0_toy_projection",
         "not_claimed"
       ],
@@ -106,7 +112,7 @@
   },
   "json_artifact": "reports/canonical/dgt-l0-controls.json",
   "markdown_artifact": "reports/canonical/dgt-l0-controls.md",
-  "output_digest": "224d4e14edea782ff30eeb4ad078a3c937c4a99d03b3c0b818313006efd04953",
+  "output_digest": "ff4bf42c140f7e3ef49144c0ef8636c578319c623057cf931462849684b64c84",
   "producer_command": [
     "python3",
     "scripts/run_dgt_l0_controls.py"

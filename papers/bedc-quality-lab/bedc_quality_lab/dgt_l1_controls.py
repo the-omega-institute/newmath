@@ -14,6 +14,11 @@ from pathlib import Path
 import random
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.construct_validity import (
+    ConstructValidityEvidence,
+    construct_validity_projection,
+    evaluate_construct_validity,
+)
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.order_k_benchmark import LEDGER_ROWS_POINTER as ORDER_K_LEDGER_ROWS_POINTER
@@ -951,6 +956,80 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
     }
 
 
+def construct_validity_evidence(
+    *,
+    summaries: Mapping[str, Mapping[str, Any]] | None = None,
+    config: L1TrainingConfig | None = None,
+) -> ConstructValidityEvidence:
+    cfg = config or L1TrainingConfig()
+    metric_keys = list(L1_MEASURABLE_METRICS)
+    if summaries:
+        metric_keys = sorted({
+            metric
+            for row in summaries.values()
+            if isinstance(row, Mapping)
+            for metric in row.get("metrics", {}).keys()
+        })
+    return ConstructValidityEvidence(
+        task_variables={
+            "variables": ["token_sequence", "x_prev_1", "x_prev_2", "surface_id"],
+            "pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        },
+        label_variables={
+            "variables": ["next_token_label", "ood_next_token_label"],
+            "pointer": "$.construct_validity_hardgates.evidence.label_variables",
+        },
+        arm_input_access={
+            "label_invisibility_certificate": True,
+            "arms": {
+                arm_id: {"variables": ["token_sequence", "x_prev_1", "x_prev_2", "surface_id"]}
+                for arm_id in ARM_IDS
+            },
+        },
+        arm_roles={
+            "candidate": "dgt_l1",
+            "controls": [
+                "information_starved_l1_baseline",
+                "matched_random_structural_l1",
+                "parameter_matched_l1",
+                "compute_matched_l1",
+            ],
+        },
+        finite_table={
+            "coverage_status": "bounded-control",
+            "support_count": min(cfg.eval_examples, cfg.vocab_size * cfg.vocab_size),
+            "rule_abstraction_claim": False,
+            "table_coverage_only": False,
+            "finite_pair_accuracy": None,
+        },
+        hand_feature_ledger={
+            "mode": "shared-gate",
+            "shared_across_arms": True,
+            "features": ["token_position_access", "bounded_pair_surface"],
+            "candidate_only_features": [],
+        },
+        metric_source={
+            "source_kind": "training-evaluation",
+            "metric_keys": metric_keys,
+            "per_arm_constants": False,
+            "label_derived_metric_source": False,
+            "source_pointer": f"{RUN_ROOT}/raw_metrics.jsonl:$",
+        },
+    )
+
+
+def construct_validity_payload(
+    *,
+    summaries: Mapping[str, Mapping[str, Any]] | None = None,
+    config: L1TrainingConfig | None = None,
+) -> dict[str, Any]:
+    return construct_validity_projection(
+        construct_validity_evidence(summaries=summaries, config=config),
+        artifact=CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+
+
 def _resolve_order_k_source(task: Mapping[str, Any], *, root: Path | None = None) -> Mapping[str, Any]:
     source = task.get("required_order_source")
     if not isinstance(source, Mapping):
@@ -1362,7 +1441,16 @@ def _hardgate_status(gates: Mapping[str, Mapping[str, Any]]) -> tuple[str, list[
 def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any]] | None = None) -> dict[str, Any]:
     gate_rows = gates if gates is not None else evaluate_hardgates(payload)
     gate_status, failures = _hardgate_status(gate_rows)
-    return {
+    construct_validity = payload.get("construct_validity_hardgates")
+    cv_projection = None
+    if isinstance(construct_validity, Mapping):
+        cv_projection = evaluate_construct_validity(
+            ConstructValidityEvidence.from_payload(construct_validity.get("evidence", {}))
+        ).claim_capsule_projection_for(
+            artifact=CANONICAL_JSON_ARTIFACT,
+            pointer="$.construct_validity_hardgates",
+        )
+    capsule = {
         "schema_id": "bedc.quality.claim_capsule",
         "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
         "claim_id": "claim:dgt-l1-tiny-sequence",
@@ -1414,6 +1502,9 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "not_claimed": list(NOT_CLAIMED),
         "failed_gate": failures[0] if failures else None,
     }
+    if cv_projection is not None:
+        capsule["construct_validity"] = cv_projection
+    return capsule
 
 
 def _provisional_claim_capsule() -> dict[str, Any]:
@@ -1549,6 +1640,7 @@ def build_payload(
         "source_regression_guard": negative["source_regression_guard"],
         "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
+        "construct_validity_hardgates": construct_validity_payload(summaries=summaries, config=cfg),
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -1589,6 +1681,7 @@ def _required_fields() -> set[str]:
         "source_regression_guard",
         "owner_local_measurement_boundary",
         "l1_step_ladder",
+        "construct_validity_hardgates",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -1692,6 +1785,16 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     expected_gates = evaluate_hardgates(payload)
     if payload["hardgates"] != expected_gates:
         raise ValueError("DGT L1 hardgate evaluation mismatch")
+    construct_validity = payload["construct_validity_hardgates"]
+    if not isinstance(construct_validity, Mapping):
+        raise ValueError("DGT L1 construct validity hardgates missing")
+    expected_cv = construct_validity_projection(
+        ConstructValidityEvidence.from_payload(construct_validity.get("evidence", {})),
+        artifact=CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+    if construct_validity != expected_cv:
+        raise ValueError("DGT L1 construct validity hardgate evaluation mismatch")
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
@@ -1744,6 +1847,14 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     capsule_text = json.dumps(payload["claim_capsule_ref"], sort_keys=True)
     if "terminal_verdict" in capsule_text:
         raise ValueError("DGT L1 ClaimCapsule must not contain terminal verdict")
+    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != {
+        "artifact",
+        "pointer",
+        "status",
+        "failed_gates",
+        "owner_pointer",
+    }:
+        raise ValueError("DGT L1 ClaimCapsule construct validity projection mismatch")
     if payload["claim_capsule_ref"]["model_claim"]["allowed_claim"] != ALLOWED_CLAIM:
         raise ValueError("DGT L1 allowed claim mismatch")
     expected_projection = _projection(payload, expected_gates)
@@ -1784,6 +1895,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
+        f"- Construct validity: `{payload['construct_validity_hardgates']['status']}`",
         "",
         "## Hardgates",
         "",
@@ -1873,6 +1985,8 @@ __all__ = [
     "build_claim_capsule",
     "build_l1_step_ladder",
     "build_payload",
+    "construct_validity_evidence",
+    "construct_validity_payload",
     "derive_l1_step_ladder_crossover",
     "derive_l1_step_ladder_verdict",
     "evaluate_hardgates",

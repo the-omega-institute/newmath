@@ -11,6 +11,11 @@ import math
 from pathlib import Path
 from typing import Any, Mapping, NamedTuple, Sequence
 
+from bedc_quality_lab.construct_validity import (
+    ConstructValidityEvidence,
+    construct_validity_projection,
+    evaluate_construct_validity,
+)
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
@@ -62,6 +67,10 @@ CONTROL_POINTERS = {
 CONSTRUCT_SUSPENSION_POINTER = {
     "artifact": CANONICAL_JSON_ARTIFACT,
     "pointer": "$.construct_suspension",
+}
+CONSTRUCT_VALIDITY_POINTER = {
+    "artifact": CANONICAL_JSON_ARTIFACT,
+    "pointer": "$.construct_validity_hardgates",
 }
 REQUIRED_WITNESSES = (
     "control_positive",
@@ -584,6 +593,66 @@ def construct_suspension_payload() -> dict[str, Any]:
     }
 
 
+def construct_validity_evidence(records: Sequence[Mapping[str, Any]] | None = None) -> ConstructValidityEvidence:
+    metric_source = {
+        "source_kind": "training-evaluation",
+        "metric_keys": list(METRIC_KEYS),
+        "per_arm_constants": False,
+        "label_derived_metric_source": False,
+        "source_pointer": f"{RUN_ROOT}/raw_metrics.jsonl:$",
+    }
+    if records is not None and records:
+        metric_source["record_count"] = len(records)
+        metric_source["seed_count"] = len({int(row["seed"]) for row in records})
+    return ConstructValidityEvidence(
+        task_variables={
+            "variables": ["x0", "x1", "x2", "x3", "x4", "x5", "target_signal"],
+            "pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        },
+        label_variables={
+            "variables": ["toy_binary_label"],
+            "pointer": "$.construct_validity_hardgates.evidence.label_variables",
+        },
+        arm_input_access={
+            "label_invisibility_certificate": True,
+            "arms": {
+                arm_id: {"variables": ["x0", "x1", "x2", "x3", "x4", "x5", "target_signal"]}
+                for arm_id in ARM_IDS
+            },
+        },
+        arm_roles={
+            "candidate": "DGT_full",
+            "controls": [
+                "base_transformer_l0",
+                "matched_random_structural_control",
+                "parameter_matched_transformer",
+                "compute_matched_transformer",
+            ],
+        },
+        finite_table={
+            "coverage_status": "bounded-control",
+            "support_count": BATCH_SIZE * len(REPLAY_SEEDS),
+            "rule_abstraction_claim": False,
+            "table_coverage_only": False,
+        },
+        hand_feature_ledger={
+            "mode": "shared-gate",
+            "shared_across_arms": True,
+            "features": ["target_signal", "surface_suite"],
+            "candidate_only_features": [],
+        },
+        metric_source=metric_source,
+    )
+
+
+def construct_validity_payload(records: Sequence[Mapping[str, Any]] | None = None) -> dict[str, Any]:
+    return construct_validity_projection(
+        construct_validity_evidence(records),
+        artifact=CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+
+
 def unavailable_payload(*, generated_at: str, requested_device: str, reason: str) -> dict[str, Any]:
     run_artifacts = run_artifacts_payload()
     controls = {
@@ -698,6 +767,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "negative_witness_sweep": witness,
         "independent_replay": replay,
         "construct_suspension": construct_suspension_payload(),
+        "construct_validity_hardgates": construct_validity_payload(()),
         "l0_toy_projection": _projection(bundle, failures),
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -785,6 +855,7 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
         "negative_witness_sweep": witness,
         "independent_replay": replay,
         "construct_suspension": construct_suspension_payload(),
+        "construct_validity_hardgates": construct_validity_payload(records),
         "l0_toy_projection": projection,
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -858,6 +929,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "negative_witness_sweep",
         "independent_replay",
         "construct_suspension",
+        "construct_validity_hardgates",
         "l0_toy_projection",
         "not_claimed",
     }
@@ -885,6 +957,16 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.construct_suspension_ref"
     ):
         raise ValueError("DGT L0 construct suspension ladder pointer mismatch")
+    construct_validity = payload["construct_validity_hardgates"]
+    if not isinstance(construct_validity, Mapping):
+        raise ValueError("DGT L0 construct validity hardgates missing")
+    expected_cv = construct_validity_projection(
+        ConstructValidityEvidence.from_payload(construct_validity.get("evidence", {})),
+        artifact=CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+    if construct_validity != expected_cv:
+        raise ValueError("DGT L0 construct validity hardgate evaluation mismatch")
     controls = payload["controls"]
     if set(controls) != {"base_transformer_control", "matched_random_structural_control"}:
         raise ValueError("DGT L0 controls schema mismatch")
@@ -971,6 +1053,9 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
 
 def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
     projection = payload["l0_toy_projection"]
+    construct_validity = evaluate_construct_validity(
+        ConstructValidityEvidence.from_payload(payload["construct_validity_hardgates"]["evidence"])
+    )
     return {
         "schema_id": "bedc.quality.claim_capsule",
         "artifact_id": f"{ARTIFACT_ID}:claim-capsule",
@@ -978,6 +1063,10 @@ def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
         "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection",
         "review_status": projection["review_status"],
         "ref_pointers": projection["ref_pointers"],
+        "construct_validity": construct_validity.claim_capsule_projection_for(
+            artifact=CANONICAL_JSON_ARTIFACT,
+            pointer="$.construct_validity_hardgates",
+        ),
         "not_claimed": projection["not_claimed"],
     }
 
@@ -992,6 +1081,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Device: `{payload['compute_param_ledger']['device']}`",
         f"- Compute units: `{payload['compute_param_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['compute_param_ledger']['parameter_count']}`",
+        f"- Construct validity: `{payload['construct_validity_hardgates']['status']}`",
         "",
         "## Hardgates",
         "",
@@ -1061,6 +1151,8 @@ __all__ = [
     "GENERATED_AT",
     "SCHEMA_ID",
     "build_payload",
+    "construct_validity_evidence",
+    "construct_validity_payload",
     "render_markdown",
     "validate_payload",
     "write_artifacts",

@@ -1617,6 +1617,8 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
     assert spec.cost_pointer == "$.compute_param_ledger"
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
+    assert spec.construct_validity_pointer == "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates"
+    assert "construct_validity_hardgates" in spec.required_json_keys
     assert names.isdisjoint(
         {
             "base-transformer-l0",
@@ -1627,6 +1629,22 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
             "l0-pass-decision",
         }
     )
+
+
+def test_dgt_controls_require_construct_validity_without_replacing_protocol_hardgates():
+    specs = canonical._specs_by_name()
+    for name in ("dgt-l0-controls", "dgt-l1-controls"):
+        spec = specs[name]
+        assert spec.construct_validity_pointer == f"{spec.json_artifact}:$.construct_validity_hardgates"
+        assert "construct_validity_hardgates" in spec.required_json_keys
+
+        payload = _payload_for_spec(spec)
+        discipline = canonical._discipline(spec)
+
+        assert payload["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
+        assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
+        assert "reporting_hardgate" in discipline
+        assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
 
 
 def test_no_standalone_dgt_component_ablation_registered():
@@ -6564,6 +6582,9 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
             "missing_required_cells",
             "cells",
         }
+        assert "construct_validity_pointer" in report["discipline"]
+        assert "construct_validity_status" in report["discipline"]
+        assert "construct_validity" not in gate
     assert all(not Path(path).exists() for path in forbidden)
     assert "reporting_guideline" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
 
