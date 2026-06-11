@@ -1786,6 +1786,41 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
     return duplicates
 
 
+def run_marker_uniqueness_check() -> tuple[list[dict[str, object]], str]:
+    script = PAPER_ROOT / "scripts" / "check_marker_uniqueness.py"
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError as exc:
+        output = f"[bedc-ci] marker uniqueness check failed to run: {exc}\n"
+        return (
+            [{
+                "kind": "marker_uniqueness_subprocess_error",
+                "script": str(script.relative_to(REPO_ROOT)),
+                "returncode": 1,
+                "output": output,
+            }],
+            output,
+        )
+    output = (result.stdout or "") + (result.stderr or "")
+    if result.returncode == 0:
+        return [], ""
+    return (
+        [{
+            "kind": "marker_uniqueness_failure",
+            "script": str(script.relative_to(REPO_ROOT)),
+            "returncode": result.returncode,
+            "output": output,
+        }],
+        output,
+    )
+
+
 def _get_commit_changed_files() -> set[str] | None:
     """Return files changed by HEAD relative to its first parent."""
     try:
@@ -11092,6 +11127,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
+    marker_uniqueness_failures, marker_uniqueness_output = run_marker_uniqueness_check()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
@@ -11164,6 +11200,9 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "forbidden_construct_count": len(forbidden),
         "duplicate_part_labels": duplicate_part_labels,
         "missing_marker_targets": missing_marker_targets,
+        "marker_uniqueness_failures": marker_uniqueness_failures,
+        "marker_uniqueness_failure_count": len(marker_uniqueness_failures),
+        "marker_uniqueness_output": marker_uniqueness_output,
         "case_collisions": case_collisions,
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
@@ -11371,6 +11410,8 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 locs = label_to_files.get(label, [])
                 loc_str = ", ".join(locs) if locs else f"appears {count} times"
                 print(f"  {label}  @ {loc_str}")
+        if payload["marker_uniqueness_failures"]:
+            print(payload["marker_uniqueness_output"], end="")
         if payload["case_collisions"]:
             print(
                 "[bedc-ci] case-only-different paths in git index: "
@@ -11654,6 +11695,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_new_count"]
         + len(payload["duplicate_part_labels"])
+        + payload["marker_uniqueness_failure_count"]
         # Case-only index collisions have no legacy-safe state: they poison every
         # case-insensitive checkout with APFS-style phantom dirty paths.
         + payload["case_collisions_count"]
