@@ -3244,6 +3244,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetObligationSurface
 import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
+import BEDC.Derived.CoveringdimensionUp.CompactNetSimplicialNerve
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
@@ -4909,6 +4910,7 @@ import BEDC.Derived.FiniteRealSectionUp.StdBridge
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.TransportStability
 import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
+import BEDC.Derived.FiniteRecognizerCarrierObstructionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
@@ -5139,6 +5141,7 @@ import BEDC.Derived.GoursatUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
+import BEDC.Derived.GreedySpectralClosureUp.TasteGate
 import BEDC.Derived.GroebnerBasisUp.TasteGate
 import BEDC.Derived.GromovHausdorffUp.NameCertObligations
 import BEDC.Derived.GromovHausdorffUp.TasteGate
@@ -6254,6 +6257,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualBudgetInterface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualDiamondLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualL10FrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStability
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStabilitySurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceCheckerFactorization
@@ -6266,6 +6270,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNL10DependencySeal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNObligationDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateScheduleDischarge
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateScheduleMaturePackage
 import BEDC.Derived.MetaCICCriticalPathUp.CarrierAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.CertificateRowOrder
 import BEDC.Derived.MetaCICCriticalPathUp.ClosedSubstitutionBoundaryExposure
