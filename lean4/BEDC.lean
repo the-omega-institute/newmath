@@ -766,6 +766,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
+import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
@@ -6376,6 +6377,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -7532,6 +7534,7 @@ import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
 import BEDC.Derived.PontryaginDualityUp
+import BEDC.Derived.PorousSetUp.TasteGate
 import BEDC.Derived.PositiveConeUp.TasteGate
 import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
 import BEDC.Derived.PositiveRealUp.TasteGate
