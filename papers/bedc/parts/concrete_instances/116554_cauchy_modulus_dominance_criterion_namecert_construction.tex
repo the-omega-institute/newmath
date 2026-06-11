@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusDominanceCriterionUp$}
+\label{ch:concrete-instances-cauchy-modulus-dominance-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyModulusDominanceCriterionUp$ packet records the finite criterion by which a displayed Cauchy modulus can be replaced by a dominating displayed modulus along the same Real and Completion route. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the base modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the completion-admission surface of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite dominance criterion for Real and Completion consumers; it is not a quotient stream equality, selected limit, countable-choice schedule, host real equality, trichotomy split, or ambient $\RealUp$ completeness assertion.
+
+\begin{definition}[Cauchy modulus dominance criterion carrier]
+\label{def:cauchy-modulus-dominance-criterion-carrier}
+A $\CauchyModulusDominanceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,Q,D,M_0,M_1,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row listing the observations consumed by the base Cauchy read.
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback row attached to the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger carrying the dyadic precision requests shown to the consumer.
+\item $M_0$ is the base $\CauchyModulusUp$ row assigning a finite tail threshold to each displayed dyadic request.
+\item $M_1$ is the dominating $\CauchyModulusUp$ row for the same displayed requests, with each shown threshold at least as far out as the corresponding threshold in $M_0$.
+\item $B$ is the local dominance-criterion row, recording that $M_1$ dominates $M_0$ on exactly the dyadic requests displayed by $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached by the same Real and Completion route after $S,Q,D,M_0,M_1,B$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the windows, readback, dyadic requests, both modulus rows, dominance row, seal row, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from each finite dyadic request through
+$$
+D,M_0,M_1,B,S,Q \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusDominanceCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\CauchyCompletionCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusDominanceCriterionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected tail functions, selected limits, countable choice, host sequence equality, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus dominance criterion NameCert obligations]
+\label{thm:cauchy-modulus-dominance-criterion-namecert-obligations}
+For every accepted $\CauchyModulusDominanceCriterionUp$ carrier
+$$
+K=(S,Q,D,M_0,M_1,B,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusDominanceCriterionUp}$ surface consists exactly of carrier exposure for the displayed packet, finite-window exposure through $S$, regular rational readback through $Q$, dyadic tolerance exposure through $D$, base-modulus exposure through $M_0$, dominating-modulus exposure through $M_1$, dominance exposure through $B$, terminal $\RealUp$ seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-modulus-dominance-criterion-carrier}. Each obligation names one coordinate of the same finite $\BHist$ packet, and the local naming row $N$ records that these coordinates form the certificate surface.
+
+The analytic part is read in the displayed order. A dyadic request first enters the ledger $D$, then reads the base threshold $M_0$ and the dominating threshold $M_1$, and then checks the dominance row $B$ for that displayed request. The stream windows $S$ and regular readback $Q$ are therefore attached to the same finite request route.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this route. Since the carrier has no coordinate for quotient stream equality, selected tails, selected limits, countable choice, host equality, trichotomy, or ambient completeness, none of those objects can be exported by the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus dominance criterion Real-seal route]
+\label{thm:cauchy-modulus-dominance-criterion-real-seal-route}
+Every $\RealUp$-facing or completion-facing consumer of an accepted $\CauchyModulusDominanceCriterionUp$ carrier
+$$
+K=(S,Q,D,M_0,M_1,B,E,H,C,P,N)
+$$
+may replace the displayed base modulus row $M_0$ by the displayed dominating row $M_1$ only through the same finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyModulusUp \longmapsto \CauchyCompletionCriterionUp \longmapsto \RealUp .
+$$
+The replacement preserves the terminal seal row $E$ and exports no quotient stream row, selected limit row, countable-choice row, host equality row, trichotomy row, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-modulus-dominance-criterion-namecert-obligations}. They expose the base modulus, dominating modulus, and dominance row only after the same dyadic request ledger and before the same terminal seal row.
+
+The dominance condition is local to displayed requests: $M_1$ dominates $M_0$ only on the requests present in $D$. Thus replacing $M_0$ by $M_1$ cannot introduce a hidden schedule, selected tail, or quotient stream comparison; it merely moves the finite threshold farther along the already displayed route.
+
+Finally read the provenance and replay rows. They attach the dominance route to the completion-admission surface and the terminal Real seal without adding another carrier coordinate. Hence the Real seal route remains the one displayed in the theorem statement, and all excluded host or ambient principles remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyModulusDominanceCriterionUp$ Real-facing read factors through displayed StreamName windows, RegSeqRat readback, DyadicRatCore tolerance requests, a base CauchyModulus row, a dominating CauchyModulus row, a dominance-criterion row, a RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, cauchymodulus, cauchycompletioncriterion, real: $\CauchyModulusDominanceCriterionUp$ is not bijective to any listed sibling because it jointly carries one base modulus row, one dominating modulus row, the displayed requestwise dominance criterion, the shared Real and Completion route, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusDominanceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusDominanceCriterionUp}
+  \constructivestory{A $\CauchyModulusDominanceCriterionUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a base CauchyModulus row, a dominating CauchyModulus row, a requestwise dominance row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-dominance-criterion-carrier}, \autoref{thm:cauchy-modulus-dominance-criterion-namecert-obligations}, and \autoref{thm:cauchy-modulus-dominance-criterion-real-seal-route} seed the finite criterion by which a displayed Real and Completion route may replace a base CauchyModulus row by a dominating CauchyModulus row on displayed dyadic requests.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, requestwise dominance, NameCert exposure, and Real-seal nonescape for BEDC.Derived.CauchyModulusDominanceCriterionUp.}
+\end{closurestatus}
