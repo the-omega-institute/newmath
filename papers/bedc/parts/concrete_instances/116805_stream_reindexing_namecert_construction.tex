@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\StreamReindexingUp$}
+\label{ch:concrete-instances-stream-reindexing-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive sequence names, the $\StreamReindexingUp$ packet records the finite schedule operation that reads one displayed $\StreamNameUp$ observation plan through another. It sits before the regular-rational and real-facing reindexing routes of \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-cauchy-reindexing-namecert}, and \autoref{ch:concrete-instances-regular-cauchy-reindexing-namecert}, and it uses the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert} only after the reindexed stream windows have been displayed. The packet names a finite schedule certificate; it does not quotient streams, choose a tail representative, import countable choice, identify host stream equality, or invoke ambient $\RealUp$ completeness.
+
+\begin{definition}[Stream reindexing carrier]
+\label{def:stream-reindexing-carrier}
+A $\StreamReindexingUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,I,J,W,D,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the source $\StreamNameUp$ row whose finite observations are being reread;
+\item $I$ is the displayed input schedule window listing the source indices available to the request;
+\item $J$ is the displayed reindexing schedule, assigning each requested output window to a finite input-window read;
+\item $W$ is the synchronized finite window ledger certifying that every output request has a displayed source read;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached only to the observed window requests;
+\item $R$ is the $\RegSeqRatUp$ readback row reached after $X,I,J,W,D$ have been displayed;
+\item $E$ is the terminal $\RealUp$ seal available to real-facing consumers of the reindexed name;
+\item $H$ records componentwise $\hsame$ transport for the stream row, schedules, windows, dyadic tolerance row, readback, and seal;
+\item $C$ records displayed $\Cont$ replay of the same finite reindexing route;
+\item $P$ is the $\Pkg$ provenance over $\StreamReindexingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyReindexingUp$, $\RegularCauchyReindexingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\StreamReindexingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected tails, unbounded schedule choice, host stream equality, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Stream reindexing NameCert obligations]
+\label{thm:stream-reindexing-namecert-obligations}
+For an accepted $\StreamReindexingUp$ carrier $S=(X,I,J,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\StreamReindexingUp}$ surface consists exactly of source-stream admission through $X$, input-window admission through $I$, reindexing-schedule admission through $J$, synchronized finite-window coverage through $W$, dyadic tolerance compatibility through $D$, regular-rational readback through $R$, terminal real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-reindexing-carrier}. The source stream, input schedule, reindexing schedule, synchronized windows, dyadic tolerance ledger, readback row, and terminal seal are all displayed coordinates.
+
+Carrier admission reads only those coordinates. The synchronized window row $W$ accounts for every output request by a finite source-window read, so the local certificate has no detached schedule object to compare.
+
+Transport and replay are then the structural rows $H$ and $C$, with provenance and local naming supplied by $P$ and $N$. Since no excluded object is a carrier coordinate, the obligation surface cannot export quotient stream equality, selected tails, countable choice, host stream equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Stream reindexing window stability]
+\label{thm:stream-reindexing-window-stability}
+Every $\RegSeqRatUp$, $\RealUp$, $\CauchyReindexingUp$, or $\RegularCauchyReindexingUp$ consumer of an accepted $\StreamReindexingUp$ packet must first read the displayed rows
+$$
+X,I,J,W,D,R,E,H,C,P,N .
+$$
+In particular, the consumer receives the reindexed stream only through finite $\StreamNameUp$ windows, the synchronized schedule ledger, the dyadic tolerance row, the regular-rational readback, and the terminal real seal. It receives no quotient stream, selected tail, countable-choice schedule, host stream equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:stream-reindexing-namecert-obligations}. They place the source stream row $X$, schedule rows $I,J$, synchronized window row $W$, and dyadic tolerance row $D$ before any readback row can be consumed.
+
+Next read the regular-rational and real-facing rows. The $\RegSeqRatUp$ handoff $R$ is downstream of the finite schedule window, and the $\RealUp$ seal $E$ is downstream of that handoff.
+
+Finally apply componentwise transport and displayed replay through $H$ and $C$. The provenance and local naming rows keep the same finite packet attached to the downstream $\CauchyReindexingUp$ route and its $\RegularCauchyReindexingUp$ specialization, so no hidden quotient, selected tail, countable-choice schedule, host equality, or ambient completeness coordinate is available.
+\end{proof}
+
+\falsifiablePrediction{Every consumer of a $\StreamReindexingUp$ packet must expose the source $\StreamNameUp$ row, finite input schedule, reindexing schedule, synchronized window ledger, dyadic tolerance row, regular-rational readback, and Real seal before it can use the reindexed stream.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchy-reindexing: $\StreamReindexingUp$ is not bijective to any listed sibling because it jointly carries the source stream row, input schedule, reindexing schedule, synchronized finite windows, dyadic tolerance ledger, regular-rational handoff, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{StreamReindexingUp}{seedStr}
+
+\begin{closurestatus}{\StreamReindexingUp}
+  \constructivestory{A $\StreamReindexingUp$ packet is generated from a source StreamName row, finite input schedule, reindexing schedule, synchronized window ledger, dyadic tolerance row, RegSeqRat handoff, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-reindexing-carrier}, \autoref{thm:stream-reindexing-namecert-obligations}, and \autoref{thm:stream-reindexing-window-stability} seed the finite schedule-reindexing surface used by regular-rational, real, and Cauchy reindexing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected tails, countable-choice schedules, host stream equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized window coverage, dyadic tolerance compatibility, regular-rational handoff, Real seal nonescape, and local NameCert registration for BEDC.Derived.StreamReindexingUp.}
+\end{closurestatus}
