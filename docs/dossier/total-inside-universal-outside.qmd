@@ -26,7 +26,7 @@ Both facts are true. The question is how.
 
 ## The bridge: step-indexed encoding
 
-The bridge between a total host and a universal substrate is *step-indexed encoding*. Instead of writing the substrate's evolution as a function `evolve : InitialRow → FinalRow` (which would be partial, since some initial rows lead to non-terminating evolutions), you write it as a family of functions
+The bridge between a total host and a universal substrate is *step-indexed encoding*. Instead of writing the substrate's evolution as a function $evolve : InitialRow \to FinalRow$ (which would be partial, since some initial rows lead to non-terminating evolutions), you write it as a family of functions
 
 ```lean
 r110_run_n_steps : Nat → InitialRow → CellRow
@@ -68,7 +68,7 @@ A reader who finds total functional languages restrictive should note: every the
 
 ## What BEDC cannot directly express
 
-A total host cannot directly define, as a function of type `A → B`, any algorithm whose termination is not internally provable. There exist Turing-computable functions whose totality is provable in a stronger meta-theory but not in CIC. These functions can be *described* inside BEDC via step-indexed encoding (`evaluate up to fuel n`), but they cannot be defined as direct BEDC functions of type `A → B`.
+A total host cannot directly define, as a function of type $A \to B$, any algorithm whose termination is not internally provable. There exist Turing-computable functions whose totality is provable in a stronger meta-theory but not in CIC. These functions can be *described* inside BEDC via step-indexed encoding (`evaluate up to fuel n`), but they cannot be defined as direct BEDC functions of type $A \to B$.
 
 The set of BEDC-definable functions is therefore a strict subset of the Turing-realisable partial functions on natural numbers. The difference is exactly the set of computable functions whose totality is unprovable inside CIC.
 

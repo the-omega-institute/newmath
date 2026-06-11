@@ -22,9 +22,9 @@ SCHEMA_ONLY_HORIZONS: set[str] = {
 }
 ```
 
-These are sixteen chapters in `papers/bedc/parts/concrete_instances/` that the BEDC AI pipeline cannot, in its current form, formalise into Lean code. Every attempt produces the same shape — `(forall x y z, hsame (mul (mul x y) z) ...)` parametric hypotheses, no concrete `BHist` constructor reference, the proof body recombining the parameters. The Phase D lint catches this and rejects the round. We tried to break through that wall five times across prompts `v3.2` to `v3.5`. We did not break through it.
+These are sixteen chapters in `papers/bedc/parts/concrete_instances/` that the BEDC AI pipeline cannot, in its current form, formalise into Lean code. Every attempt produces the same shape — `(forall x y z, hsame (mul (mul x y) z) ...)` parametric hypotheses, no concrete `BHist` constructor reference, the proof body recombining the parameters. The Phase D lint catches this and rejects the commit. Prompt-level constraints do not break through that wall.
 
-For a long time we treated this as a bug — a bug in our prompting, in our agent's discipline, in our harness. We kept trying to fix it.
+This is easy to treat as a bug — a bug in the prompting, in the agent's discipline, in the harness. But it is not something a prompt alone can fix.
 
 Eventually we recognised that *the failure was the result*. The harness was working correctly. The agent was working correctly. What the harness was telling us, by refusing every algebraic formalisation attempt, was something about BEDC's foundational shape. This essay describes what.
 
@@ -32,7 +32,7 @@ Eventually we recognised that *the failure was the result*. The harness was work
 
 Open `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`. The carrier definition reads, in essence:
 
-> A monoid is a triple `(M, ⋅, e)` where `⋅ : M → M → M` is associative and `e : M` is a two-sided identity.
+> A monoid is a triple $(M, \cdot, e)$ where $\cdot : M \to M \to M$ is associative and `e : M` is a two-sided identity.
 
 The Lean target the schema implies is:
 
@@ -63,32 +63,34 @@ The proof is one chained `hsame` rewrite — three lines. It is mathematically c
 
 We tried allowing them. The library accumulated `abgroup_mul_balanced_cancel`, `abgroup_mul_middle_four`, `ring_mul_zero_absorption`, and a dozen more. A taste audit identified all of them as parameter echo and they were exactly the slop we had built the lint to refuse. There is no clean line between "the abstract monoid theorem we want" and "the parameter echo we don't want". They are the same shape.
 
-## What we tried, in order
+## Control Surfaces
 
 ::: {.evidence}
-**Prompt v3.2 (try-close + cross-domain abstraction priority)** — encouraged the agent to verify candidates aren't already provable inline and prefer typeclass abstraction over per-domain copies. Did not address the parametric carrier question. Algebra rounds continued to produce parameter echo.
+**Try-close + cross-domain abstraction priority** — encourages the agent to verify candidates are not already provable inline and prefer typeclass abstraction over per-domain copies. This does not address the parametric carrier question. Algebra tasks still produce parameter echo.
 
-**Prompt v3.3 (Derived shape saturation HARD GATE)** — added `bedc_ci.py audit --shape-saturation` to detect when the same conclusion shape appears across ≥3 horizons. Caught the `_ClassifierSpec_trans` family but not parameter echo. Algebra rounds still produced echo at lower volume.
+**Derived shape saturation hard gate** — `bedc_ci.py audit --shape-saturation` detects when the same conclusion shape appears across $\ge 3$ horizons. It catches families such as `_ClassifierSpec_trans`, but not all parameter echo. Algebra tasks still produce echo at lower volume.
 
-**Prompt v3.4 (critical-path discovery as Phase B HARD GATE)** — required ≥1 of 3 round targets come from the top of `critical_path.py`. The algebra horizons (abgroup, monoid, ring, ...) had highest scores because they had downstream dependents and few theorems. Codex was sent there *more*, not less. Echo rate spiked.
+**Critical-path discovery hard gate** — requires at least one target to come from the top of `critical_path.py`. The algebra horizons (abgroup, monoid, ring, ...) score highly because they have downstream dependents and few theorems. Codex is sent there *more*, not less. Echo risk rises.
 
-**Prompt v3.5 (tighten critical-path fallback)** — mechanised the "blocked" definition so codex couldn't claim unjustified blockers. Algebra rounds were now *forced* to attempt the schema. Almost every attempt failed Phase D lint.
+**Tight critical-path fallback** — mechanises the "blocked" definition so codex cannot claim unjustified blockers. Algebra tasks are then *forced* to attempt the schema. Almost every attempt fails Phase D lint.
 
-**Phase D mechanical lint** — caught parameter echo at the diff level, rejected rounds. We went from ~80% echo rate to ~5%, but the algebra horizons stopped advancing entirely. Five prompt revisions had pushed the agent into a corner where the only thing it could produce was rejected.
+**Phase D mechanical lint** — catches parameter echo at the diff level and rejects commits. It can reduce the echo rate, but it also stops the algebra horizons from advancing: under the schema-only wording, the only compilable shape the agent can produce is exactly the rejected shape.
 :::
 
-The fifth attempt was the one that broke our model of what was happening. We were enforcing increasingly strict constraints, and the algebra horizons were stalling out — not because the agent was bad, but because *there was nothing it could write that would compile, that mentioned a concrete kernel object, and that was meaningfully about a monoid*.
+This breaks the "tighten the prompt a bit more" model. Stricter constraints make the algebra horizons stall more clearly — not because the agent is bad, but because *there is nothing it can write that compiles, mentions a concrete kernel object, and is meaningfully about a monoid*.
 
 ## The diagnosis
 
 Read the schema again:
 
-```
-A monoid is a triple (M, ⋅, e) where ⋅ : M → M → M is associative
-and e : M is a two-sided identity.
-```
+$$
+\begin{aligned}
+A monoid is a triple (M, \cdot, e) where \cdot &: M \to M \to M is associative \\
+and e &: M is a two-sided identity.
+\end{aligned}
+$$
 
-`M` is universally quantified. `⋅` is universally quantified. `e` is universally quantified. *Every* theorem you can prove from this schema is true for every `(M, ⋅, e)` satisfying the axioms — by construction, the theorem cannot mention any specific structure.
+`M` is universally quantified. $\cdot$ is universally quantified. `e` is universally quantified. *Every* theorem you can prove from this schema is true for every $(M, \cdot, e)$ satisfying the axioms — by construction, the theorem cannot mention any specific structure.
 
 This is fine in classical mathematics. The standard library proves "in any monoid, the identity is unique" once and reuses it across every concrete monoid instance. The abstraction is the point.
 
@@ -146,7 +148,7 @@ The triple $(M, \mu, e)$ forms a monoid, where:
 
 Once this concrete instance lives in the chapter, the Lean side has something concrete to formalise: prove that `(UnaryHistory, Cont, Empty)` satisfies the monoid laws, then *as a corollary* derive whatever monoid theorems you want over this specific instance. Every theorem now mentions `BHist`, `Cont`, `UnaryHistory`. Phase D passes.
 
-This is, recently, what the BEDC paper revision pipeline started doing. As of round P718, the `field` chapter has gained a concrete `SingletonField` carrier and started moving forward; `module` is unblocked after P714/P716/P722; the `SCHEMA_ONLY_HORIZONS` set is starting to shrink.
+This is the unlock pattern the BEDC paper pipeline uses: put a concrete carrier into the chapter first, so the Lean side has a concrete object to formalise. The `SCHEMA_ONLY_HORIZONS` set should shrink by carrier completion, not by weakening the parameter-echo gate.
 
 ```{=html}
 <span class="role-tag human">🧑 Human direction</span>
