@@ -159,6 +159,44 @@ _ADDED_LINES_CACHE: dict[tuple[str, str, str], list[tuple[int, str]]] = {}
 _OWN_COMMITS_CACHE: dict[tuple[str, str], list[str]] = {}
 
 
+def _own_commits(*, worktree: Path, base_sha: str) -> list[str]:
+    if not base_sha:
+        return []
+    commits_key = (str(worktree), base_sha)
+    own_commits = _OWN_COMMITS_CACHE.get(commits_key)
+    if own_commits is not None:
+        return own_commits
+    log_out = _git(
+        ["log", "--first-parent", "--no-merges", "--reverse", "--pretty=%H",
+         f"{base_sha}..HEAD"],
+        cwd=worktree,
+    )
+    own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+    _OWN_COMMITS_CACHE[commits_key] = own_commits
+    return own_commits
+
+
+def _own_added_files(*, worktree: Path, base_sha: str,
+                     prefix: str = "") -> list[str]:
+    if not base_sha:
+        return []
+    out = _git(
+        ["log", "--first-parent", "--no-merges", "--diff-filter=A",
+         "--name-only", "--pretty=format:", f"{base_sha}..HEAD",
+         "--", prefix or "."],
+        cwd=worktree,
+    )
+    files: list[str] = []
+    seen: set[str] = set()
+    for line in out.splitlines():
+        rel = line.strip()
+        if not rel or rel in seen:
+            continue
+        seen.add(rel)
+        files.append(rel)
+    return files
+
+
 def _added_lines_per_file(*, worktree: Path, base_sha: str,
                           rel_path: str) -> list[tuple[int, str]]:
     """Return (line_no, content) tuples for lines this round added.
@@ -187,16 +225,7 @@ def _added_lines_per_file(*, worktree: Path, base_sha: str,
     cache_key = (wt_key, base_sha, rel_path)
     if cache_key in _ADDED_LINES_CACHE:
         return _ADDED_LINES_CACHE[cache_key]
-    commits_key = (wt_key, base_sha)
-    own_commits = _OWN_COMMITS_CACHE.get(commits_key)
-    if own_commits is None:
-        log_out = _git(
-            ["log", "--no-merges", "--reverse", "--pretty=%H",
-             f"{base_sha}..HEAD"],
-            cwd=worktree,
-        )
-        own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
-        _OWN_COMMITS_CACHE[commits_key] = own_commits
+    own_commits = _own_commits(worktree=worktree, base_sha=base_sha)
     if not own_commits:
         _ADDED_LINES_CACHE[cache_key] = []
         return []
@@ -426,9 +455,9 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
     if not base_sha:
         return []
     # Added (not modified) NameCert chapters in this round
-    added = _changed_files(
+    added = _own_added_files(
         worktree=worktree, base_sha=base_sha,
-        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+        prefix="papers/bedc/parts/concrete_instances/",
     )
     added = [p for p in added if p.endswith(".tex")]
     if not added:
@@ -519,13 +548,12 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     """Reject FIRST-PROPOSAL `\\origin{ai}` chapter commits whose Lean-side
     `TasteGate.lean` does not contain a `FieldFaithful <X>Up` instance.
 
-    "First proposal" means EITHER the .tex file is newly added in this
-    round, OR this round's diff added a `\\origin{ai}` line (transition
-    from `\\origin{human}` or no origin marker). Maintenance edits on
+    "First proposal" means EITHER the .tex file is added by this round's
+    first-parent own commits, OR those commits add a `\\origin{ai}` line
+    (transition from `\\origin{human}` or no origin marker). Maintenance edits on
     chapters that were ALREADY `\\origin{ai}` in `base_sha` are exempt —
     the FF backfill is R-side responsibility tracked via critical_path,
-    not a per-P-commit gate (the old behavior retroactively penalized
-    chapters predating the 2026-05-13 TasteGate stage C upgrade).
+    not a per-P-commit gate.
 
     Background: TasteGate `round_trip` + `layer_separation` forces
     injectivity on inhabitants but not field-level faithfulness — a
@@ -551,14 +579,21 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     # Do NOT use `_added_lines_per_file` here: a file rewrite shows every
     # existing line as both deleted+added, which would mis-classify
     # routine maintenance commits as first-proposal.
-    added_files = set(_changed_files(
+    added_files = set(_own_added_files(
         worktree=worktree, base_sha=base_sha,
         prefix="papers/bedc/parts/concrete_instances/",
-        diff_filter="A",
     ))
     first_proposal: set[str] = set(added_files)
     for rel in changed:
         if rel in first_proposal:
+            continue
+        own_added_origin = any(
+            _ORIGIN_AI_RE.search(content)
+            for _, content in _added_lines_per_file(
+                worktree=worktree, base_sha=base_sha, rel_path=rel
+            )
+        )
+        if not own_added_origin:
             continue
         # File existed in base_sha. Check if `\origin{ai}` was already
         # present there. If yes → maintenance. If no → transition.
@@ -663,18 +698,16 @@ def detect_ai_chapter_missing_falsifiable_prediction(
     """First-proposal `\\origin{ai}` chapters MUST include one
     `\\falsifiablePrediction{...}` row stating a BEDC-verifiable
     consequence that, if disproved within N rounds, invalidates the
-    chapter. "First-proposal" = chapter file did NOT exist at base_sha.
+    chapter. "First-proposal" = chapter file is added by this round's
+    first-parent own commits.
 
     Maintenance edits on existing chapters are exempt — if the chapter
     landed on BASE_BRANCH without a falsifiable row, that's a historical
-    state issue, not a per-round penalty. (Same first-proposal-vs-
-    maintenance logic as the FieldFaithful gate; using `diff_filter="A"`
-    alone is fooled by merge-in of base commits with files added after
-    the worker's base_sha.)
+    state issue, not a per-round penalty.
     """
     if not base_sha:
         return []
-    changed = _changed_files(
+    changed = _own_added_files(
         worktree=worktree, base_sha=base_sha,
         prefix="papers/bedc/parts/concrete_instances/",
     )
@@ -693,13 +726,6 @@ def detect_ai_chapter_missing_falsifiable_prediction(
             continue
         if not _ORIGIN_AI_RE.search(text):
             continue  # human chapter — exempt
-        # First-proposal detection: did the chapter file exist at base_sha?
-        try:
-            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
-        except Exception:
-            base_text = ""
-        if base_text.strip():
-            continue  # already on BASE — maintenance edit, exempt
         if not _FALSIFIABLE_PRED_RE.search(text):
             violations.append(
                 f"{rel}: AI MISSING FALSIFIABLE — newly-added "
@@ -716,11 +742,12 @@ def detect_ai_chapter_missing_independence_witness(
 ) -> list[str]:
     """First-proposal `\\origin{ai}` chapters MUST include one
     `\\independenceWitness{...}` row naming 3-5 nearest siblings.
-    First-proposal = chapter file did NOT exist at base_sha. Maintenance
-    edits exempt (same fix as FALSIFIABLE / FIELDFAITHFUL gates)."""
+    First-proposal = chapter file is added by this round's first-parent
+    own commits. Maintenance
+    edits exempt, matching the FALSIFIABLE / FIELDFAITHFUL gates."""
     if not base_sha:
         return []
-    changed = _changed_files(
+    changed = _own_added_files(
         worktree=worktree, base_sha=base_sha,
         prefix="papers/bedc/parts/concrete_instances/",
     )
@@ -739,13 +766,6 @@ def detect_ai_chapter_missing_independence_witness(
             continue
         if not _ORIGIN_AI_RE.search(text):
             continue
-        # First-proposal detection.
-        try:
-            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
-        except Exception:
-            base_text = ""
-        if base_text.strip():
-            continue  # maintenance edit, exempt
         if not _INDEPENDENCE_WITNESS_RE.search(text):
             violations.append(
                 f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
