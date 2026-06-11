@@ -150,6 +150,40 @@ Apply \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accountin
 The downstream rows $E,L,D,H,P,N$ are sibling handoffs and structural rows on the same route. They do not discharge $S$ or add an endpoint proof, so the accepted read remains a finite residual-budget boundary rather than a promoted confluence theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget obligation rows]
+\label{thm:metacic-diamond-residual-budget-obligations}
+Every accepted $\MetaCICDiamondResidualBudgetUp$ consumer must display the typed-window row $T$, redex-frontier row $F$, residual-budget row $R$, and substitution-boundary row $S$ before the candidate-join row $J$ is read. After $J$ is read, the same consumer must retain the residual-envelope row $E$, closed-premise-ledger row $L$, and local-diamond row $D$ before any confluence handoff is exposed. The route remains
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N
+$$
+and does not claim $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, evaluator equality, subject reduction, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with frontier accounting, \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}. It forces $T,F,R,S$ to be visible before the candidate-join row $J$ is a valid read.
+
+Next use substitution visibility, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility}. The substitution boundary $S$ stays attached along the displayed route, so $J$ cannot be detached into a substitution-compatibility theorem.
+
+Apply endpoint boundary, \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. It keeps the downstream confluence-facing handoff inside $E,L,D,H,P,N$, while candidate-join visibility supplies the same sibling rows after $J$.
+
+Thus the accepted consumer must expose $T,F,R,S$ before $J$ and $E,L,D$ before the confluence handoff. The refused endpoint claims are outside the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget critical-pair route]
+\label{thm:metacic-diamond-residual-budget-critical-pair-route}
+Every candidate join exposed by the row $J$ of an accepted $\MetaCICDiamondResidualBudgetUp$ carrier is indexed by the displayed redex-frontier and critical-pair row $F$, is budgeted by $R$, and remains conditional on the substitution-boundary row $S$. A consumer may therefore inspect a candidate join only through the finite route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N ,
+$$
+not as a standalone parallel-diamond, subject-reduction, evaluator-equality, or kernel-consistency result.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:metacic-diamond-residual-budget-carrier}. The row $J$ is listed only after the typed window $T$, the redex-frontier row $F$, the residual-budget row $R$, and the substitution-boundary row $S$.
+
+Use the obligation rows of \autoref{thm:metacic-diamond-residual-budget-obligations}. They require every accepted consumer to expose $T,F,R,S$ before $J$, so the candidate join inherits its index from the displayed redex frontier and critical-pair row rather than from an ambient evaluator.
+
+Finally apply substitution visibility and endpoint boundary, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility} and \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. These keep $S$ attached and route the downstream read through $E,L,D,H,C,P,N$, excluding any standalone endpoint theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget substitution preservation]
 \label{thm:metacic-diamond-residual-budget-substitution-preservation}
 Suppose an accepted $\MetaCICDiamondResidualBudgetUp$ packet is extended only in the residual-budget row $R$, while preserving the typed window $T$, redex frontier $F$, substitution boundary $S$, candidate joins $J$, residual envelope $E$, premise ledger $L$, local diamond row $D$, and structural rows $H,C,P,N$. Then every accepted candidate-join read still keeps $S$ visible along the route

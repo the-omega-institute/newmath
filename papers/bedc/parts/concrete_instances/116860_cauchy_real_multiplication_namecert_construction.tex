@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealMultiplicationUp$}
+\label{ch:concrete-instances-cauchy-real-multiplication-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyRealMultiplicationUp$ packet records multiplication of Cauchy real names as a finite BEDC naming surface before any $\RealUp$ consumer is allowed to read a product. It sits over the product route of \autoref{ch:concrete-instances-cauchyproduct-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the addition-facing neighbor of \autoref{ch:concrete-instances-cauchy-real-addition-namecert}. The packet gives Real-facing algebra consumers a finite route from two Cauchy names to one sealed product name; it does not assert quotient equality of real names, selected host limits, trichotomy, ambient $\RealUp$ completeness, host multiplication, or a completed field operation.
+
+\begin{definition}[Cauchy real multiplication carrier]
+\label{def:cauchy-real-multiplication-carrier}
+A $\CauchyRealMultiplicationUp$ carrier is a finite $\BHist$ packet
+$$
+M_{\Real,\times}=(R_0,R_1,W_0,W_1,D_0,D_1,D_\times,C_\times,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ factor-name rows whose product is being read.
+\item $W_0$ and $W_1$ are the paired $\StreamNameUp$ finite-window schedules used to inspect the two factors.
+\item $D_0$ and $D_1$ are the $\DyadicRatCoreUp$ factor-tolerance ledgers for the two source windows.
+\item $D_\times$ is the $\DyadicRatCoreUp$ product-tolerance ledger, recording the dyadic product observation and the output tolerance budget.
+\item $C_\times$ is the $\CauchyProductUp$ product row that consumes $R_0,R_1,W_0,W_1,D_0,D_1,D_\times$ before any regular product readback is exposed.
+\item $S$ is the product $\RegSeqRatUp$ readback row supplied by the displayed $\CauchyProductUp$ route.
+\item $E$ is the $\RealUp$ multiplication seal row reached only after the factor rows, window rows, dyadic ledgers, product row, and product readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two factor rows, two window rows, dyadic ledgers, product row, readback row, seal row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from every Real-facing multiplication request through $R_0,R_1,W_0,W_1,D_0,D_1,D_\times,C_\times,S,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealMultiplicationUp$, $\CauchyProductUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyRealAdditionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealMultiplicationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. The carrier has no coordinate for quotient equality of Cauchy names, host real multiplication, selected limits, trichotomy, ambient $\RealUp$ completeness, or a detached completed-real algebra operation.
+\end{definition}
+
+\begin{theorem}[Cauchy real multiplication NameCert obligations]
+\label{thm:cauchy-real-multiplication-namecert-obligations}
+For every accepted $\CauchyRealMultiplicationUp$ carrier
+$$
+M_{\Real,\times}=(R_0,R_1,W_0,W_1,D_0,D_1,D_\times,C_\times,S,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealMultiplicationUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the two factor rows, paired windows, dyadic ledgers, $\CauchyProductUp$ product row, product readback, $\RealUp$ seal, and structural rows;
+\item factor classifier stability, requiring the two $\RegSeqRatUp$ factor rows and their $\StreamNameUp$ windows to transport with the same displayed $\hsame$ data;
+\item $\CauchyProductUp$ regularity, requiring the product row to supply the product $\RegSeqRatUp$ readback before any Real-facing seal is visible;
+\item Real-seal nonescape, requiring the multiplication seal $E$ to be downstream of $C_\times$ and $S$;
+\item ledger exactness, requiring $D_0,D_1,D_\times$ to account for every source tolerance, product observation, and output tolerance used by the read.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-real-multiplication-carrier}. Its analytic rows are the two factor rows, two window rows, dyadic ledgers, product row, readback row, and seal row; its structural rows are $H,C,P,N$.
+
+The factor rows are read first. The $\RegSeqRatUp$ rows $R_0,R_1$ and $\StreamNameUp$ rows $W_0,W_1$ fix the finite factor observations, while $D_0,D_1$ record the factor tolerance ledgers that travel with those observations.
+
+The product route is downstream of that data. The row $C_\times$ is a $\CauchyProductUp$ read through the displayed windows and dyadic product ledger $D_\times$, and it supplies the product $\RegSeqRatUp$ row $S$ before the seal row $E$ can be consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no other coordinate appears in the carrier, the listed five obligations exhaust the local NameCert surface and exclude host multiplication, quotient equality, selected limits, trichotomy, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy real multiplication RegSeqRat handoff]
+\label{thm:cauchy-real-multiplication-regseqrat-handoff}
+Every Real-facing multiplication consumer of an accepted $\CauchyRealMultiplicationUp$ carrier factors through the finite route
+$$
+(R_0,R_1)\longmapsto(W_0,W_1)\longmapsto(D_0,D_1,D_\times)\longmapsto C_\times\longmapsto S\longmapsto E .
+$$
+Thus the consumer must read the $\RegSeqRatUp$ factor rows, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, and $\CauchyProductUp$ product row before the product $\RegSeqRatUp$ readback and terminal $\RealUp$ multiplication seal are visible.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. The Real-facing multiplication request has no source rows other than $R_0,R_1,W_0,W_1,D_0,D_1,D_\times,C_\times,S,E$ and the structural rows $H,C,P,N$.
+
+Apply the product route of \autoref{thm:cauchy-product-real-multiplication-seal-handoff}. It places the real-facing product read downstream of paired windows, dyadic product observations, a product ledger, and the $\RegSeqRatUp$ classifier row supplied by $\CauchyProductUp$.
+
+The present packet records those dependencies as $W_0,W_1,D_0,D_1,D_\times,C_\times,S$ and exposes the terminal seal as $E$. The structural rows preserve the same order for every multiplication consumer.
+
+Therefore the multiplication handoff is a finite regular-rational route to a Real seal and nothing stronger. It exports no host multiplication primitive, quotient stream equality, selected product, trichotomy row, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
+\closureat{CauchyRealMultiplicationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealMultiplicationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-multiplication-carrier}, \autoref{thm:cauchy-real-multiplication-namecert-obligations}, and \autoref{thm:cauchy-real-multiplication-regseqrat-handoff} seed the finite Cauchy-real multiplication surface over two $\RegSeqRatUp$ names, paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, a $\CauchyProductUp$ product row, product readback, and a terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real names, host real multiplication, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, factor classifier stability, CauchyProduct regularity, Real-seal nonescape, ledger exactness, replay, provenance, and local naming for BEDC.Derived.CauchyRealMultiplicationUp.}
+  \constructivestory{A $\CauchyRealMultiplicationUp$ packet is generated from two $\RegSeqRatUp$ factor rows, paired $\StreamNameUp$ finite-window schedules, $\DyadicRatCoreUp$ tolerance ledgers, a $\CauchyProductUp$ product row, a product readback row, a $\RealUp$ multiplication seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

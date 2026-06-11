@@ -5,6 +5,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetBridge
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketConsumerSurface
 
 namespace BEDC.Derived.MetaCICCriticalPathUp
 
