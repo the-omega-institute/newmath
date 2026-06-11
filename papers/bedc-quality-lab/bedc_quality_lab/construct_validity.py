@@ -212,7 +212,7 @@ def _gate_cv_hg2(evidence: ConstructValidityEvidence) -> dict[str, Any]:
         leaked = sorted(variables.intersection(labels))
         if leaked:
             visible[str(arm_id)] = leaked
-    certificate = _bool_cell(access_root.get("label_invisibility_certificate"), default=True)
+    certificate = _bool_cell(access_root.get("label_invisibility_certificate"), default=False)
     ok = bool(labels) and bool(arms) and certificate and not visible
     return _gate(
         "CV-HG2",

@@ -5742,6 +5742,24 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     }
 
 
+def _construct_validity_result(spec: CanonicalReportSpec) -> dict[str, Any] | None:
+    if spec.construct_validity_pointer is None:
+        return None
+    split = _split_artifact_pointer(spec.construct_validity_pointer)
+    cv_value = (
+        _resolve_committed_artifact_pointer(ROOT, spec.construct_validity_pointer)
+        if split is not None
+        else _pointer_value(_load_report_payload(spec), spec.construct_validity_pointer)
+    )
+    cv_status = cv_value.get("status", "missing") if isinstance(cv_value, Mapping) else "missing"
+    failed_gates = cv_value.get("failed_gates", []) if isinstance(cv_value, Mapping) else []
+    return {
+        "pointer": spec.construct_validity_pointer,
+        "status": cv_status,
+        "failed_gates": failed_gates,
+    }
+
+
 def _run_spec(
     spec: CanonicalReportSpec,
     *,
@@ -5788,12 +5806,14 @@ def _run_spec(
         error = str(exc)
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
+    construct_validity = _construct_validity_result(spec)
     if error is not None:
         status = "error"
     elif (
         validation["status"] == "fail"
         or discipline["forbidden_claim_terms_status"] == "fail"
         or discipline.get("reporting_hardgate", {}).get("status") == "fail"
+        or (construct_validity is not None and construct_validity["status"] != "pass")
     ):
         status = "fail"
     else:
@@ -5814,18 +5834,8 @@ def _run_spec(
         "fingerprint_reason": fingerprint_reason,
         "validation": validation,
     }
-    if spec.construct_validity_pointer is not None:
-        split = _split_artifact_pointer(spec.construct_validity_pointer)
-        cv_value = (
-            _resolve_committed_artifact_pointer(ROOT, spec.construct_validity_pointer)
-            if split is not None
-            else _pointer_value(_load_report_payload(spec), spec.construct_validity_pointer)
-        )
-        result["construct_validity"] = {
-            "pointer": spec.construct_validity_pointer,
-            "status": cv_value.get("status", "missing") if isinstance(cv_value, Mapping) else "missing",
-            "failed_gates": cv_value.get("failed_gates", []) if isinstance(cv_value, Mapping) else [],
-        }
+    if construct_validity is not None:
+        result["construct_validity"] = construct_validity
     if error is not None:
         result["error"] = error
     return result

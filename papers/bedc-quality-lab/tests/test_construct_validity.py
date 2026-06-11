@@ -80,6 +80,23 @@ def test_construct_validity_each_gate_fails_closed(updates, gate_id):
     assert audit.gates[gate_id]["status"] != "pass"
 
 
+def test_construct_validity_hg2_missing_certificate_fails_closed():
+    audit = evaluate_construct_validity(
+        _mutated(
+            arm_input_access={
+                "arms": {
+                    "candidate": {"variables": ["x", "surface"]},
+                    "control": {"variables": ["x", "surface"]},
+                }
+            }
+        )
+    )
+
+    assert audit.status == "fail"
+    assert audit.failed_gates == ("CV-HG2",)
+    assert audit.gates["CV-HG2"]["label_invisibility_certificate"] is False
+
+
 def test_construct_validity_missing_evidence_fails_all_gates():
     audit = evaluate_construct_validity(None)
 

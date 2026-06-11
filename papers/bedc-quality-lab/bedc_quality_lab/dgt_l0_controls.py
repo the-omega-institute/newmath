@@ -46,6 +46,14 @@ METRIC_KEYS = (
     "classifier_shift_count",
     "compute_cost",
 )
+DGT_CANDIDATE_ONLY_FEATURES = (
+    "ledger_head",
+    "certificate_gate",
+    "gap_head",
+    "mechanism_probe",
+    "jet_probe",
+    "witness_hook",
+)
 ARM_IDS = (
     "DGT_full",
     "base_transformer_l0",
@@ -53,6 +61,7 @@ ARM_IDS = (
     "parameter_matched_transformer",
     "compute_matched_transformer",
 )
+TRUE_TRAINING_RECORDS_REQUIRED = len(REPLAY_SEEDS) * len(ARM_IDS)
 CONTROL_POINTERS = {
     "base_transformer_control": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
     "matched_random_structural_control": {
@@ -594,9 +603,11 @@ def construct_suspension_payload() -> dict[str, Any]:
 
 
 def construct_validity_evidence(records: Sequence[Mapping[str, Any]] | None = None) -> ConstructValidityEvidence:
+    has_training_records = records is not None and len(records) >= TRUE_TRAINING_RECORDS_REQUIRED
+    has_feature_path = records is not None
     metric_source = {
-        "source_kind": "training-evaluation",
-        "metric_keys": list(METRIC_KEYS),
+        "source_kind": "training-evaluation" if has_training_records else "missing-training-evaluation",
+        "metric_keys": list(METRIC_KEYS) if has_training_records else [],
         "per_arm_constants": False,
         "label_derived_metric_source": False,
         "source_pointer": f"{RUN_ROOT}/raw_metrics.jsonl:$",
@@ -631,15 +642,15 @@ def construct_validity_evidence(records: Sequence[Mapping[str, Any]] | None = No
         },
         finite_table={
             "coverage_status": "bounded-control",
-            "support_count": BATCH_SIZE * len(REPLAY_SEEDS),
+            "support_count": BATCH_SIZE * len(REPLAY_SEEDS) if has_training_records else 0,
             "rule_abstraction_claim": False,
             "table_coverage_only": False,
         },
         hand_feature_ledger={
-            "mode": "shared-gate",
-            "shared_across_arms": True,
-            "features": ["target_signal", "surface_suite"],
-            "candidate_only_features": [],
+            "mode": "candidate-only-ledger" if has_feature_path else "missing-training-ledger",
+            "shared_across_arms": False,
+            "features": ["target_signal", "surface_suite"] if has_feature_path else [],
+            "candidate_only_features": list(DGT_CANDIDATE_ONLY_FEATURES) if has_feature_path else [],
         },
         metric_source=metric_source,
     )
@@ -767,7 +778,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "negative_witness_sweep": witness,
         "independent_replay": replay,
         "construct_suspension": construct_suspension_payload(),
-        "construct_validity_hardgates": construct_validity_payload(()),
+        "construct_validity_hardgates": construct_validity_payload(None),
         "l0_toy_projection": _projection(bundle, failures),
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -967,6 +978,20 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     )
     if construct_validity != expected_cv:
         raise ValueError("DGT L0 construct validity hardgate evaluation mismatch")
+    cv_evidence = construct_validity.get("evidence", {})
+    if not isinstance(cv_evidence, Mapping):
+        raise ValueError("DGT L0 construct validity evidence missing")
+    cv_metric = cv_evidence.get("metric_source")
+    cv_record_count = cv_metric.get("record_count", 0) if isinstance(cv_metric, Mapping) else 0
+    has_training_records = cv_record_count >= TRUE_TRAINING_RECORDS_REQUIRED
+    if not has_training_records and construct_validity.get("status") == "pass":
+        raise ValueError("DGT L0 construct validity cannot pass without training records")
+    cv_ledger = cv_evidence.get("hand_feature_ledger")
+    cv_candidate_only = cv_ledger.get("candidate_only_features", ()) if isinstance(cv_ledger, Mapping) else ()
+    if has_training_records and not cv_candidate_only:
+        raise ValueError("DGT L0 construct validity omits candidate-only feature evidence")
+    if has_training_records and construct_validity.get("gates", {}).get("CV-HG4", {}).get("status") == "pass":
+        raise ValueError("DGT L0 construct validity candidate-only feature gate cannot pass")
     controls = payload["controls"]
     if set(controls) != {"base_transformer_control", "matched_random_structural_control"}:
         raise ValueError("DGT L0 controls schema mismatch")

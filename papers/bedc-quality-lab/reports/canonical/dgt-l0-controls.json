@@ -65,10 +65,12 @@
     "artifact_id": "bedc-quality-lab:construct-validity-hardgates",
     "claim_capsule_projection": {
       "artifact": "reports/canonical/dgt-l0-controls.json",
-      "failed_gates": [],
+      "failed_gates": [
+        "CV-HG4"
+      ],
       "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
       "pointer": "$.construct_validity_hardgates",
-      "status": "pass"
+      "status": "fail"
     },
     "evidence": {
       "arm_input_access": {
@@ -147,13 +149,20 @@
         "table_coverage_only": false
       },
       "hand_feature_ledger": {
-        "candidate_only_features": [],
+        "candidate_only_features": [
+          "ledger_head",
+          "certificate_gate",
+          "gap_head",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
         "features": [
           "target_signal",
           "surface_suite"
         ],
-        "mode": "shared-gate",
-        "shared_across_arms": true
+        "mode": "candidate-only-ledger",
+        "shared_across_arms": false
       },
       "label_variables": {
         "pointer": "$.construct_validity_hardgates.evidence.label_variables",
@@ -192,7 +201,9 @@
         ]
       }
     },
-    "failed_gates": [],
+    "failed_gates": [
+      "CV-HG4"
+    ],
     "gates": {
       "CV-HG1": {
         "aliased_variables": [],
@@ -224,13 +235,20 @@
         "status": "pass"
       },
       "CV-HG4": {
-        "candidate_only_features": [],
+        "candidate_only_features": [
+          "ledger_head",
+          "certificate_gate",
+          "gap_head",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
         "criterion": "hand features are absent or declared as shared across candidate and controls",
         "evidence_pointer": "$.construct_validity_hardgates.evidence.hand_feature_ledger",
         "gate_id": "CV-HG4",
-        "ledger_mode": "shared-gate",
-        "reason": null,
-        "status": "pass"
+        "ledger_mode": "candidate-only-ledger",
+        "reason": "candidate-only hand feature or missing shared/no-gate ledger",
+        "status": "fail"
       },
       "CV-HG5": {
         "criterion": "metric source is training/evaluation evidence rather than per-arm constants, labels, or scripted tables",
@@ -247,7 +265,7 @@
     "owner_module": "bedc_quality_lab/construct_validity.py",
     "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
     "schema_id": "bedc.quality.construct_validity_hardgates",
-    "status": "pass"
+    "status": "fail"
   },
   "controls": {
     "base_transformer_control": {
