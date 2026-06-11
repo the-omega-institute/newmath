@@ -1749,6 +1749,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
+RELEASE_INPUT_REPORTS = frozenset({"experiment-stack-cards"})
 CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
 
 
@@ -6691,11 +6692,13 @@ def run_reports(
         for spec in selected_specs
         if spec.name not in POST_VERDICT_REPORTS
         and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+        and spec.name not in RELEASE_INPUT_REPORTS
         and spec.name != "high-impact-review"
     ]
     claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     high_impact_review_specs = [spec for spec in selected_specs if spec.name == "high-impact-review"]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
+    release_input_specs = [spec for spec in selected_specs if spec.name in RELEASE_INPUT_REPORTS]
     results = []
     run_spec_names: set[str] = set()
     for spec in pre_verdict_specs:
@@ -6706,10 +6709,18 @@ def run_reports(
         results.append(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
+        verify_tail_results = [
+            _run_spec(spec, mode="verify", generated_at=timestamp)
+            for spec in (*high_impact_review_specs, *post_verdict_specs, *release_input_specs)
+        ]
+        verify_results = [*results, *verify_tail_results]
+    else:
+        verify_results = results
+    if mode == "verify" and all(result["fingerprint_status"] == "match" for result in verify_results):
         consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
         if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
             raise SystemExit(1)
-        payload = _index(results, generated_at=timestamp)
+        payload = _index(verify_results, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         return payload
@@ -6860,6 +6871,9 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
+    for spec in release_input_specs:
+        results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
+        run_spec_names.add(spec.name)
     payload = _index(
         results,
         generated_at=timestamp,
@@ -6870,7 +6884,10 @@ def run_reports(
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
-    if any(result["status"] != "pass" for result in results):
+    if mode == "verify":
+        if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
+            raise SystemExit(1)
+    elif any(result["status"] != "pass" for result in results):
         raise SystemExit(1)
     return payload
 
