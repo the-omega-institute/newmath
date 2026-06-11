@@ -145,6 +145,7 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
+SCALING_LADDER_ARTIFACT = "reports/canonical/scaling-ladder.json"
 DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
@@ -156,10 +157,10 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.discovery_level",
-        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.status",
+        "discovery_level_pointer": f"{SCALING_LADDER_ARTIFACT}:$.levels[0]",
+        "claim_verdict_pointer": f"{SCALING_LADDER_ARTIFACT}:$.levels[0].owner_decision_pointer",
         "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[3]",
-        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.boundary_ledger",
+        "debt_pointer": f"{SCALING_LADDER_ARTIFACT}:$.boundary_ledger",
         "negative_witness_pointer": None,
     },
     {
@@ -2703,6 +2704,8 @@ def discovery_row(
         row["observed_debt_transfer_pointer"] = evidence.observed_debt_transfer_pointer
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
+    if spec.name == "discovery-gated-transformer":
+        row["scaling_ladder_pointer"] = f"{SCALING_LADDER_ARTIFACT}:$.levels[0]"
     if scope_claim is not None:
         row["scope_claim"] = dict(scope_claim)
     if scope_gate is not None:

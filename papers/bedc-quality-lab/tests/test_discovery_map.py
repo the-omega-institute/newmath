@@ -24,6 +24,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     L0_REVIEW_STATUS_REF,
     L0_TOY_PROJECTION_REF,
 )
+from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_certificate_gated_attention as cga_runner
@@ -639,6 +640,11 @@ def _write_coverage_payloads(root: Path):
     )
     _write_json_artifact(
         root,
+        discovery_map.SCALING_LADDER_ARTIFACT,
+        build_scaling_ladder_payload(root=root, generated_at="fixture-time"),
+    )
+    _write_json_artifact(
+        root,
         discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         _dimension_mismatch_payload(status="pass"),
     )
@@ -1051,6 +1057,41 @@ def _contains_key(payload, key):
     return False
 
 
+def test_discovery_map_row_accepts_scaling_ladder_pointer():
+    row = {
+        "report": "discovery-gated-transformer",
+        "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+        "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+        "discovery_level": "D0",
+        "projection_status": "source-insufficient",
+        "audit_status": "invalid",
+        "audit_reason": "fixture",
+        "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
+    }
+
+    payload = discovery_map.validate_discovery_map_payload({"rows": [row]})
+
+    assert payload["rows"][0]["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+
+
+@pytest.mark.parametrize("field", ["ladder_state", "ladder_reason", "opened_levels", "state", "reason"])
+def test_discovery_map_rejects_copied_scaling_ladder_row_fields(field):
+    row = {
+        "report": "discovery-gated-transformer",
+        "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+        "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+        "discovery_level": "D0",
+        "projection_status": "source-insufficient",
+        "audit_status": "invalid",
+        "audit_reason": "fixture",
+        "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
+        field: "copied",
+    }
+
+    with pytest.raises(ValueError, match="scaling ladder fields"):
+        discovery_map.validate_discovery_map_payload({"rows": [row]})
+
+
 def test_discovery_map_coverage_matrix_has_single_owner(tmp_path):
     _write_coverage_payloads(tmp_path)
 
@@ -1122,10 +1163,11 @@ def test_discovery_map_dgt_reads_scaling_ladder_projection_pointer_only(tmp_path
     assert "D5M-HG1" not in json.dumps(row, sort_keys=True)
     assert "SCALE-HG1" not in json.dumps(row, sort_keys=True)
     assert "PROJ-HG1" not in json.dumps(row, sort_keys=True)
+    assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert dgt_cell["discovery_level_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level"
+        "reports/canonical/scaling-ladder.json:$.levels[0]"
     )
-    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D5-M"
+    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"])["level_id"] == "L0_toy"
 
 
 def test_discovery_map_dgt_failed_d5_o_gate_fails_closed_to_d4(tmp_path):
@@ -1227,8 +1269,8 @@ def test_discovery_map_dgt_missing_or_malformed_scaling_ladder_fails_closed(tmp_
     assert row["audit_status"] == "invalid"
     assert row["discovery_level"] != "D5-M"
     assert row["failed_gate"].startswith("$.scaling_ladder")
-    assert cell["hardgate_status"] == "fail"
-    assert cell["claim_verdict_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status"
+    assert cell["hardgate_status"] == "pass"
+    assert cell["claim_verdict_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0].owner_decision_pointer"
 
 
 def test_discovery_map_dgt_scaling_hg1_ignores_claim_verdict_rows(tmp_path):

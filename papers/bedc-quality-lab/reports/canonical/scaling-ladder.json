@@ -1,0 +1,92 @@
+{
+  "artifact_id": "bedc-quality-lab:scaling-ladder",
+  "boundary_ledger": [
+    {
+      "failed_contract_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "level_id": "L0_toy",
+      "new_state": "boundary",
+      "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "prior_state": "open",
+      "reason": "stale-or-injected",
+      "recorded_at": "2026-06-11T20:40:24.095919+00:00"
+    },
+    {
+      "failed_contract_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "level_id": "L1_tiny_sequence",
+      "new_state": "boundary",
+      "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "prior_state": "open",
+      "reason": "stale-or-injected",
+      "recorded_at": "2026-06-11T20:40:24.095919+00:00"
+    }
+  ],
+  "consumer_pointers": {
+    "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+    "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+    "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels"
+  },
+  "generated_at": "2026-06-11T20:40:24.095919+00:00",
+  "hardgates": {
+    "SL-HG1-evidence-provenance": {
+      "pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "pass"
+    },
+    "SL-HG2-construct-validity": {
+      "pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "status": "pass"
+    },
+    "SL-HG3-owner-decision": {
+      "pointer": "reports/canonical/scaling-ladder.json:$.levels[*].owner_decision_pointer",
+      "status": "pass"
+    },
+    "SL-HG4-split-separation": {
+      "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "status": "pass"
+    },
+    "SL-HG5-no-injected-opening": {
+      "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "status": "fail"
+    }
+  },
+  "levels": [
+    {
+      "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger[?level_id=L0_toy]",
+      "construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "level_id": "L0_toy",
+      "owner_decision_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.owner_decision",
+      "reason": "stale-or-injected",
+      "separation_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.separation",
+      "source_report_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "split_winnability_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.split_winnability",
+      "state": "boundary"
+    },
+    {
+      "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger[?level_id=L1_tiny_sequence]",
+      "construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "level_id": "L1_tiny_sequence",
+      "owner_decision_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_decision",
+      "reason": "stale-or-injected",
+      "separation_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.separation",
+      "source_report_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "split_winnability_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.split_winnability",
+      "state": "boundary"
+    }
+  ],
+  "not_claimed": [
+    "Scaling-ladder decisions are bounded canonical owner rows.",
+    "No non-owner artifact is an opening authority.",
+    "No production, global superiority, or natural-language capability claim is made.",
+    "Missing upstream owner contracts fail closed rather than inheriting adjacent level decisions."
+  ],
+  "producer": "scripts/run_scaling_ladder.py",
+  "schema_id": "bedc-quality-lab:scaling-ladder",
+  "source_artifacts": {
+    "construct_validity": "reports/canonical/dgt-base-undertraining-audit.json",
+    "dgt": "reports/canonical/discovery-gated-transformer.json",
+    "index": "reports/canonical/index.json",
+    "l0_controls": "reports/canonical/dgt-l0-controls.json",
+    "l1_controls": "reports/canonical/dgt-l1-controls.json"
+  }
+}

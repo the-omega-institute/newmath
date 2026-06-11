@@ -197,6 +197,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_base_undertraining_audit
 
         return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "scaling-ladder":
+        from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
+
+        return build_scaling_ladder_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1536,6 +1540,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "dgt-l0-controls",
             "dgt-l1-controls",
             "dgt-base-undertraining-audit",
+            "scaling-ladder",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
@@ -1555,6 +1560,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
     assert "dgt-l0-controls" in names
+    assert "scaling-ladder" in names
     assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
@@ -1601,6 +1607,29 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.control_pointer == "$.d4_projection.matched_control"
     assert "discovery_gated_transformer" not in names
     assert "dgt-scaling-ladder" not in names
+
+
+def test_scaling_ladder_canonical_spec_is_auxiliary_owner():
+    spec = canonical._specs_by_name()["scaling-ladder"]
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_scaling_ladder.py")
+    assert spec.json_artifact == "reports/canonical/scaling-ladder.json"
+    assert spec.markdown_artifact == "reports/canonical/scaling-ladder.md"
+    assert spec.required_json_keys[:8] == (
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "levels",
+        "boundary_ledger",
+        "hardgates",
+        "not_claimed",
+    )
+    assert spec.scope_pointer == "$.levels"
+    assert spec.positive_claim_pointer == "$.levels"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.control_pointer is None
 
 
 def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
@@ -3574,10 +3603,15 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.discovery_level"
     )
     assert section["scaling_ladder_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder"
+        "reports/canonical/scaling-ladder.json:$.levels"
     )
     assert section["scaling_ladder_discovery_level_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level"
+        "reports/canonical/scaling-ladder.json:$.levels"
+    )
+    assert section["scaling_ladder_status_pointer"] == "reports/canonical/scaling-ladder.json:$.levels"
+    assert section["scaling_ladder_hardgate_pointer"] == "reports/canonical/scaling-ladder.json:$.hardgates"
+    assert section["scaling_ladder_source_projection_pointer"] == (
+        "reports/canonical/scaling-ladder.json:$.source_artifacts"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
@@ -3592,6 +3626,24 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "schema_id\": \"bedc-quality-lab:dgt-jet-certificate",
     ):
         assert forbidden not in lowered
+
+
+def test_scaling_ladder_index_section_is_pointer_only():
+    section = canonical._scaling_ladder_index_section()
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:scaling-ladder",
+        "schema_id": "bedc-quality-lab:scaling-ladder",
+        "json_artifact": "reports/canonical/scaling-ladder.json",
+        "markdown_artifact": "reports/canonical/scaling-ladder.md",
+        "fingerprint_artifact": "reports/canonical/scaling-ladder.fingerprint.json",
+        "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+        "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+        "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+        "source_artifacts_pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+        "not_claimed_pointer": "reports/canonical/scaling-ladder.json:$.not_claimed",
+    }
 
 
 def test_discovery_gated_transformer_forbidden_surfaces_absent():
@@ -4383,6 +4435,37 @@ def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):
 
     assert calls == ["mixing-family-sweep"]
     assert payload["reports"][0]["producer_status"] == "completed"
+
+
+def test_run_reports_scaling_ladder_only_updates_pointer_index(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+    existing_index = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "old-time",
+        "root": canonical.INDEX_ROOT,
+        "reports": [_index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"])],
+        "paper_outline": {"status": "fixture", "core_reports": [], "auxiliary_reports": [], "sections": []},
+    }
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(existing_index) + "\n", encoding="utf-8")
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append((spec.name, mode, generated_at))
+        return _index_row_for_spec(spec)
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(only="scaling-ladder", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [("scaling-ladder", "cold", "2030-01-01T00:00:00+00:00")]
+    assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "scaling-ladder"]
+    assert payload["scaling_ladder"]["levels_pointer"] == "reports/canonical/scaling-ladder.json:$.levels"
+    assert "discovery-gated-transformer" not in payload
+    assert json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8")) == payload
+    assert "reports/canonical/scaling-ladder.json:$.levels" in (
+        canonical.CANONICAL_DIR / "index.md"
+    ).read_text(encoding="utf-8")
 
 
 def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
