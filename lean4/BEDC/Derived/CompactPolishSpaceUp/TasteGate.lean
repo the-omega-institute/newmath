@@ -1,9 +1,81 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompactPolishSpaceUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem CompactPolishSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {K P C S W R H T Q N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory K ∧ UnaryHistory P ∧ UnaryHistory C ∧ UnaryHistory S ∧
+      UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory T ∧
+        UnaryHistory Q ∧ UnaryHistory N ∧ Cont K W T ∧ Cont P C T ∧
+          Cont S R T ∧ PkgSig bundle Q pkg ∧ PkgSig bundle N pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧ UnaryHistory K ∧ UnaryHistory P ∧ UnaryHistory C ∧
+            UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory H ∧
+              UnaryHistory T ∧ UnaryHistory Q ∧ UnaryHistory N ∧ Cont K W T ∧
+                Cont P C T ∧ Cont S R T ∧ PkgSig bundle Q pkg ∧
+                  PkgSig bundle N pkg)
+        (fun row : BHist =>
+          hsame row N ∧ Cont K W T ∧ Cont P C T ∧ Cont S R T)
+        (fun row : BHist =>
+          hsame row N ∧ PkgSig bundle Q pkg ∧ PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro obligations
+  obtain ⟨hK, hP, hC, hS, hW, hR, hH, hT, hQ, hN, hKW, hPC, hSR, hQpkg,
+    hNpkg⟩ := obligations
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N
+          ⟨hsame_refl N, hK, hP, hC, hS, hW, hR, hH, hT, hQ, hN, hKW, hPC,
+            hSR, hQpkg, hNpkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+    }
+    pattern_sound := by
+      intro _row source
+      obtain ⟨same, _hK, _hP, _hC, _hS, _hW, _hR, _hH, _hT, _hQ, _hN, hKW,
+        hPC, hSR, _hQpkg, _hNpkg⟩ := source
+      exact ⟨same, hKW, hPC, hSR⟩
+    ledger_sound := by
+      intro _row source
+      obtain ⟨same, _hK, _hP, _hC, _hS, _hW, _hR, _hH, _hT, _hQ, _hN, _hKW,
+        _hPC, _hSR, hQpkg, hNpkg⟩ := source
+      exact ⟨same, hQpkg, hNpkg⟩
+  }
+
+end BEDC.Derived.CompactPolishSpaceUp
+
+namespace BEDC.Derived.CompactPolishSpaceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -113,7 +185,8 @@ theorem CompactPolishSpaceTasteGate_single_carrier_alignment_toEventFlow_injecti
         compactPolishSpaceFromEventFlow (compactPolishSpaceToEventFlow y) :=
     congrArg compactPolishSpaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CompactPolishSpaceTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (CompactPolishSpaceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (CompactPolishSpaceTasteGate_single_carrier_alignment_round_trip y)))
 
@@ -148,12 +221,14 @@ theorem CompactPolishSpaceTasteGate_single_carrier_alignment_field_faithful :
           subst hN
           rfl
 
-instance compactPolishSpaceBHistCarrier : BHistCarrier CompactPolishSpaceUp where
+instance compactPolishSpaceBHistCarrier :
+    BHistCarrier CompactPolishSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := compactPolishSpaceToEventFlow
   fromEventFlow := compactPolishSpaceFromEventFlow
 
-instance compactPolishSpaceChapterTasteGate : ChapterTasteGate CompactPolishSpaceUp where
+instance compactPolishSpaceChapterTasteGate :
+    ChapterTasteGate CompactPolishSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -163,12 +238,14 @@ instance compactPolishSpaceChapterTasteGate : ChapterTasteGate CompactPolishSpac
     intro x y hxy heq
     exact hxy (CompactPolishSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance compactPolishSpaceFieldFaithful : FieldFaithful CompactPolishSpaceUp where
+instance compactPolishSpaceFieldFaithful :
+    FieldFaithful CompactPolishSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := compactPolishSpaceFields
   field_faithful := CompactPolishSpaceTasteGate_single_carrier_alignment_field_faithful
 
-instance compactPolishSpaceNontrivial : Nontrivial CompactPolishSpaceUp where
+instance compactPolishSpaceNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial CompactPolishSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CompactPolishSpaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -183,15 +260,21 @@ def compactPolishSpaceTasteGate : ChapterTasteGate CompactPolishSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   compactPolishSpaceChapterTasteGate
 
+def taste_gate : ChapterTasteGate CompactPolishSpaceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  compactPolishSpaceChapterTasteGate
+
 theorem CompactPolishSpaceTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CompactPolishSpaceUp) ∧
       Nonempty (FieldFaithful CompactPolishSpaceUp) ∧
-        Nonempty (Nontrivial CompactPolishSpaceUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial CompactPolishSpaceUp) ∧
           (∀ h : BHist, compactPolishSpaceDecodeBHist (compactPolishSpaceEncodeBHist h) = h) ∧
             (∀ x : CompactPolishSpaceUp,
               compactPolishSpaceFromEventFlow (compactPolishSpaceToEventFlow x) = some x) ∧
-              compactPolishSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+              (∀ x y : CompactPolishSpaceUp,
+                compactPolishSpaceToEventFlow x = compactPolishSpaceToEventFlow y → x = y) ∧
+                compactPolishSpaceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   constructor
   · exact ⟨compactPolishSpaceChapterTasteGate⟩
   · constructor
@@ -202,6 +285,9 @@ theorem CompactPolishSpaceTasteGate_single_carrier_alignment :
         · exact CompactPolishSpaceTasteGate_single_carrier_alignment_decode_encode
         · constructor
           · exact CompactPolishSpaceTasteGate_single_carrier_alignment_round_trip
-          · rfl
+          · constructor
+            · intro _ _ heq
+              exact CompactPolishSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq
+            · rfl
 
-end BEDC.Derived.CompactPolishSpaceUp
+end BEDC.Derived.CompactPolishSpaceUp.TasteGate
