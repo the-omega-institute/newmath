@@ -2082,6 +2082,7 @@ import BEDC.Derived.CauchySequenceEquivalenceUp
 import BEDC.Derived.CauchySequenceEquivalenceUp.TasteGate
 import BEDC.Derived.CauchySequenceFieldUp.TasteGate
 import BEDC.Derived.CauchySequenceOrderCompletenessUp.TasteGate
+import BEDC.Derived.CauchySequenceProductStabilityUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchySequenceSpaceUp.FiniteSectionPullbackCorrespondence
 import BEDC.Derived.CauchySequenceSpaceUp.KernelScopePacket
@@ -2693,6 +2694,7 @@ import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactIntervalMaximumUp.TasteGate
 import BEDC.Derived.CompactIntervalModulusBridgeUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberLedgerUp.TasteGate
+import BEDC.Derived.CompactLebesgueNumberUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactLocatedIntervalSubcoverUp.TasteGate
 import BEDC.Derived.CompactMetricClosedBallUp.TasteGate
@@ -5963,6 +5965,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFiniteInfimumHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphSpecialization
+import BEDC.Derived.LowerSemicontinuousUp.RootFilterBasisDirectedRefinement
 import BEDC.Derived.LowerSemicontinuousUp.RootFilterRealThreshold
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedComparison
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
@@ -7363,6 +7366,7 @@ import BEDC.Derived.PolishspaceUp.PointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadback
 import BEDC.Derived.PolishspaceUp.PublicFiniteWindowBoundary
 import BEDC.Derived.PolishspaceUp.PublicReadbackExport
+import BEDC.Derived.PolishspaceUp.PublicReadbackUniqueness
 import BEDC.Derived.PolishspaceUp.RealCompletionConsumerBoundary
 import BEDC.Derived.PolishspaceUp.RealCompletionReadbackNonescape
 import BEDC.Derived.PolishspaceUp.RealRegSeqRatReadbackNonescape
@@ -8995,6 +8999,7 @@ import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.EnergyTraceBoundaryCertificate
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
+import BEDC.Derived.SobolevUp.FiniteEnergyInductionRoute
 import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
 import BEDC.Derived.SobolevUp.FiniteEnergyObligationScope
 import BEDC.Derived.SobolevUp.FiniteEnergyScopeObligations
