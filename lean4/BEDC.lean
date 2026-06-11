@@ -5206,6 +5206,7 @@ import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HadamardThreeCircleUp.TasteGate
 import BEDC.Derived.HadamardThreeLinesUp.TasteGate
 import BEDC.Derived.HahnBanachUp.TasteGate
+import BEDC.Derived.HalfOpenRealIntervalUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.FixedPointPackageRows
@@ -6023,6 +6024,7 @@ import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackStability
+import BEDC.Derived.LowerSemicontinuousUp.LocatedRealObligationRoute
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphRoute
 import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
@@ -9771,6 +9773,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.FunctorialReplayStability
 import BEDC.Derived.UniformCompletionFunctorUp.FunctorialRootObligation
 import BEDC.Derived.UniformCompletionFunctorUp.Functoriality
 import BEDC.Derived.UniformCompletionFunctorUp.L10SourceAdmission
+import BEDC.Derived.UniformCompletionFunctorUp.L10StatusProductNoncollapse
 import BEDC.Derived.UniformCompletionFunctorUp.LedgerExactness
 import BEDC.Derived.UniformCompletionFunctorUp.PublicNamecertExport
 import BEDC.Derived.UniformCompletionFunctorUp.ReadbackSealExactness
