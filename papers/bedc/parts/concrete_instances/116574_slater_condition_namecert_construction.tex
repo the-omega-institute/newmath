@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SlaterConditionUp$}
+\label{ch:concrete-instances-slater-condition-namecert}
+\origin{human}
+
+Following Slater's constraint qualification as presented in standard convex optimization texts, the $\SlaterConditionUp$ packet records strict feasibility as a finite NameCert surface for convex programs. It sits beside the stationarity and complementary-slackness rows of \autoref{ch:concrete-instances-kkt-namecert}, the separation boundary of \autoref{ch:concrete-instances-farkas-lemma-namecert}, and the cone carrier of \autoref{ch:concrete-instances-semidefinitecone-namecert}. The chapter names the strict-feasibility interface only; it does not assert strong duality, existence of an optimizer, differentiability, or any host-level constraint qualification beyond the displayed rows.
+
+\begin{definition}[Slater condition carrier]
+\label{def:slater-condition-carrier}
+A $\SlaterConditionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,W,M,B,K,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is the convex feasible source, read through the $\ConvexSetUp$ carrier and the displayed constraint rows of the surrounding optimization packet.
+\item $W$ is a strict interior witness row, giving one carried feasible point together with the finite strict-inequality comparisons used by the classifier.
+\item $M$ is the finite margin ledger recording the positive slack, cone-interior, or barrier-side comparisons that make $W$ strict.
+\item $B$ is the $\FarkasLemmaUp$ separation-boundary row that records which finite alternative is blocked by the displayed strict margins.
+\item $K$ is the $\KKTUp$ multiplier handoff row, exposing only the multiplier, residual, stationarity, feasibility, and complementary-slackness slots that are allowed to consume strict feasibility.
+\item $H$ stores componentwise $\hsame$ transport for the feasible source, strict witness, margin ledger, separation boundary, multiplier handoff, continuation, provenance, and local naming rows.
+\item $C$ records the finite $\Cont$ replay that routes strict feasibility through $F,W,M,B,K$ without adding a solver or analytic duality theorem.
+\item $P$ is the $\Pkg$ provenance over $\SlaterConditionUp$, $\ConvexSetUp$, $\FarkasLemmaUp$, $\KKTUp$, $\SemidefiniteConeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SlaterConditionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for strong duality, selected primal or dual optimizers, differentiability, closedness of a host cone, or a host real-valued minimization semantics.
+\end{definition}
+
+\begin{theorem}[Slater condition NameCert obligations]
+\label{thm:slater-condition-namecert-obligations}
+For every accepted $\SlaterConditionUp$ packet $S=(F,W,M,B,K,H,C,P,N)$, the local $\NameCert_{\SlaterConditionUp}$ surface consists exactly of carrier admission for the displayed rows, strict interior exposure through $W$, finite margin accounting through $M$, separation-boundary compatibility through $B$, KKT multiplier handoff through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every obligation is read through the visible dependencies $\ConvexSetUp$, $\FarkasLemmaUp$, $\KKTUp$, and $\SemidefiniteConeUp$. No obligation asserts strong duality beyond the strict-feasibility handoff described by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:slater-condition-carrier}. The feasible source, strict witness, margin ledger, separation boundary, KKT handoff, transport, replay, provenance, and local name are exactly the displayed rows.
+
+The strict witness row $W$ is usable only with the finite margin ledger $M$. Thus the classifier sees strict feasibility as carried slack data, not as an ambient interior predicate. The $\SemidefiniteConeUp$ dependency contributes only the cone-facing row when the surrounding program is semidefinite; it does not add spectral closure or host interior semantics.
+
+The separation row $B$ is read through \autoref{ch:concrete-instances-farkas-lemma-namecert}. It records the finite alternative boundary blocked by the displayed margins. The handoff row $K$ is read through \autoref{ch:concrete-instances-kkt-namecert}; it exposes only the multiplier and stationarity-facing slots that consume strict feasibility.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same route. Since none of the carrier rows stores strong duality, a selected optimizer, differentiability, or host minimization semantics, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Slater condition KKT handoff]
+\label{thm:slater-condition-kkt-handoff}
+Let $S=(F,W,M,B,K,H,C,P,N)$ be an accepted $\SlaterConditionUp$ carrier. Any downstream $\KKTUp$ consumer that uses the strict-feasibility row of $S$ receives only the finite handoff
+$$
+F\longmapsto W\longmapsto M\longmapsto B\longmapsto K .
+$$
+The row $B$ keeps the $\FarkasLemmaUp$ separation boundary explicit, and the provenance row may cite $\SemidefiniteConeUp$ when the feasible source is cone-valued. The handoff supplies no strong-duality theorem, no selected optimizer, no differentiability oracle, and no host constraint qualification beyond the displayed strict-feasibility packet.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier in \autoref{def:slater-condition-carrier}. The only strict-feasibility data available to a consumer are the convex feasible source $F$, the strict witness $W$, and the margin ledger $M$.
+
+Next read the separation boundary. By the placement of $B$, any Farkas-style obstruction is compared against the same displayed margins, so the downstream route remains a finite alternative boundary rather than a topological separation theorem.
+
+Now read the KKT handoff row $K$. The $\KKTUp$ consumer receives the multiplier-facing and stationarity-facing slots named by $K$, with no additional primal-dual conclusion. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve that route and do not add any coordinate outside $F,W,M,B,K$.
+\end{proof}
+
+\begin{closurestatus}{\SlaterConditionUp}
+  \constructivestory{A $\SlaterConditionUp$ packet is generated from a convex feasible source, a strict interior witness, a finite margin ledger, a Farkas separation boundary, a KKT multiplier handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:slater-condition-carrier}, \autoref{thm:slater-condition-namecert-obligations}, and \autoref{thm:slater-condition-kkt-handoff} seed the strict-feasibility interface consumed by KKT and convex-duality packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim strong duality, selected primal or dual optimizers, differentiability, closedness of a host cone, or bridge checking.}
+  \upgradepath{A formal route can encode the nine-row carrier and prove the strict-feasibility handoff to the KKT multiplier surface.}
+\end{closurestatus}

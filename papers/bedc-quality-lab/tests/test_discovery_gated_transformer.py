@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer
 from bedc_quality_lab.discovery_gated_transformer import (
     ARTIFACT_ID,
     CANONICAL_JSON_ARTIFACT,
@@ -814,6 +814,26 @@ def test_dgt_scaling_ladder_defaults_to_d5_m_boundary_without_claiming_scaling(t
     assert ladder["hardgate"]["failed_gate"] in {"SCALE-HG2", "SCALE-HG5"}
     assert ladder["evidence_scope"] == "bounded-model-prototype-scaling"
     assert validate_scaling_ladder_projection(payload) == []
+
+
+def test_dgt_scaling_ladder_claim_capsule_self_pointers_resolve(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+
+    for level_index, row in enumerate(payload["scaling_ladder"]["levels"]):
+        capsule = row["claim_capsule"]
+        for key, value in capsule.items():
+            if not key.endswith("_pointer"):
+                continue
+            artifact, local_pointer = value.split(":", 1)
+            if artifact != CANONICAL_JSON_ARTIFACT:
+                continue
+            resolved = pointer_value(payload, local_pointer)
+            assert resolved is not None, (level_index, row["level_id"], key, value)
 
 
 def test_dgt_scaling_ladder_l0_projects_from_canonical_controls_without_inheriting_l1(tmp_path):

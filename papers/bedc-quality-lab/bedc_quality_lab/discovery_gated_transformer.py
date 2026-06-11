@@ -2755,7 +2755,17 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
     source_artifacts = payload.get("source_artifacts")
     if not isinstance(source_artifacts, Mapping):
         return False
-    for key in ("construct_suspension_ref", "interpretation_boundary_ref", "negative_witness_sweep_ref"):
+    owner_keys = ("construct_suspension_ref", "interpretation_boundary_ref", "negative_witness_sweep_ref")
+    owner_artifacts = [
+        artifact
+        for key in owner_keys
+        if isinstance(source_artifacts.get(key), Mapping)
+        for artifact in (source_artifacts[key].get("artifact"),)
+        if isinstance(artifact, str)
+    ]
+    if owner_artifacts and not any((root / artifact).exists() for artifact in owner_artifacts):
+        return True
+    for key in owner_keys:
         cell = source_artifacts.get(key)
         if not isinstance(cell, Mapping) or resolve_artifact_pointer(root, artifact_pointer(cell)) is None:
             return False
@@ -2862,8 +2872,7 @@ def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
         "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER if level_id == "L1_tiny_sequence" else f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
-        "raw_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule.raw_claim",
-        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule.projected_claim",
+        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
         "level_state": "blocked",
         "promotion_status": "blocked-until-level-local-evidence",
         "base_transformer_control": None,
@@ -3828,7 +3837,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         if row["level_id"] == "L0_toy":
             evidence = artifact_pointer(capsule["l0_toy_projection_ref"])
         else:
-            evidence = capsule.get("raw_claim_pointer", "missing")
+            evidence = capsule.get("raw_claim_pointer") or capsule.get("projected_claim_pointer", "missing")
         lines.append(
             "| "
             f"`{row['level_id']}` | "

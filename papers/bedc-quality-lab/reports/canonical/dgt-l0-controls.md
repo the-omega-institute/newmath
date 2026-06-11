@@ -2,7 +2,7 @@
 
 - Status: `pass`
 - Review status: `pass`
-- Device: `cpu`
+- Device: `mps`
 - Compute units: `7603.2`
 - Parameter count: `2175`
 
