@@ -3181,6 +3181,7 @@ import BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CountablyCompactUp
+import BEDC.Derived.CounterfactualOutcomeUp.TasteGate
 import BEDC.Derived.CousinCoverUp.TasteGate
 import BEDC.Derived.CousinLemmaUp
 import BEDC.Derived.CousinLemmaUp.TasteGate
@@ -3556,6 +3557,7 @@ import BEDC.Derived.DiagonalConvergenceBoundUp.TasteGate
 import BEDC.Derived.DiagonalIndexCofinalityUp
 import BEDC.Derived.DiagonalIndexCofinalityUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.Nonescape
+import BEDC.Derived.DiagonalLimitBudgetUp.ObligationSurface
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
@@ -6516,6 +6518,7 @@ import BEDC.Derived.MetricCompletionFunctorUp.TasteGate
 import BEDC.Derived.MetricCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.MetricCompletionIdempotenceUp.TasteGate
 import BEDC.Derived.MetricCompletionKleisliUp.TasteGate
+import BEDC.Derived.MetricCompletionLeftAdjointUp.TasteGate
 import BEDC.Derived.MetricCompletionMonadUp.TasteGate
 import BEDC.Derived.MetricCompletionMorphismUp.NameCertObligations
 import BEDC.Derived.MetricCompletionMorphismUp.TasteGate
