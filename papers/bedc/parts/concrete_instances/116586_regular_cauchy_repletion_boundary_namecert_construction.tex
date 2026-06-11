@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRepletionBoundaryUp$}
+\label{ch:concrete-instances-regular-cauchy-repletion-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completions by regular Cauchy data, the $\RegularCauchyRepletionBoundaryUp$ packet records the finite boundary where $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerances, the existing $\CauchyRepletionUp$ corridor, and the terminal $\RealUp$ seal are all displayed before any completion-facing consumer reads a repleted name. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the repletion corridor of \autoref{ch:concrete-instances-cauchy-repletion-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a boundary object, not a second construction of completed reals.
+
+\begin{definition}[Regular Cauchy repletion boundary carrier]
+\label{def:regular-cauchy-repletion-boundary-carrier}
+A $\RegularCauchyRepletionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,R,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite observation schedule read by the boundary.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording precision scales, comparison bounds, and displayed dyadic thresholds.
+\item $Q$ is the $\CauchyRepletionUp$ corridor row through which the boundary receives completion-facing repletion data.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $S,R,D,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the stream schedule, regular readback, dyadic ledger, repletion corridor, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from finite windows to regular readback, from readback through the dyadic ledger, from the dyadic ledger into the repletion corridor, and from the corridor to the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyRepletionBoundaryUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyRepletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRepletionBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,R,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected host limits, countable-choice schedules, trichotomy, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy repletion boundary NameCert obligations]
+\label{thm:regular-cauchy-repletion-boundary-namecert-obligations}
+For every accepted $\RegularCauchyRepletionBoundaryUp$ carrier $B=(S,R,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyRepletionBoundaryUp}$ surface consists exactly of carrier admission, finite-window exposure, regular rational readback, dyadic tolerance routing, Cauchy repletion corridor admission, terminal Real seal exposure, componentwise transport, displayed replay, provenance, and local naming. Every boundary consumer must display the $\StreamNameUp$ row $S$, $\RegSeqRatUp$ row $R$, $\DyadicRatCoreUp$ row $D$, $\CauchyRepletionUp$ row $Q$, $\RealUp$ seal row $E$, and structural rows $H,C,P,N$ before it reads the packet as repleted regular Cauchy data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-repletion-boundary-carrier}. The nine displayed rows are the only classifier-visible coordinates, so carrier admission and local naming are row projections.
+
+The analytic obligations are the four displayed source steps. The stream schedule $S$ supplies finite observations, $R$ reads those observations as regular rational data, $D$ records the dyadic tolerances used by the readback, and $Q$ is the only repletion-corridor coordinate available before the seal-facing row can be read.
+
+The structural rows preserve the same packet. The transport row $H$ moves each displayed coordinate by $\hsame$, the replay row $C$ records the $\Cont$ route through the window, readback, dyadic, repletion, and seal rows, and $P$ records the $\Pkg$ provenance for the local $\NameCert$ row $N$. Since no other classifier coordinate exists, the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[Window repletion boundary]
+\label{thm:regular-cauchy-repletion-boundary-window-repletion}
+Let $B=(S,R,D,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyRepletionBoundaryUp$ carrier. Any completion-facing read of the terminal row $E$ factors through the finite window row $S$, the regular readback row $R$, the dyadic tolerance row $D$, and the $\CauchyRepletionUp$ corridor row $Q$; no consumer can read $E$ from $S$ or $R$ alone.
+\end{theorem}
+\begin{proof}
+Use the displayed replay row $C$. Its route is ordered from $S$ to $R$, from $R$ through $D$, from $D$ into $Q$, and from $Q$ to $E$, so the seal-facing read is a replay of the whole boundary rather than a direct projection from a stream or readback row.
+
+Transport does not change the dependency order. The row $H$ only supplies componentwise $\hsame$ transport of the same displayed packet, and $P,N$ only record provenance and naming. Thus a consumer reading $E$ through the local $\NameCert$ must pass through the repletion row $Q$ after the finite window, readback, and dyadic rows have been displayed.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy repletion boundary non-escape]
+\label{thm:regular-cauchy-repletion-boundary-nonescape}
+Every accepted $\RegularCauchyRepletionBoundaryUp$ carrier is insensitive to quotient equality of streams, selected limits, countable choice, trichotomy, and ambient $\RealUp$ completeness. The only seal-facing information exported to a consumer is the displayed route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ rows named in \autoref{def:regular-cauchy-repletion-boundary-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The tuple contains $S,R,D,Q,E,H,C,P,N$ and no row for quotient stream equality, a chosen host limit, a countable-choice schedule, trichotomy, or an ambient completeness principle.
+
+It remains to check that the structural rows cannot add a hidden source. The $\hsame$ row $H$ transports only displayed coordinates, the $\Cont$ row $C$ replays only the boundary route already present in the carrier, and the $\Pkg$ row $P$ records provenance for the local $\NameCert$ row $N$. Therefore any exported seal-facing fact is confined to the finite boundary rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyRepletionBoundaryUp$ packet exposes StreamName windows, RegSeqRat readback, DyadicRatCore tolerance data, a CauchyRepletion corridor row, a Real seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before any completion-facing consumer reads a repleted name.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchy-repletion, real: $\RegularCauchyRepletionBoundaryUp$ is not bijective to any listed sibling because it jointly carries the window schedule, regular readback, dyadic tolerance ledger, repletion corridor, terminal seal, transport, replay, provenance, and local naming as one finite boundary packet.}
+
+\closureat{RegularCauchyRepletionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRepletionBoundaryUp}
+  \constructivestory{A $\RegularCauchyRepletionBoundaryUp$ packet is generated from StreamName finite windows, RegSeqRat regular rational readback, a DyadicRatCore tolerance ledger, a CauchyRepletion corridor row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-repletion-boundary-carrier}, \autoref{thm:regular-cauchy-repletion-boundary-namecert-obligations}, \autoref{thm:regular-cauchy-repletion-boundary-window-repletion}, and \autoref{thm:regular-cauchy-repletion-boundary-nonescape} seed the finite non-quotient boundary between regular Cauchy repletion data and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyRepletionBoundaryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean proof of the NameCert obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window readback, dyadic tolerance routing, repletion corridor admission, Real seal exposure, transport, replay, provenance, and non-escape for BEDC.Derived.RegularCauchyRepletionBoundaryUp.}
+\end{closurestatus}
