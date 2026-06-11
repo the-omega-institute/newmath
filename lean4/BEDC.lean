@@ -2658,6 +2658,7 @@ import BEDC.Derived.CofinalModulusSealUp.StdBridge
 import BEDC.Derived.CofinalModulusSealUp.TasteGate
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
+import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalSubsequenceUp.TasteGate
@@ -3252,6 +3253,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderNonescape
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootLebesgueLedgerRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootMetricCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootRealSeparabilityRoute
