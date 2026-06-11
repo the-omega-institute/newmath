@@ -11,6 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive CofinalSequenceSelectorUp : Type where
   | mk (I W M Q F U R H C P N : BHist) : CofinalSequenceSelectorUp
+  deriving DecidableEq
 
 def cofinalSequenceSelectorEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
