@@ -455,6 +455,7 @@ class CanonicalReportSpec:
     claim_graph_path_pointer: str | None = None
     negative_witness_pointer: str | None = None
     formal_status_pointer: str | None = None
+    construct_validity_pointer: str | None = None
     forbidden_claim_terms: tuple[str, ...] = FORBIDDEN_POSITIVE_CLAIM_TERMS
     literature_ref_ids: tuple[str, ...] = ()
 
@@ -1166,6 +1167,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "compute_param_ledger",
             "negative_witness_sweep",
             "independent_replay",
+            "construct_validity_hardgates",
             "l0_toy_projection",
             "not_claimed",
         ),
@@ -1184,6 +1186,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[95]",
         negative_witness_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.status",
+        construct_validity_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
     ),
     CanonicalReportSpec(
         name="dgt-l1-controls",
@@ -1203,6 +1206,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_sweep",
             "independent_replay",
             "l1_step_ladder",
+            "construct_validity_hardgates",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -1227,6 +1231,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[96]",
         negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
+        construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
     ),
     CanonicalReportSpec(
         name="structural-generalization-splits",
@@ -1940,6 +1945,7 @@ def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "positive_claim_pointer": spec.positive_claim_pointer,
         "control_pointer": spec.control_pointer,
         "no_control_rationale_pointer": spec.no_control_rationale_pointer,
+        "construct_validity_pointer": spec.construct_validity_pointer,
         "forbidden_claim_terms": list(spec.forbidden_claim_terms),
         "literature_ref_ids": list(spec.literature_ref_ids),
     }
@@ -2655,6 +2661,9 @@ def _render_quality_scorecard_markdown(payload: dict[str, Any]) -> str:
 def _pointer_status(payload: dict[str, Any], pointer: str | None) -> str:
     if pointer is None:
         return "not-applicable"
+    split = _split_artifact_pointer(pointer)
+    if split is not None:
+        return "present" if _resolve_committed_artifact_pointer(ROOT, pointer) is not None else "missing"
     return "present" if _pointer_value(payload, pointer) is not None else "missing"
 
 
@@ -2884,6 +2893,8 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
         "no_control_rationale_status": _pointer_status(payload, no_control_rationale_pointer),
         "forbidden_claim_terms_status": forbidden_claim_terms["status"],
         "forbidden_claim_term_hits": forbidden_claim_terms["hits"],
+        "construct_validity_pointer": spec.construct_validity_pointer,
+        "construct_validity_status": _pointer_status(payload, spec.construct_validity_pointer),
         "literature_ref_ids": list(spec.literature_ref_ids),
         "reporting_hardgate": reporting_hardgate,
     }
@@ -4534,6 +4545,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
     ladder = payload.get("l1_step_ladder") if isinstance(payload, Mapping) else {}
+    construct_validity = payload.get("construct_validity_hardgates") if isinstance(payload, Mapping) else {}
     crossover = ladder.get("convergence_crossover") if isinstance(ladder, Mapping) else {}
     return {
         "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
@@ -4556,6 +4568,10 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
         "hardgate_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.hardgates",
         "task_spec_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.task_spec",
         "negative_witness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
+        "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        "construct_validity_status": (
+            construct_validity.get("status", "missing") if isinstance(construct_validity, Mapping) else "missing"
+        ),
     }
 
 
@@ -5787,6 +5803,24 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     }
 
 
+def _construct_validity_result(spec: CanonicalReportSpec) -> dict[str, Any] | None:
+    if spec.construct_validity_pointer is None:
+        return None
+    split = _split_artifact_pointer(spec.construct_validity_pointer)
+    cv_value = (
+        _resolve_committed_artifact_pointer(ROOT, spec.construct_validity_pointer)
+        if split is not None
+        else _pointer_value(_load_report_payload(spec), spec.construct_validity_pointer)
+    )
+    cv_status = cv_value.get("status", "missing") if isinstance(cv_value, Mapping) else "missing"
+    failed_gates = cv_value.get("failed_gates", []) if isinstance(cv_value, Mapping) else []
+    return {
+        "pointer": spec.construct_validity_pointer,
+        "status": cv_status,
+        "failed_gates": failed_gates,
+    }
+
+
 def _run_spec(
     spec: CanonicalReportSpec,
     *,
@@ -5833,12 +5867,14 @@ def _run_spec(
         error = str(exc)
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
+    construct_validity = _construct_validity_result(spec)
     if error is not None:
         status = "error"
     elif (
         validation["status"] == "fail"
         or discipline["forbidden_claim_terms_status"] == "fail"
         or discipline.get("reporting_hardgate", {}).get("status") == "fail"
+        or (construct_validity is not None and construct_validity["status"] != "pass")
     ):
         status = "fail"
     else:
@@ -5859,6 +5895,8 @@ def _run_spec(
         "fingerprint_reason": fingerprint_reason,
         "validation": validation,
     }
+    if construct_validity is not None:
+        result["construct_validity"] = construct_validity
     if error is not None:
         result["error"] = error
     return result
@@ -5948,8 +5986,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | hardgate | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | status | hardgate | CV | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
@@ -5962,12 +6000,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
                     "missing_required_cells": [],
                 }
             control = discipline["control_pointer"] or discipline["no_control_rationale_pointer"]
+            cv_status = report.get("construct_validity", {}).get("status", "not-applicable")
             missing_cells = ", ".join(hardgate["missing_required_cells"])
             lines.append(
                 "| "
                 f"`{report['name']}` | "
                 f"`{report['status']}` | "
                 f"`{hardgate['status']}` | "
+                f"`{cv_status}` | "
                 f"`{missing_cells}` | "
                 f"`{report['json_artifact']}` | "
                 f"`{report['markdown_artifact']}` | "
