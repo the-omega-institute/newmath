@@ -4257,6 +4257,22 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT robustness readiness mismatch")
     if robustness["source_artifacts"]["ledger_aware_transformer_pointer"] != "reports/canonical/ledger-aware-transformer.json:$":
         raise ValueError("DGT robustness LAT pointer mismatch")
+    source_artifacts = payload["source_artifacts"]
+    if source_artifacts.get("construct_suspension_ref") != {
+        "artifact": DGT_L0_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.construct_suspension",
+    }:
+        raise ValueError("DGT construct suspension owner ref mismatch")
+    if source_artifacts.get("interpretation_boundary_ref") != {
+        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
+    }:
+        raise ValueError("DGT interpretation boundary owner ref mismatch")
+    if source_artifacts.get("negative_witness_sweep_ref") != {
+        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.negative_witness_sweep",
+    }:
+        raise ValueError("DGT negative witness sweep owner ref mismatch")
     if robustness["hardgate"]["status"] != "pass":
         raise ValueError("DGT robustness hardgate failed")
     d5_o_projection = payload["d5_o_projection"]
@@ -4429,9 +4445,12 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.source_projection"
         ),
         "l0_control_projection_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection",
+        "construct_suspension_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.construct_suspension_ref",
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "interpretation_boundary_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.interpretation_boundary_ref",
+        "negative_witness_sweep_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
         "l1_control_step_ladder_verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
         "l1_control_step_ladder_crossover_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",

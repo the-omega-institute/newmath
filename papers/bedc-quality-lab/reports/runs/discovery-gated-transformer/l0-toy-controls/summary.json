@@ -3,7 +3,7 @@
   "compute_param_ledger": {
     "batch_size": 96,
     "compute_units": 7603.2,
-    "device": "mps",
+    "device": "cpu",
     "flops_proxy": 15206.4,
     "parameter_count": 2175,
     "pass_cells": {
@@ -49,11 +49,23 @@
     "trainable_parameter_count": 2175,
     "wall_time_proxy": 7.6032
   },
+  "construct_suspension": {
+    "headline_status": "suspended-construct-review",
+    "ladder_consumption_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.construct_suspension_ref",
+    "not_claimed": [
+      "No L0 construct review is promoted to L1 or higher.",
+      "No production scale claim.",
+      "No global superiority claim."
+    ],
+    "owner_module": "bedc_quality_lab/dgt_l0_controls.py",
+    "pointer": "reports/canonical/dgt-l0-controls.json:$.construct_suspension",
+    "taint_status": "tainted-l0-construct-review-only"
+  },
   "controls": {
     "base_transformer_control": {
       "UER": 0.195,
       "classifier_shift_count": 1,
-      "loss_decrease": 0.62214305,
+      "loss_decrease": 0.62214302,
       "metric_keys": [
         "quality_q",
         "UER",
@@ -64,7 +76,7 @@
         "classifier_shift_count",
         "compute_cost"
       ],
-      "parameter_l2_delta": 6.65262794,
+      "parameter_l2_delta": 6.65263414,
       "pointer": "reports/canonical/dgt-l0-controls.json:$.controls.base_transformer_control",
       "quality_q": 0.828498,
       "raw_row_ref": {
@@ -78,7 +90,7 @@
     "matched_random_structural_control": {
       "UER": 0.208,
       "classifier_shift_count": 0,
-      "loss_decrease": 0.5081856,
+      "loss_decrease": 0.50818557,
       "metric_keys": [
         "quality_q",
         "UER",
@@ -89,7 +101,7 @@
         "classifier_shift_count",
         "compute_cost"
       ],
-      "parameter_l2_delta": 7.73189449,
+      "parameter_l2_delta": 7.73190355,
       "pointer": "reports/canonical/dgt-l0-controls.json:$.controls.matched_random_structural_control",
       "quality_q": 0.813773,
       "raw_row_ref": {
@@ -153,6 +165,10 @@
   "l0_toy_projection": {
     "blocked_reason": null,
     "claim_scope": "bounded L0 toy training controls",
+    "construct_suspension_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.construct_suspension"
+    },
     "evidence_refs": {
       "base_transformer_control": {
         "artifact": "reports/canonical/dgt-l0-controls.json",
@@ -647,7 +663,7 @@
     ],
     "device_policy": {
       "fallback": "mps-or-cpu",
-      "requested_device": "auto"
+      "requested_device": "cpu"
     },
     "dgt_neural_ablation_helper": "bedc_quality_lab/dgt_neural_ablation.py",
     "owner_module": "bedc_quality_lab/dgt_l0_controls.py",

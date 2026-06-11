@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-09T08:21:49.156738+00:00`
+- Generated at: `2026-06-11T04:35:01.924512+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -19,7 +19,7 @@
 | `gap-head-transfer-atlas` | `pass` | `pass` | `` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `reports/canonical/gap_head_transfer_atlas.fingerprint.json` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `pass` | `pass` | `` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `reports/canonical/gap_head_attribution_capsule.fingerprint.json` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
 | `certificate-guided-training` | `pass` | `pass` | `` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `reports/canonical/certificate-guided-training.fingerprint.json` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
-| `certificate-guided-discovery` | `pass` | `pass` | `` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `reports/canonical/certificate-guided-discovery.fingerprint.json` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
+| `certificate-guided-discovery` | `error` | `pass` | `` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `reports/canonical/certificate-guided-discovery.fingerprint.json` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
 | `sigreg-training-proxy` | `pass` | `pass` | `` | `reports/canonical/sigreg-training-proxy.json` | `reports/canonical/sigreg-training-proxy.md` | `reports/canonical/sigreg-training-proxy.fingerprint.json` | `$.arm_protocol` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.full_lejepa_boundary` |
 | `sigreg-mini-grid` | `pass` | `pass` | `` | `reports/canonical/sigreg-mini-grid.json` | `reports/canonical/sigreg-mini-grid.md` | `reports/canonical/sigreg-mini-grid.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.not_claimed` |
 | `discovery-regularized-training` | `pass` | `pass` | `` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |

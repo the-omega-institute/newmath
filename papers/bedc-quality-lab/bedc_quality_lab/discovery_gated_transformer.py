@@ -277,6 +277,9 @@ SCALING_LADDER_REQUIRED_KEYS = (
     "anti_triviality_gate_evidence",
 )
 L1_TINY_SEQUENCE_PROJECTION_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection"
+L1_NEGATIVE_WITNESS_SWEEP_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.negative_witness_sweep"}
+L1_INTERPRETATION_BOUNDARY_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.l1_tiny_sequence_projection"}
+L0_CONSTRUCT_SUSPENSION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.construct_suspension"}
 L0_CONTROL_POINTER_CONTRACT = {
     "base_transformer_control": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
     "matched_random_structural_control": {
@@ -2748,6 +2751,17 @@ def _read_l1_tiny_sequence_projection(root: Path) -> Mapping[str, Any] | None:
     }
 
 
+def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
+    source_artifacts = payload.get("source_artifacts")
+    if not isinstance(source_artifacts, Mapping):
+        return False
+    for key in ("construct_suspension_ref", "interpretation_boundary_ref", "negative_witness_sweep_ref"):
+        cell = source_artifacts.get(key)
+        if not isinstance(cell, Mapping) or resolve_artifact_pointer(root, artifact_pointer(cell)) is None:
+            return False
+    return True
+
+
 def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
     capsule = _scaling_default_capsule("L0_toy")
     if not isinstance(projection, Mapping):
@@ -3463,11 +3477,14 @@ class DiscoveryGatedTransformerProjector:
             "producer": PRODUCER,
             "projector": PROJECTOR,
             "model_id": MODEL_ID,
-            "source_artifacts": {
-                "component_refs": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs"),
-                "ledger_aware_transformer_pointer": f"{LAT_CANONICAL_ARTIFACT}:$",
-                "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
-            },
+        "source_artifacts": {
+            "component_refs": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs"),
+            "ledger_aware_transformer_pointer": f"{LAT_CANONICAL_ARTIFACT}:$",
+            "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
+            "construct_suspension_ref": dict(L0_CONSTRUCT_SUSPENSION_REF),
+            "interpretation_boundary_ref": dict(L1_INTERPRETATION_BOUNDARY_REF),
+            "negative_witness_sweep_ref": dict(L1_NEGATIVE_WITNESS_SWEEP_REF),
+        },
             "component_refs": self.component_refs,
             "architecture_spec": default_architecture_spec(),
             "hardgate": {"status": "pass", "gate_names": list(GATE_NAMES), "gates": _gate_rows(self.component_refs)},
@@ -3519,6 +3536,8 @@ class DiscoveryGatedTransformerProjector:
             ]
         }
         payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
+        if not _owner_refs_resolve(self.root, payload):
+            raise ValueError("DGT owner refs do not resolve")
         validate_projection(payload)
         return payload
 
@@ -3562,6 +3581,17 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT projection identity mismatch")
     if payload["model_id"] != MODEL_ID:
         raise ValueError("DGT model identity mismatch")
+    source_artifacts = payload["source_artifacts"]
+    if not isinstance(source_artifacts, Mapping):
+        raise ValueError("DGT source artifacts missing")
+    expected_owner_refs = {
+        "construct_suspension_ref": L0_CONSTRUCT_SUSPENSION_REF,
+        "interpretation_boundary_ref": L1_INTERPRETATION_BOUNDARY_REF,
+        "negative_witness_sweep_ref": L1_NEGATIVE_WITNESS_SWEEP_REF,
+    }
+    for key, expected_ref in expected_owner_refs.items():
+        if source_artifacts.get(key) != expected_ref:
+            raise ValueError(f"DGT owner ref mismatch: {key}")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
     validate_component_ablation(payload["component_ablation"])

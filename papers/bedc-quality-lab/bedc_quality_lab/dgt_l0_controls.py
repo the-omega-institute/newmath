@@ -59,6 +59,10 @@ CONTROL_POINTERS = {
     "independent_replay": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.independent_replay"},
     "l0_control_projection": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.l0_toy_projection"},
 }
+CONSTRUCT_SUSPENSION_POINTER = {
+    "artifact": CANONICAL_JSON_ARTIFACT,
+    "pointer": "$.construct_suspension",
+}
 REQUIRED_WITNESSES = (
     "control_positive",
     "matched_random_positive",
@@ -556,11 +560,27 @@ def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures:
                 "independent_replay",
             )
         },
+        "construct_suspension_ref": dict(CONSTRUCT_SUSPENSION_POINTER),
         "ref_pointers": {key: dict(value) for key, value in CONTROL_POINTERS.items()},
         "not_claimed": list(NOT_CLAIMED),
         "failed_gate": failed_gate,
         "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
         "failure_reasons": list(failures),
+    }
+
+
+def construct_suspension_payload() -> dict[str, Any]:
+    return {
+        "headline_status": "suspended-construct-review",
+        "taint_status": "tainted-l0-construct-review-only",
+        "ladder_consumption_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.construct_suspension_ref",
+        "not_claimed": [
+            "No L0 construct review is promoted to L1 or higher.",
+            "No production scale claim.",
+            "No global superiority claim.",
+        ],
+        "owner_module": OWNER_MODULE,
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_suspension",
     }
 
 
@@ -677,6 +697,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "compute_param_ledger": ledger,
         "negative_witness_sweep": witness,
         "independent_replay": replay,
+        "construct_suspension": construct_suspension_payload(),
         "l0_toy_projection": _projection(bundle, failures),
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -763,6 +784,7 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
         "compute_param_ledger": ledger,
         "negative_witness_sweep": witness,
         "independent_replay": replay,
+        "construct_suspension": construct_suspension_payload(),
         "l0_toy_projection": projection,
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -835,6 +857,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "compute_param_ledger",
         "negative_witness_sweep",
         "independent_replay",
+        "construct_suspension",
         "l0_toy_projection",
         "not_claimed",
     }
@@ -847,8 +870,21 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT L0 projection missing")
     if projection.get("ref_pointers") != CONTROL_POINTERS:
         raise ValueError("DGT L0 projection pointer contract mismatch")
+    if projection.get("construct_suspension_ref") != CONSTRUCT_SUSPENSION_POINTER:
+        raise ValueError("DGT L0 construct suspension pointer mismatch")
     if projection.get("not_claimed") != list(NOT_CLAIMED):
         raise ValueError("DGT L0 projection not_claimed mismatch")
+    construct_suspension = payload["construct_suspension"]
+    if not isinstance(construct_suspension, Mapping):
+        raise ValueError("DGT L0 construct suspension missing")
+    if construct_suspension.get("headline_status") != "suspended-construct-review":
+        raise ValueError("DGT L0 construct suspension headline mismatch")
+    if construct_suspension.get("taint_status") != "tainted-l0-construct-review-only":
+        raise ValueError("DGT L0 construct suspension taint mismatch")
+    if construct_suspension.get("ladder_consumption_pointer") != (
+        f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.construct_suspension_ref"
+    ):
+        raise ValueError("DGT L0 construct suspension ladder pointer mismatch")
     controls = payload["controls"]
     if set(controls) != {"base_transformer_control", "matched_random_structural_control"}:
         raise ValueError("DGT L0 controls schema mismatch")

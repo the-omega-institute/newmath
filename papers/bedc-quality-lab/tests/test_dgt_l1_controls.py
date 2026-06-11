@@ -109,7 +109,7 @@ def test_l1_base_control_param_and_compute_matched():
     _expect_invalid(mutated, "L1-REVIEW-HG5")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"].pop("base_transformer_l1")
+    mutated["training_arms"].pop("information_starved_l1_baseline")
     _expect_invalid(mutated, "training arms")
 
 
@@ -118,11 +118,11 @@ def test_l1_matched_random_structural_control_fail_closed():
     assert payload["hardgates"]["L1-REVIEW-HG2"]["status"] == "pass"
     assert payload["hardgates"]["L1-REVIEW-HG3"]["status"] == "pass"
     assert payload["hardgates"]["L1-REVIEW-HG4"]["status"] == "pass"
-    assert payload["paired_accuracy"]["dgt_minus_base"]["delta_ci95_low"] > 0.0
+    assert payload["paired_accuracy"]["dgt_minus_information_starved_baseline"]["delta_ci95_low"] > 0.0
     assert payload["paired_accuracy"]["dgt_minus_matched_random"]["delta_ci95_low"] > 0.0
 
     mutated = json.loads(json.dumps(payload))
-    mutated["paired_accuracy"]["dgt_minus_base"]["delta_ci95_low"] = 0.0
+    mutated["paired_accuracy"]["dgt_minus_information_starved_baseline"]["delta_ci95_low"] = 0.0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG2")
 
@@ -163,16 +163,21 @@ def test_l1_negative_witness_sweep_uses_hit_logic():
     payload = _payload()
     sweep = payload["negative_witness_sweep"]
     assert sweep["status"] == "pass"
-    assert {row["witness"] for row in sweep["witness_rows"]} == set(l1.REQUIRED_WITNESSES)
-    assert all(row["hit_logic"] for row in sweep["witness_rows"])
+    assert {row["witness"] for row in sweep["rows"]} == set(l1.REQUIRED_WITNESSES)
+    assert [row["hardgate_id"] for row in sweep["rows"]] == ["ISB-HG", "UOOD-HG", "TCS-HG", "HEG-HG"]
+    assert all(row["hit_logic"] for row in sweep["rows"])
+    assert all(row["source_pointer"].startswith(l1.CANONICAL_JSON_ARTIFACT + ":$") for row in sweep["rows"])
+    assert all(row["evidence_pointer"].startswith(l1.CANONICAL_JSON_ARTIFACT + ":$") for row in sweep["rows"])
+    assert all(row["claim_downgrade"] and row["not_claimed"] for row in sweep["rows"])
+    assert all(row["taint_status"].startswith("tainted-") for row in sweep["rows"])
 
     mutated = json.loads(json.dumps(payload))
-    mutated["negative_witness_sweep"]["witness_rows"] = []
+    mutated["negative_witness_sweep"]["rows"] = []
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG6")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["negative_witness_sweep"]["witness_rows"][0]["regression_test_pointer_resolves"] = False
+    mutated["negative_witness_sweep"]["rows"][0]["regression_test_pointer_resolves"] = False
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG6")
 
@@ -287,8 +292,8 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert summary["compute_units"] > 0
     assert summary["opened_ladder_level"] == "L1_tiny_sequence"
     assert summary["ood_generalization_claim"] == "not-claimed"
-    assert summary["l1_step_ladder_verdict"] in {"separation-persists", "base-catches-up", "inconclusive"}
-    assert summary["l1_step_ladder_crossover"] in {"base-crossover-observed", "no-base-crossover-observed"}
+    assert summary["l1_step_ladder_verdict"] in {"scoped-review-signal", "information-starved-catches-up", "inconclusive"}
+    assert summary["l1_step_ladder_crossover"] in {"information-starved-crossover-observed", "no-information-starved-crossover-observed"}
 
     run_artifacts = l1.run_artifacts_payload()
     expected_artifacts = [
@@ -401,7 +406,7 @@ def test_l1_step_ladder_grid_cell_integrity_fail_closed():
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["per_step"][0]["training_arms"].pop("base_transformer_l1")
+    mutated["l1_step_ladder"]["per_step"][0]["training_arms"].pop("information_starved_l1_baseline")
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
 
     mutated = json.loads(json.dumps(payload))
@@ -446,11 +451,11 @@ def test_l1_step_ladder_crossover_derivation_fail_closed():
     assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG4"]["status"] == "pass"
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["convergence_crossover"]["rows"][0]["base_accuracy_mean"] = 1.0
+    mutated["l1_step_ladder"]["convergence_crossover"]["rows"][0]["information_starved_accuracy_mean"] = 1.0
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["base_accuracy_mean"] = (
+    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["information_starved_accuracy_mean"] = (
         mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
     )
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
@@ -462,7 +467,7 @@ def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
             "training_steps": 36,
             "metrics": {
                 "dgt_accuracy_mean": 0.8,
-                "base_accuracy_mean": 0.5,
+                "information_starved_accuracy_mean": 0.5,
                 "matched_random_accuracy_mean": 0.4,
             },
         },
@@ -470,7 +475,7 @@ def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
             "training_steps": 72,
             "metrics": {
                 "dgt_accuracy_mean": 0.95,
-                "base_accuracy_mean": 0.79,
+                "information_starved_accuracy_mean": 0.79,
                 "matched_random_accuracy_mean": 0.4,
             },
         },
@@ -480,10 +485,10 @@ def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
 
     assert crossover["anchor_accuracy_mean"] == 0.8
     assert crossover["crossover_threshold_accuracy"] == 0.78
-    assert crossover["base_catches_up"] is True
-    assert crossover["first_base_crossover_step"] == 72
-    assert crossover["rows"][1]["same_step_dgt_minus_base_accuracy"] > l1.L1_CROSSOVER_TOLERANCE_ACC
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "base-catches-up"
+    assert crossover["information_starved_catches_up"] is True
+    assert crossover["first_information_starved_crossover_step"] == 72
+    assert crossover["rows"][1]["same_step_dgt_minus_information_starved_accuracy"] > l1.L1_CROSSOVER_TOLERANCE_ACC
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "information-starved-catches-up"
 
 
 def test_l1_step_ladder_verdict_table_branches():
@@ -492,25 +497,25 @@ def test_l1_step_ladder_verdict_table_branches():
             "training_steps": 36,
             "metrics": {
                 "dgt_accuracy_mean": 0.8,
-                "base_accuracy_mean": 0.5,
+                "information_starved_accuracy_mean": 0.5,
                 "matched_random_accuracy_mean": 0.4,
             },
         }
     ]
     crossover = l1.derive_l1_step_ladder_crossover(rows)
     gates = {gate_id: {"status": "pass"} for gate_id in l1.L1STEP_GATE_IDS}
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "separation-persists"
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "scoped-review-signal"
 
-    rows[0]["metrics"]["base_accuracy_mean"] = 0.79
+    rows[0]["metrics"]["information_starved_accuracy_mean"] = 0.79
     crossover = l1.derive_l1_step_ladder_crossover(rows)
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "base-catches-up"
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "information-starved-catches-up"
 
     rows[0]["metrics"]["matched_random_accuracy_mean"] = 0.79
     crossover = l1.derive_l1_step_ladder_crossover(rows)
     assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "inconclusive"
 
     gates["L1STEP-HG1"] = {"status": "fail"}
-    rows[0]["metrics"]["base_accuracy_mean"] = 0.5
+    rows[0]["metrics"]["information_starved_accuracy_mean"] = 0.5
     rows[0]["metrics"]["matched_random_accuracy_mean"] = 0.4
     crossover = l1.derive_l1_step_ladder_crossover(rows)
     assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "inconclusive"

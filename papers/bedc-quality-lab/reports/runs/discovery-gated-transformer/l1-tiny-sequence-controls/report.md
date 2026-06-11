@@ -3,8 +3,8 @@
 - Status: `pass`
 - Review status: `pass`
 - Evidence scope: `bounded-tiny-sequence`
-- Step-ladder verdict: `separation-persists`
-- Step-ladder crossover: `no-base-crossover-observed`
+- Step-ladder verdict: `scoped-review-signal`
+- Step-ladder crossover: `no-information-starved-crossover-observed`
 - Seeds: `16`
 - Compute units: `618.430464`
 - Parameter count: `8388`
@@ -12,7 +12,7 @@
 ## Hardgates
 
 - `L1-REVIEW-HG1`: `pass` - five L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries
-- `L1-REVIEW-HG2`: `pass` - seed-paired DGT minus base in-distribution accuracy CI95-low is positive
+- `L1-REVIEW-HG2`: `pass` - seed-paired DGT minus information-starved baseline in-distribution accuracy CI95-low is positive
 - `L1-REVIEW-HG3`: `pass` - seed-paired DGT minus matched-random accuracy CI95-low is positive with structural marginals preserved
 - `L1-REVIEW-HG4`: `pass` - matched-random structural control preserves marginals and no L1 arm reports owner-required ledger, jet, or classifier metrics
 - `L1-REVIEW-HG5`: `pass` - parameter-matched and compute-matched controls satisfy owner-local fairness ledgers
@@ -21,11 +21,11 @@
 
 ## L1 Step Ladder
 
-- `36` steps: DGT acc `0.311768`, base acc `0.065430`, matched-random acc `0.058105`, DGT-base gap `0.246338`
-- `72` steps: DGT acc `0.630859`, base acc `0.065186`, matched-random acc `0.062500`, DGT-base gap `0.565673`
-- `144` steps: DGT acc `0.937500`, base acc `0.068848`, matched-random acc `0.061035`, DGT-base gap `0.868652`
-- `288` steps: DGT acc `0.981445`, base acc `0.068848`, matched-random acc `0.057129`, DGT-base gap `0.912597`
-- `576` steps: DGT acc `0.981934`, base acc `0.068603`, matched-random acc `0.058838`, DGT-base gap `0.913331`
+- `36` steps: DGT acc `0.311768`, information-starved acc `0.065430`, matched-random acc `0.058105`, DGT-information-starved gap `0.246338`
+- `72` steps: DGT acc `0.630859`, information-starved acc `0.065186`, matched-random acc `0.062500`, DGT-information-starved gap `0.565673`
+- `144` steps: DGT acc `0.937500`, information-starved acc `0.068848`, matched-random acc `0.061035`, DGT-information-starved gap `0.868652`
+- `288` steps: DGT acc `0.981445`, information-starved acc `0.068848`, matched-random acc `0.057129`, DGT-information-starved gap `0.912597`
+- `576` steps: DGT acc `0.981934`, information-starved acc `0.068603`, matched-random acc `0.058838`, DGT-information-starved gap `0.913331`
 
 ## L1 Step Hardgates
 
