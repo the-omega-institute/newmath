@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\HadamardMatrixUp$}
+\label{ch:concrete-instances-hadamard-matrix-namecert}
+\origin{human}
+
+Following Hadamard and the finite orthogonal-design tradition, the $\HadamardMatrixUp$ packet records a finite square matrix whose entries are displayed signs and whose distinct rows have zero inner product. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the finite endpoint discipline of $\BoolUp$ in \autoref{ch:concrete-instances-bool-namecert}, the size and row-index ledger of $\NatUp$ in \autoref{ch:concrete-instances-nat-namecert}, the vector carrier of $\VecSpaceUp$ in \autoref{ch:concrete-instances-vecspace-namecert}, and the inner-product rows of $\InnerProductUp$ in \autoref{ch:concrete-instances-innerproduct-namecert}. The packet names only this finite sign-matrix certificate; it is not an infinite design theorem, a classification of all Hadamard orders, a selected normalization, a quotient matrix equality, or an ambient orthogonal-array construction.
+
+\begin{definition}[Hadamard matrix carrier]
+\label{def:hadamard-matrix-carrier}
+A $\HadamardMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+H=(N,M,S,R,O,V,I,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ size row, naming the common row and column index boundary.
+\item $M$ is the $\MatrixUp$ row, exposing the finite square table and its row-column readback.
+\item $S$ is the sign ledger, recording for each displayed entry a Boolean endpoint whose decoded value is $+1$ or $-1$.
+\item $R$ is the row-vector ledger, reading every matrix row as a finite $\VecSpaceUp$ vector over the same index boundary.
+\item $O$ is the orthogonality ledger, recording that the inner product of any two distinct displayed rows is zero.
+\item $V$ is the $\VecSpaceUp$ source row for the row vectors and finite sign combinations.
+\item $I$ is the $\InnerProductUp$ source row used by the pairwise orthogonality checks.
+\item $T$ records componentwise $\hsame$ transport for $N,M,S,R,O,V,I$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the matrix and sign rows through row-vector readback, inner-product checks, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HadamardMatrixUp$, $\MatrixUp$, $\BoolUp$, $\NatUp$, $\VecSpaceUp$, $\InnerProductUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\HadamardMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $N,M,S,R,O,V,I,T,C,P,L$. It has no coordinate for a host classification theorem, quotient matrix equality, selected equivalence normalization, infinite orthogonal design, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Hadamard matrix NameCert obligations]
+\label{thm:hadamard-matrix-namecert-obligations}
+For every accepted $\HadamardMatrixUp$ carrier $H=(N,M,S,R,O,V,I,T,C,P,L)$, the local $\NameCert_{\HadamardMatrixUp}$ surface consists exactly of size exposure through $N$, finite square-table exposure through $M$, sign-entry exposure through $S$, row-vector readback through $R,V$, pairwise orthogonality exposure through $O,I$, componentwise transport through $T$, displayed replay through $C$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hadamard-matrix-carrier}. The rows $N,M,S,R,O,V,I,T,C,P,L$ are the only displayed rows available to a local $\NameCert_{\HadamardMatrixUp}$ read.
+
+The size and table rows are read first. The size row $N$ fixes the finite index boundary, while $M$ exposes the square matrix entries and row-column readback.
+
+The sign ledger $S$ then restricts every entry to a displayed Boolean endpoint decoded as $+1$ or $-1$. The row-vector ledger $R$ reads those entries through the $\VecSpaceUp$ source row $V$ before any orthogonality check is available.
+
+Finally the orthogonality ledger $O$ reads pairwise row products through the $\InnerProductUp$ row $I$, and the structural rows $T,C,P,L$ transport, replay, source, and name the same finite packet. Since no classification, normalization selector, quotient matrix equality, infinite design, or ambient completion coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hadamard matrix orthogonality handoff]
+\label{thm:hadamard-matrix-orthogonality-handoff}
+Every $\MatrixUp$, $\VecSpaceUp$, or $\InnerProductUp$ consumer that reads orthogonality from an accepted $\HadamardMatrixUp$ carrier must first pass through
+$$
+N,M,S \longmapsto R,V \longmapsto O,I \longmapsto T,C,P,L .
+$$
+Thus the exported orthogonality datum is a finite sign-row handoff, not a host matrix classification theorem, selected equivalence normalization, quotient equality, or ambient orthogonal-design principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for row orthogonality. By \autoref{def:hadamard-matrix-carrier}, the request first sees the finite size row $N$, the square table row $M$, and the sign ledger $S$.
+
+The row-vector readback is next. Each row is exposed through $R$ and the vector source $V$, so a consumer cannot inspect an inner-product row before the finite sign rows have been translated into displayed vector rows.
+
+Only then does the orthogonality ledger $O$ read the $\InnerProductUp$ source row $I$. The structural rows $T,C,P,L$ keep the same matrix, vector, and inner-product data attached to the local name.
+
+Therefore the handoff exports exactly finite sign-row orthogonality. It does not provide a classification theorem, a selected normalized representative, quotient matrix equality, an infinite design, or an ambient orthogonal-array construction.
+\end{proof}
+
+\closureat{HadamardMatrixUp}{seedStr}
+
+\begin{closurestatus}{\HadamardMatrixUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hadamard-matrix-carrier}, \autoref{thm:hadamard-matrix-namecert-obligations}, and \autoref{thm:hadamard-matrix-orthogonality-handoff} seed the finite sign-matrix route over Matrix, Bool, Nat, VecSpace, InnerProduct, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hadamard-order existence, classification, selected normalization, quotient matrix equality, orthogonal-array construction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign-entry exposure, row-vector readback, pairwise orthogonality exposure, transport, replay, provenance, and local naming for BEDC.Derived.HadamardMatrixUp.}
+  \constructivestory{A $\HadamardMatrixUp$ packet is generated from a Nat size row, Matrix square-table row, Bool sign ledger, VecSpace row-vector ledger, InnerProduct orthogonality checks, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
