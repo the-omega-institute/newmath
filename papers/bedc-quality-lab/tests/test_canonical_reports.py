@@ -1648,6 +1648,7 @@ def test_scaling_ladder_canonical_spec_is_auxiliary_owner():
     assert spec.positive_claim_pointer == "$.levels"
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.control_pointer is None
+    assert "$.levels[*].owner_contracts" in spec.required_json_keys
 
 
 def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():

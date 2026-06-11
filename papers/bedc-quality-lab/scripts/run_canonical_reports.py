@@ -1285,6 +1285,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "$.levels[*].separation_pointer",
             "$.levels[*].source_report_pointer",
             "$.levels[*].boundary_ledger_pointer",
+            "$.levels[*].owner_contracts",
         ),
         estimated_seconds=1,
         bundle_role="auxiliary",

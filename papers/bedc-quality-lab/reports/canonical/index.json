@@ -243,13 +243,6 @@
         "report": "dgt-base-undertraining-audit"
       },
       {
-        "bundle_role": "auxiliary",
-        "control_pointer": null,
-        "no_control_rationale_pointer": "$.not_claimed",
-        "positive_claim_pointer": "$.levels",
-        "report": "scaling-ladder"
-      },
-      {
         "bundle_role": "hg_p_core",
         "control_pointer": "$.d4_projection.matched_control",
         "no_control_rationale_pointer": null,
@@ -346,6 +339,13 @@
         "no_control_rationale_pointer": "$.not_claimed",
         "positive_claim_pointer": "$.rows",
         "report": "claim-complexity"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.levels",
+        "report": "scaling-ladder"
       }
     ],
     "status": "pointer-only"
@@ -659,7 +659,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-11T22:15:23.594072+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -1021,7 +1021,6 @@
       "dgt-l0-controls",
       "dgt-l1-controls",
       "dgt-base-undertraining-audit",
-      "scaling-ladder",
       "dgt-neural-ablation",
       "dgt-ablation-null-decomposition",
       "dgt-component-redundancy-audit",
@@ -1032,7 +1031,8 @@
       "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
-      "claim-complexity"
+      "claim-complexity",
+      "scaling-ladder"
     ],
     "core_reports": [
       "mixing-family-sweep",
@@ -3972,135 +3972,6 @@
       }
     },
     {
-      "bundle_role": "auxiliary",
-      "discipline": {
-        "bundle_role": "auxiliary",
-        "construct_validity_pointer": null,
-        "construct_validity_status": "not-applicable",
-        "control_pointer": null,
-        "control_status": "not-applicable",
-        "cost_pointer": "$.source_artifacts",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "not-applicable",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": "$.not_claimed",
-        "no_control_rationale_status": "present",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.levels",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "not-applicable",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.levels",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:scaling-ladder]",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "missing"
-            },
-            "cost_protocol": {
-              "pointer": "$.source_artifacts",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "negative_witness": {
-              "pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.levels",
-              "source_artifact": "reports/canonical/scaling-ladder.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": false,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "not-applicable"
-        },
-        "scope_pointer": "$.levels",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
-      "fingerprint_sidecar": "reports/canonical/scaling-ladder.fingerprint.json",
-      "fingerprint_status": "written",
-      "json_artifact": "reports/canonical/scaling-ladder.json",
-      "markdown_artifact": "reports/canonical/scaling-ladder.md",
-      "name": "scaling-ladder",
-      "producer_command": [
-        "python3",
-        "scripts/run_scaling_ladder.py"
-      ],
-      "producer_status": "completed",
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "source_artifacts",
-          "levels",
-          "boundary_ledger",
-          "hardgates",
-          "not_claimed",
-          "$.levels[*].level_id",
-          "$.levels[*].state",
-          "$.levels[*].reason",
-          "$.levels[*].owner_decision_pointer",
-          "$.levels[*].evidence_provenance_pointer",
-          "$.levels[*].construct_validity_pointer",
-          "$.levels[*].split_winnability_pointer",
-          "$.levels[*].separation_pointer",
-          "$.levels[*].source_report_pointer",
-          "$.levels[*].boundary_ledger_pointer"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
-    },
-    {
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
@@ -5872,6 +5743,136 @@
           "rows",
           "hardgates",
           "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.levels",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:scaling-ladder]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.levels",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "cold",
+      "fingerprint_sidecar": "reports/canonical/scaling-ladder.fingerprint.json",
+      "fingerprint_status": "written",
+      "json_artifact": "reports/canonical/scaling-ladder.json",
+      "markdown_artifact": "reports/canonical/scaling-ladder.md",
+      "name": "scaling-ladder",
+      "producer_command": [
+        "python3",
+        "scripts/run_scaling_ladder.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "levels",
+          "boundary_ledger",
+          "hardgates",
+          "not_claimed",
+          "$.levels[*].level_id",
+          "$.levels[*].state",
+          "$.levels[*].reason",
+          "$.levels[*].owner_decision_pointer",
+          "$.levels[*].evidence_provenance_pointer",
+          "$.levels[*].construct_validity_pointer",
+          "$.levels[*].split_winnability_pointer",
+          "$.levels[*].separation_pointer",
+          "$.levels[*].source_report_pointer",
+          "$.levels[*].boundary_ledger_pointer",
+          "$.levels[*].owner_contracts"
         ],
         "required_key_validation": {
           "missing_keys": [],

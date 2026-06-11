@@ -9,7 +9,7 @@ from pathlib import Path
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer, split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:scaling-ladder"
@@ -158,9 +158,9 @@ def _construct_passes(value: Any) -> bool:
     if construct.get("status") not in {"construct-valid", "pass"}:
         return False
     hardgates = construct.get("hardgates")
-    if isinstance(hardgates, Mapping):
-        return all(_mapping(row).get("status") == "pass" for row in hardgates.values())
-    return True
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False
+    return all(_mapping(row).get("status") == "pass" for row in hardgates.values())
 
 
 def _decision_passes(value: Any) -> bool:
@@ -187,8 +187,6 @@ def _split_winnable(value: Any) -> bool:
 
 def _separation_passes(value: Any) -> bool:
     separation = _mapping(value)
-    if separation.get("status") == "pass":
-        return True
     ci_low = separation.get("ci_low")
     if ci_low is None:
         ci_low = separation.get("ci95_low")
@@ -198,13 +196,13 @@ def _separation_passes(value: Any) -> bool:
 
 
 def _old_injected_ladder(root: Path, ref: LadderOpeningRef) -> Mapping[str, Any] | None:
-    legacy = resolve_artifact_pointer(root, f"{DGT_JSON_ARTIFACT}:$.scaling_ladder")
-    if not isinstance(legacy, Mapping):
+    projection = resolve_artifact_pointer(root, f"{DGT_JSON_ARTIFACT}:$.scaling_ladder")
+    if not isinstance(projection, Mapping):
         return None
-    opened = legacy.get("opened_levels")
+    opened = projection.get("opened_levels")
     if isinstance(opened, Sequence) and not isinstance(opened, (str, bytes, bytearray)) and ref.level_id in opened:
-        return legacy
-    levels = legacy.get("levels")
+        return projection
+    levels = projection.get("levels")
     if isinstance(levels, Sequence) and not isinstance(levels, (str, bytes, bytearray)):
         for row in levels:
             if not isinstance(row, Mapping) or row.get("level_id") != ref.level_id:
@@ -220,23 +218,27 @@ def evaluate_ladder_opening(
     context: Mapping[str, Any],
 ) -> LadderOpeningDecision:
     root = Path(context.get("root", "."))
-    boundary_pointer = f"{JSON_ARTIFACT}:$.boundary_ledger[?level_id={ref.level_id}]"
+    boundary_pointer = f"{JSON_ARTIFACT}:$.boundary_ledger"
+    pointer_by_name = {
+        "evidence": ref.evidence_provenance_pointer,
+        "construct": ref.construct_validity_pointer,
+        "decision": ref.decision_pointer,
+        "split": ref.split_winnability_pointer,
+        "separation": ref.separation_pointer,
+        "source": ref.level_owner_pointer,
+    }
     values: dict[str, Any] = {}
-    for name, pointer in (
-        ("evidence", ref.evidence_provenance_pointer),
-        ("construct", ref.construct_validity_pointer),
-        ("decision", ref.decision_pointer),
-        ("split", ref.split_winnability_pointer),
-        ("separation", ref.separation_pointer),
-    ):
+    status_by_name: dict[str, str] = {}
+    for name, pointer in pointer_by_name.items():
         status, value = _resolve(root, pointer)
+        status_by_name[name] = status
+        if status == "resolved":
+            values[name] = value
+    for name in ("evidence", "construct", "decision", "split", "separation"):
+        status = status_by_name[name]
         if status != "resolved":
-            if _old_injected_ladder(root, ref) is not None:
-                reason = "stale-or-injected"
-                state = "boundary"
-            else:
-                reason = status
-                state = "closed"
+            reason = status
+            state = "closed"
             return LadderOpeningDecision(
                 level_id=ref.level_id,
                 state=state,
@@ -249,11 +251,9 @@ def evaluate_ladder_opening(
                 source_report_pointer=ref.level_owner_pointer,
                 boundary_ledger_pointer=boundary_pointer,
             )
-        values[name] = value
     provenance_reason = _reason_for_provenance(ref, values["evidence"])
     if provenance_reason is not None:
-        state = "boundary" if _old_injected_ladder(root, ref) is not None else "closed"
-        reason = "stale-or-injected" if state == "boundary" and provenance_reason == "projection-only" else provenance_reason
+        state, reason = "closed", provenance_reason
     elif not _construct_passes(values["construct"]):
         state, reason = "closed", "construct-validity-failed"
     elif not _decision_passes(values["decision"]):
@@ -290,14 +290,131 @@ def _boundary_row(row: Mapping[str, Any], *, recorded_at: str) -> dict[str, Any]
         "projection-only": row["evidence_provenance_pointer"],
         "stale-or-injected": row["source_report_pointer"],
     }
+    failed_pointer = failed_pointer_by_reason.get(row["reason"], row["source_report_pointer"])
     return {
         "level_id": row["level_id"],
         "prior_state": "open",
         "new_state": row["state"],
         "reason": row["reason"],
-        "failed_contract_pointer": failed_pointer_by_reason.get(row["reason"], row["source_report_pointer"]),
+        "failed_contract_pointer": failed_pointer,
         "owner_pointer": f"{JSON_ARTIFACT}:$.levels",
         "recorded_at": recorded_at,
+    }
+
+
+def _resolved_owner_value(root: Path, pointer: str | None) -> Any:
+    if pointer is None:
+        return None
+    return resolve_artifact_pointer(root, pointer)
+
+
+_CONTRACTS_BY_FIELD = {
+    "owner_decision_pointer": "owner_decision",
+    "evidence_provenance_pointer": "evidence_provenance",
+    "construct_validity_pointer": "construct_validity",
+    "split_winnability_pointer": "split_winnability",
+    "separation_pointer": "separation",
+    "source_report_pointer": "source_report",
+}
+
+
+def _contract_pointer(index: int, name: str) -> str:
+    return f"{JSON_ARTIFACT}:$.levels[{index}].owner_contracts.{name}"
+
+
+def _required_pointers(ref: LadderOpeningRef) -> dict[str, str]:
+    return {
+        "owner_decision": ref.decision_pointer,
+        "evidence_provenance": ref.evidence_provenance_pointer,
+        "construct_validity": ref.construct_validity_pointer,
+        "split_winnability": ref.split_winnability_pointer,
+        "separation": ref.separation_pointer,
+        "source_report": ref.level_owner_pointer,
+    }
+
+
+def _attach_owner_contracts(
+    row: Mapping[str, Any],
+    *,
+    ref: LadderOpeningRef,
+    index: int,
+    root: Path,
+) -> dict[str, Any]:
+    next_row = dict(row)
+    contracts: dict[str, dict[str, str]] = {}
+    required_by_name = _required_pointers(ref)
+    field_by_contract = {contract: field for field, contract in _CONTRACTS_BY_FIELD.items()}
+    for name, required_pointer in required_by_name.items():
+        status, _value = _resolve(root, required_pointer)
+        contracts[name] = {
+            "required_pointer": required_pointer,
+            "resolution_status": status,
+        }
+        field = field_by_contract[name]
+        next_row[field] = required_pointer if status == "resolved" else _contract_pointer(index, name)
+    next_row["owner_contracts"] = contracts
+    return next_row
+
+
+def _resolve_payload_or_artifact(root: Path, payload: Mapping[str, Any], pointer: str | None) -> Any:
+    if pointer is None:
+        return None
+    split = split_artifact_pointer(pointer)
+    if split is None:
+        return None
+    artifact, local_pointer = split
+    if artifact == JSON_ARTIFACT:
+        return pointer_value(payload, local_pointer)
+    return resolve_artifact_pointer(root, pointer)
+
+
+def _required_pointer(row: Mapping[str, Any], name: str) -> str | None:
+    contracts = row.get("owner_contracts")
+    if not isinstance(contracts, Mapping):
+        return None
+    contract = contracts.get(name)
+    if not isinstance(contract, Mapping):
+        return None
+    pointer = contract.get("required_pointer")
+    return pointer if isinstance(pointer, str) else None
+
+
+def _gate_statuses(
+    root: Path,
+    decisions: Sequence[Mapping[str, Any]],
+    *,
+    refs: Sequence[LadderOpeningRef] | None = None,
+) -> dict[str, str]:
+    evidence_fail = False
+    construct_fail = False
+    decision_fail = False
+    split_separation_fail = False
+    ref_by_level = {ref.level_id: ref for ref in (default_ladder_refs() if refs is None else refs)}
+    for row in decisions:
+        ref = ref_by_level.get(str(row.get("level_id")))
+        evidence_value = _resolved_owner_value(root, _required_pointer(row, "evidence_provenance"))
+        construct_value = _resolved_owner_value(root, _required_pointer(row, "construct_validity"))
+        decision_value = _resolved_owner_value(root, _required_pointer(row, "owner_decision"))
+        split_value = _resolved_owner_value(root, _required_pointer(row, "split_winnability"))
+        separation_value = _resolved_owner_value(root, _required_pointer(row, "separation"))
+        if ref is None or evidence_value is None or _reason_for_provenance(ref, evidence_value) is not None:
+            evidence_fail = True
+        if construct_value is None or not _construct_passes(construct_value):
+            construct_fail = True
+        if decision_value is None or not _decision_passes(decision_value):
+            decision_fail = True
+        if (
+            split_value is None
+            or separation_value is None
+            or not _split_winnable(split_value)
+            or not _separation_passes(separation_value)
+        ):
+            split_separation_fail = True
+    return {
+        "SL-HG1-evidence-provenance": "fail" if evidence_fail else "pass",
+        "SL-HG2-construct-validity": "fail" if construct_fail else "pass",
+        "SL-HG3-owner-decision": "fail" if decision_fail else "pass",
+        "SL-HG4-split-separation": "fail" if split_separation_fail else "pass",
     }
 
 
@@ -310,33 +427,39 @@ def build_scaling_ladder_payload(
     timestamp = generated_at if generated_at is not None else _now()
     ref_rows = list(default_ladder_refs() if refs is None else refs)
     decisions = [
-        evaluate_ladder_opening(ref, {"root": root}).as_row()
-        for ref in ref_rows
+        _attach_owner_contracts(
+            evaluate_ladder_opening(ref, {"root": root}).as_row(),
+            ref=ref,
+            index=index,
+            root=root,
+        )
+        for index, ref in enumerate(ref_rows)
     ]
     boundary_ledger = [
         _boundary_row(row, recorded_at=timestamp)
         for row in decisions
         if row["state"] == "boundary"
     ]
+    gate_statuses = _gate_statuses(root, decisions, refs=ref_rows)
     hardgates = {
         "SL-HG1-evidence-provenance": {
-            "status": "pass" if all(row["reason"] not in {"missing-pointer", "unresolved-pointer", "non-measured-evidence", "projection-only"} for row in decisions) else "fail",
+            "status": gate_statuses["SL-HG1-evidence-provenance"],
             "pointer": EVIDENCE_PROVENANCE_POINTER,
         },
         "SL-HG2-construct-validity": {
-            "status": "pass" if all(row["reason"] != "construct-validity-failed" for row in decisions) else "fail",
+            "status": gate_statuses["SL-HG2-construct-validity"],
             "pointer": CONSTRUCT_VALIDITY_POINTER,
         },
         "SL-HG3-owner-decision": {
-            "status": "pass" if all(row["reason"] != "owner-negative" for row in decisions) else "fail",
+            "status": gate_statuses["SL-HG3-owner-decision"],
             "pointer": f"{JSON_ARTIFACT}:$.levels[*].owner_decision_pointer",
         },
         "SL-HG4-split-separation": {
-            "status": "pass" if all(row["reason"] not in {"split-not-winnable", "ci-low-separation-failed"} for row in decisions) else "fail",
+            "status": gate_statuses["SL-HG4-split-separation"],
             "pointer": f"{JSON_ARTIFACT}:$.levels",
         },
         "SL-HG5-no-injected-opening": {
-            "status": "pass" if not boundary_ledger else "fail",
+            "status": "fail" if any(_old_injected_ladder(root, ref) is not None for ref in ref_rows) else "pass",
             "pointer": f"{DGT_JSON_ARTIFACT}:$.scaling_ladder",
         },
     }
@@ -362,11 +485,54 @@ def build_scaling_ladder_payload(
         "hardgates": hardgates,
         "not_claimed": list(NOT_CLAIMED),
     }
-    validate_scaling_ladder_payload(payload)
+    validate_scaling_ladder_payload(payload, root=root, refs=ref_rows)
     return payload
 
 
-def validate_scaling_ladder_payload(payload: Mapping[str, Any]) -> None:
+def _validate_pointer_resolves(root: Path, payload: Mapping[str, Any], pointer: str, field: str) -> None:
+    split = split_artifact_pointer(pointer)
+    if split is None:
+        raise ValueError(f"scaling ladder pointer field malformed: {field}")
+    artifact, _local = split
+    if artifact == JSON_ARTIFACT:
+        if _resolve_payload_or_artifact(root, payload, pointer) is None:
+            raise ValueError(f"scaling ladder pointer field unresolved: {field}: {pointer}")
+        return
+    if resolve_artifact_pointer(root, pointer) is None:
+        raise ValueError(f"scaling ladder pointer field unresolved: {field}: {pointer}")
+
+
+def _expected_hg5_status(root: Path, refs: Sequence[LadderOpeningRef] | None = None) -> str:
+    ref_rows = default_ladder_refs() if refs is None else refs
+    return "fail" if any(_old_injected_ladder(root, ref) is not None for ref in ref_rows) else "pass"
+
+
+def _validate_contract_cell(
+    *,
+    root: Path,
+    row: Mapping[str, Any],
+    index: int,
+    contract_name: str,
+    contract: Mapping[str, Any],
+) -> None:
+    field_by_contract = {contract: field for field, contract in _CONTRACTS_BY_FIELD.items()}
+    required_pointer = contract["required_pointer"]
+    resolution_status = contract["resolution_status"]
+    actual_status, _value = _resolve(root, required_pointer)
+    if resolution_status != actual_status:
+        raise ValueError(f"scaling ladder owner contract resolution mismatch: {index}: {contract_name}")
+    field = field_by_contract[contract_name]
+    expected_pointer = required_pointer if actual_status == "resolved" else _contract_pointer(index, contract_name)
+    if row[field] != expected_pointer:
+        raise ValueError(f"scaling ladder owner contract pointer mismatch: {index}: {field}")
+
+
+def validate_scaling_ladder_payload(
+    payload: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+    refs: Sequence[LadderOpeningRef] | None = None,
+) -> None:
     required = {
         "schema_id",
         "artifact_id",
@@ -396,6 +562,7 @@ def validate_scaling_ladder_payload(payload: Mapping[str, Any]) -> None:
         "separation_pointer",
         "source_report_pointer",
         "boundary_ledger_pointer",
+        "owner_contracts",
     }
     for index, row in enumerate(levels):
         if not isinstance(row, Mapping) or set(row) != expected_level_keys:
@@ -404,9 +571,29 @@ def validate_scaling_ladder_payload(payload: Mapping[str, Any]) -> None:
             raise ValueError(f"scaling ladder invalid state: {row['state']}")
         if row["reason"] not in ALLOWED_REASONS:
             raise ValueError(f"scaling ladder invalid reason: {row['reason']}")
-        for field in expected_level_keys - {"level_id", "state", "reason"}:
+        contracts = row["owner_contracts"]
+        if not isinstance(contracts, Mapping) or set(contracts) != set(_CONTRACTS_BY_FIELD.values()):
+            raise ValueError(f"scaling ladder owner contract schema mismatch: {index}")
+        for contract_name, contract in contracts.items():
+            if not isinstance(contract, Mapping) or set(contract) != {"required_pointer", "resolution_status"}:
+                raise ValueError(f"scaling ladder owner contract cell schema mismatch: {index}")
+            if not isinstance(contract["required_pointer"], str) or not contract["required_pointer"]:
+                raise ValueError(f"scaling ladder owner contract required pointer invalid: {index}")
+            if contract["resolution_status"] not in {"resolved", "missing-pointer", "unresolved-pointer"}:
+                raise ValueError(f"scaling ladder owner contract resolution invalid: {index}")
+            if root is not None:
+                _validate_contract_cell(
+                    root=root,
+                    row=row,
+                    index=index,
+                    contract_name=str(contract_name),
+                    contract=contract,
+                )
+        for field in expected_level_keys - {"level_id", "state", "reason", "owner_contracts"}:
             if not isinstance(row[field], str) or not row[field]:
                 raise ValueError(f"scaling ladder pointer field invalid: {field}")
+            if root is not None:
+                _validate_pointer_resolves(root, payload, row[field], field)
     boundary = payload.get("boundary_ledger")
     if not isinstance(boundary, list):
         raise ValueError("scaling ladder boundary ledger must be a list")
@@ -432,6 +619,14 @@ def validate_scaling_ladder_payload(payload: Mapping[str, Any]) -> None:
             raise ValueError("scaling ladder hardgate invalid")
         if gate.get("status") not in {"pass", "fail"} or not isinstance(gate.get("pointer"), str):
             raise ValueError("scaling ladder hardgate fields invalid")
+    if root is not None:
+        expected_statuses = _gate_statuses(root, levels, refs=refs)
+        expected_statuses["SL-HG5-no-injected-opening"] = _expected_hg5_status(root, refs=refs)
+        if set(hardgates) != set(expected_statuses):
+            raise ValueError("scaling ladder hardgate set mismatch")
+        for name, expected_status in expected_statuses.items():
+            if hardgates[name].get("status") != expected_status:
+                raise ValueError(f"scaling ladder hardgate status mismatch: {name}")
     not_claimed = payload.get("not_claimed")
     if not isinstance(not_claimed, list) or not all(isinstance(item, str) for item in not_claimed):
         raise ValueError("scaling ladder not_claimed must be string list")
