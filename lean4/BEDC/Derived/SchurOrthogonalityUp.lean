@@ -70,4 +70,29 @@ theorem SchurOrthogonalityCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨unary_transport localNameUnary (hsame_symm source.right), localNamePkg⟩
   }
 
+theorem SchurOrthogonalityRepresentationRingRoute [AskSetup] [PackageSetup]
+    {group vec character pairing orthogonality transport replay provenance localName
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SchurOrthogonalityCarrier group vec character pairing orthogonality transport replay
+        provenance localName bundle pkg →
+      Cont orthogonality localName consumerRead →
+        PkgSig bundle consumerRead pkg →
+          UnaryHistory group ∧ UnaryHistory vec ∧ UnaryHistory character ∧
+            UnaryHistory pairing ∧ UnaryHistory orthogonality ∧ UnaryHistory consumerRead ∧
+              Cont group vec pairing ∧ Cont character pairing orthogonality ∧
+                Cont orthogonality localName consumerRead ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: SchurOrthogonalityCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨groupUnary, vecUnary, characterUnary, pairingUnary, orthogonalityUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, groupVecPairing,
+    characterPairingOrthogonality, _orthogonalityTransportReplay, _replayProvenanceName,
+    localNamePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed orthogonalityUnary localNameUnary consumerRoute
+  exact
+    ⟨groupUnary, vecUnary, characterUnary, pairingUnary, orthogonalityUnary, consumerUnary,
+      groupVecPairing, characterPairingOrthogonality, consumerRoute, localNamePkg, consumerPkg⟩
+
 end BEDC.Derived.SchurOrthogonalityUp
