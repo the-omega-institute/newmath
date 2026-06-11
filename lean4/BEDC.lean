@@ -956,6 +956,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BooleanalgebraUp
 import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BorelFunctionUp.TasteGate
+import BEDC.Derived.BorelHierarchyUp.TasteGate
 import BEDC.Derived.BorelSetUp.TasteGate
 import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
@@ -3226,6 +3227,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteOrderRefinementBridge
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementNameCert
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementObligations
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
+import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerStability
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
