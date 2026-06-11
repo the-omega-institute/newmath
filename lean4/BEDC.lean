@@ -2658,6 +2658,7 @@ import BEDC.Derived.CofinalModulusSealUp.StdBridge
 import BEDC.Derived.CofinalModulusSealUp.TasteGate
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
+import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalSubsequenceUp.TasteGate
@@ -3252,9 +3253,12 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderNonescape
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCarrier
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCauchySelection
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootLebesgueLedgerRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootMetricCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootRealSeparabilityRoute
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverScopeGrounding
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
@@ -3273,6 +3277,7 @@ import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverNonescape
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligationScope
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
@@ -8434,6 +8439,9 @@ import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedCutUp
 import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
+import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
+import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
