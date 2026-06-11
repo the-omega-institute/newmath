@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicShearCoordinateUp$}
+\label{ch:concrete-instances-hyperbolic-shear-coordinate-namecert}
+\origin{ai}
+
+The $\HyperbolicShearCoordinateUp$ packet realizes the boundary-fixed disk-transport and observer-expansion comparison branch of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite NameCert data. It sits after the boundary-transport route of \autoref{ch:concrete-instances-poincare-disk-boundary-transport-namecert}, the hyperbolic metric row of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the Busemann boundary row of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the boundary-shadow route of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, and the observer-expansion packet of \autoref{ch:concrete-instances-hyperbolic-observer-expansion-namecert}. The packet names a finite shear-coordinate read; it is not a completed Teichmuller space, a host geodesic lamination, a quotient boundary, or a physical observer trajectory.
+
+\begin{definition}[Hyperbolic shear-coordinate carrier]
+\label{def:hyperbolic-shear-coordinate-carrier}
+A $\HyperbolicShearCoordinateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,B,M,U,S,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the disk-surface row, read through Poincare disk boundary-transport data rather than a host disk.
+\item $B$ is the boundary-pair row naming the two visible boundary endpoints whose separation is inspected.
+\item $M$ is the $\HyperbolicMetricUp$ comparison row on displayed disk and boundary data.
+\item $U$ is the Busemann or horofunction comparison row, read through the boundary metric route.
+\item $S$ is the shear-coordinate row, recording the signed comparison budget between the two boundary-fixed transports.
+\item $E$ is the $\HyperbolicObserverExpansionUp$ comparison row, exposing how the same shear budget is consumed by observer-expansion reads.
+\item $R$ is the refusal row excluding completed boundary quotients, global geodesic laminations, physical trajectories, and selected ideal endpoints.
+\item $H$ records componentwise $\hsame$ transport for disk, boundary, metric, Busemann, shear, observer-expansion, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a shear request through $D,B,M,U,S,E,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicShearCoordinateUp$, $\PoincareDiskBoundaryTransportUp$, $\HyperbolicMetricUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicObserverExpansionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyperbolicShearCoordinateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,B,M,U,S,E,R,H,C,P,N$. It has no coordinate for a completed ideal boundary, unlogged geodesic lamination, ambient Teichmuller coordinate, physical observer path, or selected boundary endpoint.
+\end{definition}
+
+\begin{theorem}[Hyperbolic shear-coordinate NameCert obligations]
+\label{thm:hyperbolic-shear-coordinate-namecert-obligations}
+For every accepted $\HyperbolicShearCoordinateUp$ carrier $Q=(D,B,M,U,S,E,R,H,C,P,N)$, the local $\NameCert_{\HyperbolicShearCoordinateUp}$ surface consists exactly of disk-surface admission, boundary-pair admission, hyperbolic-metric comparison, Busemann boundary comparison, shear-coordinate exactness, observer-expansion comparison, refusal exactness, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier onto $D,B,M,U,S,E$. These are the only geometric rows available to the packet, and each is a displayed NameCert row rather than an ambient hyperbolic object.
+
+The shear row $S$ is downstream from the boundary and metric rows. It may compare two boundary-fixed transports only after $D,B,M,U$ have been displayed, so the coordinate is a finite ledger read rather than a selected ideal endpoint.
+
+The observer-expansion row $E$ consumes that same finite shear budget. The refusal row $R$ then blocks any rereading as a completed boundary quotient, geodesic-lamination coordinate, Teichmuller parameter, physical trajectory, or selected endpoint.
+
+Finally $H,C,P,N$ transport, replay, source, and name the displayed route. Since the excluded host objects are not coordinates of $Q$, the listed obligation families exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Hyperbolic shear-coordinate observer route]
+\label{thm:hyperbolic-shear-coordinate-observer-route}
+Every observer-expansion consumer of an accepted $\HyperbolicShearCoordinateUp$ packet must first expose the disk row $D$, boundary-pair row $B$, hyperbolic metric row $M$, Busemann comparison row $U$, shear-coordinate row $S$, refusal row $R$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The route exports no completed boundary quotient, no host geodesic lamination, no ambient Teichmuller coordinate, no physical observer trajectory, and no selected ideal endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They make $D,B,M,U,S,E,R$ the complete geometric surface of the packet.
+
+Read the boundary-fixed transport first. The disk row $D$ and boundary-pair row $B$ determine which finite boundary comparison is visible, while $M$ and $U$ attach metric and Busemann data to that same comparison.
+
+The shear row $S$ and observer-expansion row $E$ are then replayed over the same displayed route. The refusal row $R$ stays attached to the handoff, so no consumer may erase the boundary and metric rows into a global coordinate theorem.
+
+The structural rows $H,C,P,N$ preserve this route and add no hidden geometric object. Thus the observer-facing handoff is finite and classifier-based.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HyperbolicShearCoordinateUp$ read is refuted if an observer-expansion consumer obtains a shear coordinate without displaying Poincare disk boundary transport, boundary endpoints, HyperbolicMetric comparison, Busemann boundary comparison, shear exactness, refusal, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{poincare-disk-boundary-transport, hyperbolic-metric, hyperbolic-busemann-boundary, hyperbolic-boundary-shadow, hyperbolic-observer-expansion: no listed sibling is bijective with $\HyperbolicShearCoordinateUp$, because this packet alone binds boundary-fixed disk transport, boundary-pair comparison, metric readback, Busemann comparison, shear-coordinate exactness, observer-expansion comparison, refusal, transport, replay, provenance, and local naming into one finite row surface.}
+
+The Lean TasteGate route must provide explicit $\Nontrivial\ \HyperbolicShearCoordinateUp$ and $\FieldFaithful\ \HyperbolicShearCoordinateUp$ instances before the packet can serve as a checked carrier-alignment witness. The instances must keep $D,B,M,U,S,E,R,H,C,P,N$ as separate fields and must distinguish a changed shear row from a changed metric or boundary row.
+
+\closureat{HyperbolicShearCoordinateUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicShearCoordinateUp}
+  \constructivestory{A $\HyperbolicShearCoordinateUp$ packet is generated from Poincare disk boundary-transport rows, boundary-pair rows, HyperbolicMetric comparisons, Busemann boundary comparisons, shear-coordinate exactness, HyperbolicObserverExpansion comparisons, refusal exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-shear-coordinate-carrier}, \autoref{thm:hyperbolic-shear-coordinate-namecert-obligations}, and \autoref{thm:hyperbolic-shear-coordinate-observer-route} seed the finite boundary-fixed shear-coordinate route over disk, boundary, metric, Busemann, observer-expansion, refusal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed boundary quotients, host geodesic laminations, ambient Teichmuller coordinates, physical observer trajectories, selected ideal endpoints, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-surface admission, boundary-pair admission, hyperbolic-metric comparison, Busemann comparison, shear exactness, observer-expansion comparison, TasteGate nontriviality, field faithfulness, refusal exactness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicShearCoordinateUp.}
+\end{closurestatus}
