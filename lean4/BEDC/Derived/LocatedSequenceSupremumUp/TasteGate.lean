@@ -1,13 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocatedSequenceSupremumUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -286,5 +290,47 @@ theorem LocatedSequenceSupremumCarrier_namecert_obligations
         exact source
       · intro _row source
         exact source
+
+theorem LocatedSequenceSupremumCarrier_real_handoff
+    {B W R L U E H C P N realRead : BHist} :
+    Cont L U realRead →
+      UnaryHistory L →
+        UnaryHistory U →
+          UnaryHistory realRead ∧
+            List.Mem (locatedSequenceSupremumEncodeBHist U)
+              (locatedSequenceSupremumToEventFlow
+                (LocatedSequenceSupremumUp.mk B W R L U E H C P N)) ∧
+            List.Mem (locatedSequenceSupremumEncodeBHist E)
+              (locatedSequenceSupremumToEventFlow
+                (LocatedSequenceSupremumUp.mk B W R L U E H C P N)) ∧
+            locatedSequenceSupremumFromEventFlow
+                (locatedSequenceSupremumToEventFlow
+                  (LocatedSequenceSupremumUp.mk B W R L U E H C P N)) =
+              some (LocatedSequenceSupremumUp.mk B W R L U E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro realRoute unaryL unaryU
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed unaryL unaryU realRoute
+  exact
+    ⟨realUnary,
+      by
+        simp only [locatedSequenceSupremumToEventFlow]
+        right
+        right
+        right
+        right
+        right
+        left,
+      by
+        simp only [locatedSequenceSupremumToEventFlow]
+        right
+        right
+        right
+        right
+        right
+        right
+        left,
+      LocatedSequenceSupremumTasteGate_single_carrier_alignment_round_trip
+        (LocatedSequenceSupremumUp.mk B W R L U E H C P N)⟩
 
 end BEDC.Derived.LocatedSequenceSupremumUp
