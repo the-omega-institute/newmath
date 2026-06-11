@@ -1,4 +1,4 @@
-import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
+import BEDC.Derived.CoveringdimensionUp
 
 namespace BEDC.Derived.CoveringdimensionUp
 
@@ -11,49 +11,59 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem CoveringDimensionRealSeparabilityCoverPullback [AskSetup] [PackageSetup]
-    {K E C R O L M S Q A H T P N realSealRead coverPullback orderRead : BHist}
+    {K M E U R Q S A H T P N realPull coverPull nerveRead orderRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    CoveringDimensionFiniteRefinementCarrier K E C R O L M S Q A H T P N bundle pkg →
-      Cont R Q realSealRead →
-        Cont realSealRead E coverPullback →
-          Cont coverPullback A orderRead →
-            PkgSig bundle orderRead pkg →
-              SemanticNameCert
-                  (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
-                  (fun row : BHist =>
-                    hsame row R ∨ hsame row Q ∨ hsame row E ∨ hsame row S ∨
-                      hsame row A ∨ hsame row orderRead)
-                  (fun row : BHist =>
-                    UnaryHistory row ∧ Cont R Q realSealRead ∧
-                      Cont realSealRead E coverPullback ∧
-                        Cont coverPullback A orderRead ∧ PkgSig bundle orderRead pkg)
-                  hsame ∧
-                UnaryHistory realSealRead ∧ UnaryHistory coverPullback ∧
-                  UnaryHistory orderRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
-  intro carrier realSealRoute pullbackRoute orderRoute orderPkg
-  obtain ⟨_KUnary, EUnary, _CUnary, RUnary, _OUnary, _LUnary, _MUnary, SUnary, QUnary,
-    AUnary, _HUnary, _TUnary, _PUnary, _NUnary, _KELedger, _CROrder, _OLTReplay,
-    _SMAWindow, _AGTransport, _HTProvenance, _provenancePkg, _namePkg⟩ := carrier
-  have realSealUnary : UnaryHistory realSealRead :=
-    unary_cont_closed RUnary QUnary realSealRoute
-  have pullbackUnary : UnaryHistory coverPullback :=
-    unary_cont_closed realSealUnary EUnary pullbackRoute
+    CoveringDimensionCarrier K M E U A S H T P N bundle pkg ->
+      UnaryHistory R ->
+        UnaryHistory Q ->
+          Cont R Q realPull ->
+            Cont realPull E coverPull ->
+              Cont coverPull S nerveRead ->
+                Cont nerveRead A orderRead ->
+                  PkgSig bundle orderRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row R ∨ hsame row Q ∨ hsame row E ∨ hsame row U ∨
+                            hsame row S ∨ hsame row A ∨ hsame row realPull ∨
+                              hsame row coverPull ∨ hsame row nerveRead ∨
+                                hsame row orderRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont R Q realPull ∧
+                            Cont realPull E coverPull ∧ Cont coverPull S nerveRead ∧
+                              Cont nerveRead A orderRead ∧ PkgSig bundle orderRead pkg)
+                        hsame ∧
+                      UnaryHistory realPull ∧ UnaryHistory coverPull ∧
+                        UnaryHistory nerveRead ∧ UnaryHistory orderRead := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier RUnary QUnary realRoute coverRoute nerveRoute orderRoute orderPkg
+  obtain ⟨_KUnary, _MUnary, EUnary, _UUnary, AUnary, SUnary, _HUnary, _TUnary,
+    _PUnary, _NUnary, _KME, _EUAS, _ASHT, _HTPN, _PPkg, _NPkg⟩ := carrier
+  have realUnary : UnaryHistory realPull :=
+    unary_cont_closed RUnary QUnary realRoute
+  have coverUnary : UnaryHistory coverPull :=
+    unary_cont_closed realUnary EUnary coverRoute
+  have nerveUnary : UnaryHistory nerveRead :=
+    unary_cont_closed coverUnary SUnary nerveRoute
   have orderUnary : UnaryHistory orderRead :=
-    unary_cont_closed pullbackUnary AUnary orderRoute
+    unary_cont_closed nerveUnary AUnary orderRoute
+  have sourceOrder :
+      (fun row : BHist => hsame row orderRead ∧ UnaryHistory row) orderRead := by
+    exact ⟨hsame_refl orderRead, orderUnary⟩
   have cert :
       SemanticNameCert
           (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row R ∨ hsame row Q ∨ hsame row E ∨ hsame row S ∨ hsame row A ∨
-              hsame row orderRead)
+            hsame row R ∨ hsame row Q ∨ hsame row E ∨ hsame row U ∨ hsame row S ∨
+              hsame row A ∨ hsame row realPull ∨ hsame row coverPull ∨
+                hsame row nerveRead ∨ hsame row orderRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont R Q realSealRead ∧
-              Cont realSealRead E coverPullback ∧ Cont coverPullback A orderRead ∧
+            UnaryHistory row ∧ Cont R Q realPull ∧ Cont realPull E coverPull ∧
+              Cont coverPull S nerveRead ∧ Cont nerveRead A orderRead ∧
                 PkgSig bundle orderRead pkg)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro orderRead ⟨hsame_refl orderRead, orderUnary⟩
+      carrier_inhabited := Exists.intro orderRead sourceOrder
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -71,11 +81,20 @@ theorem CoveringDimensionRealSeparabilityCoverPullback [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, realSealRoute, pullbackRoute, orderRoute, orderPkg⟩
+      exact ⟨source.right, realRoute, coverRoute, nerveRoute, orderRoute, orderPkg⟩
   }
-  exact ⟨cert, realSealUnary, pullbackUnary, orderUnary⟩
+  exact ⟨cert, realUnary, coverUnary, nerveUnary, orderUnary⟩
 
 end BEDC.Derived.CoveringdimensionUp
