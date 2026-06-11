@@ -233,4 +233,86 @@ theorem CoveringDimensionRealSeparabilityFiniteCoverBudget [AskSetup] [PackageSe
   }
   exact ⟨cert, separabilityUnary, coverBudgetUnary⟩
 
+theorem CoveringDimensionCoverRefinementMonotonicity [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName leftRefinement rightRefinement commonRefinement ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont cover refinement leftRefinement →
+        Cont cover refinement rightRefinement →
+          Cont leftRefinement rightRefinement commonRefinement →
+            Cont commonRefinement orderBound ledgerRead →
+              PkgSig bundle ledgerRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row cover ∨ hsame row refinement ∨ hsame row orderBound ∨
+                        hsame row leftRefinement ∨ hsame row rightRefinement ∨
+                          hsame row commonRefinement ∨ hsame row ledgerRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont cover refinement leftRefinement ∧
+                        Cont cover refinement rightRefinement ∧
+                          Cont leftRefinement rightRefinement commonRefinement ∧
+                            Cont commonRefinement orderBound ledgerRead ∧
+                              PkgSig bundle ledgerRead pkg)
+                    hsame ∧
+                  UnaryHistory leftRefinement ∧ UnaryHistory rightRefinement ∧
+                    UnaryHistory commonRefinement ∧ UnaryHistory ledgerRead := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier coverRefinementLeft coverRefinementRight leftRightCommon commonOrderLedger
+    ledgerPkg
+  obtain ⟨_compactUnary, _epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    _lebesgueUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have leftUnary : UnaryHistory leftRefinement :=
+    unary_cont_closed coverUnary refinementUnary coverRefinementLeft
+  have rightUnary : UnaryHistory rightRefinement :=
+    unary_cont_closed coverUnary refinementUnary coverRefinementRight
+  have commonUnary : UnaryHistory commonRefinement :=
+    unary_cont_closed leftUnary rightUnary leftRightCommon
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed commonUnary orderUnary commonOrderLedger
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row cover ∨ hsame row refinement ∨ hsame row orderBound ∨
+              hsame row leftRefinement ∨ hsame row rightRefinement ∨
+                hsame row commonRefinement ∨ hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont cover refinement leftRefinement ∧
+              Cont cover refinement rightRefinement ∧
+                Cont leftRefinement rightRefinement commonRefinement ∧
+                  Cont commonRefinement orderBound ledgerRead ∧ PkgSig bundle ledgerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ledgerRead ⟨hsame_refl ledgerRead, ledgerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, coverRefinementLeft, coverRefinementRight, leftRightCommon,
+          commonOrderLedger, ledgerPkg⟩
+  }
+  exact ⟨cert, leftUnary, rightUnary, commonUnary, ledgerUnary⟩
+
 end BEDC.Derived.CoveringdimensionUp
