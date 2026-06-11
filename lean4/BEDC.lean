@@ -3272,6 +3272,7 @@ import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityMetricCompletionCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinementBound
@@ -8631,6 +8632,7 @@ import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
 import BEDC.Derived.RegulatedRealFunctionUp.TasteGate
+import BEDC.Derived.RegulatedSequenceUp
 import BEDC.Derived.RegulatedUniformApproximationUp.TasteGate
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.RegulatorUp.TasteGate

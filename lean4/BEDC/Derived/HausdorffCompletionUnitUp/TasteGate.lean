@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
