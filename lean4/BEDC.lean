@@ -2583,6 +2583,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationDependency
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationExportLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationReadbackLock
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootRouteExhaustion
@@ -3218,6 +3219,7 @@ import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CountablyCompactUp
 import BEDC.Derived.CounterfactualOutcomeUp.TasteGate
 import BEDC.Derived.CousinCoverUp.TasteGate
+import BEDC.Derived.CousinFiniteCoverUp.TasteGate
 import BEDC.Derived.CousinLemmaUp
 import BEDC.Derived.CousinLemmaUp.TasteGate
 import BEDC.Derived.CoverageRankAlgebraUp.BoundaryTriggerSeparation
@@ -3268,6 +3270,7 @@ import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinementBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilitySampling
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
@@ -6033,6 +6036,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterBasisExactness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterDirectedness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFiniteInfimumHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRouteSurface
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphSpecialization
@@ -8875,6 +8879,7 @@ import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
 import BEDC.Derived.SequentialCompactUp.FiniteWindowClusterObligation
 import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.PublicExport
+import BEDC.Derived.SequentialCompactUp.PublicExportNoChoiceBoundary
 import BEDC.Derived.SequentialCompactUp.PublicFiniteClusterRoute
 import BEDC.Derived.SequentialCompactUp.PublicNameCertRoute
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
