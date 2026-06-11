@@ -136,6 +136,22 @@ Use finite prefix induction over $I$. The base case reads the empty displayed pr
 Finally replay the structural rows. The rows $H,C,P,N$ transport and name the same finite window; they have no coordinate for future values outside $W$ or for a choice schedule selecting all positions at once.
 \end{proof}
 
+\begin{theorem}[Lawless sequence finite-prefix induction]
+\label{thm:lawlesssequence-finite-prefix-induction}
+Every finite extension of the $\NatUp$ prefix-index ledger $I$ in an accepted $\LawlessSequenceUp$ carrier $L=(W,B,I,H,C,P,N)$ preserves the displayed route
+$$
+I\longmapsto W\longmapsto B\longmapsto H,C,P,N .
+$$
+The induction exposes only the prefixes already listed by the finite ledger and their visible $\BoolUp$ digit rows. It exposes no unseen future values, no host infinite sequence, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite prefix ledger $I$. The base case is the empty-prefix read: the consumer reads the initial request from $I$, consults the corresponding $\StreamNameUp$ window in $W$ when present, and obtains only the attached visible digit row in $B$.
+
+For the step, extend the displayed request by one unary prefix move. The carrier offers no direct digit coordinate outside $W$, so the next read must pass through the extended StreamName window and then through its attached Bool row.
+
+Finally replay the structural route. Componentwise transport in $H$, continuation replay in $C$, provenance in $P$, and local naming in $N$ preserve the same finite prefix packet at each stage, so the induction cannot reveal any value beyond the displayed ledger.
+\end{proof}
+
 \begin{theorem}[Lawless sequence Real nonescape]
 \label{thm:lawless-sequence-real-nonescape}
 No $\RealUp$ consumer of an accepted $\LawlessSequenceUp$ packet receives $\RealUp$ completeness, quotient stream equality, a host infinite sequence, or a countable-choice schedule. Every such consumer receives only the finite-window packet $L_{\mathrm{fin}}=(I,W,B,H,C,P,N)$ of \autoref{def:lawless-sequence-finite-window-carrier}, routed through the StreamName choice window of \autoref{thm:lawless-sequence-streamname-choice-window}.
