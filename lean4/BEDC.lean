@@ -3226,6 +3226,7 @@ import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
 import BEDC.Derived.CoveringdimensionUp.CompactCoverForwardDependency
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
+import BEDC.Derived.CoveringdimensionUp.CompactMetricForwardLink
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
@@ -3269,6 +3270,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
+import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RootLebesgueLedgerObligation
 import BEDC.Derived.CoveringdimensionUp.RootMetricRealWindow
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
@@ -8319,6 +8321,7 @@ import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDiagonalWindowUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalizationUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceBoundUp
+import BEDC.Derived.RegularCauchyDifferenceBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
