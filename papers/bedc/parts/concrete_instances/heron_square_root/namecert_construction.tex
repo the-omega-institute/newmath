@@ -117,6 +117,22 @@ Use \autoref{thm:heron-square-root-contraction-window-stability}. The finite win
 Thus the accepted read is a regular-Cauchy square-root route: it moves through the displayed dyadic, Newton, regular rational, and Real siblings before any Real-facing consumer can use the square-root result.
 \end{proof}
 
+\begin{theorem}[Heron square-root dyadic-Real forward link]
+\label{thm:heron-square-root-dyadic-real-forward-link}
+Every $\HeronSquareRootUp$ consumer whose output is read as a $\RealUp$ result must first consume the dyadic radicand and contraction rows from \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Newton provenance row from \autoref{ch:concrete-instances-newtoniteration-namecert}, the $\RegSeqRatUp$ readback row from \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal from \autoref{ch:concrete-instances-real-namecert}. For a carrier
+$$
+H=(A,S,R,L,W,D,K,Q,E,T,C,P,N),
+$$
+the forward dependency order is $A,S,R,L,W,D$ before $K$, $K$ before $Q$, and $Q$ before $E$; the transport, replay, provenance, and local naming rows $T,C,P,N$ preserve that order for every accepted Real-facing read.
+\end{theorem}
+\begin{proof}
+Project the carrier. The dyadic radicand and seed rows $A,S$, reciprocal ledger $R$, Heron ledger $L$, finite window $W$, and contraction row $D$ are visible before any row with a Real-facing type is inspected.
+
+Use the sibling route of \autoref{thm:heron-square-root-regular-cauchy-sibling-route}. It places the Newton provenance row $K$ downstream of the dyadic Heron rows, then places $\RegSeqRatUp$ readback $Q$ downstream of $K$, and finally exposes the $\RealUp$ seal $E$ only after $Q$.
+
+The structural rows $T,C,P,N$ cannot permute this order: they transport componentwise, replay the displayed route, record provenance, and name the same carrier. Hence a Real-facing consumer must follow the DyadicRatCore, NewtonIteration, RegSeqRat, and Real sibling route rather than reading a host square-root function, quotient-real equality, selected limit, or ambient completeness witness.
+\end{proof}
+
 \begin{theorem}[Heron square-root Real seal boundary]
 \label{thm:heron-square-root-real-seal-boundary}
 Every $\RealUp$-facing read from an accepted $\HeronSquareRootUp$ packet first exposes the positive dyadic radicand, seed, reciprocal ledger, Heron ledger, finite window, contraction estimate, Newton provenance, and $\RegSeqRatUp$ readback rows
