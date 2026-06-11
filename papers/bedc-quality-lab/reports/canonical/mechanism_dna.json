@@ -3,7 +3,7 @@
   "deterministic_seed": 935,
   "forbidden_alias_audit": {
     "forbidden_key_count": 0,
-    "scanned_key_count": 338,
+    "scanned_key_count": 275,
     "status": "pass"
   },
   "generated_at": "2026-06-09T08:21:49.156738+00:00",
@@ -281,89 +281,6 @@
     },
     {
       "ablation_dependency_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
-        "pointer": "$.matched_baseline_control"
-      },
-      "causal_path_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate",
-        "pointer": "$.search_objective_summary.selected_candidate"
-      },
-      "component_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol",
-        "pointer": "$.candidate_protocol"
-      },
-      "intervention_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
-        "pointer": "$.candidate_protocol.design_search_certificate"
-      },
-      "mechanism_id": "design-search-certificate-slot",
-      "negative_witness_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.negative_witness_mutations",
-        "pointer": "$.negative_witness_mutations"
-      },
-      "not_claimed": [
-        "A present slot is not treated as a closed design-search proof.",
-        "Candidate search rows remain in their source artifact."
-      ],
-      "row_hardgate": {
-        "gates": {
-          "MDNA-discovery-gated-nas-ablation_dependency_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-causal_path_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-component_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-intervention_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-negative_witness_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.negative_witness_mutations",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-source_level_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.level_candidate",
-            "reason": "pointer resolves",
-            "status": "pass"
-          },
-          "MDNA-discovery-gated-nas-source_status_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.hardgate.status",
-            "reason": "pointer resolves",
-            "status": "pass"
-          }
-        },
-        "status": "pass"
-      },
-      "row_id": "discovery-gated-nas",
-      "source_level_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.level_candidate",
-        "pointer": "$.discovery_map_signal.level_candidate"
-      },
-      "source_status_ref": {
-        "artifact": "reports/canonical/discovery-gated-nas.json",
-        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.hardgate.status",
-        "pointer": "$.hardgate.status"
-      }
-    },
-    {
-      "ablation_dependency_ref": {
         "artifact": "reports/canonical/discovery-gated-transformer.json",
         "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
         "pointer": "$.component_ablation"
@@ -421,12 +338,12 @@
             "status": "pass"
           },
           "MDNA-discovery-gated-transformer-source_level_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
             "reason": "pointer resolves",
             "status": "pass"
           },
           "MDNA-discovery-gated-transformer-source_status_ref": {
-            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
             "reason": "pointer resolves",
             "status": "pass"
           }
@@ -436,19 +353,18 @@
       "row_id": "discovery-gated-transformer",
       "source_level_ref": {
         "artifact": "reports/canonical/discovery-gated-transformer.json",
-        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
-        "pointer": "$.d4_projection.discovery_level"
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+        "pointer": "$.d5_m_projection.discovery_level"
       },
       "source_status_ref": {
         "artifact": "reports/canonical/discovery-gated-transformer.json",
-        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
-        "pointer": "$.hardgate.status"
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
+        "pointer": "$.d5_m_projection.status"
       }
     }
   ],
   "schema_id": "bedc-quality-lab:mechanism-dna",
   "source_artifacts": {
-    "discovery-gated-nas": "reports/canonical/discovery-gated-nas.json",
     "discovery-gated-transformer": "reports/canonical/discovery-gated-transformer.json",
     "discovery-regularized-training": "reports/canonical/discovery-regularized-training.json",
     "gap-head-attribution-capsule": "reports/canonical/gap_head_attribution_capsule.json",

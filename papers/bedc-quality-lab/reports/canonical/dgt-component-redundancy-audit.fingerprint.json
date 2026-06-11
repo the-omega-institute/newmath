@@ -1,0 +1,94 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "646bbc31da71c31003f3fb05c07b8216c274cd895d8c3e0a5d4587f86922a621",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_component_redundancy_audit.py",
+        "sha256": "047270e9f7643bb29caf3e233245efd1670244bfaa09aae34f165cc35cdf2484"
+      },
+      {
+        "path": "scripts/run_dgt_component_redundancy_audit.py",
+        "sha256": "d74430ba0690164b7cc34b95eebd7280b18f2f4129e597bacb5250699771c84a"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_component_redundancy_audit.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+      },
+      {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "2c9195505c0c3f032560174ba6ca59d6887ab358d675e68e51ed5d515ff48481"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_dgt_component_redundancy_audit.py"
+      ],
+      "control_pointer": "$.component_redundancy_audit.source_artifacts",
+      "cost_pointer": "$.component_redundancy_audit.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
+      "name": "dgt-component-redundancy-audit",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.component_redundancy_audit.not_claimed",
+      "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
+      "required_json_keys": [
+        "component_redundancy_audit"
+      ],
+      "scope_pointer": "$.component_redundancy_audit.scope"
+    }
+  },
+  "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+  "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
+  "output_digest": "04bfc335bd2b0dc549a7b36acc0c7a35035a46ff095b083e5ab1379a8cbc3ccf",
+  "producer_command": [
+    "python3",
+    "scripts/run_dgt_component_redundancy_audit.py"
+  ],
+  "report_name": "dgt-component-redundancy-audit",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

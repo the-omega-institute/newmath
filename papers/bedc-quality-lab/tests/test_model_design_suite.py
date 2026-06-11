@@ -17,7 +17,6 @@ EXPECTED_MODEL_DESIGN_COMPONENTS = {
     "bedc-quality-lab:certificate-gated-attention",
     "bedc-quality-lab:discovery-regularized-training",
     "bedc-quality-lab:mechanism-seeking-network",
-    "bedc-quality-lab:discovery-gated-nas",
     canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
 }
 EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
@@ -25,7 +24,6 @@ EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
     "reports/canonical/certificate-gated-attention.json",
     canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
     canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
-    canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
     canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
 }
 
@@ -114,10 +112,48 @@ def _write_suite_dependencies(root):
         root / canonical.DISCOVERY_MAP_JSON_ARTIFACT,
         {"coverage_matrix": {"status": "pointer-only"}, "level_counts": {"D0": 0}},
     )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "hardgates": {"L1STEP-HG1": {"status": "pass"}},
+                "not_claimed": ["fixture"],
+                "verdict": "separation-persists",
+            }
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        {"nabl_hardgates": {"status": "pass"}},
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        {"negative_witness_sweep": {"status": "pass"}},
+    )
     canonical._write_json_atomic(root / canonical.NEGATIVE_WITNESSES_JSON_ARTIFACT, {"witnesses": [{"kind": "fixture"}]})
     canonical._write_json_atomic(
         root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
         {"entries": [{"mutation_id": f"m{index}"} for index in range(8)]},
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "verdict": "construct-boundary",
+                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
+                "not_claimed": ["fixture"],
+            }
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        {"negative_witness_sweep": {"status": "fixture"}},
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        {"nabl_hardgates": {"status": "fixture"}},
     )
     canonical._write_json_atomic(
         root / "reports/canonical/ledger-aware-transformer.json",
@@ -139,17 +175,6 @@ def _write_suite_dependencies(root):
             "hardgate": {"status": "pass"},
             "mechanism_gate_summary": {"status": "available"},
             "revocation_rows": [{"status": "none"}],
-            "not_claimed": ["fixture"],
-        },
-    )
-    canonical._write_json_atomic(
-        root / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
-        {
-            "artifact_id": "bedc-quality-lab:discovery-gated-nas",
-            "discovery_map_signal": {"status": "available"},
-            "hardgate": {"status": "fail-closed", "gates": {"DG-NAS-HG8": {"status": "fail"}}},
-            "candidate_protocol": {"search_space_pointer": "$.search_space", "status": "available"},
-            "search_space": {"status": "closed"},
             "not_claimed": ["fixture"],
         },
     )
@@ -188,12 +213,11 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
         row["negative_witness_pointer"]
         for row in payload["rows"]
         if canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT in row["negative_witness_pointer"]
-    } == {
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
-        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
+        } == {
+            f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+            f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
+            f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
+            f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
     }
 
 

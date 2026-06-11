@@ -8,6 +8,7 @@ from bedc_quality_lab import claim_graph
 from bedc_quality_lab import high_impact_review
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
+from scripts import run_discovery_gated_transformer as dgt_runner
 
 
 def _write_json(root: Path, artifact: str, payload):
@@ -144,16 +145,6 @@ def _fixture_root(tmp_path: Path) -> Path:
             "ledger_debt": [{"status": "open"}],
         },
     )
-    _write_json(
-        tmp_path,
-        "reports/canonical/discovery-gated-nas.json",
-        {
-            "mechanism_namecert": {
-                "closure_status": {"mechanism_namecert": "closed"},
-                "not_claimed": ["not a production architecture certificate"],
-            },
-        },
-    )
     return tmp_path
 
 
@@ -168,36 +159,23 @@ def _errors(payload, root):
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    dgt_payload = dgt_runner.build_payload(
+        generated_at="2030-01-01T00:00:00+00:00",
+        high_impact_review_rows=[
+            {
+                "claim_id": "claim:discovery-gated-transformer",
+                "status": "pass",
+                "reason": "positive-discovery-gates-pass",
+                "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+                "claim_pointer": f"{dgt_artifact}:$.d4_projection",
+            }
+        ],
+        root=root,
+    )
     _write_json(
         root,
         dgt_artifact,
-        {
-            "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
-            "model_id": "discovery-gated-transformer",
-            "d4_projection": {
-                "discovery_level": "D4",
-                "readiness": "ready",
-                "matched_control": {"control_positive": False},
-            },
-            "d5_o_projection": {
-                "status": "blocked",
-                "discovery_level": "D4",
-                "source_level": "D4",
-                "evidence_pointers": {
-                    "stronger_matched_random": "$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
-                },
-                "surface_summary": {"threshold_frontier": {"matched_random_pass_count": 0}},
-                "not_claimed": [
-                    "Bounded D5-O claim over deterministic toy surfaces only.",
-                    "No production robustness claim.",
-                    "No global robustness claim.",
-                    "No LLM replacement claim.",
-                ],
-                "scope": {"claim": "bounded deterministic toy operational robustness"},
-            },
-            "not_claimed": ["bounded deterministic toy evidence only"],
-            "claim_capsule_ref": {"artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json", "pointer": "$"},
-        },
+        dgt_payload,
     )
     _write_json(
         root,
@@ -253,21 +231,21 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "report": "discovery-gated-transformer",
             "json_artifact": dgt_artifact,
             "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-            "discovery_level": "D4",
+            "discovery_level": "D5-M",
             "terminal_verdict": "",
             "classifier_reasons": ["fixture"],
             "projection_status": "projected",
-            "evidence_pointer": "$.d4_projection",
-            "control_pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
+            "evidence_pointer": "$.d5_m_projection",
+            "control_pointer": "$.d4_projection.matched_control",
             "audit_status": "valid",
             "audit_reason": "",
-            "not_claimed": ["bounded deterministic toy evidence only"],
+            "not_claimed": list(dgt_payload["d5_m_projection"]["not_claimed"]),
         }
     )
     _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
     rows = claim_graph.load_claim_verdict_rows(root)
     rows.append(_row("claim:discovery-gated-transformer", "projected_discovery_required"))
-    rows[-1]["source"] = f"{dgt_artifact}:$.d4_projection"
+    rows[-1]["source"] = f"{dgt_artifact}:$.d5_m_projection"
     rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
     _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
     provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
@@ -497,9 +475,98 @@ def test_dgt_accepted_positive_claim_graph_path_passes(tmp_path):
 
     assert by_id["terminal:discovery-gated-transformer"]["depends_on"] == ("projected:discovery-gated-transformer",)
     assert by_id["projected:discovery-gated-transformer"]["depends_on"] == ("raw:discovery-gated-transformer",)
+    assert by_id["projected:discovery-gated-transformer"]["evidence_scope"] == (
+        "bounded-design",
+        "toy-model",
+        "theorem-backed",
+        "production-forbidden",
+    )
     assert by_id["raw:discovery-gated-transformer"]["terminal_verdict"] is None
     assert by_id["projected:discovery-gated-transformer"]["terminal_verdict"] is None
     assert _errors(payload, root) == []
+
+
+def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:discovery-gated-transformer":
+            node["evidence_scope"] = None
+
+    errors = _errors(broken, root)
+
+    assert any("component-causal claim lacks evidence_scope" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    "evidence_scope",
+    [
+        [],
+        ["bounded-design", "bounded-design"],
+        ["bounded-design", "outside-enum"],
+    ],
+)
+def test_dgt_component_causal_claim_graph_rejects_bad_evidence_scope(tmp_path, evidence_scope):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    source_path = root / "reports/canonical/discovery-gated-transformer.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["d5_m_projection"]["evidence_scope"] = evidence_scope
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="component-causal.*evidence_scope"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_dgt_component_causal_claim_graph_rejects_production_claim_with_forbidden_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    source_path = root / "reports/canonical/discovery-gated-transformer.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["d5_m_projection"]["terminal_verdict_scope"] = "production deployment authority"
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="evidence_scope contradicts production claim"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_dgt_neural_ablation_pointer_absent_skips(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+
+    assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
+
+
+def test_dgt_neural_ablation_pointer_present_validates_evidence_scope(tmp_path):
+    root = _fixture_root(tmp_path)
+    _write_json(
+        root,
+        "reports/canonical/dgt-neural-ablation.json",
+        {
+            "component_causal_claims": [
+                {
+                    "claim_id": "fixture",
+                    "evidence_scope": ["bounded-design", "toy-model"],
+                }
+            ]
+        },
+    )
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+
+    assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
+
+    source_path = root / "reports/canonical/dgt-neural-ablation.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["component_causal_claims"][0]["evidence_scope"] = ["bounded-design", "bounded-design"]
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    errors = claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
+
+    assert any("dgt-neural-ablation component_causal_claims[0] evidence_scope" in error for error in errors)
 
 
 def test_dgt_accepted_positive_terminal_dependency_bypass_fails(tmp_path):

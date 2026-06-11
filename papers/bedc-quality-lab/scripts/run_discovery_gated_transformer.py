@@ -22,9 +22,12 @@ from bedc_quality_lab.discovery_gated_transformer import (
     JET_CERTIFICATE_ARTIFACT,
     MECHANISM_NAMECERT_ARTIFACT,
     MODEL_ID,
+    SCALING_LADDER_LEVEL_IDS,
     SOURCE_REFS_ARTIFACT,
     _toy_seed_surface_summary,
     build_projection,
+    build_d5_m_projection,
+    build_scaling_ladder_projection,
     default_sidecars,
     render_markdown,
     validate_dgt_hardgate_evidence_bundle,
@@ -131,7 +134,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             {
                 "model_id": MODEL_ID,
                 "hardgate": payload["hardgate"]["status"],
-                "discovery_level": payload["d5_o_projection"]["discovery_level"],
+                "discovery_level": payload["scaling_ladder"]["discovery_level"],
             },
             sort_keys=True,
         )

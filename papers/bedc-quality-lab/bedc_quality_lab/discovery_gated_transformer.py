@@ -21,6 +21,11 @@ PROJECTOR = "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransfor
 CANONICAL_JSON_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 RUN_ROOT = "reports/runs/discovery-gated-transformer"
+DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
+NABL_HARDGATE_STATUS_POINTER = "$.nabl_hardgates.status"
+NABL_HARDGATE_FAILED_GATE_POINTER = "$.nabl_hardgates.failed_gate"
+DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
+DGT_L1_CONTROLS_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
 EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
 MECHANISM_NAMECERT_ARTIFACT = f"{RUN_ROOT}/mechanism_namecert.json"
@@ -183,6 +188,131 @@ D5O_REQUIRED_KEYS = (
 )
 D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
 HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
+D5M_NOT_CLAIMED = (
+    "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
+    "No production authority claim.",
+    "No global superiority claim.",
+    "No LLM replacement claim.",
+    "No unbounded mechanism closure claim.",
+)
+D5M_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection"
+D5M_DEFAULT_EVIDENCE_SCOPE = ("bounded-design", "toy-model", "theorem-backed", "production-forbidden")
+EVIDENCE_SCOPE_VALUES = frozenset(
+    {
+        "bounded-design",
+        "toy-model",
+        "small-real-training",
+        "theorem-backed",
+        "production-forbidden",
+    }
+)
+D5M_GATE_NAMES = tuple(f"D5M-HG{index}" for index in range(1, 11))
+D5M_REQUIRED_KEYS = (
+    "status",
+    "readiness",
+    "discovery_level",
+    "source_level",
+    "evidence_scope",
+    "terminal_verdict_scope",
+    "gate_status",
+    "failed_gate",
+    "blocked_reason",
+    "hardgates",
+    "boundary_ledger",
+    "mechanism_certificate_pointer",
+    "jet_certificate_pointer",
+    "causal_patch_pointer",
+    "component_ablation_pointer",
+    "neural_ablation_pointer",
+    "negative_witness_pointers",
+    "forbidden_claim_audit",
+    "not_claimed",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
+SCALING_LADDER_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"
+SCALING_LADDER_LEVEL_IDS = (
+    "L0_toy",
+    "L1_tiny_sequence",
+    "L2_char_lm",
+    "L3_byte_lm",
+    "L4_tool_use_toy",
+    "L5_small_world_model",
+)
+SCALING_LADDER_GATE_NAMES = tuple(f"SCALE-HG{index}" for index in range(1, 7))
+SCALING_LADDER_NOT_CLAIMED = (
+    "Bounded model prototype scaling only.",
+    "No production scale claim.",
+    "No GPT or Llama claim.",
+    "No global superiority claim.",
+    "No LLM replacement claim.",
+    "No universal recipe claim.",
+    "No unbounded scaling law claim.",
+)
+SCALING_LADDER_REQUIRED_KEYS = (
+    "status",
+    "review_status",
+    "discovery_level",
+    "evidence_scope",
+    "source_projection",
+    "l0_toy_projection_ref",
+    "review_status_ref",
+    "hardgate_summary_ref",
+    "level_state",
+    "promotion_status",
+    "opened_levels",
+    "overall_status",
+    "not_inherited_from_l0",
+    "levels",
+    "boundary_ledger",
+    "hardgate",
+    "not_claimed",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
+L1_TINY_SEQUENCE_PROJECTION_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection"
+L0_CONTROL_POINTER_CONTRACT = {
+    "base_transformer_control": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
+    "matched_random_structural_control": {
+        "artifact": DGT_L0_CONTROLS_ARTIFACT,
+        "pointer": "$.controls.matched_random_structural_control",
+    },
+    "compute_param_ledger": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.compute_param_ledger"},
+    "negative_witness_sweep": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.negative_witness_sweep"},
+    "independent_replay": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.independent_replay"},
+    "l0_control_projection": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection"},
+}
+L0_TOY_PROJECTION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection"}
+L0_REVIEW_STATUS_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection.review_status"}
+L0_HARDGATE_SUMMARY_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection.hardgate_statuses.pass"}
+L0_FORBIDDEN_LADDER_KEYS = frozenset(
+    {
+        "L0-PASS-HG1",
+        "L0-PASS-HG2",
+        "L0-PASS-HG3",
+        "L0-PASS-HG4",
+        "L0-PASS-HG5",
+        "L0-PASS-HG6",
+        "hardgate_rows",
+        "base_control",
+        "base_transformer_control",
+        "matched_random",
+        "matched_random_structural_control",
+        "ledger",
+        "compute_param_ledger",
+        "negative_witness",
+        "negative_witness_sweep",
+        "witness",
+        "replay",
+        "independent_replay",
+    }
+)
 COMPONENT_ABLATION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.component-ablation"
 COMPONENT_ABLATION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation"
@@ -488,7 +618,8 @@ def _resolve_cell(root: Path, cell: Mapping[str, Any]) -> Any:
 def default_component_refs() -> dict[str, dict[str, str]]:
     return {
         "hardgate_contract": _cell("reports/canonical/new_model_hardgates.json", "$.gates"),
-        "discovery_gated_nas": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
+        "mechanism_dna": _cell("reports/canonical/mechanism_dna.json", "$.rows"),
+        "mechanism_namecert": _cell(CANONICAL_JSON_ARTIFACT, "$.mechanism_namecert_ref"),
         "discovery_map": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
         "training_replay": _cell(
             "reports/canonical/discovery-gated-transformer-training.json",
@@ -505,7 +636,8 @@ def default_architecture_spec() -> dict[str, Any]:
         "evidence_policy": "pointer-only source cells",
         "component_order": [
             "hardgate_contract",
-            "discovery_gated_nas",
+            "mechanism_dna",
+            "mechanism_namecert",
             "discovery_map",
             "training_replay",
         ],
@@ -1036,6 +1168,12 @@ def _artifact_pointer_cell(value: str) -> dict[str, str]:
     return _cell(artifact, pointer)
 
 
+def _neural_ablation_ref(root: Path) -> dict[str, str]:
+    status = resolve_artifact_pointer(root, f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_STATUS_POINTER}")
+    pointer = NABL_HARDGATE_STATUS_POINTER if status == "pass" else NABL_HARDGATE_FAILED_GATE_POINTER
+    return _cell(DGT_NEURAL_ABLATION_ARTIFACT, pointer)
+
+
 def _mapping_path(value: Any, path: Sequence[str]) -> Any:
     current = value
     for key in path:
@@ -1092,9 +1230,9 @@ def _dgt_component_specs() -> tuple[DgtComponentSpec, ...]:
             component_role="promotion boundary",
         ),
         DgtComponentSpec(
-            component_id="discovery_gated_nas",
-            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.discovery_gated_nas",
-            component_role="design-search certificate pointer",
+            component_id="mechanism_namecert",
+            owner_pointer=f"{CANONICAL_JSON_ARTIFACT}:$.component_refs.mechanism_namecert",
+            component_role="mechanism certificate pointer",
         ),
         DgtComponentSpec(
             component_id="discovery_map",
@@ -1133,7 +1271,7 @@ def arm_catalog() -> tuple[DgtAblationArmSpec, ...]:
     components = {spec.component_id: spec for spec in _dgt_component_specs()}
     return (
         DgtAblationArmSpec("drop_hardgate_contract", components["hardgate_contract"], ("hardgate_contract",), 0.09),
-        DgtAblationArmSpec("drop_discovery_gated_nas", components["discovery_gated_nas"], ("discovery_gated_nas",), 0.06),
+        DgtAblationArmSpec("drop_mechanism_namecert", components["mechanism_namecert"], ("mechanism_namecert",), 0.06),
         DgtAblationArmSpec("drop_discovery_map", components["discovery_map"], ("discovery_map",), 0.08),
         DgtAblationArmSpec("drop_training_replay", components["training_replay"], ("training_replay",), 0.04),
         DgtAblationArmSpec("drop_tool_route_evidence", components["tool_route_evidence"], ("tool_route_evidence",), 0.10),
@@ -1141,9 +1279,9 @@ def arm_catalog() -> tuple[DgtAblationArmSpec, ...]:
         DgtAblationArmSpec("drop_jet_certificate", components["jet_certificate"], ("jet_certificate",), 0.07),
         DgtAblationArmSpec("drop_d4_projection", components["d4_projection"], ("d4_projection",), 0.11),
         DgtAblationArmSpec(
-            "drop_design_pair",
-            components["discovery_gated_nas"],
-            ("discovery_gated_nas", "discovery_map"),
+            "drop_mechanism_pair",
+            components["mechanism_namecert"],
+            ("mechanism_namecert", "discovery_map"),
             0.13,
         ),
         DgtAblationArmSpec(
@@ -1607,7 +1745,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG3": _cell(CANONICAL_JSON_ARTIFACT, "$.model_id"),
         "DGT-HG4": _cell(CANONICAL_JSON_ARTIFACT, "$.architecture_spec"),
         "DGT-HG5": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.hardgate_contract"),
-        "DGT-HG6": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.discovery_gated_nas"),
+        "DGT-HG6": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.mechanism_namecert"),
         "DGT-HG7": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.discovery_map"),
         "DGT-HG8": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.training_replay"),
         "DGT-HG9": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
@@ -1620,7 +1758,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG16": _cell(EVIDENCE_ENVELOPE_ARTIFACT, "$.component_refs"),
         "DGT-HG17": _cell(MECHANISM_NAMECERT_ARTIFACT, "$.evidence_ref"),
         "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.owner_ref"),
-        "DGT-HG19": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
+        "DGT-HG19": _cell(CANONICAL_JSON_ARTIFACT, "$.component_refs.mechanism_dna"),
         "DGT-HG20": _cell(CANONICAL_JSON_ARTIFACT, "$.not_claimed"),
     }
     missing = not all(_is_cell(component_refs.get(name)) for name in default_component_refs())
@@ -1833,7 +1971,7 @@ def _d4_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
             isinstance(payload.get("forbidden_claim_term_audit"), Mapping)
             and payload["forbidden_claim_term_audit"].get("status") == "pass"
         ),
-        "PROJ-HG9": _has_recursive_token(payload, ("terminal_verdict",)) is not None,
+        "PROJ-HG9": _has_recursive_key(payload, frozenset({"terminal_verdict"})) is not None,
         "PROJ-HG10": not (
             _is_cell(payload.get("hardgate_ref"))
             and _is_cell(payload.get("discovery_map_signal_ref"))
@@ -1944,7 +2082,7 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
             errors.append("DGT D4 projection discovery level mismatch")
         if payload.get("readiness") != ("ready" if expected_failed is None else "blocked"):
             errors.append("DGT D4 projection readiness mismatch")
-    if _has_recursive_token(payload, ("terminal_verdict", ".refactor-loop", "host.env")) is not None:
+    if _has_recursive_key(payload, frozenset({"terminal_verdict"})) is not None or _has_recursive_token(payload, (".refactor-loop", "host.env")) is not None:
         errors.append("DGT D4 projection contains forbidden authority token")
     if not _projection_not_claimed_clean(payload.get("not_claimed")):
         errors.append("DGT D4 projection not_claimed boundary mismatch")
@@ -1959,6 +2097,22 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
 
 @dataclass(frozen=True)
 class DgtD5OProjection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
+
+
+@dataclass(frozen=True)
+class DgtBoundedMechanismProjection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
+
+
+@dataclass(frozen=True)
+class DgtScalingLadderProjection:
     payload: dict[str, Any]
 
     def as_payload(self) -> dict[str, Any]:
@@ -2220,6 +2374,1062 @@ def validate_d5_o_projection(payload: Mapping[str, Any], owner_payload: Mapping[
     return errors
 
 
+def _d5_m_forbidden_claim_audit(owner_payload: Mapping[str, Any], not_claimed: Sequence[str]) -> dict[str, Any]:
+    reported_forbidden_terms = (
+        "production authority",
+        "production deployment",
+        "global superiority",
+        "llm replacement",
+        "unbounded mechanism",
+    )
+    detected_forbidden_terms = (
+        *reported_forbidden_terms,
+        ".refactor-loop",
+        "host.env",
+    )
+    claim_surface = {
+        "evidence_scope": pointer_value(owner_payload, "$.d5_m_projection.evidence_scope"),
+        "terminal_verdict_scope": pointer_value(owner_payload, "$.d5_m_projection.terminal_verdict_scope"),
+    }
+    serialized = json.dumps(claim_surface, sort_keys=True).lower()
+    hits = [term for term in detected_forbidden_terms if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(reported_forbidden_terms),
+        "claim_surface_pointer": D5M_PROJECTION_POINTER,
+    }
+
+
+def validate_evidence_scope(value: Any, *, allow_missing: bool = False) -> list[str]:
+    if value is None and allow_missing:
+        return []
+    if not isinstance(value, list):
+        return ["evidence_scope must be a non-empty array"]
+    if not value:
+        return ["evidence_scope must be non-empty"]
+    if not all(isinstance(item, str) for item in value):
+        return ["evidence_scope entries must be strings"]
+    if len(set(value)) != len(value):
+        return ["evidence_scope must not contain duplicate entries"]
+    invalid = sorted(set(value) - EVIDENCE_SCOPE_VALUES)
+    if invalid:
+        return [f"evidence_scope contains invalid entries: {', '.join(invalid)}"]
+    return []
+
+
+def d5_m_evidence_scope_is_closed(value: Any) -> bool:
+    return validate_evidence_scope(value) == []
+
+
+def _scope_has_production_forbidden(value: Any) -> bool:
+    return isinstance(value, list) and "production-forbidden" in value
+
+
+def _has_production_claim(value: Any) -> bool:
+    text = json.dumps(value, sort_keys=True).lower()
+    return any(
+        token in text
+        for token in (
+            "production claim",
+            "production authority accepted",
+            "production deployment",
+            "deployment authority",
+            "production ready",
+            "production-ready",
+            "production scale authority",
+        )
+    )
+
+
+def d5_m_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    d5_o = owner_payload.get("d5_o_projection")
+    d5_m = owner_payload.get("d5_m_projection")
+    d5_m = d5_m if isinstance(d5_m, Mapping) else {}
+    mechanism_ref = owner_payload.get("mechanism_namecert_ref")
+    jet_ref = owner_payload.get("jet_certificate_ref")
+    operational = owner_payload.get("operational_robustness")
+    not_claimed = d5_m.get("not_claimed", D5M_NOT_CLAIMED)
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, Sequence) else ""
+    negative = d5_m.get("negative_witness_pointers")
+    negative = negative if isinstance(negative, Mapping) else {}
+    forbidden_audit = d5_m.get("forbidden_claim_audit")
+    if not isinstance(forbidden_audit, Mapping):
+        forbidden_audit = _d5_m_forbidden_claim_audit(owner_payload, list(D5M_NOT_CLAIMED))
+    neural_ref = owner_payload.get("neural_ablation_ref")
+    neural_ablation_pointer = artifact_pointer(neural_ref) if _is_cell(neural_ref) else None
+    failed_conditions = {
+        "D5M-HG1": not (
+            isinstance(d5_o, Mapping)
+            and d5_o.get("discovery_level") == "D5-O"
+            and d5_o.get("status") == "ready"
+            and d5_o.get("gate_status") == "pass"
+        ),
+        "D5M-HG2": not d5_m_evidence_scope_is_closed(d5_m.get("evidence_scope")),
+        "D5M-HG3": not (
+            _is_cell(mechanism_ref)
+            and d5_m.get("mechanism_certificate_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref"
+            and d5_m.get("mechanism_closure_status") in {None, "closed"}
+        ),
+        "D5M-HG4": not (_is_cell(jet_ref) and d5_m.get("jet_certificate_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref"),
+        "D5M-HG5": not (
+            isinstance(operational, Mapping)
+            and pointer_value(operational, "$.hardgate.status") == "pass"
+            and d5_m.get("causal_patch_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
+        ),
+        "D5M-HG6": not (
+            _is_cell(neural_ref)
+            and neural_ablation_pointer == f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_STATUS_POINTER}"
+            and d5_m.get("component_ablation_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref"
+            and d5_m.get("neural_ablation_pointer") == neural_ablation_pointer
+        ),
+        "D5M-HG7": negative.get("score_margin_shortcut") != "cleared",
+        "D5M-HG8": negative.get("scale_leakage") != "cleared",
+        "D5M-HG9": not (
+            negative.get("control_positive") == "cleared"
+            and pointer_value(owner_payload, "$.d4_projection.matched_control.control_positive") is False
+        ),
+        "D5M-HG10": not (
+            isinstance(forbidden_audit, Mapping)
+            and forbidden_audit.get("status") == "pass"
+            and d5_m.get("terminal_verdict_scope") == "Core"
+            and "production authority" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "llm replacement" in not_claimed_text
+            and "unbounded" in not_claimed_text
+        ),
+    }
+    evidence = {
+        "D5M-HG1": "$.d5_o_projection",
+        "D5M-HG2": "$.d5_m_projection.evidence_scope",
+        "D5M-HG3": "$.mechanism_namecert_ref",
+        "D5M-HG4": "$.jet_certificate_ref",
+        "D5M-HG5": "$.operational_robustness",
+        "D5M-HG6": "$.neural_ablation_ref",
+        "D5M-HG7": "$.d5_m_projection.negative_witness_pointers.score_margin_shortcut",
+        "D5M-HG8": "$.d5_m_projection.negative_witness_pointers.scale_leakage",
+        "D5M-HG9": "$.d4_projection.matched_control.control_positive",
+        "D5M-HG10": "$.d5_m_projection.forbidden_claim_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in D5M_GATE_NAMES
+    }
+
+
+def build_d5_m_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    overrides = owner_payload.get("d5_m_projection")
+    overrides = overrides if isinstance(overrides, Mapping) else {}
+    has_evidence_scope_override = "evidence_scope" in overrides
+    draft: dict[str, Any] = {
+        "status": "blocked",
+        "readiness": "blocked",
+        "discovery_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level") or "D0",
+        "source_level": pointer_value(owner_payload, "$.d5_o_projection.discovery_level"),
+        "evidence_scope": list(D5M_DEFAULT_EVIDENCE_SCOPE),
+        "terminal_verdict_scope": "Core",
+        "gate_status": "fail",
+        "failed_gate": None,
+        "blocked_reason": None,
+        "hardgates": {},
+        "boundary_ledger": [],
+        "mechanism_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref",
+        "mechanism_closure_status": "closed",
+        "jet_certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
+        "causal_patch_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+        "component_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref",
+        "neural_ablation_pointer": artifact_pointer(owner_payload["neural_ablation_ref"])
+        if _is_cell(owner_payload.get("neural_ablation_ref"))
+        else f"{DGT_NEURAL_ABLATION_ARTIFACT}:{NABL_HARDGATE_FAILED_GATE_POINTER}",
+        "negative_witness_pointers": {
+            "score_margin_shortcut": "cleared",
+            "score_margin_shortcut_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.threshold_frontier",
+            "scale_leakage": "cleared",
+            "scale_leakage_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_o_projection.surface_summary.surfaces",
+            "control_positive": "cleared",
+            "control_positive_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.matched_control.control_positive",
+        },
+        "forbidden_claim_audit": {},
+        "not_claimed": list(D5M_NOT_CLAIMED),
+    }
+    for key in (
+        "terminal_verdict_scope",
+        "mechanism_certificate_pointer",
+        "mechanism_closure_status",
+        "jet_certificate_pointer",
+        "causal_patch_pointer",
+        "component_ablation_pointer",
+        "neural_ablation_pointer",
+        "negative_witness_pointers",
+        "not_claimed",
+    ):
+        if key in overrides:
+            draft[key] = overrides[key]
+    if has_evidence_scope_override:
+        draft["evidence_scope"] = overrides["evidence_scope"]
+    if isinstance(overrides.get("forbidden_claim_audit"), Mapping):
+        draft["forbidden_claim_audit"] = dict(overrides["forbidden_claim_audit"])
+    draft["forbidden_claim_audit"] = _d5_m_forbidden_claim_audit({**owner_payload, "d5_m_projection": draft}, draft["not_claimed"])
+    gates = d5_m_hardgate_rows({**owner_payload, "d5_m_projection": draft})
+    failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    if overrides and not has_evidence_scope_override:
+        failed.insert(0, "D5M-HG2")
+        gates["D5M-HG2"]["status"] = "fail"
+    failed_gate = failed[0] if failed else None
+    draft.update(
+        {
+            "status": "ready" if failed_gate is None else "blocked",
+            "readiness": "ready" if failed_gate is None else "blocked",
+            "discovery_level": "D5-M" if failed_gate is None else (draft["source_level"] if draft["source_level"] in {"D5-O", "D4"} else "D0"),
+            "gate_status": "pass" if failed_gate is None else "fail",
+            "failed_gate": failed_gate,
+            "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
+            "hardgates": gates,
+            "boundary_ledger": [
+                {
+                    "gate": gate_name,
+                    "status": row["status"],
+                    "evidence_pointer": artifact_pointer(row["evidence"]),
+                    "boundary": "closed for bounded D5-M" if row["status"] == "pass" else "blocks D5-M projection",
+                }
+                for gate_name, row in gates.items()
+            ],
+            "anti_triviality_status": "pass" if failed_gate is None else "fail",
+            **owner_local_anti_triviality_contract(
+                recommended_level="D5-M",
+                scale_only_pointer="$.d5_m_projection.hardgates.D5M-HG7",
+                metadata_only_pointer="$.d5_m_projection.hardgates.D5M-HG2",
+                matched_random_pointer="$.d5_m_projection.hardgates.D5M-HG9",
+                forbidden_column_pointer="$.d5_m_projection.hardgates.D5M-HG10",
+                status="pass" if failed_gate is None else "fail",
+                failed_gate=failed_gate,
+            ),
+        }
+    )
+    errors = validate_d5_m_projection({**owner_payload, "d5_m_projection": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return DgtBoundedMechanismProjection(draft).as_payload()
+
+
+def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("d5_m_projection")
+    if not isinstance(payload, Mapping):
+        return ["DGT D5-M projection missing"]
+    expected = set(D5M_REQUIRED_KEYS) | {"mechanism_closure_status"}
+    if set(payload) != expected:
+        errors.append("DGT D5-M projection fields mismatch")
+    gates = payload.get("hardgates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D5M_GATE_NAMES):
+        errors.append("DGT D5-M projection gate names mismatch")
+        return errors
+    expected_gates = d5_m_hardgate_rows(owner_payload)
+    gates_match = gates == expected_gates
+    if not gates_match and payload.get("failed_gate") == "D5M-HG2":
+        patched_expected = json.loads(json.dumps(expected_gates))
+        patched_expected["D5M-HG2"]["status"] = "fail"
+        gates_match = gates == patched_expected
+    if not gates_match:
+        errors.append("DGT D5-M projection gate evaluation mismatch")
+    scope_errors = validate_evidence_scope(payload.get("evidence_scope"))
+    errors.extend(f"DGT D5-M {error}" for error in scope_errors)
+    failed = [gate_name for gate_name in D5M_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    failed_gate = failed[0] if failed else None
+    if payload.get("gate_status") != ("pass" if failed_gate is None else "fail"):
+        errors.append("DGT D5-M projection gate status mismatch")
+    if payload.get("status") != ("ready" if failed_gate is None else "blocked"):
+        errors.append("DGT D5-M projection status mismatch")
+    if payload.get("readiness") != payload.get("status"):
+        errors.append("DGT D5-M projection readiness mismatch")
+    expected_blocked_level = payload.get("source_level") if payload.get("source_level") in {"D5-O", "D4"} else "D0"
+    if payload.get("discovery_level") != ("D5-M" if failed_gate is None else expected_blocked_level):
+        errors.append("DGT D5-M projection discovery level mismatch")
+    if payload.get("failed_gate") != failed_gate:
+        errors.append("DGT D5-M projection failed gate mismatch")
+    if payload.get("blocked_reason") != (None if failed_gate is None else f"blocked-by-{failed_gate}"):
+        errors.append("DGT D5-M projection blocked reason mismatch")
+    if failed_gate is None and scope_errors:
+        errors.append("DGT D5-M evidence scope mismatch")
+    if _scope_has_production_forbidden(payload.get("evidence_scope")) and _has_production_claim(
+        {
+            "terminal_verdict_scope": payload.get("terminal_verdict_scope"),
+            "scope": payload.get("scope"),
+            "claim": payload.get("claim"),
+            "claim_basis": payload.get("claim_basis"),
+            "claim_surface": payload.get("claim_surface"),
+            "positive_claim": payload.get("positive_claim"),
+        }
+    ):
+        errors.append("DGT D5-M evidence scope contradicts production claim")
+    if failed_gate is None and payload.get("terminal_verdict_scope") != "Core":
+        errors.append("DGT D5-M terminal verdict scope mismatch")
+    if failed_gate is None and payload.get("mechanism_closure_status") != "closed":
+        errors.append("DGT D5-M mechanism closure mismatch")
+    if not isinstance(payload.get("boundary_ledger"), list) or len(payload["boundary_ledger"]) != len(D5M_GATE_NAMES):
+        errors.append("DGT D5-M boundary ledger mismatch")
+    forbidden = json.dumps(payload, sort_keys=True).lower()
+    for token in (".refactor-loop", "host.env"):
+        if token in forbidden:
+            errors.append(f"DGT D5-M projection contains forbidden token: {token}")
+    if '"terminal_verdict":' in forbidden:
+        errors.append("DGT D5-M projection contains forbidden terminal authority payload")
+    not_claimed = payload.get("not_claimed")
+    text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    if failed_gate != "D5M-HG10":
+        for phrase in ("bounded d5-m", "production authority", "global superiority", "llm replacement", "unbounded"):
+            if phrase not in text:
+                errors.append(f"DGT D5-M not_claimed missing boundary: {phrase}")
+    if failed_gate is None:
+        for pointer_key in (
+            "mechanism_certificate_pointer",
+            "jet_certificate_pointer",
+            "causal_patch_pointer",
+            "component_ablation_pointer",
+            "neural_ablation_pointer",
+        ):
+            pointer = payload.get(pointer_key)
+            if not isinstance(pointer, str) or not (
+                pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$")
+                or pointer.startswith(f"{DGT_NEURAL_ABLATION_ARTIFACT}:$")
+            ):
+                errors.append(f"DGT D5-M pointer mismatch: {pointer_key}")
+    return errors
+
+
+def _scaling_level_input_by_id(owner_payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    source = owner_payload.get("scaling_ladder")
+    levels = source.get("levels") if isinstance(source, Mapping) else None
+    if not isinstance(levels, list):
+        return {}
+    by_id: dict[str, Mapping[str, Any]] = {}
+    for row in levels:
+        if not isinstance(row, Mapping):
+            continue
+        capsule = row.get("claim_capsule")
+        if not isinstance(capsule, Mapping):
+            continue
+        level_id = capsule.get("level_id")
+        if isinstance(level_id, str):
+            by_id[level_id] = capsule
+    return by_id
+
+
+def _read_l0_control_projection(root: Path) -> Mapping[str, Any] | None:
+    path = root / DGT_L0_CONTROLS_ARTIFACT
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    projection = payload.get("l0_toy_projection") if isinstance(payload, Mapping) else None
+    return projection if isinstance(projection, Mapping) else None
+
+
+def _read_l1_tiny_sequence_projection(root: Path) -> Mapping[str, Any] | None:
+    path = root / DGT_L1_CONTROLS_ARTIFACT
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else None
+    if not isinstance(projection, Mapping):
+        return None
+    return {
+        "review_status": projection.get("review_status"),
+        "promotion_readiness": projection.get("promotion_readiness"),
+        "not_claimed": projection.get("not_claimed"),
+    }
+
+
+def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
+    capsule = _scaling_default_capsule("L0_toy")
+    if not isinstance(projection, Mapping):
+        return capsule
+    review_status = projection.get("review_status")
+    hardgate_summary = projection.get("hardgate_statuses", {}).get("pass") if isinstance(projection.get("hardgate_statuses"), Mapping) else None
+    pass_ready = (
+        review_status == "pass"
+        and projection.get("status") == "pass"
+        and isinstance(hardgate_summary, Mapping)
+        and hardgate_summary.get("status") == "pass"
+    )
+    if pass_ready:
+        capsule["review_status_alias"] = "pass"
+        capsule["level_state"] = "open"
+        capsule["promotion_status"] = "opened-from-l0-pass-pointer"
+        capsule["boundary_ledger"] = []
+    else:
+        capsule["review_status_alias"] = str(review_status) if isinstance(review_status, str) else "missing"
+        capsule["level_state"] = "blocked"
+        capsule["promotion_status"] = "blocked-by-l0-pass-pointer"
+        capsule["boundary_ledger"] = [
+            {
+                "level_id": "L0_toy",
+                "status": "blocked",
+                "reason": "; ".join(str(item) for item in projection.get("failure_reasons", []))
+                or "dgt-l0-controls projection not ready",
+                "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+            }
+        ]
+    not_claimed = projection.get("not_claimed")
+    if isinstance(not_claimed, list) and not_claimed:
+        capsule["not_claimed"] = list(not_claimed)
+    return capsule
+
+
+def _l1_default_scaling_capsule() -> dict[str, Any]:
+    index = SCALING_LADDER_LEVEL_IDS.index("L1_tiny_sequence")
+    return {
+        "level_id": "L1_tiny_sequence",
+        "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+        "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+        "review_status_alias": "missing",
+        "promotion_readiness_alias": "missing",
+        "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+        "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
+        "level_state": "blocked",
+        "promotion_status": "blocked-by-l1-review-status-pointer",
+        "boundary_ledger": [
+            {
+                "level_id": "L1_tiny_sequence",
+                "status": "blocked",
+                "reason": "missing dgt-l1-controls projection",
+                "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+            }
+        ],
+        "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
+    }
+
+
+def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
+    index = SCALING_LADDER_LEVEL_IDS.index(level_id)
+    if level_id == "L0_toy":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
+            "review_status_ref": dict(L0_REVIEW_STATUS_REF),
+            "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "review_status_alias": "missing",
+            "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
+            "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+            "level_state": "blocked",
+            "promotion_status": "blocked-by-l0-pass-pointer",
+            "boundary_ledger": [
+                {
+                    "level_id": level_id,
+                    "status": "blocked",
+                    "reason": "missing dgt-l0-controls projection",
+                    "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
+                }
+            ],
+            "not_claimed": [
+                "Bounded L0 toy training controls only.",
+                "No production scale claim.",
+                "No GPT or Llama claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No universal recipe claim.",
+                "No unbounded scaling law claim.",
+                "No verdict inheritance to L1 or higher scaling levels.",
+            ],
+        }
+    if level_id == "L1_tiny_sequence":
+        return _l1_default_scaling_capsule()
+    return {
+        "level_id": level_id,
+        "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+        "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER if level_id == "L1_tiny_sequence" else f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+        "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+        "level_state": "blocked",
+        "promotion_status": "blocked-until-level-local-evidence",
+        "base_transformer_control": None,
+        "matched_random_structural_control": None,
+        "compute_param_ledger": None,
+        "negative_witness_sweep": None,
+        "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail",
+        },
+        "boundary_ledger": [
+            {
+                "level_id": level_id,
+                "status": "blocked",
+                "reason": "missing bounded scaling level capsule evidence",
+            }
+        ],
+        "not_claimed": list(SCALING_LADDER_NOT_CLAIMED),
+    }
+
+
+def _l1_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
+    capsule = _l1_default_scaling_capsule()
+    if not isinstance(projection, Mapping):
+        return capsule
+    ready = projection.get("review_status") == "pass" and projection.get("promotion_readiness") == "ready-pass"
+    capsule.update(
+        {
+            "pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+            "review_status_alias": projection.get("review_status") if isinstance(projection.get("review_status"), str) else "missing",
+            "promotion_readiness_alias": (
+                projection.get("promotion_readiness") if isinstance(projection.get("promotion_readiness"), str) else "missing"
+            ),
+            "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": (
+                f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness"
+            ),
+        }
+    )
+    if ready:
+        capsule["level_state"] = "ready"
+        capsule["promotion_status"] = "level-local-evidence-ready"
+        capsule["boundary_ledger"] = []
+    else:
+        capsule["level_state"] = "blocked"
+        capsule["promotion_status"] = "blocked-by-l1-review-status-pointer"
+        capsule["boundary_ledger"] = [
+            {
+                "level_id": "L1_tiny_sequence",
+                "status": "blocked",
+                "reason": "dgt-l1-controls projection has not passed independent review",
+                "source_pointer": L1_TINY_SEQUENCE_PROJECTION_POINTER,
+            }
+        ]
+    not_claimed = projection.get("not_claimed")
+    if isinstance(not_claimed, list) and not_claimed:
+        capsule["not_claimed"] = list(not_claimed)
+    return capsule
+
+
+def _scaling_level_capsule(level_id: str, input_capsules: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    default = _scaling_default_capsule(level_id)
+    raw = input_capsules.get(level_id)
+    if not isinstance(raw, Mapping):
+        return default
+    capsule = dict(default)
+    for key in (
+        "claim_id",
+        "pointer",
+        "raw_claim_pointer",
+        "l0_toy_projection_ref",
+        "review_status_ref",
+        "hardgate_summary_ref",
+        "review_status_alias",
+        "review_status_alias_source",
+        "promotion_readiness_alias",
+        "promotion_readiness_alias_source",
+        "projected_claim_pointer",
+        "level_state",
+        "promotion_status",
+        "base_transformer_control",
+        "matched_random_structural_control",
+        "compute_param_ledger",
+        "negative_witness_sweep",
+        "independent_replay",
+        "l0_control_projection",
+        "hardgates",
+        "boundary_ledger",
+        "not_claimed",
+    ):
+        if key in raw:
+            capsule[key] = raw[key]
+    capsule["level_id"] = level_id
+    return capsule
+
+
+def _scaling_capsule_failures(capsule: Mapping[str, Any]) -> list[str]:
+    failures: list[str] = []
+    if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "projected_claim_pointer")):
+        failures.append("capsule identity or claim pointer missing")
+    if capsule.get("level_id") == "L0_toy":
+        if capsule.get("level_state") != "open":
+            failures.append("level state not open")
+        if capsule.get("promotion_status") != "opened-from-l0-pass-pointer":
+            failures.append("promotion status not opened")
+        if capsule.get("l0_toy_projection_ref") != L0_TOY_PROJECTION_REF:
+            failures.append("l0 projection pointer mismatch")
+        if capsule.get("review_status_ref") != L0_REVIEW_STATUS_REF:
+            failures.append("review status pointer mismatch")
+        if capsule.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
+            failures.append("hardgate summary pointer mismatch")
+        if capsule.get("review_status_alias_source") != artifact_pointer(L0_REVIEW_STATUS_REF):
+            failures.append("review status alias source mismatch")
+        copied_keys = sorted(key for key in L0_FORBIDDEN_LADDER_KEYS if key in capsule)
+        if copied_keys:
+            failures.append(f"L0 copied evidence body keys present: {copied_keys}")
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        for phrase in ("bounded", "production", "global superiority", "llm replacement", "universal recipe", "l1"):
+            if phrase not in text:
+                failures.append(f"not_claimed boundary missing: {phrase}")
+        return failures
+    if capsule.get("level_id") == "L1_tiny_sequence":
+        if capsule.get("pointer") != L1_TINY_SEQUENCE_PROJECTION_POINTER:
+            failures.append("L1 pointer mismatch")
+        if capsule.get("level_state") != "ready":
+            failures.append("level state not ready")
+        if capsule.get("promotion_status") != "level-local-evidence-ready":
+            failures.append("promotion status not level-local ready")
+        if capsule.get("review_status_alias") != "pass":
+            failures.append("L1 review status not pass")
+        if capsule.get("promotion_readiness_alias") != "ready-pass":
+            failures.append("L1 promotion readiness not pass")
+        copied_keys = sorted(
+            key
+            for key in (
+                "metrics",
+                "hardgates",
+                "claim_capsule",
+                "claim_capsule_ref",
+                "discovery_map",
+                "verdict",
+                "stable_causal_attribution",
+            )
+            if key in capsule
+        )
+        if copied_keys:
+            failures.append(f"L1 copied evidence body keys present: {copied_keys}")
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        for phrase in ("bounded tiny-sequence", "production", "global superiority", "llm replacement", "l2"):
+            if phrase not in text:
+                failures.append(f"L1 not_claimed boundary missing: {phrase}")
+        return failures
+    if capsule.get("level_state") != "ready":
+        failures.append("level state not ready")
+    if capsule.get("promotion_status") != "level-local-evidence-ready":
+        failures.append("promotion status not level-local ready")
+    for key in ("base_transformer_control", "matched_random_structural_control"):
+        control = capsule.get(key)
+        if not isinstance(control, Mapping) or control.get("status") != "pass" or not isinstance(control.get("pointer"), str):
+            failures.append(f"{key} missing pass pointer")
+    ledger = capsule.get("compute_param_ledger")
+    if not isinstance(ledger, Mapping) or ledger.get("status") != "pass":
+        failures.append("compute/param ledger missing pass status")
+    for key in ("compute_units", "parameter_count"):
+        value = ledger.get(key) if isinstance(ledger, Mapping) else None
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0:
+            failures.append(f"{key} missing positive numeric value")
+    sweep = capsule.get("negative_witness_sweep")
+    if not isinstance(sweep, Mapping) or sweep.get("status") != "pass" or not isinstance(sweep.get("pointer"), str):
+        failures.append("negative witness sweep missing pass pointer")
+    if not isinstance(capsule.get("boundary_ledger"), list):
+        failures.append("boundary ledger missing")
+    text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+    if "production" not in text or "global superiority" not in text or "unbounded" not in text:
+        failures.append("not_claimed boundary missing")
+    return failures
+
+
+def _scaling_level_passes(capsule: Mapping[str, Any]) -> bool:
+    return not _scaling_capsule_failures(capsule)
+
+
+def _scaling_capsule_contract_passes(capsule: Mapping[str, Any]) -> bool:
+    if not all(isinstance(capsule.get(key), str) and capsule.get(key) for key in ("level_id", "claim_id", "projected_claim_pointer")):
+        return False
+    if capsule.get("level_id") == "L0_toy":
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        return (
+            capsule.get("level_state") == "open"
+            and capsule.get("promotion_status") == "opened-from-l0-pass-pointer"
+            and capsule.get("l0_toy_projection_ref") == L0_TOY_PROJECTION_REF
+            and capsule.get("review_status_ref") == L0_REVIEW_STATUS_REF
+            and capsule.get("hardgate_summary_ref") == L0_HARDGATE_SUMMARY_REF
+            and all(key not in capsule for key in L0_FORBIDDEN_LADDER_KEYS)
+            and "production" in text
+            and "global superiority" in text
+            and "llm replacement" in text
+            and "universal recipe" in text
+            and "l1" in text
+        )
+    if capsule.get("level_id") == "L1_tiny_sequence":
+        text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+        return (
+            capsule.get("pointer") == L1_TINY_SEQUENCE_PROJECTION_POINTER
+            and capsule.get("level_state") == "ready"
+            and capsule.get("promotion_status") == "level-local-evidence-ready"
+            and capsule.get("review_status_alias") == "pass"
+            and capsule.get("promotion_readiness_alias") == "ready-pass"
+            and all(
+                key not in capsule
+                for key in (
+                    "metrics",
+                    "hardgates",
+                    "claim_capsule",
+                    "claim_capsule_ref",
+                    "discovery_map",
+                    "verdict",
+                    "stable_causal_attribution",
+                )
+            )
+            and "bounded tiny-sequence" in text
+            and "production" in text
+            and "global superiority" in text
+            and "llm replacement" in text
+            and "l2" in text
+        )
+    if capsule.get("level_state") != "ready" or capsule.get("promotion_status") != "level-local-evidence-ready":
+        return False
+    for key in ("base_transformer_control", "matched_random_structural_control"):
+        control = capsule.get(key)
+        if not isinstance(control, Mapping) or control.get("status") != "pass" or not isinstance(control.get("pointer"), str):
+            return False
+    if not isinstance(capsule.get("boundary_ledger"), list):
+        return False
+    text = " ".join(str(item).lower() for item in capsule.get("not_claimed", []))
+    return "production" in text and "global superiority" in text and "unbounded" in text
+
+
+def _scaling_ledgers_monotone(levels: Sequence[Mapping[str, Any]]) -> bool:
+    previous_compute = -1.0
+    previous_params = -1.0
+    for row in levels:
+        capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+        if isinstance(capsule, Mapping) and capsule.get("level_id") == "L0_toy":
+            if capsule.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
+                return False
+            previous_compute = -1.0
+            previous_params = -1.0
+            continue
+        if isinstance(capsule, Mapping) and capsule.get("level_id") == "L1_tiny_sequence":
+            previous_compute = 0.0
+            previous_params = 0.0
+            continue
+        ledger = capsule.get("compute_param_ledger") if isinstance(capsule, Mapping) else None
+        if not isinstance(ledger, Mapping):
+            return False
+        compute = ledger.get("compute_units")
+        params = ledger.get("parameter_count")
+        if not isinstance(compute, (int, float)) or isinstance(compute, bool) or compute <= previous_compute:
+            return False
+        if not isinstance(params, (int, float)) or isinstance(params, bool) or params <= previous_params:
+            return False
+        if any(str(key).lower() in {"accuracy", "loss", "raw_metrics", "records"} for key in ledger):
+            return False
+        previous_compute = float(compute)
+        previous_params = float(params)
+    return True
+
+
+def _scaling_source_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.status",
+        "discovery_level_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.discovery_level",
+        "mechanism_closure_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection.mechanism_closure_status",
+        "status": pointer_value(owner_payload, "$.d5_m_projection.status"),
+        "discovery_level": pointer_value(owner_payload, "$.d5_m_projection.discovery_level"),
+        "mechanism_closure_status": pointer_value(owner_payload, "$.d5_m_projection.mechanism_closure_status"),
+    }
+
+
+def _scaling_boundary_ledger(levels: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    failed_index: int | None = None
+    rows: list[dict[str, Any]] = []
+    for index, row in enumerate(levels):
+        capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+        level_id = SCALING_LADDER_LEVEL_IDS[index]
+        failures = _scaling_capsule_failures(capsule if isinstance(capsule, Mapping) else {})
+        if failures and failed_index is None:
+            failed_index = index
+            rows.append(
+                {
+                    "level_id": level_id,
+                    "status": "failed",
+                    "failed_gate": "SCALE-HG5",
+                    "reason": "; ".join(failures),
+                    "source_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+                }
+            )
+        elif failed_index is not None and index > failed_index:
+            rows.append(
+                {
+                    "level_id": level_id,
+                    "status": "blocked",
+                    "failed_gate": "SCALE-HG5",
+                    "reason": f"blocked by earlier failed level {SCALING_LADDER_LEVEL_IDS[failed_index]}",
+                    "source_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
+                }
+            )
+    return rows
+
+
+def scaling_ladder_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    ladder = owner_payload.get("scaling_ladder")
+    ladder = ladder if isinstance(ladder, Mapping) else {}
+    levels = ladder.get("levels")
+    levels = levels if isinstance(levels, list) else []
+    source_projection = ladder.get("source_projection")
+    source_projection = source_projection if isinstance(source_projection, Mapping) else _scaling_source_projection(owner_payload)
+    not_claimed = ladder.get("not_claimed", SCALING_LADDER_NOT_CLAIMED)
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, Sequence) else ""
+    level_capsules = [
+        row.get("claim_capsule")
+        for row in levels
+        if isinstance(row, Mapping) and isinstance(row.get("claim_capsule"), Mapping)
+    ]
+    level_passes = [bool(isinstance(capsule, Mapping) and _scaling_level_passes(capsule)) for capsule in level_capsules]
+    contract_passes = [bool(isinstance(capsule, Mapping) and _scaling_capsule_contract_passes(capsule)) for capsule in level_capsules]
+    failed_level_count = len([passed for passed in level_passes if not passed])
+    boundary_ledger = ladder.get("boundary_ledger")
+    failed_conditions = {
+        "SCALE-HG1": not (
+            source_projection.get("status") == "ready"
+            and source_projection.get("discovery_level") == "D5-M"
+            and source_projection.get("mechanism_closure_status") == "closed"
+        ),
+        "SCALE-HG2": not (
+            len(level_capsules) == len(SCALING_LADDER_LEVEL_IDS)
+            and all(contract_passes)
+        ),
+        "SCALE-HG3": not (
+            len(levels) == len(SCALING_LADDER_LEVEL_IDS)
+            and _scaling_ledgers_monotone(levels)
+        ),
+        "SCALE-HG4": not (
+            len(level_capsules) == len(SCALING_LADDER_LEVEL_IDS)
+            and all(
+                isinstance(capsule, Mapping)
+                and (
+                    (
+                        capsule.get("level_id") == "L0_toy"
+                        and capsule.get("hardgate_summary_ref") == L0_HARDGATE_SUMMARY_REF
+                    )
+                    or (
+                        capsule.get("level_id") == "L1_tiny_sequence"
+                        and capsule.get("pointer") == L1_TINY_SEQUENCE_PROJECTION_POINTER
+                        and capsule.get("review_status_alias") == "pass"
+                        and capsule.get("promotion_readiness_alias") == "ready-pass"
+                    )
+                    or (
+                        isinstance(capsule.get("negative_witness_sweep"), Mapping)
+                        and capsule["negative_witness_sweep"].get("status") == "pass"
+                    )
+                )
+                for capsule in level_capsules
+            )
+        ),
+        "SCALE-HG5": failed_level_count != 0
+        or not isinstance(boundary_ledger, list)
+        or bool(boundary_ledger),
+        "SCALE-HG6": not (
+            ladder.get("evidence_scope") == "bounded-model-prototype-scaling"
+            and "production" in not_claimed_text
+            and "gpt" in not_claimed_text
+            and "llama" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "llm replacement" in not_claimed_text
+            and "universal recipe" in not_claimed_text
+            and "unbounded" in not_claimed_text
+        ),
+    }
+    evidence = {
+        "SCALE-HG1": "$.d5_m_projection",
+        "SCALE-HG2": "$.scaling_ladder.levels",
+        "SCALE-HG3": "$.scaling_ladder.levels",
+        "SCALE-HG4": "$.scaling_ladder.levels",
+        "SCALE-HG5": "$.scaling_ladder.boundary_ledger",
+        "SCALE-HG6": "$.scaling_ladder.evidence_scope",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in SCALING_LADDER_GATE_NAMES
+    }
+
+
+def build_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    overrides = owner_payload.get("scaling_ladder")
+    overrides = overrides if isinstance(overrides, Mapping) else {}
+    input_capsules = _scaling_level_input_by_id(owner_payload)
+    levels = [
+        {
+            "level_id": level_id,
+            "claim_capsule": _scaling_level_capsule(level_id, input_capsules),
+        }
+        for level_id in SCALING_LADDER_LEVEL_IDS
+    ]
+    if "L1_tiny_sequence" not in input_capsules:
+        levels[SCALING_LADDER_LEVEL_IDS.index("L1_tiny_sequence")] = {
+            "level_id": "L1_tiny_sequence",
+            "claim_capsule": _l1_capsule_from_projection(_read_l1_tiny_sequence_projection(Path("."))),
+        }
+    source_projection = _scaling_source_projection(owner_payload)
+    boundary_ledger = _scaling_boundary_ledger(levels)
+    opened_levels = [
+        row["level_id"]
+        for row in levels
+        if isinstance(row.get("claim_capsule"), Mapping) and row["claim_capsule"].get("level_state") in {"open", "ready"}
+    ]
+    draft: dict[str, Any] = {
+        "status": "blocked",
+        "review_status": "review-line-blocked",
+        "discovery_level": source_projection["discovery_level"] if source_projection["discovery_level"] in {"D5-M", "D5-O", "D4"} else "D0",
+        "evidence_scope": overrides.get("evidence_scope", "bounded-model-prototype-scaling"),
+        "source_projection": source_projection,
+        "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
+        "review_status_ref": dict(L0_REVIEW_STATUS_REF),
+        "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+        "level_state": "l0-open" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
+        "promotion_status": "l0-open-only" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
+        "opened_levels": opened_levels,
+        "overall_status": "blocked",
+        "not_inherited_from_l0": [
+            level_id
+            for level_id in SCALING_LADDER_LEVEL_IDS
+            if level_id != "L0_toy"
+        ],
+        "levels": levels,
+        "boundary_ledger": boundary_ledger,
+        "hardgate": {
+            "status": "fail",
+            "gate_names": list(SCALING_LADDER_GATE_NAMES),
+            "gates": {},
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+            "blocked_reason": None,
+        },
+        "not_claimed": list(overrides.get("not_claimed", SCALING_LADDER_NOT_CLAIMED)),
+    }
+    gates = scaling_ladder_hardgate_rows({**owner_payload, "scaling_ladder": draft})
+    failed = [gate_name for gate_name in SCALING_LADDER_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    failed_gate = failed[0] if failed else None
+    overall_status = "ready" if failed_gate is None else ("l0-open-only" if opened_levels == ["L0_toy"] else "blocked")
+    draft.update(
+        {
+            "status": "ready" if failed_gate is None else "blocked",
+            "review_status": "review-line-ready" if failed_gate is None else "review-line-blocked",
+            "discovery_level": "D5-M" if failed_gate is None else draft["discovery_level"],
+            "overall_status": overall_status,
+            "hardgate": {
+                "status": "pass" if failed_gate is None else "fail",
+                "gate_names": list(SCALING_LADDER_GATE_NAMES),
+                "gates": gates,
+                "failed_gate": failed_gate,
+                "failed_gate_pointer": None if failed_gate is None else artifact_pointer(gates[failed_gate]["evidence"]),
+                "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
+            },
+            "anti_triviality_status": "pass",
+            **owner_local_anti_triviality_contract(
+                recommended_level="D5-M",
+                scale_only_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG1",
+                metadata_only_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG3",
+                matched_random_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG2",
+                forbidden_column_pointer="$.scaling_ladder.hardgate.gates.SCALE-HG6",
+                status="pass",
+                failed_gate=None,
+            ),
+        }
+    )
+    errors = validate_scaling_ladder_projection({**owner_payload, "scaling_ladder": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return DgtScalingLadderProjection(draft).as_payload()
+
+
+def validate_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("scaling_ladder")
+    if not isinstance(payload, Mapping):
+        return ["DGT scaling ladder projection missing"]
+    if set(payload) != set(SCALING_LADDER_REQUIRED_KEYS):
+        errors.append("DGT scaling ladder fields mismatch")
+    levels = payload.get("levels")
+    if not isinstance(levels, list) or [row.get("level_id") for row in levels if isinstance(row, Mapping)] != list(SCALING_LADDER_LEVEL_IDS):
+        errors.append("DGT scaling ladder level order mismatch")
+    else:
+        for index, row in enumerate(levels):
+            capsule = row.get("claim_capsule") if isinstance(row, Mapping) else None
+            if not isinstance(capsule, Mapping) or capsule.get("level_id") != SCALING_LADDER_LEVEL_IDS[index]:
+                errors.append(f"DGT scaling ladder capsule mismatch: {SCALING_LADDER_LEVEL_IDS[index]}")
+    hardgate = payload.get("hardgate")
+    if not isinstance(hardgate, Mapping) or hardgate.get("gate_names") != list(SCALING_LADDER_GATE_NAMES):
+        errors.append("DGT scaling ladder hardgate names mismatch")
+        return errors
+    gates = hardgate.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != set(SCALING_LADDER_GATE_NAMES):
+        errors.append("DGT scaling ladder hardgate rows mismatch")
+        return errors
+    expected_gates = scaling_ladder_hardgate_rows(owner_payload)
+    if gates != expected_gates:
+        errors.append("DGT scaling ladder hardgate evaluation mismatch")
+    failed = [gate_name for gate_name in SCALING_LADDER_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    failed_gate = failed[0] if failed else None
+    if hardgate.get("status") != ("pass" if failed_gate is None else "fail"):
+        errors.append("DGT scaling ladder hardgate status mismatch")
+    if hardgate.get("failed_gate") != failed_gate:
+        errors.append("DGT scaling ladder failed gate mismatch")
+    expected_pointer = None if failed_gate is None else artifact_pointer(gates[failed_gate]["evidence"])
+    if hardgate.get("failed_gate_pointer") != expected_pointer:
+        errors.append("DGT scaling ladder failed gate pointer mismatch")
+    if hardgate.get("blocked_reason") != (None if failed_gate is None else f"blocked-by-{failed_gate}"):
+        errors.append("DGT scaling ladder blocked reason mismatch")
+    if payload.get("status") != ("ready" if failed_gate is None else "blocked"):
+        errors.append("DGT scaling ladder status mismatch")
+    if payload.get("review_status") != ("review-line-ready" if failed_gate is None else "review-line-blocked"):
+        errors.append("DGT scaling ladder review status mismatch")
+    source_level = pointer_value(owner_payload, "$.d5_m_projection.discovery_level")
+    expected_level = "D5-M" if failed_gate is None else (source_level if source_level in {"D5-M", "D5-O", "D4"} else "D0")
+    if payload.get("discovery_level") != expected_level:
+        errors.append("DGT scaling ladder discovery level mismatch")
+    if payload.get("l0_toy_projection_ref") != L0_TOY_PROJECTION_REF:
+        errors.append("DGT scaling ladder L0 projection pointer mismatch")
+    if payload.get("review_status_ref") != L0_REVIEW_STATUS_REF:
+        errors.append("DGT scaling ladder review status pointer mismatch")
+    if payload.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
+        errors.append("DGT scaling ladder hardgate summary pointer mismatch")
+    opened = payload.get("opened_levels")
+    if not isinstance(opened, list):
+        errors.append("DGT scaling ladder opened levels mismatch")
+    else:
+        expected_opened = [
+            row["level_id"]
+            for row in levels
+            if isinstance(row, Mapping)
+            and isinstance(row.get("claim_capsule"), Mapping)
+            and row["claim_capsule"].get("level_state") in {"open", "ready"}
+        ]
+        if opened != expected_opened:
+            errors.append("DGT scaling ladder opened levels evaluation mismatch")
+    if payload.get("not_inherited_from_l0") != [level_id for level_id in SCALING_LADDER_LEVEL_IDS if level_id != "L0_toy"]:
+        errors.append("DGT scaling ladder inheritance boundary mismatch")
+    expected_overall = "ready" if failed_gate is None else ("l0-open-only" if payload.get("opened_levels") == ["L0_toy"] else "blocked")
+    if payload.get("overall_status") != expected_overall:
+        errors.append("DGT scaling ladder overall status mismatch")
+    if failed_gate is None and payload.get("evidence_scope") != "bounded-model-prototype-scaling":
+        errors.append("DGT scaling ladder evidence scope mismatch")
+    source = payload.get("source_projection")
+    if not isinstance(source, Mapping):
+        errors.append("DGT scaling ladder source projection missing")
+    else:
+        expected_source = _scaling_source_projection(owner_payload)
+        if source != expected_source:
+            errors.append("DGT scaling ladder source projection mismatch")
+    boundary = payload.get("boundary_ledger")
+    if not isinstance(boundary, list):
+        errors.append("DGT scaling ladder boundary ledger mismatch")
+    elif levels and boundary != _scaling_boundary_ledger(levels):
+        errors.append("DGT scaling ladder boundary ledger evaluation mismatch")
+    text = " ".join(str(item).lower() for item in payload.get("not_claimed", []))
+    for phrase in ("production", "gpt", "llama", "global superiority", "llm replacement", "universal recipe", "unbounded"):
+        if phrase not in text:
+            errors.append(f"DGT scaling ladder not_claimed missing boundary: {phrase}")
+    forbidden = json.dumps(payload, sort_keys=True).lower()
+    for token in ("production scale authority", "global superiority accepted", "unbounded scaling law accepted"):
+        if token in forbidden:
+            errors.append(f"DGT scaling ladder contains forbidden claim token: {token}")
+    return errors
+
+
 class DiscoveryGatedTransformerProjector:
     def __init__(
         self,
@@ -2264,6 +3474,7 @@ class DiscoveryGatedTransformerProjector:
             "tool_route_evidence": build_dgt_tool_route_evidence(generated_at=generated_at),
             "family_definition": build_dgt_family_definition(),
             "component_ablation": build_component_ablation(seed=COMPONENT_ABLATION_SEED),
+            "neural_ablation_ref": _neural_ablation_ref(self.root),
             "discovery_map_signal": default_discovery_map_signal(),
             "discovery_map_signal_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
             "d4_projection_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.d4_projection"),
@@ -2296,6 +3507,17 @@ class DiscoveryGatedTransformerProjector:
             root=self.root,
             surface_summary=self.d5_o_surface_summary,
         )
+        payload["d5_m_projection"] = build_d5_m_projection(payload)
+        payload["scaling_ladder"] = {
+            "levels": [
+                {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(_read_l0_control_projection(self.root))},
+                {
+                    "level_id": "L1_tiny_sequence",
+                    "claim_capsule": _l1_capsule_from_projection(_read_l1_tiny_sequence_projection(self.root)),
+                },
+            ]
+        }
+        payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
         validate_projection(payload)
         return payload
 
@@ -2316,12 +3538,15 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "tool_route_evidence",
         "family_definition",
         "component_ablation",
+        "neural_ablation_ref",
         "operational_robustness",
         "discovery_map_signal",
         "discovery_map_signal_ref",
         "d4_projection_ref",
         "d4_projection",
         "d5_o_projection",
+        "d5_m_projection",
+        "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -2343,10 +3568,12 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
-    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict", "tool-use-dgt", "tool-use-toy-dgt"))
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "tool-use-dgt", "tool-use-toy-dgt"))
     if token is not None:
         raise ValueError(f"DGT projection contains forbidden value: {token}")
-    for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref"):
+    if '"terminal_verdict":' in json.dumps(payload, sort_keys=True).lower():
+        raise ValueError("DGT projection contains forbidden terminal authority payload")
+    for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref", "neural_ablation_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT sidecar ref is not a pointer cell: {key}")
     for key in ("hardgate_ref", "discovery_map_signal_ref", "d4_projection_ref"):
@@ -2383,6 +3610,12 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d5_errors = validate_d5_o_projection(payload["d5_o_projection"], payload)
     if d5_errors:
         raise ValueError("; ".join(d5_errors))
+    d5_m_errors = validate_d5_m_projection(payload)
+    if d5_m_errors:
+        raise ValueError("; ".join(d5_m_errors))
+    scaling_errors = validate_scaling_ladder_projection(payload)
+    if scaling_errors:
+        raise ValueError("; ".join(scaling_errors))
 
 
 def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
@@ -2524,6 +3757,60 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for gate_name, row in d5_o_projection["gates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    d5_m_projection = payload["d5_m_projection"]
+    d5_m_evidence_scope = json.dumps(d5_m_projection["evidence_scope"], sort_keys=True)
+    lines.extend(
+        [
+            "",
+            "## D5-M Projection",
+            "",
+            f"- Status: `{d5_m_projection['status']}`",
+            f"- Discovery level: `{d5_m_projection['discovery_level']}`",
+            f"- Evidence scope: `{d5_m_evidence_scope}`",
+            f"- Terminal scope: `{d5_m_projection['terminal_verdict_scope']}`",
+            f"- Blocked reason: `{d5_m_projection['blocked_reason']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d5_m_projection["hardgates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    scaling_ladder = payload["scaling_ladder"]
+    lines.extend(
+        [
+            "",
+            "## Scaling Ladder",
+            "",
+            f"- Status: `{scaling_ladder['status']}`",
+            f"- Review status: `{scaling_ladder['review_status']}`",
+            f"- Discovery level: `{scaling_ladder['discovery_level']}`",
+            f"- Evidence scope: `{scaling_ladder['evidence_scope']}`",
+            f"- Blocked reason: `{scaling_ladder['hardgate']['blocked_reason']}`",
+            "",
+            "| level | state | promotion | evidence |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in scaling_ladder["levels"]:
+        capsule = row["claim_capsule"]
+        if row["level_id"] == "L0_toy":
+            evidence = artifact_pointer(capsule["l0_toy_projection_ref"])
+        else:
+            evidence = capsule.get("raw_claim_pointer") or capsule.get("projected_claim_pointer", "missing")
+        lines.append(
+            "| "
+            f"`{row['level_id']}` | "
+            f"`{capsule['level_state']}` | "
+            f"`{capsule['promotion_status']}` | "
+            f"`{evidence}` |"
+        )
+    lines.extend(["", "| gate | status | evidence |", "| --- | --- | --- |"])
+    for gate_name, row in scaling_ladder["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    lines.extend(["", "### Scaling Boundary Ledger", "", "| level | status | gate | reason |", "| --- | --- | --- | --- |"])
+    for row in scaling_ladder["boundary_ledger"]:
+        lines.append(f"| `{row['level_id']}` | `{row['status']}` | `{row['failed_gate']}` | `{row['reason']}` |")
     d4_projection = payload["d4_projection"]
     lines.extend(
         [

@@ -4,6 +4,7 @@
 - schema_id: `bedc-quality-lab:lejepa-mini-grid`
 - result: `negative`
 - claim capsule: `reports/runs/lejepa-mini-grid/claim_capsule.json`
+- negative diagnosis: `reports/canonical/lejepa_mini_grid_negative_diagnosis.json`
 
 ## Hardgates
 
