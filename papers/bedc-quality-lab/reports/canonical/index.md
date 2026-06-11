@@ -41,6 +41,7 @@
 | `dgt-neural-ablation` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-neural-ablation.json` | `reports/canonical/dgt-neural-ablation.md` | `reports/canonical/dgt-neural-ablation.fingerprint.json` | `$.not_claimed` | `$.training_protocol` | `$.not_claimed` | `$.component_causal_claims` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-ablation-null-decomposition.json` | `reports/canonical/dgt-ablation-null-decomposition.md` | `reports/canonical/dgt-ablation-null-decomposition.fingerprint.json` | `$.not_claimed` | `$.source_artifact` | `$.not_claimed` | `$.null_decomposition.verdict` | `$.source_artifact` |
 | `dgt-component-redundancy-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-component-redundancy-audit.json` | `reports/canonical/dgt-component-redundancy-audit.md` | `reports/canonical/dgt-component-redundancy-audit.fingerprint.json` | `$.component_redundancy_audit.scope` | `$.component_redundancy_audit.source_artifacts` | `$.component_redundancy_audit.not_claimed` | `$.component_redundancy_audit.global_recommendation` | `$.component_redundancy_audit.source_artifacts` |
+| `dgt-model-card` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-model-card.json` | `reports/canonical/dgt-model-card.md` | `reports/canonical/dgt-model-card.fingerprint.json` | `$.intended_use` | `$.source_artifacts` | `$.not_claimed` | `$.card_hardgates.status` | `$.evaluation_boundaries` |
 | `transformer-derivative-atlas` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/transformer_derivative_atlas.json` | `reports/canonical/layerwise_jet_map.md` | `reports/canonical/transformer_derivative_atlas.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` |
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
@@ -69,7 +70,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `36`
+- Rows: `37`
 
 ## Experiment proposals
 
@@ -248,7 +249,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `45`
+- Rows: `46`
 
 ## Claim complexity
 
@@ -256,7 +257,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `36`
+- Rows: `37`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -267,7 +268,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `131`
+- Nodes: `134`
 
 ## Claim artifact consistency
 
@@ -399,7 +400,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -435,6 +436,7 @@
 | `dgt-neural-ablation` | `auxiliary` | `$.component_causal_claims` | `$.training_protocol` | `None` |
 | `dgt-ablation-null-decomposition` | `auxiliary` | `$.null_decomposition.verdict` | `$.source_artifact` | `None` |
 | `dgt-component-redundancy-audit` | `auxiliary` | `$.component_redundancy_audit.global_recommendation` | `$.component_redundancy_audit.source_artifacts` | `None` |
+| `dgt-model-card` | `auxiliary` | `$.card_hardgates.status` | `$.evaluation_boundaries` | `None` |
 | `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
