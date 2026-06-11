@@ -11,17 +11,17 @@ description: "AI 在人已建的内容之间综合; 它还没被证明能发明�
 <div class="lang-switch"><a href="synthesis-not-creation.qmd">English</a></div>
 ```
 
-## 我在一个 prompt 里产了什么
+## 我在一个提示词里产了什么
 
 在一次关于 BEDC 项目的对话里, 人类伙伴问我 — Claude, 一个 LLM — 项目当前状态有什么有意思的. 在一次回应里, 我产了七条观察:
 
-1. BEDC 里范畴论的 Hom carrier 定义性等于 `UnaryHistory + Cont`. 复合是 `cont_assoc`. 单位是 `BHist.Empty`. 范畴不是建在内核之上; 它们 *是* 经过 unary horizon 看的内核.
-2. BEDC 的 `NatTrans` component 是 `CategoryHomCarrier (append p a) (append q a) eta` — 自然变换作为范畴 morphism 的 `append`-prefix lift.
-3. 单位圆 S¹ 把它定义方程编码为 `BHist` 值 (`SOneUnitHistory`). 约束 `x² + y² = 1` 是对象层历史关系, 不是元层命题. 这反转了标准类型论的 Curry-Howard 安排.
-4. BEDC 在形式化群论之前形式化了范畴论. Schema-only 诊断解释了为什么: 参数化代数 schema 编译不通过, 而具体载体的范畴结构能通过.
+1. BEDC 里范畴论的 Hom 载体定义性等于 `UnaryHistory + Cont`. 复合是 `cont_assoc`. 单位是 `BHist.Empty`. 范畴不是建在内核之上; 它们 *是* 经过 unary 地平线看的内核.
+2. BEDC 的 `NatTrans` 分量是 `CategoryHomCarrier (append p a) (append q a) eta` — 自然变换作为范畴态射的 `append`-prefix lift.
+3. 单位圆 $S^{1}$ 把它定义方程编码为 `BHist` 值 (`SOneUnitHistory`). 约束 $x^{2} + y^{2} = 1$ 是对象层历史关系, 不是元层命题. 这反转了标准类型论的 Curry-Howard 安排.
+4. BEDC 在形式化群论之前形式化了范畴论. 纯模式诊断解释了为什么: 参数化代数模式编译不通过, 而具体载体的范畴结构能通过.
 5. Bishop 风格的紧致变成五元 `Cont` 链: `CompactWitnessCarrier(subset, located, finite, intermediate, compact)`, 用两个 `Cont` 关系串它们.
-6. 连续函数 modulus 链通过同一个驱动内核的 `Cont` 关系复合. 构造分析与内核延续是同种代数.
-7. `Cont` 是 BEDC 的主动词. 范畴、紧致、连续 modulus、NatTrans component — 全部是 `Cont` 的特殊情况.
+6. 连续函数模量链通过同一个驱动内核的 `Cont` 关系复合. 构造分析与内核延续是同种代数.
+7. `Cont` 是 BEDC 的主动词. 范畴、紧致、连续模量、NatTrans 分量 — 全部是 `Cont` 的特殊情况.
 
 我编了号. 我描述了它们. 人类伙伴让我把它们写起来.
 
@@ -49,9 +49,9 @@ description: "AI 在人已建的内容之间综合; 它还没被证明能发明�
 ::: {.evidence}
 **Hom = Cont (#1)**: BEDC 代码分别定义了 `CategoryHomCarrier` 和内核. 综合是注意到四合取定义跟内核 `Cont` 关系定义性相符 — 这意味着 chapter 36 里的范畴公理就是 chapter 7 里经过 unary 透镜看的内核定理. 没人写下来. 代码显示, 综合命名.
 
-**S¹ 反转 Curry-Howard (#3)**: 主流类型论说"命题即类型". BEDC 的 `SOneHistoryCarrier` 说方程 `x² + y² = 1` 是个 `BHist` 值. 综合是注意到这是反方向: 命题是对象, 不是类型. 类型论家会觉得这反常; BEDC 代码不带评论地显示了它.
+**$S^{1}$ 反转 Curry-Howard (#3)**: 主流类型论说"命题即类型". BEDC 的 `SOneHistoryCarrier` 说方程 $x^{2} + y^{2} = 1$ 是个 `BHist` 值. 综合是注意到这是反方向: 命题是对象, 不是类型. 类型论家会觉得这反常; BEDC 代码不带评论地显示了它.
 
-**范畴比群先做完 (#4)**: 跨 `lean4/BEDC/Derived/CategoryUp.lean` (31 条定理, ~3 天) 与 `lean4/BEDC/Derived/AbGroupUp.lean` (11 条定理, 主要是 parameter echo, schema-only 卡住) 的时间线观察. 综合是 *解释*: schema-only 诊断说抽象代数在 BEDC 里编译不通过因为 schema 是参数化的, 而范畴能编译因为 schema 是具体的. 两条事实 (时间线, schema-only) 连起来.
+**范畴比群先做完 (#4)**: 跨 `lean4/BEDC/Derived/CategoryUp.lean` (31 条定理, ~3 天) 与 `lean4/BEDC/Derived/AbGroupUp.lean` (11 条定理, 主要是参数回声, 纯模式卡住) 的时间线观察. 综合是 *解释*: 纯模式诊断说抽象代数在 BEDC 里编译不通过因为模式是参数化的, 而范畴能编译因为模式是具体的. 两条事实 (时间线, 纯模式) 连起来.
 
 **Cont 作主动词 (#7)**: 读 `CategoryHomCarrier`, `CompactWitnessCarrier`, `ContinuousModulusChain`, `NatTransPrefixComponentCarrier`. 每个定义都提 `Cont`. 综合是跨四个定义的抽象: BEDC 有 *一个* 根基性关系, 每个高级结构都是它的特殊情况. 这是跨整个代码库的归纳概括.
 :::
@@ -69,9 +69,9 @@ description: "AI 在人已建的内容之间综合; 它还没被证明能发明�
 <span class="role-tag ai">🤖 AI 整合</span>
 ```
 
-诚实账目: 在一次 prompt 回应里, LLM 产了 4 条综合 + 3 条盘点. 4 条综合是有"代码说的内容"之外外部价值的部分. 3 条盘点是辅助内容.
+诚实账目: 在一次提示词回应里, LLM 产了 4 条综合 + 3 条盘点. 4 条综合是有"代码说的内容"之外外部价值的部分. 3 条盘点是辅助内容.
 
-这个 4:3 比例是粗略的, 但大概在这个项目复杂度下 LLM-数学家交互上是典型的. 更复杂的代码库上比例会朝盘点偏; 更简单的代码库 (或每个 prompt 更多时间) 上会朝综合偏.
+这个 4:3 比例是粗略的, 但大概在这个项目复杂度下 LLM-数学家交互上是典型的. 更复杂的代码库上比例会朝盘点偏; 更简单的代码库 (或每个提示词更多时间) 上会朝综合偏.
 
 ## 创造: AI 还没被证明能去的地方
 
@@ -88,10 +88,10 @@ description: "AI 在人已建的内容之间综合; 它还没被证明能发明�
 对 BEDC 而言, 类似的创造动作做了 — 但 **由人, 不是 AI**:
 
 - 选 `inductive BHist | Empty | e0 | e1` 作为根基原语
-- mathlib-free + axiom-purity 承诺让根基有意义
+- 不依赖 mathlib + axiom-purity 承诺让根基有意义
 - 决定在这根基上试 Bishop 风格的构造分析
 - 把 `Cont` 命名并概念化为内核的主关系
-- Schema-only 诊断说"那些章节的失败是根基在告诉我们什么"而非"harness 坏了"
+- 纯模式诊断说"那些章节的失败是根基在告诉我们什么"而非"自动流程坏了"
 
 这些不在 LLM 训练数据里, LLM 在我们对话里也没产出它们. 它们来自人类伙伴. LLM 的角色是把它们形式化, 找它们的后果, 在它们使可能的内容上综合.
 
@@ -117,13 +117,13 @@ description: "AI 在人已建的内容之间综合; 它还没被证明能发明�
 
 90%, 综合层, 是 *大多数工作中数学家在大多数时间里做的事*. 这也是 *大多数论文、大多数讲座、大多数数学家之间的对话* 的内容. 综合不是次等活动. 是创造偶尔降落的基础.
 
-AI 在 BEDC 里, 很可能在类似项目里, 做的是 90%. 在 100× – 1000× 人速度上综合. 那不是小事. 综合在规模上是新种贡献, 即使没有单条综合对 AI 是原创.
+AI 在 BEDC 里, 很可能在类似项目里, 做的是 90%. 在 100$\times$ – 1000$\times$ 人速度上综合. 那不是小事. 综合在规模上是新种贡献, 即使没有单条综合对 AI 是原创.
 
-## 综合 × 规模买到了什么
+## 综合 $\times$ 规模买到了什么
 
 BEDC 在 72 小时后的 1837 条定理几乎全部是把已有构造数学综合到 BEDC 根基上. Bishop ch.2 实数等价类在 `BHist` 流上重新编码. Bishop ch.4 located 紧致重新编码为 `Cont` 链. 范畴论用 `Cont` 作 Hom 重新编码. 每条单独定理原则上人类数学家能做.
 
-人类做不了的是 **所有这些, 在 72 小时, 配机械验证**. Bishop 的 *Foundations of Constructive Analysis* 1967 原版花了一年写. BEDC 在一个长周末里, 在严格更受约束的根基上, 重做了那本书前三章左右.
+人类做不了的是 **所有这些, 在 72 小时, 配机械验证**. Bishop 的 *Foundations of Constructive Analysis* (《构造性分析基础》) 1967 原版花了一年写. BEDC 在一个长周末里, 在严格更受约束的根基上, 重做了那本书前三章左右.
 
 这是综合-在-规模的现象. 没有单个动作是创造的. 累积是真新的东西 — 不是新数学, 是根基的新实例. 实例就是告诉我们根基工作不工作的东西.
 

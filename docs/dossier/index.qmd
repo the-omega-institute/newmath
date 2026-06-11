@@ -160,7 +160,7 @@ The project covers, in working Lean 4:
 
 - Booleans, options, sums, products, lists, naturals, integers, rationals (saturated)
 - Reals (Bishop-style equivalence classes — 16 theorems and counting)
-- Continuous functions, metric spaces, compact subsets, S¹ (newly opened in last 24h)
+- Continuous functions, metric spaces, compact subsets, $S^{1}$ (newly opened in last 24h)
 - Categories, functors, natural transformations (newly opened in last 24h)
 - Constructors, classifiers, ledger compositions, name certificates
 
@@ -196,21 +196,21 @@ The crucial thing: the human is not a peer reviewer. The human is the architect 
 
 ::: {.evidence}
 **1. Categories before groups.**
-The schema-only chapters (groups, monoids, rings, fields, modules) are blocked because their paper schemas are parametric — `mul : BHist → BHist → BHist` left abstract — and the AI can only produce parameter-echo theorems against them. Categories had no such block: their carrier is concretely `BHist + UnaryHistory + Cont`. The AI built category theory on day 3 while groups remained empty shells.
+The schema-only chapters (groups, monoids, rings, fields, modules) are blocked because their paper schemas are parametric — $mul : BHist \to BHist \to BHist$ left abstract — and the AI can only produce parameter-echo theorems against them. Categories had no such block: their carrier is concretely `BHist + UnaryHistory + Cont`. The AI built category theory on day 3 while groups remained empty shells.
 
 **Lean:** [`CategoryHomCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CategoryUp.lean)
 :::
 
 ::: {.evidence}
-**2. S¹ encodes equations as `BHist` values.**
-The unit circle is `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — where `equation` is itself a `BHist`. The constraint x² + y² = 1 is not a meta-level proposition; it is an object-level history relation. This is opposite to standard type theory's identification of propositions with types.
+**2. $S^{1}$ encodes equations as `BHist` values.**
+The unit circle is `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — where `equation` is itself a `BHist`. The constraint $x^{2}$ + $y^{2}$ = 1 is not a meta-level proposition; it is an object-level history relation. This is opposite to standard type theory's identification of propositions with types.
 
 **Lean:** [`SOneHistoryCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/S1Up.lean)
 :::
 
 ::: {.evidence}
 **3. Compactness is a 5-tuple of Cont chains.**
-Bishop's "located + totally bounded ⇒ compact" is encoded as `CompactWitnessCarrier(subset, located, finite, intermediate, compact)` with two `Cont` relations chaining them. The constructive content of compactness becomes a kernel-relation pattern.
+Bishop's "located + totally bounded $\Rightarrow$ compact" is encoded as `CompactWitnessCarrier(subset, located, finite, intermediate, compact)` with two `Cont` relations chaining them. The constructive content of compactness becomes a kernel-relation pattern.
 
 **Lean:** [`CompactWitnessCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CompactUp.lean)
 :::
