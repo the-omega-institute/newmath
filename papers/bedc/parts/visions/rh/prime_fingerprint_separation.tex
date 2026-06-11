@@ -1,0 +1,256 @@
+\chapter{Prime Fingerprint Separation for RH}
+\label{ch:visions-rh-prime-fingerprint-separation}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-unitary-balance-surface} identifies the
+critical line with the unit-amplitude surface of the centered prime channels.
+The present chapter records the separation row behind that identification.
+The point $s$ is not treated as a bare geometric coordinate with prime data
+attached afterward.  In the zeta recovery carrier, $s$ is read by its
+responses to all prime-local probes.
+
+\section{Prime fingerprint}
+\label{sec:rh-prime-fingerprint}
+
+\begin{definition}[Prime fingerprint]
+\label{def:rh-prime-fingerprint}
+For a complex history $s$, its prime fingerprint is the family
+$$
+\mathsf{PF}(s)
+:=
+\bigl(p^{-s}\bigr)_{p\in\PrimeUp}.
+$$
+Equivalently, for the multiplicative character
+$$
+\chi_s(n):=n^{-s},
+$$
+unique factorization gives
+$$
+n=\prod_p p^{k_p}
+\qquad\Longrightarrow\qquad
+\chi_s(n)=\prod_p \chi_s(p)^{k_p}.
+$$
+Thus the prime fingerprint is the local-probe presentation of the same
+Dirichlet projection row consumed by
+\autoref{def:rh-zeta-prime-projection-tower}.
+\end{definition}
+
+\begin{definition}[Prime-fingerprint equivalence]
+\label{def:rh-prime-fingerprint-equivalence}
+For complex histories $s$ and $t$, write
+$$
+s\equiv_{\mathsf{PF}}t
+$$
+when
+$$
+\forall p\in\PrimeUp,\quad p^{-s}=p^{-t}.
+$$
+This is equality as observed by all prime-local zeta channels.
+\end{definition}
+
+\begin{proposition}[Prime channels separate complex histories]
+\label{prop:rh-prime-fingerprint-separates-points}
+On the displayed complex-history packet containing the prime rows $2$ and
+$3$ with their real logarithm rows,
+$$
+s\equiv_{\mathsf{PF}}t
+\quad\Longleftrightarrow\quad
+s=t.
+$$
+\end{proposition}
+
+\begin{proof}
+The implication from $s=t$ to $s\equiv_{\mathsf{PF}}t$ is immediate.
+Conversely, assume $s\equiv_{\mathsf{PF}}t$ and put $a=s-t$.  The prime rows
+$2$ and $3$ give
+$$
+e^{-a\log 2}=1,
+\qquad
+e^{-a\log 3}=1.
+$$
+Hence there are integers $k$ and $\ell$ with
+$$
+a\log 2=2\pi i k,
+\qquad
+a\log 3=2\pi i\ell.
+$$
+If $a\neq0$, then $k$ and $\ell$ are not both zero and the displayed rows
+force
+$$
+k\log 3=\ell\log 2.
+$$
+Exponentiating gives
+$$
+3^k=2^\ell,
+$$
+which is impossible unless $k=\ell=0$ by unique factorization.  Therefore
+$a=0$, so $s=t$.
+\end{proof}
+
+\begin{principle}[Primes are probes, not points]
+\label{prin:rh-primes-are-point-probes}
+The prime rows are not points of the critical strip.  They are separating
+local probes for the zeta information space.  A complex history $s$ is
+distinguished from $t$ precisely when some prime-local response differs:
+$$
+s\neq t
+\quad\Longleftrightarrow\quad
+\exists p\in\PrimeUp,\quad p^{-s}\neq p^{-t}.
+$$
+\end{principle}
+
+\section{Mirror fingerprints}
+\label{sec:rh-mirror-fingerprints}
+
+\begin{definition}[Mirror prime fingerprint]
+\label{def:rh-mirror-prime-fingerprint}
+Let $J(s)=1-\overline{s}$ be the mirror map of
+\autoref{def:rh-mirror-map}.  The mirror prime-fingerprint comparison for
+$s$ is the pair
+$$
+\bigl(\mathsf{PF}(s),\mathsf{PF}(J(s))\bigr).
+$$
+The comparison is collapsed when
+$$
+\mathsf{PF}(s)=\mathsf{PF}(J(s)).
+$$
+\end{definition}
+
+\begin{proposition}[Mirror changes amplitude bias, not phase clock]
+\label{prop:rh-mirror-prime-amplitude-bias}
+Write
+$$
+s=\frac{1}{2}+\delta+i\tau.
+$$
+For the centered prime channel
+$$
+U_p(s)=p^{1/2-s},
+$$
+one has
+$$
+U_p(s)=p^{-\delta}e^{-i\tau\log p},
+\qquad
+U_p(J(s))=p^\delta e^{-i\tau\log p}.
+$$
+Thus the mirror preserves the prime phase clock and inverts the prime
+amplitude bias.
+\end{proposition}
+
+\begin{proof}
+Since
+$$
+J(s)=1-\overline{s}=\frac{1}{2}-\delta+i\tau,
+$$
+direct substitution gives
+$$
+U_p(s)=p^{1/2-(1/2+\delta+i\tau)}
+=p^{-\delta}e^{-i\tau\log p},
+$$
+and
+$$
+U_p(J(s))=p^{1/2-(1/2-\delta+i\tau)}
+=p^\delta e^{-i\tau\log p}.
+$$
+\end{proof}
+
+\begin{corollary}[Prime fingerprint collapses exactly on the mirror surface]
+\label{cor:rh-prime-fingerprint-mirror-collapse}
+For every complex history $s$,
+$$
+\mathsf{PF}(s)=\mathsf{PF}(J(s))
+\quad\Longleftrightarrow\quad
+s=J(s)
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac{1}{2}.
+$$
+\end{corollary}
+
+\begin{proof}
+The first equivalence follows from
+\autoref{prop:rh-prime-fingerprint-separates-points} applied to $s$ and
+$J(s)$.  The second equivalence is the fixed-point calculation in
+\autoref{def:rh-mirror-map}.
+\end{proof}
+
+\begin{corollary}[Off-critical mirror pairs are prime-visible]
+\label{cor:rh-off-critical-mirror-pairs-prime-visible}
+If $s=1/2+\delta+i\tau$ with $\delta\neq0$, then every displayed prime row
+$p$ separates the centered channel amplitudes of $s$ and $J(s)$:
+$$
+\left|U_p(s)\right|=p^{-\delta},
+\qquad
+\left|U_p(J(s))\right|=p^\delta
+=\left|U_p(s)\right|^{-1},
+$$
+and
+$$
+\left|U_p(s)\right|\neq1.
+$$
+\end{corollary}
+
+\begin{proof}
+This is the modulus read of
+\autoref{prop:rh-mirror-prime-amplitude-bias}.  Since $p>1$ and
+$\delta\neq0$, the positive scalar $p^{-\delta}$ is not one.
+\end{proof}
+
+\section{RH as prime-fingerprint indistinguishability}
+\label{sec:rh-prime-fingerprint-rh}
+
+\begin{theorem}[Prime-fingerprint normal form of RH]
+\label{thm:rh-prime-fingerprint-normal-form}
+The Riemann Hypothesis is equivalent to the assertion that every recognized
+non-trivial zeta-zero event is indistinguishable from its mirror by prime
+fingerprint:
+$$
+\mathsf{RH}
+\quad\Longleftrightarrow\quad
+\forall s,\,
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{PF}(s)=\mathsf{PF}(J(s)).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{cor:rh-prime-fingerprint-mirror-collapse},
+$\mathsf{PF}(s)=\mathsf{PF}(J(s))$ is equivalent to
+$\Re(s)=1/2$.  Substituting this equivalent output row into the BEDC
+statement of $\mathsf{RH}$ gives the displayed normal form.
+\end{proof}
+
+\begin{corollary}[No prime-visible mirror bias form]
+\label{cor:rh-no-prime-visible-mirror-bias-form}
+Equivalently, $\mathsf{RH}$ says that no recognized non-trivial zero event
+carries a prime-visible mirror amplitude bias:
+$$
+\forall s,\,
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\forall p\in\PrimeUp,\quad
+\left|p^{1/2-s}\right|=1.
+$$
+\end{corollary}
+
+\begin{proof}
+The output row is exactly the prime-unitary balance condition of
+\autoref{def:rh-prime-unitary-balance}.  Its equivalence with the ordinary
+RH witness is \autoref{prop:rh-prime-balanced-equivalent}; equivalently, it
+is the amplitude form of
+\autoref{thm:rh-prime-fingerprint-normal-form}.
+\end{proof}
+
+\begin{remark}[Relation to mirror closure]
+\label{rem:rh-prime-fingerprint-relation-to-mirror-closure}
+The functional equation supplies mirror closure of the zero set, as in
+\autoref{thm:rh-functional-equation-gives-mirror-closure}.  The
+prime-fingerprint row asks for more: the two mirror-related zero packets must
+not be separated by any prime-local channel.  By
+\autoref{cor:rh-mirror-closure-weaker-than-rh}, this pointwise collapse is
+not supplied by mirror closure alone.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-prime-namecert}{Prime packets supply the local probe family used by the prime fingerprint.}
+\concretizedIn{ch:concrete-instances-zeta-basic-namecert}{The Dirichlet and Euler-product rows supply the half-plane channel on which $\mathsf{PF}(s)$ is read.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{The zeta functional-equation ledger supplies the mirror transport row whose orbit collapse is tested by prime fingerprints.}
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Critical-line witness packets supply the fixed-surface row equivalent to prime-fingerprint collapse.}
