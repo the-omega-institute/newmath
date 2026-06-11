@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveNestedRealIntervalUp$}
+\label{ch:concrete-instances-constructive-nested-real-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\ConstructiveNestedRealIntervalUp$ packet records a nested rational interval argument as finite endpoint windows with a displayed dyadic width descent. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers one Bishop-style nested rational interval route without importing open-cover compactness, quotient real equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Constructive nested real interval carrier]\label{def:constructive-nested-real-interval-carrier}
+A $\ConstructiveNestedRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are rational endpoint rows for the inspected left and right interval endpoints, each read through the dyadic tolerance discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+\item $S$ is the finite $\StreamNameUp$ window listing the inspected stages and the endpoint observations available at each stage.
+\item $D$ is the dyadic width-descent ledger, recording $L_n \leq L_{n+1} \leq R_{n+1} \leq R_n$ and a displayed dyadic budget forcing the inspected widths below the requested tolerance.
+\item $Q$ is the $\RegSeqRatUp$ selector row that chooses, from each inspected interval, a midpoint or endpoint rational compatible with the displayed width budget.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $L,R,S,D,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for endpoint rows, stream windows, width descent, selector readback, Real seal, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from finite endpoint observations through width descent, selector readback, and the terminal Real seal.
+\item $P$ records $\Pkg$ provenance over $\ConstructiveNestedRealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveNestedRealIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,S,D,Q,E,H,C,P,N$. It has no coordinate for open-cover compactness, quotient real equality, choice-selected limits, Heine--Borel, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Constructive nested real interval NameCert obligations]\label{thm:constructive-nested-real-interval-namecert-obligations}
+For every accepted $\ConstructiveNestedRealIntervalUp$ carrier
+$$
+K=(L,R,S,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveNestedRealIntervalUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for endpoint rows, finite stage windows, dyadic width descent, selector readback, terminal Real sealing, transport, replay, provenance, and local naming;
+\item classifier visibility, requiring packet comparison to inspect only $L,R,S,D,Q,E,H,C,P,N$;
+\item stability, requiring $\hsame$ transport to preserve endpoint order, successor containment, dyadic width budgets, selector reads, and the terminal seal;
+\item exactness, requiring every selector read in $Q$ to lie inside the displayed interval stage from which it is drawn and to use no uninspected endpoint;
+\item ledger closure, requiring $\Cont$ replay and $\Pkg$ provenance to record the full route from finite endpoint windows through the $\RegSeqRatUp$ selector to the $\RealUp$ seal.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:constructive-nested-real-interval-carrier}. The accepted packet displays exactly the endpoint, stage-window, width-descent, selector, seal, transport, replay, provenance, and local naming rows.
+
+Classifier visibility follows because the packet has no further coordinate. A comparison of accepted packets can inspect the listed rows, but it cannot ask for open-cover compactness, quotient real equality, a selected host limit, Heine--Borel, trichotomy, or ambient completeness.
+
+The stability and exactness clauses are read from the same displayed rows. The transport row $H$ preserves the endpoint order, containment, width budget, selector readback, and Real seal, while $D$ and $Q$ record that each rational selector read is taken from an inspected interval stage and satisfies the displayed dyadic tolerance request.
+
+Finally, $C$ and $P$ close the ledger. They replay and source the route from finite interval windows through the regular rational selector to the terminal seal, so no detached obligation remains available outside $L,R,S,D,Q,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Constructive nested interval Cauchy selector]\label{thm:constructive-nested-real-interval-cauchy-selector}
+Every accepted $\ConstructiveNestedRealIntervalUp$ carrier determines a $\RegSeqRatUp$-compatible Cauchy selector whose terminal $\RealUp$ seal remains inside the displayed nested interval packet. More precisely, the selector reads only the finite endpoint windows in $S$, the dyadic width-descent ledger $D$, and the rational row $Q$; for each requested dyadic tolerance, a displayed stage supplies a rational selector value inside the corresponding interval, and the terminal seal $E$ is reached only through that selector route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(L,R,S,D,Q,E,H,C,P,N)$. The finite stream window $S$ tells which stages may be inspected, and the endpoint rows $L,R$ give the rational bounds available at those stages.
+
+The ledger $D$ supplies successor containment and a dyadic width budget. Given a displayed tolerance request, the budget exposes an inspected stage whose interval width is below that tolerance, and containment ensures later inspected stages remain inside the earlier interval.
+
+The selector row $Q$ reads a rational from the displayed interval stage, for instance a midpoint or an endpoint named by the packet. Since both selected values for sufficiently narrow inspected stages lie inside a common displayed interval whose width is below the tolerance, the selected rational reads satisfy the $\RegSeqRatUp$ Cauchy condition.
+
+The terminal row $E$ is therefore reached only after the selector has passed through $Q$. The replay row $C$, transport row $H$, provenance row $P$, and local name $N$ preserve that dependency, so the Real seal cannot escape the finite nested interval packet or appeal to a choice-selected limit, quotient equality, open-cover compactness, Heine--Borel, trichotomy, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\ConstructiveNestedRealIntervalUp$ Real-facing read factors through finite rational endpoint windows, a dyadic width-descent ledger, a RegSeqRat-compatible selector row, terminal Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\ConstructiveNestedRealIntervalUp$ is not bijective to any listed sibling because it jointly carries nested rational endpoints, inspected stage windows, dyadic width descent, selector readback, terminal Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{ConstructiveNestedRealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveNestedRealIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-nested-real-interval-carrier}, \autoref{thm:constructive-nested-real-interval-namecert-obligations}, and \autoref{thm:constructive-nested-real-interval-cauchy-selector} seed the finite nested rational interval route from endpoint windows through dyadic width descent, regular rational selection, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient real equality, choice-selected limits, Heine--Borel, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier visibility, stability, exactness, ledger closure, selector Cauchy control, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveNestedRealIntervalUp.}
+  \constructivestory{A $\ConstructiveNestedRealIntervalUp$ packet is generated from rational endpoint rows, finite StreamName windows, a dyadic width-descent ledger, RegSeqRat selector readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
