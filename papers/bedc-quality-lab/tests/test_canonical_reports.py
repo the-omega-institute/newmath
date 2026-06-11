@@ -1370,7 +1370,7 @@ def _patch_lightweight_run_reports(monkeypatch):
     monkeypatch.setattr(
         canonical,
         "_index",
-        lambda results, generated_at=None, claim_verdict_rows=None: {
+        lambda results, generated_at=None, claim_verdict_rows=None, discovery_gated_transformer_payload=None: {
             "schema_id": canonical.INDEX_SCHEMA_ID,
             "generated_at": generated_at,
             "reports": list(results),
@@ -1400,7 +1400,7 @@ def _patch_lightweight_run_reports(monkeypatch):
         types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
-    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda: {"status": "pass"})
+    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
 
 
 def _file_digest_map(root):
@@ -4374,8 +4374,8 @@ def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monk
     _write_fingerprint_fixture(canonical, tmp_path, spec)
     calls = []
 
-    def fake_preflight():
-        calls.append("preflight")
+    def fake_preflight(report_artifacts=None):
+        calls.append(("preflight", tuple(report_artifacts or ())))
         return {"status": "pass"}
 
     def fake_run_producer(called):
@@ -4386,7 +4386,7 @@ def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monk
 
     payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
 
-    assert calls == ["preflight"]
+    assert calls == [("preflight", (spec.json_artifact,))]
     assert payload["reports"][0]["fingerprint_status"] == "match"
 
 

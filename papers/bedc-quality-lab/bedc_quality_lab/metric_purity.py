@@ -18,6 +18,8 @@ TARGETS_SCHEMA_ID = "bedc.quality.metric_purity_targets"
 ALLOWLIST_SCHEMA_ID = "bedc.quality.metric_purity_allowlist"
 LAB_ROOT = Path(__file__).resolve().parents[1]
 TARGET_KINDS = frozenset({"metric", "feature", "hardgate", "pathology"})
+AST_SCANNED_KINDS = frozenset({"metric", "feature"})
+AuditStage = Literal["full", "pre_generation", "post_generation"]
 FINDING_CODES = frozenset(
     {f"METPURE-HG{index}" for index in range(1, 6)}
     | {f"AST-HG{index}" for index in range(1, 5)}
@@ -162,21 +164,29 @@ def run_metric_purity_audit(
     root: Path,
     targets_path: str | Path | None = None,
     allowlist_path: str | Path | None = None,
+    *,
+    target_ids: Iterable[str] | None = None,
+    report_artifacts: Iterable[str] | None = None,
+    audit_stage: AuditStage = "full",
 ) -> dict[str, Any]:
     root = Path(root)
+    if audit_stage not in {"full", "pre_generation", "post_generation"}:
+        raise ValueError(f"unknown metric purity audit stage: {audit_stage}")
     resolved_targets_path = Path(targets_path) if targets_path is not None else default_targets_path(root)
     resolved_allowlist_path = Path(allowlist_path) if allowlist_path is not None else default_allowlist_path(root)
     findings: list[MetricPurityFinding] = []
     target_config = _load_json(resolved_targets_path)
     allowlist_config = _load_json(resolved_allowlist_path) if resolved_allowlist_path.exists() else {"rows": []}
-    targets = _load_targets(target_config, findings=findings, root=root)
+    all_targets = _load_targets(target_config, findings=findings, root=root)
+    targets = _filter_targets(all_targets, target_ids=target_ids, report_artifacts=report_artifacts, audit_stage=audit_stage)
     allowlist_rows = _load_allowlist_rows(allowlist_config, findings=findings)
+    allowlist_rows = _filter_allowlist_rows(allowlist_rows, targets, scoped=targets != all_targets)
 
     target_records = []
     pathology_results = []
     for target in targets:
         if target.kind != "pathology":
-            target_findings = _audit_target(root, target)
+            target_findings = _audit_target(root, target, audit_stage=audit_stage)
             findings.extend(target_findings)
         if target.kind == "pathology":
             result, result_findings = _audit_pathology_target(root, target)
@@ -184,7 +194,13 @@ def run_metric_purity_audit(
             findings.extend(result_findings)
         target_records.append(asdict(target))
 
-    mutation_coverage, mutation_findings = _audit_mutations(root, targets, target_config)
+    mutation_coverage, mutation_findings = _audit_mutations(
+        root,
+        targets,
+        target_config,
+        audit_stage=audit_stage,
+        scoped=targets != all_targets,
+    )
     findings.extend(mutation_findings)
 
     findings, allowlist_hits, allowlist_misses = _apply_allowlist(findings, allowlist_rows)
@@ -192,6 +208,7 @@ def run_metric_purity_audit(
     status = "pass" if not unallowlisted and not allowlist_misses else "fail"
     return {
         "schema_id": SCHEMA_ID,
+        "audit_stage": audit_stage,
         "targets": target_records,
         "findings": [_finding_record(finding) for finding in sorted(findings, key=_finding_sort_key)],
         "allowlist_hits": allowlist_hits,
@@ -202,7 +219,7 @@ def run_metric_purity_audit(
     }
 
 
-def _audit_target(root: Path, target: MetricPurityTarget) -> list[MetricPurityFinding]:
+def _audit_target(root: Path, target: MetricPurityTarget, *, audit_stage: AuditStage) -> list[MetricPurityFinding]:
     findings: list[MetricPurityFinding] = []
     try:
         resolved_callable, module = _resolve_target_callable(target)
@@ -217,11 +234,12 @@ def _audit_target(root: Path, target: MetricPurityTarget) -> list[MetricPurityFi
                 f"registered callable cannot be resolved: {exc}",
             )
         ]
-    if target.kind == "metric":
+    if target.kind in AST_SCANNED_KINDS:
         findings.extend(_scan_callable_ast(target, module))
+    if target.kind == "metric":
         if target.empirical_metric_keys:
             findings.extend(_audit_metric_projection(target, resolved_callable))
-    if target.report_artifact:
+    if audit_stage != "pre_generation" and target.report_artifact:
         artifact = root / target.report_artifact
         if not artifact.exists() and target.kind != "pathology":
             findings.append(
@@ -234,7 +252,170 @@ def _audit_target(root: Path, target: MetricPurityTarget) -> list[MetricPurityFi
                     "registered report artifact is missing",
                 )
             )
+        elif target.kind != "pathology":
+            findings.extend(_audit_evidence_pointer(root, target))
     return findings
+
+
+def _filter_targets(
+    targets: Sequence[MetricPurityTarget],
+    *,
+    target_ids: Iterable[str] | None,
+    report_artifacts: Iterable[str] | None,
+    audit_stage: AuditStage,
+) -> tuple[MetricPurityTarget, ...]:
+    del audit_stage
+    id_set = None if target_ids is None else {str(item) for item in target_ids}
+    artifact_set = None if report_artifacts is None else {str(item) for item in report_artifacts}
+    if id_set is None and artifact_set is None:
+        return tuple(targets)
+    return tuple(
+        target
+        for target in targets
+        if (id_set is not None and target.id in id_set)
+        or (artifact_set is not None and target.report_artifact in artifact_set)
+    )
+
+
+def _filter_allowlist_rows(
+    rows: Sequence[Mapping[str, Any]],
+    targets: Sequence[MetricPurityTarget],
+    *,
+    scoped: bool,
+) -> tuple[dict[str, Any], ...]:
+    if not scoped:
+        return tuple(dict(row) for row in rows)
+    target_ids = {target.id for target in targets}
+    return tuple(dict(row) for row in rows if str(row.get("target_id")) in target_ids)
+
+
+def _audit_evidence_pointer(root: Path, target: MetricPurityTarget) -> list[MetricPurityFinding]:
+    if not target.evidence_pointer:
+        return [
+            _finding(
+                target,
+                "REG-HG4",
+                target.report_artifact,
+                0,
+                "evidence_pointer",
+                "registered target has no evidence pointer",
+            )
+        ]
+    exists, reason = _artifact_pointer_exists(root, target)
+    if exists:
+        return []
+    return [
+        _finding(
+            target,
+            "REG-HG4",
+            target.evidence_pointer,
+            0,
+            target.evidence_pointer,
+            reason,
+        )
+    ]
+
+
+def _artifact_pointer_exists(root: Path, target: MetricPurityTarget) -> tuple[bool, str]:
+    if target.evidence_pointer.startswith("$."):
+        artifact = target.report_artifact
+        pointer = target.evidence_pointer
+    else:
+        artifact, separator, pointer = target.evidence_pointer.partition(":")
+        if not separator:
+            return False, "registered evidence pointer is not an artifact-qualified JSON pointer"
+    if not artifact:
+        return False, "registered evidence pointer has no artifact path"
+    path = root / artifact
+    if not path.exists():
+        return False, "registered evidence pointer artifact is missing"
+    if path.suffix == ".jsonl":
+        return _jsonl_pointer_exists(path, pointer)
+    try:
+        payload = _load_json(path)
+    except Exception as exc:
+        return False, f"registered evidence pointer artifact cannot be parsed: {exc}"
+    if pointer == "$":
+        return True, ""
+    return _json_pointer_exists(payload, pointer)
+
+
+def _jsonl_pointer_exists(path: Path, pointer: str) -> tuple[bool, str]:
+    if not pointer.startswith("$.lines[") or not pointer.endswith("]"):
+        return False, "registered JSONL evidence pointer must use $.lines[index]"
+    index_text = pointer.removeprefix("$.lines[").removesuffix("]")
+    if not index_text.isdigit():
+        return False, "registered JSONL evidence pointer index is not numeric"
+    try:
+        line_count = sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line)
+    except Exception as exc:
+        return False, f"registered JSONL evidence pointer artifact cannot be read: {exc}"
+    return int(index_text) < line_count, "registered JSONL evidence pointer row is missing"
+
+
+def _json_pointer_exists(payload: Any, pointer: str) -> tuple[bool, str]:
+    if pointer in {"", "$"}:
+        return True, ""
+    if not pointer.startswith("$."):
+        return False, f"unsupported evidence pointer: {pointer}"
+    current_values = [payload]
+    for part in pointer[2:].split("."):
+        next_values: list[Any] = []
+        for value in current_values:
+            ok, resolved_values = _resolve_pointer_part(value, part)
+            if not ok:
+                return False, f"registered evidence pointer segment is missing: {part}"
+            next_values.extend(resolved_values)
+        if not next_values:
+            return False, f"registered evidence pointer segment is empty: {part}"
+        current_values = next_values
+    return True, ""
+
+
+def _resolve_pointer_part(value: Any, part: str) -> tuple[bool, list[Any]]:
+    cursor_values = [value]
+    remainder = part
+    if "[" in remainder:
+        key, bracket_text = remainder.split("[", 1)
+        if key:
+            keyed_values = []
+            for cursor in cursor_values:
+                if not isinstance(cursor, Mapping) or key not in cursor:
+                    return False, []
+                keyed_values.append(cursor[key])
+            cursor_values = keyed_values
+        while bracket_text:
+            index_text, separator, rest = bracket_text.partition("]")
+            if not separator:
+                return False, []
+            indexed_values: list[Any] = []
+            for cursor in cursor_values:
+                if not isinstance(cursor, list):
+                    return False, []
+                if index_text == "*":
+                    if not cursor:
+                        return False, []
+                    indexed_values.extend(cursor)
+                elif index_text.isdigit() and int(index_text) < len(cursor):
+                    indexed_values.append(cursor[int(index_text)])
+                else:
+                    return False, []
+            cursor_values = indexed_values
+            if not rest:
+                return True, cursor_values
+            if not rest.startswith("["):
+                return False, []
+            bracket_text = rest[1:]
+        return True, cursor_values
+    resolved = []
+    for cursor in cursor_values:
+        if isinstance(cursor, Mapping) and part in cursor:
+            resolved.append(cursor[part])
+        elif isinstance(cursor, list) and part.isdigit() and int(part) < len(cursor):
+            resolved.append(cursor[int(part)])
+        else:
+            return False, []
+    return True, resolved
 
 
 def _audit_pathology_target(root: Path, target: MetricPurityTarget) -> tuple[dict[str, Any], list[MetricPurityFinding]]:
@@ -295,16 +476,34 @@ def _audit_mutations(
     root: Path,
     targets: Sequence[MetricPurityTarget],
     target_config: Mapping[str, Any],
+    *,
+    audit_stage: AuditStage,
+    scoped: bool,
 ) -> tuple[dict[str, Any], list[MetricPurityFinding]]:
     findings: list[MetricPurityFinding] = []
-    cases = tuple(_case_from_row(row) for row in target_config.get("hardgate_mutations", []))
+    hardgate_targets = tuple(target for target in targets if target.kind == "hardgate")
+    selected_gate_refs = {
+        ref
+        for target in hardgate_targets
+        for ref in (target.id, *target.mutation_contract_refs)
+    }
+    all_cases = tuple(_case_from_row(row) for row in target_config.get("hardgate_mutations", []))
+    if scoped:
+        cases = tuple(
+            case
+            for case in all_cases
+            if hardgate_targets
+            and (case.gate_id in selected_gate_refs or _target_for_gate(hardgate_targets, case.gate_id) is not None)
+        )
+    else:
+        cases = all_cases
     cases_by_gate: dict[str, list[HardgateMutationCase]] = {}
+    if audit_stage == "pre_generation":
+        return {"registered": len(cases), "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())}, "results": []}, findings
     for case in cases:
         cases_by_gate.setdefault(case.gate_id, []).append(case)
     results = []
-    for target in targets:
-        if target.kind != "hardgate":
-            continue
+    for target in hardgate_targets:
         expected_refs = set(target.mutation_contract_refs or (target.id,))
         if not any(case.gate_id in expected_refs or case.gate_id == target.id for case in cases):
             findings.append(_finding(target, "MUT-HG1", target.report_artifact, 0, target.id, "registered hardgate has no mutation row"))

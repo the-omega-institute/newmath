@@ -18,17 +18,17 @@ def _write_config(tmp_path, row, *, allowlist_rows=None):
     return targets_path, allowlist_path
 
 
-def _target(module, *, target_id=None, allowlist_refs=()):
+def _target(module, *, target_id=None, kind="metric", report_artifact="", evidence_pointer=None, allowlist_refs=()):
     leaf = module.rsplit(".", 1)[-1]
     return {
         "id": target_id or leaf,
-        "kind": "metric",
+        "kind": kind,
         "module": module,
         "callable": "metric_projection",
         "owner_pointer": f"{module}:metric_projection",
-        "report_artifact": "",
-        "evidence_pointer": f"{module}:metric_projection",
-        "empirical_metric_keys": ["quality_q"],
+        "report_artifact": report_artifact,
+        "evidence_pointer": evidence_pointer if evidence_pointer is not None else f"{module}:metric_projection",
+        "empirical_metric_keys": ["quality_q"] if kind == "metric" else [],
         "mutation_contract_refs": [],
         "allowlist_refs": list(allowlist_refs),
     }
@@ -52,6 +52,16 @@ def test_ast_hg1_flags_feature_mode_branch(tmp_path):
     _payload, codes = _audit_codes(tmp_path, _target("tests.fixtures.metric_purity.feature_mode_branch"))
 
     assert "AST-HG1" in codes
+
+
+def test_feature_target_uses_same_ast_purity_scan(tmp_path):
+    payload, codes = _audit_codes(
+        tmp_path,
+        _target("tests.fixtures.metric_purity.arm_identity_branch", target_id="arm_identity_branch_feature", kind="feature"),
+    )
+
+    assert "AST-HG1" in codes
+    assert payload["status"] == "fail"
 
 
 def test_ast_hg1_flags_component_name_dispatch(tmp_path):
@@ -87,6 +97,27 @@ def test_registered_safe_metric_helper_passes(tmp_path):
 
     assert codes == set()
     assert payload["status"] == "pass"
+
+
+def test_registered_evidence_pointer_must_resolve(tmp_path):
+    artifact = tmp_path / "definitely_missing_pointer_fixture.json"
+    artifact.parent.mkdir(parents=True, exist_ok=True)
+    artifact.write_text(json.dumps({"present": {"value": None}}, sort_keys=True) + "\n", encoding="utf-8")
+
+    payload, codes = _audit_codes(
+        tmp_path,
+        _target(
+            "tests.fixtures.metric_purity.safe_metric_helper",
+            target_id="definitely_missing_pointer",
+            report_artifact=artifact.as_posix(),
+            evidence_pointer=f"{artifact.as_posix()}:$.definitely_missing_pointer",
+            allowlist_refs=("registered_average",),
+        )
+    )
+
+    assert "REG-HG4" in codes
+    assert payload["status"] == "fail"
+    assert any("segment is missing" in finding["reason"] for finding in payload["findings"])
 
 
 def test_exact_allowlist_matching_marks_finding_without_broad_match(tmp_path):
