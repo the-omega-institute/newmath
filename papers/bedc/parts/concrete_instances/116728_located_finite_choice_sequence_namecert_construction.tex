@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\LocatedFiniteChoiceSequenceUp$}
+\label{ch:concrete-instances-located-finite-choice-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedFiniteChoiceSequenceUp$ packet records a finite choice-sequence observation only through the located window currently displayed to a construction. It refines the finite-prefix carrier of \autoref{ch:concrete-instances-choice-sequence-namecert} by requiring a located readback route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-locatedsequence-namecert}, and \autoref{ch:concrete-instances-brouwer-finite-choice-sequence-modulus-namecert}. The packet supports finite-window Real and completion arguments while refusing countable-choice, selected-tail, quotient-equality, and ambient-completeness coordinates.
+
+\begin{definition}[Located finite choice-sequence carrier]
+\label{def:located-finite-choice-sequence-carrier}
+A $\LocatedFiniteChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite choice index row, naming the inspected choice-sequence positions and no tail positions outside the packet.
+\item $W$ is the located window row, recording the finite located interval, ball, or tolerance window attached to the indices of $I$.
+\item $S$ is the $\StreamNameUp$ window row opened by the same finite choice-index and located-window data.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed $\StreamNameUp$ window and located tolerance data.
+\item $E$ is the $\RealUp$ seal row reached only after the $\RegSeqRatUp$ readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the finite choice index, located window, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+I,W \longmapsto S \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedFiniteChoiceSequenceUp$, $\ChoiceSequenceUp$, $\LocatedSequenceUp$, $\BrouwerFiniteChoiceSequenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedFiniteChoiceSequenceUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose finite choice index, located window, stream window, regular rational readback, and real seal describe one displayed finite route. It exports no countable-choice functional, no selected infinite sequence, no quotient real equality, no host real equality, and no $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Located finite choice-sequence NameCert obligations]
+\label{thm:located-finite-choice-sequence-namecert-obligations}
+For every accepted $\LocatedFiniteChoiceSequenceUp$ carrier $L=(I,W,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedFiniteChoiceSequenceUp}$ surface consists exactly of finite choice-index admission through $I$, located-window admission through $W$, $\StreamNameUp$ window exposure through $S$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every consumer from the finite-window Real route or a completion-facing route must read those rows in the displayed order
+$$
+\ChoiceSequenceUp,\ \LocatedSequenceUp,\ \BrouwerFiniteChoiceSequenceModulusUp
+\longmapsto I,W
+\longmapsto \StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \RealUp .
+$$
+The packet exports no countable-choice functional, selected infinite sequence, quotient real equality, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-finite-choice-sequence-carrier}. The rows $I$ and $W$ are finite displayed rows, so the choice-sequence input is visible only at the named inspected positions and only through the located window recorded in the packet.
+
+The stream and analytic readback rows are downstream of that finite surface. The row $S$ opens the $\StreamNameUp$ window from $I,W$, the row $R$ repacks the same displayed window as $\RegSeqRatUp$ data, and the row $E$ seals only that readback as $\RealUp$ data.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. They do not add a new analytic coordinate; they keep the finite choice index, located window, stream window, regular rational readback, and real seal in one packet.
+
+The sibling chapters supply the boundary discipline. \autoref{ch:concrete-instances-locatedsequence-namecert} fixes the located-window route, and \autoref{ch:concrete-instances-brouwer-finite-choice-sequence-modulus-namecert} fixes the finite choice-sequence modulus route into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Since the carrier has no coordinate for a countable-choice functional, a selected infinite sequence, quotient real equality, host real equality, or ambient real completeness, no local $\NameCert_{\LocatedFiniteChoiceSequenceUp}$ consumer can export one.
+\end{proof}
+
+\closureat{LocatedFiniteChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedFiniteChoiceSequenceUp}
+  \constructivestory{A $\LocatedFiniteChoiceSequenceUp$ packet is generated from a finite choice index, located window, StreamName window, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-finite-choice-sequence-carrier} and \autoref{thm:located-finite-choice-sequence-namecert-obligations} seed the finite located choice-sequence surface for Real and completion finite-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, selected infinite sequences, quotient real equality, host real equality, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-window stability, StreamName exposure, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedFiniteChoiceSequenceUp.}
+\end{closurestatus}
