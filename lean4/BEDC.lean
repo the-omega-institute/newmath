@@ -3216,6 +3216,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
+import BEDC.Derived.CoveringdimensionUp.CompactCoverForwardDependency
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
@@ -3240,6 +3241,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
@@ -5814,6 +5816,7 @@ import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompactnessUp.TasteGate
 import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
