@@ -2769,6 +2769,7 @@ import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
 import BEDC.Derived.CompactUniformModulusUp.TasteGate
 import BEDC.Derived.CompactUniformOscillationUp.TasteGate
 import BEDC.Derived.CompactUniformPullbackUp.TasteGate
+import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusLedgerUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
@@ -6030,6 +6031,7 @@ import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MedianClosureUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
+import BEDC.Derived.MercerTheoremUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
@@ -6201,6 +6203,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
@@ -6254,6 +6257,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealExitRefusalBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealObstructionLedgerLock
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockCompleteness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
@@ -6581,6 +6585,7 @@ import BEDC.Derived.MetricCoveringNumberUp.TasteGate
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricEntourageUp.TasteGate
+import BEDC.Derived.MetricGraphUp.TasteGate
 import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
@@ -8339,6 +8344,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.WindowComposition
 import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
+import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
