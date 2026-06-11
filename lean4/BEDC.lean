@@ -767,6 +767,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
+import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
@@ -853,6 +854,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ObligationCarrier
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularCauchyExtraction
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularRoute
+import BEDC.Derived.BishopLocatedCompletionBoundaryUp.Scope
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
@@ -6381,6 +6383,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -7538,6 +7541,7 @@ import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
 import BEDC.Derived.PontryaginDualityUp
+import BEDC.Derived.PorousSetUp.TasteGate
 import BEDC.Derived.PositiveConeUp.TasteGate
 import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
 import BEDC.Derived.PositiveRealUp.TasteGate
@@ -9381,6 +9385,8 @@ import BEDC.Derived.SummableSequenceUp.TasteGate
 import BEDC.Derived.SummableTailModulusUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
+import BEDC.Derived.SupportNerveCensusUp.NameCertObligations
+import BEDC.Derived.SupportNerveCensusUp.TasteGate
 import BEDC.Derived.SylowUp
 import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SymGroupUp
