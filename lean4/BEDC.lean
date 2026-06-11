@@ -1050,6 +1050,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealUpThresholdLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootBudgetConsumerExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootLocatedTrapStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
@@ -3201,6 +3202,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
+import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
@@ -7174,7 +7176,7 @@ import BEDC.Derived.ParsevalUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
-import BEDC.Derived.ParsevalUp.SOneBasisLedger
+import BEDC.Derived.ParsevalUp.SoneBasisLedger
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
@@ -7781,6 +7783,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
+import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
 import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
