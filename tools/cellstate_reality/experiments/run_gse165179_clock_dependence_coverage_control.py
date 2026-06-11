@@ -222,7 +222,7 @@ def main() -> int:
         ],
     }
     OUT_PATH.write_text(json.dumps(artifact, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"status": status, "result": artifact, "outputs": {"artifact": rel(OUT_PATH)}}, ensure_ascii=False, sort_keys=True))
+    print(json.dumps({"status": status, "checks": checks, "result": artifact, "outputs": {"artifact": rel(OUT_PATH)}}, ensure_ascii=False, sort_keys=True))
     return 0 if status == "passed" else 1
 
 
