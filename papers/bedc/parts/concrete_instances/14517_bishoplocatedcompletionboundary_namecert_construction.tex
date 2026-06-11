@@ -158,6 +158,28 @@ Use window exhaustion and the NameCert obligations. They identify $S$ as the onl
 Finally apply componentwise transport and displayed replay. The scope is preserved under $H$ and $C$, while $P$ and $N$ name the same packet, so no outside completion, equality, order, choice, compactness, or completeness datum enters the route.
 \end{proof}
 
+\begin{theorem}[Bishop located completion boundary scoped route]
+\label{thm:bishop-located-completion-boundary-scoped-route}
+Every scoped completion-boundary read from an accepted $\BishopLocatedCompletionBoundaryUp$ packet must pass through
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RegularLocatedCauchyRealUp \longmapsto \LocatedLimitUp \longmapsto \LocatedRealUp \longmapsto \RealUp
+$$
+together with the componentwise $\hsame$ row, displayed $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ row. The route is exactly the eleven-row carrier
+$$
+B=(S,Q,D,R,L,E,T,H,C,P,N)
+$$
+and admits no host completion, quotient equality, selected limit, trichotomy, countable-choice schedule, open-cover compactness, ambient $\RealUp$ completeness, or bridge-checking row.
+\end{theorem}
+\begin{proof}
+Project the obligation carrier of \autoref{thm:bishop-located-completion-boundary-obligation-carrier}. It admits only $S,Q,D,R,L,E,T,H,C,P,N$, so every scoped read begins inside the eleven displayed rows.
+
+Apply regular Cauchy extraction and the located-limit route. These place the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularLocatedCauchyRealUp$, $\LocatedLimitUp$, and $\LocatedRealUp$ rows before the terminal $\RealUp$ seal can be read.
+
+Next use the located Real-seal handoff and the scope theorem. The seal row $T$ is reachable only through the displayed located route, and the scope theorem records the same ordered kernel path as a boundary for completion-facing consumers.
+
+Finally use the ledger theorem. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, while the ledger has no coordinate for host completion, quotient equality, selected limits, order principles, choice schedules, compactness, ambient completeness, or bridge checking. Thus every scoped read is confined to the stated kernel route.
+\end{proof}
+
 \begin{theorem}[Bishop located completion boundary ledger]
 \label{thm:bishop-located-completion-boundary-ledger}
 The ledger of an accepted $\BishopLocatedCompletionBoundaryUp$ packet is non-escaping: every completion-facing read is accounted for by the stream windows $S$, regular source $Q$, dyadic ledger $D$, regular located route $R$, located-limit route $L$, located-real enclosure $E$, terminal seal $T$, and structural rows $H,C,P,N$. The ledger has no row for $\RealUp$ completeness, quotient equality of Cauchy names, real trichotomy, countable choice, open-cover compactness, a host-selected limit, or bridge checking.
