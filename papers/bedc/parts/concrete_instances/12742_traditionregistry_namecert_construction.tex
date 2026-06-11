@@ -67,13 +67,20 @@ Hence each sibling is a non-bijective dependency. The registry packet remains th
 
 The later Lean \texttt{TasteGate.lean} for this chapter must include explicit \texttt{Nontrivial TraditionRegistryUp} and \texttt{FieldFaithful TraditionRegistryUp} instances preserving $T,S,P,R,H,C,Q,N$ as separate displayed rows.
 
+\begin{theorem}[Tradition registry scoped dependency rows]
+\label{thm:tradition-registry-scoped-dependency-rows}
+Every scoped $\TraditionRegistryUp$ read binds the tradition row, BEDC-site row, preserved-structure row, rejected-surplus row, transport row, replay row, provenance row, and local naming row to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CoreRegistryIndexUp$, $\ConceptRegistrySurfaceUp$, $\TheoremGapRegistryUp$, $\ClaimRegistryLayerUp$, and $\AuditSystemUp$ surfaces. The scope is exactly this finite registry route; it does not export inherited doctrine without the rejected-surplus row, a BEDC landing site without preserved-structure exposure, or a hidden comparison rule outside the named sibling registries.
+\end{theorem}
+\leanchecked{BEDC.Derived.TraditionRegistryUp.taste\_gate}
+
 \closureat{TraditionRegistryUp}{seedStr}
 \closureat{TraditionRegistryUp}{obligationStr}
+\closureat{TraditionRegistryUp}{scopedStr}
 
 \begin{closurestatus}{\TraditionRegistryUp}
   \constructivestory{A $\TraditionRegistryUp$ packet is generated from tradition, BEDC-site, preserved-structure, rejected-surplus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:tradition-registry-carrier}, \autoref{thm:tradition-registry-namecert-obligations}, \autoref{thm:tradition-registry-rejected-surplus-nonescape}, \autoref{thm:tradition-registry-sibling-dependency}, the falsifiable prediction, and the independence witness bind tradition comparisons to the carrier, NameCert obligations, rejected-surplus nonescape, sibling dependency, prediction, and witness obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:tradition-registry-carrier}, \autoref{thm:tradition-registry-namecert-obligations}, \autoref{thm:tradition-registry-rejected-surplus-nonescape}, \autoref{thm:tradition-registry-sibling-dependency}, \autoref{thm:tradition-registry-scoped-dependency-rows}, the falsifiable prediction, and the independence witness bind tradition comparisons to the carrier, NameCert obligations, rejected-surplus nonescape, sibling dependency, scoped dependency rows, prediction, and witness surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, philosophical correctness of every tradition comparison, or completeness of the sibling registry lattice.}
