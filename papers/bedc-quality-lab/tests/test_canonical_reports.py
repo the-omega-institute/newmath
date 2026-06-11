@@ -7007,6 +7007,41 @@ def test_structural_generalization_splits_fingerprint_path_is_canonical():
     )
 
 
+def test_structural_generalization_splits_nested_source_artifacts_enter_fingerprint(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["structural-generalization-splits"]
+    for artifact, payload in {
+        "reports/canonical/input-accessibility.json": {"schema_id": "bedc-quality-lab:input-accessibility", "rows": []},
+        "reports/canonical/winnability-certificates.json": {
+            "schema_id": "bedc-quality-lab:winnability-certificates",
+            "rows": [],
+        },
+        spec.json_artifact: {
+            "schema_id": "bedc-quality-lab:structural-generalization-splits",
+            "source_artifacts": {
+                "input_accessibility": {
+                    "artifact": "reports/canonical/input-accessibility.json",
+                    "owner_pointer": "reports/canonical/input-accessibility.json:$",
+                },
+                "winnability_certificates": {
+                    "artifact": "reports/canonical/winnability-certificates.json",
+                    "owner_pointer": "reports/canonical/winnability-certificates.json:$",
+                },
+            },
+        },
+    }.items():
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    paths = {row["path"] for row in canonical._source_artifact_inputs(spec)}
+
+    assert paths == {
+        "reports/canonical/input-accessibility.json",
+        "reports/canonical/winnability-certificates.json",
+    }
+
+
 def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
 

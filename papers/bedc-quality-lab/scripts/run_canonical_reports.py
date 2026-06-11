@@ -1899,14 +1899,33 @@ def _dependency_abi() -> dict[str, str]:
     return abi
 
 
+def _source_artifact_paths(value: Any) -> set[str]:
+    paths: set[str] = set()
+    if isinstance(value, str):
+        split = _split_artifact_pointer(value)
+        path = split[0] if split is not None else value
+        if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+            paths.add(path)
+    elif isinstance(value, Mapping):
+        for nested in value.values():
+            paths.update(_source_artifact_paths(nested))
+    elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        for nested in value:
+            paths.update(_source_artifact_paths(nested))
+    return paths
+
+
 def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
     paths: set[str] = set()
     if isinstance(source_artifacts, Mapping):
-        for value in source_artifacts.values():
-            if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
-                paths.add(value)
+        if spec.name == "structural-generalization-splits":
+            paths.update(_source_artifact_paths(source_artifacts))
+        else:
+            for value in source_artifacts.values():
+                if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
+                    paths.add(value)
     if spec.name == "gap-head-discovery":
         paths.add("reports/canonical/gap-head-on-h.json")
     if spec.name == "certificate-guided-discovery":

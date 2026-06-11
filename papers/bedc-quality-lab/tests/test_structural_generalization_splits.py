@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from bedc_quality_lab import structural_generalization_splits as sgs
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 def _candidate(**updates):
@@ -74,8 +75,7 @@ def _write_source_artifacts(root: Path) -> None:
 
 def test_symbol_remapping_hardgates_cover_sym_hg1_to_sym_hg4(tmp_path):
     root = tmp_path
-    (root / "reports/canonical").mkdir(parents=True)
-    (root / "reports/canonical/performance.json").write_text(json.dumps({"rows": [{"score": 1.0}]}) + "\n", encoding="utf-8")
+    _write_source_artifacts(root)
 
     gates = sgs.evaluate_symbol_remapping_hardgates(_candidate(), root=root)
 
@@ -85,8 +85,7 @@ def test_symbol_remapping_hardgates_cover_sym_hg1_to_sym_hg4(tmp_path):
 
 def test_position_shift_hardgates_cover_pos_hg1_to_pos_hg4(tmp_path):
     root = tmp_path
-    (root / "reports/canonical").mkdir(parents=True)
-    (root / "reports/canonical/performance.json").write_text(json.dumps({"rows": [{"score": 1.0}]}) + "\n", encoding="utf-8")
+    _write_source_artifacts(root)
     split = _candidate(family="position_shift_visible", finite_remap=None, position_offset=2)
 
     gates = sgs.evaluate_position_shift_hardgates(split, root=root)
@@ -144,5 +143,28 @@ def test_accepted_rows_are_json_safe_and_pointer_backed(tmp_path):
     assert len(payload["split_rows"]) == 1
     row = payload["split_rows"][0]
     assert row["structural_generalization_family"] == "symbol_remapping"
-    assert row["visibility_pointer"].startswith("reports/canonical/input-accessibility.json:")
-    assert row["winnability_pointer"].startswith("reports/canonical/winnability-certificates.json:")
+    assert row["visibility_pointer"] == "reports/canonical/input-accessibility.json:$.rows[0]"
+    assert row["winnability_pointer"] == "reports/canonical/winnability-certificates.json:$.rows[0]"
+    assert row["performance_pointer"] == "reports/canonical/performance.json:$.rows[0]"
+    for field in ("visibility_pointer", "winnability_pointer", "performance_pointer"):
+        assert resolve_artifact_pointer(tmp_path, row[field]) is not None
+
+
+def test_unresolved_upstream_pointer_fails_closed_even_when_cells_pass(tmp_path):
+    _write_source_artifacts(tmp_path)
+    mutations = {
+        "visibility_pointer": ("reports/canonical/input-accessibility.json:$.rows[9]", "SYM-HG2"),
+        "winnability_pointer": ("reports/canonical/winnability-certificates.json:$.rows[9]", "SYM-HG3"),
+    }
+    for field, (pointer, gate_id) in mutations.items():
+        row = sgs.classify_structural_generalization_split(_candidate(**{field: pointer}), root=tmp_path)
+
+        assert row["classification"] == "excluded"
+        assert gate_id in row["failed_hardgates"]
+
+
+def test_default_classification_without_root_does_not_accept_pointer_claim():
+    row = sgs.classify_structural_generalization_split(_candidate())
+
+    assert row["classification"] == "excluded"
+    assert row["failed_hardgates"] == ["SYM-HG2", "SYM-HG3", "SYM-HG4"]

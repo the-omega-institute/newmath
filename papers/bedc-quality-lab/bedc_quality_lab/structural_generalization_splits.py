@@ -142,6 +142,21 @@ def _row_map(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
     return indexed
 
 
+def _row_pointer_map(payload: Mapping[str, Any] | None, *, artifact: str) -> dict[str, str]:
+    if payload is None:
+        return {}
+    rows = payload.get("rows")
+    if not isinstance(rows, list):
+        return {}
+    pointers: dict[str, str] = {}
+    for index, row in enumerate(rows):
+        if isinstance(row, Mapping):
+            rid = _row_id(row)
+            if rid is not None:
+                pointers[rid] = f"{artifact}:$.rows[{index}]"
+    return pointers
+
+
 def _bool_cell(row: Mapping[str, Any], keys: Sequence[str], default: bool = False) -> bool:
     for key in keys:
         value = row.get(key)
@@ -185,6 +200,8 @@ def _candidate_from_rows(
     family: SplitFamily,
     visibility_rows: Mapping[str, Mapping[str, Any]],
     winnability_rows: Mapping[str, Mapping[str, Any]],
+    visibility_pointers: Mapping[str, str],
+    winnability_pointers: Mapping[str, str],
 ) -> StructuralGeneralizationSplit:
     visibility = visibility_rows.get(row_id, {})
     winnability = winnability_rows.get(row_id, {})
@@ -200,8 +217,8 @@ def _candidate_from_rows(
         fair_arm_visible=_bool_cell(visibility, ("fair_arm_visible", "visible_to_fair_arm", "fair_arm_target_visible"), False),
         candidate_winnable=_bool_cell(winnability, ("candidate_winnable", "candidate_can_win", "winnable"), False),
         fair_arm_winnable=_bool_cell(winnability, ("fair_arm_winnable", "fair_arm_can_win", "fair_control_winnable"), False),
-        visibility_pointer=f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[{row_id}]",
-        winnability_pointer=f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.rows[{row_id}]",
+        visibility_pointer=visibility_pointers.get(row_id, f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows.{_stable_slug(row_id)}"),
+        winnability_pointer=winnability_pointers.get(row_id, f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.rows.{_stable_slug(row_id)}"),
         performance_pointer=_string_cell(visibility, ("performance_pointer", "evidence_pointer"), "")
         or _string_cell(winnability, ("performance_pointer", "evidence_pointer"), ""),
         finite_remap=_mapping_cell(visibility, ("finite_remap", "remap", "symbol_map")),
@@ -213,9 +230,13 @@ def default_split_candidates(
     *,
     visibility_rows: Mapping[str, Mapping[str, Any]] | None = None,
     winnability_rows: Mapping[str, Mapping[str, Any]] | None = None,
+    visibility_pointers: Mapping[str, str] | None = None,
+    winnability_pointers: Mapping[str, str] | None = None,
 ) -> tuple[StructuralGeneralizationSplit, ...]:
     visibility_rows = visibility_rows or {}
     winnability_rows = winnability_rows or {}
+    visibility_pointers = visibility_pointers or {}
+    winnability_pointers = winnability_pointers or {}
     discovered: list[StructuralGeneralizationSplit] = []
     for row_id, row in visibility_rows.items():
         family = row.get("structural_generalization_family") or row.get("family")
@@ -226,6 +247,8 @@ def default_split_candidates(
                     family=family,  # type: ignore[arg-type]
                     visibility_rows=visibility_rows,
                     winnability_rows=winnability_rows,
+                    visibility_pointers=visibility_pointers,
+                    winnability_pointers=winnability_pointers,
                 )
             )
     if discovered:
@@ -277,6 +300,10 @@ def _gate(gate_id: str, passed: bool, reason: str, evidence_pointer: str | None)
     }
 
 
+def _pointer_resolves(pointer: str | None, *, root: Path | None) -> bool:
+    return isinstance(pointer, str) and root is not None and resolve_artifact_pointer(root, pointer) is not None
+
+
 def evaluate_symbol_remapping_hardgates(
     split: StructuralGeneralizationSplit,
     *,
@@ -284,15 +311,16 @@ def evaluate_symbol_remapping_hardgates(
 ) -> dict[str, dict[str, Any]]:
     remap = split.finite_remap or {}
     finite_remap = bool(remap) and all(k != v for k, v in remap.items())
-    visibility = split.target_visible and split.candidate_visible and split.fair_arm_visible
-    winnability = split.candidate_winnable and split.fair_arm_winnable
-    performance = split.performance_pointer is not None and (
-        root is None or resolve_artifact_pointer(root, split.performance_pointer) is not None
-    )
+    visibility_pointer_resolves = _pointer_resolves(split.visibility_pointer, root=root)
+    winnability_pointer_resolves = _pointer_resolves(split.winnability_pointer, root=root)
+    performance_pointer_resolves = _pointer_resolves(split.performance_pointer, root=root)
+    visibility = split.target_visible and split.candidate_visible and split.fair_arm_visible and visibility_pointer_resolves
+    winnability = split.candidate_winnable and split.fair_arm_winnable and winnability_pointer_resolves
+    performance = performance_pointer_resolves
     return {
         "SYM-HG1": _gate("SYM-HG1", finite_remap, "finite non-identity symbol remap", split.visibility_pointer),
-        "SYM-HG2": _gate("SYM-HG2", visibility, "target visible to candidate and fair arm", split.visibility_pointer),
-        "SYM-HG3": _gate("SYM-HG3", winnability, "candidate and fair arm are winnability-certified", split.winnability_pointer),
+        "SYM-HG2": _gate("SYM-HG2", visibility, "target visible to candidate and fair arm with resolved pointer", split.visibility_pointer),
+        "SYM-HG3": _gate("SYM-HG3", winnability, "candidate and fair arm are winnability-certified with resolved pointer", split.winnability_pointer),
         "SYM-HG4": _gate("SYM-HG4", performance, "performance evidence pointer resolves", split.performance_pointer),
     }
 
@@ -303,15 +331,16 @@ def evaluate_position_shift_hardgates(
     root: Path | None = None,
 ) -> dict[str, dict[str, Any]]:
     bounded_offset = split.position_offset is not None and 0 < abs(split.position_offset) <= 4
-    visibility = split.target_visible and split.candidate_visible and split.fair_arm_visible
-    winnability = split.candidate_winnable and split.fair_arm_winnable
-    performance = split.performance_pointer is not None and (
-        root is None or resolve_artifact_pointer(root, split.performance_pointer) is not None
-    )
+    visibility_pointer_resolves = _pointer_resolves(split.visibility_pointer, root=root)
+    winnability_pointer_resolves = _pointer_resolves(split.winnability_pointer, root=root)
+    performance_pointer_resolves = _pointer_resolves(split.performance_pointer, root=root)
+    visibility = split.target_visible and split.candidate_visible and split.fair_arm_visible and visibility_pointer_resolves
+    winnability = split.candidate_winnable and split.fair_arm_winnable and winnability_pointer_resolves
+    performance = performance_pointer_resolves
     return {
         "POS-HG1": _gate("POS-HG1", bounded_offset, "bounded nonzero position offset", split.visibility_pointer),
-        "POS-HG2": _gate("POS-HG2", visibility, "target visible to candidate and fair arm", split.visibility_pointer),
-        "POS-HG3": _gate("POS-HG3", winnability, "candidate and fair arm are winnability-certified", split.winnability_pointer),
+        "POS-HG2": _gate("POS-HG2", visibility, "target visible to candidate and fair arm with resolved pointer", split.visibility_pointer),
+        "POS-HG3": _gate("POS-HG3", winnability, "candidate and fair arm are winnability-certified with resolved pointer", split.winnability_pointer),
         "POS-HG4": _gate("POS-HG4", performance, "performance evidence pointer resolves", split.performance_pointer),
     }
 
@@ -429,9 +458,13 @@ def build_structural_generalization_payload(
     input_accessibility, winnability = _source_artifacts(root)
     visibility_rows = _row_map(input_accessibility.get("payload"))
     winnability_rows = _row_map(winnability.get("payload"))
+    visibility_pointers = _row_pointer_map(input_accessibility.get("payload"), artifact=INPUT_ACCESSIBILITY_ARTIFACT)
+    winnability_pointers = _row_pointer_map(winnability.get("payload"), artifact=WINNABILITY_CERTIFICATES_ARTIFACT)
     candidates = tuple(split_candidates) if split_candidates is not None else default_split_candidates(
         visibility_rows=visibility_rows,
         winnability_rows=winnability_rows,
+        visibility_pointers=visibility_pointers,
+        winnability_pointers=winnability_pointers,
     )
     source_statuses = {
         "input_accessibility": str(input_accessibility["status"]),

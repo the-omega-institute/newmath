@@ -25,7 +25,7 @@ def test_hidden_x_minus_3_offset_7_is_unanswerable_boundary_only():
     assert row["classification"] == "unanswerable"
     assert row["structural_generalization_family"] is None
     assert row["claim_exclusion"] == "boundary-ledger-only"
-    assert row["failed_hardgates"] == ["POS-HG1", "POS-HG2"]
+    assert row["failed_hardgates"] == ["POS-HG1", "POS-HG2", "POS-HG3", "POS-HG4"]
 
 
 def test_hidden_x_minus_3_offset_7_never_enters_accepted_split_rows(tmp_path):
