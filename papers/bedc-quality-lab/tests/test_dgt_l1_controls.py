@@ -428,6 +428,137 @@ def test_l1_step_ladder_grid_cell_integrity_fail_closed():
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
 
 
+def _fixture_stratum(accuracy, margin):
+    return {
+        "arm_id": "dgt_l1",
+        "stratum": "fixture",
+        "example_count": 16,
+        "seed_count": 8,
+        "pair_count": 4,
+        "accuracy": accuracy,
+        "true_class_logit_mean": margin + 0.5,
+        "true_class_margin_mean": margin,
+        "confidence_mean": 0.5,
+        "chance_accuracy": 0.0625,
+        "accuracy_minus_chance": round(accuracy - 0.0625, 6),
+        "device_resolved": "cpu",
+        "parameter_mutation_detected": False,
+        "source_probe_row_count": 16,
+    }
+
+
+def _verdict_strata(high, low, unseen, ood):
+    cells = {
+        "train_seen_high_frequency_pair": high,
+        "train_seen_low_frequency_pair": low,
+        "train_unseen_pair": unseen,
+        "ood_dependency_shift_pair": ood,
+    }
+    strata = {}
+    for stratum, cell in cells.items():
+        row = _fixture_stratum(*cell)
+        row["stratum"] = stratum
+        strata[stratum] = {"dgt_l1": row}
+    return strata
+
+
+def test_l1_ood_mechanism_surface_is_probe_derived_and_bounded():
+    payload = _payload()
+    mechanism = payload["l1_ood_mechanism"]
+
+    assert mechanism["owner"] == "dgt-l1-controls"
+    assert mechanism["verdict"] in set(l1.L1OOD_VERDICTS)
+    assert set(mechanism["strata"]) == set(l1.L1OOD_STRATA)
+    assert mechanism["source_pointers"]["probe_metrics"] == "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl"
+    assert mechanism["l2_implication"]["verdict_pointer"] == f"{l1.CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism.verdict"
+    assert "strata" not in json.dumps(mechanism["l2_implication"], sort_keys=True)
+    assert set(mechanism["hardgates"]) == set(l1.L1OOD_GATE_IDS)
+    assert all(row["status"] == "pass" for row in mechanism["hardgates"].values())
+
+    for stratum in l1.L1OOD_STRATA:
+        assert set(mechanism["strata"][stratum]) == set(l1.ARM_IDS)
+        dgt_row = mechanism["strata"][stratum]["dgt_l1"]
+        assert dgt_row["example_count"] == dgt_row["source_probe_row_count"]
+        assert dgt_row["seed_count"] >= 8
+        assert dgt_row["device_resolved"] == "cpu"
+        assert dgt_row["parameter_mutation_detected"] is False
+        assert isinstance(dgt_row["true_class_logit_mean"], float)
+        assert isinstance(dgt_row["true_class_margin_mean"], float)
+        assert dgt_row["accuracy_minus_chance"] == round(dgt_row["accuracy"] - dgt_row["chance_accuracy"], 6)
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_ood_mechanism"]["strata"]["ood_dependency_shift_pair"]["dgt_l1"]["true_class_logit_mean"] = "missing"
+    mutated["l1_ood_mechanism"]["hardgates"] = l1.evaluate_l1ood_hardgates(mutated["l1_ood_mechanism"])
+    _expect_invalid(mutated, "logit aggregates|L1-REVIEW-HG6|hardgates fail closed")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_ood_mechanism"]["verdict"] = "scripted"
+    _expect_invalid(mutated, "verdict mismatch|decision table mismatch")
+
+
+def test_l1_ood_mechanism_decision_table_branches():
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.08, -0.1), (0.07, -0.1), (0.07, -0.1))
+    )["verdict"] == "memorization"
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.3, 0.1), (0.07, -0.1), (0.07, -0.1))
+    )["verdict"] == "brittle-rule"
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.3, 0.1), (0.2, 0.1), (0.2, 0.1))
+    )["verdict"] == "partial-rule"
+
+    gates = {"L1OOD-HG1": {"status": "fail"}}
+    decision = l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.08, -0.1), (0.07, -0.1), (0.07, -0.1)),
+        gates,
+    )
+    assert decision["verdict"] in set(l1.L1OOD_VERDICTS)
+    assert decision["diagnostic_confidence"] == "low"
+
+
+def test_l1_ood_mechanism_probe_metrics_are_run_local_and_idempotent(tmp_path, capsys):
+    config_args = [
+        "--root",
+        str(tmp_path),
+        "--generated-at",
+        "fixture-time",
+        "--seeds",
+        "1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189",
+        "--training-steps",
+        "8",
+        "--step-grid",
+        "8,16",
+        "--train-examples",
+        "64",
+        "--eval-examples",
+        "64",
+    ]
+    run_artifacts = l1.run_artifacts_payload()
+    checked_paths = [
+        tmp_path / run_artifacts["raw_metrics"],
+        tmp_path / run_artifacts["probe_metrics"],
+        tmp_path / l1.CANONICAL_JSON_ARTIFACT,
+        tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT,
+    ]
+
+    assert runner.main(config_args) == 0
+    first_summary = json.loads(capsys.readouterr().out)
+    first = {path: path.read_bytes() for path in checked_paths}
+    assert first_summary["l1_ood_mechanism_verdict"] in set(l1.L1OOD_VERDICTS)
+
+    assert runner.main(config_args) == 0
+    second_summary = json.loads(capsys.readouterr().out)
+    second = {path: path.read_bytes() for path in checked_paths}
+
+    assert first == second
+    assert second_summary["l1_ood_mechanism_verdict"] == first_summary["l1_ood_mechanism_verdict"]
+    raw_text = (tmp_path / run_artifacts["raw_metrics"]).read_text(encoding="utf-8")
+    probe_text = (tmp_path / run_artifacts["probe_metrics"]).read_text(encoding="utf-8")
+    assert "_probe_rows" not in raw_text
+    assert "true_class_logit" in probe_text
+    assert "true_class_margin" in probe_text
+
+
 def test_l1_step_ladder_cpu_training_evidence_fail_closed():
     payload = _payload()
     assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG2"]["status"] == "pass"

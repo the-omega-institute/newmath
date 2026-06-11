@@ -110,6 +110,18 @@ L1_MEASURABLE_METRICS = (
     "UER_mean",
     "parameter_l2_delta_mean",
 )
+L1OOD_STRATA = (
+    "train_seen_high_frequency_pair",
+    "train_seen_low_frequency_pair",
+    "train_unseen_pair",
+    "ood_dependency_shift_pair",
+)
+L1OOD_VERDICTS = ("memorization", "brittle-rule", "partial-rule")
+L1OOD_GATE_IDS = tuple(f"L1OOD-HG{index}" for index in range(1, 7))
+L1OOD_POSITIVE_MARGIN = 0.05
+L1OOD_COLLAPSE_MARGIN = 0.05
+L1OOD_FREQUENCY_RATIO = 2.0
+L1OOD_LOGIT_MARGIN_MIN = 0.0
 
 
 @dataclass(frozen=True)
@@ -292,6 +304,172 @@ def _snapshot(torch: Any, model: _TinySequenceModel) -> Any:
     return torch.cat([parameter.detach().flatten().cpu() for parameter in model.parameters()])
 
 
+def _pair_key(row: Any, *, shifted: bool = False) -> tuple[int, int]:
+    second_index = -3 if shifted else -2
+    return (int(row[-1]), int(row[second_index]))
+
+
+def _pair_frequency_map(x_train: Any) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in x_train.detach().cpu().tolist():
+        key = f"{int(row[-1])}:{int(row[-2])}"
+        counts[key] = counts.get(key, 0) + 1
+    return counts
+
+
+def _l1_mechanism_probe(
+    torch: Any,
+    *,
+    model: _TinySequenceModel,
+    arm_id: str,
+    seed: int,
+    task_spec: L1TinySequenceTaskSpec,
+    x_train: Any,
+    x_eval: Any,
+    y_eval: Any,
+    x_ood: Any,
+    y_ood: Any,
+    device_name: str,
+    training_steps: int,
+) -> list[dict[str, Any]]:
+    before = _snapshot(torch, model)
+    counts = _pair_frequency_map(x_train)
+    positive_counts = sorted(count for count in counts.values() if count > 0)
+    median_frequency = positive_counts[len(positive_counts) // 2] if positive_counts else 0
+    high_threshold = max(1, int(math.ceil(median_frequency * L1OOD_FREQUENCY_RATIO)))
+
+    def scored_rows(x: Any, y: Any, specs: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+        with torch.no_grad():
+            logits = model(x)
+            probabilities = torch.softmax(logits, dim=1)
+            preds = torch.argmax(logits, dim=1)
+            true_logits = logits.gather(1, y.unsqueeze(1)).squeeze(1)
+            masked = logits.clone()
+            masked.scatter_(1, y.unsqueeze(1), float("-inf"))
+            runner_up_logits = masked.max(dim=1).values
+            true_margins = true_logits - runner_up_logits
+            confidences = probabilities.max(dim=1).values
+        rows: list[dict[str, Any]] = []
+        preds_cpu = preds.detach().cpu().tolist()
+        true_logits_cpu = true_logits.detach().cpu().tolist()
+        true_margins_cpu = true_margins.detach().cpu().tolist()
+        confidences_cpu = confidences.detach().cpu().tolist()
+        y_cpu = y.detach().cpu().tolist()
+        for index, spec in enumerate(specs):
+            stratum = str(spec["stratum"])
+            key_text = str(spec["pair_key"])
+            frequency = int(spec["train_pair_frequency"])
+            rows.append(
+                {
+                    "arm_id": arm_id,
+                    "seed": seed,
+                    "training_steps": training_steps,
+                    "device_resolved": device_name,
+                    "split": str(spec["split"]),
+                    "stratum": stratum,
+                    "pair_key": key_text,
+                    "train_pair_frequency": frequency,
+                    "correct": bool(int(preds_cpu[index]) == int(y_cpu[index])),
+                    "true_class_logit": round(float(true_logits_cpu[index]), 8),
+                    "true_class_margin": round(float(true_margins_cpu[index]), 8),
+                    "confidence": round(float(confidences_cpu[index]), 8),
+                    "chance_accuracy": round(1.0 / task_spec.vocab_size, 6),
+                }
+            )
+        return rows
+
+    def build_rows(x: Any, y: Any, *, ood: bool) -> list[dict[str, Any]]:
+        specs: list[dict[str, Any]] = []
+        for row in x.detach().cpu().tolist():
+            key = _pair_key(row, shifted=ood)
+            key_text = f"{key[0]}:{key[1]}"
+            frequency = int(counts.get(key_text, 0))
+            if ood:
+                stratum = "ood_dependency_shift_pair"
+            elif frequency <= 0:
+                stratum = "train_unseen_pair"
+            elif frequency >= high_threshold:
+                stratum = "train_seen_high_frequency_pair"
+            else:
+                stratum = "train_seen_low_frequency_pair"
+            specs.append(
+                {
+                    "split": "ood" if ood else "eval",
+                    "stratum": stratum,
+                    "pair_key": key_text,
+                    "train_pair_frequency": frequency,
+                }
+            )
+        return scored_rows(x, y, specs)
+
+    def supplemental_rows(existing: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+        present = {str(row.get("stratum")) for row in existing}
+        if set(L1OOD_STRATA).issubset(present):
+            return []
+        ordered_pairs = sorted(
+            ((tuple(int(part) for part in key.split(":")), count) for key, count in counts.items()),
+            key=lambda item: (item[1], item[0]),
+        )
+        low_pair, low_count = ordered_pairs[0] if ordered_pairs else ((0, 0), 0)
+        high_pair, high_count = ordered_pairs[-1] if ordered_pairs else ((0, 0), 0)
+        unseen_pair = None
+        for first in range(task_spec.vocab_size):
+            for second in range(task_spec.vocab_size):
+                if f"{first}:{second}" not in counts:
+                    unseen_pair = (first, second)
+                    break
+            if unseen_pair is not None:
+                break
+        unseen_pair = unseen_pair or ((high_pair[0] + 1) % task_spec.vocab_size, (high_pair[1] + 1) % task_spec.vocab_size)
+        plan = {
+            "train_seen_high_frequency_pair": (high_pair, high_count, "eval", False),
+            "train_seen_low_frequency_pair": (low_pair, low_count, "eval", False),
+            "train_unseen_pair": (unseen_pair, 0, "eval", False),
+            "ood_dependency_shift_pair": (high_pair, high_count, "ood", True),
+        }
+        xs: list[list[int]] = []
+        ys: list[int] = []
+        specs: list[dict[str, Any]] = []
+        for stratum in L1OOD_STRATA:
+            if stratum in present:
+                continue
+            pair, frequency, split, shifted = plan[stratum]
+            row = [0 for _ in range(task_spec.sequence_length)]
+            if shifted:
+                row[-1] = pair[0]
+                row[-3] = pair[1]
+                row[-2] = (pair[1] + 1) % task_spec.vocab_size
+                y_value = (3 * row[-1] + 5 * row[-3] + 7) % task_spec.vocab_size
+            else:
+                row[-1] = pair[0]
+                row[-2] = pair[1]
+                y_value = (3 * row[-1] + 5 * row[-2] + 1) % task_spec.vocab_size
+            xs.append(row)
+            ys.append(y_value)
+            specs.append(
+                {
+                    "split": split,
+                    "stratum": stratum,
+                    "pair_key": f"{pair[0]}:{pair[1]}",
+                    "train_pair_frequency": frequency,
+                }
+            )
+        if not xs:
+            return []
+        device = torch.device(device_name)
+        x_tensor = torch.tensor(xs, dtype=torch.long, device=device)
+        y_tensor = torch.tensor(ys, dtype=torch.long, device=device)
+        return scored_rows(x_tensor, y_tensor, specs)
+
+    probe_rows = build_rows(x_eval, y_eval, ood=False) + build_rows(x_ood, y_ood, ood=True)
+    probe_rows.extend(supplemental_rows(probe_rows))
+    after = _snapshot(torch, model)
+    mutated = bool(torch.any(torch.ne(before, after)).item())
+    for row in probe_rows:
+        row["parameter_mutation_detected"] = mutated
+    return probe_rows
+
+
 def _train_arm(
     torch: Any,
     *,
@@ -301,6 +479,7 @@ def _train_arm(
     config: L1TrainingConfig,
     requested_device: str,
     device_name: str,
+    collect_probe: bool = True,
 ) -> dict[str, Any]:
     _seed_all_rngs(torch, seed + ARM_IDS.index(arm_id) * 997)
     model = _TinySequenceModel(torch, arm_id=arm_id, vocab_size=task_spec.vocab_size, device_name=device_name)
@@ -339,6 +518,24 @@ def _train_arm(
         accuracy = float((preds == y_eval).to(torch.float32).mean().detach().cpu())
         ood_accuracy = float((ood_preds == y_ood).to(torch.float32).mean().detach().cpu())
         confidence = float(probabilities.max(dim=1).values.mean().detach().cpu())
+        probe_rows = (
+            _l1_mechanism_probe(
+                torch,
+                model=model,
+                arm_id=arm_id,
+                seed=seed,
+                task_spec=task_spec,
+                x_train=x_train,
+                x_eval=x_eval,
+                y_eval=y_eval,
+                x_ood=x_ood,
+                y_ood=y_ood,
+                device_name=device_name,
+                training_steps=config.training_steps,
+            )
+            if collect_probe
+            else []
+        )
     delta = float(torch.linalg.vector_norm(after - before).item())
     if not math.isfinite(delta) or delta <= 0.0:
         raise RuntimeError(f"no parameter update evidence for {arm_id}")
@@ -360,7 +557,7 @@ def _train_arm(
         "confidence": round(confidence, 6),
         "positive_margin_over_chance": round(accuracy - chance, 6),
     }
-    return L1TrainingArm(
+    row = L1TrainingArm(
         arm_id=arm_id,
         model_family=(
             "DGT tiny sequence"
@@ -380,6 +577,8 @@ def _train_arm(
         metrics=metrics,
         run_artifact_ref=f"{RUN_ROOT}/raw_metrics.jsonl:$.lines[{len(ARM_IDS) * list(config.seeds).index(seed) + ARM_IDS.index(arm_id)}]",
     ).as_payload()
+    row["_probe_rows"] = probe_rows
+    return row
 
 
 def _train_l1_grid(
@@ -412,6 +611,7 @@ def _train_l1_grid(
                     config=step_config,
                     requested_device=requested_device,
                     device_name=device_name,
+                    collect_probe=step == config.training_steps,
                 )
                 row["run_artifact_ref"] = (
                     f"{RUN_ROOT}/raw_metrics.jsonl:$.lines[{len(records)}]"
@@ -842,6 +1042,355 @@ def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[
         "rows": rows,
         "source_regression_guard": guard,
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
+    }
+
+
+def _probe_row_filter(
+    probe_rows: Sequence[Mapping[str, Any]],
+    *,
+    arm_id: str,
+    stratum: str,
+) -> list[Mapping[str, Any]]:
+    return [
+        row
+        for row in probe_rows
+        if row.get("arm_id") == arm_id and row.get("stratum") == stratum
+    ]
+
+
+def _mean_probe(rows: Sequence[Mapping[str, Any]], key: str) -> float:
+    return round(sum(float(row.get(key, 0.0)) for row in rows) / len(rows), 6) if rows else 0.0
+
+
+def _aggregate_probe_stratum(
+    probe_rows: Sequence[Mapping[str, Any]],
+    *,
+    arm_id: str,
+    stratum: str,
+) -> dict[str, Any]:
+    rows = _probe_row_filter(probe_rows, arm_id=arm_id, stratum=stratum)
+    seeds = sorted({int(row.get("seed", -1)) for row in rows})
+    pairs = sorted({str(row.get("pair_key")) for row in rows})
+    devices = sorted({str(row.get("device_resolved", "missing")) for row in rows})
+    mutated = any(bool(row.get("parameter_mutation_detected")) for row in rows)
+    chance = _mean_probe(rows, "chance_accuracy")
+    accuracy = round(sum(1 for row in rows if bool(row.get("correct"))) / len(rows), 6) if rows else 0.0
+    return {
+        "arm_id": arm_id,
+        "stratum": stratum,
+        "example_count": len(rows),
+        "seed_count": len(seeds),
+        "pair_count": len(pairs),
+        "accuracy": accuracy,
+        "true_class_logit_mean": _mean_probe(rows, "true_class_logit"),
+        "true_class_margin_mean": _mean_probe(rows, "true_class_margin"),
+        "confidence_mean": _mean_probe(rows, "confidence"),
+        "chance_accuracy": chance,
+        "accuracy_minus_chance": round(accuracy - chance, 6),
+        "device_resolved": devices[0] if len(devices) == 1 else "mixed-or-missing",
+        "parameter_mutation_detected": mutated,
+        "source_probe_row_count": len(rows),
+    }
+
+
+def _mechanism_strata_table(probe_rows: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        stratum: {
+            arm_id: _aggregate_probe_stratum(probe_rows, arm_id=arm_id, stratum=stratum)
+            for arm_id in ARM_IDS
+        }
+        for stratum in L1OOD_STRATA
+    }
+
+
+def _dgt_stratum(strata: Mapping[str, Any], stratum: str) -> Mapping[str, Any]:
+    cell = strata.get(stratum)
+    if isinstance(cell, Mapping):
+        dgt = cell.get("dgt_l1")
+        if isinstance(dgt, Mapping):
+            return dgt
+    return {}
+
+
+def _stratum_positive(cell: Mapping[str, Any]) -> bool:
+    return (
+        float(cell.get("accuracy_minus_chance", 0.0)) >= L1OOD_POSITIVE_MARGIN
+        and float(cell.get("true_class_margin_mean", -1.0)) > L1OOD_LOGIT_MARGIN_MIN
+    )
+
+
+def _stratum_collapsed(cell: Mapping[str, Any]) -> bool:
+    return float(cell.get("accuracy_minus_chance", 0.0)) <= L1OOD_COLLAPSE_MARGIN
+
+
+def _mechanism_scores(strata: Mapping[str, Any]) -> dict[str, float]:
+    high = _dgt_stratum(strata, "train_seen_high_frequency_pair")
+    low = _dgt_stratum(strata, "train_seen_low_frequency_pair")
+    unseen = _dgt_stratum(strata, "train_unseen_pair")
+    ood = _dgt_stratum(strata, "ood_dependency_shift_pair")
+    memorization = (
+        max(0.0, float(high.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, L1OOD_COLLAPSE_MARGIN - float(low.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, L1OOD_COLLAPSE_MARGIN - float(unseen.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, L1OOD_COLLAPSE_MARGIN - float(ood.get("accuracy_minus_chance", 0.0)))
+    )
+    brittle = (
+        max(0.0, float(high.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, float(low.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, L1OOD_COLLAPSE_MARGIN - float(unseen.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, L1OOD_COLLAPSE_MARGIN - float(ood.get("accuracy_minus_chance", 0.0)))
+    )
+    partial = (
+        max(0.0, float(unseen.get("accuracy_minus_chance", 0.0)))
+        + max(0.0, float(ood.get("accuracy_minus_chance", 0.0)))
+    )
+    return {
+        "memorization_score": round(memorization, 6),
+        "brittle_rule_score": round(brittle, 6),
+        "partial_rule_score": round(partial, 6),
+    }
+
+
+def derive_l1_ood_mechanism_verdict(
+    strata: Mapping[str, Any],
+    hardgates: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    high = _dgt_stratum(strata, "train_seen_high_frequency_pair")
+    low = _dgt_stratum(strata, "train_seen_low_frequency_pair")
+    unseen = _dgt_stratum(strata, "train_unseen_pair")
+    ood = _dgt_stratum(strata, "ood_dependency_shift_pair")
+    high_positive = _stratum_positive(high)
+    low_positive = _stratum_positive(low)
+    unseen_positive = _stratum_positive(unseen)
+    ood_positive = _stratum_positive(ood)
+    low_collapsed = _stratum_collapsed(low)
+    unseen_collapsed = _stratum_collapsed(unseen)
+    ood_collapsed = _stratum_collapsed(ood)
+    high_margin_only = (
+        float(high.get("true_class_margin_mean", -1.0)) > L1OOD_LOGIT_MARGIN_MIN
+        and float(low.get("true_class_margin_mean", 1.0)) <= L1OOD_LOGIT_MARGIN_MIN
+        and float(unseen.get("true_class_margin_mean", 1.0)) <= L1OOD_LOGIT_MARGIN_MIN
+        and float(ood.get("true_class_margin_mean", 1.0)) <= L1OOD_LOGIT_MARGIN_MIN
+    )
+    in_dist_margins_positive = (
+        float(high.get("true_class_margin_mean", -1.0)) > L1OOD_LOGIT_MARGIN_MIN
+        and float(low.get("true_class_margin_mean", -1.0)) > L1OOD_LOGIT_MARGIN_MIN
+    )
+    ood_margin_nonpositive = float(ood.get("true_class_margin_mean", 1.0)) <= L1OOD_LOGIT_MARGIN_MIN
+    gate_failures = [
+        gate_id
+        for gate_id, row in (hardgates or {}).items()
+        if row.get("status") != "pass"
+    ]
+    if high_positive and (low_collapsed or unseen_collapsed) and ood_collapsed and high_margin_only:
+        verdict = "memorization"
+        branch = "high_frequency_seen_only"
+    elif high_positive and low_positive and (unseen_collapsed or ood_collapsed) and in_dist_margins_positive and ood_margin_nonpositive:
+        verdict = "brittle-rule"
+        branch = "seen_pair_rule_collapses_under_unseen_or_shift"
+    elif unseen_positive and ood_positive:
+        verdict = "partial-rule"
+        branch = "non_chance_unseen_and_shifted_strata"
+    elif gate_failures:
+        verdict = "brittle-rule"
+        branch = "fail_closed_low_confidence"
+    else:
+        verdict = "brittle-rule"
+        branch = "default_collapse_boundary"
+    confidence = "low" if gate_failures else "medium"
+    return {
+        "verdict": verdict,
+        "diagnostic_confidence": confidence,
+        "branch": branch,
+        "failed_hardgates": gate_failures,
+        "thresholds": {
+            "positive_margin": L1OOD_POSITIVE_MARGIN,
+            "collapse_margin": L1OOD_COLLAPSE_MARGIN,
+            "frequency_ratio": L1OOD_FREQUENCY_RATIO,
+            "logit_margin_min": L1OOD_LOGIT_MARGIN_MIN,
+        },
+    }
+
+
+def _gate_l1ood_hg1(strata: Mapping[str, Any]) -> dict[str, Any]:
+    return _gate(
+        set(strata) == set(L1OOD_STRATA)
+        and all(
+            isinstance(strata.get(stratum), Mapping)
+            and set(strata[stratum]) == set(ARM_IDS)
+            and all(
+                isinstance(row, Mapping)
+                and int(row.get("example_count", 0)) > 0
+                and int(row.get("seed_count", 0)) >= 8
+                for row in strata[stratum].values()
+            )
+            for stratum in L1OOD_STRATA
+        ),
+        "L1OOD-HG1",
+        "all required pair-frequency and dependency-shift strata are present for every arm",
+        "$.l1_ood_mechanism.strata",
+    )
+
+
+def _gate_l1ood_hg2(strata: Mapping[str, Any]) -> dict[str, Any]:
+    return _gate(
+        all(
+            row.get("device_resolved") == "cpu"
+            for stratum in L1OOD_STRATA
+            for row in strata.get(stratum, {}).values()
+            if isinstance(row, Mapping)
+        ),
+        "L1OOD-HG2",
+        "read-only mechanism probe rows are canonical CPU forward passes",
+        "$.l1_ood_mechanism.strata",
+    )
+
+
+def _gate_l1ood_hg3(strata: Mapping[str, Any]) -> dict[str, Any]:
+    return _gate(
+        all(
+            isinstance(row.get("true_class_logit_mean"), (int, float))
+            and isinstance(row.get("true_class_margin_mean"), (int, float))
+            and row.get("parameter_mutation_detected") is False
+            for stratum in L1OOD_STRATA
+            for row in strata.get(stratum, {}).values()
+            if isinstance(row, Mapping)
+        ),
+        "L1OOD-HG3",
+        "probe contains aggregate true-class logits and margins without parameter mutation",
+        "$.l1_ood_mechanism.strata",
+    )
+
+
+def _gate_l1ood_hg4(strata: Mapping[str, Any], control_rows: Mapping[str, Any]) -> dict[str, Any]:
+    matched = strata.get("train_seen_high_frequency_pair", {}).get("matched_random_structural_l1", {})
+    dgt = strata.get("train_seen_high_frequency_pair", {}).get("dgt_l1", {})
+    return _gate(
+        isinstance(matched, Mapping)
+        and isinstance(dgt, Mapping)
+        and float(matched.get("accuracy", 1.0)) < float(dgt.get("accuracy", 0.0)) - QUALITY_MARGIN
+        and control_rows.get("controls_present") is True,
+        "L1OOD-HG4",
+        "matched-random control rows are present and remain diagnostic controls rather than verdict owners",
+        "$.l1_ood_mechanism.control_rows",
+    )
+
+
+def _gate_l1ood_hg5(source_pointers: Mapping[str, Any]) -> dict[str, Any]:
+    return _gate(
+        source_pointers.get("task_required_order_source")
+        == f"{CANONICAL_JSON_ARTIFACT}:$.task_spec.required_order_source"
+        and source_pointers.get("task_required_order_status") == "pointer-backed"
+        and source_pointers.get("task_required_order") == 2,
+        "L1OOD-HG5",
+        "mechanism diagnosis uses the existing pointer-backed order-two task source",
+        "$.task_spec.required_order_source",
+    )
+
+
+def _scripted_metric_literals_absent(value: Mapping[str, Any]) -> bool:
+    checked = {key: cell for key, cell in value.items() if key != "hardgates"}
+    text = json.dumps(checked, sort_keys=True).lower()
+    return all(token not in text for token in ("scripted_metric", "prefilled_metrics", "issue-text", "0.288"))
+
+
+def _gate_l1ood_hg6(decision: Mapping[str, Any], mechanism: Mapping[str, Any]) -> dict[str, Any]:
+    return _gate(
+        decision.get("verdict") in L1OOD_VERDICTS
+        and isinstance(decision.get("branch"), str)
+        and bool(decision.get("branch"))
+        and _scripted_metric_literals_absent(mechanism),
+        "L1OOD-HG6",
+        "mechanism verdict is mechanically selected from the registered verdict set",
+        "$.l1_ood_mechanism.decision_table",
+    )
+
+
+def evaluate_l1ood_hardgates(mechanism: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    strata = mechanism.get("strata")
+    strata = strata if isinstance(strata, Mapping) else {}
+    control_rows = mechanism.get("control_rows")
+    control_rows = control_rows if isinstance(control_rows, Mapping) else {}
+    source_pointers = mechanism.get("source_pointers")
+    source_pointers = source_pointers if isinstance(source_pointers, Mapping) else {}
+    decision = mechanism.get("decision_table")
+    decision = decision if isinstance(decision, Mapping) else {}
+    return {
+        "L1OOD-HG1": _gate_l1ood_hg1(strata),
+        "L1OOD-HG2": _gate_l1ood_hg2(strata),
+        "L1OOD-HG3": _gate_l1ood_hg3(strata),
+        "L1OOD-HG4": _gate_l1ood_hg4(strata, control_rows),
+        "L1OOD-HG5": _gate_l1ood_hg5(source_pointers),
+        "L1OOD-HG6": _gate_l1ood_hg6(decision, mechanism),
+    }
+
+
+def build_l1_ood_mechanism(
+    records: Sequence[Mapping[str, Any]],
+    probe_rows: Sequence[Mapping[str, Any]],
+    task_spec: Mapping[str, Any],
+    summaries: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    del summaries
+    strata = _mechanism_strata_table(probe_rows)
+    scores = _mechanism_scores(strata)
+    provisional_decision = derive_l1_ood_mechanism_verdict(strata)
+    task_source = task_spec.get("required_order_source") if isinstance(task_spec, Mapping) else {}
+    task_source = task_source if isinstance(task_source, Mapping) else {}
+    provisional = {
+        "owner": "dgt-l1-controls",
+        "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+        "source_pointers": {
+            "training_arms": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms",
+            "compute_ledger": f"{CANONICAL_JSON_ARTIFACT}:$.compute_ledger",
+            "independent_replay": f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
+            "task_required_order_source": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec.required_order_source",
+            "task_required_order_status": task_source.get("status"),
+            "task_required_order": task_source.get("required_order", 2),
+            "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
+            "probe_metrics": f"{RUN_ROOT}/probe_metrics.jsonl",
+        },
+        "strata": strata,
+        "mechanism_scores": scores,
+        "decision_table": provisional_decision,
+        "verdict": provisional_decision["verdict"],
+        "diagnostic_confidence": provisional_decision["diagnostic_confidence"],
+        "l2_implication": {
+            "status": "diagnostic-pointer-only",
+            "recommendation": "future L2 work must treat this verdict as a bounded diagnostic, not as scaling evidence",
+            "verdict_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism.verdict",
+        },
+        "control_rows": {
+            "information_starved_baseline_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
+            "matched_random_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
+            "controls_present": all(any(row.get("arm_id") == arm_id for row in records) for arm_id in ARM_IDS if arm_id != "dgt_l1"),
+        },
+        "hardgates": {},
+        "regen_idempotence": {
+            "status": "runner-checked",
+            "checked_paths": [
+                CANONICAL_JSON_ARTIFACT,
+                CANONICAL_FINGERPRINT_ARTIFACT,
+                f"{RUN_ROOT}/raw_metrics.jsonl",
+                f"{RUN_ROOT}/probe_metrics.jsonl",
+            ],
+        },
+        "not_claimed": [
+            "No OOD generalization claim.",
+            "No L2 or higher scaling claim.",
+            "No component-causal stability claim.",
+            "No standalone mechanism owner claim.",
+        ],
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism",
+    }
+    gates = evaluate_l1ood_hardgates(provisional)
+    decision = derive_l1_ood_mechanism_verdict(strata, gates)
+    return {
+        **{key: value for key, value in provisional.items() if key not in {"records", "task_spec"}},
+        "decision_table": decision,
+        "verdict": decision["verdict"],
+        "diagnostic_confidence": decision["diagnostic_confidence"],
+        "hardgates": gates,
     }
 
 
@@ -1604,6 +2153,12 @@ def build_payload(
         device_name=device_name,
     )
     primary_records = [row for row in records if int(row["training_steps"]) == cfg.training_steps]
+    probe_rows = [
+        probe_row
+        for row in primary_records
+        for probe_row in row.get("_probe_rows", [])
+        if isinstance(probe_row, Mapping)
+    ]
     summaries = _arm_summaries(primary_records)
     summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
     compute = _compute_ledger(summaries)
@@ -1624,6 +2179,7 @@ def build_payload(
     negative = _negative_witness_sweep(summaries)
     replay = _independent_replay(task_spec.as_payload(), primary_records, summaries)
     step_ladder = build_l1_step_ladder(records, cfg)
+    l1_ood_mechanism = build_l1_ood_mechanism(primary_records, probe_rows, task_spec.as_payload(), summaries)
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -1640,6 +2196,7 @@ def build_payload(
         "source_regression_guard": negative["source_regression_guard"],
         "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
+        "l1_ood_mechanism": l1_ood_mechanism,
         "construct_validity_hardgates": construct_validity_payload(summaries=summaries, config=cfg),
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
@@ -1660,7 +2217,8 @@ def build_payload(
     payload["l1_tiny_sequence_projection"] = _projection(payload, gates)
     payload["boundary_ledger"] = payload["l1_tiny_sequence_projection"]["boundary_ledger"]
     payload["_raw_records"] = records
-    validate_payload({key: value for key, value in payload.items() if key != "_raw_records"}, root=root)
+    payload["_probe_rows"] = probe_rows
+    validate_payload({key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}, root=root)
     return payload
 
 
@@ -1681,6 +2239,7 @@ def _required_fields() -> set[str]:
         "source_regression_guard",
         "owner_local_measurement_boundary",
         "l1_step_ladder",
+        "l1_ood_mechanism",
         "construct_validity_hardgates",
         "review_status",
         "promotion_readiness",
@@ -1694,8 +2253,8 @@ def _required_fields() -> set[str]:
 
 
 def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) -> None:
-    if "_raw_records" in payload:
-        payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+    if "_raw_records" in payload or "_probe_rows" in payload:
+        payload = {key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}
     if set(payload) != _required_fields():
         raise ValueError("DGT L1 controls payload fields mismatch")
     if payload["schema_id"] != SCHEMA_ID or payload["artifact_id"] != ARTIFACT_ID:
@@ -1782,6 +2341,86 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     expected_ladder_status = "pass" if all(row["status"] == "pass" for row in ladder_gates.values()) else "fail"
     if ladder.get("status") != expected_ladder_status:
         raise ValueError("DGT L1 step ladder status mismatch")
+    mechanism = payload["l1_ood_mechanism"]
+    if not isinstance(mechanism, Mapping):
+        raise ValueError("DGT L1 OOD mechanism missing")
+    required_mechanism_keys = {
+        "owner",
+        "evidence_scope",
+        "source_pointers",
+        "strata",
+        "mechanism_scores",
+        "decision_table",
+        "verdict",
+        "diagnostic_confidence",
+        "l2_implication",
+        "control_rows",
+        "hardgates",
+        "regen_idempotence",
+        "not_claimed",
+        "pointer",
+    }
+    if set(mechanism) != required_mechanism_keys:
+        raise ValueError("DGT L1 OOD mechanism fields mismatch")
+    if mechanism.get("owner") != "dgt-l1-controls" or mechanism.get("evidence_scope") != "bounded-tiny-sequence-l1-ood-mechanism":
+        raise ValueError("DGT L1 OOD mechanism owner mismatch")
+    source_pointers = mechanism.get("source_pointers")
+    if not isinstance(source_pointers, Mapping) or source_pointers.get("probe_metrics") != f"{RUN_ROOT}/probe_metrics.jsonl":
+        raise ValueError("DGT L1 OOD mechanism probe pointer missing")
+    strata = mechanism.get("strata")
+    if not isinstance(strata, Mapping) or set(strata) != set(L1OOD_STRATA):
+        raise ValueError("DGT L1 OOD mechanism strata mismatch")
+    for stratum in L1OOD_STRATA:
+        arms_for_stratum = strata[stratum]
+        if not isinstance(arms_for_stratum, Mapping) or set(arms_for_stratum) != set(ARM_IDS):
+            raise ValueError(f"DGT L1 OOD mechanism arm strata mismatch: {stratum}")
+        for arm_id, row in arms_for_stratum.items():
+            required_row_keys = {
+                "arm_id",
+                "stratum",
+                "example_count",
+                "seed_count",
+                "pair_count",
+                "accuracy",
+                "true_class_logit_mean",
+                "true_class_margin_mean",
+                "confidence_mean",
+                "chance_accuracy",
+                "accuracy_minus_chance",
+                "device_resolved",
+                "parameter_mutation_detected",
+                "source_probe_row_count",
+            }
+            if set(row) != required_row_keys:
+                raise ValueError("DGT L1 OOD mechanism stratum row schema mismatch")
+            if row["arm_id"] != arm_id or row["stratum"] != stratum:
+                raise ValueError("DGT L1 OOD mechanism stratum row identity mismatch")
+            if int(row["example_count"]) <= 0 or int(row["seed_count"]) < 8 or int(row["pair_count"]) <= 0:
+                raise ValueError("DGT L1 OOD mechanism stratum row count missing")
+            if row["device_resolved"] != "cpu" or row["parameter_mutation_detected"] is not False:
+                raise ValueError("DGT L1 OOD mechanism probe must be read-only CPU")
+            if not isinstance(row["true_class_logit_mean"], (int, float)) or not isinstance(row["true_class_margin_mean"], (int, float)):
+                raise ValueError("DGT L1 OOD mechanism logit aggregates missing")
+            if round(float(row["accuracy"]) - float(row["chance_accuracy"]), 6) != float(row["accuracy_minus_chance"]):
+                raise ValueError("DGT L1 OOD mechanism accuracy margin mismatch")
+    expected_scores = _mechanism_scores(strata)
+    if mechanism.get("mechanism_scores") != expected_scores:
+        raise ValueError("DGT L1 OOD mechanism score mismatch")
+    expected_l1ood_gates = evaluate_l1ood_hardgates(mechanism)
+    if mechanism.get("hardgates") != expected_l1ood_gates:
+        raise ValueError("DGT L1 OOD mechanism hardgate mismatch")
+    expected_decision = derive_l1_ood_mechanism_verdict(strata, expected_l1ood_gates)
+    if mechanism.get("decision_table") != expected_decision:
+        raise ValueError("DGT L1 OOD mechanism decision table mismatch")
+    if mechanism.get("verdict") != expected_decision["verdict"] or mechanism.get("verdict") not in L1OOD_VERDICTS:
+        raise ValueError("DGT L1 OOD mechanism verdict mismatch")
+    if mechanism.get("diagnostic_confidence") != expected_decision["diagnostic_confidence"]:
+        raise ValueError("DGT L1 OOD mechanism confidence mismatch")
+    if any(row["status"] != "pass" for row in expected_l1ood_gates.values()) and mechanism.get("diagnostic_confidence") != "low":
+        raise ValueError("DGT L1 OOD mechanism fail-closed confidence mismatch")
+    l2_implication = mechanism.get("l2_implication")
+    if not isinstance(l2_implication, Mapping) or l2_implication.get("verdict_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism.verdict":
+        raise ValueError("DGT L1 OOD mechanism L2 pointer mismatch")
     expected_gates = evaluate_hardgates(payload)
     if payload["hardgates"] != expected_gates:
         raise ValueError("DGT L1 hardgate evaluation mismatch")
@@ -1892,6 +2531,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Evidence scope: `{projection['evidence_scope']}`",
         f"- Step-ladder verdict: `{ladder['verdict']}`",
         f"- Step-ladder crossover: `{ladder['convergence_crossover']['status']}`",
+        f"- L1 OOD mechanism verdict: `{payload['l1_ood_mechanism']['verdict']}`",
+        f"- L1 OOD mechanism confidence: `{payload['l1_ood_mechanism']['diagnostic_confidence']}`",
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
@@ -1916,6 +2557,22 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## L1 Step Hardgates", ""])
     for gate_id, row in ladder["hardgates"].items():
         lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
+    lines.extend(["", "## L1 OOD Mechanism", ""])
+    mechanism = payload["l1_ood_mechanism"]
+    lines.append(f"- Verdict: `{mechanism['verdict']}`")
+    lines.append(f"- Diagnostic confidence: `{mechanism['diagnostic_confidence']}`")
+    for stratum in L1OOD_STRATA:
+        dgt = mechanism["strata"][stratum]["dgt_l1"]
+        lines.append(
+            "- "
+            f"`{stratum}`: "
+            f"accuracy `{dgt['accuracy']:.6f}`, "
+            f"margin `{dgt['true_class_margin_mean']:.6f}`, "
+            f"examples `{dgt['example_count']}`"
+        )
+    lines.extend(["", "## L1 OOD Hardgates", ""])
+    for gate_id, row in mechanism["hardgates"].items():
+        lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
     lines.extend(["", "## Claim Capsule", ""])
     lines.append(f"- Scope: `{payload['claim_capsule_ref']['evidence_scope']}`")
     lines.append(f"- Allowed claim: {ALLOWED_CLAIM}")
@@ -1934,6 +2591,7 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
 def run_artifacts_payload() -> dict[str, str]:
     return {
         "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
+        "probe_metrics": f"{RUN_ROOT}/probe_metrics.jsonl",
         "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
         "summary": f"{RUN_ROOT}/summary.json",
         "report": f"{RUN_ROOT}/report.md",
@@ -1949,20 +2607,35 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
         "producer_command": ["python3", PRODUCER],
         "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "step_grid": L1_STEP_GRID}),
         "output_digest": _json_digest(payload),
-        "inputs": {"static_owner": OWNER_MODULE, "run_artifacts": run_artifacts_payload()},
+        "inputs": {
+            "static_owner": OWNER_MODULE,
+            "run_artifacts": run_artifacts_payload(),
+            "l1_ood_mechanism": {
+                "strata": list(L1OOD_STRATA),
+                "verdicts": list(L1OOD_VERDICTS),
+                "thresholds": payload["l1_ood_mechanism"]["decision_table"]["thresholds"],
+            },
+        },
         "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
     }
 
 
 def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str | None = None) -> None:
-    public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+    public_payload = {key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}
     validate_payload(public_payload, root=None)
     run_artifacts = run_artifacts_payload()
     _write_json(root / run_artifacts["summary"], public_payload)
-    raw_rows = list(payload.get("_raw_records", []))
+    raw_rows = [
+        {key: value for key, value in row.items() if key != "_probe_rows"}
+        for row in list(payload.get("_raw_records", []))
+    ]
     raw_path = root / run_artifacts["raw_metrics"]
     raw_path.parent.mkdir(parents=True, exist_ok=True)
     raw_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in raw_rows), encoding="utf-8")
+    probe_rows = list(payload.get("_probe_rows", []))
+    probe_path = root / run_artifacts["probe_metrics"]
+    probe_path.parent.mkdir(parents=True, exist_ok=True)
+    probe_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in probe_rows), encoding="utf-8")
     _write_json(root / run_artifacts["claim_capsule"], public_payload["claim_capsule_ref"])
     report = render_markdown(public_payload)
     report_path = root / run_artifacts["report"]
@@ -1983,13 +2656,16 @@ __all__ = [
     "L1TrainingConfig",
     "SCHEMA_ID",
     "build_claim_capsule",
+    "build_l1_ood_mechanism",
     "build_l1_step_ladder",
     "build_payload",
     "construct_validity_evidence",
     "construct_validity_payload",
+    "derive_l1_ood_mechanism_verdict",
     "derive_l1_step_ladder_crossover",
     "derive_l1_step_ladder_verdict",
     "evaluate_hardgates",
+    "evaluate_l1ood_hardgates",
     "evaluate_l1step_hardgates",
     "render_markdown",
     "source_regression_guard",

@@ -991,8 +991,14 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
         "artifact": "reports/canonical/dgt-l1-controls.json",
         "pointer": "$.negative_witness_sweep",
     }
+    assert owner["source_artifacts"]["l1_ood_mechanism_ref"] == {
+        "artifact": "reports/canonical/dgt-l1-controls.json",
+        "pointer": "$.l1_ood_mechanism",
+    }
+    assert l1_capsule["l1_ood_mechanism_verdict_alias_source"] == "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict"
+    assert l1_capsule["l1_ood_mechanism_l2_implication_alias_source"] == "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.l2_implication"
     serialized = json.dumps(l1_capsule, sort_keys=True)
-    for forbidden in ("metrics", "hardgates", "claim_capsule_ref", "discovery_map", "verdict", "stable_causal_attribution"):
+    for forbidden in ("metrics", "hardgates", "claim_capsule_ref", "discovery_map", "strata", "mechanism_scores", "stable_causal_attribution"):
         assert forbidden not in serialized
     assert "information_starved_baseline" not in serialized
     assert "hand_engineered_task_aligned_gate" not in serialized
@@ -1004,7 +1010,7 @@ def test_dgt_owner_refs_fail_closed_when_missing(tmp_path):
     _write_ready_dgt_l1_controls_artifact(tmp_path)
     l1_path = tmp_path / "reports/canonical/dgt-l1-controls.json"
     l1_payload = json.loads(l1_path.read_text(encoding="utf-8"))
-    l1_payload.pop("negative_witness_sweep")
+    l1_payload.pop("l1_ood_mechanism")
     l1_path.write_text(json.dumps(l1_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     with pytest.raises(ValueError, match="owner refs"):
