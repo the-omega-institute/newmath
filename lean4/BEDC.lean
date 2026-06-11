@@ -880,6 +880,7 @@ import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.AbstractBridgeRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
+import BEDC.Derived.BishopRegularCauchyCompletionUp.CofinalTailRefinement
 import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.FilterRealHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.MatureRoute
