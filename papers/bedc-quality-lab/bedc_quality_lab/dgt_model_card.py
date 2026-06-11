@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping, NamedTuple, Sequence
 
 
 SCHEMA_ID = "bedc-quality-lab:dgt-model-card"
@@ -70,6 +70,13 @@ CONSTRUCT_VALIDITY_POINTERS = {
     "dgt-l0-controls": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
     "dgt-l1-controls": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
 }
+
+
+class OwnerProjectionTable(NamedTuple):
+    path: str
+    gate_id: str
+    identity_keys: tuple[str, ...]
+    value_keys: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -267,6 +274,70 @@ def _expected_source_status(root: Path, source_pointer: str) -> tuple[str, str |
     if source_pointer == INDEX_EVIDENCE_PROVENANCE_POINTER:
         return "resolved", _json_digest(value)
     return "resolved", digest
+
+
+def _projection_identity(row: Mapping[str, Any], keys: Sequence[str]) -> tuple[Any, ...]:
+    return tuple(row.get(key) for key in keys)
+
+
+def _validate_projection_rows(
+    rows: Any,
+    expected_rows: Sequence[Mapping[str, Any]],
+    table: OwnerProjectionTable,
+) -> list[CardGateError]:
+    if not isinstance(rows, list):
+        return [CardGateError(table.gate_id, table.path, "owner projection rows missing")]
+    errors: list[CardGateError] = []
+    expected_by_identity = {
+        _projection_identity(row, table.identity_keys): row
+        for row in expected_rows
+        if isinstance(row, Mapping)
+    }
+    seen: set[tuple[Any, ...]] = set()
+    for index, row in enumerate(rows):
+        row_path = f"{table.path}[{index}]"
+        if not isinstance(row, Mapping):
+            errors.append(CardGateError(table.gate_id, row_path, "owner projection row invalid"))
+            continue
+        identity = _projection_identity(row, table.identity_keys)
+        if identity in seen:
+            errors.append(CardGateError(table.gate_id, row_path, "duplicate owner projection row"))
+            continue
+        seen.add(identity)
+        expected = expected_by_identity.get(identity)
+        if expected is None:
+            errors.append(CardGateError(table.gate_id, row_path, "unexpected owner projection row"))
+            continue
+        for key in table.value_keys:
+            if key in expected and row.get(key) != expected.get(key):
+                errors.append(
+                    CardGateError(
+                        table.gate_id,
+                        f"{row_path}.{key}",
+                        "owner projection field differs from recomputed evidence",
+                    )
+                )
+    for identity in expected_by_identity:
+        if identity not in seen:
+            errors.append(CardGateError(table.gate_id, table.path, "expected owner projection row missing"))
+    return errors
+
+
+def _validate_projection_mapping(
+    row: Any,
+    expected: Mapping[str, Any],
+    *,
+    path: str,
+    gate_id: str,
+    value_keys: Sequence[str],
+) -> list[CardGateError]:
+    if not isinstance(row, Mapping):
+        return [CardGateError(gate_id, path, "owner projection row missing")]
+    return [
+        CardGateError(gate_id, f"{path}.{key}", "owner projection field differs from recomputed evidence")
+        for key in value_keys
+        if key in expected and row.get(key) != expected.get(key)
+    ]
 
 
 def _not_intended_use() -> list[dict[str, str]]:
@@ -857,11 +928,105 @@ def _validate_upstream_status(card: Mapping[str, Any]) -> list[CardGateError]:
     return errors
 
 
+def _validate_owner_projection_fields(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
+    source_artifacts, resolved, _missing_refs = _source_records(root)
+    facts = _training_facts(resolved)
+    expected_boundaries = _evaluation_boundaries(resolved) + _construct_validity_boundary_rows(root)
+    expected_upstream = [
+        _owner_status_cell(
+            row["source_owner"],
+            row["source_pointer"],
+            row["status"],
+            source_artifacts=source_artifacts,
+        )
+        for row in source_artifacts
+    ]
+    errors: list[CardGateError] = []
+    errors.extend(
+        _validate_projection_rows(
+            card.get("source_artifacts"),
+            source_artifacts,
+            OwnerProjectionTable(
+                path="$.source_artifacts",
+                gate_id="CARD-HG9",
+                identity_keys=("source_owner", "source_pointer"),
+                value_keys=("owner_issue", "artifact", "pointer", "status", "sha256"),
+            ),
+        )
+    )
+    errors.extend(
+        _validate_projection_rows(
+            card.get("upstream_status"),
+            expected_upstream,
+            OwnerProjectionTable(
+                path="$.upstream_status",
+                gate_id="CARD-HG9",
+                identity_keys=("source_owner", "source_pointer"),
+                value_keys=("status", "source_digest"),
+            ),
+        )
+    )
+    errors.extend(
+        _validate_projection_rows(
+            _dig(card, ("training_facts", "metric_cells"), []),
+            facts.get("metric_cells", []),
+            OwnerProjectionTable(
+                path="$.training_facts.metric_cells",
+                gate_id="CARD-HG3",
+                identity_keys=("source_owner", "source_pointer", "metric"),
+                value_keys=("value",),
+            ),
+        )
+    )
+    errors.extend(
+        _validate_projection_mapping(
+            _dig(card, ("training_facts", "evidence_provenance"), {}),
+            facts.get("evidence_provenance", {}),
+            path="$.training_facts.evidence_provenance",
+            gate_id="CARD-HG7",
+            value_keys=("status", "source_type", "evidence_type"),
+        )
+    )
+    errors.extend(
+        _validate_projection_rows(
+            card.get("known_failure_modes"),
+            _known_failure_modes(resolved),
+            OwnerProjectionTable(
+                path="$.known_failure_modes",
+                gate_id="CARD-HG5",
+                identity_keys=("source_owner", "source_pointer", "failure_mode"),
+                value_keys=("status",),
+            ),
+        )
+    )
+    errors.extend(
+        _validate_projection_rows(
+            card.get("evaluation_boundaries"),
+            expected_boundaries,
+            OwnerProjectionTable(
+                path="$.evaluation_boundaries",
+                gate_id="CARD-HG5",
+                identity_keys=("source_owner", "source_pointer", "boundary"),
+                value_keys=(
+                    "status",
+                    "review_status",
+                    "construct_validity_status",
+                    "failed_gates",
+                    "rule_abstraction_claim",
+                    "rule_abstraction_status",
+                ),
+            ),
+        )
+    )
+    return errors
+
+
 def _validate_without_hardgate_refresh(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
     errors: list[CardGateError] = []
     errors.extend(_validate_required_keys(card))
     errors.extend(_validate_literals(card))
     errors.extend(_validate_numeric_cells(card))
+    errors.extend(_validate_owner_projection_fields(card, root))
     errors.extend(_validate_l0_owner(card, root))
     errors.extend(_validate_l1_fair_boundary(card, root))
     errors.extend(_validate_construct_validity_boundaries(card, root))

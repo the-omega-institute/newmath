@@ -173,6 +173,47 @@ def test_card_numeric_cells_are_pointer_backed(tmp_path):
     assert "CARD-HG3" in errors
 
 
+def test_metric_cell_value_rewrite_fails_against_owner_pointer(tmp_path):
+    payload = _build(tmp_path)
+    metric = next(
+        row
+        for row in payload["training_facts"]["metric_cells"]
+        if row["metric"] == "dgt_ood_accuracy_ci95_low"
+    )
+    metric["value"] = 0.99
+
+    errors = [error.as_dict() for error in card.validate_dgt_model_card(payload, tmp_path)]
+
+    assert any(error["gate_id"] == "CARD-HG3" and error["path"] == "$.training_facts.metric_cells[0].value" for error in errors)
+
+
+def test_failure_mode_status_rewrite_fails_against_owner_pointer(tmp_path):
+    payload = _build(tmp_path)
+    failure = next(row for row in payload["known_failure_modes"] if row["failure_mode"] == "OOD boundary")
+    failure["status"] = "pass-by-hand"
+
+    errors = [error.as_dict() for error in card.validate_dgt_model_card(payload, tmp_path)]
+
+    assert any(error["gate_id"] == "CARD-HG5" and error["path"] == "$.known_failure_modes[3].status" for error in errors)
+
+
+def test_metric_and_failure_mode_value_drift_is_rejected(tmp_path):
+    payload = _build(tmp_path)
+    metric = next(
+        row
+        for row in payload["training_facts"]["metric_cells"]
+        if row["metric"] == "dgt_ood_accuracy_ci95_low"
+    )
+    metric["value"] = 0.99
+    ood = next(row for row in payload["known_failure_modes"] if row["failure_mode"] == "OOD boundary")
+    ood["status"] = "pass-by-hand"
+
+    errors = [error.as_dict() for error in card.validate_dgt_model_card(payload, tmp_path)]
+
+    assert any(error["path"] == "$.training_facts.metric_cells[0].value" for error in errors)
+    assert any(error["path"] == "$.known_failure_modes[3].status" for error in errors)
+
+
 def test_l0_status_is_derived_from_owner_pointer(tmp_path):
     payload = _build(tmp_path)
     l0 = next(row for row in payload["evaluation_boundaries"] if row["source_owner"] == "dgt-l0-controls")
