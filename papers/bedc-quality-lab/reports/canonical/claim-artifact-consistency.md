@@ -7,7 +7,7 @@
 | gate | status | pointer | reason | expected | actual |
 | --- | --- | --- | --- | --- | --- |
 | `CONS-HG1` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | discovery level and verdict are coherent | `consistent` | `consistent` |
-| `CONS-HG2` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | positive verdict uses the current scorecard hash | `3e8b37edacf9bea2e5d2b9cb595b496e9ad9e4dbdc039c2c92d0e0608ff31fb0` | `3e8b37edacf9bea2e5d2b9cb595b496e9ad9e4dbdc039c2c92d0e0608ff31fb0` |
+| `CONS-HG2` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | positive verdict uses the current scorecard hash | `db49985639eaab5c05a4978d27f43fe07511d81438361d811e248e4c2ae70a29` | `db49985639eaab5c05a4978d27f43fe07511d81438361d811e248e4c2ae70a29` |
 | `CONS-HG3` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | reason taxonomy matches scorecard readiness | `consistent` | `consistent` |
 | `CONS-HG4` | `pass` | `reports/canonical/claim_graph.json:$.nodes[106]` | terminal graph path uses Core claim verdict row | `consistent` | `consistent` |
 | `CONS-HG5` | `pass` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[1]` | coverage matrix DGT cell points to the DGT owner | `consistent` | `consistent` |
