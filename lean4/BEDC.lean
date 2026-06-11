@@ -3245,6 +3245,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
 import BEDC.Derived.CoveringdimensionUp.MetricRealDependency
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
