@@ -59,3 +59,21 @@ Use the obligation closure package above to account for the same rows as the com
 
 Transport, replay, provenance, and local naming preserve that inventory. Since the refused principles are absent from the carrier and from the Real-seal handoff, the endpoint cannot escape the displayed finite route.
 \end{proof}
+
+\begin{theorem}[LowerSemicontinuous scoped route]
+\label{thm:lower-semicontinuous-scoped-route}
+Every scoped consumer of an accepted $\LowerSemicontinuousUp$ packet must traverse the finite route
+$$
+X,F,W,R,E,O,H,C,P,N
+$$
+before any lower-bound claim is consumed. The route exposes the source row $X$, the graph row $F$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\LowerRealUp$ and $\UpperRealUp$ epigraph rows $E,O$, the $\LocatedRealUp$ comparison data, and the terminal $\RealUp$ seal with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ still visible.
+
+The scoped route exports no semantic liminf operator, host topology, selected approximants, countable-choice schedule, quotient equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation closure package. It identifies $X,F,W,R,E,O,H,C,P,N$ as the complete obligation inventory and refuses host topology, semantic liminf data, quotient equality, selected approximating sequences, countable choice, open-cover compactness, and ambient $\RealUp$ completeness at the package boundary.
+
+Apply the located epigraph route and the located-real obligation route. These place every located lower-bound read through $W,R,E,O$ and keep the $\StreamNameUp$, $\RegSeqRatUp$, $\LowerRealUp$, $\UpperRealUp$, and $\LocatedRealUp$ rows visible before the lower-bound claim is used.
+
+Finally apply Real-seal nonescape. The terminal $\RealUp$ seal remains downstream of the same displayed route, while $H,C,P,N$ preserve transport, replay, provenance, and naming. Since no refused principle is a coordinate of the accepted packet, a scoped consumer receives only the finite route stated above.
+\end{proof}
