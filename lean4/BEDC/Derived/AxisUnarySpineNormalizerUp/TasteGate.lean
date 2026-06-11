@@ -131,8 +131,15 @@ def axisUnarySpineNormalizerFromEventFlow : EventFlow → Option AxisUnarySpineN
                                                                           (axisUnarySpineNormalizerDecodeBHist
                                                                             provenance)
                                                                           (axisUnarySpineNormalizerDecodeBHist
-                                                                            name))
+                                                                          name))
                                                                   | _ :: _ => none
+
+def axisUnarySpineNormalizerFields : AxisUnarySpineNormalizerUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | AxisUnarySpineNormalizerUp.mk sourceSpine axisZeroSpine lengthLedger standardBoundary
+      componentTransport continuationRoutes provenance name =>
+      [sourceSpine, axisZeroSpine, lengthLedger, standardBoundary, componentTransport,
+        continuationRoutes, provenance, name]
 
 private theorem axisUnarySpineNormalizer_round_trip :
     ∀ x : AxisUnarySpineNormalizerUp,
@@ -188,6 +195,20 @@ private theorem axisUnarySpineNormalizerToEventFlow_injective
     (Eq.trans (axisUnarySpineNormalizer_round_trip x).symm
       (Eq.trans hread (axisUnarySpineNormalizer_round_trip y)))
 
+private theorem axisUnarySpineNormalizer_field_faithful :
+    ∀ x y : AxisUnarySpineNormalizerUp,
+      axisUnarySpineNormalizerFields x = axisUnarySpineNormalizerFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk sourceSpine₁ axisZeroSpine₁ lengthLedger₁ standardBoundary₁ componentTransport₁
+      continuationRoutes₁ provenance₁ name₁ =>
+      cases y with
+      | mk sourceSpine₂ axisZeroSpine₂ lengthLedger₂ standardBoundary₂ componentTransport₂
+          continuationRoutes₂ provenance₂ name₂ =>
+          cases h
+          rfl
+
 instance axisUnarySpineNormalizerBHistCarrier : BHistCarrier AxisUnarySpineNormalizerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := axisUnarySpineNormalizerToEventFlow
@@ -205,6 +226,12 @@ instance axisUnarySpineNormalizerChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (axisUnarySpineNormalizerToEventFlow_injective heq)
+
+instance axisUnarySpineNormalizerFieldFaithful :
+    FieldFaithful AxisUnarySpineNormalizerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := axisUnarySpineNormalizerFields
+  field_faithful := axisUnarySpineNormalizer_field_faithful
 
 theorem AxisUnarySpineNormalizerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
