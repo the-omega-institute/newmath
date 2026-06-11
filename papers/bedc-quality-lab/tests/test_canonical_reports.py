@@ -193,6 +193,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_component_redundancy_audit
 
         return dgt_component_redundancy_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "dgt-base-undertraining-audit":
+        from bedc_quality_lab import dgt_base_undertraining_audit
+
+        return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 

@@ -17,11 +17,16 @@ L1_SOURCE_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.fingerprint.json"
+CONTROLLER_EVIDENCE_POINTER = "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911"
+FAIR_RECONSTRUCTION_POINTER = "https://github.com/the-omega-institute/newmath/issues/1196"
+FEATURE_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:239"
+LABEL_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:205"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease")
 REQUIRED_BASE_GRID = (36, 72, 128, 256, 512)
 NOT_CLAIMED = (
     "Bounded L1 tiny-sequence base-undertraining audit only.",
+    "No undertraining discharge claim under information-starved baseline.",
     "No production deployment claim.",
     "No global superiority claim.",
     "No LLM replacement claim.",
@@ -62,6 +67,7 @@ class BaseUndertrainingComparisonRow:
 @dataclass(frozen=True)
 class BaseUndertrainingAudit:
     source_contract: Mapping[str, Any]
+    construct_validity: Mapping[str, Any]
     comparison_rows: Sequence[Mapping[str, Any]]
     hardgates: Mapping[str, Any]
     mechanical_decision_table: Sequence[Mapping[str, str]]
@@ -77,6 +83,7 @@ class BaseUndertrainingAudit:
             "schema_id": SCHEMA_ID,
             "artifact_id": ARTIFACT_ID,
             "source_contract": dict(self.source_contract),
+            "construct_validity": dict(self.construct_validity),
             "comparison_rows": list(self.comparison_rows),
             "hardgates": dict(self.hardgates),
             "mechanical_decision_table": list(self.mechanical_decision_table),
@@ -92,12 +99,17 @@ class BaseUndertrainingAudit:
 def mechanical_decision_table() -> list[dict[str, str]]:
     return [
         {
+            "condition": "baseline input bandwidth is lower than the label dependency bandwidth",
+            "verdict": "construct-boundary",
+            "claim_action": "defer-to-fair-reconstruction",
+        },
+        {
             "condition": "any required comparison row is missing or has unresolved source evidence",
             "verdict": "inconclusive",
             "claim_action": "hold",
         },
         {
-            "condition": "base grid does not cover DGT fair-compute and fair-loss-decrease intervals",
+            "condition": "base grid does not cover DGT compute and loss-decrease intervals",
             "verdict": "inconclusive",
             "claim_action": "hold",
         },
@@ -112,9 +124,9 @@ def mechanical_decision_table() -> list[dict[str, str]]:
             "claim_action": "fair_loss_decrease_artifact",
         },
         {
-            "condition": "all required rows resolve and fair rows retain positive CI-low separation",
-            "verdict": "evidence-strengthen",
-            "claim_action": "strengthen_l1_evidence",
+            "condition": "all required rows resolve and non-informative rows retain positive CI-low separation",
+            "verdict": "noninformative-separation",
+            "claim_action": "record_noninformative_rows",
         },
     ]
 
@@ -151,6 +163,12 @@ def _is_number(value: Any) -> bool:
 
 def _round(value: float | None) -> float | None:
     return None if value is None else round(value, 6)
+
+
+def _gcd(left: int, right: int) -> int:
+    while right:
+        left, right = right, left % right
+    return abs(left)
 
 
 def _step_rows(payload: Mapping[str, Any]) -> list[Mapping[str, Any]]:
@@ -249,7 +267,7 @@ def _comparison_row(
         ci_low = dgt_metric - base_metric
         ci_overlap = ci_low <= 0.0
         status = "resolved"
-        decision = "base-catches-up" if ci_overlap else "dgt-separated"
+        decision = "base-catches-up" if ci_overlap else "noninformative-dgt-separated"
     return BaseUndertrainingComparisonRow(
         comparison_id=comparison_id,
         status=status,
@@ -274,6 +292,40 @@ def _base_grid_coverage(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "required_grid_present": expected_present,
         "covers_dgt_compute_loss_interval": bool(observed and min(observed) <= 36 <= max(observed)),
         "source_pointer": f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.step_grid",
+    }
+
+
+def construct_validity_assessment(
+    *,
+    baseline_input_order: int = 1,
+    label_dependency_order: int = 2,
+    second_predecessor_visible: bool = False,
+    vocabulary_size: int = 16,
+    hidden_coefficient: int = 5,
+) -> dict[str, Any]:
+    information_starved = baseline_input_order < label_dependency_order and not second_predecessor_visible
+    bayes_upper_bound = 1.0 / float(vocabulary_size) if information_starved else None
+    return {
+        "status": "construct-boundary" if information_starved else "construct-valid",
+        "baseline_input_order": baseline_input_order,
+        "label_dependency_order": label_dependency_order,
+        "second_predecessor_visible_to_baseline": second_predecessor_visible,
+        "baseline_feature_wiring": "[embed(x_prev_1), zero_like(embed(x_prev_2))]",
+        "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
+        "hidden_coefficient_modulus_gcd": _gcd(hidden_coefficient, vocabulary_size),
+        "bayes_upper_bound_accuracy": _round(bayes_upper_bound),
+        "chance_accuracy": _round(1.0 / float(vocabulary_size)),
+        "source_pointers": {
+            "feature_source": FEATURE_SOURCE_POINTER,
+            "label_source": LABEL_SOURCE_POINTER,
+            "controller_evidence": CONTROLLER_EVIDENCE_POINTER,
+            "fair_reconstruction": FAIR_RECONSTRUCTION_POINTER,
+        },
+        "boundary_reason": (
+            "Given x_prev_1, varying hidden x_prev_2 permutes all labels, so the baseline Bayes limit is chance."
+            if information_starved
+            else "Baseline input bandwidth covers the label dependency order."
+        ),
     }
 
 
@@ -323,7 +375,11 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     return [equal_step.as_dict(), equal_compute.as_dict(), equal_loss.as_dict()]
 
 
-def _hardgates(comparison_rows: Sequence[Mapping[str, Any]], coverage: Mapping[str, Any]) -> dict[str, Any]:
+def _hardgates(
+    comparison_rows: Sequence[Mapping[str, Any]],
+    coverage: Mapping[str, Any],
+    construct_validity: Mapping[str, Any],
+) -> dict[str, Any]:
     row_ids = {str(row.get("comparison_id")) for row in comparison_rows}
     all_rows_present = set(REQUIRED_COMPARISONS).issubset(row_ids)
     all_rows_resolved = all(row.get("status") == "resolved" for row in comparison_rows) and all_rows_present
@@ -333,14 +389,20 @@ def _hardgates(comparison_rows: Sequence[Mapping[str, Any]], coverage: Mapping[s
         row.get("ci_overlap") is False and row.get("ci_low_separation") is not None and row.get("ci_low_separation") > 0.0
         for row in fair_rows
     )
+    construct_boundary = construct_validity.get("status") == "construct-boundary"
     return {
+        "BASE-UNDER-HG0": {
+            "criterion": "baseline input bandwidth must cover the label dependency bandwidth before undertraining evidence is allowed",
+            "status": "fail-closed" if construct_boundary else "pass",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity",
+        },
         "BASE-UNDER-HG1": {
             "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
             "status": "pass" if all_rows_present else "fail",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.comparison_rows",
         },
         "BASE-UNDER-HG2": {
-            "criterion": "base step grid covers the DGT fair compute and loss-decrease interval",
+            "criterion": "base step grid covers the DGT compute and loss-decrease interval",
             "status": "pass" if coverage.get("covers_dgt_compute_loss_interval") else "fail",
             "evidence_pointer": coverage["source_pointer"],
         },
@@ -350,19 +412,40 @@ def _hardgates(comparison_rows: Sequence[Mapping[str, Any]], coverage: Mapping[s
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.comparison_rows",
         },
         "BASE-UNDER-HG4": {
-            "criterion": "fair compute or loss catch-up records a bounded downgrade ledger",
+            "criterion": "construct-valid compute or loss catch-up records a bounded downgrade ledger",
             "status": "triggered" if fair_catchup else "not-triggered",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.boundary_ledger",
         },
         "BASE-UNDER-HG5": {
-            "criterion": "fair rows retain positive CI-low separation",
+            "criterion": "resolved compute and loss rows retain positive CI-low separation",
             "status": "pass" if all_rows_resolved and fair_separates else "fail",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.evidence_ledger",
         },
     }
 
 
-def _derive_decision(comparison_rows: Sequence[Mapping[str, Any]], hardgates: Mapping[str, Mapping[str, Any]]) -> tuple[str, str, list[dict[str, Any]], list[dict[str, Any]]]:
+def _derive_decision(
+    comparison_rows: Sequence[Mapping[str, Any]],
+    hardgates: Mapping[str, Mapping[str, Any]],
+    construct_validity: Mapping[str, Any],
+) -> tuple[str, str, list[dict[str, Any]], list[dict[str, Any]]]:
+    if construct_validity.get("status") == "construct-boundary":
+        return (
+            "construct-boundary",
+            "defer-to-fair-reconstruction",
+            [
+                {
+                    "ledger_id": "base-undertraining-construct-validity",
+                    "status": "construct-boundary",
+                    "reason": (
+                        "equal-compute and equal-loss-decrease rows are non-informative for an information-starved baseline"
+                    ),
+                    "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity",
+                    "reconstruction_pointer": FAIR_RECONSTRUCTION_POINTER,
+                }
+            ],
+            [],
+        )
     if hardgates["BASE-UNDER-HG1"]["status"] != "pass" or hardgates["BASE-UNDER-HG2"]["status"] != "pass" or hardgates["BASE-UNDER-HG3"]["status"] != "pass":
         return "inconclusive", "hold", [], []
     fair_rows = [row for row in comparison_rows if row["comparison_id"] in {"equal_compute", "equal_loss_decrease"}]
@@ -380,7 +463,7 @@ def _derive_decision(comparison_rows: Sequence[Mapping[str, Any]], hardgates: Ma
                 {
                     "ledger_id": f"base-undertraining-{row['comparison_id']}",
                     "comparison_id": row["comparison_id"],
-                    "reason": "base reaches DGT within fair comparison tolerance",
+                    "reason": "base reaches DGT after the construct-validity premise is satisfied",
                     "source_pointer": row["source_pointer"],
                 }
                 for row in catchup
@@ -388,8 +471,8 @@ def _derive_decision(comparison_rows: Sequence[Mapping[str, Any]], hardgates: Ma
             [],
         )
     return (
-        "evidence-strengthen",
-        "strengthen_l1_evidence",
+        "noninformative-separation",
+        "record_noninformative_rows",
         [],
         [
             {
@@ -411,6 +494,7 @@ def build_payload(
     l1_status: str | None = None,
     l1_sha256: str | None = None,
     downstream_verdict: Any | None = None,
+    construct_validity_override: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     if downstream_verdict is not None:
         raise ValueError("base-undertraining audit does not accept downstream verdict input")
@@ -436,8 +520,9 @@ def build_payload(
             "source_pointer": f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.step_grid",
         }
 
-    hardgates = _hardgates(comparison_rows, coverage)
-    verdict, claim_action, boundary, evidence = _derive_decision(comparison_rows, hardgates)
+    construct_validity = dict(construct_validity_override or construct_validity_assessment())
+    hardgates = _hardgates(comparison_rows, coverage, construct_validity)
+    verdict, claim_action, boundary, evidence = _derive_decision(comparison_rows, hardgates, construct_validity)
     source_contract = {
         "source_artifact": L1_SOURCE_ARTIFACT,
         "source_pointer": f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder",
@@ -456,6 +541,7 @@ def build_payload(
     }
     audit = BaseUndertrainingAudit(
         source_contract=source_contract,
+        construct_validity=construct_validity,
         comparison_rows=comparison_rows,
         hardgates=hardgates,
         mechanical_decision_table=mechanical_decision_table(),
@@ -466,7 +552,7 @@ def build_payload(
         not_claimed=NOT_CLAIMED,
         revoke_if=[
             "Any required L1 canonical pointer becomes missing or unresolvable.",
-            "A fair compute or fair loss-decrease row loses positive CI-low separation.",
+            "The construct-validity source no longer identifies the current baseline feature boundary.",
             "The audit is used as evidence outside bounded L1 tiny-sequence scope.",
         ],
     ).as_dict()
@@ -487,6 +573,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "generated_at",
         "producer",
         "source_contract",
+        "construct_validity",
         "comparison_rows",
         "hardgates",
         "mechanical_decision_table",
@@ -501,13 +588,21 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("base-undertraining audit fields mismatch")
     if audit["schema_id"] != SCHEMA_ID or audit["artifact_id"] != ARTIFACT_ID:
         raise ValueError("base-undertraining audit identity mismatch")
+    construct_validity = audit["construct_validity"]
+    if not isinstance(construct_validity, Mapping) or construct_validity.get("status") not in {"construct-boundary", "construct-valid"}:
+        raise ValueError("base-undertraining construct validity mismatch")
+    if construct_validity.get("status") == "construct-boundary":
+        if audit["verdict"] != "construct-boundary" or audit["claim_action"] != "defer-to-fair-reconstruction":
+            raise ValueError("construct-boundary audit must defer to fair reconstruction")
+        if audit["evidence_ledger"]:
+            raise ValueError("construct-boundary audit must not emit evidence strengthening")
     rows = audit["comparison_rows"]
     if not isinstance(rows, list):
         raise ValueError("base-undertraining comparison rows must be a list")
     row_ids = [row.get("comparison_id") for row in rows if isinstance(row, Mapping)]
     if len(row_ids) != len(set(row_ids)):
         raise ValueError("base-undertraining comparison rows must be unique")
-    if audit["verdict"] != "inconclusive" and set(row_ids) != set(REQUIRED_COMPARISONS):
+    if audit["verdict"] not in {"inconclusive", "construct-boundary"} and set(row_ids) != set(REQUIRED_COMPARISONS):
         raise ValueError("non-inconclusive base-undertraining verdict requires all comparison rows")
     for row in rows:
         if set(row) != set(BaseUndertrainingComparisonRow("", "", "", "", "", None, None, None, None, None, "").as_dict()):
@@ -528,10 +623,18 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Verdict: `{audit['verdict']}`",
         f"- Claim action: `{audit['claim_action']}`",
         f"- Source: `{audit['source_contract']['source_pointer']}`",
+        f"- Construct validity: `{audit['construct_validity']['status']}`",
+        "",
+        "## Boundary ledger",
+        "",
+    ]
+    for row in audit["boundary_ledger"]:
+        lines.append(f"- `{row['ledger_id']}`: {row['reason']}")
+    lines.extend([
         "",
         "## Comparison rows",
         "",
-    ]
+    ])
     for row in audit["comparison_rows"]:
         lines.append(
             f"- `{row['comparison_id']}`: `{row['decision']}` "

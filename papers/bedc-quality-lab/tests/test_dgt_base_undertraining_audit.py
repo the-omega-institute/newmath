@@ -31,21 +31,35 @@ def _copy_l1(tmp_path):
     target.write_bytes((ROOT / audit.L1_SOURCE_ARTIFACT).read_bytes())
 
 
-def test_base_undertraining_audit_strengthens_current_l1_evidence():
+def test_base_undertraining_audit_records_construct_boundary_for_current_l1_evidence():
     payload = _payload()
     audit_payload = _audit(payload)
     rows = _rows(payload)
 
-    assert audit_payload["verdict"] == "evidence-strengthen"
-    assert audit_payload["claim_action"] == "strengthen_l1_evidence"
+    assert audit_payload["verdict"] == "construct-boundary"
+    assert audit_payload["claim_action"] == "defer-to-fair-reconstruction"
+    assert audit_payload["construct_validity"]["status"] == "construct-boundary"
+    assert audit_payload["construct_validity"]["bayes_upper_bound_accuracy"] == 0.0625
+    assert audit_payload["construct_validity"]["source_pointers"]["fair_reconstruction"].endswith("/issues/1196")
     assert set(rows) == {"equal_step", "equal_compute", "equal_loss_decrease"}
     assert rows["equal_step"]["match_axis"] == "training_steps"
     assert rows["equal_compute"]["match_axis"] == "compute_units"
     assert rows["equal_loss_decrease"]["match_axis"] == "loss_decrease"
-    assert all(row["ci_low_separation"] > 0 for row in rows.values())
+    assert all(row["decision"] == "noninformative-dgt-separated" for row in rows.values())
     assert audit_payload["hardgates"]["BASE-UNDER-HG1"]["status"] == "pass"
     assert audit_payload["hardgates"]["BASE-UNDER-HG2"]["status"] == "pass"
+    assert audit_payload["hardgates"]["BASE-UNDER-HG0"]["status"] == "fail-closed"
     assert audit_payload["hardgates"]["BASE-UNDER-HG5"]["status"] == "pass"
+    assert audit_payload["boundary_ledger"] == [
+        {
+            "ledger_id": "base-undertraining-construct-validity",
+            "status": "construct-boundary",
+            "reason": "equal-compute and equal-loss-decrease rows are non-informative for an information-starved baseline",
+            "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+            "reconstruction_pointer": audit.FAIR_RECONSTRUCTION_POINTER,
+        }
+    ]
+    assert audit_payload["evidence_ledger"] == []
 
 
 def test_three_comparison_rows_are_required():
@@ -54,9 +68,39 @@ def test_three_comparison_rows_are_required():
 
     payload = _payload(l1)
 
-    assert _audit(payload)["verdict"] == "inconclusive"
+    assert _audit(payload)["verdict"] == "construct-boundary"
     assert _audit(payload)["hardgates"]["BASE-UNDER-HG1"]["status"] == "fail"
     assert list(_rows(payload)) == ["equal_step"]
+
+
+def test_construct_validity_gate_fail_closed_prevents_strengthening():
+    payload = _payload()
+    audit_payload = _audit(payload)
+
+    assert audit_payload["hardgates"]["BASE-UNDER-HG0"]["status"] == "fail-closed"
+    assert audit_payload["verdict"] == "construct-boundary"
+    assert audit_payload["claim_action"] != "strengthen_l1_evidence"
+    assert audit_payload["evidence_ledger"] == []
+
+
+def test_construct_validity_mutation_can_leave_boundary_when_baseline_sees_required_inputs():
+    payload = audit.build_payload(
+        root=ROOT,
+        generated_at="fixture",
+        l1_payload=_l1_payload(),
+        construct_validity_override=audit.construct_validity_assessment(
+            baseline_input_order=2,
+            label_dependency_order=2,
+            second_predecessor_visible=True,
+        ),
+    )
+    audit_payload = _audit(payload)
+
+    assert audit_payload["construct_validity"]["status"] == "construct-valid"
+    assert audit_payload["hardgates"]["BASE-UNDER-HG0"]["status"] == "pass"
+    assert audit_payload["verdict"] == "noninformative-separation"
+    assert audit_payload["claim_action"] == "record_noninformative_rows"
+    assert audit_payload["evidence_ledger"]
 
 
 def test_missing_or_unresolvable_pointer_fails_closed(tmp_path):
@@ -65,7 +109,7 @@ def test_missing_or_unresolvable_pointer_fails_closed(tmp_path):
 
     payload = audit.build_payload(root=tmp_path, generated_at="fixture")
 
-    assert _audit(payload)["verdict"] == "inconclusive"
+    assert _audit(payload)["verdict"] == "construct-boundary"
     assert _audit(payload)["source_contract"]["status"] == "missing"
     assert _audit(payload)["comparison_rows"] == []
 
@@ -75,7 +119,16 @@ def test_equal_compute_catchup_records_boundary():
     row = l1["l1_step_ladder"]["per_step"][0]
     row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
 
-    payload = _payload(l1)
+    payload = audit.build_payload(
+        root=ROOT,
+        generated_at="fixture",
+        l1_payload=l1,
+        construct_validity_override=audit.construct_validity_assessment(
+            baseline_input_order=2,
+            label_dependency_order=2,
+            second_predecessor_visible=True,
+        ),
+    )
     audit_payload = _audit(payload)
 
     assert audit_payload["verdict"] == "downgrade"
@@ -84,7 +137,7 @@ def test_equal_compute_catchup_records_boundary():
         {
             "ledger_id": "base-undertraining-equal_compute",
             "comparison_id": "equal_compute",
-            "reason": "base reaches DGT within fair comparison tolerance",
+            "reason": "base reaches DGT after the construct-validity premise is satisfied",
             "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         },
     ]
@@ -96,7 +149,16 @@ def test_equal_loss_decrease_catchup_records_boundary():
     row = l1["l1_step_ladder"]["per_step"][4]
     row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
 
-    payload = _payload(l1)
+    payload = audit.build_payload(
+        root=ROOT,
+        generated_at="fixture",
+        l1_payload=l1,
+        construct_validity_override=audit.construct_validity_assessment(
+            baseline_input_order=2,
+            label_dependency_order=2,
+            second_predecessor_visible=True,
+        ),
+    )
     audit_payload = _audit(payload)
 
     assert audit_payload["verdict"] == "downgrade"
@@ -105,7 +167,7 @@ def test_equal_loss_decrease_catchup_records_boundary():
         {
             "ledger_id": "base-undertraining-equal_loss_decrease",
             "comparison_id": "equal_loss_decrease",
-            "reason": "base reaches DGT within fair comparison tolerance",
+            "reason": "base reaches DGT after the construct-validity premise is satisfied",
             "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         }
     ]
@@ -129,7 +191,7 @@ def test_base_grid_without_anchor_interval_is_inconclusive():
 
     payload = _payload(l1)
 
-    assert _audit(payload)["verdict"] == "inconclusive"
+    assert _audit(payload)["verdict"] == "construct-boundary"
     assert _audit(payload)["hardgates"]["BASE-UNDER-HG2"]["status"] == "fail"
 
 
@@ -141,6 +203,7 @@ def test_pointer_only_payload_does_not_copy_l1_tables():
     assert "raw_metrics" not in serialized
     assert "step_rows" not in serialized
     assert "training_arms" not in serialized
+    assert "No undertraining discharge claim under information-starved baseline." in serialized
     for row in _audit(payload)["comparison_rows"]:
         assert row["source_artifact"] == audit.L1_SOURCE_ARTIFACT
         assert row["source_pointer"].startswith(f"{audit.L1_SOURCE_ARTIFACT}:")
