@@ -112,6 +112,25 @@ def _write_suite_dependencies(root):
         root / canonical.DISCOVERY_MAP_JSON_ARTIFACT,
         {"coverage_matrix": {"status": "pointer-only"}, "level_counts": {"D0": 0}},
     )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "hardgates": {"L1STEP-HG1": {"status": "pass"}},
+                "not_claimed": ["fixture"],
+                "verdict": "separation-persists",
+            }
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        {"nabl_hardgates": {"status": "pass"}},
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        {"negative_witness_sweep": {"status": "pass"}},
+    )
     canonical._write_json_atomic(root / canonical.NEGATIVE_WITNESSES_JSON_ARTIFACT, {"witnesses": [{"kind": "fixture"}]})
     canonical._write_json_atomic(
         root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
