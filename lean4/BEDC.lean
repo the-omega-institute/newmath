@@ -3274,6 +3274,7 @@ import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligation
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligationScope
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
