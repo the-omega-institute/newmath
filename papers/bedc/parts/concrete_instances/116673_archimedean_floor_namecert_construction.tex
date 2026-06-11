@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ArchimedeanFloorUp$}
+\label{ch:concrete-instances-archimedean-floor-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis and integer-part extraction, the $\ArchimedeanFloorUp$ packet records the finite floor-window route used by real-number consumers when an explicit integer bracket has already been displayed. It sits over the integer source of \autoref{ch:concrete-instances-int-namecert}, the rational comparison surface of \autoref{ch:concrete-instances-rat-namecert}, the dyadic arithmetic route of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name and regular-sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names integer-part extraction only as a bounded finite NameCert window; it does not assert total real trichotomy, quotient real equality, selected limits, ambient $\RealUp$ completeness, or a host floor function.
+
+\begin{definition}[Archimedean floor carrier]
+\label{def:archimedean-floor-carrier}
+An $\ArchimedeanFloorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,J,Q,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\IntUp$ source row, displaying the lower integer candidate and its successor relation.
+\item $J$ is the successor-bound row, displaying the upper integer candidate as the successor of the lower row and refusing any detached integer choice.
+\item $Q$ is the $\RatUp$ comparison row, where integer entries are read as rationals before any real-facing comparison is formed.
+\item $D$ is the $\DyadicRatCoreUp$ comparison row, carrying the finite dyadic budget used to inspect the two rational inequalities.
+\item $S$ is the $\StreamNameUp$ and $\RegSeqRatUp$ readback row, exposing the regular rational name whose finite window is being compared.
+\item $R$ is the $\RealUp$ seal row, certifying that the compared regular sequence is the displayed real-name endpoint seen by downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for the integer, rational, dyadic, stream-name, regular-sequence, real-seal, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the integer bracket, rational comparison, dyadic comparison, regular-sequence readback, real seal, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance row binding the integer bracket to the L10 Real and Completion route.
+\item $N$ is the local $\NameCert_{\ArchimedeanFloorUp}$ row over $\ArchimedeanFloorUp$, $\IntUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $I,J,Q,D,S,R,H,C,P,N$. It has no coordinate for total trichotomy of real names, quotient real equality, selected limits, ambient real completeness, a global floor operator, or an integer-part handoff that skips the displayed window.
+\end{definition}
+
+\begin{theorem}[Archimedean floor NameCert obligations]
+\label{thm:archimedean-floor-namecert-obligations}
+For every accepted $\ArchimedeanFloorUp$ carrier
+$$
+F=(I,J,Q,D,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\ArchimedeanFloorUp}$ surface consists exactly of lower-integer source exposure, successor upper-row exposure, rational comparison exposure, dyadic comparison replay, stream-name and regular-sequence readback, real-seal exposure, componentwise transport, displayed continuation replay, provenance, local naming, and non-escape from total real trichotomy, quotient real equality, selected limits, ambient $\RealUp$ completeness, host floor functions, and any integer-part route outside the displayed bracket.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:archimedean-floor-carrier}. The rows $I$ and $J$ are the only integer rows, so the candidate floor and its successor are displayed before any comparison is read.
+
+The comparison rows are $Q$ and $D$. They convert the integer bracket into rational and dyadic inspection data, giving finite evidence for the lower and successor bounds without invoking trichotomy of arbitrary real names.
+
+The readback rows $S$ and $R$ then identify the compared object with the displayed regular sequence and its real seal. The structural rows $H,C,P,N$ transport, replay, source, and name that same window, so no host floor operator, selected limit, quotient real equality, or ambient real-completeness claim is exported.
+\end{proof}
+
+\begin{theorem}[Archimedean floor window extraction]
+\label{thm:archimedean-floor-window-extraction}
+Every integer-part handoff from an accepted $\ArchimedeanFloorUp$ carrier exposes the lower integer row, the successor upper row, rational comparison, dyadic comparison, regular-sequence readback, and the $\RealUp$ seal in the order
+$$
+\IntUp \longmapsto \RatUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp.
+$$
+A downstream L10 Real and Completion consumer may receive the bracket only after the rows $I,J,Q,D,S,R,H,C,P,N$ have been displayed, and it receives no total trichotomy principle, quotient-real equality, selected limit, ambient completeness theorem, or hidden host integer-part operation.
+\end{theorem}
+\begin{proof}
+Start with a requested integer-part handoff. The carrier first exposes $I$ and $J$, so the lower integer and its successor are visible as finite integer rows rather than selected from an ambient ordered field.
+
+The rational and dyadic comparison rows $Q$ and $D$ are then read before the real endpoint is sealed. These rows provide the finite lower-bound and successor-upper-bound checks consumed by the window.
+
+Finally $S$ reads back the stream-name and regular rational sequence, while $R$ supplies the real seal. Transport, replay, provenance, and local naming preserve exactly this route through $H,C,P,N$, so the handoff is a bounded displayed window and not a global integer-part theorem for all real names.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\ArchimedeanFloorUp$ consumer that performs an integer-part handoff without first exposing $I,J,Q,D,S,R,H,C,P,N$ refutes the carrier surface of \autoref{def:archimedean-floor-carrier}.}
+
+\independenceWitness{int, rat, dyadicratcore, regseqrat, real: no listed sibling is bijective with $\ArchimedeanFloorUp$, because this packet alone binds a displayed integer successor window, rational comparison, dyadic comparison, regular-sequence readback, real seal, transport, replay, provenance, and local NameCert rows into one finite floor-window carrier.}
+
+\closureat{ArchimedeanFloorUp}{seedStr}
+
+\begin{closurestatus}{\ArchimedeanFloorUp}
+  \constructivestory{An $\ArchimedeanFloorUp$ packet is generated from an IntUp lower row, a successor upper row, RatUp comparison data, DyadicRatCoreUp finite comparison data, StreamNameUp and RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:archimedean-floor-carrier}, \autoref{thm:archimedean-floor-namecert-obligations}, and \autoref{thm:archimedean-floor-window-extraction} seed the finite Archimedean floor-window packet over $\IntUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BHist$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total real trichotomy, quotient real equality, selected limits, ambient $\RealUp$ completeness, a host floor function, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-integer exposure, successor upper-row exposure, rational comparison, dyadic comparison, stream-name and regular-sequence readback, RealUp sealing, transport, non-escape, and field faithfulness for BEDC.Derived.ArchimedeanFloorUp.}
+\end{closurestatus}
