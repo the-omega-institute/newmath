@@ -126,6 +126,24 @@ def test_verify_manifest_fail_closed_on_manifest_tamper(tmp_path):
     assert "input digest mismatch" in lookup.reason
 
 
+def test_verify_manifest_fail_closed_on_manifest_digest_inputs_tamper(tmp_path):
+    record = _record()
+    source = tmp_path / "raw_metrics.jsonl"
+    source.write_text('{"metric":1}\n', encoding="utf-8")
+    manifest = store_cell_entry(record, {"raw_metrics.jsonl": source}, cache_root=tmp_path / "cache")
+    manifest_path = tmp_path / "cache" / record.producer_id / manifest.cell_input_digest / "manifest.json"
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    payload["manifest_digest_inputs"]["producer_id"] = "forged-producer"
+    payload["manifest_digest_inputs"]["cell_input_digest"] = "0" * 64
+    payload["manifest_digest_inputs"]["blobs"] = []
+    manifest_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    lookup = verify_cell_manifest(record, manifest_path)
+
+    assert lookup.status == "corrupt"
+    assert "digest inputs mismatch" in lookup.reason
+
+
 def test_dgt_l0_training_cell_cache_reuses_raw_records(tmp_path, monkeypatch):
     from bedc_quality_lab import dgt_l0_controls as l0
 

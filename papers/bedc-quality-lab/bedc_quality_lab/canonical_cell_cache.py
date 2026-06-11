@@ -173,6 +173,24 @@ def _manifest_payload(manifest: CellCacheManifest) -> dict[str, Any]:
     return payload
 
 
+def _manifest_digest_inputs(
+    *,
+    producer_id: str,
+    cell_input: str,
+    cell_output: str,
+    blobs: tuple[CachedBlob, ...],
+) -> dict[str, Any]:
+    blob_payload = sorted((asdict(blob) for blob in blobs), key=lambda row: row["logical_path"])
+    return {
+        "schema_id": CELL_CACHE_MANIFEST_SCHEMA_ID,
+        "key_algorithm_id": CELL_CACHE_KEY_ALGORITHM_ID,
+        "producer_id": producer_id,
+        "cell_input_digest": cell_input,
+        "cell_output_digest": cell_output,
+        "blobs": blob_payload,
+    }
+
+
 def _manifest_from_payload(payload: Mapping[str, Any]) -> CellCacheManifest:
     if payload.get("schema_id") != CELL_CACHE_MANIFEST_SCHEMA_ID:
         raise ValueError("cell cache manifest schema id mismatch")
@@ -225,6 +243,14 @@ def verify_cell_manifest(record: CellInputRecord, manifest_path: Path | str) -> 
         expected_output = canonical_digest({"blobs": sorted((asdict(blob) for blob in manifest.blobs), key=lambda row: row["logical_path"])})
         if manifest.cell_output_digest != expected_output:
             raise ValueError("cell cache manifest output digest mismatch")
+        expected_manifest_inputs = _manifest_digest_inputs(
+            producer_id=manifest.producer_id,
+            cell_input=manifest.cell_input_digest,
+            cell_output=manifest.cell_output_digest,
+            blobs=manifest.blobs,
+        )
+        if _canonical_payload(manifest.manifest_digest_inputs) != _canonical_payload(expected_manifest_inputs):
+            raise ValueError("cell cache manifest digest inputs mismatch")
         verified: dict[str, Path] = {}
         blob_root = path.parent / "blobs"
         for blob in manifest.blobs:
@@ -293,18 +319,17 @@ def store_cell_entry(
         )
     blob_payload = sorted((asdict(row) for row in rows), key=lambda row: row["logical_path"])
     cell_output_digest = canonical_digest({"blobs": blob_payload})
-    manifest_digest_inputs = {
-        "schema_id": CELL_CACHE_MANIFEST_SCHEMA_ID,
-        "key_algorithm_id": CELL_CACHE_KEY_ALGORITHM_ID,
-        "producer_id": record.producer_id,
-        "cell_input_digest": cell_input_digest(record),
-        "cell_output_digest": cell_output_digest,
-        "blobs": blob_payload,
-    }
+    input_digest = cell_input_digest(record)
+    manifest_digest_inputs = _manifest_digest_inputs(
+        producer_id=record.producer_id,
+        cell_input=input_digest,
+        cell_output=cell_output_digest,
+        blobs=tuple(rows),
+    )
     manifest = CellCacheManifest(
         schema_id=CELL_CACHE_MANIFEST_SCHEMA_ID,
         producer_id=record.producer_id,
-        cell_input_digest=cell_input_digest(record),
+        cell_input_digest=input_digest,
         cell_output_digest=cell_output_digest,
         blobs=tuple(rows),
         created_metadata={
