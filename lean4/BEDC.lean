@@ -1428,6 +1428,7 @@ import BEDC.Derived.CauchyCompletenessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessObligationUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessUp.TasteGate
+import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionApartnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
@@ -8630,7 +8631,6 @@ import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
 import BEDC.Derived.RegulatedRealFunctionUp.TasteGate
-import BEDC.Derived.RegulatedSequenceUp
 import BEDC.Derived.RegulatedUniformApproximationUp.TasteGate
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.RegulatorUp.TasteGate
