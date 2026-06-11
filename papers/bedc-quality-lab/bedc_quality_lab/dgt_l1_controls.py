@@ -992,6 +992,10 @@ def _arm_cell(arms: Mapping[str, Any], arm_id: str) -> Mapping[str, Any] | None:
     return cell if isinstance(cell, Mapping) else None
 
 
+def _exact_arm_key_set(value: Mapping[str, Any]) -> bool:
+    return set(value) == set(ARM_IDS)
+
+
 def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
     arms = _mapping_cell(payload, "training_arms")
     return {
@@ -1037,7 +1041,7 @@ def _matched_random_positive_control(dgt: Mapping[str, Any] | None, matched: Map
 
 def _arm_seed_complete(arms: Mapping[str, Any], seed_count: int = 16) -> bool:
     return (
-        tuple(arms) == ARM_IDS
+        _exact_arm_key_set(arms)
         and all(
             isinstance(row, Mapping)
             and row.get("status") == "pass"
@@ -1235,9 +1239,12 @@ def _gate_l1step_hg1(
         and len(per_step) == len(step_grid)
         and all(
             isinstance(step, Mapping)
-            and tuple(step.get("training_arms", {})) == ARM_IDS
+            and isinstance(step.get("training_arms"), Mapping)
+            and _exact_arm_key_set(step["training_arms"])
+            and isinstance(step.get("seed_counts"), Mapping)
+            and _exact_arm_key_set(step["seed_counts"])
             and int(step.get("training_steps", -1)) == step_grid[index]
-            and all(int(count) == seed_count and int(count) >= 16 for count in step.get("seed_counts", {}).values())
+            and all(int(count) == seed_count and int(count) >= 16 for count in step["seed_counts"].values())
             for index, step in enumerate(per_step)
         )
         and len(step_rows) == len(step_grid)
@@ -1251,7 +1258,7 @@ def _gate_l1step_hg1(
         complete_cells,
         "L1STEP-HG1",
         f"canonical step grid has {expected_cells} step/arm/seed CPU training cells",
-        "$.l1_step_ladder.step_rows",
+        "$.l1_step_ladder.per_step",
     )
 
 
@@ -1611,7 +1618,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 task exceeds example bounds")
     _resolve_order_k_source(task, root=root)
     arms = payload["training_arms"]
-    if not isinstance(arms, Mapping) or tuple(arms) != ARM_IDS:
+    if not isinstance(arms, Mapping) or not _exact_arm_key_set(arms):
         raise ValueError("DGT L1 training arms mismatch")
     for arm_id, row in arms.items():
         if row.get("status") != "pass":
