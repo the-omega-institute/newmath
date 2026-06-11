@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
+namespace BEDC.Derived.RegularCauchyLocatedLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +25,10 @@ def regularCauchyLocatedLimitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyLocatedLimitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyLocatedLimitDecodeBHist tail)
 
-private theorem regularCauchyLocatedLimit_decode_encode :
+private theorem regularCauchyLocatedLimit_decode_encode_bhist :
     ∀ h : BHist,
-      regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEncodeBHist h) = h := by
+      regularCauchyLocatedLimitDecodeBHist
+          (regularCauchyLocatedLimitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,111 +36,89 @@ private theorem regularCauchyLocatedLimit_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyLocatedLimitToEventFlow :
-    RegularCauchyLocatedLimitUp → EventFlow
+def regularCauchyLocatedLimitFields : RegularCauchyLocatedLimitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyLocatedLimitUp.mk W D Q I A R H C P N =>
-      [regularCauchyLocatedLimitEncodeBHist W,
-        regularCauchyLocatedLimitEncodeBHist D,
-        regularCauchyLocatedLimitEncodeBHist Q,
-        regularCauchyLocatedLimitEncodeBHist I,
-        regularCauchyLocatedLimitEncodeBHist A,
-        regularCauchyLocatedLimitEncodeBHist R,
-        regularCauchyLocatedLimitEncodeBHist H,
-        regularCauchyLocatedLimitEncodeBHist C,
-        regularCauchyLocatedLimitEncodeBHist P,
-        regularCauchyLocatedLimitEncodeBHist N]
+  | RegularCauchyLocatedLimitUp.mk W D Q I A R H C P N => [W, D, Q, I, A, R, H, C, P, N]
 
-private def regularCauchyLocatedLimitEventAt : Nat → EventFlow → RawEvent
+def regularCauchyLocatedLimitToEventFlow : RegularCauchyLocatedLimitUp → EventFlow :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun x => (regularCauchyLocatedLimitFields x).map regularCauchyLocatedLimitEncodeBHist
+
+private def regularCauchyLocatedLimitEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyLocatedLimitEventAt index rest
+  | Nat.succ index, _event :: rest => regularCauchyLocatedLimitEventAtDefault index rest
 
-def regularCauchyLocatedLimitFromEventFlow :
-    EventFlow → Option RegularCauchyLocatedLimitUp :=
+def regularCauchyLocatedLimitFromEventFlow
+    (ef : EventFlow) : Option RegularCauchyLocatedLimitUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (RegularCauchyLocatedLimitUp.mk
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 0 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 1 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 2 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 3 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 4 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 5 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 6 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 7 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 8 ef))
-        (regularCauchyLocatedLimitDecodeBHist
-          (regularCauchyLocatedLimitEventAt 9 ef)))
+  some
+    (RegularCauchyLocatedLimitUp.mk
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 0 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 1 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 2 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 3 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 4 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 5 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 6 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 7 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 8 ef))
+      (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 9 ef)))
 
 private theorem regularCauchyLocatedLimit_round_trip :
     ∀ x : RegularCauchyLocatedLimitUp,
       regularCauchyLocatedLimitFromEventFlow
-          (regularCauchyLocatedLimitToEventFlow x) =
-        some x := by
+          (regularCauchyLocatedLimitToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk W D Q I A R H C P N =>
       change
         some
-            (RegularCauchyLocatedLimitUp.mk
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist W))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist D))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist Q))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist I))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist A))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist R))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist H))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist C))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist P))
-              (regularCauchyLocatedLimitDecodeBHist
-                (regularCauchyLocatedLimitEncodeBHist N))) =
+          (RegularCauchyLocatedLimitUp.mk
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist W))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist D))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist Q))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist I))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist A))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist R))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist H))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist C))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist P))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist N))) =
           some (RegularCauchyLocatedLimitUp.mk W D Q I A R H C P N)
-      rw [regularCauchyLocatedLimit_decode_encode W,
-        regularCauchyLocatedLimit_decode_encode D,
-        regularCauchyLocatedLimit_decode_encode Q,
-        regularCauchyLocatedLimit_decode_encode I,
-        regularCauchyLocatedLimit_decode_encode A,
-        regularCauchyLocatedLimit_decode_encode R,
-        regularCauchyLocatedLimit_decode_encode H,
-        regularCauchyLocatedLimit_decode_encode C,
-        regularCauchyLocatedLimit_decode_encode P,
-        regularCauchyLocatedLimit_decode_encode N]
+      rw [regularCauchyLocatedLimit_decode_encode_bhist W,
+        regularCauchyLocatedLimit_decode_encode_bhist D,
+        regularCauchyLocatedLimit_decode_encode_bhist Q,
+        regularCauchyLocatedLimit_decode_encode_bhist I,
+        regularCauchyLocatedLimit_decode_encode_bhist A,
+        regularCauchyLocatedLimit_decode_encode_bhist R,
+        regularCauchyLocatedLimit_decode_encode_bhist H,
+        regularCauchyLocatedLimit_decode_encode_bhist C,
+        regularCauchyLocatedLimit_decode_encode_bhist P,
+        regularCauchyLocatedLimit_decode_encode_bhist N]
 
 private theorem regularCauchyLocatedLimitToEventFlow_injective
     {x y : RegularCauchyLocatedLimitUp} :
     regularCauchyLocatedLimitToEventFlow x =
-      regularCauchyLocatedLimitToEventFlow y →
-    x = y := by
+        regularCauchyLocatedLimitToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      regularCauchyLocatedLimitFromEventFlow
-          (regularCauchyLocatedLimitToEventFlow x) =
-        regularCauchyLocatedLimitFromEventFlow
-          (regularCauchyLocatedLimitToEventFlow y) :=
+      regularCauchyLocatedLimitFromEventFlow (regularCauchyLocatedLimitToEventFlow x) =
+        regularCauchyLocatedLimitFromEventFlow (regularCauchyLocatedLimitToEventFlow y) :=
     congrArg regularCauchyLocatedLimitFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (regularCauchyLocatedLimit_round_trip x).symm
@@ -158,28 +137,32 @@ instance regularCauchyLocatedLimitChapterTasteGate :
     intro x
     change
       regularCauchyLocatedLimitFromEventFlow
-          (regularCauchyLocatedLimitToEventFlow x) =
-        some x
+          (regularCauchyLocatedLimitToEventFlow x) = some x
     exact regularCauchyLocatedLimit_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchyLocatedLimitToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RegularCauchyLocatedLimitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyLocatedLimitChapterTasteGate
+
 theorem RegularCauchyLocatedLimitTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEncodeBHist h) = h) ∧
+      regularCauchyLocatedLimitDecodeBHist
+        (regularCauchyLocatedLimitEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyLocatedLimitUp,
-        regularCauchyLocatedLimitFromEventFlow (regularCauchyLocatedLimitToEventFlow x) =
-          some x) ∧
+        regularCauchyLocatedLimitFromEventFlow
+          (regularCauchyLocatedLimitToEventFlow x) = some x) ∧
         (∀ x y : RegularCauchyLocatedLimitUp,
           regularCauchyLocatedLimitToEventFlow x =
-            regularCauchyLocatedLimitToEventFlow y →
-          x = y) ∧ regularCauchyLocatedLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+              regularCauchyLocatedLimitToEventFlow y → x = y) ∧
+          regularCauchyLocatedLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨regularCauchyLocatedLimit_decode_encode,
+    ⟨regularCauchyLocatedLimit_decode_encode_bhist,
       regularCauchyLocatedLimit_round_trip,
-      fun x y heq => regularCauchyLocatedLimitToEventFlow_injective heq,
+      (fun _ _ heq => regularCauchyLocatedLimitToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
+end BEDC.Derived.RegularCauchyLocatedLimitUp
