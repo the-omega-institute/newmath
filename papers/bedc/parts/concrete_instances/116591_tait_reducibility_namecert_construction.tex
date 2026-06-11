@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\TaitReducibilityUp$}
+\label{ch:concrete-instances-tait-reducibility-namecert}
+\origin{human}
+
+Following Tait and Girard on reducibility candidates, the $\TaitReducibilityUp$ packet records the traditional candidate method as finite BEDC NameCert data for the MetaCIC strong-normalization route. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization-budget packet of \autoref{ch:concrete-instances-metacicnormalizationbudget-namecert}, the bounded candidate frontier of \autoref{ch:concrete-instances-bounded-normalization-candidate-namecert}, the logical-relation surface $\LogicalRelationUp$, and the normalization-by-evaluation surface $\NormalizationByEvaluationUp$. The packet names the closed typed term row, reducibility-candidate row, beta, application, and Pi closure rows, finite replay and provenance rows, and a local naming row before any MetaCIC consumer may read a candidate-mediated strong-normalization handoff.
+
+\begin{definition}[Tait reducibility carrier]
+\label{def:tait-reducibility-carrier}
+A $\TaitReducibilityUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,E,B,A,\Pi,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row, recording the term, its type, its context boundary, and the closedness evidence consumed by the MetaCIC route.
+\item $E$ is the reducibility-candidate row, recording the candidate predicate, candidate membership evidence, and the closed-candidate or candidate-family witness used for the inspected type.
+\item $B$ is the beta-closure row, recording that the candidate read is stable under the displayed beta step window admitted by the route.
+\item $A$ is the application-closure row, recording the function-side candidate evidence, argument candidate evidence, and the application handoff row.
+\item $\Pi$ is the Pi-closure row, recording binder-side candidate data, dependent-family routing, and the displayed adequacy boundary for Pi-shaped terms.
+\item $S$ is the candidate-mediated strong-normalization handoff row, downstream of $E,B,A,\Pi$ and still attached to the closed typed term row $T$.
+\item $Q$ records the refusal boundary for evidence-free closed-term normalization, unrestricted subject reduction, full Church--Rosser, global beta-conversion decidability, and completed consistency.
+\item $H$ records componentwise $\hsame$ transport for $T,E,B,A,\Pi,S,Q,C,P,N$.
+\item $C$ records finite $\Cont$ replay from the MetaCIC critical-path and normalization-budget consumers through the displayed candidate route.
+\item $P$ is the $\Pkg$ provenance over $\TaitReducibilityUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationBudgetUp$, $\BoundedNormalizationCandidateUp$, $\LogicalRelationUp$, $\NormalizationByEvaluationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TaitReducibilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,E,B,A,\Pi,S,Q,H,C,P,N$. It has no coordinate for unconditional strong normalization, full subject reduction, full Church--Rosser, beta-conversion decidability, or consistency.
+\end{definition}
+
+\begin{theorem}[Tait reducibility NameCert obligations]
+\label{thm:tait-reducibility-namecert-obligations}
+For an accepted $\TaitReducibilityUp$ carrier
+$$
+R=(T,E,B,A,\Pi,S,Q,H,C,P,N),
+$$
+the local $\NameCert_{\TaitReducibilityUp}$ surface consists exactly of closed typed term exposure through $T$, reducibility-candidate exposure through $E$, beta-closure exposure through $B$, application closure through $A$, Pi closure through $\Pi$, candidate-mediated strong-normalization handoff through $S$, refusal exactness through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tait-reducibility-carrier}. The closed typed term row $T$ supplies the inspected endpoint, while $E$ is the only positive candidate row.
+
+Read the closure rows $B,A,\Pi$ as stability data for the same candidate. Beta stability, application closure, and Pi closure do not introduce independent normalization theorems; they keep the candidate route well formed for the displayed term and type rows.
+
+The handoff row $S$ is downstream of $E,B,A,\Pi$. Requests for evidence-free normalization, full subject reduction, full Church--Rosser, beta-conversion decidability, or consistency are sent to the refusal row $Q$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly the displayed rows. Hence the NameCert surface is the finite Tait-candidate route, not a global metatheorem about every MetaCIC term.
+\end{proof}
+
+\begin{theorem}[Tait reducibility candidate-SN handoff]
+\label{thm:tait-reducibility-candidate-sn-handoff}
+Every strong-normalization read exported from an accepted $\TaitReducibilityUp$ carrier must first display the route
+$$
+T \longmapsto E \longmapsto (B,A,\Pi) \longmapsto S
+$$
+and must keep the refusal row $Q$ visible when it is consumed by $\MetaCICCriticalPathUp$, $\MetaCICNormalizationBudgetUp$, or $\BoundedNormalizationCandidateUp$ routes. The handoff may be compared with $\LogicalRelationUp$ and $\NormalizationByEvaluationUp$ as neighboring method surfaces, but it does not claim full subject reduction, Church--Rosser, beta-conversion decidability, arbitrary strong normalization, or consistency.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The closed term row $T$ and reducibility-candidate row $E$ are both visible before any normalization handoff appears.
+
+Apply \autoref{thm:tait-reducibility-namecert-obligations}. Its beta, application, and Pi closure clauses place $B,A,\Pi$ between candidate evidence and the strong-normalization handoff $S$.
+
+Now read the downstream MetaCIC consumers. The critical-path, normalization-budget, and bounded-candidate chapters may inspect the displayed candidate route as dependency data, while the refusal row $Q$ keeps the open metatheoretic principles outside the packet.
+
+The neighboring logical-relation and normalization-by-evaluation surfaces can compare methods only through displayed provenance and replay rows. They cannot replace $E,B,A,\Pi,S,Q$ by a hidden global theorem, so the exported handoff remains candidate-mediated.
+\end{proof}
+
+\closureat{TaitReducibilityUp}{seedStr}
+
+\begin{closurestatus}{\TaitReducibilityUp}
+  \constructivestory{A $\TaitReducibilityUp$ packet is generated from a closed typed MetaCIC term row, reducibility-candidate row, beta-closure row, application-closure row, Pi-closure row, candidate-mediated strong-normalization handoff, refusal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tait-reducibility-carrier}, \autoref{thm:tait-reducibility-namecert-obligations}, and \autoref{thm:tait-reducibility-candidate-sn-handoff} seed the finite Tait-candidate method surface for MetaCIC normalization consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full strong normalization, Church--Rosser, subject reduction, consistency, beta-conversion decidability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate exposure, beta, application, and Pi closure routing, candidate-mediated strong-normalization handoff, refusal exactness, transport, replay, provenance, and local naming for BEDC.Derived.TaitReducibilityUp.}
+\end{closurestatus}
