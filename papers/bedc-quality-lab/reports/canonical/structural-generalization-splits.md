@@ -10,7 +10,7 @@
 | source | status | artifact |
 | --- | --- | --- |
 | `input_accessibility` | `missing` | `reports/canonical/input-accessibility.json` |
-| `winnability_certificates` | `missing` | `reports/canonical/winnability-certificates.json` |
+| `winnability_certificates` | `resolved` | `reports/canonical/winnability-certificates.json` |
 
 ## Classifier Rows
 

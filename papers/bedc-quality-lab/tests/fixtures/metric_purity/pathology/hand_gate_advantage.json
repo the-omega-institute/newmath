@@ -1,0 +1,60 @@
+{
+  "fixture_id": "hand_gate_advantage",
+  "expected_owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+  "expected_failed_surface": "CV-HG4",
+  "expected_reason_code": "CV-HG4",
+  "payload": {
+    "task_variables": {
+      "variables": [
+        "x_prev",
+        "surface_id"
+      ]
+    },
+    "label_variables": {
+      "variables": [
+        "target_label"
+      ]
+    },
+    "arm_input_access": {
+      "label_invisibility_certificate": true,
+      "arms": {
+        "candidate": {
+          "variables": [
+            "x_prev",
+            "surface_id"
+          ]
+        },
+        "control": {
+          "variables": [
+            "x_prev",
+            "surface_id"
+          ]
+        }
+      }
+    },
+    "arm_roles": {
+      "candidate": "candidate",
+      "controls": [
+        "control"
+      ]
+    },
+    "finite_table": {
+      "support_count": 64,
+      "rule_abstraction_claim": false,
+      "coverage_status": "bounded-control"
+    },
+    "hand_feature_ledger": {
+      "mode": "shared-gate",
+      "candidate_only_features": [
+        "manual_pair_gate"
+      ]
+    },
+    "metric_source": {
+      "source_kind": "training-evaluation",
+      "metric_keys": [
+        "accuracy",
+        "UER"
+      ]
+    }
+  }
+}
