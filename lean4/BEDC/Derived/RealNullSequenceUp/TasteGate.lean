@@ -195,4 +195,108 @@ theorem RealNullSequenceTasteGate_single_carrier_alignment :
       (fun _ _ heq => realNullSequenceToEventFlow_injective heq),
       rfl⟩
 
+theorem RealNullSequenceCarrier_namecert_obligations
+    (x : RealNullSequenceUp) :
+    Nonempty (ChapterTasteGate RealNullSequenceUp) ∧
+      (∃ rows : List BHist,
+        rows = realNullSequenceFields x ∧
+          (∀ row : BHist,
+            List.Mem row rows →
+              List.Mem (realNullSequenceEncodeBHist row)
+                (realNullSequenceToEventFlow x)) ∧
+          realNullSequenceFromEventFlow (realNullSequenceToEventFlow x) = some x ∧
+          realNullSequenceEncodeBHist BHist.Empty = ([] : RawEvent)) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  refine ⟨⟨realNullSequenceChapterTasteGate⟩, ?_⟩
+  refine ⟨realNullSequenceFields x, rfl, ?_, realNullSequence_round_trip x, rfl⟩
+  cases x with
+  | mk S Z W R D L H C P N =>
+      intro row hrow
+      simp only [realNullSequenceFields] at hrow
+      simp only [realNullSequenceToEventFlow]
+      cases hrow with
+      | head =>
+          exact List.Mem.head _
+      | tail _ hrow =>
+          cases hrow with
+          | head =>
+              exact List.Mem.tail _ (List.Mem.head _)
+          | tail _ hrow =>
+              cases hrow with
+              | head =>
+                  exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))
+              | tail _ hrow =>
+                  cases hrow with
+                  | head =>
+                      exact
+                        List.Mem.tail _
+                          (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
+                  | tail _ hrow =>
+                      cases hrow with
+                      | head =>
+                          exact
+                            List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _ (List.Mem.head _))))
+                      | tail _ hrow =>
+                          cases hrow with
+                          | head =>
+                              exact
+                                List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _ (List.Mem.head _)))))
+                          | tail _ hrow =>
+                              cases hrow with
+                              | head =>
+                                  exact
+                                    List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _
+                                          (List.Mem.tail _
+                                            (List.Mem.tail _
+                                              (List.Mem.tail _ (List.Mem.head _))))))
+                              | tail _ hrow =>
+                                  cases hrow with
+                                  | head =>
+                                      exact
+                                        List.Mem.tail _
+                                          (List.Mem.tail _
+                                            (List.Mem.tail _
+                                              (List.Mem.tail _
+                                                (List.Mem.tail _
+                                                  (List.Mem.tail _
+                                                    (List.Mem.tail _ (List.Mem.head _)))))))
+                                  | tail _ hrow =>
+                                      cases hrow with
+                                      | head =>
+                                          exact
+                                            List.Mem.tail _
+                                              (List.Mem.tail _
+                                                (List.Mem.tail _
+                                                  (List.Mem.tail _
+                                                    (List.Mem.tail _
+                                                      (List.Mem.tail _
+                                                        (List.Mem.tail _
+                                                          (List.Mem.tail _
+                                                            (List.Mem.head _))))))))
+                                      | tail _ hrow =>
+                                          cases hrow with
+                                          | head =>
+                                              exact
+                                                List.Mem.tail _
+                                                  (List.Mem.tail _
+                                                    (List.Mem.tail _
+                                                      (List.Mem.tail _
+                                                        (List.Mem.tail _
+                                                          (List.Mem.tail _
+                                                            (List.Mem.tail _
+                                                              (List.Mem.tail _
+                                                                (List.Mem.tail _
+                                                                  (List.Mem.head _)))))))))
+                                          | tail _ hrow =>
+                                              cases hrow
+
 end BEDC.Derived.RealNullSequenceUp

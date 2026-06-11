@@ -11,25 +11,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CircleUp : Type where
-  | mk (B R M K S H P N : BHist) : CircleUp
+  | mk (boundary coordinate metric compactness handoff : BHist) : CircleUp
   deriving DecidableEq
 
-def CircleTasteGate_single_carrier_alignment_encodeBHist : BHist → RawEvent
+def circleEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: CircleTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: CircleTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: circleEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: circleEncodeBHist h
 
-def CircleTasteGate_single_carrier_alignment_decodeBHist : RawEvent → BHist
+def circleDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (CircleTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (CircleTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (circleDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (circleDecodeBHist tail)
 
-private theorem CircleTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
-      CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_encodeBHist h) = h := by
+private theorem CircleUpTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, circleDecodeBHist (circleEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,160 +35,118 @@ private theorem CircleTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def CircleTasteGate_single_carrier_alignment_fields : CircleUp → List BHist
+def circleFields : CircleUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CircleUp.mk B R M K S H P N => [B, R, M, K, S, H, P, N]
+  | CircleUp.mk boundary coordinate metric compactness handoff =>
+      [boundary, coordinate, metric, compactness, handoff]
 
-def CircleTasteGate_single_carrier_alignment_toEventFlow :
-    CircleUp → EventFlow
+def circleToEventFlow : CircleUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (CircleTasteGate_single_carrier_alignment_fields x).map
-        CircleTasteGate_single_carrier_alignment_encodeBHist
+  | x => (circleFields x).map circleEncodeBHist
 
-private def CircleTasteGate_single_carrier_alignment_eventAtDefault :
-    Nat → EventFlow → RawEvent
+private def circleEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      CircleTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | Nat.succ index, _event :: rest => circleEventAt index rest
 
-def CircleTasteGate_single_carrier_alignment_fromEventFlow
-    (ef : EventFlow) : Option CircleUp :=
+def circleFromEventFlow (ef : EventFlow) : Option CircleUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CircleUp.mk
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-      (CircleTasteGate_single_carrier_alignment_decodeBHist
-        (CircleTasteGate_single_carrier_alignment_eventAtDefault 7 ef)))
+      (circleDecodeBHist (circleEventAt 0 ef))
+      (circleDecodeBHist (circleEventAt 1 ef))
+      (circleDecodeBHist (circleEventAt 2 ef))
+      (circleDecodeBHist (circleEventAt 3 ef))
+      (circleDecodeBHist (circleEventAt 4 ef)))
 
-private theorem CircleTasteGate_single_carrier_alignment_round_trip
+private theorem CircleUpTasteGate_single_carrier_alignment_round_trip
     (x : CircleUp) :
-    CircleTasteGate_single_carrier_alignment_fromEventFlow
-      (CircleTasteGate_single_carrier_alignment_toEventFlow x) = some x := by
+    circleFromEventFlow (circleToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk B R M K S H P N =>
+  | mk boundary coordinate metric compactness handoff =>
       change
         some
           (CircleUp.mk
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist B))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist R))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist M))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist K))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist S))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist H))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist P))
-            (CircleTasteGate_single_carrier_alignment_decodeBHist
-              (CircleTasteGate_single_carrier_alignment_encodeBHist N))) =
-          some (CircleUp.mk B R M K S H P N)
-      rw [CircleTasteGate_single_carrier_alignment_decode_encode B,
-        CircleTasteGate_single_carrier_alignment_decode_encode R,
-        CircleTasteGate_single_carrier_alignment_decode_encode M,
-        CircleTasteGate_single_carrier_alignment_decode_encode K,
-        CircleTasteGate_single_carrier_alignment_decode_encode S,
-        CircleTasteGate_single_carrier_alignment_decode_encode H,
-        CircleTasteGate_single_carrier_alignment_decode_encode P,
-        CircleTasteGate_single_carrier_alignment_decode_encode N]
+            (circleDecodeBHist (circleEncodeBHist boundary))
+            (circleDecodeBHist (circleEncodeBHist coordinate))
+            (circleDecodeBHist (circleEncodeBHist metric))
+            (circleDecodeBHist (circleEncodeBHist compactness))
+            (circleDecodeBHist (circleEncodeBHist handoff))) =
+          some (CircleUp.mk boundary coordinate metric compactness handoff)
+      rw [CircleUpTasteGate_single_carrier_alignment_decode_encode boundary,
+        CircleUpTasteGate_single_carrier_alignment_decode_encode coordinate,
+        CircleUpTasteGate_single_carrier_alignment_decode_encode metric,
+        CircleUpTasteGate_single_carrier_alignment_decode_encode compactness,
+        CircleUpTasteGate_single_carrier_alignment_decode_encode handoff]
 
-private theorem CircleTasteGate_single_carrier_alignment_injective
-    {x y : CircleUp} :
-    CircleTasteGate_single_carrier_alignment_toEventFlow x =
-      CircleTasteGate_single_carrier_alignment_toEventFlow y →
-        x = y := by
+private theorem circleToEventFlow_injective {x y : CircleUp} :
+    circleToEventFlow x = circleToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      CircleTasteGate_single_carrier_alignment_fromEventFlow
-          (CircleTasteGate_single_carrier_alignment_toEventFlow x) =
-        CircleTasteGate_single_carrier_alignment_fromEventFlow
-          (CircleTasteGate_single_carrier_alignment_toEventFlow y) :=
-    congrArg CircleTasteGate_single_carrier_alignment_fromEventFlow heq
+      circleFromEventFlow (circleToEventFlow x) =
+        circleFromEventFlow (circleToEventFlow y) :=
+    congrArg circleFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (CircleTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CircleTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (CircleUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CircleUpTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CircleTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : CircleUp,
-      CircleTasteGate_single_carrier_alignment_fields x =
-        CircleTasteGate_single_carrier_alignment_fields y →
-          x = y := by
+private theorem CircleUpTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CircleUp, circleFields x = circleFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk B₁ R₁ M₁ K₁ S₁ H₁ P₁ N₁ =>
+  | mk boundary1 coordinate1 metric1 compactness1 handoff1 =>
       cases y with
-      | mk B₂ R₂ M₂ K₂ S₂ H₂ P₂ N₂ =>
+      | mk boundary2 coordinate2 metric2 compactness2 handoff2 =>
           cases hfields
           rfl
 
-instance CircleTasteGate_single_carrier_alignment_BHistCarrier :
-    BHistCarrier CircleUp where
+instance circleBHistCarrier : BHistCarrier CircleUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := CircleTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := CircleTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := circleToEventFlow
+  fromEventFlow := circleFromEventFlow
 
-instance CircleTasteGate_single_carrier_alignment_FieldFaithful :
-    FieldFaithful CircleUp where
+instance circleChapterTasteGate : ChapterTasteGate CircleUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := CircleTasteGate_single_carrier_alignment_fields
-  field_faithful := CircleTasteGate_single_carrier_alignment_field_faithful
+  round_trip := by
+    intro x
+    change circleFromEventFlow (circleToEventFlow x) = some x
+    exact CircleUpTasteGate_single_carrier_alignment_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (circleToEventFlow_injective heq)
 
-instance CircleTasteGate_single_carrier_alignment_Nontrivial :
-    BEDC.Meta.TasteGate.Nontrivial CircleUp where
+instance circleFieldFaithful : FieldFaithful CircleUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := circleFields
+  field_faithful := CircleUpTasteGate_single_carrier_alignment_fields_faithful
+
+instance circleNontrivial : Nontrivial CircleUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CircleUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      CircleUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨CircleUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CircleUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem CircleTasteGate_single_carrier_alignment :
-    ChapterTasteGate CircleUp := by
+def taste_gate : ChapterTasteGate CircleUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · intro x
-    change
-      CircleTasteGate_single_carrier_alignment_fromEventFlow
-        (CircleTasteGate_single_carrier_alignment_toEventFlow x) = some x
-    exact CircleTasteGate_single_carrier_alignment_round_trip x
-  · intro x y hxy heq
-    exact hxy (CircleTasteGate_single_carrier_alignment_injective heq)
+  circleChapterTasteGate
 
-instance CircleTasteGate_single_carrier_alignment_ChapterTasteGate :
-    ChapterTasteGate CircleUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  CircleTasteGate_single_carrier_alignment
-
-def CircleTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate CircleUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  CircleTasteGate_single_carrier_alignment
+theorem CircleUpTasteGate_single_carrier_alignment :
+    (∀ x : CircleUp, circleFromEventFlow (circleToEventFlow x) = some x) ∧
+      (∀ x y : CircleUp, circleToEventFlow x = circleToEventFlow y → x = y) ∧
+      circleFields (CircleUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨CircleUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => circleToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.CircleUp
