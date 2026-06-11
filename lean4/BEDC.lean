@@ -2496,6 +2496,7 @@ import BEDC.Derived.ClosedSubspaceCompletionUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ConsumerExhaustion
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.NameCertObligations
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicConsumerSurface
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
@@ -5980,6 +5981,7 @@ import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationBasis
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
+import BEDC.Derived.LowerSemicontinuousUp.ObligationClosurePackage
 import BEDC.Derived.LowerSemicontinuousUp.ObligationClosureRoute
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
