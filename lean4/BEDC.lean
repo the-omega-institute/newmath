@@ -3254,6 +3254,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementWindow
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerStability
 import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
+import BEDC.Derived.CoveringdimensionUp.MetricCompletionRootRoute
 import BEDC.Derived.CoveringdimensionUp.MetricDependency
 import BEDC.Derived.CoveringdimensionUp.MetricRealDependency
 import BEDC.Derived.CoveringdimensionUp.MetricRealSeparabilityRoute
@@ -3277,6 +3278,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
+import BEDC.Derived.CoveringdimensionUp.RootFiniteOrderCompatibility
 import BEDC.Derived.CoveringdimensionUp.RootLebesgueLedgerObligation
 import BEDC.Derived.CoveringdimensionUp.RootMetricRealWindow
 import BEDC.Derived.CoveringdimensionUp.RootMetricRealWindowSeparation
@@ -5367,7 +5369,6 @@ import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
-import BEDC.Derived.HyperbolicHoroballShadowUp.BoundaryHandoff
 import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
@@ -6338,6 +6339,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
+import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
