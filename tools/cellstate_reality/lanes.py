@@ -2005,7 +2005,12 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                     history.append(_history_entry("needs_external", "blocked on external preconditions", external_preconditions=external_preconditions))
             summary["needs_external_this_cycle"] += 1
             continue
-        unmet = [dep for dep in id_deps if str(claim_by_id.get(dep, {}).get("status") or "") != "passed"]
+        # depends_on 是调度顺序门(等 dep 评估完成),不是有效性门。实验只读自身 required_data,
+        # 不消费 dep claim 的结果,其自身 gate 才决定 passed/needs_data。因此 dep 到达任一终态
+        # (passed/needs_data/needs_external/failed,即已被诚实评估)即放行下游;只在 dep 仍为 open
+        # 或未知时等待。否则一个永久 needs_data 的上游(如 n 不足的复现)会级联阻断整条独立分析链。
+        _dep_terminal = {"passed", "needs_data", "needs_external", "failed"}
+        unmet = [dep for dep in id_deps if str(claim_by_id.get(dep, {}).get("status") or "") not in _dep_terminal]
         if unmet:
             history = claim.setdefault("history", [])
             if isinstance(history, list):
