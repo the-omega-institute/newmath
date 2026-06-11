@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRealLimsupUp$}
+\label{ch:concrete-instances-bounded-real-limsup-namecert}
+\origin{human}
+
+Following Bishop and Bridges on bounded real sequences and constructive upper envelopes, the $\BoundedRealLimsupUp$ packet records the finite surface by which a bounded real sequence exposes limsup data before any ambient supremum theorem is available. It sits over the bounded-sequence source of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the general limsup boundary of \autoref{ch:concrete-instances-limsup-namecert}, and the dual liminf comparison of \autoref{ch:concrete-instances-liminf-namecert}. The packet names the upper-envelope read for a displayed bounded sequence; it does not assert arbitrary set suprema, host order completeness, selected subsequences, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bounded real limsup carrier]
+\label{def:bounded-real-limsup-carrier}
+A $\BoundedRealLimsupUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,W,Q,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoundedRealSequenceUp$ source row, carrying the bounded real sequence and its visible bound ledger.
+\item $W$ is the finite upper-envelope window row, listing the inspected tail windows and rational upper estimates read from the bounded source.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational tail estimates and tolerance requests visible inside $W$.
+\item $U$ is the $\LimsupUp$ upper-envelope row, storing the limsup request as a bounded tail-envelope handoff rather than as an arbitrary supremum.
+\item $E$ is the $\RealUp$ seal reached only after the bounded source, finite windows, rational readback, and upper-envelope handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, windows, rational readback, upper envelope, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same bounded-source, window, readback, upper-envelope, and seal route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRealLimsupUp$, $\BoundedRealSequenceUp$, $\RegSeqRatUp$, $\LimsupUp$, $\LiminfUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRealLimsupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,W,Q,U,E,H,C,P,N$. It has no coordinate for arbitrary subset suprema, Dedekind completeness, selected maximizing subsequences, open-cover compactness, quotient real equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bounded real limsup NameCert obligations]
+\label{thm:bounded-real-limsup-namecert-obligations}
+For every accepted $\BoundedRealLimsupUp$ carrier
+$$
+L=(B,W,Q,U,E,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedRealLimsupUp}$ surface consists exactly of carrier admission for the bounded source, finite upper-envelope windows, regular rational readback, limsup handoff, real seal, componentwise transport, displayed replay, provenance, and local naming row; window coverage requiring every limsup read to inspect $W$ before $Q$; upper-envelope exactness requiring $U$ to consume only bounded tail data from $B,W,Q$; and nonescape from the named rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bounded-real-limsup-carrier}. The rows $B,W,Q,U,E$ are the only analytic rows available to a limsup consumer.
+
+The bounded source is read first through $B$. Each tail-envelope request then enters the finite window row $W$, and the rational estimates visible in that window are read back through $Q$.
+
+The upper-envelope handoff $U$ is therefore sequence-local. It can compare displayed tail estimates and pass a limsup request onward, but it has no coordinate for an arbitrary subset supremum or a host completeness principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the excluded endpoints are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded real limsup Real handoff]
+\label{thm:bounded-real-limsup-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BoundedRealLimsupUp$ carrier
+$$
+L=(B,W,Q,U,E,H,C,P,N)
+$$
+must factor its read through the finite upper-envelope route
+$$
+B \longmapsto W \longmapsto Q \longmapsto U \longmapsto E \longmapsto H,C,P,N .
+$$
+The consumer may export the bounded sequence source, inspected tail windows, regular rational readback, limsup handoff, real seal, transport, replay, provenance, and local naming. It may not export arbitrary real suprema, selected subsequences, open-cover compactness, quotient equality of real names, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer of the accepted carrier. The bounded real sequence is exposed through $B$, and every inspected tail request is restricted to the finite windows carried by $W$.
+
+The rational observations are then read through $Q$. The $\LimsupUp$ row $U$ can consume only those bounded tail-envelope observations, so the handoff is an upper-envelope route over a displayed bounded sequence rather than a general completeness theorem.
+
+The terminal row $E$ seals the resulting real-name request after $B,W,Q,U$ have been exposed. The structural rows $H,C,P,N$ preserve that route without adding a selected subsequence, host supremum, quotient equality, or ambient real completeness claim.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BoundedRealLimsupUp$ Real-facing read factors through a bounded real sequence row, finite upper-envelope windows, RegSeqRat readback, a Limsup handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\independenceWitness{boundedrealsequence, regseqrat, real, limsup, liminf: $\BoundedRealLimsupUp$ is not bijective to any listed sibling because it jointly carries bounded-source data, tail-window data, rational readback, upper-envelope handoff, Real sealing, transport, replay, provenance, and local naming while refusing arbitrary supremum, selected subsequences, quotient real equality, and ambient completeness.}
+
+\closureat{BoundedRealLimsupUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRealLimsupUp}
+  \constructivestory{A $\BoundedRealLimsupUp$ packet is generated from a bounded real sequence row, finite upper-envelope windows, RegSeqRat readback, a Limsup handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-real-limsup-carrier}, \autoref{thm:bounded-real-limsup-namecert-obligations}, and \autoref{thm:bounded-real-limsup-real-handoff} seed the bounded sequence upper-envelope surface for Real and completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary subset suprema, Dedekind completeness, selected maximizing subsequences, open-cover compactness, quotient real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite upper-envelope window coverage, RegSeqRat readback, Limsup handoff exactness, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.BoundedRealLimsupUp.}
+\end{closurestatus}
