@@ -1,0 +1,403 @@
+---
+title: "RH 的质数指纹与 Window6 桥"
+subtitle: "在 Window6 成为 RH residual test 之前, zeta-to-Zeckendorf 路线还必须证明什么"
+author: "The Omega Institute"
+date: 2026-06-12
+lang: zh-Hans
+description: "一篇 BEDC dossier: 质数指纹、mirror-zero 的逐点固定性、Window6 作为有限 Zeckendorf fixed-shadow, 以及把 zeta 离临界 residual 送入 Zeckendorf 投影塔所需的桥接义务."
+---
+
+```{=html}
+<div class="lang-switch"><a href="rh-prime-fingerprint-window6-bridge.qmd">English</a></div>
+```
+
+核心点是:
+
+$$
+\boxed{
+\text{Window6 不是 RH 的证明.}
+}
+$$
+
+它是一个有限 residual test surface. 若要把它用于 RH 路线, 必须先证明一个桥:
+
+$$
+\boxed{
+\mathsf{OffMirrorZero}_{\zeta}
+\Rightarrow
+\mathsf{NonzeroZeckendorfSkewResidual}.
+}
+$$
+
+现在的理论图已经很强:
+
+```text
+prime channels distinguish zeta parameters
+  -> completed ZETA has a mirror-fixed carrier
+  -> RH asks for zero events to be pointwise mirror-fixed
+  -> Window6 is a finite fixed-shadow of the Zeckendorf inverse limit
+```
+
+真正困难的不是给这些结构命名为 fixed point. 真正困难的是 transport:
+一个 prime-visible 的 zeta skew 必须变成 Zeckendorf 投影塔中的非零 skew
+residual, 并且不能泄漏到 neutral return mode.
+
+## 质数指纹
+
+对 complex history $s$, 定义它的 prime fingerprint:
+
+$$
+\mathsf{PF}(s)
+:=
+\bigl(p^{-s}\bigr)_{p\in\mathsf{Prime}}.
+$$
+
+这不是先有一个抽象点, 再把质数数据贴上去. 在 zeta carrier 中, $s$ 由它对
+所有 prime-local probes 的响应来读取. 唯一分解说明质数上的值决定乘法角色
+
+$$
+\chi_s(n)=n^{-s}.
+$$
+
+如果两个 histories 有相同 prime fingerprint, 那么质数行 $2$ 与 $3$ 强制它们
+是同一个 history:
+
+$$
+\mathsf{PF}(s)=\mathsf{PF}(t)
+\quad\Longleftrightarrow\quad
+s=t.
+$$
+
+原因是通常的 logarithmic separation. 若
+
+$$
+p^{-s}=p^{-t}
+$$
+
+对 $p=2$ 与 $p=3$ 成立, 令 $a=s-t$, 则
+
+$$
+e^{-a\log2}=1,
+\qquad
+e^{-a\log3}=1.
+$$
+
+于是 $a\log2=2\pi i k$ 且 $a\log3=2\pi i\ell$. 若 $a\neq0$, 则会推出
+$k\log3=\ell\log2$, 因而 $3^k=2^\ell$, 与唯一分解矛盾. 所以 $a=0$.
+
+用 BEDC 的语言说:
+
+$$
+\boxed{
+\text{质数是 zeta 信息空间的 separating probes.}
+}
+$$
+
+它们不是 critical strip 的点. 它们是让两个点可区分的局部通道.
+
+## 镜像对
+
+函数方程镜像是
+
+$$
+J(s)=1-\overline{s}.
+$$
+
+写作
+
+$$
+s=\frac12+\delta+i\tau.
+$$
+
+则
+
+$$
+J(s)=\frac12-\delta+i\tau.
+$$
+
+centered prime channel 是
+
+$$
+U_p(s)=p^{1/2-s}.
+$$
+
+直接代入得到
+
+$$
+U_p(s)=p^{-\delta}e^{-i\tau\log p},
+\qquad
+U_p(J(s))=p^{\delta}e^{-i\tau\log p}.
+$$
+
+镜像不改变 phase clock. 它反转 amplitude bias.
+
+若 $\delta\neq0$, 每个质数都能看见差异:
+
+$$
+|U_p(s)|=p^{-\delta},
+\qquad
+|U_p(J(s))|=p^\delta
+=|U_p(s)|^{-1}.
+$$
+
+若 $\delta=0$, 两个 packet 坍缩:
+
+$$
+\mathsf{PF}(s)=\mathsf{PF}(J(s))
+\quad\Longleftrightarrow\quad
+s=J(s)
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+
+所以 RH 的信息学形式是:
+
+$$
+\boxed{
+\mathsf{ZeroEventFlow}_{\zeta}(s)
+\Rightarrow
+\mathsf{PF}(s)=\mathsf{PF}(J(s)).
+}
+$$
+
+也就是:
+
+> 非平凡 zeta 零事件不能留下任何 prime-visible mirror bias.
+
+这比 zero set 的 mirror closure 更强. 函数方程可以把 $s$ 处的零点送到
+$J(s)$ 处的零点. RH 要求的是零点 packet 自身坍缩到 mirror fixed surface.
+
+## Window6 作为 fixed-shadow
+
+Zeckendorf 侧有不同的 carrier:
+
+$$
+X_m=\{0,1\}^m_{\mathrm{no}\,11},
+\qquad
+X_\infty^Z=\varprojlim_m X_m.
+$$
+
+无限对象有黄金自相似形式
+
+$$
+X_\infty^Z
+\cong
+0X_\infty^Z\sqcup10X_\infty^Z,
+$$
+
+其增长尺度是 $\varphi$.
+
+Window6 只是第六层投影:
+
+$$
+X_6=P_6(X_\infty^Z),
+\qquad
+|X_6|=F_8=21.
+$$
+
+它不是 inverse-limit fixed object. 它是有限 fixed-shadow: 如果展示了一个 lift
+$L_6:X_6\to X_\infty^Z$, 那么
+
+$$
+P_6\circ L_6=\operatorname{id}_{X_6}.
+$$
+
+可见六位信息返回自身. 无限 tail 并不由这一行固定.
+
+有限 shadow 暴露边界响应:
+
+$$
+\mathsf{Defect}_6
+=
+\varphi^{-7}
+\left(
+1-\frac12\varphi^{-10}
++\frac89\varphi^{-20}
+\right).
+$$
+
+这就是 Window6 有用的原因: 它是一个 residual 可被测试的有限位置. 这也是
+Window6 不够的原因: residual 可以在第六层消失, 但在更高层仍然可见.
+
+## 缺失的桥
+
+RH 路线需要的桥有如下形状:
+
+$$
+\mathcal B_{\zeta\to Z}:
+\mathsf{OffMirrorZero}_{\zeta}(s)
+\to
+r_\infty(s).
+$$
+
+这里 $r_\infty(s)$ 必须是一个兼容 Zeckendorf residual tower:
+
+$$
+r_\infty(s)=(r_m(s))_{m\ge6},
+\qquad
+r_m(s)\in V_m,
+\qquad
+V_m=\mathbb Q[X_m].
+$$
+
+它必须满足四类行.
+
+**Nonzero detection.**
+
+prime-visible off-critical bias 必须变成非零 Zeckendorf residual:
+
+$$
+\delta(s)\neq0
+\Longrightarrow
+r_\infty(s)\neq0.
+$$
+
+**Projection compatibility.**
+
+residuals 必须真形成一座塔:
+
+$$
+\Pi_{m+1,m}(r_{m+1}(s))=r_m(s).
+$$
+
+**Zero-event return invariance.**
+
+zeta zero packet 在 Zeckendorf return operator 之后必须仍是同一个信息包:
+
+$$
+R_mr_m(s)=r_m(s).
+$$
+
+**No neutral leak.**
+
+residual 必须活在 skew sector, 而不是 $1$-eigenmode 中:
+
+$$
+r_m(s)\in K_m^{\mathrm{skew}},
+\qquad
+1\notin\operatorname{spec}(R_m|_{K_m^{\mathrm{skew}}}).
+$$
+
+没有这些行, Window6 只有局部几何. 它还没有一个被认证的 zeta residual 可供消去.
+
+## 为什么 neutral mode 重要
+
+诱人的 Window6 计算是:
+
+$$
+R_6r=-\frac12 r.
+$$
+
+如果 zero-event 行同时给出
+
+$$
+R_6r=r,
+$$
+
+那么
+
+$$
+r=-\frac12r
+\quad\Longrightarrow\quad
+\frac32r=0
+\quad\Longrightarrow\quad
+r=0.
+$$
+
+但这只消去已被承认为 skew 的分量. 若 residual 含有 neutral component, 它可以满足
+
+$$
+R_6r=r
+$$
+
+而不产生矛盾. 因此 bridge 必须证明 no neutral leak. $-\frac12$ eigenvalue
+只有在 residual 已经被放入没有 $1$ 谱的 sector 后才可用于反证.
+
+## 为什么整座塔重要
+
+即使第六层干净,
+
+$$
+r_6=0
+$$
+
+也不能推出
+
+$$
+r_\infty=0.
+$$
+
+residual 可能藏在更高 kernel 中:
+
+$$
+r_6=0,
+\qquad
+r_7\neq0.
+$$
+
+projection-kernel induction 正是为此而设. 令
+
+$$
+K_{m+1}:=\ker(\Pi_{m+1,m}:V_{m+1}\to V_m).
+$$
+
+若 $r_m=0$, compatibility 强制
+
+$$
+r_{m+1}\in K_{m+1}.
+$$
+
+需要的归纳步是:
+
+$$
+\boxed{
+\text{no fixed skew residual survives in }K_{m+1}.
+}
+$$
+
+等价地:
+
+$$
+1\notin\operatorname{spec}
+\left(
+R_{m+1}|_{K_{m+1}^{\mathrm{skew}}}
+\right).
+$$
+
+Window6 是 anchor. RH 需要 all-layer statement.
+
+## 安全总结
+
+现在安全的状态是:
+
+$$
+\boxed{
+\text{prime fingerprints distinguish off-critical mirror pairs;}
+}
+$$
+
+$$
+\boxed{
+\text{Window6 tests finite Zeckendorf fixed-shadow residuals;}
+}
+$$
+
+$$
+\boxed{
+\text{zeta-to-Zeckendorf residual bridge is the missing proof object.}
+}
+$$
+
+这个 bridge 必须证明: zeta off-critical zero 产生非零、projection-compatible、
+return-invariant、non-neutral 的 Zeckendorf skew residual. 只有那时,
+Window6 与 layer-kernel machinery 才能把 residual elimination 变成面向 RH 的矛盾.
+
+```{=html}
+<div class="cta-choices">
+  <a href="rh-route-halting-boundary.zh-CN.qmd"><strong>RH 路线闭合与停机边界</strong><br/>为什么 route 不可判定不决定 RH, 以及有限 RH proof data 必须供给什么.</a>
+  <a href="golden-phase-projection.zh-CN.qmd"><strong>黄金相位投影</strong><br/>Window6 Zeckendorf projection geometry 与可认证标量读出边界.</a>
+  <a href="zeckendorf-safe-channel.zh-CN.qmd"><strong>Zeckendorf-safe Channel</strong><br/>no-adjacent-11 channel reading 背后的 event-boundary discipline.</a>
+</div>
+```
+
+— *The Omega Institute*
