@@ -2658,6 +2658,7 @@ import BEDC.Derived.CofinalModulusSealUp.StdBridge
 import BEDC.Derived.CofinalModulusSealUp.TasteGate
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
+import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalSubsequenceUp.TasteGate
@@ -6448,6 +6449,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketConsumerSurface
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionDiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionDiamondBudgetTypedBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionFrontier
@@ -8434,6 +8436,7 @@ import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedCutUp
 import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
