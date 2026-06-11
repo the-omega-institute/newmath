@@ -8329,6 +8329,7 @@ import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDiagonalWindowUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalizationUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceBoundUp
+import BEDC.Derived.RegularCauchyDifferenceBoundUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyDifferenceBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
