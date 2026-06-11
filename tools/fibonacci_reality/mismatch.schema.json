@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/fibonacci-reality/mismatch.schema.json",
+  "title": "FibonacciReality mismatch packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mismatch_id",
+    "probe_ref",
+    "contact_ref",
+    "status",
+    "mismatch_kind",
+    "observed_delta",
+    "refinement_pressure",
+    "blocked_claims",
+    "null_reason"
+  ],
+  "properties": {
+    "mismatch_id": {
+      "type": "string",
+      "description": "Lowercase FibonacciReality mismatch id; use dotted/kebab tokens, not underscores or uppercase.",
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "probe_ref": {
+      "type": "string",
+      "description": "Probe id reference; use dotted/kebab tokens, not underscores or uppercase.",
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "contact_ref": {
+      "type": "string",
+      "description": "Reality contact id reference; use dotted/kebab tokens, not underscores or uppercase.",
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "aligned",
+        "partially_aligned",
+        "mismatch",
+        "underdetermined",
+        "blocked_null"
+      ]
+    },
+    "mismatch_kind": {
+      "type": "string",
+      "enum": [
+        "coordinate_failure",
+        "scope_too_large",
+        "missing_context",
+        "external_data_bias",
+        "mechanism_gap",
+        "conjecture_overclaim",
+        "none"
+      ]
+    },
+    "observed_delta": {
+      "type": "string",
+      "minLength": 1
+    },
+    "refinement_pressure": {
+      "type": "string",
+      "minLength": 1
+    },
+    "blocked_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  }
+}
