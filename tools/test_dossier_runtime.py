@@ -75,7 +75,7 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         cache_with = cache_steps[0]["with"]
         self.assertEqual(cache_with["path"], ".cache/dossier-html-pages")
         self.assertIn("dossier-html-pages-${{ runner.os }}-${{ inputs.checkout_ref }}", cache_with["key"])
-        self.assertIn("dossier-html-pages-${{ runner.os }}-", cache_with["restore-keys"])
+        self.assertNotIn("restore-keys", cache_with)
         self.assertNotIn("docs/dossier/namecert", cache_with["path"])
         self.assertNotIn("docs/dossier/paper", cache_with["path"])
 
