@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\MoserIterationUp$}
+\label{ch:concrete-instances-moser-iteration-namecert}
+\origin{human}
+
+Following Moser's iteration method in elliptic and parabolic regularity theory, the $\MoserIterationUp$ packet records the finite ladder by which Sobolev control, Poincare control, cutoff schedules, and exponent-step estimates are replayed before any Harnack-style consumer reads a regularity bound. It sits beside the Sobolev source of \autoref{ch:concrete-instances-sobolev-namecert}, the Poincare control row of \autoref{ch:concrete-instances-poincare-inequality-namecert}, the Morrey endpoint comparison of \autoref{ch:concrete-instances-morrey-inequality-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite rows; it is not a host PDE theorem, not a selected weak solution, not an ambient compactness argument, and not a quotient equality of function spaces.
+
+\begin{definition}[Moser iteration carrier]
+\label{def:moser-iteration-carrier}
+A $\MoserIterationUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,P,J,E,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SobolevUp$ source row, including the finite energy and embedding data used by the ladder.
+\item $P$ is the $\PoincareInequalityUp$ control row, recording the local oscillation and average-control estimates consumed at each step.
+\item $J$ is the cutoff schedule row, listing the displayed nested regions, cutoff names, and support restrictions before any estimate is read.
+\item $E$ is the exponent-step ledger, recording the finite sequence of exponent raises, constants, and admissible handoffs from one step to the next.
+\item $R$ is the $\RealUp$ bound readback row, sealing the scalar constants and endpoint bounds only after $S,P,J,E$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the Sobolev, Poincare, cutoff, exponent, Real-bound, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the same ladder for regularity and Harnack-style consumers.
+\item $Q$ is the $\Pkg$ provenance over $\MoserIterationUp$, $\SobolevUp$, $\PoincareInequalityUp$, $\MorreyInequalityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MoserIterationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,P,J,E,R,H,C,Q,N$. It has no coordinate for a host solution space, a selected PDE solution, global elliptic regularity, parabolic compactness, quotient equality of functions, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.MoserIterationUp}
+
+\begin{theorem}[Moser iteration NameCert obligations]
+\label{thm:moser-iteration-namecert-obligations}
+For every accepted $\MoserIterationUp$ carrier $M=(S,P,J,E,R,H,C,Q,N)$, the local $\NameCert_{\MoserIterationUp}$ surface consists exactly of Sobolev source exposure through $S$; Poincare control through $P$; cutoff schedule exposure through $J$; exponent-step ledger exposure through $E$; Real-bound readback through $R$; componentwise transport through $H$; displayed replay through $C$; provenance through $Q$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:moser-iteration-carrier}. The rows $S,P,J,E,R,H,C,Q,N$ are exactly the Sobolev, Poincare, cutoff, exponent, Real-bound, transport, replay, provenance, and naming coordinates.
+
+The analytic estimates are read in order. Sobolev and Poincare rows provide the source inequalities, the cutoff schedule restricts each local read, and the exponent-step ledger records the finite ladder before the Real-bound row seals constants or endpoints.
+
+Finally $H,C,Q,N$ preserve, replay, source, and name the same displayed packet. Since the carrier has no coordinate for a selected PDE solution, host regularity theorem, function-space quotient, choice schedule, or ambient completeness principle, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Moser iteration Harnack handoff]
+\label{thm:moser-iteration-harnack-handoff}
+Every Harnack-style consumer of an accepted $\MoserIterationUp$ packet must first read the Sobolev source row $S$, the Poincare control row $P$, the cutoff schedule $J$, the exponent-step ledger $E$, the $\RealUp$ bound readback $R$, and the structural rows $H,C,Q,N$. The handoff supplies a finite regularity ladder for downstream Harnack inequality packets; it exports no host Harnack theorem, selected solution, quotient function equality, countable choice, open-cover compactness proof, or ambient real completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:moser-iteration-namecert-obligations}. It fixes the accepted packet to the finite rows $S,P,J,E,R,H,C,Q,N$ and leaves no coordinate for a detached PDE theorem or selected solution.
+
+The Harnack-facing read then consumes the ladder in the displayed order. The Sobolev and Poincare rows provide the source estimates, the cutoff schedule localizes the read, and the exponent-step ledger records the finite climb before any endpoint bound is sealed in $R$.
+
+The structural rows complete the handoff. Componentwise transport, replay, provenance, and local naming preserve the same finite packet for downstream consumers. Therefore a Harnack-style packet receives only the displayed regularity ledger and cannot import the refused host, quotient, choice, compactness, or completeness endpoints.
+\end{proof}
+
+\falsifiablePrediction{Every accepted Harnack-style read of $\MoserIterationUp$ must expose the Sobolev source, Poincare control, cutoff schedule, exponent-step ledger, Real-bound readback, transport, replay, provenance, and local $\NameCert$ rows before consuming a regularity bound.}
+
+\independenceWitness{sobolev, poincare-inequality, morrey-inequality, real: none is bijective with $\MoserIterationUp$ because this carrier alone binds cutoff schedules and exponent-step ledgers to the Sobolev, Poincare, Morrey-facing, Real-bound, transport, replay, provenance, and local naming rows.}
+
+\closureat{MoserIterationUp}{seedStr}
+
+\begin{closurestatus}{\MoserIterationUp}
+  \constructivestory{A $\MoserIterationUp$ packet is generated from Sobolev source rows, Poincare control rows, cutoff schedules, exponent-step ledgers, Real-bound readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moser-iteration-carrier}, \autoref{thm:moser-iteration-namecert-obligations}, and \autoref{thm:moser-iteration-harnack-handoff} seed the finite PDE regularity ladder consumed by Harnack-style packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Harnack theorem, selected PDE solution, global regularity theorem, quotient equality of function spaces, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Sobolev and Poincare source exactness, cutoff schedule exactness, exponent-step ledger exactness, Real-bound readback, transport, replay, provenance, and local naming for BEDC.Derived.MoserIterationUp.}
+\end{closurestatus}

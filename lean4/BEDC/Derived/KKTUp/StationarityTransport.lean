@@ -6,6 +6,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
@@ -66,5 +67,34 @@ theorem KKTPrimalDualCarrier_stationarity_feasibility_transport [AskSetup] [Pack
                       (And.intro stationarityRow'
                         (And.intro ledgerRow' (And.intro provenanceRow' pkgSig')))))))))))
       (And.intro sameStationarity (And.intro sameLedger sameProvenance))
+
+theorem KKTUp_finite_packet_standard_bridge [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasibility slackness comparison ledger provenance
+      endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison ledger
+        provenance endpoint probe pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison
+              ledger provenance endpoint probe pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison
+              ledger provenance endpoint probe pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison
+              ledger provenance endpoint probe pkg ∧ hsame row endpoint)
+          hsame ∧
+        Cont primal dual comparison ∧ Cont residual stationarity slackness ∧
+          Cont feasibility slackness ledger ∧ Cont ledger provenance endpoint ∧
+            PkgSig probe endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro packet
+  have boundary :=
+    KKTCarrierPacket_downstream_consumer_boundary packet
+  exact
+    ⟨boundary.left, boundary.right.left, boundary.right.right.left,
+      boundary.right.right.right.left, boundary.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.KKTUp
