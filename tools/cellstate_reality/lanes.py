@@ -3475,6 +3475,8 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         "",
         r"\input{parts/cellstate_context_refresh_boundary}",
         "",
+        r"\input{parts/cellstate_compiler_semantics}",
+        "",
     ]
     if namecert_slugs:
         lines.extend(
