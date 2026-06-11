@@ -2734,6 +2734,7 @@ import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -3219,6 +3220,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
@@ -9649,6 +9651,7 @@ import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
 import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.BridgeSchema
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
