@@ -2704,6 +2704,7 @@ import BEDC.Derived.CompactLebesgueNumberUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactLocatedIntervalSubcoverUp.TasteGate
 import BEDC.Derived.CompactMetricClosedBallUp.TasteGate
+import BEDC.Derived.CompactMetricCompletionUp.Core
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
