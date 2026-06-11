@@ -1,0 +1,379 @@
+\chapter{The RH Zero--Skew EventFlow Target}
+\label{ch:visions-rh-zero-skew-eventflow-target}
+\origin{ai}
+
+\autoref{ch:visions-riemann-hypothesis} states the Riemann Hypothesis as a
+constructive $\Pi$-statement: a proof consumes a critical-strip zeta-zero
+witness and returns an $\mathsf{OnCritLine}$ witness.  The present chapter
+records the same obligation at the compiler-facing event-flow layer.  It does
+not add a proof of $\mathsf{RH}$.  It identifies which rows are already
+recoverable from the zeta-continuation and functional-equation ledgers, which
+rows are supplied by the critical-strip zero witness packet, and which row is
+still the missing RH witness.
+
+\section{Zero and skew packets}
+\label{sec:rh-zero-skew-packets}
+
+\begin{definition}[RH zero code]
+\label{def:rh-zero-code}
+An \emph{RH zero code} for a complex history $s$ is a finite packet
+containing the displayed rows
+$$
+\begin{gathered}
+s,\quad
+\mathsf{ZetaCont}(s),\quad
+\mathsf{hsame}(\mathsf{ZetaCont}(s),0_{\mathbb C}),\quad
+\mathsf{InCritStrip}(s),\\
+H,\quad C,\quad P,\quad N.
+\end{gathered}
+$$
+The rows $H,C,P,N$ record componentwise transport, continuation replay,
+package provenance, and local naming.  The packet is not a host-side element
+of a zero set.  It is a finite BEDC read of a zeta-zero premise through the
+$\ZetaContUp$, $\ZetaZerosUp$, and $\CritStripUp$ surfaces.
+\end{definition}
+
+\begin{definition}[RH skew-zero code]
+\label{def:rh-skew-zero-code}
+For the same complex history $s$, the associated \emph{RH skew-zero code} is a
+finite packet containing
+$$
+\begin{gathered}
+s,\quad
+\Re(s),\quad
+1/2,\quad
+\delta(s)=\Re(s)-1/2,\quad
+0_{\mathbb R},\\
+\mathsf{hsame}(\delta(s),0_{\mathbb R}),\quad
+H,\quad C,\quad P,\quad N.
+\end{gathered}
+$$
+Thus the skew-zero packet is the critical-line witness written as a real
+offset from the line rather than as a direct equality $\Re(s)=1/2$.
+\end{definition}
+
+\begin{proposition}[Zero--skew form of RH]
+\label{prop:rh-zero-skew-form}
+The BEDC statement $\mathsf{RH}$ of \autoref{def:rh-predicate} is equivalent
+to the existence of a total transformer
+$$
+\Phi_{\mathsf{RH}}:
+\prod_s
+\mathsf{ZeroCode}_{\mathsf{RH}}(s)
+\to
+\mathsf{SkewZeroCode}_{\mathsf{RH}}(s).
+$$
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:rh-predicate}, the premise of $\mathsf{RH}$ is exactly the
+displayed conjunction $\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)$,
+read through the zeta-zero and critical-strip packets.  This is the semantic
+content of $\mathsf{ZeroCode}_{\mathsf{RH}}(s)$.  The conclusion
+$\mathsf{OnCritLine}(s)$ says that the real component of $s$ is $\hsame$ to
+the rational half.  Equivalently, the skew $\delta(s)=\Re(s)-1/2$ is
+$\hsame$ to $0_{\mathbb R}$, which is precisely the additional row carried by
+$\mathsf{SkewZeroCode}_{\mathsf{RH}}(s)$.  Under the Curry--Howard reading,
+an inhabitant of $\mathsf{RH}$ is therefore exactly a total function from the
+first packet type to the second packet type, uniformly in $s$.
+\end{proof}
+
+\section{EventFlow reading}
+\label{sec:rh-eventflow-reading}
+
+\begin{definition}[RH zero event flow]
+\label{def:rh-zero-event-flow}
+An \emph{RH zero event flow} for $s$ is an event flow $S_0(s)$ together with a
+generated recognizer flow $R_0$ such that the judgment
+$$
+\mathsf{RecognizesZeroCode}(R_0,S_0(s),s)
+$$
+holds.  The recognized roles of $S_0(s)$ include a complex-history row for
+$s$, a recovered $\ZetaContUp$ value row, an evaluation route for
+$\mathsf{ZetaCont}(s)$, a complex-zero row, an $\hsame$ row identifying the
+value with $0_{\mathbb C}$, an $\mathsf{InCritStrip}(s)$ row, and the
+$H,C,P,N$ provenance rows.
+\end{definition}
+
+\begin{definition}[RH skew event flow]
+\label{def:rh-skew-event-flow}
+An \emph{RH skew event flow} for $s$ is an event flow $S_{\mathrm{skew}}(s)$
+together with a generated recognizer flow $R_{\mathrm{skew}}$ such that
+$$
+\mathsf{RecognizesSkewZero}(R_{\mathrm{skew}},S_{\mathrm{skew}}(s),s)
+$$
+holds.  The recognized roles include the real-part extraction row, the rational
+half row, the skew row $\delta(s)=\Re(s)-1/2$, the real-zero row, the
+$\hsame(\delta(s),0_{\mathbb R})$ row, and the same $H,C,P,N$ support rows.
+\end{definition}
+
+\section{Channel and recognition boundary}
+\label{sec:rh-channel-recognition-boundary}
+
+\begin{proposition}[Terminators are not zero records]
+\label{prop:rh-terminator-not-zero-record}
+The channel glyph pair $11$ is only the event terminator of
+\autoref{def:channel-encoding-event-terminator}.  It is not a complex zero,
+not a real zero, not a zeta zero, and not a proof row.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:channel-encoding-event-encoding}, a raw event $w$ is encoded
+as
+$$
+\mathsf{Ev}(w)=\zeta(w)\,11.
+$$
+By \autoref{prop:channel-encoding-no-adjacent-11-in-body}, the body
+$\zeta(w)$ contains no adjacent $11$, so the decoder reads the first adjacent
+$11$ only as the end of the current raw event.  The empty raw event already
+satisfies $\mathsf{Ev}(\epsilon)=11$, which shows that the glyph pair alone
+cannot carry a zeta-zero reading.  A zero reading requires a decoded event
+flow together with a generated recognizer judgment such as
+$\mathsf{RecognizesZeroCode}(R_0,S_0(s),s)$.
+\end{proof}
+
+\begin{corollary}[Terminator count is event count]
+\label{cor:rh-terminator-count-event-count}
+If an RH zero event flow contains $n$ raw events, then its legal channel
+encoding contains $n$ event terminators.  This count is a count of encoded
+event boundaries, not a count of zeta zeros.
+\end{corollary}
+
+\begin{proof}
+The flow encoding of \autoref{def:channel-encoding-flow-encoding} appends one
+terminator to each raw event and no terminator outside the event encodings.
+Thus the number of terminators is the number of raw events in the decoded
+flow.  The zeta-zero reading is attached only to the whole recognized packet,
+not to each terminator.
+\end{proof}
+
+\begin{proposition}[Channel decodability is not self-reference]
+\label{prop:rh-channel-decodability-not-self-reference}
+The bijection
+$$
+\mathsf{EventFlow}\cong\mathsf{LegalZStream}
+$$
+of \autoref{cor:channel-encoding-bijection} is a unique-decodability result,
+not a self-reference principle.
+\end{proposition}
+
+\begin{proof}
+The round-trip theorem
+$$
+\mathsf{Decode}(\mathsf{Compile}(S))=\mathsf{some}(S)
+$$
+asserts that event boundaries can be recovered from a legal channel stream.
+It does not assert that the stream recognizes, compiles, proves, or interprets
+itself.  Self-reference would require a semantic judgment at the recognizer or
+compiler layer, for example a recognized compiler flow whose behavior is
+related to its own event-flow code.  The terminator $11$ supplies only
+channel-level punctuation.
+\end{proof}
+
+\begin{proposition}[Display glyphs are not mathematical zeros]
+\label{prop:rh-display-glyph-not-math-zero}
+The displayed glyph $0$ in the GroundCompiler alphabet is not
+$0_{\mathbb C}$, not $0_{\mathbb R}$, not a natural-number zero, and not a
+zeta-zero assertion.
+\end{proposition}
+
+\begin{proof}
+\autoref{def:ground-event-flow-display-alphabet} fixes $0$ and $1$ as
+presentation glyphs for the two raw marks.  The display convention does not
+interpret a glyph as a number, truth value, theorem, or analytic value.  A
+complex-zero row or real-zero row appears only after a source-level recognizer
+assigns that role to an event flow and the corresponding certificate rows are
+accepted.  Therefore the RH target is not a glyph-level implication
+$0\to 0$; it is the recognized semantic implication from a complex-value zero
+row to a real-skew zero row.
+\end{proof}
+
+\begin{definition}[RH compiler-flow target]
+\label{def:rh-compiler-flow-target}
+An \emph{RH compiler-flow target} is a certified compiler flow
+$C_{\mathsf{RH}}$ such that, for every complex history $s$ and every RH zero
+event flow $S_0(s)$, there exists an RH skew event flow
+$S_{\mathrm{skew}}(s)$ satisfying
+$$
+\mathsf{Compiles}_{C_{\mathsf{RH}}}
+\bigl(S_0(s),S_{\mathrm{skew}}(s)\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Compiler-flow target implies BEDC-RH]
+\label{thm:rh-compiler-flow-target-implies-rh}
+If an RH compiler-flow target exists and its recognizer exports are accepted
+through the GroundCompiler certificate gate, then the BEDC statement
+$\mathsf{RH}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $s$ be a complex history with
+$\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)$.  By the premise packet
+discipline of \autoref{ch:concrete-instances-criticalstripzetazerowitness-namecert},
+this hypothesis is represented by an accepted RH zero event flow
+$S_0(s)$, recognized by a generated recognizer $R_0$.  Applying the compiler
+flow $C_{\mathsf{RH}}$ gives an output event flow
+$S_{\mathrm{skew}}(s)$ recognized as an RH skew event flow.  The recognition
+judgment for the output supplies
+$\mathsf{hsame}(\Re(s)-1/2,0_{\mathbb R})$.  This is the
+$\mathsf{OnCritLine}(s)$ witness of \autoref{def:rh-predicate}.  Since $s$
+was arbitrary, the required $\Pi$-statement is inhabited.
+\end{proof}
+
+\section{Mirror closure and orbit collapse}
+\label{sec:rh-mirror-closure-orbit-collapse}
+
+\begin{definition}[Mirror map]
+\label{def:rh-mirror-map}
+For a complex history $s$, write
+$$
+J(s)=1-\overline{s}.
+$$
+The fixed points of $J$ are exactly the histories whose real component is
+$1/2$:
+$$
+s=J(s)
+\quad\Longleftrightarrow\quad
+\Re(s)=1/2.
+$$
+\end{definition}
+
+\begin{theorem}[Functional-equation rows give mirror closure]
+\label{thm:rh-functional-equation-gives-mirror-closure}
+Assume a zeta event-flow packet contains the $\ZetaContUp$ row, the
+functional-equation row, the completed-zeta row, conjugation transport, pole
+non-escape, and Gamma-boundary ledgers.  Then it can support a mirror
+compiler-flow target of the form
+$$
+\mathsf{ZeroEventFlow}_{\mathsf{RH}}(s)
+\to
+\mathsf{ZeroEventFlow}_{\mathsf{RH}}(J(s)).
+$$
+\end{theorem}
+
+\begin{proof}
+Recognition of the input zero event flow reads
+$\mathsf{ZetaCont}(s)=0$ inside the critical strip.  The completed-zeta row
+transports this zero read to the completed carrier, the functional-equation
+row reflects the completed carrier across $s\mapsto 1-s$, and conjugation
+transport supplies the real-structure step.  The pole and Gamma-boundary
+ledgers are exactly the non-escape rows needed to return from the completed
+carrier to the non-trivial zeta-zero surface.  The resulting output packet is
+therefore a recognized zero event flow for $J(s)$.
+\end{proof}
+
+\begin{corollary}[Mirror closure is weaker than RH]
+\label{cor:rh-mirror-closure-weaker-than-rh}
+The existence of the mirror compiler-flow target of
+\autoref{thm:rh-functional-equation-gives-mirror-closure} does not, by itself,
+prove $\mathsf{RH}$.
+\end{corollary}
+
+\begin{proof}
+Mirror closure transports a zero at $s$ to a zero at $J(s)$.  It does not
+identify the two histories.  Since $J^2(s)=s$, a mirror orbit has the form
+$\{s\}$ or $\{s,J(s)\}$; the first case is equivalent to
+$\Re(s)=1/2$, while the second is a two-point orbit off the critical line.
+The Riemann Hypothesis asserts that every non-trivial zero orbit is of the
+first kind.  That orbit-collapse row is not supplied by mirror closure alone.
+\end{proof}
+
+\begin{definition}[Zero-orbit collapse packet]
+\label{def:rh-zero-orbit-collapse-packet}
+A \emph{zero-orbit collapse packet} for $s$ is a finite packet containing an
+RH zero code for $s$, the mirror row $J(s)$, the mirror zero code for $J(s)$,
+and an $\hsame(s,J(s))$ row.  By the fixed-point calculation in
+\autoref{def:rh-mirror-map}, this is equivalently a skew-zero packet for $s$.
+\end{definition}
+
+\begin{corollary}[GroundCompiler-normal form of RH]
+\label{cor:rh-groundcompiler-normal-form}
+At the GroundCompiler-facing layer, the RH obligation is the production of a
+recognized zero-orbit collapse event flow:
+$$
+\mathsf{ZeroEventFlow}_{\mathsf{RH}}(s)
+\to
+\mathsf{ZeroOrbitCollapseEventFlow}_{\mathsf{RH}}(s)
+\to
+\mathsf{SkewZeroEventFlow}_{\mathsf{RH}}(s).
+$$
+\end{corollary}
+
+\begin{proof}
+The first arrow supplies the missing orbit-collapse witness
+$\mathsf{hsame}(s,J(s))$ from a recognized zero event flow.  The second arrow
+is the algebraic readback of \autoref{def:rh-mirror-map}: the fixed-point
+condition for $J$ is exactly the critical-line condition.  Thus the composite
+is the zero--skew transformer of \autoref{prop:rh-zero-skew-form}, and
+conversely any zero--skew transformer supplies the collapse row by reading
+$\Re(s)=1/2$ as $s=J(s)$.
+\end{proof}
+
+\section{Relation to finite analysis routes}
+\label{sec:rh-eventflow-finite-analysis-routes}
+
+The event-flow formulation separates three kinds of RH-facing work.  The
+channel layer is only the lossless display layer: by
+\autoref{thm:channel-encoding-flow-round-trip} and
+\autoref{cor:channel-encoding-bijection}, it preserves event boundaries and
+recovers decoded event flows from legal channel strings.  By
+\autoref{prop:rh-terminator-not-zero-record} and
+\autoref{prop:rh-display-glyph-not-math-zero}, neither the terminator $11$ nor
+the displayed glyph $0$ carries a zero reading.  The recognizer layer reads
+particular event flows as zeta-zero, critical-strip, mirror, or skew-zero
+packets, but a recognized input packet still contributes only the premise of
+\autoref{prop:rh-constructive-form}.  The proof layer is the additional
+compiler or proof flow that produces the missing collapse or skew-zero row.
+
+This separation explains the status of the existing RH witness catalogue.
+The critical-line witness packet of \autoref{ch:concrete-instances-criticallinewitness-namecert}
+is a possible output surface for the skew-zero row.  The critical-strip
+barrier packet of \autoref{ch:concrete-instances-criticalstripbarrier-namecert}
+is a possible route to that row by showing that every region bounded away from
+the critical line is bounded away from zero.  The Riemann zero-count ledger of
+\autoref{ch:concrete-instances-riemann-zero-count-ledger-namecert} supplies
+finite height-window accounting, but it becomes a route to RH only when
+combined with exhaustion, multiplicity, boundary, and transport ledgers that
+cover all zero records in the requested window.  In each case the deciding
+question is not whether a readable event flow exists, but whether the accepted
+flow exports the skew-zero or orbit-collapse row required by
+\autoref{prop:rh-zero-skew-form}.
+
+\section{Analytic continuation as projection recovery}
+\label{sec:rh-analytic-continuation-projection-recovery}
+
+The same boundary discipline explains why analytic continuation is the
+appropriate semantic model for the zeta side of the RH target.  A convergent
+series expression is not the whole analytic carrier.  It is a local projection
+of that carrier on a domain where the expression is readable.  For zeta, the
+Dirichlet series is the projection of $\mathsf{ZETA}$ on the window
+$\Re(s)>1$, the eta expression is another compatible projection on a larger
+window, and the functional-equation expression is a reflected projection with
+its own pole, Gamma, branch, and transport ledgers.
+
+\begin{principle}[Projection recovery]
+\label{prin:rh-projection-recovery}
+Analytic continuation is not an instruction to assign values to a divergent
+local expression.  It is the recovery of one invariant analytic carrier from
+local projection slices whose domains, overlaps, exceptional loci, and
+transport ledgers are displayed.
+\end{principle}
+
+\begin{remark}[EventFlow analogue]
+\label{rem:rh-eventflow-analytic-continuation-analogue}
+The GroundCompiler channel layer is the finite combinatorial analogue of the
+same rule.  A bare glyph stream is not an event flow because event boundaries
+may have been erased; by \autoref{prop:ground-event-flow-erasure-not-injective},
+distinct event flows can have the same flattened display.  The legal channel
+encoding restores the boundary ledger through $11$ terminators, while
+recognizer and certificate gates restore semantic roles.  In the analytic
+layer, a bare formula without its domain, overlap, branch, pole, and transport
+ledger likewise cannot be promoted to the global zeta carrier.  In both
+settings, the object is the stable carrier recovered from compatible local
+records, not any single display slice.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-criticalstripzetazerowitness-namecert}{Critical-strip zeta-zero witness packets provide the recognized zero-event input surface for the RH zero--skew EventFlow target.}
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Critical-line witness packets provide the skew-zero output surface for any accepted zero--skew transformer.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{The zeta functional-equation ledger supplies mirror-zero transport rows while leaving zero-orbit collapse as the RH-specific missing certificate.}
