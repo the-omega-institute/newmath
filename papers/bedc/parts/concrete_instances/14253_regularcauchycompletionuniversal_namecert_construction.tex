@@ -135,13 +135,25 @@ The extension face $E$ is downstream of those rows. It cannot read a quotient co
 The section comparison is then local. The ledger $L$ compares the extension route with the original Real-sealed route, while $H$ and $C$ provide the only permitted transport and replay rows for that comparison.
 \end{proof}
 
+\begin{theorem}[RegularCauchyCompletionUniversal public export]
+\label{thm:regular-cauchy-completion-universal-public-export}
+Every public consumer of an accepted $\RegularCauchyCompletionUniversalUp$ packet receives exactly the extension route, uniqueness ledger, section law, componentwise transport, continuation replay, provenance, and local $\NameCert$ rows scoped by the displayed kernel rows of \autoref{thm:regular-cauchy-completion-universal-kernel-scope}, the Real-seal rows of \autoref{thm:regular-cauchy-completion-universal-real-seal-scope}, and the completion-extractor rows of \autoref{thm:regular-cauchy-completion-universal-completion-extractor-scope}. The exported surface contains no quotient stream, selected host limit, host real equality, countable choice, ambient RealUp completeness, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $U=(S,W,D,R,A,E,L,H,C,P,N)$. The kernel scope theorem fixes the only structural rows visible to a consumer: carrier projection through $U$, transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+
+Next read the Real-facing route. The Real-seal scope theorem requires every extension, uniqueness, or section read to pass through $S,W,D,R,A$ before any completion-facing row is visible, so a public consumer cannot substitute quotient stream equality or host real equality for the displayed seal.
+
+Finally apply the completion-extractor scope theorem. It identifies the completion-facing export as the restricted extension row $E$ together with the local uniqueness and section ledger $L$ transported by $H$ and replayed by $C$. Thus the public export is exactly the listed route, ledger, law, transport, replay, provenance, and local certificate rows.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyCompletionUniversalUp}
   \constructivestory{A $\RegularCauchyCompletionUniversalUp$ packet is generated from a regular source row, StreamName windows, a dyadic tolerance ledger, a RegularCauchyEquivalence row, a RealUp seal, an extension route, a uniqueness hsame ledger, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-completion-universal-kernel-scope}, \autoref{thm:regular-cauchy-completion-universal-real-seal-scope}, and \autoref{thm:regular-cauchy-completion-universal-completion-extractor-scope} bind carrier admission, extension, uniqueness, section, transport, replay, provenance, and naming obligations to the displayed kernel, Real-route, and completion-extractor rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-completion-universal-kernel-scope}, \autoref{thm:regular-cauchy-completion-universal-real-seal-scope}, \autoref{thm:regular-cauchy-completion-universal-completion-extractor-scope}, and \autoref{thm:regular-cauchy-completion-universal-public-export} bind carrier admission, extension, uniqueness, section, transport, replay, provenance, naming, and public consumer export obligations to the displayed kernel, Real-route, and completion-extractor rows.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RegularCauchyCompletionUniversalUp.RegularCauchyCompletionUniversalTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected host limits, host real equality, countable choice, ambient RealUp completeness, or a standard bridge.}
-  \upgradepath{Public closure requires an exported consumer theorem for the scoped extension, uniqueness, and section rows.}
+  \upgradepath{Bridged closure requires a bridge theorem connecting the public export to the abstract completion interface.}
 \end{closurestatus}
