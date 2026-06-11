@@ -5180,6 +5180,7 @@ import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
+import BEDC.Derived.HermiteHadamardUp.TasteGate
 import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
@@ -7640,6 +7641,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StreamRegseqTailSealFactorization
 import BEDC.Derived.RealCauchyCompletionUp.SynchronizedNullTailConsumer
 import BEDC.Derived.RealCauchyDenseEmbeddingUp.TasteGate
 import BEDC.Derived.RealCauchyFilterMonadUnitUp
+import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterUp.TasteGate
 import BEDC.Derived.RealCauchyModulusRefinementUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.BoundedReadbackCoherence
@@ -8554,6 +8556,8 @@ import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.RolleTheoremUp.TasteGate
 import BEDC.Derived.RolleUp.TasteGate
+import BEDC.Derived.RootChoiceSeparationUp
+import BEDC.Derived.RootChoiceSeparationUp.TasteGate
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RootSystemUp.TasteGate
 import BEDC.Derived.RoundedCauchyFilterUp.TasteGate
