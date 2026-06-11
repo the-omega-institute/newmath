@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRegularCauchySubsequenceUp$}
+\label{ch:concrete-instances-finite-regular-cauchy-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy sequences and finite extraction from regular data, the $\FiniteRegularCauchySubsequenceUp$ packet records the finite subsequence route used by Real and Completion consumers. It reads the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for extracting and replaying a monotone subsequence window; it is not a quotient stream, a selected host limit, countable choice, or an ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Finite regular Cauchy subsequence carrier]
+\label{def:finite-regular-cauchy-subsequence-carrier}
+A $\FiniteRegularCauchySubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,M,O,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite index-window row, naming the inspected source positions and the target subsequence positions visible to the packet.
+\item $M$ is the monotone index ledger, recording that the selected target positions are strictly ordered inside the displayed finite window.
+\item $O$ is the $\StreamNameUp$ observation row, exposing only the stream-name observations read at the displayed indices.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the observations in $O$ and the monotone ledger $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget used to compare the source window, selected positions, and regular rational readback.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $W,M,O,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for finite windows, monotone ledgers, StreamName observations, RegSeqRat readback, dyadic budgets, Real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite extraction route
+$$
+W \longmapsto M \longmapsto O \longmapsto R \longmapsto D \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteRegularCauchySubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteRegularCauchySubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,M,O,R,D,E,H,C,P,N$. It has no coordinate for an infinite choice function, quotient stream equality, selected host limit, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite regular Cauchy subsequence NameCert obligations]
+\label{thm:finite-regular-cauchy-subsequence-namecert-obligations}
+For every accepted $\FiniteRegularCauchySubsequenceUp$ carrier
+$$
+S=(W,M,O,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteRegularCauchySubsequenceUp}$ surface consists exactly of carrier admission for the finite index window, monotone index ledger, StreamName observations, RegSeqRat readback, DyadicRatCore tolerance budget, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; monotone-window exactness for the selected indices; regular readback compatibility through $O,R,D$; Real-seal routing through $E$; and nonescape for every excluded ambient sequence or completeness object.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-regular-cauchy-subsequence-carrier}. The visible packet is the tuple $W,M,O,R,D,E,H,C,P,N$, and every obligation row names one of those coordinates.
+
+The monotone-window obligation is local. The row $M$ is the only place where index order is recorded, and it is attached to the finite window $W$ before any StreamName observation can be read.
+
+Regular readback compatibility then follows the displayed route. The row $O$ supplies the inspected stream observations, $R$ reads them as regular rational data, and $D$ provides the dyadic tolerance budget used by the same finite extraction.
+
+The Real seal is terminal. The row $E$ is exposed only after $W,M,O,R,D$ have been displayed, while $H,C,P,N$ transport, replay, source, and name that same route. Since no excluded ambient object is a coordinate of the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite regular Cauchy subsequence extraction route]
+\label{thm:finite-regular-cauchy-subsequence-extraction-route}
+Every Real or Completion consumer of an accepted $\FiniteRegularCauchySubsequenceUp$ carrier
+$$
+S=(W,M,O,R,D,E,H,C,P,N)
+$$
+must factor its subsequence read through the finite route
+$$
+W \longmapsto M \longmapsto O \longmapsto R \longmapsto D \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a finite index window, a monotone index ledger, StreamName observations, RegSeqRat readback, a DyadicRatCore tolerance budget, a terminal Real seal, componentwise transport, replay, provenance, and local naming. It receives no infinite selector, quotient stream, selected host limit, countable choice, host-level sequence equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Before any analytic read is available, the packet exposes only the finite window $W$ and the monotone ledger $M$ for the selected indices.
+
+Replay the observation route through $C$. The StreamName row $O$ can be inspected only at the displayed indices, the RegSeqRat row $R$ is read from those observations, and the DyadicRatCore budget $D$ compares only the same finite data.
+
+The terminal seal is then read from $E$. This seal is attached to the route already displayed by $W,M,O,R,D$, so it is a Real-facing seal of the finite extraction rather than a selected host limit.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Because the carrier contains no infinite selector, quotient stream, countable-choice row, host equality service, or ambient completeness coordinate, every public subsequence read factors through the stated finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteRegularCauchySubsequenceUp$ Real or Completion-facing read factors through a finite index window, monotone index ledger, $\StreamNameUp$ observation row, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance budget, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, bishop-completion-induction: $\FiniteRegularCauchySubsequenceUp$ is not bijective to any listed sibling because it jointly carries a finite selected-index window, monotone ledger, observation row, regular readback, dyadic tolerance budget, terminal Real seal, transport, replay, provenance, and local naming while refusing infinite selectors, quotient streams, selected host limits, countable choice, and ambient Real completeness.}
+
+\closureat{FiniteRegularCauchySubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRegularCauchySubsequenceUp}
+  \constructivestory{A $\FiniteRegularCauchySubsequenceUp$ packet is generated from a finite index window, monotone index ledger, StreamName observations, RegSeqRat readback, a DyadicRatCore tolerance budget, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-regular-cauchy-subsequence-carrier}, \autoref{thm:finite-regular-cauchy-subsequence-namecert-obligations}, and \autoref{thm:finite-regular-cauchy-subsequence-extraction-route} seed the finite subsequence extraction route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite subsequence selection, quotient stream equality, selected host limits, countable choice, host-level sequence equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone-window exactness, StreamName observation routing, RegSeqRat readback, DyadicRatCore tolerance budgeting, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.FiniteRegularCauchySubsequenceUp.}
+\end{closurestatus}
