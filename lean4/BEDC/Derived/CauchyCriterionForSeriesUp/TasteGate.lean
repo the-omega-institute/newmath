@@ -104,8 +104,7 @@ def cauchyCriterionForSeriesFromEventFlow : EventFlow → Option CauchyCriterion
 
 private theorem CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyCriterionForSeriesUp,
-      cauchyCriterionForSeriesFromEventFlow (cauchyCriterionForSeriesToEventFlow x) =
-        some x := by
+      cauchyCriterionForSeriesFromEventFlow (cauchyCriterionForSeriesToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -137,7 +136,7 @@ private theorem CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round
         CauchyCriterionForSeriesTasteGate_single_carrier_alignment_decode P,
         CauchyCriterionForSeriesTasteGate_single_carrier_alignment_decode N]
 
-private theorem CauchyCriterionForSeriesToEventFlow_injective
+private theorem CauchyCriterionForSeriesTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyCriterionForSeriesUp} :
     cauchyCriterionForSeriesToEventFlow x = cauchyCriterionForSeriesToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -168,17 +167,28 @@ instance cauchyCriterionForSeriesChapterTasteGate :
     exact CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyCriterionForSeriesToEventFlow_injective heq)
+    exact hxy
+      (CauchyCriterionForSeriesTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate CauchyCriterionForSeriesUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyCriterionForSeriesChapterTasteGate
 
 theorem CauchyCriterionForSeriesTasteGate_single_carrier_alignment :
-    (∀ h : BHist, cauchyCriterionForSeriesDecodeBHist
-      (cauchyCriterionForSeriesEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      cauchyCriterionForSeriesDecodeBHist (cauchyCriterionForSeriesEncodeBHist h) = h) ∧
       (∀ x : CauchyCriterionForSeriesUp,
-        cauchyCriterionForSeriesFromEventFlow
-          (cauchyCriterionForSeriesToEventFlow x) = some x) ∧
-        cauchyCriterionForSeriesEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact ⟨CauchyCriterionForSeriesTasteGate_single_carrier_alignment_decode,
-    CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round_trip, rfl⟩
+        cauchyCriterionForSeriesFromEventFlow (cauchyCriterionForSeriesToEventFlow x) =
+          some x) ∧
+        Nonempty (BHistCarrier CauchyCriterionForSeriesUp) ∧
+          Nonempty (ChapterTasteGate CauchyCriterionForSeriesUp) ∧
+            cauchyCriterionForSeriesEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨CauchyCriterionForSeriesTasteGate_single_carrier_alignment_decode,
+      CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round_trip,
+      ⟨cauchyCriterionForSeriesBHistCarrier⟩,
+      ⟨cauchyCriterionForSeriesChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.CauchyCriterionForSeriesUp
