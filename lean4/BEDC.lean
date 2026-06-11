@@ -282,6 +282,7 @@ import BEDC.Derived.AscoliEquicontinuityCriterionUp.TasteGate
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.TasteGate
+import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
 import BEDC.Derived.AtiyahSingerUp
@@ -3265,6 +3266,7 @@ import BEDC.Derived.CoveringdimensionUp.RefinementOrderRootRoute
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
+import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootLebesgueLedgerObligation
 import BEDC.Derived.CoveringdimensionUp.RootMetricRealWindow
@@ -4036,6 +4038,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.BishopIntervalCompactRoute
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeBudget
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeExport
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeExportCofinality
+import BEDC.Derived.DyadicIntervalCoverUp.BridgeFiniteRoute
 import BEDC.Derived.DyadicIntervalCoverUp.CellRefinementExhaustion
 import BEDC.Derived.DyadicIntervalCoverUp.CompactUniformWindowRoute
 import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
@@ -5973,6 +5976,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowMonotoneRefinement
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphFilterStability
+import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphRoute
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
