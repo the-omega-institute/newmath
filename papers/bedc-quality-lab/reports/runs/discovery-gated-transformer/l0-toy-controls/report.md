@@ -5,6 +5,7 @@
 - Device: `mps`
 - Compute units: `7603.2`
 - Parameter count: `2175`
+- Construct validity: `fail`
 
 ## Hardgates
 
