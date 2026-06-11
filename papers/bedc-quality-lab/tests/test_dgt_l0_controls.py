@@ -120,6 +120,15 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
     assert payload["artifact_id"] == "bedc-quality-lab:dgt-l0-controls"
     assert payload["l0_toy_projection"]["review_status"] == "pass"
     assert payload["l0_toy_projection"]["ref_pointers"] == CONTROL_POINTERS
+    assert payload["construct_validity_hardgates"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["failed_gates"] == ["CV-HG4"]
+    assert payload["construct_validity_hardgates"]["gates"]["CV-HG4"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["evidence"]["hand_feature_ledger"] == {
+        "mode": "candidate-only-ledger",
+        "shared_across_arms": False,
+        "features": ["target_signal", "surface_suite"],
+        "candidate_only_features": list(dgt_l0_controls.DGT_CANDIDATE_ONLY_FEATURES),
+    }
     assert payload["controls"]["base_transformer_control"]["loss_decrease"] > 0
     assert payload["controls"]["base_transformer_control"]["parameter_l2_delta"] > 0
     assert payload["controls"]["matched_random_structural_control"]["classifier_shift_count"] == 0
@@ -208,9 +217,38 @@ def test_dgt_l0_controls_unavailable_payload_validates_blocked(monkeypatch, fail
     assert projection["review_status"] == "blocked"
     assert projection["status"] == "fail"
     assert payload["compute_param_ledger"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["status"] == "fail"
+    assert set(payload["construct_validity_hardgates"]["failed_gates"]) == {"CV-HG3", "CV-HG4", "CV-HG5"}
     assert projection["hardgate_statuses"]["ledger"]["gates"]["LEDGER-L0-HG1"]["status"] == "fail"
     assert projection["hardgate_statuses"]["L0"]["gates"]["L0-HG3"]["status"] == "fail"
     assert projection["hardgate_statuses"]["pass"]["status"] == "fail"
+
+
+def test_dgt_l0_controls_rejects_unavailable_construct_validity_stub_pass():
+    payload = dgt_l0_controls.unavailable_payload(
+        generated_at="fixture-time",
+        requested_device="cpu",
+        reason="torch unavailable",
+    )
+    payload["construct_validity_hardgates"] = dgt_l0_controls.construct_validity_projection(
+        dgt_l0_controls.ConstructValidityEvidence(
+            task_variables={"variables": ["x0"]},
+            label_variables={"variables": ["toy_binary_label"]},
+            arm_input_access={
+                "label_invisibility_certificate": True,
+                "arms": {"candidate": {"variables": ["x0"]}, "control": {"variables": ["x0"]}},
+            },
+            arm_roles={"candidate": "candidate", "controls": ["control"]},
+            finite_table={"coverage_status": "bounded-control", "support_count": 1, "rule_abstraction_claim": False},
+            hand_feature_ledger={"mode": "no-gate", "features": [], "candidate_only_features": []},
+            metric_source={"source_kind": "training-evaluation", "metric_keys": ["quality_q"]},
+        ),
+        artifact=dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+
+    with pytest.raises(ValueError, match="without training records"):
+        validate_payload(payload)
 
 
 def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):

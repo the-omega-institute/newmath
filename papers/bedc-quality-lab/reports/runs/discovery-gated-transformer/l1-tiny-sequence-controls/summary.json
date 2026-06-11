@@ -12,6 +12,13 @@
   "claim_capsule_ref": {
     "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
     "claim_id": "claim:dgt-l1-tiny-sequence",
+    "construct_validity": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "failed_gates": [],
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "pointer": "$.construct_validity_hardgates",
+      "status": "pass"
+    },
     "evidence_pointers": [
       "reports/canonical/dgt-l1-controls.json:$.task_spec",
       "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
@@ -599,6 +606,177 @@
         "training_steps": 36
       }
     },
+    "status": "pass"
+  },
+  "construct_validity_hardgates": {
+    "artifact_id": "bedc-quality-lab:construct-validity-hardgates",
+    "claim_capsule_projection": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "failed_gates": [],
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "pointer": "$.construct_validity_hardgates",
+      "status": "pass"
+    },
+    "evidence": {
+      "arm_input_access": {
+        "arms": {
+          "compute_matched_l1": {
+            "variables": [
+              "token_sequence",
+              "x_prev_1",
+              "x_prev_2",
+              "surface_id"
+            ]
+          },
+          "dgt_l1": {
+            "variables": [
+              "token_sequence",
+              "x_prev_1",
+              "x_prev_2",
+              "surface_id"
+            ]
+          },
+          "information_starved_l1_baseline": {
+            "variables": [
+              "token_sequence",
+              "x_prev_1",
+              "x_prev_2",
+              "surface_id"
+            ]
+          },
+          "matched_random_structural_l1": {
+            "variables": [
+              "token_sequence",
+              "x_prev_1",
+              "x_prev_2",
+              "surface_id"
+            ]
+          },
+          "parameter_matched_l1": {
+            "variables": [
+              "token_sequence",
+              "x_prev_1",
+              "x_prev_2",
+              "surface_id"
+            ]
+          }
+        },
+        "label_invisibility_certificate": true
+      },
+      "arm_roles": {
+        "candidate": "dgt_l1",
+        "controls": [
+          "information_starved_l1_baseline",
+          "matched_random_structural_l1",
+          "parameter_matched_l1",
+          "compute_matched_l1"
+        ]
+      },
+      "finite_table": {
+        "coverage_status": "bounded-control",
+        "finite_pair_accuracy": null,
+        "rule_abstraction_claim": false,
+        "support_count": 256,
+        "table_coverage_only": false
+      },
+      "hand_feature_ledger": {
+        "candidate_only_features": [],
+        "features": [
+          "token_position_access",
+          "bounded_pair_surface"
+        ],
+        "mode": "shared-gate",
+        "shared_across_arms": true
+      },
+      "label_variables": {
+        "pointer": "$.construct_validity_hardgates.evidence.label_variables",
+        "variables": [
+          "next_token_label",
+          "ood_next_token_label"
+        ]
+      },
+      "metric_source": {
+        "label_derived_metric_source": false,
+        "metric_keys": [
+          "UER_mean",
+          "accuracy_ci95_low",
+          "accuracy_mean",
+          "chance_accuracy",
+          "loss_decrease_mean",
+          "ood_accuracy_ci95_low",
+          "ood_accuracy_mean",
+          "parameter_l2_delta_mean",
+          "positive_margin_over_chance_mean"
+        ],
+        "per_arm_constants": false,
+        "source_kind": "training-evaluation",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$"
+      },
+      "task_variables": {
+        "pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        "variables": [
+          "token_sequence",
+          "x_prev_1",
+          "x_prev_2",
+          "surface_id"
+        ]
+      }
+    },
+    "failed_gates": [],
+    "gates": {
+      "CV-HG1": {
+        "aliased_variables": [],
+        "criterion": "task variables, label variables, candidate arm, and control arm roles are declared without variable aliasing",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        "gate_id": "CV-HG1",
+        "label_variable_count": 2,
+        "reason": null,
+        "status": "pass",
+        "task_variable_count": 4
+      },
+      "CV-HG2": {
+        "criterion": "label variables are absent from all arm input-access declarations",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.arm_input_access",
+        "gate_id": "CV-HG2",
+        "label_invisibility_certificate": true,
+        "reason": null,
+        "status": "pass",
+        "visible_label_variables": {}
+      },
+      "CV-HG3": {
+        "coverage_status": "bounded-control",
+        "criterion": "finite table evidence is separated from rule-abstraction authority",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.finite_table",
+        "finite_pair_accuracy": null,
+        "gate_id": "CV-HG3",
+        "reason": null,
+        "rule_abstraction_claim": false,
+        "status": "pass"
+      },
+      "CV-HG4": {
+        "candidate_only_features": [],
+        "criterion": "hand features are absent or declared as shared across candidate and controls",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.hand_feature_ledger",
+        "gate_id": "CV-HG4",
+        "ledger_mode": "shared-gate",
+        "reason": null,
+        "status": "pass"
+      },
+      "CV-HG5": {
+        "criterion": "metric source is training/evaluation evidence rather than per-arm constants, labels, or scripted tables",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.metric_source",
+        "forbidden_sources": [],
+        "gate_id": "CV-HG5",
+        "label_derived_metric_source": false,
+        "per_arm_constants": false,
+        "reason": null,
+        "source_kind": "training-evaluation",
+        "status": "pass"
+      }
+    },
+    "owner_module": "bedc_quality_lab/construct_validity.py",
+    "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+    "schema_id": "bedc.quality.construct_validity_hardgates",
     "status": "pass"
   },
   "generated_at": "2026-06-10T00:00:00+00:00",
