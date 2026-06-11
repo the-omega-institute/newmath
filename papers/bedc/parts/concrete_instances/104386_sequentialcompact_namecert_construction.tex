@@ -107,6 +107,22 @@ Thus the real seal is a terminal observation of the finite-window cluster route.
 \end{proof}
 \leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactCarrier\_real\_cluster\_nonescape}
 
+\begin{theorem}[SequentialCompact public cluster export]
+\label{thm:sequentialcompact-public-cluster-export}
+Every public cluster-facing consumer of an accepted $\SequentialCompactUp$ packet receives exactly the route
+$$
+K,B,S,W,R,E,H,C,P,N .
+$$
+Here $K$ is the $\CompactMetricUp$ source row, $B$ is the $\BaireSpaceUp$ cylinder row, $S$ and $W$ are the $\StreamNameUp$ source-window and selected-window rows, $R$ is the $\RegSeqRatUp$ readback row, and $E$ is the terminal $\RealUp$ seal. The export is public only as this finite route: it refuses host subsequence choice, quotient stream equality, countable choice, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation readiness and finite-window cluster obligation. They expose the accepted carrier only through $K,B,S,W,R,E,H,C,P,N$ and keep the cluster obligation inside the displayed finite windows.
+
+Next use the $\StreamNameUp$ subsequence route. The rows $S$ and $W$ name the source and selected windows before any $\RegSeqRatUp$ readback can be consumed, so no host selector or quotient stream equality is introduced.
+
+Finally apply the Real cluster nonescape theorem together with the public finite cluster route. The readback row $R$ precedes the seal $E$, and $H,C,P,N$ only transport, replay, source, and name the same finite packet. Thus the public consumer receives exactly the displayed route and none of the refused choice, compactness, quotient, or ambient-completeness principles.
+\end{proof}
+
 \begin{theorem}[SequentialCompact root obligation Baire window]
 \label{thm:sequential-compact-root-obligation-baire-window}
 For an accepted $\SequentialCompactUp$ carrier
