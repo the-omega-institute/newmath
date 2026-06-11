@@ -2956,6 +2956,7 @@ import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
+import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -6235,6 +6236,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
@@ -6274,6 +6276,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
@@ -8292,6 +8295,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDiagonalWindowUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalizationUp.TasteGate
+import BEDC.Derived.RegularCauchyDifferenceBoundUp
 import BEDC.Derived.RegularCauchyDifferenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
