@@ -954,6 +954,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
 import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BooleanTriggerLatticeUp.TasteGate
 import BEDC.Derived.BooleanalgebraUp
 import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BorelFunctionUp.TasteGate
@@ -3214,11 +3215,13 @@ import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
+import BEDC.Derived.CoveringdimensionUp.CompactCoverForwardDependency
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
+import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
@@ -3237,6 +3240,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
@@ -5811,6 +5815,7 @@ import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompactnessUp.TasteGate
 import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
@@ -6279,6 +6284,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
