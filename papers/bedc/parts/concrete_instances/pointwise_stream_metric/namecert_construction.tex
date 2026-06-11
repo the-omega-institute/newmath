@@ -165,6 +165,20 @@ Use the Real-completion anchor \autoref{thm:pointwise-stream-metric-real-complet
 The conclusion is the carrier inventory. Since no coordinate stores ambient completeness, quotient stream equality, selected representatives, countable choice, or host function equality, the completion-facing read can use such data only by leaving the accepted $\PointwiseStreamMetricUp$ packet.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric source separation]
+\label{thm:pointwise-stream-metric-source-separation}
+Let $Q=(S,W,D,R,E,M,H,C,P,N)$ be an accepted $\PointwiseStreamMetricUp$ carrier. If two completion-facing reads agree on the metric row $M$ but differ in any of the source rows $S,W,D,R,E$, then the packet cannot identify them by $\PointwiseStreamMetricUp$. Source separation requires the same $\StreamNameUp$ finite window, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\MetricSpaceUp$ row; no quotient stream equality or host function equality can collapse different source rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-stream-metric-carrier}. A completion-facing read exposes the ordered packet $S,W,D,R,E,M,H,C,P,N$, so agreement of the metric row $M$ alone does not determine the source route.
+
+Apply the pointwise classifier theorem \autoref{thm:pointwise-stream-metric-pointwise-classifier}. It places the certified stream source, finite window schedule, dyadic ledger, regular readback, and Real seal before the metric row is inspected.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}, and completion separation, \autoref{thm:pointwise-stream-metric-completion-separation}. Together they require a completion-facing metric read to keep the same $S,W,D,R,E$ rows in the packet, not merely the same metric row.
+
+Finally apply reindexing stability, \autoref{thm:pointwise-stream-metric-reindexing-stability}. Transport by $H$ and replay by $C$ preserve displayed rows componentwise, and the carrier has no quotient stream or host function equality coordinate. Therefore two reads differing in any of $S,W,D,R,E$ remain source-separated inside $\PointwiseStreamMetricUp$.
+\end{proof}
+
 \begin{theorem}[Pointwise stream metric modulus ledger pullback]
 \label{thm:pointwise-stream-metric-modulus-ledger-pullback}
 Every $\RealModulusOfConvergenceUp$ consumer of an accepted $\PointwiseStreamMetricUp$ carrier
