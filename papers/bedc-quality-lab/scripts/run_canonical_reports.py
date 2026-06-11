@@ -5825,6 +5825,14 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
     key_validation = _validate_json(json_path, spec.required_json_keys)
+    semantic_errors: list[str] = []
+    if spec.name == "scaling-ladder" and key_validation["status"] == "pass":
+        try:
+            from bedc_quality_lab.scaling_ladder import validate_scaling_ladder_payload
+
+            validate_scaling_ladder_payload(_load_artifact_payload(spec.json_artifact), root=ROOT)
+        except ValueError as exc:
+            semantic_errors.append(str(exc))
     missing_artifacts = [
         path
         for path, exists in (
@@ -5833,12 +5841,13 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         )
         if not exists
     ]
-    status = "pass" if key_validation["status"] == "pass" and not missing_artifacts else "fail"
+    status = "pass" if key_validation["status"] == "pass" and not missing_artifacts and not semantic_errors else "fail"
     return {
         "status": status,
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "semantic_errors": semantic_errors,
     }
 
 

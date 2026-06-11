@@ -9,6 +9,11 @@ from pathlib import Path
 from collections.abc import Mapping, Sequence
 from typing import Any
 
+from bedc_quality_lab.construct_validity import (
+    GATE_IDS as CONSTRUCT_VALIDITY_GATE_IDS,
+    OWNER_POINTER as CONSTRUCT_VALIDITY_OWNER_POINTER,
+    SCHEMA_ID as CONSTRUCT_VALIDITY_SCHEMA_ID,
+)
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
@@ -156,12 +161,23 @@ def _reason_for_provenance(ref: LadderOpeningRef, value: Any) -> str | None:
 
 def _construct_passes(value: Any) -> bool:
     construct = _mapping(value)
-    if construct.get("status") not in {"construct-valid", "pass"}:
+    if construct.get("schema_id") != CONSTRUCT_VALIDITY_SCHEMA_ID:
         return False
-    hardgates = construct.get("hardgates")
-    if not isinstance(hardgates, Mapping) or not hardgates:
+    if construct.get("owner_pointer") != CONSTRUCT_VALIDITY_OWNER_POINTER:
         return False
-    return all(_mapping(row).get("status") == "pass" for row in hardgates.values())
+    if construct.get("status") != "pass":
+        return False
+    failed_gates = construct.get("failed_gates")
+    if failed_gates != []:
+        return False
+    gates = construct.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != set(CONSTRUCT_VALIDITY_GATE_IDS):
+        return False
+    for gate_id in CONSTRUCT_VALIDITY_GATE_IDS:
+        gate = _mapping(gates.get(gate_id))
+        if gate.get("gate_id") != gate_id or gate.get("status") != "pass":
+            return False
+    return True
 
 
 def _decision_passes(value: Any) -> bool:
@@ -432,15 +448,12 @@ def _gate_statuses(
     }
 
 
-def build_scaling_ladder_payload(
-    *,
+def _expected_level_rows(
     root: Path,
-    generated_at: str | None = None,
     refs: Sequence[LadderOpeningRef] | None = None,
-) -> dict[str, Any]:
-    timestamp = generated_at if generated_at is not None else _now()
+) -> list[dict[str, Any]]:
     ref_rows = list(default_ladder_refs() if refs is None else refs)
-    decisions = [
+    return [
         _attach_owner_contracts(
             evaluate_ladder_opening(ref, {"root": root}).as_row(),
             ref=ref,
@@ -449,13 +462,11 @@ def build_scaling_ladder_payload(
         )
         for index, ref in enumerate(ref_rows)
     ]
-    boundary_ledger = [
-        _boundary_row(row, recorded_at=timestamp)
-        for row in decisions
-        if row["state"] == "boundary"
-    ]
-    gate_statuses = _gate_statuses(root, decisions, refs=ref_rows)
-    hardgates = {
+
+
+def _hardgates(root: Path, decisions: Sequence[Mapping[str, Any]], refs: Sequence[LadderOpeningRef]) -> dict[str, dict[str, str]]:
+    gate_statuses = _gate_statuses(root, decisions, refs=refs)
+    return {
         "SL-HG1-evidence-provenance": {
             "status": gate_statuses["SL-HG1-evidence-provenance"],
             "pointer": EVIDENCE_PROVENANCE_POINTER,
@@ -473,10 +484,27 @@ def build_scaling_ladder_payload(
             "pointer": f"{JSON_ARTIFACT}:$.levels",
         },
         "SL-HG5-no-injected-opening": {
-            "status": "fail" if any(_old_injected_ladder(root, ref) is not None for ref in ref_rows) else "pass",
+            "status": "fail" if any(_old_injected_ladder(root, ref) is not None for ref in refs) else "pass",
             "pointer": DGT_SCALING_LADDER_POINTER,
         },
     }
+
+
+def build_scaling_ladder_payload(
+    *,
+    root: Path,
+    generated_at: str | None = None,
+    refs: Sequence[LadderOpeningRef] | None = None,
+) -> dict[str, Any]:
+    timestamp = generated_at if generated_at is not None else _now()
+    ref_rows = list(default_ladder_refs() if refs is None else refs)
+    decisions = _expected_level_rows(root, ref_rows)
+    boundary_ledger = [
+        _boundary_row(row, recorded_at=timestamp)
+        for row in decisions
+        if row["state"] == "boundary"
+    ]
+    hardgates = _hardgates(root, decisions, ref_rows)
     payload = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -521,6 +549,29 @@ def _expected_hg5_status(root: Path, refs: Sequence[LadderOpeningRef] | None = N
     return "fail" if any(_old_injected_ladder(root, ref) is not None for ref in ref_rows) else "pass"
 
 
+def _validate_owner_recomputed_payload(
+    payload: Mapping[str, Any],
+    *,
+    root: Path,
+    refs: Sequence[LadderOpeningRef] | None = None,
+) -> None:
+    ref_rows = list(default_ladder_refs() if refs is None else refs)
+    expected_levels = _expected_level_rows(root, ref_rows)
+    actual_levels = payload.get("levels")
+    if actual_levels != expected_levels:
+        raise ValueError("scaling ladder level owner projection mismatch")
+    expected_boundary = [
+        _boundary_row(row, recorded_at=str(payload["generated_at"]))
+        for row in expected_levels
+        if row["state"] == "boundary"
+    ]
+    if payload.get("boundary_ledger") != expected_boundary:
+        raise ValueError("scaling ladder boundary ledger owner projection mismatch")
+    expected_hardgates = _hardgates(root, expected_levels, ref_rows)
+    if payload.get("hardgates") != expected_hardgates:
+        raise ValueError("scaling ladder hardgate owner projection mismatch")
+
+
 def _validate_contract_cell(
     *,
     root: Path,
@@ -562,6 +613,8 @@ def validate_scaling_ladder_payload(
         raise ValueError(f"scaling ladder payload missing keys: {sorted(missing)}")
     if payload.get("schema_id") != SCHEMA_ID:
         raise ValueError("scaling ladder schema mismatch")
+    if not isinstance(payload.get("generated_at"), str) or not payload["generated_at"]:
+        raise ValueError("scaling ladder generated_at must be a non-empty string")
     levels = payload.get("levels")
     if not isinstance(levels, list) or not levels:
         raise ValueError("scaling ladder levels must be a non-empty list")
@@ -634,13 +687,14 @@ def validate_scaling_ladder_payload(
         if gate.get("status") not in {"pass", "fail"} or not isinstance(gate.get("pointer"), str):
             raise ValueError("scaling ladder hardgate fields invalid")
     if root is not None:
-        expected_statuses = _gate_statuses(root, levels, refs=refs)
+        expected_statuses = _gate_statuses(root, _expected_level_rows(root, refs), refs=refs)
         expected_statuses["SL-HG5-no-injected-opening"] = _expected_hg5_status(root, refs=refs)
         if set(hardgates) != set(expected_statuses):
             raise ValueError("scaling ladder hardgate set mismatch")
         for name, expected_status in expected_statuses.items():
             if hardgates[name].get("status") != expected_status:
                 raise ValueError(f"scaling ladder hardgate status mismatch: {name}")
+        _validate_owner_recomputed_payload(payload, root=root, refs=refs)
     not_claimed = payload.get("not_claimed")
     if not isinstance(not_claimed, list) or not all(isinstance(item, str) for item in not_claimed):
         raise ValueError("scaling ladder not_claimed must be string list")

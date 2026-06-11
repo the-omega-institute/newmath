@@ -1,5 +1,12 @@
 import json
 
+import pytest
+
+from bedc_quality_lab.construct_validity import (
+    GATE_IDS as CONSTRUCT_VALIDITY_GATE_IDS,
+    OWNER_POINTER as CONSTRUCT_VALIDITY_OWNER_POINTER,
+    SCHEMA_ID as CONSTRUCT_VALIDITY_SCHEMA_ID,
+)
 from bedc_quality_lab.scaling_ladder import (
     build_scaling_ladder_payload,
     default_ladder_refs,
@@ -21,7 +28,7 @@ def _write_owner_inputs(
     source_kind=None,
     owner_backed=True,
     allowed=True,
-    construct_status="construct-valid",
+    construct_status="pass",
     construct_gate_status="pass",
     l0_decision_status="scaling-evidence-eligible",
     l1_decision_status="scaling-evidence-eligible",
@@ -38,6 +45,11 @@ def _write_owner_inputs(
     }
     if source_kind is not None:
         evidence_row["source_kind"] = source_kind
+    failed_construct_gates = [
+        gate_id
+        for gate_id in CONSTRUCT_VALIDITY_GATE_IDS
+        if construct_status != "pass" or construct_gate_status != "pass"
+    ]
     _write_json(
         root,
         "reports/canonical/index.json",
@@ -56,10 +68,13 @@ def _write_owner_inputs(
         {
             "base_undertraining_audit": {
                 "construct_validity": {
+                    "schema_id": CONSTRUCT_VALIDITY_SCHEMA_ID,
+                    "owner_pointer": CONSTRUCT_VALIDITY_OWNER_POINTER,
                     "status": construct_status,
-                    "hardgates": {
-                        "CV-HG1": {"status": construct_gate_status},
-                        "CV-HG2": {"status": construct_gate_status},
+                    "failed_gates": failed_construct_gates,
+                    "gates": {
+                        gate_id: {"gate_id": gate_id, "status": construct_gate_status}
+                        for gate_id in CONSTRUCT_VALIDITY_GATE_IDS
                     },
                 }
             }
@@ -144,12 +159,36 @@ def test_scaling_ladder_missing_provenance_closes(tmp_path):
 
 
 def test_scaling_ladder_construct_validity_failure_closes(tmp_path):
-    _write_owner_inputs(tmp_path, construct_status="construct-boundary")
+    _write_owner_inputs(tmp_path, construct_status="fail")
 
     row = evaluate_ladder_opening(default_ladder_refs()[0], {"root": tmp_path}).as_row()
 
     assert row["state"] == "closed"
     assert row["reason"] == "construct-validity-failed"
+
+
+def test_scaling_ladder_construct_validity_stub_cell_closes_levels(tmp_path):
+    _write_owner_inputs(tmp_path)
+    _write_json(
+        tmp_path,
+        "reports/canonical/dgt-base-undertraining-audit.json",
+        {
+            "base_undertraining_audit": {
+                "construct_validity": {
+                    "status": "pass",
+                    "hardgates": {"NOT-CV-HG": {"status": "pass"}},
+                }
+            }
+        },
+    )
+
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert _states(payload) == {
+        "L0_toy": ("closed", "construct-validity-failed"),
+        "L1_tiny_sequence": ("closed", "construct-validity-failed"),
+    }
+    assert payload["hardgates"]["SL-HG2-construct-validity"]["status"] == "fail"
 
 
 def test_scaling_ladder_split_not_winnable_closes(tmp_path):
@@ -324,3 +363,19 @@ def test_scaling_ladder_unresolved_owner_inputs_point_to_contract_cells(tmp_path
         "resolution_status": "missing-pointer",
     }
     validate_scaling_ladder_payload(payload, root=tmp_path)
+
+
+def test_scaling_ladder_validator_recomputes_level_state_rows(tmp_path):
+    _write_owner_inputs(tmp_path)
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery-gated-transformer.json",
+        {"scaling_ladder": {"opened_levels": ["L0_toy"]}},
+    )
+
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    payload["levels"][0]["state"] = "open"
+    payload["levels"][0]["reason"] = "eligible"
+
+    with pytest.raises(ValueError, match="level owner projection mismatch"):
+        validate_scaling_ladder_payload(payload, root=tmp_path)

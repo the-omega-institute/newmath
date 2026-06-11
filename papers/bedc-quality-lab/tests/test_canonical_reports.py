@@ -4532,6 +4532,34 @@ def test_run_reports_scaling_ladder_only_updates_pointer_index(tmp_path, monkeyp
     ).read_text(encoding="utf-8")
 
 
+def test_scaling_ladder_artifact_validation_rejects_hand_edited_level_rows(tmp_path, monkeypatch):
+    from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload, render_scaling_ladder_markdown
+    from tests.test_scaling_ladder import _write_json, _write_owner_inputs
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_owner_inputs(tmp_path)
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery-gated-transformer.json",
+        {"scaling_ladder": {"opened_levels": ["L0_toy"]}},
+    )
+    spec = canonical._specs_by_name()["scaling-ladder"]
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    payload["levels"][0]["state"] = "open"
+    payload["levels"][0]["reason"] = "eligible"
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    md_path.write_text(render_scaling_ladder_markdown(build_scaling_ladder_payload(root=tmp_path)), encoding="utf-8")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    assert validation["required_key_validation"]["status"] == "pass"
+    assert validation["semantic_errors"] == ["scaling ladder level owner projection mismatch"]
+
+
 def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
