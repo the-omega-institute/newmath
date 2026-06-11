@@ -124,14 +124,49 @@ instance holderSpaceChapterTasteGate : ChapterTasteGate HolderSpaceUp where
     intro x y hxy heq
     exact hxy (HolderSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+private theorem HolderSpaceTasteGate_single_carrier_alignment_fields :
+    ∀ x y : HolderSpaceUp, holderSpaceFields x = holderSpaceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk X1 d1 F1 a1 K1 U1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 d2 F2 a2 K2 U2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+instance holderSpaceFieldFaithful : FieldFaithful HolderSpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := holderSpaceFields
+  field_faithful := HolderSpaceTasteGate_single_carrier_alignment_fields
+
+instance holderSpaceNontrivial : BEDC.Meta.TasteGate.Nontrivial HolderSpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨HolderSpaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      HolderSpaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem HolderSpaceTasteGate_single_carrier_alignment :
-    holderSpaceEncodeBHist BHist.Empty = ([] : List BMark) ∧
-      (∀ h : BHist, holderSpaceDecodeBHist (holderSpaceEncodeBHist h) = h) ∧
-        (∀ x : HolderSpaceUp, holderSpaceFromEventFlow (holderSpaceToEventFlow x) = some x) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+    Nonempty (BHistCarrier HolderSpaceUp) ∧
+      Nonempty (ChapterTasteGate HolderSpaceUp) ∧
+        Nonempty (FieldFaithful HolderSpaceUp) ∧
+          Nonempty (BEDC.Meta.TasteGate.Nontrivial HolderSpaceUp) ∧
+            holderSpaceFields
+                (HolderSpaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+              [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+                BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨rfl,
-      HolderSpaceTasteGate_single_carrier_alignment_decode,
-      HolderSpaceTasteGate_single_carrier_alignment_round_trip⟩
+    ⟨⟨holderSpaceBHistCarrier⟩,
+      ⟨holderSpaceChapterTasteGate⟩,
+      ⟨holderSpaceFieldFaithful⟩,
+      ⟨holderSpaceNontrivial⟩,
+      rfl⟩
 
 end BEDC.Derived.HolderSpaceUp

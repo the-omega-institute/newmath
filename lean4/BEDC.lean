@@ -7366,6 +7366,7 @@ import BEDC.Derived.PolishspaceUp.PointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadback
 import BEDC.Derived.PolishspaceUp.PublicFiniteWindowBoundary
 import BEDC.Derived.PolishspaceUp.PublicReadbackExport
+import BEDC.Derived.PolishspaceUp.PublicReadbackUniqueness
 import BEDC.Derived.PolishspaceUp.RealCompletionConsumerBoundary
 import BEDC.Derived.PolishspaceUp.RealCompletionReadbackNonescape
 import BEDC.Derived.PolishspaceUp.RealRegSeqRatReadbackNonescape
@@ -8998,6 +8999,7 @@ import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.EnergyTraceBoundaryCertificate
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
+import BEDC.Derived.SobolevUp.FiniteEnergyInductionRoute
 import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
 import BEDC.Derived.SobolevUp.FiniteEnergyObligationScope
 import BEDC.Derived.SobolevUp.FiniteEnergyScopeObligations
