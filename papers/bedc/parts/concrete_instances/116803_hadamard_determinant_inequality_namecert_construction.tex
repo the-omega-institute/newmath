@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\HadamardDeterminantInequalityUp$}
+\label{ch:concrete-instances-hadamard-determinant-inequality-namecert}
+\origin{human}
+
+Following Hadamard and classical finite-dimensional matrix theory, the
+$\HadamardDeterminantInequalityUp$ packet records the finite row-norm surface
+behind the determinant bound as BEDC NameCert data. It consumes the matrix
+carrier of \autoref{ch:concrete-instances-matrix-namecert}, the determinant
+boundary of \autoref{ch:concrete-instances-determinant-namecert}, the norm
+rows of \autoref{ch:concrete-instances-norm-namecert}, the inner-product
+surface of \autoref{ch:concrete-instances-innerproduct-namecert}, the
+vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}, the
+terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the
+Gram determinant packet of
+\autoref{ch:concrete-instances-gram-determinant-namecert}. The packet names a
+finite determinant-estimate route; it does not import host spectral theory,
+selected orthonormal bases, quotient matrix equality, or ambient
+$\RealUp$ completeness.
+
+\begin{definition}[Hadamard determinant inequality carrier]
+\label{def:hadamard-determinant-inequality-carrier}
+A $\HadamardDeterminantInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+H=(V,M,D,I,N,G,R,B,E,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ row carrying the finite row-vector source.
+\item $M$ is the $\MatrixUp$ row carrying the displayed square matrix and its
+finite row ledger.
+\item $D$ is the $\DeterminantUp$ row naming the determinant read for the same
+displayed matrix.
+\item $I$ is the $\InnerProductUp$ row used to read row inner products and
+orthogonality comparisons when they are displayed.
+\item $N$ is the $\NormUp$ row listing the finite row-norm reads and their
+$\RealUp$ scalar seals.
+\item $G$ is the $\GramDeterminantUp$ handoff row, recording the Gram matrix
+and determinant surface obtained from the displayed row vectors.
+\item $R$ is the row-product budget, the finite product of the displayed
+row-norm bounds in $N$.
+\item $B$ is the determinant-bound ledger, relating the determinant row $D$ to
+the Gram determinant handoff $G$ and then to the product budget $R$.
+\item $E$ is the equality-case exposure row: it records only displayed
+orthogonality or zero-row data already present in $I,N,G$, not an ambient
+spectral argument.
+\item $T$ records componentwise $\hsame$ transport for the vector, matrix,
+determinant, inner-product, norm, Gram, budget, bound, and equality-case rows.
+\item $C$ records displayed $\Cont$ replay from matrix rows to determinant
+rows, row-norm rows, Gram determinant rows, and the final bound ledger.
+\item $P$ is the $\Pkg$ provenance over
+$\HadamardDeterminantInequalityUp$, $\MatrixUp$, $\DeterminantUp$, $\NormUp$,
+$\InnerProductUp$, $\VecSpaceUp$, $\RealUp$, $\GramDeterminantUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\HadamardDeterminantInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows.
+It has no coordinate for host spectral theory, selected orthonormal bases,
+quotient matrix equality, hidden row operations, or ambient $\RealUp$
+completeness.
+\end{definition}
+
+\begin{theorem}[Hadamard determinant inequality NameCert obligations]
+\label{thm:hadamard-determinant-inequality-namecert-obligations}
+For every accepted $\HadamardDeterminantInequalityUp$ carrier
+$$
+H=(V,M,D,I,N,G,R,B,E,T,C,P,L),
+$$
+the local $\NameCert_{\HadamardDeterminantInequalityUp}$ surface consists
+exactly of carrier admission for the vector-space, matrix, determinant,
+inner-product, norm, Gram determinant, row-product, bound, equality-case,
+transport, replay, provenance, and local naming rows; row-norm exposure through
+$N$ and $\RealUp$; determinant exposure through $M,D$; Gram handoff through
+$I,G$; row-product budget exposure through $R$; determinant-bound exactness
+through $B$; equality-case exposure through $E$; and non-escape from host
+spectral theory, selected orthonormal bases, quotient matrix equality, hidden
+row operations, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:hadamard-determinant-inequality-carrier}. The displayed matrix
+row $M$ is read together with the vector-space row $V$, and the determinant
+row $D$ is attached to that same square matrix.
+
+The row-norm data are then read through $N$ and sealed through $\RealUp$. The
+inner-product row $I$ supplies only displayed scalar products, while the Gram
+handoff $G$ packages those reads as a finite Gram determinant surface.
+
+The bound ledger $B$ is downstream of $D,G,R$. It can compare the displayed
+determinant read with the Gram determinant route and the finite row-product
+budget, but it cannot add spectral data or a selected orthonormal basis.
+
+Finally, $T,C,P,L$ transport, replay, source, and name the same finite packet.
+Since no remaining coordinate stores quotient matrix equality, hidden row
+operations, or ambient $\RealUp$ completeness, the listed obligations exhaust
+the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hadamard row-norm determinant-bound route]
+\label{thm:hadamard-determinant-inequality-row-norm-bound-route}
+Every determinant-estimate consumer of an accepted
+$\HadamardDeterminantInequalityUp$ packet must read the finite route
+$$
+\MatrixUp \longmapsto \DeterminantUp \longmapsto
+(\InnerProductUp,\NormUp) \longmapsto \GramDeterminantUp \longmapsto \RealUp
+$$
+through the displayed rows $V,M,D,I,N,G,R,B,E,T,C,P,L$. The consumer receives
+the row-norm determinant bound only after the matrix row, determinant row,
+row-norm ledger, Gram determinant handoff, row-product budget, bound ledger,
+transport, replay, provenance, and local naming row have all been displayed.
+No accepted route exports host spectral theory, selected orthonormal bases,
+quotient matrix equality, hidden row operations, or ambient $\RealUp$
+completeness.
+\end{theorem}
+\begin{proof}
+Start with a determinant-estimate consumer. Carrier projection exposes the
+matrix row $M$ and determinant row $D$ before any bound can be read.
+
+Next read the row geometry. The inner-product row $I$ and norm row $N$ expose
+only the finite scalar products, row norms, and real scalar seals attached to
+the displayed rows of $M$.
+
+The Gram determinant row $G$ is then the only bridge from row geometry to a
+determinant comparison. The product budget $R$ and bound ledger $B$ record the
+finite row-norm product and the displayed comparison with the determinant row.
+
+The equality-case row $E$ remains internal to displayed zero-row or
+orthogonality evidence. It does not select a basis or invoke a spectral
+decomposition. Transport, replay, provenance, and local naming through
+$T,C,P,L$ preserve this route, so the consumer receives exactly the finite
+row-norm determinant-bound surface.
+\end{proof}
+
+\closureat{HadamardDeterminantInequalityUp}{seedStr}
+
+\begin{closurestatus}{\HadamardDeterminantInequalityUp}
+  \constructivestory{A $\HadamardDeterminantInequalityUp$ packet is generated from displayed VecSpaceUp, MatrixUp, DeterminantUp, InnerProductUp, NormUp, RealUp, GramDeterminantUp, row-product, determinant-bound, equality-case, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hadamard-determinant-inequality-carrier}, \autoref{thm:hadamard-determinant-inequality-namecert-obligations}, and \autoref{thm:hadamard-determinant-inequality-row-norm-bound-route} seed the finite row-norm determinant-bound surface over displayed matrix, determinant, norm, inner-product, vector-space, real, and Gram determinant rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host spectral theory, selected orthonormal bases, quotient matrix equality, hidden row operations, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, determinant exposure, row-norm exposure, Gram determinant handoff, row-product budget exactness, bound-ledger non-escape, transport, replay, provenance, and local naming for BEDC.Derived.HadamardDeterminantInequalityUp.}
+\end{closurestatus}

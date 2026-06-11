@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\RegularRealLineAtlasUp$}
+\label{ch:concrete-instances-regular-real-line-atlas-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\RegularRealLineAtlasUp$ packet is a finite atlas of dyadic chart rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\RealUp$ seals. It sits after the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet names finite real-line chart reads without importing a host real line, quotient stream equality, selected limits, countable choice, or open-cover compactness.
+
+\begin{definition}[Regular real-line atlas carrier]
+\label{def:regular-real-line-atlas-carrier}
+A $\RegularRealLineAtlasUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,S,R,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ chart ledger, carrying the dyadic center, radius, overlap tolerance, and one-step refinement budget for each displayed chart row.
+\item $S$ is the $\StreamNameUp$ window row, exposing only the finite stream entries inspected by the chart read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same window and dyadic tolerance data.
+\item $E$ is the $\RealUp$ seal row reached only after the dyadic chart row, finite window, and regular rational readback are visible.
+\item $M$ is the $\CauchyModulusUp$ scheduling row that bounds the chart-window read by a finite precision request.
+\item $H$ records componentwise $\hsame$ transport for dyadic chart rows, stream windows, regular readback, Real seals, modulus schedules, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite atlas route
+$$
+D,S,M \longmapsto R \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularRealLineAtlasUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularRealLineAtlasUp}$ row.
+\end{enumerate}
+The classifier compares accepted atlas packets only through $D,S,R,E,M,H,C,P,N$. It has no coordinate for a host real line, quotient stream equality, selected limit, countable-choice selector, global open cover, compactness theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular real-line atlas NameCert obligations]
+\label{thm:regular-real-line-atlas-namecert-obligations}
+For every accepted $\RegularRealLineAtlasUp$ carrier $A=(D,S,R,E,M,H,C,P,N)$, the local $\NameCert_{\RegularRealLineAtlasUp}$ surface consists exactly of dyadic chart admission through $D$, finite stream-window exposure through $S$, regular rational readback through $R$, Real seal handoff through $E$, finite modulus scheduling through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-real-line-atlas-carrier}. The displayed rows are exactly $D,S,R,E,M,H,C,P,N$, so every chart read begins from finite dyadic and stream data.
+
+The scheduling and readback rows determine the chart obligation surface. Row $M$ bounds the requested precision, row $S$ displays the inspected window, and row $R$ supplies the regular rational readback attached to that same window.
+
+The Real seal row $E$ is downstream of those finite rows. Transport, replay, provenance, and local naming preserve the same route, so no host real line, quotient stream equality, selected limit, countable-choice selector, open-cover compactness, or ambient completeness theorem can be exported.
+\end{proof}
+
+\begin{theorem}[Regular real-line atlas window handoff]
+\label{thm:regular-real-line-atlas-window-atlas-handoff}
+Every window read from an accepted $\RegularRealLineAtlasUp$ packet factors through the finite route
+$$
+\DyadicRatCoreUp,\StreamNameUp,\CauchyModulusUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The atlas can therefore hand a chart window to a downstream real-facing consumer only after the dyadic chart ledger, finite stream window, modulus schedule, regular rational readback, and terminal seal are all displayed.
+\end{theorem}
+\begin{proof}
+Start with the dyadic chart row $D$ and the schedule row $M$. Together they name the finite tolerance and precision bound for the chart window.
+
+Read the window row $S$ next. Since $S$ exposes only finitely many stream observations, the regular rational readback $R$ is a finite handoff rather than a quotient stream.
+
+Finally attach the Real seal row $E$ and the structural rows $H,C,P,N$. The resulting route is exactly the displayed atlas route, and it contains no selected limit, global cover, countable-choice enumeration, host equality, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular real-line atlas Real-seal nonescape]
+\label{thm:regular-real-line-atlas-real-seal-nonescape}
+Every $\RealUp$-facing read from an accepted $\RegularRealLineAtlasUp$ packet must pass through the rows
+$$
+D,S,R,E,M,H,C,P,N .
+$$
+The terminal seal certifies only the finite atlas route already displayed by $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\CauchyModulusUp$ rows; it cannot be read as Real completeness, quotient stream equality, host real equality, a selected limit, countable choice, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-real-line-atlas-window-atlas-handoff}. It places every atlas window read downstream of dyadic chart data, finite stream observations, modulus scheduling, and regular rational readback.
+
+The Real seal row $E$ occurs only after that route in the carrier. A Real-facing consumer therefore receives a sealed finite chart read, not an external real-line object.
+
+Rows $H,C,P,N$ preserve and name the same packet. Since completeness, quotient equality, host equality, selected limits, countable choice, and open-cover compactness are absent from the carrier, the Real seal has no escape route beyond the displayed finite atlas.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularRealLineAtlasUp$ chart read displays a DyadicRatCoreUp chart ledger, StreamNameUp finite window, RegSeqRatUp readback, RealUp seal, CauchyModulusUp schedule, componentwise hsame transport, Cont replay, Pkg provenance, and local naming before any Real-facing consumer can use the atlas.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchymodulus: $\RegularRealLineAtlasUp$ is not bijective to any listed sibling because it binds finite dyadic chart rows, stream windows, regular rational readbacks, Real seals, modulus schedules, transport, replay, provenance, and local naming into one atlas packet.}
+
+\closureat{RegularRealLineAtlasUp}{seedStr}
+
+\begin{closurestatus}{\RegularRealLineAtlasUp}
+  \constructivestory{A $\RegularRealLineAtlasUp$ packet is generated from DyadicRatCore chart rows, StreamName finite windows, RegSeqRat readback, RealUp seal rows, a CauchyModulus schedule, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-real-line-atlas-carrier}, \autoref{thm:regular-real-line-atlas-namecert-obligations}, \autoref{thm:regular-real-line-atlas-window-atlas-handoff}, and \autoref{thm:regular-real-line-atlas-real-seal-nonescape} seed the finite dyadic chart-window atlas route from displayed tolerances and windows to regular readback and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, selected limits, host real equality, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean declaration for BEDC.Derived.RegularRealLineAtlasUp covering dyadic chart admission, finite window exposure, regular readback, Real seal nonescape, modulus scheduling, transport, replay, provenance, and local naming.}
+\end{closurestatus}

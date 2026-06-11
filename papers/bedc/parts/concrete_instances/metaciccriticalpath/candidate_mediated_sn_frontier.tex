@@ -415,5 +415,26 @@ Finally apply the axiom boundary of \autoref{thm:metacic-critical-path-candidate
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierNormalFormWitnessExtraction}
 
+\begin{theorem}[MetaCIC candidate-mediated SN frontier fairness retention]
+\label{thm:metacic-candidate-mediated-sn-frontier-fairness-retention}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. If the candidate-mediated strong-normalization route of $K$ is consumed by the normalization frontier, then the same finite premise rows must be visible through
+$$
+\CandidateMediatedSNUp,\quad \CandidateSNConfluenceBoundaryUp,\quad \MetaCICNormalizationFrontierUp,\quad \MetaCICNormalizationCertificateRouterUp
+$$
+before any normalization certificate row is read. The retention claim is only fairness of the displayed premise route; it does not assert hidden strong normalization, global confluence, quotient term equality, host term equality, or any selected normal form.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K$. The candidate-mediated route begins with the displayed rows $S,N,O,U,D,H,C,P,L$, with $O$ and $D$ retained as obstruction and discharge-socket data.
+
+Read the existing candidate-mediated SN route and normal-form witness extraction theorems, \autoref{thm:metacic-criticalpath-candidate-mediated-sn-route} and \autoref{thm:metacic-candidate-frontier-normal-form-witness-extraction}. They force the candidate row, confluence boundary, finite observation rows, critical-pair ledger, discharge socket, and L10 source faces to be displayed before a witness-facing consumer reaches the frontier.
+
+The $\MetaCICNormalizationFrontierUp$ and $\MetaCICNormalizationCertificateRouterUp$ rows can therefore consume only the same visible premise list. Since the carrier fields have already been exhausted, no hidden strong-normalization theorem, global confluence theorem, quotient equality, host equality, or selected normal form can be read as part of the certificate route.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNFrontierFairnessRetention}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}
