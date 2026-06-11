@@ -3134,7 +3134,6 @@ import BEDC.Derived.ContinuousMapUp.SemanticCertificate
 import BEDC.Derived.ContinuousMapUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExactness
-import BEDC.Derived.ContinuousSupNormCompletionUp.TasteGate
 import BEDC.Derived.ContinuousSupNormUp.TasteGate
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.CertificateFields
@@ -5129,7 +5128,6 @@ import BEDC.Derived.GeodesicMetricUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GeometricSeriesUp.TasteGate
 import BEDC.Derived.GershgorinDiskUp.TasteGate
-import BEDC.Derived.GleasonCoverUp.TasteGate
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
@@ -6254,6 +6252,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualBudgetInterface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualDiamondLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualL10FrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStability
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStabilitySurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceCheckerFactorization
