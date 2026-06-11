@@ -3,7 +3,7 @@
     "generated_at": "2026-06-10T00:00:00+00:00",
     "runner": "scripts/run_dgt_base_undertraining_audit.py"
   },
-  "input_fingerprint": "024a63d2c4ed07198e2ddec782c059e4553add28a043e77d4373ee35ab972129",
+  "input_fingerprint": "9a4eada7be68bcb31bc3acfaf7433c9cfc8b4d25c9f61194c859a7f2db6289b8",
   "inputs": {
     "source_contract": {
       "base_step_grid_coverage": {
@@ -25,15 +25,50 @@
         "required_grid_present": false,
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
       },
+      "input_accessibility_preconditions": {
+        "boundary_ledger_count": 3,
+        "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+        "failures": [],
+        "information_starved_arms_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ],
+        "information_starved_row_count": 3,
+        "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
+        "missing_variables": [
+          "x_minus_2",
+          "x_minus_3"
+        ],
+        "sha256": "8ddb874495344e67dc4eb524e9f2f17fcaf2d72165b9a32c42440c7fae6eaa1f",
+        "source_artifact": "reports/canonical/input-accessibility.json",
+        "source_pointers": {
+          "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+          "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
+          "input_accessibility": "reports/canonical/input-accessibility.json:$",
+          "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
+        },
+        "status": "pass",
+        "unanswerable_ood_row_count": 2,
+        "unanswerable_ood_splits_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ]
+      },
       "pointer_only": true,
       "required_pointers": [
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
+        "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+        "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+        "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9",
+        "reports/canonical/input-accessibility.json:$",
+        "reports/canonical/input-accessibility.json:$.boundary_ledger"
       ],
-      "sha256": "90dfc2f46502940de03f61f343308941be563ed9151c3fec94dcf213ca025aec",
+      "sha256": "a797524658b1d59057f9568254a67078f65c88bb6d6b09f318c67039eb7a19ea",
       "source_artifact": "reports/canonical/dgt-l1-controls.json",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "status": "resolved"
@@ -41,7 +76,7 @@
   },
   "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
   "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
-  "output_digest": "24d5917675074bb676325a977e9be96fe8a9b0059477064808b912c47044630b",
+  "output_digest": "a1f7d5733de491a5a64715e5f3fdaf1028cf000beb11e4d95e8f0ec270985906",
   "producer_command": [
     "python3",
     "scripts/run_dgt_base_undertraining_audit.py"

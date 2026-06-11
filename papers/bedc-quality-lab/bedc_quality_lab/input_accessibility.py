@@ -272,6 +272,11 @@ class _Analyzer:
                 value = self._eval_expr(statement.value, local_env) if statement.value is not None else ExprValue()
                 self._assign(statement.target, value, local_env)
                 continue
+            if isinstance(statement, ast.Expr):
+                value = self._eval_expr(statement.value, local_env)
+                if value.failures:
+                    return [value], local_env
+                continue
             if isinstance(statement, ast.If):
                 branch = self._condition_value(statement.test)
                 if branch is True:
@@ -285,18 +290,31 @@ class _Analyzer:
                         return returns, local_env
                     local_env = branch_env
                 else:
-                    true_returns, _true_env = self._exec_block(statement.body, local_env)
-                    false_returns, _false_env = self._exec_block(statement.orelse, local_env) if statement.orelse else ([], local_env)
-                    if true_returns or false_returns:
+                    true_returns, true_env = self._exec_block(statement.body, local_env)
+                    false_returns, false_env = self._exec_block(statement.orelse, local_env) if statement.orelse else ([], local_env)
+                    if true_returns and false_returns:
                         return true_returns + false_returns, local_env
+                    if true_returns or false_returns:
+                        return (true_returns + false_returns + [ExprValue().with_failure("unknown-branch-partial-return", "unknown:branch")]), local_env
+                    local_env = self._merge_envs(true_env, false_env)
                 continue
+            return [ExprValue().with_failure(f"unsupported-stmt:{type(statement).__name__}", _token(type(statement).__name__))], local_env
         return [], local_env
+
+    def _merge_envs(self, *envs: Mapping[str, ExprValue]) -> dict[str, ExprValue]:
+        merged: dict[str, ExprValue] = {}
+        for key in {name for env in envs for name in env}:
+            merged[key] = self._combine([env[key] for env in envs if key in env])
+        return merged
 
     def _assign(self, target: ast.AST, value: ExprValue, env: dict[str, ExprValue]) -> None:
         if isinstance(target, ast.Name):
             if target.id.startswith("gate"):
                 value = value.with_tokens("gates")
             env[target.id] = value
+        elif isinstance(target, (ast.Tuple, ast.List)):
+            for element in target.elts:
+                self._assign(element, value, env)
 
     def _condition_value(self, node: ast.AST) -> bool | None:
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
@@ -390,6 +408,8 @@ class _Analyzer:
         short_name = name.rsplit(".", 1)[-1]
         if short_name in {"getattr", "eval", "exec"}:
             return ExprValue().with_failure(f"dynamic-access:{short_name}", "unknown:dynamic_access")
+        if name in {"torch.Generator", "torch.device"} or short_name in {"manual_seed"}:
+            return ExprValue()
         if name in self.context.shape_helper_allowlist or short_name in self.context.shape_helper_allowlist:
             return ExprValue()
         if name in self.context.value_helper_allowlist or short_name in self.context.value_helper_allowlist:
@@ -591,10 +611,10 @@ def audit_row(spec: FeatureSourceSpec) -> dict[str, Any]:
     coverage_status = "pass" if extraction_pass and not missing else "fail"
     information_starved = bool(missing)
     unanswerable_ood = spec.split in OOD_SPLITS and (bool(missing) or required.status != "pass")
-    if not extraction_pass:
-        claim_exclusion = "extractor-fail-closed"
-    elif unanswerable_ood:
+    if unanswerable_ood:
         claim_exclusion = "boundary-ledger-only"
+    elif not extraction_pass:
+        claim_exclusion = "extractor-fail-closed"
     elif information_starved:
         claim_exclusion = "demote-from-fair-baseline"
     else:

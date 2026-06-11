@@ -46,6 +46,33 @@ def dynamic_index_label(x, lag):
     return x, y
 
 
+def loop_feature(x):
+    out = None
+    for lag in (-2,):
+        out = x[:, lag]
+    return out
+
+
+def loop_label(x):
+    y = None
+    for lag in (-2,):
+        y = x[:, lag]
+    return x, y
+
+
+def branch_assign_feature(x, flag):
+    if flag:
+        first = x[:, -1]
+    else:
+        first = x[:, -2]
+    return first
+
+
+def tuple_unpack_feature(x):
+    first, second = x[:, -1], x[:, -2]
+    return first + second
+
+
 def unsupported_lag_feature(x):
     return x[:, -4]
 
@@ -158,6 +185,44 @@ def test_dynamic_index_row_cannot_support_architecture_claim():
         assert str(exc) == "input accessibility pass row has extraction failure"
     else:
         raise AssertionError("dynamic-index extraction failure must not validate as coverage pass")
+
+
+def test_unsupported_statement_nodes_fail_closed_in_rows():
+    spec = ia.FeatureSourceSpec(
+        experiment="repro",
+        split="in_distribution",
+        arm="loop",
+        role="candidate",
+        feature_module=__name__,
+        feature_callable="loop_feature",
+        label_module=__name__,
+        label_callable="loop_label",
+        claim_scope="repro",
+    )
+    payload = ia.build_payload(generated_at="fixture-time", registry=(spec,))
+    row = payload["rows"][0]
+
+    assert row["feature_extraction"]["status"] == "fail"
+    assert row["feature_extraction"]["failures"] == ["unsupported-stmt:For"]
+    assert row["label_extraction"]["status"] == "fail"
+    assert row["label_extraction"]["failures"] == ["unsupported-stmt:For"]
+    assert row["coverage_status"] == "fail"
+    assert row["supports_architecture_claim"] is False
+    assert payload["access_hardgates"]["status"] == "fail"
+
+
+def test_unknown_branch_assignment_keeps_union_of_branch_evidence():
+    result = _extract(branch_assign_feature)
+
+    assert result.status == "pass"
+    assert result.variables == ("x_minus_1", "x_minus_2")
+
+
+def test_tuple_unpack_assignment_keeps_visible_evidence():
+    result = _extract(tuple_unpack_feature)
+
+    assert result.status == "pass"
+    assert result.variables == ("x_minus_1", "x_minus_2")
 
 
 def test_registry_rows_contain_only_callable_pointers():

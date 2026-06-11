@@ -6,15 +6,15 @@
       "actual": "consistent",
       "expected": "consistent",
       "gate_id": "CONS-HG1",
-      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[21]",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
       "reason": "discovery level and verdict are coherent",
       "status": "pass"
     },
     {
-      "actual": "41e70875be0c6368d5893bf2fd8f5228aff0d919c3bf2d1ef85c8b87f291844e",
-      "expected": "41e70875be0c6368d5893bf2fd8f5228aff0d919c3bf2d1ef85c8b87f291844e",
+      "actual": "3e8b37edacf9bea2e5d2b9cb595b496e9ad9e4dbdc039c2c92d0e0608ff31fb0",
+      "expected": "3e8b37edacf9bea2e5d2b9cb595b496e9ad9e4dbdc039c2c92d0e0608ff31fb0",
       "gate_id": "CONS-HG2",
-      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[21]",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
       "reason": "positive verdict uses the current scorecard hash",
       "status": "pass"
     },
@@ -22,17 +22,17 @@
       "actual": "consistent",
       "expected": "consistent",
       "gate_id": "CONS-HG3",
-      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[21]",
+      "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
       "reason": "reason taxonomy matches scorecard readiness",
       "status": "pass"
     },
     {
-      "actual": "consistent",
-      "expected": "consistent",
+      "actual": "reports/canonical/claim_verdicts.jsonl:$.lines[21]",
+      "expected": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
       "gate_id": "CONS-HG4",
       "pointer": "reports/canonical/claim_graph.json:$.nodes[103]",
-      "reason": "terminal graph path uses Core claim verdict row",
-      "status": "pass"
+      "reason": "terminal node must point to claim verdict row",
+      "status": "fail"
     },
     {
       "actual": "consistent",
@@ -43,17 +43,17 @@
       "status": "pass"
     },
     {
-      "actual": "consistent",
-      "expected": "consistent",
+      "actual": "reports/canonical/discovery-gated-transformer.json:0cc7a2c787ad979ccb0c6f8636bb1c6b428d2d878c86cf7967db92717e890216",
+      "expected": "reports/canonical/discovery-gated-transformer.json:7f9cce0aa3917a22911ced04db12c5e49cf2f41b098255f7747e86fce1cba47d",
       "gate_id": "CONS-HG6",
       "pointer": "reports/canonical/high-impact-review.fingerprint.json:$.inputs.source_artifacts",
-      "reason": "artifact hashes are current",
-      "status": "pass"
+      "reason": "high-impact review source artifact hash is stale",
+      "status": "fail"
     }
   ],
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-11T20:45:19.422516+00:00",
   "json_artifact": "reports/canonical/claim-artifact-consistency.json",
   "markdown_artifact": "reports/canonical/claim-artifact-consistency.md",
   "schema_id": "bedc-quality-lab:claim-artifact-consistency",
-  "status": "pass"
+  "status": "fail"
 }

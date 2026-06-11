@@ -237,11 +237,11 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `43`
+- Rows: `44`
 
 ## Claim complexity
 
-- Status: `pass`
+- Status: `fail`
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
@@ -260,7 +260,7 @@
 
 ## Claim artifact consistency
 
-- Status: `pass`
+- Status: `fail`
 - JSON: `reports/canonical/claim-artifact-consistency.json`
 - Markdown: `reports/canonical/claim-artifact-consistency.md`
 - Claim: `claim:discovery-gated-transformer`

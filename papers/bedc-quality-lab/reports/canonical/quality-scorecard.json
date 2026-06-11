@@ -1,7 +1,13 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
-  "input_reports": [],
+  "generated_at": "2026-06-11T20:45:19.422516+00:00",
+  "input_reports": [
+    {
+      "json_artifact": "reports/canonical/input-accessibility.json",
+      "name": "input-accessibility",
+      "status": "pass"
+    }
+  ],
   "producer": "scripts/run_canonical_reports.py",
   "root": "papers/bedc-quality-lab",
   "rows": [
@@ -113,9 +119,9 @@
       "value": 10
     },
     {
-      "denominator": 32,
+      "denominator": 33,
       "metric": "ScopeCompleteness",
-      "numerator": 32,
+      "numerator": 33,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -228,6 +234,11 @@
           "report": "dgt-base-undertraining-audit"
         },
         {
+          "artifact": "reports/canonical/input-accessibility.json",
+          "pointer": "$.not_claimed",
+          "report": "input-accessibility"
+        },
+        {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
           "pointer": "$.scaling_ladder",
           "report": "discovery-gated-transformer"
@@ -282,9 +293,9 @@
       "value": 1.0
     },
     {
-      "denominator": 32,
+      "denominator": 33,
       "metric": "CostProtocolCompleteness",
-      "numerator": 32,
+      "numerator": 33,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -395,6 +406,11 @@
           "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
           "pointer": "$.base_undertraining_audit.source_contract",
           "report": "dgt-base-undertraining-audit"
+        },
+        {
+          "artifact": "reports/canonical/input-accessibility.json",
+          "pointer": "$.source_registry",
+          "report": "input-accessibility"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
