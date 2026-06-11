@@ -172,16 +172,36 @@ def _negative_int(node: ast.AST) -> int | None:
     return None
 
 
-def _lag_from_slice(slice_node: ast.AST) -> str | None:
-    candidate: ast.AST | None = None
+def _literal_int(node: ast.AST) -> int | None:
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub) and isinstance(node.operand, ast.Constant):
+        value = node.operand.value
+        return -int(value) if isinstance(value, int) and not isinstance(value, bool) else None
+    if isinstance(node, ast.Constant) and isinstance(node.value, int) and not isinstance(node.value, bool):
+        return int(node.value)
+    return None
+
+
+def _slice_candidate(slice_node: ast.AST) -> ast.AST:
     if isinstance(slice_node, ast.Tuple) and slice_node.elts:
-        candidate = slice_node.elts[-1]
-    else:
-        candidate = slice_node
-    lag = _negative_int(candidate)
+        return slice_node.elts[-1]
+    return slice_node
+
+
+def _lag_from_slice(slice_node: ast.AST) -> str | None:
+    lag = _literal_int(_slice_candidate(slice_node))
     if lag in {-1, -2, -3}:
         return f"x_minus_{abs(lag)}"
     return None
+
+
+def _subscript_failure_from_slice(slice_node: ast.AST) -> str:
+    candidate = _slice_candidate(slice_node)
+    literal = _literal_int(candidate)
+    if literal is not None:
+        return f"unsupported-lag:{literal}"
+    if isinstance(candidate, ast.Name):
+        return f"dynamic-index:{candidate.id}"
+    return f"dynamic-index:{type(candidate).__name__}"
 
 
 def _direct_name_token(name: str) -> str | None:
@@ -331,12 +351,17 @@ class _Analyzer:
                 return ExprValue()
             return self._eval_expr(node.value, env)
         if isinstance(node, ast.Subscript):
-            if isinstance(node.value, ast.Name) and node.value.id == "x":
-                lag = _lag_from_slice(node.slice)
-                return ExprValue(frozenset((lag,))) if lag is not None else ExprValue(frozenset(("full_sequence",)))
-            base = self._eval_expr(node.value, env)
             lag = _lag_from_slice(node.slice)
-            return base.with_tokens(lag) if lag is not None else base
+            if isinstance(node.value, ast.Name) and node.value.id == "x":
+                if lag is not None:
+                    return ExprValue(frozenset((lag,)))
+                return ExprValue().with_failure(_subscript_failure_from_slice(node.slice), "unknown:dynamic_index")
+            base = self._eval_expr(node.value, env)
+            if lag is not None:
+                return base.with_tokens(lag)
+            if base.tokens:
+                return base.with_failure(_subscript_failure_from_slice(node.slice), "unknown:dynamic_index")
+            return base
         if isinstance(node, (ast.Tuple, ast.List, ast.Set)):
             return self._combine([self._eval_expr(item, env) for item in node.elts])
         if isinstance(node, ast.Dict):
@@ -725,10 +750,29 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
             "|".join((row["experiment"], row["split"], row["arm"], row["feature_callable"], row["label_callable"])).encode("utf-8")
         ).hexdigest()[:16]:
             raise ValueError("input accessibility row id mismatch")
+        feature_extraction = row["feature_extraction"]
+        label_extraction = row["label_extraction"]
+        if not isinstance(feature_extraction, Mapping) or not isinstance(label_extraction, Mapping):
+            raise ValueError("input accessibility extraction payload mismatch")
+        extraction_statuses = {feature_extraction.get("status"), label_extraction.get("status")}
+        if not extraction_statuses <= {"pass", "fail"}:
+            raise ValueError("input accessibility extraction status mismatch")
+        if feature_extraction.get("status") == "pass" and feature_extraction.get("failures"):
+            raise ValueError("input accessibility passing feature extraction has failures")
+        if label_extraction.get("status") == "pass" and label_extraction.get("failures"):
+            raise ValueError("input accessibility passing label extraction has failures")
+        if feature_extraction.get("status") == "fail" and not feature_extraction.get("failures"):
+            raise ValueError("input accessibility failing feature extraction lacks failures")
+        if label_extraction.get("status") == "fail" and not label_extraction.get("failures"):
+            raise ValueError("input accessibility failing label extraction lacks failures")
         if row["coverage_status"] not in {"pass", "fail"}:
             raise ValueError("input accessibility coverage status mismatch")
+        if row["coverage_status"] == "pass" and "fail" in extraction_statuses:
+            raise ValueError("input accessibility pass row has extraction failure")
         if row["coverage_status"] == "pass" and row["missing_variables"]:
             raise ValueError("input accessibility pass row has missing variables")
+        if row["coverage_status"] == "fail" and row["supports_architecture_claim"] is not False:
+            raise ValueError("input accessibility fail row must not support architecture claims")
         if row["unanswerable_ood"] and row["claim_exclusion"] != "boundary-ledger-only":
             raise ValueError("input accessibility OOD claim exclusion mismatch")
         if row["unanswerable_ood"] and row["supports_architecture_claim"] is not False:

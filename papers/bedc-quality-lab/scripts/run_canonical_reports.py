@@ -1268,6 +1268,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "registry_digest",
             "visible_variables",
             "required_variables",
+            "rows",
+            "row_count",
             "access_hardgates",
             "ood_hardgates",
             "boundary_ledger",

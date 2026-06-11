@@ -37,6 +37,19 @@ def dynamic_feature(x, name):
     return getattr(x, name)
 
 
+def dynamic_index_feature(x, lag):
+    return x[:, lag]
+
+
+def dynamic_index_label(x, lag):
+    y = x[:, lag]
+    return x, y
+
+
+def unsupported_lag_feature(x):
+    return x[:, -4]
+
+
 def token_lag_label(x):
     y = x[:, -3]
     return x, y
@@ -93,6 +106,58 @@ def test_unknown_helper_and_dynamic_access_fail_closed():
     assert dynamic.status == "fail"
     assert dynamic.variables == ("unknown:dynamic_access",)
     assert dynamic.failures == ("dynamic-access:getattr",)
+
+
+def test_dynamic_and_unsupported_lag_subscripts_fail_closed():
+    dynamic_feature_result = _extract(dynamic_index_feature)
+    dynamic_label_result = ia.RequiredVariableExtractor().extract_callable(
+        dynamic_index_label,
+        ia.ExtractionContext(split="in_distribution", arm="fixture_arm", target="label"),
+        "fixture:dynamic_index_label",
+    )
+    unsupported = _extract(unsupported_lag_feature)
+
+    assert dynamic_feature_result.status == "fail"
+    assert dynamic_feature_result.variables == ("unknown:dynamic_index",)
+    assert dynamic_feature_result.failures == ("dynamic-index:lag",)
+    assert dynamic_label_result.status == "fail"
+    assert dynamic_label_result.variables == ("unknown:dynamic_index",)
+    assert dynamic_label_result.failures == ("dynamic-index:lag",)
+    assert unsupported.status == "fail"
+    assert unsupported.variables == ("unknown:dynamic_index",)
+    assert unsupported.failures == ("unsupported-lag:-4",)
+
+
+def test_dynamic_index_row_cannot_support_architecture_claim():
+    spec = ia.FeatureSourceSpec(
+        experiment="repro",
+        split="in_distribution",
+        arm="dynamic-index",
+        role="candidate",
+        feature_module=__name__,
+        feature_callable="dynamic_index_feature",
+        label_module=__name__,
+        label_callable="dynamic_index_label",
+        claim_scope="repro",
+    )
+    payload = ia.build_payload(generated_at="fixture-time", registry=(spec,))
+    row = payload["rows"][0]
+
+    assert payload["access_hardgates"]["status"] == "fail"
+    assert row["coverage_status"] == "fail"
+    assert row["claim_exclusion"] == "extractor-fail-closed"
+    assert row["supports_architecture_claim"] is False
+    assert row["feature_extraction"]["failures"] == ["dynamic-index:lag"]
+    ia.validate_payload(payload)
+
+    row["coverage_status"] = "pass"
+    row["supports_architecture_claim"] = True
+    try:
+        ia.validate_payload(payload)
+    except ValueError as exc:
+        assert str(exc) == "input accessibility pass row has extraction failure"
+    else:
+        raise AssertionError("dynamic-index extraction failure must not validate as coverage pass")
 
 
 def test_registry_rows_contain_only_callable_pointers():

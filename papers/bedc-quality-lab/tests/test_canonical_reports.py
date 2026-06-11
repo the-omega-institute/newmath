@@ -1044,6 +1044,48 @@ def test_order_k_benchmark_canonical_spec_required_keys():
     }
 
 
+def test_input_accessibility_canonical_spec_requires_rows_and_row_count():
+    spec = canonical._specs_by_name()["input-accessibility"]
+
+    assert spec.json_artifact == canonical.INPUT_ACCESSIBILITY_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT
+    assert {"rows", "row_count"} <= set(spec.required_json_keys)
+
+
+def test_input_accessibility_validation_fails_closed_without_rows(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    canonical.ROOT = tmp_path
+    canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
+    spec = canonical._specs_by_name()["input-accessibility"]
+    payload = {key: "fixture" for key in spec.required_json_keys if key not in {"rows", "row_count"}}
+    payload["schema_id"] = canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    payload["artifact_id"] = canonical.INPUT_ACCESSIBILITY_ARTIFACT_ID
+    payload["access_hardgates"] = {"status": "pass"}
+    payload["ood_hardgates"] = {"status": "pass"}
+    payload["boundary_ledger"] = []
+    payload["consumer_pointers"] = {}
+    payload["source_registry"] = []
+    payload["visible_variables"] = {}
+    payload["required_variables"] = {}
+    payload["not_claimed"] = []
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    try:
+        validation = canonical._artifact_validation(spec)
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+
+    assert validation["status"] == "fail"
+    assert validation["required_key_validation"]["status"] == "fail"
+    assert set(validation["required_key_validation"]["missing_keys"]) == {"rows", "row_count"}
+
+
 def test_order_k_benchmark_fingerprint_closure_has_runner_and_projector(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     spec = canonical._specs_by_name()["order-k-benchmark"]
