@@ -1,0 +1,90 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "a1491de1e859139c4a40aba60d1420f581881b52525e829fb53cf5f42f47b88f",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_base_undertraining_audit.py",
+        "sha256": "68a77f323646bf4335227e7bcaeb1b72ef1d64adf128058e7f185ec612d27c4a"
+      },
+      {
+        "path": "scripts/run_dgt_base_undertraining_audit.py",
+        "sha256": "8f902f267c7317405c5c297e5721a9f92c6e6bf45d924a7e67774dfa317c3d61"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_base_undertraining_audit.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "2868ef5d6243eae9b4706b38e81711014268f61ec893c00570eff6f558891e72"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_dgt_base_undertraining_audit.py"
+      ],
+      "control_pointer": "$.base_undertraining_audit.comparison_rows",
+      "cost_pointer": "$.base_undertraining_audit.source_contract",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
+      "name": "dgt-base-undertraining-audit",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.base_undertraining_audit.not_claimed",
+      "positive_claim_pointer": "$.base_undertraining_audit.verdict",
+      "required_json_keys": [
+        "base_undertraining_audit"
+      ],
+      "scope_pointer": "$.base_undertraining_audit.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
+  "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
+  "output_digest": "eb89384b9e748fa302bcd7bca1a0b820ceeb8248b2b2b78cdd4be721f0f8a34b",
+  "producer_command": [
+    "python3",
+    "scripts/run_dgt_base_undertraining_audit.py"
+  ],
+  "report_name": "dgt-base-undertraining-audit",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}
