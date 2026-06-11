@@ -2496,6 +2496,7 @@ import BEDC.Derived.ClosedSubspaceCompletionUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ConsumerExhaustion
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.NameCertObligations
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicConsumerSurface
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
@@ -3249,6 +3250,7 @@ import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
@@ -5974,6 +5976,7 @@ import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationBasis
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
+import BEDC.Derived.LowerSemicontinuousUp.ObligationClosurePackage
 import BEDC.Derived.LowerSemicontinuousUp.ObligationClosureRoute
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
@@ -6235,6 +6238,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
@@ -6274,6 +6278,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
@@ -8292,6 +8297,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDiagonalWindowUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalizationUp.TasteGate
+import BEDC.Derived.RegularCauchyDifferenceBoundUp
 import BEDC.Derived.RegularCauchyDifferenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
