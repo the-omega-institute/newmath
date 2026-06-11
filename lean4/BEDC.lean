@@ -1429,8 +1429,6 @@ import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessObligationUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
-import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp.NamecertObligations
-import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionApartnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
@@ -4908,6 +4906,7 @@ import BEDC.Derived.FiniteRealSectionUp.StdBridge
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.TransportStability
 import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
+import BEDC.Derived.FiniteRecognizerCarrierObstructionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
@@ -5137,6 +5136,7 @@ import BEDC.Derived.GoursatUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
+import BEDC.Derived.GreedySpectralClosureUp.TasteGate
 import BEDC.Derived.GroebnerBasisUp.TasteGate
 import BEDC.Derived.GromovHausdorffUp.NameCertObligations
 import BEDC.Derived.GromovHausdorffUp.TasteGate
@@ -5298,7 +5298,6 @@ import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
-import BEDC.Derived.HilbertUp.SingletonEmptyHistoryCarrier
 import BEDC.Derived.HilbertUp.StdBridge
 import BEDC.Derived.HilleYosidaUp
 import BEDC.Derived.HistTimeStreamUp
@@ -6252,7 +6251,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualBudgetInterface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualDiamondLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualL10FrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStability
-import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStabilitySurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceCheckerFactorization
