@@ -342,4 +342,69 @@ theorem DiagonalCofinalTailCarrier_terminal_common_tail_descent [AskSetup] [Pack
     ⟨leftUnary, rightUnary, descentUnary, sameTail, leftRoute, rightRoute, descentRoute,
       pPkg, pPkg', descentPkg⟩
 
+theorem DiagonalCofinalTailScopePackage [AskSetup] [PackageSetup]
+    {q s g d r w h c p n terminalRead scopeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont r w terminalRead →
+        Cont terminalRead n scopeRead →
+          PkgSig bundle scopeRead pkg →
+            SemanticNameCert
+              (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row q ∨ hsame row s ∨ hsame row g ∨ hsame row d ∨
+                  hsame row r ∨ hsame row w ∨ hsame row h ∨ hsame row c ∨
+                    hsame row p ∨ hsame row n ∨ hsame row scopeRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont q s g ∧ Cont g d r ∧
+                  Cont r w terminalRead ∧ Cont terminalRead n scopeRead ∧
+                    PkgSig bundle scopeRead pkg)
+              hsame ∧ UnaryHistory terminalRead ∧ UnaryHistory scopeRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert UnaryHistory hsame
+  intro carrier terminalRoute scopeRoute scopePkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
+    nUnary, qsRoute, gdRoute, _whRoute, _pPkg⟩ := carrier
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed rUnary wUnary terminalRoute
+  have scopeUnary : UnaryHistory scopeRead :=
+    unary_cont_closed terminalUnary nUnary scopeRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row q ∨ hsame row s ∨ hsame row g ∨ hsame row d ∨
+            hsame row r ∨ hsame row w ∨ hsame row h ∨ hsame row c ∨
+              hsame row p ∨ hsame row n ∨ hsame row scopeRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont q s g ∧ Cont g d r ∧
+            Cont r w terminalRead ∧ Cont terminalRead n scopeRead ∧
+              PkgSig bundle scopeRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopeRead ⟨hsame_refl scopeRead, scopeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, qsRoute, gdRoute, terminalRoute, scopeRoute, scopePkg⟩
+  }
+  exact ⟨cert, terminalUnary, scopeUnary⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
