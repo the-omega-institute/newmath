@@ -1,19 +1,15 @@
+import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
+namespace BEDC.Derived.CauchyCompletionAdjunctionTriangleUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
-
-inductive CauchyCompletionAdjunctionTriangleUp : Type where
-  | mk (F A U I R W D E H C P N : BHist) :
-      CauchyCompletionAdjunctionTriangleUp
-  deriving DecidableEq
 
 def cauchyCompletionAdjunctionTriangleEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -27,10 +23,11 @@ def cauchyCompletionAdjunctionTriangleDecodeBHist : RawEvent -> BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyCompletionAdjunctionTriangleDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyCompletionAdjunctionTriangleDecodeBHist tail)
 
-private theorem CauchyCompletionAdjunctionTriangleTasteGate_decode_encode :
+private theorem cauchyCompletionAdjunctionTriangle_decode_encode_bhist :
     forall h : BHist,
       cauchyCompletionAdjunctionTriangleDecodeBHist
-        (cauchyCompletionAdjunctionTriangleEncodeBHist h) = h := by
+          (cauchyCompletionAdjunctionTriangleEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,120 +35,114 @@ private theorem CauchyCompletionAdjunctionTriangleTasteGate_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyCompletionAdjunctionTriangleFields :
-    CauchyCompletionAdjunctionTriangleUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CauchyCompletionAdjunctionTriangleUp.mk F A U I R W D E H C P N =>
-      [F, A, U, I, R, W, D, E, H, C, P, N]
-
 def cauchyCompletionAdjunctionTriangleToEventFlow :
     CauchyCompletionAdjunctionTriangleUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyCompletionAdjunctionTriangleFields x).map
-      cauchyCompletionAdjunctionTriangleEncodeBHist
+  | x =>
+      (cauchyCompletionAdjunctionTriangleFields x).map
+        cauchyCompletionAdjunctionTriangleEncodeBHist
 
-private def cauchyCompletionAdjunctionTriangleDecodePacket
-    (F A U I R W D E H C P N : RawEvent) : CauchyCompletionAdjunctionTriangleUp :=
+private def cauchyCompletionAdjunctionTriangleRawAt :
+    Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  CauchyCompletionAdjunctionTriangleUp.mk
-    (cauchyCompletionAdjunctionTriangleDecodeBHist F)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist A)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist U)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist I)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist R)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist W)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist D)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist E)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist H)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist C)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist P)
-    (cauchyCompletionAdjunctionTriangleDecodeBHist N)
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => cauchyCompletionAdjunctionTriangleRawAt n rest
+
+private def cauchyCompletionAdjunctionTriangleLengthEq :
+    Nat -> EventFlow -> Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => cauchyCompletionAdjunctionTriangleLengthEq n rest
 
 def cauchyCompletionAdjunctionTriangleFromEventFlow :
     EventFlow -> Option CauchyCompletionAdjunctionTriangleUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | F :: rest0 =>
-      match rest0 with
-      | [] => none
-      | A :: rest1 =>
-          match rest1 with
-          | [] => none
-          | U :: rest2 =>
-              match rest2 with
-              | [] => none
-              | I :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | R :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | W :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | D :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | E :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | H :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | C :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | P :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | N :: rest11 =>
-                                                  match rest11 with
-                                                  | [] =>
-                                                      some
-                                                        (cauchyCompletionAdjunctionTriangleDecodePacket
-                                                          F A U I R W D E H C P N)
-                                                  | _ :: _ => none
+  | flow =>
+      match cauchyCompletionAdjunctionTriangleLengthEq 12 flow with
+      | true =>
+          some
+            (CauchyCompletionAdjunctionTriangleUp.mk
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 0 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 1 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 2 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 3 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 4 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 5 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 6 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 7 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 8 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 9 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 10 flow))
+              (cauchyCompletionAdjunctionTriangleDecodeBHist
+                (cauchyCompletionAdjunctionTriangleRawAt 11 flow)))
+      | false => none
 
-private theorem CauchyCompletionAdjunctionTriangleTasteGate_round_trip :
+private theorem cauchyCompletionAdjunctionTriangle_round_trip :
     forall x : CauchyCompletionAdjunctionTriangleUp,
       cauchyCompletionAdjunctionTriangleFromEventFlow
-        (cauchyCompletionAdjunctionTriangleToEventFlow x) = some x := by
+          (cauchyCompletionAdjunctionTriangleToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk F A U I R W D E H C P N =>
       change
         some
-          (cauchyCompletionAdjunctionTriangleDecodePacket
-            (cauchyCompletionAdjunctionTriangleEncodeBHist F)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist A)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist U)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist I)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist R)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist W)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist D)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist E)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist H)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist C)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist P)
-            (cauchyCompletionAdjunctionTriangleEncodeBHist N)) =
+          (CauchyCompletionAdjunctionTriangleUp.mk
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist F))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist A))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist U))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist I))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist R))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist W))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist D))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist E))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist H))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist C))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist P))
+            (cauchyCompletionAdjunctionTriangleDecodeBHist
+              (cauchyCompletionAdjunctionTriangleEncodeBHist N))) =
           some (CauchyCompletionAdjunctionTriangleUp.mk F A U I R W D E H C P N)
-      unfold cauchyCompletionAdjunctionTriangleDecodePacket
-      rw [CauchyCompletionAdjunctionTriangleTasteGate_decode_encode F,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode A,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode U,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode I,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode R,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode W,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode D,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode E,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode H,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode C,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode P,
-        CauchyCompletionAdjunctionTriangleTasteGate_decode_encode N]
+      rw [cauchyCompletionAdjunctionTriangle_decode_encode_bhist F,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist A,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist U,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist I,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist R,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist W,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist D,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist E,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist H,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist C,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist P,
+        cauchyCompletionAdjunctionTriangle_decode_encode_bhist N]
 
-
-private theorem CauchyCompletionAdjunctionTriangleTasteGate_toEventFlow_injective
+private theorem cauchyCompletionAdjunctionTriangleToEventFlow_injective
     {x y : CauchyCompletionAdjunctionTriangleUp} :
     cauchyCompletionAdjunctionTriangleToEventFlow x =
         cauchyCompletionAdjunctionTriangleToEventFlow y ->
@@ -165,10 +156,10 @@ private theorem CauchyCompletionAdjunctionTriangleTasteGate_toEventFlow_injectiv
           (cauchyCompletionAdjunctionTriangleToEventFlow y) :=
     congrArg cauchyCompletionAdjunctionTriangleFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyCompletionAdjunctionTriangleTasteGate_round_trip x).symm
-      (Eq.trans hread (CauchyCompletionAdjunctionTriangleTasteGate_round_trip y)))
+    (Eq.trans (cauchyCompletionAdjunctionTriangle_round_trip x).symm
+      (Eq.trans hread (cauchyCompletionAdjunctionTriangle_round_trip y)))
 
-private theorem CauchyCompletionAdjunctionTriangleTasteGate_field_faithful :
+private theorem cauchyCompletionAdjunctionTriangle_field_faithful :
     forall x y : CauchyCompletionAdjunctionTriangleUp,
       cauchyCompletionAdjunctionTriangleFields x =
           cauchyCompletionAdjunctionTriangleFields y ->
@@ -195,57 +186,42 @@ instance cauchyCompletionAdjunctionTriangleChapterTasteGate :
     intro x
     change
       cauchyCompletionAdjunctionTriangleFromEventFlow
-          (cauchyCompletionAdjunctionTriangleToEventFlow x) = some x
-    exact CauchyCompletionAdjunctionTriangleTasteGate_round_trip x
+          (cauchyCompletionAdjunctionTriangleToEventFlow x) =
+        some x
+    exact cauchyCompletionAdjunctionTriangle_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyCompletionAdjunctionTriangleTasteGate_toEventFlow_injective heq)
+    exact hxy (cauchyCompletionAdjunctionTriangleToEventFlow_injective heq)
 
 instance cauchyCompletionAdjunctionTriangleFieldFaithful :
     FieldFaithful CauchyCompletionAdjunctionTriangleUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyCompletionAdjunctionTriangleFields
-  field_faithful := CauchyCompletionAdjunctionTriangleTasteGate_field_faithful
+  field_faithful := cauchyCompletionAdjunctionTriangle_field_faithful
 
-instance cauchyCompletionAdjunctionTriangleNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial CauchyCompletionAdjunctionTriangleUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CauchyCompletionAdjunctionTriangleUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      CauchyCompletionAdjunctionTriangleUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def cauchyCompletionAdjunctionTriangleTasteGate :
-    ChapterTasteGate CauchyCompletionAdjunctionTriangleUp :=
+def taste_gate : ChapterTasteGate CauchyCompletionAdjunctionTriangleUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyCompletionAdjunctionTriangleChapterTasteGate
 
 theorem CauchyCompletionAdjunctionTriangleTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      cauchyCompletionAdjunctionTriangleDecodeBHist
-        (cauchyCompletionAdjunctionTriangleEncodeBHist h) = h) ∧
-      (∀ x : CauchyCompletionAdjunctionTriangleUp,
+    Nonempty (ChapterTasteGate CauchyCompletionAdjunctionTriangleUp) ∧
+      Nonempty (FieldFaithful CauchyCompletionAdjunctionTriangleUp) ∧
+      (forall h : BHist,
+        cauchyCompletionAdjunctionTriangleDecodeBHist
+            (cauchyCompletionAdjunctionTriangleEncodeBHist h) =
+          h) ∧
+      (forall x : CauchyCompletionAdjunctionTriangleUp,
         cauchyCompletionAdjunctionTriangleFromEventFlow
-          (cauchyCompletionAdjunctionTriangleToEventFlow x) = some x) ∧
-        (∀ x y : CauchyCompletionAdjunctionTriangleUp,
-          cauchyCompletionAdjunctionTriangleToEventFlow x =
-              cauchyCompletionAdjunctionTriangleToEventFlow y ->
-            x = y) ∧
-          cauchyCompletionAdjunctionTriangleEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact CauchyCompletionAdjunctionTriangleTasteGate_decode_encode
-  · constructor
-    · exact CauchyCompletionAdjunctionTriangleTasteGate_round_trip
-    · constructor
-      · intro x y heq
-        exact CauchyCompletionAdjunctionTriangleTasteGate_toEventFlow_injective heq
-      · rfl
+            (cauchyCompletionAdjunctionTriangleToEventFlow x) =
+          some x) ∧
+      cauchyCompletionAdjunctionTriangleEncodeBHist
+        (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro cauchyCompletionAdjunctionTriangleChapterTasteGate,
+      Nonempty.intro cauchyCompletionAdjunctionTriangleFieldFaithful,
+      cauchyCompletionAdjunctionTriangle_decode_encode_bhist,
+      cauchyCompletionAdjunctionTriangle_round_trip,
+      rfl⟩
 
-end BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
+end BEDC.Derived.CauchyCompletionAdjunctionTriangleUp.TasteGate
