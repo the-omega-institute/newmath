@@ -1,0 +1,136 @@
+\chapter{A Concrete Naming Certificate for $\RHZeroWindowUp$}
+\label{ch:concrete-instances-rh-zero-window-namecert}
+\origin{human}
+
+Following the Riemann zeta zero tradition and the finite RH-route boundary
+of \autoref{ch:visions-rh-route-halting-boundary}, the $\RHZeroWindowUp$
+packet records bounded inspection windows for supplied zeta-zero witnesses.
+It sits downstream of \autoref{ch:concrete-instances-zeta-zeros-namecert},
+\autoref{ch:concrete-instances-critical-strip-namecert},
+\autoref{ch:concrete-instances-zeta-continuation}, and
+\autoref{ch:concrete-instances-complex-namecert}. The packet names a finite
+witness surface only: it does not prove $\mathsf{RH}$, enumerate all zeros,
+decide all zero locations, or supply a global route-closure oracle.
+
+\begin{definition}[RHZeroWindow carrier]
+\label{def:rh-zero-window-carrier}
+An $\RHZeroWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Z,S,A,X,B,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the supplied $\ZetaZerosUp$ zero-witness row for the inspected
+  complex history.
+\item $S$ is the $\CritStripUp$ row recording the critical-strip boundary
+  or obstruction data visible to the window.
+\item $A$ is the $\ZetaContUp$ continuation row through which the zeta value
+  is read.
+\item $X$ is the $\ComplexUp$ point row for the inspected source history and
+  zero-value comparison.
+\item $B$ is the finite bound row naming the inspected height, depth,
+  precision, or source-prefix budget of the window.
+\item $T$ is the provenance row tying the zero row, strip row, continuation
+  row, complex point, and finite bound to the same RH-route request.
+\item $H$ records componentwise $\hsame$ transport for $Z,S,A,X,B,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for the zero, strip,
+  continuation, complex, bound, and provenance rows.
+\item $P$ is the $\Pkg$ provenance over $\RHZeroWindowUp$, $\ZetaZerosUp$,
+  $\CritStripUp$, $\ZetaContUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$,
+  and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RHZeroWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted zero-window packets only through
+$Z,S,A,X,B,T,H,C,P,N$. It has no coordinate for a proof of $\mathsf{RH}$, a
+counterexample, a complete zero enumeration, host complex equality, quotient
+zero-set equality, or a global zero-location decider.
+\end{definition}
+
+\begin{theorem}[RHZeroWindow NameCert obligations]
+\label{thm:rh-zero-window-namecert-obligations}
+For every accepted $\RHZeroWindowUp$ carrier
+$$
+W=(Z,S,A,X,B,T,H,C,P,N),
+$$
+the local $\NameCert_{\RHZeroWindowUp}$ surface consists exactly of carrier
+admission for the displayed rows, zeta-zero source exposure through $Z$,
+critical-strip exposure through $S$, continuation exposure through $A$,
+complex point exposure through $X$, finite-bound exposure through $B$,
+route-provenance exposure through $T$, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rh-zero-window-carrier}.
+The zero-facing rows are exactly $Z,S,A,X,B,T$, while $H,C,P,N$ are the
+structural transport, replay, package, and naming rows.
+
+The zeta-zero source is supplied, not searched for. The row $Z$ records a
+zero witness already presented by $\ZetaZerosUp$, and the strip row $S$ only
+records the finite critical-strip boundary visible to this same window.
+
+The continuation and complex rows are also finite inputs. The row $A$ gives
+the $\ZetaContUp$ route used for the inspected zeta value, while $X$ names
+the complex-history point and zero-value comparison consumed by the window.
+
+Finally the bound and provenance rows $B,T$ keep the read inside one finite
+inspection budget. Since no other carrier coordinate is present, the packet
+cannot export an RH proof, a counterexample, all zeros, host equality,
+quotient zero-set equality, or a global zero-location decider.
+\end{proof}
+
+\begin{theorem}[RHZeroWindow zeta source route]
+\label{thm:rh-zero-window-zeta-source-route}
+Every zero-facing read of an accepted $\RHZeroWindowUp$ packet factors through
+the finite route
+$$
+\ZetaZerosUp,\ \CritStripUp,\ \ZetaContUp,\ \ComplexUp .
+$$
+The finite bound row $B$ and route-provenance row $T$ must be displayed
+before the packet can be consumed by an RH-route boundary argument.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $W=(Z,S,A,X,B,T,H,C,P,N)$. The zero source row
+$Z$ is the first public zero-facing datum, and it is read together with the
+critical-strip row $S$ rather than with an ambient zero search.
+
+The continuation row $A$ and complex row $X$ identify the value route and
+the inspected point. They are finite rows of the same packet, so a consumer
+cannot replace them by host analytic continuation or host complex equality.
+
+The bound row $B$ and provenance row $T$ then fix the inspection budget and
+the RH-route request. Only after those rows are exposed may the structural
+rows $H,C,P,N$ transport, replay, source, and name the zero window.
+\end{proof}
+
+\begin{theorem}[RHZeroWindow nonescape]
+\label{thm:rh-zero-window-nonescape}
+An accepted $\RHZeroWindowUp$ packet records finite inspection windows for
+zeta-zero witnesses and exports no proof of $\mathsf{RH}$, no counterexample,
+no complete zero enumeration, no host complex equality, no quotient zero-set
+equality, and no decision procedure for all zeros.
+\end{theorem}
+\begin{proof}
+Inspect the packet coordinates. The only zero data are the supplied
+$\ZetaZerosUp$ row $Z$, the critical-strip row $S$, the continuation row $A$,
+the complex point row $X$, the finite bound row $B$, and the provenance row
+$T$.
+
+The rows $H,C,P,N$ preserve and name that displayed route. They do not add a
+new witness, a zero search, an equality quotient, or an RH decision datum.
+
+Thus every accepted consumer remains inside the finite window
+$Z,S,A,X,B,T,H,C,P,N$, and the excluded global conclusions are outside the
+carrier surface.
+\end{proof}
+
+\closureat{RHZeroWindowUp}{seedStr}
+
+\begin{closurestatus}{\RHZeroWindowUp}
+  \constructivestory{An $\RHZeroWindowUp$ packet is generated from a supplied ZetaZeros row, a critical-strip row, a ZetaCont continuation row, a Complex point row, a finite inspection-bound row, route provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rh-zero-window-carrier}, \autoref{thm:rh-zero-window-namecert-obligations}, \autoref{thm:rh-zero-window-zeta-source-route}, and \autoref{thm:rh-zero-window-nonescape} seed the finite zero-inspection surface for RH-route boundary consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RH, counterexamples to RH, complete zero enumeration, host complex equality, quotient zero-set equality, all-zero decision, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zeta-zero source exposure, critical-strip exposure, continuation exposure, complex point exposure, finite-bound exposure, route-provenance exposure, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RHZeroWindowUp.}
+\end{closurestatus}
