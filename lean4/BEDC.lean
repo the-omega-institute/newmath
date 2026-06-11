@@ -2270,7 +2270,6 @@ import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.CarrierSemanticNameCert
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
 import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
-import BEDC.Derived.CellularCarrierBHistEquivalenceUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
@@ -7763,6 +7762,7 @@ import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
+import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
 import BEDC.Derived.RealNullSequenceUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.NonEscape
 import BEDC.Derived.RealObservationBudgetUp.StdBridge
@@ -8619,6 +8619,7 @@ import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.SchurMatrixSummabilityUp.TasteGate
 import BEDC.Derived.SchurOrthogonalityUp
+import BEDC.Derived.SchurOrthogonalityUp.CharacterInnerProduct
 import BEDC.Derived.SchurOrthogonalityUp.CharacterPairingRoute
 import BEDC.Derived.SchurOrthogonalityUp.TasteGate
 import BEDC.Derived.SchwartzFunctionUp.TasteGate
