@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealArithmeticUp$}
+\label{ch:concrete-instances-bishop-real-arithmetic-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRealArithmeticUp$ packet records the constructive arithmetic interface for regular Cauchy real names as finite BEDC NameCert data. It sits after the dyadic rational ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular-Cauchy addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, and the regular-Cauchy multiplication route of \autoref{ch:concrete-instances-regular-cauchy-multiplication-namecert}. The packet gives $\RealAlgOrderUp$ and $\MetricSpaceUp$ consumers one public arithmetic route over displayed regular Cauchy names, not separate host operations.
+
+\begin{definition}[Bishop real arithmetic carrier]
+\label{def:bishop-real-arithmetic-carrier}
+A $\BishopRealArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,Y,S_X,S_Y,R_X,R_Y,D,+_A,\cdot_A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two source $\RealUp$ name rows, each read only through a displayed regular Cauchy route.
+\item $S_X$ and $S_Y$ are the finite $\StreamNameUp$ windows requested for the two source names.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows obtained from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and error ledger used by both arithmetic operations.
+\item $+_A$ is the $\RegularCauchyAdditionUp$ row, available only after $X,Y,S_X,S_Y,R_X,R_Y,D$ have been displayed.
+\item $\cdot_A$ is the $\RegularCauchyMultiplicationUp$ row, available only after the same source rows and the displayed product-bound entries in $D$ have been displayed.
+\item $E$ is the output $\RealUp$ seal for the requested arithmetic read.
+\item $H$ records componentwise $\hsame$ transport for the source names, windows, readbacks, dyadic ledger, addition row, multiplication row, output seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an arithmetic request through the source rows, finite windows, readbacks, dyadic budget, operation row, output seal, transport, package provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\BishopRealArithmeticUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyMultiplicationUp$, $\RealAlgOrderUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRealArithmeticUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one regular Cauchy arithmetic packet. It has no coordinate for quotient real equality, selected limits, trichotomy, ambient $\RealUp$ completeness, host real addition, or host real multiplication.
+\end{definition}
+
+\begin{theorem}[Bishop real arithmetic NameCert obligations]
+\label{thm:bishop-real-arithmetic-namecert-obligations}
+For every accepted $\BishopRealArithmeticUp$ carrier
+$$
+A=(X,Y,S_X,S_Y,R_X,R_Y,D,+_A,\cdot_A,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopRealArithmeticUp}$ surface consists exactly of carrier admission for the two displayed $\RealUp$ source rows, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchyAdditionUp$ row, the $\RegularCauchyMultiplicationUp$ row, the output $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\RealAlgOrderUp$ or $\MetricSpaceUp$ consumer of arithmetic on regular Cauchy real names must read through these rows before it consumes an operation result.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-real-arithmetic-carrier}. The source data are the two real-name rows, their finite stream windows, their regular rational readbacks, and the shared dyadic tolerance ledger.
+
+The addition and multiplication rows are downstream of those finite rows. The addition row cites the regular-Cauchy addition chapter, while the multiplication row also uses the displayed product-bound entries in the dyadic ledger before the output seal is available.
+
+The output seal $E$ is therefore reached only through the finite regular Cauchy arithmetic route. Componentwise transport, continuation replay, provenance, and local naming preserve the same displayed rows for downstream $\RealAlgOrderUp$ and $\MetricSpaceUp$ consumers.
+
+Since the carrier has no coordinate for quotient real equality, selected limits, trichotomy, ambient $\RealUp$ completeness, host real addition, or host real multiplication, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop real arithmetic downstream route]
+\label{thm:bishop-real-arithmetic-downstream-route}
+Every $\RealAlgOrderUp$ or $\MetricSpaceUp$ consumer of an accepted $\BishopRealArithmeticUp$ packet reads arithmetic data only through the finite route
+$$
+X,Y,S_X,S_Y,R_X,R_Y,D,+_A,\cdot_A,E,H,C,P,N .
+$$
+The route supplies regular Cauchy addition and multiplication over displayed real-name rows, and exports no quotient real equality, selected limits, trichotomy, ambient $\RealUp$ completeness, or host arithmetic operation.
+\end{theorem}
+\begin{proof}
+Start with an arithmetic consumer. The consumer first sees the displayed real-name sources and their finite windows, not host representatives of completed real numbers.
+
+The regular rational readbacks and dyadic tolerance ledger are read before either arithmetic row. Thus the addition and multiplication entries are finite regular Cauchy operation rows rather than detached operations on an ambient real carrier.
+
+Finally the output seal and structural rows package the same finite route for $\RealAlgOrderUp$ and $\MetricSpaceUp$. No carrier row supplies quotient equality, selected limits, trichotomy, ambient completeness, or host arithmetic.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopRealArithmeticUp$ arithmetic read displays two Real source rows, two finite StreamName windows, two RegSeqRat readbacks, one DyadicRatCore tolerance ledger, a RegularCauchyAddition row, a RegularCauchyMultiplication row, one output Real seal, and local transport, replay, provenance, and naming rows before a RealAlgOrder or MetricSpace consumer receives the result.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-addition, regular-cauchy-multiplication: $\BishopRealArithmeticUp$ is not bijective to any listed sibling because it binds both regular Cauchy operation rows to one displayed dyadic budget, output real seal, structural transport, continuation replay, package provenance, and local naming row.}
+
+\closureat{BishopRealArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealArithmeticUp}
+  \constructivestory{A $\BishopRealArithmeticUp$ packet is generated from two Real name rows, finite StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, RegularCauchyAddition and RegularCauchyMultiplication rows, an output Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-arithmetic-carrier}, \autoref{thm:bishop-real-arithmetic-namecert-obligations}, and \autoref{thm:bishop-real-arithmetic-downstream-route} seed the public arithmetic interface over regular Cauchy real names for RealAlgOrder and MetricSpace consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, trichotomy, ambient Real completeness, host arithmetic, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the finite arithmetic NameCert surface over BEDC.Derived.BishopRealArithmeticUp.}
+\end{closurestatus}
