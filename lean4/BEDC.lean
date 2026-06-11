@@ -4139,6 +4139,7 @@ import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
+import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EgorovUp.TasteGate
 import BEDC.Derived.EigenUp
@@ -6110,6 +6111,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceLockCertificate
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceWindowDeterminacy
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSplitRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
@@ -6268,6 +6270,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealAuditCleanFloor
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
@@ -7132,6 +7135,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
+import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
 import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate

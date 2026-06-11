@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\OrderedVectorSpaceUp$}
+\label{ch:concrete-instances-ordered-vector-space-namecert}
+\origin{human}
+
+Following Bourbaki and Aliprantis--Border on ordered vector spaces, the $\OrderedVectorSpaceUp$ packet records the finite BEDC naming surface for a vector space equipped with a displayed positive cone whose induced preorder is compatible with addition and positive scalar multiplication. It sits beside the algebraic vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the cone membership boundary of \autoref{ch:concrete-instances-positive-cone-namecert}, the preorder classifier of \autoref{ch:concrete-instances-preorder-namecert}, and the real scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite ordered-algebra surface; it is not a lattice envelope, a Riesz decomposition principle, a Hahn-Banach separation theorem, an order-unit representation, or a host order completion.
+
+\begin{definition}[Ordered vector space NameCert surface]
+\label{def:ordered-vector-space-namecert-surface}
+An $\OrderedVectorSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(V,P,R,A,S,K,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ carrier row naming the vector endpoint, real scalar endpoint, zero vector, addition, additive inverse, scalar action, and finite vector-space law ledger.
+\item $P$ is the $\PositiveConeUp$ row on the same vector endpoint, recording cone membership, zero inclusion, addition closure inside the cone, and positive-real scalar closure.
+\item $R$ is the $\PreorderUp$ classifier row whose comparison is induced exactly by the displayed cone test: $x\leq_O y$ is read only through the row asserting $y-x\in P$.
+\item $A$ records addition compatibility: if $x\leq_O y$, then the displayed addition row carries $x+z\leq_O y+z$ by reusing the same cone difference row.
+\item $S$ records positive-scalar compatibility: if $0\leq r$ is read through the $\RealUp$ scalar seal and $x\leq_O y$, then the displayed scalar-action row carries $r x\leq_O r y$ through the cone closure row.
+\item $K$ records cone closure and exactness: the preorder row has no accepted comparison unless the corresponding difference row has been admitted by $P$, and every admitted cone difference supplies the comparison row.
+\item $H$ records componentwise $\hsame$ transport for the vector-space carrier, cone row, preorder classifier, addition-compatibility row, scalar-compatibility row, cone-closure row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an ordered-vector-space request through $V,P,R,A,S,K,H$ back to the same finite ordered-algebra surface.
+\item $G$ is the $\Pkg$ provenance over $\OrderedVectorSpaceUp$, $\VecSpaceUp$, $\PositiveConeUp$, $\PreorderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OrderedVectorSpaceUp}$ row binding these displayed rows as one ordered-vector-space certificate.
+\end{enumerate}
+The classifier compares accepted packets only through $V,P,R,A,S,K,H,C,G,N$. It has no coordinate for a lattice operation, a Riesz decomposition witness, Hahn-Banach separation, an order unit, a selected dual cone, or an ambient host order relation.
+\end{definition}
+
+\begin{theorem}[Ordered vector space positive-cone obligations]
+\label{thm:ordered-vector-space-positive-cone-obligations}
+For every accepted $\OrderedVectorSpaceUp$ carrier $O=(V,P,R,A,S,K,H,C,G,N)$, the local $\NameCert_{\OrderedVectorSpaceUp}$ surface exports exactly the cone-induced preorder, addition monotonicity, positive-scalar monotonicity, and nonescape from host order. A downstream consumer may read $x\leq_O y$ only by reading the displayed difference row $y-x\in P$; it may transport this comparison along displayed addition and positive-real scalar-action rows; and it receives no order comparison outside the carrier rows $V,P,R,A,S,K,H,C,G,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:ordered-vector-space-namecert-surface}. The tuple displays exactly the vector-space row $V$, the positive-cone row $P$, the preorder row $R$, the addition and positive-scalar compatibility rows $A,S$, the cone-exactness row $K$, and the structural rows $H,C,G,N$.
+
+The preorder obligation is therefore cone-induced. The only comparison exported by $R$ is the one whose certificate is the displayed cone row for $y-x$, and $K$ records the converse handoff from an admitted cone difference back to the comparison row.
+
+Addition monotonicity is read through $A$: translating both endpoints preserves the same displayed difference row, so the comparison after translation is again admitted only through $P$ and $R$.
+
+Positive-scalar monotonicity is read through $S$: the scalar is first sealed by the $\RealUp$ row as positive, then the scalar-action row transports the cone difference through the closure data carried by $P$.
+
+Finally $H,C,G,N$ transport, replay, source, and name only those displayed coordinates. Since the carrier has no lattice row, no Riesz decomposition row, no separation functional, no order-unit representation, and no ambient host order coordinate, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\closureat{OrderedVectorSpaceUp}{seedStr}
+
+\begin{closurestatus}{\OrderedVectorSpaceUp}
+  \constructivestory{An $\OrderedVectorSpaceUp$ packet is generated from a VecSpace carrier, a PositiveCone row, a cone-induced Preorder classifier, addition and positive-scalar compatibility rows, cone exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ordered-vector-space-namecert-surface} and \autoref{thm:ordered-vector-space-positive-cone-obligations} seed the finite ordered-algebra certificate over VecSpaceUp, PositiveConeUp, PreorderUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.OrderedVectorSpaceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close lattice or Riesz completeness, Hahn-Banach separation, order-unit representation, Lean verification of the ordered-algebra obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cone-induced preorder exactness, addition monotonicity, positive-scalar monotonicity, transport, replay, provenance, and local naming for BEDC.Derived.OrderedVectorSpaceUp.}
+\end{closurestatus}
