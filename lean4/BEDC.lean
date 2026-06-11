@@ -3556,6 +3556,7 @@ import BEDC.Derived.DiagonalConvergenceBoundUp.TasteGate
 import BEDC.Derived.DiagonalIndexCofinalityUp
 import BEDC.Derived.DiagonalIndexCofinalityUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.Nonescape
+import BEDC.Derived.DiagonalLimitBudgetUp.ObligationSurface
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
@@ -6694,6 +6695,7 @@ import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.ModulusOfConvergenceUp.DoubleTail
 import BEDC.Derived.ModulusOfSequentialContinuityUp.TasteGate
+import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
 import BEDC.Derived.MonadUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
@@ -7427,6 +7429,7 @@ import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProjectiveVarUp.TasteGate
+import BEDC.Derived.ProkhorovTightProbabilityUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ProofObligationGapUp.TasteGate
 import BEDC.Derived.ProofPatternClassifierUp.TasteGate
