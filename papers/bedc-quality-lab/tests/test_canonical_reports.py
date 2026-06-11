@@ -6880,3 +6880,64 @@ def test_claim_complexity_index_section_fails_on_unresolved_pointer(tmp_path, mo
 
     assert section["status"] == "fail"
     assert section["validation_errors"]
+
+
+def test_evidence_provenance_index_section_uses_current_report_manifest(tmp_path, monkeypatch):
+    spec = canonical.CanonicalReportSpec(
+        name="provenance-fixture",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/provenance-fixture.json",
+        markdown_artifact="reports/canonical/provenance-fixture.md",
+        required_json_keys=("positive",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive",
+        control_pointer="$.control",
+        no_control_rationale_pointer=None,
+    )
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    (tmp_path / "scripts").mkdir(parents=True)
+    (tmp_path / "scripts/run_fixture.py").write_text("def main():\n    return None\n", encoding="utf-8")
+    (tmp_path / "reports/canonical").mkdir(parents=True)
+    (tmp_path / "reports/canonical/provenance-fixture.json").write_text(
+        json.dumps(
+            {
+                "positive": True,
+                "scope": {"status": "present"},
+                "cost": {"status": "present"},
+                "not_claimed": ["fixture"],
+                "control": {"status": "present"},
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "reports/canonical/discovery_map.json").write_text(
+        json.dumps(
+            {
+                "rows": [
+                    {
+                        "report": "provenance-fixture",
+                        "discovery_level": "D1",
+                        "audit_status": "valid",
+                    }
+                ]
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    section = canonical._evidence_provenance_index_section("fixture-time", canonical_reports=(spec,))
+
+    assert section["schema_id"] == "bedc-quality-lab:evidence-provenance"
+    assert section["owner"] == "bedc_quality_lab.evidence_provenance"
+    assert [row["report"] for row in section["producer_audits"]] == ["provenance-fixture"]
+    assert [row["report"] for row in section["metric_rows"]] == ["provenance-fixture"]
+    assert [row["report"] for row in section["discovery_rows"]] == ["provenance-fixture"]
+    assert section["artifact_pointers"]["owner_pointer"] == "reports/canonical/index.json:$.evidence_provenance"

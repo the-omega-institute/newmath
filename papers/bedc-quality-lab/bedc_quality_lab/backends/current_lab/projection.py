@@ -27,6 +27,11 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.evidence_provenance import (
+    evidence_provenance_pointer_for_report,
+    load_evidence_provenance,
+    owner_discovery_row,
+)
 from bedc_quality_lab.discovery_compiler.anti_triviality import ANTI_TRIVIALITY_POLICY
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
@@ -2965,8 +2970,14 @@ def _negative_index_by_report(
     return result
 
 
-def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[str, int]) -> dict[str, Any]:
+def _discovery_map_row(
+    source_row: Mapping[str, Any],
+    negative_indices: Mapping[str, int],
+    *,
+    root: Path | None = None,
+) -> dict[str, Any]:
     row = dict(source_row)
+    _attach_evidence_owner_projection(row, root=root)
     if row.get("discovery_level") != "DN":
         return row
     report = str(row.get("report") or "")
@@ -2977,6 +2988,21 @@ def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[
         for key, value in row.items()
         if key not in DN_FACT_KEYS
     } | {"negative_report_pointer": pointer}
+
+
+def _attach_evidence_owner_projection(row: dict[str, Any], *, root: Path | None = None) -> None:
+    report = str(row.get("report") or "")
+    if not report:
+        return
+    row["evidence_provenance_pointer"] = evidence_provenance_pointer_for_report(report)
+    section = load_evidence_provenance(_root(root), require=False)
+    owner = owner_discovery_row(section, report) if isinstance(section, Mapping) else None
+    if isinstance(owner, Mapping) and owner.get("evidence_type"):
+        row["evidence_type"] = str(owner["evidence_type"])
+    elif row.get("discovery_level") == "DN":
+        row["evidence_type"] = "boundary_negative"
+    else:
+        row["evidence_type"] = "deterministic_projection"
 
 
 def _artifact_pointer_resolves(pointer: str, *, root: Path | None = None) -> bool:
@@ -3190,7 +3216,7 @@ def build_discovery_map(
     )
     negative_indices = _negative_index_by_report(source_rows, root=root)
     rows = [
-        _discovery_map_row(row, negative_indices)
+        _discovery_map_row(row, negative_indices, root=root)
         for row in source_rows
         if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
     ]

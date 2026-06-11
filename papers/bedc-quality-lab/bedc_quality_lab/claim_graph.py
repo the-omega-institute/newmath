@@ -13,6 +13,7 @@ from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure
 from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
+from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_discovery_row, owner_metric_rows
 
 
 SCHEMA_ID = "bedc-quality-lab:claim-graph"
@@ -42,6 +43,8 @@ NODE_KEYS = frozenset(
         "discovery_level",
         "terminal_verdict",
         "evidence_scope",
+        "evidence_type",
+        "evidence_provenance_pointer",
         "depends_on",
         "not_claimed",
     }
@@ -56,6 +59,8 @@ class ClaimGraphNode:
     discovery_level: str | None
     terminal_verdict: str | None
     evidence_scope: tuple[str, ...] | None
+    evidence_type: str | None
+    evidence_provenance_pointer: str | None
     depends_on: tuple[str, ...]
     not_claimed: tuple[str, ...]
 
@@ -204,6 +209,8 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
                     discovery_level=None,
                     terminal_verdict=None,
                     evidence_scope=None,
+                    evidence_type=None,
+                    evidence_provenance_pointer=None,
                     depends_on=(),
                     not_claimed=not_claimed,
                 )
@@ -267,6 +274,10 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 discovery_level=None,
                 terminal_verdict=None,
                 evidence_scope=None,
+                evidence_type=str(row.get("evidence_type")) if isinstance(row.get("evidence_type"), str) else None,
+                evidence_provenance_pointer=str(row.get("evidence_provenance_pointer"))
+                if isinstance(row.get("evidence_provenance_pointer"), str)
+                else None,
                 depends_on=(),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -279,6 +290,10 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 discovery_level=str(row.get("discovery_level") or ""),
                 terminal_verdict=str(row.get("terminal_verdict") or "") or None,
                 evidence_scope=tuple(evidence_scope) if isinstance(evidence_scope, list) else None,
+                evidence_type=str(row.get("evidence_type")) if isinstance(row.get("evidence_type"), str) else None,
+                evidence_provenance_pointer=str(row.get("evidence_provenance_pointer"))
+                if isinstance(row.get("evidence_provenance_pointer"), str)
+                else None,
                 depends_on=(raw_id,),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -296,6 +311,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 discovery_level=str(witness.get("discovery_level") or "") or None,
                 terminal_verdict=str(witness.get("terminal_verdict") or "") or None,
                 evidence_scope=None,
+                evidence_type=None,
+                evidence_provenance_pointer=None,
                 depends_on=(),
                 not_claimed=_not_claimed(witness.get("not_claimed")),
             )
@@ -324,6 +341,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                     discovery_level=None,
                     terminal_verdict=str(row.get("claim_verdict") or ""),
                     evidence_scope=None,
+                    evidence_type=None,
+                    evidence_provenance_pointer=None,
                     depends_on=(base_dependency,),
                     not_claimed=(),
                 )
@@ -337,6 +356,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 discovery_level=None,
                 terminal_verdict=str(row["claim_verdict"]),
                 evidence_scope=None,
+                evidence_type=None,
+                evidence_provenance_pointer=None,
                 depends_on=depends_on,
                 not_claimed=(),
             )
@@ -512,6 +533,8 @@ def _node_from_json(row: Mapping[str, Any]) -> ClaimGraphNode | None:
         discovery_level=row["discovery_level"] if isinstance(row["discovery_level"], str) else None,
         terminal_verdict=row["terminal_verdict"] if isinstance(row["terminal_verdict"], str) else None,
         evidence_scope=tuple(str(item) for item in evidence_scope) if evidence_scope is not None else None,
+        evidence_type=row["evidence_type"] if isinstance(row["evidence_type"], str) else None,
+        evidence_provenance_pointer=row["evidence_provenance_pointer"] if isinstance(row["evidence_provenance_pointer"], str) else None,
         depends_on=tuple(str(item) for item in depends_on),
         not_claimed=tuple(str(item) for item in not_claimed),
     )
@@ -562,6 +585,7 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
     errors.extend(_validate_cg_hg6(verdict_rows, root))
+    errors.extend(_validate_owner_provenance_acceptance(verdict_rows, root))
     errors.extend(_validate_cg_hg8(verdict_rows, root))
     errors.extend(_validate_dgt_accepted_positive_path(verdict_rows, by_id))
     errors.extend(_validate_dgt_component_causal_evidence_scope(verdict_rows, by_id, root))
@@ -720,6 +744,39 @@ def _validate_cg_hg6(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> l
         )
         if not result.ok:
             errors.append(f"CG-HG6 {result.reason}: {claim_id} -> {result.ledger_pointer}")
+    return errors
+
+
+def _validate_owner_provenance_acceptance(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> list[str]:
+    errors: list[str] = []
+    section = load_evidence_provenance(root, require=False)
+    for row in verdict_rows:
+        if row.get("claim_verdict") != "accepted_positive_discovery":
+            continue
+        claim_id = str(row.get("claim_id") or "")
+        report = claim_id.removeprefix("claim:")
+        if section is None:
+            errors.append(f"CG-HG provenance owner missing: {claim_id}")
+            continue
+        owner = owner_discovery_row(section, report)
+        if owner is None:
+            errors.append(f"CG-HG provenance discovery row missing: {claim_id}")
+            continue
+        evidence_type = owner.get("evidence_type")
+        if evidence_type != "empirical_training_clean":
+            errors.append(f"CG-HG provenance non-empirical evidence: {claim_id} -> {evidence_type}")
+        metric_rows = owner_metric_rows(section, report)
+        if not metric_rows:
+            errors.append(f"CG-HG provenance metric rows missing: {claim_id}")
+            continue
+        blocked = [
+            str(metric.get("source_type"))
+            for metric in metric_rows
+            if metric.get("source_type") in {"deterministic_projection", "protocol_field", "declared_constant", "arm_branch"}
+            or metric.get("allowed_for_empirical_claim") is not True
+        ]
+        if blocked:
+            errors.append(f"CG-HG provenance blocked source types: {claim_id} -> {', '.join(sorted(set(blocked)))}")
     return errors
 
 

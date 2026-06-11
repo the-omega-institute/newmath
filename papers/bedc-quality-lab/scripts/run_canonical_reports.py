@@ -33,6 +33,7 @@ from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointe
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
 from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
+from bedc_quality_lab.evidence_provenance import build_evidence_provenance
 from bedc_quality_lab.discovery_compiler.experiment_proposals import (
     ARTIFACT_ID as EXPERIMENT_PROPOSALS_ARTIFACT_ID,
     CANONICAL_ROLE as EXPERIMENT_PROPOSALS_CANONICAL_ROLE,
@@ -3195,6 +3196,17 @@ def _claim_graph_index_section(generated_at: str | None = None) -> dict[str, Any
     }
 
 
+def _evidence_provenance_index_section(
+    generated_at: str,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+) -> dict[str, Any]:
+    return build_evidence_provenance(
+        root=ROOT,
+        canonical_reports=canonical_reports,
+        generated_at=generated_at,
+    )
+
+
 def _claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
     from bedc_quality_lab.claim_artifact_consistency import DGT_CLAIM_ID, audit_claim_artifact_consistency
 
@@ -5808,6 +5820,7 @@ def _index(
     *,
     generated_at: str | None = None,
     claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
 ) -> dict[str, Any]:
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
@@ -5848,6 +5861,7 @@ def _index(
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
+        "evidence_provenance": _evidence_provenance_index_section(timestamp, canonical_reports=canonical_reports),
         "claim_artifact_consistency": _claim_artifact_consistency_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
@@ -6354,6 +6368,24 @@ def _reusable_generated_at() -> str | None:
     return generated_at if isinstance(generated_at, str) and generated_at else None
 
 
+def _write_index_with_evidence_provenance(
+    results: Sequence[dict[str, Any]],
+    *,
+    generated_at: str,
+    claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+) -> dict[str, Any]:
+    payload = _index(
+        results,
+        generated_at=generated_at,
+        claim_verdict_rows=claim_verdict_rows,
+        canonical_reports=canonical_reports,
+    )
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    return payload
+
+
 def run_reports(
     *,
     only: str | None = None,
@@ -6487,6 +6519,7 @@ def run_reports(
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+    _write_index_with_evidence_provenance(results, generated_at=timestamp, canonical_reports=selected_specs)
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)
@@ -6522,9 +6555,12 @@ def run_reports(
     for spec in post_verdict_specs:
         results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
-    draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
-    _write_json_atomic(INDEX_ARTIFACT, draft_payload)
-    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
+    draft_payload = _write_index_with_evidence_provenance(
+        results,
+        generated_at=timestamp,
+        claim_verdict_rows=claim_verdict_rows,
+        canonical_reports=selected_specs,
+    )
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
     from scripts.run_release_namecert_candidate import write_release_namecert_candidate
 
@@ -6533,9 +6569,12 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
-    payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
-    _write_json_atomic(INDEX_ARTIFACT, payload)
-    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    payload = _write_index_with_evidence_provenance(
+        results,
+        generated_at=timestamp,
+        claim_verdict_rows=claim_verdict_rows,
+        canonical_reports=selected_specs,
+    )
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if any(result["status"] != "pass" for result in results):

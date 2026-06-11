@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.evidence_provenance import build_evidence_provenance
 from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     ClaimVerdictReasonBasis,
     reason_for_claim_verdict,
@@ -64,6 +65,20 @@ def _scorecard(status="ready"):
 def _write_json(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _ensure_pointer_value(payload, pointer, value):
+    if pointer is None or not pointer.startswith("$."):
+        return
+    target = payload
+    parts = pointer[2:].split(".")
+    for part in parts[:-1]:
+        child = target.get(part)
+        if not isinstance(child, dict):
+            child = {}
+            target[part] = child
+        target = child
+    target.setdefault(parts[-1], value)
 
 
 def _base_payload():
@@ -176,6 +191,12 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "claim_capsule_ref": f"reports/runs/{spec.name}/claim_capsule.json",
             }
         )
+        _ensure_pointer_value(payload, spec.scope_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.cost_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.not_claimed_pointer, ["fixture"])
+        _ensure_pointer_value(payload, spec.positive_claim_pointer, {"claim": "fixture"})
+        _ensure_pointer_value(payload, spec.control_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"reason": "fixture"})
         _write_json(tmp_path / spec.json_artifact, payload)
         _write_json(
             tmp_path / f"reports/runs/{spec.name}/claim_capsule.json",
@@ -186,6 +207,19 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "what_was_learned": "fixture learned",
             },
         )
+    source = tmp_path / "scripts" / "run_fixture.py"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("def train(loss, optimizer):\n    loss.backward()\n    optimizer.step()\n", encoding="utf-8")
+    index_payload = {
+        "schema_id": "bedc-quality-lab:canonical-report-index",
+        "generated_at": "fixture",
+        "evidence_provenance": build_evidence_provenance(
+            root=tmp_path,
+            canonical_reports=tuple(payloads),
+            generated_at="fixture",
+        ),
+    }
+    _write_json(tmp_path / "reports/canonical/index.json", index_payload)
     return tmp_path
 
 
@@ -1121,6 +1155,19 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
     assert verdict["reason"] == "discovery-level-D4-positive"
+
+
+def test_positive_empirical_verdict_requires_owner_evidence_provenance(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    (tmp_path / "reports/canonical/index.json").unlink()
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "evidence-provenance-owner-missing"
+    assert verdict["ledger_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
 
 
 def _add_high_impact_review(payload, *, bad_pointer=False):

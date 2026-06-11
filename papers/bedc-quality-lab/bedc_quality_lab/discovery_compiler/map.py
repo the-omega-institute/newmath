@@ -15,6 +15,12 @@ from bedc_quality_lab.discovery_compiler.anti_triviality import (
     ANTI_TRIVIALITY_FAMILIES,
     ANTI_TRIVIALITY_POLICY,
 )
+from bedc_quality_lab.evidence_provenance import (
+    DISCOVERY_EVIDENCE_TYPES,
+    evidence_provenance_pointer_for_report,
+    load_evidence_provenance,
+    owner_discovery_row,
+)
 
 
 DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
@@ -115,6 +121,8 @@ class DiscoveryMapRow:
     audit_status: str
     audit_reason: str
     negative_report_pointer: str | None
+    evidence_type: str
+    evidence_provenance_pointer: str
     cells: Mapping[str, Any]
 
     @classmethod
@@ -148,6 +156,22 @@ class DiscoveryMapRow:
             negative_pointer = row.get("negative_report_pointer")
             if negative_pointer is not None:
                 raise ValueError("non-DN discovery map row must not carry negative_report_pointer")
+        evidence_type = row.get("evidence_type")
+        if evidence_type not in DISCOVERY_EVIDENCE_TYPES:
+            raise ValueError("discovery map row requires owner evidence_type")
+        provenance_pointer = row.get("evidence_provenance_pointer")
+        if not isinstance(provenance_pointer, str) or provenance_pointer != evidence_provenance_pointer_for_report(str(row["report"])):
+            raise ValueError("discovery map row requires owner evidence provenance pointer")
+        if root is not None:
+            _validate_owner_evidence_projection(root, row)
+        if level == "DN" and evidence_type != "boundary_negative":
+            raise ValueError("DN discovery map row must project boundary_negative evidence")
+        if level in POSITIVE_DISCOVERY_LEVELS and evidence_type in {
+            "empirical_training_tainted",
+            "boundary_negative",
+            "protocol_artifact",
+        }:
+            raise ValueError("positive discovery map row cannot project boundary or protocol-only evidence")
         evidence = row.get("evidence_pointer")
         if evidence is not None and not isinstance(evidence, str):
             raise ValueError("evidence_pointer must be a string or null")
@@ -163,6 +187,8 @@ class DiscoveryMapRow:
             audit_status=str(row["audit_status"]),
             audit_reason=str(row["audit_reason"]),
             negative_report_pointer=negative_pointer,
+            evidence_type=str(evidence_type),
+            evidence_provenance_pointer=provenance_pointer,
             cells=row,
         )
 
@@ -447,6 +473,21 @@ def validate_discovery_map_payload(payload: Mapping[str, Any], *, root: Path | N
             raise ValueError("discovery map coverage_matrix must be an object")
         validate_coverage_matrix(coverage_matrix, rows=validated, root=root)
     return dict(payload)
+
+
+def _validate_owner_evidence_projection(root: Path, row: Mapping[str, Any]) -> None:
+    section = load_evidence_provenance(root, require=False)
+    if section is None:
+        if (root / "reports/canonical/index.json").exists():
+            raise ValueError("discovery map row requires evidence provenance owner section")
+        return
+    owner = owner_discovery_row(section, str(row.get("report")))
+    if owner is None:
+        raise ValueError("discovery map row lacks owner evidence provenance row")
+    if owner.get("evidence_type") != row.get("evidence_type"):
+        raise ValueError("discovery map row evidence_type disagrees with owner")
+    if row.get("evidence_provenance_pointer") != evidence_provenance_pointer_for_report(str(row.get("report"))):
+        raise ValueError("discovery map row evidence provenance pointer disagrees with owner")
 
 
 def build_discovery_map_payload(

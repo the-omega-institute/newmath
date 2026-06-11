@@ -3127,3 +3127,137 @@ def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
     assert "terminal_verdict" not in row
     assert owner["failed_gate"] == "$.dimension_mismatch_debt_transfer.status"
     assert owner["terminal_verdict"] == "negative_discovery"
+
+
+def _provenance_owner_payload(report: str, evidence_type: str = "deterministic_projection") -> dict[str, object]:
+    return {
+        "schema_id": "bedc-quality-lab:evidence-provenance",
+        "owner": "bedc_quality_lab.evidence_provenance",
+        "generated_at": "fixture-time",
+        "producer_audits": [
+            {
+                "report": report,
+                "producer_command": ["python3", "scripts/run_fixture.py"],
+                "producer_source_pointer": "scripts/run_fixture.py",
+                "backward_pointers": [],
+                "optimizer_step_pointers": [],
+                "parameter_update_pointers": [],
+                "training_evidence_status": "training_evidence_absent",
+                "not_claimed": ["fixture projection evidence"],
+            }
+        ],
+        "metric_rows": [
+            {
+                "report": report,
+                "metric_name": "headline",
+                "source_type": "deterministic_projection",
+                "source_code_pointer": "scripts/run_fixture.py",
+                "source_artifact_pointer": "reports/canonical/provenance-fixture.json:$.positive",
+                "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                "allowed_for_empirical_claim": False,
+                "value": True,
+                "not_claimed": ["fixture projection evidence"],
+                "not_measurable_reason": None,
+            }
+        ],
+        "discovery_rows": [
+            {
+                "report": report,
+                "evidence_type": evidence_type,
+                "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[?report={report}]",
+                "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                "allowed_claim_kinds": ["projection_only"],
+                "not_claimed": ["fixture projection evidence"],
+            }
+        ],
+        "hardgate_status": {},
+        "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
+    }
+
+
+def _write_provenance_owner_index(root: Path, report: str, evidence_type: str = "deterministic_projection") -> None:
+    _write_json_artifact(
+        root,
+        "reports/canonical/index.json",
+        {
+            "schema_id": "bedc-quality-lab:canonical-report-index",
+            "generated_at": "fixture-time",
+            "evidence_provenance": _provenance_owner_payload(report, evidence_type),
+        },
+    )
+
+
+def _provenance_discovery_row(
+    report: str = "provenance-fixture",
+    *,
+    level: str = "D1",
+    evidence_type: str = "deterministic_projection",
+) -> dict[str, object]:
+    row = {
+        "report": report,
+        "json_artifact": "reports/canonical/provenance-fixture.json",
+        "markdown_artifact": "reports/canonical/provenance-fixture.md",
+        "discovery_level": level,
+        "projection_status": "projected",
+        "evidence_pointer": "$.positive",
+        "audit_status": "valid",
+        "audit_reason": "",
+        "evidence_type": evidence_type,
+        "evidence_provenance_pointer": (
+            f"reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report={report}]"
+        ),
+    }
+    if level == "DN":
+        row.pop("evidence_pointer")
+        row["negative_report_pointer"] = "reports/canonical/negative_discovery_reports.json:$.rows[0]"
+    return row
+
+
+def test_discovery_map_row_requires_owner_backed_evidence_type(tmp_path):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture")
+    row = _provenance_discovery_row()
+
+    payload = discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+    assert payload["rows"][0]["evidence_type"] == "deterministic_projection"
+    assert payload["rows"][0]["evidence_provenance_pointer"] == (
+        "reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report=provenance-fixture]"
+    )
+
+
+def test_discovery_map_rejects_owner_evidence_type_drift(tmp_path):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture", "deterministic_projection")
+    row = _provenance_discovery_row(evidence_type="empirical_training_clean")
+
+    with pytest.raises(ValueError, match="evidence_type disagrees with owner"):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_map_deleted_provenance_section_fails_closed(tmp_path):
+    _write_json_artifact(
+        tmp_path,
+        "reports/canonical/index.json",
+        {"schema_id": "bedc-quality-lab:canonical-report-index", "generated_at": "fixture-time"},
+    )
+    row = _provenance_discovery_row()
+
+    with pytest.raises(ValueError, match="requires evidence provenance owner section"):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_map_rejects_tainted_positive_evidence(tmp_path):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture", "empirical_training_tainted")
+    row = _provenance_discovery_row(level="D4", evidence_type="empirical_training_tainted")
+
+    with pytest.raises(ValueError, match="positive discovery map row cannot project"):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_map_dn_row_must_project_boundary_negative(tmp_path):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture", "boundary_negative")
+    row = _provenance_discovery_row(level="DN", evidence_type="boundary_negative")
+
+    payload = discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+    assert payload["rows"][0]["evidence_type"] == "boundary_negative"

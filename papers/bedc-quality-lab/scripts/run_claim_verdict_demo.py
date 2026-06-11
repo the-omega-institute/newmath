@@ -28,6 +28,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     validate_claim_verdict_reason,
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_supports_empirical_claim
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
@@ -137,6 +138,13 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
         return None
     payload = _load_json(path)
     return payload if isinstance(payload, dict) else None
+
+
+def _empirical_claim_support(root: Path, report: str) -> tuple[bool, str]:
+    section = load_evidence_provenance(root, require=False)
+    if section is None:
+        return False, "evidence-provenance-owner-missing"
+    return owner_supports_empirical_claim(section, report)
 
 
 def _cost_protocol_loads(root: Path) -> bool:
@@ -518,6 +526,7 @@ def _mapped_discovery_row(
         return None
     payload = _load_payload(root, str(row["json_artifact"]))
     scorecard = _load_scorecard(root)
+    empirical_owner_ok, empirical_owner_reason = _empirical_claim_support(root, report)
 
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
     if positive_forbidden is not None:
@@ -696,6 +705,15 @@ def _mapped_discovery_row(
                     reason="high-impact-review-required",
                     source=_claim_source(row, high_impact_failure),
                     ledger_pointer=f"{row['json_artifact']}:{high_impact_failure}",
+                    scorecard_snapshot=scorecard_snapshot,
+                )
+            if not empirical_owner_ok:
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason=empirical_owner_reason,
+                    source=source,
+                    ledger_pointer=str(row.get("evidence_provenance_pointer") or "reports/canonical/index.json:$.evidence_provenance"),
                     scorecard_snapshot=scorecard_snapshot,
                 )
             return _row(
