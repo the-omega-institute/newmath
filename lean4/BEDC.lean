@@ -3233,6 +3233,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderRefinementBridge
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementNameCert
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementObligations
+import BEDC.Derived.CoveringdimensionUp.FiniteRefinementWindow
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerStability
 import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
@@ -5813,6 +5814,7 @@ import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompactnessUp.TasteGate
 import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
