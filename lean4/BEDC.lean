@@ -954,6 +954,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
 import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BooleanTriggerLatticeUp.TasteGate
 import BEDC.Derived.BooleanalgebraUp
 import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BorelFunctionUp.TasteGate
@@ -3219,6 +3220,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
+import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
@@ -6279,6 +6281,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
