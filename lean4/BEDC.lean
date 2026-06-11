@@ -1216,7 +1216,6 @@ import BEDC.Derived.CalculusUp.DerivativeLimitObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.IntegralSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
-import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
@@ -4200,6 +4199,7 @@ import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
+import BEDC.Derived.EventuallyConstantSequenceUp.TailFilterHandoff
 import BEDC.Derived.EventuallyConstantSequenceUp.TasteGate
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.ExplanationComplexityInformationUp
@@ -7153,6 +7153,7 @@ import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PermutationUp.TasteGate
+import BEDC.Derived.PerronIntegralUp.MajorMinorRoute
 import BEDC.Derived.PerronIntegralUp.TasteGate
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PhaseGovernedCertificateRouteUp.TasteGate
@@ -8191,8 +8192,6 @@ import BEDC.Derived.RegularCauchyExtensionalityUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFieldDistributivityUp.TasteGate
-import BEDC.Derived.RegularCauchyFilterComparisonUp
-import BEDC.Derived.RegularCauchyFilterComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
@@ -8638,6 +8637,7 @@ import BEDC.Derived.SeparableMetricUp.PublicDensityExport
 import BEDC.Derived.SeparableMetricUp.RegSeqRatDensityHandoff
 import BEDC.Derived.SeparableMetricUp.RegularHandoffObligation
 import BEDC.Derived.SeparableMetricUp.TasteGate
+import BEDC.Derived.SeparatedCompletionIdempotenceUp
 import BEDC.Derived.SeparatedCompletionReflectionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
