@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC parallel-diamond finite residual witness consumption]
+\label{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}
+Every accepted residual-pair local-diamond witness read in a $\MetaCICParallelDiamondFrontierUp$ packet must consume the typed window, residual frontier, substitution-boundary row, bounded local-join checker, candidate-strong-normalization evidence when present, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before it may be used as input to a closed parallel-diamond route. The consumed packet is the finite route through $P,K,J,R,S,C,B,O,H,T,G,N$; it is not a proof of arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Start with the typed-window local-join scope of \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. It forces a local-diamond consumer to expose the typed window, candidate join, residual frontier, checker rows, and obstruction row before any join read is available.
+
+Next use residual boundary and substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-residual-boundary} and \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. These keep the residual-substitution premise and substitution-boundary row visible through the finite residual route rather than allowing them to be discharged by structural replay.
+
+Apply the residual-substitution route \autoref{thm:metacic-parallel-diamond-residual-substitution-route}. It identifies the local-diamond input as the conditional frontier packet through $P,K,J,R,S,C,B,O,H,T,G,N$, including transport, replay, provenance, and local naming.
+
+Finally use the candidate-mediated strong-normalization socket \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}. When candidate-SN evidence is present, it is consumed as the same finite socket before the closed parallel-diamond route can read the witness. Since the route retains $P$ and $O$ and exports only the displayed packet, it does not prove arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{proof}
