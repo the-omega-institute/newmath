@@ -53,6 +53,20 @@ Refinement monotonicity is the row $R$. It records the tightening comparisons be
 Classifier transport follows by applying $H$ and $C$ componentwise to the same finite rows. The exclusions are immediate from the carrier inventory: there is no coordinate for quotient intervals, selected real representatives, trichotomy, countable choice, open-cover compactness, Real completeness, or hidden host endpoint arithmetic.
 \end{proof}
 
+\begin{theorem}[Dyadic interval arithmetic endpoint-order transport]
+\label{thm:dyadic-interval-arithmetic-endpoint-order-transport}
+Let $A=(L,U,O,+_\Delta,\cdot_\Delta,R,E,H,C,P,N)$ be an accepted $\DyadicIntervalArithmeticUp$ carrier. If $O$ is the displayed endpoint-order ledger and $H,C$ are the componentwise $\hsame$ transport and displayed $\Cont$ replay rows, then lower-before-upper order is preserved for every transported dyadic interval packet read from $A$. The transport is a rowwise dyadic endpoint claim; it uses no host real order, trichotomy, selected representatives, quotient intervals, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-arithmetic-carrier}. The lower endpoint row $L$, upper endpoint row $U$, endpoint-order ledger $O$, structural transport row $H$, and replay row $C$ are all visible before any downstream interval consumer is reached.
+
+Read $O$ as the finite dyadic comparison ledger asserting that the displayed lower endpoint precedes the displayed upper endpoint. This row is part of the carrier inventory, not a derived host-order statement about real endpoints.
+
+Apply $H$ rowwise to transport the endpoint histories and the order ledger together. Then apply $C$ to replay the transported endpoint route through the same finite dyadic interval packet.
+
+The carrier contains no coordinate for host real order, trichotomy, selected representatives, quotient intervals, or Real completeness. Thus lower-before-upper order is preserved exactly by the displayed $O,H,C$ rows and cannot escape to an ambient interval principle.
+\end{proof}
+
 \begin{theorem}[Dyadic interval arithmetic enclosure soundness]
 \label{thm:dyadic-interval-arithmetic-enclosure-soundness}
 Every exported operation of an accepted $\DyadicIntervalArithmeticUp$ carrier factors through the displayed dyadic endpoint rows and preserves the containment interfaces of $\RationalIntervalUp$ and $\RealIntervalEnclosureUp$. More precisely, if an accepted packet exports an addition, multiplication, or refinement result, then every downstream $\RationalIntervalUp$, $\MetricBallUp$, $\LocatedIntervalUp$, or $\RealIntervalEnclosureUp$ consumer reaches that result through the finite route
