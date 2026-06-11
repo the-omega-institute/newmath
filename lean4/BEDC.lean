@@ -3269,6 +3269,7 @@ import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverRefinementRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRouteScope
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilitySampling
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
@@ -6340,6 +6341,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceCandidateFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.L10SourceOwnerBlocker
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
