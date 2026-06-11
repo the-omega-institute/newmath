@@ -149,6 +149,10 @@ WINNABILITY_CERTIFICATES_JSON_ARTIFACT = "reports/canonical/winnability-certific
 WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT = "reports/canonical/winnability-certificates.md"
 WINNABILITY_CERTIFICATES_ARTIFACT_ID = "bedc-quality-lab:winnability-certificates"
 WINNABILITY_CERTIFICATES_SCHEMA_ID = "bedc-quality-lab:winnability-certificates"
+STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT = "reports/canonical/structural-generalization-splits.json"
+STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT = "reports/canonical/structural-generalization-splits.md"
+STRUCTURAL_GENERALIZATION_SPLITS_ARTIFACT_ID = "bedc-quality-lab:structural-generalization-splits"
+STRUCTURAL_GENERALIZATION_SPLITS_SCHEMA_ID = "bedc-quality-lab:structural-generalization-splits"
 DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
@@ -1272,6 +1276,39 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.hardgates",
     ),
     CanonicalReportSpec(
+        name="structural-generalization-splits",
+        command=("python3", "scripts/run_structural_generalization_splits.py"),
+        json_artifact=STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT,
+        markdown_artifact=STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "split_registry",
+            "split_rows",
+            "classifier_rows",
+            "hardgates",
+            "boundary_ledger",
+            "consumer_pointers",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.split_registry",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.split_rows",
+        control_pointer="$.classifier_rows",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.classifier_rows",
+        backend_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.split_rows",
+        negative_witness_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="dgt-base-undertraining-audit",
         command=("python3", "scripts/run_dgt_base_undertraining_audit.py"),
         json_artifact=DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
@@ -1934,14 +1971,54 @@ def _dependency_abi() -> dict[str, str]:
     return abi
 
 
+def _source_artifact_paths(value: Any) -> set[str]:
+    paths: set[str] = set()
+    if isinstance(value, str):
+        split = _split_artifact_pointer(value)
+        path = split[0] if split is not None else value
+        if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+            paths.add(path)
+    elif isinstance(value, Mapping):
+        for nested in value.values():
+            paths.update(_source_artifact_paths(nested))
+    elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        for nested in value:
+            paths.update(_source_artifact_paths(nested))
+    return paths
+
+
+def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
+    pointer_fields = frozenset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
+    paths: set[str] = set()
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            if key in pointer_fields and isinstance(value, str):
+                split = _split_artifact_pointer(value)
+                if split is not None:
+                    path, _pointer = split
+                    if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+                        paths.add(path)
+            else:
+                paths.update(_structural_generalization_gate_artifact_paths(value))
+    elif isinstance(payload, Sequence) and not isinstance(payload, (str, bytes, bytearray)):
+        for nested in payload:
+            paths.update(_structural_generalization_gate_artifact_paths(nested))
+    return paths
+
+
 def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
     paths: set[str] = set()
     if isinstance(source_artifacts, Mapping):
-        for value in source_artifacts.values():
-            if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
-                paths.add(value)
+        if spec.name == "structural-generalization-splits":
+            paths.update(_source_artifact_paths(source_artifacts))
+        else:
+            for value in source_artifacts.values():
+                if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
+                    paths.add(value)
+    if spec.name == "structural-generalization-splits":
+        paths.update(_structural_generalization_gate_artifact_paths(payload))
     if spec.name == "gap-head-discovery":
         paths.add("reports/canonical/gap-head-on-h.json")
     if spec.name == "certificate-guided-discovery":
@@ -2141,6 +2218,15 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_winnability_certificates import write_winnability_certificates
 
         write_winnability_certificates(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "structural-generalization-splits":
+        from bedc_quality_lab.structural_generalization_splits import (
+            build_structural_generalization_payload,
+            write_artifacts as write_structural_generalization_splits,
+        )
+
+        payload = build_structural_generalization_payload(root=ROOT, generated_at=generated_at)
+        write_structural_generalization_splits(payload, root=ROOT)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -4715,6 +4801,21 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     }
 
 
+def _structural_generalization_splits_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": STRUCTURAL_GENERALIZATION_SPLITS_ARTIFACT_ID,
+        "schema_id": STRUCTURAL_GENERALIZATION_SPLITS_SCHEMA_ID,
+        "json_artifact": STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT,
+        "markdown_artifact": STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT,
+        "splits_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.split_rows",
+        "classifier_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.classifier_rows",
+        "hardgates_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.hardgates",
+        "boundary_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.boundary_ledger",
+        "consumer": "bounded structural generalization readers",
+    }
+
+
 MODEL_DESIGN_SUITE_POINTER_FIELDS = (
     "component_id",
     "canonical_owner_pointer",
@@ -6069,6 +6170,7 @@ def _index(
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
+        "structural_generalization_splits": _structural_generalization_splits_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
@@ -6611,6 +6713,21 @@ def run_reports(
         else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    if only == "structural-generalization-splits":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": [result],
+            "structural_generalization_splits": _structural_generalization_splits_index_section(),
+        }
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
     selected_specs = _selected_specs_with_dependents(only, include_dependents=mode == "changed")
     _run_metric_purity_preflight(_metric_purity_artifacts(selected_specs))
     pre_verdict_specs = [
