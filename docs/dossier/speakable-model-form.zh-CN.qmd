@@ -33,13 +33,13 @@ Hist -> Cont -> Ask -> Sig -> Pkg -> Gap -> NameCert
 
 ## 什么叫可言说
 
-一个目标 `X` 只有在公共使用能经由 upward interface 时, 才是 BEDC-speakable:
+一个目标 `X` 只有在公共使用能经由 upward 接口时, 才是 BEDC-speakable:
 
 ```text
 X^up = (Source, Pattern, Classifier, Stability, Ledger)
 ```
 
-Source 说明材料从哪里来. Pattern 说明正在读取什么重复或生成形态. Classifier 说明如何判断相同与不同. Stability row 说明这种读取在相关 transport 下保持稳定. Ledger 说明哪些东西被压缩、投影、隐藏、识别, 或留在 claim 之外.
+源说明材料从哪里来. Pattern 说明正在读取什么重复或生成形态. 分类器说明如何判断相同与不同. 稳定性行说明这种读取在相关输运下保持稳定. 账本说明哪些东西被压缩、投影、隐藏、识别, 或留在主张之外.
 
 这些行存在之后, `X` 这个名字才可以被公共消费.
 
@@ -47,7 +47,7 @@ Source 说明材料从哪里来. Pattern 说明正在读取什么重复或生成
 <span class="elim-mark">✗ 「东西先存在, BEDC 再给它起名」</span>
 ```
 
-不是. BEDC 不从成熟对象作为 primitive 开始. 它从已生成的区分开始; 只有当 source、pattern、classifier、stability、ledger 行许可某个名字时, 这个名字才进入公共使用.
+不是. BEDC 不从成熟对象作为原语开始. 它从已生成的区分开始; 只有当源、pattern、分类器、稳定性、账本行许可某个名字时, 这个名字才进入公共使用.
 
 ## 共同模型形态
 
@@ -66,21 +66,21 @@ ModelForm(X) =
   NameCert_X
 ```
 
-这表示公共对象不只是一个 carrier. 它同时带有历史源、内部同一性关系、延续路线、probe 或 asking 接口、signature 读回、signature 比较、package 行、残差账本和命名证书.
+这表示公共对象不只是一个 carrier. 它同时带有历史源、内部同一性关系、延续路线、probe 或 asking 接口、签名读回、签名比较、包行、残差账本和命名证书.
 
-具体 source material 可以完全不同. 一个 theorem instance、一个 tensor classifier、一段音乐、一次光谱读取、一个物理观察 packet, 内容不同, 但都必须使用这个角色形态.
+具体源材料可以完全不同. 一个定理实例、一个张量分类器、一段音乐、一次光谱读取、一个物理观察包, 内容不同, 但都必须使用这个角色形态.
 
 ## 例子
 
-**数** 不是作为 host natural number 被导入. 它经由生成历史模式、successor 或 recurrence 行为、induction 或 recursion ledger、classifier stability 和 NameCert 被读取.
+**数** 不是作为宿主 natural number 被导入. 它经由生成历史模式、successor 或 recurrence 行为、induction 或 recursion 账本、分类器稳定性和 NameCert 被读取.
 
-**证明** 不是作为 host proof object 被导入. 它经由 statement 行、dependency 行、proof-flow recognition、certificate 行、status 行和 theorem-facing NameCert 被读取.
+**证明** 不是作为宿主证明对象被导入. 它经由陈述行、依赖行、证明流识别、证书行、状态行和面向定理的 NameCert 被读取.
 
-**tensor feature** 不因为某个 probe 找到一个方向就被接纳. 这个方向只能支持 pattern row. 只有在 model source、activation protocol、classifier behavior、stability 和 ledger 行被 Tensor NameCert 封住之后, 它才成为可审计解释.
+**张量特征** 不因为某个 probe 找到一个方向就被接纳. 这个方向只能支持模式行. 只有在模型源、激活协议、分类器行为、稳定性和账本行被 Tensor NameCert 封住之后, 它才成为可审计解释.
 
-**颜色读数** 不是物理对象本身. 它是某个 observation protocol 生成的 signature. 它要支持公共对象, 必须展示 source、probe route、classifier、stability 和 ledger.
+**颜色读数** 不是物理对象本身. 它是某个观察协议生成的签名. 它要支持公共对象, 必须展示源、probe 路线、分类器、稳定性和账本.
 
-**音乐结构** 不是它的频谱. 频谱是某个 probe 产生的一种 signature. 音乐对象需要 history、pattern、classifier、stability 和 ledger, 才能让这个 signature 成为公共接口的一部分.
+**音乐结构** 不是它的频谱. 频谱是某个 probe 产生的一种签名. 音乐对象需要历史、模式、分类器、稳定性和账本, 才能让这个签名成为公共接口的一部分.
 
 重点不是这些东西暗中是同一个对象. 重点是它们都不能绕过证书形态来获得 BEDC 公共名字.
 
@@ -98,21 +98,21 @@ ModelForm(Music) ~= ModelForm(Light)
 Music = Light
 ```
 
-它表示二者的公共读取都必须暴露可比较的角色: source、continuation、signature、package、ledger 和 NameCert. 这种比较是结构性的. 它不是 host-level equality, 也不是内容坍缩.
+它表示二者的公共读取都必须暴露可比较的角色: 源、延续、签名、包、账本和 NameCert. 这种比较是结构性的. 它不是 host-level equality, 也不是内容坍缩.
 
 ```{=html}
 <span class="elim-mark">✗ 「两个东西共享 BEDC 形态, BEDC 就把它们识别为同一个东西」</span>
 ```
 
-不是. BEDC 保留身份. 它让操作穿过 `hsame`、`sameSig` 和 classifier-preserving comparison 这样的内部 transport. 它不把不同 source、pattern、scope 或 ledger residue 坍缩成一个 host object.
+不是. BEDC 保留身份. 它让操作穿过 `hsame`、`sameSig` 和 classifier-preserving comparison 这样的内部 transport. 它不把不同源、pattern、范围或账本 residue 坍缩成一个宿主 object.
 
 ## 投影不是本体
 
 这个边界在 projection 很有说服力时最重要.
 
-光谱不是光. 波形不是音乐. 向量方向不是学到的概念. theorem identifier 不是证明. bitstream 不是 event flow. 语义标签不是 classifier.
+光谱不是光. 波形不是音乐. 向量方向不是学到的概念. 定理 identifier 不是证明. bitstream 不是 event flow. 语义标签不是 classifier.
 
-它们都可以是有用的 signature. 但没有一个自动等于它所支持的目标. 要让这种读取合法, BEDC 要求 recovery、exactness 或 residue ledger 说明 projection 保留了什么、丢了什么.
+它们都可以是有用的 signature. 但没有一个自动等于它所支持的目标. 要让这种读取合法, BEDC 要求 recovery、exactness 或 residue 账本说明 projection 保留了什么、丢了什么.
 
 口号是:
 
@@ -126,15 +126,15 @@ Music = Light
 
 展开成中文:
 
-> 每个 BEDC 公共对象, 都是区分历史经延续、probe、signature、package、ledger 和 naming certificate 后的读取.
+> 每个 BEDC 公共对象, 都是区分历史经延续、probe、签名、包、账本和 命名证书后的读取.
 
-这是关于 admissible structure 的统一命题. 它不是说 BEDC 已经重建全部成熟数学、全部物理或全部经验. 它说的是: 一个 claim 在 BEDC 中被允许说出之前, 必须采取什么形态.
+这是关于 admissible structure 的统一命题. 它不是说 BEDC 已经重建全部成熟数学、全部物理或全部经验. 它说的是: 一个主张在 BEDC 中被允许说出之前, 必须采取什么形态.
 
 ```{=html}
 <span class="role-tag discovery">💡 发现</span>
 ```
 
-发现是: "object" 在故事里已经太晚. BEDC 能说出 `X` 时, 工作已经完成了一大段: history 已生成, continuation route 已稳定, signature 已读取, package 已形成, gap 已记账, NameCert 已许可公共名字.
+发现是: "对象" 在故事里已经太晚. BEDC 能说出 `X` 时, 工作已经完成了一大段: 历史已生成, 延续路线已稳定, 签名已读取, 包已形成, gap 已记账, NameCert 已许可公共名字.
 
 ## 接下来读哪里
 

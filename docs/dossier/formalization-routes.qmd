@@ -3,7 +3,7 @@ title: "Formalization Routes"
 subtitle: "Place mathlib, MathComp, Isabelle, Mizar, Metamath, HOL Light, Cubical Agda, UniMath, NuPRL, CoRN, and Bishop on the same map. Then check whether the cell BEDC occupies is still empty."
 author: "The Omega Institute"
 date: 2026-05-07
-description: "A map of 11+ formalization routes, sorted by three axes: classical/constructive, wholesale/minimalist, kernel-extension yes/no. BEDC sits at (constructive × minimalist × no kernel extension × cannot-claim + AI parallelism). That cell is still empty otherwise."
+description: 'A map of 11+ formalization routes, sorted by three axes: classical/constructive, wholesale/minimalist, kernel-extension yes/no. BEDC sits at (constructive $\times$ minimalist $\times$ no kernel extension $\times$ cannot-claim + AI parallelism). That cell is still empty otherwise.'
 ---
 
 ```{=html}
@@ -20,7 +20,7 @@ What follows lays out 11 routes across three families. The three axes are:
 2. **Wholesale vs. minimalist** — porting an entire host textbook into the system, or rebuilding a slice from a minimal kernel.
 3. **Kernel extension or not** — keeping the stdlib kernel, or adding new primitives (interval / Glue / extensional eq / something else).
 
-Once everything is placed, the cell BEDC occupies — **constructive × minimalist × no kernel extension × AI parallelism for productivity** — is, as of 2026-04-29, **still occupied by BEDC alone**.
+Once everything is placed, the cell BEDC occupies — **constructive $\times$ minimalist $\times$ no kernel extension $\times$ AI parallelism for productivity** — is, as of 2026-04-29, **still occupied by BEDC alone**.
 
 ## Three families
 
@@ -106,7 +106,7 @@ Family A's shared stance: mathematics already exists; the task is to **port it i
 
 ### Family A summary
 
-Family A's shared trust posture: **axiom debt is not debt; host primitives are not a burden**. They bet on person-month efficiency × engineering culture to win the **porting race**. Mathlib in 2026 is the peak of this family — 9 years, ~150K theorems, time-averaged ~45 / day.
+Family A's shared trust posture: **axiom debt is not debt; host primitives are not a burden**. They bet on person-month efficiency $\times$ engineering culture to win the **porting race**. Mathlib in 2026 is the peak of this family — 9 years, ~150K theorems, time-averaged ~45 / day.
 
 Family A's cost: any "no three axioms" or "no host primitives" or "first principles" formalization ambition is **structurally impossible** inside Family A, because the substrate has already pre-supposed those primitives.
 
@@ -119,7 +119,7 @@ Family B chooses to **rebuild foundations** but takes the **kernel-extension** r
 - **Kernel**: Agda CIC base + interval $\mathbb{I}$ + Path / PathP + Glue + `hcomp` / `transp` / `fill` + partial elements + face lattice. **About double the size of plain CIC**.
 - **Mathematical coverage**: the agda/cubical library has ~thousands of files spanning foundations / algebra / topology / homotopy / category. The standard move is "use univalence to identify isomorphic structures."
 - **Notable results**: Brunerie's number — $\pi_4(S^3) = \mathbb{Z}/2\mathbb{Z}$ — mechanized over 8 years, finally reduced to $n = 2$ in 2022 after Mörtberg-Ljungström optimizations; the entire synthetic homotopy theory.
-- **Style**: a mathematician can write spaces directly — `data S¹ where base : S¹; loop : base ≡ base` — write quotients via HITs, write equality via `ua`.
+- **Style**: a mathematician can write spaces directly — `data Circle where base : Circle; loop : base == base` — write quotients via HITs, write equality via `ua`.
 - **Audit posture**: not "UA is debt" but "the cubical kernel is a commitment." Backed by the cubical-sets model in CCHM and the canonicity / normalization meta-theorems.
 - **Relation to BEDC**: same minimalist + same "rebuild" intent, but **opposite direction**. Cubical adds ~10 geometric primitives to gain computational univalence; BEDC subtracts 3 stdlib axioms to gain a smaller trust footprint. Both honest, philosophically opposite.
 
@@ -154,7 +154,7 @@ Family C is the rarest family. The currently active members are exactly three: t
 - **Mathematical coverage**: real numbers / Cauchy completion / metric spaces / analytic functions / some elementary algebra. One book in one lifetime.
 - **Notable results**: Bishop 1967, followed by Bishop-Bridges *Constructive Analysis* (1985).
 - **Audit posture**: refuse LEM, refuse arbitrary choice (countable choice is a borderline allowance), every existence proof gives an algorithm.
-- **Relation to BEDC**: direct ancestor. BEDC's "0 three axioms," "scope-bound mature," and "cannot-claim registry" all draw their spirit from Bishop. Differences: Bishop has no formal system, no closure × verification two-axis ledger, no generative kernel (`b₀, b₁ → Hist → ...`). BEDC is Bishop **formalized + with one extra discipline layer**.
+- **Relation to BEDC**: direct ancestor. BEDC's "0 three axioms," "scope-bound mature," and "cannot-claim registry" all draw their spirit from Bishop. Differences: Bishop has no formal system, no closure $\times$ verification two-axis ledger, no generative kernel ($b_{0}, b_{1} \to Hist \to ...$). BEDC is Bishop **formalized + with one extra discipline layer**.
 
 ### CoRN — Bishop-style constructive real analysis on Coq
 
@@ -165,8 +165,8 @@ Family C is the rarest family. The currently active members are exactly three: t
 - **Relation to BEDC**: **the closest cousin, but one discipline layer thinner than BEDC**.
   - Same: refuse LEM, refuse AC, use setoid.
   - Different: CoRN accepts propext; BEDC refuses.
-  - Different: CoRN has no generative kernel (`Mark → Hist → ... → NameCert`); it starts directly from Coq's `Set`/`Prop`/Cauchy sequences.
-  - Different: CoRN has no closure × verification two-axis ledger.
+  - Different: CoRN has no generative kernel ($Mark \to Hist \to ... \to NameCert$); it starts directly from Coq's `Set`/`Prop`/Cauchy sequences.
+  - Different: CoRN has no closure $\times$ verification two-axis ledger.
   - Different: CoRN has no cannot-claim registry.
 
 CoRN is the representative of RISC-foundations over the past 20 years, and a proof of concept that "Bishop + Coq" beyond informal writing is viable. **And it is the textbook case of RISC-foundations productivity bottleneck**: 20 years to reach metric spaces + some elementary algebra, two to three orders of magnitude below mathlib.
