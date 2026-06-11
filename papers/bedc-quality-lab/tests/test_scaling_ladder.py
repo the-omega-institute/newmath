@@ -182,10 +182,50 @@ def test_scaling_ladder_injected_l0_fixture_stays_closed(tmp_path):
     payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
     states = _states(payload)
 
-    assert states["L0_toy"] == ("closed", "missing-pointer")
+    assert states["L0_toy"] == ("boundary", "stale-or-injected")
     assert states["L1_tiny_sequence"] == ("closed", "missing-pointer")
-    assert payload["boundary_ledger"] == []
+    assert payload["boundary_ledger"] == [
+        {
+            "level_id": "L0_toy",
+            "prior_state": "open",
+            "new_state": "boundary",
+            "reason": "stale-or-injected",
+            "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+            "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+            "recorded_at": "fixture-time",
+        }
+    ]
     assert payload["hardgates"]["SL-HG5-no-injected-opening"]["status"] == "fail"
+
+
+def test_scaling_ladder_valid_owner_inputs_with_injected_l0_fail_closed_to_boundary(tmp_path):
+    _write_owner_inputs(tmp_path)
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery-gated-transformer.json",
+        {"scaling_ladder": {"opened_levels": ["L0_toy"]}},
+    )
+
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    states = _states(payload)
+
+    assert states["L0_toy"] == ("boundary", "stale-or-injected")
+    assert states["L1_tiny_sequence"] == ("open", "eligible")
+    assert payload["boundary_ledger"] == [
+        {
+            "level_id": "L0_toy",
+            "prior_state": "open",
+            "new_state": "boundary",
+            "reason": "stale-or-injected",
+            "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+            "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+            "recorded_at": "fixture-time",
+        }
+    ]
+    assert payload["hardgates"]["SL-HG5-no-injected-opening"] == {
+        "status": "fail",
+        "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+    }
 
 
 def test_scaling_ladder_projection_only_closes_despite_old_projection(tmp_path):
@@ -198,8 +238,18 @@ def test_scaling_ladder_projection_only_closes_despite_old_projection(tmp_path):
 
     payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
 
-    assert _states(payload)["L0_toy"] == ("closed", "projection-only")
-    assert payload["boundary_ledger"] == []
+    assert _states(payload)["L0_toy"] == ("boundary", "stale-or-injected")
+    assert payload["boundary_ledger"] == [
+        {
+            "level_id": "L0_toy",
+            "prior_state": "open",
+            "new_state": "boundary",
+            "reason": "stale-or-injected",
+            "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+            "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+            "recorded_at": "fixture-time",
+        }
+    ]
     assert payload["hardgates"]["SL-HG1-evidence-provenance"]["status"] == "fail"
     assert payload["hardgates"]["SL-HG5-no-injected-opening"]["status"] == "fail"
 
@@ -264,8 +314,8 @@ def test_scaling_ladder_unresolved_owner_inputs_point_to_contract_cells(tmp_path
     payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
 
     row = payload["levels"][0]
-    assert row["state"] == "closed"
-    assert row["reason"] == "missing-pointer"
+    assert row["state"] == "boundary"
+    assert row["reason"] == "stale-or-injected"
     assert row["evidence_provenance_pointer"] == (
         "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.evidence_provenance"
     )

@@ -8,12 +8,15 @@
 
 | level | state | reason | owner decision | provenance | construct validity | split | separation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `L0_toy` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation` |
-| `L1_tiny_sequence` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation` |
+| `L0_toy` | `boundary` | `stale-or-injected` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation` |
+| `L1_tiny_sequence` | `boundary` | `stale-or-injected` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation` |
 
 ## Boundary Ledger
 
-- No boundary rows.
+| level | prior | current | reason | failed contract |
+| --- | --- | --- | --- | --- |
+| `L0_toy` | `open` | `boundary` | `stale-or-injected` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder` |
+| `L1_tiny_sequence` | `open` | `boundary` | `stale-or-injected` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder` |
 
 ## Hardgates
 

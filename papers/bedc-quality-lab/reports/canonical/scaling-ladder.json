@@ -1,6 +1,25 @@
 {
   "artifact_id": "bedc-quality-lab:scaling-ladder",
-  "boundary_ledger": [],
+  "boundary_ledger": [
+    {
+      "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "level_id": "L0_toy",
+      "new_state": "boundary",
+      "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "prior_state": "open",
+      "reason": "stale-or-injected",
+      "recorded_at": "2026-06-11T22:15:23.594072+00:00"
+    },
+    {
+      "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "level_id": "L1_tiny_sequence",
+      "new_state": "boundary",
+      "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "prior_state": "open",
+      "reason": "stale-or-injected",
+      "recorded_at": "2026-06-11T22:15:23.594072+00:00"
+    }
+  ],
   "consumer_pointers": {
     "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
     "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
@@ -62,11 +81,11 @@
         }
       },
       "owner_decision_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision",
-      "reason": "unresolved-pointer",
+      "reason": "stale-or-injected",
       "separation_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation",
       "source_report_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
       "split_winnability_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability",
-      "state": "closed"
+      "state": "boundary"
     },
     {
       "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
@@ -100,11 +119,11 @@
         }
       },
       "owner_decision_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision",
-      "reason": "unresolved-pointer",
+      "reason": "stale-or-injected",
       "separation_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation",
       "source_report_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
       "split_winnability_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability",
-      "state": "closed"
+      "state": "boundary"
     }
   ],
   "not_claimed": [

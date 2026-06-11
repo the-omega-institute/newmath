@@ -25,6 +25,7 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_BASE_UNDERTRAINING_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 EVIDENCE_PROVENANCE_POINTER = f"{INDEX_ARTIFACT}:$.evidence_provenance"
 CONSTRUCT_VALIDITY_POINTER = f"{DGT_BASE_UNDERTRAINING_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity"
+DGT_SCALING_LADDER_POINTER = f"{DGT_JSON_ARTIFACT}:$.scaling_ladder"
 ALLOWED_STATES = ("open", "closed", "boundary")
 ALLOWED_REASONS = (
     "eligible",
@@ -196,7 +197,7 @@ def _separation_passes(value: Any) -> bool:
 
 
 def _old_injected_ladder(root: Path, ref: LadderOpeningRef) -> Mapping[str, Any] | None:
-    projection = resolve_artifact_pointer(root, f"{DGT_JSON_ARTIFACT}:$.scaling_ladder")
+    projection = resolve_artifact_pointer(root, DGT_SCALING_LADDER_POINTER)
     if not isinstance(projection, Mapping):
         return None
     opened = projection.get("opened_levels")
@@ -219,6 +220,19 @@ def evaluate_ladder_opening(
 ) -> LadderOpeningDecision:
     root = Path(context.get("root", "."))
     boundary_pointer = f"{JSON_ARTIFACT}:$.boundary_ledger"
+    if _old_injected_ladder(root, ref) is not None:
+        return LadderOpeningDecision(
+            level_id=ref.level_id,
+            state="boundary",
+            reason="stale-or-injected",
+            owner_decision_pointer=ref.decision_pointer,
+            evidence_provenance_pointer=ref.evidence_provenance_pointer,
+            construct_validity_pointer=ref.construct_validity_pointer,
+            split_winnability_pointer=ref.split_winnability_pointer,
+            separation_pointer=ref.separation_pointer,
+            source_report_pointer=ref.level_owner_pointer,
+            boundary_ledger_pointer=boundary_pointer,
+        )
     pointer_by_name = {
         "evidence": ref.evidence_provenance_pointer,
         "construct": ref.construct_validity_pointer,
@@ -288,7 +302,7 @@ def _boundary_row(row: Mapping[str, Any], *, recorded_at: str) -> dict[str, Any]
         "ci-low-separation-failed": row["separation_pointer"],
         "owner-negative": row["owner_decision_pointer"],
         "projection-only": row["evidence_provenance_pointer"],
-        "stale-or-injected": row["source_report_pointer"],
+        "stale-or-injected": DGT_SCALING_LADDER_POINTER,
     }
     failed_pointer = failed_pointer_by_reason.get(row["reason"], row["source_report_pointer"])
     return {
@@ -460,7 +474,7 @@ def build_scaling_ladder_payload(
         },
         "SL-HG5-no-injected-opening": {
             "status": "fail" if any(_old_injected_ladder(root, ref) is not None for ref in ref_rows) else "pass",
-            "pointer": f"{DGT_JSON_ARTIFACT}:$.scaling_ladder",
+            "pointer": DGT_SCALING_LADDER_POINTER,
         },
     }
     payload = {
