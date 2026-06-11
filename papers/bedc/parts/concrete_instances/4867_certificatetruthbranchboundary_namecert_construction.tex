@@ -68,15 +68,30 @@ Therefore every public read remains inside the permitted-refutation boundary. Th
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateTruthBranchBoundaryUp.CertificateTruthBranchBoundaryNonescape}
 
+\begin{theorem}[Certificate truth-branch boundary public interface]
+\label{thm:certificatetruthbranchboundary-public-interface}
+Every public consumer of an accepted $\CertificateTruthBranchBoundaryUp$ packet must factor through the fixed local query row, permitted refutation route, optional decision row, truth-branch refusal row, boundary ledger, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before using the packet. The public interface exports the local refutation boundary only; it exports no certificate-indexed truth predicate, excluded-middle branch over all naming certificates, witness selector obtained from contradiction, or global contradiction-boundary bridge.
+\end{theorem}
+\begin{proof}
+Project an accepted packet as $B=(Q,A,R,D,F,L,H,C,P,N)$. The carrier lists the query, assumption, permitted refutation, optional decision, refusal, ledger, transport, replay, provenance, and local naming rows as the only public rows.
+
+Use the NameCert obligations. They make $Q$ a fixed local query, $R$ a displayed route from an assumed $A$-witness to $\bot$, $D$ an optional constructive decision row for the same proposition, and $F,L$ the refusal ledger blocking certificate-wide truth branching.
+
+The non-escape theorem then identifies the downstream surface. A public reader may consume the local refutation route through $H,C,P,N$, but it cannot replace that route by a truth predicate over certificates or a witness selector obtained only from contradiction.
+
+Thus the public interface is exactly the carrier and NameCert surface already displayed, with the local refutation route exposed before any use of the packet.
+\end{proof}
+
+\closureat{CertificateTruthBranchBoundaryUp}{publicStr}
 \closureat{CertificateTruthBranchBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\CertificateTruthBranchBoundaryUp}
   \constructivestory{A $\CertificateTruthBranchBoundaryUp$ packet is generated from a certificate-indexed query row, an assumption row, a permitted refutation route, an optional constructive decision row, a forbidden truth-branch row, a boundary ledger, displayed transports, continuation replay, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:truth-branch-boundary-carrier}, \autoref{thm:truth-branch-boundary-namecert-obligations}, and \autoref{thm:truth-branch-boundary-nonescape} scope the finite carrier, NameCert obligation surface, non-escape theorem, and Lean targets to certificate-indexed query rows, permitted local refutation, optional decision rows, truth-branch refusal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:truth-branch-boundary-carrier}, \autoref{thm:truth-branch-boundary-namecert-obligations}, \autoref{thm:truth-branch-boundary-nonescape}, and \autoref{thm:certificatetruthbranchboundary-public-interface} scope the finite carrier, NameCert obligation surface, non-escape theorem, public interface, and Lean targets to certificate-indexed query rows, permitted local refutation, optional decision rows, truth-branch refusal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove a Lean-side certificate, excluded middle over naming certificates, an internal truth predicate, or witness selection by contradiction.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for query exactness, permitted-refutation replay, decision discipline, truth-branch refusal, and consumer non-escape.}
+  \upgradepath{Bridged closure requires an explicit bridge from the public local-refutation interface to the standard contradiction-boundary schema.}
 \end{closurestatus}
