@@ -3228,6 +3228,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
+import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
@@ -8505,6 +8506,7 @@ import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
 import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
+import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
 import BEDC.Derived.RegulatedRealFunctionUp.TasteGate
