@@ -3316,6 +3316,7 @@ import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindow
 import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindowObligation
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RootSimplicialCoverHandoff
+import BEDC.Derived.CoveringdimensionUp.ScopeClosureWitness
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
