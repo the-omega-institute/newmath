@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedStoppingTimeUp$}
+\label{ch:concrete-instances-bounded-stopping-time-namecert}
+\origin{human}
+
+Following Doob, the $\BoundedStoppingTimeUp$ packet names the finite stopping interface that sits between the stopping-decision surface of \autoref{ch:concrete-instances-stoppingtime-namecert} and the stopped-value surface of \autoref{ch:concrete-instances-optionalstopping-namecert}. It reads martingale windows from \autoref{ch:concrete-instances-martingale-namecert}, probability sources from \autoref{ch:concrete-instances-probspace-namecert}, and random-variable endpoint rows from \autoref{ch:concrete-instances-randomvar-namecert}. The packet records the displayed finite bound, filtration-window visibility, and decision ledger needed before optional stopping or concentration consumers may read a stopped value; it does not assert an unbounded stopping theorem, almost-sure quotient equality, uniform integrability, or measure completion.
+
+\begin{definition}[Bounded stopping time carrier]
+\label{def:bounded-stopping-time-carrier}
+A $\BoundedStoppingTimeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,b,F,D,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the source $\StoppingTimeUp$ row whose decisions are inspected.
+\item $b$ is the finite bound row, naming the displayed horizon before any stopped value is read.
+\item $F$ is the filtration-window visibility ledger, recording that each decision of $T$ used before $b$ is visible in the corresponding finite filtration window.
+\item $D$ is the decision ledger, listing the finite branch outcomes up to $b$ and the first displayed stopping branch when one is present.
+\item $V$ is the stopped-value handoff row consumed by $\OptionalStoppingUp$, tying the selected branch of $D$ to the corresponding $\RandomVarUp$ endpoint row inside the martingale window.
+\item $H$ records componentwise $\hsame$ transport for $T,b,F,D,V$ and the structural certificate rows.
+\item $C$ records displayed $\Cont$ replay from a bounded stopping request through the same stopping-time, bound, filtration-window, decision-ledger, and stopped-value rows.
+\item $P$ is the $\Pkg$ provenance over $\BoundedStoppingTimeUp$, $\StoppingTimeUp$, $\OptionalStoppingUp$, $\MartingaleUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BoundedStoppingTimeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,b,F,D,V,H,C,P,N$. It has no coordinate for an unbounded stopping index, optional-stopping expectation theorem, almost-sure quotient, completed filtration, uniform-integrability hypothesis, or ambient measure-completion carrier.
+\end{definition}
+
+\begin{theorem}[Bounded stopping time NameCert obligations]
+\label{thm:bounded-stopping-time-namecert-obligations}
+For every accepted $\BoundedStoppingTimeUp$ carrier
+$$
+B=(T,b,F,D,V,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedStoppingTimeUp}$ surface consists exactly of source stopping-time exposure through $T$, finite-bound exposure through $b$, filtration-window visibility through $F$, decision-ledger exactness through $D$, stopped-value handoff through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-stopping-time-carrier}. The rows $T,b,F,D,V$ are the only mathematical rows available to a bounded stopping consumer.
+
+The source stopping-time row $T$ supplies the finite decision surface, and the bound row $b$ cuts that surface to the displayed window. The filtration ledger $F$ records that each inspected decision is visible at the corresponding finite stage.
+
+The decision ledger $D$ then identifies the bounded branch data consumed by the stopped-value handoff $V$. The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier contains no unbounded stopping index, optional-stopping expectation theorem, quotient event equality, completed filtration, uniform-integrability row, or measure-completion row, the listed rows are exactly the local naming obligations.
+\end{proof}
+
+\begin{theorem}[Bounded stopping time optional-stopping handoff]
+\label{thm:bounded-stopping-time-optional-stopping-handoff}
+Every $\OptionalStoppingUp$ consumer of an accepted $\BoundedStoppingTimeUp$ carrier
+$$
+B=(T,b,F,D,V,H,C,P,N)
+$$
+must read the stopped-value handoff through the finite route
+$$
+\StoppingTimeUp,\ \BoundedStoppingTimeUp,\ \MartingaleUp,\ \ProbSpaceUp,\ \RandomVarUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff exposes the source stopping row, displayed bound, filtration-window ledger, bounded decision ledger, and stopped-value row before any optional-stopping packet can inspect expectation-facing data. It exports no unbounded stopping branch, no limiting stopping theorem, no almost-sure quotient, and no completed-filtration carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:bounded-stopping-time-namecert-obligations}. It forces any consumer to display $T,b,F,D,V,H,C,P,N$ before the local name is consumed.
+
+The optional-stopping side reads only the handoff row $V$ after the finite route has been displayed. The row $V$ is tied to a branch in $D$, to the finite bound $b$, and to the visible filtration windows $F$ over the source stopping-time row $T$.
+
+The martingale, probability, and random-variable rows are therefore consumed only as the finite source data named by $P$ and replayed through $C$. Because the carrier inventory excludes unbounded stopping branches, limiting stopping theorems, almost-sure quotient equality, and completed filtrations, the handoff supplies exactly the bounded-window interface required by $\OptionalStoppingUp$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BoundedStoppingTimeUp$ consumer displays a $\StoppingTimeUp$ source row, a finite bound, filtration-window visibility, a bounded decision ledger, stopped-value handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any $\OptionalStoppingUp$ stopped-value read is consumed.}
+
+\independenceWitness{stoppingtime, optionalstopping, martingale, probspace, randomvar: $\BoundedStoppingTimeUp$ is not bijective to any listed sibling because it jointly carries the source stopping decision row, finite bound, filtration-window visibility, bounded decision ledger, stopped-value handoff, transport, replay, provenance, and local NameCert rows as one finite interface.}
+
+\closureat{BoundedStoppingTimeUp}{seedStr}
+
+\begin{closurestatus}{\BoundedStoppingTimeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-stopping-time-carrier}, \autoref{thm:bounded-stopping-time-namecert-obligations}, and \autoref{thm:bounded-stopping-time-optional-stopping-handoff} seed the finite bounded-window stopping interface over $\StoppingTimeUp$, $\OptionalStoppingUp$, $\MartingaleUp$, $\ProbSpaceUp$, and $\RandomVarUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, unbounded stopping, optional-stopping expectation equality, almost-sure quotient equality, uniform integrability, completed filtrations, measure completion, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-bound exposure, filtration-window visibility, decision-ledger exactness, stopped-value handoff, transport replay, provenance, and non-escape for BEDC.Derived.BoundedStoppingTimeUp.}
+  \constructivestory{A $\BoundedStoppingTimeUp$ packet is generated from a source stopping-time row, a displayed finite bound, filtration-window visibility rows, a bounded decision ledger, a stopped-value handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
