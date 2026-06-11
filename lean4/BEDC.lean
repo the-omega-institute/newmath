@@ -3218,6 +3218,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.CauchyFilterCompletionRoute
+import BEDC.Derived.CoveringdimensionUp.CauchyForwardLink
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
 import BEDC.Derived.CoveringdimensionUp.CompactCoverForwardDependency
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
@@ -3247,6 +3248,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricRealDependency
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
+import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverPullback
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityForwardBound
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
@@ -6234,6 +6236,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
@@ -6273,6 +6276,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
@@ -8292,6 +8296,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDiagonalWindowUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalizationUp.TasteGate
+import BEDC.Derived.RegularCauchyDifferenceBoundUp
 import BEDC.Derived.RegularCauchyDifferenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
