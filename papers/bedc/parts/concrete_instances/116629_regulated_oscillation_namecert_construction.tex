@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedOscillationUp$}
+\label{ch:concrete-instances-regulated-oscillation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions and finite oscillation control, the $\RegulatedOscillationUp$ packet records the displayed oscillation windows by which a regulated real-valued function is read over a finite interval cover. It sits after the regulated-function schedule of \autoref{ch:concrete-instances-regulated-function-namecert}, the oscillation-modulus boundary of \autoref{ch:concrete-instances-oscillation-modulus-namecert}, the compact-interval oscillation-modulus packet of \autoref{ch:concrete-instances-compact-interval-oscillation-modulus-namecert}, the dyadic interval-cover row of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite oscillation data for regulated-integration and compact-interval consumers; it does not assert open-cover compactness, quotient equality of functions, selected extrema, a uniform modulus chosen from an ambient theorem, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated oscillation carrier]
+\label{def:regulated-oscillation-carrier}
+A $\RegulatedOscillationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,O,C,D,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RegulatedFunctionUp$ source row, exposing the regulated approximation schedule whose oscillation is being read.
+\item $O$ is the $\OscillationModulusUp$ row, carrying the requested cellwise oscillation budget.
+\item $C$ is the $\CompactIntervalOscillationModulusUp$ row, binding the oscillation budget to a displayed compact interval window.
+\item $D$ is the $\DyadicIntervalCoverUp$ row, listing the finite dyadic interval cover on which the oscillation cells are inspected.
+\item $R$ is the terminal $\RealUp$ readback row for the cellwise bounds and endpoint values exposed by the packet.
+\item $H,T,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegulatedOscillationUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through $F,O,C,D,R,H,T,P,N$. It has no coordinate for a host function quotient, selected extremum, arbitrary open cover, unbounded refinement search, or ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Regulated oscillation NameCert obligations]
+\label{thm:regulated-oscillation-namecert-obligations}
+For every accepted $\RegulatedOscillationUp$ carrier $Q=(F,O,C,D,R,H,T,P,N)$, the local $\NameCert_{\RegulatedOscillationUp}$ surface consists of exactly five analytic rows before the structural rows are read: the regulated-function source $F$, oscillation-modulus row $O$, compact-interval oscillation row $C$, dyadic interval-cover row $D$, and terminal Real readback $R$. Transport, replay, provenance, and local naming preserve only this displayed surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-oscillation-carrier}. The analytic rows are precisely $F,O,C,D,R$, and the structural rows are $H,T,P,N$.
+
+The source row $F$ supplies the regulated approximation schedule. The row $O$ attaches the requested oscillation budget to that schedule, while $C$ restricts the read to the displayed compact interval window.
+
+The dyadic cover row $D$ supplies the finite cells on which the oscillation bounds are inspected. The terminal Real row $R$ records the cellwise bound and endpoint readback only after the first four analytic rows are visible.
+
+Since no further analytic coordinate occurs in the packet, $H,T,P,N$ can only transport, replay, source, and name the same five-row surface. The listed rows therefore exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regulated oscillation finite partition nonescape]
+\label{thm:regulated-oscillation-finite-partition-nonescape}
+Every regulated-integration or compact-interval consumer of an accepted $\RegulatedOscillationUp$ packet must read the finite route
+$$
+\RegulatedFunctionUp \longrightarrow \OscillationModulusUp \longrightarrow \CompactIntervalOscillationModulusUp \longrightarrow \DyadicIntervalCoverUp \longrightarrow \RealUp
+$$
+before it may use any oscillation bound. The consumer receives a finite partition-and-readback surface, not open-cover compactness, quotient equality of functions, selected extrema, unbounded refinement search, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:regulated-oscillation-namecert-obligations}. They force every consumer to expose the regulated source, oscillation budget, compact-interval window, dyadic interval cover, and Real readback before the structural rows may replay the request.
+
+The sibling chapters provide those rows in order: \autoref{ch:concrete-instances-regulated-function-namecert}, \autoref{ch:concrete-instances-oscillation-modulus-namecert}, \autoref{ch:concrete-instances-compact-interval-oscillation-modulus-namecert}, \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Thus the consumer reads a displayed finite route rather than a detached compactness or function-extensionality theorem.
+
+The exclusions follow from the carrier inventory. No row stores an arbitrary open cover, selected extremum, quotient function equality, unbounded refinement search, or ambient real-completeness assertion, so the finite partition route cannot export any of them.
+\end{proof}
+
+\falsifiablePrediction{Any accepted RegulatedOscillationUp packet that exports an oscillation read without displaying the regulated-function source, oscillation modulus, compact-interval oscillation row, dyadic interval cover, and Real readback refutes the carrier.}
+
+\independenceWitness{regulated-function, oscillation-modulus, compact-interval-oscillation-modulus, dyadic-interval-cover, real: none is bijective with $\RegulatedOscillationUp$ because this packet jointly binds the regulated source, oscillation budget, compact interval window, finite dyadic cover, Real readback, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{RegulatedOscillationUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedOscillationUp}
+  \constructivestory{A $\RegulatedOscillationUp$ packet is generated from a regulated-function source row, oscillation-modulus row, compact-interval oscillation row, dyadic interval-cover row, terminal Real readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-oscillation-carrier}, \autoref{thm:regulated-oscillation-namecert-obligations}, and \autoref{thm:regulated-oscillation-finite-partition-nonescape} seed the finite regulated-oscillation surface over RegulatedFunctionUp, OscillationModulusUp, CompactIntervalOscillationModulusUp, DyadicIntervalCoverUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient equality of functions, selected extrema, unbounded refinement search, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, five-row NameCert exposure, finite partition nonescape, and a Lean carrier or obligation formalization for BEDC.Derived.RegulatedOscillationUp.}
+\end{closurestatus}

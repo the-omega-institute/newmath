@@ -695,6 +695,7 @@ import BEDC.Derived.BaireMetricUp.StreamNameNameCertScope
 import BEDC.Derived.BaireMetricUp.UltrametricLimitRoute
 import BEDC.Derived.BaireMetricUp.UltrametricSpaceStrongTriangleHandoff
 import BEDC.Derived.BaireMetricUp.UltrametricWindowObligations
+import BEDC.Derived.BaireModulusUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
@@ -2122,6 +2123,7 @@ import BEDC.Derived.CauchyTailDiameterUp
 import BEDC.Derived.CauchyTailDiameterUp.TasteGate
 import BEDC.Derived.CauchyTailEnvelopeComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
+import BEDC.Derived.CauchyTailEstimateUp.TasteGate
 import BEDC.Derived.CauchyTailFilterBornologyUp.NameCertObligations
 import BEDC.Derived.CauchyTailFilterBornologyUp.TasteGate
 import BEDC.Derived.CauchyTailIntersectionUp.TasteGate
@@ -2364,6 +2366,7 @@ import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.ChurchRosserUp.TasteGate
+import BEDC.Derived.CircleUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
@@ -3205,6 +3208,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
@@ -3219,6 +3223,7 @@ import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
+import BEDC.Derived.CoveringdimensionUp.RefinementOrderRootRoute
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
@@ -4863,6 +4868,7 @@ import BEDC.Derived.FiniteVolumeUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteWindowObserverUp
+import BEDC.Derived.FiniteWindowObserverUp.TasteGate
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
@@ -5621,6 +5627,7 @@ import BEDC.Derived.LawlessSequenceUp.BaireWindowStability
 import BEDC.Derived.LawlessSequenceUp.Carrier
 import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
+import BEDC.Derived.LawlessSequenceUp.RealBoundaryNonescape
 import BEDC.Derived.LawlessSequenceUp.StreamNameChoiceWindow
 import BEDC.Derived.LawlessSequenceUp.StreamNameWindowObligation
 import BEDC.Derived.LawlessSequenceUp.TasteGate
@@ -6765,6 +6772,7 @@ import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
 import BEDC.Derived.MooreSmithNetUp.TasteGate
 import BEDC.Derived.MooreSpaceUp.TasteGate
+import BEDC.Derived.MorreySpaceUp.TasteGate
 import BEDC.Derived.MorseTheoryUp.TasteGate
 import BEDC.Derived.MoscoRecoverySequenceUp.NameCertObligations
 import BEDC.Derived.MoscoRecoverySequenceUp.RealMetricBoundary
@@ -7783,6 +7791,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
+import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
