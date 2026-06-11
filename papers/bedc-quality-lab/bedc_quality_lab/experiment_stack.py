@@ -15,6 +15,7 @@ ARTIFACT_ID = "bedc-quality-lab:experiment-stack-cards"
 JSON_ARTIFACT = "reports/canonical/experiment_stack_cards.json"
 MARKDOWN_ARTIFACT = "reports/canonical/experiment_stack_cards.md"
 PRODUCER = "scripts/run_experiment_stack_cards.py"
+LAB_ROOT = Path(__file__).resolve().parents[1]
 
 STACK_HARDGATE_IDS = ("STACK-HG1", "STACK-HG2")
 REQUIRED_PREFLIGHT_CARD_IDS = (
@@ -559,6 +560,69 @@ def _card_reason(card_id: str, row: Mapping[str, Any] | None) -> str:
     return f"card status is {row.get('status', 'missing')}"
 
 
+def _context_root(context: Mapping[str, Any]) -> Path:
+    value = context.get("root", context.get("artifact_root", context.get("lab_root")))
+    if isinstance(value, Path):
+        return value
+    if isinstance(value, str):
+        return Path(value)
+    return LAB_ROOT
+
+
+def _hardgate_status(row: Mapping[str, Any], hardgate_id: str) -> str | None:
+    hardgates = row.get("hardgates")
+    if not isinstance(hardgates, Mapping):
+        return None
+    hardgate = hardgates.get(hardgate_id)
+    if not isinstance(hardgate, Mapping):
+        return None
+    status = hardgate.get("status")
+    return status if isinstance(status, str) else None
+
+
+def _preflight_card_failures(spec: ExperimentStackCardSpec, row: Mapping[str, Any] | None, *, root: Path) -> tuple[str, ...]:
+    if row is None:
+        return (_card_reason(spec.card_id, None),)
+
+    failures: list[str] = []
+    projected = project_card(spec, root=root)
+    expected_fields = (
+        "owner_artifact",
+        "schema_id",
+        "source_pointer",
+        "summary_pointer",
+        "demotion_rule_pointer",
+        "card_pointer",
+    )
+    for field in expected_fields:
+        if row.get(field) != projected[field]:
+            failures.append(f"{field}-mismatch")
+
+    expected_statuses = {
+        "status": "pass",
+        "owner_artifact_status": "resolved",
+        "owner_schema_status": "matched",
+        "source_pointer_status": "resolved",
+        "summary_pointer_status": "resolved",
+        "demotion_rule_pointer_status": "resolved",
+    }
+    for field, expected in expected_statuses.items():
+        if row.get(field) != expected:
+            failures.append(f"{field}-not-{expected}")
+
+    for hardgate_id in STACK_HARDGATE_IDS:
+        if _hardgate_status(row, hardgate_id) != "pass":
+            failures.append(f"{hardgate_id}-not-pass")
+
+    if projected["status"] != "pass":
+        failures.extend(str(reason) for reason in projected["failure_reasons"])
+    for hardgate_id in STACK_HARDGATE_IDS:
+        if projected["hardgates"][hardgate_id]["status"] != "pass":
+            failures.append(f"{hardgate_id}-evidence-not-pass")
+
+    return tuple(dict.fromkeys(failures))
+
+
 def evaluate_claim_first_gate(context: Mapping[str, Any]) -> ClaimFirstGateDecision:
     training_refs_value = context.get("training_result_refs")
     training_refs = list(training_refs_value) if isinstance(training_refs_value, Sequence) and not isinstance(training_refs_value, (str, bytes)) else []
@@ -570,13 +634,16 @@ def evaluate_claim_first_gate(context: Mapping[str, Any]) -> ClaimFirstGateDecis
             pointer_reasons={},
         )
     cards = _rows_by_card_id(_context_cards(context))
+    root = _context_root(context)
+    specs = spec_by_card_id()
     failed: list[str] = []
     reasons: dict[str, str] = {}
     for card_id in REQUIRED_PREFLIGHT_CARD_IDS:
         row = cards.get(card_id)
-        if row is None or row.get("status") != "pass":
+        card_failures = _preflight_card_failures(specs[card_id], row, root=root)
+        if card_failures:
             failed.append(card_id)
-            reasons[card_id] = _card_reason(card_id, row)
+            reasons[card_id] = ", ".join(card_failures)
     blocked_refs = tuple(_training_result_ref(row, index) for index, row in enumerate(training_refs))
     if failed:
         return ClaimFirstGateDecision(
