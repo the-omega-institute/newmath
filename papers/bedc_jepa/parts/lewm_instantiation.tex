@@ -91,7 +91,23 @@ strongest slices the head conservatively declares gap on nearly everything
 (unlogged error $\rightarrow 0$), and clean evaluation is not degraded
 (AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).
 
-\paragraph{Coverage certificate.}
+\paragraph{Probing what the ledger reads.}
+Three probes bound the nature of the failure signal.  First, the trained
+head's own next-latent prediction is far weaker than the checkpoint predictor
+on the same transitions and metric (mean squared error $0.879$ versus
+$0.067$; the small head wins on $0.1\%$ of transitions), so the ledger's
+detection ability does not ride on superior dynamics.  Second, the signal is
+not a state-recovery deficit: per-transition linear and local ($k=20$
+nearest-neighbour) state-recovery residuals do not predict failure (AUROC
+$0.455$ $[0.407,\ 0.503]$ and $0.466$ $[0.418,\ 0.515]$, against $0.731$ for
+the gap head), so the naive operationalization of the identifiability
+question --- the model fails where its latent encodes state poorly --- is
+rejected on this carrier.  Third, one-step awareness does not transfer to
+multi-step budget allocation: distributing rollout depth by ledger score at
+matched compute \emph{raises} per-step rollout error against a uniform
+allocation ($+0.013$ $[+0.005,\ +0.021]$), while an oracle ranked by true
+future error lowers it ($-0.016$), so the allocation lever exists but the
+one-step ledger score selects the wrong direction for it.
 The split-conformal counting core used by the gap-ledger readout is
 machine-checked in a mathlib-free Lean~4 package whose theorems depend on
 zero axioms (no \texttt{propext}, no \texttt{Classical.choice}); the full
@@ -109,6 +125,9 @@ $$
 \text{trained ledger head} & \texttt{reports/lewm\_ledger\_aware\_transformer.json},\\
 \text{trained-head perturbation arm} & \texttt{reports/lewm\_ledger\_aware\_transformer\_ood.json},\\
 \text{trained-head OOD-aware training} & \texttt{reports/lewm\_ledger\_aware\_transformer\_ood\_aware.json},\\
+\text{dynamics comparison} & \texttt{reports/lewm\_lat\_dynamics\_comparison.json},\\
+\text{state-recovery probe} & \texttt{reports/lewm\_identifiability\_link.json},\\
+\text{rollout budget allocation} & \texttt{reports/lewm\_ledger\_gated\_rollout.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
 \end{array}
 $$
