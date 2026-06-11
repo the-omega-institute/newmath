@@ -259,6 +259,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
+import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyTailModulusUp
 import BEDC.Derived.ArchimedeanCauchyTailUp.TasteGate
 import BEDC.Derived.ArchimedeanCompletionUp.TasteGate
@@ -6079,6 +6080,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealRefusal
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealRoute
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
+import BEDC.Derived.LowerSemicontinuousUp.ScopedRoute
 import BEDC.Derived.LowerSemicontinuousUp.SuperlevelThresholdSurface
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
@@ -8439,7 +8441,6 @@ import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedCutUp
 import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
-import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
 import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
