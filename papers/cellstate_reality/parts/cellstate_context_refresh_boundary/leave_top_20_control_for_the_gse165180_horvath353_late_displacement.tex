@@ -1,0 +1,35 @@
+\subsection{Leave-top-20 control for the GSE165180 Horvath353 late displacement}\label{sec:age-clock-shift-reversal-leave-top20-out-gse165180}
+\origin{ai}
+
+\paragraph{Finite object.}
+The record considered here is the finite carrier $B_{\mathrm{LTO}}=(M,W,T,C,R,E,L,N)$.  The matrix component $M$ is the curated GSE165179 EPIC methylation beta table reached through the GSE165180 SuperSeries and restricted to Horvath353 clock coordinates present in the processed data.  The coefficient component $W$ is the Horvath353 weight table, including its intercept.  The time component $T$ uses donor-day collapsed fibroblast baselines and transient MPTR fibroblast timepoints.  The contribution component $C$ assigns to each covered CpG the signed z-space contribution $w_j(\beta_{j,\mathrm{treated}}-\beta_{j,\mathrm{baseline}})$ under the clock weights.  The coordinate set $R$ is the predeclared set of the twenty strongest day17-versus-day10 reversal-driver coordinates.  The residual trajectory $E$ is obtained by removing $R$ and rescoring the remaining covered clock coordinates at day10, day13, day15, and day17.  The layer tag is $L=\mathrm{age\_signature}$.  The boundary component $N$ records that the computation is not allowed to promote itself into identity, functional, safety, rejuvenation, maintenance, or immortality statements.
+
+\paragraph{Observed input contact.}
+The methylation contact $k\mbox{-}a.\mathrm{gse165180.horvath353}$ supplies CpG-level beta values for donor-labelled baseline fibroblast and transiently reprogrammed MPTR fibroblast samples, together with GSM accessions, sample titles, cell-type and reprogramming-phase annotations, and same-donor baseline-versus-MPTR pairing.  The contact identifies GSE165180 as a SuperSeries of GSE165179 and uses the processed GSE165179 EPIC beta matrix for the MPTR methylation contrast.  The curated Horvath353 slice covers $334$ of the $353$ clock CpGs.  The selected contrast is small: it uses three donor pairs, and one donor has a positive treated-minus-baseline DNAm-age delta.  For that reason, the contact can test only an age-signature coordinate calculation and cannot by itself evaluate cell identity, realized function, safety, renewable maintenance, organismal maintenance, or a cross-layer biological relation.
+
+\paragraph{Leave-out calculation.}
+The verified run $411786129c61$ implements the deterministic leave-out probe.  It first ranks the covered Horvath353 coordinates by their day17-versus-day10 z-space contribution and removes the top $20$ reversal-driver CpGs.  The remaining coordinate set has $314$ covered CpGs, matching $334-20=314$.  The full covered-clock day17 displacement before removal is
+$$
+\begin{aligned}
+z_{17}^{\mathrm{full}} &= 0.3142731337795502 .
+\end{aligned}
+$$
+The removed top-$20$ contribution is
+$$
+\begin{aligned}
+\Delta z_{17}^{R} &= 0.9305613683018077 .
+\end{aligned}
+$$
+After deleting those coordinates and rescoring only the residual set $E$, the day17 residual displacement is
+$$
+\begin{aligned}
+z_{17}^{E} &= -0.6162882345222572 .
+\end{aligned}
+$$
+Thus the positive day17 displacement is not merely weakened; it changes sign after the predeclared high-contribution coordinates are withheld.  The run records the attenuation magnitude as $0.9305613683018075$ and the attenuation ratio as $2.9609956063077236$.  In finite-row terms, the late positive Horvath353 z-space shift is concentrated in the selected reversal-driver coordinates rather than being distributed uniformly across the remaining covered clock CpGs.
+
+\paragraph{Layer-local verdict.}
+The probe status is passed for the age-signature layer.  The supported statement is narrow: in the GSE165180/GSE165179 MPTR methylation timecourse, removing the twenty largest day17-versus-day10 Horvath353 reversal-driver coordinates eliminates the positive day17 clock-coordinate displacement in the remaining covered set.  This establishes a clock-internal localization result for the covered Horvath353 coordinates under the supplied coefficient table and donor-paired methylation data.  It does not say that the cells became younger in a physiological sense, that identity was preserved, that a cellular function was restored, that the protocol is safe, that maintenance was achieved, or that an immortality-related property follows.
+
+\paragraph{No-promotion boundary.}
+The calculation is a methylation-clock coordinate control.  No translation-level statement follows from it, because no independent contact here measures protein production or translational state.  No folding or physical admissibility statement follows, because the row set contains methylation beta values and clock coefficients rather than molecular structure or thermodynamic constraints.  No functional or mechanistic claim follows, because the removed coordinates are used by their clock contribution, not by an external perturbation model or CpG functional annotation.  No universality claim follows, because the input is a specific MPTR timecourse with three donor pairs and a Horvath353 coverage of $334$ CpGs.  Any claim about identity, function, safety, rejuvenation, maintenance, immortality, mechanism, folding, translation, physical admissibility, or cross-cohort generality would require a separate contact designed to test that layer.
