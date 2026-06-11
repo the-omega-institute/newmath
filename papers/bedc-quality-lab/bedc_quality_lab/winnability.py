@@ -27,6 +27,18 @@ COVERAGE_CLASSIFICATIONS = frozenset(
     {"not-applicable", "table-coverage", "not-table-coverage", "unresolved"}
 )
 HARDGATE_IDS = ("ORACLE-HG1", "ORACLE-HG2", "ORACLE-HG3", "ORACLE-HG4", "ORACLE-HG5")
+NEGATIVE_CONTROL_EXPECTATIONS = (
+    {
+        "split_id": "l1-ood-hidden-lag",
+        "expected": "unwinnable",
+        "failure_reason": "negative-control-expected-unwinnable",
+    },
+    {
+        "split_id": "l1-held-out-pair",
+        "expected": "winnable",
+        "failure_reason": "negative-control-expected-winnable",
+    },
+)
 IDENTITY_FIELDS = (
     "experiment_id",
     "task_id",
@@ -62,6 +74,16 @@ CERTIFICATE_REQUIRED_KEYS = (
     "status",
     "failure_reasons",
     "not_claimed",
+)
+REGISTERED_SPLIT_REQUIRED_KEYS = (
+    "experiment_id",
+    "task_id",
+    "split_id",
+    "split_fingerprint",
+    "source_evidence_ref",
+    "label_function_ref",
+    "visible_variables_ref",
+    "required_variables_ref",
 )
 CLAIM_PERMISSION_KEYS = (
     "memorization_claim_allowed",
@@ -232,6 +254,25 @@ def _load_json(root: Path, artifact: str) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def _resolve_self_pointer(payload: Mapping[str, Any], pointer: str) -> Any:
+    cell = pointer
+    if ":" in cell:
+        artifact, cell = cell.split(":", 1)
+        if artifact != JSON_ARTIFACT:
+            return None
+    if cell == "$":
+        return payload
+    return _pointer_value(payload, cell)
+
+
+def _jsonable(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {str(key): _jsonable(item) for key, item in value.items()}
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes)):
+        return [_jsonable(item) for item in value]
+    return value
 
 
 def certificate_id_for_split(split_evidence: Mapping[str, Any]) -> str:
@@ -656,6 +697,65 @@ def _certificate_malformed(row: Mapping[str, Any]) -> list[str]:
     return failures
 
 
+def _registered_split_malformed(row: Mapping[str, Any]) -> list[str]:
+    failures = []
+    missing = [key for key in REGISTERED_SPLIT_REQUIRED_KEYS if key not in row]
+    failures.extend(f"missing-split-key:{key}" for key in missing)
+    for key in ("task_id", "split_id", "split_fingerprint"):
+        if not isinstance(row.get(key), str) or not row.get(key):
+            failures.append(f"invalid-split-identity:{key}")
+    if "resolver" in row and "split_id" not in row:
+        failures.append("wrong-entity-class:resolver-registry")
+    if "certificate_id" in row or "method" in row or "status" in row:
+        failures.append("wrong-entity-class:winnability-certificate")
+    return failures
+
+
+def _negative_control_failures(certificates: Sequence[Mapping[str, Any]]) -> list[dict[str, str]]:
+    failures = []
+    expectations = {row["split_id"]: row for row in NEGATIVE_CONTROL_EXPECTATIONS}
+    seen_split_ids = {
+        str(row.get("split_id"))
+        for row in certificates
+        if isinstance(row.get("split_id"), str) and row.get("split_id")
+    }
+    for split_id, expectation in expectations.items():
+        if split_id not in seen_split_ids:
+            failures.append(
+                {
+                    "certificate_id": f"missing-split:{split_id}",
+                    "split_id": split_id,
+                    "reason": f"{expectation['failure_reason']}:missing-split",
+                }
+            )
+    for row in certificates:
+        split_id = row.get("split_id")
+        if split_id not in expectations:
+            continue
+        expectation = expectations[str(split_id)]
+        certificate_id = str(row.get("certificate_id") or split_id)
+        expected = expectation["expected"]
+        if expected == "unwinnable":
+            if row.get("status") != "pass" or row.get("unwinnable") is not True or row.get("winnable") is True:
+                failures.append(
+                    {
+                        "certificate_id": certificate_id,
+                        "split_id": str(split_id),
+                        "reason": expectation["failure_reason"],
+                    }
+                )
+        elif expected == "winnable":
+            if row.get("status") != "pass" or row.get("winnable") is not True or row.get("unwinnable") is True:
+                failures.append(
+                    {
+                        "certificate_id": certificate_id,
+                        "split_id": str(split_id),
+                        "reason": expectation["failure_reason"],
+                    }
+                )
+    return failures
+
+
 def audit_certificates(
     registered_splits: Sequence[Mapping[str, Any]],
     certificates: Sequence[Mapping[str, Any]],
@@ -762,15 +862,21 @@ def _hardgates(
         + rows_with("invalid-bounds")
         + rows_with("missing-input-accessibility")
     )
+    negative_control_failures = _negative_control_failures(certificates)
+    negative_control_failure_refs = [
+        failure["certificate_id"]
+        for failure in negative_control_failures
+        if isinstance(failure.get("certificate_id"), str)
+    ]
     hg1_failures = rows_with("missing-certificate") + rows_with("duplicate-certificate")
     gate_rows = {
         "ORACLE-HG1": hg1_failures,
         "ORACLE-HG2": oracle_failures,
         "ORACLE-HG3": permission_failures,
         "ORACLE-HG4": schema_failures,
-        "ORACLE-HG5": bound_failures,
+        "ORACLE-HG5": list(dict.fromkeys([*bound_failures, *negative_control_failure_refs])),
     }
-    return {
+    hardgates = {
         gate_id: {
             "status": "pass" if not failure_refs else "fail",
             "checked_count": len(certificates),
@@ -779,6 +885,12 @@ def _hardgates(
         }
         for gate_id, failure_refs in gate_rows.items()
     }
+    hardgates["ORACLE-HG5"]["negative_control_expectations"] = [
+        {"split_id": row["split_id"], "expected": row["expected"]}
+        for row in NEGATIVE_CONTROL_EXPECTATIONS
+    ]
+    hardgates["ORACLE-HG5"]["negative_control_failures"] = negative_control_failures
+    return hardgates
 
 
 def _source_artifact_status(root: Path, artifact: str) -> dict[str, str]:
@@ -882,6 +994,7 @@ def build_payload(
 ) -> dict[str, Any]:
     timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     rows = list(registered_splits if registered_splits is not None else default_registered_splits(root))
+    registered_split_rows = [_jsonable(row) for row in rows]
     active_registry = registry or DEFAULT_REGISTRY
     accessibility = dict(input_accessibility or load_input_accessibility(root))
     certificates = evaluate_winnability(
@@ -906,8 +1019,9 @@ def build_payload(
         },
         "inputs": {
             "input_accessibility": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$",
-            "registered_splits": f"{JSON_ARTIFACT}:$.family_registry",
+            "registered_splits": f"{JSON_ARTIFACT}:$.registered_splits",
         },
+        "registered_splits": registered_split_rows,
         "family_registry": registry_rows,
         "registry_digest": _json_digest(registry_rows),
         "oracle_runs": list(oracle_runs),
@@ -967,6 +1081,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "owner",
         "source_artifacts",
         "inputs",
+        "registered_splits",
         "family_registry",
         "oracle_runs",
         "certificates",
@@ -981,6 +1096,21 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     legacy_inputs_key = "input" + "_pointers"
     if legacy_inputs_key in payload:
         raise ValueError("winnability payload must use inputs")
+    inputs = payload.get("inputs")
+    if not isinstance(inputs, Mapping):
+        raise ValueError("winnability inputs must be an object")
+    registered_splits_pointer = inputs.get("registered_splits")
+    if not isinstance(registered_splits_pointer, str):
+        raise ValueError("winnability inputs.registered_splits must be a pointer")
+    registered_splits = _resolve_self_pointer(payload, registered_splits_pointer)
+    if not isinstance(registered_splits, Sequence) or isinstance(registered_splits, (str, bytes)):
+        raise ValueError("winnability inputs.registered_splits must resolve to a list")
+    for row in registered_splits:
+        if not isinstance(row, Mapping):
+            raise ValueError("winnability registered split row must be an object")
+        failures = _registered_split_malformed(row)
+        if failures:
+            raise ValueError(f"winnability registered split row malformed: {failures}")
     consumers = payload.get("consumer_pointers")
     if not isinstance(consumers, Mapping):
         raise ValueError("winnability consumer_pointers must be an object")

@@ -1246,6 +1246,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "owner",
             "source_artifacts",
             "inputs",
+            "registered_splits",
             "family_registry",
             "oracle_runs",
             "certificates",

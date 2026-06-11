@@ -1,3 +1,4 @@
+import json
 import math
 
 import pytest
@@ -56,6 +57,69 @@ def test_l1_ood_hidden_lag_is_unwinnable(tmp_path):
     assert payload["hardgates"]["ORACLE-HG3"]["status"] == "pass"
     assert "certificate_id" in row
     assert "row" + "_id" not in row
+
+
+def test_hg5_fails_when_l1_ood_negative_control_is_winnable():
+    split = _split(
+        experiment_id="dgt-controls",
+        task_id="dgt-l1-hidden-lag",
+        split_id="l1-ood-hidden-lag",
+        split_kind="ood",
+        visible_variables=["x_minus_1", "x_minus_2", "x_minus_3"],
+        required_variables=["x_minus_3"],
+        observed_accuracy=0.90,
+    )
+
+    row = winnability.evaluate_split(split).to_json()
+    audit = winnability.audit_certificates([split], [row])
+    hg5 = winnability._hardgates([row], audit)["ORACLE-HG5"]
+
+    assert row["status"] == "pass"
+    assert row["winnable"] is True
+    assert hg5["status"] == "fail"
+    assert row["certificate_id"] in hg5["failure_refs"]
+    assert {
+        "certificate_id": row["certificate_id"],
+        "split_id": "l1-ood-hidden-lag",
+        "reason": "negative-control-expected-unwinnable",
+    } in hg5["negative_control_failures"]
+
+
+def test_hg5_fails_when_l1_held_out_negative_control_is_unwinnable():
+    split = _split(
+        experiment_id="dgt-controls",
+        task_id="dgt-l1-held-out-pair",
+        split_id="l1-held-out-pair",
+        split_kind="held-out-pair",
+        visible_variables=["x_minus_1", "x_minus_2"],
+        required_variables=["x_minus_3"],
+        observed_accuracy=0.0625,
+    )
+
+    row = winnability.evaluate_split(split).to_json()
+    audit = winnability.audit_certificates([split], [row])
+    hg5 = winnability._hardgates([row], audit)["ORACLE-HG5"]
+
+    assert row["status"] == "pass"
+    assert row["unwinnable"] is True
+    assert hg5["status"] == "fail"
+    assert row["certificate_id"] in hg5["failure_refs"]
+    assert {
+        "certificate_id": row["certificate_id"],
+        "split_id": "l1-held-out-pair",
+        "reason": "negative-control-expected-winnable",
+    } in hg5["negative_control_failures"]
+
+
+def test_hg5_fails_when_negative_control_split_is_absent():
+    split = _split(task_id="ordinary-task", split_id="ordinary-split")
+    row = winnability.evaluate_split(split).to_json()
+    audit = winnability.audit_certificates([split], [row])
+    hg5 = winnability._hardgates([row], audit)["ORACLE-HG5"]
+
+    assert hg5["status"] == "fail"
+    assert "missing-split:l1-ood-hidden-lag" in hg5["failure_refs"]
+    assert "missing-split:l1-held-out-pair" in hg5["failure_refs"]
 
 
 def test_missing_input_accessibility_source_fails_closed(tmp_path):
@@ -177,3 +241,51 @@ def test_compact_winnability_ref_shape():
         "certificate_id": "win-fixture",
         "pointer": "reports/canonical/winnability-certificates.json:$.certificates",
     }
+
+
+def test_registered_splits_input_pointer_resolves_to_split_entities(tmp_path):
+    input_accessibility = tmp_path / "reports/canonical/input-accessibility.json"
+    input_accessibility.parent.mkdir(parents=True, exist_ok=True)
+    input_accessibility.write_text(json.dumps({"rows": []}) + "\n", encoding="utf-8")
+    payload = winnability.build_payload(
+        root=tmp_path,
+        generated_at="fixture",
+        registered_splits=[_split(task_id="registered-task", split_id="registered-split")],
+    )
+
+    assert payload["inputs"]["registered_splits"] == (
+        "reports/canonical/winnability-certificates.json:$.registered_splits"
+    )
+    registered_splits = payload["registered_splits"]
+    assert registered_splits[0]["task_id"] == "registered-task"
+    assert registered_splits[0]["split_id"] == "registered-split"
+    assert "resolver" not in registered_splits[0]
+    winnability.validate_payload(payload)
+
+
+def test_registered_splits_input_pointer_rejects_family_registry_entity_class(tmp_path):
+    payload = winnability.build_payload(
+        root=tmp_path,
+        generated_at="fixture",
+        registered_splits=[_split(task_id="registered-task", split_id="registered-split")],
+    )
+    payload["inputs"]["registered_splits"] = (
+        "reports/canonical/winnability-certificates.json:$.family_registry"
+    )
+
+    with pytest.raises(ValueError, match="registered split row malformed"):
+        winnability.validate_payload(payload)
+
+
+def test_registered_splits_input_pointer_rejects_certificate_entity_class(tmp_path):
+    payload = winnability.build_payload(
+        root=tmp_path,
+        generated_at="fixture",
+        registered_splits=[_split(task_id="registered-task", split_id="registered-split")],
+    )
+    payload["inputs"]["registered_splits"] = (
+        "reports/canonical/winnability-certificates.json:$.certificates"
+    )
+
+    with pytest.raises(ValueError, match="registered split row malformed"):
+        winnability.validate_payload(payload)

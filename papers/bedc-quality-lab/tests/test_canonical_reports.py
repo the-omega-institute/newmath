@@ -1707,8 +1707,23 @@ def test_winnability_certificates_canonical_spec_and_index_section(tmp_path, mon
     assert spec.bundle_role == "auxiliary"
     assert spec.json_artifact == "reports/canonical/winnability-certificates.json"
     assert spec.markdown_artifact == "reports/canonical/winnability-certificates.md"
-    assert {"schema_id", "artifact_id", "inputs", "audit", "$.audit.fail_closed_count"} <= set(spec.required_json_keys)
+    assert {
+        "schema_id",
+        "artifact_id",
+        "inputs",
+        "registered_splits",
+        "audit",
+        "$.audit.fail_closed_count",
+    } <= set(spec.required_json_keys)
     assert "winnability-certificates" not in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+    assert payload["inputs"]["registered_splits"] == (
+        "reports/canonical/winnability-certificates.json:$.registered_splits"
+    )
+    resolved_registered_splits = resolve_artifact_pointer(tmp_path, payload["inputs"]["registered_splits"])
+    assert isinstance(resolved_registered_splits, list)
+    assert resolved_registered_splits[0]["task_id"] == "fixture-task"
+    assert resolved_registered_splits[0]["split_id"] == "fixture-split"
+    assert "resolver" not in resolved_registered_splits[0]
     assert section["winnability_certificates"] == "reports/canonical/winnability-certificates.json:$.certificates"
     assert "certificates" + "_pointer" not in section
     assert section["audit_pointer"] == "reports/canonical/winnability-certificates.json:$.audit"
