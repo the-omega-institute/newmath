@@ -1319,20 +1319,20 @@ def test_dgt_d4_row_routes_through_generic_accepted_positive_path(tmp_path, monk
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
+    assert verdict["reason"].startswith("fresh-discovery-level-D0:")
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
-def test_dgt_with_passing_high_impact_review_becomes_accepted(tmp_path, monkeypatch):
+def test_dgt_with_passing_high_impact_review_remains_owner_projection(tmp_path, monkeypatch):
     root = _dgt_fixture(tmp_path, monkeypatch)
     _write_passing_dgt_hir(root)
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
+    assert verdict["reason"].startswith("fresh-discovery-level-D0:")
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
@@ -1342,7 +1342,7 @@ def test_dgt_blocked_d4_row_does_not_emit_d5_o_verdict(tmp_path, monkeypatch):
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
     assert verdict["ledger_pointer"].endswith("$.rows[0].discovery_level")
     assert "D5-O" not in json.dumps(verdict, sort_keys=True)
 

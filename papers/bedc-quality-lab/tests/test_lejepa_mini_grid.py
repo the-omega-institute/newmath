@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from bedc_quality_lab import lejepa_mini_grid as lejepa_module
 from bedc_quality_lab import claim_terms
 from bedc_quality_lab.discovery_compiler import capsule
 from bedc_quality_lab.lejepa_mini_grid import (
@@ -14,8 +15,15 @@ from bedc_quality_lab.lejepa_mini_grid import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     LeJEPAMiniGridProjection,
+    NEGATIVE_DIAGNOSIS_ARTIFACT,
+    NEGATIVE_DIAGNOSIS_ARTIFACT_ID,
+    NEGATIVE_DIAGNOSIS_CANONICAL_ROLE,
+    NEGATIVE_DIAGNOSIS_SCHEMA_ID,
+    NEGATIVE_DIAGNOSIS_SLICE_KEYS,
     PROJECTOR_FORBIDDEN_TERMS,
+    build_lejepa_mini_grid_negative_diagnosis,
     default_grid,
+    validate_lejepa_mini_grid_negative_diagnosis,
 )
 from scripts import run_canonical_reports as canonical
 from scripts import run_lejepa_mini_grid as runner
@@ -95,6 +103,14 @@ def _fake_single_arm(**kwargs):
     )
 
 
+def _fake_negative_single_arm(**kwargs):
+    row = _fake_single_arm(**kwargs)
+    row["quality_q"] = 0.50
+    row["linear_identifiability_r2"] = 0.20
+    row["collapse_rate"] = 0.30
+    return row
+
+
 def _contains_key(value, key: str) -> bool:
     if isinstance(value, dict):
         return key in value or any(_contains_key(item, key) for item in value.values())
@@ -103,15 +119,22 @@ def _contains_key(value, key: str) -> bool:
     return False
 
 
-def _negative_projection(monkeypatch, run_id: str = "lejepa-mini-grid"):
-    def fake_single_arm(**kwargs):
-        row = _fake_single_arm(**kwargs)
-        row["quality_q"] = 0.50
-        row["linear_identifiability_r2"] = 0.20
-        row["collapse_rate"] = 0.30
-        return row
+def _recursive_keys(value):
+    if isinstance(value, dict):
+        keys = set(value)
+        for item in value.values():
+            keys |= _recursive_keys(item)
+        return keys
+    if isinstance(value, list):
+        keys = set()
+        for item in value:
+            keys |= _recursive_keys(item)
+        return keys
+    return set()
 
-    monkeypatch.setattr(runner, "run_single_arm", fake_single_arm)
+
+def _negative_projection(monkeypatch, run_id: str = "lejepa-mini-grid"):
+    monkeypatch.setattr(runner, "run_single_arm", _fake_negative_single_arm)
     return runner.build_projection(run_id=run_id, generated_at="fixture-time")
 
 
@@ -202,12 +225,12 @@ def test_run_single_arm_forwards_backend_arguments_and_derives_probe_metrics(mon
     assert row["source_run_id"] == "backend-arm"
 
 
-def test_default_grid_enumerates_300_cells_and_writes_four_run_artifacts(monkeypatch, tmp_path):
+def test_default_grid_enumerates_300_cells_and_writes_run_artifacts_with_sidecar(monkeypatch, tmp_path):
     calls = []
 
     def fake_single_arm(**kwargs):
         calls.append(kwargs)
-        return _fake_single_arm(**kwargs)
+        return _fake_negative_single_arm(**kwargs)
 
     monkeypatch.setattr(runner, "run_single_arm", fake_single_arm)
     projection = runner.build_projection(run_id="fixture-grid", generated_at="fixture-time")
@@ -226,12 +249,15 @@ def test_default_grid_enumerates_300_cells_and_writes_four_run_artifacts(monkeyp
         "artifact": "reports/runs/fixture-grid/claim_capsule.json",
         "pointer": "$",
     }
-    assert summary["negative_witness"] == [
-        {
+    assert summary["negative_diagnosis"] == {
+        "artifact": NEGATIVE_DIAGNOSIS_ARTIFACT,
+        "pointer": "$",
+        "diagnosis_ref": {
             "artifact": "reports/runs/fixture-grid/claim_capsule.json",
             "pointer": "$.run_local.negative_witness[0]",
-        }
-    ]
+        },
+    }
+    assert (tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).exists()
     assert capsule_payload["run_local"]["negative_witness"][0]["source_artifact"] == "reports/runs/fixture-grid/claim_capsule.json"
     assert len((run_dir / "raw_metrics.jsonl").read_text(encoding="utf-8").splitlines()) == 300
 
@@ -341,7 +367,7 @@ def test_projector_local_forbidden_term_hit_fails_capsule_and_u_hg8():
 
 
 def test_thin_script_can_run_with_monkeypatched_single_arm_runner(monkeypatch, tmp_path, capsys):
-    monkeypatch.setattr(runner, "run_single_arm", _fake_single_arm)
+    monkeypatch.setattr(runner, "run_single_arm", _fake_negative_single_arm)
 
     rc = runner.main(["--root", str(tmp_path), "--run-id", "fixture-main"])
 
@@ -353,6 +379,7 @@ def test_thin_script_can_run_with_monkeypatched_single_arm_runner(monkeypatch, t
     assert (run_dir / "claim_capsule.json").exists()
     assert (run_dir / "raw_metrics.jsonl").exists()
     assert (run_dir / "report.md").exists()
+    assert (tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).exists()
     assert len((run_dir / "raw_metrics.jsonl").read_text(encoding="utf-8").splitlines()) == 300
 
 
@@ -402,32 +429,47 @@ def test_lejepa_public_surfaces_point_to_run_local_negative_witness_owner(monkey
     run_dir = tmp_path / "reports/runs/lejepa-mini-grid"
     summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
     capsule_payload = json.loads((run_dir / "claim_capsule.json").read_text(encoding="utf-8"))
+    diagnosis = json.loads((tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8"))
     report = (run_dir / "report.md").read_text(encoding="utf-8")
     owner_ref = {
         "artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
         "pointer": "$.run_local.negative_witness[0]",
     }
 
-    assert summary["negative_witness"] == [owner_ref]
+    assert summary["negative_diagnosis"] == {
+        "artifact": NEGATIVE_DIAGNOSIS_ARTIFACT,
+        "pointer": "$",
+        "diagnosis_ref": owner_ref,
+    }
+    assert diagnosis["diagnosis_ref"] == "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]"
     assert summary["claim_capsule"] == {"artifact": owner_ref["artifact"], "pointer": "$"}
     assert owner_ref["pointer"] not in json.dumps(capsule_payload["run_local"]["negative_witness"][0], sort_keys=True)
-    assert "negative_witness" not in report
+    assert NEGATIVE_DIAGNOSIS_ARTIFACT in report
     assert "lambda-rho-trend-hardgate-failure" not in json.dumps(summary, sort_keys=True)
 
 
-def test_lejepa_run_local_negative_witness_fail_closed_keeps_blocked_row(monkeypatch):
+def test_lejepa_run_local_negative_witness_fail_closed_raises_on_bad_evidence(monkeypatch):
     projection = _negative_projection(monkeypatch)
     capsule_payload = projection["claim_capsule_payload"]
     capsule_payload["hardgates"]["D2-HG2"]["status"] = "pass"
-    finalized = runner.finalize_negative_witness_projection(
-        {**projection, "claim_capsule_payload": capsule_payload},
-        run_id="lejepa-mini-grid",
-    )
-    row = finalized["claim_capsule_payload"]["run_local"]["negative_witness"][0]
 
-    assert row["status"] == "blocked"
-    assert row["witness_id"] == NEGATIVE_WITNESS_ROW["witness_id"]
-    assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+    with pytest.raises(ValueError, match="negative witness source, evidence, or regression pointer"):
+        runner.finalize_negative_witness_projection(
+            {**projection, "claim_capsule_payload": capsule_payload},
+            run_id="lejepa-mini-grid",
+        )
+
+
+def test_lejepa_writer_fail_closed_raises_on_corrupt_finalized_source(monkeypatch, tmp_path):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = dict(projection["claim_capsule_payload"])
+    capsule_payload["run_local"]["negative_witness"][0] = {
+        **capsule_payload["run_local"]["negative_witness"][0],
+        "source_pointer": "$.missing_gate",
+    }
+
+    with pytest.raises(ValueError, match="negative witness source, evidence, or regression pointer"):
+        runner.write_artifacts({**projection, "claim_capsule_payload": capsule_payload}, root=tmp_path)
 
 
 def test_lejepa_run_local_negative_witness_no_terminal_verdict_leakage(monkeypatch):
@@ -435,8 +477,121 @@ def test_lejepa_run_local_negative_witness_no_terminal_verdict_leakage(monkeypat
     capsule_payload = projection["claim_capsule_payload"]
     summary = projection["summary_payload"]
     nw_block = {
-        "summary_negative_witness": summary["negative_witness"],
+        "summary_negative_diagnosis": summary["negative_diagnosis"],
         "capsule_run_local": capsule_payload["run_local"],
     }
 
     assert not _contains_key(nw_block, "terminal_verdict")
+    assert "terminal_verdict" not in json.dumps(nw_block, sort_keys=True)
+
+
+def test_lejepa_source_projection_has_no_terminal_verdict_key():
+    projection = _project()
+
+    assert "terminal_verdict" not in _recursive_keys(
+        {
+            "summary": projection["summary_payload"],
+            "capsule": projection["claim_capsule_payload"],
+            "report": projection["report_markdown"],
+        }
+    )
+    assert "terminal_verdict" not in json.dumps(
+        {
+            "summary": projection["summary_payload"],
+            "capsule": projection["claim_capsule_payload"],
+            "report": projection["report_markdown"],
+        },
+        sort_keys=True,
+    )
+
+
+def test_lejepa_negative_diagnosis_sidecar_schema_and_pointer_only_slices(monkeypatch, tmp_path):
+    projection = _negative_projection(monkeypatch)
+    runner.write_artifacts(projection, root=tmp_path)
+    sidecar_path = tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT
+    payload = json.loads(sidecar_path.read_text(encoding="utf-8"))
+
+    assert list(payload) == [
+        "artifact_id",
+        "canonical_role",
+        "diagnosis_ref",
+        "diagnosis_slices",
+        "generated_at",
+        "hardgate",
+        "not_claimed",
+        "producer",
+        "projector",
+        "schema_id",
+        "source_artifacts",
+    ]
+    assert set(payload) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "projector",
+        "canonical_role",
+        "source_artifacts",
+        "diagnosis_ref",
+        "diagnosis_slices",
+        "hardgate",
+        "not_claimed",
+    }
+    assert payload["schema_id"] == NEGATIVE_DIAGNOSIS_SCHEMA_ID
+    assert payload["artifact_id"] == NEGATIVE_DIAGNOSIS_ARTIFACT_ID
+    assert payload["canonical_role"] == NEGATIVE_DIAGNOSIS_CANONICAL_ROLE
+    assert payload["diagnosis_ref"] == "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]"
+    assert set(payload["diagnosis_slices"]) == set(NEGATIVE_DIAGNOSIS_SLICE_KEYS)
+    for row in payload["diagnosis_slices"].values():
+        assert set(row) <= {"artifact_pointer", "status", "reason", "regression_test"}
+        assert "artifact_pointer" in row
+        assert "status" in row
+        assert "reason" in row
+        assert "record_count" not in row
+        assert "quality_q" not in row
+        assert "witness_id" not in row
+    assert "terminal_verdict" not in _recursive_keys(payload)
+    assert "terminal_verdict" not in json.dumps(payload, sort_keys=True)
+    validate_lejepa_mini_grid_negative_diagnosis(payload, root=tmp_path)
+
+
+def test_lejepa_negative_diagnosis_validator_fail_closed_on_missing_pointer(monkeypatch, tmp_path):
+    projection = _negative_projection(monkeypatch)
+    runner.write_artifacts(projection, root=tmp_path)
+    payload = json.loads((tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8"))
+    payload["diagnosis_slices"]["metric_trend"]["artifact_pointer"] = (
+        "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.missing"
+    )
+
+    with pytest.raises(ValueError, match="pointer is not resolvable"):
+        validate_lejepa_mini_grid_negative_diagnosis(payload, root=tmp_path)
+
+
+def test_lejepa_negative_diagnosis_sidecar_stays_out_of_canonical_reports():
+    assert NEGATIVE_DIAGNOSIS_ARTIFACT not in {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    assert all(spec.name != "lejepa_mini_grid_negative_diagnosis" for spec in canonical.CANONICAL_REPORTS)
+
+
+def test_no_named_lejepa_negative_diagnosis_helper_symbol():
+    assert not hasattr(lejepa_module, "LeJEPAMiniGridNegativeDiagnosis")
+    assert callable(build_lejepa_mini_grid_negative_diagnosis)
+
+
+def test_lejepa_negative_diagnosis_output_is_idempotent(monkeypatch, tmp_path):
+    projection = _negative_projection(monkeypatch)
+    runner.write_artifacts(projection, root=tmp_path)
+    first = (tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8")
+    runner.write_artifacts(projection, root=tmp_path)
+    second = (tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8")
+
+    assert first == second
+
+
+def test_checked_in_lejepa_negative_diagnosis_is_regenerated_by_producer(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "run_single_arm", _fake_negative_single_arm)
+    projection = runner.build_projection(run_id="lejepa-mini-grid")
+    runner.write_artifacts(projection, root=tmp_path)
+    generated = (tmp_path / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8")
+    checked_in = (Path.cwd() / NEGATIVE_DIAGNOSIS_ARTIFACT).read_text(encoding="utf-8")
+
+    assert checked_in == generated

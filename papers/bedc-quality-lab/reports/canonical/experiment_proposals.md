@@ -3,7 +3,7 @@
 - Status: `pass`
 - Canonical role: `pointer_sidecar_not_CANONICAL_REPORTS`
 - JSON: `reports/canonical/experiment_proposals.json`
-- Rows: `8`
+- Rows: `7`
 - Source artifacts: `reports/canonical/experiment_proposals.json:$.source_artifacts`
 
 | proposal | type | source | gap | seed |
@@ -15,4 +15,3 @@
 | `prop:68909a55ae60` | `negative_discovery_followup` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` | `reports/canonical/negative_discovery_reports.json:$.rows[4].failed_gate` | `806085962` |
 | `prop:09598c752b4d` | `negative_discovery_followup` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` | `reports/canonical/negative_discovery_reports.json:$.rows[5].failed_gate` | `729046026` |
 | `prop:d0bff7ab2d99` | `negative_discovery_followup` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` | `reports/canonical/negative_discovery_reports.json:$.rows[6].failed_gate` | `3805638100` |
-| `prop:b2e97f5a14ed` | `negative_discovery_followup` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` | `reports/canonical/negative_discovery_reports.json:$.rows[7].failed_gate` | `3505314232` |

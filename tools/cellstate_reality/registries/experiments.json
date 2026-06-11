@@ -222,6 +222,26 @@
           "function-signature-only.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165179_clock_dependence",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165179_clock_dependence.py",
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "dual-clock.coverage",
+          "timecourse.sample.structure",
+          "pan-tissue.sanity",
+          "clock-dependence.verdict",
+          "age-signature-only.boundary",
+          "cohort.boundary"
+        ]
+      }
     }
   ]
 }
