@@ -444,6 +444,15 @@ Use the residual-substitution scope theorem and premise preservation, \autoref{t
 Finally apply residual confluence and residual-join readback, \autoref{thm:metacic-parallel-diamond-frontier-residual-confluence} and \autoref{thm:metacic-parallel-diamond-frontier-residual-join-readback}. They identify the consumer-facing route as the shared residual packet through $J,R,S,C,B,O,H,T,G,N$, with the premise and obstruction still retained.
 \end{proof}
 
+\begin{definition}[MetaCIC parallel-diamond frontier finite budget]
+\label{def:metacic-parallel-diamond-frontier-budget}
+The finite budget for a $\MetaCICParallelDiamondFrontierUp$ read is the row surface
+$$
+\mathcal{B}_{\mathrm{frontier}}=(W,K,P,J,R,S,C,B,O,H,T,G,N).
+$$
+Here $W$ is the typed-window row, $K$ is the critical-pair row, $P$ is the residual-substitution boundary, $J$ is the local-join row, $R$ is the residual-frontier row, $S$ is the closed-checker seal, $C$ is the closed-normal fragment, $B$ is the bounded-checker row, $O$ is the obstruction row, $H$ is componentwise $\hsame$ transport, $T$ is displayed $\Cont$ replay, $G$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ row. The budget has no coordinate for premise-free confluence, subject reduction, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{definition}
+
 \begin{theorem}[MetaCIC typed-window local-join scope]
 \label{thm:metacic-parallel-diamond-frontier-local-join-scope}
 Under a typed MetaCIC window, an accepted $\MetaCICParallelDiamondFrontierUp$ packet permits only local joins whose two branches pass through the retained residual-substitution premise $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed checker seal $S$, closed-normal fragment $C$, and bounded-check row $B$. The local join scope is therefore the typed-window row surface
@@ -460,6 +469,30 @@ Use the critical-overlap budget of \autoref{thm:metacic-parallel-diamond-frontie
 Next apply the candidate-mediated route \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-route}. The two branches can meet only through the displayed candidate row and residual-frontier row, not through an ambient source-equivalence or carrier-equivalence transport.
 
 Finally use residual-join readback, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-readback}. The readback keeps bounded conversion, typed windows, and the L10 source faces visible before the handoff, so the permitted local join remains a scoped MetaCIC window claim rather than any stronger confluence, typing, equality, quotient, or kernel endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier local join budget]
+\label{thm:metacic-parallel-diamond-frontier-local-join}
+Any local join read accepted by a $\MetaCICParallelDiamondFrontierUp$ packet consumes the finite budget of \autoref{def:metacic-parallel-diamond-frontier-budget} before it can reach a normalization-facing consumer. In particular, the typed-window row, critical-pair row, residual-substitution boundary, local-join row, residual-frontier row, closed-checker seal, bounded-checker row, obstruction row, transport, replay, provenance, and local naming remain visible at the handoff.
+\end{theorem}
+\begin{proof}
+Start with the typed-window local-join scope of \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. It forces any accepted local join to expose the residual-substitution premise, critical pair, candidate join, residual-frontier row, checker rows, and obstruction row.
+
+Apply the finite budget definition \autoref{def:metacic-parallel-diamond-frontier-budget}. The typed-window row and structural rows $H,T,G,N$ are part of the same budget surface, so the local join cannot be consumed as a free-standing confluence fact.
+
+Use the residual budget theorem \autoref{thm:metacic-parallel-diamond-frontier-budget}. It keeps the obstruction and residual-substitution rows visible before normalization consumers read the packet. Therefore the handoff remains a finite typed-window claim and does not become premise-free normalization or global confluence.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier residual boundary]
+\label{thm:metacic-parallel-diamond-frontier-residual-boundary}
+Residual-substitution compatibility remains a visible boundary in every accepted $\MetaCICParallelDiamondFrontierUp$ local-join read. The row $P$ of \autoref{def:metacic-parallel-diamond-frontier-budget} is consumed before $J,R,S,C,B$ can be used, and it is not erased into an unconditional confluence theorem, subject-reduction theorem, evaluator equality, quotient term equality, global normalization statement, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Project the budget surface of \autoref{def:metacic-parallel-diamond-frontier-budget}. The residual-substitution boundary $P$ is an explicit coordinate, not a proof obligation hidden behind the local-join row.
+
+Apply premise preservation and the residual-substitution scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation} and \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. These keep $P$ visible whenever the critical-pair, residual-frontier, checker, and bounded-check rows are read.
+
+Finally use the local join budget theorem \autoref{thm:metacic-parallel-diamond-frontier-local-join}. Since every normalization-facing read consumes the full finite budget first, no consumer can erase the residual boundary and present the packet as an unconditional confluence or kernel result.
 \end{proof}
 
 \begin{theorem}[MetaCIC parallel-diamond frontier obligation basis]
