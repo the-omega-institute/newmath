@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedSequenceUp$}
+\label{ch:concrete-instances-regulated-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated and Cauchy sequence moduli, the $\RegulatedSequenceUp$ packet records the finite window discipline that turns a displayed stream name into regular rational readback data before the terminal real-name seal is read. It sits between the finite $\StreamNameUp$ window route of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ admission surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite means object for the L10 corridor; it is not a quotient stream representative, a selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated sequence carrier]
+\label{def:regulated-sequence-carrier}
+A $\RegulatedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row, listing the inspected sequence indices and the visible window schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, naming the dyadic precision demand attached to that window.
+\item $Q$ is the $\RegSeqRatUp$ readiness row, recording that the displayed window and tolerance data are acceptable for regular rational readback.
+\item $E$ is the $\RealUp$ seal-refusal row, available only after $S,D,Q$ have been displayed and refusing use as ambient completeness.
+\item $H$ records componentwise $\hsame$ transport for the stream, tolerance, readiness, and seal rows.
+\item $C$ records displayed $\Cont$ replay from stream windows through dyadic tolerance rows to regular readback and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable-choice schedules, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegulatedSequenceUp}
+
+\begin{theorem}[Regulated sequence window obligations]
+\label{thm:regulated-sequence-window-obligations}
+For every accepted $\RegulatedSequenceUp$ carrier $G=(S,D,Q,E,H,C,P,N)$, any consumer that asks for regulated-sequence data must expose the $\StreamNameUp$ window row $S$, the $\DyadicRatCoreUp$ tolerance row $D$, and the $\RegSeqRatUp$ readiness row $Q$ before the terminal $\RealUp$ seal-refusal row $E$ is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-sequence-carrier}. The rows $S,D,Q,E,H,C,P,N$ are the whole accepted packet, so no consumer has a route to $E$ outside the displayed finite rows.
+
+Read the dependency order in the carrier. The stream row supplies the inspected finite window, the dyadic row supplies the precision demand, and the readiness row records that the pair can be consumed by the regular rational readback surface.
+
+The structural rows preserve the same route. Transport, replay, provenance, and local naming do not add a hidden limit, quotient representative, choice schedule, trichotomy proof, or ambient Real-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regulated sequence shift stability]
+\label{thm:regulated-sequence-shift-stability}
+If two accepted $\RegulatedSequenceUp$ packets have componentwise $\hsame$ stream-window, dyadic-tolerance, readiness, and Real-seal rows, then every shifted finite-window read admitted by the first packet is transported to the corresponding shifted finite-window read of the second packet through the displayed $H$ and replayed through $C$. The transported read remains a $\RegulatedSequenceUp$ read and does not become quotient stream equality or a selected limit.
+\end{theorem}
+\begin{proof}
+Start with the componentwise transport row $H$. It identifies the displayed stream-window, tolerance, readiness, and seal rows under $\hsame$, so the shifted window read is transported only along rows already present in the two carriers.
+
+Next use the replay row $C$. The same finite route from $S$ through $D$ and $Q$ to $E$ is replayed after the shift, preserving the order in which the tolerance and readiness data are exposed.
+
+Since the carrier has no row for quotient stream equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness, the shifted read remains a regulated finite-window certificate.
+\end{proof}
+
+\begin{theorem}[Regulated sequence Real source route]
+\label{thm:regulated-sequence-real-source-route}
+Every Real-facing source read of an accepted $\RegulatedSequenceUp$ packet factors through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The $\RealUp$ seal is downstream of finite stream windows, dyadic tolerance rows, and RegSeqRat readiness rows, and it exports no quotient real equality, selected limit, countable-choice schedule, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regulated-sequence-window-obligations} to expose the rows $S,D,Q,E$. This places the stream window and dyadic tolerance before the regular rational readiness row and before the Real seal.
+
+The route is grounded in the existing L10 chapters: $\StreamNameUp$ supplies finite windows, $\DyadicRatCoreUp$ supplies tolerance rows, $\RegSeqRatUp$ supplies the regular rational admission surface, and $\RealUp$ supplies only the terminal seal boundary.
+
+Finally project $H,C,P,N$. These rows transport, replay, source, and name the same route, so a Real-facing read cannot bypass the finite sequence corridor or obtain any of the refused host principles.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegulatedSequenceUp$ read is refuted if it reaches a Real-facing seal before displaying the StreamName window, DyadicRatCore tolerance, RegSeqRat readiness, Real seal-refusal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: $\RegulatedSequenceUp$ is not bijective to any listed sibling because it binds finite stream windows, dyadic tolerance demands, RegSeqRat-readiness rows, terminal Real seal refusal, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one L10 intermediate packet.}
+
+\closureat{RegulatedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedSequenceUp}
+  \constructivestory{A $\RegulatedSequenceUp$ packet is generated from StreamName windows, DyadicRatCore tolerance rows, RegSeqRat-readiness rows, Real seal refusal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-sequence-carrier}, \autoref{thm:regulated-sequence-window-obligations}, \autoref{thm:regulated-sequence-shift-stability}, and \autoref{thm:regulated-sequence-real-source-route} seed the finite regulated-sequence route between stream windows and regular rational readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, ambient Real completeness, checked obligation coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window obligations, shift stability, Real source routing, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedSequenceUp.}
+\end{closurestatus}
