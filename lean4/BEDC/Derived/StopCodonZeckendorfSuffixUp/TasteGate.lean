@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.StopCodonZeckendorfSuffixUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -196,5 +206,65 @@ theorem StopCodonZeckendorfSuffixTasteGate_single_carrier_alignment
         provenance, name] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   rfl
+
+theorem StopCodonZeckendorfSuffixNoChannelTokenCollapse [AskSetup] [PackageSetup]
+    {atlas window suffix legality bridge separation boundary transport route provenance
+      name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (hsuffix : Cont suffix legality bridge)
+    (hseparation : Cont separation boundary route)
+    (hprov : PkgSig bundle provenance pkg)
+    (hname : PkgSig bundle name pkg) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row name ∧ Cont suffix legality bridge ∧
+            Cont separation boundary route ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg)
+        (fun row : BHist => hsame row name ∧ Cont suffix legality bridge)
+        (fun row : BHist => hsame row name ∧ Cont separation boundary route)
+        hsame ∧
+      stopCodonZeckendorfSuffixEncodeBHist (BHist.e0 suffix) ≠
+        stopCodonZeckendorfSuffixEncodeBHist (BHist.e1 separation) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row name ∧ Cont suffix legality bridge ∧
+            Cont separation boundary route ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg)
+        (fun row : BHist => hsame row name ∧ Cont suffix legality bridge)
+        (fun row : BHist => hsame row name ∧ Cont separation boundary route)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro name
+          ⟨hsame_refl name, hsuffix, hseparation, hprov, hname⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            source.right.left, source.right.right.left, source.right.right.right.left,
+            source.right.right.right.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, source.right.left⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, source.right.right.left⟩
+  }
+  constructor
+  · exact cert
+  · intro collapsed
+    cases collapsed
 
 end BEDC.Derived.StopCodonZeckendorfSuffixUp
