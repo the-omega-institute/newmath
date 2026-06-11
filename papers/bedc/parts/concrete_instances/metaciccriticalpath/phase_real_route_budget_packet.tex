@@ -39,3 +39,21 @@ Next read the downstream consumer surface. Theorem~\ref{thm:metacic-critical-pat
 
 The Real and Completion route can then use only the sibling dependency rows supplied by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Those rows may schedule, regularize, or seal a Real-facing dependency read, but they do not supply a coordinate that removes the MetaCIC obstruction row or fills the discharge socket.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 discharge dependency readback]
+\label{thm:metacic-critical-path-l10-discharge-dependency-readback}
+For every L10 four-object exit read from an accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the route must first read the candidate-mediated strong-normalization discharge row, the residual-substitution row, the obstruction row $O$, the normal-form row $N$, and the decidability boundary $U$ before any $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ consumer may inspect the route. The dependency readback is a finite route condition only: it does not close full subject reduction, Church--Rosser, beta-conversion decidability, strong normalization, or consistency.
+\end{theorem}
+\begin{proof}
+Start with the Phase Real route budget of \autoref{thm:metacic-critical-path-phase-real-route-budget}. It forces every Real-facing or Completion-facing consumer to read the displayed packet rows $S,N,O,U,D,H,C,P,L$ before it can use StreamName, RegSeqRat, or Real dependency rows.
+
+Next use the normal-form handoff of \autoref{thm:metacic-critical-path-phase-real-normal-form-handoff}. The row $N$ reaches the Phase Real route only while still attached to the obstruction and discharge-socket packet, so the candidate-mediated strong-normalization discharge row and residual-substitution row cannot be hidden behind the normal endpoint.
+
+Finally apply the obstruction ledger lock of \autoref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock}. It keeps $O$ and $D$ visible throughout the route to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ dependency surfaces.
+
+The same read order controls a $\CompletionUp$ consumer, because such a consumer enters through the Real-facing route budget rather than through an additional completion oracle. Since the displayed rows contain no full subject-reduction, Church--Rosser, beta-conversion-decidability, strong-normalization, or consistency coordinate, the theorem records only the L10 discharge dependency order.
+\end{proof}
