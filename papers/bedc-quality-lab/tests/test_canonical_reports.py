@@ -215,6 +215,39 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_base_undertraining_audit
 
         return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "dgt-model-card":
+        return {
+            "schema_id": canonical.DGT_MODEL_CARD_SCHEMA_ID,
+            "card_id": canonical.DGT_MODEL_CARD_ARTIFACT_ID,
+            "generated_at": "fixture",
+            "status": "blocked",
+            "source_artifacts": [],
+            "intended_use": [],
+            "not_intended_use": [
+                {
+                    "literal": literal,
+                    "source_owner": "maintainer-policy",
+                    "source_pointer": "github:issue:1220",
+                }
+                for literal in (
+                    "bounded BEDC prototype",
+                    "not production model",
+                    "not LLM replacement",
+                    "not global Transformer superiority",
+                    "current L1 evidence invalid as fair architecture comparison",
+                )
+            ],
+            "known_failure_modes": [],
+            "evaluation_boundaries": [],
+            "training_facts": {
+                "protocol_pointers": [],
+                "metric_cells": [],
+                "evidence_provenance": {"status": "blocked"},
+            },
+            "upstream_status": [],
+            "card_hardgates": {"status": "blocked", "gates": {}},
+            "not_claimed": ["fixture"],
+        }
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1558,6 +1591,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
             "dgt-component-redundancy-audit",
+            "dgt-model-card",
             "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
@@ -1573,6 +1607,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
     assert "dgt-l0-controls" in names
+    assert "dgt-model-card" in names
     assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
@@ -1663,6 +1698,22 @@ def test_dgt_controls_require_construct_validity_without_replacing_protocol_hard
         assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
         assert "reporting_hardgate" in discipline
         assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
+
+
+def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
+    spec = canonical._specs_by_name()["dgt-model-card"]
+    section = canonical._dgt_model_card_index_section()
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_model_card.py")
+    assert spec.json_artifact == "reports/canonical/dgt-model-card.json"
+    assert spec.markdown_artifact == "reports/canonical/dgt-model-card.md"
+    assert "schema_id" in spec.required_json_keys
+    assert "not_intended_use" in spec.required_json_keys
+    assert "card_hardgates" in spec.required_json_keys
+    assert section["card_pointer"] == "reports/canonical/dgt-model-card.json:$"
+    assert "status" not in section
+    assert "upstream_status" not in section
 
 
 def test_no_standalone_dgt_component_ablation_registered():

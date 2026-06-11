@@ -50,6 +50,12 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.dgt_model_card import (
+    CARD_ID as DGT_MODEL_CARD_ARTIFACT_ID,
+    CANONICAL_JSON_ARTIFACT as DGT_MODEL_CARD_JSON_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT as DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as DGT_MODEL_CARD_SCHEMA_ID,
+)
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
     JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
@@ -1402,6 +1408,38 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.audit_status",
     ),
     CanonicalReportSpec(
+        name="dgt-model-card",
+        command=("python3", "scripts/run_dgt_model_card.py"),
+        json_artifact=DGT_MODEL_CARD_JSON_ARTIFACT,
+        markdown_artifact=DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "card_id",
+            "source_artifacts",
+            "intended_use",
+            "not_intended_use",
+            "known_failure_modes",
+            "evaluation_boundaries",
+            "training_facts",
+            "upstream_status",
+            "card_hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.intended_use",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.card_hardgates.status",
+        control_pointer="$.evaluation_boundaries",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.upstream_status",
+        backend_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.status",
+        negative_witness_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.known_failure_modes",
+        formal_status_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.card_hardgates",
+    ),
+    CanonicalReportSpec(
         name="order-k-benchmark",
         command=("python3", "scripts/run_order_k_benchmark.py"),
         json_artifact="reports/canonical/order-k-benchmark.json",
@@ -1888,6 +1926,17 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
         paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
+    if spec.name == "dgt-model-card":
+        paths.update(
+            (
+                DGT_L0_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+                DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                "reports/canonical/index.json",
+            )
+        )
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
@@ -4529,6 +4578,19 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     }
 
 
+def _dgt_model_card_index_section() -> dict[str, Any]:
+    return {
+        "artifact_id": DGT_MODEL_CARD_ARTIFACT_ID,
+        "schema_id": DGT_MODEL_CARD_SCHEMA_ID,
+        "json_artifact": DGT_MODEL_CARD_JSON_ARTIFACT,
+        "markdown_artifact": DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        "card_pointer": f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$",
+        "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
+        "canonical_role": "auxiliary_pointer_projection",
+        "not_claimed": "This index section does not copy model-card verdicts or status rows; read the card pointer.",
+    }
+
+
 MODEL_DESIGN_SUITE_POINTER_FIELDS = (
     "component_id",
     "canonical_owner_pointer",
@@ -5880,6 +5942,7 @@ def _index(
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
+        "dgt_model_card": _dgt_model_card_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
