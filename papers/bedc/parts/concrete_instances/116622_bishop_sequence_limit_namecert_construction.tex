@@ -1,0 +1,76 @@
+\chapter{Bishop Sequence Limit NameCert Construction}
+\label{ch:concrete-instances-bishop-sequence-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive sequences of real numbers, the $\BishopSequenceLimitUp$ packet records a finite row presentation of a Bishop-style sequence limit without importing a host convergence predicate. It sits beside the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the displayed sequence-limit packet of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, and the limit-uniqueness route of \autoref{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}. The packet names the L10 handoff by finite schedules and regular Cauchy rows; it does not name quotient limits, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop sequence-limit carrier]
+\label{def:bishop-sequence-limit-carrier}
+A $\BishopSequenceLimitUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,L,W,R,D,T,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row for the source sequence, exposing only the finite source windows requested by the current tolerance read.
+\item $L$ is the displayed candidate-limit row, read as a regular real name before any sequence-limit classifier is consumed.
+\item $W$ is the tail-window schedule, assigning to each dyadic tolerance request a finite observation window and a displayed tail threshold.
+\item $R$ is the $\RegSeqRatUp$ readback row for the source windows and candidate-limit windows in the same schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic budget and the comparison cells used by the scheduled tail test.
+\item $T$ is the Bishop tail test row, whose accepted entries say that every displayed source entry beyond the scheduled threshold is within the dyadic budget of the displayed candidate limit.
+\item $U$ is the $\RegularCauchyLimitUniquenessUp$ boundary row, used only to compare two displayed candidate-limit reads through their common regular Cauchy route.
+\item $E$ is the terminal $\RealSequenceLimitUp$ and $\RealUp$ seal row, exposed only after $S,L,W,R,D,T,U$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for all displayed rows.
+\item $C$ stores displayed $\Cont$ replay from a tolerance request through the tail-window, readback, dyadic, tail-test, uniqueness, and seal rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopSequenceLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSequenceLimitUp$, $\RegularCauchyLimitUniquenessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopSequenceLimitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of limits, a selected host limit, a countable-choice schedule, trichotomy on reals, host sequence convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopSequenceLimitUp.BishopSequenceLimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop sequence-limit NameCert obligations]
+\label{thm:bishop-sequence-limit-namecert-obligations}
+For every accepted $\BishopSequenceLimitUp$ carrier $K=(S,L,W,R,D,T,U,E,H,C,P,N)$, the local $\NameCert_{\BishopSequenceLimitUp}$ surface consists exactly of source stream-window admission, candidate-limit admission, scheduled tail-window exposure, regular rational readback, dyadic tolerance-ledger exactness, Bishop tail-test exposure, regular Cauchy uniqueness-boundary exposure, terminal $\RealSequenceLimitUp$ and $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming for the rows of \autoref{def:bishop-sequence-limit-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The sequence source, candidate limit, schedule, regular readback, dyadic ledger, tail test, uniqueness boundary, and terminal seal are exactly the analytic rows $S,L,W,R,D,T,U,E$.
+
+The schedule row $W$ determines which finite source and candidate-limit windows may be inspected for a tolerance request. The readback row $R$ and dyadic row $D$ then attach regular rational and dyadic comparison data to that same finite schedule.
+
+The Bishop tail test $T$ is downstream of those rows, and the uniqueness boundary $U$ is downstream of the same regular Cauchy route. Thus a consumer cannot read a limit assertion, a second-limit comparison, or a real-facing seal before the displayed finite route has been replayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name only the displayed packet. Since the carrier inventory contains no quotient-limit, selected-limit, choice, trichotomy, host-convergence, or completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop sequence-limit Real-seal handoff]
+\label{thm:bishop-sequence-limit-real-seal-handoff}
+Every $\RealSequenceLimitUp$, $\RegularCauchyLimitUniquenessUp$, or $\RealUp$-facing consumer of an accepted $\BishopSequenceLimitUp$ carrier factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealSequenceLimitUp \longmapsto \RegularCauchyLimitUniquenessUp \longmapsto \RealUp
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The handoff exports only scheduled finite-window sequence-limit data; it exports no quotient limit, selected limit, countable-choice row, trichotomy split, host convergence predicate, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing or uniqueness-facing consumer and project the carrier of \autoref{def:bishop-sequence-limit-carrier}. The only source observations are the finite stream windows $S$ selected by $W$, and the only candidate-limit observations are the regular readbacks $R$ measured by the dyadic ledger $D$.
+
+The tail-test row $T$ admits a Bishop sequence-limit read only through that finite route. If a second candidate-limit read is compared, the boundary row $U$ sends the comparison through $\RegularCauchyLimitUniquenessUp$ before either Real seal is public.
+
+The terminal row $E$ is therefore reached only after the scheduled StreamName, RegSeqRat, DyadicRatCore, RealSequenceLimit, and regular Cauchy uniqueness rows have been displayed. The structural rows $H,C,P,N$ preserve the same packet and add no source from which quotient limits, selected limits, countable choice, trichotomy, host convergence, or ambient completeness could be recovered.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopSequenceLimitUp$ consumer can be audited by checking that its sequence-limit read displays a $\StreamNameUp$ window row, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance ledger, a Bishop tail-test row, a $\RealSequenceLimitUp$ handoff, a $\RegularCauchyLimitUniquenessUp$ boundary row when uniqueness is inspected, and the terminal $\RealUp$ seal before the local name is consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real-sequence-limit, regular-cauchy-limit-uniqueness, real: no listed sibling is bijective with $\BishopSequenceLimitUp$, because this packet alone binds a displayed source sequence, candidate-limit row, tail-window schedule, regular rational readback, dyadic tolerance ledger, Bishop tail test, uniqueness boundary, terminal Real seal, transport, replay, provenance, and local naming into one finite L10 sequence-limit certificate.}
+
+\closureat{BishopSequenceLimitUp}{seedStr}
+
+\begin{closurestatus}{\BishopSequenceLimitUp}
+  \constructivestory{A $\BishopSequenceLimitUp$ packet is generated from finite StreamName sequence windows, a displayed candidate-limit row, tail-window schedules, RegSeqRat readback, DyadicRatCore tolerance rows, a Bishop tail-test row, a RegularCauchyLimitUniqueness boundary, a RealSequenceLimit and RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-sequence-limit-carrier}, \autoref{thm:bishop-sequence-limit-namecert-obligations}, and \autoref{thm:bishop-sequence-limit-real-seal-handoff} seed the finite Bishop sequence-limit route from L10 StreamName, RegSeqRat, DyadicRatCore, RealSequenceLimit, RegularCauchyLimitUniqueness, and Real data to the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient limits, selected limits, countable choice, trichotomy, host sequence convergence, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName schedule locality, RegSeqRat readback, DyadicRatCore tolerance exactness, Bishop tail-test exposure, RegularCauchyLimitUniqueness boundary exposure, RealSequenceLimit and Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.BishopSequenceLimitUp.}
+\end{closurestatus}
