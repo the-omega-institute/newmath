@@ -375,6 +375,19 @@ def test_owner_flip_without_regen_fails_stale(tmp_path):
     assert "CARD-HG9" in errors
 
 
+def test_hand_edited_card_hardgate_status_fails_closed(tmp_path):
+    payload = _build(tmp_path)
+    payload["status"] = "pass-by-hand"
+    payload["card_hardgates"]["status"] = "pass-by-hand"
+    payload["card_hardgates"]["gates"]["CARD-HG2"]["status"] = "fail-by-hand"
+
+    errors = [error.as_dict() for error in card.validate_dgt_model_card(payload, tmp_path)]
+
+    assert any(error["path"] == "$.status" for error in errors)
+    assert any(error["path"] == "$.card_hardgates.status" for error in errors)
+    assert any(error["path"] == "$.card_hardgates.gates.CARD-HG2.status" for error in errors)
+
+
 def test_missing_source_before_build_fails_closed(tmp_path):
     _source_fixture(tmp_path)
     missing_pointer = "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"

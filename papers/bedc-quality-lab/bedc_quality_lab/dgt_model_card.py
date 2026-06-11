@@ -873,11 +873,44 @@ def _validate_without_hardgate_refresh(card: Mapping[str, Any], root: Path) -> l
     return errors
 
 
+def _validate_card_hardgate_projection(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
+    expected = _card_hardgates(card, root)
+    expected_status = "pass" if expected["status"] == "pass" else "blocked"
+    errors: list[CardGateError] = []
+    if card.get("status") != expected_status:
+        errors.append(CardGateError("CARD-HG8", "$.status", "top-level status differs from recomputed hardgates"))
+    hardgates = card.get("card_hardgates")
+    if not isinstance(hardgates, Mapping):
+        errors.append(CardGateError("CARD-HG8", "$.card_hardgates", "card hardgates missing"))
+        return errors
+    if hardgates.get("status") != expected["status"]:
+        errors.append(CardGateError("CARD-HG8", "$.card_hardgates.status", "card hardgate status differs from recomputed evidence"))
+    gates = hardgates.get("gates")
+    expected_gates = expected["gates"]
+    if not isinstance(gates, Mapping):
+        errors.append(CardGateError("CARD-HG8", "$.card_hardgates.gates", "card hardgate gates missing"))
+        return errors
+    submitted_ids = {str(gate_id) for gate_id in gates}
+    expected_ids = set(expected_gates)
+    for gate_id in sorted(expected_ids - submitted_ids):
+        errors.append(CardGateError("CARD-HG8", f"$.card_hardgates.gates.{gate_id}", "card hardgate missing"))
+    for gate_id in sorted(submitted_ids - expected_ids):
+        errors.append(CardGateError("CARD-HG8", f"$.card_hardgates.gates.{gate_id}", "unexpected card hardgate"))
+    for gate_id in sorted(expected_ids & submitted_ids):
+        gate = gates.get(gate_id)
+        if not isinstance(gate, Mapping):
+            errors.append(CardGateError("CARD-HG8", f"$.card_hardgates.gates.{gate_id}", "card hardgate row invalid"))
+            continue
+        expected_gate = expected_gates[gate_id]
+        for key in ("gate_id", "status", "reason", "input_pointers"):
+            if gate.get(key) != expected_gate.get(key):
+                errors.append(CardGateError("CARD-HG8", f"$.card_hardgates.gates.{gate_id}.{key}", "card hardgate differs from recomputed evidence"))
+    return errors
+
+
 def validate_dgt_model_card(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
     errors = _validate_without_hardgate_refresh(card, root)
-    hardgates = card.get("card_hardgates")
-    if not isinstance(hardgates, Mapping) or "gates" not in hardgates:
-        errors.append(CardGateError("CARD-HG8", "$.card_hardgates", "card hardgates missing"))
+    errors.extend(_validate_card_hardgate_projection(card, root))
     return errors
 
 
