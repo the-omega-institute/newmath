@@ -854,6 +854,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ObligationCarrier
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularCauchyExtraction
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularRoute
+import BEDC.Derived.BishopLocatedCompletionBoundaryUp.Scope
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
@@ -3246,6 +3247,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricForwardLink
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
+import BEDC.Derived.CoveringdimensionUp.CompactNetAdmission
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetObligationSurface
 import BEDC.Derived.CoveringdimensionUp.CompactNetOrderCarrier
@@ -3318,6 +3320,7 @@ import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindow
 import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindowObligation
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RootSimplicialCoverHandoff
+import BEDC.Derived.CoveringdimensionUp.ScopeClosureWitness
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
@@ -6910,6 +6913,7 @@ import BEDC.Derived.MooreAronszajnKernelUp
 import BEDC.Derived.MooreAronszajnKernelUp.TasteGate
 import BEDC.Derived.MooreOsgoodUp.IteratedLimitHandoff
 import BEDC.Derived.MooreOsgoodUp.TasteGate
+import BEDC.Derived.MooreOsgoodUp.UniformTailLock
 import BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.TasteGate
 import BEDC.Derived.MooreSmithCauchySubnetCriterionUp.TasteGate
 import BEDC.Derived.MooreSmithCompletionUp.TasteGate
@@ -9386,6 +9390,8 @@ import BEDC.Derived.SummableSequenceUp.TasteGate
 import BEDC.Derived.SummableTailModulusUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
+import BEDC.Derived.SupportNerveCensusUp.NameCertObligations
+import BEDC.Derived.SupportNerveCensusUp.TasteGate
 import BEDC.Derived.SylowUp
 import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SymGroupUp
