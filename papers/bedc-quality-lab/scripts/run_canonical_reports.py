@@ -1915,6 +1915,25 @@ def _source_artifact_paths(value: Any) -> set[str]:
     return paths
 
 
+def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
+    pointer_fields = frozenset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
+    paths: set[str] = set()
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            if key in pointer_fields and isinstance(value, str):
+                split = _split_artifact_pointer(value)
+                if split is not None:
+                    path, _pointer = split
+                    if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+                        paths.add(path)
+            else:
+                paths.update(_structural_generalization_gate_artifact_paths(value))
+    elif isinstance(payload, Sequence) and not isinstance(payload, (str, bytes, bytearray)):
+        for nested in payload:
+            paths.update(_structural_generalization_gate_artifact_paths(nested))
+    return paths
+
+
 def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
@@ -1926,6 +1945,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
             for value in source_artifacts.values():
                 if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
                     paths.add(value)
+    if spec.name == "structural-generalization-splits":
+        paths.update(_structural_generalization_gate_artifact_paths(payload))
     if spec.name == "gap-head-discovery":
         paths.add("reports/canonical/gap-head-on-h.json")
     if spec.name == "certificate-guided-discovery":

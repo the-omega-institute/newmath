@@ -7042,6 +7042,107 @@ def test_structural_generalization_splits_nested_source_artifacts_enter_fingerpr
     }
 
 
+def test_structural_generalization_splits_gate_pointer_targets_enter_fingerprint(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["structural-generalization-splits"]
+    for artifact, payload in {
+        "reports/canonical/input-accessibility.json": {"schema_id": "bedc-quality-lab:input-accessibility", "rows": []},
+        "reports/canonical/winnability-certificates.json": {
+            "schema_id": "bedc-quality-lab:winnability-certificates",
+            "rows": [],
+        },
+        "reports/canonical/performance.json": {"rows": [{"score": 1.0}]},
+        spec.json_artifact: {
+            "schema_id": "bedc-quality-lab:structural-generalization-splits",
+            "classifier_rows": [
+                {
+                    "row_id": "symbol",
+                    "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows[0]",
+                    "winnability_pointer": "reports/canonical/winnability-certificates.json:$.rows[0]",
+                    "performance_pointer": "reports/canonical/performance.json:$.rows[0]",
+                }
+            ],
+            "split_rows": [],
+            "source_artifacts": {},
+        },
+    }.items():
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    paths = {row["path"] for row in canonical._source_artifact_inputs(spec)}
+
+    assert paths == {
+        "reports/canonical/input-accessibility.json",
+        "reports/canonical/winnability-certificates.json",
+        "reports/canonical/performance.json",
+    }
+
+
+def test_structural_generalization_splits_changed_mode_reruns_when_gate_pointer_target_is_deleted(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    canonical_dir = tmp_path / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (canonical_dir / "input-accessibility.json").write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc-quality-lab:input-accessibility",
+                "rows": [
+                    {
+                        "row_id": "symbol",
+                        "family": "symbol_remapping",
+                        "target_variable": "symbol",
+                        "candidate_id": "candidate",
+                        "fair_arm_id": "fair-arm",
+                        "target_visible": True,
+                        "candidate_visible": True,
+                        "fair_arm_visible": True,
+                        "finite_remap": {"x": "u"},
+                        "performance_pointer": "reports/canonical/performance.json:$.rows[0]",
+                    }
+                ],
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "winnability-certificates.json").write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc-quality-lab:winnability-certificates",
+                "rows": [
+                    {
+                        "row_id": "symbol",
+                        "candidate_winnable": True,
+                        "fair_arm_winnable": True,
+                    }
+                ],
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "performance.json").write_text(json.dumps({"rows": [{"score": 1.0}]}, sort_keys=True) + "\n", encoding="utf-8")
+
+    first = canonical.run_reports(only="structural-generalization-splits", cold=True, generated_at="fixture")
+    first_payload = json.loads((canonical_dir / "structural-generalization-splits.json").read_text(encoding="utf-8"))
+
+    assert first["reports"][0]["producer_status"] == "completed"
+    assert len(first_payload["split_rows"]) == 1
+
+    (canonical_dir / "performance.json").unlink()
+    second = canonical.run_reports(only="structural-generalization-splits", generated_at="fixture")
+    second_payload = json.loads((canonical_dir / "structural-generalization-splits.json").read_text(encoding="utf-8"))
+
+    assert second["reports"][0]["producer_status"] == "completed"
+    assert second["reports"][0]["fingerprint_status"] == "written"
+    assert second_payload["split_rows"] == []
+    assert second_payload["classifier_rows"][0]["classification"] == "excluded"
+    assert second_payload["classifier_rows"][0]["failed_hardgates"] == ["SYM-HG4"]
+
+
 def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
 
