@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CertifiedEventFlowUp$}
+\label{ch:concrete-instances-certified-event-flow-namecert}
+\origin{ai}
+
+The $\CertifiedEventFlowUp$ packet realizes the channel-termination boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite source/channel endpoint data. It sits beside the local channel boundary of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert}, the budget certificate of \autoref{ch:concrete-instances-channel-termination-budget-certificate-namecert}, the GroundCompiler event-flow audit of \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, and the hendeca event-flow certificate of \autoref{ch:concrete-instances-b-hist-hendeca-event-flow-name-cert-namecert}. The packet names source events, legal channel bodies, terminators, endpoints, transport, replay, provenance, and local naming; it does not assert global halting, compiler correctness, or a host stream parser.
+
+\begin{definition}[CertifiedEventFlow carrier]
+\label{def:certified-event-flow-carrier}
+A $\CertifiedEventFlowUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,B,T,E,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-event row naming the finite event before channel encoding.
+\item $B$ is the legal channel body row, recording the finite encoded body and its body-safety classifier.
+\item $T$ is the terminator row, displaying the local channel endpoint token.
+\item $E$ is the endpoint row, recording the first legal endpoint read and the decoded source event.
+\item $L$ is the local termination row, separating channel-level endpoint detection from certificate-level halting.
+\item $A$ is the audit handoff row, exposing the event-flow packet to GroundCompiler audit and hendeca event-flow consumers only through displayed rows.
+\item $H$ records componentwise $\hsame$ transport for source event, channel body, terminator, endpoint, local termination, audit handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for endpoint-facing and audit-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\CertifiedEventFlowUp$, $\ChannelTerminationHaltingBoundaryUp$, $\ChannelTerminationBudgetCertificateUp$, $\GroundCompilerEventFlowAuditUp$, $\BHistHendecaEventFlowNameCertUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $N$ is the local $\NameCert_{\CertifiedEventFlowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden source text, an unrestricted evaluator, a global halting oracle, compiler correctness, carried metadata, or a host channel parser.
+\end{definition}
+
+\begin{theorem}[CertifiedEventFlow NameCert obligations]
+\label{thm:certified-event-flow-namecert-obligations}
+For every accepted $\CertifiedEventFlowUp$ carrier
+$$
+F=(S,B,T,E,L,A,H,C,P,N),
+$$
+the local $\NameCert_{\CertifiedEventFlowUp}$ surface consists exactly of carrier admission for $F$, source-event exposure through $S$, legal channel-body exposure through $B$, terminator exposure through $T$, endpoint exposure through $E$, local termination separation through $L$, audit handoff through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The data rows $S,B,T,E,L,A$ are the complete source/channel endpoint inventory, and the structural rows $H,C,P,N$ only transport, replay, source, and name those rows.
+
+Read the source and channel side first. The source event $S$ is separated from the legal channel body $B$, the terminator $T$, and the endpoint read $E$ before a local termination row can be exported.
+
+Next apply the channel-termination boundary and budget siblings. They keep the endpoint row local to the channel and prevent it from becoming a certificate-level halting classifier.
+
+Finally read the audit handoff through the GroundCompiler event-flow audit and hendeca event-flow neighbours. The handoff row $A$ exposes the packet as finite event-flow data, while no coordinate supplies hidden source text, unrestricted evaluation, global halting, compiler correctness, carried metadata, or a host parser.
+\end{proof}
+
+\begin{theorem}[CertifiedEventFlow channel-termination handoff]
+\label{thm:certified-event-flow-channel-termination-handoff}
+Every endpoint-facing consumer of an accepted $\CertifiedEventFlowUp$ carrier must read
+$$
+S,B,T,E \longmapsto L,A,H,C,P,N
+$$
+before it treats the event as locally terminated. The row $E$ is certified only as the endpoint of the legal channel body $B$ at terminator $T$, and the row $L$ records that this local endpoint is not a global halting classifier for arbitrary certificate continuations.
+\end{theorem}
+\begin{proof}
+Begin with the source/channel separation. The source event $S$ and legal body $B$ are distinct rows, so a consumer cannot identify channel bytes with source identity before the endpoint has been decoded.
+
+Open the terminator and endpoint rows. The terminator $T$ marks the local channel endpoint, and $E$ records the first legal endpoint read together with the decoded source event.
+
+Now attach the local termination row $L$. It reads the endpoint as local channel termination while preserving the refusal boundary against certificate-level halting.
+
+The audit, transport, replay, provenance, and naming rows $A,H,C,P,N$ carry that same finite route to downstream consumers. Since the packet contains no global halting oracle or host parser, the handoff exports source/channel endpoint separation and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{A consumer that decodes a $\CertifiedEventFlowUp$ endpoint without displaying the source event, legal channel body, terminator, and endpoint rows is not reading the carrier.}
+
+\independenceWitness{channel-termination-halting-boundary, channel-termination-budget-certificate, groundcompilereventflowaudit, b-hist-hendeca-event-flow-name-cert: none has the same source-event/channel-event/endpoint triad plus local NameCert row.}
+
+The later Lean \texttt{TasteGate.lean} development for $\CertifiedEventFlowUp$ must provide explicit $\Nontrivial\ \CertifiedEventFlowUp$ and $\FieldFaithful\ \CertifiedEventFlowUp$ instances preserving source event, legal channel body, terminator, endpoint, local termination, audit handoff, transport, replay, provenance, and local naming rows.
+
+\closureat{CertifiedEventFlowUp}{seedStr}
+
+\begin{closurestatus}{\CertifiedEventFlowUp}
+  \constructivestory{A $\CertifiedEventFlowUp$ packet is generated from source-event rows, legal channel-body rows, terminator rows, endpoint rows, local termination rows, audit handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:certified-event-flow-carrier}, \autoref{thm:certified-event-flow-namecert-obligations}, and \autoref{thm:certified-event-flow-channel-termination-handoff} seed the finite source/channel endpoint packet for certified event flows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global halting, compiler correctness, hidden source recovery, host stream parsing, carried metadata evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, local termination separation, audit handoff, transport, replay, provenance, and local naming for BEDC.Derived.CertifiedEventFlowUp.}
+\end{closurestatus}
