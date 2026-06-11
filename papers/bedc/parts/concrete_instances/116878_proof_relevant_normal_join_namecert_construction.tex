@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ProofRelevantNormalJoinUp$}
+\label{ch:concrete-instances-proof-relevant-normal-join-namecert}
+\origin{ai}
+
+The $\ProofRelevantNormalJoinUp$ packet realizes the checked closed-normal and atom confluence fragments of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It records the proof-relevant join witness available for closed normal sources, the atom handoff, and the beta-star route while keeping the residual-substitution compatibility boundary visible. The packet is not a full confluence theorem for arbitrary closed terms and does not discharge the conditional parallel-diamond premise.
+
+\begin{definition}[Proof-relevant normal-join carrier]\label{def:proof-relevant-normal-join-carrier}
+A $\ProofRelevantNormalJoinUp$ carrier is a finite $\BHist$ packet
+$$
+J=(S,W,B,L,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the closed-normal source row, exposing the closed term, normal-source classifier, and atom cases admitted by the checked fragment.
+\item $W$ is the proof-relevant join witness row, recording the finite common reduct evidence for the closed-normal or atom branch.
+\item $B$ is the beta-star handoff row, carrying the transport from the parallel or atom join witness into the multi-step beta-star route.
+\item $L$ is the conditional-boundary ledger, recording that the full substitution-compatibility input and arbitrary closed-source confluence remain outside this packet.
+\item $T$ records componentwise $\hsame$ transport for source, witness, beta-star handoff, boundary ledger, replay, provenance, and local naming rows.
+\item $H$ records displayed $\Cont$ replay from closed-normal source admission through join witness construction, beta-star handoff, and boundary retention.
+\item $C$ is the $\Pkg$ provenance over $\ProofRelevantNormalJoinUp$, MetaCIC closed-normal confluence, atom joins, beta-star transport, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $P$ records the public readback route for the proof-relevant normal join, separated from the conditional full-confluence interface.
+\item $N$ is the local $\NameCert_{\ProofRelevantNormalJoinUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only by $S,W,B,L,T,H,C,P,N$. It has no coordinate for unrestricted substitution compatibility, full parallel diamond, arbitrary closed Church--Rosser, subject reduction, host conversion equality, or an erased proof-irrelevant confluence oracle.
+\end{definition}
+
+\begin{theorem}[Proof-relevant normal-join NameCert obligations]\label{thm:proof-relevant-normal-join-namecert-obligations}
+For every accepted $\ProofRelevantNormalJoinUp$ carrier
+$$
+J=(S,W,B,L,T,H,C,P,N),
+$$
+the local $\NameCert_{\ProofRelevantNormalJoinUp}$ surface consists exactly of closed-normal source exposure, proof-relevant join witness, beta-star handoff, conditional-boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, public readback, and local naming. Every public read factors through those rows before it can cite the closed-normal or atom confluence fragment.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-relevant-normal-join-carrier}. The rows $S,W,B,L,T,H,C,P,N$ are the whole packet.
+
+The source and witness rows carry the positive fragment. The row $S$ admits only the closed-normal and atom cases, $W$ records the finite common-reduct witness, and $B$ transports that witness into the beta-star route.
+
+The boundary and structural rows preserve the refusal. The ledger $L$ keeps the substitution-compatibility and arbitrary closed-source boundaries visible, while $T,H,C,P,N$ transport, replay, source, read back, and name exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[Proof-relevant normal-join diamond fragment]\label{thm:proof-relevant-normal-join-diamond-fragment}
+Every accepted $\ProofRelevantNormalJoinUp$ public read exposes a closed-normal or atom source row, a proof-relevant common-reduct witness, and a beta-star handoff before it cites the checked confluence fragment. The read is a finite closed-fragment diamond packet and not a proof of full parallel diamond.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:proof-relevant-normal-join-namecert-obligations}. A public read must first pass through $S,W,B$ before reaching transport, replay, provenance, readback, and local naming.
+
+The witness row $W$ is proof-relevant: it names the common reduct evidence for the admitted closed-normal or atom branch rather than merely asserting existence. The beta-star handoff $B$ records the route by which that witness is consumed by the star relation.
+
+Since the ledger $L$ remains a required row, the read cannot be promoted into a full parallel diamond. It is exactly the displayed finite diamond fragment.
+\end{proof}
+
+\begin{theorem}[Proof-relevant normal-join full-confluence nonescape]\label{thm:proof-relevant-normal-join-full-confluence-nonescape}
+An accepted $\ProofRelevantNormalJoinUp$ carrier cannot export unrestricted MetaCIC confluence. Any public consumer must retain the conditional-boundary ledger separating closed-normal and atom joins from arbitrary closed-source confluence, residual substitution compatibility, subject reduction, and host conversion equality.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows of \autoref{def:proof-relevant-normal-join-carrier}. The only positive confluence data are the closed-normal source, proof-relevant witness, and beta-star handoff rows.
+
+Apply \autoref{thm:proof-relevant-normal-join-diamond-fragment}. The exported diamond fragment is available only for the admitted closed-normal and atom branches.
+
+The boundary ledger $L$ is part of every accepted read by \autoref{thm:proof-relevant-normal-join-namecert-obligations}. Therefore a consumer that drops residual-substitution compatibility, arbitrary closed-source confluence, subject reduction, or host conversion equality leaves the packet.
+\end{proof}
+
+\falsifiablePrediction{Every public $\ProofRelevantNormalJoinUp$ read factors through closed-normal source, join witness, beta-star handoff, conditional-boundary ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any confluence-fragment output is visible.}
+
+\independenceWitness{metacic-confluence-audit-packet, closednormalconfluenceseal, metaciccriticalpath, metacicconfluenceauditwitness: $\ProofRelevantNormalJoinUp$ is not bijective to any listed sibling because it jointly carries a proof-relevant join witness, beta-star handoff, conditional-boundary ledger, transport, replay, provenance, public readback, and local naming while refusing arbitrary closed-source confluence and unrestricted substitution compatibility.}
+
+Later Lean TasteGate work for $\ProofRelevantNormalJoinUp$ must provide explicit $\mathsf{Nontrivial}\ \ProofRelevantNormalJoinUp$ and $\mathsf{FieldFaithful}\ \ProofRelevantNormalJoinUp$ instances, preserving the source, witness, beta-star handoff, conditional-boundary ledger, transport, replay, provenance, readback, and NameCert rows as distinct fields.
+
+\closureat{ProofRelevantNormalJoinUp}{seedStr}
+
+\begin{closurestatus}{\ProofRelevantNormalJoinUp}
+  \constructivestory{A $\ProofRelevantNormalJoinUp$ packet is generated from a closed-normal source row, proof-relevant join witness, beta-star handoff, conditional-boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, public readback, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-relevant-normal-join-carrier}, \autoref{thm:proof-relevant-normal-join-namecert-obligations}, \autoref{thm:proof-relevant-normal-join-diamond-fragment}, and \autoref{thm:proof-relevant-normal-join-full-confluence-nonescape} seed the proof-relevant closed-normal and atom join packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, full parallel diamond, arbitrary closed Church--Rosser, residual substitution compatibility, subject reduction, or host conversion equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, proof-relevant witness readback, beta-star handoff, conditional-boundary nonescape, Nontrivial, FieldFaithful, transport, replay, provenance, and local naming for BEDC.Derived.ProofRelevantNormalJoinUp.}
+\end{closurestatus}
