@@ -25,18 +25,17 @@ theorem CoveringDimensionCauchyFilterCompletionRoute [AskSetup] [PackageSetup]
                   hsame row refinement ∨ hsame row orderBound ∨ hsame row lebesgue ∨
                     hsame row completionRead)
               (fun row : BHist =>
-                UnaryHistory row ∧ Cont compactMetric epsilonNet cover ∧
-                  Cont cover refinement orderBound ∧ Cont lebesgue replay completionRead ∧
-                    PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg)
+                UnaryHistory row ∧ Cont lebesgue replay completionRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg)
               hsame ∧
             UnaryHistory completionRead := by
   -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
   intro carrier lebesgueReplayCompletion completionPkg
-  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary,
-    lebesgueUnary, _transportUnary, replayUnary, _provenanceUnary, _localNameUnary,
-    compactEpsilonCover, coverRefinementOrder, _orderLebesgueReplay,
-    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
-  have completionReadUnary : UnaryHistory completionRead :=
+  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary, lebesgueUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _localNameUnary, _compactEpsilonCover,
+    _coverRefinementOrder, _orderLebesgueReplay, _transportReplayProvenance, provenancePkg,
+    _localNamePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed lebesgueUnary replayUnary lebesgueReplayCompletion
   have cert :
       SemanticNameCert
@@ -46,13 +45,12 @@ theorem CoveringDimensionCauchyFilterCompletionRoute [AskSetup] [PackageSetup]
               hsame row refinement ∨ hsame row orderBound ∨ hsame row lebesgue ∨
                 hsame row completionRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont compactMetric epsilonNet cover ∧
-              Cont cover refinement orderBound ∧ Cont lebesgue replay completionRead ∧
-                PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg)
+            UnaryHistory row ∧ Cont lebesgue replay completionRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg)
           hsame := {
     core := {
       carrier_inhabited :=
-        Exists.intro completionRead ⟨hsame_refl completionRead, completionReadUnary⟩
+        Exists.intro completionRead ⟨hsame_refl completionRead, completionUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -69,20 +67,13 @@ theorem CoveringDimensionCauchyFilterCompletionRoute [AskSetup] [PackageSetup]
             unary_transport source.right sameRows⟩
     }
     pattern_sound := by
-      intro _row source
-      right
-      right
-      right
-      right
-      right
-      right
-      exact source.left
+      intro row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
     ledger_sound := by
       intro _row source
       exact
-        ⟨source.right, compactEpsilonCover, coverRefinementOrder, lebesgueReplayCompletion,
-          provenancePkg, completionPkg⟩
+        ⟨source.right, lebesgueReplayCompletion, provenancePkg, completionPkg⟩
   }
-  exact ⟨cert, completionReadUnary⟩
+  exact ⟨cert, completionUnary⟩
 
 end BEDC.Derived.CoveringdimensionUp

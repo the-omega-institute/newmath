@@ -1,0 +1,48 @@
+\chapter{A Concrete Naming Certificate for $\PowerSeriesUp$}
+\label{ch:concrete-instances-power-series-namecert}
+\origin{human}
+
+Following Hardy and Knopp on power series over the reals, the $\PowerSeriesUp$ packet names the finite route by which coefficient data, a displayed radius, and Cauchy-controlled partial sums reach a real-facing value. It anchors the route in the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the uniform tail discipline of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the criterion surface of \autoref{ch:concrete-instances-cauchy-series-criterion-namecert}, and the product-radius budget of \autoref{ch:concrete-instances-cauchy-product-modulus-namecert}. The packet records only the displayed coefficient, radius, partial-sum, Cauchy-control, transport, replay, provenance, and local naming rows; it does not import a host analytic function, a selected infinite sum, quotient function equality, or ambient completeness.
+
+\begin{definition}[Power-series NameCert carrier]
+\label{def:power-series-namecert-carrier}
+A $\PowerSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,R,S,C,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the coefficient stream row, exposing coefficients only through finite windows with their $\RegSeqRatUp$ readback;
+\item $R$ is the radius ledger row, recording the displayed positive radius or local subradius used by the evaluation request;
+\item $S$ is the partial-sum stream row, naming the finite polynomial sums associated to the selected coefficient windows and argument row;
+\item $C$ is the Cauchy estimate row, giving the tail-control route used to accept the partial sums as a Cauchy stream;
+\item $E$ is the terminal $\RealUp$ seal reached from the accepted partial-sum stream;
+\item $H$ records componentwise $\hsame$ transport for coefficient, radius, partial-sum, Cauchy-control, real-seal, provenance, and local naming rows;
+\item $T$ records the displayed $\Cont$ replay by which a consumer reuses the same radius and partial-sum route;
+\item $P$ is the $\Pkg$ provenance over $\PowerSeriesUp$, $\RegSeqRatUp$, $\UniformCauchySeriesUp$, $\CauchySeriesCriterionUp$, $\CauchyProductModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PowerSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these nine rows. It has no coordinate for a host convergence theorem, analytic continuation, quotient function space, selected infinite sum, or ambient $\RealUp$ completeness proof.
+\end{definition}
+
+\begin{theorem}[Power-series NameCert obligations]
+\label{thm:power-series-namecert-obligations}
+For an accepted $\PowerSeriesUp$ carrier $K=(A,R,S,C,E,H,T,P,N)$, the local $\NameCert_{\PowerSeriesUp}$ surface consists exactly of carrier admission for the coefficient stream, displayed radius ledger, partial-sum stream, Cauchy estimate, terminal $\RealUp$ seal, componentwise transport, continuation replay, provenance, and local naming rows; exactness of the radius row used by the evaluation request; Cauchy control of the displayed partial-sum stream; handoff of the accepted stream to the $\RealUp$ seal; stability under $\hsame$ transport; replay through the same $\Cont$ route; and provenance over the named RegSeqRat, uniform Cauchy series, Cauchy-series criterion, and Cauchy-product modulus dependencies.
+\end{theorem}
+
+\begin{theorem}[Power-series Cauchy-radius handoff]
+\label{thm:power-series-cauchy-radius-handoff}
+Every real-facing read from an accepted $\PowerSeriesUp$ carrier $K=(A,R,S,C,E,H,T,P,N)$ factors through the displayed radius row $R$ and the partial-sum Cauchy route $S,C$ before the terminal $\RealUp$ seal $E$ may be consumed. Thus the read is a finite BEDC route through $\RegSeqRatUp$, $\UniformCauchySeriesUp$, $\CauchySeriesCriterionUp$, $\CauchyProductModulusUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a host power-series evaluation, selected infinite sum, analytic continuation, quotient function value, or ambient completeness theorem.
+\end{theorem}
+
+\closureat{PowerSeriesUp}{seedStr}
+
+\begin{closurestatus}{\PowerSeriesUp}
+  \constructivestory{A $\PowerSeriesUp$ packet is generated from a coefficient stream, displayed radius ledger, partial-sum stream, Cauchy estimate, terminal Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:power-series-namecert-carrier}, \autoref{thm:power-series-namecert-obligations}, and \autoref{thm:power-series-cauchy-radius-handoff} seed the real-facing power-series route over RegSeqRat, uniform Cauchy series, Cauchy-series criterion, Cauchy-product modulus, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, a standard bridge, host analytic continuation, selected infinite sums, quotient function equality, or ambient completeness.}
+  \upgradepath{Obligation closure requires a Lean carrier and obligation package for the same coefficient, radius, partial-sum, Cauchy-estimate, Real-seal, transport, replay, provenance, and local NameCert route.}
+\end{closurestatus}
