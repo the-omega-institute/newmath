@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\HalfOpenRealIntervalUp$}
+\label{ch:concrete-instances-half-open-real-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\HalfOpenRealIntervalUp$ packet records a half-open real interval $[a,b)$ as finite endpoint, containment, and boundary data rather than as a host subset of the classical real line. It sits between the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located endpoint surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the closed interval boundary of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the traditional interval shape with an included left boundary and an excluded right boundary, while keeping topology, quotient real equality, selected endpoint representatives, trichotomy, and ambient real completeness outside the carrier.
+
+\begin{definition}[HalfOpenRealInterval carrier]
+\label{def:half-open-real-interval-carrier}
+A $\HalfOpenRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,O,D,W,R,E,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the lower and upper endpoint $\RealUp$ seal rows.
+\item $O$ is the endpoint-order row, recording the displayed route from $L$ to $U$ through finite comparison data.
+\item $D$ is the $\DyadicRatCoreUp$ boundary ledger, carrying dyadic lower cells, upper-cut cells, positive-radius rows, and one-sided comparison budgets.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect endpoint and candidate observations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the same finite windows.
+\item $E$ is the terminal $\RealUp$ seal handoff for candidate membership reads.
+\item $A$ is the left-admission row, saying that the lower endpoint is included by the displayed boundary route.
+\item $B$ is the right-refusal row, saying that the upper endpoint is excluded unless a stricter displayed left-of-upper witness is present.
+\item $H$ records componentwise $\hsame$ transports for endpoint seals, order, dyadic boundary data, finite windows, readback, seal handoff, one-sided boundary rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a membership request through $L,U,O,D,W,R,E,A,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HalfOpenRealIntervalUp$, $\LocatedRealIntervalUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HalfOpenRealIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed rows. It has no coordinate for a host topology, quotient real equality, selected representatives, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[HalfOpenRealInterval NameCert obligations]
+\label{thm:half-open-real-interval-namecert-obligations}
+For every accepted $\HalfOpenRealIntervalUp$ carrier
+$$
+I=(L,U,O,D,W,R,E,A,B,H,C,P,N),
+$$
+the local $\NameCert_{\HalfOpenRealIntervalUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the two endpoint $\RealUp$ seals, endpoint-order row, dyadic boundary ledger, finite windows, regular rational readback, terminal seal handoff, one-sided boundary rows, transport, replay, provenance, and local naming;
+\item located endpoint exactness, requiring endpoint and containment reads to pass through the $\LocatedRealIntervalUp$ and $\ClosedBoundedIntervalUp$ sibling surfaces before the half-open boundary is consumed;
+\item dyadic boundary exactness, requiring the left-inclusion and right-exclusion reads to use the same $\DyadicRatCoreUp$ ledger $D$;
+\item regular readback exactness, requiring every membership observation to pass through the finite window row $W$ and the $\RegSeqRatUp$ readback row $R$ before reaching the $\RealUp$ seal handoff $E$;
+\item left-boundary admission, requiring $A$ to display that $L$ belongs to the interval boundary;
+\item right-boundary refusal, requiring $B$ to display that $U$ is not admitted as a member unless a stricter below-$U$ witness is supplied;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows above.
+\end{enumerate}
+No obligation is stored in a host subset predicate, quotient real equality proof, selected endpoint representative, trichotomy branch, choice functional, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes exactly the endpoint seals, endpoint-order row, dyadic boundary ledger, finite windows, regular readback, terminal seal handoff, one-sided boundary rows, and structural rows.
+
+The located and closed-bounded sibling surfaces supply the endpoint discipline. They ensure that endpoint, order, and containment reads begin from displayed interval rows rather than from a host real-line subset.
+
+The dyadic and regular-rational rows then determine the one-sided boundary. The ledger $D$ supplies the lower cells, upper-cut cells, and positive comparison budgets, while $W$ and $R$ expose the finite observations used by the candidate and endpoint seals.
+
+Finally $A$ admits the left endpoint and $B$ refuses the right endpoint as a member of the half-open boundary. The rows $H,C,P,N$ preserve and name the same packet, so no host topology, quotient equality, selected representative, trichotomy branch, choice functional, or ambient completeness theorem can be read from the certificate.
+\end{proof}
+
+\begin{theorem}[HalfOpenRealInterval dyadic boundary induction]
+\label{thm:half-open-real-interval-dyadic-boundary-induction}
+Let
+$$
+I=(L,U,O,D,W,R,E,A,B,H,C,P,N)
+$$
+be an accepted $\HalfOpenRealIntervalUp$ carrier. Any finite extension of the dyadic boundary ledger $D$ by one displayed comparison row preserves the half-open membership route: left-boundary reads still factor through $A$, right-boundary reads still factor through $B$, and every $\RealUp$-facing membership consumer still reads through $W,R,E,H,C,P,N$ after the extended dyadic ledger is displayed.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed dyadic comparison extension. The base route is the carrier route of \autoref{def:half-open-real-interval-carrier}: membership reads pass from endpoint seals and endpoint order through $D,W,R,E,A,B,H,C,P,N$.
+
+For the successor step, add one comparison row to the same dyadic ledger. Since the row is displayed inside $D$, it can refine the finite boundary budget but cannot introduce a second endpoint, a second membership classifier, or a host order predicate.
+
+The left and right boundary rows are preserved separately. The left-admission row $A$ continues to identify the included lower endpoint, while the right-refusal row $B$ continues to require a stricter below-$U$ witness before a point is admitted on the upper side.
+
+The regular readback and Real seal rows are unchanged by the extension. Thus every Real-facing consumer still reaches the membership route through $W,R,E,H,C,P,N$, and no quotient real equality, selected endpoint representative, trichotomy branch, or ambient completeness coordinate is exported.
+\end{proof}
+
+\begin{theorem}[HalfOpenRealInterval sibling route]
+\label{thm:half-open-real-interval-sibling-route}
+Every accepted $\HalfOpenRealIntervalUp$ membership read factors through the finite sibling route
+$$
+\LocatedRealIntervalUp,\ \ClosedBoundedIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The route first reads located and closed-bounded endpoint data, then the dyadic one-sided boundary ledger, then finite stream windows and regular rational readback, and only then the terminal real-name seal and local $\NameCert_{\HalfOpenRealIntervalUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start with the endpoint rows $L,U,O$. Their interval meaning is inherited from the located and closed-bounded sibling surfaces cited above, so endpoint order and containment are visible before the half-open boundary rows are consumed.
+
+Next read the dyadic ledger $D$. It records the one-sided lower inclusion and upper exclusion budget that distinguishes $[a,b)$ from an open or closed interval over the same endpoints.
+
+Finally pass through $W,R,E,H,C,P,N$. The finite windows and regular rational readback precede the terminal $\RealUp$ seal, and the structural rows transport, replay, source, and name only that displayed route. Hence the sibling route supplies the whole membership surface without importing host topology, quotient real equality, selected representatives, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted HalfOpenRealIntervalUp membership read passes through located endpoint rows, a closed-bounded endpoint boundary, a DyadicRatCoreUp one-sided comparison ledger, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any half-open membership result is visible.}
+
+\independenceWitness{dyadicratcore, locatedrealinterval, closedboundedinterval, regseqrat, real: $\HalfOpenRealIntervalUp$ is not bijective to any listed sibling because it binds left endpoint admission, right endpoint refusal, dyadic one-sided comparison rows, finite readback, terminal seal handoff, transport, replay, provenance, and local naming as one certificate.}
+
+\closureat{HalfOpenRealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\HalfOpenRealIntervalUp}
+  \constructivestory{A $\HalfOpenRealIntervalUp$ packet is generated from lower and upper RealUp endpoint seals, an endpoint-order row, a DyadicRatCore one-sided boundary ledger, StreamName finite windows, RegSeqRat readback, a RealUp seal handoff, left-admission and right-refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:half-open-real-interval-carrier}, \autoref{thm:half-open-real-interval-namecert-obligations}, \autoref{thm:half-open-real-interval-dyadic-boundary-induction}, and \autoref{thm:half-open-real-interval-sibling-route} seed the half-open interval boundary over located endpoint, closed-bounded interval, dyadic, regular-rational, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host topology, quotient real equality, selected endpoint representatives, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean declaration for BEDC.Derived.HalfOpenRealIntervalUp covering carrier admission, dyadic boundary exactness, one-sided boundary stability, regular readback, Real seal nonescape, transport, replay, provenance, and local naming.}
+\end{closurestatus}
