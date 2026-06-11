@@ -25,14 +25,17 @@ def fourierTransformDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (fourierTransformDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (fourierTransformDecodeBHist tail)
 
-private theorem fourierTransformDecode_encode :
+private theorem fourierTransform_decode_encode_bhist :
     ∀ h : BHist, fourierTransformDecodeBHist (fourierTransformEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def fourierTransformFields : FourierTransformUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -83,127 +86,13 @@ private theorem fourierTransform_round_trip :
             (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
             (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) =
           some (FourierTransformUp.mk W K I R V H C P N)
-      have hW := fourierTransformDecode_encode W
-      have hK := fourierTransformDecode_encode K
-      have hI := fourierTransformDecode_encode I
-      have hR := fourierTransformDecode_encode R
-      have hV := fourierTransformDecode_encode V
-      have hH := fourierTransformDecode_encode H
-      have hC := fourierTransformDecode_encode C
-      have hP := fourierTransformDecode_encode P
-      have hN := fourierTransformDecode_encode N
-      exact congrArg some
-        (calc
-          FourierTransformUp.mk
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist W))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist K))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist I))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) =
-            FourierTransformUp.mk W
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist K))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist I))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist K))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist I))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hW
-          _ = FourierTransformUp.mk W K
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist I))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist I))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hK
-          _ = FourierTransformUp.mk W K I
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W K z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist R))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hI
-          _ = FourierTransformUp.mk W K I R
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W K I z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist V))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hR
-          _ = FourierTransformUp.mk W K I R V
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W K I R z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist H))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hV
-          _ = FourierTransformUp.mk W K I R V H
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W K I R V z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist C))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hH
-          _ = FourierTransformUp.mk W K I R V H C
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg
-                  (fun z => FourierTransformUp.mk W K I R V H z
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist P))
-                    (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hC
-          _ = FourierTransformUp.mk W K I R V H C P
-              (fourierTransformDecodeBHist (fourierTransformEncodeBHist N)) :=
-                congrArg (fun z => FourierTransformUp.mk W K I R V H C z
-                  (fourierTransformDecodeBHist (fourierTransformEncodeBHist N))) hP
-          _ = FourierTransformUp.mk W K I R V H C P N :=
-                congrArg (FourierTransformUp.mk W K I R V H C P) hN)
+      rw [fourierTransform_decode_encode_bhist W, fourierTransform_decode_encode_bhist K,
+        fourierTransform_decode_encode_bhist I, fourierTransform_decode_encode_bhist R,
+        fourierTransform_decode_encode_bhist V, fourierTransform_decode_encode_bhist H,
+        fourierTransform_decode_encode_bhist C, fourierTransform_decode_encode_bhist P,
+        fourierTransform_decode_encode_bhist N]
 
-private theorem fourierTransformToEventFlow_injective
-    {x y : FourierTransformUp} :
+private theorem fourierTransformToEventFlow_injective {x y : FourierTransformUp} :
     fourierTransformToEventFlow x = fourierTransformToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -215,14 +104,23 @@ private theorem fourierTransformToEventFlow_injective
     (Eq.trans (fourierTransform_round_trip x).symm
       (Eq.trans hread (fourierTransform_round_trip y)))
 
-instance fourierTransformBHistCarrier :
-    BHistCarrier FourierTransformUp where
+private theorem fourierTransformFields_faithful :
+    ∀ x y : FourierTransformUp, fourierTransformFields x = fourierTransformFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk W1 K1 I1 R1 V1 H1 C1 P1 N1 =>
+      cases y with
+      | mk W2 K2 I2 R2 V2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+instance fourierTransformBHistCarrier : BHistCarrier FourierTransformUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := fourierTransformToEventFlow
   fromEventFlow := fourierTransformFromEventFlow
 
-instance fourierTransformChapterTasteGate :
-    ChapterTasteGate FourierTransformUp where
+instance fourierTransformChapterTasteGate : ChapterTasteGate FourierTransformUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -232,8 +130,12 @@ instance fourierTransformChapterTasteGate :
     intro x y hxy heq
     exact hxy (fourierTransformToEventFlow_injective heq)
 
-instance fourierTransformNontrivial :
-    Nontrivial FourierTransformUp where
+instance fourierTransformFieldFaithful : FieldFaithful FourierTransformUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fourierTransformFields
+  field_faithful := fourierTransformFields_faithful
+
+instance fourierTransformNontrivial : Nontrivial FourierTransformUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨FourierTransformUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -244,18 +146,8 @@ instance fourierTransformNontrivial :
         intro h
         cases h⟩
 
-theorem FourierTransformTasteGate_single_carrier_alignment :
-    (forall h : BHist, fourierTransformDecodeBHist (fourierTransformEncodeBHist h) = h) ∧
-      (forall x : FourierTransformUp,
-        fourierTransformFromEventFlow (fourierTransformToEventFlow x) = some x) ∧
-      (forall x y : FourierTransformUp,
-        fourierTransformToEventFlow x = fourierTransformToEventFlow y → x = y) ∧
-      fourierTransformEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨fourierTransformDecode_encode,
-      fourierTransform_round_trip,
-      fun _ _ heq => fourierTransformToEventFlow_injective heq,
-      rfl⟩
+def taste_gate : ChapterTasteGate FourierTransformUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fourierTransformChapterTasteGate
 
 end BEDC.Derived.FourierTransformUp
