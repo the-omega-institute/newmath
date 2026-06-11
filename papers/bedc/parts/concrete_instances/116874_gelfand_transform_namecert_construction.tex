@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\GelfandTransformUp$}
+\label{ch:concrete-instances-gelfand-transform-namecert}
+\origin{human}
+
+Following Gelfand's transform for commutative Banach algebras, the $\GelfandTransformUp$ packet records the finite NameCert surface that evaluates an algebra element against displayed character rows before any spectrum-level quotient or maximal-ideal selection is used. It sits after the algebraic normed source of \autoref{ch:concrete-instances-banachalgebra-namecert}, the involutive boundary of \autoref{ch:concrete-instances-cstaralgebra-namecert}, the duality-facing package of \autoref{ch:concrete-instances-gelfandduality-namecert}, the compact character-window source of \autoref{ch:concrete-instances-compact-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, and the scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the constructive evaluation route from a displayed element and displayed character row to a displayed scalar read; it does not choose maximal ideals, quotient functions, unrestricted spectra, or ambient completeness.
+
+\begin{definition}[Gelfand transform carrier]
+\label{def:gelfand-transform-carrier}
+A $\GelfandTransformUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,X,T,K,E,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the commutative $\BanachAlgebraUp$ source row, exposing the algebra operations, norm ledger, and displayed element under inspection.
+\item $X$ is the $\CStarAlgUp$ compatibility row when the source is read through an involutive normed boundary.
+\item $T$ is the $\GelfandDualityUp$ handoff row, keeping the transform on the same character-facing duality surface.
+\item $K$ is the compact character-window row read through $\CompactUp$ and $\TopologyUp$, naming only the finite observation windows of displayed characters.
+\item $E$ is the element row, naming the algebra element whose transform is evaluated.
+\item $V$ is the scalar evaluation row, landing in the displayed $\RealUp$ scalar seal for the value of the character on $E$.
+\item $H$ records componentwise $\hsame$ transport for algebra, involution, duality, compact-window, topology, element, value, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a character-window request through $A,X,T,K,E,V,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\GelfandTransformUp$, $\BanachAlgebraUp$, $\CStarAlgUp$, $\GelfandDualityUp$, $\CompactUp$, $\TopologyUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GelfandTransformUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows. It has no coordinate for an unrestricted spectrum, quotient function equality, selected maximal ideals, host algebra homomorphism equality, selected character spaces, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Gelfand transform NameCert obligations]
+\label{thm:gelfand-transform-namecert-obligations}
+For every accepted $\GelfandTransformUp$ carrier $G=(A,X,T,K,E,V,H,C,P,N)$, the local $\NameCert_{\GelfandTransformUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $A,X,T,K,E,V,H,C,P,N$;
+\item Banach-algebra source exposure, requiring all operation, norm, and element reads to pass through the displayed $\BanachAlgebraUp$ row $A$;
+\item involutive compatibility, requiring any $\CStarAlgUp$ read to remain a displayed boundary row $X$ and not an ambient spectral theorem;
+\item duality handoff, requiring the transform to use the same $\GelfandDualityUp$ character-facing row $T$;
+\item compact-topology windowing, requiring character observations to pass through $K$ as a finite $\CompactUp$ and $\TopologyUp$ window;
+\item character evaluation exactness, requiring the scalar value $V$ to be read only as evaluation of the displayed element $E$ by the displayed character row;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No Gelfand-transform obligation for this packet is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(A,X,T,K,E,V,H,C,P,N)$. The algebraic source is $A$, with $X$ available only as an involutive compatibility row and $T$ as the existing Gelfand-duality handoff.
+
+The character side is then forced through $K$. Its compact and topology rows expose finite character windows rather than a selected character space or unrestricted spectrum.
+
+The element and value rows $E,V$ record the actual evaluation. Since $V$ is downstream of the displayed algebra element and displayed character window, it is a finite scalar read rather than quotient function equality.
+
+Finally $H,C,P,N$ preserve, replay, package, and name the same finite surface. The excluded spectrum, quotient, maximal-ideal, host-equality, selected-character, and completeness objects are absent from the carrier, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Gelfand transform character-evaluation route]
+\label{thm:gelfand-transform-character-evaluation-route}
+Every character-evaluation consumer of an accepted $\GelfandTransformUp$ packet factors through the displayed route
+$$
+\BanachAlgebraUp,\ \CStarAlgUp,\ \GelfandDualityUp
+\longmapsto
+\CompactUp,\ \TopologyUp
+\longmapsto
+\RealUp .
+$$
+For $G=(A,X,T,K,E,V,H,C,P,N)$, the consumer must expose the Banach-algebra source row, optional involutive boundary, Gelfand-duality handoff, compact character-window row, topology row, displayed element, scalar evaluation row, transport, replay, provenance, and local naming before reading the transform value. The route exports no unrestricted spectrum, quotient function equality, selected maximal ideal, selected character space, host homomorphism equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a transform-value request. The only algebraic source available to the packet is $A$, with $X$ and $T$ recording the compatible involutive and Gelfand-duality rows when those surfaces are consumed.
+
+Next expose the character window. The row $K$ is read through the compact and topology sources, so the consumer sees finite character observations instead of a selected maximal ideal or unrestricted spectrum.
+
+Now evaluate the displayed element. The rows $E$ and $V$ bind the scalar read to the element and character window already displayed.
+
+The structural rows $H,C,P,N$ keep the same route under transport, replay, provenance, and local naming. Since the carrier contains no quotient function equality, selected character space, host homomorphism equality, selected maximal ideal, or ambient completeness row, no consumer can obtain those objects from the $\GelfandTransformUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GelfandTransformUp$ read is refuted if a character-evaluation consumer obtains a transform value without displaying the BanachAlgebra source, CStarAlgebra compatibility row when used, GelfandDuality handoff, Compact character-window row, Topology row, Real scalar seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{banachalgebra, cstaralgebra, gelfandduality, compact, topology, and real: none is bijective to $\GelfandTransformUp$ because only this packet jointly records displayed algebra-element evaluation, finite character windows, scalar readback, transport, replay, provenance, and local NameCert rows as one transform surface.}
+
+\closureat{GelfandTransformUp}{seedStr}
+
+\begin{closurestatus}{\GelfandTransformUp}
+  \constructivestory{A $\GelfandTransformUp$ packet is generated from a commutative BanachAlgebra source row, optional CStarAlg compatibility row, GelfandDuality handoff, Compact and Topology character-window rows, displayed algebra element, Real scalar evaluation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gelfand-transform-carrier}, \autoref{thm:gelfand-transform-namecert-obligations}, and \autoref{thm:gelfand-transform-character-evaluation-route} seed the finite character-evaluation route from BanachAlgebra and CStarAlgebra rows through GelfandDuality, Compact and Topology character windows, and Real scalar readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an unrestricted spectrum, quotient function equality, selected maximal ideals, selected character spaces, host homomorphism equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Banach-algebra exposure, involutive compatibility, duality handoff, compact-topology windowing, character-evaluation exactness, transport, replay, provenance, and local naming for BEDC.Derived.GelfandTransformUp.}
+\end{closurestatus}
