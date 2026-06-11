@@ -46,6 +46,7 @@ jobs:
             bash -lc 'git config --global --add safe.directory /workspace && python3 tools/build_dossier_status.py'
 
       - name: Restore dossier HTML page cache
+        continue-on-error: true
         uses: actions/cache@v4
         with:
           path: .cache/dossier-html-pages
