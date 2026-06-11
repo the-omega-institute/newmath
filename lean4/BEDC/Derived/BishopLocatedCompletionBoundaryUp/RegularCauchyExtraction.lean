@@ -16,6 +16,18 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BishopLocatedCompletionBoundaryCarrier [AskSetup] [PackageSetup]
+    (stream regseq dyadic regular locatedLimit locatedReal realSeal transport route
+      provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BishopLocatedCompletionBoundaryUp BHist ProbeBundle Pkg PkgSig UnaryHistory Cont
+  UnaryHistory stream ∧ UnaryHistory regseq ∧ UnaryHistory dyadic ∧
+    UnaryHistory regular ∧ UnaryHistory locatedLimit ∧ UnaryHistory locatedReal ∧
+      UnaryHistory realSeal ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+        UnaryHistory provenance ∧ UnaryHistory name ∧ Cont stream regseq dyadic ∧
+          Cont dyadic regular locatedLimit ∧ Cont locatedLimit locatedReal realSeal ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
 theorem BishopLocatedCompletionBoundaryRegularCauchyExtraction [AskSetup] [PackageSetup]
     {stream regular dyadic regularLocated locatedLimit locatedReal realSeal transport replay
       provenance localName streamRegularRead dyadicRead extractionRead : BHist}
@@ -105,5 +117,33 @@ theorem BishopLocatedCompletionBoundaryRegularCauchyExtraction [AskSetup] [Packa
           provenancePkg, localNamePkg⟩
   }
   exact ⟨cert, streamRegularUnary, dyadicReadUnary, extractionUnary⟩
+
+theorem BishopLocatedCompletionBoundaryLocatedLimitRoute [AskSetup] [PackageSetup]
+    {stream regseq dyadic regular locatedLimit locatedReal realSeal transport route
+      provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopLocatedCompletionBoundaryCarrier stream regseq dyadic regular locatedLimit locatedReal
+        realSeal transport route provenance name bundle pkg →
+      Cont locatedReal realSeal endpoint →
+        PkgSig bundle endpoint pkg →
+          UnaryHistory stream ∧ UnaryHistory regseq ∧ UnaryHistory dyadic ∧
+            UnaryHistory regular ∧ UnaryHistory locatedLimit ∧ UnaryHistory locatedReal ∧
+              UnaryHistory realSeal ∧ UnaryHistory endpoint ∧ Cont stream regseq dyadic ∧
+                Cont dyadic regular locatedLimit ∧ Cont locatedLimit locatedReal realSeal ∧
+                  Cont locatedReal realSeal endpoint ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BishopLocatedCompletionBoundaryCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier endpointRoute endpointPkg
+  obtain ⟨streamUnary, regseqUnary, dyadicUnary, regularUnary, locatedLimitUnary,
+    locatedRealUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, streamRegseqDyadic, dyadicRegularLocatedLimit,
+    locatedLimitLocatedRealRealSeal, provenancePkg, _namePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed locatedRealUnary realSealUnary endpointRoute
+  exact
+    ⟨streamUnary, regseqUnary, dyadicUnary, regularUnary, locatedLimitUnary,
+      locatedRealUnary, realSealUnary, endpointUnary, streamRegseqDyadic,
+      dyadicRegularLocatedLimit, locatedLimitLocatedRealRealSeal, endpointRoute,
+      provenancePkg, endpointPkg⟩
 
 end BEDC.Derived.BishopLocatedCompletionBoundaryUp
