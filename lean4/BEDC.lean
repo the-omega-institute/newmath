@@ -844,8 +844,6 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
-import BEDC.Derived.BishopLocatedCompletionBoundaryUp.LocatedRealSealHandoff
-import BEDC.Derived.BishopLocatedCompletionBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularCauchyExtraction
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
@@ -1050,6 +1048,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealUpThresholdLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootBudgetConsumerExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootLocatedTrapStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
@@ -3201,6 +3200,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
+import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
@@ -3212,7 +3212,6 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementNameCert
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementObligations
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
-import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
