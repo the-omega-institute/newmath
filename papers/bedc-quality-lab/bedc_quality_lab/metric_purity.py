@@ -114,7 +114,17 @@ def iter_registered_hardgate_mutations(
     root: Path,
     targets_path: str | Path | None = None,
 ) -> tuple[HardgateMutationCase, ...]:
-    config = _load_json(Path(targets_path) if targets_path is not None else default_targets_path(Path(root)))
+    resolved_targets_path = Path(targets_path) if targets_path is not None else default_targets_path(Path(root))
+    findings: list[MetricPurityFinding] = []
+    config, schema_ok = _validate_registry_schema(
+        _load_json(resolved_targets_path),
+        expected_schema_id=TARGETS_SCHEMA_ID,
+        path=resolved_targets_path,
+        code="REG-HG1",
+        findings=findings,
+    )
+    if not schema_ok:
+        raise ValueError("; ".join(finding.reason for finding in findings))
     return tuple(_case_from_row(row) for row in config.get("hardgate_mutations", []))
 
 
@@ -177,20 +187,32 @@ def run_metric_purity_audit(
     findings: list[MetricPurityFinding] = []
     target_config = _load_json(resolved_targets_path)
     allowlist_config = _load_json(resolved_allowlist_path) if resolved_allowlist_path.exists() else {"rows": []}
-    target_config = _validate_registry_schema(
+    target_config, target_schema_ok = _validate_registry_schema(
         target_config,
         expected_schema_id=TARGETS_SCHEMA_ID,
         path=resolved_targets_path,
         code="REG-HG1",
         findings=findings,
     )
-    allowlist_config = _validate_registry_schema(
+    allowlist_config, allowlist_schema_ok = _validate_registry_schema(
         allowlist_config,
         expected_schema_id=ALLOWLIST_SCHEMA_ID,
         path=resolved_allowlist_path,
         code="REG-HG5",
         findings=findings,
     )
+    if not target_schema_ok or not allowlist_schema_ok:
+        return {
+            "schema_id": SCHEMA_ID,
+            "audit_stage": audit_stage,
+            "targets": [],
+            "findings": [_finding_record(finding) for finding in sorted(findings, key=_finding_sort_key)],
+            "allowlist_hits": [],
+            "allowlist_misses": [],
+            "mutation_coverage": {"registered": 0, "by_gate": {}, "results": []},
+            "pathology_results": [],
+            "status": "fail",
+        }
     all_targets = _load_targets(target_config, findings=findings, root=root)
     targets = _filter_targets(all_targets, target_ids=target_ids, report_artifacts=report_artifacts, audit_stage=audit_stage)
     allowlist_rows = _load_allowlist_rows(allowlist_config, findings=findings)
@@ -637,10 +659,10 @@ def _validate_registry_schema(
     path: Path,
     code: str,
     findings: list[MetricPurityFinding],
-) -> Mapping[str, Any]:
+) -> tuple[Mapping[str, Any], bool]:
     if not isinstance(config, Mapping):
         findings.append(_registry_finding(code, path.as_posix(), "schema_id", "registry payload must be an object"))
-        return {}
+        return {}, False
     actual_schema_id = config.get("schema_id")
     if actual_schema_id != expected_schema_id:
         findings.append(
@@ -651,7 +673,8 @@ def _validate_registry_schema(
                 f"registry schema_id must be {expected_schema_id}",
             )
         )
-    return config
+        return config, False
+    return config, True
 
 
 def _load_allowlist_rows(config: Mapping[str, Any], *, findings: list[MetricPurityFinding]) -> tuple[dict[str, Any], ...]:

@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from bedc_quality_lab import metric_purity
 
 
@@ -64,3 +66,14 @@ def test_registered_mutation_iterator_is_deterministic():
     second = metric_purity.iter_registered_hardgate_mutations(Path.cwd())
 
     assert first == second
+
+
+def test_registered_mutation_iterator_rejects_wrong_target_schema(tmp_path):
+    targets_path = tmp_path / "targets.json"
+    targets_path.write_text(
+        json.dumps({"schema_id": "wrong.schema", "hardgate_mutations": []}) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match=metric_purity.TARGETS_SCHEMA_ID):
+        metric_purity.iter_registered_hardgate_mutations(Path.cwd(), targets_path)

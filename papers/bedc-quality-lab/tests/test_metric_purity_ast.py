@@ -220,6 +220,60 @@ def test_metric_purity_cli_rejects_wrong_registry_schema(tmp_path):
     assert any(finding["symbol"] == "schema_id" for finding in payload["findings"])
 
 
+def test_metric_purity_cli_rejects_schema_mismatch_self_allowlist(tmp_path):
+    targets_path = tmp_path / "targets.json"
+    allowlist_path = tmp_path / "allowlist.json"
+    output_path = tmp_path / "out.json"
+    targets_path.write_text(json.dumps({"schema_id": "wrong.schema", "targets": [], "hardgate_mutations": []}) + "\n", encoding="utf-8")
+    rows = [
+        {
+            "target_id": "metric-purity-registry",
+            "code": "REG-HG1",
+            "path": targets_path.as_posix(),
+            "lineno": 0,
+            "symbol": "schema_id",
+            "rationale": "waive target schema mismatch",
+            "owner_pointer": "configs/metric_purity_targets.json:$",
+        },
+        {
+            "target_id": "metric-purity-registry",
+            "code": "REG-HG5",
+            "path": allowlist_path.as_posix(),
+            "lineno": 0,
+            "symbol": "schema_id",
+            "rationale": "waive allowlist schema mismatch",
+            "owner_pointer": "configs/metric_purity_targets.json:$",
+        },
+    ]
+    allowlist_path.write_text(json.dumps({"schema_id": "wrong.allow", "rows": rows}) + "\n", encoding="utf-8")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/check_metric_purity.py",
+            "--targets",
+            targets_path.as_posix(),
+            "--allowlist",
+            allowlist_path.as_posix(),
+            "--json",
+            output_path.as_posix(),
+        ],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    payload = json.loads(output_path.read_text(encoding="utf-8"))
+
+    assert result.returncode == 1
+    assert payload["status"] == "fail"
+    assert payload["allowlist_hits"] == []
+    assert payload["allowlist_misses"] == []
+    assert {(finding["code"], finding["allowlisted"]) for finding in payload["findings"]} == {
+        ("REG-HG1", False),
+        ("REG-HG5", False),
+    }
+
+
 def test_metric_purity_audit_is_deterministic(tmp_path):
     row = _target("tests.fixtures.metric_purity.arm_identity_branch")
     targets_path, allowlist_path = _write_config(tmp_path, row)
