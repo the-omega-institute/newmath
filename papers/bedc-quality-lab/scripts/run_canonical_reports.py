@@ -55,6 +55,7 @@ from bedc_quality_lab.dgt_model_card import (
     CANONICAL_JSON_ARTIFACT as DGT_MODEL_CARD_JSON_ARTIFACT,
     CANONICAL_MARKDOWN_ARTIFACT as DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
     SCHEMA_ID as DGT_MODEL_CARD_SCHEMA_ID,
+    validate_dgt_model_card,
     write_dgt_model_card,
 )
 from bedc_quality_lab.mechanism_dna import (
@@ -5796,12 +5797,20 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         )
         if not exists
     ]
-    status = "pass" if key_validation["status"] == "pass" and not missing_artifacts else "fail"
+    model_card_errors: list[dict[str, str]] = []
+    if spec.name == "dgt-model-card" and key_validation["status"] == "pass" and not missing_artifacts:
+        model_card_errors = [error.as_dict() for error in validate_dgt_model_card(_load_report_payload(spec), ROOT)]
+    status = (
+        "pass"
+        if key_validation["status"] == "pass" and not missing_artifacts and not model_card_errors
+        else "fail"
+    )
     return {
         "status": status,
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "model_card_errors": model_card_errors,
     }
 
 
@@ -6637,12 +6646,26 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
-    payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
-    _write_json_atomic(INDEX_ARTIFACT, payload)
-    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         write_dgt_model_card(root=ROOT, generated_at=timestamp)
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
+        card_result = _run_spec(dgt_model_card_spec, mode="verify", generated_at=timestamp)
+        replaced_card_result = False
+        updated_results = []
+        for result in results:
+            if result["name"] == "dgt-model-card":
+                updated_results.append(card_result)
+                replaced_card_result = True
+            else:
+                updated_results.append(result)
+        if not replaced_card_result:
+            updated_results.append(card_result)
+        results = updated_results
+    payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)

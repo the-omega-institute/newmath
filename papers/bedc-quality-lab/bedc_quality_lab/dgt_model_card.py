@@ -15,7 +15,7 @@ PRODUCER = "scripts/run_dgt_model_card.py"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-model-card.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-model-card.md"
 DEFAULT_GENERATED_AT = "2026-06-12T00:00:00+08:00"
-INDEX_EVIDENCE_PROVENANCE_POINTER = "reports/canonical/index.json:$.dgt_model_card"
+INDEX_EVIDENCE_PROVENANCE_POINTER = "reports/canonical/index.json:$.evidence_provenance"
 
 REQUIRED_NOT_INTENDED_LITERALS = (
     "bounded BEDC prototype",
@@ -177,8 +177,12 @@ def _source_records(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any], l
             try:
                 value = _pointer_value(payload, pointer)
                 pointer_status = "resolved"
+                if spec["pointer"] == INDEX_EVIDENCE_PROVENANCE_POINTER:
+                    digest = _json_digest(value)
             except (KeyError, IndexError, ValueError):
                 pointer_status = "pointer-missing"
+                if spec["pointer"] == INDEX_EVIDENCE_PROVENANCE_POINTER:
+                    digest = None
         if pointer_status != "resolved":
             missing_refs.append(spec["pointer"])
         else:
@@ -239,6 +243,30 @@ def _dig(mapping: Mapping[str, Any], path: Sequence[str], default: Any = None) -
             return default
         cursor = cursor[key]
     return cursor
+
+
+def _mapping_rows(value: Any) -> list[Mapping[str, Any]]:
+    return [row for row in value if isinstance(row, Mapping)] if isinstance(value, list) else []
+
+
+def _mapping_row_items(value: Any) -> list[tuple[int, Mapping[str, Any]]]:
+    return [(index, row) for index, row in enumerate(value) if isinstance(row, Mapping)] if isinstance(value, list) else []
+
+
+def _expected_source_status(root: Path, source_pointer: str) -> tuple[str, str | None]:
+    artifact, pointer = _split_artifact_pointer(source_pointer)
+    artifact_status, payload, digest = _load_json(root, artifact)
+    if artifact_status != "resolved" or payload is None:
+        return artifact_status, digest
+    try:
+        value = _pointer_value(payload, pointer)
+    except (KeyError, IndexError, ValueError):
+        if source_pointer == INDEX_EVIDENCE_PROVENANCE_POINTER:
+            return "pointer-missing", None
+        return "pointer-missing", digest
+    if source_pointer == INDEX_EVIDENCE_PROVENANCE_POINTER:
+        return "resolved", _json_digest(value)
+    return "resolved", digest
 
 
 def _not_intended_use() -> list[dict[str, str]]:
@@ -335,9 +363,8 @@ def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
             "status": "resolved",
             "source_owner": "canonical-index-evidence-provenance",
             "source_pointer": INDEX_EVIDENCE_PROVENANCE_POINTER,
-            "canonical_role": index_provenance.get("canonical_role"),
-            "card_pointer": index_provenance.get("card_pointer"),
-            "fingerprint_artifact": index_provenance.get("fingerprint_artifact"),
+            "source_type": index_provenance.get("source_type"),
+            "evidence_type": index_provenance.get("evidence_type"),
         }
     return facts
 
@@ -607,18 +634,60 @@ def _validate_l0_owner(card: Mapping[str, Any], root: Path) -> list[CardGateErro
     return errors
 
 
-def _validate_l1_fair_boundary(card: Mapping[str, Any]) -> list[CardGateError]:
-    boundaries = card.get("evaluation_boundaries")
-    rows = [row for row in boundaries if isinstance(row, Mapping)] if isinstance(boundaries, list) else []
-    fair_rows = [row for row in rows if row.get("boundary") == "fair architecture comparison"]
+def _validate_l1_fair_boundary(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
+    rows = _mapping_row_items(card.get("evaluation_boundaries"))
+    l1_pointer = "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
+    l1_rows = [
+        (index, row)
+        for index, row in rows
+        if row.get("source_owner") == "dgt-l1-controls"
+        and row.get("source_pointer") == l1_pointer
+    ]
+    fair_rows = [(index, row) for index, row in rows if row.get("boundary") == "fair architecture comparison"]
     errors: list[CardGateError] = []
+    if not l1_rows:
+        errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "L1 scoped review boundary missing"))
+    for index, row in l1_rows:
+        status, source, _digest = _resolve_artifact_pointer(root, l1_pointer)
+        if status != "resolved" or not isinstance(source, Mapping):
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}]", "L1 source pointer does not resolve"))
+            continue
+        for key in ("status", "review_status"):
+            if row.get(key) != source.get(key):
+                errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].{key}", "L1 status differs from owner"))
     if not fair_rows:
         errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "fair comparison boundary missing"))
-    for row in fair_rows:
+    fair_known_rows = [
+        (index, row)
+        for index, row in _mapping_row_items(card.get("known_failure_modes"))
+        if row.get("failure_mode") == "fair comparison boundary"
+    ]
+    if not fair_known_rows:
+        errors.append(CardGateError("CARD-HG5", "$.known_failure_modes", "fair comparison failure mode missing"))
+    for index, row in fair_rows:
+        fair_pointer = "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
+        if row.get("source_owner") != "dgt-base-undertraining-audit" or row.get("source_pointer") != fair_pointer:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].source_pointer", "fair comparison owner pointer differs from owner"))
+            continue
+        status, source, _digest = _resolve_artifact_pointer(root, fair_pointer)
+        if status != "resolved" or not isinstance(source, Mapping):
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}]", "fair comparison source pointer does not resolve"))
+            continue
+        expected_status = source.get("claim_action")
+        expected_construct_status = _dig(source, ("construct_validity", "status"), "blocked")
+        if row.get("status") != expected_status:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].status", "fair comparison status differs from owner"))
+        if row.get("construct_validity_status") != expected_construct_status:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].construct_validity_status", "fair comparison construct-validity status differs from owner"))
         if row.get("construct_validity_status") != "construct-boundary":
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "construct-validity boundary not preserved"))
         if row.get("claim") != "no architecture advantage":
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "architecture advantage wording is not blocked"))
+        for known_index, known_row in fair_known_rows:
+            if known_row.get("source_owner") != "dgt-base-undertraining-audit" or known_row.get("source_pointer") != "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action":
+                errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].source_pointer", "fair comparison failure mode owner pointer differs from owner"))
+            if known_row.get("status") != expected_status:
+                errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].status", "fair comparison failure mode status differs from owner"))
     serialized_intended = json.dumps(card.get("intended_use", []), sort_keys=True).lower()
     if "architecture advantage" in serialized_intended:
         errors.append(CardGateError("CARD-HG5", "$.intended_use", "architecture advantage entered intended use"))
@@ -666,14 +735,47 @@ def _validate_construct_validity_boundaries(card: Mapping[str, Any], root: Path)
     return errors
 
 
-def _validate_ablation_boundary(card: Mapping[str, Any]) -> list[CardGateError]:
+def _validate_ablation_boundary(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
     intended = json.dumps(card.get("intended_use", []), sort_keys=True).lower()
     if "ablation" in intended or "null" in intended:
         return [CardGateError("CARD-HG6", "$.intended_use", "ablation null row entered intended use")]
-    rows = card.get("known_failure_modes", [])
-    if not any(isinstance(row, Mapping) and row.get("source_owner") == "dgt-ablation-null-decomposition" for row in rows):
-        return [CardGateError("CARD-HG6", "$.known_failure_modes", "ablation null boundary missing")]
-    return []
+    errors: list[CardGateError] = []
+    source_pointer = "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition"
+    known_rows = _mapping_row_items(card.get("known_failure_modes"))
+    known = next(
+        (
+            (index, row)
+            for index, row in known_rows
+            if row.get("source_owner") == "dgt-ablation-null-decomposition"
+            and row.get("source_pointer") == source_pointer
+        ),
+        None,
+    )
+    boundary_rows = _mapping_row_items(card.get("evaluation_boundaries"))
+    boundary = next(
+        (
+            (index, row)
+            for index, row in boundary_rows
+            if row.get("boundary") == "ablation null interpretation"
+            and row.get("source_owner") == "dgt-ablation-null-decomposition"
+            and row.get("source_pointer") == source_pointer
+        ),
+        None,
+    )
+    status, source, _digest = _resolve_artifact_pointer(root, source_pointer)
+    if status != "resolved" or not isinstance(source, Mapping):
+        errors.append(CardGateError("CARD-HG6", "$.known_failure_modes", "ablation null source missing"))
+        return errors
+    expected_status = source.get("verdict")
+    if known is None:
+        errors.append(CardGateError("CARD-HG6", "$.known_failure_modes", "ablation null boundary missing"))
+    elif known[1].get("status") != expected_status:
+        errors.append(CardGateError("CARD-HG6", f"$.known_failure_modes[{known[0]}].status", "ablation null status differs from owner"))
+    if boundary is None:
+        errors.append(CardGateError("CARD-HG6", "$.evaluation_boundaries", "ablation null evaluation boundary missing"))
+    elif boundary[1].get("status") != expected_status:
+        errors.append(CardGateError("CARD-HG6", f"$.evaluation_boundaries[{boundary[0]}].status", "ablation null evaluation status differs from owner"))
+    return errors
 
 
 def _validate_evidence_provenance(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
@@ -682,10 +784,17 @@ def _validate_evidence_provenance(card: Mapping[str, Any], root: Path) -> list[C
         return [CardGateError("CARD-HG7", "$.training_facts.evidence_provenance", "evidence provenance missing")]
     status, source, _digest = _resolve_artifact_pointer(root, INDEX_EVIDENCE_PROVENANCE_POINTER)
     if status != "resolved" or not isinstance(source, Mapping):
-        if provenance.get("status") == "blocked":
+        if (
+            provenance.get("status") == "blocked"
+            and provenance.get("source_owner") == "canonical-index-evidence-provenance"
+            and provenance.get("source_pointer") == INDEX_EVIDENCE_PROVENANCE_POINTER
+            and not any(key in provenance for key in ("source_type", "evidence_type"))
+        ):
             return []
         return [CardGateError("CARD-HG7", "$.training_facts.evidence_provenance", "index evidence provenance does not resolve")]
-    for key in ("canonical_role", "card_pointer", "fingerprint_artifact"):
+    if provenance.get("status") != "resolved":
+        return [CardGateError("CARD-HG7", "$.training_facts.evidence_provenance.status", "provenance status differs from index owner")]
+    for key in ("source_type", "evidence_type"):
         if provenance.get(key) != source.get(key):
             return [CardGateError("CARD-HG7", f"$.training_facts.evidence_provenance.{key}", "provenance differs from index owner")]
     return []
@@ -700,9 +809,17 @@ def _validate_source_freshness(card: Mapping[str, Any], root: Path) -> list[Card
         if not isinstance(row, Mapping):
             errors.append(CardGateError("CARD-HG9", f"$.source_artifacts[{index}]", "invalid source row"))
             continue
-        digest = _file_digest(root / str(row.get("artifact", "")))
-        if digest != row.get("sha256"):
-            errors.append(CardGateError("CARD-HG9", f"$.source_artifacts[{index}].sha256", "source digest is stale"))
+        source_pointer = row.get("source_pointer")
+        if isinstance(source_pointer, str):
+            expected_status, expected_digest = _expected_source_status(root, source_pointer)
+            if row.get("status") != expected_status:
+                errors.append(CardGateError("CARD-HG9", f"$.source_artifacts[{index}].status", "source row status differs from pointer resolution"))
+            if row.get("sha256") != expected_digest:
+                errors.append(CardGateError("CARD-HG9", f"$.source_artifacts[{index}].sha256", "source row digest differs from owner artifact"))
+        else:
+            digest = _file_digest(root / str(row.get("artifact", "")))
+            if digest != row.get("sha256"):
+                errors.append(CardGateError("CARD-HG9", f"$.source_artifacts[{index}].sha256", "source digest is stale"))
     return errors
 
 
@@ -717,18 +834,42 @@ def _validate_source_resolution(card: Mapping[str, Any]) -> list[CardGateError]:
     ]
 
 
+def _validate_upstream_status(card: Mapping[str, Any]) -> list[CardGateError]:
+    source_rows = _mapping_rows(card.get("source_artifacts"))
+    status_rows = card.get("upstream_status")
+    if not isinstance(status_rows, list):
+        return [CardGateError("CARD-HG9", "$.upstream_status", "upstream status rows missing")]
+    errors: list[CardGateError] = []
+    by_pointer = {row.get("source_pointer"): row for row in source_rows if isinstance(row.get("source_pointer"), str)}
+    for index, row in enumerate(status_rows):
+        if not isinstance(row, Mapping):
+            errors.append(CardGateError("CARD-HG9", f"$.upstream_status[{index}]", "invalid upstream status row"))
+            continue
+        source_pointer = row.get("source_pointer")
+        source = by_pointer.get(source_pointer)
+        if source is None:
+            errors.append(CardGateError("CARD-HG9", f"$.upstream_status[{index}].source_pointer", "upstream status source row missing"))
+            continue
+        if row.get("status") != source.get("status"):
+            errors.append(CardGateError("CARD-HG9", f"$.upstream_status[{index}].status", "upstream status differs from source row"))
+        if row.get("source_digest") != source.get("sha256"):
+            errors.append(CardGateError("CARD-HG9", f"$.upstream_status[{index}].source_digest", "upstream digest differs from source row"))
+    return errors
+
+
 def _validate_without_hardgate_refresh(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
     errors: list[CardGateError] = []
     errors.extend(_validate_required_keys(card))
     errors.extend(_validate_literals(card))
     errors.extend(_validate_numeric_cells(card))
     errors.extend(_validate_l0_owner(card, root))
-    errors.extend(_validate_l1_fair_boundary(card))
+    errors.extend(_validate_l1_fair_boundary(card, root))
     errors.extend(_validate_construct_validity_boundaries(card, root))
-    errors.extend(_validate_ablation_boundary(card))
+    errors.extend(_validate_ablation_boundary(card, root))
     errors.extend(_validate_evidence_provenance(card, root))
     errors.extend(_validate_source_resolution(card))
     errors.extend(_validate_source_freshness(card, root))
+    errors.extend(_validate_upstream_status(card))
     return errors
 
 

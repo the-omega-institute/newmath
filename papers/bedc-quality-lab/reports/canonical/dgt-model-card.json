@@ -51,12 +51,14 @@
       },
       "CARD-HG9": {
         "gate_id": "CARD-HG9",
-        "input_pointers": [],
-        "reason": "ok",
-        "status": "pass"
+        "input_pointers": [
+          "$.source_artifacts[5].status"
+        ],
+        "reason": "source pointer is not resolved",
+        "status": "fail"
       }
     },
-    "status": "pass"
+    "status": "blocked"
   },
   "card_id": "bedc-quality-lab:dgt-model-card",
   "evaluation_boundaries": [
@@ -148,7 +150,9 @@
       "status": "not-claimed"
     }
   ],
-  "missing_source_refs": [],
+  "missing_source_refs": [
+    "reports/canonical/index.json:$.evidence_provenance"
+  ],
   "not_claimed": [
     "No production deployment authority.",
     "No global model superiority claim.",
@@ -235,22 +239,19 @@
     {
       "artifact": "reports/canonical/index.json",
       "owner_issue": "canonical-index",
-      "pointer": "$.dgt_model_card",
-      "sha256": "4e3af3318d2dca63b93403eb9d04b6c52ab6ba0ca95c13b7aa6f6d3af88cc17a",
+      "pointer": "$.evidence_provenance",
+      "sha256": null,
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
-      "status": "resolved"
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "pointer-missing"
     }
   ],
-  "status": "pass",
+  "status": "blocked",
   "training_facts": {
     "evidence_provenance": {
-      "canonical_role": "auxiliary_pointer_projection",
-      "card_pointer": "reports/canonical/dgt-model-card.json:$",
-      "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
-      "status": "resolved"
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "blocked"
     },
     "metric_cells": [
       {
@@ -320,10 +321,10 @@
       "status": "resolved"
     },
     {
-      "source_digest": "4e3af3318d2dca63b93403eb9d04b6c52ab6ba0ca95c13b7aa6f6d3af88cc17a",
+      "source_digest": null,
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
-      "status": "resolved"
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "pointer-missing"
     }
   ]
 }

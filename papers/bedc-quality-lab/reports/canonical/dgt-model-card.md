@@ -1,9 +1,9 @@
-<!-- payload-sha256: 0001c956dbc59d176258372780ab99f23bd0f1e2ec524e42be6c0855e71ca3f2 -->
+<!-- payload-sha256: 9232ee0ded58ee6e102ad3673ce137437620fca60a89e7eb5cc4f71b3a7e15e4 -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
 - Card: `bedc-quality-lab:dgt-model-card`
-- Status: `pass`
+- Status: `blocked`
 - Source pointer: `reports/canonical/dgt-model-card.json:$`
 
 ## Intended Use
@@ -45,7 +45,7 @@
 - CARD-HG6: `pass`
 - CARD-HG7: `pass`
 - CARD-HG8: `pass`
-- CARD-HG9: `pass`
+- CARD-HG9: `fail`
 
 ## Not Claimed
 

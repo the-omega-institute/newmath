@@ -110,6 +110,10 @@ def _source_fixture(root: Path) -> None:
         root,
         "reports/canonical/index.json",
         {
+            "evidence_provenance": {
+                "source_type": "canonical-quality-index",
+                "evidence_type": "pointer-owner-provenance",
+            },
             "dgt_model_card": {
                 "canonical_role": "auxiliary_pointer_projection",
                 "card_pointer": "reports/canonical/dgt-model-card.json:$",
@@ -192,6 +196,29 @@ def test_l1_construct_invalid_and_fair_decision_are_separate(tmp_path):
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
 
+def test_owner_derived_status_rewrites_fail_closed(tmp_path):
+    payload = _build(tmp_path)
+
+    fair = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "fair architecture comparison")
+    fair["status"] = "pass-by-hand"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+    fair["status"] = "defer-to-fair-reconstruction"
+    fair_failure = next(row for row in payload["known_failure_modes"] if row["failure_mode"] == "fair comparison boundary")
+    fair_failure["status"] = "pass-by-hand"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+    fair_failure["status"] = "defer-to-fair-reconstruction"
+    l1 = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "L1 scoped review")
+    l1["review_status"] = "pass-by-hand"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+    l1["review_status"] = "pass"
+    failure = next(row for row in payload["known_failure_modes"] if row["source_owner"] == "dgt-ablation-null-decomposition")
+    failure["status"] = "pass-by-hand"
+    assert "CARD-HG6" in _errors(payload, tmp_path)
+
+
 def test_ablation_null_rendered_as_boundary_not_positive(tmp_path):
     payload = _build(tmp_path)
 
@@ -213,11 +240,32 @@ def test_evidence_class_and_metric_provenance_consumed_from_index_owner(tmp_path
 
     provenance = payload["training_facts"]["evidence_provenance"]
     assert provenance["source_pointer"] == card.INDEX_EVIDENCE_PROVENANCE_POINTER
-    assert provenance["canonical_role"] == "auxiliary_pointer_projection"
-    assert provenance["card_pointer"] == "reports/canonical/dgt-model-card.json:$"
+    assert provenance["source_type"] == "canonical-quality-index"
+    assert provenance["evidence_type"] == "pointer-owner-provenance"
 
-    provenance["canonical_role"] = "local-card-enum"
+    provenance["evidence_type"] = "local-card-enum"
     assert "CARD-HG7" in _errors(payload, tmp_path)
+
+
+def test_unavailable_index_evidence_provenance_stays_blocked(tmp_path):
+    _source_fixture(tmp_path)
+    _rewrite_source(
+        tmp_path,
+        "reports/canonical/index.json",
+        lambda source: source.pop("evidence_provenance"),
+    )
+
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    provenance = payload["training_facts"]["evidence_provenance"]
+
+    assert payload["status"] == "blocked"
+    assert card.INDEX_EVIDENCE_PROVENANCE_POINTER in payload["missing_source_refs"]
+    assert provenance == {
+        "status": "blocked",
+        "source_owner": "canonical-index-evidence-provenance",
+        "source_pointer": card.INDEX_EVIDENCE_PROVENANCE_POINTER,
+    }
+    assert "CARD-HG9" in _errors(payload, tmp_path)
 
 
 def test_l0_construct_validity_metric_source_boundary_is_card_level(tmp_path):
@@ -324,6 +372,22 @@ def test_owner_flip_without_regen_fails_stale(tmp_path):
 
     errors = _errors(payload, tmp_path)
 
+    assert "CARD-HG9" in errors
+
+
+def test_missing_source_before_build_fails_closed(tmp_path):
+    _source_fixture(tmp_path)
+    missing_pointer = "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
+    (tmp_path / "reports/canonical/dgt-l1-controls.json").unlink()
+
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    l1_row = next(row for row in payload["source_artifacts"] if row["source_pointer"] == missing_pointer)
+    errors = _errors(payload, tmp_path)
+
+    assert payload["status"] == "blocked"
+    assert missing_pointer in payload["missing_source_refs"]
+    assert l1_row["status"] != "resolved"
+    assert payload["card_hardgates"]["gates"]["CARD-HG9"]["status"] == "fail"
     assert "CARD-HG9" in errors
 
 

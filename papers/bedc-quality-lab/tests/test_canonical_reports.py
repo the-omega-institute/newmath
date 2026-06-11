@@ -242,7 +242,11 @@ def _payload_for_spec(spec):
             "training_facts": {
                 "protocol_pointers": [],
                 "metric_cells": [],
-                "evidence_provenance": {"status": "blocked"},
+                "evidence_provenance": {
+                    "status": "blocked",
+                    "source_owner": "canonical-index-evidence-provenance",
+                    "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+                },
             },
             "upstream_status": [],
             "card_hardgates": {"status": "blocked", "gates": {}},
@@ -1714,6 +1718,22 @@ def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
     assert section["card_pointer"] == "reports/canonical/dgt-model-card.json:$"
     assert "status" not in section
     assert "upstream_status" not in section
+
+
+def test_dgt_model_card_report_row_consumes_card_hardgates():
+    spec = canonical._specs_by_name()["dgt-model-card"]
+    result = canonical._run_spec(spec, reuse_existing=True)
+    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert result["validation"]["model_card_errors"] == [
+        {
+            "gate_id": "CARD-HG9",
+            "path": "$.source_artifacts[5].status",
+            "message": "source pointer is not resolved",
+        }
+    ]
+    assert result["status"] == "fail"
+    assert payload["card_hardgates"]["status"] == "blocked"
 
 
 def test_no_standalone_dgt_component_ablation_registered():
