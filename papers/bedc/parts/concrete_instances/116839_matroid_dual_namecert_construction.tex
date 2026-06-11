@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MatroidDualUp$}
+\label{ch:concrete-instances-matroid-dual-namecert}
+\origin{human}
+
+Following Whitney, the $\MatroidDualUp$ packet records matroid duality as finite complement-basis and rank-nullity NameCert data. It reads the independent-set and exchange rows of \autoref{ch:concrete-instances-matroid-namecert}, the meet/join dependency surface of \autoref{ch:concrete-instances-lattice-namecert}, and the finite algebraic transport discipline of \autoref{ch:concrete-instances-group-namecert}. The packet names a dual carrier over the same finite ground; it does not import a host duality theorem, quotient ground equality, selected bases outside the displayed finite rows, or an ambient rank oracle.
+
+\begin{definition}[Matroid dual carrier]
+\label{def:matroid-dual-carrier}
+A $\MatroidDualUp$ carrier is a finite $\BHist$ packet
+$$
+D=(E,M,B,Q,R,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite ground row, read through the same $\FinSetUp$ ground discipline used by $\MatroidUp$.
+\item $M$ is the source $\MatroidUp$ row, including independent-set, hereditary, and exchange data.
+\item $B$ is the finite basis row for the source matroid, recording maximal independent subsets over the displayed ground.
+\item $Q$ is the complement-basis row, assigning to each displayed source basis its finite complement in $E$ and reading that complement as a dual basis.
+\item $R$ is the rank/nullity ledger, recording the finite rank of source basis rows and the nullity read used by the dual packet.
+\item $U$ is the dual independence row, generated from finite subsets of complement-basis rows and transported through the source exchange route.
+\item $H$ records componentwise $\hsame$ transport for ground, source matroid, basis, complement-basis, rank/nullity, dual independence, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every consumer that reads the dual packet.
+\item $P$ is the $\Pkg$ provenance over $\MatroidDualUp$, $\MatroidUp$, $\FinSetUp$, $\LatticeUp$, $\GroupUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $N$ is the local $\NameCert_{\MatroidDualUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host dual matroid, a quotient ground set, a selected global basis family, an external rank function, or an ambient linear representation.
+\end{definition}
+
+\begin{theorem}[Matroid dual NameCert obligations]
+\label{thm:matroid-dual-namecert-obligations}
+For every accepted $\MatroidDualUp$ carrier
+$$
+D=(E,M,B,Q,R,U,H,C,P,N),
+$$
+the local $\NameCert_{\MatroidDualUp}$ surface consists exactly of carrier admission for $D$, finite ground exposure through $E$, source $\MatroidUp$ exposure through $M$, source-basis exposure through $B$, complement-basis exposure through $Q$, rank/nullity ledger exposure through $R$, dual independence exposure through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $E,M,B,Q,R,U$ are the complete finite duality inventory: ground, source matroid, source bases, complement bases, rank/nullity data, and dual independence.
+
+Read the source matroid through \autoref{ch:concrete-instances-matroid-namecert}. The hereditary and exchange rows are available only as displayed $\MatroidUp$ certificate rows, while the ground and finite subset reads remain inside $\FinSetUp$ and $\LatticeUp$ dependency surfaces.
+
+The complement-basis row $Q$ is then checked against $E$ and $B$. Each dual basis is the finite complement of a displayed source basis, and the rank/nullity row $R$ records the finite handoff by which source rank and complement size determine the dual rank read.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no coordinate stores a host dual matroid, quotient ground set, selected global basis family, external rank oracle, or ambient representation, none of those objects can discharge a local $\NameCert_{\MatroidDualUp}$ obligation.
+\end{proof}
+
+\begin{theorem}[Matroid dual rank-nullity handoff]
+\label{thm:matroid-dual-rank-nullity-handoff}
+Every rank-facing consumer of an accepted $\MatroidDualUp$ packet must read the finite route
+$$
+E,M,B,Q,R \longmapsto U,H,C,P,N
+$$
+before exporting a dual rank or independence claim. The source rank row is read from the displayed $\MatroidUp$ basis data, the nullity row is read from finite complements inside $E$, and the dual independence row is admitted only after the complement-basis and rank/nullity rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the source $\MatroidUp$ row. The basis row $B$ is meaningful only after the finite ground $E$ and the source independent-set certificate $M$ have been displayed.
+
+Next open the complement-basis row. The row $Q$ compares each displayed basis with its finite complement in $E$, so the dual basis data is a $\BHist$ complement ledger rather than a selected basis outside the packet.
+
+The rank/nullity row $R$ is downstream of this complement read. It records the finite handoff from source rank to dual rank by counting displayed basis and complement rows, not by invoking an ambient rank theorem.
+
+The dual independence row $U$ and the structural rows $H,C,P,N$ preserve exactly this route. Thus a rank-facing consumer cannot export a dual rank or independence claim before reading the source basis, complement basis, rank/nullity, transport, replay, provenance, and local NameCert rows.
+\end{proof}
+
+\falsifiablePrediction{A consumer that decodes a $\MatroidDualUp$ packet without displaying the source basis row, complement-basis row, rank/nullity ledger, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows is not reading the carrier.}
+
+\independenceWitness{matroid, lattice, group: $\MatroidUp$ supplies the source independence rows, $\LatticeUp$ supplies finite meet/join dependency discipline, and $\GroupUp$ supplies algebraic transport neighbours, but none carries the complement-basis plus rank/nullity dual packet as a local NameCert row.}
+
+\closureat{MatroidDualUp}{seedStr}
+
+\begin{closurestatus}{\MatroidDualUp}
+  \constructivestory{A $\MatroidDualUp$ packet is generated from a finite ground row, source MatroidUp row, finite basis rows, complement-basis rows, rank/nullity ledgers, dual independence rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:matroid-dual-carrier}, \autoref{thm:matroid-dual-namecert-obligations}, and \autoref{thm:matroid-dual-rank-nullity-handoff} seed the finite complement-basis and rank-nullity packet for matroid duality.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host matroid duality, quotient ground equality, selected global bases, external rank oracles, ambient linear representation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, complement-basis exactness, rank/nullity handoff, dual independence transport, replay, provenance, and local naming for BEDC.Derived.MatroidDualUp.}
+\end{closurestatus}
