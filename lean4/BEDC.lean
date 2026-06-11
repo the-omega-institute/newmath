@@ -2733,6 +2733,7 @@ import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -3209,6 +3210,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.BoundaryTriggerSeparation
 import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
+import BEDC.Derived.CoveringdimensionUp.CauchyFilterCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
@@ -7333,6 +7335,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationClosure
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationFrontier
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationScope
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
+import BEDC.Derived.PolishspaceUp.CompleteSeparableObservationLock
 import BEDC.Derived.PolishspaceUp.CompleteSeparablePointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparablePublicInterface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
@@ -7369,6 +7372,7 @@ import BEDC.Derived.PolishspaceUp.ObservationLedgerConsumerExactness
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
 import BEDC.Derived.PolishspaceUp.PointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadback
+import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadbackFrontier
 import BEDC.Derived.PolishspaceUp.PublicFiniteWindowBoundary
 import BEDC.Derived.PolishspaceUp.PublicReadbackExport
 import BEDC.Derived.PolishspaceUp.PublicReadbackUniqueness
