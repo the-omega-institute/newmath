@@ -1,0 +1,143 @@
+\section{Cell-State Compiler Semantics}
+\label{sec:cellstate-compiler-semantics}
+
+The Yamanaka-factor contacts in CellStateReality force a compiler reading of the BEDC cell-state object. A cell-state certificate is not a linear chain from a history to one final name; it is a typed compilation graph whose probes, phases, layers, joins, and gaps remain visible in the certificate.
+
+The old linear form
+$$
+\begin{aligned}
+\mathsf{Hist}\to\mathsf{Probe}\to\mathsf{Sig}\to\mathsf{NameCert}
+\end{aligned}
+$$
+is too small for the MPTR and OSKMLN records. The evidence instead has the form
+$$
+\begin{aligned}
+\mathsf{Hist}\to\mathsf{Program}\to\mathsf{MultiProbeFrontend}\to\mathsf{LayeredIR}\\
+\to
+\mathsf{SameScopeJoin}\to\mathsf{PromotionFrontier}\to\mathsf{GapGeometry}\to\mathsf{NameCert}.
+\end{aligned}
+$$
+The section records that upgrade as a semantic constraint induced by the existing empirical witnesses.
+
+\subsection{The Yamanaka-Factor Program Object}
+
+\begin{definition}[Yamanaka-factor program]
+\label{def:yamanaka-factor-program}
+A Yamanaka-factor program is the finite compilation object
+$$
+\begin{aligned}
+\mathsf{YFProgram}=
+(\mathsf{FactorSet},\mathsf{Carrier},\mathsf{Delivery},\mathsf{Dose},\mathsf{Schedule},
+\mathsf{Withdrawal},\mathsf{ProbeSuite}).
+\end{aligned}
+$$
+The factor set names the reprogramming factors; the carrier names the cell or tissue substrate; the delivery field records the generator by which the factors enter the carrier; the dose and schedule fields record exposure geometry; the withdrawal field records whether and when the generator is removed; and the probe suite records the frontends allowed to compile the program into readback signatures.
+\end{definition}
+
+Under this definition, OSKM, OSKMLN, and MPTR are not naked biological labels. They are programs with distinct compilation contracts. The Sarkar OSKMLN instance uses OCT4, SOX2, KLF4, c-MYC, LIN28, and NANOG, delivered by non-integrating mRNA for a four-day transient protocol over human fibroblast and endothelial carriers. The Gill MPTR instance is a lentiviral OSKM program with a methylation timecourse at days $10$, $13$, $15$, and $17$, and with GSE165177 RNA contacts available for day-10 donor-matched MPTR fibroblasts.
+
+The program object matters because the same factor vocabulary does not determine the same certificate. A four-day non-integrating mRNA OSKMLN contact and a lentiviral MPTR timecourse may both be partial-reprogramming programs, but they compile through different carriers, schedules, probe suites, and phase boundaries. BEDC therefore has to name the program before it names a cell-state result.
+
+\subsection{Probe Frontends and the Layered IR}
+
+\begin{definition}[Probe frontend]
+\label{def:probe-frontend}
+A probe frontend is a typed compiler
+$$
+\begin{aligned}
+\mathsf{ProbeFrontend}_P:\mathsf{Hist}\times\mathsf{YFProgram}\to \mathsf{IR}_P
+\end{aligned}
+$$
+which transforms the same carrier history into a probe-indexed intermediate representation. The probe is not merely an observation window. It selects coordinates, coefficients, thresholds, normalization conventions, and the admissible layer in which the resulting signature can be read.
+\end{definition}
+
+The layered intermediate representation used here has five layer components. $S_A$ is the age-signature layer; $S_I$ is the cell-identity layer; $S_F$ is the function marker-direction layer; $S_Q$ is the pluripotency or safety-boundary layer; and $S_R$ is the recovery or post-withdrawal layer. A methylation clock is a frontend for a methylation carrier. An RNA marker panel is a transcriptome frontend. They may be applied to the same biological program, but they do not compile to the same type.
+
+This is the compiler reason that one cannot read a methylation-clock pass as a cell-state pass. The methylation frontend can produce $S_A$ when it has beta values, clock coefficients, sample annotations, and pairing. The transcriptome frontend can produce $S_I$, $S_F$, or $S_Q$ when it has gene-expression rows, marker panels, thresholds, and donor pairing. The layered IR keeps those outputs separate until a same-scope join makes a cross-layer object.
+
+\subsection{Phase as Type}
+
+\begin{definition}[Phase type]
+\label{def:phase-type}
+The phase type of a cell-state program is drawn from
+$$
+\begin{aligned}
+\mathsf{PhaseType}=\{
+&\mathsf{baseline},\mathsf{transient\mbox{-}induction},\mathsf{late\mbox{-}transient},
+\mathsf{withdrawal},\\
+&\mathsf{post\mbox{-}withdrawal\mbox{-}recovered},\mathsf{stable\mbox{-}propagated}\}.
+\end{aligned}
+$$
+A signature has type $S_L[\phi]$, where $L$ is its layer and $\phi$ is its phase. A transient-phase signature and a recovered-phase signature are different typed objects even when they refer to the same program family.
+\end{definition}
+
+The compiler analogy is useful but bounded. Transient induction behaves like speculative IR: it exposes aggressive state movement under an active generator. Withdrawal is the rollback or commit test: it asks what remains when the generator is removed. Recovered output is a stable-output candidate: it requires post-withdrawal evidence rather than a transient sample relabelled as mature.
+
+This typing rule also blocks cross-organism substitution. A mouse recovery contact is not a human recovered-phase Horvath353 and RNA same-scope contact. Likewise, a human transient MPTR contact is not a human post-withdrawal recovered contact. Phase is part of the type, not metadata that can be erased after a favorable readback.
+
+\subsection{Five Theorems Induced by the Reality Contacts}
+
+\begin{proposition}[Probe-indexed signature]
+\label{prop:probe-indexed-signature}
+The expression $S(H)$ is ill-typed for a cell-state signature. The well-typed expression is $S(H,P)$, where $P$ is the probe frontend that compiled the carrier history.
+\end{proposition}
+
+The witness is \texttt{cellstate.age-clock-shift.clock-dependence.gse165180}, recorded as a passed clock-dependence certificate over the same GSE165179 MPTR donor-paired methylation carrier reached through GSE165180. The carrier is read through two clock frontends: pan-tissue Horvath1 and skin-and-blood Horvath2. The witness records opposite late-phase mean treated-minus-baseline directions for the two frontends: pan-tissue day $15$ and day $17$ are $+0.84$ and $+6.60$ years, while skin-and-blood day $15$ and day $17$ are $-3.26$ and $-4.18$ years. The linked coverage-control witness \texttt{cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180} records full skin-and-blood coverage at $391/391$ CpGs and \texttt{reversal\_explained\_by\_coverage=false}. Thus the age signature is a property of the pair $(H,P)$, not of $H$ alone.
+
+\begin{proposition}[Layer-local support does not promote]
+\label{prop:layer-local-support-non-promotion}
+Age-layer support does not imply joint support for identity, function, and safety:
+$$
+\begin{aligned}
+\mathrm{Support}(S_A)\not\Rightarrow
+\mathrm{Support}(S_I\wedge S_F\wedge S_Q).
+\end{aligned}
+$$
+\end{proposition}
+
+The age-side witness is \texttt{cellstate.age-clock-shift.gse142439}, recorded as passed: GSE142439 supplies $16$ EPIC methylation samples arranged as $8$ normal/treated pairs, with $334$ covered Horvath353 CpGs out of $353$ and a mean paired DNAm-age shift below zero. The identity-side witness \texttt{cellstate.identity-samesig.gse165177-mptr} is failed because the transient day-10 MPTR RNA contact crosses the pluripotency boundary; the donor-resolved decomposition records three donor-matched pairs and a failed support value for the sameSig$_I$ break. The function-side witness \texttt{cellstate.function-signature-shift.gse165177-mptr-human} remains \texttt{needs\_data}: the registry records $\Delta\mathrm{Sen}=0.268456$ after LMNB1 reverse correction and $\Delta\mathrm{SASP}=-0.707862$ over $n=3$ donor-matched pairs, so both required panel directions are not negative. Therefore the age layer may be supported while identity, function, and safety remain blocked or open.
+
+\begin{proposition}[Same-scope join]
+\label{prop:same-scope-join}
+Every cross-layer cell-state claim must compile through a same-scope join certificate:
+$$
+\begin{aligned}
+\mathsf{CrossLayerClaim}\Rightarrow \mathsf{SameScopeJoinCert}.
+\end{aligned}
+$$
+The implication is not a biological entailment from one layer to another; it is a typed join obligation over auditable keys and non-imputed modalities.
+\end{proposition}
+
+The witness is \texttt{cellstate.promotion-frontier.gse165180}, recorded as negative. Its carrier joins GSE165179 methylation and GSE165177 RNA by exact donor, day, condition, and experiment, with no imputed modality. It classifies each scope into no-age-gain, clock-only, identity-or-safety-break, or identity-safe age-reset candidate cases and reports no Case $3$ candidate. The companion \texttt{cellstate.identity-preserving-age-reset.samescope.gse165180} is also failed: its support condition requires O1/O2/O3 to join across age and identity contacts, every joined methylation treated-minus-baseline DNAm-age delta to be negative, identity RMS to stay within threshold, and every pluripotency exclusion condition to hold. The typed join exposes the failure rather than allowing age-layer evidence to imply an identity-preserving age reset.
+
+\begin{proposition}[Phase-type separation]
+\label{prop:phase-type-separation}
+Transient-phase IR is not isomorphic to recovered-phase IR:
+$$
+\begin{aligned}
+\mathsf{TransientPhase}\not\simeq\mathsf{RecoveredPhase}.
+\end{aligned}
+$$
+\end{proposition}
+
+The witness is the maturation packet \texttt{identity-safe-age-reset.maturation-needs-data}. It records that recovered-phase Case $3$ remains open because the scan did not locate an accession with explicit post-withdrawal or recovered samples, human EPIC or 450k methylation values usable with Horvath353, and processed RNA marker expression for the same recovered-phase scope. Its cannot-claim boundary is phase-typed: transient-phase MPTR samples are not recovered-phase evidence, mouse recovery samples are not human Horvath353 EPIC or 450k evidence, and a literature summary without processed recovered-phase methylation and RNA marker values is not Case $3$ support.
+
+\begin{proposition}[Coordinate fragility]
+\label{prop:coordinate-fragility}
+A verdict over a signature may be top-$K$ coordinate fragile:
+$$
+\begin{aligned}
+\mathrm{Verdict}(S)\ \text{may depend on a small high-weight coordinate subset.}
+\end{aligned}
+$$
+\end{proposition}
+
+The witnesses are the passed records \texttt{cellstate.age-clock-shift.reversal-decomposition.gse165180}, \texttt{cellstate.age-clock-shift.reversal-leave-top20-out.gse165180}, and \texttt{cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180}. The decomposition record reports that the day-17 Horvath353 reversal is carried by the top $20$ day-17-versus-day-10 CpGs, which account for $56.06\%$ of the positive z-space displacement; their mean absolute Horvath weight is $0.475877$, about $3.65$ times the covered-coordinate median absolute weight $0.130244$. The leave-top-20-out record removes those $20$ coordinates and rescoring leaves $314$ covered CpGs; day-17 $z$ changes from $0.314273$ to $-0.616288$, so the reversal disappears. The coverage-control record rules out a simple missing-CpG explanation by recording full skin-and-blood coverage at $391/391$ CpGs and \texttt{reversal\_explained\_by\_coverage=false}. Thus the gap geometry is coordinate-local and frontend-sensitive rather than a global state verdict.
+
+\subsection{The Compiler Atlas}
+
+The compiler atlas has seven owners. $\mathsf{ProgramSpec}$ owns factor set, delivery, dose, schedule, withdrawal, and probe suite. $\mathsf{CarrierSpec}$ owns the finite biological substrate and row provenance. $\mathsf{ProbeFrontend}$ owns the transformation from carrier rows to probe-indexed IR. $\mathsf{LayeredIR}$ owns $S_A$, $S_I$, $S_F$, $S_Q$, and $S_R$ as separate typed components. $\mathsf{SameScopeJoin}$ owns donor, day, condition, experiment, phase, and modality keys. $\mathsf{PromotionFrontier}$ owns the finite classifier that decides whether a joined scope is no-age-gain, clock-only, broken, or a candidate. $\mathsf{GapGeometry}$ owns the residual obstacles: missing recovered phase, coordinate fragility, frontend dependence, and non-promoted layers.
+
+These owners make CellStateReality a scientific-object compiler rather than a prose ledger. Each owner has a bounded contract, and the output NameCert must preserve which owner supplied each part of the claim. When a witness fails or remains \texttt{needs\_data}, the compiler does not erase the object. It emits a typed gap: phase gap, join gap, layer gap, or coordinate gap.
+
+The Yamanaka-factor program is therefore a pressure test for BEDC. Real cell-state science is not a single-probe linear certificate. It is a multi-frontend, multi-layer, multi-phase, multi-join compilation graph, and the certificate is credible only when that graph remains auditable.
