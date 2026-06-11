@@ -315,4 +315,94 @@ theorem CoveringDimensionCoverRefinementMonotonicity [AskSetup] [PackageSetup]
   }
   exact ⟨cert, leftUnary, rightUnary, commonUnary, ledgerUnary⟩
 
+theorem CoveringDimensionRealSeparabilityRefinementRoute [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName completionRead densityRead regseqRead realSealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont lebesgue transport completionRead →
+        Cont completionRead provenance densityRead →
+          Cont densityRead replay regseqRead →
+            Cont regseqRead localName realSealRead →
+              PkgSig bundle realSealRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row realSealRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row compactMetric ∨ hsame row cover ∨ hsame row refinement ∨
+                        hsame row lebesgue ∨ hsame row completionRead ∨
+                          hsame row densityRead ∨ hsame row regseqRead ∨
+                            hsame row realSealRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont lebesgue transport completionRead ∧
+                        Cont completionRead provenance densityRead ∧
+                          Cont densityRead replay regseqRead ∧
+                            Cont regseqRead localName realSealRead ∧
+                              PkgSig bundle realSealRead pkg)
+                    hsame ∧
+                  UnaryHistory completionRead ∧ UnaryHistory densityRead ∧
+                    UnaryHistory regseqRead ∧ UnaryHistory realSealRead := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier lebesgueTransportCompletion completionProvenanceDensity densityReplayRegseq
+    regseqLocalRealSeal realSealPkg
+  obtain ⟨compactUnary, _epsilonUnary, coverUnary, refinementUnary, _orderUnary,
+    lebesgueUnary, transportUnary, replayUnary, provenanceUnary, localNameUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed lebesgueUnary transportUnary lebesgueTransportCompletion
+  have densityUnary : UnaryHistory densityRead :=
+    unary_cont_closed completionUnary provenanceUnary completionProvenanceDensity
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed densityUnary replayUnary densityReplayRegseq
+  have realSealUnary : UnaryHistory realSealRead :=
+    unary_cont_closed regseqUnary localNameUnary regseqLocalRealSeal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realSealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row compactMetric ∨ hsame row cover ∨ hsame row refinement ∨
+              hsame row lebesgue ∨ hsame row completionRead ∨ hsame row densityRead ∨
+                hsame row regseqRead ∨ hsame row realSealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont lebesgue transport completionRead ∧
+              Cont completionRead provenance densityRead ∧ Cont densityRead replay regseqRead ∧
+                Cont regseqRead localName realSealRead ∧ PkgSig bundle realSealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro realSealRead ⟨hsame_refl realSealRead, realSealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, lebesgueTransportCompletion, completionProvenanceDensity,
+          densityReplayRegseq, regseqLocalRealSeal, realSealPkg⟩
+  }
+  exact ⟨cert, completionUnary, densityUnary, regseqUnary, realSealUnary⟩
+
 end BEDC.Derived.CoveringdimensionUp
