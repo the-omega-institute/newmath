@@ -480,6 +480,28 @@ Apply the obligation-basis theorem \autoref{thm:metacic-parallel-diamond-frontie
 The residual-frontier and obstruction rows stay visible throughout the handoff. Consequently the theorem records seed status for the remaining residual-discharge work rather than converting the packet into a parameter-transport equivalence or any stronger confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual obstruction ledger]
+\label{thm:metacic-parallel-diamond-frontier-residual-obstruction-ledger}
+Every candidate-mediated local join read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must keep the residual-substitution premise row $P$, residual-frontier row $R$, and obstruction row $O$ visible alongside
+$$
+K,J,S,C,B,H,T,G,N
+$$
+before any confluence-facing packet consumes the read. The retained ledger is therefore
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It is not a premise-free parallel diamond, full Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Begin with the obligation basis \autoref{thm:metacic-parallel-diamond-frontier-obligation-basis}. It fixes the consumer-visible packet as $P,K,J,R,S,C,B,O,H,T,G,N$ and makes the obstruction row an explicit coordinate of the finite basis.
+
+Apply the candidate-mediated residual route \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-route}. A local peak may reach the candidate row $J$ only through the displayed critical-pair and residual-frontier route, while $P$ remains the retained residual-substitution premise.
+
+Finally use the local-join scope theorem \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. It allows confluence-facing consumers to read only the typed-window surface with $O$ still visible, so the obstruction ledger cannot be erased before the handoff is consumed.
+
+Thus every candidate-mediated join read carries $P,R,O$ together with $K,J,S,C,B,H,T,G,N$. Since neither the premise nor the obstruction is discharged, the statement exports only a residual obstruction ledger and not any refused confluence, typing, equality, quotient, or kernel endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual pasting frontier]
 \label{thm:metacic-parallel-diamond-frontier-residual-pasting}
 Suppose an accepted $\MetaCICParallelDiamondFrontierUp$ packet has two typed-window residual reads whose critical-pair observations share the same $P,K,R,S,C,B,O,H,T,G,N$ rows and whose candidate row is $J$. Then the two reads paste only through the displayed residual packet
