@@ -148,6 +148,10 @@ DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertr
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
+INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
+INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT = "reports/canonical/input-accessibility.md"
+INPUT_ACCESSIBILITY_ARTIFACT_ID = "bedc-quality-lab:input-accessibility"
+INPUT_ACCESSIBILITY_SCHEMA_ID = "bedc-quality-lab:input-accessibility"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -1243,6 +1247,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
         negative_witness_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.hardgates",
         formal_status_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
+    ),
+    CanonicalReportSpec(
+        name="input-accessibility",
+        command=("python3", "scripts/run_input_accessibility_audit.py"),
+        json_artifact=INPUT_ACCESSIBILITY_JSON_ARTIFACT,
+        markdown_artifact=INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "owner",
+            "source_registry",
+            "registry_digest",
+            "visible_variables",
+            "required_variables",
+            "access_hardgates",
+            "ood_hardgates",
+            "boundary_ledger",
+            "consumer_pointers",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_registry",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.access_hardgates.status",
+        control_pointer="$.source_registry",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates",
+        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_registry",
+        discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
+        negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -4513,6 +4552,31 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     }
 
 
+def _input_accessibility_index_section() -> dict[str, Any]:
+    path = _artifact_path(INPUT_ACCESSIBILITY_JSON_ARTIFACT)
+    payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    access = payload.get("access_hardgates") if isinstance(payload, Mapping) else {}
+    ood = payload.get("ood_hardgates") if isinstance(payload, Mapping) else {}
+    ledger = payload.get("boundary_ledger") if isinstance(payload, Mapping) else []
+    return {
+        "status": access.get("status", "missing") if isinstance(access, Mapping) else "missing",
+        "artifact_id": INPUT_ACCESSIBILITY_ARTIFACT_ID,
+        "schema_id": INPUT_ACCESSIBILITY_SCHEMA_ID,
+        "json_artifact": INPUT_ACCESSIBILITY_JSON_ARTIFACT,
+        "markdown_artifact": INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": "reports/canonical/input-accessibility.fingerprint.json",
+        "row_count": payload.get("row_count", 0) if isinstance(payload, Mapping) else 0,
+        "access_gate_status": access.get("status", "missing") if isinstance(access, Mapping) else "missing",
+        "ood_gate_status": ood.get("status", "missing") if isinstance(ood, Mapping) else "missing",
+        "boundary_ledger_count": len(ledger) if isinstance(ledger, list) else 0,
+        "registry_digest": payload.get("registry_digest", "missing") if isinstance(payload, Mapping) else "missing",
+        "input_accessibility_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$",
+        "information_starved_arms_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers.information_starved_arms_ref",
+        "unanswerable_ood_splits_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers.unanswerable_ood_splits_ref",
+        "boundary_ledger_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
+    }
+
+
 MODEL_DESIGN_SUITE_POINTER_FIELDS = (
     "component_id",
     "canonical_owner_pointer",
@@ -5842,6 +5906,7 @@ def _index(
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
+        "input_accessibility": _input_accessibility_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
