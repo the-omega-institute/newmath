@@ -15,6 +15,7 @@ import random
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.order_k_benchmark import LEDGER_ROWS_POINTER as ORDER_K_LEDGER_ROWS_POINTER
 from bedc_quality_lab.order_k_benchmark import REPORT_ARTIFACT as ORDER_K_REPORT_ARTIFACT
 
@@ -31,7 +32,7 @@ GENERATED_AT = "2026-06-10T00:00:00+00:00"
 LAB_ROOT = Path(__file__).resolve().parents[1]
 
 ARM_IDS = (
-    "base_transformer_l1",
+    "information_starved_l1_baseline",
     "dgt_l1",
     "matched_random_structural_l1",
     "parameter_matched_l1",
@@ -86,10 +87,10 @@ FORBIDDEN_CLAIMS = (
 )
 ALLOWED_CLAIM = "DGT L1 controls are ready for independent review on bounded tiny-sequence order-k training."
 REQUIRED_WITNESSES = (
-    "order_one_proxy_leakage",
-    "matched_random_positive_control",
-    "ood_pair_shuffle_instability",
-    "scripted_metric_table",
+    "information_starved_baseline",
+    "unanswerable_ood",
+    "table_coverage_saturation",
+    "hand_engineered_task_aligned_gate",
 )
 CRITICAL_WITNESSES = REQUIRED_WITNESSES
 OWNER_REQUIRED_METRICS = (
@@ -242,7 +243,7 @@ class _TinySequenceModel:
         self.vocab_size = vocab_size
         if arm_id in {"dgt_l1", "parameter_matched_l1", "compute_matched_l1"}:
             in_dim = EMBED_DIM * 2 + 2
-        elif arm_id == "base_transformer_l1":
+        elif arm_id == "information_starved_l1_baseline":
             in_dim = EMBED_DIM * 2
         else:
             in_dim = EMBED_DIM * 2
@@ -264,7 +265,7 @@ class _TinySequenceModel:
             return torch.cat([self.embedding(first), self.embedding(second)], dim=1)
         first_embed = self.embedding(x[:, -1])
         second_embed = self.embedding(x[:, -2])
-        if self.arm_id == "base_transformer_l1":
+        if self.arm_id == "information_starved_l1_baseline":
             return torch.cat([first_embed, torch.zeros_like(second_embed)], dim=1)
         if self.arm_id == "parameter_matched_l1":
             pad_1 = torch.zeros((x.shape[0], 1), dtype=first_embed.dtype, device=first_embed.device)
@@ -363,7 +364,7 @@ def _train_arm(
             if arm_id == "parameter_matched_l1"
             else "compute matched tiny transformer"
             if arm_id == "compute_matched_l1"
-            else "plain tiny transformer control"
+            else "information-starved tiny baseline"
         ),
         parameter_count=parameter_count,
         compute_units=compute_units,
@@ -482,6 +483,16 @@ def _owner_required_metric_absent(metrics: Mapping[str, Any]) -> bool:
     return all(metric not in metrics and f"{metric}_mean" not in metrics for metric in OWNER_REQUIRED_METRICS)
 
 
+def _owner_pointer_resolves(payload: Mapping[str, Any], pointer: str) -> bool:
+    prefix = f"{CANONICAL_JSON_ARTIFACT}:"
+    if not isinstance(pointer, str) or not pointer.startswith(prefix):
+        return False
+    local_pointer = pointer.removeprefix(prefix)
+    if local_pointer == "$":
+        return True
+    return pointer_value(payload, local_pointer) is not None
+
+
 def _arm_summaries(
     records: Sequence[Mapping[str, Any]],
     *,
@@ -530,15 +541,15 @@ def derive_l1_step_ladder_crossover(step_rows: Sequence[Mapping[str, Any]]) -> d
     for row in step_rows:
         metrics = row.get("metrics", {})
         dgt_accuracy = float(metrics.get("dgt_accuracy_mean", 0.0))
-        base_accuracy = float(metrics.get("base_accuracy_mean", 0.0))
+        baseline_accuracy = float(metrics.get("information_starved_accuracy_mean", 0.0))
         matched_accuracy = float(metrics.get("matched_random_accuracy_mean", 0.0))
-        same_step_base_gap = round(dgt_accuracy - base_accuracy, 6)
+        same_step_baseline_gap = round(dgt_accuracy - baseline_accuracy, 6)
         same_step_matched_gap = round(dgt_accuracy - matched_accuracy, 6)
-        anchor_base_gap = round(anchor_accuracy - base_accuracy, 6) if anchor_accuracy is not None else None
+        anchor_baseline_gap = round(anchor_accuracy - baseline_accuracy, 6) if anchor_accuracy is not None else None
         anchor_matched_gap = round(anchor_accuracy - matched_accuracy, 6) if anchor_accuracy is not None else None
-        base_reaches_anchor = (
+        baseline_reaches_anchor = (
             crossover_threshold is not None
-            and base_accuracy >= crossover_threshold
+            and baseline_accuracy >= crossover_threshold
         )
         matched_reaches_anchor = (
             crossover_threshold is not None
@@ -548,27 +559,27 @@ def derive_l1_step_ladder_crossover(step_rows: Sequence[Mapping[str, Any]]) -> d
             {
                 "training_steps": int(row["training_steps"]),
                 "dgt_accuracy_mean": dgt_accuracy,
-                "base_accuracy_mean": base_accuracy,
+                "information_starved_accuracy_mean": baseline_accuracy,
                 "matched_random_accuracy_mean": matched_accuracy,
-                "same_step_dgt_minus_base_accuracy": same_step_base_gap,
+                "same_step_dgt_minus_information_starved_accuracy": same_step_baseline_gap,
                 "same_step_dgt_minus_matched_accuracy": same_step_matched_gap,
-                "anchor_minus_base_accuracy": anchor_base_gap,
+                "anchor_minus_information_starved_accuracy": anchor_baseline_gap,
                 "anchor_minus_matched_random_accuracy": anchor_matched_gap,
-                "base_reaches_anchor_tolerance": base_reaches_anchor,
+                "information_starved_reaches_anchor_tolerance": baseline_reaches_anchor,
                 "matched_random_reaches_anchor_tolerance": matched_reaches_anchor,
             }
         )
-    base_steps = [row["training_steps"] for row in crossover_rows if row["base_reaches_anchor_tolerance"]]
+    baseline_steps = [row["training_steps"] for row in crossover_rows if row["information_starved_reaches_anchor_tolerance"]]
     matched_steps = [row["training_steps"] for row in crossover_rows if row["matched_random_reaches_anchor_tolerance"]]
     return {
-        "status": "base-crossover-observed" if base_steps else "no-base-crossover-observed",
+        "status": "information-starved-crossover-observed" if baseline_steps else "no-information-starved-crossover-observed",
         "tolerance_accuracy": L1_CROSSOVER_TOLERANCE_ACC,
         "anchor_arm": "dgt_l1",
         "anchor_training_steps": L1_CROSSOVER_ANCHOR_STEPS,
         "anchor_accuracy_mean": anchor_accuracy,
         "crossover_threshold_accuracy": crossover_threshold,
-        "base_catches_up": bool(base_steps),
-        "first_base_crossover_step": min(base_steps) if base_steps else None,
+        "information_starved_catches_up": bool(baseline_steps),
+        "first_information_starved_crossover_step": min(baseline_steps) if baseline_steps else None,
         "matched_random_catches_up": bool(matched_steps),
         "first_matched_random_crossover_step": min(matched_steps) if matched_steps else None,
         "rows": crossover_rows,
@@ -584,13 +595,13 @@ def derive_l1_step_ladder_verdict(
         return "inconclusive"
     if bool(crossover.get("matched_random_catches_up")):
         return "inconclusive"
-    if bool(crossover.get("base_catches_up")):
-        return "base-catches-up"
+    if bool(crossover.get("information_starved_catches_up")):
+        return "information-starved-catches-up"
     if crossover.get("anchor_accuracy_mean") is None:
         return "inconclusive"
     rows = crossover.get("rows", [])
     if isinstance(rows, Sequence) and rows:
-        return "separation-persists"
+        return "scoped-review-signal"
     return "inconclusive"
 
 
@@ -603,29 +614,29 @@ def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1Trainin
         if "matched_random_structural_l1" in summaries:
             summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
         dgt = summaries.get("dgt_l1", {}).get("metrics", {})
-        base = summaries.get("base_transformer_l1", {}).get("metrics", {})
+        baseline = summaries.get("information_starved_l1_baseline", {}).get("metrics", {})
         matched = summaries.get("matched_random_structural_l1", {}).get("metrics", {})
         param = summaries.get("parameter_matched_l1", {}).get("metrics", {})
         compute = summaries.get("compute_matched_l1", {}).get("metrics", {})
         metrics = {
             "dgt_accuracy_mean": float(dgt.get("accuracy_mean", 0.0)),
-            "base_accuracy_mean": float(base.get("accuracy_mean", 0.0)),
+            "information_starved_accuracy_mean": float(baseline.get("accuracy_mean", 0.0)),
             "matched_random_accuracy_mean": float(matched.get("accuracy_mean", 0.0)),
             "parameter_matched_accuracy_mean": float(param.get("accuracy_mean", 0.0)),
             "compute_matched_accuracy_mean": float(compute.get("accuracy_mean", 0.0)),
             "dgt_ood_accuracy_mean": float(dgt.get("ood_accuracy_mean", 0.0)),
-            "base_ood_accuracy_mean": float(base.get("ood_accuracy_mean", 0.0)),
+            "information_starved_ood_accuracy_mean": float(baseline.get("ood_accuracy_mean", 0.0)),
             "matched_random_ood_accuracy_mean": float(matched.get("ood_accuracy_mean", 0.0)),
             "parameter_matched_ood_accuracy_mean": float(param.get("ood_accuracy_mean", 0.0)),
             "compute_matched_ood_accuracy_mean": float(compute.get("ood_accuracy_mean", 0.0)),
             "dgt_loss_decrease_mean": float(dgt.get("loss_decrease_mean", 0.0)),
-            "base_loss_decrease_mean": float(base.get("loss_decrease_mean", 0.0)),
+            "information_starved_loss_decrease_mean": float(baseline.get("loss_decrease_mean", 0.0)),
             "matched_random_loss_decrease_mean": float(matched.get("loss_decrease_mean", 0.0)),
             "parameter_matched_loss_decrease_mean": float(param.get("loss_decrease_mean", 0.0)),
             "compute_matched_loss_decrease_mean": float(compute.get("loss_decrease_mean", 0.0)),
         }
-        metrics["dgt_minus_base_accuracy"] = round(
-            metrics["dgt_accuracy_mean"] - metrics["base_accuracy_mean"],
+        metrics["dgt_minus_information_starved_accuracy"] = round(
+            metrics["dgt_accuracy_mean"] - metrics["information_starved_accuracy_mean"],
             6,
         )
         metrics["dgt_minus_matched_accuracy"] = round(
@@ -677,8 +688,8 @@ def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1Trainin
         "convergence_crossover": crossover,
         "hardgates": hardgates,
         "mechanical_decision_table": {
-            "base_catches_up_and_matched_random_clear": "base-catches-up",
-            "no_base_crossover_and_matched_random_clear": "separation-persists",
+            "information_starved_catches_up_and_matched_random_clear": "information-starved-catches-up",
+            "no_information_starved_crossover_and_matched_random_clear": "scoped-review-signal",
             "any_l1step_hardgate_failure_or_matched_random_crossover": "inconclusive",
         },
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -757,48 +768,73 @@ def source_regression_guard() -> dict[str, Any]:
 
 def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
     dgt = summaries["dgt_l1"]["metrics"]
-    base = summaries["base_transformer_l1"]["metrics"]
+    baseline = summaries["information_starved_l1_baseline"]["metrics"]
     matched = summaries["matched_random_structural_l1"]["metrics"]
     guard = source_regression_guard()
     rows = [
         {
-            "witness": "order_one_proxy_leakage",
+            "witness": "information_starved_baseline",
+            "hardgate_id": "ISB-HG",
             "critical": True,
-            "hit_count": int(base["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
-            "hit_logic": "base accuracy mean must stay below DGT mean minus L1 margin",
-            "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
+            "hit_count": int(baseline["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
+            "hit_logic": "information-starved baseline accuracy mean must stay below DGT mean minus L1 margin",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_information_starved_baseline",
+            "claim_downgrade": "bounded in-distribution review signal only",
+            "not_claimed": "No claim that DGT is empirically better than Transformer in general.",
+            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
+            "taint_status": "tainted-l1-review-only",
         },
         {
-            "witness": "matched_random_positive_control",
-            "critical": True,
-            "hit_count": int(matched["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
-            "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
-            "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
-        },
-        {
-            "witness": "ood_pair_shuffle_instability",
+            "witness": "unanswerable_ood",
+            "hardgate_id": "UOOD-HG",
             "critical": True,
             "hit_count": int(dgt["ood_accuracy_mean"] >= dgt["accuracy_mean"]),
             "hit_logic": "OOD shuffled-pair dependency must not inflate the positive slice",
-            "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.ood_boundary",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1.metrics.ood_accuracy_mean",
+            "claim_downgrade": "OOD generalization not claimed",
+            "not_claimed": "No claim that DGT generalizes to tiny-sequence OOD splits.",
+            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
+            "taint_status": "tainted-ood-not-claimed",
         },
         {
-            "witness": "scripted_metric_table",
+            "witness": "table_coverage_saturation",
+            "hardgate_id": "TCS-HG",
+            "critical": True,
+            "hit_count": int(matched["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
+            "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_matched_random",
+            "claim_downgrade": "table-coverage result cannot be promoted to general scaling",
+            "not_claimed": "No L1 scaling success claim.",
+            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
+            "taint_status": "tainted-coverage-local",
+        },
+        {
+            "witness": "hand_engineered_task_aligned_gate",
+            "hardgate_id": "HEG-HG",
             "critical": True,
             "hit_count": int(guard["status"] != "pass"),
             "hit_logic": "owner source must contain real torch optimizer updates and no scripted metric table token",
-            "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.source_artifacts.order_k_required_order_row",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.source_regression_guard",
+            "claim_downgrade": "hand-engineered order-two task gate remains a bounded fixture",
+            "not_claimed": "No claim that the model learned an order-2 rule as a causal component.",
+            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
+            "taint_status": "tainted-hand-engineered-task",
         },
     ]
     for row in rows:
-        row["regression_test_pointer_resolves"] = _regression_test_pointer_resolves(str(row["regression_test_pointer"]))
+        row["regression_test_pointer"] = row["regression_test"]
+        row["regression_test_pointer_resolves"] = _regression_test_pointer_resolves(str(row["regression_test"]))
     critical_hits = sum(int(row["hit_count"]) for row in rows if row["critical"])
     pointers_resolve = all(bool(row["regression_test_pointer_resolves"]) for row in rows)
     return {
         "status": "pass" if rows and critical_hits == 0 and pointers_resolve else "fail",
         "required_witnesses": list(REQUIRED_WITNESSES),
         "critical_hit_count": critical_hits,
-        "witness_rows": rows,
+        "rows": rows,
         "source_regression_guard": guard,
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
     }
@@ -817,8 +853,9 @@ def _independent_replay(task_spec: Mapping[str, Any], records: Sequence[Mapping[
         cells = {row["arm_id"]: row for row in records if int(row["seed"]) == seed}
         if set(cells) == set(ARM_IDS):
             by_seed[seed] = {
-                "dgt_minus_base_accuracy": round(
-                    float(cells["dgt_l1"]["metrics"]["accuracy"]) - float(cells["base_transformer_l1"]["metrics"]["accuracy"]),
+                "dgt_minus_information_starved_accuracy": round(
+                    float(cells["dgt_l1"]["metrics"]["accuracy"])
+                    - float(cells["information_starved_l1_baseline"]["metrics"]["accuracy"]),
                     6,
                 ),
                 "dgt_minus_matched_accuracy": round(
@@ -838,7 +875,10 @@ def _independent_replay(task_spec: Mapping[str, Any], records: Sequence[Mapping[
     metric_tolerance_rows = [
         {
             "seed": seed,
-            "status": "pass" if row["dgt_minus_base_accuracy"] >= -REPLAY_TOLERANCE and row["dgt_minus_matched_accuracy"] >= -REPLAY_TOLERANCE else "fail",
+            "status": "pass"
+            if row["dgt_minus_information_starved_accuracy"] >= -REPLAY_TOLERANCE
+            and row["dgt_minus_matched_accuracy"] >= -REPLAY_TOLERANCE
+            else "fail",
             **row,
         }
         for seed, row in by_seed.items()
@@ -952,6 +992,10 @@ def _arm_cell(arms: Mapping[str, Any], arm_id: str) -> Mapping[str, Any] | None:
     return cell if isinstance(cell, Mapping) else None
 
 
+def _exact_arm_key_set(value: Mapping[str, Any]) -> bool:
+    return set(value) == set(ARM_IDS)
+
+
 def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
     arms = _mapping_cell(payload, "training_arms")
     return {
@@ -966,7 +1010,7 @@ def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
         "review_status": payload.get("review_status"),
         "promotion_readiness": payload.get("promotion_readiness"),
         "dgt": _arm_cell(arms, "dgt_l1"),
-        "base": _arm_cell(arms, "base_transformer_l1"),
+        "information_starved_baseline": _arm_cell(arms, "information_starved_l1_baseline"),
         "matched": _arm_cell(arms, "matched_random_structural_l1"),
         "parameter_matched": _arm_cell(arms, "parameter_matched_l1"),
         "compute_matched": _arm_cell(arms, "compute_matched_l1"),
@@ -997,7 +1041,7 @@ def _matched_random_positive_control(dgt: Mapping[str, Any] | None, matched: Map
 
 def _arm_seed_complete(arms: Mapping[str, Any], seed_count: int = 16) -> bool:
     return (
-        tuple(arms) == ARM_IDS
+        _exact_arm_key_set(arms)
         and all(
             isinstance(row, Mapping)
             and row.get("status") == "pass"
@@ -1067,14 +1111,14 @@ def _gate_l1_hg1(context: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _gate_l1_hg2(context: Mapping[str, Any]) -> dict[str, Any]:
-    paired = context["paired"].get("dgt_minus_base")
+    paired = context["paired"].get("dgt_minus_information_starved_baseline")
     return _gate(
         isinstance(paired, Mapping)
         and int(paired.get("seed_count", 0)) >= 16
         and float(paired.get("delta_ci95_low", 0.0)) > 0.0,
         "L1-REVIEW-HG2",
-        "seed-paired DGT minus base in-distribution accuracy CI95-low is positive",
-        "$.paired_accuracy.dgt_minus_base.delta_ci95_low",
+        "seed-paired DGT minus information-starved baseline in-distribution accuracy CI95-low is positive",
+        "$.paired_accuracy.dgt_minus_information_starved_baseline.delta_ci95_low",
     )
 
 
@@ -1137,7 +1181,7 @@ def _gate_l1_hg5(context: Mapping[str, Any]) -> dict[str, Any]:
 def _gate_l1_hg6(context: Mapping[str, Any]) -> dict[str, Any]:
     replay = context["replay"]
     negative = context["negative"]
-    witness_rows = negative.get("witness_rows", [])
+    witness_rows = negative.get("rows", [])
     ladder = context["l1_step_ladder"]
     return _gate(
         replay.get("status") == "pass"
@@ -1195,9 +1239,12 @@ def _gate_l1step_hg1(
         and len(per_step) == len(step_grid)
         and all(
             isinstance(step, Mapping)
-            and tuple(step.get("training_arms", {})) == ARM_IDS
+            and isinstance(step.get("training_arms"), Mapping)
+            and _exact_arm_key_set(step["training_arms"])
+            and isinstance(step.get("seed_counts"), Mapping)
+            and _exact_arm_key_set(step["seed_counts"])
             and int(step.get("training_steps", -1)) == step_grid[index]
-            and all(int(count) == seed_count and int(count) >= 16 for count in step.get("seed_counts", {}).values())
+            and all(int(count) == seed_count and int(count) >= 16 for count in step["seed_counts"].values())
             for index, step in enumerate(per_step)
         )
         and len(step_rows) == len(step_grid)
@@ -1211,7 +1258,7 @@ def _gate_l1step_hg1(
         complete_cells,
         "L1STEP-HG1",
         f"canonical step grid has {expected_cells} step/arm/seed CPU training cells",
-        "$.l1_step_ladder.step_rows",
+        "$.l1_step_ladder.per_step",
     )
 
 
@@ -1329,7 +1376,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "task_family": "bounded_tiny_sequence_order_k",
             "task_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
             "candidate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1",
-            "base_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.base_transformer_l1",
+            "information_starved_baseline_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
             "matched_random_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
             "parameter_matched_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_l1",
             "compute_matched_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
@@ -1351,7 +1398,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "evidence_pointers": [
             f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1",
-            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.base_transformer_l1",
+            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_l1",
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
@@ -1471,10 +1518,10 @@ def build_payload(
     compute = _compute_ledger(summaries)
     params = _parameter_ledger(summaries)
     paired_accuracy = {
-        "dgt_minus_base": _paired_accuracy_stats(
+        "dgt_minus_information_starved_baseline": _paired_accuracy_stats(
             primary_records,
             candidate_arm="dgt_l1",
-            control_arm="base_transformer_l1",
+            control_arm="information_starved_l1_baseline",
         ),
         "dgt_minus_matched_random": _paired_accuracy_stats(
             primary_records,
@@ -1499,6 +1546,7 @@ def build_payload(
         "paired_accuracy": paired_accuracy,
         "negative_witness_sweep": negative,
         "independent_replay": replay,
+        "source_regression_guard": negative["source_regression_guard"],
         "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
         "review_status": "pass",
@@ -1538,6 +1586,7 @@ def _required_fields() -> set[str]:
         "paired_accuracy",
         "negative_witness_sweep",
         "independent_replay",
+        "source_regression_guard",
         "owner_local_measurement_boundary",
         "l1_step_ladder",
         "review_status",
@@ -1569,7 +1618,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 task exceeds example bounds")
     _resolve_order_k_source(task, root=root)
     arms = payload["training_arms"]
-    if not isinstance(arms, Mapping) or tuple(arms) != ARM_IDS:
+    if not isinstance(arms, Mapping) or not _exact_arm_key_set(arms):
         raise ValueError("DGT L1 training arms mismatch")
     for arm_id, row in arms.items():
         if row.get("status") != "pass":
@@ -1591,7 +1640,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     if not isinstance(paired, Mapping):
         raise ValueError("DGT L1 paired accuracy missing")
     for key, control_arm in (
-        ("dgt_minus_base", "base_transformer_l1"),
+        ("dgt_minus_information_starved_baseline", "information_starved_l1_baseline"),
         ("dgt_minus_matched_random", "matched_random_structural_l1"),
     ):
         cell = paired.get(key)
@@ -1602,7 +1651,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         if int(cell.get("seed_count", 0)) < 16:
             raise ValueError(f"DGT L1 paired accuracy seed count too small: {key}")
         if float(cell.get("delta_ci95_low", 0.0)) <= 0.0:
-            gate_id = "L1-REVIEW-HG2" if key == "dgt_minus_base" else "L1-REVIEW-HG3"
+            gate_id = "L1-REVIEW-HG2" if key == "dgt_minus_information_starved_baseline" else "L1-REVIEW-HG3"
             raise ValueError(f"{gate_id} DGT L1 paired accuracy CI-low not positive: {key}")
         rows = cell.get("rows")
         deltas = cell.get("deltas")
@@ -1633,7 +1682,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     if ladder.get("convergence_crossover") != crossover:
         raise ValueError("DGT L1 step ladder crossover mismatch")
     expected_verdict = derive_l1_step_ladder_verdict(crossover, ladder_gates)
-    if ladder.get("verdict") not in {"separation-persists", "base-catches-up", "inconclusive"}:
+    if ladder.get("verdict") not in {"scoped-review-signal", "information-starved-catches-up", "inconclusive"}:
         raise ValueError("DGT L1 step ladder verdict invalid")
     if ladder.get("verdict") != expected_verdict:
         raise ValueError("DGT L1 step ladder verdict mismatch")
@@ -1646,6 +1695,49 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
+    negative = payload["negative_witness_sweep"]
+    if not isinstance(negative, Mapping) or negative.get("status") != "pass":
+        raise ValueError("DGT L1 negative witness sweep must pass")
+    rows = negative.get("rows")
+    if not isinstance(rows, list) or [row.get("witness") for row in rows] != list(REQUIRED_WITNESSES):
+        raise ValueError("DGT L1 negative witness rows mismatch")
+    expected_gate_ids = ("ISB-HG", "UOOD-HG", "TCS-HG", "HEG-HG")
+    for row, gate_id in zip(rows, expected_gate_ids):
+        required_row_keys = {
+            "witness",
+            "hardgate_id",
+            "critical",
+            "hit_count",
+            "hit_logic",
+            "source_pointer",
+            "evidence_pointer",
+            "claim_downgrade",
+            "not_claimed",
+            "regression_test",
+            "taint_status",
+            "regression_test_pointer",
+            "regression_test_pointer_resolves",
+        }
+        if set(row) != required_row_keys:
+            raise ValueError("DGT L1 negative witness row schema mismatch")
+        if row["hardgate_id"] != gate_id:
+            raise ValueError("DGT L1 negative witness hardgate mismatch")
+        if int(row["hit_count"]) != 0 or row["critical"] is not True:
+            raise ValueError("DGT L1 negative witness hit count must be zero")
+        if not _owner_pointer_resolves(payload, str(row["source_pointer"])):
+            raise ValueError("DGT L1 negative witness source pointer does not resolve")
+        if not _owner_pointer_resolves(payload, str(row["evidence_pointer"])):
+            raise ValueError("DGT L1 negative witness evidence pointer does not resolve")
+        if row["regression_test_pointer"] != row["regression_test"] or row["regression_test_pointer_resolves"] is not True:
+            raise ValueError("DGT L1 negative witness regression test pointer does not resolve")
+        if not isinstance(row["claim_downgrade"], str) or not row["claim_downgrade"]:
+            raise ValueError("DGT L1 negative witness claim downgrade missing")
+        if not isinstance(row["not_claimed"], str) or not row["not_claimed"]:
+            raise ValueError("DGT L1 negative witness not_claimed missing")
+        if not isinstance(row["taint_status"], str) or not row["taint_status"].startswith("tainted-"):
+            raise ValueError("DGT L1 negative witness taint status missing")
+    if "witness_rows" in negative:
+        raise ValueError("DGT L1 negative witness sweep must use rows only")
     expected_capsule = build_claim_capsule(payload, expected_gates)
     if payload["claim_capsule_ref"] != expected_capsule:
         raise ValueError("DGT L1 ClaimCapsule mismatch")
@@ -1705,9 +1797,9 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "- "
             f"`{row['training_steps']}` steps: "
             f"DGT acc `{metrics['dgt_accuracy_mean']:.6f}`, "
-            f"base acc `{metrics['base_accuracy_mean']:.6f}`, "
+            f"information-starved acc `{metrics['information_starved_accuracy_mean']:.6f}`, "
             f"matched-random acc `{metrics['matched_random_accuracy_mean']:.6f}`, "
-            f"DGT-base gap `{metrics['dgt_minus_base_accuracy']:.6f}`"
+            f"DGT-information-starved gap `{metrics['dgt_minus_information_starved_accuracy']:.6f}`"
         )
     lines.extend(["", "## L1 Step Hardgates", ""])
     for gate_id, row in ladder["hardgates"].items():

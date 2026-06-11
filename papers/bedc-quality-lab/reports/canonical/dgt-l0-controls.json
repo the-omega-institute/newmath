@@ -49,6 +49,18 @@
     "trainable_parameter_count": 2175,
     "wall_time_proxy": 7.6032
   },
+  "construct_suspension": {
+    "headline_status": "suspended-construct-review",
+    "ladder_consumption_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.construct_suspension_ref",
+    "not_claimed": [
+      "No L0 construct review is promoted to L1 or higher.",
+      "No production scale claim.",
+      "No global superiority claim."
+    ],
+    "owner_module": "bedc_quality_lab/dgt_l0_controls.py",
+    "pointer": "reports/canonical/dgt-l0-controls.json:$.construct_suspension",
+    "taint_status": "tainted-l0-construct-review-only"
+  },
   "controls": {
     "base_transformer_control": {
       "UER": 0.195,
@@ -153,6 +165,10 @@
   "l0_toy_projection": {
     "blocked_reason": null,
     "claim_scope": "bounded L0 toy training controls",
+    "construct_suspension_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.construct_suspension"
+    },
     "evidence_refs": {
       "base_transformer_control": {
         "artifact": "reports/canonical/dgt-l0-controls.json",

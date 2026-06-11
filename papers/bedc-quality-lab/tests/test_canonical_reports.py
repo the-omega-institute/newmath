@@ -1092,6 +1092,48 @@ def _write_release_pointer_fixture(root):
     (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
+    (canonical_dir / "dgt-l0-controls.json").write_text(
+        json.dumps(
+            {
+                "construct_suspension": {
+                    "headline_status": "suspended-construct-review",
+                    "taint_status": "tainted-l0-construct-review-only",
+                },
+                "l0_toy_projection": {"review_status": "pass", "status": "pass"},
+                "negative_witness_sweep": {"status": "pass"},
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "dgt-l1-controls.json").write_text(
+        json.dumps(
+            {
+                "l1_tiny_sequence_projection": {
+                    "review_status": "pass",
+                    "promotion_readiness": "ready-pass",
+                    "not_claimed": [
+                        "Bounded tiny-sequence order-k training only.",
+                        "No production deployment claim.",
+                        "No global superiority claim.",
+                        "No LLM replacement claim.",
+                        "No L2 or higher scaling claim.",
+                    ],
+                },
+                "negative_witness_sweep": {
+                    "status": "pass",
+                    "rows": [
+                        {"witness": "information_starved_baseline"},
+                        {"witness": "unanswerable_ood"},
+                        {"witness": "table_coverage_saturation"},
+                        {"witness": "hand_engineered_task_aligned_gate"},
+                    ],
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     (root / "docs" / "artifact_manifest.md").write_text(
         "# Artifact Manifest\n\n"
         "## Quality Baseline Surfaces\n\n"
@@ -3189,6 +3231,18 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["artifact_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID
     assert payload["producer"] == "scripts/run_discovery_gated_transformer.py"
     assert payload["model_id"] == "discovery-gated-transformer"
+    assert payload["source_artifacts"]["construct_suspension_ref"] == {
+        "artifact": canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.construct_suspension",
+    }
+    assert payload["source_artifacts"]["interpretation_boundary_ref"] == {
+        "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
+    }
+    assert payload["source_artifacts"]["negative_witness_sweep_ref"] == {
+        "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.negative_witness_sweep",
+    }
     assert payload["architecture_spec"]["architecture_id"] == "discovery-gated-transformer"
     assert payload["tool_route_evidence"]["schema_id"] == "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
     assert payload["tool_route_evidence"]["hardgate"]["status"] == "pass"
@@ -3440,9 +3494,12 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "scaling_ladder_hardgate_pointer",
         "scaling_ladder_source_projection_pointer",
         "l0_control_projection_pointer",
+        "construct_suspension_ref_pointer",
         "l0_control_ledger_pointer",
         "l0_control_negative_witness_pointer",
         "l1_control_projection_pointer",
+        "interpretation_boundary_ref_pointer",
+        "negative_witness_sweep_ref_pointer",
         "l1_control_step_ladder_pointer",
         "l1_control_step_ladder_verdict_pointer",
         "l1_control_step_ladder_crossover_pointer",
@@ -6207,7 +6264,8 @@ def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkey
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
-    (tmp_path / "reports").mkdir(parents=True)
+    _write_release_pointer_fixture(tmp_path)
+    (tmp_path / "reports").mkdir(parents=True, exist_ok=True)
     (tmp_path / "reports" / "release_manifest_sidecar.json").write_text(
         json.dumps(
             {
@@ -6300,6 +6358,7 @@ def test_toy_latent_planning_bedc_sidecar_index_is_pointer_only(tmp_path, monkey
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
     section = canonical._toy_latent_planning_bedc_index_section()
     payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
     markdown = canonical._render_index_markdown(payload)

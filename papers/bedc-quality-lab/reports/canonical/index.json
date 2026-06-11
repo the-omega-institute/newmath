@@ -223,6 +223,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.hardgate",
+        "report": "mechanism-dna"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.l0_toy_projection",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.l0_toy_projection.review_status",
@@ -307,24 +314,10 @@
       },
       {
         "bundle_role": "auxiliary",
-        "control_pointer": null,
-        "no_control_rationale_pointer": "$.not_claimed",
-        "positive_claim_pointer": "$.hardgate",
-        "report": "mechanism-dna"
-      },
-      {
-        "bundle_role": "auxiliary",
         "control_pointer": "$.hardgates.MC-HG9",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.hardgates.MC-HG7",
         "report": "model-comparison"
-      },
-      {
-        "bundle_role": "auxiliary",
-        "control_pointer": "$.matched_controls",
-        "no_control_rationale_pointer": null,
-        "positive_claim_pointer": "$.dgt_mechanism_cert",
-        "report": "causal-patch-suite"
       },
       {
         "bundle_role": "hg_p_core",
@@ -332,6 +325,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.review_rows",
         "report": "high-impact-review"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.matched_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.dgt_mechanism_cert",
+        "report": "causal-patch-suite"
       },
       {
         "bundle_role": "auxiliary",
@@ -406,10 +406,10 @@
     "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
     "schema_id": "bedc-quality-lab:dgt-l1-controls",
     "status": "pass",
-    "step_ladder_crossover": "no-base-crossover-observed",
+    "step_ladder_crossover": "no-information-starved-crossover-observed",
     "step_ladder_crossover_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
     "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-    "step_ladder_verdict": "separation-persists",
+    "step_ladder_verdict": "scoped-review-signal",
     "step_ladder_verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict",
     "task_spec_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
   },
@@ -436,6 +436,7 @@
     "component_ablation_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.hardgate",
     "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
     "component_refs_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+    "construct_suspension_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.source_artifacts.construct_suspension_ref",
     "d4_projection_discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
     "d4_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
     "d4_projection_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection_ref",
@@ -476,6 +477,7 @@
     },
     "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate",
     "hardgate_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate_ref",
+    "interpretation_boundary_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.source_artifacts.interpretation_boundary_ref",
     "jet_certificate_pointer": "reports/runs/discovery-gated-transformer/jet_certificate.json:$",
     "jet_certificate_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
     "jet_hardgate_pointer": "reports/runs/discovery-gated-transformer/jet_certificate.json:$.hardgate",
@@ -493,6 +495,7 @@
     "mechanism_namecert_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
     "model_family_claim_status_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status",
     "model_id_pointer": "reports/canonical/discovery-gated-transformer.json:$.model_id",
+    "negative_witness_sweep_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.source_artifacts.negative_witness_sweep_ref",
     "neural_ablation_claim_capsule_pointer": "reports/canonical/dgt-neural-ablation.json:$.claim_capsule_ref",
     "neural_ablation_component_claim_pointer": "reports/canonical/dgt-neural-ablation.json:$.component_causal_claims",
     "neural_ablation_hardgate_pointer": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
@@ -647,7 +650,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-09T08:21:49.156738+00:00",
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -1006,6 +1009,7 @@
   "paper_outline": {
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",
+      "mechanism-dna",
       "dgt-l0-controls",
       "dgt-l1-controls",
       "dgt-base-undertraining-audit",
@@ -1016,7 +1020,6 @@
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
-      "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
       "claim-complexity"
@@ -1091,7 +1094,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "0ed986fb7b08f49c2c9f78e2b0cf84b419c664b0eaad20dc6e525b6f2099b9df",
+    "source_sidecar_digest": "9608754035956822c13286fc0eea763a14ff5e0a8eb366a1e23c9fc9a371e567",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -3546,6 +3549,124 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgate",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/mechanism_dna.json:$",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.hardgate",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:mechanism-dna]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=mechanism-dna].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/mechanism_dna.json:$.hardgate",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=mechanism-dna]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/mechanism_dna.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/mechanism_dna.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/mechanism_dna.json",
+      "markdown_artifact": "reports/canonical/mechanism_dna.md",
+      "name": "mechanism-dna",
+      "producer_command": [
+        "python3",
+        "scripts/run_mechanism_dna.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "deterministic_seed",
+          "source_artifacts",
+          "rows",
+          "hardgate",
+          "not_claimed",
+          "forbidden_alias_audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.l0_toy_projection",
         "control_status": "present",
         "cost_pointer": "$.compute_param_ledger",
@@ -3747,10 +3868,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for dgt-l1-controls: input-fingerprint",
       "estimated_seconds": 10,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/dgt-l1-controls.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/dgt-l1-controls.json",
       "markdown_artifact": "reports/canonical/dgt-l1-controls.md",
       "name": "dgt-l1-controls",
@@ -3758,8 +3880,8 @@
         "python3",
         "scripts/run_dgt_l1_controls.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
@@ -3876,10 +3998,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for dgt-base-undertraining-audit: input-fingerprint",
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/dgt-base-undertraining-audit.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
       "name": "dgt-base-undertraining-audit",
@@ -3887,8 +4010,8 @@
         "python3",
         "scripts/run_dgt_base_undertraining_audit.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
@@ -4127,10 +4250,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for dgt-neural-ablation: input-fingerprint",
       "estimated_seconds": 10,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/dgt-neural-ablation.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/dgt-neural-ablation.json",
       "markdown_artifact": "reports/canonical/dgt-neural-ablation.md",
       "name": "dgt-neural-ablation",
@@ -4138,8 +4262,8 @@
         "python3",
         "scripts/run_dgt_neural_ablation.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
@@ -5067,124 +5191,6 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
-        "control_pointer": null,
-        "control_status": "not-applicable",
-        "cost_pointer": "$.source_artifacts",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "not-applicable",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": "$.not_claimed",
-        "no_control_rationale_status": "present",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.hardgate",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "not-applicable",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/mechanism_dna.json:$",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.hardgate",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:mechanism-dna]",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "missing"
-            },
-            "cost_protocol": {
-              "pointer": "$.source_artifacts",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=mechanism-dna].discovery_level",
-              "source_artifact": "reports/canonical/discovery_map.json",
-              "status": "missing"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/mechanism_dna.json:$.hardgate",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=mechanism-dna]",
-              "source_artifact": "reports/canonical/formal_hardening.json",
-              "status": "missing"
-            },
-            "negative_witness": {
-              "pointer": null,
-              "source_artifact": null,
-              "status": "not-applicable"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/mechanism_dna.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": false,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "not-applicable"
-        },
-        "scope_pointer": "$.not_claimed",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 1,
-      "fingerprint_reason": "match",
-      "fingerprint_sidecar": "reports/canonical/mechanism_dna.fingerprint.json",
-      "fingerprint_status": "match",
-      "json_artifact": "reports/canonical/mechanism_dna.json",
-      "markdown_artifact": "reports/canonical/mechanism_dna.md",
-      "name": "mechanism-dna",
-      "producer_command": [
-        "python3",
-        "scripts/run_mechanism_dna.py"
-      ],
-      "producer_status": "skipped",
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "deterministic_seed",
-          "source_artifacts",
-          "rows",
-          "hardgate",
-          "not_claimed",
-          "forbidden_alias_audit"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
-    },
-    {
-      "bundle_role": "auxiliary",
-      "discipline": {
-        "bundle_role": "auxiliary",
         "control_pointer": "$.hardgates.MC-HG9",
         "control_status": "present",
         "cost_pointer": "$.source_reports",
@@ -5291,6 +5297,122 @@
           "hardgates",
           "not_claimed",
           "source_reports"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.hardgates",
+        "control_status": "present",
+        "cost_pointer": "$.hardgates",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.review_rows",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "positive-promotion",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/high-impact-review.json:$",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.review_rows",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "present"
+            },
+            "cost_protocol": {
+              "pointer": "$.hardgates",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "$.review_rows",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/high-impact-review.json:$.hardgates",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/high-impact-review.json:$.review_rows",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/discovery_negative_witness_summary.json:$.rows[?report=high-impact-review]",
+              "source_artifact": "reports/canonical/discovery_negative_witness_summary.json",
+              "status": "missing"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.review_rows",
+              "source_artifact": "reports/canonical/high-impact-review.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": true,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "pass"
+        },
+        "scope_pointer": "$.review_rows",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/high-impact-review.json",
+      "markdown_artifact": "reports/canonical/high-impact-review.md",
+      "name": "high-impact-review",
+      "producer_command": [
+        "python3",
+        "scripts/run_high_impact_review.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "review_rows",
+          "hardgates",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -5422,122 +5544,6 @@
       }
     },
     {
-      "bundle_role": "hg_p_core",
-      "discipline": {
-        "bundle_role": "hg_p_core",
-        "control_pointer": "$.hardgates",
-        "control_status": "present",
-        "cost_pointer": "$.hardgates",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "pass",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": null,
-        "no_control_rationale_status": "not-applicable",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.review_rows",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "positive-promotion",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/high-impact-review.json:$",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.review_rows",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "present"
-            },
-            "cost_protocol": {
-              "pointer": "$.hardgates",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "$.review_rows",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/high-impact-review.json:$.hardgates",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/high-impact-review.json:$.review_rows",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "negative_witness": {
-              "pointer": "reports/canonical/discovery_negative_witness_summary.json:$.rows[?report=high-impact-review]",
-              "source_artifact": "reports/canonical/discovery_negative_witness_summary.json",
-              "status": "missing"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.review_rows",
-              "source_artifact": "reports/canonical/high-impact-review.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": true,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "pass"
-        },
-        "scope_pointer": "$.review_rows",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 1,
-      "fingerprint_reason": "match",
-      "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "match",
-      "json_artifact": "reports/canonical/high-impact-review.json",
-      "markdown_artifact": "reports/canonical/high-impact-review.md",
-      "name": "high-impact-review",
-      "producer_command": [
-        "python3",
-        "scripts/run_high_impact_review.py"
-      ],
-      "producer_status": "skipped",
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "source_artifacts",
-          "review_rows",
-          "hardgates",
-          "not_claimed"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
-    },
-    {
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
@@ -5622,10 +5628,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for claim-complexity: input-fingerprint",
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -5633,8 +5640,8 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [

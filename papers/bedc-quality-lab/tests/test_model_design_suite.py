@@ -119,7 +119,7 @@ def _write_suite_dependencies(root):
                 "convergence_crossover": {"status": "fixture"},
                 "hardgates": {"L1STEP-HG1": {"status": "pass"}},
                 "not_claimed": ["fixture"],
-                "verdict": "separation-persists",
+                "verdict": "scoped-review-signal",
             }
         },
     )

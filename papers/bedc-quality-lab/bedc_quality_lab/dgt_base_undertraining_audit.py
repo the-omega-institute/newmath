@@ -19,8 +19,8 @@ CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.fingerprint.json"
 CONTROLLER_EVIDENCE_POINTER = "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911"
 FAIR_RECONSTRUCTION_POINTER = "https://github.com/the-omega-institute/newmath/issues/1196"
-FEATURE_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:239"
-LABEL_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:205"
+FEATURE_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:_TinySequenceModel._features"
+LABEL_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:_make_sequences"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease")
 REQUIRED_BASE_GRID = (36, 72, 128, 256, 512)
@@ -256,7 +256,7 @@ def _comparison_row(
             ci_low_separation=None,
             decision=missing_reason or "required-evidence-missing",
         )
-    base_metric = _metric(source_row, "base_accuracy_mean")
+    base_metric = _metric(source_row, "information_starved_accuracy_mean")
     dgt_metric = _metric(source_row, "dgt_accuracy_mean")
     if base_metric is None or dgt_metric is None:
         status = "missing"
@@ -267,7 +267,7 @@ def _comparison_row(
         ci_low = dgt_metric - base_metric
         ci_overlap = ci_low <= 0.0
         status = "resolved"
-        decision = "base-catches-up" if ci_overlap else "noninformative-dgt-separated"
+        decision = "information-starved-catches-up" if ci_overlap else "noninformative-dgt-separated"
     return BaseUndertrainingComparisonRow(
         comparison_id=comparison_id,
         status=status,
@@ -349,12 +349,16 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     equal_compute_match = (
         None
         if dgt_compute is None
-        else _nearest_by_value(rows, value_getter=lambda row: _compute(row, "base_transformer_l1"), target=dgt_compute)
+        else _nearest_by_value(rows, value_getter=lambda row: _compute(row, "information_starved_l1_baseline"), target=dgt_compute)
     )
     equal_loss_match = (
         None
         if dgt_loss_dec is None
-        else _nearest_by_value(rows, value_getter=lambda row: _metric(row, "base_loss_decrease_mean"), target=dgt_loss_dec)
+        else _nearest_by_value(
+            rows,
+            value_getter=lambda row: _metric(row, "information_starved_loss_decrease_mean"),
+            target=dgt_loss_dec,
+        )
     )
     equal_compute = _comparison_row(
         comparison_id="equal_compute",

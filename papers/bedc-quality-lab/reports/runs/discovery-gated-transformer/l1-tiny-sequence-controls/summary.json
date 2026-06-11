@@ -15,7 +15,7 @@
     "evidence_pointers": [
       "reports/canonical/dgt-l1-controls.json:$.task_spec",
       "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
-      "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
+      "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
       "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
       "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_l1",
       "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_l1",
@@ -41,7 +41,6 @@
     },
     "model_claim": {
       "allowed_claim": "DGT L1 controls are ready for independent review on bounded tiny-sequence order-k training.",
-      "base_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
       "candidate_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
       "compute_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
       "compute_matched_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_l1",
@@ -56,6 +55,7 @@
         "component-causal stability beyond the #1168 measured owner"
       ],
       "independent_replay_pointer": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "information_starved_baseline_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
       "matched_random_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
       "model_id": "discovery-gated-transformer",
       "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
@@ -96,16 +96,16 @@
   "compute_ledger": {
     "compute_units": 618.430464,
     "per_arm": {
-      "base_transformer_l1": {
-        "compute_units": 121.208832,
-        "seed_count": 16
-      },
       "compute_matched_l1": {
         "compute_units": 125.3376,
         "seed_count": 16
       },
       "dgt_l1": {
         "compute_units": 125.3376,
+        "seed_count": 16
+      },
+      "information_starved_l1_baseline": {
+        "compute_units": 121.208832,
         "seed_count": 16
       },
       "matched_random_structural_l1": {
@@ -118,102 +118,6 @@
       }
     },
     "per_seed_step_cell": {
-      "base_transformer_l1:1174": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1174,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1175": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1175,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1176": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1176,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1177": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1177,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1178": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1178,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1179": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1179,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1180": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1180,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1181": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1181,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1182": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1182,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1183": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1183,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1184": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1184,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1185": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1185,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1186": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1186,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1187": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1187,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1188": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1188,
-        "training_steps": 36
-      },
-      "base_transformer_l1:1189": {
-        "arm_id": "base_transformer_l1",
-        "compute_units": 7.575552,
-        "seed": 1189,
-        "training_steps": 36
-      },
       "compute_matched_l1:1174": {
         "arm_id": "compute_matched_l1",
         "compute_units": 7.8336,
@@ -403,6 +307,102 @@
       "dgt_l1:1189": {
         "arm_id": "dgt_l1",
         "compute_units": 7.8336,
+        "seed": 1189,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1174": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1174,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1175": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1175,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1176": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1176,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1177": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1177,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1178": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1178,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1179": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1179,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1180": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1180,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1181": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1181,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1182": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1182,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1183": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1183,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1184": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1184,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1185": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1185,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1186": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1186,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1187": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1187,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1188": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
+        "seed": 1188,
+        "training_steps": 36
+      },
+      "information_starved_l1_baseline:1189": {
+        "arm_id": "information_starved_l1_baseline",
+        "compute_units": 7.575552,
         "seed": 1189,
         "training_steps": 36
       },
@@ -611,8 +611,8 @@
       "status": "pass"
     },
     "L1-REVIEW-HG2": {
-      "criterion": "seed-paired DGT minus base in-distribution accuracy CI95-low is positive",
-      "evidence_pointer": "$.paired_accuracy.dgt_minus_base.delta_ci95_low",
+      "criterion": "seed-paired DGT minus information-starved baseline in-distribution accuracy CI95-low is positive",
+      "evidence_pointer": "$.paired_accuracy.dgt_minus_information_starved_baseline.delta_ci95_low",
       "fail_closed_reason": null,
       "gate_id": "L1-REVIEW-HG2",
       "status": "pass"
@@ -675,128 +675,128 @@
     "metric_tolerance": 0.08,
     "metric_tolerance_rows": [
       {
-        "dgt_minus_base_accuracy": 0.257812,
         "dgt_minus_compute_matched_accuracy": 0.019531,
+        "dgt_minus_information_starved_accuracy": 0.257812,
         "dgt_minus_matched_accuracy": 0.1875,
         "dgt_minus_parameter_matched_accuracy": 0.050781,
         "seed": 1174,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.210938,
         "dgt_minus_compute_matched_accuracy": 0.058594,
+        "dgt_minus_information_starved_accuracy": 0.210938,
         "dgt_minus_matched_accuracy": 0.214844,
         "dgt_minus_parameter_matched_accuracy": 0.03125,
         "seed": 1175,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.292968,
         "dgt_minus_compute_matched_accuracy": 0.109374,
+        "dgt_minus_information_starved_accuracy": 0.292968,
         "dgt_minus_matched_accuracy": 0.34375,
         "dgt_minus_parameter_matched_accuracy": 0.09375,
         "seed": 1176,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.226563,
         "dgt_minus_compute_matched_accuracy": 0.074219,
+        "dgt_minus_information_starved_accuracy": 0.226563,
         "dgt_minus_matched_accuracy": 0.246094,
         "dgt_minus_parameter_matched_accuracy": 0.054687,
         "seed": 1177,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.234375,
         "dgt_minus_compute_matched_accuracy": 0.0625,
+        "dgt_minus_information_starved_accuracy": 0.234375,
         "dgt_minus_matched_accuracy": 0.214844,
         "dgt_minus_parameter_matched_accuracy": 0.046875,
         "seed": 1178,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.292969,
         "dgt_minus_compute_matched_accuracy": 0.125,
+        "dgt_minus_information_starved_accuracy": 0.292969,
         "dgt_minus_matched_accuracy": 0.324219,
         "dgt_minus_parameter_matched_accuracy": 0.070313,
         "seed": 1179,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.253906,
         "dgt_minus_compute_matched_accuracy": 0.066406,
+        "dgt_minus_information_starved_accuracy": 0.253906,
         "dgt_minus_matched_accuracy": 0.246094,
         "dgt_minus_parameter_matched_accuracy": 0.050781,
         "seed": 1180,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.289063,
         "dgt_minus_compute_matched_accuracy": 0.074219,
+        "dgt_minus_information_starved_accuracy": 0.289063,
         "dgt_minus_matched_accuracy": 0.320313,
         "dgt_minus_parameter_matched_accuracy": 0.070313,
         "seed": 1181,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.191406,
         "dgt_minus_compute_matched_accuracy": 0.078125,
+        "dgt_minus_information_starved_accuracy": 0.191406,
         "dgt_minus_matched_accuracy": 0.203125,
         "dgt_minus_parameter_matched_accuracy": 0.019531,
         "seed": 1182,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.238282,
         "dgt_minus_compute_matched_accuracy": 0.058594,
+        "dgt_minus_information_starved_accuracy": 0.238282,
         "dgt_minus_matched_accuracy": 0.269532,
         "dgt_minus_parameter_matched_accuracy": 0.015625,
         "seed": 1183,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.253906,
         "dgt_minus_compute_matched_accuracy": 0.074219,
+        "dgt_minus_information_starved_accuracy": 0.253906,
         "dgt_minus_matched_accuracy": 0.238281,
         "dgt_minus_parameter_matched_accuracy": 0.035156,
         "seed": 1184,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.207031,
         "dgt_minus_compute_matched_accuracy": 0.042969,
+        "dgt_minus_information_starved_accuracy": 0.207031,
         "dgt_minus_matched_accuracy": 0.210937,
         "dgt_minus_parameter_matched_accuracy": -0.007813,
         "seed": 1185,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.226563,
         "dgt_minus_compute_matched_accuracy": 0.074219,
+        "dgt_minus_information_starved_accuracy": 0.226563,
         "dgt_minus_matched_accuracy": 0.21875,
         "dgt_minus_parameter_matched_accuracy": 0.066407,
         "seed": 1186,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.222656,
         "dgt_minus_compute_matched_accuracy": 0.058594,
+        "dgt_minus_information_starved_accuracy": 0.222656,
         "dgt_minus_matched_accuracy": 0.25,
         "dgt_minus_parameter_matched_accuracy": 0.039063,
         "seed": 1187,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.277344,
         "dgt_minus_compute_matched_accuracy": 0.058594,
+        "dgt_minus_information_starved_accuracy": 0.277344,
         "dgt_minus_matched_accuracy": 0.289063,
         "dgt_minus_parameter_matched_accuracy": 0.039063,
         "seed": 1188,
         "status": "pass"
       },
       {
-        "dgt_minus_base_accuracy": 0.265625,
         "dgt_minus_compute_matched_accuracy": 0.105469,
+        "dgt_minus_information_starved_accuracy": 0.265625,
         "dgt_minus_matched_accuracy": 0.28125,
         "dgt_minus_parameter_matched_accuracy": 0.085938,
         "seed": 1189,
@@ -808,17 +808,6 @@
     "seed_digest": "5050823417166428389c840e63bf008a9d8b9e3066f94e88353d6c4b349be3dc",
     "status": "pass",
     "summary_metrics": {
-      "base_transformer_l1": {
-        "UER_mean": 0.93457,
-        "accuracy_ci95_low": 0.056224,
-        "accuracy_mean": 0.06543,
-        "chance_accuracy": 0.0625,
-        "loss_decrease_mean": 0.099396,
-        "ood_accuracy_ci95_low": 0.063243,
-        "ood_accuracy_mean": 0.06958,
-        "parameter_l2_delta_mean": 3.535782,
-        "positive_margin_over_chance_mean": 0.00293
-      },
       "compute_matched_l1": {
         "UER_mean": 0.759521,
         "accuracy_ci95_low": 0.228035,
@@ -840,6 +829,17 @@
         "ood_accuracy_mean": 0.06958,
         "parameter_l2_delta_mean": 7.381633,
         "positive_margin_over_chance_mean": 0.249268
+      },
+      "information_starved_l1_baseline": {
+        "UER_mean": 0.93457,
+        "accuracy_ci95_low": 0.056224,
+        "accuracy_mean": 0.06543,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.099396,
+        "ood_accuracy_ci95_low": 0.063243,
+        "ood_accuracy_mean": 0.06958,
+        "parameter_l2_delta_mean": 3.535782,
+        "positive_margin_over_chance_mean": 0.00293
       },
       "matched_random_structural_l1": {
         "UER_mean": 0.941895,
@@ -868,7 +868,7 @@
   },
   "l1_step_ladder": {
     "arms": [
-      "base_transformer_l1",
+      "information_starved_l1_baseline",
       "dgt_l1",
       "matched_random_structural_l1",
       "parameter_matched_l1",
@@ -878,81 +878,81 @@
       "anchor_accuracy_mean": 0.311768,
       "anchor_arm": "dgt_l1",
       "anchor_training_steps": 36,
-      "base_catches_up": false,
       "crossover_threshold_accuracy": 0.291768,
-      "first_base_crossover_step": null,
+      "first_information_starved_crossover_step": null,
       "first_matched_random_crossover_step": null,
+      "information_starved_catches_up": false,
       "matched_random_catches_up": false,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
       "rows": [
         {
-          "anchor_minus_base_accuracy": 0.246338,
+          "anchor_minus_information_starved_accuracy": 0.246338,
           "anchor_minus_matched_random_accuracy": 0.253663,
-          "base_accuracy_mean": 0.06543,
-          "base_reaches_anchor_tolerance": false,
           "dgt_accuracy_mean": 0.311768,
+          "information_starved_accuracy_mean": 0.06543,
+          "information_starved_reaches_anchor_tolerance": false,
           "matched_random_accuracy_mean": 0.058105,
           "matched_random_reaches_anchor_tolerance": false,
-          "same_step_dgt_minus_base_accuracy": 0.246338,
+          "same_step_dgt_minus_information_starved_accuracy": 0.246338,
           "same_step_dgt_minus_matched_accuracy": 0.253663,
           "training_steps": 36
         },
         {
-          "anchor_minus_base_accuracy": 0.246582,
+          "anchor_minus_information_starved_accuracy": 0.246582,
           "anchor_minus_matched_random_accuracy": 0.249268,
-          "base_accuracy_mean": 0.065186,
-          "base_reaches_anchor_tolerance": false,
           "dgt_accuracy_mean": 0.630859,
+          "information_starved_accuracy_mean": 0.065186,
+          "information_starved_reaches_anchor_tolerance": false,
           "matched_random_accuracy_mean": 0.0625,
           "matched_random_reaches_anchor_tolerance": false,
-          "same_step_dgt_minus_base_accuracy": 0.565673,
+          "same_step_dgt_minus_information_starved_accuracy": 0.565673,
           "same_step_dgt_minus_matched_accuracy": 0.568359,
           "training_steps": 72
         },
         {
-          "anchor_minus_base_accuracy": 0.24292,
+          "anchor_minus_information_starved_accuracy": 0.24292,
           "anchor_minus_matched_random_accuracy": 0.250733,
-          "base_accuracy_mean": 0.068848,
-          "base_reaches_anchor_tolerance": false,
           "dgt_accuracy_mean": 0.9375,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_reaches_anchor_tolerance": false,
           "matched_random_accuracy_mean": 0.061035,
           "matched_random_reaches_anchor_tolerance": false,
-          "same_step_dgt_minus_base_accuracy": 0.868652,
+          "same_step_dgt_minus_information_starved_accuracy": 0.868652,
           "same_step_dgt_minus_matched_accuracy": 0.876465,
           "training_steps": 144
         },
         {
-          "anchor_minus_base_accuracy": 0.24292,
+          "anchor_minus_information_starved_accuracy": 0.24292,
           "anchor_minus_matched_random_accuracy": 0.254639,
-          "base_accuracy_mean": 0.068848,
-          "base_reaches_anchor_tolerance": false,
           "dgt_accuracy_mean": 0.981445,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_reaches_anchor_tolerance": false,
           "matched_random_accuracy_mean": 0.057129,
           "matched_random_reaches_anchor_tolerance": false,
-          "same_step_dgt_minus_base_accuracy": 0.912597,
+          "same_step_dgt_minus_information_starved_accuracy": 0.912597,
           "same_step_dgt_minus_matched_accuracy": 0.924316,
           "training_steps": 288
         },
         {
-          "anchor_minus_base_accuracy": 0.243165,
+          "anchor_minus_information_starved_accuracy": 0.243165,
           "anchor_minus_matched_random_accuracy": 0.25293,
-          "base_accuracy_mean": 0.068603,
-          "base_reaches_anchor_tolerance": false,
           "dgt_accuracy_mean": 0.981934,
+          "information_starved_accuracy_mean": 0.068603,
+          "information_starved_reaches_anchor_tolerance": false,
           "matched_random_accuracy_mean": 0.058838,
           "matched_random_reaches_anchor_tolerance": false,
-          "same_step_dgt_minus_base_accuracy": 0.913331,
+          "same_step_dgt_minus_information_starved_accuracy": 0.913331,
           "same_step_dgt_minus_matched_accuracy": 0.923096,
           "training_steps": 576
         }
       ],
-      "status": "no-base-crossover-observed",
+      "status": "no-information-starved-crossover-observed",
       "tolerance_accuracy": 0.02
     },
     "hardgates": {
       "L1STEP-HG1": {
         "criterion": "canonical step grid has 400 step/arm/seed CPU training cells",
-        "evidence_pointer": "$.l1_step_ladder.step_rows",
+        "evidence_pointer": "$.l1_step_ladder.per_step",
         "fail_closed_reason": null,
         "gate_id": "L1STEP-HG1",
         "status": "pass"
@@ -988,8 +988,8 @@
     },
     "mechanical_decision_table": {
       "any_l1step_hardgate_failure_or_matched_random_crossover": "inconclusive",
-      "base_catches_up_and_matched_random_clear": "base-catches-up",
-      "no_base_crossover_and_matched_random_clear": "separation-persists"
+      "information_starved_catches_up_and_matched_random_clear": "information-starved-catches-up",
+      "no_information_starved_crossover_and_matched_random_clear": "scoped-review-signal"
     },
     "not_claimed": [
       "Bounded tiny-sequence order-k training only.",
@@ -1007,16 +1007,16 @@
         "compute_ledger": {
           "compute_units": 618.430464,
           "per_arm": {
-            "base_transformer_l1": {
-              "compute_units": 121.208832,
-              "seed_count": 16
-            },
             "compute_matched_l1": {
               "compute_units": 125.3376,
               "seed_count": 16
             },
             "dgt_l1": {
               "compute_units": 125.3376,
+              "seed_count": 16
+            },
+            "information_starved_l1_baseline": {
+              "compute_units": 121.208832,
               "seed_count": 16
             },
             "matched_random_structural_l1": {
@@ -1029,102 +1029,6 @@
             }
           },
           "per_seed_step_cell": {
-            "base_transformer_l1:1174": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1174,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1175": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1175,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1176": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1176,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1177": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1177,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1178": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1178,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1179": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1179,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1180": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1180,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1181": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1181,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1182": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1182,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1183": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1183,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1184": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1184,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1185": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1185,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1186": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1186,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1187": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1187,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1188": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1188,
-              "training_steps": 36
-            },
-            "base_transformer_l1:1189": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 7.575552,
-              "seed": 1189,
-              "training_steps": 36
-            },
             "compute_matched_l1:1174": {
               "arm_id": "compute_matched_l1",
               "compute_units": 7.8336,
@@ -1314,6 +1218,102 @@
             "dgt_l1:1189": {
               "arm_id": "dgt_l1",
               "compute_units": 7.8336,
+              "seed": 1189,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1174": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1174,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1175": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1175,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1176": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1176,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1177": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1177,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1178": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1178,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1179": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1179,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1180": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1180,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1181": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1181,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1182": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1182,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1183": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1183,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1184": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1184,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1185": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1185,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1186": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1186,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1187": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1187,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1188": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
+              "seed": 1188,
+              "training_steps": 36
+            },
+            "information_starved_l1_baseline:1189": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 7.575552,
               "seed": 1189,
               "training_steps": 36
             },
@@ -1513,17 +1513,17 @@
           "status": "pass"
         },
         "metrics": {
-          "base_accuracy_mean": 0.06543,
-          "base_loss_decrease_mean": 0.099396,
-          "base_ood_accuracy_mean": 0.06958,
           "compute_matched_accuracy_mean": 0.240478,
           "compute_matched_loss_decrease_mean": 0.44076,
           "compute_matched_ood_accuracy_mean": 0.063965,
           "dgt_accuracy_mean": 0.311768,
           "dgt_loss_decrease_mean": 0.972321,
-          "dgt_minus_base_accuracy": 0.246338,
+          "dgt_minus_information_starved_accuracy": 0.246338,
           "dgt_minus_matched_accuracy": 0.253663,
           "dgt_ood_accuracy_mean": 0.06958,
+          "information_starved_accuracy_mean": 0.06543,
+          "information_starved_loss_decrease_mean": 0.099396,
+          "information_starved_ood_accuracy_mean": 0.06958,
           "matched_random_accuracy_mean": 0.058105,
           "matched_random_loss_decrease_mean": 0.218891,
           "matched_random_ood_accuracy_mean": 0.062012,
@@ -1536,11 +1536,6 @@
           "parameter_count": 8388,
           "parameter_match_tolerance": 0.03,
           "per_arm": {
-            "base_transformer_l1": {
-              "parameter_count": 1644,
-              "parameter_match_ratio_to_dgt": 0.967059,
-              "trainable_parameter_count": 1644
-            },
             "compute_matched_l1": {
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
@@ -1550,6 +1545,11 @@
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
               "trainable_parameter_count": 1700
+            },
+            "information_starved_l1_baseline": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
             },
             "matched_random_structural_l1": {
               "parameter_count": 1644,
@@ -1566,53 +1566,13 @@
         },
         "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[0]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_arms": {
-          "base_transformer_l1": {
-            "arm_id": "base_transformer_l1",
-            "compute_units": 121.208832,
-            "device_requested": "cpu",
-            "device_resolved": "cpu",
-            "metrics": {
-              "UER_mean": 0.93457,
-              "accuracy_ci95_low": 0.056224,
-              "accuracy_mean": 0.06543,
-              "chance_accuracy": 0.0625,
-              "loss_decrease_mean": 0.099396,
-              "ood_accuracy_ci95_low": 0.063243,
-              "ood_accuracy_mean": 0.06958,
-              "parameter_l2_delta_mean": 3.535782,
-              "positive_margin_over_chance_mean": 0.00293
-            },
-            "parameter_count": 1644,
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.base_transformer_l1",
-            "seed_count": 16,
-            "seeds": [
-              1174,
-              1175,
-              1176,
-              1177,
-              1178,
-              1179,
-              1180,
-              1181,
-              1182,
-              1183,
-              1184,
-              1185,
-              1186,
-              1187,
-              1188,
-              1189
-            ],
-            "status": "pass",
-            "training_steps": 36
-          },
           "compute_matched_l1": {
             "arm_id": "compute_matched_l1",
             "compute_units": 125.3376,
@@ -1671,6 +1631,46 @@
             },
             "parameter_count": 1700,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.dgt_l1",
+            "seed_count": 16,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181,
+              1182,
+              1183,
+              1184,
+              1185,
+              1186,
+              1187,
+              1188,
+              1189
+            ],
+            "status": "pass",
+            "training_steps": 36
+          },
+          "information_starved_l1_baseline": {
+            "arm_id": "information_starved_l1_baseline",
+            "compute_units": 121.208832,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "UER_mean": 0.93457,
+              "accuracy_ci95_low": 0.056224,
+              "accuracy_mean": 0.06543,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.099396,
+              "ood_accuracy_ci95_low": 0.063243,
+              "ood_accuracy_mean": 0.06958,
+              "parameter_l2_delta_mean": 3.535782,
+              "positive_margin_over_chance_mean": 0.00293
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.information_starved_l1_baseline",
             "seed_count": 16,
             "seeds": [
               1174,
@@ -1781,16 +1781,16 @@
         "compute_ledger": {
           "compute_units": 1236.860928,
           "per_arm": {
-            "base_transformer_l1": {
-              "compute_units": 242.417664,
-              "seed_count": 16
-            },
             "compute_matched_l1": {
               "compute_units": 250.6752,
               "seed_count": 16
             },
             "dgt_l1": {
               "compute_units": 250.6752,
+              "seed_count": 16
+            },
+            "information_starved_l1_baseline": {
+              "compute_units": 242.417664,
               "seed_count": 16
             },
             "matched_random_structural_l1": {
@@ -1803,102 +1803,6 @@
             }
           },
           "per_seed_step_cell": {
-            "base_transformer_l1:1174": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1174,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1175": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1175,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1176": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1176,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1177": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1177,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1178": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1178,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1179": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1179,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1180": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1180,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1181": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1181,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1182": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1182,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1183": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1183,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1184": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1184,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1185": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1185,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1186": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1186,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1187": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1187,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1188": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1188,
-              "training_steps": 72
-            },
-            "base_transformer_l1:1189": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 15.151104,
-              "seed": 1189,
-              "training_steps": 72
-            },
             "compute_matched_l1:1174": {
               "arm_id": "compute_matched_l1",
               "compute_units": 15.6672,
@@ -2088,6 +1992,102 @@
             "dgt_l1:1189": {
               "arm_id": "dgt_l1",
               "compute_units": 15.6672,
+              "seed": 1189,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1174": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1174,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1175": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1175,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1176": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1176,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1177": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1177,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1178": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1178,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1179": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1179,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1180": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1180,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1181": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1181,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1182": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1182,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1183": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1183,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1184": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1184,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1185": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1185,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1186": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1186,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1187": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1187,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1188": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
+              "seed": 1188,
+              "training_steps": 72
+            },
+            "information_starved_l1_baseline:1189": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 15.151104,
               "seed": 1189,
               "training_steps": 72
             },
@@ -2287,17 +2287,17 @@
           "status": "pass"
         },
         "metrics": {
-          "base_accuracy_mean": 0.065186,
-          "base_loss_decrease_mean": 0.130731,
-          "base_ood_accuracy_mean": 0.06543,
           "compute_matched_accuracy_mean": 0.577392,
           "compute_matched_loss_decrease_mean": 1.510715,
           "compute_matched_ood_accuracy_mean": 0.062988,
           "dgt_accuracy_mean": 0.630859,
           "dgt_loss_decrease_mean": 1.779468,
-          "dgt_minus_base_accuracy": 0.565673,
+          "dgt_minus_information_starved_accuracy": 0.565673,
           "dgt_minus_matched_accuracy": 0.568359,
           "dgt_ood_accuracy_mean": 0.065185,
+          "information_starved_accuracy_mean": 0.065186,
+          "information_starved_loss_decrease_mean": 0.130731,
+          "information_starved_ood_accuracy_mean": 0.06543,
           "matched_random_accuracy_mean": 0.0625,
           "matched_random_loss_decrease_mean": 0.340745,
           "matched_random_ood_accuracy_mean": 0.064209,
@@ -2310,11 +2310,6 @@
           "parameter_count": 8388,
           "parameter_match_tolerance": 0.03,
           "per_arm": {
-            "base_transformer_l1": {
-              "parameter_count": 1644,
-              "parameter_match_ratio_to_dgt": 0.967059,
-              "trainable_parameter_count": 1644
-            },
             "compute_matched_l1": {
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
@@ -2324,6 +2319,11 @@
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
               "trainable_parameter_count": 1700
+            },
+            "information_starved_l1_baseline": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
             },
             "matched_random_structural_l1": {
               "parameter_count": 1644,
@@ -2340,53 +2340,13 @@
         },
         "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[80]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_arms": {
-          "base_transformer_l1": {
-            "arm_id": "base_transformer_l1",
-            "compute_units": 242.417664,
-            "device_requested": "cpu",
-            "device_resolved": "cpu",
-            "metrics": {
-              "UER_mean": 0.934814,
-              "accuracy_ci95_low": 0.05492,
-              "accuracy_mean": 0.065186,
-              "chance_accuracy": 0.0625,
-              "loss_decrease_mean": 0.130731,
-              "ood_accuracy_ci95_low": 0.05912,
-              "ood_accuracy_mean": 0.06543,
-              "parameter_l2_delta_mean": 4.41776,
-              "positive_margin_over_chance_mean": 0.002685
-            },
-            "parameter_count": 1644,
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.base_transformer_l1",
-            "seed_count": 16,
-            "seeds": [
-              1174,
-              1175,
-              1176,
-              1177,
-              1178,
-              1179,
-              1180,
-              1181,
-              1182,
-              1183,
-              1184,
-              1185,
-              1186,
-              1187,
-              1188,
-              1189
-            ],
-            "status": "pass",
-            "training_steps": 72
-          },
           "compute_matched_l1": {
             "arm_id": "compute_matched_l1",
             "compute_units": 250.6752,
@@ -2445,6 +2405,46 @@
             },
             "parameter_count": 1700,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.dgt_l1",
+            "seed_count": 16,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181,
+              1182,
+              1183,
+              1184,
+              1185,
+              1186,
+              1187,
+              1188,
+              1189
+            ],
+            "status": "pass",
+            "training_steps": 72
+          },
+          "information_starved_l1_baseline": {
+            "arm_id": "information_starved_l1_baseline",
+            "compute_units": 242.417664,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "UER_mean": 0.934814,
+              "accuracy_ci95_low": 0.05492,
+              "accuracy_mean": 0.065186,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.130731,
+              "ood_accuracy_ci95_low": 0.05912,
+              "ood_accuracy_mean": 0.06543,
+              "parameter_l2_delta_mean": 4.41776,
+              "positive_margin_over_chance_mean": 0.002685
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.information_starved_l1_baseline",
             "seed_count": 16,
             "seeds": [
               1174,
@@ -2555,16 +2555,16 @@
         "compute_ledger": {
           "compute_units": 2473.721856,
           "per_arm": {
-            "base_transformer_l1": {
-              "compute_units": 484.835328,
-              "seed_count": 16
-            },
             "compute_matched_l1": {
               "compute_units": 501.3504,
               "seed_count": 16
             },
             "dgt_l1": {
               "compute_units": 501.3504,
+              "seed_count": 16
+            },
+            "information_starved_l1_baseline": {
+              "compute_units": 484.835328,
               "seed_count": 16
             },
             "matched_random_structural_l1": {
@@ -2577,102 +2577,6 @@
             }
           },
           "per_seed_step_cell": {
-            "base_transformer_l1:1174": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1174,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1175": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1175,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1176": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1176,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1177": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1177,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1178": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1178,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1179": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1179,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1180": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1180,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1181": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1181,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1182": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1182,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1183": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1183,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1184": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1184,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1185": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1185,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1186": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1186,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1187": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1187,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1188": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1188,
-              "training_steps": 144
-            },
-            "base_transformer_l1:1189": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 30.302208,
-              "seed": 1189,
-              "training_steps": 144
-            },
             "compute_matched_l1:1174": {
               "arm_id": "compute_matched_l1",
               "compute_units": 31.3344,
@@ -2862,6 +2766,102 @@
             "dgt_l1:1189": {
               "arm_id": "dgt_l1",
               "compute_units": 31.3344,
+              "seed": 1189,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1174": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1174,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1175": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1175,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1176": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1176,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1177": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1177,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1178": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1178,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1179": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1179,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1180": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1180,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1181": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1181,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1182": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1182,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1183": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1183,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1184": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1184,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1185": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1185,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1186": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1186,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1187": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1187,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1188": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
+              "seed": 1188,
+              "training_steps": 144
+            },
+            "information_starved_l1_baseline:1189": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 30.302208,
               "seed": 1189,
               "training_steps": 144
             },
@@ -3061,17 +3061,17 @@
           "status": "pass"
         },
         "metrics": {
-          "base_accuracy_mean": 0.068848,
-          "base_loss_decrease_mean": 0.138166,
-          "base_ood_accuracy_mean": 0.06665,
           "compute_matched_accuracy_mean": 0.909424,
           "compute_matched_loss_decrease_mean": 2.551874,
           "compute_matched_ood_accuracy_mean": 0.064209,
           "dgt_accuracy_mean": 0.9375,
           "dgt_loss_decrease_mean": 2.642087,
-          "dgt_minus_base_accuracy": 0.868652,
+          "dgt_minus_information_starved_accuracy": 0.868652,
           "dgt_minus_matched_accuracy": 0.876465,
           "dgt_ood_accuracy_mean": 0.06665,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_loss_decrease_mean": 0.138166,
+          "information_starved_ood_accuracy_mean": 0.06665,
           "matched_random_accuracy_mean": 0.061035,
           "matched_random_loss_decrease_mean": 0.612482,
           "matched_random_ood_accuracy_mean": 0.060791,
@@ -3084,11 +3084,6 @@
           "parameter_count": 8388,
           "parameter_match_tolerance": 0.03,
           "per_arm": {
-            "base_transformer_l1": {
-              "parameter_count": 1644,
-              "parameter_match_ratio_to_dgt": 0.967059,
-              "trainable_parameter_count": 1644
-            },
             "compute_matched_l1": {
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
@@ -3098,6 +3093,11 @@
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
               "trainable_parameter_count": 1700
+            },
+            "information_starved_l1_baseline": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
             },
             "matched_random_structural_l1": {
               "parameter_count": 1644,
@@ -3114,53 +3114,13 @@
         },
         "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[160]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_arms": {
-          "base_transformer_l1": {
-            "arm_id": "base_transformer_l1",
-            "compute_units": 484.835328,
-            "device_requested": "cpu",
-            "device_resolved": "cpu",
-            "metrics": {
-              "UER_mean": 0.931152,
-              "accuracy_ci95_low": 0.06015,
-              "accuracy_mean": 0.068848,
-              "chance_accuracy": 0.0625,
-              "loss_decrease_mean": 0.138166,
-              "ood_accuracy_ci95_low": 0.059473,
-              "ood_accuracy_mean": 0.06665,
-              "parameter_l2_delta_mean": 5.097672,
-              "positive_margin_over_chance_mean": 0.006348
-            },
-            "parameter_count": 1644,
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.base_transformer_l1",
-            "seed_count": 16,
-            "seeds": [
-              1174,
-              1175,
-              1176,
-              1177,
-              1178,
-              1179,
-              1180,
-              1181,
-              1182,
-              1183,
-              1184,
-              1185,
-              1186,
-              1187,
-              1188,
-              1189
-            ],
-            "status": "pass",
-            "training_steps": 144
-          },
           "compute_matched_l1": {
             "arm_id": "compute_matched_l1",
             "compute_units": 501.3504,
@@ -3219,6 +3179,46 @@
             },
             "parameter_count": 1700,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.dgt_l1",
+            "seed_count": 16,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181,
+              1182,
+              1183,
+              1184,
+              1185,
+              1186,
+              1187,
+              1188,
+              1189
+            ],
+            "status": "pass",
+            "training_steps": 144
+          },
+          "information_starved_l1_baseline": {
+            "arm_id": "information_starved_l1_baseline",
+            "compute_units": 484.835328,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "UER_mean": 0.931152,
+              "accuracy_ci95_low": 0.06015,
+              "accuracy_mean": 0.068848,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.138166,
+              "ood_accuracy_ci95_low": 0.059473,
+              "ood_accuracy_mean": 0.06665,
+              "parameter_l2_delta_mean": 5.097672,
+              "positive_margin_over_chance_mean": 0.006348
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.information_starved_l1_baseline",
             "seed_count": 16,
             "seeds": [
               1174,
@@ -3329,16 +3329,16 @@
         "compute_ledger": {
           "compute_units": 4947.443712,
           "per_arm": {
-            "base_transformer_l1": {
-              "compute_units": 969.670656,
-              "seed_count": 16
-            },
             "compute_matched_l1": {
               "compute_units": 1002.7008,
               "seed_count": 16
             },
             "dgt_l1": {
               "compute_units": 1002.7008,
+              "seed_count": 16
+            },
+            "information_starved_l1_baseline": {
+              "compute_units": 969.670656,
               "seed_count": 16
             },
             "matched_random_structural_l1": {
@@ -3351,102 +3351,6 @@
             }
           },
           "per_seed_step_cell": {
-            "base_transformer_l1:1174": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1174,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1175": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1175,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1176": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1176,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1177": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1177,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1178": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1178,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1179": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1179,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1180": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1180,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1181": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1181,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1182": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1182,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1183": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1183,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1184": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1184,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1185": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1185,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1186": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1186,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1187": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1187,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1188": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1188,
-              "training_steps": 288
-            },
-            "base_transformer_l1:1189": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 60.604416,
-              "seed": 1189,
-              "training_steps": 288
-            },
             "compute_matched_l1:1174": {
               "arm_id": "compute_matched_l1",
               "compute_units": 62.6688,
@@ -3636,6 +3540,102 @@
             "dgt_l1:1189": {
               "arm_id": "dgt_l1",
               "compute_units": 62.6688,
+              "seed": 1189,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1174": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1174,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1175": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1175,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1176": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1176,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1177": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1177,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1178": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1178,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1179": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1179,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1180": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1180,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1181": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1181,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1182": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1182,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1183": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1183,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1184": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1184,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1185": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1185,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1186": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1186,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1187": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1187,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1188": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
+              "seed": 1188,
+              "training_steps": 288
+            },
+            "information_starved_l1_baseline:1189": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 60.604416,
               "seed": 1189,
               "training_steps": 288
             },
@@ -3835,17 +3835,17 @@
           "status": "pass"
         },
         "metrics": {
-          "base_accuracy_mean": 0.068848,
-          "base_loss_decrease_mean": 0.141491,
-          "base_ood_accuracy_mean": 0.065918,
           "compute_matched_accuracy_mean": 0.976807,
           "compute_matched_loss_decrease_mean": 2.750367,
           "compute_matched_ood_accuracy_mean": 0.064941,
           "dgt_accuracy_mean": 0.981445,
           "dgt_loss_decrease_mean": 2.792615,
-          "dgt_minus_base_accuracy": 0.912597,
+          "dgt_minus_information_starved_accuracy": 0.912597,
           "dgt_minus_matched_accuracy": 0.924316,
           "dgt_ood_accuracy_mean": 0.064453,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_loss_decrease_mean": 0.141491,
+          "information_starved_ood_accuracy_mean": 0.065918,
           "matched_random_accuracy_mean": 0.057129,
           "matched_random_loss_decrease_mean": 0.886965,
           "matched_random_ood_accuracy_mean": 0.057129,
@@ -3858,11 +3858,6 @@
           "parameter_count": 8388,
           "parameter_match_tolerance": 0.03,
           "per_arm": {
-            "base_transformer_l1": {
-              "parameter_count": 1644,
-              "parameter_match_ratio_to_dgt": 0.967059,
-              "trainable_parameter_count": 1644
-            },
             "compute_matched_l1": {
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
@@ -3872,6 +3867,11 @@
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
               "trainable_parameter_count": 1700
+            },
+            "information_starved_l1_baseline": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
             },
             "matched_random_structural_l1": {
               "parameter_count": 1644,
@@ -3888,53 +3888,13 @@
         },
         "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[240]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_arms": {
-          "base_transformer_l1": {
-            "arm_id": "base_transformer_l1",
-            "compute_units": 969.670656,
-            "device_requested": "cpu",
-            "device_resolved": "cpu",
-            "metrics": {
-              "UER_mean": 0.931152,
-              "accuracy_ci95_low": 0.059711,
-              "accuracy_mean": 0.068848,
-              "chance_accuracy": 0.0625,
-              "loss_decrease_mean": 0.141491,
-              "ood_accuracy_ci95_low": 0.059292,
-              "ood_accuracy_mean": 0.065918,
-              "parameter_l2_delta_mean": 5.61135,
-              "positive_margin_over_chance_mean": 0.006348
-            },
-            "parameter_count": 1644,
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.base_transformer_l1",
-            "seed_count": 16,
-            "seeds": [
-              1174,
-              1175,
-              1176,
-              1177,
-              1178,
-              1179,
-              1180,
-              1181,
-              1182,
-              1183,
-              1184,
-              1185,
-              1186,
-              1187,
-              1188,
-              1189
-            ],
-            "status": "pass",
-            "training_steps": 288
-          },
           "compute_matched_l1": {
             "arm_id": "compute_matched_l1",
             "compute_units": 1002.7008,
@@ -3993,6 +3953,46 @@
             },
             "parameter_count": 1700,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.dgt_l1",
+            "seed_count": 16,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181,
+              1182,
+              1183,
+              1184,
+              1185,
+              1186,
+              1187,
+              1188,
+              1189
+            ],
+            "status": "pass",
+            "training_steps": 288
+          },
+          "information_starved_l1_baseline": {
+            "arm_id": "information_starved_l1_baseline",
+            "compute_units": 969.670656,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "UER_mean": 0.931152,
+              "accuracy_ci95_low": 0.059711,
+              "accuracy_mean": 0.068848,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.141491,
+              "ood_accuracy_ci95_low": 0.059292,
+              "ood_accuracy_mean": 0.065918,
+              "parameter_l2_delta_mean": 5.61135,
+              "positive_margin_over_chance_mean": 0.006348
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.information_starved_l1_baseline",
             "seed_count": 16,
             "seeds": [
               1174,
@@ -4103,16 +4103,16 @@
         "compute_ledger": {
           "compute_units": 9894.887424,
           "per_arm": {
-            "base_transformer_l1": {
-              "compute_units": 1939.341312,
-              "seed_count": 16
-            },
             "compute_matched_l1": {
               "compute_units": 2005.4016,
               "seed_count": 16
             },
             "dgt_l1": {
               "compute_units": 2005.4016,
+              "seed_count": 16
+            },
+            "information_starved_l1_baseline": {
+              "compute_units": 1939.341312,
               "seed_count": 16
             },
             "matched_random_structural_l1": {
@@ -4125,102 +4125,6 @@
             }
           },
           "per_seed_step_cell": {
-            "base_transformer_l1:1174": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1174,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1175": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1175,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1176": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1176,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1177": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1177,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1178": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1178,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1179": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1179,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1180": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1180,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1181": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1181,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1182": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1182,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1183": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1183,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1184": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1184,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1185": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1185,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1186": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1186,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1187": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1187,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1188": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1188,
-              "training_steps": 576
-            },
-            "base_transformer_l1:1189": {
-              "arm_id": "base_transformer_l1",
-              "compute_units": 121.208832,
-              "seed": 1189,
-              "training_steps": 576
-            },
             "compute_matched_l1:1174": {
               "arm_id": "compute_matched_l1",
               "compute_units": 125.3376,
@@ -4410,6 +4314,102 @@
             "dgt_l1:1189": {
               "arm_id": "dgt_l1",
               "compute_units": 125.3376,
+              "seed": 1189,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1174": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1174,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1175": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1175,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1176": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1176,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1177": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1177,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1178": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1178,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1179": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1179,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1180": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1180,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1181": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1181,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1182": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1182,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1183": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1183,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1184": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1184,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1185": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1185,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1186": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1186,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1187": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1187,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1188": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
+              "seed": 1188,
+              "training_steps": 576
+            },
+            "information_starved_l1_baseline:1189": {
+              "arm_id": "information_starved_l1_baseline",
+              "compute_units": 121.208832,
               "seed": 1189,
               "training_steps": 576
             },
@@ -4609,17 +4609,17 @@
           "status": "pass"
         },
         "metrics": {
-          "base_accuracy_mean": 0.068603,
-          "base_loss_decrease_mean": 0.143287,
-          "base_ood_accuracy_mean": 0.065918,
           "compute_matched_accuracy_mean": 0.982178,
           "compute_matched_loss_decrease_mean": 2.788897,
           "compute_matched_ood_accuracy_mean": 0.064453,
           "dgt_accuracy_mean": 0.981934,
           "dgt_loss_decrease_mean": 2.815159,
-          "dgt_minus_base_accuracy": 0.913331,
+          "dgt_minus_information_starved_accuracy": 0.913331,
           "dgt_minus_matched_accuracy": 0.923096,
           "dgt_ood_accuracy_mean": 0.063965,
+          "information_starved_accuracy_mean": 0.068603,
+          "information_starved_loss_decrease_mean": 0.143287,
+          "information_starved_ood_accuracy_mean": 0.065918,
           "matched_random_accuracy_mean": 0.058838,
           "matched_random_loss_decrease_mean": 1.058915,
           "matched_random_ood_accuracy_mean": 0.059082,
@@ -4632,11 +4632,6 @@
           "parameter_count": 8388,
           "parameter_match_tolerance": 0.03,
           "per_arm": {
-            "base_transformer_l1": {
-              "parameter_count": 1644,
-              "parameter_match_ratio_to_dgt": 0.967059,
-              "trainable_parameter_count": 1644
-            },
             "compute_matched_l1": {
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
@@ -4646,6 +4641,11 @@
               "parameter_count": 1700,
               "parameter_match_ratio_to_dgt": 1.0,
               "trainable_parameter_count": 1700
+            },
+            "information_starved_l1_baseline": {
+              "parameter_count": 1644,
+              "parameter_match_ratio_to_dgt": 0.967059,
+              "trainable_parameter_count": 1644
             },
             "matched_random_structural_l1": {
               "parameter_count": 1644,
@@ -4662,53 +4662,13 @@
         },
         "raw_record_start_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl:$.lines[320]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_arms": {
-          "base_transformer_l1": {
-            "arm_id": "base_transformer_l1",
-            "compute_units": 1939.341312,
-            "device_requested": "cpu",
-            "device_resolved": "cpu",
-            "metrics": {
-              "UER_mean": 0.931397,
-              "accuracy_ci95_low": 0.059545,
-              "accuracy_mean": 0.068603,
-              "chance_accuracy": 0.0625,
-              "loss_decrease_mean": 0.143287,
-              "ood_accuracy_ci95_low": 0.059479,
-              "ood_accuracy_mean": 0.065918,
-              "parameter_l2_delta_mean": 6.093149,
-              "positive_margin_over_chance_mean": 0.006103
-            },
-            "parameter_count": 1644,
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.base_transformer_l1",
-            "seed_count": 16,
-            "seeds": [
-              1174,
-              1175,
-              1176,
-              1177,
-              1178,
-              1179,
-              1180,
-              1181,
-              1182,
-              1183,
-              1184,
-              1185,
-              1186,
-              1187,
-              1188,
-              1189
-            ],
-            "status": "pass",
-            "training_steps": 576
-          },
           "compute_matched_l1": {
             "arm_id": "compute_matched_l1",
             "compute_units": 2005.4016,
@@ -4767,6 +4727,46 @@
             },
             "parameter_count": 1700,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.dgt_l1",
+            "seed_count": 16,
+            "seeds": [
+              1174,
+              1175,
+              1176,
+              1177,
+              1178,
+              1179,
+              1180,
+              1181,
+              1182,
+              1183,
+              1184,
+              1185,
+              1186,
+              1187,
+              1188,
+              1189
+            ],
+            "status": "pass",
+            "training_steps": 576
+          },
+          "information_starved_l1_baseline": {
+            "arm_id": "information_starved_l1_baseline",
+            "compute_units": 1939.341312,
+            "device_requested": "cpu",
+            "device_resolved": "cpu",
+            "metrics": {
+              "UER_mean": 0.931397,
+              "accuracy_ci95_low": 0.059545,
+              "accuracy_mean": 0.068603,
+              "chance_accuracy": 0.0625,
+              "loss_decrease_mean": 0.143287,
+              "ood_accuracy_ci95_low": 0.059479,
+              "ood_accuracy_mean": 0.065918,
+              "parameter_l2_delta_mean": 6.093149,
+              "positive_margin_over_chance_mean": 0.006103
+            },
+            "parameter_count": 1644,
+            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.information_starved_l1_baseline",
             "seed_count": 16,
             "seeds": [
               1174,
@@ -4887,17 +4887,17 @@
     "step_rows": [
       {
         "metrics": {
-          "base_accuracy_mean": 0.06543,
-          "base_loss_decrease_mean": 0.099396,
-          "base_ood_accuracy_mean": 0.06958,
           "compute_matched_accuracy_mean": 0.240478,
           "compute_matched_loss_decrease_mean": 0.44076,
           "compute_matched_ood_accuracy_mean": 0.063965,
           "dgt_accuracy_mean": 0.311768,
           "dgt_loss_decrease_mean": 0.972321,
-          "dgt_minus_base_accuracy": 0.246338,
+          "dgt_minus_information_starved_accuracy": 0.246338,
           "dgt_minus_matched_accuracy": 0.253663,
           "dgt_ood_accuracy_mean": 0.06958,
+          "information_starved_accuracy_mean": 0.06543,
+          "information_starved_loss_decrease_mean": 0.099396,
+          "information_starved_ood_accuracy_mean": 0.06958,
           "matched_random_accuracy_mean": 0.058105,
           "matched_random_loss_decrease_mean": 0.218891,
           "matched_random_ood_accuracy_mean": 0.062012,
@@ -4907,9 +4907,9 @@
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
@@ -4917,17 +4917,17 @@
       },
       {
         "metrics": {
-          "base_accuracy_mean": 0.065186,
-          "base_loss_decrease_mean": 0.130731,
-          "base_ood_accuracy_mean": 0.06543,
           "compute_matched_accuracy_mean": 0.577392,
           "compute_matched_loss_decrease_mean": 1.510715,
           "compute_matched_ood_accuracy_mean": 0.062988,
           "dgt_accuracy_mean": 0.630859,
           "dgt_loss_decrease_mean": 1.779468,
-          "dgt_minus_base_accuracy": 0.565673,
+          "dgt_minus_information_starved_accuracy": 0.565673,
           "dgt_minus_matched_accuracy": 0.568359,
           "dgt_ood_accuracy_mean": 0.065185,
+          "information_starved_accuracy_mean": 0.065186,
+          "information_starved_loss_decrease_mean": 0.130731,
+          "information_starved_ood_accuracy_mean": 0.06543,
           "matched_random_accuracy_mean": 0.0625,
           "matched_random_loss_decrease_mean": 0.340745,
           "matched_random_ood_accuracy_mean": 0.064209,
@@ -4937,9 +4937,9 @@
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
@@ -4947,17 +4947,17 @@
       },
       {
         "metrics": {
-          "base_accuracy_mean": 0.068848,
-          "base_loss_decrease_mean": 0.138166,
-          "base_ood_accuracy_mean": 0.06665,
           "compute_matched_accuracy_mean": 0.909424,
           "compute_matched_loss_decrease_mean": 2.551874,
           "compute_matched_ood_accuracy_mean": 0.064209,
           "dgt_accuracy_mean": 0.9375,
           "dgt_loss_decrease_mean": 2.642087,
-          "dgt_minus_base_accuracy": 0.868652,
+          "dgt_minus_information_starved_accuracy": 0.868652,
           "dgt_minus_matched_accuracy": 0.876465,
           "dgt_ood_accuracy_mean": 0.06665,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_loss_decrease_mean": 0.138166,
+          "information_starved_ood_accuracy_mean": 0.06665,
           "matched_random_accuracy_mean": 0.061035,
           "matched_random_loss_decrease_mean": 0.612482,
           "matched_random_ood_accuracy_mean": 0.060791,
@@ -4967,9 +4967,9 @@
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
@@ -4977,17 +4977,17 @@
       },
       {
         "metrics": {
-          "base_accuracy_mean": 0.068848,
-          "base_loss_decrease_mean": 0.141491,
-          "base_ood_accuracy_mean": 0.065918,
           "compute_matched_accuracy_mean": 0.976807,
           "compute_matched_loss_decrease_mean": 2.750367,
           "compute_matched_ood_accuracy_mean": 0.064941,
           "dgt_accuracy_mean": 0.981445,
           "dgt_loss_decrease_mean": 2.792615,
-          "dgt_minus_base_accuracy": 0.912597,
+          "dgt_minus_information_starved_accuracy": 0.912597,
           "dgt_minus_matched_accuracy": 0.924316,
           "dgt_ood_accuracy_mean": 0.064453,
+          "information_starved_accuracy_mean": 0.068848,
+          "information_starved_loss_decrease_mean": 0.141491,
+          "information_starved_ood_accuracy_mean": 0.065918,
           "matched_random_accuracy_mean": 0.057129,
           "matched_random_loss_decrease_mean": 0.886965,
           "matched_random_ood_accuracy_mean": 0.057129,
@@ -4997,9 +4997,9 @@
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
@@ -5007,17 +5007,17 @@
       },
       {
         "metrics": {
-          "base_accuracy_mean": 0.068603,
-          "base_loss_decrease_mean": 0.143287,
-          "base_ood_accuracy_mean": 0.065918,
           "compute_matched_accuracy_mean": 0.982178,
           "compute_matched_loss_decrease_mean": 2.788897,
           "compute_matched_ood_accuracy_mean": 0.064453,
           "dgt_accuracy_mean": 0.981934,
           "dgt_loss_decrease_mean": 2.815159,
-          "dgt_minus_base_accuracy": 0.913331,
+          "dgt_minus_information_starved_accuracy": 0.913331,
           "dgt_minus_matched_accuracy": 0.923096,
           "dgt_ood_accuracy_mean": 0.063965,
+          "information_starved_accuracy_mean": 0.068603,
+          "information_starved_loss_decrease_mean": 0.143287,
+          "information_starved_ood_accuracy_mean": 0.065918,
           "matched_random_accuracy_mean": 0.058838,
           "matched_random_loss_decrease_mean": 1.058915,
           "matched_random_ood_accuracy_mean": 0.059082,
@@ -5027,16 +5027,16 @@
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "seed_counts": {
-          "base_transformer_l1": 16,
           "compute_matched_l1": 16,
           "dgt_l1": 16,
+          "information_starved_l1_baseline": 16,
           "matched_random_structural_l1": 16,
           "parameter_matched_l1": 16
         },
         "training_steps": 576
       }
     ],
-    "verdict": "separation-persists",
+    "verdict": "scoped-review-signal",
     "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict"
   },
   "l1_tiny_sequence_projection": {
@@ -5085,10 +5085,72 @@
     "critical_hit_count": 0,
     "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
     "required_witnesses": [
-      "order_one_proxy_leakage",
-      "matched_random_positive_control",
-      "ood_pair_shuffle_instability",
-      "scripted_metric_table"
+      "information_starved_baseline",
+      "unanswerable_ood",
+      "table_coverage_saturation",
+      "hand_engineered_task_aligned_gate"
+    ],
+    "rows": [
+      {
+        "claim_downgrade": "bounded in-distribution review signal only",
+        "critical": true,
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy.dgt_minus_information_starved_baseline",
+        "hardgate_id": "ISB-HG",
+        "hit_count": 0,
+        "hit_logic": "information-starved baseline accuracy mean must stay below DGT mean minus L1 margin",
+        "not_claimed": "No claim that DGT is empirically better than Transformer in general.",
+        "regression_test": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
+        "regression_test_pointer_resolves": true,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
+        "taint_status": "tainted-l1-review-only",
+        "witness": "information_starved_baseline"
+      },
+      {
+        "claim_downgrade": "OOD generalization not claimed",
+        "critical": true,
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.ood_accuracy_mean",
+        "hardgate_id": "UOOD-HG",
+        "hit_count": 0,
+        "hit_logic": "OOD shuffled-pair dependency must not inflate the positive slice",
+        "not_claimed": "No claim that DGT generalizes to tiny-sequence OOD splits.",
+        "regression_test": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
+        "regression_test_pointer_resolves": true,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
+        "taint_status": "tainted-ood-not-claimed",
+        "witness": "unanswerable_ood"
+      },
+      {
+        "claim_downgrade": "table-coverage result cannot be promoted to general scaling",
+        "critical": true,
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy.dgt_minus_matched_random",
+        "hardgate_id": "TCS-HG",
+        "hit_count": 0,
+        "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
+        "not_claimed": "No L1 scaling success claim.",
+        "regression_test": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
+        "regression_test_pointer_resolves": true,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
+        "taint_status": "tainted-coverage-local",
+        "witness": "table_coverage_saturation"
+      },
+      {
+        "claim_downgrade": "hand-engineered order-two task gate remains a bounded fixture",
+        "critical": true,
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.source_regression_guard",
+        "hardgate_id": "HEG-HG",
+        "hit_count": 0,
+        "hit_logic": "owner source must contain real torch optimizer updates and no scripted metric table token",
+        "not_claimed": "No claim that the model learned an order-2 rule as a causal component.",
+        "regression_test": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
+        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
+        "regression_test_pointer_resolves": true,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.source_artifacts.order_k_required_order_row",
+        "taint_status": "tainted-hand-engineered-task",
+        "witness": "hand_engineered_task_aligned_gate"
+      }
     ],
     "source_regression_guard": {
       "forbidden_hits": [],
@@ -5101,41 +5163,7 @@
       ],
       "status": "pass"
     },
-    "status": "pass",
-    "witness_rows": [
-      {
-        "critical": true,
-        "hit_count": 0,
-        "hit_logic": "base accuracy mean must stay below DGT mean minus L1 margin",
-        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
-        "regression_test_pointer_resolves": true,
-        "witness": "order_one_proxy_leakage"
-      },
-      {
-        "critical": true,
-        "hit_count": 0,
-        "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
-        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
-        "regression_test_pointer_resolves": true,
-        "witness": "matched_random_positive_control"
-      },
-      {
-        "critical": true,
-        "hit_count": 0,
-        "hit_logic": "OOD shuffled-pair dependency must not inflate the positive slice",
-        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_independent_replay_checks_digest_and_metric_tolerance",
-        "regression_test_pointer_resolves": true,
-        "witness": "ood_pair_shuffle_instability"
-      },
-      {
-        "critical": true,
-        "hit_count": 0,
-        "hit_logic": "owner source must contain real torch optimizer updates and no scripted metric table token",
-        "regression_test_pointer": "tests/test_dgt_l1_controls.py::test_l1_training_requires_real_torch_updates",
-        "regression_test_pointer_resolves": true,
-        "witness": "scripted_metric_table"
-      }
-    ]
+    "status": "pass"
   },
   "not_claimed": [
     "Bounded tiny-sequence order-k training only.",
@@ -5172,9 +5200,9 @@
     "status": "boundary-only"
   },
   "paired_accuracy": {
-    "dgt_minus_base": {
+    "dgt_minus_information_starved_baseline": {
       "candidate_arm": "dgt_l1",
-      "control_arm": "base_transformer_l1",
+      "control_arm": "information_starved_l1_baseline",
       "delta_ci95_low": 0.230781,
       "delta_mean": 0.246338,
       "deltas": [
@@ -5425,11 +5453,6 @@
     "parameter_count": 8388,
     "parameter_match_tolerance": 0.03,
     "per_arm": {
-      "base_transformer_l1": {
-        "parameter_count": 1644,
-        "parameter_match_ratio_to_dgt": 0.967059,
-        "trainable_parameter_count": 1644
-      },
       "compute_matched_l1": {
         "parameter_count": 1700,
         "parameter_match_ratio_to_dgt": 1.0,
@@ -5439,6 +5462,11 @@
         "parameter_count": 1700,
         "parameter_match_ratio_to_dgt": 1.0,
         "trainable_parameter_count": 1700
+      },
+      "information_starved_l1_baseline": {
+        "parameter_count": 1644,
+        "parameter_match_ratio_to_dgt": 0.967059,
+        "trainable_parameter_count": 1644
       },
       "matched_random_structural_l1": {
         "parameter_count": 1644,
@@ -5504,6 +5532,17 @@
       "minimum_seed_count": 16
     }
   },
+  "source_regression_guard": {
+    "forbidden_hits": [],
+    "missing_training_terms": [],
+    "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
+    "required_training_terms": [
+      "torch.optim.Adam",
+      "loss.backward()",
+      "optimizer.step()"
+    ],
+    "status": "pass"
+  },
   "task_spec": {
     "eval_examples": 256,
     "not_claimed": [
@@ -5557,46 +5596,6 @@
     "vocab_size": 16
   },
   "training_arms": {
-    "base_transformer_l1": {
-      "arm_id": "base_transformer_l1",
-      "compute_units": 121.208832,
-      "device_requested": "cpu",
-      "device_resolved": "cpu",
-      "metrics": {
-        "UER_mean": 0.93457,
-        "accuracy_ci95_low": 0.056224,
-        "accuracy_mean": 0.06543,
-        "chance_accuracy": 0.0625,
-        "loss_decrease_mean": 0.099396,
-        "ood_accuracy_ci95_low": 0.063243,
-        "ood_accuracy_mean": 0.06958,
-        "parameter_l2_delta_mean": 3.535782,
-        "positive_margin_over_chance_mean": 0.00293
-      },
-      "parameter_count": 1644,
-      "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.base_transformer_l1",
-      "seed_count": 16,
-      "seeds": [
-        1174,
-        1175,
-        1176,
-        1177,
-        1178,
-        1179,
-        1180,
-        1181,
-        1182,
-        1183,
-        1184,
-        1185,
-        1186,
-        1187,
-        1188,
-        1189
-      ],
-      "status": "pass",
-      "training_steps": 36
-    },
     "compute_matched_l1": {
       "arm_id": "compute_matched_l1",
       "compute_units": 125.3376,
@@ -5655,6 +5654,46 @@
       },
       "parameter_count": 1700,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+      "seed_count": 16,
+      "seeds": [
+        1174,
+        1175,
+        1176,
+        1177,
+        1178,
+        1179,
+        1180,
+        1181,
+        1182,
+        1183,
+        1184,
+        1185,
+        1186,
+        1187,
+        1188,
+        1189
+      ],
+      "status": "pass",
+      "training_steps": 36
+    },
+    "information_starved_l1_baseline": {
+      "arm_id": "information_starved_l1_baseline",
+      "compute_units": 121.208832,
+      "device_requested": "cpu",
+      "device_resolved": "cpu",
+      "metrics": {
+        "UER_mean": 0.93457,
+        "accuracy_ci95_low": 0.056224,
+        "accuracy_mean": 0.06543,
+        "chance_accuracy": 0.0625,
+        "loss_decrease_mean": 0.099396,
+        "ood_accuracy_ci95_low": 0.063243,
+        "ood_accuracy_mean": 0.06958,
+        "parameter_l2_delta_mean": 3.535782,
+        "positive_margin_over_chance_mean": 0.00293
+      },
+      "parameter_count": 1644,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
       "seed_count": 16,
       "seeds": [
         1174,
