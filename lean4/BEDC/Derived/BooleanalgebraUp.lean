@@ -248,6 +248,82 @@ theorem BooleanAlgebraCarrier_stone_duality_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, stoneUnary, handoffUnary⟩
 
+theorem BooleanAlgebraLatticeDependencyRoute [AskSetup] [PackageSetup]
+    {join meet compl zero one order transport replay provenance localName latticeRead
+      stoneRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BooleanAlgebraCarrier join meet compl zero one order transport replay provenance localName
+        bundle pkg →
+      Cont join meet latticeRead →
+        Cont latticeRead compl stoneRead →
+          PkgSig bundle stoneRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row stoneRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+                    hsame row one ∨ hsame row order ∨ hsame row latticeRead ∨
+                      hsame row stoneRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont join meet latticeRead ∧
+                    Cont latticeRead compl stoneRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle stoneRead pkg)
+                hsame ∧
+              UnaryHistory latticeRead ∧ UnaryHistory stoneRead := by
+  -- BEDC touchpoint anchor: BooleanAlgebraCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrierRows latticeRoute stoneRoute stonePkg
+  obtain ⟨joinUnary, meetUnary, complUnary, _zeroUnary, _oneUnary, _orderUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _joinMeetOrder,
+    _complZeroReplay, _transportReplayProvenance, provenancePkg, _localNamePkg⟩ :=
+      carrierRows
+  have latticeUnary : UnaryHistory latticeRead :=
+    unary_cont_closed joinUnary meetUnary latticeRoute
+  have stoneUnary : UnaryHistory stoneRead :=
+    unary_cont_closed latticeUnary complUnary stoneRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stoneRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+              hsame row one ∨ hsame row order ∨ hsame row latticeRead ∨
+                hsame row stoneRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont join meet latticeRead ∧
+              Cont latticeRead compl stoneRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle stoneRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro stoneRead ⟨hsame_refl stoneRead, stoneUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, latticeRoute, stoneRoute, provenancePkg, stonePkg⟩
+  }
+  exact ⟨cert, latticeUnary, stoneUnary⟩
+
 theorem BooleanAlgebraStoneDualityHandoff [AskSetup] [PackageSetup]
     {join meet compl zero one order transport replay provenance localName endpoint booleanSource
       stoneRead : BHist}
