@@ -54,7 +54,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 36,
+    "row_count": 37,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -77,13 +77,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 131,
+    "node_count": 134,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 45,
+    "row_count": 46,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -241,6 +241,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.audit.fail_closed_count",
         "report": "winnability-certificates"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.classifier_rows",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.split_rows",
+        "report": "structural-generalization-splits"
       },
       {
         "bundle_role": "auxiliary",
@@ -546,7 +553,7 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 16,
+      "D0": 17,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -557,7 +564,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 36,
+    "row_count": 37,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -602,6 +609,12 @@
       "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
     },
     "status": "present-but-fail-closed"
+  },
+  "evidence_provenance": {
+    "canonical_role": "index-owned evidence provenance cell",
+    "evidence_type": "pointer-owner-provenance",
+    "source_type": "canonical-quality-index",
+    "status": "resolved"
   },
   "experiment_proposals": {
     "artifact_id": "bedc-quality-lab:experiment-proposals",
@@ -1038,6 +1051,7 @@
       "dgt-l0-controls",
       "dgt-l1-controls",
       "winnability-certificates",
+      "structural-generalization-splits",
       "dgt-base-undertraining-audit",
       "dgt-neural-ablation",
       "dgt-ablation-null-decomposition",
@@ -4030,6 +4044,130 @@
         "bundle_role": "auxiliary",
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
+        "control_pointer": "$.classifier_rows",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.split_rows",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.split_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:structural-generalization-splits]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.classifier_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.hardgates",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.boundary_ledger",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.split_registry",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.split_registry",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/structural-generalization-splits.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/structural-generalization-splits.json",
+      "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+      "name": "structural-generalization-splits",
+      "producer_command": [
+        "python3",
+        "scripts/run_structural_generalization_splits.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "split_registry",
+          "split_rows",
+          "classifier_rows",
+          "hardgates",
+          "boundary_ledger",
+          "consumer_pointers",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
         "control_pointer": "$.base_undertraining_audit.comparison_rows",
         "control_status": "present",
         "cost_pointer": "$.base_undertraining_audit.source_contract",
@@ -4758,16 +4896,10 @@
         "scripts/run_dgt_model_card.py"
       ],
       "producer_status": "skipped",
-      "status": "fail",
+      "status": "pass",
       "validation": {
         "missing_artifacts": [],
-        "model_card_errors": [
-          {
-            "gate_id": "CARD-HG9",
-            "message": "source pointer is not resolved",
-            "path": "$.source_artifacts[5].status"
-          }
-        ],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "card_id",
@@ -4785,7 +4917,7 @@
           "missing_keys": [],
           "status": "pass"
         },
-        "status": "fail"
+        "status": "pass"
       }
     },
     {
@@ -5663,11 +5795,10 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
-      "error": "fingerprint sidecar mismatch for model-comparison: input-fingerprint",
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "miss",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -5675,8 +5806,8 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "error",
-      "status": "error",
+      "producer_status": "skipped",
+      "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
@@ -5911,9 +6042,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -5921,7 +6052,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -6030,9 +6161,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -6040,7 +6171,7 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -6064,6 +6195,18 @@
   ],
   "root": "papers/bedc-quality-lab",
   "schema_id": "bedc-quality-lab:canonical-report-index",
+  "structural_generalization_splits": {
+    "artifact_id": "bedc-quality-lab:structural-generalization-splits",
+    "boundary_pointer": "reports/canonical/structural-generalization-splits.json:$.boundary_ledger",
+    "classifier_pointer": "reports/canonical/structural-generalization-splits.json:$.classifier_rows",
+    "consumer": "bounded structural generalization readers",
+    "hardgates_pointer": "reports/canonical/structural-generalization-splits.json:$.hardgates",
+    "json_artifact": "reports/canonical/structural-generalization-splits.json",
+    "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+    "schema_id": "bedc-quality-lab:structural-generalization-splits",
+    "splits_pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows",
+    "status": "pointer-only"
+  },
   "toy_latent_planning_bedc": {
     "artifact_id": "bedc-quality-lab:toy-latent-planning-bedc",
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",

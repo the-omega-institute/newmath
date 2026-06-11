@@ -51,14 +51,12 @@
       },
       "CARD-HG9": {
         "gate_id": "CARD-HG9",
-        "input_pointers": [
-          "$.source_artifacts[5].status"
-        ],
-        "reason": "source pointer is not resolved",
-        "status": "fail"
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
       }
     },
-    "status": "blocked"
+    "status": "pass"
   },
   "card_id": "bedc-quality-lab:dgt-model-card",
   "evaluation_boundaries": [
@@ -150,9 +148,7 @@
       "status": "not-claimed"
     }
   ],
-  "missing_source_refs": [
-    "reports/canonical/index.json:$.evidence_provenance"
-  ],
+  "missing_source_refs": [],
   "not_claimed": [
     "No production deployment authority.",
     "No global model superiority claim.",
@@ -240,18 +236,20 @@
       "artifact": "reports/canonical/index.json",
       "owner_issue": "canonical-index",
       "pointer": "$.evidence_provenance",
-      "sha256": null,
+      "sha256": "3a56271fcc5da598f58c1795846a42651b6373c72eefb5eb5604cc7d289ad18e",
       "source_owner": "canonical-index-evidence-provenance",
       "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "pointer-missing"
+      "status": "resolved"
     }
   ],
-  "status": "blocked",
+  "status": "pass",
   "training_facts": {
     "evidence_provenance": {
+      "evidence_type": "pointer-owner-provenance",
       "source_owner": "canonical-index-evidence-provenance",
       "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "blocked"
+      "source_type": "canonical-quality-index",
+      "status": "resolved"
     },
     "metric_cells": [
       {
@@ -321,10 +319,10 @@
       "status": "resolved"
     },
     {
-      "source_digest": null,
+      "source_digest": "3a56271fcc5da598f58c1795846a42651b6373c72eefb5eb5604cc7d289ad18e",
       "source_owner": "canonical-index-evidence-provenance",
       "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "pointer-missing"
+      "status": "resolved"
     }
   ]
 }

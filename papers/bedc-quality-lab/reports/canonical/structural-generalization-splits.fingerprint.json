@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-11T08:40:12.594518+00:00",
+    "generated_at": "2026-06-11T23:07:07.142320+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "e2a448c2af7f5d30ff90a2953f5d2332d9c2574747f9c65d427a27112a9d36b9",
+  "input_fingerprint": "c5ce00163802f056b8ac395e16d93a0bfba1a5da1c00503c97797d484eaee3cd",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -33,16 +33,24 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "scripts/run_irreducibility_report.py",
-        "sha256": "a1094a0a482698096ab593bd9f34aad3d4a4535aa4749f4c8eeee15e6cbfb0d1"
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/structural_generalization_splits.py",
+        "sha256": "526d1a2425fe8d41e239762b7635a051542939b6224851c3fb2f0e0f7b494c5b"
+      },
+      {
+        "path": "scripts/run_structural_generalization_splits.py",
+        "sha256": "09898edc2f517b1005a9722a752bad8de3267c1c13ecfe9e73561b2aa9761552"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:irreducibility-report",
+    "report_output_schema_id": "bedc-quality-lab:structural-generalization-splits",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_irreducibility_report.py"
+        "scripts/run_structural_generalization_splits.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -50,59 +58,61 @@
     },
     "source_artifacts": [
       {
-        "path": "reports/canonical/conditional_information_table.json",
-        "sha256": "00820e44a9871497f9cfae21b3bb970173d26f314af23fc877904a2a19b4c9d7"
+        "path": "reports/canonical/input-accessibility.json",
+        "sha256": "missing"
+      },
+      {
+        "path": "reports/canonical/winnability-certificates.json",
+        "sha256": "f6e23c5425b32789efa9e29bf2b01ef7b294eed6a1d5781b870792105c27be61"
       }
     ],
     "spec": {
-      "bundle_role": "hg_p_core",
+      "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_irreducibility_report.py"
+        "scripts/run_structural_generalization_splits.py"
       ],
       "construct_validity_pointer": null,
-      "control_pointer": "$.control_protocol",
-      "cost_pointer": "$.control_protocol",
-      "estimated_seconds": 2,
+      "control_pointer": "$.classifier_rows",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
         "global-quality",
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "json_artifact": "reports/canonical/structural-generalization-splits.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
-      "name": "irreducibility-report",
+      "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+      "name": "structural-generalization-splits",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.positive_claim",
+      "positive_claim_pointer": "$.split_rows",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
         "producer",
         "source_artifacts",
-        "config",
-        "scope",
-        "control_protocol",
-        "seed_aggregation",
-        "hardgate",
-        "positive_claim",
-        "conditional_information_table",
-        "records",
+        "split_registry",
+        "split_rows",
+        "classifier_rows",
+        "hardgates",
+        "boundary_ledger",
+        "consumer_pointers",
         "not_claimed"
       ],
-      "scope_pointer": "$.scope"
+      "scope_pointer": "$.split_registry"
     }
   },
-  "json_artifact": "reports/canonical/irreducibility_report.json",
-  "markdown_artifact": "reports/canonical/order_residual_analysis.md",
-  "output_digest": "adb11be4c67beff607503658a0d97a1b27914f11047f4617af04fdcfabc9eb12",
+  "json_artifact": "reports/canonical/structural-generalization-splits.json",
+  "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+  "output_digest": "aae02a36416308ee20e3910a1df6ccfacebee6d4235c62866f7af7a6560030cc",
   "producer_command": [
     "python3",
-    "scripts/run_irreducibility_report.py"
+    "scripts/run_structural_generalization_splits.py"
   ],
-  "report_name": "irreducibility-report",
+  "report_name": "structural-generalization-splits",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
