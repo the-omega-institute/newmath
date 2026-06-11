@@ -83,6 +83,18 @@ The critical-pair exposure is then forced through $K$. A consumer cannot read $J
 Finally the closed-checker handoff is bounded by $S,C,B,O$. The checker seal, closed-normal fragment, bounded-check row, and obstruction row remain visible through the replay, provenance, and local naming rows $T,G,N$, so the packet exhausts the accepted critical pairs without adding any hidden confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier obstruction triad]
+\label{thm:metacic-parallel-diamond-frontier-obstruction-triad}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ packet retains three independent obstruction classes throughout the conditional local-diamond read: residual-substitution premise discharge remains confined to the row $P$, subject-reduction compatibility remains outside the closed-checker and closed-normal rows $S,C$, and the full closed Church--Rosser, evaluator equality, quotient term equality, and kernel-consistency endpoints remain recorded only as refused endpoints in the obstruction row $O$. These obstructions are transported and replayed through $H,T,G,N$ without being collapsed into one another or promoted to completed confluence data.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $P,O,B,S,C$ from \autoref{def:metacic-parallel-diamond-frontier-carrier}. Row $P$ is the residual-substitution premise, row $O$ stores the refused endpoints, and rows $B,S,C$ expose only bounded checking, closed checking, and closed-normal fragment data.
+
+Apply the frontier handoff theorem and critical-pair exhaustion, \autoref{thm:metacic-parallel-diamond-frontier-handoff} and \autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion}. They keep the local peak under the displayed premise and force the closed-checker route to retain $S,C,B,O$.
+
+Finally use the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. Transport, replay, provenance, and local naming preserve the same rows rather than discharging $P$, deriving subject reduction from $S,C$, or turning the obstruction row into Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual peak scope]
 \label{thm:metacic-parallel-diamond-frontier-residual-peak-scope}
 Every candidate-mediated residual peak read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the MetaCIC critical-pair envelope, residual substitution dependency, normalization candidate scope, and closure-trace rows before a diamond frontier read is public. For a carrier
