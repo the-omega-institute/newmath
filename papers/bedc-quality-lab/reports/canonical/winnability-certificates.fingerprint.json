@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "682ffa15d161eaa3edffb7b7ab6e7e98c15cac29d6186a6d3f662fdcea506201",
+  "input_fingerprint": "42ef0714563da91bc2a0726567e4ced75a56280d7d86ae03c09a2daa350ed293",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -25,24 +25,20 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/claim_complexity.py",
-        "sha256": "f01c3319271335b25b779fb25f299c47322e581c52bee884b5994bf3cd78bb13"
+        "path": "bedc_quality_lab/winnability.py",
+        "sha256": "210d3a9e12f2c92b2192bdb50c9f9bb4278484aaeadefc0e8d0289d04ee2470f"
       },
       {
-        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
-        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
-      },
-      {
-        "path": "scripts/run_claim_complexity_score.py",
-        "sha256": "2b067378fa8904f8c99ef4f9d7d008e08f70701dffb243b5cdfd3e333546bc2c"
+        "path": "scripts/run_winnability_certificates.py",
+        "sha256": "bc6ce57f684440b404d2638aeed96852c6f31eb2c74da0773e201a8a21fca022"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:claim-complexity",
+    "report_output_schema_id": "bedc-quality-lab:winnability-certificates",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_claim_complexity_score.py"
+        "scripts/run_winnability_certificates.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -50,21 +46,21 @@
     },
     "source_artifacts": [
       {
-        "path": "reports/canonical/claim_verdicts.jsonl",
-        "sha256": "639a55f052861d2f0c865a9720f9288104f803171951c3fe31a1cde2ee5c6b5d"
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "92693d1b3ea3f4330ca3401d172a4cd1a95c2b0605dc9bf5ef59d2e8b5b17ebb"
       },
       {
-        "path": "reports/canonical/discovery_map.json",
-        "sha256": "6bdf78aa6f3d622d30c7909f4e0abdade809d73174ee5691096033ec17f1b416"
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "1ecd997cc6337746eee87ac6dc9c12785d8be7b33a0184d9c73adaf52d3da7f6"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_claim_complexity_score.py"
+        "scripts/run_winnability_certificates.py"
       ],
-      "control_pointer": null,
+      "control_pointer": "$.hardgates",
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
@@ -73,32 +69,40 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/claim_complexity.json",
+      "json_artifact": "reports/canonical/winnability-certificates.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/claim_complexity.md",
-      "name": "claim-complexity",
-      "no_control_rationale_pointer": "$.not_claimed",
+      "markdown_artifact": "reports/canonical/winnability-certificates.md",
+      "name": "winnability-certificates",
+      "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.rows",
+      "positive_claim_pointer": "$.audit.fail_closed_count",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
+        "producer",
+        "owner",
         "source_artifacts",
-        "rows",
+        "input_pointers",
+        "family_registry",
+        "oracle_runs",
+        "certificates",
+        "audit",
         "hardgates",
-        "not_claimed"
+        "consumer_pointers",
+        "not_claimed",
+        "$.audit.fail_closed_count"
       ],
       "scope_pointer": "$.not_claimed"
     }
   },
-  "json_artifact": "reports/canonical/claim_complexity.json",
-  "markdown_artifact": "reports/canonical/claim_complexity.md",
-  "output_digest": "02e052e48f9389bd16c4bfe76fd665546bcc751f6feae56dc02f7b22e005a0ea",
+  "json_artifact": "reports/canonical/winnability-certificates.json",
+  "markdown_artifact": "reports/canonical/winnability-certificates.md",
+  "output_digest": "f748ac7b82d72ec850c1ff735dde96b67393b910ddb5647e35ed3781b6832be0",
   "producer_command": [
     "python3",
-    "scripts/run_claim_complexity_score.py"
+    "scripts/run_winnability_certificates.py"
   ],
-  "report_name": "claim-complexity",
+  "report_name": "winnability-certificates",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

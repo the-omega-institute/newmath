@@ -1072,6 +1072,59 @@ def test_claim_verdict_line_refs_are_stable_jsonl_pointers(tmp_path, monkeypatch
 
 
 @pytest.mark.parametrize(
+    ("certificate", "reason"),
+    [
+        (None, "winnability-certificate-missing"),
+        ({"status": "fail", "method": "analytic_bayes", "unwinnable": False, "coverage": {}}, "winnability-certificate-missing"),
+        ({"status": "pass", "method": "analytic_bayes", "unwinnable": True, "coverage": {}}, "split-unwinnable"),
+        (
+            {
+                "status": "pass",
+                "method": "analytic_bayes",
+                "unwinnable": False,
+                "coverage": {"coverage_classification": "table-coverage"},
+            },
+            "table-coverage-ceiling",
+        ),
+    ],
+)
+def test_claim_verdict_blocks_positive_claims_with_winnability_certificates(
+    tmp_path,
+    monkeypatch,
+    certificate,
+    reason,
+):
+    row_id = "win-fixture"
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    rows[0]["winnability_ref"] = {
+        "artifact": demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        "row_id": row_id,
+        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[?row_id=='{row_id}']",
+    }
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    if certificate is not None:
+        _write_json(
+            tmp_path / demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+            {
+                "schema_id": "bedc-quality-lab:winnability-certificates",
+                "artifact_id": "bedc-quality-lab:winnability-certificates",
+                "certificates": [dict(certificate, row_id=row_id)],
+                "audit": {"status": "pass"},
+            },
+        )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:d4"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == reason
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/winnability-certificates.json:$.certificates[?row_id=='win-fixture']"
+    )
+
+
+@pytest.mark.parametrize(
     ("mutation", "missing_key"),
     [
         ("control", "control-or-no-control-rationale"),

@@ -88,6 +88,7 @@ DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
+WINNABILITY_CERTIFICATES_ARTIFACT = "reports/canonical/winnability-certificates.json"
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -137,6 +138,85 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
         return None
     payload = _load_json(path)
     return payload if isinstance(payload, dict) else None
+
+
+def _load_winnability_certificates(root: Path) -> dict[str, Any]:
+    path = _artifact_path(root, WINNABILITY_CERTIFICATES_ARTIFACT)
+    if not path.exists():
+        return {"status": "missing", "by_row_id": {}, "duplicates": set()}
+    payload = _load_json(path)
+    rows = payload.get("certificates") if isinstance(payload, Mapping) else None
+    if not isinstance(rows, list):
+        return {"status": "malformed", "by_row_id": {}, "duplicates": set()}
+    by_row_id: dict[str, Mapping[str, Any]] = {}
+    duplicates: set[str] = set()
+    for row in rows:
+        if not isinstance(row, Mapping) or not isinstance(row.get("row_id"), str):
+            continue
+        row_id = str(row["row_id"])
+        if row_id in by_row_id:
+            duplicates.add(row_id)
+        else:
+            by_row_id[row_id] = row
+    return {"status": "ready", "by_row_id": by_row_id, "duplicates": duplicates}
+
+
+def _winnability_ref_cell(row: Mapping[str, Any], payload: Mapping[str, Any]) -> Mapping[str, Any] | str | None:
+    for source in (row, payload):
+        for key in (
+            "winnability_ref",
+            "winnability_certificate_ref",
+            "winnability_certificate",
+            "winnability",
+        ):
+            value = source.get(key)
+            if isinstance(value, (Mapping, str)):
+                return value
+        value = source.get("winnability_row_id")
+        if isinstance(value, str):
+            return value
+    return None
+
+
+def _winnability_row_id(ref: Mapping[str, Any] | str | None) -> str | None:
+    if isinstance(ref, str):
+        return ref
+    if not isinstance(ref, Mapping):
+        return None
+    value = ref.get("row_id")
+    return value if isinstance(value, str) else None
+
+
+def _winnability_block(
+    root: Path,
+    row: Mapping[str, Any],
+    payload: Mapping[str, Any],
+) -> tuple[str, str, str] | None:
+    ref = _winnability_ref_cell(row, payload)
+    row_id = _winnability_row_id(ref)
+    if row_id is None:
+        return None
+    certificate_map = _load_winnability_certificates(root)
+    pointer = (
+        ref.get("pointer")
+        if isinstance(ref, Mapping) and isinstance(ref.get("pointer"), str)
+        else f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[?row_id=='{row_id}']"
+    )
+    if certificate_map["status"] != "ready":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if row_id in certificate_map["duplicates"]:
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    certificate = certificate_map["by_row_id"].get(row_id)
+    if not isinstance(certificate, Mapping):
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    coverage = certificate.get("coverage") if isinstance(certificate.get("coverage"), Mapping) else {}
+    if certificate.get("status") == "fail" or certificate.get("method") == "unresolved":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if certificate.get("unwinnable") is True:
+        return "projected_discovery_required", "split-unwinnable", pointer
+    if coverage.get("coverage_classification") == "table-coverage":
+        return "projected_discovery_required", "table-coverage-ceiling", pointer
+    return None
 
 
 def _cost_protocol_loads(root: Path) -> bool:
@@ -593,6 +673,18 @@ def _mapped_discovery_row(
             reason="cost-protocol-unavailable",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{spec.cost_pointer}",
+            scorecard_snapshot=scorecard_snapshot,
+        )
+
+    winnability_block = _winnability_block(root, row, payload) if level in POSITIVE_LEVELS else None
+    if winnability_block is not None:
+        claim_verdict, reason, ledger_pointer = winnability_block
+        return _row(
+            claim_id=claim_id,
+            claim_verdict=claim_verdict,
+            reason=reason,
+            source=source,
+            ledger_pointer=ledger_pointer,
             scorecard_snapshot=scorecard_snapshot,
         )
 

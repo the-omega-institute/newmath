@@ -144,6 +144,10 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
 DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
+WINNABILITY_CERTIFICATES_JSON_ARTIFACT = "reports/canonical/winnability-certificates.json"
+WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT = "reports/canonical/winnability-certificates.md"
+WINNABILITY_CERTIFICATES_ARTIFACT_ID = "bedc-quality-lab:winnability-certificates"
+WINNABILITY_CERTIFICATES_SCHEMA_ID = "bedc-quality-lab:winnability-certificates"
 DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
@@ -1225,6 +1229,42 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
     ),
     CanonicalReportSpec(
+        name="winnability-certificates",
+        command=("python3", "scripts/run_winnability_certificates.py"),
+        json_artifact=WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
+        markdown_artifact=WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "owner",
+            "source_artifacts",
+            "input_pointers",
+            "family_registry",
+            "oracle_runs",
+            "certificates",
+            "audit",
+            "hardgates",
+            "consumer_pointers",
+            "not_claimed",
+            "$.audit.fail_closed_count",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.audit.fail_closed_count",
+        control_pointer="$.hardgates",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.certificates",
+        backend_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.owner",
+        discovery_level_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit.status",
+        negative_witness_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit.fail_closed_count",
+        formal_status_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="dgt-base-undertraining-audit",
         command=("python3", "scripts/run_dgt_base_undertraining_audit.py"),
         json_artifact=DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
@@ -1883,6 +1923,11 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
         paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
+    if spec.name == "winnability-certificates":
+        paths.update((DGT_L0_CONTROLS_JSON_ARTIFACT, DGT_L1_CONTROLS_JSON_ARTIFACT))
+        input_accessibility = ROOT / "reports/canonical/input-accessibility.json"
+        if input_accessibility.exists():
+            paths.add("reports/canonical/input-accessibility.json")
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
@@ -2051,6 +2096,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_mechanism_dna import write_mechanism_dna
 
         write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "winnability-certificates":
+        from scripts.run_winnability_certificates import write_winnability_certificates
+
+        write_winnability_certificates(root=ROOT, generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -3130,6 +3180,26 @@ def _claim_verdicts_index_section(rows: Sequence[dict[str, Any]] | None = None) 
         "artifact_id": CLAIM_VERDICTS_ARTIFACT_ID,
         "jsonl_artifact": CLAIM_VERDICTS_JSONL_ARTIFACT,
         "row_count": len(rows),
+    }
+
+
+def _winnability_certificates_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(WINNABILITY_CERTIFICATES_JSON_ARTIFACT)
+    audit = payload.get("audit") if isinstance(payload.get("audit"), Mapping) else {}
+    return {
+        "status": audit.get("status", "missing"),
+        "artifact_id": payload.get("artifact_id", WINNABILITY_CERTIFICATES_ARTIFACT_ID),
+        "json_artifact": WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
+        "markdown_artifact": WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT,
+        "certificates_pointer": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.certificates",
+        "audit_pointer": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit",
+        "hardgates_pointer": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.hardgates",
+        "certificate_count": audit.get("certificate_count", 0),
+        "unwinnable_count": audit.get("unwinnable_count", 0),
+        "table_coverage_count": audit.get("table_coverage_count", 0),
+        "failed_count": audit.get("failed_count", 0),
+        "fail_closed_count": audit.get("fail_closed_count", 0),
+        "registry_digest": payload.get("registry_digest", "missing"),
     }
 
 
@@ -5845,6 +5915,7 @@ def _index(
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
+        "winnability_certificates": _winnability_certificates_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
@@ -6122,6 +6193,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
         )
     lines.extend(
         [
+            "",
+            "## Winnability certificates",
+            "",
+            f"- Status: `{payload['winnability_certificates']['status']}`",
+            f"- JSON: `{payload['winnability_certificates']['json_artifact']}`",
+            f"- Markdown: `{payload['winnability_certificates']['markdown_artifact']}`",
+            f"- Certificates: `{payload['winnability_certificates']['certificate_count']}`",
+            f"- Fail-closed: `{payload['winnability_certificates']['fail_closed_count']}`",
+            f"- Audit: `{payload['winnability_certificates']['audit_pointer']}`",
+            f"- Hardgates: `{payload['winnability_certificates']['hardgates_pointer']}`",
             "",
             "## Claim verdicts",
             "",
