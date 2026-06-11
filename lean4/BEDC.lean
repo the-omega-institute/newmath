@@ -3183,6 +3183,7 @@ import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
+import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
@@ -6111,6 +6112,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNFiniteSocketNormalForm
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNHandoffSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNL10DependencySeal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNObligationDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNReadiness
@@ -6225,6 +6227,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealAuditCleanFloor
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
