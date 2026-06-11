@@ -1,0 +1,118 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-11T23:35:48.614743+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "bb6c0e4595e6c0f203e998e10f935b016688e5efd95cc60c1b291ef5cfc7ca14",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/winnability.py",
+        "sha256": "c3577a5a1112a7bafd2d14160774a69a45d4ee081923cbe9e32459ef3ba2df24"
+      },
+      {
+        "path": "scripts/run_winnability_certificates.py",
+        "sha256": "bc6ce57f684440b404d2638aeed96852c6f31eb2c74da0773e201a8a21fca022"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:winnability-certificates",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_winnability_certificates.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "ec9ebef08a41d4d3e212c0564df8fa16035a899269806cd5e4eb6f8b298f4ed5"
+      },
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "8cbcc9eabf385729c4787e1f3505f12410fb0cfef4eaac690e9a18e3f456912c"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_winnability_certificates.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.hardgates",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/winnability-certificates.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/winnability-certificates.md",
+      "name": "winnability-certificates",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.audit.fail_closed_count",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "owner",
+        "source_artifacts",
+        "inputs",
+        "registered_splits",
+        "family_registry",
+        "oracle_runs",
+        "certificates",
+        "audit",
+        "hardgates",
+        "consumer_pointers",
+        "not_claimed",
+        "$.audit.fail_closed_count"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/winnability-certificates.json",
+  "markdown_artifact": "reports/canonical/winnability-certificates.md",
+  "output_digest": "c75070fdd0f1d6d42fd560adce13a67989158d9a1ac923ae7c58ef851751675a",
+  "producer_command": [
+    "python3",
+    "scripts/run_winnability_certificates.py"
+  ],
+  "report_name": "winnability-certificates",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

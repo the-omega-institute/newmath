@@ -313,7 +313,6 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     expected_artifacts = [
         l1.CANONICAL_JSON_ARTIFACT,
         l1.CANONICAL_MARKDOWN_ARTIFACT,
-        l1.CANONICAL_FINGERPRINT_ARTIFACT,
         run_artifacts["summary"],
         run_artifacts["raw_metrics"],
         run_artifacts["claim_capsule"],
@@ -329,10 +328,8 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert canonical_payload["l1_step_ladder"]["step_grid"] == [8, 16]
     assert len(canonical_payload["l1_step_ladder"]["step_rows"]) == 2
     claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
-    fingerprint = json.loads((tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
     assert claim_capsule == canonical_payload["claim_capsule_ref"]
-    assert "run_artifacts" in fingerprint["inputs"]
-    assert run_artifacts["claim_capsule"] in json.dumps(fingerprint, sort_keys=True)
+    assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
 
 
 def test_dgt_l1_controls_regeneration_is_byte_stable(tmp_path, capsys):
@@ -356,7 +353,6 @@ def test_dgt_l1_controls_regeneration_is_byte_stable(tmp_path, capsys):
     checked_paths = [
         tmp_path / run_artifacts["raw_metrics"],
         tmp_path / l1.CANONICAL_JSON_ARTIFACT,
-        tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT,
     ]
 
     assert runner.main(config_args) == 0
@@ -538,7 +534,6 @@ def test_l1_ood_mechanism_probe_metrics_are_run_local_and_idempotent(tmp_path, c
         tmp_path / run_artifacts["raw_metrics"],
         tmp_path / run_artifacts["probe_metrics"],
         tmp_path / l1.CANONICAL_JSON_ARTIFACT,
-        tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT,
     ]
 
     assert runner.main(config_args) == 0
@@ -551,6 +546,7 @@ def test_l1_ood_mechanism_probe_metrics_are_run_local_and_idempotent(tmp_path, c
     second = {path: path.read_bytes() for path in checked_paths}
 
     assert first == second
+    assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
     assert second_summary["l1_ood_mechanism_verdict"] == first_summary["l1_ood_mechanism_verdict"]
     raw_text = (tmp_path / run_artifacts["raw_metrics"]).read_text(encoding="utf-8")
     probe_text = (tmp_path / run_artifacts["probe_metrics"]).read_text(encoding="utf-8")
