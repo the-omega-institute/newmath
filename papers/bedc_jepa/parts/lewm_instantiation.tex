@@ -80,7 +80,16 @@ the same boundary shape rather than escaping it: detection persists under
 background tint at every tested strength (AUROC $0.62$--$0.65$) and at mild
 occlusion, brightness, and Gaussian-noise strengths ($0.62$--$0.71$), while
 the strongest slices drive the failure rate to one, become single-class, and
-are reported fail-closed.
+are reported fail-closed.  An OOD-aware variant of the trained head, trained
+on clean plus perturbed train-split windows under the same protocol,
+reproduces the OOD-aware pattern of the post-hoc line at the architecture
+level: leave-one-out transfer to held-out families is positive on four of
+five (pooled AUROC: occlusion $0.75$, background tint $0.70$, brightness
+$0.66$, Gaussian noise $0.59$; color shift stays single-class), the strict
+final-strength claim holds on background tint (AUROC $0.77$), at the
+strongest slices the head conservatively declares gap on nearly everything
+(unlogged error $\rightarrow 0$), and clean evaluation is not degraded
+(AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
@@ -99,6 +108,7 @@ $$
 \text{OOD-aware training} & \texttt{reports/lewm\_ood\_aware\_gap.json},\\
 \text{trained ledger head} & \texttt{reports/lewm\_ledger\_aware\_transformer.json},\\
 \text{trained-head perturbation arm} & \texttt{reports/lewm\_ledger\_aware\_transformer\_ood.json},\\
+\text{trained-head OOD-aware training} & \texttt{reports/lewm\_ledger\_aware\_transformer\_ood\_aware.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
 \end{array}
 $$
