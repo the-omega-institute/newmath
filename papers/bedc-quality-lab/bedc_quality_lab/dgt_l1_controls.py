@@ -92,6 +92,18 @@ REQUIRED_WITNESSES = (
     "scripted_metric_table",
 )
 CRITICAL_WITNESSES = REQUIRED_WITNESSES
+OWNER_REQUIRED_METRICS = (
+    "FalseLedgerRate",
+    "JetCoverage",
+    "classifier_shift_count",
+)
+L1_MEASURABLE_METRICS = (
+    "accuracy_mean",
+    "ood_accuracy_mean",
+    "loss_decrease_mean",
+    "UER_mean",
+    "parameter_l2_delta_mean",
+)
 
 
 @dataclass(frozen=True)
@@ -330,9 +342,6 @@ def _train_arm(
     compute_units = round(float(config.training_steps * config.batch_size * parameter_count) / 1_000_000.0, 6)
     chance = 1.0 / task_spec.vocab_size
     uer = max(0.0, 1.0 - accuracy)
-    false_ledger_rate = 0.0 if arm_id in {"dgt_l1", "compute_matched_l1"} else min(1.0, max(0.0, confidence - accuracy))
-    jet_coverage = min(1.0, max(0.0, confidence if arm_id == "dgt_l1" else confidence * 0.5))
-    classifier_shift_count = int(arm_id == "dgt_l1" and accuracy > chance)
     metrics = {
         "accuracy": round(accuracy, 6),
         "ood_accuracy": round(ood_accuracy, 6),
@@ -341,9 +350,6 @@ def _train_arm(
         "loss_end": round(loss_history[-1], 8),
         "loss_decrease": round(loss_history[0] - loss_history[-1], 8),
         "UER": round(uer, 6),
-        "FalseLedgerRate": round(false_ledger_rate, 6),
-        "JetCoverage": round(jet_coverage, 6),
-        "classifier_shift_count": classifier_shift_count,
         "parameter_l2_delta": round(delta, 8),
         "confidence": round(confidence, 6),
         "positive_margin_over_chance": round(accuracy - chance, 6),
@@ -423,6 +429,59 @@ def _ci95_low(rows: Sequence[Mapping[str, Any]], key: str) -> float:
     return round(mean - 1.96 * math.sqrt(variance) / math.sqrt(len(values)), 6)
 
 
+def _ci95_low_values(values: Sequence[float]) -> float:
+    if not values:
+        return 0.0
+    mean = sum(values) / len(values)
+    if len(values) == 1:
+        return round(mean, 6)
+    variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
+    return round(mean - 1.96 * math.sqrt(variance) / math.sqrt(len(values)), 6)
+
+
+def _paired_accuracy_stats(
+    records: Sequence[Mapping[str, Any]],
+    *,
+    candidate_arm: str,
+    control_arm: str,
+) -> dict[str, Any]:
+    seeds = sorted({
+        int(row["seed"])
+        for row in records
+        if row.get("arm_id") in {candidate_arm, control_arm}
+    })
+    deltas: list[float] = []
+    rows: list[dict[str, Any]] = []
+    for seed in seeds:
+        candidate = next((row for row in records if row.get("arm_id") == candidate_arm and int(row.get("seed", -1)) == seed), None)
+        control = next((row for row in records if row.get("arm_id") == control_arm and int(row.get("seed", -1)) == seed), None)
+        if not isinstance(candidate, Mapping) or not isinstance(control, Mapping):
+            continue
+        delta = round(float(candidate["metrics"]["accuracy"]) - float(control["metrics"]["accuracy"]), 6)
+        deltas.append(delta)
+        rows.append(
+            {
+                "seed": seed,
+                "candidate_accuracy": float(candidate["metrics"]["accuracy"]),
+                "control_accuracy": float(control["metrics"]["accuracy"]),
+                "paired_delta": delta,
+            }
+        )
+    return {
+        "candidate_arm": candidate_arm,
+        "control_arm": control_arm,
+        "seed_count": len(deltas),
+        "delta_mean": round(sum(deltas) / len(deltas), 6) if deltas else 0.0,
+        "delta_ci95_low": _ci95_low_values(deltas),
+        "deltas": deltas,
+        "rows": rows,
+    }
+
+
+def _owner_required_metric_absent(metrics: Mapping[str, Any]) -> bool:
+    return all(metric not in metrics and f"{metric}_mean" not in metrics for metric in OWNER_REQUIRED_METRICS)
+
+
 def _arm_summaries(
     records: Sequence[Mapping[str, Any]],
     *,
@@ -448,9 +507,6 @@ def _arm_summaries(
                 "chance_accuracy": _mean(rows, "chance_accuracy"),
                 "loss_decrease_mean": _mean(rows, "loss_decrease"),
                 "UER_mean": _mean(rows, "UER"),
-                "FalseLedgerRate_mean": _mean(rows, "FalseLedgerRate"),
-                "JetCoverage_mean": _mean(rows, "JetCoverage"),
-                "classifier_shift_count": int(sum(int(row["metrics"]["classifier_shift_count"]) for row in rows)),
                 "parameter_l2_delta_mean": _mean(rows, "parameter_l2_delta"),
                 "positive_margin_over_chance_mean": _mean(rows, "positive_margin_over_chance"),
             },
@@ -818,6 +874,25 @@ def _component_ablation_boundary() -> dict[str, Any]:
     }
 
 
+def _owner_local_measurement_boundary() -> dict[str, Any]:
+    metric_owners = {
+        "FalseLedgerRate": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.FalseLedgerRate",
+        "JetCoverage": "reports/runs/discovery-gated-transformer/jet_certificate.json:$.jet_coverage",
+        "classifier_shift_count": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.classifier_shift_count",
+    }
+    return {
+        "status": "boundary-only",
+        "measured_status": "measured-owner-required",
+        "owner_issue": "github:issue:1168",
+        "not_measurable_here": list(OWNER_REQUIRED_METRICS),
+        "reason": "L1 tiny controls use embedding plus two-layer MLP training and do not instantiate ledger, jet, or classifier mechanisms.",
+        "metric_owners": metric_owners,
+        "owner_pointers": list(metric_owners.values()),
+        "not_recreated_here": True,
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
+    }
+
+
 def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
     return {
         "owner_module": OWNER_MODULE,
@@ -832,6 +907,7 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "seed_policy": {"base_seed": BASE_SEED, "deterministic_seeds": list(DEFAULT_SEEDS), "minimum_seed_count": 16},
         "device_policy": {"requested_device": requested_device, "canonical_default": "cpu", "mps_allowed_when_explicit": True},
         "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
+        "owner_required_metric_owners": _owner_local_measurement_boundary()["metric_owners"],
     }
 
 
@@ -882,6 +958,8 @@ def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
         "arms": arms,
         "compute": _mapping_cell(payload, "compute_ledger"),
         "params": _mapping_cell(payload, "parameter_ledger"),
+        "paired": _mapping_cell(payload, "paired_accuracy"),
+        "measurement_boundary": _mapping_cell(payload, "owner_local_measurement_boundary"),
         "negative": _mapping_cell(payload, "negative_witness_sweep"),
         "replay": _mapping_cell(payload, "independent_replay"),
         "capsule": _mapping_cell(payload, "claim_capsule_ref"),
@@ -933,6 +1011,20 @@ def _arm_seed_complete(arms: Mapping[str, Any], seed_count: int = 16) -> bool:
     )
 
 
+def _owner_local_measurement_boundary_resolves(boundary: Mapping[str, Any], *, root: Path | None = None) -> bool:
+    if boundary.get("measured_status") != "measured-owner-required":
+        return False
+    if boundary.get("not_recreated_here") is not True:
+        return False
+    if tuple(boundary.get("not_measurable_here", ())) != OWNER_REQUIRED_METRICS:
+        return False
+    owners = boundary.get("metric_owners")
+    if not isinstance(owners, Mapping) or tuple(owners) != OWNER_REQUIRED_METRICS:
+        return False
+    resolved_root = root or LAB_ROOT
+    return all(resolve_artifact_pointer(resolved_root, str(pointer)) is not None for pointer in owners.values())
+
+
 def _param_close_to_dgt(dgt: Mapping[str, Any] | None, control: Mapping[str, Any] | None) -> bool:
     if not isinstance(dgt, Mapping) or not isinstance(control, Mapping):
         return False
@@ -956,62 +1048,66 @@ def _compute_close_to_dgt(dgt: Mapping[str, Any] | None, control: Mapping[str, A
 
 def _gate_l1_hg1(context: Mapping[str, Any]) -> dict[str, Any]:
     arms = context["arms"]
+    boundary = context["measurement_boundary"]
     return _gate(
         isinstance(arms, Mapping)
         and _arm_seed_complete(arms)
         and all(
-            all(metric in row.get("metrics", {}) for metric in ("accuracy_mean", "ood_accuracy_mean", "loss_decrease_mean", "UER_mean", "FalseLedgerRate_mean", "JetCoverage_mean", "classifier_shift_count"))
+            all(metric in row.get("metrics", {}) for metric in L1_MEASURABLE_METRICS)
+            and _owner_required_metric_absent(row.get("metrics", {}))
             for row in arms.values()
             if isinstance(row, Mapping)
-        ),
+        )
+        and isinstance(boundary, Mapping)
+        and _owner_local_measurement_boundary_resolves(boundary),
         "L1-REVIEW-HG1",
-        "five L1 arms have deterministic CPU true-training evidence across sixteen seeds with required metrics",
-        "$.training_arms",
+        "five L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries",
+        "$.owner_local_measurement_boundary",
     )
 
 
 def _gate_l1_hg2(context: Mapping[str, Any]) -> dict[str, Any]:
-    dgt = context["dgt"]
-    base = context["base"]
+    paired = context["paired"].get("dgt_minus_base")
     return _gate(
-        isinstance(dgt, Mapping)
-        and isinstance(base, Mapping)
-        and float(dgt.get("metrics", {}).get("accuracy_ci95_low", 0.0))
-        > float(base.get("metrics", {}).get("accuracy_ci95_low", 1.0))
-        and (
-            float(dgt.get("metrics", {}).get("accuracy_ci95_low", 0.0))
-            - float(base.get("metrics", {}).get("accuracy_ci95_low", 0.0))
-        )
-        > 0.0,
+        isinstance(paired, Mapping)
+        and int(paired.get("seed_count", 0)) >= 16
+        and float(paired.get("delta_ci95_low", 0.0)) > 0.0,
         "L1-REVIEW-HG2",
-        "DGT in-distribution accuracy CI-low exceeds base CI-low with positive margin",
-        "$.training_arms.dgt_l1.metrics.accuracy_ci95_low",
+        "seed-paired DGT minus base in-distribution accuracy CI95-low is positive",
+        "$.paired_accuracy.dgt_minus_base.delta_ci95_low",
     )
 
 
 def _gate_l1_hg3(context: Mapping[str, Any]) -> dict[str, Any]:
-    dgt = context["dgt"]
+    paired = context["paired"].get("dgt_minus_matched_random")
     matched = context["matched"]
     return _gate(
-        isinstance(dgt, Mapping)
+        isinstance(paired, Mapping)
         and isinstance(matched, Mapping)
+        and int(paired.get("seed_count", 0)) >= 16
         and matched.get("structural_marginals_preserved") is True
-        and float(dgt.get("metrics", {}).get("accuracy_ci95_low", 0.0))
-        > float(matched.get("metrics", {}).get("accuracy_ci95_low", 1.0)),
+        and float(paired.get("delta_ci95_low", 0.0)) > 0.0,
         "L1-REVIEW-HG3",
-        "DGT in-distribution accuracy CI-low exceeds matched-random structural control CI-low",
-        "$.training_arms.matched_random_structural_l1.metrics.accuracy_ci95_low",
+        "seed-paired DGT minus matched-random accuracy CI95-low is positive with structural marginals preserved",
+        "$.paired_accuracy.dgt_minus_matched_random.delta_ci95_low",
     )
 
 
 def _gate_l1_hg4(context: Mapping[str, Any]) -> dict[str, Any]:
     matched = context["matched"]
+    arms = context["arms"]
     return _gate(
         isinstance(matched, Mapping)
-        and int(matched.get("metrics", {}).get("classifier_shift_count", -1)) == 0,
+        and matched.get("structural_marginals_preserved") is True
+        and all(
+            isinstance(row, Mapping)
+            and isinstance(row.get("metrics"), Mapping)
+            and _owner_required_metric_absent(row["metrics"])
+            for row in arms.values()
+        ),
         "L1-REVIEW-HG4",
-        "matched-random structural control has classifier_shift_count equal to zero",
-        "$.training_arms.matched_random_structural_l1.metrics.classifier_shift_count",
+        "matched-random structural control preserves marginals and no L1 arm reports owner-required ledger, jet, or classifier metrics",
+        "$.training_arms.matched_random_structural_l1.metrics",
     )
 
 
@@ -1239,8 +1335,10 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "compute_matched_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
             "compute_ledger_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.compute_ledger",
             "parameter_ledger_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
+            "paired_accuracy_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
             "negative_witness_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
             "independent_replay_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
+            "owner_local_measurement_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
             "allowed_claim": ALLOWED_CLAIM,
@@ -1259,8 +1357,10 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
             f"{CANONICAL_JSON_ARTIFACT}:$.compute_ledger",
             f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
+            f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
             f"{CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep",
             f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
+            f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         ],
@@ -1287,24 +1387,21 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
     dgt_metrics = payload.get("training_arms", {}).get("dgt_l1", {}).get("metrics", {})
     chance = float(dgt_metrics.get("chance_accuracy", 1.0))
     ood_ci_low = float(dgt_metrics.get("ood_accuracy_ci95_low", 0.0))
-    ood_ready = ood_ci_low > chance
     review_status = "pass" if status == "pass" else "blocked"
     pass_decision = "ready->pass" if status == "pass" else "blocked"
-    pass_scope = "in-dist order-2 only" if not ood_ready else "in-dist and measured OOD order-2"
+    pass_scope = "in-dist order-2 only" if status == "pass" else "blocked"
     return {
         "status": review_status,
         "review_status": review_status,
         "promotion_readiness": "ready-pass" if status == "pass" else "blocked",
         "pass_decision": pass_decision,
-        "verdict": "scoped-boundary" if status == "pass" and not ood_ready else "ready->pass" if status == "pass" else "blocked",
+        "verdict": "scoped-boundary" if status == "pass" else "blocked",
         "pass_scope": pass_scope,
-        "ood_generalization_claim": "not-claimed" if not ood_ready else "measured-split-only",
+        "ood_generalization_claim": "not-claimed",
         "ood_boundary": {
             "chance_accuracy": chance,
             "dgt_ood_accuracy_ci95_low": ood_ci_low,
-            "claim": "OOD split does not clear chance CI-low; no generalization claim"
-            if not ood_ready
-            else "OOD split clears chance CI-low for this bounded split only",
+            "claim": "OOD split is outside the L1 pass scope; no generalization claim",
         },
         "level_id": "L1_tiny_sequence",
         "evidence_scope": "bounded-tiny-sequence",
@@ -1335,7 +1432,7 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
                     "reason": "DGT OOD CI-low does not exceed chance",
                 }
             ]
-            if status == "pass" and not ood_ready
+            if status == "pass"
             else []
         ),
         "not_claimed": list(NOT_CLAIMED),
@@ -1373,6 +1470,19 @@ def build_payload(
     summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
     compute = _compute_ledger(summaries)
     params = _parameter_ledger(summaries)
+    paired_accuracy = {
+        "dgt_minus_base": _paired_accuracy_stats(
+            primary_records,
+            candidate_arm="dgt_l1",
+            control_arm="base_transformer_l1",
+        ),
+        "dgt_minus_matched_random": _paired_accuracy_stats(
+            primary_records,
+            candidate_arm="dgt_l1",
+            control_arm="matched_random_structural_l1",
+        ),
+        "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
+    }
     negative = _negative_witness_sweep(summaries)
     replay = _independent_replay(task_spec.as_payload(), primary_records, summaries)
     step_ladder = build_l1_step_ladder(records, cfg)
@@ -1386,8 +1496,10 @@ def build_payload(
         "training_arms": summaries,
         "compute_ledger": compute,
         "parameter_ledger": params,
+        "paired_accuracy": paired_accuracy,
         "negative_witness_sweep": negative,
         "independent_replay": replay,
+        "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
@@ -1423,8 +1535,10 @@ def _required_fields() -> set[str]:
         "training_arms",
         "compute_ledger",
         "parameter_ledger",
+        "paired_accuracy",
         "negative_witness_sweep",
         "independent_replay",
+        "owner_local_measurement_boundary",
         "l1_step_ladder",
         "review_status",
         "promotion_readiness",
@@ -1467,11 +1581,43 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         metrics = row.get("metrics")
         if not isinstance(metrics, Mapping) or float(metrics.get("parameter_l2_delta_mean", 0)) <= 0:
             raise ValueError(f"DGT L1 real parameter update evidence missing: {arm_id}")
-        for metric in ("accuracy_mean", "ood_accuracy_mean", "loss_decrease_mean", "UER_mean", "FalseLedgerRate_mean", "JetCoverage_mean", "classifier_shift_count"):
+        for metric in L1_MEASURABLE_METRICS:
             if metric not in metrics:
                 raise ValueError(f"DGT L1 required metric missing: {arm_id}.{metric}")
+        forbidden_metrics = [metric for metric in OWNER_REQUIRED_METRICS if metric in metrics or f"{metric}_mean" in metrics]
+        if forbidden_metrics:
+            raise ValueError(f"DGT L1 owner-required metric must not be reported locally: {arm_id}.{forbidden_metrics[0]}")
+    paired = payload["paired_accuracy"]
+    if not isinstance(paired, Mapping):
+        raise ValueError("DGT L1 paired accuracy missing")
+    for key, control_arm in (
+        ("dgt_minus_base", "base_transformer_l1"),
+        ("dgt_minus_matched_random", "matched_random_structural_l1"),
+    ):
+        cell = paired.get(key)
+        if not isinstance(cell, Mapping):
+            raise ValueError(f"DGT L1 paired accuracy cell missing: {key}")
+        if cell.get("candidate_arm") != "dgt_l1" or cell.get("control_arm") != control_arm:
+            raise ValueError(f"DGT L1 paired accuracy arm mismatch: {key}")
+        if int(cell.get("seed_count", 0)) < 16:
+            raise ValueError(f"DGT L1 paired accuracy seed count too small: {key}")
+        if float(cell.get("delta_ci95_low", 0.0)) <= 0.0:
+            gate_id = "L1-REVIEW-HG2" if key == "dgt_minus_base" else "L1-REVIEW-HG3"
+            raise ValueError(f"{gate_id} DGT L1 paired accuracy CI-low not positive: {key}")
+        rows = cell.get("rows")
+        deltas = cell.get("deltas")
+        if not isinstance(rows, Sequence) or not isinstance(deltas, Sequence) or len(rows) != int(cell["seed_count"]) or len(deltas) != int(cell["seed_count"]):
+            raise ValueError(f"DGT L1 paired accuracy rows mismatch: {key}")
+        recomputed_deltas = [round(float(row["candidate_accuracy"]) - float(row["control_accuracy"]), 6) for row in rows]
+        if list(deltas) != recomputed_deltas:
+            raise ValueError(f"DGT L1 paired accuracy delta mismatch: {key}")
+        if float(cell.get("delta_ci95_low", 0.0)) != _ci95_low_values([float(value) for value in deltas]):
+            raise ValueError(f"DGT L1 paired accuracy CI mismatch: {key}")
     if payload["review_status"] != "pass" or payload["promotion_readiness"] != "ready-pass":
         raise ValueError("DGT L1 independent review status must be owner-local pass")
+    measurement_boundary = payload["owner_local_measurement_boundary"]
+    if not isinstance(measurement_boundary, Mapping) or not _owner_local_measurement_boundary_resolves(measurement_boundary, root=root):
+        raise ValueError("DGT L1 owner-local measurement boundary must point to measured owners")
     component = payload["component_ablation_boundary"]
     if not isinstance(component, Mapping) or component.get("owner_issue") != "github:issue:1168" or component.get("not_recreated_here") is not True:
         raise ValueError("DGT L1 component ablation must point to measured owner")
@@ -1513,9 +1659,9 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 projection mismatch")
     if payload["review_status"] != expected_projection["review_status"] or payload["promotion_readiness"] != expected_projection["promotion_readiness"]:
         raise ValueError("DGT L1 review status must be mirrored from owner-local projection")
-    if expected_projection["verdict"] == "ready->pass" and expected_projection["ood_generalization_claim"] != "measured-split-only":
-        raise ValueError("DGT L1 OOD claim mismatch")
-    if expected_projection["verdict"] == "scoped-boundary" and expected_projection["ood_generalization_claim"] != "not-claimed":
+    if expected_projection["pass_scope"] != "in-dist order-2 only":
+        raise ValueError("DGT L1 pass scope must remain in-dist order-2 only")
+    if expected_projection["ood_generalization_claim"] != "not-claimed":
         raise ValueError("DGT L1 scoped boundary must not claim OOD generalization")
     if payload["boundary_ledger"] != expected_projection["boundary_ledger"]:
         raise ValueError("DGT L1 boundary ledger mismatch")

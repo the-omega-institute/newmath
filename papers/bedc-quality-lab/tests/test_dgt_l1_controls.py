@@ -60,6 +60,9 @@ def test_l1_training_requires_real_torch_updates():
         assert arm["training_steps"] > 0
         assert arm["metrics"]["parameter_l2_delta_mean"] > 0
         assert arm["metrics"]["loss_decrease_mean"] > 0
+        assert "FalseLedgerRate_mean" not in arm["metrics"]
+        assert "JetCoverage_mean" not in arm["metrics"]
+        assert "classifier_shift_count" not in arm["metrics"]
     ladder = payload["l1_step_ladder"]
     assert ladder["step_grid"] == [36, 72]
     assert len(ladder["step_rows"]) == 2
@@ -73,6 +76,27 @@ def test_l1_training_requires_real_torch_updates():
     mutated = json.loads(json.dumps(payload))
     mutated["training_arms"]["dgt_l1"]["metrics"]["parameter_l2_delta_mean"] = 0
     _expect_invalid(mutated, "parameter update")
+
+
+def test_l1_owner_required_metrics_are_boundary_only_and_pointer_backed():
+    payload = _payload()
+    boundary = payload["owner_local_measurement_boundary"]
+
+    assert payload["hardgates"]["L1-REVIEW-HG1"]["status"] == "pass"
+    assert boundary["measured_status"] == "measured-owner-required"
+    assert boundary["not_measurable_here"] == list(l1.OWNER_REQUIRED_METRICS)
+    for pointer in boundary["metric_owners"].values():
+        assert resolve_artifact_pointer(l1.LAB_ROOT, pointer) is not None
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["owner_local_measurement_boundary"]["metric_owners"]["JetCoverage"] = "reports/canonical/missing.json:$.x"
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "L1-REVIEW-HG1|owner-local measurement boundary")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["training_arms"]["dgt_l1"]["metrics"]["JetCoverage_mean"] = 0.5
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "L1-REVIEW-HG1|owner-required metric")
 
 
 def test_l1_base_control_param_and_compute_matched():
@@ -91,10 +115,19 @@ def test_l1_base_control_param_and_compute_matched():
 
 def test_l1_matched_random_structural_control_fail_closed():
     payload = _payload()
+    assert payload["hardgates"]["L1-REVIEW-HG2"]["status"] == "pass"
     assert payload["hardgates"]["L1-REVIEW-HG3"]["status"] == "pass"
+    assert payload["hardgates"]["L1-REVIEW-HG4"]["status"] == "pass"
+    assert payload["paired_accuracy"]["dgt_minus_base"]["delta_ci95_low"] > 0.0
+    assert payload["paired_accuracy"]["dgt_minus_matched_random"]["delta_ci95_low"] > 0.0
 
     mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"]["matched_random_structural_l1"]["metrics"]["accuracy_ci95_low"] = payload["training_arms"]["dgt_l1"]["metrics"]["accuracy_ci95_low"]
+    mutated["paired_accuracy"]["dgt_minus_base"]["delta_ci95_low"] = 0.0
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "L1-REVIEW-HG2")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["paired_accuracy"]["dgt_minus_matched_random"]["delta_ci95_low"] = 0.0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG3")
 
@@ -102,6 +135,11 @@ def test_l1_matched_random_structural_control_fail_closed():
     mutated["training_arms"]["matched_random_structural_l1"]["structural_marginals_preserved"] = False
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG3")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["training_arms"]["matched_random_structural_l1"]["metrics"]["classifier_shift_count"] = 0
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "L1-REVIEW-HG4|owner-required metric")
 
 
 def test_l1_compute_and_parameter_ledgers_require_positive_values():
@@ -181,9 +219,9 @@ def test_l1_review_status_pass_and_scoped_boundary():
     assert payload["review_status"] == "pass"
     assert payload["promotion_readiness"] == "ready-pass"
     assert payload["hardgates"]["L1-REVIEW-HG7"]["status"] == "pass"
-    assert payload["l1_tiny_sequence_projection"]["verdict"] in {"ready->pass", "scoped-boundary"}
-    if payload["l1_tiny_sequence_projection"]["verdict"] == "scoped-boundary":
-        assert payload["l1_tiny_sequence_projection"]["ood_generalization_claim"] == "not-claimed"
+    assert payload["l1_tiny_sequence_projection"]["verdict"] == "scoped-boundary"
+    assert payload["l1_tiny_sequence_projection"]["pass_scope"] == "in-dist order-2 only"
+    assert payload["l1_tiny_sequence_projection"]["ood_generalization_claim"] == "not-claimed"
 
     mutated = json.loads(json.dumps(payload))
     mutated["review_status"] = "blocked"
@@ -248,6 +286,7 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert summary["device"] == "cpu"
     assert summary["compute_units"] > 0
     assert summary["opened_ladder_level"] == "L1_tiny_sequence"
+    assert summary["ood_generalization_claim"] == "not-claimed"
     assert summary["l1_step_ladder_verdict"] in {"separation-persists", "base-catches-up", "inconclusive"}
     assert summary["l1_step_ladder_crossover"] in {"base-crossover-observed", "no-base-crossover-observed"}
 
@@ -323,6 +362,8 @@ def test_l1_component_ablation_reuses_measured_owner_without_component_effects()
     boundary = payload["component_ablation_boundary"]
     assert boundary["owner_issue"] == "github:issue:1168"
     assert boundary["owner_artifact"] == "reports/canonical/dgt-neural-ablation.json"
+    assert boundary["measured_status"] == "measured-owner-required"
+    assert resolve_artifact_pointer(l1.LAB_ROOT, boundary["owner_pointer"]) is not None
     assert boundary["not_recreated_here"] is True
     assert "COMPONENT_EFFECTS" not in json.dumps(payload, sort_keys=True)
 

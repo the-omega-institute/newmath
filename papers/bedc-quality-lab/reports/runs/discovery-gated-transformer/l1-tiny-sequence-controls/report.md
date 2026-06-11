@@ -11,10 +11,10 @@
 
 ## Hardgates
 
-- `L1-REVIEW-HG1`: `pass` - five L1 arms have deterministic CPU true-training evidence across sixteen seeds with required metrics
-- `L1-REVIEW-HG2`: `pass` - DGT in-distribution accuracy CI-low exceeds base CI-low with positive margin
-- `L1-REVIEW-HG3`: `pass` - DGT in-distribution accuracy CI-low exceeds matched-random structural control CI-low
-- `L1-REVIEW-HG4`: `pass` - matched-random structural control has classifier_shift_count equal to zero
+- `L1-REVIEW-HG1`: `pass` - five L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries
+- `L1-REVIEW-HG2`: `pass` - seed-paired DGT minus base in-distribution accuracy CI95-low is positive
+- `L1-REVIEW-HG3`: `pass` - seed-paired DGT minus matched-random accuracy CI95-low is positive with structural marginals preserved
+- `L1-REVIEW-HG4`: `pass` - matched-random structural control preserves marginals and no L1 arm reports owner-required ledger, jet, or classifier metrics
 - `L1-REVIEW-HG5`: `pass` - parameter-matched and compute-matched controls satisfy owner-local fairness ledgers
 - `L1-REVIEW-HG6`: `pass` - independent replay, negative witnesses, and bounded order-two scope are fail-closed
 - `L1-REVIEW-HG7`: `pass` - review verdict is emitted only after L1-REVIEW-HG1 through L1-REVIEW-HG6 pass

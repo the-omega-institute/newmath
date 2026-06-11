@@ -1,6 +1,14 @@
 {
   "artifact_id": "bedc-quality-lab:dgt-l1-controls",
-  "boundary_ledger": [],
+  "boundary_ledger": [
+    {
+      "boundary": "blocks OOD generalization claim while allowing in-distribution pass",
+      "evidence_pointer": "$.l1_tiny_sequence_projection.ood_boundary",
+      "gate_id": "L1-DEC-OOD",
+      "reason": "DGT OOD CI-low does not exceed chance",
+      "status": "scoped-boundary"
+    }
+  ],
   "claim_capsule_ref": {
     "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
     "claim_id": "claim:dgt-l1-tiny-sequence",
@@ -13,8 +21,10 @@
       "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_l1",
       "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
       "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
+      "reports/canonical/dgt-l1-controls.json:$.paired_accuracy",
       "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
       "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
       "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status"
     ],
@@ -49,6 +59,8 @@
       "matched_random_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
       "model_id": "discovery-gated-transformer",
       "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
+      "owner_local_measurement_boundary_pointer": "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
+      "paired_accuracy_pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy",
       "parameter_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
       "parameter_matched_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_l1",
       "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
@@ -592,29 +604,29 @@
   "generated_at": "2026-06-10T00:00:00+00:00",
   "hardgates": {
     "L1-REVIEW-HG1": {
-      "criterion": "five L1 arms have deterministic CPU true-training evidence across sixteen seeds with required metrics",
-      "evidence_pointer": "$.training_arms",
+      "criterion": "five L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries",
+      "evidence_pointer": "$.owner_local_measurement_boundary",
       "fail_closed_reason": null,
       "gate_id": "L1-REVIEW-HG1",
       "status": "pass"
     },
     "L1-REVIEW-HG2": {
-      "criterion": "DGT in-distribution accuracy CI-low exceeds base CI-low with positive margin",
-      "evidence_pointer": "$.training_arms.dgt_l1.metrics.accuracy_ci95_low",
+      "criterion": "seed-paired DGT minus base in-distribution accuracy CI95-low is positive",
+      "evidence_pointer": "$.paired_accuracy.dgt_minus_base.delta_ci95_low",
       "fail_closed_reason": null,
       "gate_id": "L1-REVIEW-HG2",
       "status": "pass"
     },
     "L1-REVIEW-HG3": {
-      "criterion": "DGT in-distribution accuracy CI-low exceeds matched-random structural control CI-low",
-      "evidence_pointer": "$.training_arms.matched_random_structural_l1.metrics.accuracy_ci95_low",
+      "criterion": "seed-paired DGT minus matched-random accuracy CI95-low is positive with structural marginals preserved",
+      "evidence_pointer": "$.paired_accuracy.dgt_minus_matched_random.delta_ci95_low",
       "fail_closed_reason": null,
       "gate_id": "L1-REVIEW-HG3",
       "status": "pass"
     },
     "L1-REVIEW-HG4": {
-      "criterion": "matched-random structural control has classifier_shift_count equal to zero",
-      "evidence_pointer": "$.training_arms.matched_random_structural_l1.metrics.classifier_shift_count",
+      "criterion": "matched-random structural control preserves marginals and no L1 arm reports owner-required ledger, jet, or classifier metrics",
+      "evidence_pointer": "$.training_arms.matched_random_structural_l1.metrics",
       "fail_closed_reason": null,
       "gate_id": "L1-REVIEW-HG4",
       "status": "pass"
@@ -797,13 +809,10 @@
     "status": "pass",
     "summary_metrics": {
       "base_transformer_l1": {
-        "FalseLedgerRate_mean": 0.05288,
-        "JetCoverage_mean": 0.059155,
         "UER_mean": 0.93457,
         "accuracy_ci95_low": 0.056224,
         "accuracy_mean": 0.06543,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.099396,
         "ood_accuracy_ci95_low": 0.063243,
         "ood_accuracy_mean": 0.06958,
@@ -811,13 +820,10 @@
         "positive_margin_over_chance_mean": 0.00293
       },
       "compute_matched_l1": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.087367,
         "UER_mean": 0.759521,
         "accuracy_ci95_low": 0.228035,
         "accuracy_mean": 0.240478,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.44076,
         "ood_accuracy_ci95_low": 0.056911,
         "ood_accuracy_mean": 0.063965,
@@ -825,13 +831,10 @@
         "positive_margin_over_chance_mean": 0.177978
       },
       "dgt_l1": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.24602,
         "UER_mean": 0.688232,
         "accuracy_ci95_low": 0.29385,
         "accuracy_mean": 0.311768,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 16,
         "loss_decrease_mean": 0.972321,
         "ood_accuracy_ci95_low": 0.06309,
         "ood_accuracy_mean": 0.06958,
@@ -839,13 +842,10 @@
         "positive_margin_over_chance_mean": 0.249268
       },
       "matched_random_structural_l1": {
-        "FalseLedgerRate_mean": 0.093294,
-        "JetCoverage_mean": 0.0757,
         "UER_mean": 0.941895,
         "accuracy_ci95_low": 0.049464,
         "accuracy_mean": 0.058105,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.218891,
         "ood_accuracy_ci95_low": 0.054078,
         "ood_accuracy_mean": 0.062012,
@@ -853,13 +853,10 @@
         "positive_margin_over_chance_mean": -0.004395
       },
       "parameter_matched_l1": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.089206,
         "UER_mean": 0.73584,
         "accuracy_ci95_low": 0.252364,
         "accuracy_mean": 0.26416,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.477352,
         "ood_accuracy_ci95_low": 0.056575,
         "ood_accuracy_mean": 0.06543,
@@ -1582,13 +1579,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.05288,
-              "JetCoverage_mean": 0.059155,
               "UER_mean": 0.93457,
               "accuracy_ci95_low": 0.056224,
               "accuracy_mean": 0.06543,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.099396,
               "ood_accuracy_ci95_low": 0.063243,
               "ood_accuracy_mean": 0.06958,
@@ -1625,13 +1619,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.087367,
               "UER_mean": 0.759521,
               "accuracy_ci95_low": 0.228035,
               "accuracy_mean": 0.240478,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.44076,
               "ood_accuracy_ci95_low": 0.056911,
               "ood_accuracy_mean": 0.063965,
@@ -1668,13 +1659,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.24602,
               "UER_mean": 0.688232,
               "accuracy_ci95_low": 0.29385,
               "accuracy_mean": 0.311768,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 16,
               "loss_decrease_mean": 0.972321,
               "ood_accuracy_ci95_low": 0.06309,
               "ood_accuracy_mean": 0.06958,
@@ -1711,13 +1699,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.093294,
-              "JetCoverage_mean": 0.0757,
               "UER_mean": 0.941895,
               "accuracy_ci95_low": 0.049464,
               "accuracy_mean": 0.058105,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.218891,
               "ood_accuracy_ci95_low": 0.054078,
               "ood_accuracy_mean": 0.062012,
@@ -1755,13 +1740,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.089206,
               "UER_mean": 0.73584,
               "accuracy_ci95_low": 0.252364,
               "accuracy_mean": 0.26416,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.477352,
               "ood_accuracy_ci95_low": 0.056575,
               "ood_accuracy_mean": 0.06543,
@@ -2371,13 +2353,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.056102,
-              "JetCoverage_mean": 0.060644,
               "UER_mean": 0.934814,
               "accuracy_ci95_low": 0.05492,
               "accuracy_mean": 0.065186,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.130731,
               "ood_accuracy_ci95_low": 0.05912,
               "ood_accuracy_mean": 0.06543,
@@ -2414,13 +2393,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.184209,
               "UER_mean": 0.422608,
               "accuracy_ci95_low": 0.551493,
               "accuracy_mean": 0.577392,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 1.510715,
               "ood_accuracy_ci95_low": 0.055763,
               "ood_accuracy_mean": 0.062988,
@@ -2457,13 +2433,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.437144,
               "UER_mean": 0.369141,
               "accuracy_ci95_low": 0.616282,
               "accuracy_mean": 0.630859,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 16,
               "loss_decrease_mean": 1.779468,
               "ood_accuracy_ci95_low": 0.057103,
               "ood_accuracy_mean": 0.065185,
@@ -2500,13 +2473,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.116149,
-              "JetCoverage_mean": 0.089325,
               "UER_mean": 0.9375,
               "accuracy_ci95_low": 0.054717,
               "accuracy_mean": 0.0625,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.340745,
               "ood_accuracy_ci95_low": 0.05665,
               "ood_accuracy_mean": 0.064209,
@@ -2544,13 +2514,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.19606,
               "UER_mean": 0.39209,
               "accuracy_ci95_low": 0.589646,
               "accuracy_mean": 0.60791,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 1.594752,
               "ood_accuracy_ci95_low": 0.055729,
               "ood_accuracy_mean": 0.062988,
@@ -3160,13 +3127,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.053415,
-              "JetCoverage_mean": 0.061131,
               "UER_mean": 0.931152,
               "accuracy_ci95_low": 0.06015,
               "accuracy_mean": 0.068848,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.138166,
               "ood_accuracy_ci95_low": 0.059473,
               "ood_accuracy_mean": 0.06665,
@@ -3203,13 +3167,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.37728,
               "UER_mean": 0.090576,
               "accuracy_ci95_low": 0.891643,
               "accuracy_mean": 0.909424,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.551874,
               "ood_accuracy_ci95_low": 0.058489,
               "ood_accuracy_mean": 0.064209,
@@ -3246,13 +3207,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.805578,
               "UER_mean": 0.0625,
               "accuracy_ci95_low": 0.925598,
               "accuracy_mean": 0.9375,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 16,
               "loss_decrease_mean": 2.642087,
               "ood_accuracy_ci95_low": 0.058822,
               "ood_accuracy_mean": 0.06665,
@@ -3289,13 +3247,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.183678,
-              "JetCoverage_mean": 0.122357,
               "UER_mean": 0.938965,
               "accuracy_ci95_low": 0.054789,
               "accuracy_mean": 0.061035,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.612482,
               "ood_accuracy_ci95_low": 0.054386,
               "ood_accuracy_mean": 0.060791,
@@ -3333,13 +3288,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.384588,
               "UER_mean": 0.08252,
               "accuracy_ci95_low": 0.907724,
               "accuracy_mean": 0.91748,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.571703,
               "ood_accuracy_ci95_low": 0.056865,
               "ood_accuracy_mean": 0.065185,
@@ -3949,13 +3901,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.053589,
-              "JetCoverage_mean": 0.061218,
               "UER_mean": 0.931152,
               "accuracy_ci95_low": 0.059711,
               "accuracy_mean": 0.068848,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.141491,
               "ood_accuracy_ci95_low": 0.059292,
               "ood_accuracy_mean": 0.065918,
@@ -3992,13 +3941,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.460518,
               "UER_mean": 0.023193,
               "accuracy_ci95_low": 0.969907,
               "accuracy_mean": 0.976807,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.750367,
               "ood_accuracy_ci95_low": 0.057038,
               "ood_accuracy_mean": 0.064941,
@@ -4035,13 +3981,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.950476,
               "UER_mean": 0.018555,
               "accuracy_ci95_low": 0.975293,
               "accuracy_mean": 0.981445,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 16,
               "loss_decrease_mean": 2.792615,
               "ood_accuracy_ci95_low": 0.056423,
               "ood_accuracy_mean": 0.064453,
@@ -4078,13 +4021,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.267661,
-              "JetCoverage_mean": 0.162395,
               "UER_mean": 0.942871,
               "accuracy_ci95_low": 0.051587,
               "accuracy_mean": 0.057129,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.886965,
               "ood_accuracy_ci95_low": 0.051766,
               "ood_accuracy_mean": 0.057129,
@@ -4122,13 +4062,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.463311,
               "UER_mean": 0.024414,
               "accuracy_ci95_low": 0.969123,
               "accuracy_mean": 0.975586,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.76492,
               "ood_accuracy_ci95_low": 0.056427,
               "ood_accuracy_mean": 0.064209,
@@ -4738,13 +4675,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.053861,
-              "JetCoverage_mean": 0.061232,
               "UER_mean": 0.931397,
               "accuracy_ci95_low": 0.059545,
               "accuracy_mean": 0.068603,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 0.143287,
               "ood_accuracy_ci95_low": 0.059479,
               "ood_accuracy_mean": 0.065918,
@@ -4781,13 +4715,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.486773,
               "UER_mean": 0.017822,
               "accuracy_ci95_low": 0.97566,
               "accuracy_mean": 0.982178,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.788897,
               "ood_accuracy_ci95_low": 0.056332,
               "ood_accuracy_mean": 0.064453,
@@ -4824,13 +4755,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.0,
-              "JetCoverage_mean": 0.982664,
               "UER_mean": 0.018066,
               "accuracy_ci95_low": 0.975687,
               "accuracy_mean": 0.981934,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 16,
               "loss_decrease_mean": 2.815159,
               "ood_accuracy_ci95_low": 0.055848,
               "ood_accuracy_mean": 0.063965,
@@ -4867,13 +4795,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.310041,
-              "JetCoverage_mean": 0.184439,
               "UER_mean": 0.941162,
               "accuracy_ci95_low": 0.051694,
               "accuracy_mean": 0.058838,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 1.058915,
               "ood_accuracy_ci95_low": 0.051462,
               "ood_accuracy_mean": 0.059082,
@@ -4911,13 +4836,10 @@
             "device_requested": "cpu",
             "device_resolved": "cpu",
             "metrics": {
-              "FalseLedgerRate_mean": 0.00199,
-              "JetCoverage_mean": 0.487549,
               "UER_mean": 0.017578,
               "accuracy_ci95_low": 0.976369,
               "accuracy_mean": 0.982422,
               "chance_accuracy": 0.0625,
-              "classifier_shift_count": 0,
               "loss_decrease_mean": 2.803318,
               "ood_accuracy_ci95_low": 0.056484,
               "ood_accuracy_mean": 0.064453,
@@ -5118,7 +5040,15 @@
     "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict"
   },
   "l1_tiny_sequence_projection": {
-    "boundary_ledger": [],
+    "boundary_ledger": [
+      {
+        "boundary": "blocks OOD generalization claim while allowing in-distribution pass",
+        "evidence_pointer": "$.l1_tiny_sequence_projection.ood_boundary",
+        "gate_id": "L1-DEC-OOD",
+        "reason": "DGT OOD CI-low does not exceed chance",
+        "status": "scoped-boundary"
+      }
+    ],
     "claim_capsule_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref",
     "evidence_scope": "bounded-tiny-sequence",
     "failed_gate": null,
@@ -5137,19 +5067,19 @@
     ],
     "ood_boundary": {
       "chance_accuracy": 0.0625,
-      "claim": "OOD split clears chance CI-low for this bounded split only",
+      "claim": "OOD split is outside the L1 pass scope; no generalization claim",
       "dgt_ood_accuracy_ci95_low": 0.06309
     },
-    "ood_generalization_claim": "measured-split-only",
+    "ood_generalization_claim": "not-claimed",
     "pass_decision": "ready->pass",
     "pass_hardgate_pointer": "reports/canonical/dgt-l1-controls.json:$.hardgates",
-    "pass_scope": "in-dist and measured OOD order-2",
+    "pass_scope": "in-dist order-2 only",
     "promotion_readiness": "ready-pass",
     "review_status": "pass",
     "status": "pass",
     "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
     "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec",
-    "verdict": "ready->pass"
+    "verdict": "scoped-boundary"
   },
   "negative_witness_sweep": {
     "critical_hit_count": 0,
@@ -5218,6 +5148,278 @@
     "No natural-language capability claim.",
     "No component-causal stability beyond the #1168 measured owner."
   ],
+  "owner_local_measurement_boundary": {
+    "measured_status": "measured-owner-required",
+    "metric_owners": {
+      "FalseLedgerRate": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.FalseLedgerRate",
+      "JetCoverage": "reports/runs/discovery-gated-transformer/jet_certificate.json:$.jet_coverage",
+      "classifier_shift_count": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.classifier_shift_count"
+    },
+    "not_measurable_here": [
+      "FalseLedgerRate",
+      "JetCoverage",
+      "classifier_shift_count"
+    ],
+    "not_recreated_here": true,
+    "owner_issue": "github:issue:1168",
+    "owner_pointers": [
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.FalseLedgerRate",
+      "reports/runs/discovery-gated-transformer/jet_certificate.json:$.jet_coverage",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.classifier_shift_count"
+    ],
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
+    "reason": "L1 tiny controls use embedding plus two-layer MLP training and do not instantiate ledger, jet, or classifier mechanisms.",
+    "status": "boundary-only"
+  },
+  "paired_accuracy": {
+    "dgt_minus_base": {
+      "candidate_arm": "dgt_l1",
+      "control_arm": "base_transformer_l1",
+      "delta_ci95_low": 0.230781,
+      "delta_mean": 0.246338,
+      "deltas": [
+        0.257812,
+        0.210938,
+        0.292968,
+        0.226563,
+        0.234375,
+        0.292969,
+        0.253906,
+        0.289063,
+        0.191406,
+        0.238282,
+        0.253906,
+        0.207031,
+        0.226563,
+        0.222656,
+        0.277344,
+        0.265625
+      ],
+      "rows": [
+        {
+          "candidate_accuracy": 0.285156,
+          "control_accuracy": 0.027344,
+          "paired_delta": 0.257812,
+          "seed": 1174
+        },
+        {
+          "candidate_accuracy": 0.28125,
+          "control_accuracy": 0.070312,
+          "paired_delta": 0.210938,
+          "seed": 1175
+        },
+        {
+          "candidate_accuracy": 0.382812,
+          "control_accuracy": 0.089844,
+          "paired_delta": 0.292968,
+          "seed": 1176
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.070312,
+          "paired_delta": 0.226563,
+          "seed": 1177
+        },
+        {
+          "candidate_accuracy": 0.265625,
+          "control_accuracy": 0.03125,
+          "paired_delta": 0.234375,
+          "seed": 1178
+        },
+        {
+          "candidate_accuracy": 0.367188,
+          "control_accuracy": 0.074219,
+          "paired_delta": 0.292969,
+          "seed": 1179
+        },
+        {
+          "candidate_accuracy": 0.316406,
+          "control_accuracy": 0.0625,
+          "paired_delta": 0.253906,
+          "seed": 1180
+        },
+        {
+          "candidate_accuracy": 0.367188,
+          "control_accuracy": 0.078125,
+          "paired_delta": 0.289063,
+          "seed": 1181
+        },
+        {
+          "candidate_accuracy": 0.28125,
+          "control_accuracy": 0.089844,
+          "paired_delta": 0.191406,
+          "seed": 1182
+        },
+        {
+          "candidate_accuracy": 0.308594,
+          "control_accuracy": 0.070312,
+          "paired_delta": 0.238282,
+          "seed": 1183
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.042969,
+          "paired_delta": 0.253906,
+          "seed": 1184
+        },
+        {
+          "candidate_accuracy": 0.265625,
+          "control_accuracy": 0.058594,
+          "paired_delta": 0.207031,
+          "seed": 1185
+        },
+        {
+          "candidate_accuracy": 0.304688,
+          "control_accuracy": 0.078125,
+          "paired_delta": 0.226563,
+          "seed": 1186
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.074219,
+          "paired_delta": 0.222656,
+          "seed": 1187
+        },
+        {
+          "candidate_accuracy": 0.328125,
+          "control_accuracy": 0.050781,
+          "paired_delta": 0.277344,
+          "seed": 1188
+        },
+        {
+          "candidate_accuracy": 0.34375,
+          "control_accuracy": 0.078125,
+          "paired_delta": 0.265625,
+          "seed": 1189
+        }
+      ],
+      "seed_count": 16
+    },
+    "dgt_minus_matched_random": {
+      "candidate_arm": "dgt_l1",
+      "control_arm": "matched_random_structural_l1",
+      "delta_ci95_low": 0.230625,
+      "delta_mean": 0.253662,
+      "deltas": [
+        0.1875,
+        0.214844,
+        0.34375,
+        0.246094,
+        0.214844,
+        0.324219,
+        0.246094,
+        0.320313,
+        0.203125,
+        0.269532,
+        0.238281,
+        0.210937,
+        0.21875,
+        0.25,
+        0.289063,
+        0.28125
+      ],
+      "rows": [
+        {
+          "candidate_accuracy": 0.285156,
+          "control_accuracy": 0.097656,
+          "paired_delta": 0.1875,
+          "seed": 1174
+        },
+        {
+          "candidate_accuracy": 0.28125,
+          "control_accuracy": 0.066406,
+          "paired_delta": 0.214844,
+          "seed": 1175
+        },
+        {
+          "candidate_accuracy": 0.382812,
+          "control_accuracy": 0.039062,
+          "paired_delta": 0.34375,
+          "seed": 1176
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.050781,
+          "paired_delta": 0.246094,
+          "seed": 1177
+        },
+        {
+          "candidate_accuracy": 0.265625,
+          "control_accuracy": 0.050781,
+          "paired_delta": 0.214844,
+          "seed": 1178
+        },
+        {
+          "candidate_accuracy": 0.367188,
+          "control_accuracy": 0.042969,
+          "paired_delta": 0.324219,
+          "seed": 1179
+        },
+        {
+          "candidate_accuracy": 0.316406,
+          "control_accuracy": 0.070312,
+          "paired_delta": 0.246094,
+          "seed": 1180
+        },
+        {
+          "candidate_accuracy": 0.367188,
+          "control_accuracy": 0.046875,
+          "paired_delta": 0.320313,
+          "seed": 1181
+        },
+        {
+          "candidate_accuracy": 0.28125,
+          "control_accuracy": 0.078125,
+          "paired_delta": 0.203125,
+          "seed": 1182
+        },
+        {
+          "candidate_accuracy": 0.308594,
+          "control_accuracy": 0.039062,
+          "paired_delta": 0.269532,
+          "seed": 1183
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.058594,
+          "paired_delta": 0.238281,
+          "seed": 1184
+        },
+        {
+          "candidate_accuracy": 0.265625,
+          "control_accuracy": 0.054688,
+          "paired_delta": 0.210937,
+          "seed": 1185
+        },
+        {
+          "candidate_accuracy": 0.304688,
+          "control_accuracy": 0.085938,
+          "paired_delta": 0.21875,
+          "seed": 1186
+        },
+        {
+          "candidate_accuracy": 0.296875,
+          "control_accuracy": 0.046875,
+          "paired_delta": 0.25,
+          "seed": 1187
+        },
+        {
+          "candidate_accuracy": 0.328125,
+          "control_accuracy": 0.039062,
+          "paired_delta": 0.289063,
+          "seed": 1188
+        },
+        {
+          "candidate_accuracy": 0.34375,
+          "control_accuracy": 0.0625,
+          "paired_delta": 0.28125,
+          "seed": 1189
+        }
+      ],
+      "seed_count": 16
+    },
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy"
+  },
   "parameter_ledger": {
     "match_tolerance": 0.22,
     "parameter_count": 8388,
@@ -5269,6 +5471,11 @@
     "order_k_required_order_row": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1]",
     "order_k_required_order_source": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
     "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
+    "owner_required_metric_owners": {
+      "FalseLedgerRate": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.FalseLedgerRate",
+      "JetCoverage": "reports/runs/discovery-gated-transformer/jet_certificate.json:$.jet_coverage",
+      "classifier_shift_count": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.classifier_shift_count"
+    },
     "run_local_claim_capsule": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/claim_capsule.json",
     "run_local_raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
     "run_local_report": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/report.md",
@@ -5356,13 +5563,10 @@
       "device_requested": "cpu",
       "device_resolved": "cpu",
       "metrics": {
-        "FalseLedgerRate_mean": 0.05288,
-        "JetCoverage_mean": 0.059155,
         "UER_mean": 0.93457,
         "accuracy_ci95_low": 0.056224,
         "accuracy_mean": 0.06543,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.099396,
         "ood_accuracy_ci95_low": 0.063243,
         "ood_accuracy_mean": 0.06958,
@@ -5399,13 +5603,10 @@
       "device_requested": "cpu",
       "device_resolved": "cpu",
       "metrics": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.087367,
         "UER_mean": 0.759521,
         "accuracy_ci95_low": 0.228035,
         "accuracy_mean": 0.240478,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.44076,
         "ood_accuracy_ci95_low": 0.056911,
         "ood_accuracy_mean": 0.063965,
@@ -5442,13 +5643,10 @@
       "device_requested": "cpu",
       "device_resolved": "cpu",
       "metrics": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.24602,
         "UER_mean": 0.688232,
         "accuracy_ci95_low": 0.29385,
         "accuracy_mean": 0.311768,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 16,
         "loss_decrease_mean": 0.972321,
         "ood_accuracy_ci95_low": 0.06309,
         "ood_accuracy_mean": 0.06958,
@@ -5485,13 +5683,10 @@
       "device_requested": "cpu",
       "device_resolved": "cpu",
       "metrics": {
-        "FalseLedgerRate_mean": 0.093294,
-        "JetCoverage_mean": 0.0757,
         "UER_mean": 0.941895,
         "accuracy_ci95_low": 0.049464,
         "accuracy_mean": 0.058105,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.218891,
         "ood_accuracy_ci95_low": 0.054078,
         "ood_accuracy_mean": 0.062012,
@@ -5529,13 +5724,10 @@
       "device_requested": "cpu",
       "device_resolved": "cpu",
       "metrics": {
-        "FalseLedgerRate_mean": 0.0,
-        "JetCoverage_mean": 0.089206,
         "UER_mean": 0.73584,
         "accuracy_ci95_low": 0.252364,
         "accuracy_mean": 0.26416,
         "chance_accuracy": 0.0625,
-        "classifier_shift_count": 0,
         "loss_decrease_mean": 0.477352,
         "ood_accuracy_ci95_low": 0.056575,
         "ood_accuracy_mean": 0.06543,
