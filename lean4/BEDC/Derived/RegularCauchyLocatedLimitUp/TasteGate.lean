@@ -27,7 +27,7 @@ def regularCauchyLocatedLimitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyLocatedLimitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyLocatedLimitDecodeBHist tail)
 
-private theorem regularCauchyLocatedLimit_decode_encode :
+private theorem regularCauchyLocatedLimit_decode_encode_bhist :
     ∀ h : BHist,
       regularCauchyLocatedLimitDecodeBHist
           (regularCauchyLocatedLimitEncodeBHist h) =
@@ -54,25 +54,29 @@ def regularCauchyLocatedLimitToEventFlow :
   fun x =>
     (regularCauchyLocatedLimitFields x).map regularCauchyLocatedLimitEncodeBHist
 
+private def regularCauchyLocatedLimitEventAtDefault : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyLocatedLimitEventAtDefault index rest
+
 def regularCauchyLocatedLimitFromEventFlow :
     EventFlow → Option RegularCauchyLocatedLimitUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | window :: tolerance :: readback :: interval :: locator :: realSeal :: transport ::
-      replay :: provenance :: localName :: [] =>
-      some
-        (RegularCauchyLocatedLimitUp.mk
-          (regularCauchyLocatedLimitDecodeBHist window)
-          (regularCauchyLocatedLimitDecodeBHist tolerance)
-          (regularCauchyLocatedLimitDecodeBHist readback)
-          (regularCauchyLocatedLimitDecodeBHist interval)
-          (regularCauchyLocatedLimitDecodeBHist locator)
-          (regularCauchyLocatedLimitDecodeBHist realSeal)
-          (regularCauchyLocatedLimitDecodeBHist transport)
-          (regularCauchyLocatedLimitDecodeBHist replay)
-          (regularCauchyLocatedLimitDecodeBHist provenance)
-          (regularCauchyLocatedLimitDecodeBHist localName))
-  | _ => none
+  fun ef =>
+    some
+      (RegularCauchyLocatedLimitUp.mk
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 0 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 1 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 2 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 3 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 4 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 5 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 6 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 7 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 8 ef))
+        (regularCauchyLocatedLimitDecodeBHist (regularCauchyLocatedLimitEventAtDefault 9 ef)))
 
 private theorem regularCauchyLocatedLimit_round_trip :
     ∀ x : RegularCauchyLocatedLimitUp,
@@ -84,9 +88,42 @@ private theorem regularCauchyLocatedLimit_round_trip :
   cases x with
   | mk window tolerance readback interval locator realSeal transport replay provenance
       localName =>
-      simp only [regularCauchyLocatedLimitToEventFlow, regularCauchyLocatedLimitFields,
-        regularCauchyLocatedLimitFromEventFlow, List.map_cons, List.map_nil,
-        regularCauchyLocatedLimit_decode_encode]
+      change
+        some
+          (RegularCauchyLocatedLimitUp.mk
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist window))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist tolerance))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist readback))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist interval))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist locator))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist realSeal))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist transport))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist replay))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist provenance))
+            (regularCauchyLocatedLimitDecodeBHist
+              (regularCauchyLocatedLimitEncodeBHist localName))) =
+          some
+            (RegularCauchyLocatedLimitUp.mk window tolerance readback interval locator realSeal
+              transport replay provenance localName)
+      rw [regularCauchyLocatedLimit_decode_encode_bhist window,
+        regularCauchyLocatedLimit_decode_encode_bhist tolerance,
+        regularCauchyLocatedLimit_decode_encode_bhist readback,
+        regularCauchyLocatedLimit_decode_encode_bhist interval,
+        regularCauchyLocatedLimit_decode_encode_bhist locator,
+        regularCauchyLocatedLimit_decode_encode_bhist realSeal,
+        regularCauchyLocatedLimit_decode_encode_bhist transport,
+        regularCauchyLocatedLimit_decode_encode_bhist replay,
+        regularCauchyLocatedLimit_decode_encode_bhist provenance,
+        regularCauchyLocatedLimit_decode_encode_bhist localName]
 
 private theorem regularCauchyLocatedLimitToEventFlow_injective
     {x y : RegularCauchyLocatedLimitUp} :
@@ -127,5 +164,27 @@ instance regularCauchyLocatedLimitChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchyLocatedLimitToEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate RegularCauchyLocatedLimitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyLocatedLimitChapterTasteGate
+
+theorem RegularCauchyLocatedLimitTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyLocatedLimitDecodeBHist
+        (regularCauchyLocatedLimitEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyLocatedLimitUp,
+        regularCauchyLocatedLimitFromEventFlow
+          (regularCauchyLocatedLimitToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyLocatedLimitUp,
+          regularCauchyLocatedLimitToEventFlow x =
+              regularCauchyLocatedLimitToEventFlow y → x = y) ∧
+          regularCauchyLocatedLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨regularCauchyLocatedLimit_decode_encode_bhist,
+      regularCauchyLocatedLimit_round_trip,
+      (fun _ _ heq => regularCauchyLocatedLimitToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyLocatedLimitUp
