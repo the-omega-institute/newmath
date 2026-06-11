@@ -121,4 +121,43 @@ theorem CoveringDimensionCarrier_root_completion_handoff [AskSetup] [PackageSetu
       completionUnary, compactEpsilonCover, coverRefinementOrder, orderLebesgueReplay,
       lebesgueReplayCompletion, completionPkg⟩
 
+theorem CoveringDimensionFiniteCoverOrderRefinement [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName metricRead realSealRead nerveRead orderRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont cover refinement metricRead →
+        Cont metricRead orderBound realSealRead →
+          Cont realSealRead lebesgue nerveRead →
+            Cont nerveRead orderBound orderRead →
+              PkgSig bundle orderRead pkg →
+                UnaryHistory cover ∧ UnaryHistory refinement ∧ UnaryHistory orderBound ∧
+                  UnaryHistory metricRead ∧ UnaryHistory realSealRead ∧
+                    UnaryHistory nerveRead ∧ UnaryHistory orderRead ∧
+                      Cont cover refinement metricRead ∧
+                        Cont metricRead orderBound realSealRead ∧
+                          Cont realSealRead lebesgue nerveRead ∧
+                            Cont nerveRead orderBound orderRead ∧
+                              PkgSig bundle orderRead pkg := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier coverRefinementMetric metricOrderRealSeal realSealLebesgueNerve
+    nerveOrderRead orderReadPkg
+  obtain ⟨_compactUnary, _epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    lebesgueUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed coverUnary refinementUnary coverRefinementMetric
+  have realSealReadUnary : UnaryHistory realSealRead :=
+    unary_cont_closed metricReadUnary orderUnary metricOrderRealSeal
+  have nerveReadUnary : UnaryHistory nerveRead :=
+    unary_cont_closed realSealReadUnary lebesgueUnary realSealLebesgueNerve
+  have orderReadUnary : UnaryHistory orderRead :=
+    unary_cont_closed nerveReadUnary orderUnary nerveOrderRead
+  exact
+    ⟨coverUnary, refinementUnary, orderUnary, metricReadUnary, realSealReadUnary,
+      nerveReadUnary, orderReadUnary, coverRefinementMetric, metricOrderRealSeal,
+      realSealLebesgueNerve, nerveOrderRead, orderReadPkg⟩
+
 end BEDC.Derived.CoveringdimensionUp
