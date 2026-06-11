@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductSeriesUp$}
+\label{ch:concrete-instances-cauchy-product-series-namecert}
+\origin{human}
+
+Following Hardy on products of convergent series and Bishop--Bridges on constructive Cauchy reals, the $\CauchyProductSeriesUp$ packet records the finite BEDC route by which two displayed regular Cauchy series expose a product-series window. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite product route of \autoref{ch:concrete-instances-regular-cauchy-finite-product-namecert}. The packet names only finite convolution windows, tolerance budgets, transport, replay, provenance, and local certificate rows; it does not import a host theorem about infinite products of series.
+
+\begin{definition}[Cauchy product series carrier]
+\label{def:cauchy-product-series-carrier}
+A $\CauchyProductSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,W,C,D,F,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two source series packets, each exposing only inspected $\RegSeqRatUp$ or $\RealUp$ coefficient windows.
+\item $W$ is the finite window row naming the visible output indices and the paired source prefixes required for those indices.
+\item $C$ is the convolution ledger. For each displayed output index it records the finite diagonal sum of products of visible source coefficients.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-budget row, carrying the requested precision, product slack, diagonal-sum slack, and comparison allowances.
+\item $F$ is the $\RegularCauchyFiniteProductUp$ row used for each displayed coefficient product before the finite diagonal sum is read.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the product-series window after the convolution and dyadic budget rows have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row available to a downstream real or completion consumer only after $Q$ has been read.
+\item $H$ records componentwise $\hsame$ transport for the source, window, convolution, budget, finite-product, readback, seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from source windows into coefficient products, from coefficient products into convolution rows, and from convolution rows through budgeted readback into the seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyProductSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\RegularCauchyFiniteProductUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the rows $L,R,W,C,D,F,Q,E,H,T,P,N$. It has no coordinate for an unconditional rearrangement theorem, absolute convergence, analytic continuation, quotient stream equality, host multiplication of completed series, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyProductSeriesUp.CauchyProductSeriesTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy product regular convolution closure]
+\label{thm:cauchy-product-series-regular-convolution}
+For every accepted $\CauchyProductSeriesUp$ carrier $K=(L,R,W,C,D,F,Q,E,H,T,P,N)$, each displayed output window is a regular convolution window over the two source series packets. More precisely, reading $Q$ for an output index visible in $W$ factors through the finite diagonal entries listed in $C$, the coefficient-product rows listed in $F$, and the tolerance budget $D$ before the $\RegSeqRatUp$ readback can be exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-series-carrier}. The only source rows are $L$ and $R$, and the only output indices visible to the packet are the indices named by $W$.
+
+Proceed by induction over the finite window row $W$. The empty window exports no readback. For a successor window, the next output index exposes a finite diagonal list in $C$; each diagonal entry first reads the corresponding two source coefficients from $L$ and $R$, then routes their product through the matching $\RegularCauchyFiniteProductUp$ cell in $F$.
+
+The dyadic row $D$ supplies the slack used to add the finitely many product reads in the displayed diagonal. The result is recorded in $Q$, and the seal $E$ is downstream of that readback.
+
+Rows $H,T,P,N$ transport, replay, source, and name the same route. Since the route has no further coordinate, no host convolution theorem, quotient-series equality, selected limit, or rearrangement principle can be exported by this closure claim.
+\end{proof}
+
+\begin{theorem}[Cauchy product series NameCert obligations]
+\label{thm:cauchy-product-series-namecert-obligations}
+For every accepted $\CauchyProductSeriesUp$ carrier $K=(L,R,W,C,D,F,Q,E,H,T,P,N)$, the local $\NameCert_{\CauchyProductSeriesUp}$ surface consists exactly of carrier admission, two-source series exposure, finite output-window admission, convolution-ledger exposure, dyadic tolerance-budget exposure, finite coefficient-product routing, regular rational readback, terminal real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Read the rows of \autoref{def:cauchy-product-series-carrier}. Carrier admission exposes the tuple $K$, while $L,R,W,C,D,F,Q,E$ give the data rows available to a consumer.
+
+The certificate surface is exhausted by projection. A read of a source coefficient must pass through $L$ or $R$; a read of a product coefficient must pass through $F$; a read of a diagonal convolution must pass through $C$ and $D$; and a read of the resulting regular sequence must pass through $Q$ before the terminal seal $E$ is available.
+
+The remaining rows are structural. The row $H$ gives componentwise transport, $T$ gives displayed replay, $P$ records provenance, and $N$ names the packet. No other row is present, so the local certificate cannot certify unconditional rearrangement, absolute convergence, analytic continuation, quotient stream equality, host completed-series multiplication, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy product dyadic budget stability]
+\label{thm:cauchy-product-series-dyadic-budget-stability}
+Let $K=(L,R,W,C,D,F,Q,E,H,T,P,N)$ be an accepted $\CauchyProductSeriesUp$ carrier. Any refinement of the displayed output window that preserves the source windows, coefficient-product rows, convolution ledger, and $\DyadicRatCoreUp$ tolerance budget preserves the exported $\RegSeqRatUp$ readback route and the downstream $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and a refined finite window. The preservation hypothesis keeps the source rows $L,R$, coefficient-product row $F$, convolution ledger $C$, and dyadic budget row $D$ componentwise aligned through the transport row $H$.
+
+Induct over the refined window. The base window reads the same empty or initial convolution prefix. In the successor step, the new output index uses the same finite diagonal source reads, the same finite-product cells, and the same dyadic slack ledger as the original route.
+
+The replay row $T$ then gives the same displayed continuation from the refined convolution data into $Q$. Once $Q$ is preserved, the seal row $E$ remains downstream of the same readback route.
+
+Thus refinement can add inspected finite data, but it cannot replace the budgeted convolution route by a host equality, selected limit, quotient representative, absolute-convergence argument, or analytic continuation step.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyProductSeriesUp$ read is refuted if a product-series output window is consumed without first displaying the two source series packets, the finite output window, the convolution ledger, the DyadicRatCore tolerance budget, the RegularCauchyFiniteProduct coefficient-product rows, the RegSeqRat readback, the RealUp seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{dyadicratcore, regseqrat, real, regular-cauchy-finite-product: $\CauchyProductSeriesUp$ is not bijective to any listed sibling because it jointly carries two source series packets, finite convolution windows, dyadic tolerance budgets, finite coefficient-product rows, regular readback, RealUp sealing, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyProductSeriesUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductSeriesUp}
+  \constructivestory{A $\CauchyProductSeriesUp$ packet is generated from two source series packets, finite output windows, convolution ledgers, DyadicRatCore tolerance budgets, RegularCauchyFiniteProduct coefficient-product rows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-series-carrier}, \autoref{thm:cauchy-product-series-regular-convolution}, \autoref{thm:cauchy-product-series-namecert-obligations}, and \autoref{thm:cauchy-product-series-dyadic-budget-stability} seed the finite Cauchy product-series route over source series windows, convolution ledgers, dyadic budgets, finite-product coefficient rows, regular readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyProductSeriesUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional rearrangement, absolute convergence, analytic continuation, host quotient series equality, selected infinite sums, ambient Real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-source series exposure, finite convolution-window induction, dyadic tolerance-budget stability, RegularCauchyFiniteProduct coefficient-product routing, RegSeqRat readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyProductSeriesUp.}
+\end{closurestatus}

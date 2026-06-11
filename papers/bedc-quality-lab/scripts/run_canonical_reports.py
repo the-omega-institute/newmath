@@ -144,6 +144,10 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
 DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
+DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
+DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
+DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
+DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -1221,6 +1225,26 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
     ),
     CanonicalReportSpec(
+        name="dgt-base-undertraining-audit",
+        command=("python3", "scripts/run_dgt_base_undertraining_audit.py"),
+        json_artifact=DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+        markdown_artifact=DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT,
+        required_json_keys=("base_undertraining_audit",),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.base_undertraining_audit.not_claimed",
+        cost_pointer="$.base_undertraining_audit.source_contract",
+        not_claimed_pointer="$.base_undertraining_audit.not_claimed",
+        positive_claim_pointer="$.base_undertraining_audit.verdict",
+        control_pointer="$.base_undertraining_audit.comparison_rows",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
+        backend_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.source_contract",
+        discovery_level_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
+        negative_witness_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.hardgates",
+        formal_status_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
+    ),
+    CanonicalReportSpec(
         name="discovery-gated-transformer",
         command=("python3", "scripts/run_discovery_gated_transformer.py"),
         json_artifact=DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
@@ -1857,6 +1881,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update(mechanism_dna_artifacts())
     if spec.name == "dgt-component-redundancy-audit":
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
+    if spec.name == "dgt-base-undertraining-audit":
+        paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]

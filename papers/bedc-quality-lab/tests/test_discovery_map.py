@@ -259,10 +259,13 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
             "boundary_ledger": [],
             "not_claimed": [
                 "Bounded tiny-sequence order-2 controls only.",
+                "Bounded tiny-sequence order-k training only.",
                 "No production scale claim.",
+                "No production deployment claim.",
                 "No global superiority claim.",
                 "No LLM replacement claim.",
                 "No L2 verdict inheritance.",
+                "No L2 or higher scaling claim.",
             ],
         }
     return {
@@ -1257,6 +1260,12 @@ def test_discovery_map_dgt_scaling_hg1_ignores_claim_verdict_rows(tmp_path):
 
 def _dgt_neural_ablation_payload():
     payload = dgt_neural_ablation_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+    payload["component_causal_claims"] = []
+    return payload
+
+
+def _dgt_neural_ablation_positive_claim_payload():
+    payload = _dgt_neural_ablation_payload()
     payload["component_causal_claims"] = [
         {
             "claim_scope": "bounded toy training",
@@ -1268,9 +1277,26 @@ def _dgt_neural_ablation_payload():
     return payload
 
 
-def test_discovery_map_dgt_neural_ablation_passing_payload_projects_positive_discovery():
+def test_discovery_map_dgt_neural_ablation_pointer_only_payload_does_not_project_positive_discovery():
     spec = canonical._specs_by_name()["dgt-neural-ablation"]
     payload = _dgt_neural_ablation_payload()
+
+    projected = discovery_map.projection_payload(spec, payload)
+    evidence = discovery_map._projection_evidence(spec, payload)
+    verdict = discovery_map.assign_discovery_level(projected)
+
+    assert projected["positive_discovery"] is False
+    assert projected["main_verdict"]["positive_discovery"] is False
+    assert projected["net_positive_signal"] is False
+    assert projected["d5_m"]["status"] == "ready"
+    assert evidence.projection_status == "dgt-neural-ablation-pointer-only"
+    assert evidence.evidence_pointer == "$.component_causal_claims"
+    assert verdict.discovery_level == "D0"
+
+
+def test_discovery_map_dgt_neural_ablation_positive_claim_payload_projects_positive_discovery():
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    payload = _dgt_neural_ablation_positive_claim_payload()
 
     projected = discovery_map.projection_payload(spec, payload)
     evidence = discovery_map._projection_evidence(spec, payload)

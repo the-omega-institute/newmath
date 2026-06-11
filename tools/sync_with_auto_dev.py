@@ -49,12 +49,20 @@ def _mirror_branch_default() -> str:
 
 
 def _upstream_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
+    """Mirror tools/auto_heal_base.py BEDC_ROLLUP_TARGET_BRANCH topology.
+
+    Keep this fallback chain synchronized with auto_heal_base when the rollup
+    topology changes.
+    """
+    rollup_target = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH")
+    if rollup_target is not None:
+        return rollup_target
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
 
 
 SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
+UPSTREAM_BRANCH = _upstream_branch_default()
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 VALIDATION_WORKTREE = host_path(
     REPO_ROOT,
@@ -980,17 +988,6 @@ def _merge_base_contains(ancestor: str, descendant: str, *, cwd: Path = REPO_ROO
     return res.returncode == 0
 
 
-def _rollup_branch_stale(rollup_branch: str, source_branch: str,
-                         target_branch: str) -> bool:
-    if not has_remote_branch(rollup_branch):
-        return True
-    rollup_ref = f"origin/{rollup_branch}"
-    return not (
-        _merge_base_contains(f"origin/{source_branch}", rollup_ref)
-        and _merge_base_contains(f"origin/{target_branch}", rollup_ref)
-    )
-
-
 def _no_commits_between_error(output: str) -> bool:
     return "no commits between" in output.lower()
 
@@ -1259,40 +1256,20 @@ def sync_rollup_pr(source_branch: str, target_branch: str,
             _remove_rollup_worktree(candidate)
 
     pr = _open_rollup_pr(rollup_branch, source_branch, target_branch)
-    if pr is not None and _all_checks_green(pr):
-        return _merge_rollup_pr(pr, rollup_branch, target_branch)
 
-    # Do NOT chase the moving source branch. codex-auto-dev advances every
-    # minute; rebuilding + force-pushing the rollup candidate each time the
-    # source tip moves resets the open PR's CI before it can finish, so the PR
-    # never goes green and never merges into the target. While a pending
-    # (non-failed) PR is open, leave its checks to converge and wait for the
-    # green auto-merge. Only rebuild the candidate when:
-    #   (a) there is no managed PR yet, or
-    #   (b) the current PR's checks have terminally failed (candidate is bad
-    #       and a fresh one from newer tips might pass), or
-    #   (c) the target/base branch advanced out from under the rollup branch
-    #       (e.g. right after our own merge landed) so the PR is no longer
-    #       based on the current base.
-    # Each PR therefore carries a snapshot of source; once it merges, the next
-    # cycle opens a fresh PR that catches up the remaining source delta.
-    if pr is None:
-        needs_update = True
-    elif _pr_has_failed_check(pr):
-        print(f"[sync] rollup: PR #{pr['number']} has a failed check; "
-              f"rebuilding candidate from latest tips")
-        needs_update = True
-    elif not _merge_base_contains(f"origin/{target_branch}",
-                                  f"origin/{rollup_branch}"):
-        print(f"[sync] rollup: PR #{pr['number']} base {target_branch} "
-              f"advanced past the rollup branch; rebuilding candidate")
-        needs_update = True
-    else:
-        print(f"[sync] rollup: PR #{pr['number']} pending checks; waiting for "
-              f"green auto-merge (not rebuilding on source advance)")
-        needs_update = False
-    if not needs_update:
+    pr_age_hours = _hours_since(pr.get("createdAt") or "") if pr is not None else None
+    action = _rollup_pr_action(pr, pr_age_hours)
+    reason = _rollup_pr_action_reason(pr, pr_age_hours)
+    if action == "merge":
+        print(f"[sync] rollup: action=merge; {reason}")
+        return _merge_rollup_pr(pr, rollup_branch, target_branch)
+    if action == "wait":
+        print(f"[sync] rollup: action=wait; {reason}")
         return True
+    if action == "create":
+        print(f"[sync] rollup: action=create; {reason}")
+    else:
+        print(f"[sync] rollup: action=rebuild; {reason}")
 
     candidate = _build_rollup_candidate(source_branch, target_branch)
     if candidate is None:
@@ -1568,11 +1545,10 @@ def _all_checks_green(pr: dict) -> bool:
 
 
 def _pr_has_failed_check(pr: dict) -> bool:
-    """Return True if any PR check has a terminal failure/cancelled state."""
+    """Return True if any PR check has a terminal failure state."""
     rollup = pr.get("statusCheckRollup") or []
     failed = {
         "ACTION_REQUIRED",
-        "CANCELLED",
         "ERROR",
         "FAILURE",
         "FAILED",
@@ -1584,6 +1560,37 @@ def _pr_has_failed_check(pr: dict) -> bool:
         if conclusion in failed:
             return True
     return False
+
+
+def _rollup_pr_action(pr: dict | None, pr_age_hours: float | None) -> str:
+    if pr is None:
+        return "create"
+    if _all_checks_green(pr):
+        return "merge"
+    if pr.get("mergeable") == "CONFLICTING":
+        return "rebuild"
+    if _pr_has_failed_check(pr):
+        return "rebuild"
+    if pr_age_hours is not None and pr_age_hours > PR_REPLACE_OPEN_HOURS:
+        return "rebuild"
+    return "wait"
+
+
+def _rollup_pr_action_reason(pr: dict | None, pr_age_hours: float | None) -> str:
+    if pr is None:
+        return "no managed rollup PR is open"
+    number = pr.get("number", "?")
+    age = f"{pr_age_hours:.1f}h" if pr_age_hours is not None else "unknown age"
+    if _all_checks_green(pr):
+        return f"PR #{number} is green and mergeable"
+    if pr.get("mergeable") == "CONFLICTING":
+        return f"PR #{number} is conflicting"
+    if _pr_has_failed_check(pr):
+        return f"PR #{number} has a failed check"
+    if pr_age_hours is not None and pr_age_hours > PR_REPLACE_OPEN_HOURS:
+        return (f"PR #{number} is non-green after {age} "
+                f"(threshold {PR_REPLACE_OPEN_HOURS:.1f}h)")
+    return f"PR #{number} is non-green ({age}); leaving candidate in place"
 
 
 def _auto_dev_advanced_past(pr_head: str | None) -> int:

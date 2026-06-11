@@ -169,6 +169,7 @@ Use the RegSeqRat and Real source handoff, \autoref{thm:uniformcompletionfunctor
 
 Finally apply the Real seal nonescape theorem, \autoref{thm:uniformcompletionfunctor-real-seal-nonescape}. It confines $H,C,P,N$ to transport, replay, provenance, and naming of the displayed route, so the cofinal-window factorization exports exactly $U,F,E,W,R,D,S,H,C,P,N$ and no hidden completion coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCofinalWindowFactorization}
 
 \begin{theorem}[UniformCompletionFunctor Cauchy-filter nonescape]
 \label{thm:uniformcompletionfunctor-cauchy-filter-nonescape}
@@ -182,6 +183,19 @@ Use \autoref{thm:uniformcompletionfunctor-regseqrat-real-source-handoff}. It ord
 
 Since no excluded completion, compactness, representative-selection, or host-completeness row occurs in the carrier, the Cauchy-filter read cannot escape the displayed finite packet.
 \end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Real-RegSeqRat L10 nonescape]
+\label{thm:uniform-completion-functor-real-regseqrat-l10-nonescape}
+Every $\RealUp$-facing or $\RegSeqRatUp$-facing read of an accepted $\UniformCompletionFunctorUp$ packet $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$ must expose the rows $U,F,E,R,W,D,S,H,C,P,N$, with $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ visible in that order along the readback-and-seal segment. The packet exports no quotient completion equality, selected limit, host complete uniform space, open-cover compactness, choice-selected representative, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the RegSeqRat and Real source handoff, \autoref{thm:uniformcompletionfunctor-regseqrat-real-source-handoff}. It forces any terminal Real-facing read to display $U,F,E,R,W,D,S$ before the seal can be consumed, and it keeps $H,C,P,N$ on the same transport, replay, provenance, and naming route.
+
+Apply the Cauchy-filter nonescape result, \autoref{thm:uniformcompletionfunctor-cauchy-filter-nonescape}. Completion-filter consumers receive only the displayed carrier rows, so the Real and RegSeqRat faces cannot be replaced by quotient completion equality, selected limits, host complete uniform spaces, open-cover compactness, or choice-selected representatives.
+
+The scoped L10 route of \autoref{thm:uniform-completion-functor-scoped-l10-obligation-route} identifies the visible readback segment as the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ corridor. The public export theorem, \autoref{thm:uniform-completion-functor-public-namecert-export}, then repacks exactly that ordered corridor into the public NameCert surface, with no ambient $\RealUp$ completeness coordinate added.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorRealRegSeqRatL10Nonescape}
 
 \begin{theorem}[UniformCompletionFunctor source factorization]
 \label{thm:uniform-completion-functor-source-factorization}

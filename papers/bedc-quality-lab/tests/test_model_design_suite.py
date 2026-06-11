@@ -137,6 +137,25 @@ def _write_suite_dependencies(root):
         {"entries": [{"mutation_id": f"m{index}"} for index in range(8)]},
     )
     canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "verdict": "construct-boundary",
+                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
+                "not_claimed": ["fixture"],
+            }
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        {"negative_witness_sweep": {"status": "fixture"}},
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        {"nabl_hardgates": {"status": "fixture"}},
+    )
+    canonical._write_json_atomic(
         root / "reports/canonical/ledger-aware-transformer.json",
         {"artifact_id": "bedc-quality-lab:ledger-aware-transformer", "run_artifacts": {"summary": "fixture"}},
     )

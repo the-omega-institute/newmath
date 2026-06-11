@@ -415,6 +415,9 @@ def promote_next_layer(store: BioRealityStore) -> dict[str, Any]:
 
 
 def run_packet_lane(store: BioRealityStore) -> dict[str, Any]:
+    packet_cfg = _load_pipeline_config().get("packet_lane") or {}
+    if not packet_cfg.get("enabled", True):
+        return {"lane": "bio-P", "status": "skipped", "reason": "conjecture/probe/mismatch discovery delegated to orchestrator + codex"}
     bootstrap = bootstrap_research_memory(store)
     promotion = promote_next_layer(store)
     conjectures = store.load_conjectures()
@@ -1696,6 +1699,9 @@ def _maybe_propose_frontier_conjecture(
 
 def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     """Detect phase-advance and stuck-claim signals, emit events for bio-R."""
+    plan_cfg = _load_pipeline_config().get("plan_lane") or {}
+    if not plan_cfg.get("enabled", True):
+        return {"lane": "bio-Plan", "status": "skipped", "reason": "planning delegated to orchestrator + codex"}
     claims_document = _load_claims_document(store.paths.claims_registry)
     experiments_document = _load_experiments_document(store.paths.experiments_registry)
     claims = [
@@ -2831,8 +2837,19 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
             try:
                 pop = _run_command(repo_root, ["git", "stash", "pop"], timeout=120.0)
                 if pop.returncode != 0:
-                    # pop 冲突: drift 留在 stash (下个 cycle daemon 会重生成), 不阻断 sync.
-                    _append_sync_log(store, "pre_merge_stash_pop_conflict", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+                    # pop 冲突会在工作树留 UU → wedge 后续 git 操作 (bio-K / 下轮 bio-S). runtime drift
+                    # (registries/inbox) 可由 daemon 重生, 故 reset 回 merged HEAD 清 UU, committed 内容在
+                    # HEAD 不受影响. 注意: git stash 栈是 .git 共享跨 worktree 的; pop 弹栈顶, race 下可能弹到
+                    # 其它 pipeline 的 stash. 故只在栈顶确是本 lane 的 "bio-S pre-merge" stash 时才 drop, 绝不
+                    # 盲 drop 他人可恢复状态; 否则保留 stash, 仅清本树 UU.
+                    _append_sync_log(store, "pre_merge_stash_pop_conflict_recover", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+                    _run_command(repo_root, ["git", "reset", "--hard", "HEAD"], timeout=60.0)
+                    try:
+                        top = _run_command(repo_root, ["git", "stash", "list", "-1"], timeout=30.0)
+                        if "bio-S pre-merge" in (top.stdout or ""):
+                            _run_command(repo_root, ["git", "stash", "drop"], timeout=60.0)
+                    except (OSError, subprocess.TimeoutExpired):
+                        pass
             except (OSError, subprocess.TimeoutExpired) as exc:
                 _append_sync_log(store, "pre_merge_stash_pop_failed", {"error": str(exc)})
 

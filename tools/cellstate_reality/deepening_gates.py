@@ -1522,6 +1522,60 @@ def self_test() -> int:
     ):
         print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
         return 1
+    function_realization_seed_boundary_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "function_realization.seed.boundary",
+                "biological_object": "FunctionRealizationSeedBoundaryUp",
+                "informal_statement": "The BEDC coordinate realizes bounded function realization.",
+                "bedc_minimal_form": {
+                    "carrier": "function boundary seed",
+                    "distinctions": ["seed boundary"],
+                    "readback": "coordinate readback",
+                    "internal_structure": [],
+                },
+                "claimed_layer": "function_realization",
+                "evidence_basis": ["bedc_coordinate"],
+                "reality_contact_refs": [],
+                "probe_refs": [],
+                "forbidden_claims": ["BEDC coordinate evidence alone is not function realization."],
+            }
+        ],
+        [],
+        [],
+        [],
+    )
+    function_realization_seed_boundary_issues = [
+        issue for result in function_realization_seed_boundary_results for issue in result["issues"]
+    ]
+    if not any(
+        issue.startswith("conjecture_id: invalid id: function_realization.seed.boundary;")
+        and "suggested normalized id: function-realization.seed.boundary" in issue
+        for issue in function_realization_seed_boundary_issues
+    ):
+        print(json.dumps(function_realization_seed_boundary_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith("conjecture_id:1: conjecture_id: invalid id: function_realization.seed.boundary;")
+        and "suggested normalized id: function-realization.seed.boundary" in issue
+        for issue in function_realization_seed_boundary_issues
+    ):
+        print(json.dumps(function_realization_seed_boundary_results, indent=2), file=sys.stderr)
+        return 1
+    if "BEDC evidence requires explicit internal structure" not in function_realization_seed_boundary_issues:
+        print(json.dumps(function_realization_seed_boundary_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue
+        == (
+            "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
+            "a layer-matched reality contact whose can_test includes function_realization"
+        )
+        for issue in function_realization_seed_boundary_issues
+    ):
+        print(json.dumps(function_realization_seed_boundary_results, indent=2), file=sys.stderr)
+        return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
