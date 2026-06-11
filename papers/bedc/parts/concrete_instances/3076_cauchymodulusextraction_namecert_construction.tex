@@ -68,6 +68,28 @@ Use the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-
 It follows that a consumer cannot inspect a StreamName window or use a RegSeqRat schedule directly from the tolerance request. The accepted route first passes through $B$, then through $W$ and $S$, so the finite budget-window surface covers the route to the extracted modulus.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction window induction]
+\label{thm:cauchy-modulus-extraction-window-induction}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+suppose a finite budget row $B^{+}$ extends $B$ by one displayed $\StreamNameUp$ window while preserving the tolerance request $E$, the $\RegSeqRatUp$ schedule row $S$, the dyadic ledger row $Q$, and the continuation route from $\mathsf{Mu}$ to the $\RealUp$ consumer. Then the extracted modulus route through
+$$
+E,B^{+},W,S,\mathsf{Mu},Q,H,C,P,N
+$$
+remains accepted: the added window is consumed inside the finite budget-window surface, and the modulus export still passes through the same dyadic ledger, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use finite-window induction on the displayed extension from $B$ to $B^{+}$. The base case is the budget-window coverage theorem, \autoref{thm:cauchy-modulus-extraction-budget-window-coverage}, which places the accepted route through $B,W,S$ before $\mathsf{Mu}$ is exported.
+
+For the one-window step, read the added $\StreamNameUp$ window as another row of the same finite observation budget. Because $B^{+}$ preserves $E,S,Q$ and the continuation route to the $\RealUp$ consumer, schedule extraction still reads the window family through $W$ and the regular Cauchy witnesses through $S$ before the modulus row is exposed.
+
+Apply dyadic ledger positivity from \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-positivity}. The threshold exported by $\mathsf{Mu}$ is justified by the same positive half-radius and comparison ledger $Q$, so the additional window supplies no second threshold selector.
+
+Finally use the Real seal boundary of \autoref{thm:cauchy-modulus-extraction-real-seal-boundary}. The completion-facing handoff remains downstream of $B^{+},W,S,Q,\mathsf{Mu},H,C,P,N$ and still has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, ambient completeness, or an external modulus choice.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus-extraction dyadic ledger positivity]
 \label{thm:cauchy-modulus-extraction-dyadic-ledger-positivity}
 For an accepted $\CauchyModulusExtractionUp$ carrier
