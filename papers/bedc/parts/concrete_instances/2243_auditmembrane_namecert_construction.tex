@@ -74,6 +74,26 @@ Move the row only through the displayed transport and replay data. The rows $H$ 
 No carrier coordinate stores fuzzy matching, namespace guessing, prose reinterpretation, or consumer-selected substitution. A refused drift row therefore remains refused at every exported read.
 \end{proof}
 
+\begin{theorem}[AuditMembrane visible audit induction]
+\label{thm:auditmembrane-visible-audit-induction}
+Let
+$$
+M=(G,B,R,D,H,C,P,N)
+$$
+be an accepted $\AuditMembraneUp$ packet, and let $L$ be a finite list of displayed $\BHist$ audit-event rows. Suppose each row of $L$ is admitted through the same audit-gate-boundary content route as $B$, carries the displayed $\hsame$, $\Cont$, and $\Pkg$ provenance required by $H,C,P$, and presents no object outside the boundary-content format of \autoref{ch:concrete-instances-auditgateboundary-namecert}. Then extending $B$ by the rows of $L$ preserves the membrane verdict recorded by $R$: admitted rows remain admitted as displayed certificate content, refused rows remain refused boundary content, and no row of $L$ exports global audit completeness, arbitrary import conservativity, or host-kernel completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite list $L$ of displayed $\BHist$ rows.
+
+For the empty list, the extended boundary row is just the original $B$. The verdict is therefore the existing membrane verdict $R$, read through \autoref{thm:audit-membrane-boundary-refusal}.
+
+For the successor step, write the list as one displayed audit event followed by a tail. The head event is first consumed as an audit-gate-boundary row: it is presented to the same gate surface $G$, with the displayed content format required by $B$ and with the $\hsame$, $\Cont$, and $\Pkg$ rows required by $H,C,P$.
+
+The boundary-refusal theorem applies to that one displayed row, so its admitted or refused verdict is recorded by $R$ and not by any hidden audit theorem. The induction hypothesis then applies to the remaining finite tail, preserving the verdict for every later displayed row.
+
+Thus every finite extension by displayed audit events remains inside the membrane packet. The argument proves only this finite induction route over visible $\BHist$ rows; it does not assert global audit completeness, conservativity for arbitrary imports, or host-kernel completeness.
+\end{proof}
+
 \begin{theorem}[AuditMembrane consumer boundary]
 \label{thm:audit-membrane-consumer-boundary}
 Every downstream consumer of an accepted $\AuditMembraneUp$ packet factors through the finite rows
