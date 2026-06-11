@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFixedPointOrbitSealUp$}
+\label{ch:concrete-instances-cauchy-fixed-point-orbit-seal-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges, the $\CauchyFixedPointOrbitSealUp$ packet records the finite endpoint-seal surface carried by a contraction orbit before any selected limit or quotient equality is read. It consumes the contraction theorem route of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, the iterate-window route of \autoref{ch:concrete-instances-picard-iteration-namecert}, the contraction data of \autoref{ch:concrete-instances-contractive-map-namecert}, the completion admission rows of CompleteMetric packets, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite orbit-to-endpoint handoff only; it does not assert an ambient selected fixed point, quotient Cauchy equality, or host-level limit choice.
+
+\begin{definition}[Cauchy fixed-point orbit-seal carrier]
+\label{def:cauchy-fixed-point-orbit-seal-carrier}
+A $\CauchyFixedPointOrbitSealUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,F,O,M,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the contractive source row, read through $\BanachFixedPointUp$ and the displayed $\ContractiveMapUp$ data.
+\item $F$ is the contraction map row, including the displayed contraction ledger and Lipschitz-bound witness used by the orbit.
+\item $O$ is the Picard iterate-window row inherited from $\PicardIterationUp$.
+\item $M$ is the Cauchy-modulus row for the displayed orbit windows.
+\item $E$ is the $\CompleteMetricUp$ endpoint-admission row for the Cauchy orbit.
+\item $R$ is the $\RegSeqRatUp$ handoff row for the regular rational readback of endpoint approximants.
+\item $S$ is the terminal $\RealUp$ seal for the endpoint comparison data.
+\item $H$ records componentwise $\hsame$ transport for the contraction, orbit, modulus, endpoint, readback, Real-seal, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay through the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFixedPointOrbitSealUp$, $\BanachFixedPointUp$, $\PicardIterationUp$, $\ContractiveMapUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFixedPointOrbitSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,F,O,M,E,R,S,H,C,P,N$. It contains no selected fixed point, no quotient equality of Cauchy orbits, no ambient completeness oracle, and no hidden route from contraction data to a Real endpoint.
+\end{definition}
+
+\begin{theorem}[Cauchy fixed-point orbit-seal NameCert obligations]
+\label{thm:cauchy-fixed-point-orbit-seal-namecert-obligations}
+For every accepted $\CauchyFixedPointOrbitSealUp$ carrier
+$$
+K=(B,F,O,M,E,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyFixedPointOrbitSealUp}$ surface consists exactly of contractive-source admission, contraction-map exposure, Picard iterate-window exposure, Cauchy-modulus exactness, $\CompleteMetricUp$ endpoint admission, $\RegSeqRatUp$ regular readback, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may read an endpoint seal only after all those rows are displayed in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-fixed-point-orbit-seal-carrier}. The analytic rows are $B,F,O,M,E,R,S$, and the structural rows are $H,C,P,N$.
+
+The contraction and Picard rows $B,F,O$ supply the finite orbit source. The modulus row $M$ records the Cauchy rate, while $E$ admits the orbit to the completion-facing endpoint route.
+
+The readback and seal rows $R,S$ turn endpoint approximants into regular rational and Real-facing data. Transport, replay, provenance, and local naming then preserve the same row order. Since the carrier has no further coordinate, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy fixed-point orbit-seal completion handoff]
+\label{thm:cauchy-fixed-point-orbit-seal-completion-handoff}
+Every endpoint read from an accepted $\CauchyFixedPointOrbitSealUp$ packet factors through the route
+$$
+\BanachFixedPointUp,\ \PicardIterationUp,\ \ContractiveMapUp,\ \CompleteMetricUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The route exposes the contractive source, finite Picard windows, Cauchy modulus, completion admission, regular rational readback, and Real seal as separate rows. It cannot replace those rows by a selected limit, quotient Cauchy equality, ambient host completeness, or an unrecorded fixed-point oracle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $K=(B,F,O,M,E,R,S,H,C,P,N)$. The only contraction-facing rows are $B$ and $F$, and the only orbit-facing row is the displayed Picard window $O$.
+
+Use the Cauchy-modulus row $M$ to pass from finite orbit windows to the completion-facing admission row $E$. This keeps the endpoint request attached to the same contraction and iterate data.
+
+The completion handoff then passes through $R$ and $S$. The regular rational readback records endpoint approximants before the terminal Real seal is consumed.
+
+Finally replay the packet through $H,C,P,N$. Componentwise transport and provenance keep the consumer on the same finite route, so no selected limit, quotient equality, host completeness oracle, or hidden fixed-point coordinate is available.
+\end{proof}
+
+\closureat{CauchyFixedPointOrbitSealUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFixedPointOrbitSealUp}
+  \constructivestory{A $\CauchyFixedPointOrbitSealUp$ packet is generated from contractive source data, Picard iterate windows, a Cauchy modulus, CompleteMetric endpoint admission, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-fixed-point-orbit-seal-carrier}, \autoref{thm:cauchy-fixed-point-orbit-seal-namecert-obligations}, and \autoref{thm:cauchy-fixed-point-orbit-seal-completion-handoff} seed the finite contraction-orbit endpoint handoff through BanachFixedPointUp, PicardIterationUp, ContractiveMapUp, CompleteMetricUp, RegSeqRatUp, RealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, quotient Cauchy orbit equality, ambient host completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction exposure, Picard-window compatibility, Cauchy-modulus exactness, CompleteMetric endpoint admission, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFixedPointOrbitSealUp.}
+\end{closurestatus}
