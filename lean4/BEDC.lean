@@ -844,6 +844,8 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
+import BEDC.Derived.BishopLocatedCompletionBoundaryUp.LocatedRealSealHandoff
+import BEDC.Derived.BishopLocatedCompletionBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularCauchyExtraction
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
@@ -3212,10 +3214,14 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementNameCert
 import BEDC.Derived.CoveringdimensionUp.FiniteRefinementObligations
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
+import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
+import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
@@ -7148,6 +7154,7 @@ import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
 import BEDC.Derived.ParsevalUp.FiniteEnergyInductionReadback
 import BEDC.Derived.ParsevalUp.FiniteFourierCarrierAdmission
 import BEDC.Derived.ParsevalUp.FinitePartialSumInduction
+import BEDC.Derived.ParsevalUp.FourierCoefficientEnergyRow
 import BEDC.Derived.ParsevalUp.FourierEnergyWindow
 import BEDC.Derived.ParsevalUp.FourierRealReadbackBoundary
 import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
@@ -7169,6 +7176,7 @@ import BEDC.Derived.ParsevalUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
+import BEDC.Derived.ParsevalUp.SOneBasisLedger
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
@@ -7775,6 +7783,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
+import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
 import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
