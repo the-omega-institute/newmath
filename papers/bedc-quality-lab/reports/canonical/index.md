@@ -235,11 +235,11 @@
 
 ## Winnability certificates
 
-- Status: `pass`
+- Status: `fail`
 - JSON: `reports/canonical/winnability-certificates.json`
 - Markdown: `reports/canonical/winnability-certificates.md`
 - Certificates: `3`
-- Fail-closed: `2`
+- Fail-closed: `3`
 - Audit: `reports/canonical/winnability-certificates.json:$.audit`
 - Hardgates: `reports/canonical/winnability-certificates.json:$.hardgates`
 

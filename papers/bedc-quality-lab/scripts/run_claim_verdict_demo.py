@@ -143,22 +143,29 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
 def _load_winnability_certificates(root: Path) -> dict[str, Any]:
     path = _artifact_path(root, WINNABILITY_CERTIFICATES_ARTIFACT)
     if not path.exists():
-        return {"status": "missing", "by_row_id": {}, "duplicates": set()}
+        return {"status": "missing", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
     payload = _load_json(path)
     rows = payload.get("certificates") if isinstance(payload, Mapping) else None
     if not isinstance(rows, list):
-        return {"status": "malformed", "by_row_id": {}, "duplicates": set()}
-    by_row_id: dict[str, Mapping[str, Any]] = {}
+        return {"status": "malformed", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
+    by_certificate_id: dict[str, Mapping[str, Any]] = {}
     duplicates: set[str] = set()
-    for row in rows:
-        if not isinstance(row, Mapping) or not isinstance(row.get("row_id"), str):
+    pointers: dict[str, str] = {}
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping) or not isinstance(row.get("certificate_id"), str):
             continue
-        row_id = str(row["row_id"])
-        if row_id in by_row_id:
-            duplicates.add(row_id)
+        certificate_id = str(row["certificate_id"])
+        pointers[certificate_id] = f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[{index}]"
+        if certificate_id in by_certificate_id:
+            duplicates.add(certificate_id)
         else:
-            by_row_id[row_id] = row
-    return {"status": "ready", "by_row_id": by_row_id, "duplicates": duplicates}
+            by_certificate_id[certificate_id] = row
+    return {
+        "status": "ready",
+        "by_certificate_id": by_certificate_id,
+        "duplicates": duplicates,
+        "pointers": pointers,
+    }
 
 
 def _winnability_ref_cell(row: Mapping[str, Any], payload: Mapping[str, Any]) -> Mapping[str, Any] | str | None:
@@ -172,18 +179,18 @@ def _winnability_ref_cell(row: Mapping[str, Any], payload: Mapping[str, Any]) ->
             value = source.get(key)
             if isinstance(value, (Mapping, str)):
                 return value
-        value = source.get("winnability_row_id")
+        value = source.get("winnability_certificate_id")
         if isinstance(value, str):
             return value
     return None
 
 
-def _winnability_row_id(ref: Mapping[str, Any] | str | None) -> str | None:
+def _winnability_certificate_id(ref: Mapping[str, Any] | str | None) -> str | None:
     if isinstance(ref, str):
         return ref
     if not isinstance(ref, Mapping):
         return None
-    value = ref.get("row_id")
+    value = ref.get("certificate_id")
     return value if isinstance(value, str) else None
 
 
@@ -193,29 +200,39 @@ def _winnability_block(
     payload: Mapping[str, Any],
 ) -> tuple[str, str, str] | None:
     ref = _winnability_ref_cell(row, payload)
-    row_id = _winnability_row_id(ref)
-    if row_id is None:
+    certificate_id = _winnability_certificate_id(ref)
+    if certificate_id is None:
         return None
     certificate_map = _load_winnability_certificates(root)
-    pointer = (
-        ref.get("pointer")
-        if isinstance(ref, Mapping) and isinstance(ref.get("pointer"), str)
-        else f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[?row_id=='{row_id}']"
-    )
+    pointer = certificate_map.get("pointers", {}).get(certificate_id)
+    if pointer is None:
+        pointer = (
+            ref.get("pointer")
+            if isinstance(ref, Mapping) and isinstance(ref.get("pointer"), str)
+            else f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates"
+        )
     if certificate_map["status"] != "ready":
         return "projected_discovery_required", "winnability-certificate-missing", pointer
-    if row_id in certificate_map["duplicates"]:
+    if certificate_id in certificate_map["duplicates"]:
         return "projected_discovery_required", "winnability-certificate-missing", pointer
-    certificate = certificate_map["by_row_id"].get(row_id)
+    certificate = certificate_map["by_certificate_id"].get(certificate_id)
     if not isinstance(certificate, Mapping):
         return "projected_discovery_required", "winnability-certificate-missing", pointer
     coverage = certificate.get("coverage") if isinstance(certificate.get("coverage"), Mapping) else {}
+    permissions = certificate.get("claim_permissions") if isinstance(certificate.get("claim_permissions"), Mapping) else {}
     if certificate.get("status") == "fail" or certificate.get("method") == "unresolved":
         return "projected_discovery_required", "winnability-certificate-missing", pointer
     if certificate.get("unwinnable") is True:
         return "projected_discovery_required", "split-unwinnable", pointer
     if coverage.get("coverage_classification") == "table-coverage":
         return "projected_discovery_required", "table-coverage-ceiling", pointer
+    if any(permissions.get(key) is False for key in (
+        "generalization_claim_allowed",
+        "separation_claim_allowed",
+        "architecture_claim_allowed",
+        "rule_abstraction_claim_allowed",
+    )):
+        return "projected_discovery_required", "winnability-permission-denied", pointer
     return None
 
 

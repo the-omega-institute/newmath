@@ -20,6 +20,7 @@ def _split(**overrides):
         "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[0].required_variables",
         "visible_variables": ["x_left", "x_right"],
         "required_variables": ["x_left", "x_right"],
+        "allow_inline_input_fixture": True,
         "chance_accuracy": 1.0 / 16.0,
         "observed_accuracy": 0.75,
         "epsilon": 1e-9,
@@ -53,6 +54,29 @@ def test_l1_ood_hidden_lag_is_unwinnable(tmp_path):
     }
     assert payload["audit"]["fail_closed_count"] == 1
     assert payload["hardgates"]["ORACLE-HG3"]["status"] == "pass"
+    assert "certificate_id" in row
+    assert "row" + "_id" not in row
+
+
+def test_missing_input_accessibility_source_fails_closed(tmp_path):
+    payload = winnability.build_payload(root=tmp_path, generated_at="fixture")
+
+    assert payload["source_artifacts"]["input_accessibility"]["status"] == "missing"
+    assert payload["audit"]["status"] == "fail"
+    assert payload["audit"]["failed_count"] == len(payload["certificates"])
+    assert payload["audit"]["fail_closed_count"] == len(payload["certificates"])
+    assert payload["hardgates"]["ORACLE-HG5"]["status"] == "fail"
+    for row in payload["certificates"]:
+        assert row["status"] == "fail"
+        assert row["winnable"] is False
+        assert row["claim_permissions"] == {
+            "memorization_claim_allowed": False,
+            "generalization_claim_allowed": False,
+            "separation_claim_allowed": False,
+            "architecture_claim_allowed": False,
+            "rule_abstraction_claim_allowed": False,
+        }
+        assert "missing-input-accessibility-source" in row["failure_reasons"]
 
 
 def test_l1_indist_pair_coverage_ceiling_is_table_coverage():
@@ -150,6 +174,6 @@ def test_compact_winnability_ref_shape():
 
     assert ref == {
         "artifact": "reports/canonical/winnability-certificates.json",
-        "row_id": "win-fixture",
-        "pointer": "reports/canonical/winnability-certificates.json:$.certificates[?row_id=='win-fixture']",
+        "certificate_id": "win-fixture",
+        "pointer": "reports/canonical/winnability-certificates.json:$.certificates",
     }

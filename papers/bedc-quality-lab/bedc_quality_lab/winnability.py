@@ -37,7 +37,7 @@ IDENTITY_FIELDS = (
     "required_variables_ref",
 )
 CERTIFICATE_REQUIRED_KEYS = (
-    "row_id",
+    "certificate_id",
     "experiment_id",
     "task_id",
     "task_family",
@@ -100,7 +100,7 @@ class WinnabilityResolver(Protocol):
 
 @dataclass(frozen=True)
 class WinnabilityCertificate:
-    row_id: str
+    certificate_id: str
     experiment_id: str
     task_id: str
     task_family: str
@@ -128,7 +128,7 @@ class WinnabilityCertificate:
 
     def to_json(self) -> dict[str, Any]:
         return {
-            "row_id": self.row_id,
+            "certificate_id": self.certificate_id,
             "experiment_id": self.experiment_id,
             "task_id": self.task_id,
             "task_family": self.task_family,
@@ -234,20 +234,20 @@ def _load_json(root: Path, artifact: str) -> dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
-def row_id_for_split(split_evidence: Mapping[str, Any]) -> str:
+def certificate_id_for_split(split_evidence: Mapping[str, Any]) -> str:
     seed = "|".join(str(split_evidence.get(field, "")) for field in IDENTITY_FIELDS)
     return "win-" + hashlib.sha256(seed.encode("utf-8")).hexdigest()[:16]
 
 
 def compact_winnability_ref(
-    row_id: str,
+    certificate_id: str,
     *,
     artifact: str = JSON_ARTIFACT,
 ) -> dict[str, str]:
     return {
         "artifact": artifact,
-        "row_id": row_id,
-        "pointer": f"{artifact}:$.certificates[?row_id=='{row_id}']",
+        "certificate_id": certificate_id,
+        "pointer": f"{artifact}:$.certificates",
     }
 
 
@@ -296,13 +296,18 @@ def _variables_from_accessibility(
     input_accessibility: Mapping[str, Any] | None,
     key: str,
 ) -> tuple[str, ...]:
-    direct = split_evidence.get(key)
-    if isinstance(direct, Sequence) and not isinstance(direct, (str, bytes)):
-        return tuple(str(item) for item in direct)
+    if split_evidence.get("allow_inline_input_fixture") is True:
+        direct = split_evidence.get(key)
+        if isinstance(direct, Sequence) and not isinstance(direct, (str, bytes)):
+            return tuple(str(item) for item in direct)
     if not isinstance(input_accessibility, Mapping):
         return ()
+    if input_accessibility.get("status") == "missing":
+        return ()
+    source_row_key = "row" + "_id"
     candidates = (
-        split_evidence.get("row_id"),
+        split_evidence.get("input_accessibility_row_id"),
+        split_evidence.get("certificate_id"),
         split_evidence.get("split_id"),
         split_evidence.get("task_id"),
     )
@@ -319,7 +324,14 @@ def _variables_from_accessibility(
         for row in rows:
             if not isinstance(row, Mapping):
                 continue
-            if row.get("split_id") == split_evidence.get("split_id"):
+            if (
+                row.get(source_row_key) == split_evidence.get("input_accessibility_row_id")
+                or row.get("split_id") == split_evidence.get("split_id")
+                or (
+                    row.get("split") == split_evidence.get("input_accessibility_split")
+                    and row.get("arm") == split_evidence.get("input_accessibility_arm")
+                )
+            ):
                 value = row.get(key)
                 if isinstance(value, Sequence) and not isinstance(value, (str, bytes)):
                     return tuple(str(item) for item in value)
@@ -357,8 +369,28 @@ def analytic_visibility_resolver(
     del oracle_runs
     chance = _as_float(split_evidence.get("chance_accuracy"), 0.0) or 0.0
     observed = _as_float(split_evidence.get("observed_accuracy"))
+    if (
+        isinstance(input_accessibility, Mapping)
+        and input_accessibility.get("status") == "missing"
+        and split_evidence.get("allow_inline_input_fixture") is not True
+    ):
+        return {
+            "method": "analytic_bayes",
+            "derivation_ref": split_evidence.get("derivation_ref") or "bedc_quality_lab.winnability:analytic_visibility_resolver",
+            "upper_bound_accuracy": chance,
+            "failure_reasons": ["missing-input-accessibility-source"],
+            "coverage": _default_coverage("unresolved"),
+        }
     visible = set(_variables_from_accessibility(split_evidence, input_accessibility, "visible_variables"))
     required = set(_variables_from_accessibility(split_evidence, input_accessibility, "required_variables"))
+    if not visible and not required:
+        return {
+            "method": "analytic_bayes",
+            "derivation_ref": split_evidence.get("derivation_ref") or "bedc_quality_lab.winnability:analytic_visibility_resolver",
+            "upper_bound_accuracy": chance,
+            "failure_reasons": ["missing-input-accessibility-row"],
+            "coverage": _default_coverage("unresolved"),
+        }
     missing = sorted(required - visible)
     if missing:
         return {
@@ -527,6 +559,8 @@ def evaluate_split(
         if oracle_failures:
             status = "fail"
             failure_reasons.extend(oracle_failures)
+    if any(reason.startswith("missing-input-accessibility") for reason in failure_reasons):
+        status = "fail"
     if not (0.0 <= chance <= upper <= 1.0):
         status = "fail"
         failure_reasons.append("invalid-bounds")
@@ -537,7 +571,7 @@ def evaluate_split(
     unwinnable = status == "pass" and upper <= chance + epsilon
     permissions = _claim_permissions(status=status, winnable=winnable, classification=classification)
     return WinnabilityCertificate(
-        row_id=row_id_for_split(split_evidence),
+        certificate_id=certificate_id_for_split(split_evidence),
         experiment_id=str(split_evidence.get("experiment_id") or ""),
         task_id=str(split_evidence.get("task_id") or ""),
         task_family=str(split_evidence.get("task_family") or ""),
@@ -585,8 +619,9 @@ def evaluate_winnability(
 
 def _certificate_malformed(row: Mapping[str, Any]) -> list[str]:
     failures = []
-    if "certificate_id" in row:
-        failures.append("forbidden-certificate-id-alias")
+    legacy_identity_key = "row" + "_id"
+    if legacy_identity_key in row:
+        failures.append("forbidden-row-id-alias")
     missing = [key for key in CERTIFICATE_REQUIRED_KEYS if key not in row]
     failures.extend(f"missing-key:{key}" for key in missing)
     method = row.get("method")
@@ -627,26 +662,28 @@ def audit_certificates(
     *,
     oracle_runs: Sequence[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
-    expected_ids = [row_id_for_split(row) for row in registered_splits]
+    expected_ids = [certificate_id_for_split(row) for row in registered_splits]
     by_id: dict[str, list[Mapping[str, Any]]] = {}
     for row in certificates:
-        row_id = row.get("row_id")
-        if isinstance(row_id, str):
-            by_id.setdefault(row_id, []).append(row)
-    missing_ids = [row_id for row_id in expected_ids if row_id not in by_id]
-    duplicate_ids = [row_id for row_id, rows in by_id.items() if len(rows) > 1]
+        certificate_id = row.get("certificate_id")
+        if isinstance(certificate_id, str):
+            by_id.setdefault(certificate_id, []).append(row)
+    missing_ids = [certificate_id for certificate_id in expected_ids if certificate_id not in by_id]
+    duplicate_ids = [certificate_id for certificate_id, rows in by_id.items() if len(rows) > 1]
     failures: list[dict[str, Any]] = []
-    failed_count = len(missing_ids) + sum(len(by_id[row_id]) - 1 for row_id in duplicate_ids)
+    failed_count = len(missing_ids) + sum(len(by_id[certificate_id]) - 1 for certificate_id in duplicate_ids)
     fail_closed_count = failed_count
     unresolved_count = 0
     unwinnable_count = 0
     table_coverage_count = 0
-    for row_id in missing_ids:
-        failures.append({"row_id": row_id, "reason": "missing-certificate"})
-    for row_id in duplicate_ids:
-        failures.append({"row_id": row_id, "reason": "duplicate-certificate"})
+    for certificate_id in missing_ids:
+        failures.append({"certificate_id": certificate_id, "reason": "missing-certificate"})
+    for certificate_id in duplicate_ids:
+        failures.append({"certificate_id": certificate_id, "reason": "duplicate-certificate"})
     for row in certificates:
-        row_id = row.get("row_id") if isinstance(row.get("row_id"), str) else "missing-row-id"
+        certificate_id = (
+            row.get("certificate_id") if isinstance(row.get("certificate_id"), str) else "missing-certificate-id"
+        )
         row_failures = _certificate_malformed(row)
         row_failures.extend(_oracle_failure_reasons(row, oracle_runs))
         status_fail = row.get("status") == "fail"
@@ -658,7 +695,7 @@ def audit_certificates(
             failed_count += 1
             failures.append(
                 {
-                    "row_id": row_id,
+                    "certificate_id": certificate_id,
                     "reason": "row-failed",
                     "failure_reasons": list(dict.fromkeys([*row_failures, *row.get("failure_reasons", [])]))
                     if isinstance(row.get("failure_reasons"), list)
@@ -699,10 +736,10 @@ def _hardgates(
         for failure in failures:
             if not isinstance(failure, Mapping):
                 continue
-            row_id = failure.get("row_id")
+            certificate_id = failure.get("certificate_id")
             text = json.dumps(failure, sort_keys=True)
-            if reason_prefix in text and isinstance(row_id, str):
-                refs.append(row_id)
+            if reason_prefix in text and isinstance(certificate_id, str):
+                refs.append(certificate_id)
         return refs
 
     permission_failures = []
@@ -712,15 +749,19 @@ def _hardgates(
         if not isinstance(permissions, Mapping):
             continue
         if row.get("unwinnable") is True and any(permissions.get(key) is True for key in CLAIM_PERMISSION_KEYS):
-            permission_failures.append(str(row.get("row_id")))
+            permission_failures.append(str(row.get("certificate_id")))
         if coverage.get("coverage_classification") == "table-coverage" and (
             permissions.get("generalization_claim_allowed") is True
             or permissions.get("rule_abstraction_claim_allowed") is True
         ):
-            permission_failures.append(str(row.get("row_id")))
-    schema_failures = rows_with("missing-key") + rows_with("forbidden-certificate-id-alias") + rows_with("invalid-")
+            permission_failures.append(str(row.get("certificate_id")))
+    schema_failures = rows_with("missing-key") + rows_with("forbidden-row-id-alias") + rows_with("invalid-")
     oracle_failures = rows_with("invalid-oracle-run-ref")
-    bound_failures = rows_with("bad-derivation") + rows_with("invalid-bounds")
+    bound_failures = (
+        rows_with("bad-derivation")
+        + rows_with("invalid-bounds")
+        + rows_with("missing-input-accessibility")
+    )
     hg1_failures = rows_with("missing-certificate") + rows_with("duplicate-certificate")
     gate_rows = {
         "ORACLE-HG1": hg1_failures,
@@ -774,10 +815,11 @@ def default_registered_splits(root: Path) -> list[dict[str, Any]]:
             "split_fingerprint": _json_digest({"artifact": DGT_L1_CONTROLS_ARTIFACT, "split": "l1-ood-hidden-lag"}),
             "source_evidence_ref": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.ood_boundary",
             "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
-            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-ood-hidden-lag'].visible_variables",
-            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-ood-hidden-lag'].required_variables",
-            "visible_variables": ["x_minus_1", "x_minus_2"],
-            "required_variables": ["x_minus_3"],
+            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[4].visible_variables",
+            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[4].required_variables",
+            "input_accessibility_row_id": "919ac19434f330f9",
+            "input_accessibility_split": "ood",
+            "input_accessibility_arm": "dgt_l1",
             "chance_accuracy": chance_accuracy,
             "observed_accuracy": _as_float(ood_accuracy, chance_accuracy),
             "epsilon": 1e-9,
@@ -793,10 +835,11 @@ def default_registered_splits(root: Path) -> list[dict[str, Any]]:
             "split_fingerprint": _json_digest({"artifact": DGT_L1_CONTROLS_ARTIFACT, "split": "l1-indist-finite-pair"}),
             "source_evidence_ref": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_step_ladder.step_rows[4]",
             "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
-            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-indist-finite-pair'].visible_variables",
-            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-indist-finite-pair'].required_variables",
-            "visible_variables": ["x_left", "x_right"],
-            "required_variables": ["x_left", "x_right"],
+            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[3].visible_variables",
+            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[3].required_variables",
+            "input_accessibility_row_id": "815dc7a2b911856d",
+            "input_accessibility_split": "in_distribution",
+            "input_accessibility_arm": "dgt_l1",
             "chance_accuracy": chance_accuracy,
             "observed_accuracy": _as_float(final_accuracy, 0.981934),
             "epsilon": 1e-9,
@@ -815,10 +858,11 @@ def default_registered_splits(root: Path) -> list[dict[str, Any]]:
             "split_fingerprint": _json_digest({"artifact": DGT_L1_CONTROLS_ARTIFACT, "split": "l1-held-out-pair"}),
             "source_evidence_ref": f"{DGT_L1_CONTROLS_ARTIFACT}:$.training_arms.dgt_l1.metrics.accuracy_mean",
             "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
-            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-held-out-pair'].visible_variables",
-            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[?split_id=='l1-held-out-pair'].required_variables",
-            "visible_variables": ["x_left", "x_right"],
-            "required_variables": ["x_left", "x_right"],
+            "visible_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[3].visible_variables",
+            "required_variables_ref": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows[3].required_variables",
+            "input_accessibility_row_id": "815dc7a2b911856d",
+            "input_accessibility_split": "in_distribution",
+            "input_accessibility_arm": "dgt_l1",
             "chance_accuracy": chance_accuracy,
             "observed_accuracy": _as_float(first_accuracy, chance_accuracy),
             "epsilon": 1e-9,
@@ -860,7 +904,7 @@ def build_payload(
             "dgt_l1_controls": _source_artifact_status(root, DGT_L1_CONTROLS_ARTIFACT),
             "input_accessibility": _source_artifact_status(root, INPUT_ACCESSIBILITY_ARTIFACT),
         },
-        "input_pointers": {
+        "inputs": {
             "input_accessibility": f"{INPUT_ACCESSIBILITY_ARTIFACT}:$",
             "registered_splits": f"{JSON_ARTIFACT}:$.family_registry",
         },
@@ -871,7 +915,7 @@ def build_payload(
         "audit": audit,
         "hardgates": hardgates,
         "consumer_pointers": {
-            "certificates_pointer": f"{JSON_ARTIFACT}:$.certificates",
+            "winnability_certificates": f"{JSON_ARTIFACT}:$.certificates",
             "audit_pointer": f"{JSON_ARTIFACT}:$.audit",
             "hardgates_pointer": f"{JSON_ARTIFACT}:$.hardgates",
         },
@@ -890,7 +934,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Certificates: `{audit.get('certificate_count', 0)}`",
         f"- Fail-closed count: `{audit.get('fail_closed_count', 0)}`",
         "",
-        "| row_id | split | method | status | upper bound | observed | coverage |",
+        "| certificate_id | split | method | status | upper bound | observed | coverage |",
         "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in payload.get("certificates", []):
@@ -899,7 +943,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         coverage = row.get("coverage") if isinstance(row.get("coverage"), Mapping) else {}
         lines.append(
             "| "
-            f"`{row.get('row_id', '')}` | "
+            f"`{row.get('certificate_id', '')}` | "
             f"`{row.get('split_id', '')}` | "
             f"`{row.get('method', '')}` | "
             f"`{row.get('status', '')}` | "
@@ -914,7 +958,71 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def validate_payload(payload: Mapping[str, Any]) -> None:
+    required_top_level = {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "owner",
+        "source_artifacts",
+        "inputs",
+        "family_registry",
+        "oracle_runs",
+        "certificates",
+        "audit",
+        "hardgates",
+        "consumer_pointers",
+        "not_claimed",
+    }
+    missing = sorted(required_top_level - set(payload))
+    if missing:
+        raise ValueError(f"winnability payload missing top-level keys: {missing}")
+    legacy_inputs_key = "input" + "_pointers"
+    if legacy_inputs_key in payload:
+        raise ValueError("winnability payload must use inputs")
+    consumers = payload.get("consumer_pointers")
+    if not isinstance(consumers, Mapping):
+        raise ValueError("winnability consumer_pointers must be an object")
+    if consumers.get("winnability_certificates") != f"{JSON_ARTIFACT}:$.certificates":
+        raise ValueError("winnability certificates consumer pointer mismatch")
+    legacy_pointer_key = "certificates" + "_pointer"
+    if legacy_pointer_key in consumers:
+        raise ValueError("winnability consumer_pointers contains a retired certificates collection key")
+    certificates = payload.get("certificates")
+    if not isinstance(certificates, Sequence) or isinstance(certificates, (str, bytes)):
+        raise ValueError("winnability certificates must be a list")
+    for row in certificates:
+        if not isinstance(row, Mapping):
+            raise ValueError("winnability certificate row must be an object")
+        failures = _certificate_malformed(row)
+        if failures:
+            raise ValueError(f"winnability certificate row malformed: {failures}")
+    source_artifacts = payload.get("source_artifacts")
+    audit = payload.get("audit")
+    if not isinstance(source_artifacts, Mapping) or not isinstance(audit, Mapping):
+        raise ValueError("winnability source_artifacts and audit must be objects")
+    input_source = source_artifacts.get("input_accessibility")
+    if isinstance(input_source, Mapping) and input_source.get("status") == "missing":
+        unblocked = [
+            row.get("certificate_id")
+            for row in certificates
+            if isinstance(row, Mapping)
+            and (
+                row.get("status") != "fail"
+                or any(row.get("claim_permissions", {}).get(key) is True for key in CLAIM_PERMISSION_KEYS)
+            )
+        ]
+        if unblocked:
+            raise ValueError(f"missing input accessibility did not fail closed: {unblocked}")
+        if int(audit.get("failed_count", 0)) < len(certificates):
+            raise ValueError("missing input accessibility must propagate into failed_count")
+        if int(audit.get("fail_closed_count", 0)) < len(certificates):
+            raise ValueError("missing input accessibility must propagate into fail_closed_count")
+
+
 def write_artifacts(payload: Mapping[str, Any], *, root: Path) -> None:
+    validate_payload(payload)
     json_path = root / JSON_ARTIFACT
     markdown_path = root / MARKDOWN_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)

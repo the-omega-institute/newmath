@@ -216,6 +216,7 @@ def _payload_for_spec(spec):
             "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
             "visible_variables": ["x_left"],
             "required_variables": ["x_left"],
+            "allow_inline_input_fixture": True,
             "chance_accuracy": 0.5,
             "observed_accuracy": 0.75,
         }
@@ -1690,6 +1691,7 @@ def test_winnability_certificates_canonical_spec_and_index_section(tmp_path, mon
         "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
         "visible_variables": ["x_left"],
         "required_variables": ["x_left"],
+        "allow_inline_input_fixture": True,
         "chance_accuracy": 0.5,
         "observed_accuracy": 0.75,
     }
@@ -1705,9 +1707,10 @@ def test_winnability_certificates_canonical_spec_and_index_section(tmp_path, mon
     assert spec.bundle_role == "auxiliary"
     assert spec.json_artifact == "reports/canonical/winnability-certificates.json"
     assert spec.markdown_artifact == "reports/canonical/winnability-certificates.md"
-    assert {"schema_id", "artifact_id", "audit", "$.audit.fail_closed_count"} <= set(spec.required_json_keys)
+    assert {"schema_id", "artifact_id", "inputs", "audit", "$.audit.fail_closed_count"} <= set(spec.required_json_keys)
     assert "winnability-certificates" not in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
-    assert section["certificates_pointer"] == "reports/canonical/winnability-certificates.json:$.certificates"
+    assert section["winnability_certificates"] == "reports/canonical/winnability-certificates.json:$.certificates"
+    assert "certificates" + "_pointer" not in section
     assert section["audit_pointer"] == "reports/canonical/winnability-certificates.json:$.audit"
     assert section["hardgates_pointer"] == "reports/canonical/winnability-certificates.json:$.hardgates"
     assert section["fail_closed_count"] == 0
@@ -1728,7 +1731,9 @@ def test_winnability_certificates_regen_is_idempotent(tmp_path, monkeypatch):
     assert second == first
     assert (tmp_path / canonical.WINNABILITY_CERTIFICATES_JSON_ARTIFACT).read_text(encoding="utf-8") == first_json
     assert (tmp_path / canonical.WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT).read_text(encoding="utf-8") == first_md
-    assert second["audit"]["fail_closed_count"] == 2
+    assert second["audit"]["status"] == "fail"
+    assert second["audit"]["failed_count"] == 3
+    assert second["audit"]["fail_closed_count"] == 3
 
 
 def test_winnability_certificates_missing_artifact_validation_fails_closed(tmp_path, monkeypatch):

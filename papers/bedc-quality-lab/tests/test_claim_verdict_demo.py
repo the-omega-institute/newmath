@@ -1094,12 +1094,12 @@ def test_claim_verdict_blocks_positive_claims_with_winnability_certificates(
     certificate,
     reason,
 ):
-    row_id = "win-fixture"
+    certificate_id = "win-fixture"
     rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
     rows[0]["winnability_ref"] = {
         "artifact": demo.WINNABILITY_CERTIFICATES_ARTIFACT,
-        "row_id": row_id,
-        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[?row_id=='{row_id}']",
+        "certificate_id": certificate_id,
+        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[0]",
     }
     specs = (_spec("d4", "reports/canonical/d4.json"),)
     _fixture_root(tmp_path, monkeypatch, rows, specs)
@@ -1109,7 +1109,7 @@ def test_claim_verdict_blocks_positive_claims_with_winnability_certificates(
             {
                 "schema_id": "bedc-quality-lab:winnability-certificates",
                 "artifact_id": "bedc-quality-lab:winnability-certificates",
-                "certificates": [dict(certificate, row_id=row_id)],
+                "certificates": [dict(certificate, certificate_id=certificate_id)],
                 "audit": {"status": "pass"},
             },
         )
@@ -1120,8 +1120,49 @@ def test_claim_verdict_blocks_positive_claims_with_winnability_certificates(
     assert verdict["claim_verdict"] == "projected_discovery_required"
     assert verdict["reason"] == reason
     assert verdict["ledger_pointer"] == (
-        "reports/canonical/winnability-certificates.json:$.certificates[?row_id=='win-fixture']"
+        "reports/canonical/winnability-certificates.json:$.certificates[0]"
     )
+
+
+def test_claim_verdict_honors_winnability_claim_permissions(tmp_path, monkeypatch):
+    certificate_id = "win-deny"
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    rows[0]["winnability_ref"] = {
+        "artifact": demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        "certificate_id": certificate_id,
+        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[0]",
+    }
+    _fixture_root(tmp_path, monkeypatch, rows, (_spec("d4", "reports/canonical/d4.json"),))
+    _write_json(
+        tmp_path / demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        {
+            "schema_id": "bedc-quality-lab:winnability-certificates",
+            "artifact_id": "bedc-quality-lab:winnability-certificates",
+            "audit": {"status": "pass"},
+            "certificates": [
+                {
+                    "certificate_id": certificate_id,
+                    "status": "pass",
+                    "method": "analytic_bayes",
+                    "unwinnable": False,
+                    "coverage": {"coverage_classification": "not-applicable"},
+                    "claim_permissions": {
+                        "memorization_claim_allowed": False,
+                        "generalization_claim_allowed": False,
+                        "separation_claim_allowed": False,
+                        "architecture_claim_allowed": False,
+                        "rule_abstraction_claim_allowed": False,
+                    },
+                }
+            ],
+        },
+    )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "winnability-permission-denied"
+    assert verdict["ledger_pointer"] == "reports/canonical/winnability-certificates.json:$.certificates[0]"
 
 
 @pytest.mark.parametrize(
