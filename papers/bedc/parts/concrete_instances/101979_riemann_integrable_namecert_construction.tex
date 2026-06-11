@@ -63,6 +63,22 @@ Thus the packet exports integrability evidence without exporting an already chos
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannIntegrableUp.RiemannIntegrableCarrier\_darboux\_gap\_route}
 
+\begin{theorem}[Riemann integrable gap-ledger monotonicity]
+\label{thm:riemann-integrable-gap-ledger-monotonicity}
+Let
+$$
+J=(D,M,L,U,G,T,H,C,P,N)
+$$
+be an accepted $\RiemannIntegrableUp$ carrier. If the Darboux-gap row $G$ answers a displayed dyadic tolerance $\varepsilon$, and if another displayed dyadic tolerance $\varepsilon'$ is transported above $\varepsilon$ through the same $\DyadicRatCoreUp$ comparison route, then the same rows $D,M,L,U,T,H,C,P,N$ answer the weaker tolerance request $\varepsilon'$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The lower and upper Darboux rows $L$ and $U$ are read over the same finite partition ledger $M$, while the row $G$ records the displayed comparison answering $\varepsilon$.
+
+Transport the weaker tolerance request along the componentwise row $H$. Since $\varepsilon'$ is displayed above $\varepsilon$ in the same dyadic comparison route, the comparison already recorded in $G$ remains sufficient after transport.
+
+Replay the continuation row $C$ with the same real-domain row $D$, partition row $M$, Darboux rows $L,U$, handoff row $T$, provenance row $P$, and local name row $N$. The handoff row $T$ is downstream of the gap ledger, so no selected integral value, host function quotient, or separate integration object is introduced while weakening the tolerance.
+\end{proof}
+
 \closureat{RiemannIntegrableUp}{seedStr}
 
 \begin{closurestatus}{\RiemannIntegrableUp}
