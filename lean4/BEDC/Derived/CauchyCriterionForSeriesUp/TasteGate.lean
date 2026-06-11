@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyCriterionForSeriesUp
@@ -176,12 +177,16 @@ def taste_gate : ChapterTasteGate CauchyCriterionForSeriesUp :=
 theorem CauchyCriterionForSeriesTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cauchyCriterionForSeriesDecodeBHist (cauchyCriterionForSeriesEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier CauchyCriterionForSeriesUp) ∧
-        Nonempty (ChapterTasteGate CauchyCriterionForSeriesUp) ∧
-          cauchyCriterionForSeriesEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x : CauchyCriterionForSeriesUp,
+        cauchyCriterionForSeriesFromEventFlow (cauchyCriterionForSeriesToEventFlow x) =
+          some x) ∧
+        Nonempty (BHistCarrier CauchyCriterionForSeriesUp) ∧
+          Nonempty (ChapterTasteGate CauchyCriterionForSeriesUp) ∧
+            cauchyCriterionForSeriesEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨CauchyCriterionForSeriesTasteGate_single_carrier_alignment_decode,
+      CauchyCriterionForSeriesTasteGate_single_carrier_alignment_round_trip,
       ⟨cauchyCriterionForSeriesBHistCarrier⟩,
       ⟨cauchyCriterionForSeriesChapterTasteGate⟩,
       rfl⟩
