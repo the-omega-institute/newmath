@@ -1838,15 +1838,53 @@ def test_dgt_model_card_report_row_consumes_card_hardgates():
     result = canonical._run_spec(spec, reuse_existing=True)
     payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
 
-    assert result["validation"]["model_card_errors"] == [
+    assert result["validation"]["model_card_errors"] == []
+    assert result["validation"]["status"] == "pass"
+    assert result["status"] == "pass"
+    assert payload["status"] == "pass"
+    assert payload["card_hardgates"]["status"] == "pass"
+    assert payload["missing_source_refs"] == []
+    assert payload["training_facts"]["evidence_provenance"]["status"] == "resolved"
+    assert payload["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert payload["source_artifacts"][5]["status"] == "resolved"
+
+
+def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
+    source_root = canonical.SOURCE_ROOT
+    source_artifacts = (
+        "reports/canonical/dgt-l0-controls.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-base-undertraining-audit.json",
+        "reports/canonical/dgt-ablation-null-decomposition.json",
+        "reports/canonical/discovery-gated-transformer.json",
+    )
+    for artifact in source_artifacts:
+        target = tmp_path / artifact
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text((source_root / artifact).read_text(encoding="utf-8"), encoding="utf-8")
+
+    index_payload = json.loads((source_root / "reports/canonical/index.json").read_text(encoding="utf-8"))
+    index_payload.pop("evidence_provenance", None)
+    index_path = tmp_path / "reports/canonical/index.json"
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(json.dumps(index_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    card = canonical.write_dgt_model_card(root=tmp_path, generated_at="fixture-time")
+    errors = [error.as_dict() for error in canonical.validate_dgt_model_card(card, tmp_path)]
+
+    assert card["status"] == "blocked"
+    assert card["card_hardgates"]["status"] == "blocked"
+    assert card["missing_source_refs"] == ["reports/canonical/index.json:$.evidence_provenance"]
+    assert card["training_facts"]["evidence_provenance"]["status"] == "blocked"
+    assert card["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert card["source_artifacts"][5]["status"] == "pointer-missing"
+    assert errors == [
         {
             "gate_id": "CARD-HG9",
             "path": "$.source_artifacts[5].status",
             "message": "source pointer is not resolved",
         }
     ]
-    assert result["status"] == "fail"
-    assert payload["card_hardgates"]["status"] == "blocked"
 
 
 def test_no_standalone_dgt_component_ablation_registered():
