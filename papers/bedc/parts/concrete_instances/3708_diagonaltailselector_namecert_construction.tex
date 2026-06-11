@@ -743,6 +743,22 @@ limits, countable choice, host equality, hidden tail oracles, or ambient
 completeness, so those objects cannot enter through the tail-meet handoff.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector finite tail induction]
+\label{thm:diagonal-tail-selector-finite-tail-induction}
+Every accepted finite tail read of a $\DiagonalTailSelectorUp$ packet is obtained by induction over the displayed rows
+$$
+n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+The base reads the precision and modulus selector row, the successor step extends through the $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback, and the terminal case seals through $\RegularCauchyTailSelectorUp$ and $\RealUp$ without exporting quotient streams, selected host limits, countable choice, host equality, hidden tail oracles, or ambient completeness.
+\end{theorem}
+\begin{proof}
+The base case is the selector-row prefix. Apply \autoref{thm:diagonal-tail-selector-selector-row-determinacy} and \autoref{thm:diagonal-tail-selector-window-threshold-order}: the read starts from $n,\mu,k$, with $k$ determined by $\mu$ at $n$ before any downstream window, dyadic row, tail row, or seal row is consumed.
+
+For the successor step, use \autoref{thm:diagonal-tail-selector-cofinal-window-exhaustion}. Each finite extension opens only the displayed $\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ readback row $D$, with $H,C,P,N$ preserving the same accepted route.
+
+The terminal case is the completion handoff. By \autoref{thm:diagonal-tail-selector-limit-handoff}, the read passes through $\RegularCauchyTailSelectorUp$ before the seal row is consumed; by \autoref{thm:diagonal-tail-selector-seal-nonescape}, the final $\RealUp$ consumer receives only the displayed finite packet and none of the refused host objects.
+\end{proof}
+
 \input{parts/concrete_instances/diagonaltailselector/root_cofinal_budget_obligation_rows}
 \input{parts/concrete_instances/diagonaltailselector/public_budget_surface}
 
