@@ -767,7 +767,6 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
-import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
@@ -2616,7 +2615,6 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftSubstitutionLedgerLock
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SiblingDependencyRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SocketSeparation
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SourceSynchronization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SourceTotalStrictObstruction
@@ -3247,7 +3245,6 @@ import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
 import BEDC.Derived.CoveringdimensionUp.CompactMetricNonescapeObligation
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetObligationSurface
-import BEDC.Derived.CoveringdimensionUp.CompactNetOrderCarrier
 import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetSimplicialNerve
@@ -3316,6 +3313,7 @@ import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindow
 import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindowObligation
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RootSimplicialCoverHandoff
+import BEDC.Derived.CoveringdimensionUp.ScopeClosureWitness
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
@@ -6381,7 +6379,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
-import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -7539,7 +7536,6 @@ import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
 import BEDC.Derived.PontryaginDualityUp
-import BEDC.Derived.PorousSetUp.TasteGate
 import BEDC.Derived.PositiveConeUp.TasteGate
 import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
 import BEDC.Derived.PositiveRealUp.TasteGate
