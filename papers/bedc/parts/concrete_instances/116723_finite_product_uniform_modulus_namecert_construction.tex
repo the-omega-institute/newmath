@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FiniteProductUniformModulusUp$}
+\label{ch:concrete-instances-finite-product-uniform-modulus-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges on finite product compactness and uniform continuity, the $\FiniteProductUniformModulusUp$ packet records the finite product-level route from coordinate local moduli to a tolerance-only uniform-modulus handoff. It consumes the finite product compactness routes of \autoref{ch:concrete-instances-tychonoff-finite-product-namecert} and \autoref{ch:concrete-instances-compact-metric-product-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map source of \autoref{ch:concrete-instances-continuousmap-namecert}, and the target uniform-modulus surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names finite product modulus data only; it does not assert arbitrary product compactness, selected Lebesgue numbers, quotient function equality, or an external modulus selector.
+
+\begin{definition}[Finite product uniform-modulus carrier]
+\label{def:finite-product-uniform-modulus-carrier}
+A $\FiniteProductUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,C,M,F,L,D,R,E,U,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite product compactness row read through $\TychonoffFiniteProductUp$.
+\item $C$ is the compact metric product row read through $\CompactMetricProductUp$ and $\CompactMetricUp$.
+\item $M$ is the $\ProductMetricUp$ triangle-routing row for product distances and projections.
+\item $F$ is the $\ContinuousMapUp$ source row exposing coordinate local-modulus data.
+\item $L$ is the coordinate modulus exposure row, listing the finitely many local coordinate tolerances inspected by the product route.
+\item $D$ is the Rat and Dyadic lower-bound folding row that turns the finite coordinate list into one product tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for folded tolerances and product-distance comparisons.
+\item $E$ is the terminal $\RealUp$ seal for the product estimate.
+\item $U$ is the $\UniformModulusUp$ export row.
+\item $H$ records componentwise $\hsame$ transport for the product, compactness, metric, map, fold, readback, Real-seal, export, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteProductUniformModulusUp$, $\TychonoffFiniteProductUp$, $\CompactMetricProductUp$, $\CompactMetricUp$, $\ProductMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteProductUniformModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,C,M,F,L,D,R,E,U,H,P,N$. It has no coordinate for arbitrary products, selected finite nets, hidden compactness, quotient maps, or host-level modulus choice.
+\end{definition}
+
+\begin{theorem}[Finite product uniform-modulus NameCert obligations]
+\label{thm:finite-product-uniform-modulus-namecert-obligations}
+For every accepted $\FiniteProductUniformModulusUp$ carrier
+$$
+K=(T,C,M,F,L,D,R,E,U,H,P,N),
+$$
+the local $\NameCert_{\FiniteProductUniformModulusUp}$ surface consists exactly of finite product compactness admission, compact metric product exposure, product-metric triangle routing, continuous-map coordinate modulus exposure, finite coordinate lower-bound folding through Rat and Dyadic tolerance rows, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, $\UniformModulusUp$ export, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-product-uniform-modulus-carrier}. The product and compactness rows $T,C,M$ expose the finite product source and its metric route.
+
+The continuous-map and coordinate modulus rows $F,L$ provide the local tolerance data. The fold row $D$ is the only row that combines the finitely many coordinate lower bounds into one product tolerance.
+
+The readback, Real seal, and export rows $R,E,U$ then present the tolerance-only uniform-modulus handoff. Transport, replay, provenance, and local naming preserve the same packet, and the carrier has no hidden coordinate for the excluded product or choice principles.
+\end{proof}
+
+\begin{theorem}[Finite product uniform-modulus export]
+\label{thm:finite-product-uniform-modulus-export}
+Every $\UniformModulusUp$ consumer of an accepted $\FiniteProductUniformModulusUp$ packet reads the product modulus through the route
+$$
+\TychonoffFiniteProductUp,\ \CompactMetricProductUp,\ \CompactMetricUp,\ \ProductMetricUp,\ \ContinuousMapUp,\ \RegSeqRatUp,\ \RealUp,\ \UniformModulusUp .
+$$
+Coordinate local moduli remain visible until the Rat and Dyadic lower-bound fold has produced the product tolerance; the product-metric triangle row remains visible until the Real-sealed estimate is exported. No consumer may replace this route by arbitrary product compactness, a selected finite-net oracle, quotient function equality, or an external modulus selector.
+\end{theorem}
+\begin{proof}
+Start with the finite product compactness rows $T$ and $C$. They expose a finite compact product route and do not supply an arbitrary product theorem.
+
+Use the product-metric row $M$ together with the continuous-map row $F$. Projection and triangle reads are kept visible while the coordinate local moduli are inspected through $L$.
+
+Fold the coordinate tolerances through $D$ and read the resulting comparisons through $R$ and $E$. This produces one product tolerance inside the same finite packet.
+
+Finally export through $U,H,P,N$. The $\UniformModulusUp$ row is therefore a handoff from displayed product, compactness, coordinate-modulus, lower-bound, readback, Real-seal, transport, replay, provenance, and naming rows, not an external selector.
+\end{proof}
+
+\closureat{FiniteProductUniformModulusUp}{seedStr}
+
+\begin{closurestatus}{\FiniteProductUniformModulusUp}
+  \constructivestory{A $\FiniteProductUniformModulusUp$ packet is generated from finite product compactness, compact metric product, product-metric triangle routing, continuous-map coordinate modulus rows, Rat and Dyadic lower-bound folding, RegSeqRat readback, a Real seal, UniformModulus export, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-product-uniform-modulus-carrier}, \autoref{thm:finite-product-uniform-modulus-namecert-obligations}, and \autoref{thm:finite-product-uniform-modulus-export} seed the finite product uniform-modulus packet over TychonoffFiniteProductUp, CompactMetricProductUp, CompactMetricUp, ProductMetricUp, ContinuousMapUp, RegSeqRatUp, RealUp, UniformModulusUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary product compactness, selected finite nets, quotient function equality, external modulus selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite product compactness exposure, compact metric product routing, coordinate local-modulus exposure, lower-bound fold exactness, RegSeqRat readback, Real sealing, UniformModulus export, transport, replay, provenance, and local naming for BEDC.Derived.FiniteProductUniformModulusUp.}
+\end{closurestatus}
