@@ -173,9 +173,27 @@ def _payload_for_spec(spec):
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
     if spec.name == "dgt-l0-controls":
         from bedc_quality_lab import dgt_l0_controls
+        from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
 
         payload = dgt_l0_controls.build_payload(generated_at="fixture", requested_device="cpu")
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload["construct_validity_hardgates"] = construct_validity_projection(
+            ConstructValidityEvidence(
+                task_variables={"variables": ["x"]},
+                label_variables={"variables": ["y"]},
+                arm_input_access={
+                    "label_invisibility_certificate": True,
+                    "arms": {"candidate": {"variables": ["x"]}, "control": {"variables": ["x"]}},
+                },
+                arm_roles={"candidate": "candidate", "controls": ["control"]},
+                finite_table={"support_count": 1, "rule_abstraction_claim": False, "coverage_status": "bounded-control"},
+                hand_feature_ledger={"mode": "no-gate", "features": [], "candidate_only_features": []},
+                metric_source={"source_kind": "training-evaluation", "metric_keys": ["quality_q"]},
+            ),
+            artifact=dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
+            pointer="$.construct_validity_hardgates",
+        )
+        return public_payload
     if spec.name == "dgt-l1-controls":
         from bedc_quality_lab import dgt_l1_controls
 
@@ -1646,6 +1664,8 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
     assert spec.cost_pointer == "$.compute_param_ledger"
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
+    assert spec.construct_validity_pointer == "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates"
+    assert "construct_validity_hardgates" in spec.required_json_keys
     assert names.isdisjoint(
         {
             "base-transformer-l0",
@@ -1656,6 +1676,22 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
             "l0-pass-decision",
         }
     )
+
+
+def test_dgt_controls_require_construct_validity_without_replacing_protocol_hardgates():
+    specs = canonical._specs_by_name()
+    for name in ("dgt-l0-controls", "dgt-l1-controls"):
+        spec = specs[name]
+        assert spec.construct_validity_pointer == f"{spec.json_artifact}:$.construct_validity_hardgates"
+        assert "construct_validity_hardgates" in spec.required_json_keys
+
+        payload = _payload_for_spec(spec)
+        discipline = canonical._discipline(spec)
+
+        assert payload["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
+        assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
+        assert "reporting_hardgate" in discipline
+        assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
 
 
 def test_no_standalone_dgt_component_ablation_registered():
@@ -6647,6 +6683,9 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
             "missing_required_cells",
             "cells",
         }
+        assert "construct_validity_pointer" in report["discipline"]
+        assert "construct_validity_status" in report["discipline"]
+        assert "construct_validity" not in gate
     assert all(not Path(path).exists() for path in forbidden)
     assert "reporting_guideline" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
 
@@ -6787,6 +6826,53 @@ def test_run_spec_consumes_reporting_hardgate_failure(tmp_path, monkeypatch):
 
     assert result["validation"]["status"] == "pass"
     assert result["discipline"]["reporting_hardgate"]["status"] == "fail"
+    assert result["status"] == "fail"
+
+
+def test_run_spec_consumes_construct_validity_failure(tmp_path, monkeypatch):
+    spec = _reporting_spec(
+        required_json_keys=(
+            "source_artifacts",
+            "applicability_boundary",
+            "positive_claim",
+            "construct_validity_hardgates",
+        ),
+        construct_validity_pointer="reports/canonical/fixture-report.json:$.construct_validity_hardgates",
+    )
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    payload = _write_reporting_fixture(tmp_path, spec)
+    payload["construct_validity_hardgates"] = {
+        "schema_id": "bedc.quality.construct_validity_hardgates",
+        "status": "fail",
+        "failed_gates": ["CV-HG2"],
+    }
+    (tmp_path / spec.json_artifact).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["validation"]["status"] == "pass"
+    assert result["discipline"]["reporting_hardgate"]["status"] == "pass"
+    assert result["construct_validity"]["status"] == "fail"
+    assert result["construct_validity"]["failed_gates"] == ["CV-HG2"]
+    assert result["status"] == "fail"
+
+
+def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path, monkeypatch):
+    spec = _reporting_spec(
+        required_json_keys=("source_artifacts", "applicability_boundary", "positive_claim"),
+        construct_validity_pointer="reports/canonical/fixture-report.json:$.missing_construct_validity",
+    )
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["validation"]["status"] == "pass"
+    assert result["construct_validity"]["status"] == "missing"
     assert result["status"] == "fail"
 
 
