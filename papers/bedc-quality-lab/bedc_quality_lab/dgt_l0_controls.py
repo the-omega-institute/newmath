@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import ast
-from datetime import datetime, timezone
 import hashlib
 import importlib
+import inspect
 import json
 import math
 from pathlib import Path
+import sys
+import tempfile
 from typing import Any, Mapping, NamedTuple, Sequence
 
+from bedc_quality_lab.canonical_cell_cache import CellInputRecord, load_cell_entry, store_cell_entry
 from bedc_quality_lab.construct_validity import (
     ConstructValidityEvidence,
     construct_validity_projection,
@@ -813,6 +816,107 @@ def _json_digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
+def _path_digest(relative_path: str) -> str:
+    path = LAB_ROOT / relative_path
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else "missing"
+
+
+def _callable_digest(function: Any) -> str:
+    try:
+        source = inspect.getsource(function)
+    except (OSError, TypeError):
+        source = repr(function)
+    return hashlib.sha256(source.encode("utf-8")).hexdigest()
+
+
+def _runtime_abi(torch: Any) -> dict[str, str]:
+    abi = {"python": sys.version.split()[0], "executable": sys.executable, "torch": str(getattr(torch, "__version__", "unknown"))}
+    try:
+        numpy = importlib.import_module("numpy")
+    except Exception:
+        abi["numpy"] = "not-installed"
+    else:
+        abi["numpy"] = str(getattr(numpy, "__version__", "unknown"))
+    return abi
+
+
+def _producer_source_closure() -> tuple[dict[str, str], ...]:
+    paths = (OWNER_MODULE, PRODUCER, "bedc_quality_lab/canonical_cell_cache.py")
+    return tuple({"path": path, "sha256": _path_digest(path)} for path in paths)
+
+
+def _cell_input_record(torch: Any, *, requested_device: str, device_name: str) -> CellInputRecord:
+    return CellInputRecord(
+        producer_id="dgt-l0-controls",
+        producer_command=("python3", PRODUCER),
+        report_artifacts={
+            "canonical_json": CANONICAL_JSON_ARTIFACT,
+            "canonical_markdown": CANONICAL_MARKDOWN_ARTIFACT,
+            **run_artifacts_payload(),
+        },
+        producer_source_closure=_producer_source_closure(),
+        extra_input_paths=(),
+        config_payload={
+            "schema_id": SCHEMA_ID,
+            "arm_ids": list(ARM_IDS),
+            "metric_keys": list(METRIC_KEYS),
+            "training_steps": TRAINING_STEPS,
+            "learning_rate": LEARNING_RATE,
+            "batch_size": BATCH_SIZE,
+            "input_dim": INPUT_DIM,
+            "trainer_digest": _callable_digest(_train_arm),
+        },
+        seed_protocol={"base_seed": BASE_SEED, "fixed_replay_seeds": list(REPLAY_SEEDS)},
+        source_artifact_digests={},
+        requested_device=requested_device,
+        resolved_device=device_name,
+        runtime_abi=_runtime_abi(torch),
+    )
+
+
+def _raw_metrics_text(records: Sequence[Mapping[str, Any]]) -> str:
+    return "".join(json.dumps(row, sort_keys=True) + "\n" for row in records)
+
+
+def _load_raw_records(path: Path) -> list[dict[str, Any]]:
+    records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    if len(records) != TRUE_TRAINING_RECORDS_REQUIRED:
+        raise ValueError("cached L0 raw record count mismatch")
+    if {str(row.get("arm_id")) for row in records} != set(ARM_IDS):
+        raise ValueError("cached L0 raw arm set mismatch")
+    if {int(row.get("seed", -1)) for row in records} != set(REPLAY_SEEDS):
+        raise ValueError("cached L0 raw seed set mismatch")
+    return records
+
+
+def _store_raw_records(record: CellInputRecord, records: Sequence[Mapping[str, Any]]) -> None:
+    with tempfile.TemporaryDirectory(prefix="bedc-l0-cell-") as temp_dir:
+        raw_path = Path(temp_dir) / "raw_metrics.jsonl"
+        raw_path.write_text(_raw_metrics_text(records), encoding="utf-8")
+        store_cell_entry(
+            record,
+            {"raw_metrics.jsonl": {"path": raw_path, "media_role": "raw_metrics_jsonl"}},
+        )
+
+
+def _training_records(torch: Any, *, requested_device: str, device_name: str) -> list[dict[str, Any]]:
+    record = _cell_input_record(torch, requested_device=requested_device, device_name=device_name)
+    lookup = load_cell_entry(record)
+    if lookup.status == "hit":
+        raw_path = lookup.verified_blob_paths.get("raw_metrics.jsonl")
+        if raw_path is not None:
+            try:
+                return _load_raw_records(raw_path)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                pass
+    records: list[dict[str, Any]] = []
+    for seed in REPLAY_SEEDS:
+        for spec in arm_specs():
+            records.append(_train_arm(torch, spec, seed=seed, device_name=device_name))
+    _store_raw_records(record, records)
+    return records
+
+
 def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "auto", root: Path | None = None) -> dict[str, Any]:
     try:
         torch = importlib.import_module("torch")
@@ -821,11 +925,8 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
     device_name = _device_name(torch, requested_device)
     run_artifacts = run_artifacts_payload()
     source_artifacts = source_artifacts_payload(run_artifacts, requested_device=requested_device)
-    records: list[dict[str, Any]] = []
     try:
-        for seed in REPLAY_SEEDS:
-            for spec in arm_specs():
-                records.append(_train_arm(torch, spec, seed=seed, device_name=device_name))
+        records = _training_records(torch, requested_device=requested_device, device_name=device_name)
     except Exception as exc:
         return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch training failed: {exc}")
     first_seed_rows = [row for row in records if row["seed"] == REPLAY_SEEDS[0]]
@@ -1126,22 +1227,7 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
 
 
 def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:
-    run_artifacts = payload["source_artifacts"]
-    inputs = {
-        key: run_artifacts[key]
-        for key in ("run_local_claim_capsule", "run_local_raw_metrics", "run_local_summary", "run_local_report")
-    }
-    return {
-        "schema_id": "bedc-quality-lab:canonical-report-fingerprint",
-        "report_name": "dgt-l0-controls",
-        "json_artifact": CANONICAL_JSON_ARTIFACT,
-        "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
-        "producer_command": ["python3", PRODUCER],
-        "input_fingerprint": _json_digest({"producer": PRODUCER, "seed": BASE_SEED, "steps": TRAINING_STEPS, "run_local": inputs}),
-        "output_digest": _json_digest(payload),
-        "inputs": {"run_local_cache": inputs, "static_owner": OWNER_MODULE},
-        "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
-    }
+    raise RuntimeError("canonical report fingerprints are written by scripts/run_canonical_reports.py")
 
 
 def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str | None = None) -> None:
@@ -1152,7 +1238,7 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
     raw_path = root / run_artifacts["raw_metrics"]
     raw_path.parent.mkdir(parents=True, exist_ok=True)
     rows = list(payload.get("_raw_records", []))
-    raw_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
+    raw_path.write_text(_raw_metrics_text(rows), encoding="utf-8")
     _write_json(root / run_artifacts["claim_capsule"], claim_capsule_payload(public_payload))
     report_text = render_markdown(public_payload)
     report_path = root / run_artifacts["report"]
@@ -1162,10 +1248,6 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path, generated_at: str
     canonical_md = root / CANONICAL_MARKDOWN_ARTIFACT
     canonical_md.parent.mkdir(parents=True, exist_ok=True)
     canonical_md.write_text(report_text, encoding="utf-8")
-    _write_json(
-        root / CANONICAL_FINGERPRINT_ARTIFACT,
-        fingerprint_payload(public_payload, generated_at=generated_at or datetime.now(timezone.utc).isoformat()),
-    )
 
 
 __all__ = [

@@ -4417,6 +4417,33 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert payload["reports"][0]["producer_status"] == "skipped"
 
 
+def test_run_reports_verify_fingerprints_rejects_mutated_sidecar_inputs(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+    sidecar["inputs"]["producer_sources"][0]["sha256"] = "0" * 64
+    canonical._fingerprint_path(spec).write_text(json.dumps(sidecar, sort_keys=True) + "\n", encoding="utf-8")
+    calls = []
+    monkeypatch.setattr(canonical, "_run_producer", lambda called: calls.append(called.name))
+    summary_path = tmp_path / "summary.json"
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            verify_fingerprints=True,
+            generated_at="2030-01-01T00:00:00+00:00",
+            json_summary=str(summary_path),
+        )
+
+    assert excinfo.value.code == 1
+    assert calls == []
+    payload = json.loads(summary_path.read_text(encoding="utf-8"))
+    assert payload["reports"][0]["status"] == "error"
+    assert payload["reports"][0]["fingerprint_status"] == "miss"
+    assert payload["reports"][0]["fingerprint_reason"] == "inputs"
+
+
 def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
