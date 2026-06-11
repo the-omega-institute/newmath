@@ -6030,6 +6030,7 @@ import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MedianClosureUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
+import BEDC.Derived.MercerTheoremUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
@@ -6201,6 +6202,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
@@ -6254,6 +6256,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealExitRefusalBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealObstructionLedgerLock
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockCompleteness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
