@@ -1,0 +1,128 @@
+{
+  "schema_id": "bedc.quality.metric_purity_targets",
+  "targets": [
+    {
+      "id": "quality-components-metric",
+      "kind": "metric",
+      "module": "bedc_quality_lab.metrics",
+      "callable": "quality_components",
+      "owner_pointer": "bedc_quality_lab/metrics.py:quality_components",
+      "report_artifact": "",
+      "evidence_pointer": "bedc_quality_lab/metrics.py:quality_components",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [],
+      "allowlist_refs": []
+    },
+    {
+      "id": "drt-quality-boundary-feature",
+      "kind": "feature",
+      "module": "bedc_quality_lab.discovery_regularized_training",
+      "callable": "quality_promotion_boundary",
+      "owner_pointer": "bedc_quality_lab/discovery_regularized_training.py:quality_promotion_boundary",
+      "report_artifact": "reports/canonical/discovery-regularized-training.json",
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [],
+      "allowlist_refs": []
+    },
+    {
+      "id": "OK-HG1-task-spec-single-owner",
+      "kind": "hardgate",
+      "module": "bedc_quality_lab.order_k_benchmark",
+      "callable": "OrderKBenchmarkProjection.hardgate_verdicts",
+      "owner_pointer": "bedc_quality_lab/order_k_benchmark.py:OrderKBenchmarkProjection.hardgate_verdicts",
+      "report_artifact": "reports/canonical/order-k-benchmark.json",
+      "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.hardgate.gates.OK-HG1-task-spec-single-owner",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "OK-HG1-task-spec-single-owner"
+      ],
+      "allowlist_refs": []
+    },
+    {
+      "id": "pathology-information-starved-baseline",
+      "kind": "pathology",
+      "module": "bedc_quality_lab.construct_validity",
+      "callable": "evaluate_construct_validity",
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "report_artifact": "tests/fixtures/metric_purity/pathology/information_starved_baseline.json",
+      "evidence_pointer": "CV-HG1",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "CV-HG1"
+      ],
+      "allowlist_refs": []
+    },
+    {
+      "id": "pathology-unanswerable-ood",
+      "kind": "pathology",
+      "module": "bedc_quality_lab.construct_validity",
+      "callable": "evaluate_construct_validity",
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "report_artifact": "tests/fixtures/metric_purity/pathology/unanswerable_ood.json",
+      "evidence_pointer": "CV-HG2",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "CV-HG2"
+      ],
+      "allowlist_refs": []
+    },
+    {
+      "id": "pathology-arm-identity-metric-injection",
+      "kind": "pathology",
+      "module": "bedc_quality_lab.construct_validity",
+      "callable": "evaluate_construct_validity",
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "report_artifact": "tests/fixtures/metric_purity/pathology/arm_identity_metric_injection.json",
+      "evidence_pointer": "CV-HG5",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "CV-HG5"
+      ],
+      "allowlist_refs": []
+    },
+    {
+      "id": "pathology-hand-gate-advantage",
+      "kind": "pathology",
+      "module": "bedc_quality_lab.construct_validity",
+      "callable": "evaluate_construct_validity",
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "report_artifact": "tests/fixtures/metric_purity/pathology/hand_gate_advantage.json",
+      "evidence_pointer": "CV-HG4",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "CV-HG4"
+      ],
+      "allowlist_refs": []
+    },
+    {
+      "id": "pathology-table-coverage-saturation",
+      "kind": "pathology",
+      "module": "bedc_quality_lab.construct_validity",
+      "callable": "evaluate_construct_validity",
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "report_artifact": "tests/fixtures/metric_purity/pathology/table_coverage_saturation.json",
+      "evidence_pointer": "CV-HG3",
+      "empirical_metric_keys": [],
+      "mutation_contract_refs": [
+        "CV-HG3"
+      ],
+      "allowlist_refs": []
+    }
+  ],
+  "hardgate_mutations": [
+    {
+      "gate_id": "OK-HG1-task-spec-single-owner",
+      "mutation_id": "remove-task-spec-owner",
+      "owner_pointer": "bedc_quality_lab.order_k_benchmark:OrderKBenchmarkProjection.hardgate_verdicts",
+      "apply": {
+        "delete": [
+          "$.task_spec_owner"
+        ]
+      },
+      "expected_failed_gate": "OK-HG1-task-spec-single-owner",
+      "expected_reason_regex": "OK-HG1-task-spec-single-owner",
+      "source_payload_pointer": "reports/canonical/order-k-benchmark.json:$"
+    }
+  ]
+}

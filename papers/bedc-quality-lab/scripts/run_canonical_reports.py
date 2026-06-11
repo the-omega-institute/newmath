@@ -56,6 +56,7 @@ from bedc_quality_lab.mechanism_dna import (
     MARKDOWN_ARTIFACT as MECHANISM_DNA_MARKDOWN_ARTIFACT,
     REQUIRED_REF_FIELDS as MECHANISM_DNA_REQUIRED_REF_FIELDS,
 )
+from bedc_quality_lab.metric_purity import run_metric_purity_audit
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
     JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
@@ -1712,6 +1713,15 @@ def _selected_specs_with_dependents(only: str | None, *, include_dependents: boo
         if name in by_name:
             selected.append(by_name[name])
     return tuple(selected)
+
+
+def _run_metric_purity_preflight() -> dict[str, Any]:
+    if ROOT != SOURCE_ROOT and not (ROOT / "configs" / "metric_purity_targets.json").exists():
+        return {"status": "pass", "reason": "metric-purity-config-not-present"}
+    payload = run_metric_purity_audit(ROOT)
+    if payload["status"] != "pass":
+        raise RuntimeError("metric purity audit failed")
+    return payload
 
 
 def _module_name_from_command(command: Sequence[str]) -> str:
@@ -6404,6 +6414,7 @@ def run_reports(
     verify_fingerprints: bool = False,
 ) -> dict[str, Any]:
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
+    _run_metric_purity_preflight()
     mode: Literal["changed", "verify", "cold"] = "cold" if cold or force else "verify" if verify_fingerprints else "changed"
     timestamp = (
         generated_at

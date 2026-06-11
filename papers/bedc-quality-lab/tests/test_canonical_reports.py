@@ -1400,6 +1400,7 @@ def _patch_lightweight_run_reports(monkeypatch):
         types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
+    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda: {"status": "pass"})
 
 
 def _file_digest_map(root):
@@ -4363,6 +4364,30 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+
+    def fake_preflight():
+        calls.append("preflight")
+        return {"status": "pass"}
+
+    def fake_run_producer(called):
+        calls.append(f"producer:{called.name}")
+
+    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", fake_preflight)
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == ["preflight"]
+    assert payload["reports"][0]["fingerprint_status"] == "match"
 
 
 def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_path, monkeypatch):
