@@ -3254,6 +3254,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementWindow
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerStability
 import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
+import BEDC.Derived.CoveringdimensionUp.MetricCompletionRootRoute
 import BEDC.Derived.CoveringdimensionUp.MetricDependency
 import BEDC.Derived.CoveringdimensionUp.MetricRealDependency
 import BEDC.Derived.CoveringdimensionUp.MetricRealSeparabilityRoute
@@ -3276,6 +3277,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
+import BEDC.Derived.CoveringdimensionUp.RootFiniteOrderCompatibility
 import BEDC.Derived.CoveringdimensionUp.RootLebesgueLedgerObligation
 import BEDC.Derived.CoveringdimensionUp.RootMetricRealWindow
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
@@ -4985,6 +4987,7 @@ import BEDC.Derived.FormalTopologyUp.TasteGate
 import BEDC.Derived.ForwardBindingGapLedgerUp.TasteGate
 import BEDC.Derived.FourFaceExitClassifierUp.TasteGate
 import BEDC.Derived.FourierSeriesUp
+import BEDC.Derived.FourierTransformUp.TasteGate
 import BEDC.Derived.FourierUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
