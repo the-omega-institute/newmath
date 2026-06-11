@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.construct_validity import CLAIM_CAPSULE_PROJECTION_KEYS
+
 
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
 CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID = "bedc.quality.claim_capsule.run_local"
@@ -21,6 +23,42 @@ ARCHITECTURE_MODEL_CLAIM_REQUIRED_CELLS = (
     "candidate_pointer",
     "evidence_pointer",
 )
+
+
+def _depends_on_construct_validity(model_claim: Mapping[str, Any]) -> bool:
+    gates = model_claim.get("required_gates", ())
+    if isinstance(gates, Sequence) and not isinstance(gates, (str, bytes, bytearray)):
+        if any(str(gate).startswith("CV-HG") or str(gate) == "construct_validity_hardgates" for gate in gates):
+            return True
+    return bool(model_claim.get("depends_on_construct_validity"))
+
+
+def _is_rule_abstraction_claim(model_claim: Mapping[str, Any]) -> bool:
+    if model_claim.get("rule_abstraction_claim") is True:
+        return True
+    text = " ".join(str(model_claim.get(key, "")) for key in ("claim", "claim_type", "allowed_claim"))
+    normalized = text.lower().replace("_", "-")
+    return "rule-abstraction" in normalized or "rule abstraction" in normalized
+
+
+def _construct_validity_projection(payload: Mapping[str, Any]) -> Mapping[str, Any] | None:
+    construct_validity = payload.get("construct_validity")
+    return construct_validity if isinstance(construct_validity, Mapping) else None
+
+
+def _require_construct_validity_projection(projection: Mapping[str, Any]) -> None:
+    if set(projection) != set(CLAIM_CAPSULE_PROJECTION_KEYS):
+        raise ValueError("construct_validity projection must contain only pointer/status cells")
+    if not isinstance(projection.get("artifact"), str) or not projection["artifact"]:
+        raise ValueError("construct_validity projection missing artifact")
+    if not isinstance(projection.get("pointer"), str) or not projection["pointer"]:
+        raise ValueError("construct_validity projection missing pointer")
+    if not isinstance(projection.get("status"), str) or not projection["status"]:
+        raise ValueError("construct_validity projection missing status")
+    if not isinstance(projection.get("failed_gates"), list):
+        raise ValueError("construct_validity projection missing failed_gates")
+    if not isinstance(projection.get("owner_pointer"), str) or not projection["owner_pointer"]:
+        raise ValueError("construct_validity projection missing owner_pointer")
 
 
 def normalize_claim_capsule_schema_id(payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -86,6 +124,15 @@ def require_architecture_claim_capsule(payload: Mapping[str, Any]) -> ClaimCapsu
                 raise ValueError(f"architecture claim capsule invalid model_claim pointer cell: {key}")
         elif not isinstance(pointer_cell, str):
             raise ValueError(f"architecture claim capsule invalid model_claim pointer cell: {key}")
+    construct_validity = _construct_validity_projection(normalized)
+    if _depends_on_construct_validity(model_claim):
+        if construct_validity is None:
+            raise ValueError("architecture claim capsule requires construct_validity projection")
+        _require_construct_validity_projection(construct_validity)
+    if construct_validity is not None:
+        _require_construct_validity_projection(construct_validity)
+        if _is_rule_abstraction_claim(model_claim) and "CV-HG3" in construct_validity["failed_gates"]:
+            raise ValueError("architecture claim capsule rejects rule-abstraction claim under CV-HG3 table coverage")
     return capsule
 
 
@@ -176,6 +223,7 @@ def build_architecture_claim_capsule_payload(
     source_pointer: str,
     model_claim: Mapping[str, Any],
     not_claimed: Sequence[str] = (),
+    construct_validity: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     payload = {
         "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
@@ -192,5 +240,7 @@ def build_architecture_claim_capsule_payload(
         "model_claim": dict(model_claim),
         "not_claimed": list(not_claimed),
     }
+    if construct_validity is not None:
+        payload["construct_validity"] = dict(construct_validity)
     require_architecture_claim_capsule(payload)
     return payload
