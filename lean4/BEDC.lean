@@ -2762,6 +2762,7 @@ import BEDC.Derived.CompactUniformContinuityUp.EquicontinuousFamilyConsumer
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetCompositionRoute
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetModulusExtraction
+import BEDC.Derived.CompactUniformContinuityUp.FourSourceHandoffConsumerDeterminacy
 import BEDC.Derived.CompactUniformContinuityUp.FourSourceHandoffCorrespondence
 import BEDC.Derived.CompactUniformContinuityUp.KernelNetObservationSurface
 import BEDC.Derived.CompactUniformContinuityUp.LedgerExhaustion
@@ -2956,7 +2957,6 @@ import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
-import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -5996,6 +5996,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterDirectedness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFiniteInfimumHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRouteSurface
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphSpecialization
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphThresholdContinuity
 import BEDC.Derived.LowerSemicontinuousUp.RootFilterBasisDirectedRefinement
