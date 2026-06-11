@@ -71,6 +71,7 @@ Apply \autoref{thm:regulated-integral-step-primitive}. It routes every accepted 
 
 The continuation row $C$ preserves this order when the handoff proceeds toward $D$ and $R$. Hence every public $\RealUp$ read first consumes $I,G,A,S,E$.
 \end{proof}
+\leanchecked{BEDC.Derived.RegulatedIntegralUp.RegulatedIntegralVisibleStepHandoff}
 
 \begin{theorem}[Regulated integral Real completion route]
 \label{thm:regulated-integral-real-completion-route}
@@ -106,15 +107,34 @@ The excluded objects have no carrier coordinate and no continuation route. Thus 
 \end{proof}
 \leanchecked{BEDC.Derived.RegulatedIntegralUp.RegulatedIntegralNonescape}
 
+\begin{theorem}[Regulated integral kernel-source scope]
+\label{thm:regulated-integral-kernel-source-scope}
+Every regulated-integral read from an accepted $\RegulatedIntegralUp$ packet is scoped to the interval row, $\RegulatedRealFunctionUp$ row, $\DyadicStepFunctionUp$ approximation rows, $\DarbouxIntegralUp$ and $\RiemannIntegralUp$ compatibility row, $\RealUp$ handoff row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. Equivalently, every read remains inside
+$$
+I,G,A,S,D,R,E,H,C,P,N
+$$
+and no consumer can replace the displayed step-primitive source by a host function quotient, measure completion, selected limiting tag family, open-cover compactness witness, or ambient Real-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the step primitive. By \autoref{thm:regulated-integral-step-primitive}, each accepted integral read exposes the interval row $I$, the regulated-function row $G$, the selected dyadic step approximation ledger $A$, the finite step-sum primitive $S$, and the error row $E$ before any real-facing handoff is available.
+
+Apply Darboux--Riemann compatibility. The row $D$ records that the same displayed step approximation route fits the Darboux gap boundary and the Riemann tagged-mesh surface, so the compatibility source is a kernel row rather than a host integration theorem.
+
+Now use the visible step handoff and Real completion route. These place $R$ behind $I,G,A,S,E$ and then behind $D$, so a $\RealUp$ consumer receives only the displayed finite-sum route and its compatibility ledger.
+
+Finally apply nonescape. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, and the carrier has no coordinate for the excluded function-space, measure, tag-selection, compactness, or completeness objects. Therefore the regulated-integral read is scoped exactly to the listed kernel-source rows.
+\end{proof}
+
 \closureat{RegulatedIntegralUp}{seedStr}
 \closureat{RegulatedIntegralUp}{obligationStr}
+\closureat{RegulatedIntegralUp}{scopedStr}
 
 \begin{closurestatus}{\RegulatedIntegralUp}
   \constructivestory{A $\RegulatedIntegralUp$ packet is generated from an interval row, a $\RegulatedRealFunctionUp$ integrand row, a finite $\DyadicStepFunctionUp$ approximation ledger, a step-integral primitive, a Darboux/Riemann compatibility row, a $\RealUp$ handoff, error and modulus bounds, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regulated-integral-namecert-surface}, \autoref{thm:regulated-integral-step-primitive}, \autoref{thm:regulated-integral-darboux-riemann-compatibility}, \autoref{thm:regulated-integral-real-completion-route}, and \autoref{thm:regulated-integral-nonescape} form the obligation surface over finite step primitives, Darboux gap rows, Riemann tagged-mesh rows, Real completion handoff data, and nonescape constraints.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regulated-integral-kernel-source-scope} is the exact scoped witness binding \autoref{def:regulated-integral-namecert-surface}, \autoref{thm:regulated-integral-step-primitive}, \autoref{thm:regulated-integral-darboux-riemann-compatibility}, \autoref{thm:regulated-integral-real-completion-route}, and \autoref{thm:regulated-integral-nonescape} to the interval, regulated-function, dyadic-step, Darboux/Riemann, Real handoff, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close measure-theoretic integration, quotient function equality, open-cover compactness, full Real completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires kernel-source binding for the displayed regulated-integral rows and checked field faithfulness for BEDC.Derived.RegulatedIntegralUp.}
+  \upgradepath{Public closure requires a reusable consumer-facing regulated-integral interface.}
 \end{closurestatus}
