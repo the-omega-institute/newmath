@@ -1,6 +1,7 @@
 import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyCompletionAdjunctionTriangleUp.TasteGate
@@ -10,20 +11,20 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-def cauchyCompletionAdjunctionTriangleEncodeBHist : BHist → RawEvent
+def cauchyCompletionAdjunctionTriangleEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyCompletionAdjunctionTriangleEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyCompletionAdjunctionTriangleEncodeBHist h
 
-def cauchyCompletionAdjunctionTriangleDecodeBHist : RawEvent → BHist
+def cauchyCompletionAdjunctionTriangleDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyCompletionAdjunctionTriangleDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyCompletionAdjunctionTriangleDecodeBHist tail)
 
 private theorem cauchyCompletionAdjunctionTriangle_decode_encode_bhist :
-    ∀ h : BHist,
+    forall h : BHist,
       cauchyCompletionAdjunctionTriangleDecodeBHist
           (cauchyCompletionAdjunctionTriangleEncodeBHist h) =
         h := by
@@ -35,14 +36,14 @@ private theorem cauchyCompletionAdjunctionTriangle_decode_encode_bhist :
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def cauchyCompletionAdjunctionTriangleToEventFlow :
-    CauchyCompletionAdjunctionTriangleUp → EventFlow
+    CauchyCompletionAdjunctionTriangleUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x =>
       (cauchyCompletionAdjunctionTriangleFields x).map
         cauchyCompletionAdjunctionTriangleEncodeBHist
 
 private def cauchyCompletionAdjunctionTriangleRawAt :
-    Nat → EventFlow → RawEvent
+    Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | 0, [] => []
   | 0, w :: _ => w
@@ -50,7 +51,7 @@ private def cauchyCompletionAdjunctionTriangleRawAt :
   | Nat.succ n, _ :: rest => cauchyCompletionAdjunctionTriangleRawAt n rest
 
 private def cauchyCompletionAdjunctionTriangleLengthEq :
-    Nat → EventFlow → Bool
+    Nat -> EventFlow -> Bool
   -- BEDC touchpoint anchor: BHist BMark
   | 0, [] => true
   | 0, _ :: _ => false
@@ -58,7 +59,7 @@ private def cauchyCompletionAdjunctionTriangleLengthEq :
   | Nat.succ n, _ :: rest => cauchyCompletionAdjunctionTriangleLengthEq n rest
 
 def cauchyCompletionAdjunctionTriangleFromEventFlow :
-    EventFlow → Option CauchyCompletionAdjunctionTriangleUp
+    EventFlow -> Option CauchyCompletionAdjunctionTriangleUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
       match cauchyCompletionAdjunctionTriangleLengthEq 12 flow with
@@ -92,7 +93,7 @@ def cauchyCompletionAdjunctionTriangleFromEventFlow :
       | false => none
 
 private theorem cauchyCompletionAdjunctionTriangle_round_trip :
-    ∀ x : CauchyCompletionAdjunctionTriangleUp,
+    forall x : CauchyCompletionAdjunctionTriangleUp,
       cauchyCompletionAdjunctionTriangleFromEventFlow
           (cauchyCompletionAdjunctionTriangleToEventFlow x) =
         some x := by
@@ -144,7 +145,7 @@ private theorem cauchyCompletionAdjunctionTriangle_round_trip :
 private theorem cauchyCompletionAdjunctionTriangleToEventFlow_injective
     {x y : CauchyCompletionAdjunctionTriangleUp} :
     cauchyCompletionAdjunctionTriangleToEventFlow x =
-        cauchyCompletionAdjunctionTriangleToEventFlow y →
+        cauchyCompletionAdjunctionTriangleToEventFlow y ->
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -159,9 +160,9 @@ private theorem cauchyCompletionAdjunctionTriangleToEventFlow_injective
       (Eq.trans hread (cauchyCompletionAdjunctionTriangle_round_trip y)))
 
 private theorem cauchyCompletionAdjunctionTriangle_field_faithful :
-    ∀ x y : CauchyCompletionAdjunctionTriangleUp,
+    forall x y : CauchyCompletionAdjunctionTriangleUp,
       cauchyCompletionAdjunctionTriangleFields x =
-          cauchyCompletionAdjunctionTriangleFields y →
+          cauchyCompletionAdjunctionTriangleFields y ->
         x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -205,11 +206,11 @@ def taste_gate : ChapterTasteGate CauchyCompletionAdjunctionTriangleUp :=
 theorem CauchyCompletionAdjunctionTriangleTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CauchyCompletionAdjunctionTriangleUp) ∧
       Nonempty (FieldFaithful CauchyCompletionAdjunctionTriangleUp) ∧
-      (∀ h : BHist,
+      (forall h : BHist,
         cauchyCompletionAdjunctionTriangleDecodeBHist
             (cauchyCompletionAdjunctionTriangleEncodeBHist h) =
           h) ∧
-      (∀ x : CauchyCompletionAdjunctionTriangleUp,
+      (forall x : CauchyCompletionAdjunctionTriangleUp,
         cauchyCompletionAdjunctionTriangleFromEventFlow
             (cauchyCompletionAdjunctionTriangleToEventFlow x) =
           some x) ∧
