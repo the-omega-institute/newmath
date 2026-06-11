@@ -35,4 +35,12 @@ theorem GroundLoopBoundaryCarrier_scoped_kernel_route
     ⟨carrier.left, carrier.right.left, replay.left, replay.right,
       carrier.right.right.right.right.right.right⟩
 
+theorem GroundLoopBoundaryCarrier_public_interface
+    {M S X R H C P N : BHist}
+    (carrier : GroundLoopBoundaryCarrier M S X R H C P N) :
+    msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark.b1 ∧
+      Cont M (append S R) C ∧ hsame P N ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame msame
+  exact GroundLoopBoundaryCarrier_scoped_kernel_route carrier
+
 end BEDC.Derived.GroundLoopBoundaryUp
