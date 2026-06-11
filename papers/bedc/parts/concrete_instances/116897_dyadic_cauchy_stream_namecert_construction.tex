@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyStreamUp$}
+\label{ch:concrete-instances-dyadic-cauchy-stream-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicCauchyStreamUp$ packet records a dyadic-valued Cauchy stream as finite $\StreamNameUp$ observations with an explicit dyadic Cauchy modulus. It sits between the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite Cauchy-stream handoff for the L10 Real and Completion spine; it does not quotient streams, select a limit, invoke countable choice, use trichotomy, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic Cauchy stream carrier]
+\label{def:dyadic-cauchy-stream-carrier}
+A $\DyadicCauchyStreamUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row naming the finite observation schedule for the stream.
+\item $D$ is the $\DyadicRatCoreUp$ dyadic observation row recording the inspected values, arithmetic comparisons, and tolerance entries.
+\item $M$ is the dyadic Cauchy modulus row assigning each requested dyadic tolerance a displayed tail window.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the stream observations, dyadic arithmetic rows, and modulus windows.
+\item $H$ records componentwise $\hsame$ transport for $S,D,M,R$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D,M \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyStreamUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyStreamUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $S,D,M,R,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic Cauchy stream NameCert obligations]
+\label{thm:dyadic-cauchy-stream-namecert-obligations}
+For every accepted $\DyadicCauchyStreamUp$ carrier
+$$
+K=(S,D,M,R,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicCauchyStreamUp}$ surface consists exactly of carrier admission for the $\StreamNameUp$ source row, $\DyadicRatCoreUp$ observation row, dyadic Cauchy modulus row, $\RegSeqRatUp$ readback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; classifier stability under those same displayed rows; exactness of every requested dyadic tail window through $M$ and $D$; and ledger nonescape for quotient streams, selected limits, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-stream-carrier}. The projection exposes the stream schedule, dyadic observation row, Cauchy modulus row, regular rational readback, and structural rows as finite coordinates.
+
+Classifier stability is componentwise on those displayed rows. Exactness is read by pairing a requested tolerance in $M$ with the dyadic comparisons recorded in $D$ and the finite observation window named by $S$.
+
+The transport, replay, provenance, and naming rows preserve the same route. Since none of the excluded coordinates occurs in the carrier, the local NameCert obligations are precisely the displayed rows and their finite ledger checks.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy stream regularity stability]
+\label{thm:dyadic-cauchy-stream-regularity-stability}
+Let $K=(S,D,M,R,H,C,P,N)$ be an accepted $\DyadicCauchyStreamUp$ carrier. Any finite dyadic Cauchy modulus window displayed by $M$ and checked against $D$ transports through the componentwise $\hsame$ rows in $H$ and replays through the displayed $\Cont$ row $C$ as the same $\RegSeqRatUp$ readback window $R$. The transported window remains a finite dyadic observation route and does not become a quotient stream or selected limit.
+\end{theorem}
+\begin{proof}
+Read the modulus window from $M$ together with the dyadic comparisons in $D$. The source of every inspected value is the finite schedule $S$, so the window is already a finite observation route.
+
+The row $H$ moves $S,D,M,R$ componentwise. Thus the tolerance request, dyadic comparisons, and readback row keep the same roles after transport.
+
+The continuation row $C$ replays only the displayed route from stream observations and dyadic windows to regular rational readback. Therefore the replayed object is still the same finite $\RegSeqRatUp$ window, not a quotient stream, selected limit, or ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy stream Real handoff]
+\label{thm:dyadic-cauchy-stream-real-handoff}
+Every $\RealUp$-facing consumer admitted by an accepted $\DyadicCauchyStreamUp$ packet receives only the displayed $\StreamNameUp$ source row, $\DyadicRatCoreUp$ observation row, $\RegSeqRatUp$ readback row, and terminal seal rows named by $H,C,P,N$. No consumer receives a quotient stream, selected limit, countable-choice schedule, trichotomy branch, or ambient $\RealUp$ completeness principle from this packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-cauchy-stream-namecert-obligations}. A Real-facing consumer can inspect the source schedule, dyadic observation row, modulus row, regular rational readback, transport, replay, provenance, and local naming rows, and no other coordinate.
+
+The handoff to the Real boundary is therefore mediated by the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows together with the structural seal rows. The packet has no coordinate for quotienting streams or selecting a completed limit.
+
+The excluded operations also cannot be produced by transport or replay: $H$ is componentwise, and $C$ replays only the displayed finite route. Hence the handoff is exactly the finite Real-and-Completion surface stated above.
+\end{proof}
+
+\closureat{DyadicCauchyStreamUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyStreamUp}
+  \constructivestory{A $\DyadicCauchyStreamUp$ packet is generated from a StreamName source row, DyadicRatCore observation rows, an explicit dyadic Cauchy modulus, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-stream-carrier}, \autoref{thm:dyadic-cauchy-stream-namecert-obligations}, \autoref{thm:dyadic-cauchy-stream-regularity-stability}, and \autoref{thm:dyadic-cauchy-stream-real-handoff} seed the finite Cauchy-stream bridge through dyadic observations, stream windows, regular rational readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic modulus exactness, regularity stability, Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCauchyStreamUp.}
+\end{closurestatus}
