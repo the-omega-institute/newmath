@@ -1,0 +1,116 @@
+\section{Fixed-Checkpoint Gap-Ledger Instantiation: LeWorldModel}
+\label{sec:lewm-instantiation}
+
+The public-baseline registry of \autoref{sec:relation-to-jepa} names two
+JEPA-family targets.  The V-JEPA2-AC rows ask adapter and latent-prediction
+questions on a fixed checkpoint.  The LeWorldModel rows recorded here ask the
+gap-ledger question on a fixed checkpoint: can a head trained only on the
+checkpoint's own latent stream predict where that checkpoint's world model is
+about to be wrong, and can the ledger semantics survive contact with the
+checkpoint's real failure surface?
+
+The carrier is the public LeWorldModel \texttt{tworooms} release
+\cite{leworldmodel}, loaded without the stable-worldmodel stack (plain
+\texttt{torch} plus the public ViT encoder weights), with real
+\texttt{tworooms} frames streamed from the public dataset: $4991$ valid
+transitions over $278$ episodes, latent dimension $192$.  All rows use an
+episode-level $60/20/20$ split, episode-level bootstrap confidence intervals,
+and a world-model-native failure truth: a transition counts as a failure when
+the checkpoint predictor's own autoregressive latent rollout error exceeds
+the clean train-split $75$th percentile.  The protocol is fail-closed:
+evaluation slices that become single-class are reported as unidentifiable
+rather than as detection results.
+
+\paragraph{Post-hoc gap head on the frozen checkpoint.}
+The first row is the post-hoc construction that the four-system comparison
+uses as its report baseline, evaluated on the real checkpoint: a logistic gap
+head reading only the learned representation, with a matched-random control
+of equal capacity trained on permuted labels.  The gap head predicts the
+checkpoint's own failures well above its control,
+$$
+\begin{array}{lll}
+\text{gap head AUROC} & 0.731 & [0.692,\ 0.774],\\
+\text{matched-random AUROC} & 0.472 & [0.427,\ 0.518],\\
+\text{unlogged error} & 0.231 \rightarrow 0.168 & [0.142,\ 0.191],
+\end{array}
+$$
+with both interval separations holding under the episode bootstrap.  The gap
+features include an embedding-to-state linear-recovery score, so the
+instantiation stays in contact with the identifiability question of
+\cite{lejepa-world-model}.
+
+\paragraph{Trained ledger head on the same carrier.}
+The second row transports the paper's central contrast --- trained ledger
+output versus post-hoc report --- onto the same fixed checkpoint.  A small
+causal transformer ($2$ layers, width $64$, about $9.3\times 10^{4}$
+parameters) reads windows of six (latent, action) tokens and is trained
+jointly on a ledger head and a next-latent head.  Under the same dual
+criteria the trained head is positive,
+$$
+\begin{array}{lll}
+\text{trained ledger AUROC} & 0.675 & [0.636,\ 0.711],\\
+\text{matched-random AUROC} & 0.543 & [0.499,\ 0.588],\\
+\text{unlogged error} & 0.231 \rightarrow 0.132 & [0.110,\ 0.156],
+\end{array}
+$$
+and a component ablation shows the joint next-latent loss has no measurable
+effect on this carrier ($0.671$ AUROC without it).  The honest reading cuts
+both ways.  The trained head transfers to a real checkpoint, but it does not
+beat the post-hoc logistic head on detection AUROC ($0.675$ versus $0.731$,
+intervals overlapping), while reaching a lower operating-point unlogged error
+($0.132$ versus $0.168$, intervals overlapping).  On this carrier the
+trained-versus-post-hoc contrast is not settled by victory; what the executed
+rows establish is transfer, a live matched-random capacity artifact ($0.543$
+slightly above chance from temporal windows alone), and a measured
+operating-point trade.
+
+\paragraph{Perturbation boundary.}
+Under visual perturbation of the evaluation stream (color shift, occlusion,
+brightness, background tint, Gaussian noise; the brittleness setting of the
+stable-worldmodel line), the clean-only post-hoc head keeps working under
+mild background tint (AUROC $0.72$) and collapses under strong shifts, where
+almost every transition fails and the slice becomes single-class.  Gap-head
+training on perturbed latents generalizes across families in a leave-one-out
+test: held-out occlusion $0.72$, brightness $0.67$, background tint $0.67$,
+Gaussian noise $0.63$, with color shift remaining unidentifiable.  At the
+strongest perturbations the OOD-aware heads declare gap on nearly everything,
+which is the conservative failure mode the ledger semantics ask for.  The
+trained ledger transformer's own clean-trained perturbation arm reproduces
+the same boundary shape rather than escaping it: detection persists under
+background tint at every tested strength (AUROC $0.62$--$0.65$) and at mild
+occlusion, brightness, and Gaussian-noise strengths ($0.62$--$0.71$), while
+the strongest slices drive the failure rate to one, become single-class, and
+are reported fail-closed.
+
+\paragraph{Coverage certificate.}
+The split-conformal counting core used by the gap-ledger readout is
+machine-checked in a mathlib-free Lean~4 package whose theorems depend on
+zero axioms (no \texttt{propext}, no \texttt{Classical.choice}); the full
+$\alpha$-statistical miscoverage bound (rank quantile plus exchangeability)
+is recorded as open rather than claimed.
+
+\paragraph{Record pointers.}
+The executed records live in the public repository
+\texttt{the-omega-institute/bedc-jepa-gap-ledger}:
+$$
+\begin{array}{ll}
+\text{gap head} & \texttt{reports/lewm\_gap\_ledger\_head\_large.json},\\
+\text{perturbation boundary} & \texttt{reports/lewm\_brittleness\_gap.json},\\
+\text{OOD-aware training} & \texttt{reports/lewm\_ood\_aware\_gap.json},\\
+\text{trained ledger head} & \texttt{reports/lewm\_ledger\_aware\_transformer.json},\\
+\text{trained-head perturbation arm} & \texttt{reports/lewm\_ledger\_aware\_transformer\_ood.json},\\
+\text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
+\end{array}
+$$
+An interactive demonstration of the failure-versus-declared-gap readout is
+published from the same repository.
+
+\paragraph{Boundary of this instantiation.}
+One public checkpoint (\texttt{tworooms}), one latent export, episode
+bootstrap rather than independent world seeds, and no claim of benchmark
+superiority.  These rows are an external baseline run beyond the
+fixed-checkpoint MiniGrid row, in gap-ledger form; they do not execute
+LeWorldModel's official benchmark setting and do not produce the
+latent-prediction and rollout-or-planning fields of the public-baseline
+comparison record, so the comparison record carries no LeWorldModel score
+row.
