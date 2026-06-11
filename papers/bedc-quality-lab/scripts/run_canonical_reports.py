@@ -62,6 +62,12 @@ from bedc_quality_lab.high_impact_review import (
     MARKDOWN_ARTIFACT as HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
     SCHEMA_ID as HIGH_IMPACT_REVIEW_SCHEMA_ID,
 )
+from bedc_quality_lab.experiment_stack import (
+    ARTIFACT_ID as EXPERIMENT_STACK_CARDS_ARTIFACT_ID,
+    JSON_ARTIFACT as EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as EXPERIMENT_STACK_CARDS_SCHEMA_ID,
+)
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
 from bedc_quality_lab.schema import SCHEMA_ID as EVIDENCE_ENVELOPE_SCHEMA_ID
 from scripts.literature_ledger import validate_literature_ledger
@@ -1663,6 +1669,36 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer=None,
         no_control_rationale_pointer="$.not_claimed",
     ),
+    CanonicalReportSpec(
+        name="experiment-stack-cards",
+        command=("python3", "scripts/run_experiment_stack_cards.py"),
+        json_artifact=EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+        markdown_artifact=EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "card_count",
+            "card_ids",
+            "hardgate_ids",
+            "status",
+            "blocked_card_ids",
+            "cards",
+            "claim_first_gate",
+            "industry_standard_alignment",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.cards",
+        control_pointer=None,
+        no_control_rationale_pointer="$.claim_first_gate",
+    ),
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
@@ -2051,6 +2087,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_mechanism_dna import write_mechanism_dna
 
         write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "experiment-stack-cards":
+        from bedc_quality_lab.experiment_stack import write_experiment_stack_cards
+
+        write_experiment_stack_cards(root=ROOT, generated_at=generated_at or datetime.now(timezone.utc).isoformat())
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -5587,6 +5628,27 @@ def _mechanism_dna_index_section() -> dict[str, Any]:
     }
 
 
+def _experiment_stack_cards_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(EXPERIMENT_STACK_CARDS_JSON_ARTIFACT)
+    cards = payload.get("cards") if isinstance(payload, Mapping) else None
+    blocked = payload.get("blocked_card_ids") if isinstance(payload, Mapping) else None
+    return {
+        "status": "pointer-only" if payload else "missing-owner-artifact",
+        "schema_id": EXPERIMENT_STACK_CARDS_SCHEMA_ID,
+        "artifact_id": payload.get("artifact_id", EXPERIMENT_STACK_CARDS_ARTIFACT_ID),
+        "json_artifact": EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+        "markdown_artifact": EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+        "cards_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.cards",
+        "claim_first_gate_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.claim_first_gate",
+        "industry_standard_alignment_pointer": (
+            f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.industry_standard_alignment"
+        ),
+        "blocked_card_ids_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.blocked_card_ids",
+        "card_count": len(cards) if isinstance(cards, list) else 0,
+        "blocked_card_count": len(blocked) if isinstance(blocked, list) else 0,
+    }
+
+
 def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
     return {
@@ -5855,6 +5917,7 @@ def _index(
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "mechanism_dna": _mechanism_dna_index_section(),
+        "experiment_stack_cards": _experiment_stack_cards_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
@@ -6102,6 +6165,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Hardgates: `{payload['model_comparison']['hardgates_pointer']}`",
             f"- Ranking key: `{payload['model_comparison']['ranking_key_pointer']}`",
             f"- Source reports: `{payload['model_comparison']['source_reports_pointer']}`",
+            "",
+            "## Experiment Stack Cards",
+            "",
+            f"- Status: `{payload['experiment_stack_cards']['status']}`",
+            f"- JSON: `{payload['experiment_stack_cards']['json_artifact']}`",
+            f"- Markdown: `{payload['experiment_stack_cards']['markdown_artifact']}`",
+            f"- Cards: `{payload['experiment_stack_cards']['cards_pointer']}`",
+            f"- Claim-first gate: `{payload['experiment_stack_cards']['claim_first_gate_pointer']}`",
+            f"- Blocked card ids: `{payload['experiment_stack_cards']['blocked_card_ids_pointer']}`",
+            f"- Blocked card count: `{payload['experiment_stack_cards']['blocked_card_count']}`",
             "",
             "## Issue 1012 sidecars",
             "",

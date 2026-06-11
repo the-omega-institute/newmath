@@ -1549,6 +1549,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "high-impact-review",
         "causal-patch-suite",
         "claim-complexity",
+        "experiment-stack-cards",
     ]
     assert "certificate-guided-arms" not in names
     assert "certificate-guided-training" in names

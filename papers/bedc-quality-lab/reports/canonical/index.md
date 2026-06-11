@@ -47,6 +47,7 @@
 | `model-comparison` | `pass` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
 | `claim-complexity` | `error` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
+| `experiment-stack-cards` | `pass` | `not-applicable` | `` | `reports/canonical/experiment_stack_cards.json` | `reports/canonical/experiment_stack_cards.md` | `reports/canonical/experiment_stack_cards.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.cards` | `$.claim_first_gate` |
 
 ## Dashboard
 
@@ -67,7 +68,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `34`
+- Rows: `35`
 
 ## Experiment proposals
 
@@ -221,6 +222,16 @@
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`
 
+## Experiment Stack Cards
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/experiment_stack_cards.json`
+- Markdown: `reports/canonical/experiment_stack_cards.md`
+- Cards: `reports/canonical/experiment_stack_cards.json:$.cards`
+- Claim-first gate: `reports/canonical/experiment_stack_cards.json:$.claim_first_gate`
+- Blocked card ids: `reports/canonical/experiment_stack_cards.json:$.blocked_card_ids`
+- Blocked card count: `9`
+
 ## Issue 1012 sidecars
 
 - Status: `pointer-only`
@@ -236,7 +247,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `43`
+- Rows: `44`
 
 ## Claim complexity
 
@@ -244,7 +255,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `34`
+- Rows: `35`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -255,7 +266,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `125`
+- Nodes: `128`
 
 ## Claim artifact consistency
 
@@ -387,7 +398,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, mechanism-dna, dgt-l0-controls, dgt-l1-controls, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, mechanism-dna, dgt-l0-controls, dgt-l1-controls, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity, experiment-stack-cards`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -431,6 +442,7 @@
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.dgt_mechanism_cert` | `$.matched_controls` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
+| `experiment-stack-cards` | `auxiliary` | `$.cards` | `None` | `$.claim_first_gate` |
 
 ## Literature ledger pointer
 
