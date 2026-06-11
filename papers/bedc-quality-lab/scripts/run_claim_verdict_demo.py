@@ -921,12 +921,13 @@ def claim_verdict_line_refs(*, root: Path | None = None) -> dict[str, str]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT, help="Lab root containing reports/canonical.")
+    parser.add_argument("--generated-at", default=None, help="Override the generated_at timestamp for deterministic regeneration.")
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    rows = write_claim_verdicts(root=args.root)
+    rows = write_claim_verdicts(root=args.root, generated_at=args.generated_at)
     print(f"wrote {len(rows)} claim verdict rows to {CLAIM_VERDICTS_JSONL_ARTIFACT}")
 
 

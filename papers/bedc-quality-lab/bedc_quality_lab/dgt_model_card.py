@@ -15,7 +15,7 @@ PRODUCER = "scripts/run_dgt_model_card.py"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-model-card.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-model-card.md"
 DEFAULT_GENERATED_AT = "2026-06-12T00:00:00+08:00"
-INDEX_EVIDENCE_PROVENANCE_POINTER = "reports/canonical/index.json:$.evidence_provenance"
+INDEX_EVIDENCE_PROVENANCE_POINTER = "reports/canonical/index.json:$.dgt_model_card"
 
 REQUIRED_NOT_INTENDED_LITERALS = (
     "bounded BEDC prototype",
@@ -64,6 +64,11 @@ SOURCE_POINTERS = {
         "owner_issue": "canonical-index",
         "pointer": INDEX_EVIDENCE_PROVENANCE_POINTER,
     },
+}
+
+CONSTRUCT_VALIDITY_POINTERS = {
+    "dgt-l0-controls": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
+    "dgt-l1-controls": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
 }
 
 
@@ -330,8 +335,9 @@ def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
             "status": "resolved",
             "source_owner": "canonical-index-evidence-provenance",
             "source_pointer": INDEX_EVIDENCE_PROVENANCE_POINTER,
-            "source_type": index_provenance.get("source_type"),
-            "evidence_type": index_provenance.get("evidence_type"),
+            "canonical_role": index_provenance.get("canonical_role"),
+            "card_pointer": index_provenance.get("card_pointer"),
+            "fingerprint_artifact": index_provenance.get("fingerprint_artifact"),
         }
     return facts
 
@@ -406,6 +412,43 @@ def _evaluation_boundaries(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _boolish(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in {"true", "yes", "pass", "present"}
+    return bool(value)
+
+
+def _construct_validity_boundary_rows(root: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for owner, source_pointer in CONSTRUCT_VALIDITY_POINTERS.items():
+        status, source, _digest = _resolve_artifact_pointer(root, source_pointer)
+        failed_gates: list[str] = []
+        cv_status = "blocked"
+        rule_abstraction_claim = False
+        if status == "resolved" and isinstance(source, Mapping):
+            cv_status = str(source.get("status") or "blocked")
+            source_failed = source.get("failed_gates")
+            if isinstance(source_failed, list):
+                failed_gates = [str(gate_id) for gate_id in source_failed]
+            finite_table = _dig(source, ("evidence", "finite_table"), {})
+            if isinstance(finite_table, Mapping):
+                rule_abstraction_claim = _boolish(finite_table.get("rule_abstraction_claim"))
+        rows.append(
+            {
+                "boundary": f"{owner} construct validity",
+                "status": cv_status,
+                "failed_gates": failed_gates,
+                "rule_abstraction_claim": rule_abstraction_claim,
+                "rule_abstraction_status": "blocked" if "CV-HG3" in failed_gates else "not-claimed",
+                "source_owner": owner,
+                "source_pointer": source_pointer,
+            }
+        )
+    return rows
+
+
 def _not_claimed() -> list[str]:
     return [
         "No production deployment authority.",
@@ -470,7 +513,7 @@ def build_dgt_model_card(root: Path, generated_at: str) -> dict[str, Any]:
         "intended_use": _intended_use(resolved),
         "not_intended_use": _not_intended_use(),
         "known_failure_modes": _known_failure_modes(resolved),
-        "evaluation_boundaries": _evaluation_boundaries(resolved),
+        "evaluation_boundaries": _evaluation_boundaries(resolved) + _construct_validity_boundary_rows(root),
         "training_facts": _training_facts(resolved),
         "upstream_status": [
             _owner_status_cell(
@@ -582,6 +625,47 @@ def _validate_l1_fair_boundary(card: Mapping[str, Any]) -> list[CardGateError]:
     return errors
 
 
+def _validate_construct_validity_boundaries(card: Mapping[str, Any], root: Path) -> list[CardGateError]:
+    boundaries = card.get("evaluation_boundaries")
+    rows = [row for row in boundaries if isinstance(row, Mapping)] if isinstance(boundaries, list) else []
+    errors: list[CardGateError] = []
+    for owner, source_pointer in CONSTRUCT_VALIDITY_POINTERS.items():
+        row = next(
+            (
+                candidate
+                for candidate in rows
+                if candidate.get("source_owner") == owner and candidate.get("source_pointer") == source_pointer
+            ),
+            None,
+        )
+        if row is None:
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity boundary missing"))
+            continue
+        status, source, _digest = _resolve_artifact_pointer(root, source_pointer)
+        if status != "resolved" or not isinstance(source, Mapping):
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity source missing"))
+            continue
+        failed_gates = source.get("failed_gates")
+        expected_failed = [str(gate_id) for gate_id in failed_gates] if isinstance(failed_gates, list) else []
+        if row.get("status") != source.get("status"):
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity status differs from owner"))
+        if row.get("failed_gates") != expected_failed:
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity failed gates differ from owner"))
+        gates = source.get("gates")
+        if isinstance(gates, Mapping):
+            for gate_id in expected_failed:
+                gate = gates.get(gate_id)
+                if not isinstance(gate, Mapping) or gate.get("status") == "pass":
+                    errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity gate state is not blocked"))
+        finite_table = _dig(source, ("evidence", "finite_table"), {})
+        rule_abstraction_claim = _boolish(finite_table.get("rule_abstraction_claim")) if isinstance(finite_table, Mapping) else False
+        if row.get("rule_abstraction_claim") != rule_abstraction_claim:
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} rule-abstraction claim state differs from owner"))
+        if "CV-HG3" in expected_failed and row.get("rule_abstraction_status") != "blocked":
+            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} rule-abstraction boundary is not blocked"))
+    return errors
+
+
 def _validate_ablation_boundary(card: Mapping[str, Any]) -> list[CardGateError]:
     intended = json.dumps(card.get("intended_use", []), sort_keys=True).lower()
     if "ablation" in intended or "null" in intended:
@@ -601,7 +685,7 @@ def _validate_evidence_provenance(card: Mapping[str, Any], root: Path) -> list[C
         if provenance.get("status") == "blocked":
             return []
         return [CardGateError("CARD-HG7", "$.training_facts.evidence_provenance", "index evidence provenance does not resolve")]
-    for key in ("source_type", "evidence_type"):
+    for key in ("canonical_role", "card_pointer", "fingerprint_artifact"):
         if provenance.get(key) != source.get(key):
             return [CardGateError("CARD-HG7", f"$.training_facts.evidence_provenance.{key}", "provenance differs from index owner")]
     return []
@@ -640,6 +724,7 @@ def _validate_without_hardgate_refresh(card: Mapping[str, Any], root: Path) -> l
     errors.extend(_validate_numeric_cells(card))
     errors.extend(_validate_l0_owner(card, root))
     errors.extend(_validate_l1_fair_boundary(card))
+    errors.extend(_validate_construct_validity_boundaries(card, root))
     errors.extend(_validate_ablation_boundary(card))
     errors.extend(_validate_evidence_provenance(card, root))
     errors.extend(_validate_source_resolution(card))

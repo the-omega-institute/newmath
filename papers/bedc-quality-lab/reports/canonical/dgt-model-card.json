@@ -51,14 +51,12 @@
       },
       "CARD-HG9": {
         "gate_id": "CARD-HG9",
-        "input_pointers": [
-          "$.source_artifacts[5].status"
-        ],
-        "reason": "source pointer is not resolved",
-        "status": "fail"
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
       }
     },
-    "status": "blocked"
+    "status": "pass"
   },
   "card_id": "bedc-quality-lab:dgt-model-card",
   "evaluation_boundaries": [
@@ -89,9 +87,29 @@
       "source_owner": "dgt-ablation-null-decomposition",
       "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
       "status": "mixed"
+    },
+    {
+      "boundary": "dgt-l0-controls construct validity",
+      "failed_gates": [
+        "CV-HG4"
+      ],
+      "rule_abstraction_claim": false,
+      "rule_abstraction_status": "not-claimed",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
+      "status": "fail"
+    },
+    {
+      "boundary": "dgt-l1-controls construct validity",
+      "failed_gates": [],
+      "rule_abstraction_claim": false,
+      "rule_abstraction_status": "not-claimed",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+      "status": "pass"
     }
   ],
-  "generated_at": "2026-06-12T00:00:00+08:00",
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
   "intended_use": [
     {
       "scope": "bounded research card for the DGT canonical artifacts",
@@ -130,9 +148,7 @@
       "status": "not-claimed"
     }
   ],
-  "missing_source_refs": [
-    "reports/canonical/index.json:$.evidence_provenance"
-  ],
+  "missing_source_refs": [],
   "not_claimed": [
     "No production deployment authority.",
     "No global model superiority claim.",
@@ -219,19 +235,22 @@
     {
       "artifact": "reports/canonical/index.json",
       "owner_issue": "canonical-index",
-      "pointer": "$.evidence_provenance",
-      "sha256": "2e3874aabf6074c73502be33f07dbfcaf66390c896defa56fbe9d16a339e9e5e",
+      "pointer": "$.dgt_model_card",
+      "sha256": "4e3af3318d2dca63b93403eb9d04b6c52ab6ba0ca95c13b7aa6f6d3af88cc17a",
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "pointer-missing"
+      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
+      "status": "resolved"
     }
   ],
-  "status": "blocked",
+  "status": "pass",
   "training_facts": {
     "evidence_provenance": {
+      "canonical_role": "auxiliary_pointer_projection",
+      "card_pointer": "reports/canonical/dgt-model-card.json:$",
+      "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "blocked"
+      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
+      "status": "resolved"
     },
     "metric_cells": [
       {
@@ -301,10 +320,10 @@
       "status": "resolved"
     },
     {
-      "source_digest": "2e3874aabf6074c73502be33f07dbfcaf66390c896defa56fbe9d16a339e9e5e",
+      "source_digest": "4e3af3318d2dca63b93403eb9d04b6c52ab6ba0ca95c13b7aa6f6d3af88cc17a",
       "source_owner": "canonical-index-evidence-provenance",
-      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
-      "status": "pointer-missing"
+      "source_pointer": "reports/canonical/index.json:$.dgt_model_card",
+      "status": "resolved"
     }
   ]
 }

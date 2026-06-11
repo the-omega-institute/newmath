@@ -55,6 +55,7 @@ from bedc_quality_lab.dgt_model_card import (
     CANONICAL_JSON_ARTIFACT as DGT_MODEL_CARD_JSON_ARTIFACT,
     CANONICAL_MARKDOWN_ARTIFACT as DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
     SCHEMA_ID as DGT_MODEL_CARD_SCHEMA_ID,
+    write_dgt_model_card,
 )
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
@@ -6639,6 +6640,10 @@ def run_reports(
     payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
+        write_dgt_model_card(root=ROOT, generated_at=timestamp)
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if any(result["status"] != "pass" for result in results):

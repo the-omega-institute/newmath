@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from bedc_quality_lab import dgt_model_card as card
+from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
 
 
 def _write_json(root: Path, artifact: str, payload: dict) -> None:
@@ -11,11 +12,41 @@ def _write_json(root: Path, artifact: str, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def _construct_validity_evidence() -> ConstructValidityEvidence:
+    return ConstructValidityEvidence(
+        task_variables={"variables": ["x", "surface"]},
+        label_variables={"variables": ["y"]},
+        arm_input_access={
+            "label_invisibility_certificate": True,
+            "arms": {
+                "candidate": {"variables": ["x", "surface"]},
+                "control": {"variables": ["x", "surface"]},
+            },
+        },
+        arm_roles={"candidate": "candidate", "controls": ["control"]},
+        finite_table={"support_count": 16, "rule_abstraction_claim": False, "coverage_status": "bounded-control"},
+        hand_feature_ledger={"mode": "shared-gate", "shared_across_arms": True, "features": ["surface"]},
+        metric_source={"source_kind": "training-evaluation", "metric_keys": ["accuracy"]},
+    )
+
+
+def _construct_validity_payload(artifact: str, updates: dict | None = None) -> dict:
+    payload = _construct_validity_evidence().as_payload()
+    if updates:
+        payload.update(updates)
+    return construct_validity_projection(
+        ConstructValidityEvidence.from_payload(payload),
+        artifact=artifact,
+        pointer="$.construct_validity_hardgates",
+    )
+
+
 def _source_fixture(root: Path) -> None:
     _write_json(
         root,
         "reports/canonical/dgt-l0-controls.json",
         {
+            "construct_validity_hardgates": _construct_validity_payload("reports/canonical/dgt-l0-controls.json"),
             "l0_toy_projection": {
                 "status": "pass",
                 "review_status": "pass",
@@ -27,6 +58,7 @@ def _source_fixture(root: Path) -> None:
         root,
         "reports/canonical/dgt-l1-controls.json",
         {
+            "construct_validity_hardgates": _construct_validity_payload("reports/canonical/dgt-l1-controls.json"),
             "task_spec": {"task": "tiny-sequence"},
             "training_arms": {"dgt_l1": {"status": "present"}},
             "l1_tiny_sequence_projection": {
@@ -78,9 +110,10 @@ def _source_fixture(root: Path) -> None:
         root,
         "reports/canonical/index.json",
         {
-            "evidence_provenance": {
-                "source_type": "canonical-owner-index",
-                "evidence_type": "pointer-only",
+            "dgt_model_card": {
+                "canonical_role": "auxiliary_pointer_projection",
+                "card_pointer": "reports/canonical/dgt-model-card.json:$",
+                "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
             }
         },
     )
@@ -89,6 +122,21 @@ def _source_fixture(root: Path) -> None:
 def _build(root: Path) -> dict:
     _source_fixture(root)
     return card.build_dgt_model_card(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def _rewrite_source(root: Path, artifact: str, mutator) -> None:
+    path = root / artifact
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutator(payload)
+    _write_json(root, artifact, payload)
+
+
+def _construct_boundary(payload: dict, owner: str) -> dict:
+    return next(
+        row
+        for row in payload["evaluation_boundaries"]
+        if row["source_owner"] == owner and row["boundary"] == f"{owner} construct validity"
+    )
 
 
 def _errors(payload: dict, root: Path) -> list[str]:
@@ -165,11 +213,106 @@ def test_evidence_class_and_metric_provenance_consumed_from_index_owner(tmp_path
 
     provenance = payload["training_facts"]["evidence_provenance"]
     assert provenance["source_pointer"] == card.INDEX_EVIDENCE_PROVENANCE_POINTER
-    assert provenance["source_type"] == "canonical-owner-index"
-    assert provenance["evidence_type"] == "pointer-only"
+    assert provenance["canonical_role"] == "auxiliary_pointer_projection"
+    assert provenance["card_pointer"] == "reports/canonical/dgt-model-card.json:$"
 
-    provenance["evidence_type"] = "local-card-enum"
+    provenance["canonical_role"] = "local-card-enum"
     assert "CARD-HG7" in _errors(payload, tmp_path)
+
+
+def test_l0_construct_validity_metric_source_boundary_is_card_level(tmp_path):
+    _source_fixture(tmp_path)
+    _rewrite_source(
+        tmp_path,
+        "reports/canonical/dgt-l0-controls.json",
+        lambda source: source.update(
+            {
+                "construct_validity_hardgates": _construct_validity_payload(
+                    "reports/canonical/dgt-l0-controls.json",
+                    updates={
+                        "metric_source": {
+                            "source_kind": "per-arm-constant",
+                            "metric_keys": ["accuracy"],
+                            "per_arm_constants": True,
+                        }
+                    },
+                )
+            }
+        ),
+    )
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    boundary = _construct_boundary(payload, "dgt-l0-controls")
+
+    assert boundary["status"] == "fail"
+    assert boundary["failed_gates"] == ["CV-HG5"]
+
+    boundary["failed_gates"] = []
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+
+def test_l1_construct_validity_ood_label_visibility_boundary_is_card_level(tmp_path):
+    _source_fixture(tmp_path)
+    _rewrite_source(
+        tmp_path,
+        "reports/canonical/dgt-l1-controls.json",
+        lambda source: source.update(
+            {
+                "construct_validity_hardgates": _construct_validity_payload(
+                    "reports/canonical/dgt-l1-controls.json",
+                    updates={
+                        "arm_input_access": {
+                            "label_invisibility_certificate": False,
+                            "arms": {
+                                "candidate": {"variables": ["x", "y"]},
+                                "control": {"variables": ["x"]},
+                            },
+                        }
+                    },
+                )
+            }
+        ),
+    )
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    boundary = _construct_boundary(payload, "dgt-l1-controls")
+
+    assert boundary["status"] == "fail"
+    assert boundary["failed_gates"] == ["CV-HG2"]
+
+    boundary["status"] = "pass"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+
+def test_l1_plateau_rule_abstraction_boundary_is_card_level(tmp_path):
+    _source_fixture(tmp_path)
+    _rewrite_source(
+        tmp_path,
+        "reports/canonical/dgt-l1-controls.json",
+        lambda source: source.update(
+            {
+                "construct_validity_hardgates": _construct_validity_payload(
+                    "reports/canonical/dgt-l1-controls.json",
+                    updates={
+                        "finite_table": {
+                            "support_count": 64,
+                            "coverage_status": "bounded-control",
+                            "finite_pair_accuracy": 0.982,
+                            "rule_abstraction_claim": True,
+                        }
+                    },
+                )
+            }
+        ),
+    )
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    boundary = _construct_boundary(payload, "dgt-l1-controls")
+
+    assert boundary["status"] == "fail"
+    assert boundary["failed_gates"] == ["CV-HG3"]
+    assert boundary["rule_abstraction_claim"] is True
+    assert boundary["rule_abstraction_status"] == "blocked"
+
+    boundary["rule_abstraction_status"] = "not-claimed"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
 
 
 def test_owner_flip_without_regen_fails_stale(tmp_path):

@@ -1,9 +1,9 @@
-<!-- payload-sha256: 39f2680df33a7c86736ea10b61668ff13557e24e900d51e9b8da2682023b7b5c -->
+<!-- payload-sha256: 0001c956dbc59d176258372780ab99f23bd0f1e2ec524e42be6c0855e71ca3f2 -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
 - Card: `bedc-quality-lab:dgt-model-card`
-- Status: `blocked`
+- Status: `pass`
 - Source pointer: `reports/canonical/dgt-model-card.json:$`
 
 ## Intended Use
@@ -25,6 +25,8 @@
 - L1 scoped review: `pass` (`reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection`)
 - fair architecture comparison: `defer-to-fair-reconstruction` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit`)
 - ablation null interpretation: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
+- dgt-l0-controls construct validity: `fail` (`reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates`)
+- dgt-l1-controls construct validity: `pass` (`reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates`)
 
 ## Known Failure Modes
 
@@ -43,7 +45,7 @@
 - CARD-HG6: `pass`
 - CARD-HG7: `pass`
 - CARD-HG8: `pass`
-- CARD-HG9: `fail`
+- CARD-HG9: `pass`
 
 ## Not Claimed
 
