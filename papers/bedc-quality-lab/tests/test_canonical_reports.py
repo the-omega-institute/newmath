@@ -1535,6 +1535,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "mechanism-dna",
             "dgt-l0-controls",
             "dgt-l1-controls",
+            "structural-generalization-splits",
             "dgt-base-undertraining-audit",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
@@ -6880,3 +6881,72 @@ def test_claim_complexity_index_section_fails_on_unresolved_pointer(tmp_path, mo
 
     assert section["status"] == "fail"
     assert section["validation_errors"]
+
+
+def test_structural_generalization_splits_canonical_spec_required_keys():
+    spec = canonical._specs_by_name()["structural-generalization-splits"]
+
+    assert spec.json_artifact == "reports/canonical/structural-generalization-splits.json"
+    assert spec.markdown_artifact == "reports/canonical/structural-generalization-splits.md"
+    assert set(spec.required_json_keys) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "split_registry",
+        "split_rows",
+        "classifier_rows",
+        "hardgates",
+        "boundary_ledger",
+        "consumer_pointers",
+        "not_claimed",
+    }
+
+
+def test_structural_generalization_splits_index_pointer_shape():
+    section = canonical._structural_generalization_splits_index_section()
+
+    assert section["splits_pointer"] == "reports/canonical/structural-generalization-splits.json:$.split_rows"
+    assert section["classifier_pointer"] == "reports/canonical/structural-generalization-splits.json:$.classifier_rows"
+    assert section["hardgates_pointer"] == "reports/canonical/structural-generalization-splits.json:$.hardgates"
+    assert section["boundary_pointer"] == "reports/canonical/structural-generalization-splits.json:$.boundary_ledger"
+
+
+def test_structural_generalization_splits_fingerprint_path_is_canonical():
+    spec = canonical._specs_by_name()["structural-generalization-splits"]
+
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/structural-generalization-splits.fingerprint.json"
+    )
+
+
+def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+
+    first_payload = canonical.run_reports(
+        only="structural-generalization-splits",
+        generated_at="2030-01-01T00:00:00+00:00",
+        cold=True,
+    )
+    first = {
+        relative: (tmp_path / relative).read_bytes()
+        for relative in (
+            "reports/canonical/structural-generalization-splits.json",
+            "reports/canonical/structural-generalization-splits.md",
+            "reports/canonical/structural-generalization-splits.fingerprint.json",
+        )
+    }
+    second_payload = canonical.run_reports(
+        only="structural-generalization-splits",
+        generated_at="2030-01-01T00:00:00+00:00",
+        cold=True,
+    )
+    second = {
+        relative: (tmp_path / relative).read_bytes()
+        for relative in first
+    }
+
+    assert first == second
+    assert first_payload["reports"][0]["name"] == "structural-generalization-splits"
+    assert second_payload["reports"][0]["name"] == "structural-generalization-splits"

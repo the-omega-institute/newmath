@@ -1,47 +1,86 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-10T00:00:00+00:00",
-    "runner": "scripts/run_dgt_base_undertraining_audit.py"
+    "generated_at": "2026-06-11T08:40:12.594518+00:00",
+    "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "024a63d2c4ed07198e2ddec782c059e4553add28a043e77d4373ee35ab972129",
+  "input_fingerprint": "77fba0753535513eb1ca9c383faf4cadf420746606df45e7e22a813c5e2b8a03",
   "inputs": {
-    "source_contract": {
-      "base_step_grid_coverage": {
-        "covers_dgt_compute_loss_interval": true,
-        "observed_grid": [
-          36,
-          72,
-          144,
-          288,
-          576
-        ],
-        "required_grid": [
-          36,
-          72,
-          128,
-          256,
-          512
-        ],
-        "required_grid_present": false,
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
       },
-      "pointer_only": true,
-      "required_pointers": [
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_base_undertraining_audit.py",
+        "sha256": "8ac41c526b6d86f58c5114fb2291af406860c964559d4745831d9caf35dc056d"
+      },
+      {
+        "path": "scripts/run_dgt_base_undertraining_audit.py",
+        "sha256": "8f902f267c7317405c5c297e5721a9f92c6e6bf45d924a7e67774dfa317c3d61"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_base_undertraining_audit.py"
       ],
-      "sha256": "90dfc2f46502940de03f61f343308941be563ed9151c3fec94dcf213ca025aec",
-      "source_artifact": "reports/canonical/dgt-l1-controls.json",
-      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-      "status": "resolved"
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "1ecd997cc6337746eee87ac6dc9c12785d8be7b33a0184d9c73adaf52d3da7f6"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_dgt_base_undertraining_audit.py"
+      ],
+      "control_pointer": "$.base_undertraining_audit.comparison_rows",
+      "cost_pointer": "$.base_undertraining_audit.source_contract",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
+      "name": "dgt-base-undertraining-audit",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.base_undertraining_audit.not_claimed",
+      "positive_claim_pointer": "$.base_undertraining_audit.verdict",
+      "required_json_keys": [
+        "base_undertraining_audit"
+      ],
+      "scope_pointer": "$.base_undertraining_audit.not_claimed"
     }
   },
   "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
   "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
-  "output_digest": "24d5917675074bb676325a977e9be96fe8a9b0059477064808b912c47044630b",
+  "output_digest": "3a85e551b1a51e5737953f96b50277edf87cfd670c27d6eaf1a1b80779f89eaf",
   "producer_command": [
     "python3",
     "scripts/run_dgt_base_undertraining_audit.py"
