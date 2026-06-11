@@ -2763,8 +2763,8 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
         for artifact in (source_artifacts[key].get("artifact"),)
         if isinstance(artifact, str)
     ]
-    if owner_artifacts and not any((root / artifact).exists() for artifact in owner_artifacts):
-        return True
+    if not owner_artifacts or any(not (root / artifact).exists() for artifact in owner_artifacts):
+        return False
     for key in owner_keys:
         cell = source_artifacts.get(key)
         if not isinstance(cell, Mapping) or resolve_artifact_pointer(root, artifact_pointer(cell)) is None:

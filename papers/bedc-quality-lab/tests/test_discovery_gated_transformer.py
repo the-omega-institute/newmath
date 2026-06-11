@@ -818,6 +818,8 @@ def test_dgt_scaling_ladder_defaults_to_d5_m_boundary_without_claiming_scaling(t
 
 def test_dgt_scaling_ladder_claim_capsule_self_pointers_resolve(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    _write_passed_dgt_l0_controls_artifact(tmp_path)
+    _write_ready_dgt_l1_controls_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -1004,6 +1006,17 @@ def test_dgt_owner_refs_fail_closed_when_missing(tmp_path):
     l1_payload = json.loads(l1_path.read_text(encoding="utf-8"))
     l1_payload.pop("negative_witness_sweep")
     l1_path.write_text(json.dumps(l1_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="owner refs"):
+        dgt.build_payload(
+            generated_at="fixture-time",
+            high_impact_review_rows=_accepted_dgt_review_rows(),
+            root=tmp_path,
+        )
+
+
+def test_dgt_owner_refs_fail_closed_when_all_owner_artifacts_are_absent(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
 
     with pytest.raises(ValueError, match="owner refs"):
         dgt.build_payload(

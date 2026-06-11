@@ -117,7 +117,7 @@ def test_missing_or_unresolvable_pointer_fails_closed(tmp_path):
 def test_equal_compute_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][0]
-    row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
+    row["metrics"]["information_starved_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
 
     payload = audit.build_payload(
         root=ROOT,
@@ -147,7 +147,7 @@ def test_equal_compute_catchup_records_boundary():
 def test_equal_loss_decrease_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][4]
-    row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
+    row["metrics"]["information_starved_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
 
     payload = audit.build_payload(
         root=ROOT,

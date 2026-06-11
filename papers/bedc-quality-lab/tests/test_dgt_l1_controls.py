@@ -181,6 +181,20 @@ def test_l1_negative_witness_sweep_uses_hit_logic():
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG6")
 
+    mutated = json.loads(json.dumps(payload))
+    mutated["negative_witness_sweep"]["rows"][0]["source_pointer"] = (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep.missing"
+    )
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "source pointer does not resolve")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["negative_witness_sweep"]["rows"][0]["evidence_pointer"] = (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.negative_witness_sweep.missing"
+    )
+    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
+    _expect_invalid(mutated, "evidence pointer does not resolve")
+
 
 def test_l1_independent_replay_checks_digest_and_metric_tolerance():
     payload = _payload()
