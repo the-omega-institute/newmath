@@ -19,7 +19,7 @@ def _candidate(**updates):
         candidate_winnable=True,
         fair_arm_winnable=True,
         visibility_pointer="reports/canonical/input-accessibility.json:$.rows[0]",
-        winnability_pointer="reports/canonical/winnability-certificates.json:$.rows[0]",
+        winnability_pointer="reports/canonical/winnability-certificates.json:$.certificates[0]",
         performance_pointer="reports/canonical/performance.json:$.rows[0]",
         finite_remap={"x": "u"},
         position_offset=1,
@@ -58,11 +58,12 @@ def _write_source_artifacts(root: Path) -> None:
         json.dumps(
             {
                 "schema_id": sgs.WINNABILITY_CERTIFICATES_SCHEMA_ID,
-                "rows": [
+                "certificates": [
                     {
-                        "row_id": "symbol",
-                        "candidate_winnable": True,
-                        "fair_arm_winnable": True,
+                        "split_id": "symbol",
+                        "certificate_id": "win-symbol",
+                        "winnable": True,
+                        "status": "pass",
                     }
                 ],
             }
@@ -144,17 +145,83 @@ def test_accepted_rows_are_json_safe_and_pointer_backed(tmp_path):
     row = payload["split_rows"][0]
     assert row["structural_generalization_family"] == "symbol_remapping"
     assert row["visibility_pointer"] == "reports/canonical/input-accessibility.json:$.rows[0]"
-    assert row["winnability_pointer"] == "reports/canonical/winnability-certificates.json:$.rows[0]"
+    assert row["winnability_pointer"] == "reports/canonical/winnability-certificates.json:$.certificates[0]"
     assert row["performance_pointer"] == "reports/canonical/performance.json:$.rows[0]"
     for field in ("visibility_pointer", "winnability_pointer", "performance_pointer"):
         assert resolve_artifact_pointer(tmp_path, row[field]) is not None
+
+
+def test_winnability_certificates_index_certificate_id_and_identity(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True, exist_ok=True)
+    (canonical / "input-accessibility.json").write_text(
+        json.dumps(
+            {
+                "schema_id": sgs.INPUT_ACCESSIBILITY_SCHEMA_ID,
+                "rows": [
+                    {
+                        "row_id": "win-symbol",
+                        "family": "symbol_remapping",
+                        "target_visible": True,
+                        "candidate_visible": True,
+                        "fair_arm_visible": True,
+                        "finite_remap": {"x": "u"},
+                        "performance_pointer": "reports/canonical/performance.json:$.rows[0]",
+                    },
+                    {
+                        "row_id": "identity-symbol",
+                        "family": "symbol_remapping",
+                        "target_visible": True,
+                        "candidate_visible": True,
+                        "fair_arm_visible": True,
+                        "finite_remap": {"a": "b"},
+                        "performance_pointer": "reports/canonical/performance.json:$.rows[1]",
+                    },
+                ],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical / "winnability-certificates.json").write_text(
+        json.dumps(
+            {
+                "schema_id": sgs.WINNABILITY_CERTIFICATES_SCHEMA_ID,
+                "certificates": [
+                    {
+                        "split_id": "upstream-symbol",
+                        "certificate_id": "win-symbol",
+                        "winnable": True,
+                        "status": "pass",
+                    },
+                    {
+                        "certificate_id": "win-identity",
+                        "identity": {"split_id": "identity-symbol"},
+                        "winnable": True,
+                        "status": "pass",
+                    },
+                ],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical / "performance.json").write_text(json.dumps({"rows": [{"score": 1.0}, {"score": 1.0}]}) + "\n", encoding="utf-8")
+
+    payload = sgs.build_structural_generalization_payload(root=tmp_path, generated_at="fixture")
+
+    assert {row["source_row_id"] for row in payload["split_rows"]} == {"win-symbol", "identity-symbol"}
+    assert {row["winnability_pointer"] for row in payload["split_rows"]} == {
+        "reports/canonical/winnability-certificates.json:$.certificates[0]",
+        "reports/canonical/winnability-certificates.json:$.certificates[1]",
+    }
 
 
 def test_unresolved_upstream_pointer_fails_closed_even_when_cells_pass(tmp_path):
     _write_source_artifacts(tmp_path)
     mutations = {
         "visibility_pointer": ("reports/canonical/input-accessibility.json:$.rows[9]", "SYM-HG2"),
-        "winnability_pointer": ("reports/canonical/winnability-certificates.json:$.rows[9]", "SYM-HG3"),
+        "winnability_pointer": ("reports/canonical/winnability-certificates.json:$.certificates[9]", "SYM-HG3"),
     }
     for field, (pointer, gate_id) in mutations.items():
         row = sgs.classify_structural_generalization_split(_candidate(**{field: pointer}), root=tmp_path)

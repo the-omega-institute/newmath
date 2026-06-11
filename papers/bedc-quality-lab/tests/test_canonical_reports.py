@@ -7177,7 +7177,7 @@ def test_structural_generalization_splits_nested_source_artifacts_enter_fingerpr
         "reports/canonical/input-accessibility.json": {"schema_id": "bedc-quality-lab:input-accessibility", "rows": []},
         "reports/canonical/winnability-certificates.json": {
             "schema_id": "bedc-quality-lab:winnability-certificates",
-            "rows": [],
+            "certificates": [],
         },
         spec.json_artifact: {
             "schema_id": "bedc-quality-lab:structural-generalization-splits",
@@ -7212,7 +7212,7 @@ def test_structural_generalization_splits_gate_pointer_targets_enter_fingerprint
         "reports/canonical/input-accessibility.json": {"schema_id": "bedc-quality-lab:input-accessibility", "rows": []},
         "reports/canonical/winnability-certificates.json": {
             "schema_id": "bedc-quality-lab:winnability-certificates",
-            "rows": [],
+            "certificates": [],
         },
         "reports/canonical/performance.json": {"rows": [{"score": 1.0}]},
         spec.json_artifact: {
@@ -7221,7 +7221,7 @@ def test_structural_generalization_splits_gate_pointer_targets_enter_fingerprint
                 {
                     "row_id": "symbol",
                     "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows[0]",
-                    "winnability_pointer": "reports/canonical/winnability-certificates.json:$.rows[0]",
+                    "winnability_pointer": "reports/canonical/winnability-certificates.json:$.certificates[0]",
                     "performance_pointer": "reports/canonical/performance.json:$.rows[0]",
                 }
             ],
@@ -7274,11 +7274,12 @@ def test_structural_generalization_splits_changed_mode_reruns_when_gate_pointer_
         json.dumps(
             {
                 "schema_id": "bedc-quality-lab:winnability-certificates",
-                "rows": [
+                "certificates": [
                     {
-                        "row_id": "symbol",
-                        "candidate_winnable": True,
-                        "fair_arm_winnable": True,
+                        "split_id": "symbol",
+                        "certificate_id": "win-symbol",
+                        "winnable": True,
+                        "status": "pass",
                     }
                 ],
             },

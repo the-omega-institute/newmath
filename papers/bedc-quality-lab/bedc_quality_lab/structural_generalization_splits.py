@@ -108,52 +108,61 @@ def _load_source_artifact(root: Path, artifact: str, expected_schema_id: str) ->
     return {**base, "status": "resolved", "payload": dict(payload), "digest": _json_digest(payload)}
 
 
-def _row_id(row: Mapping[str, Any]) -> str | None:
+def _entity_ids(row: Mapping[str, Any]) -> tuple[str, ...]:
+    ids: list[str] = []
     for key in ("row_id", "id", "split_id", "certificate_id"):
         value = row.get(key)
         if isinstance(value, str) and value:
-            return value
-    return None
+            ids.append(value)
+    identity = row.get("identity")
+    if isinstance(identity, Mapping):
+        for key in ("row_id", "id", "split_id", "certificate_id"):
+            value = identity.get(key)
+            if isinstance(value, str) and value:
+                ids.append(value)
+    return tuple(dict.fromkeys(ids))
+
+
+def _collection_rows(payload: Mapping[str, Any] | None, keys: Sequence[str]) -> list[tuple[str, int, Mapping[str, Any]]]:
+    if payload is None:
+        return []
+    rows: list[tuple[str, int, Mapping[str, Any]]] = []
+    for key in keys:
+        value = payload.get(key)
+        if isinstance(value, list):
+            for index, row in enumerate(value):
+                if isinstance(row, Mapping):
+                    rows.append((key, index, row))
+    return rows
 
 
 def _row_map(payload: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
-    if payload is None:
-        return {}
-    rows: list[Any] = []
-    for key in (
-        "rows",
-        "input_rows",
-        "visibility_rows",
-        "accessibility_rows",
-        "certificate_rows",
-        "winnability_rows",
-        "split_rows",
-        "registry",
-    ):
-        value = payload.get(key)
-        if isinstance(value, list):
-            rows.extend(value)
     indexed: dict[str, Mapping[str, Any]] = {}
-    for row in rows:
-        if isinstance(row, Mapping):
-            rid = _row_id(row)
-            if rid is not None:
-                indexed[rid] = row
+    for _key, _index, row in _collection_rows(
+        payload,
+        (
+            "rows",
+            "input_rows",
+            "visibility_rows",
+            "accessibility_rows",
+            "certificate_rows",
+            "certificates",
+            "winnability_rows",
+            "split_rows",
+            "registry",
+        ),
+    ):
+        for rid in _entity_ids(row):
+            indexed[rid] = row
     return indexed
 
 
-def _row_pointer_map(payload: Mapping[str, Any] | None, *, artifact: str) -> dict[str, str]:
-    if payload is None:
-        return {}
-    rows = payload.get("rows")
-    if not isinstance(rows, list):
-        return {}
+def _row_pointer_map(payload: Mapping[str, Any] | None, *, artifact: str, keys: Sequence[str] = ("rows",)) -> dict[str, str]:
     pointers: dict[str, str] = {}
-    for index, row in enumerate(rows):
-        if isinstance(row, Mapping):
-            rid = _row_id(row)
-            if rid is not None:
-                pointers[rid] = f"{artifact}:$.rows[{index}]"
+    for key, index, row in _collection_rows(payload, keys):
+        pointer = f"{artifact}:$.{key}[{index}]"
+        for rid in _entity_ids(row):
+            pointers[rid] = pointer
     return pointers
 
 
@@ -168,6 +177,30 @@ def _bool_cell(row: Mapping[str, Any], keys: Sequence[str], default: bool = Fals
             if value in {"fail", "missing", "hidden", "unwinnable", "false"}:
                 return False
     return default
+
+
+def _optional_bool_cell(row: Mapping[str, Any], keys: Sequence[str]) -> bool | None:
+    for key in keys:
+        value = row.get(key)
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            if value in {"pass", "resolved", "visible", "winnable", "true"}:
+                return True
+            if value in {"fail", "missing", "hidden", "unwinnable", "false"}:
+                return False
+    return None
+
+
+def _certificate_winnable(row: Mapping[str, Any], keys: Sequence[str]) -> bool:
+    status = row.get("status")
+    if isinstance(status, str) and status != "pass":
+        return False
+    arm_value = _optional_bool_cell(row, keys)
+    if arm_value is not None:
+        return arm_value
+    split_value = _optional_bool_cell(row, ("winnable",))
+    return split_value is True
 
 
 def _int_cell(row: Mapping[str, Any], keys: Sequence[str]) -> int | None:
@@ -215,10 +248,10 @@ def _candidate_from_rows(
         target_visible=_bool_cell(visibility, ("target_visible", "target_accessible"), False),
         candidate_visible=_bool_cell(visibility, ("candidate_visible", "visible_to_candidate", "candidate_target_visible"), False),
         fair_arm_visible=_bool_cell(visibility, ("fair_arm_visible", "visible_to_fair_arm", "fair_arm_target_visible"), False),
-        candidate_winnable=_bool_cell(winnability, ("candidate_winnable", "candidate_can_win", "winnable"), False),
-        fair_arm_winnable=_bool_cell(winnability, ("fair_arm_winnable", "fair_arm_can_win", "fair_control_winnable"), False),
+        candidate_winnable=_certificate_winnable(winnability, ("candidate_winnable", "candidate_can_win")),
+        fair_arm_winnable=_certificate_winnable(winnability, ("fair_arm_winnable", "fair_arm_can_win", "fair_control_winnable")),
         visibility_pointer=visibility_pointers.get(row_id, f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows.{_stable_slug(row_id)}"),
-        winnability_pointer=winnability_pointers.get(row_id, f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.rows.{_stable_slug(row_id)}"),
+        winnability_pointer=winnability_pointers.get(row_id, f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates.{_stable_slug(row_id)}"),
         performance_pointer=_string_cell(visibility, ("performance_pointer", "evidence_pointer"), "")
         or _string_cell(winnability, ("performance_pointer", "evidence_pointer"), ""),
         finite_remap=_mapping_cell(visibility, ("finite_remap", "remap", "symbol_map")),
@@ -267,7 +300,7 @@ def default_split_candidates(
             candidate_winnable=False,
             fair_arm_winnable=False,
             visibility_pointer=f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows.symbol-remapping",
-            winnability_pointer=f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.rows.symbol-remapping",
+            winnability_pointer=f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates",
             performance_pointer=None,
             finite_remap={"x": "u", "y": "v"},
         ),
@@ -284,7 +317,7 @@ def default_split_candidates(
             candidate_winnable=False,
             fair_arm_winnable=False,
             visibility_pointer=f"{INPUT_ACCESSIBILITY_ARTIFACT}:$.rows.position-shift-visible",
-            winnability_pointer=f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.rows.position-shift-visible",
+            winnability_pointer=f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates",
             performance_pointer=None,
             position_offset=1,
         ),
@@ -459,7 +492,11 @@ def build_structural_generalization_payload(
     visibility_rows = _row_map(input_accessibility.get("payload"))
     winnability_rows = _row_map(winnability.get("payload"))
     visibility_pointers = _row_pointer_map(input_accessibility.get("payload"), artifact=INPUT_ACCESSIBILITY_ARTIFACT)
-    winnability_pointers = _row_pointer_map(winnability.get("payload"), artifact=WINNABILITY_CERTIFICATES_ARTIFACT)
+    winnability_pointers = _row_pointer_map(
+        winnability.get("payload"),
+        artifact=WINNABILITY_CERTIFICATES_ARTIFACT,
+        keys=("certificates",),
+    )
     candidates = tuple(split_candidates) if split_candidates is not None else default_split_candidates(
         visibility_rows=visibility_rows,
         winnability_rows=winnability_rows,
