@@ -654,6 +654,24 @@ Next read the downstream handoffs. Use \autoref{thm:sequential-compact-regseqrat
 Finally use the compact-metric and structural consumer boundaries, \autoref{thm:sequentialcompact-compactmetric-root-unblock} and \autoref{thm:sequentialcompact-compactmetric-handoff}. The rows $H,C,P,N$ transport, replay, source, and name the same finite packet, so the obligation surface is closed exactly over $K,B,S,W,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[SequentialCompact public export no-choice boundary]
+\label{thm:sequentialcompact-public-export}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the public SequentialCompact consumer receives only the finite cluster window $W$, the $\CompactMetricUp$ handoff row $K$, the $\BaireSpaceUp$ and $\StreamNameUp$ window rows $B,S$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $E$, and the transport, replay, provenance, and local $\NameCert$ rows $H,C,P,N$. This public export is the already displayed finite route; it does not add a choice-selected subsequence, quotient stream, open-cover compactness theorem, host sequential compactness principle, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequential-compact-obligation-closure}. It closes the obligation surface over exactly the rows $K,B,S,W,R,E,H,C,P,N$ and excludes host compactness, countable choice, quotient stream equality, external subsequence selection, and ambient Real completeness.
+
+Use \autoref{thm:sequentialcompact-finite-window-cluster-obligation} and \autoref{thm:sequential-compact-public-finite-cluster-route}. The public cluster read is the finite selected-window route through $W$, not an externally selected subsequence object.
+
+Apply \autoref{thm:sequentialcompact-public-namecert-route} and \autoref{thm:sequentialcompact-compactmetric-handoff}. These route public naming and compact-metric consumers through the same $K,B,S,W,R,E,H,C,P,N$ packet.
+
+Finally use \autoref{thm:sequentialcompact-regseqrat-stream-scope}. It keeps every regular-rational readback scoped by the displayed stream and selected-window rows before the Real seal is consumed. Since no additional row is present in the carrier, the public export boundary is exactly the no-choice finite route stated above.
+\end{proof}
+
 \closureat{SequentialCompactUp}{scopedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}

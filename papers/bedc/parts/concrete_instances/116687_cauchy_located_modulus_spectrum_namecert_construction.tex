@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLocatedModulusSpectrumUp$}
+\label{ch:concrete-instances-cauchy-located-modulus-spectrum-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyLocatedModulusSpectrumUp$ packet records the finite modulus data needed to move from dyadic tolerances to regular rational names and then to a real-name seal. It sits after the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-sequence carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a located modulus spectrum for Cauchy data; it does not select limits, quotient regular sequences by ambient equality, or claim completeness of a host real line.
+
+\begin{definition}[Cauchy located modulus spectrum carrier]
+\label{def:cauchy-located-modulus-spectrum-carrier}
+A $\CauchyLocatedModulusSpectrumUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,S,R,L,E,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $D$ is a $\DyadicRatCoreUp$ tolerance row, recording the dyadic rational scales used for the Cauchy comparison.
+\item $S$ is a $\StreamNameUp$ schedule row, recording the finite observation windows at which those tolerances are read.
+\item $R$ is a $\RegSeqRatUp$ regularity row, recording the rational sequence data and the finite regularity obligations visible through the schedule.
+\item $L$ is the located modulus row: for every displayed tolerance window in $D$ and $S$, it records a finite cofinal tail witness at which the regularity row $R$ is stable inside the named tolerance.
+\item $E$ is the $\RealUp$ seal row, recording that the visible regular sequence may be handed to the real-name interface without selecting a limit point.
+\item $H$ is componentwise $\hsame$ transport for $D,S,R,L,E$.
+\item $C$ is the displayed $\Cont$ replay row, preserving the same finite windows under continuation.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyLocatedModulusSpectrumUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Cauchy located modulus spectrum NameCert obligations]
+\label{thm:cauchy-located-modulus-spectrum-namecert-obligations}
+For every accepted $\CauchyLocatedModulusSpectrumUp$ carrier $M=(D,S,R,L,E,H,C,P,N)$, the local $\NameCert_{\CauchyLocatedModulusSpectrumUp}$ surface is exhausted by carrier admission, classifier stability, cofinal modulus refinement, Real-seal handoff, and refusal of selected limits, quotient equality of regular names, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier onto its dyadic tolerance, stream schedule, regular rational, located modulus, and real-seal rows. Carrier admission is exactly the assertion that these rows occur together in one finite $\BHist$ packet with the local name row $N$.
+
+Classifier stability is componentwise. The transport row $H$ compares $D,S,R,L,E$ by $\hsame$, and the replay row $C$ preserves the same finite schedule under $\Cont$. Thus a consumer cannot alter the tolerance scale, schedule, regularity row, or real seal while keeping the local certificate name fixed.
+
+Cofinal modulus refinement is finite-tail refinement inside the displayed schedule. Given a later dyadic tolerance window, use the located row $L$ to move to a cofinal tail of $S$ where the regularity row $R$ is stable inside that tolerance; no countable choice or selected limit is invoked.
+
+The Real-seal handoff reads only $E$. It certifies that the regular rational data can be presented to the $\RealUp$ name surface, while the packet still refuses quotient equality of names, a chosen limit object, and ambient completeness beyond the displayed finite rows.
+\end{proof}
+
+\closureat{CauchyLocatedModulusSpectrumUp}{seedStr}
+
+\begin{closurestatus}{\CauchyLocatedModulusSpectrumUp}
+  \constructivestory{A $\CauchyLocatedModulusSpectrumUp$ packet is generated from DyadicRatCore tolerance rows, StreamName schedule rows, RegSeqRat regularity rows, a located cofinal-tail modulus row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-located-modulus-spectrum-carrier} and \autoref{thm:cauchy-located-modulus-spectrum-namecert-obligations} seed the finite located-modulus spectrum from dyadic tolerances through stream schedules, regular rational rows, cofinal-tail witnesses, and a RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected real limits, quotient equality of regular names, ambient real completeness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, cofinal modulus refinement, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyLocatedModulusSpectrumUp.}
+\end{closurestatus}
