@@ -5621,6 +5621,7 @@ import BEDC.Derived.LawlessSequenceUp.BaireWindowStability
 import BEDC.Derived.LawlessSequenceUp.Carrier
 import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
+import BEDC.Derived.LawlessSequenceUp.RealBoundaryNonescape
 import BEDC.Derived.LawlessSequenceUp.StreamNameChoiceWindow
 import BEDC.Derived.LawlessSequenceUp.StreamNameWindowObligation
 import BEDC.Derived.LawlessSequenceUp.TasteGate
@@ -5937,6 +5938,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphClosurePackage
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverage
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverageExactness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterBasisClosure
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterBasisExactness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFilterDirectedness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphFiniteInfimumHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
@@ -6482,6 +6484,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
+import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
 import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
 import BEDC.Derived.MetaCICTypedNormalizationAuditUp.TasteGate
@@ -7176,7 +7179,7 @@ import BEDC.Derived.ParsevalUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
-import BEDC.Derived.ParsevalUp.SoneBasisLedger
+import BEDC.Derived.ParsevalUp.SOneBasisLedger
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
