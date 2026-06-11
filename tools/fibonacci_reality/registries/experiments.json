@@ -1,4 +1,35 @@
 {
   "version": "fibonacci-reality-experiments-v1",
-  "experiments": []
+  "experiments": [
+    {
+      "experiment_id": "verify-fa1-edge-flux-certificate",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_fa1_edge_flux_certificate.py",
+      "claim_id": "f-a1.window6.edge-flux-mod3-obstruction.certificate",
+      "required_data": [
+        "tools/fibonacci_reality/data/automath_cert_window6_edge_flux_mod3_obstruction.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "automath_certificate_present_sorry_free",
+          "automath_certificate_ref_matches"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-fa2-571-spectral-collision-certificate",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_fa2_571_spectral_collision_certificate.py",
+      "claim_id": "f-a2.window6.modpstar-571-spectral-collision.certificate",
+      "required_data": [
+        "tools/fibonacci_reality/data/automath_cert_window6_modpstar_571_spectral_collision.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "automath_certificate_present_sorry_free",
+          "automath_certificate_ref_matches"
+        ]
+      }
+    }
+  ]
 }
