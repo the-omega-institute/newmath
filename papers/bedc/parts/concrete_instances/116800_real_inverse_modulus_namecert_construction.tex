@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RealInverseModulusUp$}
+\label{ch:concrete-instances-real-inverse-modulus-namecert}
+\origin{ai}
+
+The $\RealInverseModulusUp$ packet realizes the guarded reciprocal-modulus route of the Real and Completion vision as finite BEDC data. It sits after the reciprocal-window budget of \autoref{ch:concrete-instances-cauchyinversebudget-namecert}, the regular Cauchy reciprocal surface of \autoref{ch:concrete-instances-regular-cauchy-reciprocal-namecert}, the real reciprocal handoff of \autoref{ch:concrete-instances-real-reciprocal-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records a reciprocal modulus for guarded reads; it is not a total inverse on $\RealUp$ and not a completeness theorem.
+
+\begin{definition}[Real inverse-modulus carrier]
+\label{def:real-inverse-modulus-carrier}
+A $\RealInverseModulusUp$ carrier is a finite $\BHist$ packet
+$$
+I=(X,A,B,Q,R,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the accepted $\RealUp$ source row whose guarded reciprocal modulus is being read.
+\item $A$ is the displayed apartness or lower-bound row that keeps the source away from the zero boundary.
+\item $B$ is the $\CauchyInverseBudgetUp$ row selecting the finite inverse-window budget before any reciprocal readback is public.
+\item $Q$ is the $\RegSeqRatUp$ readback row produced by that finite budget.
+\item $R$ is the $\RegularCauchyReciprocalUp$ sibling route, retaining the regular-source, apartness, window, dyadic, budget, readback, and seal rows.
+\item $G$ is the $\RealReciprocalUp$ guarded reciprocal handoff row.
+\item $E$ is the terminal $\RealUp$ seal for the reciprocal-modulus candidate.
+\item $H$ records componentwise $\hsame$ transport for the Real source, apartness row, inverse budget, regular readback, regular-Cauchy reciprocal route, Real reciprocal handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a reciprocal-modulus request through $X,A,B,Q,R,G,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealInverseModulusUp$, $\CauchyInverseBudgetUp$, $\RegSeqRatUp$, $\RegularCauchyReciprocalUp$, $\RealReciprocalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealInverseModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,A,B,Q,R,G,E,H,C,P,N$. It has no coordinate for total inversion, trichotomy, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real inverse-modulus NameCert obligations]
+\label{thm:real-inverse-modulus-namecert-obligations}
+For every accepted $\RealInverseModulusUp$ carrier $I=(X,A,B,Q,R,G,E,H,C,P,N)$, the local $\NameCert_{\RealInverseModulusUp}$ surface consists exactly of source Real admission, apartness exposure, finite Cauchy inverse budget selection, $\RegSeqRatUp$ reciprocal-modulus readback, $\RegularCauchyReciprocalUp$ sibling routing, $\RealReciprocalUp$ guarded handoff, terminal $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming for the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-inverse-modulus-carrier}. The source and domain rows are $X$ and $A$, and the first reciprocal-facing row is the finite inverse budget $B$.
+
+The readback route is ordered. The budget $B$ produces the regular rational row $Q$, the sibling route $R$ retains the regular-Cauchy reciprocal window, and the guarded Real reciprocal handoff $G$ precedes the terminal Real seal $E$.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no further coordinate is present, the listed rows exhaust the local NameCert obligations and exclude total inversion, trichotomy, quotient equality, selected representatives, countable choice, and ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Real inverse-modulus Cauchy inverse budget handoff]
+\label{thm:real-inverse-modulus-cauchy-inverse-budget-handoff}
+Every accepted $\RealInverseModulusUp$ read factors through
+$$
+X,A \longmapsto B \longmapsto Q \longmapsto R,G \longmapsto E .
+$$
+In particular, the $\CauchyInverseBudgetUp$ row is consumed before any $\RealReciprocalUp$ seal is public, and the reciprocal-modulus route remains guarded by the displayed apartness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-inverse-modulus-namecert-obligations}. It exposes the source and apartness rows before any inverse budget or reciprocal readback can be consumed.
+
+Use the budget route from \autoref{ch:concrete-instances-cauchyinversebudget-namecert}. The row $B$ is the finite window selector for the guarded source, and $Q$ is read only after that budget is present.
+
+Next use the sibling reciprocal surfaces of \autoref{ch:concrete-instances-regular-cauchy-reciprocal-namecert} and \autoref{ch:concrete-instances-real-reciprocal-namecert}. They keep the reciprocal route downstream of the budgeted regular readback and refuse a total inverse on arbitrary Real names.
+
+The terminal seal $E$ therefore receives only the guarded route displayed above. Because the carrier has no coordinate for a total inverse, trichotomy, quotient equality, selected representative, or completeness principle, none of those endpoints is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealInverseModulusUp$ read factors through $\CauchyInverseBudgetUp$ before any $\RealReciprocalUp$ seal is public.}
+
+\independenceWitness{cauchyinversebudget, regular-cauchy-reciprocal, real-reciprocal, regseqrat, real: $\RealInverseModulusUp$ carries the guarded modulus route tying these siblings together, while none of them alone records the full inverse-modulus packet.}
+
+The Lean TasteGate file for this packet must supply $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances by exhibiting accepted guarded reciprocal-modulus packets and refused boundary packets over $X,A,B,Q,R,G,E,H,C,P,N$.
+
+\closureat{RealInverseModulusUp}{seedStr}
+
+\begin{closurestatus}{\RealInverseModulusUp}
+  \constructivestory{A $\RealInverseModulusUp$ packet is generated from a Real source, apartness row, CauchyInverseBudget row, RegSeqRat readback, RegularCauchyReciprocal route, RealReciprocal handoff, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-inverse-modulus-carrier}, \autoref{thm:real-inverse-modulus-namecert-obligations}, and \autoref{thm:real-inverse-modulus-cauchy-inverse-budget-handoff} seed the guarded reciprocal-modulus packet over finite inverse budgets, regular rational readbacks, reciprocal sibling routes, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a total inverse on $\RealUp$, trichotomy, quotient real equality, selected representatives, countable choice, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget-first readback, guarded reciprocal handoff, Real seal nonescape, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.RealInverseModulusUp.}
+\end{closurestatus}
