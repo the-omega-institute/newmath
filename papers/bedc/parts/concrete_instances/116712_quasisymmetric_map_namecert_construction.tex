@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\QuasisymmetricMapUp$}
+\label{ch:concrete-instances-quasisymmetric-map-namecert}
+\origin{human}
+
+Following Heinonen on analysis on metric spaces and Tukia--Vaisala on quasisymmetric embeddings, the $\QuasisymmetricMapUp$ packet records the finite BEDC surface of a metric map whose distortion is controlled by a displayed modulus row. It sits over the source and target metric packets of \autoref{ch:concrete-instances-metric-namecert}, the terminal distance seal of \autoref{ch:concrete-instances-real-namecert}, the entourage-facing route of \autoref{ch:concrete-instances-uniformspace-namecert}, the map graph of \autoref{ch:concrete-instances-continuousmap-namecert}, and the control ledger of \autoref{ch:concrete-instances-moduluscontinuity-namecert}. The packet names a quasisymmetric handoff as finite rows; it is not a quotient map equality, not a selected inverse, not an ambient completeness principle, and not a compactness theorem.
+
+\begin{definition}[Quasisymmetric map carrier]
+\label{def:quasisymmetric-map-carrier}
+A $\QuasisymmetricMapUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,G,\eta,D,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row, including the point classifier and distance-read schedule used by the inspected triple.
+\item $Y$ is the target $\MetricSpaceUp$ row, including the target classifier and its distance-read schedule.
+\item $G$ is the finite map-graph row, read through the $\ContinuousMapUp$ sibling surface when a topology-facing consumer asks for the same graph.
+\item $\eta$ is the distortion-control ledger, read through the $\ModulusOfContinuityUp$ sibling surface as a finite monotone comparison row.
+\item $D$ is the $\RealUp$ distance-seal row for source and target pair distances used in the quasisymmetric comparison.
+\item $T$ is the uniform-topology transport row that records how the metric comparison is replayed by $\UniformSpaceUp$ consumers.
+\item $R$ is the replay row exposing the finite triple comparison and the target-distance bound determined by $\eta$.
+\item $H$ records componentwise $\hsame$ transport for the source metric, target metric, graph, distortion ledger, Real distance seals, uniform transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\QuasisymmetricMapUp$, $\MetricSpaceUp$, $\RealUp$, $\UniformSpaceUp$, $\ContinuousMapUp$, $\ModulusOfContinuityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\QuasisymmetricMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,Y,G,\eta,D,T,R,H,C,P,N$. It has no coordinate for quotient map equality, a selected inverse map, ambient completeness, compactness, or an unbounded host metric theorem.
+\end{definition}
+
+\begin{theorem}[Quasisymmetric map NameCert obligations]
+\label{thm:quasisymmetric-map-namecert-obligations}
+For every accepted $\QuasisymmetricMapUp$ carrier $Q=(X,Y,G,\eta,D,T,R,H,C,P,N)$, the local $\NameCert_{\QuasisymmetricMapUp}$ surface consists exactly of source and target metric admission, map-graph exposure, distortion-control ledger admission, $\RealUp$ distance sealing, uniform-topology transport, finite comparison replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation is supplied by quotient map equality, selected inverses, ambient completeness, open-cover compactness, or an external host topology.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quasisymmetric-map-carrier}. The rows $X,Y,G,\eta,D,T,R,H,C,P,N$ are exactly the source metric, target metric, graph, distortion ledger, distance seal, uniform transport, replay, transport, continuation, provenance, and local naming coordinates.
+
+The metric part is $X,Y,D$. It exposes the two distance schedules and seals every source and target distance comparison through the displayed $\RealUp$ row before the distortion ledger is read.
+
+The mapping part is $G,\eta,T,R$. The graph row supplies the finite map observations, the distortion ledger supplies the comparison budget, the uniform transport row makes the same route visible to topology-facing consumers, and the replay row records the inspected triple comparison.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no carrier coordinate stores quotient map equality, selected inverse data, compactness, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Quasisymmetric map metric handoff]
+\label{thm:quasisymmetric-map-metric-handoff}
+Every metric, uniform, or continuous-map consumer of an accepted $\QuasisymmetricMapUp$ packet factors its request through the finite handoff
+$$
+X,Y,G,\eta \longmapsto D \longmapsto T,R \longmapsto H,C,P,N .
+$$
+Thus the consumer reads the source and target metric rows, map graph, distortion-control ledger, $\RealUp$ distance seals, uniform transport, replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before accepting a quasisymmetric comparison.
+\end{theorem}
+\begin{proof}
+Begin with an accepted consumer request. Carrier admission exposes the source metric row $X$, target metric row $Y$, graph row $G$, and distortion ledger $\eta$ before any quasisymmetric comparison is visible.
+
+Read the distance row next. The $\RealUp$ seal $D$ binds the source and target distances used by the inspected triple, so the comparison cannot be detached from the displayed real-distance evidence.
+
+The uniform transport and replay rows $T,R$ then hand the same finite comparison to metric, uniform, and continuous-map consumers. They expose the distortion-controlled target-distance bound without adding a quotient equality, inverse selection, compactness, or completeness coordinate.
+
+The rows $H,C,P,N$ preserve, replay, source, and name this handoff. Hence every accepted quasisymmetric read factors through the displayed finite route and none of the excluded host principles can be exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\QuasisymmetricMapUp$ consumer that reads a target-distance distortion bound without first displaying the source metric row, target metric row, map graph, distortion-control ledger, $\RealUp$ distance seal, uniform transport, replay, transport, provenance, and local naming rows refutes the carrier surface.}
+
+\independenceWitness{metric, real, uniform, continuousmap, moduluscontinuity: no listed sibling supplies the whole packet $Q=(X,Y,G,\eta,D,T,R,H,C,P,N)$, because each sibling contributes only a metric source, real-distance seal, uniform route, map graph, or control ledger while this chapter binds the quasisymmetric comparison with transport, replay, provenance, and local naming.}
+
+\closureat{QuasisymmetricMapUp}{seedStr}
+
+\begin{closurestatus}{\QuasisymmetricMapUp}
+  \constructivestory{A $\QuasisymmetricMapUp$ packet is generated from source and target MetricSpace rows, a finite map graph, a distortion-control ledger, RealUp distance seals, uniform transport, finite comparison replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quasisymmetric-map-carrier}, \autoref{thm:quasisymmetric-map-namecert-obligations}, and \autoref{thm:quasisymmetric-map-metric-handoff} seed the quasisymmetric metric-topology handoff over metric, real-distance, uniform, continuous-map, and modulus rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient map equality, selected inverses, ambient completeness, compactness, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, distortion-ledger routing, Real distance sealing, uniform handoff, transport, replay, provenance, and local naming for BEDC.Derived.QuasisymmetricMapUp.}
+\end{closurestatus}
