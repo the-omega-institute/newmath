@@ -256,11 +256,11 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `125`
+- Nodes: `128`
 
 ## Claim artifact consistency
 
-- Status: `fail`
+- Status: `pass`
 - JSON: `reports/canonical/claim-artifact-consistency.json`
 - Markdown: `reports/canonical/claim-artifact-consistency.md`
 - Claim: `claim:discovery-gated-transformer`

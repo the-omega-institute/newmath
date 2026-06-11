@@ -35,6 +35,7 @@ VARIABLE_TOKENS = (
     "z_pair",
 )
 TOKEN_ORDER = {token: index for index, token in enumerate(VARIABLE_TOKENS)}
+STRUCTURAL_ATTRIBUTE_BASES = frozenset({"spec"})
 OOD_SPLITS = frozenset({"ood", "out_of_distribution", "out-of-distribution"})
 TOP_LEVEL_KEYS = (
     "schema_id",
@@ -358,7 +359,9 @@ class _Analyzer:
             if node.id in env:
                 return env[node.id]
             direct = _direct_name_token(node.id)
-            return ExprValue(frozenset((direct,))) if direct else ExprValue()
+            if direct is not None:
+                return ExprValue(frozenset((direct,)))
+            return ExprValue().with_failure(f"unknown-name:{node.id}", _token(node.id))
         if isinstance(node, ast.Constant):
             return ExprValue()
         if isinstance(node, ast.Attribute):
@@ -366,6 +369,8 @@ class _Analyzer:
             if direct is not None:
                 return ExprValue(frozenset((direct,)))
             if node.attr in {"shape", "dtype", "device", "values"}:
+                return ExprValue()
+            if isinstance(node.value, ast.Name) and node.value.id in STRUCTURAL_ATTRIBUTE_BASES:
                 return ExprValue()
             return self._eval_expr(node.value, env)
         if isinstance(node, ast.Subscript):
@@ -406,6 +411,9 @@ class _Analyzer:
     def _eval_call(self, node: ast.Call, env: Mapping[str, ExprValue]) -> ExprValue:
         name = _call_name(node.func)
         short_name = name.rsplit(".", 1)[-1]
+        arg_values = [self._eval_expr(arg, env) for arg in node.args]
+        keyword_values = [self._eval_expr(keyword.value, env) for keyword in node.keywords]
+        input_values = arg_values + keyword_values
         if short_name in {"getattr", "eval", "exec"}:
             return ExprValue().with_failure(f"dynamic-access:{short_name}", "unknown:dynamic_access")
         if name in {"torch.Generator", "torch.device"} or short_name in {"manual_seed"}:
@@ -413,15 +421,15 @@ class _Analyzer:
         if name in self.context.shape_helper_allowlist or short_name in self.context.shape_helper_allowlist:
             return ExprValue()
         if name in self.context.value_helper_allowlist or short_name in self.context.value_helper_allowlist:
-            return self._combine([self._eval_expr(arg, env) for arg in node.args])
+            return self._combine(input_values)
         if name in {"torch.randint", "torch.linspace"}:
             return ExprValue(frozenset(("full_sequence",)))
         if name == "torch.roll":
-            return self._combine([self._eval_expr(arg, env) for arg in node.args]).with_tokens("batch_shifted_tokens")
+            return self._combine(input_values).with_tokens("batch_shifted_tokens")
         if name in {"torch.zeros", "torch.ones", "torch.zeros_like", "torch.ones_like"}:
             return ExprValue()
         if name in {"torch.cat", "torch.stack"}:
-            return self._combine([self._eval_expr(arg, env) for arg in node.args])
+            return self._combine(input_values)
         if short_name in {
             "to",
             "unsqueeze",
@@ -438,10 +446,10 @@ class _Analyzer:
         } and isinstance(node.func, ast.Attribute):
             return self._eval_expr(node.func.value, env)
         if short_name in {"sin", "cos", "tanh", "relu", "softmax", "argmax", "sigmoid", "log"}:
-            return self._combine([self._eval_expr(arg, env) for arg in node.args])
+            return self._combine(input_values)
         if short_name in {"embedding"} or name.endswith(".embedding"):
-            return self._combine([self._eval_expr(arg, env) for arg in node.args])
-        return self._combine([self._eval_expr(arg, env) for arg in node.args]).with_failure(
+            return self._combine(input_values)
+        return self._combine(input_values).with_failure(
             f"unknown-helper:{name or type(node.func).__name__}",
             _token(name or "call"),
         )
@@ -564,6 +572,8 @@ def extractor_digest() -> str:
                 "batch-fields",
                 "branch-by-arm-and-split",
                 "registered-helper-allowlists",
+                "keyword-argument-values",
+                "unknown-name-fail-closed",
                 "dynamic-access-fail-closed",
             ],
         }

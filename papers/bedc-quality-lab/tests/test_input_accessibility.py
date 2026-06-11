@@ -8,6 +8,10 @@ def literal_lag_features(x):
     return x[:, -1] + x[:, -2]
 
 
+def single_lag_feature(x):
+    return x[:, -1]
+
+
 def batch_features(batch):
     return batch.x + batch.x_pair
 
@@ -43,6 +47,15 @@ def dynamic_index_feature(x, lag):
 
 def dynamic_index_label(x, lag):
     y = x[:, lag]
+    return x, y
+
+
+def hidden_name_label(x, hidden_dependency):
+    return x, hidden_dependency
+
+
+def keyword_label(x, torch):
+    y = torch.stack(tensors=[x[:, -2]])
     return x, y
 
 
@@ -185,6 +198,46 @@ def test_dynamic_index_row_cannot_support_architecture_claim():
         assert str(exc) == "input accessibility pass row has extraction failure"
     else:
         raise AssertionError("dynamic-index extraction failure must not validate as coverage pass")
+
+
+def test_unknown_name_label_dependency_fails_closed_in_row():
+    spec = ia.FeatureSourceSpec(
+        experiment="repro",
+        split="in_distribution",
+        arm="unknown-name",
+        role="candidate",
+        feature_module=__name__,
+        feature_callable="literal_lag_features",
+        label_module=__name__,
+        label_callable="hidden_name_label",
+        claim_scope="repro",
+    )
+    row = ia.build_payload(generated_at="fixture-time", registry=(spec,))["rows"][0]
+
+    assert row["required_variables"] == ["unknown:hidden_dependency"]
+    assert row["coverage_status"] == "fail"
+    assert row["supports_architecture_claim"] is False
+    assert row["label_extraction"]["failures"] == ["unknown-name:hidden_dependency"]
+
+
+def test_keyword_call_values_are_included_in_required_variables():
+    spec = ia.FeatureSourceSpec(
+        experiment="repro",
+        split="in_distribution",
+        arm="keyword",
+        role="candidate",
+        feature_module=__name__,
+        feature_callable="single_lag_feature",
+        label_module=__name__,
+        label_callable="keyword_label",
+        claim_scope="repro",
+    )
+    row = ia.build_payload(generated_at="fixture-time", registry=(spec,))["rows"][0]
+
+    assert row["required_variables"] == ["x_minus_2"]
+    assert row["missing_variables"] == ["x_minus_2"]
+    assert row["coverage_status"] == "fail"
+    assert row["supports_architecture_claim"] is False
 
 
 def test_unsupported_statement_nodes_fail_closed_in_rows():
