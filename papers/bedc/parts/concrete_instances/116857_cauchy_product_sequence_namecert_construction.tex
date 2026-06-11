@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductSequenceUp$}
+\label{ch:concrete-instances-cauchy-product-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real multiplication and the Mertens product discipline for Cauchy data, the $\CauchyProductSequenceUp$ packet records the finite sequence-level product route before any completed-real multiplication theorem is available. It sits over the product source row of \autoref{ch:concrete-instances-cauchyproduct-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic product ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The sibling commutativity packet of \autoref{ch:concrete-instances-cauchy-product-commutativity-namecert} reads the same product surface after the two source windows are swapped; this chapter names the underlying product-sequence carrier itself.
+
+\begin{definition}[Cauchy product sequence carrier]
+\label{def:cauchy-product-sequence-carrier}
+A $\CauchyProductSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(X,Y,W_X,W_Y,D,M,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two accepted source rows whose product sequence is being read.
+\item $W_X$ and $W_Y$ are the paired $\StreamNameUp$ finite windows exposing the source terms used by the product request.
+\item $D$ is the $\DyadicRatCoreUp$ product-observation ledger, containing the displayed dyadic products and tolerance comparisons for the retained windows.
+\item $M$ is the finite Cauchy-product budget row licensed by $\CauchyProductUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W_X,W_Y,D,M$.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the regular readback is available.
+\item $H$ records componentwise $\hsame$ transport for source rows, windows, dyadic product observations, product budget, readback, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from product-sequence requests through $X,Y,W_X,W_Y,D,M,R,E,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\CauchyProductSequenceUp$, $\CauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,W_X,W_Y,D,M,R,E,H,C,Q,N$. It has no coordinate for host multiplication, quotient stream equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy product sequence NameCert obligations]
+\label{thm:cauchy-product-sequence-namecert-obligations}
+For every accepted $\CauchyProductSequenceUp$ carrier
+$$
+P=(X,Y,W_X,W_Y,D,M,R,E,H,C,Q,N),
+$$
+the local $\NameCert_{\CauchyProductSequenceUp}$ surface consists exactly of source admission for $X,Y$, paired $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ product-observation exposure, $\CauchyProductUp$ budget admission, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from host multiplication, quotient streams, selected limits, trichotomy, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-product-sequence-carrier}. The only analytic rows are the two source rows, their finite stream windows, the dyadic product ledger, the product budget, the regular readback, and the Real-facing seal.
+
+The product obligation is read through the displayed budget row $M$. It consumes the paired windows $W_X,W_Y$ and the dyadic ledger $D$, so no product consumer can obtain a sequence product directly from host multiplication or from a quotient stream.
+
+The rows $R$ and $E$ are downstream of that same finite route. Componentwise transport, replay, provenance, and local naming preserve exactly the displayed packet, so the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy product sequence regular readback]
+\label{thm:cauchy-product-sequence-regular-readback}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\CauchyProductSequenceUp$ packet must first read
+$$
+\CauchyProductUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through the displayed rows $M,D,W_X,W_Y,R,E,H,C,Q,N$. The readback may transport and replay the finite product-sequence route, but it cannot export host multiplication, quotient stream equality, a selected limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-product-sequence-namecert-obligations}. They force the product request to expose the $\CauchyProductUp$ budget row $M$, the dyadic ledger $D$, and the paired stream windows $W_X,W_Y$ before the regular readback row $R$ is consumed.
+
+The Real-facing seal is later in the same carrier. Since $E$ is downstream of $R$, any consumer reaching $E$ has already passed through the product budget, dyadic observations, stream windows, and regular rational readback.
+
+Finally inspect $H,C,Q,N$. These structural rows transport, replay, source, and name the same finite packet. None contains host multiplication, quotient stream equality, selected limits, trichotomy, countable choice, or ambient completeness, so the readback cannot export those objects.
+\end{proof}
+
+\closureat{CauchyProductSequenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductSequenceUp}
+  \constructivestory{A $\CauchyProductSequenceUp$ packet is generated from two source rows, paired StreamName windows, a DyadicRatCore product ledger, a CauchyProduct budget row, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-sequence-carrier}, \autoref{thm:cauchy-product-sequence-namecert-obligations}, and \autoref{thm:cauchy-product-sequence-regular-readback} seed the finite product-sequence route for later Real multiplication and regular Cauchy arithmetic consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host multiplication, quotient stream equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, paired window exposure, dyadic product ledger exposure, CauchyProduct budget admission, regular readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyProductSequenceUp.}
+\end{closurestatus}
