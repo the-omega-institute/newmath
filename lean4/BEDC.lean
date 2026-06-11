@@ -7176,7 +7176,7 @@ import BEDC.Derived.ParsevalUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
-import BEDC.Derived.ParsevalUp.SoneBasisLedger
+import BEDC.Derived.ParsevalUp.SOneBasisLedger
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
