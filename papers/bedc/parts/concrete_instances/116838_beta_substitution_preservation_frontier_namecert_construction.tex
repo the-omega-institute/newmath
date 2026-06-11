@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BetaSubstitutionPreservationFrontierUp$}
+\label{ch:concrete-instances-beta-substitution-preservation-frontier-namecert}
+\origin{human}
+
+Following the standard subject-reduction theorem pattern for typed lambda calculi, the $\BetaSubstitutionPreservationFrontierUp$ packet records the finite frontier at which the beta-redex case must present substitution-preservation data to the MetaCIC subject-reduction interface. It refines the beta obligation of \autoref{def:metacic-beta-substitution-preservation}, reads the concrete beta-row packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and sits beside the four-row discharge surfaces of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} and \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}. The packet names a frontier and handoff ledger; it does not prove host substitution semantics, unrestricted conversion, the other three discharge obligations, or closed subject reduction.
+
+\begin{definition}[Beta-substitution preservation frontier carrier]
+\label{def:beta-substitution-preservation-frontier-carrier}
+A $\BetaSubstitutionPreservationFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,A,R,C,L,D,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-redex source row, recording the lambda body, shifted-domain context, argument, and displayed beta site.
+\item $A$ is the accepted $\BetaSubstitutionPreservationUp$ row, read only through the carrier and handoff theorems of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}.
+\item $R$ is the substituted-body and substituted-codomain readback row exposed at the frontier.
+\item $C$ is the codomain-boundary row, keeping the pre-substitution and post-substitution codomain reads paired.
+\item $L$ is the frontier ledger tying $B,A,R,C$ to the beta row of the parameterised subject-reduction discharge interface.
+\item $D$ is the discharge-slot row, recording that the frontier supplies only the beta slot of the four-obligation interface named in \autoref{sec:metacic-subject-reduction-four-obligations}.
+\item $H$ records componentwise $\hsame$ transport for beta source, accepted beta packet, readback, codomain boundary, frontier ledger, discharge slot, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a subject-reduction beta request through
+$$
+B \longmapsto A \longmapsto R,C \longmapsto L,D .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BetaSubstitutionPreservationFrontierUp$, $\BetaSubstitutionPreservationUp$, $\SubjectReductionUp$, $\SubjectReductionDischargeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BetaSubstitutionPreservationFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,A,R,C,L,D,H,K,P,N$. It has no coordinate for application-argument stability, lambda-domain preservation, Pi-domain preservation, unrestricted conversion, host substitution semantics, or closed subject reduction.
+\end{definition}
+
+\begin{theorem}[Beta-substitution preservation frontier NameCert obligations]
+\label{thm:beta-substitution-preservation-frontier-namecert-obligations}
+For every accepted $\BetaSubstitutionPreservationFrontierUp$ carrier $F=(B,A,R,C,L,D,H,K,P,N)$, the local $\NameCert_{\BetaSubstitutionPreservationFrontierUp}$ surface consists exactly of beta-redex source admission through $B$, accepted beta-packet admission through $A$, substituted readback exposure through $R$, codomain-boundary pairing through $C$, frontier-ledger exactness through $L$, beta discharge-slot exposure through $D$, componentwise transport through $H$, displayed replay through $K$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible rows are precisely $B,A,R,C,L,D,H,K,P,N$.
+
+The beta source row $B$ supplies the redex boundary, while $A$ must be read through the existing $\BetaSubstitutionPreservationUp$ packet. The readback row $R$ and codomain-boundary row $C$ are therefore frontier projections of the accepted beta packet, not host substitution semantics.
+
+The ledger $L$ and discharge row $D$ place this frontier in the beta slot of the four-obligation interface. Transport, replay, provenance, and naming preserve the same finite route. Since no row names the other three discharge obligations or closed subject reduction, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Beta-substitution preservation subject-reduction frontier route]
+\label{thm:beta-substitution-preservation-frontier-subject-reduction-route}
+Every subject-reduction consumer that reads an accepted $\BetaSubstitutionPreservationFrontierUp$ carrier must factor the beta-redex request through
+$$
+B \longmapsto A \longmapsto R,C \longmapsto L,D \longmapsto H,K,P,N .
+$$
+The route supplies only the beta-substitution preservation frontier row of the MetaCIC four-obligation interface. It does not supply application-argument stability, lambda-domain subject reduction, Pi-domain subject reduction, unrestricted conversion, host substitution semantics, or the closed subject-reduction theorem blocked by \autoref{ch:metacic-subject-reduction-obstruction}.
+\end{theorem}
+\begin{proof}
+Begin with a subject-reduction beta request. The request first exposes $B$, so the lambda body, shifted-domain context, argument, and beta site are displayed before any handoff is visible.
+
+Next read $A$ through \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}. The rows $R$ and $C$ are the substituted readback and codomain-boundary projections of that accepted beta packet.
+
+The frontier ledger $L$ and discharge-slot row $D$ identify the supplied row as the beta row of the four-obligation interface. They do not contain the application-argument, lambda-domain, or Pi-domain rows.
+
+Finally $H,K,P,N$ transport, replay, source, and name this finite frontier. The absence of host substitution semantics, unrestricted conversion, and closed subject reduction from the carrier prevents any stronger read.
+\end{proof}
+
+\falsifiablePrediction{Every public $\BetaSubstitutionPreservationFrontierUp$ read factors through a beta-redex source row, an accepted $\BetaSubstitutionPreservationUp$ row, substituted readback, codomain-boundary pairing, frontier ledger, beta discharge slot, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. A public read that exports the other discharge rows, host substitution semantics, unrestricted conversion, or closed subject reduction from this packet refutes the frontier boundary.}
+
+\independenceWitness{betasubstitutionpreservation, subjectreductiondischarge, metacic-subject-reduction-obligation: $\BetaSubstitutionPreservationFrontierUp$ is not bijective to any listed sibling because it jointly carries the beta-redex source, accepted beta packet, substituted readback, codomain-boundary pairing, frontier ledger, discharge-slot row, transport, replay, provenance, and local naming while refusing the other discharge obligations and closed subject reduction.}
+
+\closureat{BetaSubstitutionPreservationFrontierUp}{seedStr}
+
+\begin{closurestatus}{\BetaSubstitutionPreservationFrontierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:beta-substitution-preservation-frontier-carrier}, \autoref{thm:beta-substitution-preservation-frontier-namecert-obligations}, and \autoref{thm:beta-substitution-preservation-frontier-subject-reduction-route} seed the finite beta-redex frontier consumed by the MetaCIC subject-reduction discharge interface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close application-argument stability, lambda-domain subject reduction, Pi-domain subject reduction, host substitution semantics, unrestricted conversion, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, beta-packet admission, substituted readback exposure, codomain-boundary pairing, frontier-ledger exactness, beta discharge-slot routing, transport, replay, provenance, and local naming for BEDC.Derived.BetaSubstitutionPreservationFrontierUp.}
+  \constructivestory{A $\BetaSubstitutionPreservationFrontierUp$ packet is generated from a beta-redex source row, an accepted BetaSubstitutionPreservation row, substituted readback, codomain-boundary pairing, a frontier ledger, beta discharge-slot exposure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
