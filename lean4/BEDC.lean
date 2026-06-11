@@ -856,6 +856,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ObligationCarrier
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularCauchyExtraction
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.RegularRoute
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.Scope
+import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ScopedRoute
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
@@ -3252,6 +3253,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetAdmission
 import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetObligationSurface
 import BEDC.Derived.CoveringdimensionUp.CompactNetOrderCarrier
+import BEDC.Derived.CoveringdimensionUp.CompactNetOrderScope
 import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetSimplicialNerve
