@@ -859,6 +859,7 @@ import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
+import BEDC.Derived.BishopMetricCompletionUp.TasteGate
 import BEDC.Derived.BishopMetricSpaceUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
@@ -2704,6 +2705,7 @@ import BEDC.Derived.CompactLebesgueNumberUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactLocatedIntervalSubcoverUp.TasteGate
 import BEDC.Derived.CompactMetricClosedBallUp.TasteGate
+import BEDC.Derived.CompactMetricCompletionUp.Core
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
@@ -3215,6 +3217,7 @@ import BEDC.Derived.CoverageRankAlgebraUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.CauchyMetricScope
+import BEDC.Derived.CoveringdimensionUp.CompactCoverForwardDependency
 import BEDC.Derived.CoveringdimensionUp.CompactCoverNerveNonescape
 import BEDC.Derived.CoveringdimensionUp.CompactMetricDependency
 import BEDC.Derived.CoveringdimensionUp.CompactMetricHandoffObligation
@@ -3236,9 +3239,11 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementObligations
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerStability
 import BEDC.Derived.CoveringdimensionUp.MetricCompletionCoverTransport
+import BEDC.Derived.CoveringdimensionUp.MetricRealDependency
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRefinement
+import BEDC.Derived.CoveringdimensionUp.RealSeparabilityRootRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityScaleObligation
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RefinementOrder
@@ -5813,6 +5818,7 @@ import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompactnessUp.TasteGate
 import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
