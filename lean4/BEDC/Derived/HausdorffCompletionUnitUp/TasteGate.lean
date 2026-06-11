@@ -130,6 +130,25 @@ instance hausdorffCompletionUnitChapterTasteGate :
     intro x y hxy heq
     exact hxy (hausdorffCompletionUnitToEventFlow_injective heq)
 
+theorem HausdorffCompletionUnitTasteGate_single_carrier_alignment :
+    (∃ carrier : BHistCarrier HausdorffCompletionUnitUp,
+        Nonempty (@ChapterTasteGate HausdorffCompletionUnitUp carrier)) ∧
+      (∀ h : BHist,
+        hausdorffCompletionUnitDecodeBHist
+          (hausdorffCompletionUnitEncodeBHist h) = h) ∧
+      (∀ x : HausdorffCompletionUnitUp,
+        hausdorffCompletionUnitFromEventFlow
+          (hausdorffCompletionUnitToEventFlow x) = some x) ∧
+      hausdorffCompletionUnitEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨hausdorffCompletionUnitBHistCarrier, ⟨hausdorffCompletionUnitChapterTasteGate⟩⟩
+  · constructor
+    · exact hausdorffCompletionUnit_decode_encode
+    · constructor
+      · exact hausdorffCompletionUnit_round_trip
+      · rfl
+
 def HausdorffCompletionUnitCarrier [AskSetup] [PackageSetup]
     (M S J W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig

@@ -85,6 +85,46 @@ The nonescape result of \autoref{thm:law-certificate-failure-surface-nonescape} 
 Thus the consumer-visible law is not a total claim over all possible observation histories. It is a certificate-relative read whose scope is exactly the displayed source fit, classifier, stability, failure surface, ledger, transport, provenance, and local NameCert rows.
 \end{proof}
 
+\begin{theorem}[Law certificate carrier admission]
+\label{thm:law-certificate-carrier-admission}
+Every accepted $\LawCertificateUp$ carrier admits the row tuple
+$$
+L=(F,P,C,S,E,Ld,H,R,Q,N)
+$$
+only as the finite packet of \autoref{def:law-certificate-carrier}: $F$ supplies source fit, $P$ supplies the equation-like pattern, $C$ supplies classifier comparison, $S$ supplies continuation stability, $E$ supplies the failure surface, $Ld$ supplies ledger accountability, and $H,R,Q,N$ supply transport, replay, provenance, and local naming. The TasteGate surface records nontrivial field separation for those rows before the packet can be read as a law certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition and the NameCert obligations. The carrier definition lists exactly $F,P,C,S,E,Ld,H,R,Q,N$, while \autoref{thm:law-certificate-namecert-obligations} makes those rows the public obligation surface.
+
+Use the TasteGate field-faithfulness witness represented by the LawCertificateUp TasteGate file. It keeps the displayed rows separate, so source fit, equation pattern, classifier, stability, failure surface, and ledger data cannot collapse into a single equation token.
+
+Finally replay through $H,R,Q,N$. Since every public read is transported, replayed, sourced, and named through the same tuple, carrier admission is finite row admission and not an unbounded physical-law oracle.
+\end{proof}
+
+\begin{theorem}[Law certificate classifier stability]
+\label{thm:law-certificate-classifier-stability}
+If two accepted $\LawCertificateUp$ packets agree through the displayed classifier of \autoref{def:law-certificate-classifier}, then every law-certificate consumer route preserves the same rows $F,P,C,S,E,Ld,H,R,Q,N$. In particular, agreement of $P$ alone cannot transport law status unless $F,C,S,E,Ld,H,R,Q,N$ are transported with it.
+\end{theorem}
+\begin{proof}
+Start from the classifier block. It compares accepted packets through source fit, pattern, classifier, continuation stability, failure surface, ledger, transport, replay, provenance, and local NameCert rows.
+
+Apply the continuation-scope theorem \autoref{thm:law-certificate-continuation-scope}. A consumer read is scoped by $S,E,Ld$, so classifier transport must preserve those rows along with $F,P,C$.
+
+The structural rows $H,R,Q,N$ then preserve the route. The TasteGate field-faithfulness surface prevents a packet whose equation pattern matches but whose stability, failure, or ledger rows differ from being read as the same accepted law certificate.
+\end{proof}
+
+\begin{theorem}[Law certificate ledger nonescape]
+\label{thm:law-certificate-ledger-nonescape}
+Every accepted $\LawCertificateUp$ consumer of a physical law must keep the ledger row $Ld$ visible with $F,P,C,S,E,H,R,Q,N$. A route that reads source fit, equation pattern, classifier, continuation stability, or failure exposure while dropping $Ld$ leaves the accepted NameCert surface and cannot export ledger-free law status.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. They make ledger accountability through $Ld$ one of the finite rows required before the local name is public.
+
+Apply the failure-surface and continuation-scope theorems, \autoref{thm:law-certificate-failure-surface-nonescape} and \autoref{thm:law-certificate-continuation-scope}. These results keep $S,E,Ld$ visible whenever the law is consumed, so the ledger cannot be omitted after the classifier has accepted $F,P,C$.
+
+Finally use carrier admission and TasteGate field separation. The rows $H,R,Q,N$ preserve the same packet, and no coordinate outside $F,P,C,S,E,Ld,H,R,Q,N$ restores a missing ledger row.
+\end{proof}
+
 The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.lean} must provide explicit $\Nontrivial\ \LawCertificateUp$ and $\FieldFaithful\ \LawCertificateUp$ instances, with witness-pair and field-projection proofs preserving $F,P,C,S,E,Ld,H,R,Q,N$ as separate displayed fields.
 
 \falsifiablePrediction{A packet that presents an equation and finite fit but omits either the continuation-stability row or the failure-surface row is rejected by the LawCertificateUp classifier.}
@@ -92,11 +132,12 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.le
 \independenceWitness{realityconstrainedphysicalinduction, openfitpacket, realityconstrainedmodelaudit, physicalinductionstabilityseal, realityconstrainedtowercompression: none is bijective because LawCertificateUp binds equation pattern, source fit, classifier, continuation stability, failure surface, ledger, transport, provenance, and local NameCert rows in one carrier, while each sibling supplies only a constituent surface.}
 
 \closureat{LawCertificateUp}{seedStr}
+\closureat{LawCertificateUp}{obligationStr}
 
 \begin{closurestatus}{\LawCertificateUp}
   \constructivestory{A $\LawCertificateUp$ packet is generated from finite source-fit, equation-pattern, classifier, continuation-stability, failure-surface, ledger, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, and \autoref{thm:law-certificate-continuation-scope} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, and continuation scope.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, \autoref{thm:law-certificate-continuation-scope}, \autoref{thm:law-certificate-carrier-admission}, \autoref{thm:law-certificate-classifier-stability}, and \autoref{thm:law-certificate-ledger-nonescape} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, continuation scope, carrier admission, classifier stability, and ledger nonescape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

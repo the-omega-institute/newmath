@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RademacherFiniteDifferenceUp$}
+\label{ch:concrete-instances-rademacher-finite-difference-namecert}
+\origin{human}
+
+Following Rademacher's finite-difference preparation for Lipschitz maps, the $\RademacherFiniteDifferenceUp$ packet isolates the endpoint-radius, quotient-window, and Lipschitz-bound data consumed by the $\RademacherUp$ route of \autoref{ch:concrete-instances-rademacher-namecert}. It sits over the Lipschitz carrier of \autoref{ch:concrete-instances-lipschitz-function-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the metric carrier of \autoref{ch:concrete-instances-metric-namecert}. The chapter names a finite substrate for difference quotients; it does not claim almost-everywhere differentiability, measurable exceptional sets, selected derivatives, quotient completion, or a completed derivative space.
+
+\begin{definition}[Rademacher finite-difference carrier]
+\label{def:rademacher-finite-difference-carrier}
+A $\RademacherFiniteDifferenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,E,D,M,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LipschitzFunctionUp$ row whose source metric, target metric, graph ledger, and Lipschitz bound are read by the finite-difference packet.
+\item $E$ is the $\RealUp$ seal row for base points, endpoint values, quotient values, and finite window radii.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint-radius ledger, recording dyadic offsets, halved-window refinements, and tolerance comparisons.
+\item $M$ is the $\MetricSpaceUp$ neighborhood row used to test source and target distance requests for the displayed Lipschitz window.
+\item $Q$ is the finite difference-quotient row, pairing displayed endpoint values with the dyadic denominator and the Real seal row that receives the quotient window.
+\item $H$ records componentwise $\hsame$ transport for $L,E,D,M,Q,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a finite Rademacher-facing request through $D,M,L,Q$ and into $E$.
+\item $P$ is the $\Pkg$ provenance over $\RademacherFiniteDifferenceUp$, $\RademacherUp$, $\LipschitzFunctionUp$, $\RealUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RademacherFiniteDifferenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,E,D,M,Q,H,C,P,N$. It has no coordinate for Lebesgue almost-everywhere differentiability, measurable null sets, selected derivatives, quotient completion points, countable-choice schedules, ambient measure completion, or completed derivative carriers.
+\end{definition}
+
+\begin{theorem}[Rademacher finite-difference NameCert obligations]
+\label{thm:rademacher-finite-difference-namecert-obligations}
+For every accepted $\RademacherFiniteDifferenceUp$ carrier
+$$
+R=(L,E,D,M,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RademacherFiniteDifferenceUp}$ surface consists exactly of carrier admission, Lipschitz-row exposure, Real seal routing, dyadic endpoint-radius accounting, metric-neighborhood inspection, finite difference-quotient exposure, componentwise transport, displayed replay, provenance, local naming, and non-escape from the displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rademacher-finite-difference-carrier}. The analytic rows are $L,E,D,M,Q$, and the structural rows are $H,C,P,N$.
+
+The finite-difference route is row-bounded. The dyadic row supplies endpoint radii and denominator tolerances, the metric row supplies the neighborhoods in which the distance comparisons are read, and the Lipschitz row supplies the graph and bound ledger for the same window.
+
+The quotient row $Q$ only repackages the displayed endpoint values into a Real-facing window. Transport, replay, provenance, and local naming preserve the same coordinates, so the NameCert surface exports none of the excluded measurable, derivative-selection, quotient-completion, choice, or ambient-completion data.
+\end{proof}
+
+\begin{theorem}[Rademacher finite-difference Lipschitz window route]
+\label{thm:rademacher-finite-difference-lipschitz-window-route}
+Every Lipschitz-window read exported by an accepted $\RademacherFiniteDifferenceUp$ carrier factors through the finite route
+$$
+D,M,L,Q \longmapsto E
+$$
+before the $\RademacherUp$ consumer reads a derivative-candidate window. The route displays endpoint radii, metric neighborhoods, Lipschitz distance bounds, finite quotient rows, and terminal Real seals, but it exports no selected derivative, null exceptional set, quotient completion point, arbitrary measurable representative, or completed derivative space.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $R=(L,E,D,M,Q,H,C,P,N)$. By \autoref{thm:rademacher-finite-difference-namecert-obligations}, the Real-facing row $E$ is reached only after the dyadic, metric, Lipschitz, and quotient rows have been displayed.
+
+The Lipschitz window needs both endpoint control and distance control. The rows $D$ and $M$ supply those finite tests, while $L$ supplies the bound that makes the quotient row $Q$ readable as a finite window rather than as a global derivative.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Thus the downstream $\RademacherUp$ chapter may consume a named finite-difference substrate without receiving any almost-everywhere, quotient-completion, selection, or ambient measure principle.
+\end{proof}
+
+\closureat{RademacherFiniteDifferenceUp}{seedStr}
+
+\begin{closurestatus}{\RademacherFiniteDifferenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rademacher-finite-difference-carrier}, \autoref{thm:rademacher-finite-difference-namecert-obligations}, and \autoref{thm:rademacher-finite-difference-lipschitz-window-route} seed the finite-difference substrate over Lipschitz, Real, dyadic endpoint-radius, metric, quotient-window, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lebesgue almost-everywhere differentiability, measurable exceptional sets, selected derivatives, quotient completion points, countable choice, ambient measure completion, completed derivative spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Lipschitz-row exposure, Real seal routing, dyadic endpoint-radius accounting, metric-neighborhood inspection, finite quotient-window exposure, transport stability, replay stability, provenance, local naming, and non-escape for BEDC.Derived.RademacherFiniteDifferenceUp.}
+  \constructivestory{A $\RademacherFiniteDifferenceUp$ packet is generated from a LipschitzFunction row, RealUp seal row, DyadicRatCore endpoint-radius ledger, MetricSpace neighborhood row, finite difference-quotient row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
