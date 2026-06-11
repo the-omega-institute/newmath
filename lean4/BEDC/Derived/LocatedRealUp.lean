@@ -556,4 +556,81 @@ theorem LocatedRealCarrierSurface_scoped_source_boundary [AskSetup] [PackageSetu
                 (And.intro surface.right.right.right.right.right.right.left
                   surface.right.right.right.right.right.right.right)))))))
 
+theorem LocatedRealNameCertObligations [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint provenance namedRead ->
+        PkgSig bundle namedRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row stream ∨ hsame row schedule ∨ hsame row interval ∨
+                  hsame row location ∨ hsame row realRow ∨ hsame row transport ∨
+                    hsame row provenance ∨ hsame row endpoint ∨ hsame row namedRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont stream schedule interval ∧
+                  Cont interval location realRow ∧ Cont realRow transport provenance ∧
+                    Cont provenance schedule endpoint ∧ Cont endpoint provenance namedRead ∧
+                      PkgSig bundle namedRead pkg)
+              hsame ∧
+            UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier namedReadRoute namedReadPkg
+  obtain ⟨_streamUnary, _scheduleUnary, _intervalUnary, _locationUnary, _realRowUnary,
+    _transportUnary, provenanceUnary, endpointUnary, streamScheduleInterval,
+    intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+    _endpointPkg⟩ := carrier
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed endpointUnary provenanceUnary namedReadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row stream ∨ hsame row schedule ∨ hsame row interval ∨
+              hsame row location ∨ hsame row realRow ∨ hsame row transport ∨
+                hsame row provenance ∨ hsame row endpoint ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont stream schedule interval ∧
+              Cont interval location realRow ∧ Cont realRow transport provenance ∧
+                Cont provenance schedule endpoint ∧ Cont endpoint provenance namedRead ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, streamScheduleInterval, intervalLocationRealRow,
+          realRowTransportProvenance, provenanceScheduleEndpoint, namedReadRoute, namedReadPkg⟩
+  }
+  exact ⟨cert, namedReadUnary⟩
+
 end BEDC.Derived.LocatedRealUp
