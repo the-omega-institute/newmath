@@ -6228,6 +6228,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
@@ -6267,6 +6268,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
