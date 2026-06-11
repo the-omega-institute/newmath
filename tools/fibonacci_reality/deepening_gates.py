@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic gates for biological conjecture deepening packets."""
+"""Deterministic gates for conjecture deepening packets."""
 
 from __future__ import annotations
 
@@ -45,6 +45,64 @@ LAYER_ORDER = [
     "cross_layer_relation",
 ]
 LAYER_RANK = {layer: index for index, layer in enumerate(LAYER_ORDER)}
+TRACK_BIO_CROSSLAYER = "bio_crosslayer"
+TRACK_FORCED_WINDOW_BEDC = "forced_window_bedc"
+TRACKS = {TRACK_BIO_CROSSLAYER, TRACK_FORCED_WINDOW_BEDC}
+FORCED_WINDOW_LAYER_ORDER = [
+    "window_observation",
+    "forbidden_pattern_count",
+    "fibonacci_count",
+    "characteristic_recurrence",
+    "golden_mean_shift",
+    "edge_flux_finite_count",
+    "arithmetic_certificate",
+]
+FORCED_WINDOW_LAYERS = set(FORCED_WINDOW_LAYER_ORDER)
+FORCED_WINDOW_CERTIFICATE_KINDS = {
+    "lean_finite_certificate",
+    "characteristic_recurrence_proof",
+    "golden_mean_shift_certificate",
+    "edge_flux_count_certificate",
+    "green_kirchhoff_certificate",
+    "automath_paper_section",
+}
+FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
+    "window_observation": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "forbidden_pattern_count": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "fibonacci_count": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "characteristic_recurrence": {
+        "characteristic_recurrence_proof",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "golden_mean_shift": {
+        "golden_mean_shift_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "edge_flux_finite_count": {
+        "edge_flux_count_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "arithmetic_certificate": {
+        "green_kirchhoff_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+}
 OVERCLAIM_GATES_ENABLED = True
 PROXY_OBJECTIVE_EVIDENCE_BASIS = {"internal_structure", "derived_probe"}
 EVIDENCE_BASIS = {
@@ -57,6 +115,7 @@ EVIDENCE_BASIS = {
     "mismatch_ledger",
     "mechanism_bridge",
 }
+FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"}
 CONTACT_KINDS = {
     "genetic_code_table",
     "sequence_database",
@@ -310,6 +369,114 @@ def _has_positive_mechanism_language(text: Any) -> bool:
     return any(word in lowered for word in MECHANISM_STRONG_WORDS)
 
 
+def _track(record: dict[str, Any], issues: list[str]) -> str:
+    value = record.get("track", TRACK_BIO_CROSSLAYER)
+    if value not in TRACKS:
+        issues.append("track is not recognized")
+        return TRACK_BIO_CROSSLAYER
+    return str(value)
+
+
+def _has_content(value: Any) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, dict):
+        return any(_has_content(item) for item in value.values())
+    if isinstance(value, list):
+        return any(_has_content(item) for item in value)
+    return True
+
+
+def _bedc_minimal_form(record: dict[str, Any], issues: list[str]) -> set[str]:
+    form = record.get("bedc_minimal_form")
+    internal: set[str] = set()
+    if not isinstance(form, dict):
+        issues.append("bedc_minimal_form must be an object")
+        return internal
+    for key in ("carrier", "readback"):
+        _nonempty(f"bedc_minimal_form.{key}", form.get(key), issues)
+    _array("bedc_minimal_form.distinctions", form.get("distinctions"), issues, min_items=1)
+    internal = set(
+        _array(
+            "bedc_minimal_form.internal_structure",
+            form.get("internal_structure"),
+            issues,
+            allowed=INTERNAL_STRUCTURES,
+        )
+    )
+    if "none" in internal and len(internal) > 1:
+        issues.append("bedc_minimal_form.internal_structure cannot mix none with explicit structures")
+    return internal
+
+
+def _validate_certificate_refs(record: dict[str, Any], issues: list[str]) -> list[dict[str, Any]]:
+    refs = record.get("certificate_refs")
+    valid_refs: list[dict[str, Any]] = []
+    if not isinstance(refs, list):
+        issues.append("certificate_refs must be an array")
+        return valid_refs
+    if not refs:
+        issues.append("certificate_refs must contain at least 1 item(s)")
+        return valid_refs
+    for index, ref in enumerate(refs, 1):
+        prefix = f"certificate_refs[{index}]"
+        if not isinstance(ref, dict):
+            issues.append(f"{prefix} must be an object")
+            continue
+        kind = ref.get("kind")
+        _nonempty(f"{prefix}.repo", ref.get("repo"), issues)
+        _nonempty(f"{prefix}.object", ref.get("object"), issues)
+        if kind not in FORCED_WINDOW_CERTIFICATE_KINDS:
+            issues.append(f"{prefix}.kind is not recognized")
+        elif kind == "automath_paper_section":
+            if not _has_content(ref.get("section_ref")) and not _has_content(ref.get("lean_path")):
+                issues.append(f"{prefix}.section_ref must be nonempty when lean_path is absent")
+        else:
+            _nonempty(f"{prefix}.lean_path", ref.get("lean_path"), issues)
+        repo_ok = isinstance(ref.get("repo"), str) and bool(str(ref.get("repo")).strip())
+        object_ok = isinstance(ref.get("object"), str) and bool(str(ref.get("object")).strip())
+        lean_path_ok = isinstance(ref.get("lean_path"), str) and bool(str(ref.get("lean_path")).strip())
+        section_ref_ok = isinstance(ref.get("section_ref"), str) and bool(str(ref.get("section_ref")).strip())
+        if repo_ok and object_ok and kind in FORCED_WINDOW_CERTIFICATE_KINDS:
+            if lean_path_ok or (kind == "automath_paper_section" and section_ref_ok):
+                valid_refs.append(ref)
+    return valid_refs
+
+
+def _refs_support_numeric_constant(refs: list[dict[str, Any]]) -> bool:
+    certificate_kinds = {str(ref.get("kind")) for ref in refs if isinstance(ref, dict)}
+    return bool(
+        certificate_kinds
+        & {
+            "lean_finite_certificate",
+            "edge_flux_count_certificate",
+            "green_kirchhoff_certificate",
+            "automath_paper_section",
+        }
+    )
+
+
+def _has_numerology_markers(*parts: Any) -> bool:
+    text = " ".join(str(part) for part in parts if part is not None)
+    lowered = text.lower()
+    has_phi_power = any(marker in lowered for marker in ("phi^-", "φ⁻", "φ^-", "phi⁻"))
+    has_fit_language = any(
+        marker in lowered
+        for marker in (
+            "fit",
+            "fitting",
+            "approx",
+            "approximately",
+            "≈",
+            "拟合",
+            "近似",
+        )
+    )
+    return has_phi_power and has_fit_language
+
+
 def validate_contact(record: dict[str, Any]) -> list[str]:
     required = {
         "contact_id",
@@ -412,7 +579,7 @@ def validate_mismatch(record: dict[str, Any], probe_ids: set[str], contact_ids: 
     return issues
 
 
-def validate_conjecture(
+def validate_bio_conjecture(
     record: dict[str, Any],
     contact_by_id: dict[str, dict[str, Any]],
     probe_ids: set[str],
@@ -452,18 +619,10 @@ def validate_conjecture(
         elif probe not in probe_ids:
             issues.append(f"probe not found: {probe}")
 
+    internal = _bedc_minimal_form(record, issues)
     form = record.get("bedc_minimal_form")
-    if not isinstance(form, dict):
-        issues.append("bedc_minimal_form must be an object")
-    else:
-        for key in ("carrier", "readback"):
-            _nonempty(f"bedc_minimal_form.{key}", form.get(key), issues)
-        _array("bedc_minimal_form.distinctions", form.get("distinctions"), issues, min_items=1)
-        internal = set(_array("bedc_minimal_form.internal_structure", form.get("internal_structure"), issues, allowed=INTERNAL_STRUCTURES))
-        if "none" in internal and len(internal) > 1:
-            issues.append("bedc_minimal_form.internal_structure cannot mix none with explicit structures")
-        if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and not (internal - {"none"}):
-            issues.append("BEDC evidence requires explicit internal structure")
+    if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and not (internal - {"none"}):
+        issues.append("BEDC evidence requires explicit internal structure")
 
     text_parts = [
         str(record.get("biological_object", "")),
@@ -550,6 +709,79 @@ def validate_conjecture(
     return issues
 
 
+def validate_forced_window_conjecture(record: dict[str, Any]) -> list[str]:
+    required = {
+        "conjecture_id",
+        "track",
+        "forced_window_object",
+        "informal_statement",
+        "bedc_minimal_form",
+        "claimed_layer",
+        "evidence_basis",
+        "certificate_refs",
+        "forbidden_claims",
+        "null_reason",
+    }
+    issues = _missing(record, required)
+    if issues:
+        return issues
+    _id("conjecture_id", record.get("conjecture_id"), issues)
+    if record.get("track") != TRACK_FORCED_WINDOW_BEDC:
+        issues.append("track must be forced_window_bedc for forced-window packets")
+    for key in ("forced_window_object", "informal_statement"):
+        _nonempty(key, record.get(key), issues)
+    if record.get("claimed_layer") not in FORCED_WINDOW_LAYERS:
+        issues.append("claimed_layer is not recognized for forced_window_bedc")
+    evidence = set(
+        _array(
+            "evidence_basis",
+            record.get("evidence_basis"),
+            issues,
+            allowed=FORCED_WINDOW_EVIDENCE_BASIS,
+            min_items=1,
+        )
+    )
+    refs = _validate_certificate_refs(record, issues)
+    _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
+    _bedc_minimal_form(record, issues)
+
+    if "automath_certificate" not in evidence:
+        issues.append("forced_window_bedc evidence_basis requires automath_certificate")
+    claimed_layer = str(record.get("claimed_layer") or "")
+    allowed_kinds = FORCED_WINDOW_LAYER_CERTIFICATE_KINDS.get(claimed_layer, set())
+    certificate_kinds = {str(ref.get("kind")) for ref in refs}
+    if claimed_layer in FORCED_WINDOW_LAYERS and not (certificate_kinds & allowed_kinds):
+        expected = ", ".join(sorted(allowed_kinds))
+        issues.append(f"claimed_layer {claimed_layer} requires certificate kind in {{{expected}}}")
+
+    numeric_claim = record.get("numeric_constant_claim")
+    if _has_content(numeric_claim) and not _refs_support_numeric_constant(refs):
+        issues.append(
+            "numerical_tuning_risk: numeric constants need an independent certificate "
+            "(automath Lean / edge-flux / Green / biological mechanism); fitting is not accepted"
+        )
+    elif _has_numerology_markers(record.get("informal_statement"), record.get("forced_window_object")) and not refs:
+        issues.append(
+            "numerical_tuning_risk: numeric constants need an independent certificate "
+            "(automath Lean / edge-flux / Green / biological mechanism); fitting is not accepted"
+        )
+    return issues
+
+
+def validate_conjecture(
+    record: dict[str, Any],
+    contact_by_id: dict[str, dict[str, Any]],
+    probe_ids: set[str],
+) -> list[str]:
+    track_issues: list[str] = []
+    track = _track(record, track_issues)
+    if track_issues:
+        return track_issues
+    if track == TRACK_FORCED_WINDOW_BEDC:
+        return validate_forced_window_conjecture(record)
+    return validate_bio_conjecture(record, contact_by_id, probe_ids)
+
+
 def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str, Any]], list[str]]:
     by_id: dict[str, dict[str, Any]] = {}
     issues: list[str] = []
@@ -599,7 +831,7 @@ def gate_all(
 
 
 def _result(packet_kind: str, packet_id: str, issues: list[str]) -> dict[str, Any]:
-    return {
+    result = {
         "packet_kind": packet_kind,
         "packet_id": packet_id,
         "gate_status": "gate_blocked" if issues else "gate_passed",
@@ -607,6 +839,13 @@ def _result(packet_kind: str, packet_id: str, issues: list[str]) -> dict[str, An
         "allowed_write": "none",
         "next_action": "fix gate issues before review" if issues else "eligible for operator review only",
     }
+    if any(issue.startswith("numerical_tuning_risk:") for issue in issues):
+        result["disposition"] = "needs_certificate"
+    elif issues:
+        result["disposition"] = "defect"
+    else:
+        result["disposition"] = "ok"
+    return result
 
 
 def self_test() -> int:
@@ -1689,6 +1928,91 @@ def self_test() -> int:
         return 1
     if by_id["mechanism.layer.matched"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    edge_flux_conjecture = {
+        "conjecture_id": "f-a1.window6.edge-flux",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 edge-flux skeleton",
+        "informal_statement": "Window6 edge-flux is presented as a finite BEDC certificate packet.",
+        "bedc_minimal_form": {
+            "carrier": "Window6 finite binary window",
+            "distinctions": ["edge boundary", "coarse Markov state", "finite count"],
+            "readback": "edge-flux finite-count readback",
+            "internal_structure": ["coordinate", "relation"],
+        },
+        "claimed_layer": "edge_flux_finite_count",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [
+            {
+                "repo": "automath",
+                "lean_path": "lean4/Omega/ForcedWindow/Window6EdgeFluxSkeleton.lean",
+                "object": "edgeFluxSkeleton",
+                "kind": "edge_flux_count_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "The Window6 edge-flux finite count does not establish a biological codon mechanism."
+        ],
+        "null_reason": "",
+    }
+    alpha_fit_conjecture = {
+        "conjecture_id": "alpha.fit.boundary-response",
+        "track": "forced_window_bedc",
+        "forced_window_object": "D_{6,alpha}^* boundary-response constant",
+        "informal_statement": "The boundary constant fits alpha approx 1/137 by a phi^- power expression.",
+        "numeric_constant_claim": "alpha approx 1/137 via 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27",
+        "bedc_minimal_form": {
+            "carrier": "boundary response expression",
+            "distinctions": ["phi power", "rational coefficient"],
+            "readback": "numeric alpha approximation",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [],
+        "forbidden_claims": ["Fitted numeric constants are not certificates."],
+        "null_reason": "",
+    }
+    missing_arithmetic_certificate = {
+        "conjecture_id": "window6.arithmetic.certificate.missing",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 arithmetic certificate",
+        "informal_statement": "The packet claims a 571 Green/Kirchhoff arithmetic certificate.",
+        "bedc_minimal_form": {
+            "carrier": "Window6 arithmetic readback",
+            "distinctions": ["spanning-tree count", "spectral collision"],
+            "readback": "571 arithmetic certificate",
+            "internal_structure": ["spectrum"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [],
+        "forbidden_claims": ["The arithmetic layer requires an independent certificate pointer."],
+        "null_reason": "",
+    }
+    forced_window_results = gate_all(
+        [edge_flux_conjecture, alpha_fit_conjecture, missing_arithmetic_certificate],
+        [],
+        [],
+        [],
+    )
+    forced_window_by_id = {str(result["packet_id"]): result for result in forced_window_results}
+    if forced_window_by_id["f-a1.window6.edge-flux"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    alpha_fit_result = forced_window_by_id["alpha.fit.boundary-response"]
+    if (
+        alpha_fit_result["gate_status"] != "gate_blocked"
+        or alpha_fit_result.get("disposition") != "needs_certificate"
+        or not any(issue.startswith("numerical_tuning_risk:") for issue in alpha_fit_result["issues"])
+    ):
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    missing_arithmetic_result = forced_window_by_id["window6.arithmetic.certificate.missing"]
+    if missing_arithmetic_result["gate_status"] != "gate_blocked" or not any(
+        "requires certificate kind" in issue for issue in missing_arithmetic_result["issues"]
+    ):
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
     return 0
