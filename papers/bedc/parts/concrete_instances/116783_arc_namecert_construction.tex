@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ArcUp$}
+\label{ch:concrete-instances-arc-namecert}
+\origin{human}
+
+Following Munkres and Bishop--Bridges, an arc is read as a certified image of a closed interval under a displayed continuous map. The $\ArcUp$ packet is anchored by the closed interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the map graph and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the compact-metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the connected-space boundary of \autoref{ch:concrete-instances-connected-space-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It records the interval-image route through finite BEDC rows; it is not a host subset of a topological space, a quotient path image, or a selected point-set equality.
+
+\begin{definition}[Arc carrier]
+\label{def:arc-carrier}
+An $\ArcUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,M,K,C,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, naming the endpoint interval, order witnesses, and endpoint real seals inspected by the packet.
+\item $M$ is the $\ContinuousMapUp$ row, recording the displayed map from $I$ into the target metric carrier together with the finite continuity or modulus ledger used for image reads.
+\item $K$ is the $\CompactMetricUp$ target-source row through which finite nets, distance tests, and compact image windows are exposed.
+\item $C$ is the $\ConnectedSpaceUp$ image-continuity row, recording the connected interval-image boundary visible to continuum-facing consumers.
+\item $R$ is the $\RealUp$ readback row for endpoints, radii, modulus budgets, and target-distance seals.
+\item $H$ records componentwise $\hsame$ transport for the interval, map, compact-metric, connectedness, real-readback, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay from interval requests through map evaluation, compact-metric windows, connected-image reads, and real seals.
+\item $P$ is the $\Pkg$ provenance over $\ArcUp$, $\ClosedBoundedIntervalUp$, $\ContinuousMapUp$, $\CompactMetricUp$, $\ConnectedSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArcUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,M,K,C,R,H,T,P,N$. It has no coordinate for host subset equality, quotient path images, arbitrary open-cover compactness, selected representatives, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Arc NameCert obligations]
+\label{thm:arc-namecert-obligations}
+For every accepted $\ArcUp$ carrier $A=(I,M,K,C,R,H,T,P,N)$, the local $\NameCert_{\ArcUp}$ surface consists exactly of closed-interval source admission through $I$, displayed continuous-map admission through $M$, compact-metric image-window admission through $K$, connected-image exposure through $C$, real endpoint and tolerance readback through $R$, componentwise transport through $H$, displayed replay through $T$, provenance through $P$, and local naming through $N$.
+
+Every arc-facing consumer must read these rows before it may treat the packet as interval-image data. No obligation is discharged by a host point-set topology theorem, quotient equality of images, selected image representatives, arbitrary open covers, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:arc-carrier}. The closed interval row $I$ and the continuous-map row $M$ are the only source rows through which an interval image can be read.
+
+The compact and connected image faces are then finite rows of the same packet. The row $K$ supplies compact-metric windows and distance tests for the target image, while $C$ records the connected-image boundary consumed by continuum-facing readers. The row $R$ supplies the endpoint and tolerance seals needed by both faces.
+
+Transport and replay remain componentwise. The rows $H$ and $T$ move and expose exactly the interval, map, compact-metric, connectedness, and real-readback rows, while $P$ and $N$ record provenance and local naming.
+
+Since the carrier has no coordinate for host subset equality, quotient image equality, arbitrary open-cover compactness, selected representatives, countable choice, or ambient real completeness, the NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Arc interval image nonescape]
+\label{thm:arc-interval-image-nonescape}
+Every public interval-image read of an accepted $\ArcUp$ packet factors through the displayed route
+$$
+\ClosedBoundedIntervalUp
+\longmapsto
+\ContinuousMapUp
+\longmapsto
+\CompactMetricUp
+\longmapsto
+\ConnectedSpaceUp
+\longmapsto
+\RealUp
+$$
+inside the rows $I,M,K,C,R,H,T,P,N$. The route exposes a closed interval, a displayed continuous map, compact-metric image windows, connected-image data, and real tolerance seals; it exports no host image subset, quotient path-image equality, selected representative, open-cover compactness theorem, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the carrier and read $I$ before $M$. The packet names an interval-image object only after the closed interval and displayed continuous map are both visible.
+
+Next read $K,C,R$. Compact-metric image windows, connected-image data, and real tolerance seals are downstream of the same map row, so a consumer cannot replace them by a detached host subset or by a quotient image object.
+
+Finally use $H,T,P,N$. These rows transport, replay, source, and name the finite interval-image route without adding another image coordinate. Therefore every public interval-image read remains inside the displayed BEDC rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ArcUp$ read exposes a closed interval source, a displayed continuous-map row, compact-metric image windows, connected-image data, real endpoint and tolerance seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before an arc-facing consumer can inspect the packet.}
+
+\independenceWitness{closedboundedinterval, continuousmap, compactmetric, connected-space, real: $\ArcUp$ is not bijective to any listed sibling because it binds interval-source rows, map rows, compact image windows, connected-image exposure, real readback, transport, replay, provenance, and local naming in one interval-image carrier.}
+
+\closureat{ArcUp}{seedStr}
+
+\begin{closurestatus}{\ArcUp}
+  \constructivestory{An $\ArcUp$ packet is generated from a ClosedBoundedIntervalUp source row, a ContinuousMapUp display row, CompactMetricUp image windows, a ConnectedSpaceUp image boundary, RealUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:arc-carrier}, \autoref{thm:arc-namecert-obligations}, and \autoref{thm:arc-interval-image-nonescape} seed the finite interval-image boundary over closed intervals, displayed continuous maps, compact-metric windows, connected-image rows, real readback, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host subset equality, quotient image equality, arbitrary open-cover compactness, selected representatives, countable choice, Lean-checked obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, continuous-map admission, compact image-window admission, connected-image exposure, real readback, transport, replay, provenance, and local naming for BEDC.Derived.ArcUp.}
+\end{closurestatus}
