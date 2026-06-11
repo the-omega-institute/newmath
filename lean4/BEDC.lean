@@ -2733,6 +2733,7 @@ import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -3218,6 +3219,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetDependencyRoute
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
@@ -7333,6 +7335,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationClosure
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationFrontier
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationScope
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
+import BEDC.Derived.PolishspaceUp.CompleteSeparableObservationLock
 import BEDC.Derived.PolishspaceUp.CompleteSeparablePointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparablePublicInterface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
@@ -7369,6 +7372,7 @@ import BEDC.Derived.PolishspaceUp.ObservationLedgerConsumerExactness
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
 import BEDC.Derived.PolishspaceUp.PointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadback
+import BEDC.Derived.PolishspaceUp.PublicCompleteSeparableRealReadbackFrontier
 import BEDC.Derived.PolishspaceUp.PublicFiniteWindowBoundary
 import BEDC.Derived.PolishspaceUp.PublicReadbackExport
 import BEDC.Derived.PolishspaceUp.PublicReadbackUniqueness
@@ -9643,6 +9647,7 @@ import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
 import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.BridgeSchema
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
