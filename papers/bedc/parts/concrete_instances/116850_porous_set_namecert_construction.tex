@@ -63,12 +63,36 @@ Only after those rows are displayed can the hole schedule be read. The rows $H,W
 The structural rows $S,T,C,Q,N$ preserve the same route and record the refused exits. Therefore the exported hole datum is a finite metric route, not a measure theorem, category theorem, open-cover compactness proof, choice-selected family of holes, or ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[Porous set finite-hole dependency route]
+\label{thm:porous-set-finite-hole-dependency-route}
+Every displayed hole read from an accepted $\PorousSetUp$ carrier factors through the finite dependency route
+$$
+\MetricUp
+\longmapsto
+\LocatedSetUp
+\longmapsto
+\RealUp
+\longmapsto
+\FiniteEpsilonNetUp
+\longmapsto
+H,W,D .
+$$
+The $\FiniteEpsilonNetUp$ row is the sibling dependency that makes the packet non-orphan: it exposes the finite center and tolerance windows before the hole schedule $H$, finite window row $W$, and positive-scale comparison row $D$ can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:porous-set-carrier}. The rows $M,L,R,E,H,W,D$ are the only analytic rows visible before transport, replay, provenance, refusal, and local naming.
+
+Apply \autoref{thm:porous-set-metric-hole-route}. It already forces the consumer to read the ambient metric row, located-set row, Real seal, and finite epsilon-net row before any displayed hole datum is exposed.
+
+The refusal ledger $Q$ closes the remaining exits. It records that the packet does not export measure-nullness, Baire meagreness, open-cover compactness, choice-selected holes, quotient subset equality, or ambient $\RealUp$ completeness, so the displayed hole remains finite dependency data over the named sibling route.
+\end{proof}
+
 \closureat{PorousSetUp}{seedStr}
 
 \begin{closurestatus}{\PorousSetUp}
   \constructivestory{A $\PorousSetUp$ packet is generated from a Metric source row, a LocatedSet distance row, a Real seal, a FiniteEpsilonNet comparison row, a displayed hole schedule, finite windows, positive-scale comparison cells, componentwise hsame transport, displayed Cont replay, Pkg provenance, a refusal ledger, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:porous-set-carrier}, \autoref{thm:porous-set-namecert-obligations}, and \autoref{thm:porous-set-metric-hole-route} seed the finite porous-set packet over displayed metric, located-set, Real, finite epsilon-net, hole-schedule, window, comparison, transport, replay, provenance, refusal-ledger, and local naming rows.}
+  \scopeclosed{\autoref{def:porous-set-carrier}, \autoref{thm:porous-set-namecert-obligations}, \autoref{thm:porous-set-metric-hole-route}, and \autoref{thm:porous-set-finite-hole-dependency-route} seed the finite porous-set packet over displayed metric, located-set, Real, finite epsilon-net, hole-schedule, window, comparison, transport, replay, provenance, refusal-ledger, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close measure-nullness, Baire meagreness, open-cover compactness, choice-selected holes, quotient subset equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
