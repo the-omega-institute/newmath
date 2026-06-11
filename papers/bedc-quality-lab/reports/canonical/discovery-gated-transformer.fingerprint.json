@@ -3,13 +3,21 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "9b5d5515429a7d3af81964c21d97cf27131f789db30c52c52dfc94b4ec9092ac",
+  "input_fingerprint": "bd3a31085d92bef348688c87bf48aacdde40139d5a14ede0410d00b22f4e8bc1",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
       {
         "path": "configs/default_cost_protocol.yaml",
         "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
       },
       {
         "path": "docs/lit/literature_ledger.yaml",
@@ -91,6 +99,7 @@
         "python3",
         "scripts/run_discovery_gated_transformer.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.d4_projection.matched_control",
       "cost_pointer": "$.architecture_spec",
       "estimated_seconds": 1,

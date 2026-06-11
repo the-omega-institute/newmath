@@ -33,9 +33,9 @@
 | report | status | hardgate | CV | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `nongaussian-distribution-sweep` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
-| `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
 | `dgt-l0-controls` | `fail` | `not-applicable` | `fail` | `` | `reports/canonical/dgt-l0-controls.json` | `reports/canonical/dgt-l0-controls.md` | `reports/canonical/dgt-l0-controls.fingerprint.json` | `$.l0_toy_projection.not_claimed` | `$.compute_param_ledger` | `$.not_claimed` | `$.l0_toy_projection.review_status` | `$.l0_toy_projection` |
 | `dgt-l1-controls` | `pass` | `not-applicable` | `pass` | `` | `reports/canonical/dgt-l1-controls.json` | `reports/canonical/dgt-l1-controls.md` | `reports/canonical/dgt-l1-controls.fingerprint.json` | `$.l1_tiny_sequence_projection.evidence_scope` | `$.compute_ledger` | `$.not_claimed` | `$.l1_tiny_sequence_projection.review_status` | `$.training_arms` |
+| `winnability-certificates` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/winnability-certificates.json` | `reports/canonical/winnability-certificates.md` | `reports/canonical/winnability-certificates.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.audit.fail_closed_count` | `$.hardgates` |
 | `dgt-base-undertraining-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-base-undertraining-audit.json` | `reports/canonical/dgt-base-undertraining-audit.md` | `reports/canonical/dgt-base-undertraining-audit.fingerprint.json` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.source_contract` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.verdict` | `$.base_undertraining_audit.comparison_rows` |
 | `dgt-neural-ablation` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-neural-ablation.json` | `reports/canonical/dgt-neural-ablation.md` | `reports/canonical/dgt-neural-ablation.fingerprint.json` | `$.not_claimed` | `$.training_protocol` | `$.not_claimed` | `$.component_causal_claims` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-ablation-null-decomposition.json` | `reports/canonical/dgt-ablation-null-decomposition.md` | `reports/canonical/dgt-ablation-null-decomposition.fingerprint.json` | `$.not_claimed` | `$.source_artifact` | `$.not_claimed` | `$.null_decomposition.verdict` | `$.source_artifact` |
@@ -45,7 +45,8 @@
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
-| `model-comparison` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
+| `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
+| `model-comparison` | `error` | `not-applicable` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
 | `claim-complexity` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
 
@@ -68,7 +69,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `35`
+- Rows: `36`
 
 ## Experiment proposals
 
@@ -233,11 +234,21 @@
 | `hermite-degree-vs-behavioral-derivative` | `lejepa-theorem-ledger` | `reports/canonical/hermite_degree_vs_behavioral_derivative.md` | `reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary` |
 | `spectral-jet-report` | `spectral-ablation-hinge` | `reports/canonical/spectral_jet_report.json` | `reports/canonical/spectral-ablation-hinge.json:$.spectral_jet` |
 
+## Winnability certificates
+
+- Status: `fail`
+- JSON: `reports/canonical/winnability-certificates.json`
+- Markdown: `reports/canonical/winnability-certificates.md`
+- Certificates: `3`
+- Fail-closed: `3`
+- Audit: `reports/canonical/winnability-certificates.json:$.audit`
+- Hardgates: `reports/canonical/winnability-certificates.json:$.hardgates`
+
 ## Claim verdicts
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `44`
+- Rows: `45`
 
 ## Claim complexity
 
@@ -245,7 +256,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `35`
+- Rows: `36`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -256,7 +267,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `125`
+- Nodes: `131`
 
 ## Claim artifact consistency
 
@@ -388,7 +399,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, mechanism-dna, dgt-l0-controls, dgt-l1-controls, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, winnability-certificates, dgt-base-undertraining-audit, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -415,9 +426,9 @@
 | `sigreg-mini-grid` | `hg_p_core` | `$.positive_claim` | `None` | `$.not_claimed` |
 | `discovery-regularized-training` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
-| `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
 | `dgt-l0-controls` | `auxiliary` | `$.l0_toy_projection.review_status` | `$.l0_toy_projection` | `None` |
 | `dgt-l1-controls` | `auxiliary` | `$.l1_tiny_sequence_projection.review_status` | `$.training_arms` | `None` |
+| `winnability-certificates` | `auxiliary` | `$.audit.fail_closed_count` | `$.hardgates` | `None` |
 | `dgt-base-undertraining-audit` | `auxiliary` | `$.base_undertraining_audit.verdict` | `$.base_undertraining_audit.comparison_rows` | `None` |
 | `discovery-gated-transformer` | `hg_p_core` | `$.scaling_ladder` | `$.d4_projection.matched_control` | `None` |
 | `dgt-neural-ablation` | `auxiliary` | `$.component_causal_claims` | `$.training_protocol` | `None` |
@@ -429,9 +440,10 @@
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
+| `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
 | `model-comparison` | `auxiliary` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` | `None` |
-| `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.dgt_mechanism_cert` | `$.matched_controls` | `None` |
+| `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
 
 ## Literature ledger pointer

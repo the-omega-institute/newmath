@@ -3,13 +3,21 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "ba93dafdfdc4ea664594be175bc60a261587205b419ba2c5b6a58c4c48996008",
+  "input_fingerprint": "bce7d6a6ea03042bb842bf013a26795cf037d3a5c35b5bc4e97420b46106f934",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
       {
         "path": "configs/default_cost_protocol.yaml",
         "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
       },
       {
         "path": "docs/lit/literature_ledger.yaml",
@@ -55,7 +63,7 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/claim_graph.json",
-        "sha256": "65b3d1fb8f90903d8441fddc3e85b7f538733b3f6b806f977225de28fe24ee9a"
+        "sha256": "8107344215528ff297221341f4135834b629c6d42fc664bc3acef2ebb3c8ac69"
       },
       {
         "path": "reports/canonical/discovery-gated-transformer.json",
@@ -72,6 +80,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.hardgates",
       "cost_pointer": "$.hardgates",
       "estimated_seconds": 1,

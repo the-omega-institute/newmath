@@ -251,7 +251,7 @@ def test_dgt_l0_controls_rejects_unavailable_construct_validity_stub_pass():
         validate_payload(payload)
 
 
-def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
+def test_dgt_l0_controls_writes_run_local_artifacts_without_report_fingerprint_authority(tmp_path):
     payload = _payload()
     dgt_l0_controls.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
 
@@ -261,13 +261,11 @@ def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
             encoding="utf-8"
         )
     )
-    fingerprint = json.loads((tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").read_text(encoding="utf-8"))
 
     assert canonical_payload["l0_toy_projection"]["review_status"] == "pass"
     assert claim_capsule["owner_artifact"] == CANONICAL_JSON_ARTIFACT
     assert claim_capsule["owner_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection"
-    assert "run_local_cache" in fingerprint["inputs"]
-    assert "reports/runs/discovery-gated-transformer/l0-toy-controls/claim_capsule.json" in json.dumps(fingerprint)
+    assert not (tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").exists()
 
 
 def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
@@ -285,7 +283,6 @@ def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
     expected_artifacts = [
         dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
         dgt_l0_controls.CANONICAL_MARKDOWN_ARTIFACT,
-        dgt_l0_controls.CANONICAL_FINGERPRINT_ARTIFACT,
         run_artifacts["summary"],
         run_artifacts["raw_metrics"],
         run_artifacts["claim_capsule"],
