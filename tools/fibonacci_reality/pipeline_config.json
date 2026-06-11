@@ -1,0 +1,306 @@
+{
+  "pipeline_name": "fibonacci_reality_deepening",
+  "default_conjectures": "tools/fibonacci_reality/inbox/conjectures.jsonl",
+  "default_contacts": "tools/fibonacci_reality/inbox/reality_contacts.jsonl",
+  "default_probes": "tools/fibonacci_reality/inbox/probes.jsonl",
+  "default_mismatches": "tools/fibonacci_reality/inbox/mismatches.jsonl",
+  "default_output": "tools/fibonacci_reality/out/gate_results.jsonl",
+  "default_deepening_tasks": "tools/fibonacci_reality/out/deepening_tasks.jsonl",
+  "default_review_queue": "tools/fibonacci_reality/out/review_queue.jsonl",
+  "default_packet_targets": "tools/fibonacci_reality/out/packet_targets.jsonl",
+  "default_events": "tools/fibonacci_reality/out/events.jsonl",
+  "default_agent_tasks": "tools/fibonacci_reality/out/agent_tasks.jsonl",
+  "default_agent_reviews": "tools/fibonacci_reality/out/agent_reviews.jsonl",
+  "default_dispatch_results": "tools/fibonacci_reality/out/dispatch_results.jsonl",
+  "default_hardening_targets": "tools/fibonacci_reality/out/hardening_targets.jsonl",
+  "default_lane_dashboard": "tools/fibonacci_reality/out/lane_dashboard.md",
+  "default_vision_dir": "tools/fibonacci_reality/vision",
+  "default_vision_ledger": "tools/fibonacci_reality/vision/ledger/intake_evaluations.jsonl",
+  "default_paper_main": "papers/fibonacci_reality/main.tex",
+  "default_paper_part": "papers/fibonacci_reality/parts/forced_window_structure.tex",
+  "default_signal_journal": "tools/fibonacci_reality/state/fibonacci_reality_signals.jsonl",
+  "default_signal_latest": "tools/fibonacci_reality/state/fibonacci_reality_signals_latest.md",
+  "default_loop_state": "tools/fibonacci_reality/state/loop_state.json",
+  "runtime_paths_ignored_by_git": [
+    "tools/fibonacci_reality/inbox/",
+    "tools/fibonacci_reality/out/",
+    "tools/fibonacci_reality/state/",
+    "tools/fibonacci_reality/cache/"
+  ],
+  "domain_profiles": [
+    "forced_window_to_bedc"
+  ],
+  "lanes": [
+    {
+      "lane": "bio-P",
+      "loop_name": "bio_P_packet_targets",
+      "role": "self-iterating biological conjecture, probe, contact, and mismatch discovery",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-V",
+      "loop_name": "bio_V_vision_intake",
+      "role": "scan user-authored FibonacciReality vision files into event records",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-G",
+      "loop_name": "bio_G_gate_and_plan",
+      "role": "deterministic reality-vs-BEDC boundary gates",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-R",
+      "loop_name": "bio_R_agent_dispatch",
+      "role": "event-driven Codex agent planning for research-memory extension",
+      "durable_write_allowed": false,
+      "codex_execution_default": true,
+      "default_max_dispatch": 1
+    },
+    {
+      "lane": "bio-W",
+      "loop_name": "bio_W_writeback_paper",
+      "role": "standalone FibonacciReality paper writeback from gate-passed research memory",
+      "durable_write_allowed": true,
+      "codex_writer": {
+        "enabled": true,
+        "max_retries": 2,
+        "timeout": 600,
+        "log_dir": "tools/fibonacci_reality/state/writeback_codex_logs",
+        "min_audit_score": 7,
+        "min_used_fact_ids": 2,
+        "corrective_retry": true
+      },
+      "durable_write_scope": [
+        "papers/fibonacci_reality/main.tex",
+        "papers/fibonacci_reality/parts/forced_window_structure.tex"
+      ]
+    },
+    {
+      "lane": "bio-B",
+      "loop_name": "bio_B_bedc_writeback",
+      "role": "DISABLED for fibonacci_reality: BEDC concrete-instances writeback is orchestrator-controlled",
+      "durable_write_allowed": false,
+      "enabled": false
+    },
+    {
+      "lane": "bio-Q",
+      "loop_name": "bio_Q_quality_hardening",
+      "role": "convert agent reviews into gate and prompt hardening targets",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-A",
+      "loop_name": "bio_A_assimilate_signals",
+      "role": "failure-pattern and scheduling-pressure assimilation for later gate hardening",
+      "durable_write_allowed": false
+    }
+  ],
+  "writeback_heal": {
+    "enabled": true,
+    "max_attempts": 2,
+    "timeout_seconds": 600,
+    "recurring_threshold": 50,
+    "recurring_window_seconds": 21600,
+    "path_whitelist_prefix": "papers/fibonacci_reality/"
+  },
+  "bootstrap_policy": {
+    "empty_memory_bootstrap": true,
+    "first_profile": "forced_window_to_bedc",
+    "scope_alignment": [
+      "finite automath windows are external reality contacts only after explicit capture",
+      "BEDC carriers are internal coordinate surfaces for forced finite-window structure",
+      "local window structure cannot be promoted to global biological law",
+      "biological consumption requires separate reality contacts and gates"
+    ]
+  },
+  "default_gate_policy": {
+    "require_forbidden_claims": true,
+    "require_reality_contact_separation": true,
+    "require_bedc_internal_structure_separation": true,
+    "require_falsifiable_probes": true,
+    "require_loop_task_planning": true,
+    "require_nested_loop_checkpointing": true,
+    "block_mechanism_claims_without_mechanism_bridge": true,
+    "block_total_biology_claims": true
+  },
+  "keep_lane": {
+    "enabled": true,
+    "branch": "feat/fibonacci_reality-deepening",
+    "remote": "origin",
+    "include_paths": [
+      "tools/fibonacci_reality/*.py",
+      "tools/fibonacci_reality/*.json",
+      "tools/fibonacci_reality/*.md",
+      "tools/fibonacci_reality/experiments/*.py",
+      "tools/fibonacci_reality/experiments/__init__.py",
+      "tools/fibonacci_reality/registries/*.json",
+      "tools/fibonacci_reality/registries/__init__.py",
+      "tools/fibonacci_reality/data/*.json",
+      "tools/fibonacci_reality/data/*.py",
+      "tools/fibonacci_reality/vision/*.md",
+      "papers/fibonacci_reality/*.tex",
+      "papers/fibonacci_reality/Makefile",
+      "papers/fibonacci_reality/parts/*.tex",
+      "papers/fibonacci_reality/parts/namecerts/*.tex",
+      "papers/bedc/parts/concrete_instances/*bioreality*.tex",
+      "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
+      "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
+      "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
+      "papers/bedc/parts/fibonacci_reality_module.tex",
+      "papers/bedc/preamble_chapter_macros_late_tail.tex"
+    ],
+    "exclude_paths": [
+      "tools/fibonacci_reality/state/*",
+      "tools/fibonacci_reality/out/*",
+      "tools/fibonacci_reality/inbox/*",
+      "tools/fibonacci_reality/cache/*",
+      "tools/fibonacci_reality/vision/ledger/*",
+      "tools/fibonacci_reality/vision/index.md",
+      "tools/fibonacci_reality/registries/claims.json",
+      "tools/fibonacci_reality/registries/experiments.json",
+      "tools/fibonacci_reality/inbox/conjectures.jsonl",
+      "tools/fibonacci_reality/inbox/reality_contacts.jsonl",
+      "tools/fibonacci_reality/inbox/probes.jsonl",
+      "tools/fibonacci_reality/inbox/mismatches.jsonl"
+    ],
+    "pre_commit_gates": [
+      [
+        "python3",
+        "-m",
+        "py_compile",
+        "tools/fibonacci_reality/agent_bus.py",
+        "tools/fibonacci_reality/lanes.py",
+        "tools/fibonacci_reality/supervisor.py",
+        "tools/fibonacci_reality/store.py",
+        "tools/fibonacci_reality/deepening_gates.py",
+        "tools/fibonacci_reality/fibonacci_reality_loop.py",
+        "tools/fibonacci_reality/vision_intake.py",
+        "tools/fibonacci_reality/signal_assimilator.py",
+        "tools/fibonacci_reality/framework.py"
+      ],
+      [
+        "python3",
+        "tools/fibonacci_reality/deepening_gates.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/fibonacci_reality/agent_bus.py",
+        "--self-test"
+      ],
+      [
+        "bash",
+        "-c",
+        "test -f papers/fibonacci_reality/main.pdf && test $(stat -f %z papers/fibonacci_reality/main.pdf) -gt 100000 && test $(find papers/fibonacci_reality/main.pdf -mmin -90 | wc -l | tr -d ' ') -eq 1"
+      ],
+      [
+        "bash",
+        "-c",
+        "python3 -c \"import json; d=json.load(open('tools/fibonacci_reality/registries/claims.json')); assert isinstance(d.get('claims'), list) and len(d['claims']) > 0, 'claims registry malformed'; d=json.load(open('tools/fibonacci_reality/registries/experiments.json')); assert isinstance(d.get('experiments'), list) and len(d['experiments']) > 0, 'experiments registry malformed'\""
+      ]
+    ],
+    "min_seconds_between_pushes": 60,
+    "max_push_retries": 2,
+    "merge_back": {
+      "enabled": false,
+      "upstream_branch": "auto-dev",
+      "min_seconds_between_merge_backs": 1800
+    },
+    "dev_rollup": {
+      "enabled": true,
+      "head_branch": "feat/fibonacci_reality-deepening",
+      "base_branch": "dev",
+      "min_seconds_between": 600,
+      "comment": "bio-D delegates to tools/sync_with_auto_dev.py --source-branch <head> --target-branch <base>. The script builds the separate managed branch rollup-<head>-to-<base>, maintains one PR, and auto-merges it once checks are green + mergeable. We never PR the integration branch directly; bio-S handles the reverse dev->feat back-merge."
+    }
+  },
+  "bedc_writeback": {
+    "enabled": false,
+    "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
+    "module_aggregator": "papers/bedc/parts/fibonacci_reality_module.tex",
+    "max_writebacks_per_cycle": 5,
+    "codex_writer": {
+      "enabled": false,
+      "max_retries": 2,
+      "timeout_seconds": 600,
+      "log_dir": "tools/fibonacci_reality/state/bedc_writeback_logs",
+      "min_audit_score": 7,
+      "min_used_fact_ids": 3,
+      "corrective_retry_on_gate_failure": true
+    },
+    "skip_claim_ids": [],
+    "claim_to_chapter_mapping": []
+  },
+  "sync_lane": {
+    "enabled": true,
+    "remote": "origin",
+    "upstream_branch": "dev",
+    "fetch_timeout_seconds": 60,
+    "merge_strategy": "no-ff",
+    "intelligence_keywords": [
+      "codon",
+      "genetic",
+      "amino",
+      "bio",
+      "protein",
+      "dna",
+      "rna",
+      "translation",
+      "ribosom",
+      "nucleotide",
+      "tRNA"
+    ],
+    "intelligence_paths": [
+      "papers/bedc/parts/visions/philosophy/science/",
+      "papers/bedc/parts/concrete_instances/",
+      "lean4/BEDC/Derived/"
+    ],
+    "max_commits_per_sync": 50,
+    "min_seconds_between_syncs": 300,
+    "codex_resolve": {
+      "enabled": true,
+      "max_files": 30,
+      "timeout_seconds": 900,
+      "recurring_threshold": 3,
+      "recurring_window_seconds": 21600,
+      "papers_bedc_take_theirs": true,
+      "comment": "bio-S 自动 codex resolve: content conflicts → codex 改写; modify/delete (DU/UD) in papers/bedc/ → 取 theirs (loning 域). 上限 max_files; 同 signature 6h 内重复 ≥ recurring_threshold 次则 skip."
+    }
+  },
+  "oracle": {
+    "enabled": false,
+    "server_url": "http://127.0.0.1:8771",
+    "min_seconds_between_queries": 30,
+    "max_query_chars": 4000,
+    "max_result_wait_seconds": 600
+  },
+  "oracle_integration": {
+    "enabled": false,
+    "server_url": "http://127.0.0.1:8771",
+    "pdf_attach_path": "papers/fibonacci_reality/main.pdf",
+    "persist_dir": "tools/fibonacci_reality/state/oracle_sessions",
+    "bio_g": {
+      "enabled": false,
+      "max_turns": 10,
+      "min_seconds_between_consultations": 1800,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    },
+    "bio_plan": {
+      "enabled": false,
+      "max_turns": 12,
+      "min_cycles_between_consultations": 5,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    }
+  },
+  "packet_lane": {
+    "enabled": false,
+    "comment": "bio-P 自动 conjecture/probe/mismatch 发现关闭;研究内容由 orchestrator land 进 inbox/registries"
+  },
+  "plan_lane": {
+    "enabled": false,
+    "comment": "bio-Plan 自动 frontier 提案关闭;规划由 orchestrator land 进 registries"
+  }
+}
