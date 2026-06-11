@@ -38,6 +38,22 @@ The retained-window row is $W$. It is stored beside $I,J,E$, so a consumer canno
 If $K$ is present, it contributes only the dyadic route used to exhibit the same refinement. The transport rows in $H$ and replay routes in $C$ move those displayed rows componentwise, while $P$ and $N$ record provenance and local naming. No coordinate remains for an infinite branch or a completed real point.
 \end{proof}
 
+\begin{theorem}[RationalIntervalRefinement retained-window induction]
+\label{thm:rational-interval-refinement-retained-window-induction}
+Let a finite $\NatUp$-indexed unary history ledger display accepted refinement packets
+$$
+R_i=(I_i,J_i,E_i,W_i,K_i,H_i,C_i,P_i,N_i)
+$$
+in a chain where each child interval $J_i$ is the parent interval $I_{i+1}$ read by the next packet. Then the chain preserves a retained-window row from the first parent interval to the final child interval. The final child is read only through the successive endpoint-inclusion ledgers $E_i$, optional dyadic support rows $K_i$, componentwise $\hsame$ transports $H_i$, displayed $\Cont$ replays $C_i$, $\Pkg$ provenance rows $P_i$, and local $\NameCert_{\RationalIntervalRefinementUp}$ rows $N_i$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite $\NatUp$ ledger. In the base case, the chain has one accepted packet, so \autoref{thm:rational-interval-refinement-nested-window} supplies the retained row $W_0$ from $I_0$ to $J_0$.
+
+For the step, assume the retained-window row has been built through the current final child. The next accepted packet reads that child as its parent, supplies the next endpoint-inclusion row, and exposes its retained row by \autoref{thm:rational-interval-refinement-nested-window}.
+
+Compose the two retained reads by repacking the same finite coordinates. The endpoint ledgers provide the parent-child inclusions, any dyadic rows remain support for those inclusions, and $H,C,P,N$ transport, replay, source, and name the same chain. No induction step introduces an infinite branch, a host interval subset, or a completed real point.
+\end{proof}
+
 \begin{theorem}[RationalIntervalRefinement NameCert obligations]
 \label{thm:rational-interval-refinement-namecert-obligations}
 The seed $\NameCert_{\RationalIntervalRefinementUp}$ surface for \autoref{def:rational-interval-refinement-carrier} consists exactly of carrier exposure for $R$, classifier exposure for the parent-child containment pair $I,J,E$, retained-window exactness through $W$, optional dyadic route exposure through $K$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
