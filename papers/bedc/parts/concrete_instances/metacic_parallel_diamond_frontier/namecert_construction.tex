@@ -594,6 +594,20 @@ Use the typed-window local-join scope of \autoref{thm:metacic-parallel-diamond-f
 Finally apply the candidate-mediated strong-normalization socket and normalization-frontier handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket} and \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. They pass the same finite readback forward as a conditional socket, so the route cannot be retyped as any of the refused normalization, confluence, typing, equality, quotient, or kernel endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond finite candidate SN extension]
+\label{thm:metacic-parallel-diamond-frontier-finite-candidate-sn-extension}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ carrier. If a finite local peak is routed through the displayed candidate row $J$, residual row $R$, typed window $S$, and boundary rows $C,B,O$, then the only strong-normalization-facing read is the candidate-mediated socket already named by \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}. The route cannot be retyped as global strong normalization, full confluence, quotient equality of terms, or a kernel endpoint.
+\end{theorem}
+\begin{proof}
+Apply the candidate-mediated residual route \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-route}. It sends the finite local peak through the displayed candidate row $J$ and residual row $R$ while retaining the residual-substitution premise row $P$.
+
+Use the local-join scope \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. The local join is visible only through the typed-window and boundary rows $S,C,B,O$, so no ambient confluence carrier is introduced.
+
+Next apply the normalization-frontier handoff \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. It restricts normalization consumers to the conditional frontier packet and keeps the refused endpoints outside the carrier.
+
+Finally use the candidate-mediated strong-normalization socket and typed-window candidate SN route, \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket} and \autoref{thm:metacic-parallel-diamond-frontier-typed-window-candidate-sn-route}. These results identify the only SN-facing read as the finite candidate-mediated socket through $P,K,J,R,S,C,B,O,H,T,G,N$, so it cannot be reread as global strong normalization, full confluence, quotient equality, or a kernel endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier seed closure status]
 \label{thm:metacic-parallel-diamond-frontier-seed-closure-status}
 The seed closure surface of an accepted $\MetaCICParallelDiamondFrontierUp$ packet is exactly the finite conjunction of residual-substitution premise retention, critical-pair envelope exposure, closed-checker retention, closed-normal join socket, candidate-mediated strong-normalization socket, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The seed surface does not discharge residual-substitution compatibility, premise-free parallel diamond, subject reduction, full closed Church--Rosser, evaluator equality, quotient equality of terms, or kernel consistency.
