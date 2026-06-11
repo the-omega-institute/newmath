@@ -87,4 +87,98 @@ theorem MetricTriangleUniformEstimateCarrier_uniformmodulus_boundary_exactness
     }
   exact ⟨cert, boundaryReadUnary, consumerUnary⟩
 
+theorem MetricTriangleUniformEstimateUniformModulusBoundaryExactness
+    [AskSetup] [PackageSetup]
+    {sourceMetric targetMetric graph left right center sourceBoundLeft sourceBoundRight
+      precision targetBoundLeft targetBoundRight targetTriangle transport route provenance
+      localName boundaryRead modulusRead exactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+      sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight targetTriangle
+      transport route provenance localName bundle pkg →
+    Cont sourceBoundLeft sourceBoundRight boundaryRead →
+    Cont boundaryRead targetTriangle modulusRead →
+    Cont modulusRead localName exactRead →
+    PkgSig bundle exactRead pkg →
+      SemanticNameCert
+        (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row center ∨ hsame row sourceBoundLeft ∨ hsame row sourceBoundRight ∨
+            hsame row targetBoundLeft ∨ hsame row targetBoundRight ∨
+              hsame row targetTriangle ∨ hsame row boundaryRead ∨
+                hsame row modulusRead ∨ hsame row exactRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont sourceBoundLeft sourceBoundRight boundaryRead ∧
+            Cont boundaryRead targetTriangle modulusRead ∧
+              Cont modulusRead localName exactRead ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle exactRead pkg)
+        hsame ∧ UnaryHistory boundaryRead ∧ UnaryHistory modulusRead ∧
+          UnaryHistory exactRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier boundaryRoute modulusRoute exactRoute exactPkg
+  obtain ⟨_sourceMetricUnary, _targetMetricUnary, _graphUnary, _leftUnary, _rightUnary,
+    _centerUnary, sourceBoundLeftUnary, sourceBoundRightUnary, _precisionUnary,
+    _targetBoundLeftUnary, _targetBoundRightUnary, targetTriangleUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, localNameUnary, _leftCenterSourceBound,
+    _rightCenterSourceBound, _targetTriangleRoute, _routeProvenanceLocalName,
+    localNamePkg, _transportTargetTriangle⟩ := carrier
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed sourceBoundLeftUnary sourceBoundRightUnary boundaryRoute
+  have modulusReadUnary : UnaryHistory modulusRead :=
+    unary_cont_closed boundaryReadUnary targetTriangleUnary modulusRoute
+  have exactReadUnary : UnaryHistory exactRead :=
+    unary_cont_closed modulusReadUnary localNameUnary exactRoute
+  have sourceExact :
+      (fun row : BHist => hsame row exactRead ∧ UnaryHistory row) exactRead := by
+    exact ⟨hsame_refl exactRead, exactReadUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row center ∨ hsame row sourceBoundLeft ∨ hsame row sourceBoundRight ∨
+            hsame row targetBoundLeft ∨ hsame row targetBoundRight ∨
+              hsame row targetTriangle ∨ hsame row boundaryRead ∨
+                hsame row modulusRead ∨ hsame row exactRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont sourceBoundLeft sourceBoundRight boundaryRead ∧
+            Cont boundaryRead targetTriangle modulusRead ∧
+              Cont modulusRead localName exactRead ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle exactRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro exactRead sourceExact
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left)))))))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, boundaryRoute, modulusRoute, exactRoute, localNamePkg, exactPkg⟩
+    }
+  exact ⟨cert, boundaryReadUnary, modulusReadUnary, exactReadUnary⟩
+
 end BEDC.Derived.MetricTriangleUniformEstimateUp
