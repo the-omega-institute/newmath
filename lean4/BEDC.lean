@@ -695,6 +695,7 @@ import BEDC.Derived.BaireMetricUp.StreamNameNameCertScope
 import BEDC.Derived.BaireMetricUp.UltrametricLimitRoute
 import BEDC.Derived.BaireMetricUp.UltrametricSpaceStrongTriangleHandoff
 import BEDC.Derived.BaireMetricUp.UltrametricWindowObligations
+import BEDC.Derived.BaireModulusUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
@@ -2122,6 +2123,7 @@ import BEDC.Derived.CauchyTailDiameterUp
 import BEDC.Derived.CauchyTailDiameterUp.TasteGate
 import BEDC.Derived.CauchyTailEnvelopeComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
+import BEDC.Derived.CauchyTailEstimateUp.TasteGate
 import BEDC.Derived.CauchyTailFilterBornologyUp.NameCertObligations
 import BEDC.Derived.CauchyTailFilterBornologyUp.TasteGate
 import BEDC.Derived.CauchyTailIntersectionUp.TasteGate
@@ -2364,6 +2366,7 @@ import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.ChurchRosserUp.TasteGate
+import BEDC.Derived.CircleUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
