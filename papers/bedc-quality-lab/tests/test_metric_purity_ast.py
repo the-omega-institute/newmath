@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 from bedc_quality_lab import metric_purity
 
@@ -157,6 +159,65 @@ def test_stale_allowlist_row_fails_closed(tmp_path):
 
     assert payload["status"] == "fail"
     assert payload["allowlist_misses"][0]["reason"] == "allowlist row did not match a current finding"
+
+
+def test_registry_schema_mismatch_fails_closed(tmp_path):
+    targets_path = tmp_path / "targets.json"
+    allowlist_path = tmp_path / "allowlist.json"
+    targets_path.write_text(json.dumps({"schema_id": "wrong.schema", "targets": [], "hardgate_mutations": []}) + "\n", encoding="utf-8")
+    allowlist_path.write_text(json.dumps({"schema_id": "wrong.allow", "rows": []}) + "\n", encoding="utf-8")
+
+    payload = metric_purity.run_metric_purity_audit(Path.cwd(), targets_path, allowlist_path)
+
+    assert payload["status"] == "fail"
+    assert {
+        (finding["code"], finding["path"], finding["symbol"])
+        for finding in payload["findings"]
+    } >= {
+        ("REG-HG1", targets_path.as_posix(), "schema_id"),
+        ("REG-HG5", allowlist_path.as_posix(), "schema_id"),
+    }
+
+
+def test_registry_schema_missing_fails_closed(tmp_path):
+    targets_path = tmp_path / "targets.json"
+    allowlist_path = tmp_path / "allowlist.json"
+    targets_path.write_text(json.dumps({"targets": [], "hardgate_mutations": []}) + "\n", encoding="utf-8")
+    allowlist_path.write_text(json.dumps({"rows": []}) + "\n", encoding="utf-8")
+
+    payload = metric_purity.run_metric_purity_audit(Path.cwd(), targets_path, allowlist_path)
+
+    assert payload["status"] == "fail"
+    assert [finding["symbol"] for finding in payload["findings"]].count("schema_id") == 2
+
+
+def test_metric_purity_cli_rejects_wrong_registry_schema(tmp_path):
+    targets_path = tmp_path / "targets.json"
+    allowlist_path = tmp_path / "allowlist.json"
+    output_path = tmp_path / "out.json"
+    targets_path.write_text(json.dumps({"schema_id": "wrong.schema", "targets": [], "hardgate_mutations": []}) + "\n", encoding="utf-8")
+    allowlist_path.write_text(json.dumps({"schema_id": "wrong.allow", "rows": []}) + "\n", encoding="utf-8")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/check_metric_purity.py",
+            "--targets",
+            targets_path.as_posix(),
+            "--allowlist",
+            allowlist_path.as_posix(),
+            "--json",
+            output_path.as_posix(),
+        ],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    payload = json.loads(output_path.read_text(encoding="utf-8"))
+
+    assert result.returncode == 1
+    assert payload["status"] == "fail"
+    assert any(finding["symbol"] == "schema_id" for finding in payload["findings"])
 
 
 def test_metric_purity_audit_is_deterministic(tmp_path):

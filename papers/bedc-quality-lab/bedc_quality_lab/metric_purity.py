@@ -177,6 +177,20 @@ def run_metric_purity_audit(
     findings: list[MetricPurityFinding] = []
     target_config = _load_json(resolved_targets_path)
     allowlist_config = _load_json(resolved_allowlist_path) if resolved_allowlist_path.exists() else {"rows": []}
+    target_config = _validate_registry_schema(
+        target_config,
+        expected_schema_id=TARGETS_SCHEMA_ID,
+        path=resolved_targets_path,
+        code="REG-HG1",
+        findings=findings,
+    )
+    allowlist_config = _validate_registry_schema(
+        allowlist_config,
+        expected_schema_id=ALLOWLIST_SCHEMA_ID,
+        path=resolved_allowlist_path,
+        code="REG-HG5",
+        findings=findings,
+    )
     all_targets = _load_targets(target_config, findings=findings, root=root)
     targets = _filter_targets(all_targets, target_ids=target_ids, report_artifacts=report_artifacts, audit_stage=audit_stage)
     allowlist_rows = _load_allowlist_rows(allowlist_config, findings=findings)
@@ -614,6 +628,30 @@ def _load_targets(config: Mapping[str, Any], *, findings: list[MetricPurityFindi
         seen.add(target.id)
         targets.append(target)
     return tuple(targets)
+
+
+def _validate_registry_schema(
+    config: Any,
+    *,
+    expected_schema_id: str,
+    path: Path,
+    code: str,
+    findings: list[MetricPurityFinding],
+) -> Mapping[str, Any]:
+    if not isinstance(config, Mapping):
+        findings.append(_registry_finding(code, path.as_posix(), "schema_id", "registry payload must be an object"))
+        return {}
+    actual_schema_id = config.get("schema_id")
+    if actual_schema_id != expected_schema_id:
+        findings.append(
+            _registry_finding(
+                code,
+                path.as_posix(),
+                "schema_id",
+                f"registry schema_id must be {expected_schema_id}",
+            )
+        )
+    return config
 
 
 def _load_allowlist_rows(config: Mapping[str, Any], *, findings: list[MetricPurityFinding]) -> tuple[dict[str, Any], ...]:
