@@ -199,6 +199,28 @@ def _payload_for_spec(spec):
 
         payload = dgt_l1_controls.build_payload(generated_at="fixture", requested_device="cpu")
         return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "winnability-certificates":
+        from bedc_quality_lab import winnability
+
+        split = {
+            "experiment_id": "fixture",
+            "task_id": "fixture-task",
+            "task_family": "analytic-visibility",
+            "resolver_family": "analytic-visibility",
+            "split_id": "fixture-split",
+            "split_kind": "held-out",
+            "split_fingerprint": "fixture-fingerprint",
+            "source_evidence_ref": "reports/canonical/fixture.json:$.row",
+            "label_function_ref": "fixture.label",
+            "visible_variables_ref": "reports/canonical/input-accessibility.json:$.visible",
+            "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
+            "visible_variables": ["x_left"],
+            "required_variables": ["x_left"],
+            "allow_inline_input_fixture": True,
+            "chance_accuracy": 0.5,
+            "observed_accuracy": 0.75,
+        }
+        return winnability.build_payload(root=canonical.ROOT, generated_at="fixture", registered_splits=[split])
     if spec.name == "dgt-neural-ablation":
         from bedc_quality_lab import dgt_neural_ablation
 
@@ -1370,7 +1392,7 @@ def _patch_lightweight_run_reports(monkeypatch):
     monkeypatch.setattr(
         canonical,
         "_index",
-        lambda results, generated_at=None, claim_verdict_rows=None: {
+        lambda results, generated_at=None, claim_verdict_rows=None, discovery_gated_transformer_payload=None: {
             "schema_id": canonical.INDEX_SCHEMA_ID,
             "generated_at": generated_at,
             "reports": list(results),
@@ -1400,6 +1422,7 @@ def _patch_lightweight_run_reports(monkeypatch):
         types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
+    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
 
 
 def _file_digest_map(root):
@@ -1553,6 +1576,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "mechanism-dna",
             "dgt-l0-controls",
             "dgt-l1-controls",
+            "winnability-certificates",
             "dgt-base-undertraining-audit",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
@@ -1650,6 +1674,94 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
     )
 
 
+def test_winnability_certificates_canonical_spec_and_index_section(tmp_path, monkeypatch):
+    from bedc_quality_lab import winnability
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["winnability-certificates"]
+    split = {
+        "experiment_id": "fixture",
+        "task_id": "fixture-task",
+        "task_family": "analytic-visibility",
+        "resolver_family": "analytic-visibility",
+        "split_id": "fixture-split",
+        "split_kind": "held-out",
+        "split_fingerprint": "fixture-fingerprint",
+        "source_evidence_ref": "reports/canonical/fixture.json:$.row",
+        "label_function_ref": "fixture.label",
+        "visible_variables_ref": "reports/canonical/input-accessibility.json:$.visible",
+        "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
+        "visible_variables": ["x_left"],
+        "required_variables": ["x_left"],
+        "allow_inline_input_fixture": True,
+        "chance_accuracy": 0.5,
+        "observed_accuracy": 0.75,
+    }
+    payload = winnability.build_payload(root=tmp_path, generated_at="fixture", registered_splits=[split])
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+
+    section = canonical._winnability_certificates_index_section()
+    index_payload = canonical._index([], generated_at="fixture", claim_verdict_rows=[])
+    markdown = canonical._render_index_markdown(index_payload)
+
+    assert spec.command == ("python3", "scripts/run_winnability_certificates.py")
+    assert spec.bundle_role == "auxiliary"
+    assert spec.json_artifact == "reports/canonical/winnability-certificates.json"
+    assert spec.markdown_artifact == "reports/canonical/winnability-certificates.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "inputs",
+        "registered_splits",
+        "audit",
+        "$.audit.fail_closed_count",
+    } <= set(spec.required_json_keys)
+    assert "winnability-certificates" not in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+    assert payload["inputs"]["registered_splits"] == (
+        "reports/canonical/winnability-certificates.json:$.registered_splits"
+    )
+    resolved_registered_splits = resolve_artifact_pointer(tmp_path, payload["inputs"]["registered_splits"])
+    assert isinstance(resolved_registered_splits, list)
+    assert resolved_registered_splits[0]["task_id"] == "fixture-task"
+    assert resolved_registered_splits[0]["split_id"] == "fixture-split"
+    assert "resolver" not in resolved_registered_splits[0]
+    assert section["winnability_certificates"] == "reports/canonical/winnability-certificates.json:$.certificates"
+    assert "certificates" + "_pointer" not in section
+    assert section["audit_pointer"] == "reports/canonical/winnability-certificates.json:$.audit"
+    assert section["hardgates_pointer"] == "reports/canonical/winnability-certificates.json:$.hardgates"
+    assert section["fail_closed_count"] == 0
+    assert index_payload["winnability_certificates"] == section
+    assert "## Winnability certificates" in markdown
+
+
+def test_winnability_certificates_regen_is_idempotent(tmp_path, monkeypatch):
+    from scripts import run_winnability_certificates as runner
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+
+    first = runner.write_winnability_certificates(root=tmp_path, generated_at="fixture")
+    first_json = (tmp_path / canonical.WINNABILITY_CERTIFICATES_JSON_ARTIFACT).read_text(encoding="utf-8")
+    first_md = (tmp_path / canonical.WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+    second = runner.write_winnability_certificates(root=tmp_path, generated_at="fixture")
+
+    assert second == first
+    assert (tmp_path / canonical.WINNABILITY_CERTIFICATES_JSON_ARTIFACT).read_text(encoding="utf-8") == first_json
+    assert (tmp_path / canonical.WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT).read_text(encoding="utf-8") == first_md
+    assert second["audit"]["status"] == "fail"
+    assert second["audit"]["failed_count"] == 3
+    assert second["audit"]["fail_closed_count"] == 3
+
+
+def test_winnability_certificates_missing_artifact_validation_fails_closed(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["winnability-certificates"]
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    assert spec.json_artifact in validation["missing_artifacts"]
+    assert "$.audit.fail_closed_count" in validation["required_key_validation"]["missing_keys"]
 def test_dgt_controls_require_construct_validity_without_replacing_protocol_hardgates():
     specs = canonical._specs_by_name()
     for name in ("dgt-l0-controls", "dgt-l1-controls"):
@@ -4364,6 +4476,57 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+
+    def fake_preflight(report_artifacts=None):
+        calls.append(("preflight", tuple(report_artifacts or ())))
+        return {"status": "pass"}
+
+    def fake_run_producer(called):
+        calls.append(f"producer:{called.name}")
+
+    monkeypatch.setattr(canonical, "_run_metric_purity_preflight", fake_preflight)
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [("preflight", (spec.json_artifact,))]
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+
+
+def test_run_reports_verify_fingerprints_rejects_mutated_sidecar_inputs(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+    sidecar["inputs"]["producer_sources"][0]["sha256"] = "0" * 64
+    canonical._fingerprint_path(spec).write_text(json.dumps(sidecar, sort_keys=True) + "\n", encoding="utf-8")
+    calls = []
+    monkeypatch.setattr(canonical, "_run_producer", lambda called: calls.append(called.name))
+    summary_path = tmp_path / "summary.json"
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            verify_fingerprints=True,
+            generated_at="2030-01-01T00:00:00+00:00",
+            json_summary=str(summary_path),
+        )
+
+    assert excinfo.value.code == 1
+    assert calls == []
+    payload = json.loads(summary_path.read_text(encoding="utf-8"))
+    assert payload["reports"][0]["status"] == "error"
+    assert payload["reports"][0]["fingerprint_status"] == "miss"
+    assert payload["reports"][0]["fingerprint_reason"] == "inputs"
 
 
 def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_path, monkeypatch):
