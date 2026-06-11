@@ -12,6 +12,7 @@ from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
+from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
 
 
 SCHEMA_ID = "bedc-quality-lab:claim-graph"
@@ -22,7 +23,7 @@ CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
-DG_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
+DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 NODE_TYPES = frozenset(
     {
         "raw_evidence",
@@ -40,6 +41,7 @@ NODE_KEYS = frozenset(
         "source_pointer",
         "discovery_level",
         "terminal_verdict",
+        "evidence_scope",
         "depends_on",
         "not_claimed",
     }
@@ -53,6 +55,7 @@ class ClaimGraphNode:
     source_pointer: str
     discovery_level: str | None
     terminal_verdict: str | None
+    evidence_scope: tuple[str, ...] | None
     depends_on: tuple[str, ...]
     not_claimed: tuple[str, ...]
 
@@ -185,9 +188,9 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
             ("gap-head mechanism evidence remains owner-local to the attribution capsule",),
         ),
         (
-            "mechanism:discovery-gated-nas",
-            f"{DG_NAS_ARTIFACT}:$.mechanism_namecert",
-            ("DG-NAS mechanism certificate remains nested under the discovery-gated NAS canonical owner",),
+            "mechanism:dgt-neural-ablation",
+            f"{DGT_NEURAL_ABLATION_ARTIFACT}:$.nabl_hardgates.status",
+            ("DGT neural-module ablation evidence remains pointer-only in downstream claim graph rows",),
         ),
     )
     nodes: list[ClaimGraphNode] = []
@@ -200,6 +203,7 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
                     source_pointer=source_pointer,
                     discovery_level=None,
                     terminal_verdict=None,
+                    evidence_scope=None,
                     depends_on=(),
                     not_claimed=not_claimed,
                 )
@@ -253,6 +257,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
         )
         raw_id = f"raw:{report}"
         projected_id = f"projected:{report}"
+        source_payload = _load_optional_mapping(root, source_artifact)
+        evidence_scope = pointer_value(source_payload, "$.d5_m_projection.evidence_scope") if report == "discovery-gated-transformer" else None
         nodes.append(
             ClaimGraphNode(
                 node_id=raw_id,
@@ -260,6 +266,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 source_pointer=raw_pointer,
                 discovery_level=None,
                 terminal_verdict=None,
+                evidence_scope=None,
                 depends_on=(),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -271,6 +278,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 source_pointer=f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{index}]",
                 discovery_level=str(row.get("discovery_level") or ""),
                 terminal_verdict=str(row.get("terminal_verdict") or "") or None,
+                evidence_scope=tuple(evidence_scope) if isinstance(evidence_scope, list) else None,
                 depends_on=(raw_id,),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -287,6 +295,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 source_pointer=f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses[{index}]",
                 discovery_level=str(witness.get("discovery_level") or "") or None,
                 terminal_verdict=str(witness.get("terminal_verdict") or "") or None,
+                evidence_scope=None,
                 depends_on=(),
                 not_claimed=_not_claimed(witness.get("not_claimed")),
             )
@@ -314,6 +323,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                     source_pointer=source_pointer,
                     discovery_level=None,
                     terminal_verdict=str(row.get("claim_verdict") or ""),
+                    evidence_scope=None,
                     depends_on=(base_dependency,),
                     not_claimed=(),
                 )
@@ -326,6 +336,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 source_pointer=f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]",
                 discovery_level=None,
                 terminal_verdict=str(row["claim_verdict"]),
+                evidence_scope=None,
                 depends_on=depends_on,
                 not_claimed=(),
             )
@@ -358,23 +369,20 @@ def _hardgates(
     discovery_rows: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
     by_id = _nodes_by_id(nodes)
-    d5_o_rows = [row for row in discovery_rows if row.get("discovery_level") == "D5-O"]
+    d5_o_rows = [row for row in discovery_rows if row.get("discovery_level") in {"D5-O", "D5-M"}]
     mechanism_entries = []
     for row in d5_o_rows:
         report = str(row["report"])
         mechanism_status = str(row.get("mechanism_status") or "blocked")
         mechanism_pointer = row.get("mechanism_pointer")
         mechanism_source_pointer = row.get("mechanism_ledger_pointer") or row.get("mechanism_closure_pointer") or row.get("mechanism_pointer")
-        if report == "discovery-gated-nas":
-            mechanism_node = by_id.get("mechanism:discovery-gated-nas")
-        else:
-            mechanism_node = by_id.get("mechanism:gap-head-attribution-capsule")
+        mechanism_node = by_id.get("mechanism:gap-head-attribution-capsule")
         mechanism_resolves = mechanism_node is not None and source_pointer_resolves(root, mechanism_node.source_pointer)
         mechanism_certificate_node_id = mechanism_node.node_id if mechanism_status == "ready" and mechanism_resolves and mechanism_node is not None else None
         mechanism_entries.append(
             {
                 "projected_node_id": f"projected:{report}",
-                "discovery_level": "D5-O",
+                "discovery_level": str(row.get("discovery_level")),
                 "mechanism_certificate_node_id": mechanism_certificate_node_id,
                 "mechanism_status": mechanism_status,
                 "mechanism_candidate_node_id": mechanism_node.node_id if mechanism_resolves and mechanism_node is not None else None,
@@ -398,7 +406,7 @@ def _hardgates(
         },
         "CG-HG2": {
             "status": "pass",
-            "criterion": "D5-O projected discoveries explicitly record whether a D5-M mechanism node exists",
+            "criterion": "D5 projected discoveries explicitly record whether a mechanism node exists",
             "d5_o_mechanism": mechanism_entries,
         },
         "CG-HG3": {
@@ -494,12 +502,16 @@ def _node_from_json(row: Mapping[str, Any]) -> ClaimGraphNode | None:
     not_claimed = row.get("not_claimed")
     if not isinstance(depends_on, (list, tuple)) or not isinstance(not_claimed, (list, tuple)):
         return None
+    evidence_scope = row.get("evidence_scope")
+    if evidence_scope is not None and not isinstance(evidence_scope, (list, tuple)):
+        return None
     return ClaimGraphNode(
         node_id=str(row["node_id"]),
         node_type=str(row["node_type"]),
         source_pointer=str(row["source_pointer"]),
         discovery_level=row["discovery_level"] if isinstance(row["discovery_level"], str) else None,
         terminal_verdict=row["terminal_verdict"] if isinstance(row["terminal_verdict"], str) else None,
+        evidence_scope=tuple(str(item) for item in evidence_scope) if evidence_scope is not None else None,
         depends_on=tuple(str(item) for item in depends_on),
         not_claimed=tuple(str(item) for item in not_claimed),
     )
@@ -552,6 +564,8 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg6(verdict_rows, root))
     errors.extend(_validate_cg_hg8(verdict_rows, root))
     errors.extend(_validate_dgt_accepted_positive_path(verdict_rows, by_id))
+    errors.extend(_validate_dgt_component_causal_evidence_scope(verdict_rows, by_id, root))
+    errors.extend(_validate_dgt_neural_ablation_pointer(root))
     return errors
 
 
@@ -584,11 +598,11 @@ def _validate_cg_hg2(payload: Mapping[str, Any], by_id: Mapping[str, ClaimGraphN
     cg_hg2 = hardgates.get("CG-HG2") if isinstance(hardgates, Mapping) else None
     entries = cg_hg2.get("d5_o_mechanism") if isinstance(cg_hg2, Mapping) else None
     if not isinstance(entries, list):
-        return ["CG-HG2 must list D5-O mechanism entries"]
+        return ["CG-HG2 must list D5 mechanism entries"]
     projected_d5_o = {
         node.node_id
         for node in by_id.values()
-        if node.node_type == "projected_discovery" and node.discovery_level == "D5-O"
+        if node.node_type == "projected_discovery" and node.discovery_level in {"D5-O", "D5-M"}
     }
     entry_projected = set()
     for entry in entries:
@@ -605,7 +619,7 @@ def _validate_cg_hg2(payload: Mapping[str, Any], by_id: Mapping[str, ClaimGraphN
         elif not isinstance(mechanism_id, str) or mechanism_id not in by_id or by_id[mechanism_id].node_type != "mechanism_certificate":
             errors.append(f"CG-HG2 mechanism node missing or wrong type for {projected}")
     if projected_d5_o != entry_projected:
-        errors.append("CG-HG2 D5-O projected node coverage mismatch")
+        errors.append("CG-HG2 D5 projected node coverage mismatch")
     return errors
 
 
@@ -759,6 +773,91 @@ def _validate_dgt_accepted_positive_path(
             errors.append("DGT accepted-positive projected node must depend only on raw:DGT")
         if raw.terminal_verdict is not None or projected.terminal_verdict is not None:
             errors.append("DGT raw/projected nodes must not carry terminal verdict")
+    return errors
+
+
+def _validate_dgt_component_causal_evidence_scope(
+    verdict_rows: Sequence[Mapping[str, Any]],
+    by_id: Mapping[str, ClaimGraphNode],
+    root: Path,
+) -> list[str]:
+    errors: list[str] = []
+    positive_rows = [
+        row
+        for row in verdict_rows
+        if row.get("claim_id") == "claim:discovery-gated-transformer"
+        and row.get("claim_verdict") == "accepted_positive_discovery"
+    ]
+    if not positive_rows:
+        return errors
+    projected = by_id.get("projected:discovery-gated-transformer")
+    if projected is None:
+        return ["DGT component-causal claim lacks projected graph node"]
+    if projected.evidence_scope is None:
+        errors.append("DGT component-causal claim lacks evidence_scope")
+    else:
+        errors.extend(f"DGT component-causal {error}" for error in validate_evidence_scope(list(projected.evidence_scope)))
+    source = resolve_source_pointer(root, projected.source_pointer)
+    if not isinstance(source, Mapping):
+        errors.append("DGT component-causal discovery row pointer does not resolve")
+        return errors
+    source_artifact = source.get("json_artifact")
+    if not isinstance(source_artifact, str):
+        errors.append("DGT component-causal source artifact missing")
+        return errors
+    payload = _load_optional_mapping(root, source_artifact)
+    d5_m = pointer_value(payload, "$.d5_m_projection")
+    if not isinstance(d5_m, Mapping):
+        errors.append("DGT component-causal D5-M projection missing")
+        return errors
+    scope = d5_m.get("evidence_scope")
+    if scope is None:
+        errors.append("DGT component-causal D5-M projection lacks evidence_scope")
+    else:
+        errors.extend(f"DGT component-causal D5-M {error}" for error in validate_evidence_scope(scope))
+    if isinstance(scope, list) and "production-forbidden" in scope:
+        positive_surface = {
+            "status": d5_m.get("status"),
+            "readiness": d5_m.get("readiness"),
+            "discovery_level": d5_m.get("discovery_level"),
+            "terminal_verdict_scope": d5_m.get("terminal_verdict_scope"),
+            "claim_surface": d5_m.get("claim_surface"),
+            "positive_claim": d5_m.get("positive_claim"),
+            "claim": d5_m.get("claim"),
+        }
+        positive_text = json.dumps(positive_surface, sort_keys=True).lower()
+        if any(
+            token in positive_text
+            for token in (
+                "production claim",
+                "production authority accepted",
+                "production deployment",
+                "deployment authority",
+                "production ready",
+                "production-ready",
+            )
+        ):
+            errors.append("DGT component-causal evidence_scope contradicts production claim")
+    return errors
+
+
+def _validate_dgt_neural_ablation_pointer(root: Path) -> list[str]:
+    path = _artifact_path(root, DGT_NEURAL_ABLATION_ARTIFACT)
+    if not path.exists():
+        return []
+    payload = _load_json(root, DGT_NEURAL_ABLATION_ARTIFACT)
+    claims = payload.get("component_causal_claims") if isinstance(payload, Mapping) else None
+    if claims is None:
+        return ["dgt-neural-ablation component_causal_claims pointer missing"]
+    if not isinstance(claims, list):
+        return ["dgt-neural-ablation component_causal_claims must be a list"]
+    errors: list[str] = []
+    for index, claim in enumerate(claims):
+        if not isinstance(claim, Mapping):
+            errors.append(f"dgt-neural-ablation component_causal_claims[{index}] must be an object")
+            continue
+        for error in validate_evidence_scope(claim.get("evidence_scope")):
+            errors.append(f"dgt-neural-ablation component_causal_claims[{index}] {error}")
     return errors
 
 

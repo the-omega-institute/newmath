@@ -125,6 +125,12 @@ HEAD_CHANNEL_PATCH_CLAIM_FORBIDDEN_KEYS = (
     "UER_reduction",
     "gate_evidence",
 )
+DGT_NEURAL_ABLATION_POINTERS = {
+    "hardgate": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
+    "component_claims": "reports/canonical/dgt-neural-ablation.json:$.component_causal_claims",
+    "claim_capsule": "reports/canonical/dgt-neural-ablation.json:$.claim_capsule_ref",
+    "hg7_boundary": "reports/canonical/dgt-neural-ablation.json:$.boundary_ledger",
+}
 
 
 FeatureBuilder = Callable[[Mapping[str, Any], "AttributionArmSpec", int], tuple[np.ndarray, list[str], dict[str, Any]]]
@@ -2297,6 +2303,7 @@ def _source_artifacts(config: GapHeadRunConfig, run_dir: Path) -> dict[str, Any]
             "summary": str((run_dir / "summary.json").relative_to(ROOT)),
             "report": str((run_dir / "report.md").relative_to(ROOT)),
         },
+        "dgt_neural_ablation_pointers": dict(DGT_NEURAL_ABLATION_POINTERS),
     }
 
 
