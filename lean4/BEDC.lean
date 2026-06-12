@@ -919,6 +919,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.WindowInduction
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
+import BEDC.Derived.BishopRegularRealUp.TasteGate
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
@@ -3372,6 +3373,7 @@ import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityScaleBudget
 import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindow
 import BEDC.Derived.CoveringdimensionUp.RootRealSeparabilityWindowObligation
 import BEDC.Derived.CoveringdimensionUp.RootRefinementObligation
+import BEDC.Derived.CoveringdimensionUp.RootScopeLedger
 import BEDC.Derived.CoveringdimensionUp.RootSimplicialCoverHandoff
 import BEDC.Derived.CoveringdimensionUp.ScopeClosureWitness
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
