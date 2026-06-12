@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\HamiltonianFlowUp$}
+\label{ch:concrete-instances-hamiltonian-flow-namecert}
+\origin{human}
+
+Following Arnold and Abraham--Marsden on Hamiltonian mechanics, the $\HamiltonianFlowUp$ packet records the finite BEDC surface where a phase-state carrier, Hamiltonian scalar readback, symplectic variation row, ODE vector-field row, dynamic-flow replay, and energy ledger are exposed before a mechanics consumer may cite Hamiltonian flow. It sits beside the Lagrangian mechanics packet of \autoref{ch:concrete-instances-lagrangianmechanics-namecert}, the ODE vector-field surface of \autoref{ch:concrete-instances-ode-namecert}, the routed dynamics surface of \autoref{ch:concrete-instances-dynsystem-namecert}, the symplectic source of \autoref{ch:concrete-instances-symplectic-namecert}, the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the conservation-current boundary of \autoref{ch:concrete-instances-noethersymmetry-namecert}. The packet names a finite Hamiltonian-flow obligation surface; it does not select a global trajectory, complete a smooth phase manifold, identify Lagrangian and Hamiltonian formalisms, or assert Liouville volume preservation outside displayed rows.
+
+\begin{definition}[HamiltonianFlowUp carrier]
+\label{def:hamiltonian-flow-carrier}
+A $\HamiltonianFlowUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,A,V,Y,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the phase-state carrier row, naming the finite phase coordinates or state tokens available to the flow packet.
+\item $A$ is the Hamiltonian scalar readback row, recording the displayed $\RealUp$ value route for the energy function on the phase-state rows.
+\item $V$ is the symplectic and variation row, recording the finite $\SymplecticUp$ source, admissible variation probes, and the pairing used to read the Hamiltonian vector field.
+\item $Y$ is the $\OdeUp$ vector-field row, exposing the finite right-hand-side data accepted for the Hamiltonian flow request.
+\item $D$ is the $\DynSystemUp$ flow-replay row, recording how the displayed vector-field request is replayed as routed state evolution.
+\item $E$ is the $\RealUp$ energy-ledger row, comparing scalar reads along the displayed replay route and exposing only the finite conservation ledger admitted by the packet.
+\item $H$ records componentwise $\hsame$ transport for phase states, Hamiltonian scalar reads, symplectic and variation rows, ODE vector-field rows, dynamic replay, energy ledgers, and local naming.
+\item $C$ records displayed $\Cont$ replay from state and scalar rows through symplectic pairing, vector-field admission, dynamic-flow replay, and energy-ledger inspection.
+\item $P$ is the $\Pkg$ provenance over $\HamiltonianFlowUp$, $\LagrangianMechanicsUp$, $\OdeUp$, $\DynSystemUp$, $\SymplecticUp$, $\RealUp$, $\NoetherSymmetryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HamiltonianFlowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,V,Y,D,E,H,C,P,N$. It has no coordinate for a host smooth phase space, selected integral curve, quotient trajectory equality, unrecorded conservation law, global Liouville theorem, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[HamiltonianFlowUp NameCert obligation surface]
+\label{thm:hamiltonian-flow-namecert-obligation-surface}
+For every accepted $\HamiltonianFlowUp$ carrier $F=(S,A,V,Y,D,E,H,C,P,N)$, the local $\NameCert_{\HamiltonianFlowUp}$ surface consists exactly of phase-state carrier exposure through $S$, Hamiltonian scalar readback through $A$, symplectic and variation exposure through $V$, ODE vector-field admission through $Y$, dynamic-system flow replay through $D$, $\RealUp$ energy-ledger inspection through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every Hamiltonian consumer must inspect those rows before reading a flow, an energy comparison, or a conservation-current handoff. The surface exports no selected trajectory, no global existence theorem for solutions, no quotient equality of flows, no unledgered Liouville-volume assertion, and no equivalence with a host Lagrangian model.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hamiltonian-flow-carrier}. The rows $S,A,V,Y,D,E$ are the only coordinates storing phase-state data, Hamiltonian scalar reads, symplectic and variation probes, vector-field admission, dynamic replay, and energy-ledger observations.
+
+The structural rows then preserve the same route. Componentwise transport through $H$ keeps comparisons on the displayed rows, while replay through $C$ records how the scalar, symplectic, vector-field, flow, and energy reads are consumed. Provenance through $P$ names the Lagrangian, ODE, dynamic-system, symplectic, Real, and Noether-facing siblings, and $N$ registers the local packet.
+
+Since no additional coordinate stores a smooth ambient phase space, a selected integral curve, a quotient of trajectories, a global conservation theorem, or a host equivalence with Lagrangian mechanics, the stated rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HamiltonianFlowUp$ consumer must expose phase-state, Hamiltonian scalar, symplectic-variation, ODE vector-field, DynSystem replay, Real energy-ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before it can read Hamiltonian flow data.}
+
+\independenceWitness{lagrangianmechanics, ode, dynsystem, symplectic, real, noethersymmetry: HamiltonianFlowUp is not bijective with any listed sibling because it binds Hamiltonian scalar readback, symplectic vector-field admission, routed flow replay, and the energy ledger in one finite NameCert packet while those siblings expose only their own source or consumer surfaces.}
+
+\closureat{HamiltonianFlowUp}{seedStr}
+
+\begin{closurestatus}{\HamiltonianFlowUp}
+  \constructivestory{A $\HamiltonianFlowUp$ packet is generated from phase-state rows, Hamiltonian scalar readback, symplectic and variation rows, ODE vector-field admission, DynSystem flow replay, RealUp energy-ledger inspection, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hamiltonian-flow-carrier} and \autoref{thm:hamiltonian-flow-namecert-obligation-surface} seed the finite Hamiltonian flow surface over LagrangianMechanics, Ode, DynSystem, Symplectic, Real, and NoetherSymmetry rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected trajectories, global solution theory, quotient flow equality, Liouville volume preservation, or Hamiltonian--Lagrangian equivalence.}
+  \upgradepath{Obligation closure asks for checked carrier admission, flow replay, scalar energy ledger, transport, replay, provenance, and local naming for BEDC.Derived.HamiltonianFlowUp.}
+\end{closurestatus}
