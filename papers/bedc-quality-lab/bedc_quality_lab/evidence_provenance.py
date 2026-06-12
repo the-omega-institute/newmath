@@ -80,7 +80,7 @@ class DiscoveryEvidenceRow:
     evidence_type: str
     discovery_map_pointer: str | None
     metric_provenance_pointers: tuple[str, ...]
-    producer_training_audit_pointer: str
+    producer_training_audit_pointer: str | None
     allowed_claim_kinds: tuple[str, ...]
     not_claimed: tuple[str, ...]
 
@@ -165,6 +165,7 @@ def validate_evidence_provenance_payload(payload: Mapping[str, Any]) -> dict[str
     producer_rows = _require_object_rows(payload, "producer_audits")
     metric_rows = _require_object_rows(payload, "metric_rows")
     discovery_rows = _require_object_rows(payload, "discovery_rows")
+    _reject_empty_pointer_stubs(payload)
     producer_reports = [str(row.get("report")) for row in producer_rows if isinstance(row.get("report"), str)]
     if len(producer_reports) != len(producer_rows):
         raise ValueError("producer audit rows require report")
@@ -196,12 +197,51 @@ def validate_evidence_provenance_payload(payload: Mapping[str, Any]) -> dict[str
             raise ValueError("non-training metric row cannot support empirical claims")
         if row.get("value") is None and not row.get("not_measurable_reason"):
             raise ValueError("null metric value requires not_measurable_reason")
+        producer = _required_owner_row_pointer(
+            payload,
+            row.get("producer_training_audit_pointer"),
+            collection="producer_audits",
+            field="metric_rows.producer_training_audit_pointer",
+        )
+        if producer.get("report") != row.get("report"):
+            raise ValueError("metric producer_training_audit_pointer must target the same report")
     for row in discovery_rows:
         evidence_type = row.get("evidence_type")
         if evidence_type not in DISCOVERY_EVIDENCE_TYPES:
             raise ValueError(f"discovery evidence_type is unsupported: {evidence_type}")
         if evidence_type != "empirical_training_clean" and "empirical_superiority" in row.get("allowed_claim_kinds", ()):
             raise ValueError("non-clean discovery evidence cannot support empirical superiority")
+        report = str(row["report"])
+        metric_pointers = row.get("metric_provenance_pointers")
+        if not isinstance(metric_pointers, list):
+            raise ValueError("discovery metric_provenance_pointers must be a list")
+        if report in set(metric_reports) and not metric_pointers:
+            raise ValueError("discovery metric_provenance_pointers must target metric rows for producer reports")
+        if report not in set(metric_reports) and metric_pointers:
+            raise ValueError("sidecar discovery rows cannot point to metric rows")
+        for pointer in metric_pointers:
+            metric = _required_owner_row_pointer(
+                payload,
+                pointer,
+                collection="metric_rows",
+                field="discovery_rows.metric_provenance_pointers",
+            )
+            if metric.get("report") != report:
+                raise ValueError("discovery metric_provenance_pointers must target the same report")
+        producer = _optional_owner_row_pointer(
+            payload,
+            row,
+            "producer_training_audit_pointer",
+            collection="producer_audits",
+            field="discovery_rows.producer_training_audit_pointer",
+        )
+        if report in set(producer_reports):
+            if producer is None:
+                raise ValueError("discovery producer_training_audit_pointer is required for producer reports")
+            if producer.get("report") != report:
+                raise ValueError("discovery producer_training_audit_pointer must target the same report")
+        elif producer is not None:
+            raise ValueError("sidecar discovery rows must use null producer_training_audit_pointer")
     return dict(payload)
 
 
@@ -260,6 +300,92 @@ def _require_object_rows(payload: Mapping[str, Any], key: str) -> list[Mapping[s
     if not isinstance(rows, list) or not all(isinstance(row, Mapping) for row in rows):
         raise ValueError(f"evidence provenance {key} must be object rows")
     return rows
+
+
+def _reject_empty_pointer_stubs(value: Any, path: str = "$") -> None:
+    if isinstance(value, Mapping):
+        for key, nested in value.items():
+            nested_path = f"{path}.{key}"
+            if key.endswith("_pointer") and nested == "":
+                raise ValueError(f"evidence provenance pointer field must not be empty: {nested_path}")
+            if key.endswith("_pointers") and isinstance(nested, list) and any(item == "" for item in nested):
+                raise ValueError(f"evidence provenance pointer list must not contain empty entries: {nested_path}")
+            _reject_empty_pointer_stubs(nested, nested_path)
+    elif isinstance(value, list):
+        for index, nested in enumerate(value):
+            _reject_empty_pointer_stubs(nested, f"{path}[{index}]")
+
+
+def _optional_owner_row_pointer(
+    payload: Mapping[str, Any],
+    row: Mapping[str, Any],
+    key: str,
+    *,
+    collection: str,
+    field: str,
+) -> Mapping[str, Any] | None:
+    if key not in row or row.get(key) is None:
+        return None
+    return _required_owner_row_pointer(payload, row.get(key), collection=collection, field=field)
+
+
+def _required_owner_row_pointer(
+    payload: Mapping[str, Any],
+    pointer: Any,
+    *,
+    collection: str,
+    field: str,
+) -> Mapping[str, Any]:
+    if not isinstance(pointer, str) or pointer == "":
+        raise ValueError(f"{field} must be a non-empty owner pointer or null")
+    prefix = f"{INDEX_ARTIFACT}:$.evidence_provenance.{collection}["
+    if not pointer.startswith(prefix):
+        raise ValueError(f"{field} must point to evidence_provenance.{collection}")
+    target = _owner_pointer_value(payload, pointer)
+    if not isinstance(target, Mapping):
+        raise ValueError(f"{field} does not resolve")
+    return target
+
+
+def _owner_pointer_value(payload: Mapping[str, Any], pointer: str) -> Any:
+    prefix = f"{INDEX_ARTIFACT}:$.evidence_provenance"
+    if pointer == prefix:
+        return payload
+    if not pointer.startswith(f"{prefix}."):
+        return None
+    return _payload_pointer_value(payload, f"$.{pointer.removeprefix(f'{prefix}.')}")
+
+
+def _payload_pointer_value(payload: Any, pointer: str) -> Any:
+    if pointer == "$":
+        return payload
+    if not pointer.startswith("$."):
+        return None
+    current = payload
+    for part in pointer[2:].split("."):
+        while "[" in part and part.endswith("]"):
+            key, bracket = part.split("[", 1)
+            if key:
+                if not isinstance(current, Mapping) or key not in current:
+                    return None
+                current = current[key]
+            index_text = bracket[:-1]
+            if not index_text.isdigit() or not isinstance(current, list):
+                return None
+            index = int(index_text)
+            if index >= len(current):
+                return None
+            current = current[index]
+            part = ""
+        if not part:
+            continue
+        if isinstance(current, Mapping) and part in current:
+            current = current[part]
+        elif isinstance(current, list) and part.isdigit() and int(part) < len(current):
+            current = current[int(part)]
+        else:
+            return None
+    return current
 
 
 def _producer_training_audit(root: Path, spec: Any, index: int) -> ProducerTrainingAudit:
@@ -528,7 +654,7 @@ def _sidecar_discovery_evidence_row(source_row: Mapping[str, Any], index: int) -
         evidence_type="boundary_negative",
         discovery_map_pointer=_discovery_map_pointer(source_row, index),
         metric_provenance_pointers=(),
-        producer_training_audit_pointer="",
+        producer_training_audit_pointer=None,
         allowed_claim_kinds=("negative_boundary",),
         not_claimed=("Sidecar discovery rows are boundary evidence unless promoted by the owner ledger.",),
     )

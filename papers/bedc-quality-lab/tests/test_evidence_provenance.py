@@ -223,6 +223,76 @@ def test_owner_payload_rejects_missing_discovery_row_map(tmp_path):
         validate_evidence_provenance_payload(payload)
 
 
+def test_sidecar_discovery_row_uses_null_training_audit_pointer(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery_map.json",
+        {
+            "rows": [
+                {"report": spec.name, "discovery_level": "D4", "audit_status": "valid"},
+                {"report": "sidecar-boundary", "discovery_level": "DN", "audit_status": "valid"},
+            ]
+        },
+    )
+
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    sidecar = payload["discovery_rows_by_report"]["sidecar-boundary"]
+
+    assert sidecar["producer_training_audit_pointer"] is None
+    assert sidecar["metric_provenance_pointers"] == []
+
+
+def test_validation_rejects_empty_training_audit_pointer(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0]["producer_training_audit_pointer"] = ""
+    payload["discovery_rows_by_report"]["fixture"] = payload["discovery_rows"][0]
+
+    with pytest.raises(ValueError, match="pointer field must not be empty"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_rejects_unresolved_training_audit_pointer(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0]["producer_training_audit_pointer"] = (
+        "reports/canonical/index.json:$.evidence_provenance.producer_audits[99]"
+    )
+    payload["discovery_rows_by_report"]["fixture"] = payload["discovery_rows"][0]
+
+    with pytest.raises(ValueError, match="does not resolve"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_accepts_absent_sidecar_training_audit_pointer(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery_map.json",
+        {
+            "rows": [
+                {"report": spec.name, "discovery_level": "D4", "audit_status": "valid"},
+                {"report": "sidecar-boundary", "discovery_level": "DN", "audit_status": "valid"},
+            ]
+        },
+    )
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    sidecar = payload["discovery_rows_by_report"]["sidecar-boundary"]
+    sidecar.pop("producer_training_audit_pointer")
+    payload["discovery_rows"][1] = sidecar
+
+    assert validate_evidence_provenance_payload(payload)["discovery_rows"][1] == sidecar
+
+
 def test_report_owner_pointer_resolves_through_generic_resolver(tmp_path):
     spec = _spec("fixture", "reports/canonical/fixture.json")
     _write_source(tmp_path, "scripts/run_fixture.py")
