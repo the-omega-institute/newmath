@@ -17,6 +17,7 @@ def _copy_reproduction_fixture(root: Path) -> None:
         "reports/canonical/dgt-l0-controls.fingerprint.json",
         "reports/canonical/dgt-l1-controls.json",
         "reports/canonical/dgt-l1-controls.fingerprint.json",
+        "reports/canonical/fair-l1-decision.json",
         "reports/canonical/dgt-neural-ablation.json",
         "reports/canonical/dgt-neural-ablation.fingerprint.json",
         "reports/canonical/dgt-ablation-null-decomposition.json",
@@ -65,8 +66,36 @@ def test_reproduction_package_structural_profile_reports_upstream_gap_without_fa
     assert rows["honest-ablation-null-training"]["status"] == "pass"
     assert rows["fair-l1-training"]["status"] == "blocked"
     assert rows["fair-l1-training"]["fingerprint_status"] == "pass"
+    assert rows["fair-l1-training"]["tolerance_status"] == "pass"
+    assert rows["fair-l1-training"]["blocked_reason"] == repro.FAIR_L1_BLOCKED_REASON
     assert "fair-l1-training" in result["blocked_targets"]
     assert result["failed_targets"] == []
+    assert rows["dgt-l0-honest-rerun"]["blocked_reason"] is None
+    assert rows["honest-ablation-null-training"]["blocked_reason"] is None
+
+
+def test_reproduction_check_rows_use_nullable_absent_fact_slots_for_owned_blocks():
+    package = repro.build_package(ROOT, generated_at="fixture")
+    mutated = json.loads(json.dumps(package))
+    target = next(row for row in mutated["reproduction_targets"] if row["target_id"] == "dgt-l0-honest-rerun")
+    target["data_generator_ref"] = "reports/canonical/missing-owner.json:$"
+
+    result = repro.verify_package(mutated, ROOT, "structural", target_ids=("dgt-l0-honest-rerun",), generated_at="fixture")
+    reason = result["target_results"][0]["blocked_reason"]
+
+    assert result["target_results"][0]["status"] == "blocked"
+    assert set(reason) == {
+        "category",
+        "detail",
+        "evidence_ref",
+        "owner_gate_ref",
+        "dependency_ref",
+        "planning_context_ref",
+    }
+    assert reason["category"] == "source-blocked"
+    assert reason["owner_gate_ref"] is None
+    assert reason["dependency_ref"] is None
+    assert reason["planning_context_ref"] is None
 
 
 def test_reproduction_package_projection_profile_excludes_full_repro_rows():
@@ -130,6 +159,7 @@ def test_reproduction_package_cli_writes_selected_projection_check_result(tmp_pa
     assert persisted["profile"] == "projection"
     assert [row["target_id"] for row in persisted["target_results"]] == ["canonical-index-view"]
     assert {row["target_kind"] for row in persisted["target_results"]} == {"projection-only"}
+    assert persisted["target_results"][0]["blocked_reason"] is None
     assert "fair-l1-training" not in json.dumps(persisted, sort_keys=True)
     assert "| `canonical-index-view` | `projection-only` |" in markdown
 
@@ -167,6 +197,7 @@ def test_reproduction_package_cli_returns_nonzero_for_failed_targets(tmp_path):
     assert persisted["failed_targets"] == ["definitely-not-a-target"]
     assert persisted["blocked_targets"] == []
     assert persisted["target_results"][0]["status"] == "fail"
+    assert persisted["target_results"][0]["blocked_reason"] is None
 
 
 def test_reproduction_package_missing_seed_refs_fails_closed():

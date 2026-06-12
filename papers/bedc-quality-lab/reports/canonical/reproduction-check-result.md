@@ -7,7 +7,7 @@
 | target | kind | status | fingerprint | tolerance |
 | --- | --- | --- | --- | --- |
 | `dgt-l0-honest-rerun` | `full-repro-ci` | `pass` | `pass` | `pass` |
-| `fair-l1-training` | `full-repro-ci` | `blocked` | `pass` | `blocked` |
+| `fair-l1-training` | `full-repro-ci` | `blocked` | `pass` | `pass` |
 | `honest-ablation-null-training` | `full-repro-ci` | `pass` | `pass` | `pass` |
 | `canonical-index-view` | `projection-only` | `pass` | `pass` | `pass` |
 | `claim-capsule-view` | `projection-only` | `pass` | `pass` | `pass` |

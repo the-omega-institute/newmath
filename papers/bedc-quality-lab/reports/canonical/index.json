@@ -2629,6 +2629,7 @@
         "source_type": "deterministic_projection",
         "value": [
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2662,6 +2663,14 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": {
+              "category": "missing-validation-loss-cell",
+              "dependency_ref": "github:issue:1196",
+              "detail": "validation-loss-cell-missing",
+              "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
+              "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+              "planning_context_ref": "github:issue:1329#plan-4"
+            },
             "ci_rehearsal_ref": null,
             "failure_reasons": [
               "fair-l1-training waits for seven-arm owner artifact"
@@ -2695,9 +2704,10 @@
             "status": "blocked",
             "target_id": "fair-l1-training",
             "target_kind": "full-repro-ci",
-            "tolerance_status": "blocked"
+            "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2730,6 +2740,7 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2757,6 +2768,7 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2784,6 +2796,7 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2811,6 +2824,7 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -2838,6 +2852,7 @@
             "tolerance_status": "pass"
           },
           {
+            "blocked_reason": null,
             "ci_rehearsal_ref": null,
             "failure_reasons": [],
             "fingerprint_status": "pass",
@@ -10712,9 +10727,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/scaling-ladder.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/scaling-ladder.json",
       "markdown_artifact": "reports/canonical/scaling-ladder.md",
       "name": "scaling-ladder",
@@ -10722,7 +10737,7 @@
         "python3",
         "scripts/run_scaling_ladder.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -11635,9 +11650,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "producer-artifact-refresh",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/dgt-model-card.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/dgt-model-card.json",
       "markdown_artifact": "reports/canonical/dgt-model-card.md",
       "name": "dgt-model-card",
@@ -11645,7 +11660,7 @@
         "python3",
         "scripts/run_dgt_model_card.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -12811,9 +12826,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/experiment_stack_cards.json",
       "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
       "name": "experiment-stack-cards",
@@ -12821,7 +12836,7 @@
         "python3",
         "scripts/run_experiment_stack_cards.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -12939,9 +12954,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -12949,7 +12964,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -13060,7 +13075,7 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
       "fingerprint_status": "written",
       "json_artifact": "reports/canonical/claim_complexity.json",
