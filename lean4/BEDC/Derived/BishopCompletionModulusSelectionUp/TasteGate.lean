@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
+namespace BEDC.Derived.BishopCompletionModulusSelectionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,10 +25,11 @@ def bishopCompletionModulusSelectionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bishopCompletionModulusSelectionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopCompletionModulusSelectionDecodeBHist tail)
 
-private theorem BishopCompletionModulusSelection_decode_encode :
+private theorem bishopCompletionModulusSelectionDecode_encode :
     ∀ h : BHist,
       bishopCompletionModulusSelectionDecodeBHist
-        (bishopCompletionModulusSelectionEncodeBHist h) = h := by
+          (bishopCompletionModulusSelectionEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -45,51 +46,78 @@ def bishopCompletionModulusSelectionFields :
 def bishopCompletionModulusSelectionToEventFlow :
     BishopCompletionModulusSelectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map bishopCompletionModulusSelectionEncodeBHist
-      (bishopCompletionModulusSelectionFields x)
-
-private def bishopCompletionModulusSelectionEventAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      bishopCompletionModulusSelectionEventAt index rest
+  | BishopCompletionModulusSelectionUp.mk M n k W D R E H C P N =>
+      [bishopCompletionModulusSelectionEncodeBHist M,
+        bishopCompletionModulusSelectionEncodeBHist n,
+        bishopCompletionModulusSelectionEncodeBHist k,
+        bishopCompletionModulusSelectionEncodeBHist W,
+        bishopCompletionModulusSelectionEncodeBHist D,
+        bishopCompletionModulusSelectionEncodeBHist R,
+        bishopCompletionModulusSelectionEncodeBHist E,
+        bishopCompletionModulusSelectionEncodeBHist H,
+        bishopCompletionModulusSelectionEncodeBHist C,
+        bishopCompletionModulusSelectionEncodeBHist P,
+        bishopCompletionModulusSelectionEncodeBHist N]
 
 def bishopCompletionModulusSelectionFromEventFlow :
     EventFlow → Option BishopCompletionModulusSelectionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (BishopCompletionModulusSelectionUp.mk
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 0 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 1 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 2 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 3 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 4 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 5 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 6 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 7 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 8 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 9 ef))
-          (bishopCompletionModulusSelectionDecodeBHist
-            (bishopCompletionModulusSelectionEventAt 10 ef)))
+  | [] => none
+  | M :: restn =>
+      match restn with
+      | [] => none
+      | n :: restk =>
+          match restk with
+          | [] => none
+          | k :: restW =>
+              match restW with
+              | [] => none
+              | W :: restD =>
+                  match restD with
+                  | [] => none
+                  | D :: restR =>
+                      match restR with
+                      | [] => none
+                      | R :: restE =>
+                          match restE with
+                          | [] => none
+                          | E :: restH =>
+                              match restH with
+                              | [] => none
+                              | H :: restC =>
+                                  match restC with
+                                  | [] => none
+                                  | C :: restP =>
+                                      match restP with
+                                      | [] => none
+                                      | P :: restN =>
+                                          match restN with
+                                          | [] => none
+                                          | N :: rest =>
+                                              match rest with
+                                              | [] =>
+                                                  some
+                                                    (BishopCompletionModulusSelectionUp.mk
+                                                      (bishopCompletionModulusSelectionDecodeBHist M)
+                                                      (bishopCompletionModulusSelectionDecodeBHist n)
+                                                      (bishopCompletionModulusSelectionDecodeBHist k)
+                                                      (bishopCompletionModulusSelectionDecodeBHist W)
+                                                      (bishopCompletionModulusSelectionDecodeBHist D)
+                                                      (bishopCompletionModulusSelectionDecodeBHist R)
+                                                      (bishopCompletionModulusSelectionDecodeBHist E)
+                                                      (bishopCompletionModulusSelectionDecodeBHist H)
+                                                      (bishopCompletionModulusSelectionDecodeBHist C)
+                                                      (bishopCompletionModulusSelectionDecodeBHist P)
+                                                      (bishopCompletionModulusSelectionDecodeBHist N))
+                                              | _ :: _ => none
 
-private theorem BishopCompletionModulusSelection_round_trip
-    (x : BishopCompletionModulusSelectionUp) :
-    bishopCompletionModulusSelectionFromEventFlow
-      (bishopCompletionModulusSelectionToEventFlow x) = some x := by
+private theorem bishopCompletionModulusSelection_round_trip :
+    ∀ x : BishopCompletionModulusSelectionUp,
+      bishopCompletionModulusSelectionFromEventFlow
+          (bishopCompletionModulusSelectionToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk M n k W D R E H C P N =>
       change
@@ -118,22 +146,23 @@ private theorem BishopCompletionModulusSelection_round_trip
             (bishopCompletionModulusSelectionDecodeBHist
               (bishopCompletionModulusSelectionEncodeBHist N))) =
           some (BishopCompletionModulusSelectionUp.mk M n k W D R E H C P N)
-      rw [BishopCompletionModulusSelection_decode_encode M,
-        BishopCompletionModulusSelection_decode_encode n,
-        BishopCompletionModulusSelection_decode_encode k,
-        BishopCompletionModulusSelection_decode_encode W,
-        BishopCompletionModulusSelection_decode_encode D,
-        BishopCompletionModulusSelection_decode_encode R,
-        BishopCompletionModulusSelection_decode_encode E,
-        BishopCompletionModulusSelection_decode_encode H,
-        BishopCompletionModulusSelection_decode_encode C,
-        BishopCompletionModulusSelection_decode_encode P,
-        BishopCompletionModulusSelection_decode_encode N]
+      rw [bishopCompletionModulusSelectionDecode_encode M,
+        bishopCompletionModulusSelectionDecode_encode n,
+        bishopCompletionModulusSelectionDecode_encode k,
+        bishopCompletionModulusSelectionDecode_encode W,
+        bishopCompletionModulusSelectionDecode_encode D,
+        bishopCompletionModulusSelectionDecode_encode R,
+        bishopCompletionModulusSelectionDecode_encode E,
+        bishopCompletionModulusSelectionDecode_encode H,
+        bishopCompletionModulusSelectionDecode_encode C,
+        bishopCompletionModulusSelectionDecode_encode P,
+        bishopCompletionModulusSelectionDecode_encode N]
 
-private theorem BishopCompletionModulusSelection_toEventFlow_injective
+private theorem bishopCompletionModulusSelectionToEventFlow_injective
     {x y : BishopCompletionModulusSelectionUp} :
     bishopCompletionModulusSelectionToEventFlow x =
-      bishopCompletionModulusSelectionToEventFlow y → x = y := by
+        bishopCompletionModulusSelectionToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -143,21 +172,8 @@ private theorem BishopCompletionModulusSelection_toEventFlow_injective
           (bishopCompletionModulusSelectionToEventFlow y) :=
     congrArg bishopCompletionModulusSelectionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (BishopCompletionModulusSelection_round_trip x).symm
-      (Eq.trans hread (BishopCompletionModulusSelection_round_trip y)))
-
-private theorem BishopCompletionModulusSelection_fields_faithful :
-    ∀ x y : BishopCompletionModulusSelectionUp,
-      bishopCompletionModulusSelectionFields x =
-        bishopCompletionModulusSelectionFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk M1 n1 k1 W1 D1 R1 E1 H1 C1 P1 N1 =>
-      cases y with
-      | mk M2 n2 k2 W2 D2 R2 E2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
+    (Eq.trans (bishopCompletionModulusSelection_round_trip x).symm
+      (Eq.trans hread (bishopCompletionModulusSelection_round_trip y)))
 
 instance bishopCompletionModulusSelectionBHistCarrier :
     BHistCarrier BishopCompletionModulusSelectionUp where
@@ -172,51 +188,40 @@ instance bishopCompletionModulusSelectionChapterTasteGate :
     intro x
     change
       bishopCompletionModulusSelectionFromEventFlow
-        (bishopCompletionModulusSelectionToEventFlow x) = some x
-    exact BishopCompletionModulusSelection_round_trip x
+          (bishopCompletionModulusSelectionToEventFlow x) =
+        some x
+    exact bishopCompletionModulusSelection_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BishopCompletionModulusSelection_toEventFlow_injective heq)
+    exact hxy (bishopCompletionModulusSelectionToEventFlow_injective heq)
 
 theorem BishopCompletionModulusSelectionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       bishopCompletionModulusSelectionDecodeBHist
-        (bishopCompletionModulusSelectionEncodeBHist h) = h) ∧
-      (∀ x : BishopCompletionModulusSelectionUp,
-        bishopCompletionModulusSelectionFromEventFlow
-          (bishopCompletionModulusSelectionToEventFlow x) = some x) ∧
-        (∀ x y : BishopCompletionModulusSelectionUp,
-          bishopCompletionModulusSelectionToEventFlow x =
-            bishopCompletionModulusSelectionToEventFlow y → x = y) ∧
-          bishopCompletionModulusSelectionEncodeBHist BHist.Empty =
-            ([] : List BMark) ∧
-            (∀ x y : BishopCompletionModulusSelectionUp,
-              bishopCompletionModulusSelectionFields x =
-                bishopCompletionModulusSelectionFields y → x = y) ∧
-              (∃ x y : BishopCompletionModulusSelectionUp, x ≠ y) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact BishopCompletionModulusSelection_decode_encode
-  · constructor
-    · exact BishopCompletionModulusSelection_round_trip
-    · constructor
-      · intro x y heq
-        exact BishopCompletionModulusSelection_toEventFlow_injective heq
-      · constructor
-        · rfl
-        · constructor
-          · exact BishopCompletionModulusSelection_fields_faithful
-          · exact
-              Exists.intro
-                (BishopCompletionModulusSelectionUp.mk BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty)
-                (Exists.intro
-                  (BishopCompletionModulusSelectionUp.mk (BHist.e0 BHist.Empty)
-                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
-                  (by
-                    intro h
-                    cases h))
+          (bishopCompletionModulusSelectionEncodeBHist h) =
+        h) ∧
+      Nonempty (BHistCarrier BishopCompletionModulusSelectionUp) ∧
+        Nonempty (ChapterTasteGate BishopCompletionModulusSelectionUp) ∧
+          bishopCompletionModulusSelectionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨bishopCompletionModulusSelectionDecode_encode,
+      ⟨{
+        toEventFlow := bishopCompletionModulusSelectionToEventFlow
+        fromEventFlow := bishopCompletionModulusSelectionFromEventFlow
+      }⟩,
+      ⟨{
+        round_trip := by
+          intro x
+          change
+            bishopCompletionModulusSelectionFromEventFlow
+                (bishopCompletionModulusSelectionToEventFlow x) =
+              some x
+          exact bishopCompletionModulusSelection_round_trip x
+        layer_separation := by
+          intro x y hxy heq
+          exact hxy (bishopCompletionModulusSelectionToEventFlow_injective heq)
+      }⟩,
+      rfl⟩
 
-end BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
+end BEDC.Derived.BishopCompletionModulusSelectionUp

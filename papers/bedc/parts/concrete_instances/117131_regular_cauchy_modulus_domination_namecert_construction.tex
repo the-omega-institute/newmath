@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusDominationUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-domination-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyModulusDominationUp$ packet records the finite domination route by which one regular-Cauchy modulus may be replaced by a cofinal dominating modulus without changing the displayed tail-window readback. It sits after the completion-modulus packet of \autoref{ch:concrete-instances-bishopcompletionmodulus-namecert}, the Cauchy threshold surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite L10 route for changing modulus representatives along a displayed tail comparison; it does not select limits, quotient regular Cauchy names, countable-choice schedules, host real equality, or ambient completeness.
+
+\begin{definition}[Regular Cauchy modulus domination carrier]
+\label{def:regular-cauchy-modulus-domination-carrier}
+A $\RegularCauchyModulusDominationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M_0,M_1,D,W_0,W_1,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ is the source $\CauchyModulusUp$ row attached to the original regular-Cauchy tail request.
+\item $M_1$ is the dominating $\CauchyModulusUp$ row whose displayed threshold is used by the replacement route.
+\item $D$ is the $\DyadicRatCoreUp$ domination ledger, certifying that $M_1$ dominates $M_0$ on the displayed tail and tolerance scale.
+\item $W_0$ and $W_1$ are the corresponding $\StreamNameUp$ finite windows read from the source modulus and the dominating modulus.
+\item $T$ is the cofinal tail comparison row, recording that every source-tail read used by $M_0$ is met by a dominating-tail read through $M_1$.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the dominated window comparison and the dyadic ledger.
+\item $E$ is the $\RealUp$ seal row reached only after the two moduli, the domination ledger, both windows, the cofinal tail row, and the regular readback have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the two modulus rows, domination ledger, windows, cofinal tail comparison, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M_0,M_1,D \longmapsto W_0,W_1,T \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyModulusDominationUp$, $\BishopCompletionModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusDominationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M_0,M_1,D,W_0,W_1,T,R,E,H,C,P,N$. It has no coordinate for an infinite modulus choice function, selected limit, quotient stream equality, countable choice, host real equality, or ambient $\RealUp$ completeness theorem.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyModulusDominationUp}
+
+\begin{theorem}[Regular Cauchy modulus domination NameCert obligations]
+\label{thm:regular-cauchy-modulus-domination-namecert-obligations}
+For every accepted $\RegularCauchyModulusDominationUp$ carrier $K=(M_0,M_1,D,W_0,W_1,T,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyModulusDominationUp}$ surface consists exactly of carrier admission for the displayed packet; source and dominating modulus exposure; dyadic domination through $D$; paired StreamName window exposure through $W_0,W_1$; cofinal tail comparison through $T$; RegSeqRat handoff through $R$; RealUp seal non-escape through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The tuple in \autoref{def:regular-cauchy-modulus-domination-carrier} lists exactly the two modulus rows, the dyadic domination ledger, the two window rows, the cofinal tail comparison, the regular readback, the Real seal, and the structural rows.
+
+The domination obligation is forced by the order of the rows. A consumer first reads $M_0$ and $M_1$, then reads $D$ as the finite certificate that the displayed $M_1$ threshold dominates the displayed $M_0$ threshold on the inspected tail.
+
+The handoff rows are downstream. The windows $W_0,W_1$ and the cofinal comparison $T$ supply the only route to $R$, and $E$ is available only after $R$. Transport, replay, provenance, and naming preserve the same packet, so no unlisted modulus selector or completion principle can be exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus domination tail stability]
+\label{thm:regular-cauchy-modulus-domination-tail-stability}
+Let $K=(M_0,M_1,D,W_0,W_1,T,R,E,H,C,P,N)$ be an accepted $\RegularCauchyModulusDominationUp$ carrier. Any later tail request transported by the displayed $\hsame$ rows and still certified by the domination ledger $D$ reads the same cofinal comparison row $T$, the same dominating window route $W_1$, and the same $\RegSeqRatUp$ handoff row $R$. Thus replacing $M_0$ by the dominating modulus $M_1$ is stable for every Real-facing read that remains inside the displayed tail.
+\end{theorem}
+\begin{proof}
+Start with the transported tail request. Componentwise $\hsame$ transport preserves the visible modulus, ledger, window, cofinal comparison, readback, and seal rows rather than creating a second tail source.
+
+Read the dyadic domination ledger next. Since $D$ is still the certificate for the transported request, the route from the source window to the dominating window must pass through $T$ and then through $W_1$.
+
+Finally replay the continuation route. The row $R$ is downstream from the two windows and $T$, and the Real seal $E$ is downstream from $R$. Hence every transported Real-facing read stays on the original dominated tail route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus domination Real seal route]
+\label{thm:regular-cauchy-modulus-domination-real-seal-route}
+Every accepted $\RegularCauchyModulusDominationUp$ carrier routes a Real-completion consumer through the finite chain
+$$
+M_0,M_1,D \longmapsto W_0,W_1,T \longmapsto R \longmapsto E .
+$$
+The terminal $\RealUp$ seal records that the dominated cofinal tail window has already been repacked as a $\RegSeqRatUp$ handoff. It exports no selected real limit, quotient regular Cauchy equality, hidden modulus choice function, countable choice, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The displayed $\Cont$ row supplies the chain. A Real-completion consumer must first expose the two modulus rows and the domination ledger, then the paired windows and cofinal tail comparison.
+
+The regular rational handoff is the next visible row. By the carrier definition, $R$ is obtained only after $W_0,W_1,T$ have been displayed, so the handoff cannot be read from an unregistered modulus or a hidden tail selector.
+
+The Real seal is terminal. Since $E$ appears after $R$ and the carrier contains no selected limit, quotient equality, choice schedule, host equality, or completeness coordinate, the seal exports only the finite dominated-tail route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyModulusDominationUp$ consumer that reaches a $\RealUp$ seal without displaying $M_0$, $M_1$, the dyadic domination ledger $D$, both $\StreamNameUp$ windows, the cofinal tail comparison $T$, the $\RegSeqRatUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows refutes the packet.}
+
+\independenceWitness{bishopcompletionmodulus, cauchymodulus, streamname, dyadicratcore, regseqrat, real: no listed sibling is bijective with $\RegularCauchyModulusDominationUp$ because this packet jointly carries two modulus rows, a domination ledger, paired windows, cofinal tail comparison, regular readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyModulusDominationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyModulusDominationUp}
+  \constructivestory{A $\RegularCauchyModulusDominationUp$ packet is generated from two CauchyModulus rows, a DyadicRatCore domination ledger, paired StreamName windows, a cofinal tail comparison row, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-domination-carrier}, \autoref{thm:regular-cauchy-modulus-domination-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-domination-tail-stability}, and \autoref{thm:regular-cauchy-modulus-domination-real-seal-route} seed the finite domination route between source and dominating regular-Cauchy moduli over displayed tail windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient regular Cauchy equality, infinite modulus choice, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic domination, paired window exposure, cofinal tail comparison, RegSeqRat handoff, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyModulusDominationUp.}
+\end{closurestatus}
