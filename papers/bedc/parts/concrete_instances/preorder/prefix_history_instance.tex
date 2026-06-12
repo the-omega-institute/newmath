@@ -1,0 +1,20 @@
+\begin{definition}[Prefix-history preorder instance]
+\label{def:preorder-prefix-history-instance}
+The prefix-history preorder instance pins the $\PreorderUp$ carrier and relation to the concrete kernel rows
+$$
+\mathsf{Carrier}:=\mathsf{UnaryHistory},
+\qquad
+\mathsf{relation}:=\mathsf{PreorderPrefixLE}.
+$$
+Its law row consists of reflexivity from $\hsame$ via $\mathsf{PreorderPrefixLE\_of\_hsame}$ and transitivity via $\mathsf{PreorderPrefixLE\_trans}$.
+\end{definition}
+
+\begin{theorem}[Prefix-history preorder laws]
+\label{thm:preorder-prefix-history-laws}
+For the instance of \autoref{def:preorder-prefix-history-instance}, every carrier history is related to itself, and whenever $\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,r)$ hold, $\mathsf{PreorderPrefixLE}(h,r)$ holds. Thus the concrete $\BHist$ prefix relation supplies a preorder instance without adding an abstract carrier parameter or a separate relation schema.
+\end{theorem}
+\begin{proof}
+For reflexivity, apply $\mathsf{PreorderPrefixLE\_of\_hsame}$ to the reflexive $\hsame$ witness on the displayed $\mathsf{UnaryHistory}$ carrier.
+
+For transitivity, apply $\mathsf{PreorderPrefixLE\_trans}$ to the two displayed prefix comparisons. The resulting law row is exactly the concrete instance row named in the definition, so no additional carrier or classifier parameter is introduced.
+\end{proof}
