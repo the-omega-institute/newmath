@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\YoungTableauUp$}
+\label{ch:concrete-instances-young-tableau-namecert}
+\origin{human}
+
+Following Fulton, \emph{Young Tableaux}, the $\YoungTableauUp$ packet records the finite row-and-column filling surface of a Young diagram as BEDC NameCert data. It consumes the partition-shape discipline of \autoref{ch:concrete-instances-partition-namecert}, supplies a tableau row ledger usable by character-theoretic consumers such as \autoref{ch:concrete-instances-charactertheory-namecert}, and exposes a representation-ring-facing finite classifier route for \autoref{ch:concrete-instances-representationring-namecert}. The packet names only displayed shape, alphabet, row, column, transport, provenance, and local certificate rows; it does not import a host set of boxes, quotient equality of tableaux, a Schur polynomial calculation, or a Littlewood--Richardson rule.
+
+\begin{definition}[Young tableau carrier]
+\label{def:young-tableau-carrier}
+A $\YoungTableauUp$ carrier is a finite $\BHist$ packet
+$$
+Y=(S,A,R,C,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the consumed $\PartitionUp$ shape row, including the finite Young-diagram box list and its row-length ledger.
+\item $A$ is the entry-alphabet row, recording the finite alphabet visible to the tableau and the admissible entry names used by downstream readers.
+\item $R$ is the row ledger, listing each displayed row, its ordered boxes, and the weak row comparison data carried by the packet.
+\item $C$ is the column ledger, listing each displayed column, its ordered boxes, and the strict column comparison data carried by the packet.
+\item $T$ records componentwise $\hsame$ transport for the shape, alphabet, row, column, replay, provenance, and local naming rows.
+\item $P$ records displayed $\Cont$ replay and $\Pkg$ provenance over $\YoungTableauUp$, $\PartitionUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\YoungTableauUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,A,R,C,T,P,N$. It has no coordinate for host box equality, quotient tableau equality, an ambient symmetric-function algebra, a Schur functor construction, or a plactic monoid quotient.
+\end{definition}
+
+\begin{theorem}[Young tableau NameCert obligations]
+\label{thm:young-tableau-namecert-obligations}
+For every accepted $\YoungTableauUp$ carrier $Y=(S,A,R,C,T,P,N)$ of \autoref{def:young-tableau-carrier}, the local $\NameCert_{\YoungTableauUp}$ surface consists exactly of carrier admission, partition-shape exposure through $S$, entry-alphabet exposure through $A$, row-ledger exposure through $R$, column-ledger exposure through $C$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay and $\Pkg$ provenance through $P$, and local naming through $N$. These obligations do not include a host tableau set, quotient equality of fillings, a Schur-polynomial identity, a Littlewood--Richardson coefficient, or a representation-theoretic completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:young-tableau-carrier}. The packet exposes only the seven displayed rows $S,A,R,C,T,P,N$.
+
+The combinatorial surface is read from $S,A,R,C$. The shape row fixes the finite box list, the alphabet row fixes the admissible entry names, and the row and column ledgers display the only comparison data available to the classifier.
+
+The structural surface is then $T,P,N$. Componentwise transport, replay, provenance, and local naming preserve the already displayed rows and add no ambient tableau semantics. Since the carrier contains no further coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Young tableau shape-row-column stability]
+\label{thm:young-tableau-shape-row-column-stability}
+Let $Y=(S,A,R,C,T,P,N)$ and $Y'=(S',A',R',C',T',P',N')$ be accepted $\YoungTableauUp$ carriers. If the shape rows $S$ and $S'$ are equal as displayed partition-shape rows, the alphabet rows $A$ and $A'$ expose the same entry names, and the row and column ledgers $R,C$ and $R',C'$ agree componentwise under the displayed $\hsame$ transport, then the tableau classifier gives the same read to $Y$ and $Y'$. The stability claim is internal to the finite rows $S,A,R,C,T,P,N$ and does not assert equality of host fillings.
+\end{theorem}
+\begin{proof}
+Begin with the shape rows. Equality of $S$ and $S'$ identifies the same finite Young-diagram box list and row-length ledger, so both packets expose the same positions before any tableau read begins.
+
+Use the displayed alphabet, row, and column ledgers next. The alphabet agreement identifies the admissible entry names, while the componentwise agreement of $R,C$ with $R',C'$ preserves the weak row and strict column comparison data carried by the packets.
+
+Finally apply the structural rows. The transports $T,T'$ and the replay/provenance rows $P,P'$ preserve only the displayed shape, alphabet, row, and column data, and $N,N'$ locally name that same finite route. Thus the classifier has no remaining coordinate on which to distinguish the two accepted reads.
+\end{proof}
+
+\closureat{YoungTableauUp}{seedStr}
+
+\begin{closurestatus}{\YoungTableauUp}
+  \constructivestory{A $\YoungTableauUp$ packet is generated from a partition-shape row, a finite entry-alphabet row, displayed row and column ledgers, componentwise hsame transport, displayed Cont replay with Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:young-tableau-carrier}, \autoref{thm:young-tableau-namecert-obligations}, and \autoref{thm:young-tableau-shape-row-column-stability} seed the finite tableau carrier, obligation surface, and classifier-stability route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Schur polynomial identities, Littlewood--Richardson coefficients, plactic monoid quotients, Schur functor exactness, representation-theoretic completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shape exposure, alphabet exposure, row-ledger exposure, column-ledger exposure, transport, replay, provenance, and local naming for BEDC.Derived.YoungTableauUp.}
+\end{closurestatus}
