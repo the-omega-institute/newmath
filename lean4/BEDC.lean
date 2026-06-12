@@ -1424,6 +1424,7 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyApproximationSchemeUp.TasteGate
 import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
 import BEDC.Derived.CauchyApproximationSystemUp.TasteGate
+import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
@@ -6871,6 +6872,7 @@ import BEDC.Derived.MinkowskiDimensionUp
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.MirskyTheoremUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelCatUp.TasteGate
@@ -9660,6 +9662,7 @@ import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
+import BEDC.Derived.UnaryZeroSpineStandardIsoUp.AxisNatHandoff
 import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.TasteGate
