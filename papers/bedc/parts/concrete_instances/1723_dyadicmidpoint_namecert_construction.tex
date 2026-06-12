@@ -249,6 +249,26 @@ Finally use \autoref{thm:dyadic-midpoint-real-handoff-noncompletion}. The $\Real
 The carrier contains no quotient endpoint, completed interval intersection, host real equality, or ambient completeness row. Therefore the selected-window denominator route is the only seal-facing handoff for midpoint consumers.
 \end{proof}
 
+\begin{theorem}[DyadicMidpoint radius-halving window]
+\label{thm:dyadic-midpoint-radius-halving-window}
+Let a $\DyadicIntervalUp$ row display endpoints $L,R$ through $\DyadicRatCoreUp$ and let a positive dyadic radius budget $\rho$ be attached to that interval row. An accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N)
+$$
+splits the displayed interval into two child interval rows with endpoints $(L,\mu)$ and $(\mu,R)$. Each child radius budget is bounded by the parent half-radius $\rho/2$, and the endpoint, midpoint, branch, and readback rows remain transported through the same $\StreamNameUp$- and $\RegSeqRatUp$-compatible ledger $W,H,C,P,N$.
+
+The split exports no ambient $\RealUp$ completeness, no quotient equality of endpoints, and no completed interval intersection.
+\end{theorem}
+\begin{proof}
+Read the interval endpoint data through the displayed $\DyadicRatCoreUp$ rows. The common-denominator row $S$ transports $L$ and $R$ to one dyadic denominator, and the midpoint row $\mu$ is computed from that scaled ledger by the dyadic midpoint calculation.
+
+The branch row $B$ then displays the two possible retained child rows. The left child uses endpoints $(L,\mu)$ and the right child uses $(\mu,R)$; both inherit endpoint admission from $L,R,S,\mu$ and do not introduce a third endpoint source.
+
+The radius estimate is the finite denominator calculation already visible in the midpoint ledger. Since $\mu$ is the displayed midpoint of the scaled endpoint row, each child interval has dyadic width bounded by one half of the parent width, so its radius budget is bounded by $\rho/2$.
+
+Finally apply the finite-window route $W,H,C,P,N$. Those rows are the only consumer-facing readback, transport, continuation, package, and naming rows in the carrier, so the same $\StreamNameUp$ and $\RegSeqRatUp$ ledger carries the child endpoint reads. The carrier has no coordinate for $\RealUp$ completeness, quotient endpoint equality, or completed interval intersections, so none is exported.
+\end{proof}
+
 \begin{theorem}[DyadicMidpoint RealUp handoff without completion]
 \label{thm:dyadic-midpoint-real-handoff-noncompletion}
 For every accepted $\DyadicMidpointUp$ carrier
