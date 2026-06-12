@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ProofEntropyLedgerUp$}
+\label{ch:concrete-instances-proof-entropy-ledger-namecert}
+\origin{ai}
+
+The $\ProofEntropyLedgerUp$ packet realizes the theorem-DNA scoring surface of \autoref{ch:theorem-dna-scoring-taste-gate} as finite ledger data. It sits beside the score carrier of \autoref{ch:concrete-instances-theorem-dna-score-namecert}, the theorem-genome evolution packet of \autoref{ch:concrete-instances-theorem-genome-evolution-namecert}, the proof trace normal form of \autoref{ch:concrete-instances-proof-trace-normal-form-namecert}, the audit-gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the certificate audit gate of \autoref{ch:concrete-instances-certificateauditgate-namecert}. The packet exists so scalar theorem quality reads cannot detach from theorem-flow locus masses, recognizer mass, a public weight profile, and a displayed score-bound ledger.
+
+\begin{definition}[Proof entropy ledger carrier]
+\label{def:proof-entropy-ledger-carrier}
+A $\ProofEntropyLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,M,R,W,S,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theorem-flow source row, exposing the canonical theorem candidate and its site before any scalar read is public.
+\item $M$ is the theorem-DNA locus-mass row, recording the eight displayed masses for statement, dependencies, proof, certificates, ledger, status, canonical site, and closing seal.
+\item $R$ is the recognizer-mass row attached to the generated theorem recognizer.
+\item $W$ is the public weight-profile row, a nine-coordinate profile for the eight theorem-DNA loci together with recognizer mass.
+\item $S$ is the score-profile row, recording the componentwise products and the displayed scalar total.
+\item $A$ is the score-bound audit row, exposing the accepted bound, comparison result, and refusal of any scalar read that omits $M,R,W,S$.
+\item $E$ is the closing seal row, tying the score-bound ledger to the theorem-DNA closing seal and audit status.
+\item $H$ records componentwise $\hsame$ transport for $T,M,R,W,S,A,E$.
+\item $C$ records displayed $\Cont$ replay from theorem-flow exposure through locus masses, recognizer mass, public weights, score profile, score-bound audit, and closing seal.
+\item $P$ is the $\Pkg$ provenance over $\ProofEntropyLedgerUp$, $\TheoremDnaScoreUp$, $\TheoremGenomeEvolutionUp$, $\ProofTraceNormalFormUp$, $\AuditGateBoundaryUp$, $\CertificateAuditGateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProofEntropyLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,M,R,W,S,A,E,H,C,P,N$. It has no coordinate for a private weight profile, hidden recognizer mass, score-only theorem quality, unledgered audit acceptance, or an external theorem-value oracle.
+\end{definition}
+
+\begin{theorem}[Proof entropy ledger NameCert obligations]
+\label{thm:proof-entropy-ledger-namecert-obligations}
+For every accepted $\ProofEntropyLedgerUp$ carrier
+$$
+L=(T,M,R,W,S,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\ProofEntropyLedgerUp}$ surface consists exactly of theorem-flow exposure through $T$, theorem-DNA locus masses through $M$, recognizer mass through $R$, public weight profile through $W$, score profile through $S$, score-bound audit through $A$, closing seal through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-entropy-ledger-carrier}. The theorem-flow source $T$, locus-mass row $M$, recognizer-mass row $R$, public weight profile $W$, score profile $S$, score-bound audit $A$, and closing seal $E$ are the only scoring rows.
+
+The support rows then preserve the same route. Componentwise transport is $H$, displayed replay is $C$, provenance is $P$, and local naming is $N$.
+
+Since the carrier has no private-weight, score-only, hidden-recognizer, or external theorem-value coordinate, every certified scalar read must expose the listed rows.
+\end{proof}
+
+\begin{theorem}[Proof entropy ledger weight-profile nonescape]
+\label{thm:proof-entropy-ledger-weight-profile-nonescape}
+Every scalar score read from an accepted $\ProofEntropyLedgerUp$ packet must factor through the ordered ledger route
+$$
+T,M,R,W \longmapsto S \longmapsto A \longmapsto E .
+$$
+In particular, the score profile $S$ is public only together with the theorem-DNA locus masses $M$, recognizer mass $R$, and public weight profile $W$, and the score-bound audit $A$ cannot be replayed as a scalar theorem-quality judgment after erasing the weight profile.
+\end{theorem}
+\begin{proof}
+Start with the theorem-flow source row $T$. It fixes the theorem candidate whose locus masses are being read, so the score cannot float free of a canonical theorem site.
+
+Next expose $M,R,W$. These rows give the eight theorem-DNA masses, the recognizer mass, and the public nine-coordinate weight profile before the scalar score profile is formed.
+
+The row $S$ is therefore downstream from the mass and weight rows. The audit row $A$ can compare the displayed total with the displayed bound only after that downstream score profile is present, and the seal row $E$ closes the same ledger.
+
+Transport, replay, provenance, and local naming preserve this order through $H,C,P,N$. A consumer that erases $W$ no longer has the row required to reconstruct or audit the scalar score, so no weight-detached score read escapes the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProofEntropyLedgerUp$ read must expose theorem-flow locus masses, recognizer mass, public weight profile, score bound, audit status, closing seal, transport, replay, provenance, and local naming before any scalar quality read is public.}
+
+\independenceWitness{theorem-dna-score, theorem-genome-evolution, proof-trace-normal-form, auditgateboundary, certificateauditgate: $\ProofEntropyLedgerUp$ is not bijective to any listed sibling because it jointly carries a public weight profile and score-bound ledger as first-class rows.}
+
+The Lean follow-up must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances in \texttt{lean4/BEDC/Derived/ProofEntropyLedgerUp/TasteGate.lean}, preserving the theorem-flow source, locus-mass profile, recognizer-mass profile, public weight profile, score-profile row, score-bound audit row, and closing seal as separate displayed fields.
+
+\closureat{ProofEntropyLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ProofEntropyLedgerUp}
+  \constructivestory{A $\ProofEntropyLedgerUp$ packet is generated from theorem-flow source data, theorem-DNA locus masses, recognizer mass, a public weight profile, a score profile, a score-bound audit row, a closing seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-entropy-ledger-carrier}, \autoref{thm:proof-entropy-ledger-namecert-obligations}, and \autoref{thm:proof-entropy-ledger-weight-profile-nonescape} seed the finite theorem-DNA score ledger whose scalar read remains attached to public mass and weight rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close theorem-DNA scoring optimality, classifier-shift discovery, hidden recognizer soundness, global theorem quality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-flow exposure, locus-mass exactness, recognizer-mass exactness, public weight-profile exactness, score-bound nonescape, audit status, closing seal, transport, replay, provenance, local naming, and TasteGate instances for BEDC.Derived.ProofEntropyLedgerUp.}
+\end{closurestatus}
