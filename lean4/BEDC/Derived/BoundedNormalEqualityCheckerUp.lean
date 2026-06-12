@@ -356,4 +356,122 @@ theorem BoundedNormalEqualityCheckerCarrier_fuel_monotonicity [AskSetup] [Packag
       normalRightPlusUnary, equalityPlusUnary, routePlusUnary, equalityPlusRoute,
       routePlusRoute, provenancePlusPkg⟩
 
+theorem BoundedNormalEqualityCheckerCarrier_scope_closure [AskSetup] [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      Cont transport route packageRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row packageRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row left ∨ hsame row right ∨ hsame row fuel ∨ hsame row normalLeft ∨
+                hsame row normalRight ∨ hsame row equality ∨ hsame row witness ∨
+                  hsame row closed ∨ hsame row transport ∨ hsame row route ∨
+                    hsame row provenance ∨ hsame row nameCert ∨ hsame row packageRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont left fuel normalLeft ∧ Cont right fuel normalRight ∧
+                Cont normalLeft normalRight equality ∧ Cont transport route packageRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg)
+            hsame ∧
+          UnaryHistory packageRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier transportRoutePackage
+  obtain ⟨_leftUnary, _rightUnary, _fuelUnary, normalLeftUnary, normalRightUnary,
+    _equalityUnary, _witnessUnary, _closedUnary, transportUnary, routeUnary,
+    _provenanceUnary, _nameCertUnary, leftRoute, rightRoute, equalityRoute, provenancePkg,
+    nameCertPkg⟩ := carrier
+  have packageUnary : UnaryHistory packageRead :=
+    unary_cont_closed transportUnary routeUnary transportRoutePackage
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row packageRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row left ∨ hsame row right ∨ hsame row fuel ∨ hsame row normalLeft ∨
+              hsame row normalRight ∨ hsame row equality ∨ hsame row witness ∨
+                hsame row closed ∨ hsame row transport ∨ hsame row route ∨
+                  hsame row provenance ∨ hsame row nameCert ∨ hsame row packageRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont left fuel normalLeft ∧ Cont right fuel normalRight ∧
+              Cont normalLeft normalRight equality ∧ Cont transport route packageRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg)
+          hsame := by
+    exact
+      { core :=
+          { carrier_inhabited := Exists.intro packageRead ⟨hsame_refl packageRead, packageUnary⟩
+            equiv_refl := by
+              intro h _source
+              exact hsame_refl h
+            equiv_symm := by
+              intro _h _k same
+              exact hsame_symm same
+            equiv_trans := by
+              intro _h _k _r sameHK sameKR
+              exact hsame_trans sameHK sameKR
+            carrier_respects_equiv := by
+              intro _h _k same source
+              exact
+                ⟨hsame_trans (hsame_symm same) source.left,
+                  unary_transport source.right same⟩ }
+        pattern_sound := by
+          intro _row source
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          exact source.left
+        ledger_sound := by
+          intro _row source
+          exact
+            ⟨source.right, leftRoute, rightRoute, equalityRoute, transportRoutePackage,
+              provenancePkg, nameCertPkg⟩ }
+  exact ⟨cert, packageUnary, provenancePkg, nameCertPkg⟩
+
+theorem BoundedNormalEqualityCheckerScopeClosure [AskSetup] [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert equalityRead finishedRead packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      Cont normalLeft normalRight equalityRead ->
+        Cont equalityRead witness finishedRead ->
+          Cont transport route packageRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row nameCert ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row left ∨ hsame row right ∨ hsame row fuel ∨
+                    hsame row normalLeft ∨ hsame row normalRight ∨ hsame row equality ∨
+                      hsame row witness ∨ hsame row closed ∨ hsame row nameCert)
+                (fun row : BHist =>
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg ∧
+                    hsame row nameCert)
+                hsame ∧
+              UnaryHistory equalityRead ∧ UnaryHistory finishedRead ∧
+                UnaryHistory packageRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier equalityReadRoute finishedReadRoute packageReadRoute
+  have cert :=
+    (BoundedNormalEqualityCheckerCarrier_namecert_obligations carrier).left
+  obtain ⟨_leftUnary, _rightUnary, _fuelUnary, normalLeftUnary, normalRightUnary,
+    _equalityUnary, witnessUnary, _closedUnary, transportUnary, routeUnary, _provenanceUnary,
+    _nameCertUnary, _leftRoute, _rightRoute, _equalityRoute, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have equalityReadUnary : UnaryHistory equalityRead :=
+    unary_cont_closed normalLeftUnary normalRightUnary equalityReadRoute
+  have finishedReadUnary : UnaryHistory finishedRead :=
+    unary_cont_closed equalityReadUnary witnessUnary finishedReadRoute
+  have packageReadUnary : UnaryHistory packageRead :=
+    unary_cont_closed transportUnary routeUnary packageReadRoute
+  exact ⟨cert, equalityReadUnary, finishedReadUnary, packageReadUnary⟩
+
 end BEDC.Derived.BoundedNormalEqualityCheckerUp

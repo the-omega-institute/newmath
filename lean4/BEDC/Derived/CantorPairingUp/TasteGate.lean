@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CantorPairingUp
@@ -10,8 +11,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CantorPairingUp : Type where
+  -- BEDC touchpoint anchor: BHist BMark
   | mk (X Y J L R H C P N : BHist) : CantorPairingUp
-  deriving DecidableEq
 
 def cantorPairingEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -25,52 +26,51 @@ def cantorPairingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cantorPairingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cantorPairingDecodeBHist tail)
 
-private theorem CantorPairingTasteGate_single_carrier_alignment_decode_encode :
+private theorem cantorPairingDecode_encode :
     ∀ h : BHist, cantorPairingDecodeBHist (cantorPairingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def cantorPairingFields : CantorPairingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CantorPairingUp.mk X Y J L R H C P N => [X, Y, J, L, R, H, C, P, N]
 
-def cantorPairingToEventFlow : CantorPairingUp → EventFlow
+def cantorPairingToEventFlow : CantorPairingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cantorPairingFields x).map cantorPairingEncodeBHist
+  fun x => (cantorPairingFields x).map cantorPairingEncodeBHist
 
-private def cantorPairingEventAt : Nat → EventFlow → RawEvent
+private def cantorPairingEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cantorPairingEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      cantorPairingEventAtDefault index rest
 
 def cantorPairingFromEventFlow (ef : EventFlow) : Option CantorPairingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CantorPairingUp.mk
-      (cantorPairingDecodeBHist (cantorPairingEventAt 0 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 1 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 2 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 3 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 4 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 5 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 6 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 7 ef))
-      (cantorPairingDecodeBHist (cantorPairingEventAt 8 ef)))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 0 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 1 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 2 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 3 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 4 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 5 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 6 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 7 ef))
+      (cantorPairingDecodeBHist (cantorPairingEventAtDefault 8 ef)))
 
-private theorem CantorPairingTasteGate_single_carrier_alignment_round_trip
-    (x : CantorPairingUp) :
-    cantorPairingFromEventFlow (cantorPairingToEventFlow x) = some x := by
+private theorem cantorPairing_round_trip :
+    ∀ x : CantorPairingUp,
+      cantorPairingFromEventFlow (cantorPairingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases x with
+  intro token
+  cases token with
   | mk X Y J L R H C P N =>
       change
         some
@@ -85,18 +85,13 @@ private theorem CantorPairingTasteGate_single_carrier_alignment_round_trip
             (cantorPairingDecodeBHist (cantorPairingEncodeBHist P))
             (cantorPairingDecodeBHist (cantorPairingEncodeBHist N))) =
           some (CantorPairingUp.mk X Y J L R H C P N)
-      rw [CantorPairingTasteGate_single_carrier_alignment_decode_encode X,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode Y,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode J,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode L,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode R,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode H,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode C,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode P,
-        CantorPairingTasteGate_single_carrier_alignment_decode_encode N]
+      rw [cantorPairingDecode_encode X, cantorPairingDecode_encode Y,
+        cantorPairingDecode_encode J, cantorPairingDecode_encode L,
+        cantorPairingDecode_encode R, cantorPairingDecode_encode H,
+        cantorPairingDecode_encode C, cantorPairingDecode_encode P,
+        cantorPairingDecode_encode N]
 
-private theorem CantorPairingTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : CantorPairingUp} :
+private theorem cantorPairingToEventFlow_injective {x y : CantorPairingUp} :
     cantorPairingToEventFlow x = cantorPairingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -105,19 +100,8 @@ private theorem CantorPairingTasteGate_single_carrier_alignment_toEventFlow_inje
         cantorPairingFromEventFlow (cantorPairingToEventFlow y) :=
     congrArg cantorPairingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CantorPairingTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CantorPairingTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem CantorPairingTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : CantorPairingUp, cantorPairingFields x = cantorPairingFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X₁ Y₁ J₁ L₁ R₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk X₂ Y₂ J₂ L₂ R₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (cantorPairing_round_trip x).symm
+      (Eq.trans hread (cantorPairing_round_trip y)))
 
 instance cantorPairingBHistCarrier : BHistCarrier CantorPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -129,49 +113,19 @@ instance cantorPairingChapterTasteGate : ChapterTasteGate CantorPairingUp where
   round_trip := by
     intro x
     change cantorPairingFromEventFlow (cantorPairingToEventFlow x) = some x
-    exact CantorPairingTasteGate_single_carrier_alignment_round_trip x
+    exact cantorPairing_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CantorPairingTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance cantorPairingFieldFaithful : FieldFaithful CantorPairingUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := cantorPairingFields
-  field_faithful := CantorPairingTasteGate_single_carrier_alignment_fields_faithful
-
-instance cantorPairingNontrivial : BEDC.Meta.TasteGate.Nontrivial CantorPairingUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CantorPairingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CantorPairingUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate CantorPairingUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  cantorPairingChapterTasteGate
+    exact hxy (cantorPairingToEventFlow_injective heq)
 
 theorem CantorPairingTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CantorPairingUp) ∧
-      Nonempty (FieldFaithful CantorPairingUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial CantorPairingUp) ∧
-          (∀ h : BHist, cantorPairingDecodeBHist (cantorPairingEncodeBHist h) = h) ∧
-            (∀ x : CantorPairingUp,
-              cantorPairingFromEventFlow (cantorPairingToEventFlow x) = some x) ∧
-              (∀ x y : CantorPairingUp,
-                cantorPairingToEventFlow x = cantorPairingToEventFlow y -> x = y) ∧
-                cantorPairingEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+    (∀ h : BHist, cantorPairingDecodeBHist (cantorPairingEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier CantorPairingUp) ∧
+        Nonempty (ChapterTasteGate CantorPairingUp) ∧
+          cantorPairingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨⟨cantorPairingChapterTasteGate⟩,
-      ⟨cantorPairingFieldFaithful⟩,
-      ⟨cantorPairingNontrivial⟩,
-      CantorPairingTasteGate_single_carrier_alignment_decode_encode,
-      CantorPairingTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => CantorPairingTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+    ⟨cantorPairingDecode_encode,
+      ⟨⟨cantorPairingBHistCarrier⟩, ⟨⟨cantorPairingChapterTasteGate⟩, rfl⟩⟩⟩
 
 end BEDC.Derived.CantorPairingUp
