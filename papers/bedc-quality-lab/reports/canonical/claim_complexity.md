@@ -1,7 +1,7 @@
 # Claim Complexity
 
 - Artifact: `bedc-quality-lab:claim-complexity`
-- Generated at: `2026-06-11T08:40:12.594518+00:00`
+- Generated at: `2026-06-12T09:33:41.573506+00:00`
 - Role: `artifact-only evidence`
 
 ## Hardgates
@@ -51,6 +51,7 @@
 | `claim:spectral-ablation-hinge` | `6` | `reports/canonical/claim_verdicts.jsonl:$.lines[32]` | `assumption_complexity=2, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
 | `claim:model-comparison` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[33]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:causal-patch-suite` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[34]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:dimension-mismatch-debt-transfer` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[35]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
-| `claim:single-threshold-escape` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[36]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
-| `claim:training-choice-observability` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[37]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:experiment-stack-cards` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[35]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:dimension-mismatch-debt-transfer` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[36]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:single-threshold-escape` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[37]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:training-choice-observability` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[38]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |

@@ -1,4 +1,4 @@
-<!-- payload-sha256: 1ce070212af1a3ae5584215f84aa998dfa7de93e9d4ef22e16ee24724bae2d99 -->
+<!-- payload-sha256: faf41c5d4c7e6f47011c67e11db9c821ac735375254ec7f2a70b094e31377800 -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
@@ -21,7 +21,7 @@
 
 ## Boundaries
 
-- L0 review status: `pass` (`reports/canonical/dgt-l0-controls.json:$.l0_toy_projection`)
+- L0 review status: `scoped-boundary` (`reports/canonical/dgt-l0-controls.json:$.l0_toy_projection`)
 - L1 scoped review: `pass` (`reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection`)
 - fair architecture comparison: `defer-to-fair-reconstruction` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit`)
 - ablation null interpretation: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
