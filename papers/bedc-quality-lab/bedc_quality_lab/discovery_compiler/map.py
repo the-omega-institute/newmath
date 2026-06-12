@@ -20,6 +20,7 @@ from bedc_quality_lab.evidence_provenance import (
     evidence_provenance_pointer_for_report,
     load_evidence_provenance,
     owner_discovery_row,
+    resolve_owner_pointer,
 )
 
 
@@ -486,8 +487,11 @@ def _validate_owner_evidence_projection(root: Path, row: Mapping[str, Any]) -> N
         raise ValueError("discovery map row lacks owner evidence provenance row")
     if owner.get("evidence_type") != row.get("evidence_type"):
         raise ValueError("discovery map row evidence_type disagrees with owner")
-    if row.get("evidence_provenance_pointer") != evidence_provenance_pointer_for_report(str(row.get("report"))):
+    provenance_pointer = row.get("evidence_provenance_pointer")
+    if provenance_pointer != evidence_provenance_pointer_for_report(str(row.get("report"))):
         raise ValueError("discovery map row evidence provenance pointer disagrees with owner")
+    if resolve_owner_pointer(root, str(provenance_pointer)) != owner:
+        raise ValueError("discovery map row evidence provenance pointer is unresolved")
 
 
 def build_discovery_map_payload(

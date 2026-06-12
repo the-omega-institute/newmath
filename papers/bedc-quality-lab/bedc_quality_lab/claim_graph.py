@@ -565,6 +565,8 @@ def validate_claim_graph_payload(
             errors.append(f"raw_evidence node has terminal verdict: {node.node_id}")
         if not source_pointer_resolves(root, node.source_pointer):
             errors.append(f"node source_pointer does not resolve: {node.node_id}")
+        if node.evidence_provenance_pointer is not None and resolve_artifact_pointer(root, node.evidence_provenance_pointer) is None:
+            errors.append(f"node evidence_provenance_pointer does not resolve: {node.node_id}")
         nodes.append(node)
     try:
         by_id = _nodes_by_id(nodes)

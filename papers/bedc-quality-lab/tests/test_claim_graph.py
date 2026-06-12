@@ -69,7 +69,7 @@ def _write_evidence_provenance_index(root: Path, rows, *, empirical_reports=("ga
             {
                 "report": report,
                 "evidence_type": evidence_type,
-                "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[?report={report}]",
+                "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[{index}]",
                 "metric_provenance_pointers": [f"reports/canonical/index.json:$.evidence_provenance.metric_rows[{index}]"],
                 "producer_training_audit_pointer": f"reports/canonical/index.json:$.evidence_provenance.producer_audits[{index}]",
                 "allowed_claim_kinds": ["empirical_superiority"] if is_empirical else ["projection_only"],
@@ -89,6 +89,7 @@ def _write_evidence_provenance_index(root: Path, rows, *, empirical_reports=("ga
                 "producer_audits": producer_rows,
                 "metric_rows": metric_rows,
                 "discovery_rows": discovery_rows,
+                "discovery_rows_by_report": {str(row["report"]): row for row in discovery_rows},
                 "hardgate_status": {},
                 "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
             },
@@ -730,8 +731,47 @@ def test_dgt_accepted_positive_raw_or_projected_terminal_verdict_leakage_fails(t
 
 def test_terminal_claim_nodes_are_bijection_for_checked_in_verdict_rows():
     root = canonical.ROOT
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    verdict_rows = claim_graph.load_claim_verdict_rows(root)
+    terminal_nodes = {
+        node["node_id"]: node
+        for node in payload["nodes"]
+        if node["node_type"] == "terminal_claim"
+        and str(node["source_pointer"]).startswith(f"{claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT}:")
+    }
+
+    assert set(terminal_nodes) == {row["claim_graph_node_id"] for row in verdict_rows}
+    for index, row in enumerate(verdict_rows):
+        node = terminal_nodes[row["claim_graph_node_id"]]
+        assert node["source_pointer"] == f"{claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]"
+        assert node["terminal_verdict"] == row["claim_verdict"]
+        assert node["node_id"] == claim_graph.terminal_node_id_for_claim_id(row["claim_id"])
+
+
+def test_accepted_positive_claim_fails_closed_without_owner_section(tmp_path):
+    root = _fixture_root(tmp_path)
+    index_path = root / "reports/canonical/index.json"
+    index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+    index_payload.pop("evidence_provenance")
+    index_path.write_text(json.dumps(index_payload, sort_keys=True) + "\n", encoding="utf-8")
+
     with pytest.raises(ValueError, match="provenance owner missing"):
         claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_claim_graph_rejects_unresolvable_evidence_provenance_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:gap-head-discovery":
+            node["evidence_provenance_pointer"] = (
+                "reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report=gap-head-discovery]"
+            )
+
+    errors = claim_graph.validate_claim_graph_payload(broken, root=root)
+
+    assert any("evidence_provenance_pointer does not resolve" in error for error in errors)
 
 
 def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):

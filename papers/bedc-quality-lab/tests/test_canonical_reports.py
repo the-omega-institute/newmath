@@ -7027,3 +7027,16 @@ def test_evidence_provenance_index_section_uses_current_report_manifest(tmp_path
     assert [row["report"] for row in section["metric_rows"]] == ["provenance-fixture"]
     assert [row["report"] for row in section["discovery_rows"]] == ["provenance-fixture"]
     assert section["artifact_pointers"]["owner_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+
+
+def test_index_evidence_provenance_owner_ignores_subset_manifest_argument():
+    payload = canonical._index(
+        [],
+        generated_at="2030-01-01T00:00:00+00:00",
+        canonical_reports=(canonical.CANONICAL_REPORTS[0],),
+    )
+    section = payload["evidence_provenance"]
+    manifest_names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+
+    assert [row["report"] for row in section["producer_audits"]] == manifest_names
+    assert section["hardgate_status"]["EVCLASS-HG1"]["status"] == "pass"

@@ -3031,9 +3031,7 @@ def _experiment_proposals_index_section() -> dict[str, Any]:
 
 
 def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, Any]:
-    from scripts.run_discovery_map import build_discovery_map
-
-    payload = build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    payload = _discovery_map_payload(generated_at=generated_at)
     return {
         "status": "pointer-only",
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
@@ -3047,7 +3045,12 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
 def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
-    return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    try:
+        return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    except ValueError as exc:
+        if "requires evidence provenance owner section" not in str(exc) or not _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
+            raise
+        return _load_artifact_payload(DISCOVERY_MAP_JSON_ARTIFACT)
 
 
 def _all_gates_pass(value: Any) -> bool:
@@ -3209,11 +3212,11 @@ def _claim_graph_index_section(generated_at: str | None = None) -> dict[str, Any
 
 def _evidence_provenance_index_section(
     generated_at: str,
-    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+    canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> dict[str, Any]:
     return build_evidence_provenance(
         root=ROOT,
-        canonical_reports=canonical_reports,
+        canonical_reports=CANONICAL_REPORTS if canonical_reports is None else canonical_reports,
         generated_at=generated_at,
     )
 
@@ -5860,6 +5863,7 @@ def _index(
     claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
     canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
 ) -> dict[str, Any]:
+    del canonical_reports
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
@@ -5899,7 +5903,7 @@ def _index(
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
-        "evidence_provenance": _evidence_provenance_index_section(timestamp, canonical_reports=canonical_reports),
+        "evidence_provenance": _evidence_provenance_index_section(timestamp),
         "claim_artifact_consistency": _claim_artifact_consistency_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),

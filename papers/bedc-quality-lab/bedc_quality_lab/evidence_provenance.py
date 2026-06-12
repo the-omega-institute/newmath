@@ -8,7 +8,6 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-
 SCHEMA_ID = "bedc-quality-lab:evidence-provenance"
 OWNER = "bedc_quality_lab.evidence_provenance"
 INDEX_ARTIFACT = "reports/canonical/index.json"
@@ -30,6 +29,7 @@ TRAINING_CLEAN_STATUS = "empirical_training_clean"
 TRAINING_TAINTED_STATUS = "empirical_training_tainted"
 TRAINING_ABSENT_STATUS = "training_evidence_absent"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
+DISCOVERY_ROWS_BY_REPORT_KEY = "discovery_rows_by_report"
 
 
 @dataclass(frozen=True)
@@ -83,7 +83,7 @@ def _json_ready_dict(row: Any) -> dict[str, Any]:
 
 
 def evidence_provenance_pointer_for_report(report: str) -> str:
-    return f"{INDEX_ARTIFACT}:$.evidence_provenance.discovery_rows[?report={report}]"
+    return f"{INDEX_ARTIFACT}:$.evidence_provenance.{DISCOVERY_ROWS_BY_REPORT_KEY}.{report}"
 
 
 def load_evidence_provenance(root: Path, *, require: bool = True) -> Mapping[str, Any] | None:
@@ -102,11 +102,21 @@ def load_evidence_provenance(root: Path, *, require: bool = True) -> Mapping[str
         if require:
             raise ValueError("canonical index lacks evidence_provenance owner section")
         return None
-    validate_evidence_provenance_payload(section)
+    try:
+        validate_evidence_provenance_payload(section)
+    except ValueError:
+        if require:
+            raise
+        return None
     return section
 
 
 def owner_discovery_row(section: Mapping[str, Any], report: str) -> Mapping[str, Any] | None:
+    rows_by_report = section.get(DISCOVERY_ROWS_BY_REPORT_KEY)
+    if isinstance(rows_by_report, Mapping):
+        row = rows_by_report.get(report)
+        if isinstance(row, Mapping):
+            return row
     rows = section.get("discovery_rows")
     if not isinstance(rows, list):
         return None
@@ -145,9 +155,29 @@ def validate_evidence_provenance_payload(payload: Mapping[str, Any]) -> dict[str
     producer_rows = _require_object_rows(payload, "producer_audits")
     metric_rows = _require_object_rows(payload, "metric_rows")
     discovery_rows = _require_object_rows(payload, "discovery_rows")
-    reports = [str(row.get("report")) for row in producer_rows if isinstance(row.get("report"), str)]
-    if len(reports) != len(set(reports)):
+    producer_reports = [str(row.get("report")) for row in producer_rows if isinstance(row.get("report"), str)]
+    if len(producer_reports) != len(producer_rows):
+        raise ValueError("producer audit rows require report")
+    if len(producer_reports) != len(set(producer_reports)):
         raise ValueError("producer audit report set contains duplicates")
+    metric_reports = [str(row.get("report")) for row in metric_rows if isinstance(row.get("report"), str)]
+    if len(metric_reports) != len(metric_rows):
+        raise ValueError("metric provenance rows require report")
+    if sorted(metric_reports) != sorted(producer_reports):
+        raise ValueError("metric provenance report set must match producer audits")
+    discovery_reports = [str(row.get("report")) for row in discovery_rows if isinstance(row.get("report"), str)]
+    if len(discovery_reports) != len(discovery_rows):
+        raise ValueError("discovery evidence rows require report")
+    if len(discovery_reports) != len(set(discovery_reports)):
+        raise ValueError("discovery evidence report set contains duplicates")
+    if not set(producer_reports).issubset(set(discovery_reports)):
+        raise ValueError("discovery evidence rows must cover producer audits")
+    rows_by_report = payload.get(DISCOVERY_ROWS_BY_REPORT_KEY)
+    if not isinstance(rows_by_report, Mapping):
+        raise ValueError("evidence provenance discovery_rows_by_report must be an object")
+    expected_rows_by_report = {str(row["report"]): row for row in discovery_rows}
+    if dict(rows_by_report) != expected_rows_by_report:
+        raise ValueError("evidence provenance discovery_rows_by_report must mirror discovery_rows")
     for row in metric_rows:
         source_type = row.get("source_type")
         if source_type not in METRIC_SOURCE_TYPES:
@@ -184,25 +214,28 @@ def build_evidence_provenance(
         _discovery_evidence_row(
             spec,
             source_row=_discovery_row_for_report(discovery_source_rows, str(spec.name)),
+            source_index=_discovery_index_for_report(discovery_source_rows, str(spec.name)),
             producer_index=producer_indices[str(spec.name)],
             metric_index=metric_indices[str(spec.name)],
             metric_row=metric_rows[metric_indices[str(spec.name)]],
         )
         for spec in canonical_reports
     ]
-    for source_row in discovery_source_rows:
+    for source_index, source_row in enumerate(discovery_source_rows):
         report = source_row.get("report")
         if not isinstance(report, str) or report in producer_indices:
             continue
-        discovery_rows.append(_sidecar_discovery_evidence_row(source_row, len(discovery_rows)))
+        discovery_rows.append(_sidecar_discovery_evidence_row(source_row, source_index))
     hardgate_status = _hardgate_status(producer_audits, metric_rows, discovery_rows, reports_with_discovery)
+    discovery_row_dicts = [row.as_dict() for row in discovery_rows]
     payload = {
         "schema_id": SCHEMA_ID,
         "owner": OWNER,
         "generated_at": generated_at,
         "producer_audits": [row.as_dict() for row in producer_audits],
         "metric_rows": [row.as_dict() for row in metric_rows],
-        "discovery_rows": [row.as_dict() for row in discovery_rows],
+        "discovery_rows": discovery_row_dicts,
+        DISCOVERY_ROWS_BY_REPORT_KEY: {str(row["report"]): row for row in discovery_row_dicts},
         "hardgate_status": hardgate_status,
         "artifact_pointers": {
             "owner_pointer": f"{INDEX_ARTIFACT}:$.evidence_provenance",
@@ -435,16 +468,24 @@ def _discovery_row_for_report(rows: Sequence[Mapping[str, Any]], report: str) ->
     return matches[0]
 
 
+def _discovery_index_for_report(rows: Sequence[Mapping[str, Any]], report: str) -> int | None:
+    matches = [index for index, row in enumerate(rows) if row.get("report") == report]
+    if len(matches) != 1:
+        return None
+    return matches[0]
+
+
 def _discovery_evidence_row(
     spec: Any,
     *,
     source_row: Mapping[str, Any] | None,
+    source_index: int | None,
     producer_index: int,
     metric_index: int,
     metric_row: MetricProvenanceRow,
 ) -> DiscoveryEvidenceRow:
     report = str(spec.name)
-    discovery_pointer = _discovery_map_pointer(source_row)
+    discovery_pointer = _discovery_map_pointer(source_row, source_index)
     evidence_type = _classify_discovery_evidence(source_row, metric_row)
     allowed_claim_kinds = ("empirical_superiority",) if evidence_type == "empirical_training_clean" else _non_empirical_claim_kinds(evidence_type)
     return DiscoveryEvidenceRow(
@@ -459,11 +500,10 @@ def _discovery_evidence_row(
 
 
 def _sidecar_discovery_evidence_row(source_row: Mapping[str, Any], index: int) -> DiscoveryEvidenceRow:
-    del index
     return DiscoveryEvidenceRow(
         report=str(source_row.get("report")),
         evidence_type="boundary_negative",
-        discovery_map_pointer=_discovery_map_pointer(source_row),
+        discovery_map_pointer=_discovery_map_pointer(source_row, index),
         metric_provenance_pointers=(),
         producer_training_audit_pointer="",
         allowed_claim_kinds=("negative_boundary",),
@@ -486,13 +526,13 @@ def _classify_discovery_evidence(source_row: Mapping[str, Any] | None, metric_ro
     return "boundary_negative"
 
 
-def _discovery_map_pointer(source_row: Mapping[str, Any] | None) -> str | None:
-    if source_row is None:
+def _discovery_map_pointer(source_row: Mapping[str, Any] | None, index: int | None) -> str | None:
+    if source_row is None or index is None:
         return None
     report = source_row.get("report")
     if not isinstance(report, str):
         return None
-    return f"{DISCOVERY_MAP_ARTIFACT}:$.rows[?report={report}]"
+    return f"{DISCOVERY_MAP_ARTIFACT}:$.rows[{index}]"
 
 
 def _non_empirical_claim_kinds(evidence_type: str) -> tuple[str, ...]:
@@ -511,7 +551,10 @@ def _hardgate_status(
 ) -> dict[str, dict[str, str]]:
     gates = {
         "EVCLASS-HG1": (
-            len({row.report for row in producer_audits}) == len(producer_audits),
+            len({row.report for row in producer_audits}) == len(producer_audits)
+            and len(metric_rows) == len(producer_audits)
+            and {row.report for row in metric_rows} == {row.report for row in producer_audits}
+            and {row.report for row in producer_audits}.issubset({row.report for row in discovery_rows}),
             "every canonical report has one producer training audit row",
         ),
         "METRIC-HG1": (
@@ -541,14 +584,6 @@ def _hardgate_status(
 
 
 def resolve_owner_pointer(root: Path, pointer: str) -> Any:
-    if ":$" not in pointer:
-        return None
-    artifact, local_pointer = pointer.split(":", 1)
-    path = root / artifact
-    if not path.exists():
-        return None
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return None
-    return pointer_value(payload, local_pointer)
+    from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+
+    return resolve_artifact_pointer(root, pointer)

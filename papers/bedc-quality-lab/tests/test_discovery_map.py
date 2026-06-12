@@ -9,6 +9,7 @@ from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
     GapHeadD5ReadinessLedger,
 )
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.discovery_compiler import map as discovery_map_schema
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     certificate_guided_dn_preservation,
@@ -32,6 +33,7 @@ from scripts import run_discovery_gated_transformer as dgt_runner
 from scripts import run_discovery_map as discovery_map
 from bedc_quality_lab.mechanism_dna import JSON_ARTIFACT as MECHANISM_DNA_ARTIFACT
 from bedc_quality_lab.mechanism_dna import build_mechanism_dna, mechanism_dna_artifacts
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -1491,6 +1493,8 @@ def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
         "evidence_pointer": "$.positive",
         "audit_status": "valid",
         "audit_reason": "",
+        "evidence_type": "deterministic_projection",
+        "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.positive-fixture",
     }
 
     with pytest.raises(ValueError, match="status must be pointer-only"):
@@ -2924,8 +2928,9 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
         markdown.write_text("# fixture\n", encoding="utf-8")
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+    monkeypatch.setattr(canonical, "_construct_validity_result", lambda spec: None)
 
-    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00", force=True)
 
     assert payload["discovery_map"]["json_artifact"] == "reports/canonical/discovery_map.json"
     assert payload["discovery_map"]["markdown_artifact"] == "reports/canonical/discovery_map.md"
@@ -3130,6 +3135,15 @@ def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
 
 
 def _provenance_owner_payload(report: str, evidence_type: str = "deterministic_projection") -> dict[str, object]:
+    discovery_row = {
+        "report": report,
+        "evidence_type": evidence_type,
+        "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[0]",
+        "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+        "allowed_claim_kinds": ["projection_only"],
+        "not_claimed": ["fixture projection evidence"],
+    }
     return {
         "schema_id": "bedc-quality-lab:evidence-provenance",
         "owner": "bedc_quality_lab.evidence_provenance",
@@ -3160,17 +3174,8 @@ def _provenance_owner_payload(report: str, evidence_type: str = "deterministic_p
                 "not_measurable_reason": None,
             }
         ],
-        "discovery_rows": [
-            {
-                "report": report,
-                "evidence_type": evidence_type,
-                "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[?report={report}]",
-                "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
-                "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
-                "allowed_claim_kinds": ["projection_only"],
-                "not_claimed": ["fixture projection evidence"],
-            }
-        ],
+        "discovery_rows": [discovery_row],
+        "discovery_rows_by_report": {report: discovery_row},
         "hardgate_status": {},
         "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
     }
@@ -3204,9 +3209,7 @@ def _provenance_discovery_row(
         "audit_status": "valid",
         "audit_reason": "",
         "evidence_type": evidence_type,
-        "evidence_provenance_pointer": (
-            f"reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report={report}]"
-        ),
+        "evidence_provenance_pointer": evidence_provenance_pointer_for_report(report),
     }
     if level == "DN":
         row.pop("evidence_pointer")
@@ -3221,9 +3224,7 @@ def test_discovery_map_row_requires_owner_backed_evidence_type(tmp_path):
     payload = discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
 
     assert payload["rows"][0]["evidence_type"] == "deterministic_projection"
-    assert payload["rows"][0]["evidence_provenance_pointer"] == (
-        "reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report=provenance-fixture]"
-    )
+    assert payload["rows"][0]["evidence_provenance_pointer"] == evidence_provenance_pointer_for_report("provenance-fixture")
 
 
 def test_discovery_map_rejects_owner_evidence_type_drift(tmp_path):
@@ -3232,6 +3233,32 @@ def test_discovery_map_rejects_owner_evidence_type_drift(tmp_path):
 
     with pytest.raises(ValueError, match="evidence_type disagrees with owner"):
         discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_map_rejects_unresolvable_owner_pointer(tmp_path):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture", "deterministic_projection")
+    row = _provenance_discovery_row()
+    row["evidence_provenance_pointer"] = (
+        "reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report=provenance-fixture]"
+    )
+
+    with pytest.raises(ValueError, match="owner evidence provenance pointer"):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_map_rejects_pointer_that_matches_expected_but_does_not_resolve(tmp_path, monkeypatch):
+    broken_pointer = "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+    _write_provenance_owner_index(tmp_path, "provenance-fixture", "deterministic_projection")
+    monkeypatch.setattr(
+        discovery_map_schema,
+        "evidence_provenance_pointer_for_report",
+        lambda report: broken_pointer,
+    )
+    row = _provenance_discovery_row()
+    row["evidence_provenance_pointer"] = broken_pointer
+
+    with pytest.raises(ValueError, match="pointer is unresolved"):
+        discovery_map_schema.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
 
 
 def test_discovery_map_deleted_provenance_section_fails_closed(tmp_path):

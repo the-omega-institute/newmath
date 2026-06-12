@@ -8,6 +8,7 @@ from bedc_quality_lab.evidence_provenance import (
     METRIC_SOURCE_TYPES,
     build_evidence_provenance,
     evidence_provenance_pointer_for_report,
+    resolve_owner_pointer,
     validate_evidence_provenance_payload,
 )
 from scripts import run_canonical_reports as canonical
@@ -140,5 +141,36 @@ def test_validation_rejects_non_owner_vocabularies(tmp_path):
 
 def test_evidence_provenance_pointer_is_report_owner_pointer():
     assert evidence_provenance_pointer_for_report("dgt-l0-controls") == (
-        "reports/canonical/index.json:$.evidence_provenance.discovery_rows[?report=dgt-l0-controls]"
+        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.dgt-l0-controls"
     )
+
+
+def test_owner_payload_rejects_missing_discovery_row_map(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload.pop("discovery_rows_by_report")
+
+    with pytest.raises(ValueError, match="discovery_rows_by_report"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_report_owner_pointer_resolves_through_generic_resolver(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    section = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    _write_json(
+        tmp_path,
+        "reports/canonical/index.json",
+        {
+            "schema_id": "bedc-quality-lab:canonical-report-index",
+            "generated_at": "fixture",
+            "evidence_provenance": section,
+        },
+    )
+
+    pointer = evidence_provenance_pointer_for_report("fixture")
+
+    assert resolve_owner_pointer(tmp_path, pointer) == section["discovery_rows_by_report"]["fixture"]
