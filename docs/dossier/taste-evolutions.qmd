@@ -20,20 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-12T05:43:41Z
+> 最后刷新: 2026-06-12T07:13:47Z
 
-**Daemon 状态**: monitor (monitor cycle 51, adjust_since_research 0, round_counter 7637, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 52, adjust_since_research 0, round_counter 7721, last_adjust none)
 
-**待处理 queue** (191 条 finding):
+**待处理 queue** (190 条 finding):
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 80 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 79 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 7 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 - missing_origin: 4 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 13 次
 - TASTE ALERT category=low_entropy_template: 5 次
-- TASTE ALERT category=cycle_exception: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -240,6 +239,8 @@ to case-by-case judgment.
 - 2026-06-12T03:56:08Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_compact_net_radius_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_compact_net_radius_exactness:6137c810`). Rationale: The target is not just a trivial wrapper: it packages the compact-net handoff with unary closure, the original radius route, the handoff route, and compact-net package provenance. Repo search showed no Lean downstream consumer before this change, while the paper marker was the only project-level reference. I added a finite-net boundary consumer theorem that calls the target directly, then replays the compact-net read into a consumer boundary and packages that route as a SemanticNameCert. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-12T05:43:09Z: `resolved` `add_downstream_user` for `BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerCarrier_route_handoff` (flag `isolated_theorem`, finding `isolated_theorem:subjectreductiondischargeledger:BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerCarrier_route_handoff:957b0bb7`). Rationale: The target is structurally meaningful: it packages the carrier route/replay handoff, unary closure for routeRead and replayRead, and provenance/replay package facts. Repo search initially showed no downstream use, so I made the sibling theorem SubjectReductionDischargeLedgerSubjectReductionHandoff consume this handoff directly instead of reproving the same carrier decomposition. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-12T07:13:29Z: `resolved` `leave_with_rationale` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_obligation_carrier_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_obligation_carrier_stability:acf7b076`). Rationale: The target is not a pure restatement: it packages componentwise hsame transport of the MetricProjection carrier rows together with a transported projection-facing read, Cont evidence, and PkgSig provenance. Grep found only the paper primary marker and the Lean declaration, so I attempted add_downstream_user by adding a public-read certificate consumer in the same MetricProjection carrier surface, but the required lake build gate failed on BEDC.Derived.MetricProjectionUp after that edit. Per task contract I reverted the edit and switched to leave_with_rationale; the theorem remains legitimate carrier-stability content but still needs a compiling downstream consumer. Gate results: lake_build=Some required targets logged failures: - BEDC.Derived.MetricProjectionUp; focused error included tabs not allowed at MetricProjectionUp.lean:306:0 and an unsolved goal in MetricProjectionCarrier_public_projection_certificate after the attempted edit., audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
