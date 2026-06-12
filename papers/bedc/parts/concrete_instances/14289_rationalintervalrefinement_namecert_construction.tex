@@ -55,6 +55,24 @@ For the step, assume the retained-window row has been built through the current 
 Compose the two retained reads by repacking the same finite coordinates. The endpoint ledgers provide the parent-child inclusions, any dyadic rows remain support for those inclusions, and $H,C,P,N$ transport, replay, source, and name the same chain. No induction step introduces an infinite branch, a host interval subset, or a completed real point.
 \end{proof}
 
+\begin{theorem}[RationalIntervalRefinement chain exactness]
+\label{thm:rational-interval-refinement-chain-exactness}
+Let a finite $\NatUp$-indexed ledger display accepted $\RationalIntervalRefinementUp$ packets
+$$
+R_i=(I_i,J_i,E_i,W_i,K_i,H_i,C_i,P_i,N_i)
+$$
+with $J_i$ read as the next parent interval $I_{i+1}$ whenever the next packet is present. The public chain surface exposes exactly the initial parent interval $I_0$, the final child interval, the endpoint-inclusion ledgers $E_i$, retained-window rows $W_i$, optional dyadic support rows $K_i$, componentwise transports $H_i$, replay rows $C_i$, provenance rows $P_i$, and local $\NameCert_{\RationalIntervalRefinementUp}$ rows $N_i$. It exposes no infinite branch, completed real-point selection, host interval subset, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Induct on the finite $\NatUp$ ledger. In the base case, the chain has one accepted packet, and \autoref{thm:rational-interval-refinement-retained-window-induction} identifies the retained-window row from the parent interval to the displayed child.
+
+For the step, apply the induction hypothesis to the prefix chain. The next accepted packet reads the previous final child as its parent, adds exactly one endpoint-inclusion ledger, one retained-window row, optional dyadic support, transport, replay, provenance, and local naming row.
+
+Repack the prefix surface with the final packet surface using \autoref{thm:rational-interval-refinement-retained-window-induction}. The resulting chain records the first parent, the last child, and precisely the displayed rows from each finite packet.
+
+No step introduces a coordinate for an infinite refinement branch, a completed real point, a host interval subset, or countable choice. Therefore the retained-window chain is exact as a finite BEDC ledger.
+\end{proof}
+
 \begin{theorem}[RationalIntervalRefinement NameCert obligations]
 \label{thm:rational-interval-refinement-namecert-obligations}
 The seed $\NameCert_{\RationalIntervalRefinementUp}$ surface for \autoref{def:rational-interval-refinement-carrier} consists exactly of carrier exposure for $R$, classifier exposure for the parent-child containment pair $I,J,E$, retained-window exactness through $W$, optional dyadic route exposure through $K$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
