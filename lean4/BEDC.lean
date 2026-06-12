@@ -3526,6 +3526,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
@@ -6479,6 +6480,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankReplayClosure
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
@@ -7954,6 +7956,7 @@ import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp
+import BEDC.Derived.RealApartnessCompletionUp.ApartnessCauchyWindow
 import BEDC.Derived.RealApartnessCompletionUp.LocatedRealSealNonescape
 import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
@@ -8613,6 +8616,7 @@ import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
 import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedOrderUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
