@@ -62,6 +62,7 @@ W'=(O',F',I',K',D',H',C',P',N')
 $$
 be accepted $\FiniteWindowObserverUp$ carriers. If the displayed transport rows identify $O$ with $O'$, $F$ with $F'$, $I$ with $I'$, $K$ with $K'$, $D$ with $D'$, $P$ with $P'$, and $N$ with $N'$ componentwise by $\hsame$, then both packets expose the same consumer-facing observation route: the same finite selected public window, inscription record, checker result, and downstream interface are read after transport and replay.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowObserverUp.FiniteWindowObserverCarrierTransport}
 \begin{proof}
 Project the carrier definition. The only public observation coordinates are the prior state $O$, selected window $F$, inscription record $I$, checker row $K$, downstream interface $D$, and structural rows $H,C,P,N$.
 
@@ -70,6 +71,20 @@ Use the displayed $H$ rows for componentwise transport. They align the prior sta
 Replay the aligned route through $C$ and $C'$. Since replay only follows the displayed selection, checker, admission, and downstream handoff rows, the transported carriers expose the same selected public window, inscription record, checker result, and consumer interface.
 
 No private observer state, unbounded history, hidden agency predicate, or external semantic observer appears in the carrier. Therefore nothing outside the transported finite rows can change the consumer-facing observation route.
+\end{proof}
+
+\begin{theorem}[FiniteWindowObserver bundle exhaustion]
+\label{thm:finite-window-observer-bundle-exhaustion}
+For every accepted $\FiniteWindowObserverUp$ carrier $W=(O,F,I,K,D,H,C,P,N)$, the selected window row $F$ exposes a closed $\ProbeBundle$-style finite enumeration of the observed histories consumed by the packet. The enumeration is stable under the displayed $\hsame$ transport rows, and every inscription handoff out of $W$ consumes only rows in that finite bundle.
+
+Thus a downstream $\StreamNameUp$ or inscription consumer can cite the observer packet as a finite bundle-exhaustion certificate. It receives the observed histories displayed by $F$, the inscription row $I$, the checker row $K$, and the downstream interface $D$, but it cannot read an external enumeration, hidden stream tail, private observer state, or unbounded history.
+\end{theorem}
+\begin{proof}
+Project the selected window from the carrier. The row $F$ is the only public finite-window coordinate, so the observed histories available to the observer are exactly the rows displayed there.
+
+Use carrier transport, \autoref{thm:finite-window-observer-carrier-transport}. The componentwise $H$ rows preserve the selected window and its observed histories under $\hsame$, while replay through $C$ follows the same finite selection route.
+
+Now apply the inscription handoff row. The handoff reads $F$ before $I,K,D$, so every inscription consumer is fed by the finite bundle already exposed by the observer packet. Since no carrier coordinate supplies an external enumeration or hidden stream tail, the displayed bundle exhausts the observation surface.
 \end{proof}
 
 \begin{theorem}[FiniteWindowObserver inscription handoff]
