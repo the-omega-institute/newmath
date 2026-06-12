@@ -14,7 +14,7 @@ import inspect
 import json
 from pathlib import Path
 import sys
-from typing import Any, Literal, Mapping, Sequence
+from typing import Any, Iterable, Literal, Mapping, Sequence
 
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -51,12 +51,21 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.dgt_model_card import (
+    CARD_ID as DGT_MODEL_CARD_ARTIFACT_ID,
+    CANONICAL_JSON_ARTIFACT as DGT_MODEL_CARD_JSON_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT as DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as DGT_MODEL_CARD_SCHEMA_ID,
+    validate_dgt_model_card,
+    write_dgt_model_card,
+)
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
     JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
     MARKDOWN_ARTIFACT as MECHANISM_DNA_MARKDOWN_ARTIFACT,
     REQUIRED_REF_FIELDS as MECHANISM_DNA_REQUIRED_REF_FIELDS,
 )
+from bedc_quality_lab.metric_purity import run_metric_purity_audit
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
     JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
@@ -145,10 +154,22 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
 DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
+WINNABILITY_CERTIFICATES_JSON_ARTIFACT = "reports/canonical/winnability-certificates.json"
+WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT = "reports/canonical/winnability-certificates.md"
+WINNABILITY_CERTIFICATES_ARTIFACT_ID = "bedc-quality-lab:winnability-certificates"
+WINNABILITY_CERTIFICATES_SCHEMA_ID = "bedc-quality-lab:winnability-certificates"
+STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT = "reports/canonical/structural-generalization-splits.json"
+STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT = "reports/canonical/structural-generalization-splits.md"
+STRUCTURAL_GENERALIZATION_SPLITS_ARTIFACT_ID = "bedc-quality-lab:structural-generalization-splits"
+STRUCTURAL_GENERALIZATION_SPLITS_SCHEMA_ID = "bedc-quality-lab:structural-generalization-splits"
 DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
+INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
+INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT = "reports/canonical/input-accessibility.md"
+INPUT_ACCESSIBILITY_ARTIFACT_ID = "bedc-quality-lab:input-accessibility"
+INPUT_ACCESSIBILITY_SCHEMA_ID = "bedc-quality-lab:input-accessibility"
 CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT = "reports/canonical/claim-artifact-consistency.json"
 CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT = "reports/canonical/claim-artifact-consistency.md"
 CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID = "bedc-quality-lab:claim-artifact-consistency"
@@ -1203,6 +1224,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_sweep",
             "independent_replay",
             "l1_step_ladder",
+            "l1_ood_mechanism",
             "construct_validity_hardgates",
             "review_status",
             "promotion_readiness",
@@ -1231,6 +1253,76 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
     ),
     CanonicalReportSpec(
+        name="winnability-certificates",
+        command=("python3", "scripts/run_winnability_certificates.py"),
+        json_artifact=WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
+        markdown_artifact=WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "owner",
+            "source_artifacts",
+            "inputs",
+            "registered_splits",
+            "family_registry",
+            "oracle_runs",
+            "certificates",
+            "audit",
+            "hardgates",
+            "consumer_pointers",
+            "not_claimed",
+            "$.audit.fail_closed_count",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.audit.fail_closed_count",
+        control_pointer="$.hardgates",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.certificates",
+        backend_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.owner",
+        discovery_level_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit.status",
+        negative_witness_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit.fail_closed_count",
+        formal_status_pointer=f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
+        name="structural-generalization-splits",
+        command=("python3", "scripts/run_structural_generalization_splits.py"),
+        json_artifact=STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT,
+        markdown_artifact=STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "split_registry",
+            "split_rows",
+            "classifier_rows",
+            "hardgates",
+            "boundary_ledger",
+            "consumer_pointers",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.split_registry",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.split_rows",
+        control_pointer="$.classifier_rows",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.classifier_rows",
+        backend_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.split_rows",
+        negative_witness_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="dgt-base-undertraining-audit",
         command=("python3", "scripts/run_dgt_base_undertraining_audit.py"),
         json_artifact=DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
@@ -1249,6 +1341,43 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
         negative_witness_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.hardgates",
         formal_status_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
+    ),
+    CanonicalReportSpec(
+        name="input-accessibility",
+        command=("python3", "scripts/run_input_accessibility_audit.py"),
+        json_artifact=INPUT_ACCESSIBILITY_JSON_ARTIFACT,
+        markdown_artifact=INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "owner",
+            "source_registry",
+            "registry_digest",
+            "visible_variables",
+            "required_variables",
+            "rows",
+            "row_count",
+            "access_hardgates",
+            "ood_hardgates",
+            "boundary_ledger",
+            "consumer_pointers",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_registry",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.access_hardgates.status",
+        control_pointer="$.source_registry",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates",
+        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_registry",
+        discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
+        negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -1401,6 +1530,38 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.global_recommendation",
         negative_witness_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.components",
         formal_status_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.audit_status",
+    ),
+    CanonicalReportSpec(
+        name="dgt-model-card",
+        command=("python3", "scripts/run_dgt_model_card.py"),
+        json_artifact=DGT_MODEL_CARD_JSON_ARTIFACT,
+        markdown_artifact=DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "card_id",
+            "source_artifacts",
+            "intended_use",
+            "not_intended_use",
+            "known_failure_modes",
+            "evaluation_boundaries",
+            "training_facts",
+            "upstream_status",
+            "card_hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.intended_use",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.card_hardgates.status",
+        control_pointer="$.evaluation_boundaries",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.upstream_status",
+        backend_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.status",
+        negative_witness_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.known_failure_modes",
+        formal_status_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.card_hardgates",
     ),
     CanonicalReportSpec(
         name="order-k-benchmark",
@@ -1715,6 +1876,36 @@ def _selected_specs_with_dependents(only: str | None, *, include_dependents: boo
     return tuple(selected)
 
 
+def _metric_purity_artifacts(specs: Iterable[CanonicalReportSpec]) -> tuple[str, ...]:
+    return tuple(dict.fromkeys(spec.json_artifact for spec in specs))
+
+
+def _run_metric_purity_preflight(report_artifacts: Iterable[str] | None = None) -> dict[str, Any]:
+    if ROOT != SOURCE_ROOT and not (ROOT / "configs" / "metric_purity_targets.json").exists():
+        return {"status": "pass", "reason": "metric-purity-config-not-present"}
+    payload = run_metric_purity_audit(
+        ROOT,
+        report_artifacts=report_artifacts,
+        audit_stage="pre_generation",
+    )
+    if payload["status"] != "pass":
+        raise RuntimeError("metric purity audit failed")
+    return payload
+
+
+def _run_metric_purity_post_generation(report_artifacts: Iterable[str]) -> dict[str, Any]:
+    if ROOT != SOURCE_ROOT and not (ROOT / "configs" / "metric_purity_targets.json").exists():
+        return {"status": "pass", "reason": "metric-purity-config-not-present"}
+    payload = run_metric_purity_audit(
+        ROOT,
+        report_artifacts=report_artifacts,
+        audit_stage="post_generation",
+    )
+    if payload["status"] != "pass":
+        raise RuntimeError("metric purity audit failed")
+    return payload
+
+
 def _module_name_from_command(command: Sequence[str]) -> str:
     if len(command) != 2 or command[0] != "python3":
         raise ValueError(f"unsupported producer command: {' '.join(command)}")
@@ -1863,14 +2054,54 @@ def _dependency_abi() -> dict[str, str]:
     return abi
 
 
+def _source_artifact_paths(value: Any) -> set[str]:
+    paths: set[str] = set()
+    if isinstance(value, str):
+        split = _split_artifact_pointer(value)
+        path = split[0] if split is not None else value
+        if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+            paths.add(path)
+    elif isinstance(value, Mapping):
+        for nested in value.values():
+            paths.update(_source_artifact_paths(nested))
+    elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        for nested in value:
+            paths.update(_source_artifact_paths(nested))
+    return paths
+
+
+def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
+    pointer_fields = frozenset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
+    paths: set[str] = set()
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            if key in pointer_fields and isinstance(value, str):
+                split = _split_artifact_pointer(value)
+                if split is not None:
+                    path, _pointer = split
+                    if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+                        paths.add(path)
+            else:
+                paths.update(_structural_generalization_gate_artifact_paths(value))
+    elif isinstance(payload, Sequence) and not isinstance(payload, (str, bytes, bytearray)):
+        for nested in payload:
+            paths.update(_structural_generalization_gate_artifact_paths(nested))
+    return paths
+
+
 def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
     paths: set[str] = set()
     if isinstance(source_artifacts, Mapping):
-        for value in source_artifacts.values():
-            if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
-                paths.add(value)
+        if spec.name == "structural-generalization-splits":
+            paths.update(_source_artifact_paths(source_artifacts))
+        else:
+            for value in source_artifacts.values():
+                if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
+                    paths.add(value)
+    if spec.name == "structural-generalization-splits":
+        paths.update(_structural_generalization_gate_artifact_paths(payload))
     if spec.name == "gap-head-discovery":
         paths.add("reports/canonical/gap-head-on-h.json")
     if spec.name == "certificate-guided-discovery":
@@ -1888,7 +2119,23 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     if spec.name == "dgt-component-redundancy-audit":
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
-        paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
+        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
+    if spec.name == "dgt-model-card":
+        paths.update(
+            (
+                DGT_L0_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+                DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                "reports/canonical/index.json",
+            )
+        )
+    if spec.name == "winnability-certificates":
+        paths.update((DGT_L0_CONTROLS_JSON_ARTIFACT, DGT_L1_CONTROLS_JSON_ARTIFACT))
+        input_accessibility = ROOT / "reports/canonical/input-accessibility.json"
+        if input_accessibility.exists():
+            paths.add("reports/canonical/input-accessibility.json")
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
@@ -1976,7 +2223,7 @@ def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str |
 
 def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
     sidecar = _load_fingerprint_sidecar(spec)
-    input_fingerprint, _inputs = _input_fingerprint(spec)
+    input_fingerprint, inputs = _input_fingerprint(spec)
     expected = {
         "report_name": spec.name,
         "json_artifact": spec.json_artifact,
@@ -1988,6 +2235,8 @@ def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
     for key, value in expected.items():
         if sidecar.get(key) != value:
             return False, key.replace("_", "-")
+    if _json_normalized(sidecar.get("inputs")) != _json_normalized(inputs):
+        return False, "inputs"
     return True, "match"
 
 
@@ -2058,6 +2307,20 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_mechanism_dna import write_mechanism_dna
 
         write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "winnability-certificates":
+        from scripts.run_winnability_certificates import write_winnability_certificates
+
+        write_winnability_certificates(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "structural-generalization-splits":
+        from bedc_quality_lab.structural_generalization_splits import (
+            build_structural_generalization_payload,
+            write_artifacts as write_structural_generalization_splits,
+        )
+
+        payload = build_structural_generalization_payload(root=ROOT, generated_at=generated_at)
+        write_structural_generalization_splits(payload, root=ROOT)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -3148,6 +3411,26 @@ def _claim_verdicts_index_section(rows: Sequence[dict[str, Any]] | None = None) 
     }
 
 
+def _winnability_certificates_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(WINNABILITY_CERTIFICATES_JSON_ARTIFACT)
+    audit = payload.get("audit") if isinstance(payload.get("audit"), Mapping) else {}
+    return {
+        "status": audit.get("status", "missing"),
+        "artifact_id": payload.get("artifact_id", WINNABILITY_CERTIFICATES_ARTIFACT_ID),
+        "json_artifact": WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
+        "markdown_artifact": WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT,
+        "winnability_certificates": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.certificates",
+        "audit_pointer": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.audit",
+        "hardgates_pointer": f"{WINNABILITY_CERTIFICATES_JSON_ARTIFACT}:$.hardgates",
+        "certificate_count": audit.get("certificate_count", 0),
+        "unwinnable_count": audit.get("unwinnable_count", 0),
+        "table_coverage_count": audit.get("table_coverage_count", 0),
+        "failed_count": audit.get("failed_count", 0),
+        "fail_closed_count": audit.get("fail_closed_count", 0),
+        "registry_digest": payload.get("registry_digest", "missing"),
+    }
+
+
 def _claim_complexity_index_section() -> dict[str, Any]:
     path = ROOT / CLAIM_COMPLEXITY_JSON_ARTIFACT
     if path.exists():
@@ -3250,11 +3533,16 @@ def _claim_artifact_consistency_index_section(generated_at: str | None = None) -
     }
 
 
-def _claim_artifact_consistency_required() -> bool:
+def _claim_artifact_consistency_required(selected_specs: Sequence[CanonicalReportSpec] | None = None) -> bool:
     try:
-        return ROOT.resolve() == SOURCE_ROOT.resolve()
+        source_root = ROOT.resolve() == SOURCE_ROOT.resolve()
     except OSError:
         return False
+    if not source_root:
+        return False
+    if selected_specs is None:
+        return True
+    return any(spec.name == "discovery-gated-transformer" for spec in selected_specs)
 
 
 def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
@@ -4410,7 +4698,11 @@ def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> 
     return dgt_runner.render_markdown(payload)
 
 
-def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> dict[str, Any]:
+def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    if payload is None:
+        payload = _load_artifact_payload(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT)
+    if not payload:
+        return _missing_discovery_gated_transformer_index_section()
     _validate_discovery_gated_transformer_payload(payload)
     return {
         "status": payload["hardgate"]["status"],
@@ -4509,6 +4801,79 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
     }
 
 
+def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
+    artifact = DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT
+    return {
+        "status": "missing",
+        "artifact_id": DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
+        "schema_id": DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID,
+        "json_artifact": artifact,
+        "markdown_artifact": DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": "reports/canonical/discovery-gated-transformer.fingerprint.json",
+        "model_id_pointer": f"{artifact}:$.model_id",
+        "architecture_spec_pointer": f"{artifact}:$.architecture_spec",
+        "component_refs_pointer": f"{artifact}:$.component_refs",
+        "hardgate_pointer": f"{artifact}:$.hardgate",
+        "hardgate_ref_pointer": f"{artifact}:$.hardgate_ref",
+        "tool_route_evidence_pointer": f"{artifact}:$.tool_route_evidence",
+        "tool_route_hardgate_pointer": f"{artifact}:$.tool_route_evidence.hardgate",
+        "family_definition_pointer": f"{artifact}:$.family_definition",
+        "family_definition_hardgate_pointer": f"{artifact}:$.family_definition.hardgate",
+        "model_family_claim_status_pointer": f"{artifact}:$.family_definition.model_family_claim_status",
+        "component_ablation_pointer": f"{artifact}:$.component_ablation",
+        "component_ablation_hardgate_pointer": f"{artifact}:$.component_ablation.hardgate",
+        "component_ablation_arm_catalog_pointer": f"{artifact}:$.component_ablation.arms",
+        "neural_ablation_hardgate_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        "neural_ablation_component_claim_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.component_causal_claims",
+        "neural_ablation_claim_capsule_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.claim_capsule_ref",
+        "neural_ablation_hg7_boundary_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
+        "robustness_pointer": f"{artifact}:$.operational_robustness",
+        "robustness_readiness_pointer": f"{artifact}:$.operational_robustness.readiness",
+        "robustness_hardgate_pointer": f"{artifact}:$.operational_robustness.hardgate",
+        "d5_o_projection_pointer": f"{artifact}:$.d5_o_projection",
+        "d5_o_projection_discovery_level_pointer": f"{artifact}:$.d5_o_projection.discovery_level",
+        "d5_o_projection_hardgate_pointer": f"{artifact}:$.d5_o_projection.gates",
+        "d5_m_projection_pointer": f"{artifact}:$.d5_m_projection",
+        "d5_m_projection_discovery_level_pointer": f"{artifact}:$.d5_m_projection.discovery_level",
+        "d5_m_projection_hardgate_pointer": f"{artifact}:$.d5_m_projection.hardgates",
+        "scaling_ladder_pointer": f"{artifact}:$.scaling_ladder",
+        "scaling_ladder_discovery_level_pointer": f"{artifact}:$.scaling_ladder.discovery_level",
+        "scaling_ladder_status_pointer": f"{artifact}:$.scaling_ladder.status",
+        "scaling_ladder_hardgate_pointer": f"{artifact}:$.scaling_ladder.hardgate",
+        "scaling_ladder_source_projection_pointer": f"{artifact}:$.scaling_ladder.source_projection",
+        "l0_control_projection_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection",
+        "construct_suspension_ref_pointer": f"{artifact}:$.source_artifacts.construct_suspension_ref",
+        "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
+        "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
+        "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "interpretation_boundary_ref_pointer": f"{artifact}:$.source_artifacts.interpretation_boundary_ref",
+        "negative_witness_sweep_ref_pointer": f"{artifact}:$.source_artifacts.negative_witness_sweep_ref",
+        "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
+        "l1_control_step_ladder_verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
+        "l1_control_step_ladder_crossover_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
+        "l1_control_review_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.review_status",
+        "l1_control_promotion_readiness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.promotion_readiness",
+        "discovery_map_signal_pointer": f"{artifact}:$.discovery_map_signal",
+        "discovery_map_signal_ref_pointer": f"{artifact}:$.discovery_map_signal_ref",
+        "d4_projection_ref_pointer": f"{artifact}:$.d4_projection_ref",
+        "d4_projection_pointer": f"{artifact}:$.d4_projection",
+        "d4_projection_discovery_level_pointer": f"{artifact}:$.d4_projection.discovery_level",
+        "claim_capsule_ref_pointer": f"{artifact}:$.claim_capsule_ref",
+        "evidence_envelope_ref_pointer": f"{artifact}:$.evidence_envelope_ref",
+        "mechanism_namecert_ref_pointer": f"{artifact}:$.mechanism_namecert_ref",
+        "jet_certificate_ref_pointer": f"{artifact}:$.jet_certificate_ref",
+        "jet_certificate_pointer": "missing",
+        "jet_hardgate_pointer": "missing",
+        "forbidden_claim_term_audit_pointer": f"{artifact}:$.forbidden_claim_term_audit",
+        "revocation_rows_pointer": f"{artifact}:$.revocation_rows",
+        "not_claimed_pointer": f"{artifact}:$.not_claimed",
+        "hardgate_instance_pointers": {
+            f"DGT-HG{index}": f"{artifact}:$.hardgate.gates.DGT-HG{index}"
+            for index in range(1, 21)
+        },
+    }
+
+
 def _dgt_l1_controls_index_section() -> dict[str, Any]:
     path = _artifact_path(DGT_L1_CONTROLS_JSON_ARTIFACT)
     payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
@@ -4541,6 +4906,59 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
         "construct_validity_status": (
             construct_validity.get("status", "missing") if isinstance(construct_validity, Mapping) else "missing"
         ),
+    }
+
+
+def _input_accessibility_index_section() -> dict[str, Any]:
+    path = _artifact_path(INPUT_ACCESSIBILITY_JSON_ARTIFACT)
+    payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    access = payload.get("access_hardgates") if isinstance(payload, Mapping) else {}
+    ood = payload.get("ood_hardgates") if isinstance(payload, Mapping) else {}
+    ledger = payload.get("boundary_ledger") if isinstance(payload, Mapping) else []
+    return {
+        "status": access.get("status", "missing") if isinstance(access, Mapping) else "missing",
+        "artifact_id": INPUT_ACCESSIBILITY_ARTIFACT_ID,
+        "schema_id": INPUT_ACCESSIBILITY_SCHEMA_ID,
+        "json_artifact": INPUT_ACCESSIBILITY_JSON_ARTIFACT,
+        "markdown_artifact": INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": "reports/canonical/input-accessibility.fingerprint.json",
+        "row_count": payload.get("row_count", 0) if isinstance(payload, Mapping) else 0,
+        "access_gate_status": access.get("status", "missing") if isinstance(access, Mapping) else "missing",
+        "ood_gate_status": ood.get("status", "missing") if isinstance(ood, Mapping) else "missing",
+        "boundary_ledger_count": len(ledger) if isinstance(ledger, list) else 0,
+        "registry_digest": payload.get("registry_digest", "missing") if isinstance(payload, Mapping) else "missing",
+        "input_accessibility_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$",
+        "information_starved_arms_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers.information_starved_arms_ref",
+        "unanswerable_ood_splits_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers.unanswerable_ood_splits_ref",
+        "boundary_ledger_pointer": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
+    }
+
+
+def _dgt_model_card_index_section() -> dict[str, Any]:
+    return {
+        "artifact_id": DGT_MODEL_CARD_ARTIFACT_ID,
+        "schema_id": DGT_MODEL_CARD_SCHEMA_ID,
+        "json_artifact": DGT_MODEL_CARD_JSON_ARTIFACT,
+        "markdown_artifact": DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        "card_pointer": f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$",
+        "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
+        "canonical_role": "auxiliary_pointer_projection",
+        "not_claimed": "This index section does not copy model-card verdicts or status rows; read the card pointer.",
+    }
+
+
+def _structural_generalization_splits_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": STRUCTURAL_GENERALIZATION_SPLITS_ARTIFACT_ID,
+        "schema_id": STRUCTURAL_GENERALIZATION_SPLITS_SCHEMA_ID,
+        "json_artifact": STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT,
+        "markdown_artifact": STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT,
+        "splits_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.split_rows",
+        "classifier_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.classifier_rows",
+        "hardgates_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.hardgates",
+        "boundary_pointer": f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.boundary_ledger",
+        "consumer": "bounded structural generalization readers",
     }
 
 
@@ -5748,12 +6166,20 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         )
         if not exists
     ]
-    status = "pass" if key_validation["status"] == "pass" and not missing_artifacts else "fail"
+    model_card_errors: list[dict[str, str]] = []
+    if spec.name == "dgt-model-card" and key_validation["status"] == "pass" and not missing_artifacts:
+        model_card_errors = [error.as_dict() for error in validate_dgt_model_card(_load_report_payload(spec), ROOT)]
+    status = (
+        "pass"
+        if key_validation["status"] == "pass" and not missing_artifacts and not model_card_errors
+        else "fail"
+    )
     return {
         "status": status,
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "model_card_errors": model_card_errors,
     }
 
 
@@ -5792,6 +6218,7 @@ def _run_spec(
         if mode == "cold":
             _run_spec_producer(spec, generated_at=generated_at)
             producer_status = "completed"
+            _run_metric_purity_post_generation((spec.json_artifact,))
             fingerprint_status = "written"
             fingerprint_reason = "cold"
             _write_fingerprint_sidecar(spec, generated_at=generated_at)
@@ -5808,12 +6235,14 @@ def _run_spec(
             fingerprint_status = "match" if matches else "miss"
             fingerprint_reason = reason
             if matches:
+                _run_metric_purity_post_generation((spec.json_artifact,))
                 producer_status = "skipped"
             elif mode == "verify":
                 raise ValueError(f"fingerprint sidecar mismatch for {spec.name}: {reason}")
             else:
                 _run_spec_producer(spec, generated_at=generated_at)
                 producer_status = "completed"
+                _run_metric_purity_post_generation((spec.json_artifact,))
                 fingerprint_status = "written"
                 fingerprint_reason = reason
                 _write_fingerprint_sidecar(spec, generated_at=generated_at)
@@ -5862,12 +6291,12 @@ def _index(
     generated_at: str | None = None,
     claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
     canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+    discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     del canonical_reports
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
-    discovery_gated_transformer_payload = _build_discovery_gated_transformer_payload(generated_at=timestamp)
     model_design_suite_payload = _build_model_design_suite_payload(generated_at=timestamp)
     model_comparison_payload = _build_model_comparison(generated_at=timestamp)
     return {
@@ -5897,9 +6326,13 @@ def _index(
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
+        "input_accessibility": _input_accessibility_index_section(),
+        "dgt_model_card": _dgt_model_card_index_section(),
+        "structural_generalization_splits": _structural_generalization_splits_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
+        "winnability_certificates": _winnability_certificates_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
@@ -6181,6 +6614,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
+            "## Winnability certificates",
+            "",
+            f"- Status: `{payload['winnability_certificates']['status']}`",
+            f"- JSON: `{payload['winnability_certificates']['json_artifact']}`",
+            f"- Markdown: `{payload['winnability_certificates']['markdown_artifact']}`",
+            f"- Certificates: `{payload['winnability_certificates']['certificate_count']}`",
+            f"- Fail-closed: `{payload['winnability_certificates']['fail_closed_count']}`",
+            f"- Audit: `{payload['winnability_certificates']['audit_pointer']}`",
+            f"- Hardgates: `{payload['winnability_certificates']['hardgates_pointer']}`",
+            "",
             "## Claim verdicts",
             "",
             f"- Status: `{payload['claim_verdicts']['status']}`",
@@ -6418,12 +6861,14 @@ def _write_index_with_evidence_provenance(
     generated_at: str,
     claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
     canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+    discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     payload = _index(
         results,
         generated_at=generated_at,
         claim_verdict_rows=claim_verdict_rows,
         canonical_reports=canonical_reports,
+        discovery_gated_transformer_payload=discovery_gated_transformer_payload,
     )
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
@@ -6447,7 +6892,23 @@ def run_reports(
         else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    if only == "structural-generalization-splits":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": [result],
+            "structural_generalization_splits": _structural_generalization_splits_index_section(),
+        }
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
     selected_specs = _selected_specs_with_dependents(only, include_dependents=mode == "changed")
+    _run_metric_purity_preflight(_metric_purity_artifacts(selected_specs))
     pre_verdict_specs = [
         spec
         for spec in selected_specs
@@ -6463,13 +6924,13 @@ def run_reports(
     for spec in pre_verdict_specs:
         results.append(_run_spec(spec, mode=mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
-    prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode == "cold" else mode
     for spec in claim_graph_prerequisite_specs:
         results.append(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
         consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
-        if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
+        if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
             raise SystemExit(1)
         payload = _index(results, generated_at=timestamp)
         if json_summary is not None:
@@ -6525,25 +6986,30 @@ def run_reports(
         _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
         _render_new_model_hardgates_markdown(new_model_hardgates),
     )
+    dgt_full_selected = any(spec.name == "discovery-gated-transformer" for spec in selected_specs)
     dgt_l0_spec = _specs_by_name().get("dgt-l0-controls")
     if dgt_l0_spec is not None:
-        dgt_selected = any(spec.name in {"dgt-l0-controls", "discovery-gated-transformer"} for spec in selected_specs)
-        if (only is None or dgt_selected) and dgt_l0_spec.name not in run_spec_names:
+        dgt_l0_selected = any(spec.name in {"dgt-l0-controls", "discovery-gated-transformer"} for spec in selected_specs)
+        if (only is None or dgt_l0_selected) and dgt_l0_spec.name not in run_spec_names:
             _run_spec(dgt_l0_spec, mode=mode, generated_at=timestamp)
             run_spec_names.add(dgt_l0_spec.name)
+            _run_metric_purity_post_generation((dgt_l0_spec.json_artifact,))
             _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
-    from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
+    discovery_gated_transformer: Mapping[str, Any] | None = None
+    if only is None or dgt_full_selected:
+        from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
 
-    discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)
-    write_dgt_run_artifacts(discovery_gated_transformer, root=ROOT)
-    _write_json_atomic(_artifact_path(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT), discovery_gated_transformer)
-    _write_text_atomic(
-        _artifact_path(DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT),
-        _render_discovery_gated_transformer_markdown(discovery_gated_transformer),
-    )
-    dgt_spec = _specs_by_name().get("discovery-gated-transformer")
-    if dgt_spec is not None:
-        _write_fingerprint_sidecar(dgt_spec, generated_at=timestamp)
+        discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)
+        write_dgt_run_artifacts(discovery_gated_transformer, root=ROOT)
+        _write_json_atomic(_artifact_path(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT), dict(discovery_gated_transformer))
+        _write_text_atomic(
+            _artifact_path(DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT),
+            _render_discovery_gated_transformer_markdown(discovery_gated_transformer),
+        )
+        dgt_spec = _specs_by_name().get("discovery-gated-transformer")
+        if dgt_spec is not None:
+            _run_metric_purity_post_generation((dgt_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_spec, generated_at=timestamp)
     model_design_suite = _build_model_design_suite_payload(generated_at=timestamp)
     _write_json_atomic(_artifact_path(MODEL_DESIGN_SUITE_JSON_ARTIFACT), model_design_suite)
     _write_text_atomic(
@@ -6562,6 +7028,7 @@ def run_reports(
         for late_fingerprint_name in ("model-comparison", "causal-patch-suite", "mechanism-dna"):
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
+                _run_metric_purity_post_generation((late_fingerprint_spec.json_artifact,))
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
     _write_index_with_evidence_provenance(results, generated_at=timestamp, canonical_reports=selected_specs)
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
@@ -6575,6 +7042,7 @@ def run_reports(
         run_spec_names.update(spec.name for spec in high_impact_review_specs)
         if mode in {"verify", "cold"}:
             for spec in high_impact_review_specs:
+                _run_metric_purity_post_generation((spec.json_artifact,))
                 _write_fingerprint_sidecar(spec, generated_at=timestamp)
         if ROOT == SOURCE_ROOT:
             _compile_discovery_compat(
@@ -6589,11 +7057,12 @@ def run_reports(
         if only is None:
             write_claim_graph(root=ROOT, generated_at=timestamp)
         for spec in high_impact_review_specs:
+            _run_metric_purity_post_generation((spec.json_artifact,))
             _write_fingerprint_sidecar(spec, generated_at=timestamp)
     from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
 
     consistency_payload = write_claim_artifact_consistency(root=ROOT, generated_at=timestamp)
-    if _claim_artifact_consistency_required() and consistency_payload["status"] != "pass":
+    if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
         raise SystemExit(1)
     post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     for spec in post_verdict_specs:
@@ -6604,6 +7073,7 @@ def run_reports(
         generated_at=timestamp,
         claim_verdict_rows=claim_verdict_rows,
         canonical_reports=selected_specs,
+        discovery_gated_transformer_payload=discovery_gated_transformer,
     )
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
     from scripts.run_release_namecert_candidate import write_release_namecert_candidate
@@ -6613,12 +7083,31 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
+    dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
+        write_dgt_model_card(root=ROOT, generated_at=timestamp)
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
+        card_result = _run_spec(dgt_model_card_spec, mode="verify", generated_at=timestamp)
+        replaced_card_result = False
+        updated_results = []
+        for result in results:
+            if result["name"] == "dgt-model-card":
+                updated_results.append(card_result)
+                replaced_card_result = True
+            else:
+                updated_results.append(result)
+        if not replaced_card_result:
+            updated_results.append(card_result)
+        results = updated_results
     payload = _write_index_with_evidence_provenance(
         results,
         generated_at=timestamp,
         claim_verdict_rows=claim_verdict_rows,
         canonical_reports=selected_specs,
+        discovery_gated_transformer_payload=discovery_gated_transformer,
     )
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if any(result["status"] != "pass" for result in results):
@@ -6645,6 +7134,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--list", action="store_true", help="List canonical report manifest rows.")
     parser.add_argument("--only", metavar="NAME", help="Run one canonical report by manifest name.")
+    parser.add_argument("--changed", action="store_true", help="Regenerate selected artifacts whose fingerprints do not match.")
     parser.add_argument("--force", action="store_true", help="Regenerate all selected canonical producer artifacts.")
     parser.add_argument("--cold", action="store_true", help="Regenerate all selected canonical producer artifacts and write fingerprint sidecars.")
     parser.add_argument(
