@@ -777,6 +777,7 @@ import BEDC.Derived.BetaSubstitutionPreservationUp.NameCertObligations
 import BEDC.Derived.BetaSubstitutionPreservationUp.Nonescape
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexClosure
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexLedgerExactness
+import BEDC.Derived.BihariLaSalleUp
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
 import BEDC.Derived.BilinFormUp.EmptyInversion
@@ -3291,6 +3292,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderNonescape
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderScope
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCauchySelection
