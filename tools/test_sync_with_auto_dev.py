@@ -17,6 +17,18 @@ class Result:
         self.stderr = stderr
 
 
+class NullContext:
+    def __enter__(self):
+        return None
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+
+def _null_context(*args, **kwargs):
+    return NullContext()
+
+
 def load_sync_module():
     path = REPO_ROOT / "tools" / "sync_with_auto_dev.py"
     spec = importlib.util.spec_from_file_location("sync_with_auto_dev_test_module", path)
@@ -235,6 +247,61 @@ class RollupPrTests(unittest.TestCase):
             "rollup-codex-auto-dev-to-dev",
             "dev",
         )
+
+    def test_merge_conflict_collapses_canonical_without_codex(self) -> None:
+        module = load_sync_module()
+        cwd = Path("/tmp/bedc-sync-test")
+        commands: list[list[str]] = []
+
+        def fake_run(cmd, **kwargs):
+            commands.append(cmd)
+            if cmd[:3] == ["git", "merge", "--no-ff"]:
+                return Result(returncode=1, stdout="CONFLICT\n")
+            if cmd[:3] == ["git", "commit", "--no-edit"]:
+                return Result()
+            raise AssertionError(f"unexpected command: {cmd}")
+
+        with mock.patch.object(module, "install_canonical_generated_merge_driver", return_value=True):
+            with mock.patch.object(module, "run", side_effect=fake_run):
+                with mock.patch.object(module, "conflicted_files", side_effect=[
+                    ["papers/bedc-quality-lab/reports/canonical/index.json"],
+                    [],
+                ]):
+                    with mock.patch.object(module, "collapse_canonical_generated_conflicts", return_value=True) as collapse:
+                        with mock.patch.object(module, "call_codex_to_resolve") as codex:
+                            with mock.patch.object(module, "acquire_main_checkout_lock", _null_context):
+                                ok = module.merge_with_codex_fallback("origin/source", "target <- source", cwd=cwd)
+
+        self.assertTrue(ok)
+        collapse.assert_called_once_with(cwd)
+        codex.assert_not_called()
+        self.assertIn(["git", "commit", "--no-edit"], commands)
+
+    def test_merge_conflict_calls_codex_after_canonical_collapse_leaves_source(self) -> None:
+        module = load_sync_module()
+        cwd = Path("/tmp/bedc-sync-test")
+
+        def fake_run(cmd, **kwargs):
+            if cmd[:3] == ["git", "merge", "--no-ff"]:
+                return Result(returncode=1, stdout="CONFLICT\n")
+            raise AssertionError(f"unexpected command: {cmd}")
+
+        with mock.patch.object(module, "install_canonical_generated_merge_driver", return_value=True):
+            with mock.patch.object(module, "run", side_effect=fake_run):
+                with mock.patch.object(module, "conflicted_files", side_effect=[
+                    [
+                        "papers/bedc-quality-lab/reports/canonical/index.json",
+                        "papers/bedc-quality-lab/bedc_quality_lab/source_probe.py",
+                    ],
+                    ["papers/bedc-quality-lab/bedc_quality_lab/source_probe.py"],
+                ]):
+                    with mock.patch.object(module, "collapse_canonical_generated_conflicts", return_value=True):
+                        with mock.patch.object(module, "call_codex_to_resolve", return_value=True) as codex:
+                            with mock.patch.object(module, "acquire_main_checkout_lock", _null_context):
+                                ok = module.merge_with_codex_fallback("origin/source", "target <- source", cwd=cwd)
+
+        self.assertTrue(ok)
+        codex.assert_called_once_with(cwd)
 
 
 if __name__ == "__main__":

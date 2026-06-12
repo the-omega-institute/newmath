@@ -33,6 +33,10 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
+from bedc_quality_canonical_generated_merge import (
+    CanonicalGeneratedMergePolicy,
+    PolicyError,
+)
 from host_context import host_path, host_value
 
 REPO_ROOT = host_path(
@@ -195,6 +199,34 @@ def has_conflict_markers(path: str, cwd: Path = REPO_ROOT) -> bool:
     return any(marker in text for marker in ("<<<<<<<", "=======", ">>>>>>>"))
 
 
+def install_canonical_generated_merge_driver(cwd: Path = REPO_ROOT) -> bool:
+    try:
+        CanonicalGeneratedMergePolicy(cwd).install_driver()
+        return True
+    except PolicyError as exc:
+        print(f"[sync] canonical generated merge driver install failed: {exc}",
+              file=sys.stderr)
+        return False
+
+
+def collapse_canonical_generated_conflicts(cwd: Path = REPO_ROOT) -> bool:
+    try:
+        collapsed = CanonicalGeneratedMergePolicy(cwd).collapse_unmerged()
+    except PolicyError as exc:
+        print(f"[sync] canonical generated conflict collapse failed: {exc}",
+              file=sys.stderr)
+        return False
+    if collapsed:
+        print(f"[sync] collapsed {len(collapsed)} canonical generated conflict(s)")
+    return True
+
+
+def finish_canonical_generated_only_merge(cwd: Path = REPO_ROOT) -> bool:
+    with acquire_main_checkout_lock(timeout=120):
+        run(["git", "commit", "--no-edit"], cwd=cwd)
+    return True
+
+
 def write_locked_git_wrapper(wrapper_dir: Path) -> dict[str, str]:
     real_git = shutil.which("git") or "/usr/bin/git"
     wrapper = wrapper_dir / "git"
@@ -342,6 +374,8 @@ def merge_with_codex_fallback(target: str, label: str,
                               *, cwd: Path = REPO_ROOT) -> bool:
     """Merge `target` into HEAD. On conflict, invoke codex once. Returns True on success."""
     print(f"[sync] {label}: merging {target}...")
+    if not install_canonical_generated_merge_driver(cwd):
+        return False
     with acquire_main_checkout_lock(timeout=120):
         res = run(["git", "merge", "--no-ff", "--no-edit", target],
                   cwd=cwd, check=False, capture=True)
@@ -360,6 +394,17 @@ def merge_with_codex_fallback(target: str, label: str,
         print(f"[sync] {label}: merge failed without conflicts:\n{out}", file=sys.stderr)
         return False
 
+    if not collapse_canonical_generated_conflicts(cwd):
+        with acquire_main_checkout_lock(timeout=120):
+            run(["git", "merge", "--abort"], cwd=cwd, check=False)
+        return False
+
+    remaining_conflicts = conflicted_files(cwd)
+    if not remaining_conflicts:
+        finish_canonical_generated_only_merge(cwd)
+        print(f"[sync] {label}: canonical generated conflicts collapsed")
+        return True
+
     if not call_codex_to_resolve(cwd):
         print(f"[sync] {label}: codex could not resolve; aborting merge", file=sys.stderr)
         with acquire_main_checkout_lock(timeout=120):
@@ -373,6 +418,8 @@ def merge_with_codex_fallback(target: str, label: str,
 def merge_prefer_ff_with_codex_fallback(target: str, label: str,
                                         *, cwd: Path = REPO_ROOT) -> bool:
     print(f"[sync] {label}: fast-forward check {target}...")
+    if not install_canonical_generated_merge_driver(cwd):
+        return False
     with acquire_main_checkout_lock(timeout=120):
         ff = run(["git", "merge", "--ff-only", target],
                  cwd=cwd, check=False, capture=True)
@@ -838,9 +885,35 @@ def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
               f"{((add.stdout or '') + (add.stderr or '')).strip()[:240]}")
         return False, dev_sha, mirror_sha
 
+    if not install_canonical_generated_merge_driver(VALIDATION_WORKTREE):
+        return False, dev_sha, mirror_sha
+
     merge = run(["git", "merge", "--no-ff", "--no-edit", dev_sha],
                 cwd=VALIDATION_WORKTREE, check=False, capture=True)
     if merge.returncode != 0:
+        if conflicted_files(VALIDATION_WORKTREE):
+            if not collapse_canonical_generated_conflicts(VALIDATION_WORKTREE):
+                run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+                    check=False, capture=True)
+                print("[sync] dev->auto-dev validation: canonical collapse failed")
+                return False, dev_sha, mirror_sha
+            remaining_conflicts = conflicted_files(VALIDATION_WORKTREE)
+            if not remaining_conflicts:
+                run(["git", "commit", "--no-edit"], cwd=VALIDATION_WORKTREE)
+                print("[sync] dev->auto-dev validation: canonical generated conflicts collapsed")
+            else:
+                run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+                    check=False, capture=True)
+                print(f"[sync] dev->auto-dev validation: source conflicts remain "
+                      f"after canonical collapse: {remaining_conflicts}")
+                return False, dev_sha, mirror_sha
+        else:
+            run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+                check=False, capture=True)
+            print(f"[sync] dev->auto-dev validation: merge failed rc={merge.returncode}")
+            return False, dev_sha, mirror_sha
+
+    if merge.returncode != 0 and conflicted_files(VALIDATION_WORKTREE):
         run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
             check=False, capture=True)
         print(f"[sync] dev->auto-dev validation: merge failed rc={merge.returncode}")
@@ -889,9 +962,29 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
                     return False
             else:
                 git("checkout", "-b", MIRROR_BRANCH, mirror_sha)
+            if not install_canonical_generated_merge_driver(REPO_ROOT):
+                return False
             merge = git("merge", "--no-ff", "--no-edit", dev_sha,
                         check=False, capture=True)
             if merge.returncode != 0:
+                if not conflicted_files(REPO_ROOT):
+                    git("merge", "--abort", check=False, capture=True)
+                    print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
+                    return False
+                if collapse_canonical_generated_conflicts(REPO_ROOT):
+                    if not conflicted_files(REPO_ROOT):
+                        git("commit", "--no-edit", check=False, capture=True)
+                        print("[sync] dev->auto-dev: canonical generated conflicts collapsed")
+                    else:
+                        git("merge", "--abort", check=False, capture=True)
+                        print("[sync] dev->auto-dev: source conflicts after "
+                              "canonical collapse; retry next cycle")
+                        return False
+                else:
+                    git("merge", "--abort", check=False, capture=True)
+                    print("[sync] dev->auto-dev: canonical collapse failed; retry next cycle")
+                    return False
+            if merge.returncode != 0 and conflicted_files(REPO_ROOT):
                 git("merge", "--abort", check=False, capture=True)
                 print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
                 return False
@@ -1078,19 +1171,36 @@ def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCan
             return None
 
         print(f"[sync] rollup: merging origin/{source_branch} into origin/{target_branch}")
+        if not install_canonical_generated_merge_driver(worktree):
+            _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+            return None
         merge = run(["git", "merge", "--no-ff", "--no-edit", f"origin/{source_branch}"],
                     cwd=worktree, check=False, capture=True)
         if merge.returncode != 0:
             out = (merge.stdout or "") + (merge.stderr or "")
             if conflicted_files(worktree):
-                print("[sync] rollup: merge conflicted; invoking codex resolver")
-                if not call_codex_to_resolve(worktree):
-                    print("[sync] rollup: codex could not resolve merge",
+                print("[sync] rollup: merge conflicted; collapsing canonical generated paths")
+                if not collapse_canonical_generated_conflicts(worktree):
+                    print("[sync] rollup: canonical collapse failed",
                           file=sys.stderr)
                     run(["git", "merge", "--abort"], cwd=worktree,
                         check=False, capture=True)
                     _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
                     return None
+                remaining_conflicts = conflicted_files(worktree)
+                if remaining_conflicts:
+                    print("[sync] rollup: source conflicts remain; invoking codex resolver")
+                    if not call_codex_to_resolve(worktree):
+                        print("[sync] rollup: codex could not resolve merge",
+                              file=sys.stderr)
+                        run(["git", "merge", "--abort"], cwd=worktree,
+                            check=False, capture=True)
+                        _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+                        return None
+                else:
+                    run(["git", "commit", "--no-edit"], cwd=worktree,
+                        check=False, capture=True)
+                    print("[sync] rollup: canonical generated conflicts collapsed")
             elif "Already up to date" in out or "already up to date" in out:
                 print("[sync] rollup: source already included in target")
             else:
