@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedStepFunctionUp$}
+\label{ch:concrete-instances-regulated-step-function-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions and Riemann integration, the $\RegulatedStepFunctionUp$ packet records the finite step ledger that sits between the single-step partition surface and the regulated or Riemann integration consumers. It refines the finite $\StepFunctionUp$ route of \autoref{ch:concrete-instances-step-function-namecert}, remains readable by the regulated-function approximation surface of \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, and supplies the step-integral primitive consumed by \autoref{ch:concrete-instances-regulatedintegral-namecert} and \autoref{ch:concrete-instances-riemannintegral-namecert}.
+
+\begin{definition}[Regulated step function carrier]
+\label{def:regulated-step-function-carrier}
+A $\RegulatedStepFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,S,A,J,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval source row, naming the closed domain, endpoint order data, and finite cell boundary reads used by every step request.
+\item $S$ is a finite $\StepFunctionUp$ schedule, read through \autoref{ch:concrete-instances-step-function-namecert}, listing the displayed partition cells, carried $\RealUp$ values, and constant-on-cell admission data.
+\item $A$ is the $\RegulatedRealFunctionUp$ approximation row, read through \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, stating that the same finite step schedule is accepted as a regulated-function approximation surface.
+\item $J$ is the primitive step-integral ledger, computing finite cell sums from $I$ and $S$ without importing a limiting integration theorem.
+\item $D$ is the Darboux/Riemann compatibility row, recording that the primitive ledger fits the Darboux gap route and the tagged-mesh route before any integration-facing handoff is exported.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed finite sums and tolerance windows.
+\item $E$ is the terminal $\RealUp$ seal reached only after $I,S,A,J,D,Q$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for interval, schedule, regulated approximation, primitive step-integral, compatibility, readback, seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from interval reads to step schedule reads, from step schedules to primitive sums, from compatibility rows to Darboux and Riemann consumers, and from readback rows to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedStepFunctionUp$, $\StepFunctionUp$, $\RegulatedRealFunctionUp$, $\RegulatedIntegralUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedStepFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these rows. It has no coordinate for a host function quotient, selected refinement limit, measure completion, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regulated step function NameCert obligations]
+\label{thm:regulated-step-function-namecert-obligations}
+For every accepted $\RegulatedStepFunctionUp$ carrier $K=(I,S,A,J,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegulatedStepFunctionUp}$ surface consists exactly of interval source admission, finite $\StepFunctionUp$ schedule exposure, $\RegulatedRealFunctionUp$ approximation admission, primitive step-integral computation, Darboux/Riemann compatibility, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-step-function-carrier}. The rows $I,S,A$ display the interval source, the finite step schedule, and the regulated-function approximation surface before any integration-facing consumer can inspect a value.
+
+The integration rows are downstream of that displayed surface. The primitive ledger $J$ computes only finite cell sums from $I$ and $S$, while $D$ records that the same ledger is readable by Darboux and Riemann consumers.
+
+The readback and structural rows preserve the same route. The rows $Q,E,H,C,P,N$ add regular rational readback, terminal Real sealing, transport, replay, provenance, and local naming, but no hidden function quotient, selected refinement, measure-completion object, compactness proof, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regulated step function Riemann handoff]
+\label{thm:regulated-step-function-riemann-handoff}
+Every Riemann-facing or regulated-integral-facing read of an accepted $\RegulatedStepFunctionUp$ packet factors through
+$$
+\StepFunctionUp,\quad \RegulatedRealFunctionUp,\quad \RegulatedIntegralUp,\quad \RiemannIntegralUp
+$$
+by first reading the finite interval and step schedule rows $I,S$, then the regulated approximation row $A$, then the primitive step-integral ledger $J$, then the Darboux/Riemann compatibility row $D$, and finally the $\RegSeqRatUp$ readback and $\RealUp$ seal $Q,E$. The packet exports a finite regulated step primitive, not a quotient function, a selected mesh limit, a measure-completion integral, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite step side. The $\StepFunctionUp$ schedule $S$ exposes the cell partition and carried values over the interval row $I$, so the primitive sum ledger has a finite source.
+
+Next read the regulated-function side. The row $A$ makes the same finite schedule available to the $\RegulatedRealFunctionUp$ approximation surface, and no integration row is present before this approximation row is displayed.
+
+Finally read the integration side. The primitive ledger $J$ supplies finite sums, the compatibility row $D$ routes those sums through the regulated-integral and Riemann boundaries, and $Q,E$ provide regular rational readback and the terminal Real seal. Since every remaining coordinate is structural, no consumer can replace this handoff by a host quotient, selected mesh limit, measure completion, or ambient completeness theorem.
+\end{proof}
+
+\closureat{RegulatedStepFunctionUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedStepFunctionUp}
+  \constructivestory{A $\RegulatedStepFunctionUp$ packet is generated from an interval source row, a finite StepFunction schedule, a RegulatedRealFunction approximation row, a primitive step-integral ledger, a Darboux/Riemann compatibility row, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-step-function-carrier}, \autoref{thm:regulated-step-function-namecert-obligations}, and \autoref{thm:regulated-step-function-riemann-handoff} seed the finite regulated step primitive between step functions and regulated or Riemann integration.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a measure-theoretic integral, quotient function equality, selected refinement limit, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite step schedule exposure, regulated approximation routing, primitive step-integral computation, Darboux/Riemann compatibility, RegSeqRat readback, Real sealing, and structural transport for BEDC.Derived.RegulatedStepFunctionUp.}
+\end{closurestatus}
