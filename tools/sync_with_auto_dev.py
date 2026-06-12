@@ -258,16 +258,6 @@ def _canonical_generated_gate(cwd: Path = REPO_ROOT) -> bool:
     verify_cmd = ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]
     regen_cmd = ["python3", "scripts/run_canonical_reports.py", "--cold"]
 
-    verify = run(verify_cmd, cwd=lab, check=False, capture=True)
-    if verify.returncode == 0:
-        print("[sync] canonical generated fingerprints verified")
-        return True
-
-    tail = ((verify.stdout or "") + (verify.stderr or "")).strip().splitlines()
-    msg = tail[-1] if tail else "no output"
-    print(f"[sync] canonical generated fingerprint verify failed rc={verify.returncode}: "
-          f"{msg[:240]}")
-
     regen = run(regen_cmd, cwd=lab, check=False, capture=True)
     if regen.returncode != 0:
         out = ((regen.stdout or "") + (regen.stderr or "")).strip().splitlines()
