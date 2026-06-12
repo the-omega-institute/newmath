@@ -6793,6 +6793,7 @@ import BEDC.Derived.MetricBornologyUp.TasteGate
 import BEDC.Derived.MetricCauchyNetClusterUp.TasteGate
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
+import BEDC.Derived.MetricClosedBallUp.MatureBoundaryInventory
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
@@ -9768,6 +9769,7 @@ import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp.AxisNatHandoff
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp.DownstreamUnblock
+import BEDC.Derived.UnaryZeroSpineStandardIsoUp.TasteGate
 import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.TasteGate
@@ -10080,6 +10082,7 @@ import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
