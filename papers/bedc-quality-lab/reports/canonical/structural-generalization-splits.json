@@ -1,0 +1,262 @@
+{
+  "artifact_id": "bedc-quality-lab:structural-generalization-splits",
+  "boundary_ledger": [
+    {
+      "claim_exclusion": "boundary-ledger-only",
+      "classification": "unanswerable",
+      "failed_hardgates": [
+        "SYM-HG2",
+        "SYM-HG3",
+        "SYM-HG4"
+      ],
+      "performance_pointer": null,
+      "reason": "target-variable-not-visible-to-all-required-arms",
+      "row_id": "sgs-symbol-remapping",
+      "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows.symbol-remapping",
+      "winnability_pointer": "reports/canonical/winnability-certificates.json:$.certificates"
+    },
+    {
+      "claim_exclusion": "boundary-ledger-only",
+      "classification": "unanswerable",
+      "failed_hardgates": [
+        "POS-HG2",
+        "POS-HG3",
+        "POS-HG4"
+      ],
+      "performance_pointer": null,
+      "reason": "target-variable-not-visible-to-all-required-arms",
+      "row_id": "sgs-position-shift-visible",
+      "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows.position-shift-visible",
+      "winnability_pointer": "reports/canonical/winnability-certificates.json:$.certificates"
+    }
+  ],
+  "classifier_rows": [
+    {
+      "candidate_id": "symbol-remap-candidate",
+      "claim_exclusion": "boundary-ledger-only",
+      "classification": "unanswerable",
+      "failed_hardgates": [
+        "SYM-HG2",
+        "SYM-HG3",
+        "SYM-HG4"
+      ],
+      "fair_arm_id": "symbol-remap-fair-arm",
+      "hardgate_status": "fail",
+      "hardgates": {
+        "SYM-HG1": {
+          "evidence_pointer": "reports/canonical/input-accessibility.json:$.rows.symbol-remapping",
+          "gate_id": "SYM-HG1",
+          "reason": "finite non-identity symbol remap",
+          "status": "pass"
+        },
+        "SYM-HG2": {
+          "evidence_pointer": "reports/canonical/input-accessibility.json:$.rows.symbol-remapping",
+          "gate_id": "SYM-HG2",
+          "reason": "target visible to candidate and fair arm with resolved pointer",
+          "status": "fail"
+        },
+        "SYM-HG3": {
+          "evidence_pointer": "reports/canonical/winnability-certificates.json:$.certificates",
+          "gate_id": "SYM-HG3",
+          "reason": "candidate and fair arm are winnability-certified with resolved pointer",
+          "status": "fail"
+        },
+        "SYM-HG4": {
+          "evidence_pointer": null,
+          "gate_id": "SYM-HG4",
+          "reason": "performance evidence pointer resolves",
+          "status": "fail"
+        }
+      },
+      "performance_pointer": null,
+      "reason": "target-variable-not-visible-to-all-required-arms",
+      "row_id": "sgs-symbol-remapping",
+      "source_row_id": "symbol-remapping",
+      "structural_generalization_family": null,
+      "target_variable": "target_symbol",
+      "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows.symbol-remapping",
+      "winnability_pointer": "reports/canonical/winnability-certificates.json:$.certificates"
+    },
+    {
+      "candidate_id": "position-shift-candidate",
+      "claim_exclusion": "boundary-ledger-only",
+      "classification": "unanswerable",
+      "failed_hardgates": [
+        "POS-HG2",
+        "POS-HG3",
+        "POS-HG4"
+      ],
+      "fair_arm_id": "position-shift-fair-arm",
+      "hardgate_status": "fail",
+      "hardgates": {
+        "POS-HG1": {
+          "evidence_pointer": "reports/canonical/input-accessibility.json:$.rows.position-shift-visible",
+          "gate_id": "POS-HG1",
+          "reason": "bounded nonzero position offset",
+          "status": "pass"
+        },
+        "POS-HG2": {
+          "evidence_pointer": "reports/canonical/input-accessibility.json:$.rows.position-shift-visible",
+          "gate_id": "POS-HG2",
+          "reason": "target visible to candidate and fair arm with resolved pointer",
+          "status": "fail"
+        },
+        "POS-HG3": {
+          "evidence_pointer": "reports/canonical/winnability-certificates.json:$.certificates",
+          "gate_id": "POS-HG3",
+          "reason": "candidate and fair arm are winnability-certified with resolved pointer",
+          "status": "fail"
+        },
+        "POS-HG4": {
+          "evidence_pointer": null,
+          "gate_id": "POS-HG4",
+          "reason": "performance evidence pointer resolves",
+          "status": "fail"
+        }
+      },
+      "performance_pointer": null,
+      "reason": "target-variable-not-visible-to-all-required-arms",
+      "row_id": "sgs-position-shift-visible",
+      "source_row_id": "position-shift-visible",
+      "structural_generalization_family": null,
+      "target_variable": "position_target",
+      "visibility_pointer": "reports/canonical/input-accessibility.json:$.rows.position-shift-visible",
+      "winnability_pointer": "reports/canonical/winnability-certificates.json:$.certificates"
+    }
+  ],
+  "consumer_pointers": {
+    "boundary_pointer": "reports/canonical/structural-generalization-splits.json:$.boundary_ledger",
+    "classifier_pointer": "reports/canonical/structural-generalization-splits.json:$.classifier_rows",
+    "hardgates_pointer": "reports/canonical/structural-generalization-splits.json:$.hardgates",
+    "splits_pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows"
+  },
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "hardgates": {
+    "POS-HG1": {
+      "failed_row_ids": [],
+      "gate_id": "POS-HG1",
+      "row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "status": "pass"
+    },
+    "POS-HG2": {
+      "failed_row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "gate_id": "POS-HG2",
+      "row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "status": "fail"
+    },
+    "POS-HG3": {
+      "failed_row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "gate_id": "POS-HG3",
+      "row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "status": "fail"
+    },
+    "POS-HG4": {
+      "failed_row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "gate_id": "POS-HG4",
+      "row_ids": [
+        "sgs-position-shift-visible"
+      ],
+      "status": "fail"
+    },
+    "SYM-HG1": {
+      "failed_row_ids": [],
+      "gate_id": "SYM-HG1",
+      "row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "status": "pass"
+    },
+    "SYM-HG2": {
+      "failed_row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "gate_id": "SYM-HG2",
+      "row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "status": "fail"
+    },
+    "SYM-HG3": {
+      "failed_row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "gate_id": "SYM-HG3",
+      "row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "status": "fail"
+    },
+    "SYM-HG4": {
+      "failed_row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "gate_id": "SYM-HG4",
+      "row_ids": [
+        "sgs-symbol-remapping"
+      ],
+      "status": "fail"
+    }
+  },
+  "not_claimed": [
+    "Pointer-only structural generalization split registry.",
+    "No held-out pair protocol is owned here.",
+    "No cross-validation verdict is recomputed here.",
+    "No local visibility extractor or winnability arithmetic is introduced here.",
+    "No positive split claim is emitted without resolved upstream evidence pointers."
+  ],
+  "producer": "scripts/run_structural_generalization_splits.py",
+  "schema_id": "bedc-quality-lab:structural-generalization-splits",
+  "source_artifacts": {
+    "input_accessibility": {
+      "artifact": "reports/canonical/input-accessibility.json",
+      "digest": "bb9ab2517fc9e5e16c98592f22da8ed931f8c5fd71378912d3189be49a4752f9",
+      "expected_schema_id": "bedc-quality-lab:input-accessibility",
+      "owner_pointer": "reports/canonical/input-accessibility.json:$",
+      "pointer": "$",
+      "status": "resolved"
+    },
+    "winnability_certificates": {
+      "artifact": "reports/canonical/winnability-certificates.json",
+      "digest": "72b4700f5084d71e9c4b2d4fd24a96080a78a0d2a74a98fd83ca028c81f9460b",
+      "expected_schema_id": "bedc-quality-lab:winnability-certificates",
+      "owner_pointer": "reports/canonical/winnability-certificates.json:$",
+      "pointer": "$",
+      "status": "resolved"
+    }
+  },
+  "split_registry": [
+    {
+      "accepted_classification": "accepted",
+      "family": "symbol_remapping",
+      "hardgate_ids": [
+        "SYM-HG1",
+        "SYM-HG2",
+        "SYM-HG3",
+        "SYM-HG4"
+      ]
+    },
+    {
+      "accepted_classification": "accepted",
+      "family": "position_shift_visible",
+      "hardgate_ids": [
+        "POS-HG1",
+        "POS-HG2",
+        "POS-HG3",
+        "POS-HG4"
+      ]
+    }
+  ],
+  "split_rows": []
+}
