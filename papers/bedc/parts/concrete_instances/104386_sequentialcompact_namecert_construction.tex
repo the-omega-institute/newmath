@@ -708,6 +708,18 @@ The compact-metric root surface and Real seal boundary are supplied by \autoref{
 Finally, \autoref{thm:sequential-compact-selector-refusal} and \autoref{thm:sequentialcompact-finite-window-cluster-obligation} keep subsequence information inside the displayed finite-window row $W$. Thus the formalization queue receives the same finite Baire/StreamName/RegSeqRat/Real cluster route and none of the excluded choice or completeness principles.
 \end{proof}
 
+\begin{theorem}[SequentialCompact Real subsequence Cauchy handoff]
+\label{thm:sequential-compact-real-subsequence-cauchy-handoff}
+For an accepted $\SequentialCompactUp$ packet, any Real-facing cluster consumer that reads the selected finite-window row must factor through $\StreamNameUp$, $\RegSeqRatUp$, and the $\RealUp$ seal as a Cauchy readback handoff. The consumer receives the displayed rows $S,W,R,E$ from the finite-window route, not a host subsequence object, countable-choice schedule, quotient stream equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the public export of \autoref{thm:sequentialcompact-public-export}. It makes the selected finite-window row $W$, stream row $S$, regular-rational readback row $R$, and terminal Real seal $E$ part of the same public packet.
+
+Use the handoff exactness of \autoref{thm:sequential-compact-regseqrat-handoff-exactness} together with the stream scope of \autoref{thm:sequentialcompact-regseqrat-stream-scope}. These rows force every regular-rational readback to pass through the displayed $\StreamNameUp$ source and selected finite window before it can be consumed downstream.
+
+Finally apply \autoref{thm:sequential-compact-real-seal-nonescape}. The Real-facing boundary reads $E$ only after the $S,W,R$ route is visible, so the handoff is a Cauchy readback route through finite data and not an additional subsequence, choice, quotient, selected-limit, or completeness object.
+\end{proof}
+
 \closureat{SequentialCompactUp}{scopedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
