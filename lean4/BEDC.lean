@@ -3521,6 +3521,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
+import BEDC.Derived.CriticalLineWitnessUp.TerminalSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.TerminalWindowFactorization
 import BEDC.Derived.CriticalLineWitnessUp.TerminalZeroSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
@@ -3543,6 +3544,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaContinuationReadbackNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
+import BEDC.Derived.CriticalLineWitnessUp.ZetaRealStripRootHandoff
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
@@ -6175,6 +6177,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootRealSealRefusal
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealRoute
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.ScopedRoute
+import BEDC.Derived.LowerSemicontinuousUp.SuperlevelTailObligation
 import BEDC.Derived.LowerSemicontinuousUp.SuperlevelThresholdSurface
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
@@ -9041,6 +9044,7 @@ import BEDC.Derived.SequentialCompactUp.PublicNameCertRoute
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
+import BEDC.Derived.SequentialCompactUp.RealSubsequenceCauchyHandoff
 import BEDC.Derived.SequentialCompactUp.RegSeqRatClusterHandoff
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
 import BEDC.Derived.SequentialCompactUp.RootObligationNonescape
