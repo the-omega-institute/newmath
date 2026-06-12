@@ -53,14 +53,30 @@ Matrix presentation compatibility is only a display route. Any matrix row in $M$
 Finally expose the consumer ledger $C$. Character-theory, representation-ring, and character-table consumers read only after the displayed action rows have been named, while Maschke semisimplicity and Schur orthogonality remain in their own chapters. Repacking the projected rows with $H$, $P$, and $N$ gives the stated local NameCert surface.
 \end{proof}
 
+\begin{theorem}[FiniteGroupRepresentation Schur consumer boundary]
+\label{thm:finite-group-representation-schur-consumer-boundary}
+Any $\CharacterTheoryUp$, $\RepresentationRingUp$, $\CharacterTableUp$, or $\SchurOrthogonalityUp$ consumer of an accepted $\FiniteGroupRepresentationUp$ packet
+$$
+R=(G,V,L,M,A,U,C,H,P,N)
+$$
+must first expose the action ledger $A$, linear-map row $L$, vector-space row $V$, optional matrix row $M$, and consumer ledger $C$. A $\SchurOrthogonalityUp$ read may inspect finite character-pairing rows only through those displayed rows and cannot import a host representation category, quotient carrier, irreducible decomposition, or complete character table.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier tuple of \autoref{def:finite-group-representation-carrier}. The action ledger $A$, vector-space row $V$, linear-map row $L$, optional matrix row $M$, and consumer ledger $C$ are the only rows through which downstream character-facing consumers can see the finite representation packet.
+
+Route a Schur-facing request through $C$. The request may read character-pairing information only after the displayed action entries in $A$ have landed in the endomorphism surface supplied by $L$ over $V$, with any matrix presentation in $M$ already tied to the same rows.
+
+The exclusions follow from the carrier boundary. Since $R$ contains no host representation category, quotient carrier, irreducible decomposition, or complete character-table coordinate, a $\SchurOrthogonalityUp$ consumer cannot obtain any of those endpoints from this packet.
+\end{proof}
+
 \closureat{FiniteGroupRepresentationUp}{seedStr}
 
 \begin{closurestatus}{\FiniteGroupRepresentationUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-group-representation-carrier} and \autoref{thm:finite-group-representation-namecert-bridge} seed the finite action carrier and its NameCert obligation bridge over displayed $\GroupUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\CharacterTableUp$ rows.}
+  \scopeclosed{\autoref{def:finite-group-representation-carrier}, \autoref{thm:finite-group-representation-namecert-bridge}, and \autoref{thm:finite-group-representation-schur-consumer-boundary} seed the finite action carrier, its NameCert obligation bridge, and the Schur-facing consumer boundary over displayed $\GroupUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\CharacterTableUp$, and $\SchurOrthogonalityUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Maschke semisimplicity, Schur orthogonality, irreducible decomposition, complete reducibility, character-table computation, quotient representation carriers, Lean verification, or bridge checking.}
+  \notclaimed{This chapter does not close Maschke semisimplicity, Schur orthogonality, irreducible decomposition, complete reducibility, character-table computation, quotient representation carriers, host representation categories, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, action exactness, unit and multiplication stability, matrix presentation compatibility, and downstream consumer boundary for the same finite packet.}
   \constructivestory{A $\FiniteGroupRepresentationUp$ packet is generated from a displayed finite group source, represented vector-space source, linear-map and matrix presentation rows, a finite action ledger, unit and multiplication replay rows, componentwise transport, package provenance, and local NameCert evidence.}
 \end{closurestatus}
