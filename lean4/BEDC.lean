@@ -2811,6 +2811,7 @@ import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
@@ -3437,6 +3438,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerBoundary
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleImageRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
@@ -8009,6 +8011,7 @@ import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
 import BEDC.Derived.RealApartnessCompletionUp.ObligationRouting
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedCompletionHandoff
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealDeterminacy
+import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealRoute
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSourceExactness
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
@@ -9353,6 +9356,7 @@ import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
 import BEDC.Derived.SobolevTraceBoundaryUp.TasteGate
+import BEDC.Derived.SobolevTraceCompactWindowUp.TasteGate
 import BEDC.Derived.SobolevTraceUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope

@@ -1,4 +1,6 @@
 import BEDC.Derived.ClosedboundedintervalUp
+import BEDC.Derived.ClosedBoundedIntervalUp.PublicBridgeBoundary
+import BEDC.Derived.ClosedBoundedIntervalUp.PublicConsumerSurface
 
 namespace BEDC.Derived.ClosedboundedintervalUp
 
@@ -6,60 +8,88 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem ClosedBoundedIntervalPacket_mature_consumer_surface [AskSetup] [PackageSetup]
     {lower upper order rational dyadic stream readback sealRow transport replay provenance
-      localName exported netRead coverRead compactRead publicRead finiteCoverRead locatedCoverRead
-      modulusRead matureRead : BHist}
+      localName exported publicRead finiteCoverRead locatedCoverRead modulusRead compactRead
+      netRead coverRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
         transport replay provenance localName exported bundle pkg ->
-      Cont exported dyadic netRead ->
-        Cont exported stream coverRead ->
-          Cont netRead coverRead compactRead ->
-            Cont exported localName publicRead ->
-              Cont publicRead dyadic finiteCoverRead ->
-                Cont finiteCoverRead stream locatedCoverRead ->
-                  Cont locatedCoverRead sealRow modulusRead ->
-                    Cont modulusRead readback matureRead ->
+      Cont exported localName publicRead ->
+        Cont publicRead dyadic finiteCoverRead ->
+          Cont finiteCoverRead stream locatedCoverRead ->
+            Cont locatedCoverRead sealRow modulusRead ->
+              Cont modulusRead readback compactRead ->
+                Cont exported dyadic netRead ->
+                  Cont exported stream coverRead ->
+                    Cont netRead coverRead compactRead ->
                       PkgSig bundle compactRead pkg ->
-                        PkgSig bundle matureRead pkg ->
-                          UnaryHistory netRead ∧ UnaryHistory coverRead ∧
-                            UnaryHistory compactRead ∧ UnaryHistory publicRead ∧
-                              UnaryHistory finiteCoverRead ∧ UnaryHistory locatedCoverRead ∧
-                                UnaryHistory modulusRead ∧ UnaryHistory matureRead ∧
-                                  PkgSig bundle provenance pkg ∧
-                                    PkgSig bundle localName pkg ∧
-                                      PkgSig bundle compactRead pkg ∧
-                                        PkgSig bundle matureRead pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
-  intro packet exportedDyadicNet exportedStreamCover netCoverCompact publicRoute finiteRoute
-    locatedRoute modulusRoute matureRoute compactPkg maturePkg
-  obtain ⟨_lowerUnary, _upperUnary, _orderUnary, _rationalUnary, dyadicUnary,
-    streamUnary, readbackUnary, sealRowUnary, _transportUnary, _replayUnary,
-    _provenanceUnary, localNameUnary, exportedUnary, _endpointRoute, _containmentRoute,
-    _sealRoute, _transportRoute, _exportRoute, provenancePkg, localNamePkg⟩ := packet
-  have netReadUnary : UnaryHistory netRead :=
-    unary_cont_closed exportedUnary dyadicUnary exportedDyadicNet
-  have coverReadUnary : UnaryHistory coverRead :=
-    unary_cont_closed exportedUnary streamUnary exportedStreamCover
-  have compactReadUnary : UnaryHistory compactRead :=
-    unary_cont_closed netReadUnary coverReadUnary netCoverCompact
-  have publicReadUnary : UnaryHistory publicRead :=
-    unary_cont_closed exportedUnary localNameUnary publicRoute
-  have finiteCoverReadUnary : UnaryHistory finiteCoverRead :=
-    unary_cont_closed publicReadUnary dyadicUnary finiteRoute
-  have locatedCoverReadUnary : UnaryHistory locatedCoverRead :=
-    unary_cont_closed finiteCoverReadUnary streamUnary locatedRoute
-  have modulusReadUnary : UnaryHistory modulusRead :=
-    unary_cont_closed locatedCoverReadUnary sealRowUnary modulusRoute
-  have matureReadUnary : UnaryHistory matureRead :=
-    unary_cont_closed modulusReadUnary readbackUnary matureRoute
+                        SemanticNameCert
+                            (fun row : BHist => hsame row compactRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row publicRead ∨ hsame row finiteCoverRead ∨
+                                hsame row locatedCoverRead ∨ hsame row modulusRead ∨
+                                  hsame row compactRead ∨
+                                    Cont modulusRead readback compactRead ∨
+                                      Cont netRead coverRead compactRead)
+                            (fun row : BHist =>
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle compactRead pkg ∧ hsame row compactRead)
+                            hsame ∧
+                          UnaryHistory publicRead ∧ UnaryHistory finiteCoverRead ∧
+                            UnaryHistory locatedCoverRead ∧ UnaryHistory modulusRead ∧
+                              UnaryHistory compactRead ∧ UnaryHistory netRead ∧
+                                UnaryHistory coverRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro packet publicRoute finiteRoute locatedRoute modulusRoute compactRoute
+    exportedDyadicNet exportedStreamCover netCoverCompact compactPkg
+  obtain ⟨_publicCert, publicUnary, finiteUnary, locatedUnary, modulusUnary, compactUnary⟩ :=
+    ClosedBoundedIntervalPublicBridgeBoundary (lower := lower) (upper := upper)
+      (order := order) (rational := rational) (dyadic := dyadic) (stream := stream)
+      (readback := readback) (sealRow := sealRow) (transport := transport)
+      (replay := replay) (provenance := provenance) (localName := localName)
+      (exported := exported) (publicRead := publicRead) (finiteCoverRead := finiteCoverRead)
+      (locatedCoverRead := locatedCoverRead) (modulusRead := modulusRead)
+      (compactRead := compactRead) (bundle := bundle) (pkg := pkg)
+      packet publicRoute finiteRoute locatedRoute modulusRoute compactRoute compactPkg
+  obtain ⟨publicSurfaceCert, netUnary, coverUnary, _surfaceCompactUnary⟩ :=
+    ClosedBoundedIntervalPublicConsumerSurface (lower := lower) (upper := upper)
+      (order := order) (rational := rational) (dyadic := dyadic) (stream := stream)
+      (readback := readback) (sealRow := sealRow) (transport := transport)
+      (replay := replay) (provenance := provenance) (localName := localName)
+      (exported := exported) (netRead := netRead) (coverRead := coverRead)
+      (compactRead := compactRead) (bundle := bundle) (pkg := pkg)
+      packet exportedDyadicNet exportedStreamCover netCoverCompact compactPkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row compactRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row publicRead ∨ hsame row finiteCoverRead ∨
+              hsame row locatedCoverRead ∨ hsame row modulusRead ∨
+                hsame row compactRead ∨ Cont modulusRead readback compactRead ∨
+                  Cont netRead coverRead compactRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg ∧
+              hsame row compactRead)
+          hsame := {
+    core := publicSurfaceCert.core
+    pattern_sound := by
+      intro _row _source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr netCoverCompact)))))
+    ledger_sound := publicSurfaceCert.ledger_sound
+  }
   exact
-    ⟨netReadUnary, coverReadUnary, compactReadUnary, publicReadUnary, finiteCoverReadUnary,
-      locatedCoverReadUnary, modulusReadUnary, matureReadUnary, provenancePkg, localNamePkg,
-      compactPkg, maturePkg⟩
+    ⟨cert, publicUnary, finiteUnary, locatedUnary, modulusUnary, compactUnary, netUnary,
+      coverUnary⟩
 
 end BEDC.Derived.ClosedboundedintervalUp
