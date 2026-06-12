@@ -223,6 +223,24 @@ The handoff theorem presents the same packet to $\SubjectReductionUp$. Redex led
 Combining these finite rows gives the beta-case obligation package. The non-escape theorem excludes host substitution semantics, unrestricted conversion, global normalization, and closed subject reduction from the package boundary.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation scoped discharge inventory]
+\label{thm:betasubstitutionpreservation-scoped-discharge-inventory}
+Let
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)
+$$
+be an accepted $\BetaSubstitutionPreservationUp$ carrier consumed by $\SubjectReductionDischargeUp$. Every scoped discharge read supplied by $Q$ factors through the body row $B$, argument row $A$, beta-redex row $V$, codomain boundary $C_0$, substituted body row $R$, substituted codomain row $C_1$, ledger row $L$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replay $K$, provenance row $P$, and local $\NameCert$ row $N$. It cannot supply the application-argument, lambda-domain, or Pi-domain discharge rows, nor host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The only rows available to the discharge consumer are the displayed coordinates $B,A,V,C_0,R,C_1,L,H,K,P,N$.
+
+Use the beta-case obligation package of \autoref{thm:betasubstitutionpreservation-beta-case-obligation-package}. It binds the body, argument, redex, codomain, substituted readback, ledger, transport, replay, provenance, and local naming rows as one finite beta obligation surface.
+
+Apply the four-row consumption theorem \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. The accepted packet is exactly the beta row consumed by $\SubjectReductionDischargeUp$, while the application-argument, lambda-domain, and Pi-domain rows remain outside this carrier.
+
+Finally use non-escape from \autoref{thm:betasubstitutionpreservation-nonescape}. Since no coordinate of $Q$ names host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction, every scoped discharge read stays inside the displayed beta inventory.
+\end{proof}
+
 \begin{theorem}[BetaSubstitutionPreservation body and argument boundary]
 \label{thm:beta-substitution-preservation-body-argument-boundary}
 For an accepted $\BetaSubstitutionPreservationUp$ carrier
