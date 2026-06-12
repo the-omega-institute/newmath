@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCriterionForFunctionsUp$}
+\label{ch:concrete-instances-cauchy-criterion-for-functions-namecert}
+\origin{human}
+
+Following Bishop--Bridges on the uniform Cauchy criterion for functions, the $\CauchyCriterionForFunctionsUp$ packet records the finite function-window data by which a real-valued function family is read as uniformly Cauchy before any completed function object is available. It sits beside the already named $\RealFunctionUniformCauchyUp$ packet of \autoref{ch:concrete-instances-real-function-uniform-cauchy-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the criterion as BEDC rows for later uniform-convergence and continuous-map consumers; it is not host function equality, quotient equality of streams, countable choice, selected pointwise limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy criterion for functions carrier]\label{def:cauchy-criterion-for-functions-carrier}
+A $\CauchyCriterionForFunctionsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,T,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the source function-window ledger. It lists the accepted finite argument windows, the displayed $\ContinuousMapUp$ rows available on those windows, and the paired value rows whose tails are compared.
+\item $T$ is the uniform tolerance request row. It records one displayed precision request and the single tail threshold demanded for all windows in $W$.
+\item $L$ is the pairwise tail-comparison ledger. For every pair of function indices beyond the threshold in $T$ and every displayed source window in $W$, it stores the finite comparison row witnessing that the two value observations are within the requested dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for every rational observation exposed by the value comparisons in $L$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the function windows, tolerance request, comparison ledger, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the function-window ledger, tolerance request, pairwise comparison ledger, readback row, real seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a uniform Cauchy request through $W,T,L,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCriterionForFunctionsUp$, $\RealFunctionUniformCauchyUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCriterionForFunctionsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $W,T,L,R,E,H,C,P,N$. The carrier has no coordinate for host function equality, completed function-space equality, quotient streams, selected pointwise limits, countable-choice schedules, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy criterion for functions NameCert obligations]\label{thm:cauchy-criterion-for-functions-namecert-obligations}
+For every accepted $\CauchyCriterionForFunctionsUp$ carrier
+$$
+K=(W,T,L,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCriterionForFunctionsUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed function-window ledger, uniform tolerance request, pairwise tail-comparison ledger, regular rational readback, terminal real seal, transport, replay, provenance, and local name;
+\item source-window exposure, requiring every function value used by the criterion to be read from the finite windows listed in $W$;
+\item uniform threshold accountability, requiring the threshold row in $T$ to serve all accepted source windows and all compared function-index pairs beyond that threshold;
+\item pairwise tail-comparison coverage, requiring every comparison consumed by the criterion to appear in $L$ with its requested dyadic tolerance;
+\item regular rational readback, requiring each numeric observation in $L$ to pass through $R$ before the terminal real seal is inspected;
+\item Real-seal non-escape, requiring $E$ to remain downstream of $W,T,L,R$ and the structural rows;
+\item componentwise stability, requiring replacement along $\hsame$ and displayed $\Cont$ replay to preserve the same finite criterion surface;
+\item provenance exhaustion, requiring $P$ to source only the listed rows and to export no host function equality, quotient stream, selected pointwise limit, countable-choice schedule, or ambient real-completeness principle;
+\item local naming, requiring $N$ to name exactly this finite criterion surface and no external function-space object.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[Cauchy criterion for functions uniform-window handoff]\label{thm:cauchy-criterion-for-functions-uniform-window-handoff}
+Let $K=(W,T,L,R,E,H,C,P,N)$ be an accepted $\CauchyCriterionForFunctionsUp$ carrier. Every $\RealFunctionUniformCauchyUp$, uniform-convergence, or continuous-map consumer that reads the criterion must first expose the finite route
+$$
+\ContinuousMapUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp
+$$
+through the source function windows $W$, the uniform tolerance request $T$, the pairwise tail-comparison ledger $L$, the readback row $R$, and the terminal seal $E$. Thus the consumer receives a uniform Cauchy criterion only as displayed function-window data with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It cannot replace the handoff by host function equality, quotient stream equality, countable choice, selected pointwise limits, completed function-space equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\closureat{CauchyCriterionForFunctionsUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCriterionForFunctionsUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-criterion-for-functions-carrier}, \autoref{thm:cauchy-criterion-for-functions-namecert-obligations}, and \autoref{thm:cauchy-criterion-for-functions-uniform-window-handoff} seed the finite function-window route from the uniform Cauchy criterion to RealFunctionUniformCauchy, ContinuousMap, StreamName, RegSeqRat, DyadicRatCore, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, completed function-space equality, quotient streams, countable choice, selected pointwise limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exposure, uniform threshold accountability, pairwise tail-comparison coverage, regular rational readback, Real-seal non-escape, componentwise stability, provenance exhaustion, and local naming for BEDC.Derived.CauchyCriterionForFunctionsUp.}
+  \constructivestory{A $\CauchyCriterionForFunctionsUp$ packet is generated from finite function-window rows, one uniform tolerance request, a pairwise tail-comparison ledger, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
