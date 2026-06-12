@@ -9041,6 +9041,7 @@ import BEDC.Derived.SequentialCompactUp.PublicNameCertRoute
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
+import BEDC.Derived.SequentialCompactUp.RealSubsequenceCauchyHandoff
 import BEDC.Derived.SequentialCompactUp.RegSeqRatClusterHandoff
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
 import BEDC.Derived.SequentialCompactUp.RootObligationNonescape

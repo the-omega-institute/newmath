@@ -339,4 +339,73 @@ theorem DyadicMidpointNestedIntervalNonEscape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, handoffReadUnary, nestedReadUnary⟩
 
+theorem DyadicMidpointCommonDenominatorConsumerExactness [AskSetup] [PackageSetup]
+    {left right scale midpoint branch window sameRows transport route provenance nameCert endpoint
+      endpointRead midpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMidpointCarrier left right scale midpoint branch window sameRows transport route
+        provenance nameCert endpoint bundle pkg ->
+      Cont left right endpointRead ->
+        Cont endpointRead scale midpointRead ->
+          PkgSig bundle midpointRead pkg ->
+            SemanticNameCert
+                  (fun row : BHist => hsame row midpointRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row left ∨ hsame row right ∨ hsame row scale ∨
+                      hsame row midpoint ∨ hsame row midpointRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont left right endpointRead ∧
+                      Cont endpointRead scale midpointRead ∧ PkgSig bundle midpointRead pkg)
+                  hsame ∧
+                UnaryHistory endpointRead ∧ UnaryHistory midpointRead ∧
+                  hsame midpoint (append scale (append left right)) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier endpointRoute midpointRoute midpointPkg
+  obtain ⟨leftUnary, rightUnary, scaleUnary, _midpointUnary, _branchUnary, _windowUnary,
+    _sameRowsUnary, _routeUnary, _transportUnary, _provenanceUnary, _nameCertUnary,
+    _endpointUnary, midpointRow, _endpointRoute, _scaleRoute, _midpointWindowRoute,
+    _branchWindowRoute, _endpointPkg, _provenancePkg, _nameCertPkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed leftUnary rightUnary endpointRoute
+  have midpointReadUnary : UnaryHistory midpointRead :=
+    unary_cont_closed endpointReadUnary scaleUnary midpointRoute
+  have sourceMidpoint :
+      (fun row : BHist => hsame row midpointRead ∧ UnaryHistory row) midpointRead := by
+    exact ⟨hsame_refl midpointRead, midpointReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row midpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row left ∨ hsame row right ∨ hsame row scale ∨ hsame row midpoint ∨
+              hsame row midpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont left right endpointRead ∧
+              Cont endpointRead scale midpointRead ∧ PkgSig bundle midpointRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro midpointRead sourceMidpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, endpointRoute, midpointRoute, midpointPkg⟩
+  }
+  exact ⟨cert, endpointReadUnary, midpointReadUnary, midpointRow⟩
+
 end BEDC.Derived.DyadicMidpointUp
