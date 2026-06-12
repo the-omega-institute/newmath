@@ -199,6 +199,33 @@ class PushGateTipVerifyTests(unittest.TestCase):
         self.assertEqual(merge_count, 2)
         self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
 
+    def test_ff_not_ancestor_retries_after_merging_local_base(self):
+        gate_calls: list[str] = []
+        ff_calls: list[str] = []
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+
+        def fake_ff(tip: str):
+            ff_calls.append(tip)
+            if len(ff_calls) == 1:
+                return False, "skipped-not-ancestor"
+            return True, ""
+
+        cf._ff_local_branch_to = fake_ff
+        calls = self._install_run_cmd(
+            ["c" * 40, "c" * 40, "c" * 40, "c" * 40, "d" * 40, "d" * 40],
+            base_sequence=["b" * 40],
+            origin_base_sequence=["b" * 40],
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(gate_calls, ["gate"])
+        self.assertEqual(ff_calls, ["c" * 40, "d" * 40])
+        merge_count = sum(cmd == ["git", "merge", "--no-ff", "--no-edit", cf.BASE_BRANCH] for cmd in calls)
+        self.assertEqual(merge_count, 2)
+        self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
     def test_base_sync_codex_taint_forces_reverify_after_clean_remerge(self):
         gate_calls: list[str] = []
         sync_calls = 0
