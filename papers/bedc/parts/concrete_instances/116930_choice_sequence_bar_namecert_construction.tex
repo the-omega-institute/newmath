@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceBarUp$}
+\label{ch:concrete-instances-choice-sequence-bar-namecert}
+\origin{human}
+
+Following Brouwer on bars over choice sequences and the Bishop--Bridges use of finite prefix evidence, the $\ChoiceSequenceBarUp$ packet records a bar only as a finite BEDC surface over inspected choice-sequence prefixes. It sits beside the lawless-sequence surface of \autoref{ch:concrete-instances-lawlesssequence-namecert}, the finite $\StreamNameUp$ route of \autoref{ch:concrete-instances-streamname-namecert}, the $\BaireSpaceUp$ prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the $\BoolUp$ hit row of \autoref{ch:concrete-instances-bool-namecert}, the $\NatUp$ prefix ledger of \autoref{ch:concrete-instances-nat-namecert}, and the finite fan/bar boundary of \autoref{ch:concrete-instances-finite-fan-theorem-namecert}. The packet names prefix-bar coverage and monotone extension evidence; it is not a host infinite choice sequence, not countable choice, and not an arbitrary bar-induction principle.
+
+\begin{definition}[Choice-sequence bar carrier]
+\label{def:choice-sequence-bar-carrier}
+A $\ChoiceSequenceBarUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(W,B,I,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite prefix-window row over $\StreamNameUp$ and $\BaireSpaceUp$, listing exactly the inspected choice-sequence prefixes.
+\item $B$ is the $\BoolUp$ hit row, recording for each displayed prefix whether the bar has already been met.
+\item $I$ is the $\NatUp$ prefix ledger, ordering the inspected prefix lengths and finite extension steps.
+\item $M$ is the monotone-extension evidence row: once a displayed prefix has a positive hit in $B$, every displayed extension of that prefix in $W$ keeps the same hit.
+\item $H$ records componentwise $\hsame$ transport for prefix windows, Bool hit rows, prefix ledgers, monotone-extension evidence, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a prefix-ledger request through the finite window $W$, the hit row $B$, and the monotone-extension row $M$.
+\item $P$ is the $\Pkg$ provenance over $\ChoiceSequenceBarUp$, $\LawlessSequenceUp$, $\StreamNameUp$, $\BaireSpaceUp$, $\BoolUp$, $\NatUp$, $\FiniteFanTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChoiceSequenceBarUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,B,I,M,H,C,P,N$. It has no coordinate for a completed choice sequence, a branch selector, a countable-choice schedule, quotient equality of streams, or bar induction outside the displayed finite prefix surface.
+\end{definition}
+
+\begin{theorem}[Choice-sequence bar NameCert obligations]
+\label{thm:choice-sequence-bar-namecert-obligations}
+For every accepted $\ChoiceSequenceBarUp$ carrier $Q=(W,B,I,M,H,C,P,N)$, the local $\NameCert_{\ChoiceSequenceBarUp}$ surface consists exactly of carrier admission for the eight displayed rows, finite-prefix window coverage through $W$, Bool hit readback through $B$, Nat prefix-ledger ordering through $I$, monotone extension stability through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every accepted bar-facing read remains inside the same finite prefix packet and cannot escape to a host infinite choice sequence or a countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-sequence-bar-carrier}. The only bar data visible to a consumer are the displayed prefix window $W$, the Bool hit row $B$, the prefix ledger $I$, and the monotone-extension evidence $M$.
+
+Use finite induction over the $\NatUp$ ledger $I$. The base read inspects the displayed empty or initial prefix when it is present in $W$; each step extends the current displayed prefix by one ledger move and then reads the corresponding hit value from $B$.
+
+Apply the monotone-extension row $M$. If a displayed prefix has already hit the bar, every displayed extension keeps that hit, so prefix-bar coverage and extension stability are properties of the finite packet rather than of an unseen branch.
+
+Finally replay through $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve exactly the same rows, and none of them contains a coordinate for a host infinite choice sequence, a branch selector, countable choice, quotient stream equality, or unrestricted bar induction.
+\end{proof}
+
+\falsifiablePrediction{An accepted ChoiceSequenceBarUp packet that exports a bar hit without displaying the prefix window $W$, Bool hit row $B$, Nat prefix ledger $I$, monotone-extension row $M$, and structural $H,C,P,N$ route refutes the carrier.}
+
+\independenceWitness{lawlesssequence, streamname, bairespace, bool, nat, finitefantheorem: $\ChoiceSequenceBarUp$ is not bijective to any listed sibling because it binds finite prefix windows, Bool bar hits, Nat prefix ledgers, monotone-extension evidence, transport, replay, provenance, and local NameCert into one prefix-bar packet.}
+
+\closureat{ChoiceSequenceBarUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceSequenceBarUp}
+  \constructivestory{A $\ChoiceSequenceBarUp$ packet is generated from finite StreamName and BaireSpace prefix windows, Bool bar-hit rows, Nat prefix ledgers, monotone-extension evidence, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-bar-carrier} and \autoref{thm:choice-sequence-bar-namecert-obligations} seed the finite prefix-bar surface over choice-sequence prefixes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host infinite choice sequences, countable choice, quotient stream equality, selected branches, or arbitrary bar induction.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-window coverage, Bool hit readback, Nat ledger ordering, monotone extension stability, transport, replay, provenance, and local naming for BEDC.Derived.ChoiceSequenceBarUp.}
+\end{closurestatus}
