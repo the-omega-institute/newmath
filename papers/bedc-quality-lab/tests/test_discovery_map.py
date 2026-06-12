@@ -1141,7 +1141,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["hardgate_status"] == "pass"
 
 
-def test_discovery_map_dgt_reads_scaling_ladder_projection_pointer_only(tmp_path):
+def test_discovery_map_dgt_reads_scaling_ladder_owner_pointer_only(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1149,12 +1149,13 @@ def test_discovery_map_dgt_reads_scaling_ladder_projection_pointer_only(tmp_path
     row = rows["discovery-gated-transformer"]
     dgt_cell = _coverage_cell(payload, "DGT")
 
-    assert row["discovery_level"] == "D5-M"
-    assert row["evidence_pointer"] == "$.scaling_ladder"
-    assert row["control_pointer"] == "$.d4_projection.matched_control"
-    assert row["projection_status"] == "scaling-ladder-blocked"
-    assert row["failed_gate"].startswith("$.scaling_ladder")
+    assert row["discovery_level"] == "D0"
+    assert row["evidence_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert "control_pointer" not in row
+    assert row["projection_status"] == "source-insufficient"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == ""
     assert "gates" not in row
     assert "hardgates" not in row
     assert "d4_projection" not in row
@@ -1170,7 +1171,7 @@ def test_discovery_map_dgt_reads_scaling_ladder_projection_pointer_only(tmp_path
     assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"])["level_id"] == "L0_toy"
 
 
-def test_discovery_map_dgt_failed_d5_o_gate_fails_closed_to_d4(tmp_path):
+def test_discovery_map_dgt_failed_d5_o_gate_fails_closed_to_owner_level(tmp_path):
     _write_coverage_payloads(tmp_path)
     _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
@@ -1188,13 +1189,13 @@ def test_discovery_map_dgt_failed_d5_o_gate_fails_closed_to_d4(tmp_path):
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["discovery_level"] == "D4"
-    assert row["projection_status"] == "scaling-ladder-blocked"
-    assert row["failed_gate"] == "$.d5_o_projection.gates.D5O-HG6"
-    assert _artifact_pointer_value(tmp_path, f"{row['json_artifact']}:{row['failed_gate']}") is not None
+    assert row["discovery_level"] == "D0"
+    assert row["projection_status"] == "source-insufficient"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert _artifact_pointer_value(tmp_path, row["failed_gate"]) is not None
 
 
-def test_discovery_map_dgt_scaling_ladder_all_gates_pass_projects_d5_m(tmp_path):
+def test_discovery_map_dgt_old_scaling_ladder_all_gates_pass_still_uses_owner(tmp_path):
     _write_coverage_payloads(tmp_path)
     _write_dgt_accepted_high_impact_review(tmp_path)
     spec = canonical._specs_by_name()["discovery-gated-transformer"]
@@ -1215,10 +1216,10 @@ def test_discovery_map_dgt_scaling_ladder_all_gates_pass_projects_d5_m(tmp_path)
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["discovery_level"] == "D5-M"
-    assert row["projection_status"] == "projected"
-    assert row["evidence_pointer"] == "$.scaling_ladder"
-    assert row.get("failed_gate") is None
+    assert row["discovery_level"] == "D0"
+    assert row["projection_status"] == "source-insufficient"
+    assert row["evidence_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
 def test_discovery_map_dgt_blocked_projection_exposes_resolvable_failed_gate(tmp_path):
@@ -1243,11 +1244,11 @@ def test_discovery_map_dgt_blocked_projection_exposes_resolvable_failed_gate(tmp
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["projection_status"] == "scaling-ladder-blocked"
-    assert row["failed_gate"] == "$.scaling_ladder.evidence_scope"
+    assert row["projection_status"] == "source-insufficient"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert row["audit_status"] == "invalid"
-    assert row["audit_reason"] == "dgt_scaling_ladder_owner-scope-mismatch"
-    assert _artifact_pointer_value(tmp_path, f"{row['json_artifact']}:{row['failed_gate']}") is not None
+    assert row["audit_reason"].startswith("scaling-ladder-owner-")
+    assert _artifact_pointer_value(tmp_path, row["failed_gate"]) is not None
 
 
 @pytest.mark.parametrize("replacement", [None, {"status": "ready"}])
@@ -1268,7 +1269,7 @@ def test_discovery_map_dgt_missing_or_malformed_scaling_ladder_fails_closed(tmp_
 
     assert row["audit_status"] == "invalid"
     assert row["discovery_level"] != "D5-M"
-    assert row["failed_gate"].startswith("$.scaling_ladder")
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert cell["hardgate_status"] == "pass"
     assert cell["claim_verdict_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0].owner_decision_pointer"
 
@@ -1295,8 +1296,8 @@ def test_discovery_map_dgt_scaling_hg1_ignores_claim_verdict_rows(tmp_path):
     result = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = {row["report"]: row for row in result["rows"]}["discovery-gated-transformer"]
 
-    assert row["projection_status"] == "scaling-ladder-blocked"
-    assert row["failed_gate"] == "$.d5_m_projection.status"
+    assert row["projection_status"] == "source-insufficient"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert "claim_verdict" not in json.dumps(row, sort_keys=True)
 
 

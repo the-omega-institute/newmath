@@ -2098,6 +2098,7 @@ def _configure_metric_aliases(module: Any) -> None:
 def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
+    _set_existing_attr(module, "ROOT", ROOT)
     _set_existing_attr(module, "REPORT_JSON", json_path)
     _set_existing_attr(module, "REPORT_MD", markdown_path)
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
@@ -2614,6 +2615,9 @@ def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[s
 def _scorecard_overclaim_rate(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
     report = "certificate-guided-discovery"
     pointer = "$.audit_decision.overclaim_rate"
+    payload = payloads.get(report, {})
+    if payload.get("producer_status") == "skipped":
+        return _metric_not_ready("OverclaimRate", f"{report}:$.skip_reason", str(payload.get("skip_reason") or "producer skipped"))
     value = _pointer_value(payloads.get(report, {}), pointer)
     if not isinstance(value, (int, float)):
         return _metric_not_ready("OverclaimRate", f"{report}:{pointer}", "missing explicit overclaim denominator")
@@ -6795,7 +6799,10 @@ def run_reports(
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
-    if any(result["status"] != "pass" for result in results):
+    if verify_fingerprints:
+        if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
+            raise SystemExit(1)
+    elif any(result["status"] != "pass" for result in results):
         raise SystemExit(1)
     return payload
 

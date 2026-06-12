@@ -4461,6 +4461,26 @@ def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_pa
     assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
 
 
+def test_run_reports_verify_fingerprints_allows_matching_fail_closed_auxiliary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["dgt-l0-controls"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    payload = json.loads(canonical._artifact_path(spec.json_artifact).read_text(encoding="utf-8"))
+    payload["construct_validity_hardgates"]["status"] = "fail"
+    payload["construct_validity_hardgates"]["failed_gates"] = ["CV-HG4"]
+    payload["construct_validity_hardgates"]["gates"]["CV-HG4"]["status"] = "fail"
+    canonical._artifact_path(spec.json_artifact).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+    result = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert result["reports"][0]["status"] == "fail"
+    assert result["reports"][0]["fingerprint_status"] == "match"
+    assert result["reports"][0]["producer_status"] == "skipped"
+
+
 def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -4558,6 +4578,58 @@ def test_scaling_ladder_artifact_validation_rejects_hand_edited_level_rows(tmp_p
     assert validation["status"] == "fail"
     assert validation["required_key_validation"]["status"] == "pass"
     assert validation["semantic_errors"] == ["scaling ladder level owner projection mismatch"]
+
+
+def test_scaling_ladder_owner_boundary_forces_claim_verdict_downgrade(tmp_path, monkeypatch):
+    from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
+    from tests.test_discovery_map import _ready_dgt_scaling_level
+    from tests.test_scaling_ladder import _write_json, _write_owner_inputs
+    from scripts import run_discovery_gated_transformer as dgt_runner
+    from scripts import run_claim_verdict_demo as claim_verdict_demo
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_release_pointer_fixture(tmp_path)
+    _write_owner_inputs(tmp_path)
+    dgt_payload = dgt_runner.build_payload(generated_at="fixture-time")
+    dgt_payload["scaling_ladder"] = {
+        "levels": [
+            {"level_id": level_id, "claim_capsule": _ready_dgt_scaling_level(level_id, index)}
+            for index, level_id in enumerate(dgt_runner.SCALING_LADDER_LEVEL_IDS)
+        ]
+    }
+    dgt_payload["scaling_ladder"] = dgt_runner.build_scaling_ladder_projection(dgt_payload)
+    _write_json(tmp_path, "reports/canonical/discovery-gated-transformer.json", dgt_payload)
+    scaling_payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    _write_json(tmp_path, "reports/canonical/scaling-ladder.json", scaling_payload)
+    scorecard = {
+        "artifact_id": canonical.QUALITY_SCORECARD_ARTIFACT_ID,
+        "rows": [
+            {"metric": metric, "status": "ready", "value": index}
+            for index, metric in enumerate(canonical.QUALITY_SCORECARD_METRICS)
+        ],
+    }
+    _write_json(tmp_path, "reports/canonical/quality-scorecard.json", scorecard)
+    _write_json(tmp_path, "reports/canonical/formal_hardening.json", {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+    specs = (canonical._specs_by_name()["discovery-gated-transformer"],)
+    discovery_payload = discovery_map.build_discovery_map(
+        generated_at="fixture-time",
+        root=tmp_path,
+        canonical_reports=specs,
+    )
+    _write_json(tmp_path, "reports/canonical/discovery_map.json", discovery_payload)
+
+    row = next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
+    verdict = claim_verdict_demo.compile_claim_verdicts(tmp_path, generated_at="fixture-time")[0]
+
+    assert row["discovery_level"] == "D0"
+    assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["evidence_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "model-comparison-not-ready"
+    assert verdict["source"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
 def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
@@ -6312,6 +6384,49 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
     assert report_payload["not_claimed"] == ["fixture boundary"]
     assert report_payload["main_claim_status"] == "positive"
     assert report_markdown == "# stub discovery\n"
+
+
+def test_certificate_guided_discovery_missing_control_commits_skipped_not_error(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
+    source_json = canonical.CANONICAL_DIR / "certificate-guided-training.json"
+    source_report = canonical.CANONICAL_DIR / "certificate-guided-training.md"
+    source_json.parent.mkdir(parents=True, exist_ok=True)
+    source_json.write_text(
+        json.dumps(
+            {
+                "generated_at": "fixture",
+                "source_artifacts": {"generation_script": "scripts/run_certificate_guided_training.py"},
+                "hardgate": {"status": "fail", "failed_gate": "fixture-missing-control"},
+                "failed_gate": "fixture-missing-control",
+                "scope_seal": {"not_claimed": ["fixture"]},
+                "not_claimed": ["fixture"],
+                "records": [{"role": "before", "candidate_id": "before"}],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    source_report.write_text("# canonical training\n", encoding="utf-8")
+
+    payload = canonical.run_reports(only="certificate-guided-discovery")
+    report = payload["reports"][0]
+    report_payload = json.loads((canonical.CANONICAL_DIR / "certificate-guided-discovery.json").read_text(encoding="utf-8"))
+    scorecard = json.loads((canonical.CANONICAL_DIR / "quality-scorecard.json").read_text(encoding="utf-8"))
+    scorecard_row = next(row for row in scorecard["input_reports"] if row["name"] == "certificate-guided-discovery")
+
+    assert report["status"] == "pass"
+    assert report["producer_status"] == "completed"
+    assert "error" not in report
+    assert scorecard_row["status"] == "pass"
+    assert report_payload["producer_status"] == "skipped"
+    assert report_payload["positive_discovery"] is None
+    assert report_payload["matched_random_baseline"] is None
+    assert report_payload["discovery_level"] == "D0"
+    assert report_payload["claim_gate"]["status"] == "skipped"
+    assert report_payload["main_claim_status"]["status"] == "skipped"
 
 
 def test_certificate_guided_discovery_validation_accepts_empty_revocation_ledger(tmp_path):

@@ -1,6 +1,6 @@
 # Claim Graph
 
-- Generated at: `2026-06-11T08:40:12.594518+00:00`
+- Generated at: `2026-06-11T23:08:39.842131+00:00`
 - Status: `pointer-only`
 - Nodes: `125`
 
@@ -48,7 +48,7 @@
 | `projected:dgt-l0-controls` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:dgt-l0-controls` |
 | `raw:dgt-base-undertraining-audit` | `raw_evidence` | `reports/canonical/dgt-base-undertraining-audit.json:$` |  |
 | `projected:dgt-base-undertraining-audit` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:dgt-base-undertraining-audit` |
-| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder` |  |
+| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/scaling-ladder.json:$.levels[0]` |  |
 | `projected:discovery-gated-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[21]` | `raw:discovery-gated-transformer` |
 | `raw:dgt-neural-ablation` | `raw_evidence` | `reports/canonical/dgt-neural-ablation.json:$.component_causal_claims` |  |
 | `projected:dgt-neural-ablation` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[22]` | `raw:dgt-neural-ablation` |
