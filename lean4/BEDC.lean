@@ -2809,6 +2809,7 @@ import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
@@ -3435,6 +3436,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerBoundary
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleImageRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
@@ -3486,6 +3488,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetLedgerStability
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetRhRefusalNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
@@ -3501,6 +3504,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
@@ -6013,6 +6017,7 @@ import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
 import BEDC.Derived.LocallyCompactUp.TasteGate
+import BEDC.Derived.LocallyFiniteCoverUp
 import BEDC.Derived.LocallyUniformConvergenceUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
@@ -6936,6 +6941,7 @@ import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricReflectionSandwichUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
+import BEDC.Derived.MetricSeparationReflectorUp.TasteGate
 import BEDC.Derived.MetricSequentialCompletionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
@@ -9344,6 +9350,7 @@ import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
 import BEDC.Derived.SobolevTraceBoundaryUp.TasteGate
+import BEDC.Derived.SobolevTraceCompactWindowUp.TasteGate
 import BEDC.Derived.SobolevTraceUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope

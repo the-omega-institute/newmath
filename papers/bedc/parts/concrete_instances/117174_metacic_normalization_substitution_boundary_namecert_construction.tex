@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationSubstitutionBoundaryUp$}
+\label{ch:concrete-instances-metacic-normalization-substitution-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationSubstitutionBoundaryUp$ packet realizes the substitution edge of the MetaCIC normalization audit map as finite NameCert rows. It sits at the conditional boundary of \autoref{ch:metacic-normalization-audit-map}, beside the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the candidate-mediated strong-normalization route of \autoref{ch:concrete-instances-candidate-mediated-sn-namecert}, the substitution audit map of \autoref{ch:metacic-substitution-audit-map}, the confluence diamond ledger of \autoref{ch:concrete-instances-metacic-confluence-diamond-ledger-namecert}, and the subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction}. The packet names the visible substitution-boundary row that must be consumed before candidate-mediated normalization can be read as a closed-term route; it does not assert evidence-free normalization, unrestricted subject reduction, global confluence, quotient syntax equality, or host evaluator soundness.
+
+\begin{definition}[MetaCIC normalization substitution-boundary carrier]
+\label{def:metacic-normalization-substitution-boundary-carrier}
+A $\MetaCICNormalizationSubstitutionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,C,S_b,D,O,H,R,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F$ is the normalization frontier row, retaining the candidate-mediated strong-normalization guard;
+\item $C$ is the candidate-evidence row, recording the candidate, closed-candidate, or candidate-set interface being consumed;
+\item $S_b$ is the visible substitution-boundary row, recording the substitution audit data that cannot be erased;
+\item $D$ is the confluence diamond ledger row, exposing the residual-substitution and local-join data used at the boundary;
+\item $O$ is the subject-reduction obstruction row, retaining the dependent-codomain and closedness-preservation obstruction data;
+\item $H$ records componentwise $\hsame$ transport of $F,C,S_b,D,O$;
+\item $R$ records displayed $\Cont$ replay of the same boundary route;
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationSubstitutionBoundaryUp$, \autoref{ch:metacic-normalization-audit-map}, \autoref{ch:metacic-substitution-audit-map}, $\MetaCICNormalizationFrontierUp$, $\CandidateMediatedSNUp$, $\MetaCICConfluenceDiamondLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationSubstitutionBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unconditional normalization, evidence-free closed-term strong normalization, unrestricted substitution compatibility, completed subject reduction, global confluence, or host quotient equality.
+\end{definition}
+\leanstmt{BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp}
+
+\begin{theorem}[MetaCIC normalization substitution-boundary NameCert obligations]
+\label{thm:metacic-normalization-substitution-boundary-namecert-obligations}
+For the carrier of \autoref{def:metacic-normalization-substitution-boundary-carrier}, the local $\NameCert_{\MetaCICNormalizationSubstitutionBoundaryUp}$ surface consists exactly of carrier admission for $S=(F,C,S_b,D,O,H,R,P,N)$, normalization-frontier retention through $F$, candidate-interface admission through $C$, visible substitution-boundary admission through $S_b$, confluence-diamond ledger exposure through $D$, subject-reduction obstruction retention through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The frontier row $F$ and candidate row $C$ keep the normalization read inside the candidate-mediated interface recorded by the audit map.
+
+Read the boundary rows next. The substitution row $S_b$ is visible before the confluence row $D$ or obstruction row $O$ can be consumed, so residual-substitution and subject-reduction data cannot be hidden behind a global normalization statement.
+
+The structural rows $H,R,P,N$ then transport, replay, source, and name the same finite packet. Since no carrier coordinate supplies evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, or host evaluator soundness, the NameCert surface remains exactly the displayed substitution-boundary route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICNormalizationSubstitutionBoundaryUp$ read must expose the visible substitution-boundary row $S_b$ before candidate-mediated normalization can consume confluence or subject-reduction obstruction data.}
+
+\independenceWitness{metacicnormalizationfrontier, candidate-mediated-sn, metacic-substitution-audit-map, metacic-confluence-diamond-ledger, metacic-subject-reduction-obstruction: $\MetaCICNormalizationSubstitutionBoundaryUp$ is not bijective to any listed sibling because it jointly carries frontier, candidate, substitution-boundary, confluence-ledger, subject-reduction-obstruction, transport, replay, provenance, and local naming rows.}
+
+The Lean boundary must eventually provide $\Nontrivial\ \MetaCICNormalizationSubstitutionBoundaryUp$ and $\FieldFaithful\ \MetaCICNormalizationSubstitutionBoundaryUp$ instances. These instances must keep $F,C,S_b,D,O,H,R,P,N$ as separate displayed fields before a checked theorem may replace the statement marker.
+
+\closureat{MetaCICNormalizationSubstitutionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationSubstitutionBoundaryUp}
+  \constructivestory{A $\MetaCICNormalizationSubstitutionBoundaryUp$ packet is generated from normalization frontier, candidate evidence, visible substitution-boundary, confluence diamond ledger, subject-reduction obstruction, componentwise transport, displayed continuation replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-substitution-boundary-carrier} and \autoref{thm:metacic-normalization-substitution-boundary-namecert-obligations} seed the finite substitution-boundary packet for candidate-mediated normalization reads.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or theorem-level Lean verification.}
+  \upgradepath{Obligation closure requires checked frontier retention, candidate-interface admission, substitution-boundary visibility, confluence-ledger exposure, subject-reduction obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp.}
+\end{closurestatus}
