@@ -1,0 +1,219 @@
+\section{Evidence Packet}
+\label{sec:evidence-packet}
+
+The local evidence is stored outside this paper as a lab artifact.  The paper
+records only the current evidence boundary.
+
+\paragraph{Artifact pointers.}
+The current protocol writes machine-readable artifacts under the quality-lab
+reports directory.  The four-system experiment writes:
+$$
+\begin{array}{ll}
+\text{JSON} & \texttt{bedc\_jepa\_four\_system\_experiment.json},\\
+\text{Torch objective} & \texttt{bedc\_jepa\_torch\_objective.json},\\
+\text{Manifest} & \texttt{bedc\_jepa\_artifact\_manifest.json},\\
+\text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json},\\
+\text{Public MiniGrid transition} & \texttt{bedc\_jepa\_public\_minigrid\_transition\_packet.json},\\
+\text{Public MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_minigrid\_benchmark\_packet.json},\\
+\text{Public MiniGrid external result} & \texttt{bedc\_jepa\_public\_minigrid\_external\_result.json},\\
+\text{Public native MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_native\_minigrid\_benchmark.json},\\
+\text{Public native MiniGrid seed sweep} & \texttt{bedc\_jepa\_public\_native\_minigrid\_seed\_sweep.json},\\
+\text{Public JEPA registry} & \texttt{bedc\_jepa\_public\_baseline\_registry.json},\\
+\text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
+\text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
+\text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
+\text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
+\text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
+\text{V-JEPA2-AC native boundary} & \texttt{bedc\_jepa\_vjepa2\_ac\_native\_boundary.json},\\
+\text{Evidence audit} & \texttt{bedc\_jepa\_readiness.json},\\
+\text{Reproduction commands} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
+\text{Review artifact set} & \texttt{bedc\_jepa\_review\_bundle.json},\\
+\text{Quality backend candidate} & \texttt{bedc\_jepa\_quality\_backend\_candidate.json},\\
+\text{Paper writeback packet} & \texttt{bedc\_jepa\_paper\_writeback\_packet.json},\\
+\text{Latent claim certificates} & \texttt{bedc\_latent\_claim\_certificates.json},\\
+\text{Conformal gap sweep} & \texttt{bedc\_conformal\_gap\_sweep.json},\\
+\text{Claim boundary audit} & \texttt{bedc\_claim\_boundary\_audit.json}.
+\end{array}
+$$
+The JSON artifacts are lab-local evidence boundaries.  They are not Python
+definitions of BEDC NameCert, closurestatus, origin, or Lean verification
+status.
+
+\paragraph{Writeback discipline.}
+The paper follows the same separation discipline as the BioReality writeback
+pipeline: runtime records are not copied into the manuscript body.  They are
+first compiled into a durable paper-writeback packet with source, pattern,
+classifier, stability, metrics, ledger, not-claimed, artifact, and fact-owner
+fields.  The manuscript writes only the claims admitted by that packet and
+keeps unsupported candidates as ledger or cannot-claim rows.  In the current
+packet, the admitted latent operational claim is
+\texttt{door\_key\_context\_visible}; the source-gap predicates
+\texttt{has\_key}, \texttt{door\_open\_or\_unlocked}, and
+\texttt{goal\_reachable\_with\_current\_state} remain blocked from latent
+meaning claims.
+
+\paragraph{Source specification.}
+The source is \texttt{boundary-gated-ou-world}.  Its latent dimension is $2$,
+with sample count $768$, $\rho=0.84$, radius $1.0$, and gap width $0.14$.
+The nonlinear observation is \texttt{sinusoidal-parabolic-shear}.
+
+\paragraph{Pattern specification.}
+The pattern is \texttt{latent-plus-distinction-plus-gap}.  It asks for three
+readbacks from the same world process: continuous state recovery, operational
+inside-boundary distinction, and boundary gap detection.
+
+\paragraph{Ledger gaps.}
+The current boundary envelope records three remaining gaps:
+$$
+\begin{array}{l}
+\texttt{one-boundary-family},\\
+\texttt{public-scale-planning-rollout-open},\\
+\texttt{native-V-JEPA2-AC-baseline-open}.
+\end{array}
+$$
+The torch objective artifact supplies gradient-trained BEDC heads for the
+boundary readback setting under a frozen-latent protocol: the latent encoder
+has the same recovery score in the latent-only and BEDC-objective systems,
+while the trained distinction and gap heads lower debt and remove unlogged
+error.  The three-seed gradient sweep records mean gap AUROC gain
+$0.498762 \pm 0.000467$, mean unlogged-error reduction
+$0.009983 \pm 0.002251$, and mean debt reduction
+$0.102887 \pm 0.007293$, with no measured change in latent $R^2$.  The
+four-system experiment closes part of the boundary-family gap by comparing
+BEDC-JEPA readback against post-hoc baselines on radial and sinusoidal
+boundary families.  It also adds a grid-pixel benchmark with a learned
+action-conditioned transition model, a MiniGrid-style visual planning
+benchmark, and an eight-seed two-object counterfactual contact benchmark.  The
+object evidence also includes a four-slot distractor benchmark where the
+declared target pair must remain separate from two non-target object slots,
+with a six-seed sweep for the distractor setting.  The same target-pair
+readback is also evaluated in a six-slot cluttered-object sweep with four
+distractors.  The remaining gaps are broader.  The planning rollouts are still
+local and synthetic rather than robot-control scale.
+
+\paragraph{Public JEPA-family checkpoint evaluation.}
+The public JEPA-family checkpoint boundary includes a CUDA evaluation of the
+public V-JEPA2-AC Giant checkpoint.  The adapter loads
+\texttt{vjepa2\_ac\_vit\_giant} from the public V-JEPA2 hub with
+\texttt{pretrained=False}, because the observed hub source points its default
+\texttt{VJEPA\_BASE\_URL} at \texttt{localhost}.  The run then loads the
+public checkpoint
+\texttt{https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt} explicitly.
+The CUDA environment records \texttt{torch} \texttt{2.5.1+cu121}, CUDA
+runtime \texttt{12.1}, and one \texttt{NVIDIA GeForce RTX 4060 Laptop GPU}
+with $8585216000$ bytes of device memory.
+
+The adapter maps the same boundary-gated tiny world into a two-frame
+$256 \times 256$ RGB video plus seven-float action and state contracts, runs
+the V-JEPA2-AC encoder and action-conditioned predictor, and trains only
+linear readout heads for the declared distinction and gap labels.  The public
+AC Giant adapter records train count $64$, test count $64$, distinction
+accuracy $0.718750$, gap AUROC $0.562842$, unlogged error $0.250000$,
+certified coverage $0.968750$, and debt $0.290557$.  The matching
+BEDC-objective row records distinction accuracy $0.988281$, gap AUROC
+$0.999223$, unlogged error $0.000000$, certified coverage $0.912760$, and
+debt $0.007459$.  The public AC Giant minus BEDC deltas are therefore
+$-0.269531$ for distinction accuracy, $-0.436381$ for gap AUROC,
+$0.250000$ for unlogged error, $0.055990$ for certified coverage, and
+$0.283098$ for debt.
+
+This supplies V-JEPA2-AC Giant checkpoint evidence for the declared adapter
+scope.  It does not establish public benchmark superiority, large-scale
+real-world world-modeling, or formal neural-network proof claims.
+
+\paragraph{Debt items.}
+The current debt items are scale debt and public-baseline debt.  Scale debt
+means the learned-transition and object-intervention benchmarks are small.
+Public-baseline debt means the executed public JEPA-family comparison is an
+adapter-scope checkpoint evaluation, not a native V-JEPA2-AC task comparison.
+The public MiniGrid studies have executable DoorKey contracts.  The transition
+study samples Gymnasium image observations and discrete actions.  The
+benchmark study computes a public DoorKey readback/gap metric contract with
+distinction accuracy, gap AUROC, unlogged error, certified coverage, and
+scope-relative debt.  The public MiniGrid external result records an executed
+32-sample DoorKey study with distinction accuracy $1.000000$, gap AUROC
+$1.000000$, unlogged error $0.000000$, certified coverage $0.375000$, and
+debt $0.062500$.  The native public MiniGrid study runs
+\texttt{MiniGrid-DoorKey-8x8-v0} with the same public image/action stream for
+S0/S1/S2/S3.  It records train count $128$, test count $128$, S0 unlogged
+error $0.164063$, S3 unlogged error $0.039063$, S0 debt $0.165625$, S3 debt
+$0.163102$, S0 gap AUROC $0.500000$, and S3 gap AUROC $0.590738$.  Its
+audited two-step planning sweep records high-gap state rate $0.843750$ and
+success $0.968750$ at $\lambda_g=0$, versus high-gap state rate $0.156250$
+and success $0.562500$ at the best recorded risk point $\lambda_g=0.5$.
+The five-seed native MiniGrid sweep records mean S0-minus-S3 unlogged-error
+reduction $0.067188$, mean S3-minus-S0 gap AUROC gain $0.185662$, unlogged
+error win rate $0.600000$, and gap AUROC win rate $1.000000$.  It also records
+mean S0-minus-S3 debt change $-0.041377$ and debt win rate $0.400000$, so the
+public MiniGrid debt direction is not closed.  The same sweep records mean
+high-gap planning reduction $0.393750$ and mean success reduction $0.337500$,
+which treats gap-aware planning as a risk-success tradeoff rather than a free
+planning improvement.  The review artifact set is complete for the declared
+evidence boundary, but it does not close the external baseline boundary.
+The public debt decomposition explains the single-run native MiniGrid debt
+non-closure: S3 reduces silent debt from $0.065625$ to $0.015625$, while
+coverage debt rises from $0.000000$ to $0.065625$.  Thus the public setting
+supports the statement that BEDC-JEPA reduces silent false claims, but the
+current threshold policy pays for that reduction with abstention/coverage
+debt.  The certified-coverage sweep records a best S3 threshold $0.80$ with
+debt $0.141227$ and certified coverage $1.000000$, while the
+risk-constrained planning artifact records that tight risk budgets can avoid
+high-gap selected states only by producing a large no-certified-plan rate.
+These artifacts classify the public MiniGrid weakness as calibration and
+coverage debt, not as a closed public total-debt result.
+The MiniGrid certified-debt pack also contains a conformal singleton-claim sweep
+over $\alpha \in \{0.20,0.10,0.05,0.02,0.01\}$.  The declared predicate
+surfaces are \texttt{door\_key\_context\_visible}, \texttt{has\_key},
+\texttt{door\_open\_or\_unlocked},
+\texttt{goal\_reachable\_with\_current\_state}, and
+\texttt{unsafe\_transition}.  For the DoorKey context predicate, the
+$\alpha=0.20$ singleton rule certifies coverage $0.468750$ with unlogged error
+$0.046875$.  The risk-success Pareto artifact records the same planning
+boundary as a constrained problem rather than a penalty-only sweep.  The local
+ablation artifact records an unlogged-penalty effect of $0.085938$ and a
+post-hoc gap debt delta of $0.015670$, but it is a score-level ablation over
+the public MiniGrid readout and not a full retraining ablation.
+
+\paragraph{External review status.}
+The evidence audit records three completed boundaries for the declared study:
+public checkpoint evaluation, native public MiniGrid readback, and a
+reproducible review artifact set.  The local torch objective seed sweep, local
+visual planning benchmark, cluttered object-counterfactual benchmark, public
+MiniGrid execution, public native MiniGrid S0/S1/S2/S3 benchmark and seed
+sweep, and public V-JEPA2-AC Giant CUDA checkpoint adapter evaluation satisfy
+their declared evidence criteria.  The current artifact set is therefore suitable
+for external review as a bounded evidence artifact with public checkpoint and
+native public benchmark evidence, not as a public benchmark superiority claim.
+The reproduction-command artifact records the MiniGrid export command, the
+public native MiniGrid benchmark command, the AC Giant CUDA checkpoint
+evaluation command pair, and the evidence-audit command needed to reproduce
+the artifact-level checks.  The older baseline external result remains an
+import boundary for external public benchmark metrics.  The CUDA adapter
+record is the executed checkpoint artifact for the selected V-JEPA 2-AC
+candidate.  The native V-JEPA2-AC boundary record states that no native or
+near-native V-JEPA2-AC rollout or latent prediction protocol has been run on
+the MiniGrid stream.
+
+\paragraph{Quality-backend projection.}
+The quality-backend candidate is a non-canonical projection of the same
+BEDC-JEPA evidence records into a backend-style quality interface.  It exposes
+the world-state contract, the S0/S1/S2/S3 readback pattern, selected metric
+cells, and ledger rows for source, classifier, stability, generalization, and
+mechanism debt.  Its forbidden surfaces explicitly exclude model-runner
+execution, canonical writer execution, terminal verdict projection, and raw
+benchmark regeneration.  Thus the candidate is an audit projection over the
+declared evidence boundary, not a new experiment, not a canonical BEDC backend,
+and not a claim of global model quality.
+
+\paragraph{Latent Claim Certificate Protocol.}
+The latent-claim certificate artifacts instantiate the protocol in
+Section~\ref{sec:latent-claim-certificate}.  The current certificate artifact
+applies the fail-closed rule to the native MiniGrid feature carrier for the
+declared DoorKey readback predicate.  It records source gaps for operational
+names whose required source traces are not present in the current evidence
+record: \texttt{has\_key}, \texttt{door\_open\_or\_unlocked}, and
+\texttt{goal\_reachable\_with\_current\_state}.  The conformal audit therefore
+does not assert that every latent distinction is interpretable.  It asserts
+only that each candidate distinction ends in one of two states: a certified
+singleton operational claim under the declared risk level, or an explicit
+gap ledger entry with coverage, source, or stability debt.
