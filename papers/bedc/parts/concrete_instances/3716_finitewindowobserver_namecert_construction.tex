@@ -93,6 +93,7 @@ Now apply the inscription handoff row. The handoff reads $F$ before $I,K,D$, so 
 \label{thm:finite-window-observer-streamname-window-readback}
 Every downstream $\StreamNameUp$ or inscription consumer of an accepted $\FiniteWindowObserverUp$ carrier $W=(O,F,I,K,D,H,C,P,N)$ must read the selected public window row $F$, the inscription row $I$, the checker row $K$, and the downstream interface row $D$ through the displayed finite route before any StreamName-facing readback is public.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowObserverUp.FiniteWindowObserverStreamNameWindowReadback}
 \begin{proof}
 Apply \autoref{thm:finite-window-observer-bundle-exhaustion}. The selected public window row $F$ is already the finite bundle from which every inscription handoff reads observed histories.
 
@@ -131,6 +132,7 @@ The remaining rows $H,C,P,N$ transport, replay, record provenance, and name the 
 
 By the NameCert obligations of \autoref{thm:finite-window-observer-namecert-obligations}, checker replay, admission, and consumer handoff are already exhausted by the displayed finite rows. Therefore the ledger cannot export anything outside $O,F,I,K,D,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowObserverUp.FiniteWindowObserverLedgerNonescape}
 
 \closureat{FiniteWindowObserverUp}{seedStr}
 
