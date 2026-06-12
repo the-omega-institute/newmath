@@ -389,6 +389,106 @@ theorem ScienceBridgeAxisSeparation [AskSetup] [PackageSetup]
     ⟨cert, objectUnary, auditUnary, truthUnary, bridgeUnary, gapUnary, failureUnary,
       namedUnary⟩
 
+theorem ScienceBridgeKernelScopeGrounding [AskSetup] [PackageSetup]
+    {R O A T B G F H C P N objectRead auditRead truthRead bridgeRead gapRead failureRead
+      scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R -> UnaryHistory O -> UnaryHistory A -> UnaryHistory T ->
+      UnaryHistory B -> UnaryHistory G -> UnaryHistory F -> UnaryHistory C ->
+        UnaryHistory P -> UnaryHistory N -> Cont R O objectRead ->
+          Cont objectRead A auditRead -> Cont auditRead T truthRead ->
+            Cont truthRead B bridgeRead -> Cont bridgeRead G gapRead ->
+              Cont gapRead F failureRead -> Cont failureRead C scopedRead ->
+                PkgSig bundle P pkg -> PkgSig bundle N pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row R ∨ hsame row O ∨ hsame row A ∨ hsame row T ∨
+                          hsame row B ∨ hsame row G ∨ hsame row F ∨
+                            hsame row scopedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont R O objectRead ∧
+                          Cont objectRead A auditRead ∧ Cont auditRead T truthRead ∧
+                            Cont truthRead B bridgeRead ∧ Cont bridgeRead G gapRead ∧
+                              Cont gapRead F failureRead ∧
+                                Cont failureRead C scopedRead ∧
+                                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                      hsame ∧
+                    UnaryHistory objectRead ∧ UnaryHistory auditRead ∧
+                      UnaryHistory truthRead ∧ UnaryHistory bridgeRead ∧
+                        UnaryHistory gapRead ∧ UnaryHistory failureRead ∧
+                          UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro unaryR unaryO unaryA unaryT unaryB unaryG unaryF unaryC _unaryP _unaryN
+    routeObject routeAudit routeTruth routeBridge routeGap routeFailure routeScoped pkgP pkgN
+  have _transportRow : BHist := H
+  have objectUnary : UnaryHistory objectRead :=
+    unary_cont_closed unaryR unaryO routeObject
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed objectUnary unaryA routeAudit
+  have truthUnary : UnaryHistory truthRead :=
+    unary_cont_closed auditUnary unaryT routeTruth
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed truthUnary unaryB routeBridge
+  have gapUnary : UnaryHistory gapRead :=
+    unary_cont_closed bridgeUnary unaryG routeGap
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed gapUnary unaryF routeFailure
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed failureUnary unaryC routeScoped
+  have sourceScoped :
+      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row) scopedRead :=
+    ⟨hsame_refl scopedRead, scopedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row O ∨ hsame row A ∨ hsame row T ∨ hsame row B ∨
+              hsame row G ∨ hsame row F ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R O objectRead ∧ Cont objectRead A auditRead ∧
+              Cont auditRead T truthRead ∧ Cont truthRead B bridgeRead ∧
+                Cont bridgeRead G gapRead ∧ Cont gapRead F failureRead ∧
+                  Cont failureRead C scopedRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopedRead sourceScoped
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeObject, routeAudit, routeTruth, routeBridge, routeGap,
+          routeFailure, routeScoped, pkgP, pkgN⟩
+  }
+  exact
+    ⟨cert, objectUnary, auditUnary, truthUnary, bridgeUnary, gapUnary, failureUnary,
+      scopedUnary⟩
+
 namespace TasteGate
 
 theorem ScienceBridgeTasteGate_single_carrier_alignment :
