@@ -3512,31 +3512,124 @@ def _format_verified_fact_value(value: Any) -> str | None:
     return None
 
 
-def _render_verified_facts(conjecture: dict[str, Any]) -> list[str]:
-    lines = [r"\paragraph{Verified facts.}"]
-    verified_facts = conjecture.get("verified_facts")
-    if not isinstance(verified_facts, dict) or not verified_facts:
-        return lines + ["No verified facts attached yet.", ""]
-    for claim_id, fact in sorted(verified_facts.items()):
-        if not isinstance(fact, dict):
-            continue
-        experiment_run_id = str(fact.get("experiment_run_id") or "")
-        values = fact.get("values") if isinstance(fact.get("values"), dict) else {}
-        rendered_values: list[str] = []
-        for key, value in sorted(values.items()):
-            rendered_value = _format_verified_fact_value(value)
-            if rendered_value is not None:
-                rendered_values.append(f"{_tex_escape(str(key))}={rendered_value}")
-        values_text = ", ".join(rendered_values) if rendered_values else "no scalar values recorded"
-        lines.extend(
-            [
-                rf"\textbf{{{_tex_escape(str(claim_id))}}}. Run {_tex_escape(experiment_run_id[:12])}. {values_text}.",
-                "",
+_AUTHOR_MATH_FACT_KEYS = {
+    "statement",
+    "mathematical_statement",
+    "carrier",
+    "finite_set",
+    "window_length",
+    "definitions",
+    "relations",
+    "relation",
+    "predicate",
+    "partition",
+    "matrix",
+    "kernel",
+    "polynomial",
+    "exact_counts",
+    "exact_equalities",
+    "factorization",
+    "factorisation",
+    "witnesses",
+    "finite_rows",
+    "not_claimed",
+    "notclaimed",
+    "risk_flags",
+    "needs_certificate",
+    "numerical_tuning_risk",
+}
+
+
+_AUTHOR_PROVENANCE_KEYS = {
+    "verified_at",
+    "last_verified_at",
+    "created_at",
+    "updated_at",
+    "completed_at",
+    "started_at",
+    "experiment_run_id",
+    "experiment_run_ids",
+    "run_id",
+    "experiment_id",
+    "snapshot",
+    "source_snapshot",
+    "json_path",
+    "conversation_id",
+    "task_id",
+    "log_dir",
+    "claim_id",
+    "packet_id",
+    "source_path",
+    "source_repo",
+    "automath_path",
+    "commit",
+    "branch",
+}
+
+
+def _is_author_provenance_key(key: str) -> bool:
+    lowered = key.lower()
+    return (
+        lowered in _AUTHOR_PROVENANCE_KEYS
+        or lowered.startswith("transcript")
+        or lowered.endswith("_path")
+        or lowered.endswith("_repo")
+        or lowered.endswith("_commit")
+    )
+
+
+def _sanitize_math_facts_for_author(verified_facts: Any) -> dict[str, Any]:
+    """Return only stable, author-facing mathematical facts.
+
+    Runtime provenance remains useful for review packets, but it is not a
+    mathematical object and must not enter author prompts or fallback TeX.
+    """
+
+    def clean(value: Any, *, parent_key: str = "", inside_math: bool = False) -> Any:
+        if isinstance(value, dict):
+            out: dict[str, Any] = {}
+            for raw_key, child in value.items():
+                key = str(raw_key)
+                if _is_author_provenance_key(key):
+                    continue
+                child_inside_math = inside_math or key in _AUTHOR_MATH_FACT_KEYS
+                cleaned = clean(child, parent_key=key, inside_math=child_inside_math)
+                if cleaned in (None, {}, []):
+                    continue
+                if child_inside_math or isinstance(cleaned, (dict, list)):
+                    if child_inside_math:
+                        out[key] = cleaned
+                    elif isinstance(cleaned, dict):
+                        for clean_key, clean_value in cleaned.items():
+                            if clean_key not in out:
+                                out[clean_key] = clean_value
+                    else:
+                        out[key] = cleaned
+            return out
+        if isinstance(value, list):
+            out_list = [
+                cleaned
+                for item in value
+                if (cleaned := clean(item, parent_key=parent_key, inside_math=inside_math)) not in (None, {}, [])
             ]
-        )
-    if len(lines) == 1:
-        lines.extend(["No verified facts attached yet.", ""])
-    return lines
+            return out_list
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            if isinstance(value, str) and bedc_writeback_gates.provenance_separation_gate(value):
+                return None
+            return value if inside_math else None
+        return None
+
+    cleaned = clean(verified_facts, inside_math=False)
+    return cleaned if isinstance(cleaned, dict) else {}
+
+
+def _render_verified_facts(conjecture: dict[str, Any]) -> list[str]:
+    _ = conjecture
+    return [
+        r"\paragraph{Authoring status.}",
+        "No self-contained mathematical packet has passed the authoring gate.",
+        "",
+    ]
 
 
 def _bio_w_codex_writer_config(config: dict[str, Any]) -> dict[str, Any]:
@@ -3647,10 +3740,22 @@ def _parse_bio_w_codex_json(stdout: str) -> dict[str, Any] | None:
     parsed = _extract_json_object_from_text(_extract_codex_event_text(stdout))
     if not isinstance(parsed, dict):
         return None
-    required = ["verdict", "audit_score", "used_fact_ids", "chapter_content", "risk_notes", "missing_data_notes"]
+    if "used_math_fact_ids" not in parsed and "used_fact_ids" in parsed:
+        parsed["used_math_fact_ids"] = parsed["used_fact_ids"]
+    required = [
+        "verdict",
+        "audit_score",
+        "used_math_fact_ids",
+        "chapter_content",
+        "not_claimed",
+        "risk_notes",
+        "missing_data_notes",
+    ]
     if any(field not in parsed for field in required):
         return None
-    if parsed.get("verdict") not in {"ready", "needs_more_data", "skip"}:
+    if parsed.get("verdict") == "needs_more_data":
+        parsed["verdict"] = "needs_more_facts"
+    if parsed.get("verdict") not in {"ready", "needs_more_facts", "skip"}:
         return None
     try:
         audit_score = int(parsed.get("audit_score"))
@@ -3658,9 +3763,12 @@ def _parse_bio_w_codex_json(stdout: str) -> dict[str, Any] | None:
         return None
     if audit_score < 0 or audit_score > 10:
         return None
-    if not isinstance(parsed.get("used_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_fact_ids"]):
+    if not isinstance(parsed.get("used_math_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_math_fact_ids"]):
         return None
+    parsed["used_fact_ids"] = parsed["used_math_fact_ids"]
     if not isinstance(parsed.get("chapter_content"), str):
+        return None
+    if not isinstance(parsed.get("not_claimed"), str):
         return None
     if not isinstance(parsed.get("risk_notes"), str) or not isinstance(parsed.get("missing_data_notes"), str):
         return None
@@ -3734,21 +3842,18 @@ def _bio_w_author_prompt(
     mismatches: list[dict[str, Any]],
     corrective_feedback: list[str] | None = None,
 ) -> str:
+    sanitized_facts = _sanitize_math_facts_for_author(verified_facts)
     payload = {
         "mode": mode,
-        "claim_id": claim_id,
         "slug": slug,
-        "verified_facts": verified_facts,
-        "conjecture": conjecture,
-        "contacts": contacts,
-        "probes": probes,
-        "mismatches": mismatches,
+        "math_facts": sanitized_facts,
     }
+    _ = (claim_id, conjecture, contacts, probes, mismatches)
     lines = [
-        "You are writing English mathematical TeX for the standalone FibonacciReality paper.",
+        "You are writing self-contained English mathematical TeX for finite forced-window structure.",
         "Return only one JSON object, preferably inside a ```json code block. Do not write files.",
         "",
-        "# Finite-row data",
+        "# Sanitized mathematical facts",
         "```json",
         json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
         "```",
@@ -3756,14 +3861,19 @@ def _bio_w_author_prompt(
         "# Hard constraints",
         r"- chapter_content must be complete TeX prose with \subsection, \label, and \paragraph{...} structure.",
         r"- Include \origin{ai}; FibonacciReality chapters are ai-discovered vision-level records.",
-        "- Use concrete finite-row numbers from verified_facts: R lists, M lists, lambda values, p-values, module classification, hit_rate, row counts, and related scalar data when present.",
+        "- Automath/source/oracle/provenance records are selection metadata only. Do not cite or name them in chapter prose.",
+        "- Use only the sanitized mathematical facts above. Do not mention run ids, timestamps, JSON paths, source repository, external theorem names, ChatGPT, Codex, Claude, or claim ids.",
+        "- State all objects from first principles: carrier, predicates, finite relations, partitions, matrices or kernels, exact counts, exact identities, witness extraction, and not-claimed boundary.",
+        "- For numerical coincidences such as alpha, separate a proved finite spectral construction from any physical identification. Put physical matching under needs_certificate or numerical_tuning_risk in risk_notes, not in theorem prose.",
         "- Do not write placeholders or generic template prose.",
         r"- Do not use cross-paper or cross-chapter \autoref references; keep the chapter self-contained.",
         r"- Do not write Lean macros such as \leanchecked, \leanstmt, \leandef, \leanvariant, \leansorryd, or \leantarget.",
         r"- Math style: inline math is $...$; display math is $$\begin{aligned}...\end{aligned}$$. Do not use \[...\], equation, align, or eqnarray.",
-        "- State the cannot-claim boundary locally: no translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate contact supplies it.",
+        "- State the not-claimed boundary locally: no physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond the finite construction follows unless a separate certificate supplies it.",
+        "- Do not use biological Track A vocabulary such as codon, protein, translation, tRNA, ribosome, organism, PAXdb, mRNA, wobble, p-value, or hit_rate.",
         "- Do NOT echo these template phrases literally in chapter_content; use semantic equivalents instead: \"BEDC 5-tuple\", \"carrier reads back to observable data by following\", \"TasteGate-style separation\", \"polynomial witness slot\", \"lean target sketch (statement-only)\", \"internal newmath/bedc derivation\", \"bridge disclaimer\", \"external reality sources\", \"cannot-claim boundary records\", \"finite reality-bound seed witness\", \"finite reality-bound seed witness for the claim\", \"finite, reality-bound seed witness for the claim\", \"finite reality-bound seed witness for claim\". Describe the same concepts in your own scientific wording.",
         "- The prose must be chapter-specific and at least 1500 characters when verdict is ready.",
+        "- If the sanitized facts are insufficient to write a self-contained mathematical construction, return needs_more_facts.",
         "",
     ]
     if corrective_feedback:
@@ -3775,10 +3885,11 @@ def _bio_w_author_prompt(
         [
             "# Output schema",
             "{",
-            '  "verdict": "ready" | "needs_more_data" | "skip",',
+            '  "verdict": "ready" | "needs_more_facts" | "skip",',
             '  "audit_score": 0-10,',
-            '  "used_fact_ids": ["verified_facts keys actually cited"],',
+            '  "used_math_fact_ids": ["math_facts keys actually cited"],',
             '  "chapter_content": "complete TeX section text",',
+            '  "not_claimed": "short not-claimed boundary",',
             '  "risk_notes": "short risk note",',
             '  "missing_data_notes": "empty string or specific missing finite-row data"',
             "}",
@@ -4175,9 +4286,13 @@ def _codex_chapter_gate_issues(
     audit_score = int(codex_result.get("audit_score") or 0)
     if audit_score < int(writer_config["min_audit_score"]):
         issues.append(f"audit_score {audit_score} below required {writer_config['min_audit_score']}")
-    used_fact_ids = [str(item) for item in codex_result.get("used_fact_ids", []) if isinstance(item, str) and item.strip()]
+    used_fact_ids = [
+        str(item)
+        for item in codex_result.get("used_math_fact_ids", codex_result.get("used_fact_ids", []))
+        if isinstance(item, str) and item.strip()
+    ]
     if len(used_fact_ids) < int(writer_config["min_used_fact_ids"]):
-        issues.append(f"used_fact_ids {len(used_fact_ids)} below required {writer_config['min_used_fact_ids']}")
+        issues.append(f"used_math_fact_ids {len(used_fact_ids)} below required {writer_config['min_used_fact_ids']}")
     chapter_text = str(codex_result.get("chapter_content") or "")
     gate_ok, gate_reason = bedc_writeback_gates.check_namecert_generic_prose(chapter_text, verified_facts, claim_id)
     if not gate_ok:
@@ -4190,6 +4305,8 @@ def _codex_chapter_gate_issues(
         issues.append(r"chapter contains forbidden top-level sectioning (\chapter/\section/\part); use \subsection or deeper")
     issues.extend(bedc_writeback_gates.no_top_level_math_envs(chapter_text))
     issues.extend(bedc_writeback_gates.no_naked_leanstmt(chapter_text))
+    issues.extend(bedc_writeback_gates.provenance_separation_gate(chapter_text))
+    issues.extend(bedc_writeback_gates.no_bio_track_a_terms(chapter_text))
     return issues
 
 
@@ -4724,12 +4841,11 @@ def _write_namecert_proposals(
                     f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
                     f"\\label{{sec:namecert-{slug}}}\n"
                     f"\\origin{{ai}}\n\n"
-                    f"This FibonacciReality namecert is awaiting codex re-authoring. "
-                    f"Most recent attempt failed the chapter hygiene gate; "
-                    f"issues recorded: {_tex_escape(issues_text)}. "
-                    f"The committed registry record at "
-                    f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
-                    f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
+                    "No self-contained mathematical packet has passed the authoring gate. "
+                    "The chapter is intentionally empty of source paths, runtime identifiers, "
+                    "external theorem names, and generator metadata until a finite forced-window "
+                    "carrier, partition, relation, exact-count surface, witness boundary, and "
+                    f"not-claimed boundary can be stated locally. Gate notes: {_tex_escape(issues_text)}.\n"
                 )
         text = _sanitize_textmode_underscores(text)
         # cosmetic-skip: 已部署 rich 且本次重渲染**科学数值完全一致**(只改措辞/记法, 如
@@ -5071,7 +5187,7 @@ def _auto_discovered_bedc_mappings(proposal_dir: Path, mapped_claim_ids: set[str
                 "hub_filename": f"{proposed_slug}.tex",
                 "subdir_slug": subdir_slug,
                 "carrier_name": carrier_name.rstrip("Up"),
-                "natural_language": f"the finite reality-bound seed witness for {claim_id}",
+                "natural_language": "the finite forced-window naming packet",
             }
         )
     return derived
@@ -5088,11 +5204,10 @@ def _tex_literal(value: Any) -> str:
 
 
 def _render_bedc_hub(mapping: dict[str, Any]) -> str:
-    claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
     subdir_slug = _canonical_bedc_subdir_slug(str(mapping.get("subdir_slug") or "")) or "bioreality_packet"
     return "\n".join(
         [
-            f"The FibonacciReality writeback packet for {claim_id} is held in its canonical child file.",
+            "The FibonacciReality forced-window packet is held in its canonical child file.",
             rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}",
             "",
         ]
@@ -5100,7 +5215,6 @@ def _render_bedc_hub(mapping: dict[str, Any]) -> str:
 
 
 def _render_bedc_spine(mapping: dict[str, Any], proposal_text: str, conjecture: dict[str, Any] | None) -> str:
-    claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
     subdir_slug = _canonical_bedc_subdir_slug(str(mapping.get("subdir_slug") or "")) or "bioreality_packet"
     carrier_name = re.sub(r"[^A-Za-z0-9]", "", str(mapping.get("carrier_name") or "FibonacciRealityPacket")) or "FibonacciRealityPacket"
     natural_language = _tex_literal(mapping.get("natural_language", "a finite reality-bound FibonacciReality packet"))
@@ -5117,62 +5231,56 @@ def _render_bedc_spine(mapping: dict[str, Any], proposal_text: str, conjecture: 
             rf"\label{{ch:concrete-instances-{subdir_slug}-namecert}}",
             r"\origin{ai}",
             "",
-            f"This FibonacciReality NameCert packet records a finite, reality-bound seed",
-            f"witness for the claim {claim_id}. It does not claim biological-code",
-            "necessity, translation realization, folded structure, physical",
-            "admissibility, function realization, mechanism, or universality. The",
-            "external curated standard-code bridge and the empirical witness rows",
-            "remain provenance fields and are not BEDC kernel facts.",
+            "This FibonacciReality NameCert packet records a finite forced-window",
+            "construction. It defines its carrier, partition, relation, exact-count",
+            "surface, witness boundary, and not-claimed region from first principles.",
+            "Source records, generator transcripts, file paths, and run identifiers",
+            "remain outside the paper body and are not BEDC kernel facts.",
             "",
             rf"\paragraph{{Carrier.}} $\{carrier_name}Up$ is the BEDC packet name we",
-            f"reserve for the finite reality-bound seed of {natural_language}.",
+            f"reserve for {natural_language}. Its carrier is a finite set of window",
+            "states equipped with a decidable membership predicate.",
             "",
-            r"\paragraph{External reality bridge.} A curated standard-code bridge",
-            "row is the external source for the labelling. The bridge appears as a",
-            "provenance row and not as kernel content of the packet. The bridge can",
-            "test code-layer readback only; it cannot test translation, folding,",
-            "physical admissibility, or function.",
+            r"\paragraph{Partition.} The packet may split the carrier into named",
+            "finite cells. Each cell is part of the construction only when its",
+            "membership rule is stated inside the chapter.",
             "",
-            r"\paragraph{Internal coordinate structure.} The packet records six-bit",
-            "codon-coordinate, median-closure, quotient, and spectrum bookkeeping.",
-            "No biological mechanism, function, or universality is asserted at this",
-            "layer.",
+            r"\paragraph{Relation and exact count.} The local relation is a finite",
+            "edge or kernel relation on the carrier. Any count, equality,",
+            "factorization, polynomial identity, or witness row must be reproducible",
+            "from that finite relation rather than from an external artifact name.",
             "",
-            r"\paragraph{Cannot-claim boundary.}",
+            r"\paragraph{Not-claimed boundary.}",
             r"\begin{itemize}",
-            "  \\item This chapter does not claim biological-code necessity.",
-            "  \\item This chapter does not claim window-six geometry realizes translation.",
-            "  \\item This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism from this packet.",
-            "  \\item This chapter does not claim that a curated code-row, spectral value, polynomial coefficient, tolerance threshold, or statistical witness is a BEDC kernel fact.",
+            "  \\item This chapter does not identify any physical constant.",
+            "  \\item This chapter does not assert a global flow law outside the finite carrier.",
+            "  \\item This chapter does not import an external theorem, source path, generator transcript, or runtime identifier.",
+            "  \\item This chapter does not treat a decimal agreement or tolerance threshold as a theorem.",
             r"\end{itemize}",
             "",
             rf"\falsifiablePrediction{{A $\{carrier_name}Up$ packet cannot export a",
-            "translation, folding, physical admissibility, function realization, or",
-            "universality claim without a separate, independent external reality",
-            "contact that can test that higher layer.}",
+            "physical identification, global-flow assertion, or external dependency",
+            "without a separate independent certificate.}",
             "",
             r"\independenceWitness{The carrier records only coordinate, closure,",
-            "quotient, and spectrum bookkeeping; it does not export biological",
-            "mechanism, evolutionary necessity, or biochemical detail. Any apparent",
-            "biological consequence must be re-derived through a separate bridge.}",
+            "partition, relation, exact-count, factorization, and witness",
+            "bookkeeping. Any interpretive consequence must be derived through a",
+            "separate certificate.}",
             "",
             rf"\closureat{{{carrier_name}Up}}{{seedStr}}",
             rf"\begin{{closurestatus}}{{\{carrier_name}Up}}",
-            f"  \\constructivestory{{Finite reality-bound seed witness for {claim_id};",
-            "    records six-bit codon-coordinate and closure/spectrum bookkeeping",
-            "    behind a curated standard-code bridge.}",
+            "  \\constructivestory{Finite forced-window carrier with local",
+            "    partition, relation, exact-count, and witness bookkeeping.}",
             r"  \theoryclosure{\seedClosure}",
-            "  \\scopeclosed{Code-layer readback under the curated standard-code",
-            "    bridge only.}",
+            "  \\scopeclosed{Finite carrier, partition, relation, exact-count, and",
+            "    not-claimed boundary only.}",
             r"  \formalstatus{\unformalizedV}",
             r"  \bridgestatus{paperBridge}",
-            "  \\notclaimed{This chapter does not close biological-code necessity,",
-            "    translation realization, folded structure, physical admissibility,",
-            "    function realization, mechanism, universality, or any cross-layer",
-            "    biological consequence.}",
-            "  \\upgradepath{Attach a separate reality contact that can test the",
-            "    higher realization layer and re-derive through a new bridge",
-            "    chapter.}",
+            "  \\notclaimed{No physical constant identification, global flow law,",
+            "    external theorem dependency, runtime provenance, or metrological",
+            "    comparison is closed.}",
+            "  \\upgradepath{Attach independent certificates for any interpretation",
+            "    beyond the finite construction.}",
             r"\end{closurestatus}",
             "",
         ]
@@ -5211,17 +5319,18 @@ def _codex_author_prompt(
     carrier_name = re.sub(r"Up$", "", str(target.get("carrier_name") or ""))
     subdir_slug = _canonical_bedc_subdir_slug(str(target.get("subdir_slug") or ""))
     hub_filename = str(target.get("hub_filename") or "")
-    facts_json = json.dumps(verified_facts, ensure_ascii=False, indent=2, sort_keys=True)
+    sanitized_facts = _sanitize_math_facts_for_author(verified_facts)
+    facts_json = json.dumps(sanitized_facts, ensure_ascii=False, indent=2, sort_keys=True)
     lines = [
         "你是 FibonacciReality NameCert chapter author. 你只写 LaTeX content, 不直接写文件.",
         "",
         "# Target",
-        f"claim_id: {claim_id}",
+        f"internal_task_slug: {subdir_slug or _safe_task_id(claim_id)}",
         f"carrier_name: {carrier_name}",
         f"subdir_slug: {subdir_slug}",
         f"hub_filename: {hub_filename}",
         "",
-        "# Verified facts (硬数据, 不许造数, 不许超出此范围)",
+        "# Sanitized mathematical facts (只含稳定数学事实, 不许造数, 不许超出此范围)",
         "```json",
         facts_json,
         "```",
@@ -5229,7 +5338,7 @@ def _codex_author_prompt(
         "# BEDC self-contained 硬约束",
         r"- 不写 \autoref 引其它 chapter",
         r"- 不写 Lean 宏 (\leanchecked / \leanstmt / \leandef / \leanvariant / \leansorryd / \leantarget)",
-        "- 不写 file path / URL / experiment_run_id 字面值在 kernel prose 里 (这些只能在 bridge/provenance 字段)",
+        "- 不写 file path / URL / experiment_run_id / timestamp / JSON path / source repo / external theorem name / claim id / ChatGPT / Codex / Claude 字面值在 kernel prose 里",
         r"- 数学环境: 行内 $...$, 展示 $$\begin{aligned}$$ / $$\begin{gathered}$$, **禁** \begin{equation} / align / eqnarray / \[...\]",
         r"- \FooUp 类宏在 text-mode 参数必须 $...$ 包裹",
         "- spine <= 800 行",
@@ -5240,9 +5349,11 @@ def _codex_author_prompt(
         "- 完整 closurestatus block (constructivestory / theoryclosure / scopeclosed / formalstatus / bridgestatus / notclaimed / upgradepath) 全 7 字段非空",
         "",
         "# 必须章节特定差异化 (反对 generic template)",
-        "- 章节正文必须明确点名 verified_facts 中至少 3 个具体数字 / row count / witness name / codon list / p-value",
-        '- output JSON 的 used_fact_ids 字段必须列出实际引用了哪些 verified_facts key (e.g. ["M_codons", "lambda_M", "p_exact", ...])',
+        "- 章节正文必须从第一性原理陈述至少 3 类数学事实: carrier / partition / relation / exact count / exact identity / factorization / witness / not-claimed boundary",
+        "- 不使用 codon / protein / translation / tRNA / ribosome / organism / PAXdb / mRNA / wobble / p-value / hit_rate 等 Track A 词汇",
+        '- output JSON 的 used_math_fact_ids 字段必须列出实际引用了哪些 math_facts key (e.g. ["carrier", "partition", "exact_counts"])',
         '- 不许写"finite reality-bound seed witness for the claim X"这种 generic 套话',
+        "- 如果 sanitized facts 不足以自包含写出数学构造, verdict=needs_more_facts, 不幻觉补齐.",
         "",
     ]
     if corrective_feedback:
@@ -5261,7 +5372,7 @@ def _codex_author_prompt(
             "{",
             '  "verdict": "ready" | "needs_more_facts" | "abort",',
             '  "audit_score": 0-10 (自评章节质量),',
-            '  "used_fact_ids": ["..."],',
+            '  "used_math_fact_ids": ["..."],',
             '  "hub_content": "<完整 LaTeX hub 内容 <=15 行>",',
             '  "spine_content": "<完整 LaTeX spine 内容 <=800 行>",',
             '  "risk_notes": "可选诊断"',
@@ -5309,7 +5420,9 @@ def _parse_codex_author_json(stdout: str) -> dict[str, Any]:
         return {"status": "error", "error_kind": "non_json_output", "error": last_error or "no JSON object found"}
     if not isinstance(parsed, dict):
         return {"status": "error", "error_kind": "schema_invalid", "error": "top-level output is not an object"}
-    required = ["verdict", "audit_score", "used_fact_ids", "hub_content", "spine_content", "risk_notes"]
+    if "used_math_fact_ids" not in parsed and "used_fact_ids" in parsed:
+        parsed["used_math_fact_ids"] = parsed["used_fact_ids"]
+    required = ["verdict", "audit_score", "used_math_fact_ids", "hub_content", "spine_content", "risk_notes"]
     missing = [field for field in required if field not in parsed]
     if missing:
         return {"status": "error", "error_kind": "schema_invalid", "error": f"missing field(s): {', '.join(missing)}", "parsed": parsed}
@@ -5321,8 +5434,9 @@ def _parse_codex_author_json(stdout: str) -> dict[str, Any]:
         return {"status": "error", "error_kind": "schema_invalid", "error": "audit_score is not an integer", "parsed": parsed}
     if audit_score < 0 or audit_score > 10:
         return {"status": "error", "error_kind": "schema_invalid", "error": "audit_score outside 0-10", "parsed": parsed}
-    if not isinstance(parsed.get("used_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_fact_ids"]):
-        return {"status": "error", "error_kind": "schema_invalid", "error": "used_fact_ids must be a string list", "parsed": parsed}
+    if not isinstance(parsed.get("used_math_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_math_fact_ids"]):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "used_math_fact_ids must be a string list", "parsed": parsed}
+    parsed["used_fact_ids"] = parsed["used_math_fact_ids"]
     if not isinstance(parsed.get("hub_content"), str) or not isinstance(parsed.get("spine_content"), str):
         return {"status": "error", "error_kind": "schema_invalid", "error": "hub_content and spine_content must be strings", "parsed": parsed}
     if not isinstance(parsed.get("risk_notes"), str):
@@ -5733,6 +5847,8 @@ def self_test() -> int:
         disabled_config_path.write_text(json.dumps({"sync_lane": {"enabled": False}}, indent=2), encoding="utf-8")
         oracle_disabled_config_path = base / "oracle_disabled_pipeline_config.json"
         oracle_disabled_config_path.write_text(json.dumps({"oracle_integration": {"enabled": False}}, indent=2), encoding="utf-8")
+        packet_enabled_config_path = base / "packet_enabled_pipeline_config.json"
+        packet_enabled_config_path.write_text(json.dumps({"packet_lane": {"enabled": True}}, indent=2), encoding="utf-8")
         oracle_config_path = base / "oracle_pipeline_config.json"
         oracle_config_path.write_text(
             json.dumps(
@@ -5839,7 +5955,12 @@ def self_test() -> int:
         )
         store = FibonacciRealityStore(paths)
         vision_summary = run_vision_lane(store)
-        packet_summary = run_packet_lane(store)
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = packet_enabled_config_path
+        try:
+            packet_summary = run_packet_lane(store)
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
         original_pipeline_config = PIPELINE_CONFIG
         globals()["PIPELINE_CONFIG"] = oracle_disabled_config_path
         try:
@@ -6188,9 +6309,11 @@ def self_test() -> int:
                     "linked_claim_ids": [bedc_codex_claim_id],
                     "verified_facts": {
                         bedc_codex_claim_id: {
-                            "x": 64,
-                            "y": 13,
-                            "z": 0.675248,
+                            "carrier": "six-bit words",
+                            "partition": ["left", "right"],
+                            "relations": ["shift edge"],
+                            "exact_counts": {"boundary": 32},
+                            "factorization": "32=2^5",
                         }
                     },
                 }
@@ -6214,7 +6337,7 @@ def self_test() -> int:
                 "status": "ok",
                 "verdict": "ready",
                 "audit_score": 9,
-                "used_fact_ids": ["x", "y", "z"],
+                "used_math_fact_ids": ["carrier", "partition", "relations"],
                 "hub_content": "\n".join(
                     [
                         "% FibonacciReality author fixture hub.",
@@ -6228,33 +6351,35 @@ def self_test() -> int:
                         rf"\label{{ch:concrete-instances-{slug}-namecert}}",
                         r"\origin{ai}",
                         "",
-                        "This authored fixture records 64 codon coordinates, a row count of 13, and a lambda value of 0.675248. "
-                        "The packet also names witness x, witness y, and witness z as the three verified fact keys consumed by this chapter. "
+                        "This authored fixture defines a finite carrier of six-bit words, a two-cell partition, a shift-edge relation, an exact boundary count of 32, and the factorization 32=2^5. "
+                        "The packet also names carrier, partition, and relations as the three mathematical fact keys consumed by this chapter. "
                         "It stays self-contained and does not cite another chapter, path, URL, run identifier, or Lean marker. "
-                        "The prose is deliberately thick enough to be a NameCert packet: it separates code-layer readback from translation, folding, physical admissibility, function, and universality. "
-                        "It treats the three values only as finite audit data for a naming certificate, not as a biological mechanism. "
+                        "The prose is deliberately thick enough to be a NameCert packet: it separates the finite spectral construction from physical identification, metrological comparison, external dependency, and global flow. "
+                        "It treats the exact count only as finite audit data for a naming certificate, not as an interpretation theorem. "
                         "A reader can inspect the carrier without importing another chapter because every operational boundary is stated locally. "
-                        "The code-read contact is a bridge boundary, while the BEDC kernel prose names only the finite coordinate surface. "
+                        "The finite relation is the only source of the count, while the BEDC kernel prose names only the finite coordinate surface. "
                         "No external file path is written into the packet body. "
-                        "The fixture repeats the three grounded observations in prose: 64 coordinates, 13 rows, and lambda 0.675248. "
-                        "That repetition is intentional for the gate fixture, because it demonstrates that the author path consumes verified facts instead of returning a generic template. "
-                        "The chapter refuses all higher-layer promotions unless a separate reality contact is supplied.",
+                        "The fixture repeats the grounded observations in prose: carrier, partition, relation, exact count 32, and factorization 32=2^5. "
+                        "That repetition is intentional for the gate fixture, because it demonstrates that the author path consumes mathematical facts instead of returning a generic template. "
+                        "The chapter refuses all interpretive promotions unless a separate certificate is supplied.",
                         "",
                         rf"\paragraph{{Carrier.}} $\{carrier}Up$ is the local BEDC packet name for this author fixture.",
                         "",
-                        rf"\falsifiablePrediction{{A $\{carrier}Up$ packet cannot export translation, folding, physical admissibility, function, or universality from 64 coordinates, 13 rows, or lambda 0.675248 alone.}}",
+                        rf"\paragraph{{Partition and relation.}} The fixture uses a two-cell partition and a shift-edge relation on the finite carrier.",
                         "",
-                        rf"\independenceWitness{{The $\{carrier}Up$ carrier records only the local coordinate and audit surface named by x, y, and z.}}",
+                        rf"\falsifiablePrediction{{A $\{carrier}Up$ packet cannot export physical identification or global flow from a finite exact count alone.}}",
+                        "",
+                        rf"\independenceWitness{{The $\{carrier}Up$ carrier records only the local carrier, partition, relation, exact-count, and factorization surface.}}",
                         "",
                         rf"\closureat{{{carrier}Up}}{{seedStr}}",
                         rf"\begin{{closurestatus}}{{\{carrier}Up}}",
-                        r"  \constructivestory{The packet records 64 coordinates, 13 rows, and lambda 0.675248 as finite code-read audit data.}",
+                        r"  \constructivestory{The packet records a finite carrier, partition, relation, exact count 32, and factorization 32=2^5.}",
                         r"  \theoryclosure{\seedClosure}",
-                        r"  \scopeclosed{Code-layer readback for the three consumed fixture facts only.}",
+                        r"  \scopeclosed{Finite carrier, partition, relation, exact-count, and factorization readback only.}",
                         r"  \formalstatus{\unformalizedV}",
                         r"  \bridgestatus{paperBridge}",
-                        r"  \notclaimed{No translation, folding, physical admissibility, function, mechanism, universality, or cross-layer biological consequence is closed.}",
-                        r"  \upgradepath{Attach a separate testable reality contact before promoting any higher biological layer.}",
+                        r"  \notclaimed{No physical identification, metrological comparison, global flow, external dependency, or decimal agreement theorem is closed.}",
+                        r"  \upgradepath{Attach independent certificates before promoting any interpretation beyond the finite construction.}",
                         r"\end{closurestatus}",
                         "",
                     ]
@@ -6291,13 +6416,14 @@ def self_test() -> int:
         parse_fixture = {
             "verdict": "ready",
             "audit_score": 9,
-            "used_fact_ids": ["values.size", "values.lambda_M"],
+            "used_math_fact_ids": ["carrier", "partition", "exact_counts"],
             "chapter_content": r"\subsection{NameCert: h0.test}\label{sec:namecert-h0-test}\origin{ai}" + "\n"
             + (
-                r"\paragraph{Grounded record.} The packet cites 13 rows and lambda 0.675248 while keeping the result at code-read scope. "
-                "It refuses translation, folding, physical admissibility, function, mechanism, and universality without a separate contact. "
+                r"\paragraph{Grounded record.} The packet defines a carrier, partition, relation, exact count, and notclaimed boundary. "
+                "It refuses physical identification, global flow, metrological comparison, and external dependency without a separate certificate. "
             )
             * 20,
+            "not_claimed": "No physical identification or global flow.",
             "risk_notes": "",
             "missing_data_notes": "",
         }
@@ -6428,17 +6554,18 @@ def self_test() -> int:
             return {
                 "verdict": "ready",
                 "audit_score": 9,
-                "used_fact_ids": ["values.size", "values.lambda_M"],
+                "used_math_fact_ids": ["carrier", "partition", "exact_counts"],
                 "chapter_content": rf"\subsection{{{chapter_id}}}" + "\n"
                 + rf"\label{{sec:{re.sub(r'[^a-z0-9]+', '-', chapter_id.lower()).strip('-')}}}" + "\n"
                 + r"\origin{ai}"
                 + "\n\n"
                 + (
-                    r"\paragraph{Grounded finite rows.} This codex-authored FibonacciReality record cites 13 rows and lambda 0.675248 from the verified facts. "
-                    "The chapter keeps those numbers at the code-read layer and refuses translation, folding, physical admissibility, function, mechanism, and universality without a separate contact. "
-                    "The local carrier is read as a finite paper witness rather than a biological mechanism. "
+                    r"\paragraph{Grounded finite rows.} This authored FibonacciReality record defines a carrier, partition, relation, exact count, and factorization from sanitized mathematical facts. "
+                    "The chapter keeps those objects inside the finite construction and refuses physical identification, global flow, metrological comparison, and external dependency without a separate certificate. "
+                    "The local carrier is read as a finite paper witness rather than an interpretation theorem. "
                 )
                 * 12,
+                "not_claimed": "No physical identification or global flow.",
                 "risk_notes": "",
                 "missing_data_notes": "",
             }
@@ -6464,7 +6591,7 @@ def self_test() -> int:
         if bio_w_codex_summary["namecerts_written"] != 1 or not bio_w_namecert.exists():
             print(json.dumps(bio_w_codex_summary, indent=2), file=sys.stderr)
             return 1
-        if "codex-authored FibonacciReality record cites 13 rows and lambda 0.675248" not in bio_w_part:
+        if "authored FibonacciReality record defines a carrier, partition, relation, exact count, and factorization" not in bio_w_part:
             print(bio_w_part, file=sys.stderr)
             return 1
         if "NameCert: h0.codex" not in bio_w_namecert.read_text(encoding="utf-8"):
@@ -6648,7 +6775,12 @@ def self_test() -> int:
                 }
             ]
         )
-        promote_summary = run_packet_lane(promote_store)
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = packet_enabled_config_path
+        try:
+            promote_summary = run_packet_lane(promote_store)
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
         promoted_conjectures = promote_store.load_conjectures()
         new_conjecture = next(
             item for item in promoted_conjectures if item.get("conjecture_id") == "orf_eligibility.seed.boundary"
