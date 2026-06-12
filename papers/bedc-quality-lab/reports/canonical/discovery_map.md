@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-12T06:36:23.020151+00:00`
-- Rows: `39`
+- Rows: `40`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -29,6 +29,7 @@
 | `structural-generalization-splits` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-base-undertraining-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `input-accessibility` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `fair-l1-decision` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
 | `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

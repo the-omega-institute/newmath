@@ -48,6 +48,10 @@ SOURCE_POINTERS = {
         "owner_issue": "github:issue:1212",
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
     },
+    "fair-l1-decision": {
+        "owner_issue": "github:issue:1212",
+        "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+    },
     "dgt-base-undertraining-audit": {
         "owner_issue": "github:issue:1196",
         "pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
@@ -442,6 +446,7 @@ def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
 
 def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
     base = resolved.get("dgt-base-undertraining-audit")
+    fair = resolved.get("fair-l1-decision")
     null = resolved.get("dgt-ablation-null-decomposition")
     l1 = resolved.get("dgt-l1-controls")
     rows = [
@@ -453,9 +458,9 @@ def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
         },
         {
             "failure_mode": "fair comparison boundary",
-            "status": _dig(base, ("claim_action",), "blocked"),
-            "source_owner": "dgt-base-undertraining-audit",
-            "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action",
+            "status": _dig(fair, ("state",), "l1-scaling-blocked"),
+            "source_owner": "fair-l1-decision",
+            "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
         },
         {
             "failure_mode": "ablation null decomposition",
@@ -476,6 +481,7 @@ def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
 def _evaluation_boundaries(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
     l0 = resolved.get("dgt-l0-controls")
     l1 = resolved.get("dgt-l1-controls")
+    fair = resolved.get("fair-l1-decision")
     base = resolved.get("dgt-base-undertraining-audit")
     null = resolved.get("dgt-ablation-null-decomposition")
     return [
@@ -495,10 +501,11 @@ def _evaluation_boundaries(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
         },
         {
             "boundary": "fair architecture comparison",
-            "status": _dig(base, ("claim_action",), "blocked"),
+            "status": _dig(fair, ("decision_status",), "blocked"),
+            "ladder_state": _dig(fair, ("state",), "l1-scaling-blocked"),
             "construct_validity_status": _dig(base, ("construct_validity", "status"), "blocked"),
-            "source_owner": "dgt-base-undertraining-audit",
-            "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+            "source_owner": "fair-l1-decision",
+            "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
             "claim": "no architecture advantage",
         },
         {
@@ -736,18 +743,25 @@ def _validate_l1_fair_boundary(card: Mapping[str, Any], root: Path) -> list[Card
     if not fair_known_rows:
         errors.append(CardGateError("CARD-HG5", "$.known_failure_modes", "fair comparison failure mode missing"))
     for index, row in fair_rows:
-        fair_pointer = "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
-        if row.get("source_owner") != "dgt-base-undertraining-audit" or row.get("source_pointer") != fair_pointer:
+        fair_pointer = "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
+        if row.get("source_owner") != "fair-l1-decision" or row.get("source_pointer") != fair_pointer:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].source_pointer", "fair comparison owner pointer differs from owner"))
             continue
         status, source, _digest = _resolve_artifact_pointer(root, fair_pointer)
         if status != "resolved" or not isinstance(source, Mapping):
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}]", "fair comparison source pointer does not resolve"))
             continue
-        expected_status = source.get("claim_action")
-        expected_construct_status = _dig(source, ("construct_validity", "status"), "blocked")
+        expected_status = source.get("decision_status")
+        expected_ladder_state = source.get("state")
+        base_status, base_source, _base_digest = _resolve_artifact_pointer(
+            root,
+            "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+        )
+        expected_construct_status = _dig(base_source, ("construct_validity", "status"), "blocked") if base_status == "resolved" and isinstance(base_source, Mapping) else "blocked"
         if row.get("status") != expected_status:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].status", "fair comparison status differs from owner"))
+        if row.get("ladder_state") != expected_ladder_state:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].ladder_state", "fair comparison ladder state differs from owner"))
         if row.get("construct_validity_status") != expected_construct_status:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].construct_validity_status", "fair comparison construct-validity status differs from owner"))
         if row.get("construct_validity_status") != "construct-boundary":
@@ -755,9 +769,9 @@ def _validate_l1_fair_boundary(card: Mapping[str, Any], root: Path) -> list[Card
         if row.get("claim") != "no architecture advantage":
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "architecture advantage wording is not blocked"))
         for known_index, known_row in fair_known_rows:
-            if known_row.get("source_owner") != "dgt-base-undertraining-audit" or known_row.get("source_pointer") != "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action":
+            if known_row.get("source_owner") != "fair-l1-decision" or known_row.get("source_pointer") != fair_pointer:
                 errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].source_pointer", "fair comparison failure mode owner pointer differs from owner"))
-            if known_row.get("status") != expected_status:
+            if known_row.get("status") != expected_ladder_state:
                 errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].status", "fair comparison failure mode status differs from owner"))
     serialized_intended = json.dumps(card.get("intended_use", []), sort_keys=True).lower()
     if "architecture advantage" in serialized_intended:
@@ -1011,6 +1025,7 @@ def _validate_owner_projection_fields(card: Mapping[str, Any], root: Path) -> li
                     "status",
                     "review_status",
                     "construct_validity_status",
+                    "ladder_state",
                     "failed_gates",
                     "rule_abstraction_claim",
                     "rule_abstraction_status",

@@ -181,6 +181,10 @@ DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertr
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
+FAIR_L1_DECISION_JSON_ARTIFACT = "reports/canonical/fair-l1-decision.json"
+FAIR_L1_DECISION_MARKDOWN_ARTIFACT = "reports/canonical/fair-l1-decision.md"
+FAIR_L1_DECISION_ARTIFACT_ID = "bedc-quality-lab:fair-l1-decision"
+FAIR_L1_DECISION_SCHEMA_ID = "bedc-quality-lab:fair-l1-decision"
 INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
 INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT = "reports/canonical/input-accessibility.md"
 INPUT_ACCESSIBILITY_ARTIFACT_ID = "bedc-quality-lab:input-accessibility"
@@ -1475,6 +1479,40 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
     ),
     CanonicalReportSpec(
+        name="fair-l1-decision",
+        command=("python3", "scripts/run_fair_l1_decision.py"),
+        json_artifact=FAIR_L1_DECISION_JSON_ARTIFACT,
+        markdown_artifact=FAIR_L1_DECISION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "fair_alignment",
+            "hardgates",
+            "decision",
+            "ladder_state_projection",
+            "boundary_ledger",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.decision.status",
+        control_pointer="$.fair_alignment.comparison_rows",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.decision.claim_capsule",
+        evidence_envelope_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        backend_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        negative_witness_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
+        construct_validity_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.construct_validity_projection",
+    ),
+    CanonicalReportSpec(
         name="discovery-gated-transformer",
         command=("python3", "scripts/run_discovery_gated_transformer.py"),
         json_artifact=DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
@@ -2247,11 +2285,14 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
         paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
+    if spec.name == "fair-l1-decision":
+        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     if spec.name == "dgt-model-card":
         paths.update(
             (
                 DGT_L0_CONTROLS_JSON_ARTIFACT,
                 DGT_L1_CONTROLS_JSON_ARTIFACT,
+                FAIR_L1_DECISION_JSON_ARTIFACT,
                 DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
                 DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
                 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
@@ -4726,8 +4767,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     }:
         raise ValueError("DGT construct suspension owner ref mismatch")
     if source_artifacts.get("interpretation_boundary_ref") != {
-        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
-        "pointer": "$.l1_tiny_sequence_projection",
+        "artifact": FAIR_L1_DECISION_JSON_ARTIFACT,
+        "pointer": "$.ladder_state_projection",
     }:
         raise ValueError("DGT interpretation boundary owner ref mismatch")
     if source_artifacts.get("negative_witness_sweep_ref") != {
@@ -4915,6 +4956,8 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
         "interpretation_boundary_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -4994,6 +5037,8 @@ def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
         "interpretation_boundary_ref_pointer": f"{artifact}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{artifact}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -6522,6 +6567,18 @@ def _run_spec(
     return result
 
 
+def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
+    if result.get("status") == "pass":
+        return False
+    if result.get("name") == "fair-l1-decision":
+        decision_status = _resolve_committed_artifact_pointer(
+            ROOT,
+            f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        )
+        return decision_status != "bounded-negative"
+    return True
+
+
 def _replace_result_rows(
     results: Sequence[dict[str, Any]],
     replacements: Sequence[dict[str, Any]],
@@ -7265,6 +7322,14 @@ def run_reports(
             run_spec_names.add(dgt_l0_spec.name)
             _run_metric_purity_post_generation((dgt_l0_spec.json_artifact,))
             _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
+    fair_l1_spec = _specs_by_name().get("fair-l1-decision")
+    if fair_l1_spec is not None:
+        fair_l1_selected = any(spec.name in {"fair-l1-decision", "discovery-gated-transformer", "dgt-model-card"} for spec in selected_specs)
+        if (only is None or fair_l1_selected) and fair_l1_spec.name not in run_spec_names:
+            results.append(_run_spec(fair_l1_spec, mode=mode, generated_at=timestamp))
+            run_spec_names.add(fair_l1_spec.name)
+            _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
+            _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
     discovery_gated_transformer: Mapping[str, Any] | None = None
     if only is None or dgt_full_selected:
         from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
@@ -7427,7 +7492,7 @@ def run_reports(
     if mode == "verify":
         if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
             raise SystemExit(1)
-    elif any(result["status"] != "pass" for result in results):
+    elif any(_result_blocks_changed_run(result) for result in results):
         raise SystemExit(1)
     return payload
 
