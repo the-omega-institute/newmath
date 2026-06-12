@@ -3300,6 +3300,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootLebesgueLedgerRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootMetricCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootRealSeparabilityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverScopeGrounding
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverSimplicialNerveHandoff
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
@@ -3340,6 +3341,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
+import BEDC.Derived.CoveringdimensionUp.RootCoverScopeLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePackage
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
@@ -5941,6 +5943,7 @@ import BEDC.Derived.LocatedCauchyModulusSelectorUp.RealSealHandoff
 import BEDC.Derived.LocatedCauchyModulusSelectorUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyNetUp.TasteGate
+import BEDC.Derived.LocatedCauchyRepresentationUp.NameCertObligations
 import BEDC.Derived.LocatedCauchySubsequenceUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedChoiceSequenceUp.TasteGate
