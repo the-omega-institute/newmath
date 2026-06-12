@@ -3134,6 +3134,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitRouteLaws
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
 import BEDC.Derived.ContinuationReplayUp
+import BEDC.Derived.ContinuationReplayUp.TasteGate
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
@@ -6292,6 +6293,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierSubjectReduct
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedNormalizationBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedResidualDiamondL10Handoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundedDischargeRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
@@ -9969,6 +9971,8 @@ import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
+import BEDC.Derived.UpperDarbouxSumUp
+import BEDC.Derived.UpperDarbouxSumUp.TasteGate
 import BEDC.Derived.UpperHemicontinuityUp.TasteGate
 import BEDC.Derived.UpperRealEnvelopeUp.TasteGate
 import BEDC.Derived.UpperRealUp
