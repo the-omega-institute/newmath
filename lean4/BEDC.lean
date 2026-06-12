@@ -669,6 +669,7 @@ import BEDC.Derived.BaireCategoryUp.ProbeBundleRefinementInduction
 import BEDC.Derived.BaireCategoryUp.RefinementChoiceFree
 import BEDC.Derived.BaireCategoryUp.SourceRouteNonescape
 import BEDC.Derived.BaireCategoryUp.TasteGate
+import BEDC.Derived.BaireGenericResidualUp.TasteGate
 import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.BaireSpacePrefixDensityRoute
 import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
