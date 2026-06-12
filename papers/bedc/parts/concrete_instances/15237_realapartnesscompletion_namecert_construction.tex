@@ -118,6 +118,37 @@ Its rows are read with the following roles:
 The window has no coordinate for the $\RealUp$ seal $E$ and no coordinate for quotient completion, trichotomy, selected limits, countable choice, host equality, or ambient completeness.
 \end{definition}
 
+\begin{definition}[RealApartnessCompletion separated seal route]
+\label{def:real-apartness-completion-separated-seal-route}
+For an accepted $\RealApartnessCompletionUp$ packet $A=(X,Q,M,S,R,D,E,H,C,P,N)$, the separated seal route is the finite terminal path
+$$
+\Sigma_{\mathrm{sep}}(A)=(X,Q,M,S,R,D,E).
+$$
+It records the apartness source, Hausdorff separation row, constructive completion route, stream-window ledger, regular readback, dyadic tolerance ledger, and terminal $\RealUp$ seal as one ordered read. The route has no coordinate for a second source, quotient completion, host equality of completed names, selected limit, countable-choice schedule, trichotomy row, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[RealApartnessCompletion separated seal determinacy]
+\label{thm:real-apartness-completion-separated-seal-determinacy}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ and $A'=(X,Q,M,S,R,D,E',H',C',P',N')$ be accepted $\RealApartnessCompletionUp$ packets with the same $\ApartnessRealUp$ source row $X$, the same $\HausdorffCompletionUp$ separation row $Q$, the same $\ConstructiveMetricCompletionUp$ route $M$, the same stream windows $S$, the same $\RegSeqRatUp$ regular readback $R$, and the same $\DyadicRatCoreUp$ tolerance ledger $D$. If both packets expose a terminal Real seal through the displayed obligation surface, then they expose the same separated terminal Real-seal route:
+$$
+\Sigma_{\mathrm{sep}}(A)=(X,Q,M,S,R,D,E)
+$$
+and
+$$
+\Sigma_{\mathrm{sep}}(A')=(X,Q,M,S,R,D,E')
+$$
+are determined by the same apartness-Cauchy window, and no alternative seal-facing route is available outside that window.
+\end{theorem}
+\begin{proof}
+First apply the obligation partition of \autoref{thm:real-apartness-completion-obligation-partition}. It separates the source rows $(X,Q,M)$, finite window and readback rows $(S,R,D)$, terminal seal row, and structural rows, so the two packets have the same analytic prefix before either seal is read.
+
+Separated-source exactness fixes the entry to the constructive completion route. Since both packets display the same $X,Q,M$, neither packet can enter the terminal route through a quotient completion, host equality row, selected limit, or external completion object.
+
+Regular readback discipline then fixes the seal-facing window. The shared $S,R,D$ rows are the only rows through which a Real-facing read may reach a terminal seal, and \autoref{def:real-apartness-completion-apartness-cauchy-window} names this common prefix as $W_{\mathrm{ac}}$.
+
+Finally use the non-escape boundary and located Real seal non-escape theorem. The structural rows $H,C,P,N$ and $H',C',P',N'$ only transport, replay, package, and name the displayed packet; they cannot add a second source, second window, quotient completion, selected limit, countable-choice schedule, trichotomy row, host equality, or ambient completeness principle. Therefore the terminal Real-seal route is determined by the shared apartness-Cauchy window.
+\end{proof}
+
 \begin{theorem}[RealApartnessCompletion separated completion handoff]
 \label{thm:real-apartness-completion-separated-completion-handoff}
 Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every completion-facing read of $A$ that reaches the $\RealUp$ seal $E$ first factors through the apartness-Cauchy window
