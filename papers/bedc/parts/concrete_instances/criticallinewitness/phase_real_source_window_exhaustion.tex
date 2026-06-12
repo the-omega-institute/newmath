@@ -23,6 +23,18 @@ Now apply the modulus classifier. By \autoref{thm:critical-line-witness-root-mod
 It remains to exclude detached real semantics. The source-window exhaustion row above leaves only the $\BHist$, $\Cont$, and $\hsame$ route between the finite request and the endpoint row. A host real value, quotient representative, or unrecorded modulus witness is not one of those coordinates, so it cannot serve as the handoff.
 \end{proof}
 
+\begin{theorem}[CriticalLineWitness Phase Real classifier determinacy]
+\label{thm:critical-line-witness-phase-real-classifier-determinacy}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ and $W'=(Z',S',M',R',Q',H',C',P',N')$ be accepted $\CriticalLineWitnessUp$ packets. Suppose their Phase Real source windows expose the same displayed $\RatUp$ row, $\RealUp$ row, $\RegSeqRatUp$ row, zero-strip row, finite modulus row, $\BHist$ transport, $\Cont$ replay, $\hsame$ comparison, $\Pkg$ provenance, and local $\NameCert$ row. Then every root or zeta-facing consumer reads the same classifier-facing source window from $W$ and $W'$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:critical-line-witness-phase-real-source-window-exhaustion} to reduce both consumer reads to the displayed Phase Real source rows. After this reduction, the two reads have no visible coordinates except the shared rational, real, regular-rational, zero-strip, modulus, transport, replay, comparison, provenance, and local naming rows listed in the hypothesis.
+
+Apply \autoref{thm:critical-line-witness-regseqrat-real-modulus-handoff} to the common $\RegSeqRatUp$ and $\RealUp$ faces. The handoff prevents either packet from replacing the displayed finite modulus route by a detached host real, quotient representative, or unrecorded modulus witness.
+
+Finally apply \autoref{thm:critical-line-witness-zeta-refusal-consumer-scope}. A root or zeta-facing consumer cannot import an external analytic truth primitive, analytic-continuation certificate, global zero-set classifier, quotient equality, or ambient-completeness witness. Therefore the classifier-facing source window is determined by the shared displayed rows, and both packets present the same window to every such consumer.
+\end{proof}
+
 \begin{theorem}[CriticalLineWitness zeta refusal consumer scope]
 \label{thm:critical-line-witness-zeta-refusal-consumer-scope}
 Every $\mathsf{RH}$ or zeta-facing consumer of an accepted $\CriticalLineWitnessUp$ packet that reads the Phase Real source window sees only the displayed refusal ledger, source triad, rational comparison row, finite modulus row, zero-strip readback row, $\BHist$ route, $\Cont$ route, $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ row. Such a consumer cannot import an external analytic truth primitive, analytic-continuation certificate, global zero-set classifier, quotient equality, or ambient-completeness witness.
@@ -34,3 +46,4 @@ Next read the refusal side through the existing root package. The Phase Real sou
 
 Therefore the zeta-facing consumer has no carrier slot in which to place an external analytic truth primitive or detached analytic certificate. Its only admissible imports are the refusal ledger and the finite BEDC rows named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessZetaRefusalConsumerScope}
