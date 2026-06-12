@@ -72,16 +72,38 @@ The compiler-facing evidence is exhausted by $R,C,B$. Recognizers are read throu
 Transport, replay, provenance, and naming are exhausted by $H,K,P,N$. Since no remaining coordinate stores hidden query data, an alternate verdict, host proof evidence, raw classifier equality, or compiler input outside the boundary, none can escape the packet.
 \end{proof}
 
+\begin{theorem}[GroundCompiler audit verdict obligation surface]
+\label{thm:ground-compiler-audit-verdict-obligation-surface}
+The TasteGate marker
+$$
+\mathsf{BEDC.Derived.GroundCompilerAuditVerdictUp.GroundCompilerAuditVerdictTasteGate\_single\_carrier\_alignment}
+$$
+certifies that a $\GroundCompilerAuditVerdictUp$ packet is admitted only when the visible carrier is the single finite surface
+$$
+G=(M,Q,F,V,A,R,C,B,H,K,P,N).
+$$
+For such a packet, the obligation surface consists exactly of carrier admission through those rows, forbidden-row comparison between $Q$ and $F$, verdict determinacy through $V$, replay provenance through $K$ and $P$, generated-recognizer readback through $R$, certificate-gate readback through $C$, and non-escape through the boundary row $B$ and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Read the cited TasteGate marker as the carrier-alignment guard for this packet. It aligns the public GroundCompiler audit verdict name with the single displayed carrier of \autoref{def:groundcompiler-audit-verdict-carrier}.
+
+The carrier-admission and comparison obligations are then forced by the coordinates. Public reads first project $M,Q,F,V,A,R,C,B,H,K,P,N$; the forbidden comparison is the displayed comparison between $Q$ and $F$, and the verdict row $V$ is the only verdict coordinate available after that comparison.
+
+Replay and readback obligations are separate rows. The continuation row $K$ and provenance row $P$ record replay provenance, while $R$ and $C$ expose generated-recognizer and certificate-gate readback without turning either one into host audit prose.
+
+Finally apply \autoref{thm:groundcompiler-audit-verdict-nonescape}. The no-hidden-input boundary $B$ and local NameCert row $N$ prevent hidden dependency queries, alternate verdicts, raw classifier equality, or compiler inputs from escaping the displayed packet.
+\end{proof}
+
 \closureat{GroundCompilerAuditVerdictUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerAuditVerdictUp}
   \constructivestory{A $\GroundCompilerAuditVerdictUp$ packet is generated from a GroundCompiler module row, displayed query output, forbidden-dependency comparison, verdict row, audit-family alignment, generated-recognizer row, certificate-gate row, no-hidden-input boundary row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:groundcompiler-audit-verdict-carrier}, \autoref{thm:groundcompiler-audit-verdict-obligations}, and \autoref{thm:groundcompiler-audit-verdict-nonescape} bind the GroundCompiler audit verdict as finite query, forbidden-row, verdict, recognizer, certificate-gate, no-hidden-input, replay, provenance, and NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-verdict-carrier}, \autoref{thm:groundcompiler-audit-verdict-obligations}, \autoref{thm:groundcompiler-audit-verdict-nonescape}, and \autoref{thm:ground-compiler-audit-verdict-obligation-surface} bind the GroundCompiler audit verdict obligation surface as carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer readback, certificate-gate readback, and non-escape rows backed by the TasteGate marker.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.GroundCompilerAuditVerdictUp.GroundCompilerAuditVerdictTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove global compiler self-hosting, complete environment purity, MetaCIC subject reduction, bridge checking, or any theorem content from code, reports, motifs, or classifier quotients.}
-  \upgradepath{Obligation closure requires checked carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer and certificate-gate readback, and non-escape for the displayed packet.}
+  \upgradepath{Scoped closure requires checked exactness and handoff rows for the same carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer readback, certificate-gate readback, and non-escape surface.}
 \end{closurestatus}
