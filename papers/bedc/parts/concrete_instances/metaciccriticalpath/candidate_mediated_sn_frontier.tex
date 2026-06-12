@@ -436,5 +436,21 @@ The $\MetaCICNormalizationFrontierUp$ and $\MetaCICNormalizationCertificateRoute
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNFrontierFairnessRetention}
 
+\begin{theorem}[MetaCIC candidate-mediated bounded SN discharge route]
+\label{thm:metacic-candidate-mediated-sn-bounded-discharge-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. A candidate-mediated strong-normalization frontier read discharges a bounded normalization request only after the candidate row, source-window row, residual-frontier row, fairness-retention row, normal-form witness extraction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row are all visible. The discharge is bounded by those displayed rows; it does not assert global strong normalization, full confluence, subject reduction, beta-conversion decidability, quotient term equality, or a selected normal form.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated frontier route of \autoref{thm:metacic-criticalpath-candidate-mediated-sn-route} and the L10 readback of \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. These expose the candidate row and source-window row before any normalization-facing consumer reaches the frontier.
+
+Next use the residual-frontier route and normal-form witness extraction, \autoref{thm:metacic-normalization-trace-residual-frontier-route} and \autoref{thm:metacic-candidate-frontier-normal-form-witness-extraction}. They force the residual boundary and extracted witness to remain attached to the same finite carrier rows.
+
+Finally apply \autoref{thm:metacic-candidate-mediated-sn-frontier-fairness-retention}. Fairness retention keeps the candidate, confluence-boundary, finite-observation, critical-pair, discharge-socket, and source rows visible when the bounded request is consumed. The rows $H,C,P,L$ then transport, replay, source, and name the same finite route, so the discharge cannot become global SN, full confluence, subject reduction, beta-decidability, quotient equality, or a selected normal-form principle.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}

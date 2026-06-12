@@ -328,10 +328,22 @@ theorem BetaSubstitutionPreservationTasteGate_single_carrier_alignment :
           betaSubstitutionPreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    And.intro betaSubstitutionPreservationDecode_encode_bhist
-      (And.intro betaSubstitutionPreservation_round_trip
-        (And.intro
-          (fun x y heq => betaSubstitutionPreservationToEventFlow_injective heq)
-          rfl))
+      And.intro betaSubstitutionPreservationDecode_encode_bhist
+        (And.intro betaSubstitutionPreservation_round_trip
+          (And.intro
+            (fun x y heq => betaSubstitutionPreservationToEventFlow_injective heq)
+            rfl))
+
+theorem BetaSubstitutionPreservationEventFlow_extra_tail_rejected
+    (body argument redex codomain substitutedBody substitutedCodomain ledger transport routes
+      provenance name : BHist) (extra : List BMark) :
+    betaSubstitutionPreservationFromEventFlow
+        (List.append (betaSubstitutionPreservationToEventFlow
+          (BetaSubstitutionPreservationUp.mk body argument redex codomain substitutedBody
+            substitutedCodomain ledger transport routes provenance name))
+          (List.cons extra [])) =
+      none := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
 
 end BEDC.Derived.BetaSubstitutionPreservationUp

@@ -60,6 +60,7 @@ The route $K$ replays the redex boundary through the codomain readback $C_0$ and
 
 Apply the $\SubjectReductionUp$ anchor only at the handoff row recorded in $K$. The packet therefore supplies the beta-case input consumed by subject reduction, not an ambient subject-reduction theorem or a second reduction semantics.
 \end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationEventFlow\_extra\_tail\_rejected}
 
 \begin{theorem}[BetaSubstitutionPreservation non-escape]
 \label{thm:betasubstitutionpreservation-nonescape}
@@ -76,6 +77,7 @@ Use \autoref{thm:betasubstitutionpreservation-namecert-obligations}. The substit
 
 The exclusions follow from absence of coordinates. Host substitution semantics, semantic term equality, unrestricted conversion, and closed subject reduction would each require a separate row or external route, and neither is present in $Q$.
 \end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNonescape}
 
 \begin{theorem}[BetaSubstitutionPreservation subject-reduction handoff]
 \label{thm:betasubstitutionpreservation-subjectreduction-handoff}
@@ -245,7 +247,8 @@ Finally use the subject-reduction handoff \autoref{thm:betasubstitutionpreservat
   \constructivestory{A $\BetaSubstitutionPreservationUp$ packet is generated from body typing, argument typing, beta-redex, codomain readback, substituted body, substituted codomain, finite ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:betasubstitutionpreservation-carrier}, \autoref{thm:betasubstitutionpreservation-namecert-obligations}, \autoref{thm:betasubstitutionpreservation-redex-closure}, \autoref{thm:betasubstitutionpreservation-nonescape}, and \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} bind beta-substitution preservation as a finite NameCert packet for the MetaCIC subject-reduction beta case.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNonescape}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host substitution semantics, semantic term equality, unrestricted conversion, the other three MetaCIC subject-reduction discharge obligations, global normalization, Lean verification, or closed subject reduction.}
