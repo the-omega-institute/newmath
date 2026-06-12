@@ -722,6 +722,18 @@ Finally apply \autoref{thm:sequential-compact-real-seal-nonescape}. The Real-fac
 \end{proof}
 \leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactRealSubsequenceCauchyHandoff}
 
+\begin{theorem}[SequentialCompact standard bridge scope]
+\label{thm:sequential-compact-standard-bridge-scope}
+Any standard-facing bridge for $\SequentialCompactUp$ may read only the displayed compact-metric row $K$, the $\BaireSpaceUp$ and $\StreamNameUp$ window rows $B,S$, the selected finite-window row $W$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal row $E$, and the structural $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,C,P,N$ of the public packet. The bridge may not export host sequential compactness, a choice-selected subsequence, quotient stream equality, open-cover compactness, countable-choice schedules, selected limits outside $W$, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequentialcompact-public-export}. It identifies the public consumer surface as exactly the finite route through $K,B,S,W,R,E,H,C,P,N$.
+
+Use \autoref{thm:sequential-compact-regseqrat-handoff-exactness}. The regular-rational readback row stays downstream of the displayed stream and selected finite-window rows, so a bridge cannot replace it by quotient stream equality or a host-selected subsequence.
+
+Finally apply \autoref{thm:sequential-compact-real-seal-nonescape}. The Real-facing seal is consumed only after the finite StreamName and RegSeqRat route is present. Hence the standard-facing bridge is scoped to the displayed finite Baire/StreamName/RegSeqRat/Real boundary and exports none of the excluded classical compactness or completeness principles.
+\end{proof}
+
 \closureat{SequentialCompactUp}{scopedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
