@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ExactCoupleUp$}
+\label{ch:concrete-instances-exact-couple-namecert}
+\origin{human}
+
+Following Cartan--Eilenberg and McCleary, the $\ExactCoupleUp$ packet records the finite precursor by which graded-object data, two degree-preserving maps, and one connecting map generate the page handoff later consumed by $\SpectralSeqUp$. It sits over the abelian-category surface of \autoref{ch:concrete-instances-abeliancat-namecert}, the homology and cohomology rows of \autoref{ch:concrete-instances-homology-namecert} and \autoref{ch:concrete-instances-cohomology-namecert}, and before the spectral-sequence packet of \autoref{ch:concrete-instances-spectralseq-namecert}. The certificate names the finite exact-couple ledger only; it does not export an ambient derived-category calculus, quotient page object, or unrecorded convergence theorem.
+
+\begin{definition}[Exact-couple carrier]
+\label{def:exact-couple-carrier}
+An $\ExactCoupleUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,G,D,I,J,K,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AbelianCatUp$ source row in which the displayed graded objects and maps are read.
+\item $G$ is the graded-object row, carrying the inspected bidegree window and its neighboring degree shifts.
+\item $D$ is the degree-preserving self-map row on the displayed graded object data.
+\item $I$ is the second degree-preserving map row, recording the visible inclusion or transition map used by the exact couple.
+\item $J$ is the connecting-map row from the companion graded object into the shifted inspected object.
+\item $K$ is the $\HomologyUp$ or $\CohomologyUp$ kernel-image readback row attached to the same degree window.
+\item $W$ records the finite exactness windows for the rows $D,I,J,K$, with every kernel and image comparison read through the displayed certificate rows.
+\item $R$ is the derived-page handoff row, exposing the finite page data later consumed by $\SpectralSeqUp$.
+\item $H$ records componentwise $\hsame$ transport for the graded-object row, the two degree-preserving maps, the connecting map, exactness windows, derived-page handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an exact-couple read through $A,G,D,I,J,K,W,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\ExactCoupleUp$, $\AbelianCatUp$, $\HomologyUp$, $\CohomologyUp$, $\SpectralSeqUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ExactCoupleUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for quotient page equality, host exactness outside the finite windows, derived-category localization, selected representatives, countable choice, or convergence data beyond the handoff row $R$.
+\end{definition}
+
+\begin{theorem}[Exact-couple NameCert obligations]
+\label{thm:exact-couple-namecert-obligations}
+For every accepted $\ExactCoupleUp$ carrier $Q=(A,G,D,I,J,K,W,R,H,C,P,N)$, the local $\NameCert_{\ExactCoupleUp}$ surface is exhausted by the abelian-category source row, graded-object data, two degree-preserving maps, one connecting map, kernel-image readback, finite exactness windows, derived-page handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may not infer an ambient exact-couple object, quotient page equality, host exactness theorem, selected cycle representative, hidden derived-category localization, or spectral-sequence convergence claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:exact-couple-carrier}. The rows $A,G,D,I,J$ expose the abelian source, graded data, two degree-preserving maps, and the connecting map before any exactness or page read is available.
+
+Next read $K$ and $W$. These rows attach kernel-image comparisons to the same finite degree window and keep exactness inside the displayed $\HomologyUp$ or $\CohomologyUp$ readback rather than in a host theorem.
+
+Finally $R,H,C,P,N$ package the derived-page handoff, transport, replay, provenance, and local naming rows. Since none of these rows adds quotient page equality, a selected representative, derived localization, countable choice, or convergence data, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Exact-couple spectral-sequence handoff]
+\label{thm:exact-couple-spectral-sequence-handoff}
+Every $\SpectralSeqUp$ consumer that reads an accepted $\ExactCoupleUp$ packet must reach the page-generation boundary through the finite route
+$$
+\AbelianCatUp,\;G,\;D,\;I,\;J,\;K,\;W \longmapsto R \longmapsto \SpectralSeqUp .
+$$
+The route exports the derived-page handoff row $R$ together with $H,C,P,N$, not an ambient exact-couple object, not a quotient page primitive, and not convergence data outside the spectral-sequence packet that consumes the handoff.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows $A,G,D,I,J,K,W$. They display the exact-couple data and the finite exactness windows before any page-generation read can be replayed.
+
+The handoff is then the row $R$. By definition $R$ exposes only finite page data derived from the same graded-object and exactness-window ledger, and the structural rows $H,C,P,N$ transport and replay that same handoff.
+
+Therefore a $\SpectralSeqUp$ consumer receives a finite precursor route rather than a primitive page oracle. Any quotient page equality, ambient exact-couple object, hidden representative choice, or convergence assertion lies outside the accepted $\ExactCoupleUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{A spectral-sequence page-generation read is rejected as an $\ExactCoupleUp$ handoff when it preserves $R$ but omits the graded-object row $G$, degree-preserving map rows $D,I$, connecting map row $J$, kernel-image readback $K$, or exactness-window row $W$.}
+
+\independenceWitness{abeliancat, homology, cohomology, spectralseq: none is bijective with $\ExactCoupleUp$ because the packet jointly carries graded-object data, two degree-preserving maps, one connecting map, exactness windows, derived-page handoff, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{ExactCoupleUp}{seedStr}
+
+\begin{closurestatus}{\ExactCoupleUp}
+  \constructivestory{An $\ExactCoupleUp$ packet is generated from an abelian-category source row, displayed graded-object data, two degree-preserving maps, one connecting map, kernel-image readback, finite exactness windows, a derived-page handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:exact-couple-carrier}, \autoref{thm:exact-couple-namecert-obligations}, and \autoref{thm:exact-couple-spectral-sequence-handoff} seed the finite exact-couple precursor to the spectral-sequence page handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, ambient exact-couple objects, quotient page equality, selected representatives, derived-category localization, countable choice, or convergence theorems.}
+  \upgradepath{Obligation closure requires checked graded-object rows, two degree-preserving map rows, connecting-map rows, finite exactness-window compatibility, derived-page handoff compatibility, and structural transport for BEDC.Derived.ExactCoupleUp.}
+\end{closurestatus}
