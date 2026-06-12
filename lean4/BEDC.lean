@@ -3724,7 +3724,6 @@ import BEDC.Derived.DiagonalLimitBudgetUp.CarrierAdmission
 import BEDC.Derived.DiagonalLimitBudgetUp.IndependenceWitness
 import BEDC.Derived.DiagonalLimitBudgetUp.Nonescape
 import BEDC.Derived.DiagonalLimitBudgetUp.ObligationSurface
-import BEDC.Derived.DiagonalLimitBudgetUp.RealSealHandoff
 import BEDC.Derived.DiagonalLimitBudgetUp.SealHandoff
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGateReadiness
@@ -9040,6 +9039,7 @@ import BEDC.Derived.SequentialCompactUp.PublicNameCertRoute
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
+import BEDC.Derived.SequentialCompactUp.RealSubsequenceCauchyHandoff
 import BEDC.Derived.SequentialCompactUp.RegSeqRatClusterHandoff
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
 import BEDC.Derived.SequentialCompactUp.RootObligationNonescape
