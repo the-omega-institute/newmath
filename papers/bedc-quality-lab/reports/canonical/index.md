@@ -54,8 +54,8 @@
 | `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
 | `model-comparison` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
-| `experiment-stack-cards` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/experiment_stack_cards.json` | `reports/canonical/experiment_stack_cards.md` | `reports/canonical/experiment_stack_cards.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.cards` | `$.claim_first_gate` |
 | `claim-complexity` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
+| `experiment-stack-cards` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/experiment_stack_cards.json` | `reports/canonical/experiment_stack_cards.md` | `reports/canonical/experiment_stack_cards.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.cards` | `$.claim_first_gate` |
 
 ## Dashboard
 
@@ -154,6 +154,15 @@
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 - Entries: `8`
 - Entries pointer: `reports/canonical/negative_witness_mutation_ledger.json:$.entries`
+
+## Cache equivalence
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/cache-equivalence.json`
+- Owner: `reports/canonical/cache-equivalence.json:$`
+- Targets: `reports/canonical/cache-equivalence.json:$.targets`
+- Hardgates: `reports/canonical/cache-equivalence.json:$.hardgates`
+- Freshness hardgate: `scripts/run_canonical_cache_equivalence.py --check`
 
 ## New model hardgates
 
@@ -440,7 +449,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity, experiment-stack-cards`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -490,9 +499,9 @@
 | `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
 | `model-comparison` | `auxiliary` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.dgt_mechanism_cert` | `$.matched_controls` | `None` |
-| `experiment-stack-cards` | `auxiliary` | `$.cards` | `None` | `$.claim_first_gate` |
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
+| `experiment-stack-cards` | `auxiliary` | `$.cards` | `None` | `$.claim_first_gate` |
 
 ## Literature ledger pointer
 

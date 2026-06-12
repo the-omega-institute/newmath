@@ -66,6 +66,7 @@ ARM_LABELS = (
 )
 ARM_IDS = ARM_LABELS
 TRUE_TRAINING_RECORDS_REQUIRED = len(REPLAY_SEEDS) * len(ARM_LABELS)
+CELL_CACHE_EVENT_OBSERVER: Any = None
 CONTROL_POINTERS = {
     "base_transformer_control": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
     "matched_random_structural_control": {
@@ -1248,6 +1249,19 @@ def _raw_metrics_text(records: Sequence[Mapping[str, Any]]) -> str:
     return "".join(json.dumps(row, sort_keys=True) + "\n" for row in records)
 
 
+def _emit_cell_cache_event(event: str, record: CellInputRecord, **fields: Any) -> None:
+    observer = CELL_CACHE_EVENT_OBSERVER
+    if observer is None:
+        return
+    observer(
+        {
+            "event": event,
+            "producer_id": record.producer_id,
+            **fields,
+        }
+    )
+
+
 def _load_raw_records(path: Path) -> list[dict[str, Any]]:
     records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     if len(records) != TRUE_TRAINING_RECORDS_REQUIRED:
@@ -1263,22 +1277,47 @@ def _store_raw_records(record: CellInputRecord, records: Sequence[Mapping[str, A
     with tempfile.TemporaryDirectory(prefix="bedc-l0-cell-") as temp_dir:
         raw_path = Path(temp_dir) / "raw_metrics.jsonl"
         raw_path.write_text(_raw_metrics_text(records), encoding="utf-8")
-        store_cell_entry(
+        manifest = store_cell_entry(
             record,
             {"raw_metrics.jsonl": {"path": raw_path, "media_role": "raw_metrics_jsonl"}},
+        )
+        _emit_cell_cache_event(
+            "store",
+            record,
+            status="stored",
+            cell_input_digest=manifest.cell_input_digest,
+            cell_output_digest=manifest.cell_output_digest,
+            logical_paths=[blob.logical_path for blob in manifest.blobs],
         )
 
 
 def _training_records(torch: Any, *, requested_device: str, device_name: str) -> list[dict[str, Any]]:
     record = _cell_input_record(torch, requested_device=requested_device, device_name=device_name)
     lookup = load_cell_entry(record)
+    _emit_cell_cache_event(
+        "lookup",
+        record,
+        status=lookup.status,
+        reason=lookup.reason,
+        manifest_path=lookup.manifest_path.as_posix(),
+        logical_paths=sorted(lookup.verified_blob_paths),
+    )
     if lookup.status == "hit":
         raw_path = lookup.verified_blob_paths.get("raw_metrics.jsonl")
         if raw_path is not None:
             try:
-                return _load_raw_records(raw_path)
-            except (OSError, json.JSONDecodeError, TypeError, ValueError):
-                pass
+                records = _load_raw_records(raw_path)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+                _emit_cell_cache_event("cache-rejected", record, status="corrupt", reason=str(exc))
+            else:
+                _emit_cell_cache_event(
+                    "cache-return",
+                    record,
+                    status="hit",
+                    logical_path="raw_metrics.jsonl",
+                    row_count=len(records),
+                )
+                return records
     records: list[dict[str, Any]] = []
     for seed in REPLAY_SEEDS:
         for spec in arm_catalog():

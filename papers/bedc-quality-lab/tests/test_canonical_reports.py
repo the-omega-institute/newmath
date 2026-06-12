@@ -7713,6 +7713,48 @@ def test_release_readiness_index_section_is_pointer_only():
     assert all(set(row) == {"id", "label", "artifact", "pointer", "owner_pointer"} for row in section["sources"])
 
 
+def test_cache_equivalence_index_section_is_pointer_only():
+    section = canonical._cache_equivalence_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:canonical-cache-equivalence",
+        "schema_id": "bedc-quality-lab:canonical-cache-equivalence",
+        "json_artifact": "reports/canonical/cache-equivalence.json",
+        "canonical_role": "index_projection_not_fact_source",
+        "owner_pointer": "reports/canonical/cache-equivalence.json:$",
+        "targets_pointer": "reports/canonical/cache-equivalence.json:$.targets",
+        "hardgates_pointer": "reports/canonical/cache-equivalence.json:$.hardgates",
+        "freshness_hardgate": "scripts/run_canonical_cache_equivalence.py --check",
+    }
+    assert payload["cache_equivalence"] == section
+    assert "Cache equivalence" in markdown
+    assert "cache_equivalence" not in [spec.name for spec in canonical.CANONICAL_REPORTS]
+    assert "pass_count" not in json.dumps(section)
+    assert "targets" not in section
+    assert "hardgates" not in section
+
+
+def test_canonical_consistency_makefile_runs_fingerprints_before_cache_equivalence():
+    makefile = (canonical.ROOT / "Makefile").read_text(encoding="utf-8")
+    lines = makefile.splitlines()
+    target_index = lines.index("canonical-consistency:")
+    commands = []
+    for line in lines[target_index + 1:]:
+        if line and not line.startswith("\t"):
+            break
+        if line.startswith("\t"):
+            commands.append(line.strip())
+
+    assert commands == [
+        "python3 scripts/run_canonical_reports.py --verify-fingerprints",
+        "python3 scripts/run_canonical_cache_equivalence.py --check",
+    ]
+    assert "canonical-cache-equivalence:" in lines
+
+
 def test_release_readiness_forbidden_files_do_not_exist():
     forbidden = [
         "bedc_quality_lab/release_readiness.py",

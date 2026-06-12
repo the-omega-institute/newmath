@@ -139,6 +139,9 @@ MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT = "reports/canonical/model_mutation_lineag
 DGT_MUTATION_REPORT_ARTIFACT = "reports/canonical/dgt_mutation_report.json"
 NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
 NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
+CACHE_EQUIVALENCE_JSON_ARTIFACT = "reports/canonical/cache-equivalence.json"
+CACHE_EQUIVALENCE_ARTIFACT_ID = "bedc-quality-lab:canonical-cache-equivalence"
+CACHE_EQUIVALENCE_SCHEMA_ID = "bedc-quality-lab:canonical-cache-equivalence"
 NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT = "reports/canonical/new_model_hardgates.md"
 NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
@@ -4001,6 +4004,20 @@ def _negative_witness_mutation_ledger_index_section() -> dict[str, Any]:
     }
 
 
+def _cache_equivalence_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": CACHE_EQUIVALENCE_ARTIFACT_ID,
+        "schema_id": CACHE_EQUIVALENCE_SCHEMA_ID,
+        "json_artifact": CACHE_EQUIVALENCE_JSON_ARTIFACT,
+        "canonical_role": "index_projection_not_fact_source",
+        "owner_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$",
+        "targets_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$.targets",
+        "hardgates_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$.hardgates",
+        "freshness_hardgate": "scripts/run_canonical_cache_equivalence.py --check",
+    }
+
+
 def _new_model_hardgate_specs() -> tuple[Mapping[str, str], ...]:
     rows = (
         ("NEW-MODEL-HG1", "semantic model_id is present, unique, and not satisfied by report_id"),
@@ -6860,6 +6877,7 @@ def _index(
         "negative_witnesses": _negative_witnesses_index_section(),
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
+        "cache_equivalence": _cache_equivalence_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
@@ -7059,6 +7077,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Canonical role: `{payload['negative_witness_mutation_ledger']['canonical_role']}`",
             f"- Entries: `{payload['negative_witness_mutation_ledger']['entry_count']}`",
             f"- Entries pointer: `{payload['negative_witness_mutation_ledger']['entries_pointer']}`",
+            "",
+            "## Cache equivalence",
+            "",
+            f"- Status: `{payload['cache_equivalence']['status']}`",
+            f"- JSON: `{payload['cache_equivalence']['json_artifact']}`",
+            f"- Owner: `{payload['cache_equivalence']['owner_pointer']}`",
+            f"- Targets: `{payload['cache_equivalence']['targets_pointer']}`",
+            f"- Hardgates: `{payload['cache_equivalence']['hardgates_pointer']}`",
+            f"- Freshness hardgate: `{payload['cache_equivalence']['freshness_hardgate']}`",
             "",
             "## New model hardgates",
             "",
