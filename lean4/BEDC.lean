@@ -5786,6 +5786,7 @@ import BEDC.Derived.LeviCivitaConnectionUp.TasteGate
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.LieGroupUp.AdjointRep
+import BEDC.Derived.LieGroupUp.PublicNamecertExport
 import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitPointCompactUp.TasteGate
