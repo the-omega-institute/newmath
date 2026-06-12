@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiFiniteSetUp$}
+\label{ch:concrete-instances-kuratowski-finite-set-namecert}
+\origin{human}
+
+Following Kuratowski's finite-set presentation, the $\KuratowskiFiniteSetUp$ packet records a finite family by the displayed membership tree generated from the empty set and singleton adjoining. It sits over the endpoint discipline of \autoref{ch:concrete-instances-bool-namecert}, the finite spine of \autoref{ch:concrete-instances-list-namecert}, the unary length row of \autoref{ch:concrete-instances-nat-namecert}, the membership interface of \autoref{ch:concrete-instances-setlike-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational ledger route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names finite set data only through displayed rows; it does not import host finite sets, quotient extensionality, selected representatives, powerset choice, or ambient equality of subsets.
+
+\begin{definition}[Kuratowski finite set carrier]
+\label{def:kuratowski-finite-set-carrier}
+A $\KuratowskiFiniteSetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(E,A,L,M,B,S,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the empty-set seed row, naming the initial Kuratowski stage.
+\item $A$ is the singleton-adjoining row, recording the displayed element row and the previous finite family row for each adjoining step.
+\item $L$ is the $\ListUp$ spine row listing the adjoining schedule in construction order.
+\item $M$ is the $\NatUp$ length row recording the finite number of adjoining steps.
+\item $B$ is the $\BoolUp$ membership-decision row for inspected entries.
+\item $S$ is the $\SetLikeUp$ membership surface exposed to downstream consumers.
+\item $W$ is the $\StreamNameUp$ finite-window row used when a consumer inspects only a bounded prefix of the adjoining schedule.
+\item $R$ is the $\RegSeqRatUp$ ledger row used by real-facing finite-window consumers that record scheduled rational readbacks beside the finite family.
+\item $H$ records componentwise $\hsame$ transport for $E,A,L,M,B,S,W,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a Kuratowski finite-set request through the empty seed, adjoining steps, list spine, length, membership decision, SetLike surface, finite window, and regular-rational ledger rows.
+\item $P$ is the $\Pkg$ provenance over $\KuratowskiFiniteSetUp$, $\BoolUp$, $\ListUp$, $\NatUp$, $\SetLikeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KuratowskiFiniteSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,A,L,M,B,S,W,R,H,C,P,N$. It has no coordinate for a host finite-set type, quotient extensionality of subsets, selected representatives, powerset choice, hidden enumeration equality, or ambient subset equality.
+\end{definition}
+
+\begin{theorem}[Kuratowski finite set NameCert obligations]
+\label{thm:kuratowski-finite-set-namecert-obligations}
+For every accepted $\KuratowskiFiniteSetUp$ carrier
+$$
+K=(E,A,L,M,B,S,W,R,H,C,P,N),
+$$
+the local $\NameCert_{\KuratowskiFiniteSetUp}$ surface consists exactly of empty-stage admission through $E$, singleton-adjoining admission through $A$, list-spine exactness through $L$, unary length exposure through $M$, membership-decision readback through $B$, SetLike membership exposure through $S$, finite-window inspection through $W$, RegSeqRat ledger handoff through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:kuratowski-finite-set-carrier}. The rows $E,A,L,M,B,S,W,R,H,C,P,N$ are the full displayed inventory.
+
+The finite-set construction is read from $E,A,L,M$. The empty row starts the construction, each adjoining row records a singleton step, the list row fixes the finite spine of those steps, and the natural-number row records the length available to bounded consumers.
+
+Membership is then read through $B$ and $S$. The Boolean row records the inspected membership decision, and the SetLike row exposes that decision as the public membership surface without identifying subsets by quotient extensionality.
+
+Finite-window consumers use $W$ and $R$. StreamName opens the bounded prefix that is actually inspected, while the RegSeqRat row records the finite ledger used by real-facing schedules such as finite observations and regular rational readbacks.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no host finite-set coordinate, no powerset selector, no representative choice, and no ambient subset-equality row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KuratowskiFiniteSetUp$ read exposes the empty-stage row, singleton-adjoining row, List spine, Nat length, Bool membership decision, SetLike membership surface, StreamName finite window, RegSeqRat ledger handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any finite-window consumer reads the packet.}
+
+\independenceWitness{bool, list, nat, setlike, streamname, regseqrat: $\KuratowskiFiniteSetUp$ is not bijective to any listed sibling because it jointly binds empty-stage generation, singleton adjoining, finite spine, length, membership decision, SetLike exposure, finite-window inspection, regular-rational ledger handoff, transport, replay, provenance, and local naming while refusing host finite sets and quotient extensionality.}
+
+\closureat{KuratowskiFiniteSetUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiFiniteSetUp}
+  \constructivestory{A $\KuratowskiFiniteSetUp$ packet is generated from an empty-stage row, singleton-adjoining rows, a List spine, a Nat length row, Bool membership decisions, a SetLike membership surface, StreamName finite windows, a RegSeqRat ledger handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-finite-set-carrier} and \autoref{thm:kuratowski-finite-set-namecert-obligations} seed the Kuratowski finite-set packet over empty-stage, adjoining, finite-spine, length, membership, SetLike, StreamName, RegSeqRat, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host finite sets, quotient extensionality, powerset choice, selected representatives, hidden enumeration equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, empty-stage generation, singleton adjoining, list-spine exactness, length exposure, membership readback, finite-window handoff, ledger handoff, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.KuratowskiFiniteSetUp.}
+\end{closurestatus}
