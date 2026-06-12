@@ -771,6 +771,7 @@ import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaSubstitutionPreservationUp.ContextTransport
 import BEDC.Derived.BetaSubstitutionPreservationUp.NameCertObligations
 import BEDC.Derived.BetaSubstitutionPreservationUp.Nonescape
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexClosure
@@ -6422,6 +6423,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
+import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -6489,6 +6491,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetScope
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCompletionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10LocalityObstruction
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
@@ -7361,6 +7364,7 @@ import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.L2EnergyIdentityRoute
 import BEDC.Derived.ParsevalUp.NameCertObligations
 import BEDC.Derived.ParsevalUp.RealL2BoundaryRefusal
+import BEDC.Derived.ParsevalUp.RealSealNonescape
 import BEDC.Derived.ParsevalUp.RootCoefficientIntegralBudget
 import BEDC.Derived.ParsevalUp.RootCoefficientStability
 import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
