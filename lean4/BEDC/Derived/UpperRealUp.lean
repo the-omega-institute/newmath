@@ -173,4 +173,59 @@ theorem UpperRealCarrier_scoped_kernel_dependency_route [AskSetup] [PackageSetup
     ⟨apartUnary, windowUnary, handoffUnary, sealUnary, transportUnary, replayUnary,
       namedUnary, publicUnary⟩
 
+theorem UpperRealCarrier_located_cut_bridge [AskSetup] [PackageSetup]
+    {U0 L W R E H C P N apartRead windowRead handoffRead sealRead transportRead
+      replayRead namedRead publicRead locatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory U0 ->
+      UnaryHistory L ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont L U0 apartRead ->
+                        Cont apartRead W windowRead ->
+                          Cont windowRead R handoffRead ->
+                            Cont handoffRead E sealRead ->
+                              Cont sealRead H transportRead ->
+                                Cont transportRead C replayRead ->
+                                  Cont P N namedRead ->
+                                    Cont replayRead namedRead publicRead ->
+                                      Cont publicRead E locatedRead ->
+                                        PkgSig bundle P pkg ->
+                                          PkgSig bundle N pkg ->
+                                            PkgSig bundle publicRead pkg ->
+                                              UnaryHistory apartRead ∧
+                                                UnaryHistory windowRead ∧
+                                                  UnaryHistory handoffRead ∧
+                                                    UnaryHistory sealRead ∧
+                                                      UnaryHistory transportRead ∧
+                                                        UnaryHistory replayRead ∧
+                                                          UnaryHistory namedRead ∧
+                                                            UnaryHistory publicRead ∧
+                                                              UnaryHistory locatedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro u0Unary lUnary wUnary rUnary eUnary hUnary cUnary pUnary nUnary apartRoute
+    windowRoute handoffRoute sealRoute transportRoute replayRoute namedRoute publicRoute
+    locatedRoute pkgP pkgN pkgPublic
+  have route :=
+    UpperRealCarrier_scoped_kernel_dependency_route (U0 := U0) (L := L) (W := W)
+      (R := R) (E := E) (H := H) (C := C) (P := P) (N := N)
+      (apartRead := apartRead) (windowRead := windowRead) (handoffRead := handoffRead)
+      (sealRead := sealRead) (transportRead := transportRead) (replayRead := replayRead)
+      (namedRead := namedRead) (publicRead := publicRead) (bundle := bundle) (pkg := pkg)
+      u0Unary lUnary wUnary rUnary eUnary hUnary cUnary pUnary nUnary apartRoute windowRoute
+      handoffRoute sealRoute transportRoute replayRoute namedRoute publicRoute pkgP pkgN
+      pkgPublic
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed route.right.right.right.right.right.right.right eUnary locatedRoute
+  exact
+    ⟨route.left, route.right.left, route.right.right.left, route.right.right.right.left,
+      route.right.right.right.right.left, route.right.right.right.right.right.left,
+      route.right.right.right.right.right.right.left,
+      route.right.right.right.right.right.right.right, locatedUnary⟩
+
 end BEDC.Derived.UpperRealUp
