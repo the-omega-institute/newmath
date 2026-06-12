@@ -42,6 +42,46 @@ Read the sibling surfaces in the displayed order. The finite tail filter supplie
 The remaining rows are structural. The $\FinitePrefixLimitStabilityUp$ and $\SelectedTailSeedUp$ siblings identify the prefix-stability and selected-seed routes that may consume the same threshold, while $H,C,P,N$ only transport, replay, source, and name the rows already displayed. These rows exhaust the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Tail cofinality budget carrier obligation]
+\label{thm:tail-cofinality-budget-obligation-carrier}
+Every accepted $\TailCofinalityBudgetUp$ carrier $T=(R,W,D,Q,E,H,C,P,N)$ admits exactly the finite rows $R,W,D,Q,E,H,C,P,N$ before any Real-completion consumer may read the packet. The carrier admission route passes through the finite tail request $R$, the threshold-indexed $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $E$, and the displayed structural rows $H,C,P,N$; it exports no selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-cofinality-budget-carrier}. The tuple already lists the only admissible coordinates: a finite tail request, a stream window, a dyadic tolerance ledger, a regular-rational readback, a terminal seal, and the transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:tail-cofinality-budget-namecert-obligations}. They force every accepted consumer to expose those rows in the displayed order before the packet can be used.
+
+Finally use threshold monotonicity and filtered-tail scope, \autoref{thm:tail-cofinality-budget-threshold-monotonicity} and \autoref{thm:tail-cofinality-budget-filtered-tail-scope}. Refining the threshold keeps the same finite route, and the filtered-tail read has no coordinate from which a selected limit, quotient stream equality, host real equality, countable choice, or ambient completeness can be projected.
+\end{proof}
+
+\begin{theorem}[Tail cofinality budget classifier obligation]
+\label{thm:tail-cofinality-budget-obligation-classifier}
+Let $T=(R,W,D,Q,E,H,C,P,N)$ and $T'=(R',W',D',Q',E',H',C',P',N')$ be accepted $\TailCofinalityBudgetUp$ packets. If the visible coordinates are componentwise related by $\hsame$ along the displayed transport rows, then the classifier preserves the same finite cofinal-threshold route from $R$ through $W,D,Q,E$ and from $R'$ through $W',D',Q',E'$. The transported classifier does not add a selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the classifier from the carrier and the NameCert surface. It compares packets only through the finite threshold row, stream window, tolerance ledger, regular-rational readback, Real seal, and structural rows.
+
+Transport each displayed coordinate through the componentwise $\hsame$ row $H$ and its counterpart $H'$. The threshold row remains a finite tail request, $W,D,Q$ remain the observation and readback rows attached to that request, and $E$ remains downstream of them.
+
+Use threshold monotonicity to keep later threshold refinements inside the same route, then use filtered-tail scope to keep the Real-facing read inside the same finite tail filter. Since the absent objects are not classifier coordinates, componentwise transport cannot create them.
+\end{proof}
+
+\begin{theorem}[Tail cofinality budget ledger obligation]
+\label{thm:tail-cofinality-budget-obligation-ledger}
+Every ledger read of an accepted $\TailCofinalityBudgetUp$ packet that reaches a Real-completion consumer factors through the finite cofinal threshold route
+$$
+R \longrightarrow W \longrightarrow D \longrightarrow Q \longrightarrow E
+$$
+together with $H,C,P,N$. The ledger scope is nonescaping: after the common threshold is fixed, the consumer may refine along later finite tails, but it may not read a selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from the filtered-tail scope theorem, \autoref{thm:tail-cofinality-budget-filtered-tail-scope}. It identifies the cofinal finite-tail route and keeps later thresholds on the same displayed request row.
+
+Use threshold monotonicity for refinements beyond the common threshold. The rows $W,D,Q,E$ are preserved as the threshold-indexed window, dyadic tolerance, regular readback, and terminal seal rather than replaced by a completion object.
+
+Finally apply nonescape, \autoref{thm:tail-cofinality-budget-nonescape}. The structural rows $H,C,P,N$ transport and name the ledger route, but they do not export any selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness.
+\end{proof}
+
 \begin{theorem}[Tail cofinality budget threshold monotonicity]
 \label{thm:tail-cofinality-budget-threshold-monotonicity}
 Let $T=(R,W,D,Q,E,H,C,P,N)$ be an accepted $\TailCofinalityBudgetUp$ packet. If $T$ serves a displayed threshold and a later unary threshold refines $R$ through the same finite tail request route, then the refined packet preserves the same $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
@@ -67,6 +107,7 @@ R \longrightarrow W \longrightarrow D \longrightarrow Q \longrightarrow E
 $$
 through the finite tail filter and selected-tail seed dependencies. No selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness is exported by the filtered-tail scope.
 \end{theorem}
+\leanchecked{BEDC.Derived.TailCofinalityBudgetUp.TailCofinalityBudget\_filtered\_tail\_scope}
 \begin{proof}
 Start with threshold monotonicity. The row $R$ is the unique finite request coordinate, so every later threshold must refine the accepted packet through the same displayed request route.
 
@@ -106,12 +147,12 @@ Together these two obligations are exactly the TasteGate boundary needed before 
 \end{proof}
 \leanchecked{BEDC.Derived.TailCofinalityBudgetUp.TailCofinalityBudgetTasteGate\_obligation\_surface}
 
-\closureat{TailCofinalityBudgetUp}{seedStr}
+\closureat{TailCofinalityBudgetUp}{obligationStr}
 
 \begin{closurestatus}{\TailCofinalityBudgetUp}
   \constructivestory{A $\TailCofinalityBudgetUp$ packet is generated from a finite tail request, threshold-indexed stream window, dyadic tolerance ledger, regular-rational readback, Real seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tail-cofinality-budget-carrier}, \autoref{thm:tail-cofinality-budget-namecert-obligations}, \autoref{thm:tail-cofinality-budget-nonescape}, and \autoref{thm:tail-cofinality-budget-tastegate-obligation} bind the shared finite cofinal threshold and Real seal handoff as a finite NameCert packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:tail-cofinality-budget-carrier}, \autoref{thm:tail-cofinality-budget-namecert-obligations}, \autoref{thm:tail-cofinality-budget-threshold-monotonicity}, \autoref{thm:tail-cofinality-budget-filtered-tail-scope}, \autoref{thm:tail-cofinality-budget-nonescape}, and \autoref{thm:tail-cofinality-budget-tastegate-obligation} bind the shared finite cofinal threshold, filtered-tail route, nonescape boundary, and TasteGate obligation as a finite NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, quotient streams, selected host limits, host real equality, countable choice, or ambient Real completeness.}
