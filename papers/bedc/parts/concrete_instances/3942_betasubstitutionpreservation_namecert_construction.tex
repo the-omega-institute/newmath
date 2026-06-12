@@ -283,6 +283,20 @@ Apply codomain readback from \autoref{thm:beta-substitution-preservation-codomai
 Finally use the subject-reduction handoff \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. The discharge consumer receives the beta row through $K$ and $P$ as a finite handoff, while the other discharge rows remain outside this carrier. Thus the sibling route is substantive, but it exports no closed subject reduction.
 \end{proof}
 
+\begin{theorem}[Beta substitution preservation obligation surface]
+\label{thm:beta-substitution-preservation-obligation-surface}
+Every accepted $\BetaSubstitutionPreservationUp$ packet exposes a finite obligation surface consisting of beta-redex replay, substituted body readback, codomain readback, binder-context transport, subject-reduction handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The surface exports no host substitution function, no quotient equality of terms, no unrestricted conversion, and no closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:betasubstitutionpreservation-carrier} in order. The body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary $C_0$, substituted body row $R$, and substituted codomain row $C_1$ supply the finite redex replay and readback data.
+
+Next read the ledger and transport rows. The ledger $L$ ties the displayed readbacks to one beta case, while $H$ gives the componentwise $\hsame$ transport and $K$ gives the displayed $\Cont$ replay routes, including the binder-context and subject-reduction handoff routes.
+
+Finally read provenance and naming through $P$ and $N$. These rows keep the packet inside the local $\NameCert_{\BetaSubstitutionPreservationUp}$ surface and record which sibling boundaries are consumed.
+
+The exclusions are inspection of the same finite inventory. No coordinate of $Q$ is a host substitution function, a quotient equality of terms, unrestricted conversion, or closed subject reduction, so no accepted read of the obligation surface can export one.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
