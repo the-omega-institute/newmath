@@ -1,0 +1,11 @@
+\begin{theorem}[DyadicIntervalCover bridge-budget child witness]
+\label{thm:dyadicintervalcover-bridge-budget-child-witness}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any consumer that reads a finite-cover bridge from the bridge budget must first display the dyadic endpoint rows $L,U$, the mesh and refinement rows $M,R,V$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, and the terminal $\RealUp$ seal $A$, together with the $\BishopIntervalCompactUp$ handoff and structural rows $H,C,P,N$. Without this displayed child witness, the bridge budget is not available as a finite-cover read.
+\end{theorem}
+\begin{proof}
+Project the existing bridge budget of \autoref{thm:dyadic-interval-cover-bridge-budget}. It identifies the budget as the displayed finite route through dyadic endpoints, mesh data, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, the visible Real seal, transport, replay, provenance, and local naming.
+
+Next use \autoref{thm:dyadicintervalcover-finite-cover-bridge-scope}. That theorem forces every bridge consumer to expose the same rows before reading the budget, including the $\BishopIntervalCompactUp$ handoff and the lower-bound route faced by uniform-modulus consumers.
+
+Finally read the sibling routes named in the carrier: $\DyadicRatCoreUp$ supplies endpoint arithmetic, $\StreamNameUp$ supplies finite windows, $\RegSeqRatUp$ supplies rational readback, $\RealUp$ supplies the seal boundary, and $\BishopIntervalCompactUp$ consumes only the displayed finite membership surface. Since none of these rows contains open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient Real completeness, the child witness is exactly the finite bridge-budget display.
+\end{proof}
