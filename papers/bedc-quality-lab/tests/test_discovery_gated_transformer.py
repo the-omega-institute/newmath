@@ -46,6 +46,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_scaling_ladder_projection,
     d5_m_hardgate_rows,
     scaling_ladder_hardgate_rows,
+    _owner_refs_resolve,
     _toy_seed_surface_summary,
     default_robustness_source_payloads,
     evaluate_ablation_arm,
@@ -1089,10 +1090,54 @@ def test_dgt_scaling_ladder_missing_l0_pointer_keeps_l0_blocked(tmp_path):
     assert l0_capsule["level_state"] == "suspended"
     assert l0_capsule["promotion_status"] == "suspended-by-l0-owner-pointer"
     assert l0_capsule["l0_toy_projection_ref"] == L0_TOY_PROJECTION_REF
-    assert l0_capsule["ladder_consumption_ref"] == L0_LADDER_CONSUMPTION_REF
+    assert l0_capsule["ladder_consumption_ref"] is None
     assert l0_capsule["ladder_consumption_status"] == "suspended"
+    assert payload["source_artifacts"]["ladder_consumption_ref"] is None
+    assert payload["scaling_ladder"]["ladder_consumption_ref"] is None
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
     assert payload["scaling_ladder"]["boundary_ledger"][0]["level_id"] == "L0_toy"
+
+
+def test_dgt_scaling_ladder_missing_l0_ladder_consumption_omits_source_ref(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    l0_payload = _write_passed_dgt_l0_controls_artifact(tmp_path)
+    l0_path = tmp_path / "reports/canonical/dgt-l0-controls.json"
+    l0_payload["l0_toy_projection"].pop("ladder_consumption", None)
+    l0_path.write_text(json.dumps(l0_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_ready_dgt_l1_controls_artifact(tmp_path)
+
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    l0_capsule = payload["scaling_ladder"]["levels"][0]["claim_capsule"]
+
+    assert payload["source_artifacts"]["ladder_consumption_ref"] is None
+    assert payload["scaling_ladder"]["ladder_consumption_ref"] is None
+    assert l0_capsule["ladder_consumption_ref"] is None
+    assert l0_capsule["level_state"] == "suspended"
+    assert validate_scaling_ladder_projection(payload) == []
+
+
+def test_dgt_owner_refs_reject_unresolved_ladder_consumption_pointer(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    l0_payload = _write_passed_dgt_l0_controls_artifact(tmp_path)
+    l0_path = tmp_path / "reports/canonical/dgt-l0-controls.json"
+    l0_payload["l0_toy_projection"].pop("ladder_consumption", None)
+    l0_path.write_text(json.dumps(l0_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_ready_dgt_l1_controls_artifact(tmp_path)
+
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    payload["source_artifacts"]["ladder_consumption_ref"] = dict(L0_LADDER_CONSUMPTION_REF)
+    payload["scaling_ladder"]["ladder_consumption_ref"] = dict(L0_LADDER_CONSUMPTION_REF)
+    payload["scaling_ladder"]["levels"][0]["claim_capsule"]["ladder_consumption_ref"] = dict(L0_LADDER_CONSUMPTION_REF)
+
+    assert _owner_refs_resolve(tmp_path, payload) is False
 
 
 def test_dgt_scaling_ladder_compute_param_ledger_is_strictly_monotone(tmp_path):

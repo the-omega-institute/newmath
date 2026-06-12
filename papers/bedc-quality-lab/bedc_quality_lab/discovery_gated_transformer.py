@@ -2738,6 +2738,43 @@ def _read_l0_control_projection(root: Path) -> Mapping[str, Any] | None:
     return projection if isinstance(projection, Mapping) else None
 
 
+def _l0_ladder_consumption_ref_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any] | None:
+    if isinstance(projection, Mapping) and isinstance(projection.get("ladder_consumption"), Mapping):
+        return dict(L0_LADDER_CONSUMPTION_REF)
+    return None
+
+
+def _l0_ladder_consumption_target_resolves(root: Path) -> bool:
+    return resolve_artifact_pointer(root, artifact_pointer(L0_LADDER_CONSUMPTION_REF)) is not None
+
+
+def _owner_ladder_consumption_ref(owner_payload: Mapping[str, Any]) -> dict[str, Any] | None:
+    source_artifacts = owner_payload.get("source_artifacts")
+    if not isinstance(source_artifacts, Mapping):
+        return None
+    ref = source_artifacts.get("ladder_consumption_ref")
+    return dict(ref) if isinstance(ref, Mapping) else None
+
+
+def _payload_ladder_consumption_ref_consistent(payload: Mapping[str, Any], *, target_resolves: bool | None = None) -> bool:
+    ladder = payload.get("scaling_ladder")
+    if not isinstance(ladder, Mapping):
+        return False
+    source_ref = _owner_ladder_consumption_ref(payload)
+    top_ref = ladder.get("ladder_consumption_ref")
+    levels = ladder.get("levels")
+    capsule = levels[0].get("claim_capsule") if isinstance(levels, list) and levels and isinstance(levels[0], Mapping) else None
+    capsule_ref = capsule.get("ladder_consumption_ref") if isinstance(capsule, Mapping) else None
+    expected_ref = L0_LADDER_CONSUMPTION_REF if target_resolves is True else source_ref
+    if target_resolves is True and source_ref != L0_LADDER_CONSUMPTION_REF:
+        return False
+    if target_resolves is False and source_ref is not None:
+        return False
+    if expected_ref is None:
+        return top_ref is None and capsule_ref is None
+    return top_ref == expected_ref and capsule_ref == expected_ref
+
+
 def _read_l1_tiny_sequence_projection(root: Path) -> Mapping[str, Any] | None:
     path = root / DGT_L1_CONTROLS_ARTIFACT
     if not path.exists():
@@ -2765,7 +2802,6 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
     owner_keys = (
         "construct_suspension_ref",
         "honest_metric_review_ref",
-        "ladder_consumption_ref",
         "interpretation_boundary_ref",
         "negative_witness_sweep_ref",
         "l1_ood_mechanism_ref",
@@ -2784,33 +2820,28 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
         if not isinstance(cell, Mapping):
             return False
         if resolve_artifact_pointer(root, artifact_pointer(cell)) is None:
-            if key == "ladder_consumption_ref" and _l0_ladder_consumption_fails_closed(payload):
-                continue
             return False
+    target_resolves = _l0_ladder_consumption_target_resolves(root)
+    ladder_cell = source_artifacts.get("ladder_consumption_ref")
+    if isinstance(ladder_cell, Mapping):
+        if resolve_artifact_pointer(root, artifact_pointer(ladder_cell)) is None:
+            return False
+    elif ladder_cell is not None:
+        return False
+    if target_resolves and not isinstance(ladder_cell, Mapping):
+        return False
+    if not target_resolves and isinstance(ladder_cell, Mapping):
+        return False
+    if not _payload_ladder_consumption_ref_consistent(payload, target_resolves=target_resolves):
+        return False
     return True
-
-
-def _l0_ladder_consumption_fails_closed(payload: Mapping[str, Any]) -> bool:
-    ladder = payload.get("scaling_ladder")
-    levels = ladder.get("levels") if isinstance(ladder, Mapping) else None
-    if not isinstance(levels, list) or not levels:
-        return False
-    first = levels[0]
-    capsule = first.get("claim_capsule") if isinstance(first, Mapping) else None
-    if not isinstance(capsule, Mapping):
-        return False
-    return (
-        capsule.get("level_id") == "L0_toy"
-        and capsule.get("ladder_consumption_ref") == L0_LADDER_CONSUMPTION_REF
-        and capsule.get("ladder_consumption_status") in {"suspended", "scoped-boundary", "blocked"}
-        and capsule.get("level_state") in {"suspended", "scoped-boundary", "blocked"}
-    )
 
 
 def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
     capsule = _scaling_default_capsule("L0_toy")
     if not isinstance(projection, Mapping):
         return capsule
+    capsule["ladder_consumption_ref"] = _l0_ladder_consumption_ref_from_projection(projection)
     review_status = projection.get("review_status")
     hardgate_summary = projection.get("hardgate_statuses", {}).get("pass") if isinstance(projection.get("hardgate_statuses"), Mapping) else None
     pass_ready = (
@@ -2891,7 +2922,7 @@ def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
             "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
             "review_status_ref": dict(L0_REVIEW_STATUS_REF),
             "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
-            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
+            "ladder_consumption_ref": None,
             "review_status_alias": "missing",
             "ladder_consumption_status": "suspended",
             "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
@@ -3364,7 +3395,7 @@ def build_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> dict[st
         "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
         "review_status_ref": dict(L0_REVIEW_STATUS_REF),
         "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
-        "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
+        "ladder_consumption_ref": _owner_ladder_consumption_ref(owner_payload),
         "level_state": "l0-open" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
         "promotion_status": "l0-open-only" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
         "opened_levels": opened_levels,
@@ -3473,8 +3504,11 @@ def validate_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> list
         errors.append("DGT scaling ladder review status pointer mismatch")
     if payload.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
         errors.append("DGT scaling ladder hardgate summary pointer mismatch")
-    if payload.get("ladder_consumption_ref") != L0_LADDER_CONSUMPTION_REF:
+    expected_ladder_ref = _owner_ladder_consumption_ref(owner_payload)
+    if payload.get("ladder_consumption_ref") != expected_ladder_ref:
         errors.append("DGT scaling ladder ladder consumption pointer mismatch")
+    if not _payload_ladder_consumption_ref_consistent(owner_payload):
+        errors.append("DGT scaling ladder ladder consumption pointer co-presence mismatch")
     opened = payload.get("opened_levels")
     if not isinstance(opened, list):
         errors.append("DGT scaling ladder opened levels mismatch")
@@ -3543,6 +3577,8 @@ class DiscoveryGatedTransformerProjector:
         self.d5_o_surface_summary = dict(d5_o_surface_summary) if d5_o_surface_summary is not None else None
 
     def project(self, *, generated_at: str) -> dict[str, Any]:
+        l0_projection = _read_l0_control_projection(self.root)
+        ladder_consumption_ref = _l0_ladder_consumption_ref_from_projection(l0_projection)
         payload = {
             "schema_id": SCHEMA_ID,
             "artifact_id": ARTIFACT_ID,
@@ -3556,7 +3592,7 @@ class DiscoveryGatedTransformerProjector:
             "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
             "construct_suspension_ref": dict(L0_CONSTRUCT_SUSPENSION_REF),
             "honest_metric_review_ref": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.honest_metric_review"},
-            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
+            "ladder_consumption_ref": ladder_consumption_ref,
             "interpretation_boundary_ref": dict(L1_INTERPRETATION_BOUNDARY_REF),
             "negative_witness_sweep_ref": dict(L1_NEGATIVE_WITNESS_SWEEP_REF),
             "l1_ood_mechanism_ref": dict(L1_OOD_MECHANISM_REF),
@@ -3604,7 +3640,7 @@ class DiscoveryGatedTransformerProjector:
         payload["d5_m_projection"] = build_d5_m_projection(payload)
         payload["scaling_ladder"] = {
             "levels": [
-                {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(_read_l0_control_projection(self.root))},
+                {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(l0_projection)},
                 {
                     "level_id": "L1_tiny_sequence",
                     "claim_capsule": _l1_capsule_from_projection(_read_l1_tiny_sequence_projection(self.root)),
@@ -3663,7 +3699,6 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     expected_owner_refs = {
         "construct_suspension_ref": L0_CONSTRUCT_SUSPENSION_REF,
         "honest_metric_review_ref": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.honest_metric_review"},
-        "ladder_consumption_ref": L0_LADDER_CONSUMPTION_REF,
         "interpretation_boundary_ref": L1_INTERPRETATION_BOUNDARY_REF,
         "negative_witness_sweep_ref": L1_NEGATIVE_WITNESS_SWEEP_REF,
         "l1_ood_mechanism_ref": L1_OOD_MECHANISM_REF,
@@ -3671,6 +3706,11 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     for key, expected_ref in expected_owner_refs.items():
         if source_artifacts.get(key) != expected_ref:
             raise ValueError(f"DGT owner ref mismatch: {key}")
+    ladder_ref = source_artifacts.get("ladder_consumption_ref")
+    if ladder_ref is not None and ladder_ref != L0_LADDER_CONSUMPTION_REF:
+        raise ValueError("DGT owner ref mismatch: ladder_consumption_ref")
+    if not _payload_ladder_consumption_ref_consistent(payload):
+        raise ValueError("DGT ladder consumption pointer co-presence mismatch")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
     validate_component_ablation(payload["component_ablation"])

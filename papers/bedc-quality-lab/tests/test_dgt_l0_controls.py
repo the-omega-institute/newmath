@@ -413,9 +413,12 @@ def test_arm_label_permutation_invariance():
 
 
 def test_feature_audit_demotes_dgt_only_target_signal():
-    torch = pytest.importorskip("torch")
-    x, _y, target_signal = dgt_l0_controls._surface_suite(torch, dgt_l0_controls.REPLAY_SEEDS[0], device_name="cpu")
-    _phi, audit = dgt_l0_controls._features_with_forbidden_target_signal(torch, x, target_signal)
+    audit = dgt_l0_controls._measured_feature_audit(
+        arm_label="DGT_full",
+        feature_columns=["x", "x0_times_x1", "x2_minus_x3", "abs(target_signal)"],
+        shared_feature_columns=["x", "x0_times_x1", "x2_minus_x3"],
+        declared_shared_across_controls=False,
+    )
     outcome = dgt_l0_controls.MeasuredL0Outcome(
         arm_label="DGT_full",
         seed=1,
