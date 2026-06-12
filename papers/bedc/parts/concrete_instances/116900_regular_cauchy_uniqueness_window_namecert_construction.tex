@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyUniquenessWindowUp$}
+\label{ch:concrete-instances-regular-cauchy-uniqueness-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyUniquenessWindowUp$ packet records the finite-window theorem surface by which two regular Cauchy rational names are read as the same real only after a displayed modulus window has compared their rational tails. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite L10 uniqueness route for Real and Completion consumers; it is not quotient stream equality, a selected canonical representative, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy uniqueness-window carrier]
+\label{def:regular-cauchy-uniqueness-window-carrier}
+A $\RegularCauchyUniquenessWindowUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,S,R,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row, exposing dyadic addition, subtraction, absolute-value, and comparison data used inside the finite window.
+\item $S$ is the $\StreamNameUp$ source row, recording the two inspected rational streams and the finite indices requested by the consumer.
+\item $R$ is the $\RegSeqRatUp$ regularity row, exposing the displayed Cauchy moduli and rational readbacks for the two names.
+\item $W$ is the uniqueness-window row, listing the finite tail bound, the two tail indices, and the dyadic tolerance at which the names are compared.
+\item $E$ is the $\RealUp$ seal row, recording only the terminal real-name read permitted after the displayed comparison has passed through $D,S,R,W$.
+\item $H$ records componentwise $\hsame$ transport for $D,S,R,W,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion uniqueness request through
+$$
+D,S,R \longmapsto W \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyUniquenessWindowUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyUniquenessWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,W,E,H,C,P,N$. It has no coordinate for quotient streams, hidden representatives, unrestricted equality of host reals, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy uniqueness-window NameCert obligations]
+\label{thm:regular-cauchy-uniqueness-window-namecert-obligations}
+For every accepted $\RegularCauchyUniquenessWindowUp$ carrier $U=(D,S,R,W,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyUniquenessWindowUp}$ surface consists exactly of dyadic arithmetic admission through $D$, stream-name exposure through $S$, regular rational readback through $R$, uniqueness-window comparison through $W$, terminal real-name sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $D,S,R,W,E,H,C,P,N$ are the entire inventory exposed to a Real or Completion consumer.
+
+The arithmetic, stream, and regularity data are read before any equality-facing conclusion is available. The row $D$ supplies the dyadic comparisons, $S$ supplies the inspected stream windows, and $R$ supplies the regular Cauchy moduli.
+
+The uniqueness step is finite. The window row $W$ records the tail indices and tolerance that allow the two regular names to be compared at the requested precision, and the real-name seal $E$ is reached only after that row is displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since none of these rows contains quotient stream equality, a hidden canonical representative, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy uniqueness-window route]
+\label{thm:regular-cauchy-uniqueness-window-route}
+Every Real or Completion consumer that reads an accepted $\RegularCauchyUniquenessWindowUp$ packet must factor its uniqueness request through
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp
+\longmapsto
+W
+\longmapsto
+\RealUp,H,C,P,N .
+$$
+The consumer receives dyadic arithmetic, two finite stream windows, regular Cauchy readback, a displayed uniqueness window, a terminal real-name seal, componentwise transport, replay, provenance, and local naming. It receives no quotient stream equality, no selected representative, no countable-choice branch, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a uniqueness-facing read of two regular Cauchy names. The source streams are visible only through $S$, and their rational arithmetic is visible only through $D$.
+
+Use the regularity row $R$ to obtain the displayed tail moduli. The packet then exposes $W$, which stores the finite tolerance and the two tail indices used by the comparison.
+
+After this finite comparison, the route may pass to the real-name seal $E$. Transport, replay, provenance, and local naming preserve the same route through $H,C,P,N$.
+
+Thus the exported uniqueness read is exactly the finite window named in the statement. Any read requiring quotient streams, selected representatives, countable choice, or ambient completeness would require a carrier coordinate that $U$ does not contain.
+\end{proof}
+
+\falsifiablePrediction{Every public $\RegularCauchyUniquenessWindowUp$ uniqueness read factors through dyadic arithmetic, two finite stream windows, regular rational readback, a displayed tail-comparison window, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. A public read that exports quotient stream equality, a selected representative, countable choice, or ambient completeness from this packet refutes the carrier boundary.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyUniquenessWindowUp$ is not bijective to any listed sibling because it jointly carries dyadic arithmetic, two inspected stream windows, regular Cauchy moduli, a uniqueness-window comparison, real-name sealing, transport, replay, provenance, and local naming while refusing quotient equality, selected representatives, choice, and ambient completeness.}
+
+\closureat{RegularCauchyUniquenessWindowUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyUniquenessWindowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-uniqueness-window-carrier}, \autoref{thm:regular-cauchy-uniqueness-window-namecert-obligations}, and \autoref{thm:regular-cauchy-uniqueness-window-route} seed the finite uniqueness-window theorem surface over DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected canonical representatives, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dyadic arithmetic admission, stream-window exposure, regular Cauchy readback, tail-comparison exactness, real-name sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyUniquenessWindowUp.}
+  \constructivestory{A $\RegularCauchyUniquenessWindowUp$ packet is generated from dyadic arithmetic rows, two stream-name windows, regular rational readbacks, a uniqueness-window comparison row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
