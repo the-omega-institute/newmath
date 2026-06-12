@@ -44,8 +44,10 @@ def v6(word: tuple[int, ...]) -> int:
 
 
 def fib(index: int) -> int:
-    if index <= 0:
-        raise ValueError("Fibonacci index must be positive")
+    if index < 0:
+        raise ValueError("Fibonacci index must be nonnegative")
+    if index == 0:
+        return 0
     previous, current = 1, 1
     if index <= 2:
         return 1
@@ -161,12 +163,22 @@ def main() -> None:
     )
     expected_charpoly = sp.factor((z - 1) * (55 * z**3 + 506 * z**2 - 7263 * z - 48114) / 48114)
     phi = sp.Rational(1, 2) * (1 + sp.sqrt(5))
-    dstar_assembly_left = sp.factor(
-        47 + phi**-7 * (1 - sp.Rational(1, 2) * phi**-10 + sp.Rational(8, 9) * phi**-20)
-    )
+    u = sp.symbols("u")
+    D = sp.symbols("D")
+    q0 = sp.Integer(1)
+    q1 = -sp.Rational(1, 2)
+    q2 = sp.Rational(8, 9)
+    Q6_alpha = q0 + q1 * u + q2 * u**2
+    s6 = 6 + 1
+    dstar_assembly_left = sp.factor(47 + phi**-s6 * Q6_alpha.subs(u, phi**-10))
     dstar_assembly_right = sp.factor(
         47 + phi**-7 - sp.Rational(1, 2) * phi**-17 + sp.Rational(8, 9) * phi**-27
     )
+    C6 = sp.Rational(1, 2) + sp.Rational(1, 4) * sp.cos(sp.pi / phi) ** 2 + 1 / (D * phi**5)
+    R6_from_fibonacci = 2 * sp.pi * (fib(8) + fib(9) * C6) / (
+        fib(8) * phi ** -(fib(5) + fib(2)) + fib(9) * C6 * phi ** -(fib(5) + fib(3))
+    )
+    R6_readout = 2 * sp.pi * (21 + 34 * C6) / (21 * phi**-6 + 34 * C6 * phi**-7)
     a0 = sp.Matrix(
         [
             [sp.Rational(1, 2), sp.Rational(1, 2), 0, sp.Rational(1, 2)],
@@ -212,9 +224,8 @@ def main() -> None:
     stationary_ok = stationary_pi == data["pi"]
     delta_r_equal = sp.simplify(data["Delta_R"] - expected_delta_r) == 0
     charpoly_equal = sp.simplify(data["charpoly"] - expected_charpoly) == 0
-    fib_le_63 = [(index, fib(index)) for index in range(1, 12) if fib(index) <= 63]
-    k6 = max(index - 1 for index, value in fib_le_63 if value <= 63)
-    r6 = k6 + 1
+    fib_le_63 = [(index, fib(index)) for index in range(0, 12) if fib(index) <= 63]
+    rho6 = max(index for index, value in fib_le_63 if value <= 63)
 
     checks = [
         check(
@@ -283,19 +294,24 @@ def main() -> None:
             "D_0=47=F_9+F_7=F_10-F_6 with F_6=8,F_7=13,F_9=34,F_10=55",
         ),
         check(
-            "seam_index_s6_7",
-            6 + 1 == 7,
-            "s_6=m+1=7 is the first beyond-window seam for m=6",
+            "seam_s6_formula",
+            s6 == 6 + 1 == 7,
+            "s_6=m+1=7 by definition; this is not a residual-seam forcedness proof",
         ),
         check(
-            "return_step_r6_10",
-            fib(10) == 55 and fib(11) == 89 and fib(10) <= 63 < fib(11) and k6 == 9 and r6 == 10,
-            "F_10=55<=63<F_11=89, so K(6)=9 and r_6=K(6)+1=10",
+            "rho6_formula",
+            fib(10) == 55 and fib(11) == 89 and fib(10) <= 63 < fib(11) and rho6 == 10,
+            "rho_6=max{k:F_k<=2^6-1}=10 because F_10=55<=63<F_11=89; this is not a local-return forcedness proof",
         ),
         check(
-            "dstar_assembly_identity",
+            "functor_expansion",
             sp.simplify(dstar_assembly_left - dstar_assembly_right) == 0,
-            "47+phi^-7*(1-(1/2)phi^-10+(8/9)phi^-20) is definitionally 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; this is not a forcedness proof",
+            "definition expansion: Rcal_6(47,Q)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; NOT a forcedness proof",
+        ),
+        check(
+            "R6_readout_definition",
+            sp.simplify(R6_from_fibonacci - R6_readout) == 0,
+            "definition expansion: R_6(D)=2*pi*(21+34 C_6(D))/(21 phi^-6+34 C_6(D) phi^-7) with C_6(D)=1/2+1/4 cos^2(pi/phi)+1/(D phi^5); no value at D*_6 is evaluated",
         ),
         check(
             "a0_charpoly",
@@ -351,13 +367,20 @@ def main() -> None:
             },
             "golden_local_response_indices": {
                 "s_6": 7,
-                "r_6": 10,
-                "K_6": 9,
+                "rho_6": rho6,
                 "tail_bound": "F_10=55<=63<F_11=89",
             },
+            "definition_ready": [
+                "R_6 readout function",
+                "GoldenLocalResponseFunctor_6 (rho_m=max{k:F_k<=2^m-1}, s_m=m+1)",
+            ],
             "dstar_assembly_identity": (
                 "D_0+phi^-7 Q(phi^-10)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27 "
-                "with Q(u)=1-(1/2)u+(8/9)u^2; definitional re-expression only"
+                "with Q(u)=1-(1/2)u+(8/9)u^2; definition expansion only, NOT a forcedness proof"
+            ),
+            "R6_readout_definition": (
+                "R_6(D)=2*pi*(21+34 C_6(D))/(21 phi^-6+34 C_6(D) phi^-7), "
+                "C_6(D)=1/2+(1/4)cos^2(pi/phi)+1/(D phi^5); no physical readout value is evaluated"
             ),
             "a0_forward_spectral_certificate": {
                 "A_0": sympy_fraction_matrix_record(a0),
@@ -375,13 +398,15 @@ def main() -> None:
                 "Parry_kernel_charpoly": str(parry_charpoly),
             },
             "obligations_not_verified": [
-                "GoldenLocalResponseFunctor form necessity",
+                "GoldenLocalResponseFunctor forcedness (seam/local-return/forced mapping)",
+                "s_6=7 residual-seam forcedness",
+                "rho_6=10 local-return forcedness",
                 "Delta_R'(z)>0 monotonicity",
                 "physical representation bridge R_6(D*)=alpha^-1",
             ],
             "not_claimed": [
-                "D*_6 golden-local-response coefficient package",
-                "fine-structure readout",
+                "GoldenLocalResponseFunctor_6 forcedness",
+                "R_6(D*_6) as a physical readout",
                 "physical constant identification",
             ],
         },
