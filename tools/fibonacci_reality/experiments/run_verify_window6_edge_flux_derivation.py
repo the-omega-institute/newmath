@@ -31,6 +31,10 @@ def matrix_fraction_record(matrix: list[list[Fraction]]) -> list[list[dict[str, 
     return [[fraction_record(value) for value in row] for row in matrix]
 
 
+def sympy_fraction_matrix_record(matrix: sp.Matrix) -> list[list[str]]:
+    return [[str(matrix[row, column]) for column in range(matrix.cols)] for row in range(matrix.rows)]
+
+
 def word_string(word: tuple[int, ...]) -> str:
     return "".join(str(bit) for bit in word)
 
@@ -40,8 +44,10 @@ def v6(word: tuple[int, ...]) -> int:
 
 
 def fib(index: int) -> int:
-    if index <= 0:
-        raise ValueError("Fibonacci index must be positive")
+    if index < 0:
+        raise ValueError("Fibonacci index must be nonnegative")
+    if index == 0:
+        return 0
     previous, current = 1, 1
     if index <= 2:
         return 1
@@ -148,6 +154,7 @@ def derive() -> dict[str, Any]:
 def main() -> None:
     data = derive()
     z = data["z"]
+    lam = sp.symbols("lam")
 
     expected_edge_matrix = [[28, 63, 23, 20], [63, 21, 21, 6], [23, 21, 2, 6], [20, 6, 6, 2]]
     expected_delta_r = sp.factor(
@@ -156,12 +163,45 @@ def main() -> None:
     )
     expected_charpoly = sp.factor((z - 1) * (55 * z**3 + 506 * z**2 - 7263 * z - 48114) / 48114)
     phi = sp.Rational(1, 2) * (1 + sp.sqrt(5))
-    dstar_assembly_left = sp.factor(
-        47 + phi**-7 * (1 - sp.Rational(1, 2) * phi**-10 + sp.Rational(8, 9) * phi**-20)
-    )
+    u = sp.symbols("u")
+    D = sp.symbols("D")
+    q0 = sp.Integer(1)
+    q1 = -sp.Rational(1, 2)
+    q2 = sp.Rational(8, 9)
+    Q6_alpha = q0 + q1 * u + q2 * u**2
+    s6 = 6 + 1
+    dstar_assembly_left = sp.factor(47 + phi**-s6 * Q6_alpha.subs(u, phi**-10))
     dstar_assembly_right = sp.factor(
         47 + phi**-7 - sp.Rational(1, 2) * phi**-17 + sp.Rational(8, 9) * phi**-27
     )
+    C6 = sp.Rational(1, 2) + sp.Rational(1, 4) * sp.cos(sp.pi / phi) ** 2 + 1 / (D * phi**5)
+    R6_from_fibonacci = 2 * sp.pi * (fib(8) + fib(9) * C6) / (
+        fib(8) * phi ** -(fib(5) + fib(2)) + fib(9) * C6 * phi ** -(fib(5) + fib(3))
+    )
+    R6_readout = 2 * sp.pi * (21 + 34 * C6) / (21 * phi**-6 + 34 * C6 * phi**-7)
+    a0 = sp.Matrix(
+        [
+            [sp.Rational(1, 2), sp.Rational(1, 2), 0, sp.Rational(1, 2)],
+            [0, 0, sp.Rational(1, 2), 0],
+            [sp.Rational(1, 2), 1, 0, 0],
+            [sp.Rational(1, 2), 0, 0, 0],
+        ]
+    )
+    expected_a0_charpoly = sp.factor((lam - 1) * (2 * lam - 1) * (2 * lam + 1) ** 2 / 8)
+    a0_charpoly = sp.factor(a0.charpoly(lam).as_expr())
+    a0_eigenvals = a0.eigenvals()
+    neghalf_kernel_rank = (a0 + sp.Rational(1, 2) * sp.eye(4)).rank()
+    neghalf_geometric_multiplicity = 4 - neghalf_kernel_rank
+    parry_kernel = sp.Matrix(
+        [
+            [sp.Rational(1, 2), sp.Rational(1, 4), 0, sp.Rational(1, 4)],
+            [0, 0, 1, 0],
+            [sp.Rational(1, 2), sp.Rational(1, 2), 0, 0],
+            [1, 0, 0, 0],
+        ]
+    )
+    parry_charpoly = sp.factor(parry_kernel.charpoly(lam).as_expr())
+    parry_row_stochastic = all(sum(parry_kernel[row, column] for column in range(4)) == 1 for row in range(4))
 
     x6_count = len(data["X6"])
     stable_counts = [len(block) for block in data["stable_blocks"]]
@@ -184,9 +224,8 @@ def main() -> None:
     stationary_ok = stationary_pi == data["pi"]
     delta_r_equal = sp.simplify(data["Delta_R"] - expected_delta_r) == 0
     charpoly_equal = sp.simplify(data["charpoly"] - expected_charpoly) == 0
-    fib_le_63 = [(index, fib(index)) for index in range(1, 12) if fib(index) <= 63]
-    k6 = max(index - 1 for index, value in fib_le_63 if value <= 63)
-    r6 = k6 + 1
+    fib_le_63 = [(index, fib(index)) for index in range(0, 12) if fib(index) <= 63]
+    rho6 = max(index for index, value in fib_le_63 if value <= 63)
 
     checks = [
         check(
@@ -255,19 +294,44 @@ def main() -> None:
             "D_0=47=F_9+F_7=F_10-F_6 with F_6=8,F_7=13,F_9=34,F_10=55",
         ),
         check(
-            "seam_index_s6_7",
-            6 + 1 == 7,
-            "s_6=m+1=7 is the first beyond-window seam for m=6",
+            "seam_s6_formula",
+            s6 == 6 + 1 == 7,
+            "s_6=m+1=7 by definition; this is not a residual-seam forcedness proof",
         ),
         check(
-            "return_step_r6_10",
-            fib(10) == 55 and fib(11) == 89 and fib(10) <= 63 < fib(11) and k6 == 9 and r6 == 10,
-            "F_10=55<=63<F_11=89, so K(6)=9 and r_6=K(6)+1=10",
+            "rho6_formula",
+            fib(10) == 55 and fib(11) == 89 and fib(10) <= 63 < fib(11) and rho6 == 10,
+            "rho_6=max{k:F_k<=2^6-1}=10 because F_10=55<=63<F_11=89; this is not a local-return forcedness proof",
         ),
         check(
-            "dstar_assembly_identity",
+            "functor_expansion",
             sp.simplify(dstar_assembly_left - dstar_assembly_right) == 0,
-            "47+phi^-7*(1-(1/2)phi^-10+(8/9)phi^-20) is definitionally 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; this is not a forcedness proof",
+            "definition expansion: Rcal_6(47,Q)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; NOT a forcedness proof",
+        ),
+        check(
+            "R6_readout_definition",
+            sp.simplify(R6_from_fibonacci - R6_readout) == 0,
+            "definition expansion: R_6(D)=2*pi*(21+34 C_6(D))/(21 phi^-6+34 C_6(D) phi^-7) with C_6(D)=1/2+1/4 cos^2(pi/phi)+1/(D phi^5); no value at D*_6 is evaluated",
+        ),
+        check(
+            "a0_charpoly",
+            sp.simplify(a0_charpoly - expected_a0_charpoly) == 0,
+            "the explicit paper-sourced A_0 has det(lam I - A_0)=(lam-1)(2lam-1)(2lam+1)^2/8 by exact rational linear algebra",
+        ),
+        check(
+            "a0_spectrum",
+            a0_eigenvals == {sp.Integer(1): 1, sp.Rational(1, 2): 1, sp.Rational(-1, 2): 2},
+            "spec(A_0)={1,1/2,-1/2}, with algebraic multiplicity 2 at -1/2",
+        ),
+        check(
+            "neghalf_jordan_2x2",
+            neghalf_kernel_rank == 3 and neghalf_geometric_multiplicity == 1,
+            "rank(A_0+(1/2)I)=3, so the -1/2 eigenspace is one-dimensional and the algebraic multiplicity two is one 2x2 Jordan block",
+        ),
+        check(
+            "parry_kernel_same_spectrum",
+            parry_row_stochastic and sp.simplify(parry_charpoly - expected_a0_charpoly) == 0,
+            "the Parry kernel P is row-stochastic and has the same characteristic polynomial as A_0",
         ),
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
@@ -276,6 +340,9 @@ def main() -> None:
         "checks": checks,
         "result": {
             "anti_fit_guard": "All displayed quantities are outputs of finite predicates: X_6 enumeration, stable four-block decomposition, Foldbin tail-cube fibers, Q_6 edge enumeration, and rational Green resolvent.",
+            "paper_sourced_inputs": [
+                "A_0 fold-gauge operator (uniform-baseline mismatch-indicator weighted adjacency)",
+            ],
             "X6_count": x6_count,
             "stable_block_counts": dict(zip(LABELS, stable_counts)),
             "boundary_words": boundary_words,
@@ -300,23 +367,46 @@ def main() -> None:
             },
             "golden_local_response_indices": {
                 "s_6": 7,
-                "r_6": 10,
-                "K_6": 9,
+                "rho_6": rho6,
                 "tail_bound": "F_10=55<=63<F_11=89",
             },
+            "definition_ready": [
+                "R_6 readout function",
+                "GoldenLocalResponseFunctor_6 (rho_m=max{k:F_k<=2^m-1}, s_m=m+1)",
+            ],
             "dstar_assembly_identity": (
                 "D_0+phi^-7 Q(phi^-10)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27 "
-                "with Q(u)=1-(1/2)u+(8/9)u^2; definitional re-expression only"
+                "with Q(u)=1-(1/2)u+(8/9)u^2; definition expansion only, NOT a forcedness proof"
             ),
+            "R6_readout_definition": (
+                "R_6(D)=2*pi*(21+34 C_6(D))/(21 phi^-6+34 C_6(D) phi^-7), "
+                "C_6(D)=1/2+(1/4)cos^2(pi/phi)+1/(D phi^5); no physical readout value is evaluated"
+            ),
+            "a0_forward_spectral_certificate": {
+                "A_0": sympy_fraction_matrix_record(a0),
+                "charpoly": str(a0_charpoly),
+                "spectrum_with_algebraic_multiplicity": {
+                    "1": 1,
+                    "1/2": 1,
+                    "-1/2": 2,
+                },
+                "rank_A0_plus_half_I": neghalf_kernel_rank,
+                "geometric_multiplicity_at_minus_half": neghalf_geometric_multiplicity,
+                "jordan_statement": "-1/2 has algebraic multiplicity 2 and geometric multiplicity 1, hence one 2x2 Jordan block",
+                "Parry_kernel_P": sympy_fraction_matrix_record(parry_kernel),
+                "Parry_kernel_row_stochastic": parry_row_stochastic,
+                "Parry_kernel_charpoly": str(parry_charpoly),
+            },
             "obligations_not_verified": [
-                "GoldenLocalResponseFunctor form necessity",
-                "-1/2 AlternatingJordanMode A_0 spectrum",
+                "GoldenLocalResponseFunctor forcedness (seam/local-return/forced mapping)",
+                "s_6=7 residual-seam forcedness",
+                "rho_6=10 local-return forcedness",
                 "Delta_R'(z)>0 monotonicity",
                 "physical representation bridge R_6(D*)=alpha^-1",
             ],
             "not_claimed": [
-                "D*_6 golden-local-response coefficient package",
-                "fine-structure readout",
+                "GoldenLocalResponseFunctor_6 forcedness",
+                "R_6(D*_6) as a physical readout",
                 "physical constant identification",
             ],
         },
