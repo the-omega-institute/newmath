@@ -17,10 +17,15 @@ from bedc_quality_lab.discovery_regularized_training import (
     _training_mechanism_cert,
 )
 from bedc_quality_lab import dgt_l0_controls as dgt_l0_controls_owner
+from bedc_quality_lab import dgt_l1_boundary_report as dgt_l1_boundary_report_owner
+from bedc_quality_lab import dgt_l1_controls as dgt_l1_controls_owner
 from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
 from bedc_quality_lab.discovery_gated_transformer import (
     DGT_L0_CONTROLS_ARTIFACT,
+    DGT_L1_BOUNDARY_REPORT_ARTIFACT,
+    DGT_L1_CONTROLS_ARTIFACT,
     L0_HARDGATE_SUMMARY_REF,
+    L0_LADDER_CONSUMPTION_REF,
     L0_REVIEW_STATUS_REF,
     L0_TOY_PROJECTION_REF,
 )
@@ -227,7 +232,9 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
             "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
             "review_status_ref": dict(L0_REVIEW_STATUS_REF),
             "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "review_status_alias": "pass",
+            "ladder_consumption_status": "open",
             "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
             "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
             "level_state": "open",
@@ -248,12 +255,17 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
         return {
             "level_id": level_id,
             "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+            "pointer": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block",
+            "controls_projection_pointer": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection",
             "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
             "review_status_alias": "pass",
             "promotion_readiness_alias": "ready-pass",
-            "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
-            "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+            "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
+            "scaling_claim_block_status": "unblocked",
+            "scaling_claim_block_status_source": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block",
+            "fair_rebuild_status_alias": "resolved-pass",
+            "fair_rebuild_status_alias_source": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block.fair_rebuild_status",
             "level_state": "ready",
             "promotion_status": "level-local-evidence-ready",
             "boundary_ledger": [],
@@ -303,6 +315,11 @@ def _minimal_payload(spec):
     if spec.name == "dgt-l0-controls":
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
         return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-l1-controls":
+        payload = dgt_l1_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-l1-boundary-report":
+        return dgt_l1_boundary_report_owner.build_l1_boundary_report(root=canonical.ROOT, generated_at="fixture-time")
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -1534,9 +1551,11 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    eligible_specs = canonical._discovery_map_reports()
 
-    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in canonical.CANONICAL_REPORTS]
-    assert payload["row_count"] == len(canonical.CANONICAL_REPORTS)
+    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in eligible_specs]
+    assert payload["row_count"] == len(eligible_specs)
+    assert "dgt-l1-boundary-report" not in {row["report"] for row in payload["rows"]}
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 
@@ -2925,7 +2944,11 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
 
-    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    try:
+        payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    except SystemExit as exc:
+        assert exc.code == 1
+        payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
 
     assert payload["discovery_map"]["json_artifact"] == "reports/canonical/discovery_map.json"
     assert payload["discovery_map"]["markdown_artifact"] == "reports/canonical/discovery_map.md"
@@ -2961,6 +2984,9 @@ def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
     assert payload["manifest_audit"]["unregistered_json_artifacts"] == [
+        "reports/canonical/dgt-l1-boundary-report.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/high-impact-review.json",
         "reports/canonical/unregistered-extra.json",
     ]
 

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "89a9c783529ff0909e5674dabe55d7fc5e609d3d0ba6b6abc015281d7271d438",
+  "input_fingerprint": "ef85c30cc3263279252520a2236ef5c3f835e5f382df795684dc9f4c02ccbdec",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -33,20 +33,24 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/input_accessibility.py",
-        "sha256": "88246fbd8404d980649d12d9372bdfbf4c2613dea5c802e11ba1e8cae60ecb27"
+        "path": "bedc_quality_lab/dgt_l1_boundary_report.py",
+        "sha256": "821a93956e130412a879d77edcdbd08a1d2b6fe82d42dd0beec81ac556b1b7be"
       },
       {
-        "path": "scripts/run_input_accessibility_audit.py",
-        "sha256": "e498d7c6d13416fec2b0c721fac599e3a7254e8271029d021712ec51758e0280"
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "scripts/run_dgt_l1_boundary_report.py",
+        "sha256": "22d822d54a96c033e45c3ef254a2cbaaba273f58efe4b5d7cf1a0e3e05fd8874"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:input-accessibility",
+    "report_output_schema_id": "bedc-quality-lab:dgt-l1-boundary-report",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_input_accessibility_audit.py"
+        "scripts/run_dgt_l1_boundary_report.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -55,14 +59,14 @@
     "source_artifacts": [],
     "spec": {
       "bundle_role": "auxiliary",
-      "claim_promotion_eligible": true,
+      "claim_promotion_eligible": false,
       "command": [
         "python3",
-        "scripts/run_input_accessibility_audit.py"
+        "scripts/run_dgt_l1_boundary_report.py"
       ],
       "construct_validity_pointer": null,
-      "control_pointer": "$.source_registry",
-      "cost_pointer": "$.source_registry",
+      "control_pointer": null,
+      "cost_pointer": "$.cost_protocol",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
@@ -70,41 +74,44 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/input-accessibility.json",
+      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/input-accessibility.md",
-      "name": "input-accessibility",
-      "no_control_rationale_pointer": null,
+      "markdown_artifact": "reports/canonical/dgt-l1-boundary-report.md",
+      "name": "dgt-l1-boundary-report",
+      "no_control_rationale_pointer": "$.claim_promotion_exclusion",
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.access_hardgates.status",
+      "positive_claim_pointer": "$.claim_promotion_exclusion",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
-        "producer",
-        "owner",
-        "source_registry",
-        "registry_digest",
-        "visible_variables",
-        "required_variables",
-        "rows",
-        "row_count",
-        "access_hardgates",
-        "ood_hardgates",
-        "boundary_ledger",
-        "consumer_pointers",
+        "artifact_role",
+        "source_artifacts",
+        "cost_protocol",
+        "task_formula",
+        "feature_reachability",
+        "base_bayes_ceiling",
+        "ood_solvability",
+        "table_coverage_ceiling",
+        "negative_witness_refs",
+        "boundary_decision",
+        "required_redesign",
+        "claim_promotion_eligible",
+        "claim_promotion_exclusion",
+        "scaling_claim_block",
+        "hardgates",
         "not_claimed"
       ],
-      "scope_pointer": "$.not_claimed"
+      "scope_pointer": "$.boundary_decision"
     }
   },
-  "json_artifact": "reports/canonical/input-accessibility.json",
-  "markdown_artifact": "reports/canonical/input-accessibility.md",
-  "output_digest": "2614c56a703a17fb2cdf4d1ce759b8ad9ad586ddda37847734ceef5b9118c0c2",
+  "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+  "markdown_artifact": "reports/canonical/dgt-l1-boundary-report.md",
+  "output_digest": "6625352e97e6659b3b9b032851688ceedaf1b91d6be972216c4d0c1fae0dfdeb",
   "producer_command": [
     "python3",
-    "scripts/run_input_accessibility_audit.py"
+    "scripts/run_dgt_l1_boundary_report.py"
   ],
-  "report_name": "input-accessibility",
+  "report_name": "dgt-l1-boundary-report",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

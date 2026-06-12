@@ -1,0 +1,250 @@
+{
+  "artifact_id": "bedc-quality-lab:dgt-l1-boundary-report",
+  "artifact_role": "boundary_block",
+  "base_bayes_ceiling": {
+    "computed_value": 0.0625,
+    "formula": "max_y P(y | x_{t-1}) = 1 / 16",
+    "inputs": {
+      "class_count": 16
+    },
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec.vocab_size",
+    "status": "closed"
+  },
+  "boundary_decision": {
+    "basis_pointers": [
+      "$.feature_reachability",
+      "$.base_bayes_ceiling",
+      "$.ood_solvability",
+      "$.table_coverage_ceiling",
+      "$.negative_witness_refs"
+    ],
+    "decision": "L1 construct validity does not support a scaling claim",
+    "kind": "information-access-boundary",
+    "status": "blocked"
+  },
+  "claim_promotion_eligible": false,
+  "claim_promotion_exclusion": {
+    "blocking_pointer": "$.scaling_claim_block",
+    "excluded_surfaces": [
+      "positive_claim_cells",
+      "discovery_promotion",
+      "l1-scaling"
+    ],
+    "fair_rebuild_required": true,
+    "reason": "information-access-boundary",
+    "status": "not-eligible"
+  },
+  "cost_protocol": {
+    "parameter_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
+    "status": "pointer-only"
+  },
+  "feature_reachability": {
+    "arms": [
+      {
+        "arm_id": "information_starved_l1_baseline",
+        "decision": "cannot identify the label rule from visible variables",
+        "label_access": "information-starved",
+        "required_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ],
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
+        "visible_variables": [
+          "x_t_minus_1"
+        ]
+      },
+      {
+        "arm_id": "dgt_l1",
+        "decision": "in-distribution table coverage is available",
+        "label_access": "task-aligned",
+        "required_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ],
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+        "visible_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2",
+          "task_aligned_gate_1",
+          "task_aligned_gate_2"
+        ]
+      },
+      {
+        "arm_id": "matched_random_structural_l1",
+        "decision": "structural control can expose table coverage saturation",
+        "label_access": "misaligned",
+        "required_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ],
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1",
+        "visible_variables": [
+          "rolled_x_t_minus_1",
+          "rolled_x_t_minus_2"
+        ]
+      },
+      {
+        "arm_id": "parameter_matched_l1",
+        "decision": "fairness control only",
+        "label_access": "parameter-matched",
+        "required_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ],
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_l1",
+        "visible_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ]
+      },
+      {
+        "arm_id": "compute_matched_l1",
+        "decision": "fairness control only",
+        "label_access": "compute-matched",
+        "required_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ],
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_l1",
+        "visible_variables": [
+          "x_t_minus_1",
+          "x_t_minus_2"
+        ]
+      }
+    ],
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms",
+    "status": "closed"
+  },
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "hardgates": {
+    "L1B-HG1": {
+      "evidence_pointer": "$.task_formula",
+      "status": "pass"
+    },
+    "L1B-HG2": {
+      "evidence_pointer": "$.feature_reachability",
+      "status": "pass"
+    },
+    "L1B-HG3": {
+      "evidence_pointer": "$.base_bayes_ceiling",
+      "status": "pass"
+    },
+    "L1B-HG4": {
+      "evidence_pointer": "$.negative_witness_refs",
+      "status": "pass"
+    },
+    "L1B-HG5": {
+      "evidence_pointer": "$.claim_promotion_exclusion",
+      "status": "pass"
+    }
+  },
+  "negative_witness_refs": [
+    {
+      "kind": "information_starved_baseline",
+      "owner_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_issue": 1207,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep.rows[witness=information_starved_baseline]",
+      "resolution_status": "unresolved"
+    },
+    {
+      "kind": "unanswerable_ood",
+      "owner_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_issue": 1207,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep.rows[witness=unanswerable_ood]",
+      "resolution_status": "unresolved"
+    },
+    {
+      "kind": "table_coverage_saturation",
+      "owner_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_issue": 1207,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep.rows[witness=table_coverage_saturation]",
+      "resolution_status": "unresolved"
+    },
+    {
+      "kind": "hand_engineered_task_aligned_gate",
+      "owner_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_issue": 1207,
+      "pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep.rows[witness=hand_engineered_task_aligned_gate]",
+      "resolution_status": "unresolved"
+    }
+  ],
+  "not_claimed": [
+    "No architecture superiority claim.",
+    "No tiny-sequence OOD generalization claim.",
+    "No L1 scaling claim.",
+    "No component-causal completeness claim.",
+    "No order-two causal rule learning claim.",
+    "No fair architecture comparison claim before the required rebuild resolves."
+  ],
+  "ood_solvability": {
+    "required_dependency": "x_t_minus_3",
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
+    "status": "not-winnable-from-recorded-features",
+    "visible_dependency": "x_t_minus_2"
+  },
+  "required_redesign": {
+    "fair_rebuild_pointer": "reports/canonical/dgt-l1-fair-rebuild.json:$.status",
+    "fair_rebuild_status": "unresolved",
+    "reason": "A fair rebuild must expose comparable label information before L1 scaling can be reconsidered.",
+    "status": "required"
+  },
+  "scaling_claim_block": {
+    "blocked_claims": [
+      "l1-scaling"
+    ],
+    "fair_rebuild_pointer": "reports/canonical/dgt-l1-fair-rebuild.json:$.status",
+    "fair_rebuild_status": "unresolved",
+    "reason": "information-access-boundary",
+    "runtime_pointer": "$.scaling_claim_block",
+    "status": "blocked",
+    "unblock_condition": "fair rebuild pointer resolves to pass"
+  },
+  "schema_id": "bedc-quality-lab:dgt-l1-boundary-report",
+  "source_artifacts": {
+    "dgt_l1_controls": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$"
+    },
+    "negative_witness_sweep_ref": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.negative_witness_sweep"
+    },
+    "ood_mechanism_ref": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_ood_mechanism"
+    },
+    "step_ladder_ref": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_step_ladder"
+    },
+    "task_spec_ref": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.task_spec"
+    },
+    "training_arms_ref": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.training_arms"
+    }
+  },
+  "table_coverage_ceiling": {
+    "computed_value": 0.9818272653594924,
+    "decision": "in-distribution accuracy is consistent with finite table coverage",
+    "formula": "1 - ((255 / 256) ** 1024)",
+    "inputs": {
+      "combinations": 256,
+      "samples": 1024
+    },
+    "observed_accuracy": 0.982,
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.accuracy_mean",
+    "status": "closed"
+  },
+  "task_formula": {
+    "class_count": 16,
+    "label_rule": "y_t = (3 * x_{t-1} + 5 * x_{t-2} + 1) mod 16",
+    "ood_label_rule": "y_t = (3 * x_{t-1} + 5 * x_{t-3} + 7) mod 16",
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec",
+    "status": "recorded",
+    "train_examples": 1024
+  }
+}

@@ -71,6 +71,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_operational_robustness,
 )
 from bedc_quality_lab import dgt_l0_controls
+from bedc_quality_lab import dgt_l1_boundary_report
 from bedc_quality_lab import dgt_l1_controls
 from scripts import run_discovery_gated_transformer as dgt
 
@@ -124,9 +125,16 @@ def _write_ready_dgt_l1_controls_artifact(root):
     return payload
 
 
+def _write_dgt_l1_boundary_artifact(root):
+    payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="fixture-time")
+    dgt_l1_boundary_report.write_artifacts(payload, root=root, generated_at="fixture-time")
+    return payload
+
+
 def _write_dgt_owner_refs(root):
     _write_passed_dgt_l0_controls_artifact(root)
     _write_ready_dgt_l1_controls_artifact(root)
+    _write_dgt_l1_boundary_artifact(root)
 
 
 def _accepted_dgt_review_rows():
@@ -729,6 +737,35 @@ def _ready_scaling_level(level_id, index):
                 "No verdict inheritance to L1 or higher scaling levels.",
             ],
         }
+    if level_id == "L1_tiny_sequence":
+        return {
+            "level_id": level_id,
+            "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
+            "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
+            "controls_projection_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+            "projected_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[{index}].claim_capsule",
+            "review_status_alias": "pass",
+            "promotion_readiness_alias": "ready-pass",
+            "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+            "scaling_claim_block_status": "unblocked",
+            "scaling_claim_block_status_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
+            "fair_rebuild_status_alias": "resolved-pass",
+            "fair_rebuild_status_alias_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.fair_rebuild_status",
+            "level_state": "ready",
+            "promotion_status": "level-local-evidence-ready",
+            "boundary_ledger": [],
+            "not_claimed": [
+                "Bounded tiny-sequence order-2 controls only.",
+                "Bounded tiny-sequence order-k training only.",
+                "No production scale claim.",
+                "No production deployment claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No L2 verdict inheritance.",
+                "No L2 or higher scaling claim.",
+            ],
+        }
     return {
         "level_id": level_id,
         "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
@@ -772,15 +809,15 @@ def _owner_with_ready_scaling_ladder(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
         root=tmp_path,
     )
-    l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
     owner["scaling_ladder"] = {
         "levels": [
-            {"level_id": level_id, "claim_capsule": l1_capsule if level_id == "L1_tiny_sequence" else _ready_scaling_level(level_id, index)}
+            {"level_id": level_id, "claim_capsule": _ready_scaling_level(level_id, index)}
             for index, level_id in enumerate(SCALING_LADDER_LEVEL_IDS)
         ]
     }
@@ -792,6 +829,7 @@ def _owner_with_l1_open_scaling_ladder(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     return dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -803,6 +841,7 @@ def test_dgt_scaling_ladder_defaults_to_d5_m_boundary_without_claiming_scaling(t
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -824,6 +863,7 @@ def test_dgt_scaling_ladder_claim_capsule_self_pointers_resolve(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -846,6 +886,7 @@ def test_dgt_scaling_ladder_l0_projects_from_canonical_controls_without_inheriti
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -864,7 +905,7 @@ def test_dgt_scaling_ladder_l0_projects_from_canonical_controls_without_inheriti
     assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
     assert l0_capsule["review_status_alias_source"] == f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status"
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
-    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
+    assert ladder["opened_levels"] == []
     assert ladder["overall_status"] == "blocked"
     assert ladder["not_inherited_from_l0"] == list(SCALING_LADDER_LEVEL_IDS[1:])
     assert ladder["status"] == "blocked"
@@ -876,6 +917,7 @@ def test_dgt_scaling_ladder_does_not_recompute_l0_hardgates_or_read_downstream_v
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     (tmp_path / "reports" / "canonical" / "claim_verdicts.jsonl").write_text(
         json.dumps({"claim_id": "claim:dgt_scaling_ladder_owner:L0_toy", "status": "blocked"}) + "\n",
         encoding="utf-8",
@@ -896,7 +938,7 @@ def test_dgt_scaling_ladder_does_not_recompute_l0_hardgates_or_read_downstream_v
 
     assert l0_capsule["level_state"] == "scoped-boundary"
     assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
-    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
+    assert ladder["opened_levels"] == []
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
     serialized = json.dumps(ladder, sort_keys=True)
     assert "L0-PASS-HG" not in serialized
@@ -983,9 +1025,11 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
     owner = _owner_with_l1_open_scaling_ladder(tmp_path)
     l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
 
-    assert l1_capsule["pointer"] == "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
+    assert l1_capsule["pointer"] == "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block"
+    assert l1_capsule["controls_projection_pointer"] == "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
     assert l1_capsule["review_status_alias"] == "pass"
     assert l1_capsule["promotion_readiness_alias"] == "ready-pass"
+    assert l1_capsule["scaling_claim_block_status"] == "blocked"
     assert owner["source_artifacts"]["construct_suspension_ref"] == {
         "artifact": "reports/canonical/dgt-l0-controls.json",
         "pointer": "$.construct_suspension",
@@ -1001,6 +1045,10 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
     assert owner["source_artifacts"]["l1_ood_mechanism_ref"] == {
         "artifact": "reports/canonical/dgt-l1-controls.json",
         "pointer": "$.l1_ood_mechanism",
+    }
+    assert owner["source_artifacts"]["l1_scaling_boundary_ref"] == {
+        "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+        "pointer": "$.scaling_claim_block",
     }
     assert l1_capsule["l1_ood_mechanism_verdict_alias_source"] == "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict"
     assert l1_capsule["l1_ood_mechanism_l2_implication_alias_source"] == "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.l2_implication"
@@ -1040,10 +1088,11 @@ def test_dgt_owner_refs_fail_closed_when_all_owner_artifacts_are_absent(tmp_path
         )
 
 
-def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
+def test_dgt_scaling_ladder_reads_only_l1_scaling_claim_block(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     l1_payload = _write_ready_dgt_l1_controls_artifact(tmp_path)
+    boundary_payload = _write_dgt_l1_boundary_artifact(tmp_path)
     l1_path = tmp_path / "reports/canonical/dgt-l1-controls.json"
     mutated_l1 = json.loads(json.dumps(l1_payload))
     mutated_l1["discovery_map"] = {"verdict": "blocked"}
@@ -1057,8 +1106,9 @@ def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
     )
 
     l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
-    assert l1_capsule["level_state"] == "ready"
-    assert l1_capsule["promotion_status"] == "level-local-evidence-ready"
+    assert l1_capsule["level_state"] == "blocked"
+    assert l1_capsule["promotion_status"] == "blocked-by-l1-boundary-report"
+    assert l1_capsule["scaling_claim_block_status"] == "blocked"
 
     mutated_l1["l1_tiny_sequence_projection"]["review_status"] = "blocked"
     l1_path.write_text(json.dumps(mutated_l1, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1072,6 +1122,20 @@ def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
     assert blocked_capsule["level_state"] == "blocked"
     assert any(row["level_id"] == "L1_tiny_sequence" for row in blocked_owner["scaling_ladder"]["boundary_ledger"])
 
+    boundary_payload["scaling_claim_block"]["status"] = "unblocked"
+    boundary_payload["scaling_claim_block"]["fair_rebuild_status"] = "resolved-pass"
+    boundary_payload["scaling_claim_block"]["reason"] = None
+    boundary_path = tmp_path / "reports/canonical/dgt-l1-boundary-report.json"
+    boundary_path.write_text(json.dumps(boundary_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    unblocked_owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    unblocked_capsule = unblocked_owner["scaling_ladder"]["levels"][1]["claim_capsule"]
+    assert unblocked_capsule["level_state"] == "ready"
+    assert unblocked_capsule["promotion_status"] == "level-local-evidence-ready"
+
 
 def test_dgt_scaling_ladder_missing_l0_pointer_keeps_l0_blocked(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
@@ -1080,6 +1144,7 @@ def test_dgt_scaling_ladder_missing_l0_pointer_keeps_l0_blocked(tmp_path):
     l0_payload.pop("l0_toy_projection")
     l0_path.write_text(json.dumps(l0_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
     payload = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -1105,6 +1170,7 @@ def test_dgt_scaling_ladder_missing_l0_ladder_consumption_omits_source_ref(tmp_p
     l0_payload["l0_toy_projection"].pop("ladder_consumption", None)
     l0_path.write_text(json.dumps(l0_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
 
     payload = dgt.build_payload(
         generated_at="fixture-time",
@@ -1127,6 +1193,7 @@ def test_dgt_owner_refs_reject_unresolved_ladder_consumption_pointer(tmp_path):
     l0_payload["l0_toy_projection"].pop("ladder_consumption", None)
     l0_path.write_text(json.dumps(l0_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_dgt_l1_boundary_artifact(tmp_path)
 
     payload = dgt.build_payload(
         generated_at="fixture-time",

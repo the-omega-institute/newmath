@@ -181,6 +181,10 @@ def _payload_for_spec(spec):
 
         payload = dgt_l1_controls.build_payload(generated_at="fixture", requested_device="cpu")
         return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "dgt-l1-boundary-report":
+        from bedc_quality_lab import dgt_l1_boundary_report
+
+        return dgt_l1_boundary_report.build_l1_boundary_report(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "winnability-certificates":
         from bedc_quality_lab import winnability
 
@@ -1523,6 +1527,7 @@ def _index_row_for_spec(spec):
         "markdown_artifact": spec.markdown_artifact,
         "fingerprint_sidecar": canonical._artifact_path(spec.json_artifact).with_suffix(".fingerprint.json").relative_to(canonical.ROOT).as_posix(),
         "discipline": {
+            "claim_promotion_eligible": spec.claim_promotion_eligible,
             "scope_pointer": spec.scope_pointer,
             "cost_pointer": spec.cost_pointer,
             "not_claimed_pointer": spec.not_claimed_pointer,
@@ -1710,6 +1715,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "mechanism-dna",
             "dgt-l0-controls",
             "dgt-l1-controls",
+            "dgt-l1-boundary-report",
             "winnability-certificates",
             "structural-generalization-splits",
             "dgt-base-undertraining-audit",
@@ -1931,6 +1937,58 @@ def test_dgt_l1_controls_owns_l1_ood_mechanism_without_standalone_report(tmp_pat
     assert payload["l1_ood_mechanism"]["owner"] == "dgt-l1-controls"
     assert "dgt-l1-ood-mechanism" not in names
     assert "reports/canonical/dgt-l1-ood-mechanism.json" not in artifacts
+
+
+def test_boundary_report_spec_promotion_schema_is_exact():
+    spec = canonical._specs_by_name()["dgt-l1-boundary-report"]
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.positive_claim_pointer == "$.claim_promotion_exclusion"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.control_pointer is None
+    assert spec.no_control_rationale_pointer == "$.claim_promotion_exclusion"
+    assert "artifact_role" in spec.required_json_keys
+    assert "claim_promotion_exclusion" in spec.required_json_keys
+    assert "scaling_claim_block" in spec.required_json_keys
+
+
+def test_positive_claim_cells_exclude_ineligible_reports(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    boundary_spec = canonical._specs_by_name()["dgt-l1-boundary-report"]
+    core_spec = canonical._specs_by_name()["mixing-family-sweep"]
+    for spec in (boundary_spec, core_spec):
+        payload = _payload_for_spec(spec)
+        canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+        canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+    reports = [
+        {
+            "name": spec.name,
+            "bundle_role": spec.bundle_role,
+            "discipline": canonical._discipline(spec),
+        }
+        for spec in (boundary_spec, core_spec)
+    ]
+
+    cells = canonical._claims_nonclaims(reports)
+
+    assert {cell["report"] for cell in cells["positive_claim_cells"]} == {"mixing-family-sweep"}
+    assert cells["promotion_exclusion_cells"] == [
+        {
+            "report": "dgt-l1-boundary-report",
+            "bundle_role": "auxiliary",
+            "artifact_role": "boundary_block",
+            "claim_promotion_eligible": False,
+            "exclusion_pointer": "$.claim_promotion_exclusion",
+            "block_pointer": "$.scaling_claim_block",
+        }
+    ]
+
+
+def test_discovery_promotion_requires_claim_promotion_eligible():
+    spec_names = {spec.name for spec in canonical._discovery_map_reports()}
+
+    assert "dgt-l1-boundary-report" not in spec_names
 
 
 def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
@@ -4328,6 +4386,7 @@ def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
             "name": spec.name,
             "bundle_role": spec.bundle_role,
             "discipline": {
+                "claim_promotion_eligible": spec.claim_promotion_eligible,
                 "positive_claim_pointer": spec.positive_claim_pointer,
                 "control_pointer": spec.control_pointer,
                 "no_control_rationale_pointer": spec.no_control_rationale_pointer,

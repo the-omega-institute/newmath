@@ -5,6 +5,9 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
+from bedc_quality_lab import dgt_l0_controls
+from bedc_quality_lab import dgt_l1_boundary_report
+from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab import high_impact_review
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
@@ -159,6 +162,12 @@ def _errors(payload, root):
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    l0_controls_payload = dgt_l0_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
+    dgt_l0_controls.write_artifacts(l0_controls_payload, root=root, generated_at="fixture-time")
+    l1_controls_payload = dgt_l1_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
+    dgt_l1_controls.write_artifacts(l1_controls_payload, root=root, generated_at="fixture-time")
+    l1_boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="fixture-time")
+    dgt_l1_boundary_report.write_artifacts(l1_boundary_payload, root=root, generated_at="fixture-time")
     dgt_payload = dgt_runner.build_payload(
         generated_at="2030-01-01T00:00:00+00:00",
         high_impact_review_rows=[
