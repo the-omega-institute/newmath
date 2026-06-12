@@ -3,6 +3,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundedDischargeRou
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNHandoffSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
+import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
