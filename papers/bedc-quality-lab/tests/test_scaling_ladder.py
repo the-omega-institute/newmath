@@ -8,6 +8,7 @@ from bedc_quality_lab.construct_validity import (
     SCHEMA_ID as CONSTRUCT_VALIDITY_SCHEMA_ID,
 )
 from bedc_quality_lab.scaling_ladder import (
+    LADDER_ELIGIBILITY_STATUS,
     build_scaling_ladder_payload,
     default_ladder_refs,
     evaluate_ladder_opening,
@@ -30,8 +31,8 @@ def _write_owner_inputs(
     allowed=True,
     construct_status="pass",
     construct_gate_status="pass",
-    l0_decision_status="scaling-evidence-eligible",
-    l1_decision_status="scaling-evidence-eligible",
+    l0_decision_status=LADDER_ELIGIBILITY_STATUS,
+    l1_decision_status=LADDER_ELIGIBILITY_STATUS,
     l0_split_status="winnable",
     l1_split_status="winnable",
     l0_ci_low=0.12,
@@ -119,6 +120,18 @@ def test_scaling_ladder_valid_owner_contract_opens_levels(tmp_path):
     }
     assert payload["boundary_ledger"] == []
     validate_scaling_ladder_payload(payload)
+
+
+def test_scaling_ladder_literal_pass_decision_status_closes_levels(tmp_path):
+    _write_owner_inputs(tmp_path, l0_decision_status="pass", l1_decision_status="pass")
+
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert _states(payload) == {
+        "L0_toy": ("closed", "owner-negative"),
+        "L1_tiny_sequence": ("closed", "owner-negative"),
+    }
+    assert payload["hardgates"]["SL-HG3-owner-decision"]["status"] == "fail"
 
 
 def test_scaling_ladder_projection_only_closes_without_owner_measurement(tmp_path):
@@ -327,7 +340,7 @@ def test_scaling_ladder_literal_separation_pass_without_ci_low_closes(tmp_path):
         "reports/canonical/dgt-l0-controls.json",
         {
             "l0_toy_projection": {
-                "owner_decision": {"status": "scaling-evidence-eligible"},
+                "owner_decision": {"status": LADDER_ELIGIBILITY_STATUS},
                 "split_winnability": {"status": "winnable"},
                 "separation": {"status": "pass"},
             }

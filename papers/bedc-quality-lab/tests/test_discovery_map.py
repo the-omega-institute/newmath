@@ -25,6 +25,7 @@ from bedc_quality_lab import structural_generalization_splits as structural_spli
 from bedc_quality_lab.discovery_gated_transformer import (
     DGT_L0_CONTROLS_ARTIFACT,
     L0_HARDGATE_SUMMARY_REF,
+    L0_LADDER_CONSUMPTION_REF,
     L0_REVIEW_STATUS_REF,
     L0_TOY_PROJECTION_REF,
 )
@@ -232,7 +233,9 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
             "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
             "review_status_ref": dict(L0_REVIEW_STATUS_REF),
             "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "review_status_alias": "pass",
+            "ladder_consumption_status": "open",
             "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
             "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
             "level_state": "open",

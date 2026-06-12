@@ -20,6 +20,7 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_
 SCHEMA_ID = "bedc-quality-lab:scaling-ladder"
 ARTIFACT_ID = "bedc-quality-lab:scaling-ladder"
 PRODUCER = "scripts/run_scaling_ladder.py"
+LADDER_ELIGIBILITY_STATUS = "scaling-evidence-eligible"
 JSON_ARTIFACT = "reports/canonical/scaling-ladder.json"
 MARKDOWN_ARTIFACT = "reports/canonical/scaling-ladder.md"
 FINGERPRINT_ARTIFACT = "reports/canonical/scaling-ladder.fingerprint.json"
@@ -182,15 +183,7 @@ def _construct_passes(value: Any) -> bool:
 
 def _decision_passes(value: Any) -> bool:
     decision = _mapping(value)
-    status = decision.get("status")
-    verdict = decision.get("verdict")
-    if status in {"pass", "eligible", "scaling-evidence-eligible"}:
-        return True
-    if verdict in {"pass", "eligible", "scaling-evidence-eligible"}:
-        return True
-    if decision.get("decision") in {"pass", "eligible", "scaling-evidence-eligible"}:
-        return True
-    return False
+    return decision.get("status") == LADDER_ELIGIBILITY_STATUS
 
 
 def _split_winnable(value: Any) -> bool:
