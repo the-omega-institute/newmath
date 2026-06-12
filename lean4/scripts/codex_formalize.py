@@ -1270,6 +1270,34 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
     return run_phase_d_lints(wt)
 
 
+def _worktree_head(wt: WorktreeInfo) -> str:
+    return run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path, timeout=30).stdout.strip()
+
+
+def _ensure_push_tip_verified(
+    wt: WorktreeInfo,
+    verified_push_tips: set[str],
+) -> bool:
+    """Run hard gates outside push locks unless the current tip already passed."""
+    for _attempt in range(2):
+        wt_tip = _worktree_head(wt)
+        if wt_tip in verified_push_tips:
+            return True
+        logger.info(f"[R{wt.round_number}] pre-push hard gates for tip {wt_tip[:8]}")
+        gates_ok, _failed_gate, _gate_tail = run_pre_merge_hard_gates(wt)
+        if not gates_ok:
+            return False
+        post_gate_tip = _worktree_head(wt)
+        if post_gate_tip == wt_tip:
+            verified_push_tips.add(wt_tip)
+            return True
+        logger.warning(
+            f"[R{wt.round_number}] worktree tip changed during pre-push hard gates "
+            f"{wt_tip[:8]} -> {post_gate_tip[:8]}; verifying new tip"
+        )
+    return False
+
+
 def _codex_resolve_post_rebase_audit(
     wt_path: Path,
     round_number: int,
@@ -1614,7 +1642,18 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         )
         return False
 
+    gate_tip = _worktree_head(wt)
     gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+    verified_gate_tip = None
+    if gates_ok:
+        post_gate_tip = _worktree_head(wt)
+        if post_gate_tip == gate_tip:
+            verified_gate_tip = gate_tip
+        else:
+            logger.warning(
+                f"[R{wt.round_number}] worktree tip changed during pre-merge hard gates "
+                f"{gate_tip[:8]} -> {post_gate_tip[:8]}; deferring push-tip proof"
+            )
     if not gates_ok and failed_gate == "audit":
         logger.warning(
             f"[R{wt.round_number}] Pre-merge audit failed — "
@@ -1628,18 +1667,34 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             commit_prefix=wt.commit_prefix,
             model=model,
         )
+        gate_tip = _worktree_head(wt)
         gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
         if gates_ok:
+            post_gate_tip = _worktree_head(wt)
+            if post_gate_tip == gate_tip:
+                verified_gate_tip = gate_tip
+            else:
+                verified_gate_tip = None
+                logger.warning(
+                    f"[R{wt.round_number}] worktree tip changed during pre-merge hard gates "
+                    f"{gate_tip[:8]} -> {post_gate_tip[:8]}; deferring push-tip proof"
+                )
             logger.info(
                 f"[R{wt.round_number}] Audit recovered after "
                 "codex resolution; continuing merge"
             )
     if not gates_ok:
         return False
+    verified_push_tips: set[str] = set()
+    if verified_gate_tip is not None:
+        verified_push_tips.add(verified_gate_tip)
 
     captured_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
 
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
+        if not _ensure_push_tip_verified(wt, verified_push_tips):
+            return False
+
         try:
             push_lock_cm = _pl(BASE_BRANCH, timeout=600)
         except Exception as exc:
@@ -1657,7 +1712,13 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                         f"-> {current_base_sha[:8]}, retry needed (attempt {attempt})"
                     )
                 else:
-                    wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+                    wt_tip = _worktree_head(wt)
+                    if wt_tip not in verified_push_tips:
+                        logger.warning(
+                            f"[R{wt.round_number}] worktree tip {wt_tip[:8]} "
+                            "lacks pre-push hard-gate proof; retrying"
+                        )
+                        continue
                     ok, msg = _ff_local_branch_to(wt_tip)
                     if ok:
                         local_contains = run_cmd(
