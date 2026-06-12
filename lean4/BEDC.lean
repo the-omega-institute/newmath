@@ -5799,6 +5799,7 @@ import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.CountableNameBoundary
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
 import BEDC.Derived.LawlessSequenceUp.PrefixInductionObligation
+import BEDC.Derived.LawlessSequenceUp.PrefixWindowDeterminacy
 import BEDC.Derived.LawlessSequenceUp.RealBoundaryNonescape
 import BEDC.Derived.LawlessSequenceUp.RealNonescape
 import BEDC.Derived.LawlessSequenceUp.StreamNameChoiceWindow
