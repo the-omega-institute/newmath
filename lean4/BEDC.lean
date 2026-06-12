@@ -3369,6 +3369,7 @@ import BEDC.Derived.CoveringdimensionUp.RefinementOrder
 import BEDC.Derived.CoveringdimensionUp.RefinementOrderRootRoute
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
+import BEDC.Derived.CoveringdimensionUp.RootCoverCarrierPacket
 import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
@@ -3541,6 +3542,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SignatureGapNonescape
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusGapSeparation
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
@@ -3549,7 +3551,6 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureGapReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureReadback
-import BEDC.Derived.CriticalLineWitnessUp.StdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
@@ -3578,6 +3579,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZetaComparisonLedger
 import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZetaContinuationReadbackNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
@@ -4141,6 +4143,7 @@ import BEDC.Derived.DyadicBinarySearchUp.TasteGate
 import BEDC.Derived.DyadicBisectionScheduleUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
+import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCeilingUp.TasteGate
@@ -4252,6 +4255,7 @@ import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMidpointUp.BranchLedgerTotality
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
+import BEDC.Derived.DyadicMidpointUp.WindowPackage
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
