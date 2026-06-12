@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-11T08:40:12.594518+00:00`
+- Generated at: `2026-06-12T17:19:26.852609+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -35,10 +35,14 @@
 | `nongaussian-distribution-sweep` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
 | `dgt-l0-controls` | `fail` | `not-applicable` | `fail` | `` | `reports/canonical/dgt-l0-controls.json` | `reports/canonical/dgt-l0-controls.md` | `reports/canonical/dgt-l0-controls.fingerprint.json` | `$.l0_toy_projection.not_claimed` | `$.compute_param_ledger` | `$.not_claimed` | `$.l0_toy_projection.review_status` | `$.l0_toy_projection` |
 | `dgt-l1-controls` | `pass` | `not-applicable` | `pass` | `` | `reports/canonical/dgt-l1-controls.json` | `reports/canonical/dgt-l1-controls.md` | `reports/canonical/dgt-l1-controls.fingerprint.json` | `$.l1_tiny_sequence_projection.evidence_scope` | `$.compute_ledger` | `$.not_claimed` | `$.l1_tiny_sequence_projection.review_status` | `$.training_arms` |
+| `reproduction-package` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/reproduction-package.json` | `reports/canonical/reproduction-package.md` | `reports/canonical/reproduction-package.fingerprint.json` | `$.reproduction_targets` | `$.cost_protocol` | `$.not_claimed` | `$.hardgates` | `$.projection_regen_refs` |
+| `reproduction-check-result` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/reproduction-check-result.json` | `reports/canonical/reproduction-check-result.md` | `reports/canonical/reproduction-check-result.fingerprint.json` | `$.target_results` | `$.package_ref` | `$.not_claimed` | `$.target_results` | `$.not_claimed` |
 | `winnability-certificates` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/winnability-certificates.json` | `reports/canonical/winnability-certificates.md` | `reports/canonical/winnability-certificates.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.audit.fail_closed_count` | `$.hardgates` |
 | `structural-generalization-splits` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/structural-generalization-splits.json` | `reports/canonical/structural-generalization-splits.md` | `reports/canonical/structural-generalization-splits.fingerprint.json` | `$.split_registry` | `$.source_artifacts` | `$.not_claimed` | `$.split_rows` | `$.classifier_rows` |
 | `dgt-base-undertraining-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-base-undertraining-audit.json` | `reports/canonical/dgt-base-undertraining-audit.md` | `reports/canonical/dgt-base-undertraining-audit.fingerprint.json` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.source_contract` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.verdict` | `$.base_undertraining_audit.comparison_rows` |
+| `scaling-ladder` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/scaling-ladder.json` | `reports/canonical/scaling-ladder.md` | `reports/canonical/scaling-ladder.fingerprint.json` | `$.levels` | `$.source_artifacts` | `$.not_claimed` | `$.levels` | `$.not_claimed` |
 | `input-accessibility` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/input-accessibility.json` | `reports/canonical/input-accessibility.md` | `reports/canonical/input-accessibility.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.access_hardgates.status` | `$.source_registry` |
+| `fair-l1-decision` | `fail` | `not-applicable` | `bounded-negative` | `` | `reports/canonical/fair-l1-decision.json` | `reports/canonical/fair-l1-decision.md` | `reports/canonical/fair-l1-decision.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.decision.status` | `$.fair_alignment.comparison_rows` |
 | `dgt-neural-ablation` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-neural-ablation.json` | `reports/canonical/dgt-neural-ablation.md` | `reports/canonical/dgt-neural-ablation.fingerprint.json` | `$.not_claimed` | `$.training_protocol` | `$.not_claimed` | `$.component_causal_claims` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-ablation-null-decomposition.json` | `reports/canonical/dgt-ablation-null-decomposition.md` | `reports/canonical/dgt-ablation-null-decomposition.fingerprint.json` | `$.not_claimed` | `$.source_artifact` | `$.not_claimed` | `$.null_decomposition.verdict` | `$.source_artifact` |
 | `dgt-component-redundancy-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-component-redundancy-audit.json` | `reports/canonical/dgt-component-redundancy-audit.md` | `reports/canonical/dgt-component-redundancy-audit.fingerprint.json` | `$.component_redundancy_audit.scope` | `$.component_redundancy_audit.source_artifacts` | `$.component_redundancy_audit.not_claimed` | `$.component_redundancy_audit.global_recommendation` | `$.component_redundancy_audit.source_artifacts` |
@@ -50,6 +54,7 @@
 | `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
 | `model-comparison` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
+| `experiment-stack-cards` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/experiment_stack_cards.json` | `reports/canonical/experiment_stack_cards.md` | `reports/canonical/experiment_stack_cards.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.cards` | `$.claim_first_gate` |
 | `claim-complexity` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
 
 ## Dashboard
@@ -71,7 +76,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `38`
+- Rows: `40`
 
 ## Experiment proposals
 
@@ -190,9 +195,9 @@
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
 - D5-M projection: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection`
 - D5-M discovery level: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level`
-- Scaling ladder: `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder`
-- Scaling ladder discovery level: `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level`
-- Scaling ladder status: `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status`
+- Scaling ladder: `reports/canonical/scaling-ladder.json:$.levels`
+- Scaling ladder discovery level: `reports/canonical/scaling-ladder.json:$.levels`
+- Scaling ladder status: `reports/canonical/scaling-ladder.json:$.levels`
 - L1 control projection: `reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection`
 - L1 review status: `reports/canonical/dgt-l1-controls.json:$.review_status`
 - Not claimed: `reports/canonical/discovery-gated-transformer.json:$.not_claimed`
@@ -201,6 +206,18 @@
 - Evidence envelope: `reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref`
 - Mechanism NameCert: `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref`
 - Jet certificate: `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref`
+
+## Scaling Ladder
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/scaling-ladder.json`
+- Markdown: `reports/canonical/scaling-ladder.md`
+- Schema: `bedc-quality-lab:scaling-ladder`
+- Levels: `reports/canonical/scaling-ladder.json:$.levels`
+- Boundary ledger: `reports/canonical/scaling-ladder.json:$.boundary_ledger`
+- Hardgates: `reports/canonical/scaling-ladder.json:$.hardgates`
+- Source artifacts: `reports/canonical/scaling-ladder.json:$.source_artifacts`
+- Not claimed: `reports/canonical/scaling-ladder.json:$.not_claimed`
 
 ## Model Design Suite
 
@@ -224,6 +241,28 @@
 - Hardgates: `reports/canonical/model-comparison.json:$.hardgates`
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`
+
+## Experiment Stack Cards
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/experiment_stack_cards.json`
+- Markdown: `reports/canonical/experiment_stack_cards.md`
+- Cards: `reports/canonical/experiment_stack_cards.json:$.cards`
+- Claim-first gate: `reports/canonical/experiment_stack_cards.json:$.claim_first_gate`
+- Blocked card ids: `reports/canonical/experiment_stack_cards.json:$.blocked_card_ids`
+- Blocked card count: `9`
+
+## Reproduction Package
+
+- Status: `pointer-only`
+- Package JSON: `reports/canonical/reproduction-package.json`
+- Package Markdown: `reports/canonical/reproduction-package.md`
+- Fingerprint: `reports/canonical/reproduction-package.fingerprint.json`
+- Check result JSON: `reports/canonical/reproduction-check-result.json`
+- Check result Markdown: `reports/canonical/reproduction-check-result.md`
+- Full-repro targets: `3`
+- Projection-only targets: `5`
+- Check profile: `structural`
 
 ## Issue 1012 sidecars
 
@@ -250,7 +289,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `47`
+- Rows: `49`
 
 ## Claim complexity
 
@@ -258,7 +297,7 @@
 - JSON: `reports/canonical/claim_complexity.json`
 - Markdown: `reports/canonical/claim_complexity.md`
 - Canonical role: `artifact_only_evidence`
-- Rows: `38`
+- Rows: `40`
 - Row pointer: `reports/canonical/claim_complexity.json:$.rows`
 - Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
 - Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
@@ -269,7 +308,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `137`
+- Nodes: `143`
 
 ## Claim artifact consistency
 
@@ -401,7 +440,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, input-accessibility, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -430,10 +469,14 @@
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `dgt-l0-controls` | `auxiliary` | `$.l0_toy_projection.review_status` | `$.l0_toy_projection` | `None` |
 | `dgt-l1-controls` | `auxiliary` | `$.l1_tiny_sequence_projection.review_status` | `$.training_arms` | `None` |
+| `reproduction-package` | `auxiliary` | `$.hardgates` | `$.projection_regen_refs` | `None` |
+| `reproduction-check-result` | `auxiliary` | `$.target_results` | `None` | `$.not_claimed` |
 | `winnability-certificates` | `auxiliary` | `$.audit.fail_closed_count` | `$.hardgates` | `None` |
 | `structural-generalization-splits` | `auxiliary` | `$.split_rows` | `$.classifier_rows` | `None` |
 | `dgt-base-undertraining-audit` | `auxiliary` | `$.base_undertraining_audit.verdict` | `$.base_undertraining_audit.comparison_rows` | `None` |
+| `scaling-ladder` | `auxiliary` | `$.levels` | `None` | `$.not_claimed` |
 | `input-accessibility` | `auxiliary` | `$.access_hardgates.status` | `$.source_registry` | `None` |
+| `fair-l1-decision` | `auxiliary` | `$.decision.status` | `$.fair_alignment.comparison_rows` | `None` |
 | `discovery-gated-transformer` | `hg_p_core` | `$.scaling_ladder` | `$.d4_projection.matched_control` | `None` |
 | `dgt-neural-ablation` | `auxiliary` | `$.component_causal_claims` | `$.training_protocol` | `None` |
 | `dgt-ablation-null-decomposition` | `auxiliary` | `$.null_decomposition.verdict` | `$.source_artifact` | `None` |
@@ -447,6 +490,7 @@
 | `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
 | `model-comparison` | `auxiliary` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG9` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.dgt_mechanism_cert` | `$.matched_controls` | `None` |
+| `experiment-stack-cards` | `auxiliary` | `$.cards` | `None` | `$.claim_first_gate` |
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
 

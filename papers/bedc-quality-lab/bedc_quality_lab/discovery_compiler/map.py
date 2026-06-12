@@ -102,6 +102,17 @@ DN_FACT_KEYS = frozenset(
         "bedc_gap_mapping",
     }
 )
+LADDER_ROW_FORBIDDEN_KEYS = frozenset(
+    {
+        "ladder_state",
+        "ladder_reason",
+        "opened_levels",
+        "boundary_ledger",
+        "state",
+        "reason",
+    }
+)
+SCALING_LADDER_POINTER_PREFIX = "reports/canonical/scaling-ladder.json:$.levels["
 
 
 @dataclass(frozen=True)
@@ -115,6 +126,7 @@ class DiscoveryMapRow:
     audit_status: str
     audit_reason: str
     negative_report_pointer: str | None
+    scaling_ladder_pointer: str | None
     cells: Mapping[str, Any]
 
     @classmethod
@@ -122,6 +134,9 @@ class DiscoveryMapRow:
         copied_reporting = sorted(key for key in REPORTING_VERDICT_FORBIDDEN_KEYS if key in row)
         if copied_reporting:
             raise ValueError(f"discovery map row copies reporting verdict fields: {', '.join(copied_reporting)}")
+        copied_ladder = sorted(key for key in LADDER_ROW_FORBIDDEN_KEYS if key in row)
+        if copied_ladder:
+            raise ValueError(f"discovery map row copies scaling ladder fields: {', '.join(copied_ladder)}")
         required = (
             "report",
             "json_artifact",
@@ -151,6 +166,10 @@ class DiscoveryMapRow:
         evidence = row.get("evidence_pointer")
         if evidence is not None and not isinstance(evidence, str):
             raise ValueError("evidence_pointer must be a string or null")
+        scaling_ladder_pointer = row.get("scaling_ladder_pointer")
+        if scaling_ladder_pointer is not None:
+            if not isinstance(scaling_ladder_pointer, str) or not scaling_ladder_pointer.startswith(SCALING_LADDER_POINTER_PREFIX):
+                raise ValueError("scaling_ladder_pointer must point to scaling-ladder level rows")
         if level in POSITIVE_DISCOVERY_LEVELS and root is not None and str(row["audit_status"]) == "valid":
             _validate_positive_row_anti_triviality(root, row)
         return cls(
@@ -163,6 +182,7 @@ class DiscoveryMapRow:
             audit_status=str(row["audit_status"]),
             audit_reason=str(row["audit_reason"]),
             negative_report_pointer=negative_pointer,
+            scaling_ladder_pointer=scaling_ladder_pointer,
             cells=row,
         )
 

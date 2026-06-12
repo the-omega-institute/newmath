@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-11T08:40:12.594518+00:00`
-- Rows: `38`
+- Generated at: `2026-06-12T17:19:26.852609+00:00`
+- Rows: `40`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -29,7 +29,8 @@
 | `structural-generalization-splits` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-base-undertraining-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `input-accessibility` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
+| `fair-l1-decision` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `reports/canonical/scaling-ladder.json:$.levels[0]` |
 | `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-component-redundancy-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
@@ -40,6 +41,7 @@
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `experiment-stack-cards` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |

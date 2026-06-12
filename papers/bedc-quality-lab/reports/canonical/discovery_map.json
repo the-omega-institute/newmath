@@ -15,10 +15,10 @@
       },
       {
         "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
+        "claim_verdict_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_decision_pointer",
         "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
+        "debt_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
         "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[3]",
@@ -174,15 +174,15 @@
     },
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-12T17:19:26.852609+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 18,
+    "D0": 21,
     "D1": 4,
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 2,
+    "D5-M": 1,
     "D5-O": 2,
     "DN": 7,
     "DR": 0
@@ -210,7 +210,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 38,
+  "row_count": 40,
   "rows": [
     {
       "audit_reason": "",
@@ -649,17 +649,30 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "dgt_scaling_ladder_owner-blocked-by-SCALE-HG2"
+        "no classifier shift or debt improvement"
       ],
-      "control_pointer": "$.d4_projection.matched_control",
-      "discovery_level": "D5-M",
-      "evidence_pointer": "$.scaling_ladder",
-      "failed_gate": "$.scaling_ladder.hardgate.gates.SCALE-HG2",
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "markdown_artifact": "reports/canonical/fair-l1-decision.md",
+      "projection_status": "source-insufficient",
+      "report": "fair-l1-decision",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "scaling-ladder-owner-closed:unresolved-pointer"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
+      "failed_gate": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-      "projection_status": "scaling-ladder-blocked",
+      "projection_status": "source-insufficient",
       "report": "discovery-gated-transformer",
-      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "terminal_verdict": ""
     },
     {
@@ -799,6 +812,20 @@
       "markdown_artifact": "reports/canonical/patch_effect_summary.md",
       "projection_status": "source-insufficient",
       "report": "causal-patch-suite",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/experiment_stack_cards.json",
+      "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+      "projection_status": "source-insufficient",
+      "report": "experiment-stack-cards",
       "terminal_verdict": ""
     },
     {

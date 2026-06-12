@@ -54,7 +54,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 38,
+    "row_count": 40,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -77,13 +77,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 137,
+    "node_count": 143,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 47,
+    "row_count": 49,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -237,6 +237,20 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.projection_regen_refs",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.hardgates",
+        "report": "reproduction-package"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.target_results",
+        "report": "reproduction-check-result"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.hardgates",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.audit.fail_closed_count",
@@ -258,10 +272,24 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.levels",
+        "report": "scaling-ladder"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.source_registry",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.access_hardgates.status",
         "report": "input-accessibility"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.fair_alignment.comparison_rows",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.decision.status",
+        "report": "fair-l1-decision"
       },
       {
         "bundle_role": "hg_p_core",
@@ -353,6 +381,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.dgt_mechanism_cert",
         "report": "causal-patch-suite"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "positive_claim_pointer": "$.cards",
+        "report": "experiment-stack-cards"
       },
       {
         "bundle_role": "hg_p_core",
@@ -489,6 +524,8 @@
     "discovery_map_signal_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
     "discovery_map_signal_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal_ref",
     "evidence_envelope_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+    "fair_l1_decision_projection_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+    "fair_l1_decision_status_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
     "family_definition_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate",
     "family_definition_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition",
     "fingerprint_artifact": "reports/canonical/discovery-gated-transformer.fingerprint.json",
@@ -545,11 +582,11 @@
     "robustness_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate",
     "robustness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
     "robustness_readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness",
-    "scaling_ladder_discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
-    "scaling_ladder_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.hardgate",
-    "scaling_ladder_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
-    "scaling_ladder_source_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.source_projection",
-    "scaling_ladder_status_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
+    "scaling_ladder_discovery_level_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+    "scaling_ladder_hardgate_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+    "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+    "scaling_ladder_source_projection_pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+    "scaling_ladder_status_pointer": "reports/canonical/scaling-ladder.json:$.levels",
     "schema_id": "bedc-quality-lab:discovery-gated-transformer",
     "status": "pass",
     "tool_route_evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
@@ -560,18 +597,18 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 18,
+      "D0": 21,
       "D1": 4,
       "D2": 1,
       "D3": 0,
       "D4": 4,
-      "D5-M": 2,
+      "D5-M": 1,
       "D5-O": 2,
       "DN": 7,
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 38,
+    "row_count": 40,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -632,6 +669,19 @@
     "proposal_count": 7,
     "proposal_rows_pointer": "reports/canonical/experiment_proposals.json:$.rows",
     "source_artifacts_pointer": "reports/canonical/experiment_proposals.json:$.source_artifacts",
+    "status": "pointer-only"
+  },
+  "experiment_stack_cards": {
+    "artifact_id": "bedc-quality-lab:experiment-stack-cards",
+    "blocked_card_count": 9,
+    "blocked_card_ids_pointer": "reports/canonical/experiment_stack_cards.json:$.blocked_card_ids",
+    "card_count": 14,
+    "cards_pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+    "claim_first_gate_pointer": "reports/canonical/experiment_stack_cards.json:$.claim_first_gate",
+    "industry_standard_alignment_pointer": "reports/canonical/experiment_stack_cards.json:$.industry_standard_alignment",
+    "json_artifact": "reports/canonical/experiment_stack_cards.json",
+    "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+    "schema_id": "bedc-quality-lab:experiment-stack-cards",
     "status": "pointer-only"
   },
   "formal_hardening": {
@@ -696,7 +746,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-12T17:19:26.852609+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -1074,10 +1124,14 @@
       "nongaussian-distribution-sweep",
       "dgt-l0-controls",
       "dgt-l1-controls",
+      "reproduction-package",
+      "reproduction-check-result",
       "winnability-certificates",
       "structural-generalization-splits",
       "dgt-base-undertraining-audit",
+      "scaling-ladder",
       "input-accessibility",
+      "fair-l1-decision",
       "dgt-neural-ablation",
       "dgt-ablation-null-decomposition",
       "dgt-component-redundancy-audit",
@@ -1089,6 +1143,7 @@
       "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
+      "experiment-stack-cards",
       "claim-complexity"
     ],
     "core_reports": [
@@ -1161,7 +1216,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "9608754035956822c13286fc0eea763a14ff5e0a8eb366a1e23c9fc9a371e567",
+    "source_sidecar_digest": "5c36c36794ed8cf3450388e7e4b09c12d4e8341c7b8838d9b502ac1628928184",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -1334,6 +1389,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -1348,6 +1404,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -1454,6 +1511,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -1468,6 +1526,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -1574,6 +1633,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "representation_boundary",
@@ -1616,6 +1676,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -1722,6 +1783,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -1750,6 +1812,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -1856,6 +1919,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -1872,6 +1936,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -1978,6 +2043,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -1998,6 +2064,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2104,6 +2171,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -2146,6 +2214,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2254,6 +2323,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -2288,6 +2358,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2394,6 +2465,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -2412,6 +2484,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2518,6 +2591,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "producer",
@@ -2542,6 +2616,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2648,6 +2723,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "generated_at",
@@ -2685,6 +2761,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2791,6 +2868,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -2807,6 +2885,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -2915,6 +2994,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "run_id",
@@ -2947,6 +3027,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3053,6 +3134,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -3074,6 +3156,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3180,6 +3263,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "run_id",
@@ -3206,6 +3290,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3314,6 +3399,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3354,6 +3440,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3462,6 +3549,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3521,6 +3609,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3629,6 +3718,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3663,6 +3753,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3776,6 +3867,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3786,6 +3878,12 @@
           "compute_param_ledger",
           "negative_witness_sweep",
           "independent_replay",
+          "construct_suspension",
+          "honest_metric_review",
+          "feature_audit",
+          "boundary_ledger",
+          "negative_evidence",
+          "ladder_consumption",
           "construct_validity_hardgates",
           "l0_toy_projection",
           "not_claimed"
@@ -3794,6 +3892,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -3905,6 +4004,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3933,6 +4033,257 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": "$.projection_regen_refs",
+        "control_status": "present",
+        "cost_pointer": "$.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgates",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/reproduction-package.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.claim_capsule_ref",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:reproduction-package]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.cost_protocol",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/reproduction-package.json:$.hardgates",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/reproduction-package.json:$.reproduction_targets",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/reproduction-package.json:$.hardgates",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/reproduction-package.json:$.not_claimed",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.reproduction_targets",
+              "source_artifact": "reports/canonical/reproduction-package.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.reproduction_targets",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/reproduction-package.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/reproduction-package.json",
+      "markdown_artifact": "reports/canonical/reproduction-package.md",
+      "name": "reproduction-package",
+      "producer_command": [
+        "python3",
+        "scripts/run_reproduction_package.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "owner_module",
+          "source_artifacts",
+          "reproduction_targets",
+          "projection_regen_refs",
+          "hardgates",
+          "claim_capsule_ref",
+          "cost_protocol",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.package_ref",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.target_results",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/reproduction-check-result.json:$.package_ref",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.target_results",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:reproduction-check-result]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.package_ref",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/reproduction-check-result.json:$.profile",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/reproduction-check-result.json:$.target_results",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/reproduction-check-result.json:$.target_results",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/reproduction-check-result.json:$.blocked_targets",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.target_results",
+              "source_artifact": "reports/canonical/reproduction-check-result.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.target_results",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/reproduction-check-result.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/reproduction-check-result.json",
+      "markdown_artifact": "reports/canonical/reproduction-check-result.md",
+      "name": "reproduction-check-result",
+      "producer_command": [
+        "python3",
+        "scripts/run_reproduction_package.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "package_ref",
+          "profile",
+          "target_results",
+          "blocked_targets",
+          "failed_targets",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4039,6 +4390,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4061,6 +4413,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4167,6 +4520,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4185,6 +4539,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4291,6 +4646,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "base_undertraining_audit"
         ],
@@ -4298,6 +4654,140 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.levels",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:scaling-ladder]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.levels",
+              "source_artifact": "reports/canonical/scaling-ladder.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.levels",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/scaling-ladder.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/scaling-ladder.json",
+      "markdown_artifact": "reports/canonical/scaling-ladder.md",
+      "name": "scaling-ladder",
+      "producer_command": [
+        "python3",
+        "scripts/run_scaling_ladder.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "levels",
+          "boundary_ledger",
+          "hardgates",
+          "not_claimed",
+          "$.levels[*].level_id",
+          "$.levels[*].state",
+          "$.levels[*].reason",
+          "$.levels[*].owner_decision_pointer",
+          "$.levels[*].evidence_provenance_pointer",
+          "$.levels[*].construct_validity_pointer",
+          "$.levels[*].split_winnability_pointer",
+          "$.levels[*].separation_pointer",
+          "$.levels[*].source_report_pointer",
+          "$.levels[*].boundary_ledger_pointer",
+          "$.levels[*].owner_contracts"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4404,6 +4894,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4427,6 +4918,137 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "construct_validity": {
+        "failed_gates": [],
+        "pointer": "reports/canonical/fair-l1-decision.json:$.construct_validity_projection",
+        "status": "bounded-negative"
+      },
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": "reports/canonical/fair-l1-decision.json:$.construct_validity_projection",
+        "construct_validity_status": "present",
+        "control_pointer": "$.fair_alignment.comparison_rows",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.decision.status",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/fair-l1-decision.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.decision.claim_capsule",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:fair-l1-decision]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection.state",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/fair-l1-decision.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/fair-l1-decision.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "markdown_artifact": "reports/canonical/fair-l1-decision.md",
+      "name": "fair-l1-decision",
+      "producer_command": [
+        "python3",
+        "scripts/run_fair_l1_decision.py"
+      ],
+      "producer_status": "skipped",
+      "status": "fail",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "fair_alignment",
+          "hardgates",
+          "decision",
+          "ladder_state_projection",
+          "boundary_ledger",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4535,6 +5157,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4571,6 +5194,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4677,6 +5301,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4714,6 +5339,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4820,6 +5446,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4836,6 +5463,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -4942,6 +5570,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "component_redundancy_audit"
         ],
@@ -4949,6 +5578,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5055,6 +5685,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "card_id",
@@ -5074,6 +5705,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5180,6 +5812,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5202,6 +5835,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5310,6 +5944,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5339,6 +5974,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5463,6 +6099,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "generated_at",
@@ -5486,6 +6123,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5592,6 +6230,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "artifact_id",
           "generated_at",
@@ -5610,6 +6249,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5725,6 +6365,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -5741,6 +6382,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5847,6 +6489,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5862,6 +6505,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -5953,9 +6597,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -5963,11 +6607,12 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5983,6 +6628,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -6089,6 +6735,7 @@
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -6108,6 +6755,135 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.cards",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:experiment-stack-cards]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=experiment-stack-cards].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=experiment-stack-cards]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "cold",
+      "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
+      "fingerprint_status": "written",
+      "json_artifact": "reports/canonical/experiment_stack_cards.json",
+      "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+      "name": "experiment-stack-cards",
+      "producer_command": [
+        "python3",
+        "scripts/run_experiment_stack_cards.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "card_count",
+          "card_ids",
+          "hardgate_ids",
+          "status",
+          "blocked_card_ids",
+          "cards",
+          "claim_first_gate",
+          "industry_standard_alignment",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -6199,9 +6975,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -6209,11 +6985,12 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -6227,6 +7004,7 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     },
@@ -6318,9 +7096,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -6328,11 +7106,12 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "model_card_errors": [],
+        "reproduction_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -6346,11 +7125,51 @@
           "missing_keys": [],
           "status": "pass"
         },
+        "semantic_errors": [],
         "status": "pass"
       }
     }
   ],
+  "reproduction_package": {
+    "artifact_id": "bedc-quality-lab:reproduction-package",
+    "blocked_target_count": 1,
+    "check_profile": "structural",
+    "check_result_artifact_id": "bedc-quality-lab:reproduction-check-result",
+    "check_result_json": "reports/canonical/reproduction-check-result.json",
+    "check_result_markdown": "reports/canonical/reproduction-check-result.md",
+    "check_result_pointer": "reports/canonical/reproduction-check-result.json:$",
+    "check_result_schema_id": "bedc-quality-lab:reproduction-check-result",
+    "failed_target_count": 0,
+    "fingerprint": "reports/canonical/reproduction-package.fingerprint.json",
+    "full_repro_target_count": 3,
+    "hardgate_statuses": {
+      "REPRO-HG1": "pending",
+      "REPRO-HG2": "pending",
+      "REPRO-HG3": "pending",
+      "REPRO-HG4": "pending",
+      "REPRO-HG5": "blocked"
+    },
+    "json_artifact": "reports/canonical/reproduction-package.json",
+    "markdown_artifact": "reports/canonical/reproduction-package.md",
+    "package_pointer": "reports/canonical/reproduction-package.json:$",
+    "projection_only_target_count": 5,
+    "schema_id": "bedc-quality-lab:reproduction-package",
+    "status": "pointer-only"
+  },
   "root": "papers/bedc-quality-lab",
+  "scaling_ladder": {
+    "artifact_id": "bedc-quality-lab:scaling-ladder",
+    "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+    "fingerprint_artifact": "reports/canonical/scaling-ladder.fingerprint.json",
+    "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+    "json_artifact": "reports/canonical/scaling-ladder.json",
+    "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+    "markdown_artifact": "reports/canonical/scaling-ladder.md",
+    "not_claimed_pointer": "reports/canonical/scaling-ladder.json:$.not_claimed",
+    "schema_id": "bedc-quality-lab:scaling-ladder",
+    "source_artifacts_pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+    "status": "pointer-only"
+  },
   "schema_id": "bedc-quality-lab:canonical-report-index",
   "structural_generalization_splits": {
     "artifact_id": "bedc-quality-lab:structural-generalization-splits",

@@ -29,6 +29,7 @@ SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
 SOURCE_REPORT_ARTIFACT = "reports/certificate_guided_training.md"
 JSON_ARTIFACT = "reports/certificate_guided_discovery.json"
 REPORT_ARTIFACT = "reports/certificate_guided_discovery.md"
+SKIP_REASON = "certificate-guided projection source lacks before/after/control records"
 
 def _text_for_term_scan(value: Any) -> str:
     if isinstance(value, (dict, list, tuple)):
@@ -53,8 +54,16 @@ def _overclaim_basis(report: dict[str, Any]) -> dict[str, Any]:
 def _load_payload(path: Path | None = None) -> dict[str, Any]:
     payload_path = ROOT / SOURCE_JSON_ARTIFACT if path is None else path
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
-    require_certificate_guided_projection_source(payload)
+    payload["_artifact_root"] = str(ROOT)
     return payload
+
+
+def _source_skip_reason(payload: dict[str, Any]) -> str | None:
+    try:
+        require_certificate_guided_projection_source(payload)
+    except ValueError as exc:
+        return str(exc)
+    return None
 
 def _failed_gate(payload: dict[str, Any]) -> str | None:
     value = payload.get("failed_gate")
@@ -86,6 +95,74 @@ def _terminal_verdict(
     return "accepted"
 
 def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    skip_reason = _source_skip_reason(payload)
+    if skip_reason is not None:
+        generated_at = datetime.now(timezone.utc).isoformat()
+        hardgate = payload.get("hardgate") if isinstance(payload.get("hardgate"), dict) else {}
+        failed_gate = _failed_gate(payload)
+        reason = SKIP_REASON if "before, after, and control" in skip_reason else skip_reason
+        claim_gate = {
+            "status": "skipped",
+            "reason": reason,
+            "positive_discovery_four_gate": None,
+            "training_positive_quality_improvement": None,
+            "blockers": [reason],
+        }
+        main_claim_status = {
+            "status": "skipped",
+            "reason": reason,
+        }
+        return {
+            "artifact": JSON_ARTIFACT,
+            "source_artifacts": {
+                "source_json_artifact": SOURCE_JSON_ARTIFACT,
+                "source_report_artifact": SOURCE_REPORT_ARTIFACT,
+                "source_runner": payload.get("source_artifacts", {}).get("generation_script")
+                if isinstance(payload.get("source_artifacts"), dict)
+                else None,
+            },
+            "report": REPORT_ARTIFACT,
+            "projection_script": "scripts/run_certificate_guided_discovery.py",
+            "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "generated_at": payload.get("generated_at")},
+            "generated_at": generated_at,
+            "producer_status": "skipped",
+            "skip_reason": reason,
+            "arms": [],
+            "verdicts": [],
+            "surface_delta_count": None,
+            "positive_discovery": None,
+            "net_information": None,
+            "main_claim_status": main_claim_status,
+            "claim_gate": claim_gate,
+            "scope_seal": payload.get("scope_seal"),
+            "hardgate": hardgate,
+            "failed_gate": failed_gate,
+            "verdict": "skipped",
+            "discovery_level": "D0",
+            "audit_decision": {
+                "audit_status": "skipped",
+                "reason": reason,
+                "overclaim_basis": {
+                    "checked_claim_count": 0,
+                    "forbidden_claim_fail_count": 0,
+                    "forbidden_claim_term_hits": [],
+                },
+                "overclaim_rate": None,
+            },
+            "audit_ledger": [],
+            "rejection_decision": {"rejected": False, "reason": reason, "audit_status": "skipped"},
+            "revocation_decision": {"downgraded": False, "reason": reason, "new_status": None},
+            "revocation_ledger": [],
+            "matched_random_baseline": None,
+            "not_claimed": list(payload.get("not_claimed", []))
+            + [
+                "positive discovery is not claimed without before, after, and control projection records"
+            ],
+            "applicability_boundary": {
+                "claimed_scope": "certificate-guided projection is skipped when the owner source lacks paired records",
+                "not_claimed": ["positive discovery", "formal-bedc-closure", "global optimizer behavior"],
+            },
+        }
     projection = project_certificate_guided_claim(payload)
     main = projection.main_verdict
     control = projection.matched_random_baseline
@@ -170,6 +247,24 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
 def _write_payload(payload: dict[str, Any]) -> None:
     json_path = ROOT / JSON_ARTIFACT
     report_path = ROOT / REPORT_ARTIFACT
+    if payload.get("producer_status") == "skipped":
+        lines = [
+            "# Certificate-Guided Discovery Projection",
+            "",
+            f"- Source JSON artifact: `{payload['source_artifacts']['source_json_artifact']}`",
+            f"- Projection script: `{payload['projection_script']}`",
+            f"- Producer status: `{payload['producer_status']}`",
+            f"- Skip reason: `{payload['skip_reason']}`",
+            f"- Discovery level: `{payload['discovery_level']}`",
+            f"- Positive discovery: `null`",
+            f"- Matched-random baseline: `null`",
+            f"- Not claimed: `{'; '.join(payload['not_claimed'])}`",
+            "",
+        ]
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report_path.write_text("\n".join(lines), encoding="utf-8")
+        return
     verdict = payload["verdicts"][0]
     baseline = payload["matched_random_baseline"]
     deltas = verdict["deltas"]

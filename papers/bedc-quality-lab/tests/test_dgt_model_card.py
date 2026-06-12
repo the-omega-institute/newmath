@@ -86,6 +86,20 @@ def _source_fixture(root: Path) -> None:
     )
     _write_json(
         root,
+        "reports/canonical/fair-l1-decision.json",
+        {
+            "ladder_state_projection": {
+                "state": "l1-bounded-negative",
+                "decision_status": "bounded-negative",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": ["bounded only"],
+            },
+        },
+    )
+    _write_json(
+        root,
         "reports/canonical/dgt-base-undertraining-audit.json",
         {
             "base_undertraining_audit": {
@@ -240,7 +254,8 @@ def test_l1_construct_invalid_and_fair_decision_are_separate(tmp_path):
     fair = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "fair architecture comparison")
 
     assert fair["construct_validity_status"] == "construct-boundary"
-    assert fair["status"] == "defer-to-fair-reconstruction"
+    assert fair["status"] == "bounded-negative"
+    assert fair["ladder_state"] == "l1-bounded-negative"
     assert fair["claim"] == "no architecture advantage"
     assert "architecture advantage" not in json.dumps(payload["intended_use"], sort_keys=True)
 
@@ -255,12 +270,16 @@ def test_owner_derived_status_rewrites_fail_closed(tmp_path):
     fair["status"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
-    fair["status"] = "defer-to-fair-reconstruction"
+    fair["status"] = "bounded-negative"
+    fair["ladder_state"] = "pass-by-hand"
+    assert "CARD-HG5" in _errors(payload, tmp_path)
+
+    fair["ladder_state"] = "l1-bounded-negative"
     fair_failure = next(row for row in payload["known_failure_modes"] if row["failure_mode"] == "fair comparison boundary")
     fair_failure["status"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
-    fair_failure["status"] = "defer-to-fair-reconstruction"
+    fair_failure["status"] = "l1-bounded-negative"
     l1 = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "L1 scoped review")
     l1["review_status"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
