@@ -484,7 +484,7 @@ def _scan_training_lines(root: Path, source_file: Path) -> tuple[list[str], list
         pointer = _source_pointer(root, source_file, line_number)
         if isinstance(node, ast.Call) and _is_backward_call(node):
             _append_unique(backward, pointer)
-        if isinstance(node, ast.Call) and (_is_optimizer_step_call(node) or _is_optimizer_constructor_call(node)):
+        if isinstance(node, ast.Call) and _is_optimizer_step_call(node):
             _append_unique(optimizer_steps, pointer)
         if _is_parameter_update_node(node):
             _append_unique(parameter_updates, pointer)
@@ -505,16 +505,6 @@ def _is_optimizer_step_call(node: ast.Call) -> bool:
         isinstance(node.func, ast.Attribute)
         and node.func.attr == "step"
         and _expr_mentions_token(node.func.value, ("optim", "optimizer", "opt"))
-    )
-
-
-def _is_optimizer_constructor_call(node: ast.Call) -> bool:
-    call_path = _expr_path(node.func).lower()
-    return (
-        call_path == "optimizer"
-        or call_path.endswith(".optimizer")
-        or call_path.startswith("optim.")
-        or call_path.startswith("torch.optim.")
     )
 
 

@@ -125,6 +125,33 @@ def test_clean_training_requires_backward_and_optimizer_step(tmp_path):
     assert payload["discovery_rows"][0]["evidence_type"] == "empirical_training_clean"
 
 
+def test_optimizer_constructor_without_step_keeps_empirical_claim_gate_closed(tmp_path):
+    spec = _spec("training-report", "reports/canonical/training-report.json")
+    _write_source(
+        tmp_path,
+        "scripts/run_fixture.py",
+        "def train(loss, torch):\n"
+        "    optimizer = torch.optim.Adam([])\n"
+        "    loss.backward()\n"
+        "    return optimizer\n",
+    )
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_discovery_map(tmp_path, [_discovery_map_row(spec.name)])
+
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    audit = payload["producer_audits"][0]
+    metric = payload["metric_rows"][0]
+    discovery = payload["discovery_rows"][0]
+
+    assert audit["backward_pointers"] == ["scripts/run_fixture.py:L3"]
+    assert audit["optimizer_step_pointers"] == []
+    assert audit["training_evidence_status"] != "empirical_training_clean"
+    assert metric["source_type"] == "deterministic_projection"
+    assert metric["allowed_for_empirical_claim"] is False
+    assert discovery["evidence_type"] != "empirical_training_clean"
+    assert "empirical_superiority" not in discovery["allowed_claim_kinds"]
+
+
 def test_imported_non_training_scanner_code_does_not_certify_training(tmp_path):
     spec = _spec("imported-scanner", "reports/canonical/imported-scanner.json")
     _write_source(
