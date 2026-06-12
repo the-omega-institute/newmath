@@ -1,0 +1,338 @@
+{
+  "artifact_id": "bedc-quality-lab:reproduction-package",
+  "claim_capsule_ref": {
+    "artifact": "reports/canonical/claim_capsule.json",
+    "owner_pointer": "reports/canonical/claim_capsule.json:$",
+    "pointer": "$"
+  },
+  "cost_protocol": {
+    "owner_pointer": "configs/default_cost_protocol.yaml:$"
+  },
+  "generated_at": "2026-06-12T06:36:23.020151+00:00",
+  "hardgates": {
+    "REPRO-HG1": {
+      "criterion": "config refs resolve and fingerprint inputs cover the declared closure",
+      "evidence_pointer": "reports/canonical/reproduction-package.json:$.reproduction_targets",
+      "status": "pending"
+    },
+    "REPRO-HG2": {
+      "criterion": "data generator refs resolve and deterministic declarations are present",
+      "evidence_pointer": "reports/canonical/reproduction-package.json:$.reproduction_targets",
+      "status": "pending"
+    },
+    "REPRO-HG3": {
+      "criterion": "feature reachability audit pointers resolve",
+      "evidence_pointer": "reports/canonical/reproduction-package.json:$.reproduction_targets",
+      "status": "pending"
+    },
+    "REPRO-HG4": {
+      "criterion": "metric provenance pointers resolve to the owning artifacts",
+      "evidence_pointer": "reports/canonical/reproduction-package.json:$.reproduction_targets",
+      "status": "pending"
+    },
+    "REPRO-HG5": {
+      "criterion": "full-repro-ci targets carry CI rehearsal evidence with matching rerun fingerprints",
+      "evidence_pointer": "reports/canonical/reproduction-check-result.json:$.target_results",
+      "status": "blocked"
+    }
+  },
+  "not_claimed": [
+    "This package contains reproduction pointers only; metric values remain owned by source artifacts.",
+    "Projection-only targets never satisfy measured-training full reproduction.",
+    "Full training replay is only evaluated under the explicit full-repro-ci profile.",
+    "Upstream owner gaps are reported as blocked rather than guessed."
+  ],
+  "owner_module": "bedc_quality_lab/reproduction_package.py",
+  "producer": "scripts/run_reproduction_package.py",
+  "projection_regen_refs": [
+    {
+      "deterministic_regen_ref": "reports/canonical/index.json:$",
+      "fingerprint_ref": "reports/canonical/reproduction-package.fingerprint.json:$",
+      "not_full_repro": true,
+      "target_id": "canonical-index-view"
+    },
+    {
+      "deterministic_regen_ref": "reports/canonical/claim_capsule.json:$",
+      "fingerprint_ref": "reports/canonical/reproduction-package.fingerprint.json:$",
+      "not_full_repro": true,
+      "target_id": "claim-capsule-view"
+    },
+    {
+      "deterministic_regen_ref": "reports/canonical/claim_graph.json:$",
+      "fingerprint_ref": "reports/canonical/reproduction-package.fingerprint.json:$",
+      "not_full_repro": true,
+      "target_id": "claim-graph-view"
+    },
+    {
+      "deterministic_regen_ref": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "fingerprint_ref": "reports/canonical/discovery-gated-transformer.fingerprint.json:$",
+      "not_full_repro": true,
+      "target_id": "scaling-ladder-view"
+    },
+    {
+      "deterministic_regen_ref": "reports/canonical/index.md:$",
+      "fingerprint_ref": "reports/canonical/reproduction-package.fingerprint.json:$",
+      "not_full_repro": true,
+      "target_id": "generated-markdown-views"
+    }
+  ],
+  "reproduction_targets": [
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/dgt-l0-controls.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts",
+        "reports/canonical/dgt-l0-controls.fingerprint.json:$.inputs.config_inputs"
+      ],
+      "data_generator_ref": "reports/canonical/dgt-l0-controls.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/dgt-l0-controls.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "environment_ref": "reports/canonical/dgt-l0-controls.json:$.source_artifacts.device_policy",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/dgt-l0-controls.json:$.feature_audit",
+      "fingerprint_refs": [
+        "reports/canonical/dgt-l0-controls.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/dgt-l0-controls.json:$.honest_metric_review",
+      "not_claimed": [
+        "L0 replay does not open any higher scaling level."
+      ],
+      "owner_artifact_ref": "reports/canonical/dgt-l0-controls.json:$",
+      "projection_regen_ref": null,
+      "seed_refs": [
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.seed_policy",
+        "reports/canonical/dgt-l0-controls.json:$.independent_replay.fixed_seeds"
+      ],
+      "target_id": "dgt-l0-honest-rerun",
+      "target_kind": "full-repro-ci",
+      "tolerance_policy_ref": "reports/canonical/dgt-l0-controls.json:$.independent_replay.pass_cells"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/dgt-l1-controls.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/dgt-l1-controls.json:$.task_spec",
+        "reports/canonical/dgt-l1-controls.fingerprint.json:$.inputs.config_inputs"
+      ],
+      "data_generator_ref": "reports/canonical/dgt-l1-controls.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/dgt-l1-controls.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "environment_ref": "reports/canonical/dgt-l1-controls.json:$.source_artifacts.device_policy",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+      "fingerprint_refs": [
+        "reports/canonical/dgt-l1-controls.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
+      "not_claimed": [
+        "Fair L1 reproduction remains blocked until the seven-arm owner artifact lands."
+      ],
+      "owner_artifact_ref": "reports/canonical/dgt-l1-controls.json:$",
+      "projection_regen_ref": null,
+      "seed_refs": [
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.seed_policy",
+        "reports/canonical/dgt-l1-controls.json:$.independent_replay.fixed_seeds"
+      ],
+      "target_id": "fair-l1-training",
+      "target_kind": "full-repro-ci",
+      "tolerance_policy_ref": "reports/canonical/dgt-l1-controls.json:$.independent_replay"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/dgt-neural-ablation.fingerprint.json:$.producer_command",
+      "config_refs": [
+        "reports/canonical/dgt-neural-ablation.json:$.run_spec",
+        "reports/canonical/dgt-neural-ablation.json:$.training_protocol"
+      ],
+      "data_generator_ref": "reports/canonical/dgt-neural-ablation.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/dgt-neural-ablation.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+      "environment_ref": "reports/canonical/dgt-neural-ablation.json:$.training_protocol.resolved_device",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/runs/dgt-neural-ablation/raw_metrics.jsonl",
+        "reports/runs/dgt-neural-ablation/summary.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/dgt-neural-ablation.json:$.scope_seal_mechanism",
+      "fingerprint_refs": [
+        "reports/canonical/dgt-neural-ablation.fingerprint.json:$",
+        "reports/canonical/dgt-ablation-null-decomposition.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/dgt-neural-ablation.json:$.metric_protocol",
+      "not_claimed": [
+        "Ablation null decomposition remains bounded to its measured owner artifacts."
+      ],
+      "owner_artifact_ref": "reports/canonical/dgt-neural-ablation.json:$",
+      "projection_regen_ref": null,
+      "seed_refs": [
+        "reports/canonical/dgt-neural-ablation.json:$.training_protocol.seeds"
+      ],
+      "target_id": "honest-ablation-null-training",
+      "target_kind": "full-repro-ci",
+      "tolerance_policy_ref": "reports/canonical/dgt-ablation-null-decomposition.json:$.threshold_schema"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/index.json:$.reports"
+      ],
+      "data_generator_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": null,
+      "environment_ref": "reports/canonical/index.json:$.root",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/canonical/index.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/index.json:$.input_accessibility",
+      "fingerprint_refs": [
+        "reports/canonical/reproduction-package.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "not_claimed": [
+        "Projection-only rows never satisfy measured-training full reproduction."
+      ],
+      "owner_artifact_ref": "reports/canonical/index.json:$",
+      "projection_regen_ref": "reports/canonical/reproduction-package.json:$.projection_regen_refs[0]",
+      "seed_refs": [],
+      "target_id": "canonical-index-view",
+      "target_kind": "projection-only",
+      "tolerance_policy_ref": "reports/canonical/reproduction-package.json:$.hardgates"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/claim_capsule.json:$"
+      ],
+      "data_generator_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": null,
+      "environment_ref": "reports/canonical/index.json:$.root",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/canonical/claim_capsule.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/claim_capsule.json:$",
+      "fingerprint_refs": [
+        "reports/canonical/reproduction-package.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "not_claimed": [
+        "ClaimCapsule projection stores pointers and does not restate owner prose."
+      ],
+      "owner_artifact_ref": "reports/canonical/claim_capsule.json:$",
+      "projection_regen_ref": "reports/canonical/reproduction-package.json:$.projection_regen_refs[1]",
+      "seed_refs": [],
+      "target_id": "claim-capsule-view",
+      "target_kind": "projection-only",
+      "tolerance_policy_ref": "reports/canonical/reproduction-package.json:$.hardgates"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/claim_graph.json:$"
+      ],
+      "data_generator_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": null,
+      "environment_ref": "reports/canonical/index.json:$.root",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/canonical/claim_graph.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/claim_graph.json:$",
+      "fingerprint_refs": [
+        "reports/canonical/reproduction-package.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "not_claimed": [
+        "Claim graph projection is deterministic reporting, not training replay."
+      ],
+      "owner_artifact_ref": "reports/canonical/claim_graph.json:$",
+      "projection_regen_ref": "reports/canonical/reproduction-package.json:$.projection_regen_refs[2]",
+      "seed_refs": [],
+      "target_id": "claim-graph-view",
+      "target_kind": "projection-only",
+      "tolerance_policy_ref": "reports/canonical/reproduction-package.json:$.hardgates"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/discovery-gated-transformer.json:$.source_artifacts"
+      ],
+      "data_generator_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/discovery-gated-transformer.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": null,
+      "environment_ref": "reports/canonical/index.json:$.root",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/canonical/discovery-gated-transformer.json:$"
+      ],
+      "feature_reachability_ref": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "fingerprint_refs": [
+        "reports/canonical/discovery-gated-transformer.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "not_claimed": [
+        "Scaling ladder state remains owned by its source artifact."
+      ],
+      "owner_artifact_ref": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "projection_regen_ref": "reports/canonical/reproduction-package.json:$.projection_regen_refs[3]",
+      "seed_refs": [],
+      "target_id": "scaling-ladder-view",
+      "target_kind": "projection-only",
+      "tolerance_policy_ref": "reports/canonical/reproduction-package.json:$.hardgates"
+    },
+    {
+      "ci_rehearsal_ref": null,
+      "command_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+      "config_refs": [
+        "reports/canonical/index.json:$.reports"
+      ],
+      "data_generator_ref": "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+      "dependency_lock_ref": "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+      "eligibility_ref": null,
+      "environment_ref": "reports/canonical/index.json:$.root",
+      "evidence_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "expected_artifact_refs": [
+        "reports/canonical/index.md"
+      ],
+      "feature_reachability_ref": "reports/canonical/index.json:$.reports",
+      "fingerprint_refs": [
+        "reports/canonical/reproduction-package.fingerprint.json:$"
+      ],
+      "metric_provenance_ref": "reports/canonical/index.json:$.evidence_provenance",
+      "not_claimed": [
+        "Generated Markdown views are deterministic projections only."
+      ],
+      "owner_artifact_ref": "reports/canonical/index.md",
+      "projection_regen_ref": "reports/canonical/reproduction-package.json:$.projection_regen_refs[4]",
+      "seed_refs": [],
+      "target_id": "generated-markdown-views",
+      "target_kind": "projection-only",
+      "tolerance_policy_ref": "reports/canonical/reproduction-package.json:$.hardgates"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:reproduction-package",
+  "source_artifacts": {
+    "check_result_json": "reports/canonical/reproduction-check-result.json",
+    "command": "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+    "owner_module": "bedc_quality_lab/reproduction_package.py",
+    "package_json": "reports/canonical/reproduction-package.json",
+    "runner": "scripts/run_reproduction_package.py",
+    "source_sha256": "550fdd88ad9877d24b22f4867b145d0fc9ca41e6fc9e2f5e17b5fdf04d4b7131"
+  }
+}
