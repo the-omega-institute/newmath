@@ -126,17 +126,31 @@ horizon-conditioned supervision, the trained ledger reaches clean $h=1$
 $0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
 detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
 logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
-horizon detection is label-driven rather than architecture-specific.
+horizon detection is label-driven rather than architecture-specific.  With
+within-episode pairwise ranking, the native horizon ledger separates from the
+post-hoc scorer on the clean $h=1$ evaluation.  The paired episode bootstrap on
+the same evaluation episodes gives
+$$
+\Delta\mathrm{AUROC}_{h=1}^{\mathrm{native-posthoc}}
+= +0.050\ [0.0043,\ 0.100],
+$$
+with native AUROC $0.788$ versus post-hoc AUROC $0.737$.  Independent
+confidence intervals are a conservative parity check because they overlap; the
+paired comparison is the appropriate test for two scorers on the same episode
+sample and gives interval-separated gain.
 With the same horizon-ledger configuration trained separately on three
 additional carriers, every test horizon is detectable (all confidence-interval
 lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
 at $h=1/3/5/10$, cube has $0.602$/$0.672$/$0.667$/$0.631$, and pusht has
-$1.000$/$0.999$/$1.000$/$1.000$.  On reacher, horizon supervision exceeds the
-probe row ($0.734$ $[0.698,\ 0.772]$ against $0.662$) while lowering unlogged
-error $0.230 \rightarrow 0.149$; on pusht, the failure surface remains perfectly
-readable even at $h=10$.  The per-environment $h=1$ rollout anchors have maximum
-absolute deviations $1.96\times10^{-8}$, $1.42\times10^{-8}$, and
-$2.68\times10^{-7}$.
+$1.000$/$0.999$/$1.000$/$1.000$ on the contiguous episode block.  On reacher,
+horizon supervision exceeds the probe row ($0.734$ $[0.698,\ 0.772]$ against
+$0.662$) while lowering unlogged error $0.230 \rightarrow 0.149$.  For pusht,
+the contiguous block is not the population claim; an independent
+stratified-random $150$-episode export puts representative $h=1$ detection at
+post-hoc AUROC $0.744$ and native AUROC $0.800$, with CI95\_high $<0.95$ and
+UER $>0.02$.  Thus pusht is not perfectly readable on the representative
+population; its detection lies in the same readability range as
+tworooms/reacher/cube.
 
 Teacher distillation by logit matching to the post-hoc scores is harmful:
 distillation alone gives $0.661$, and distillation with the full loss gives
@@ -160,11 +174,20 @@ regression gives $+0.009$ $[-0.002,\ +0.023]$, pure pairwise ranking gives
 $+0.006$ $[-0.003,\ +0.018]$, and a two-stage ranker on fixed ledger logits
 gives $+0.010$ $[-0.002,\ +0.024]$.  Each nevertheless learns the true
 within-episode error ordering, with Spearman $0.460$/$0.508$/$0.432$, against a
-target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.  The
-learnable ordering saturates near $\rho \approx 0.5$, which is insufficient for
-tail-sensitive budget splitting; the detected allocation gap is therefore an
-information limit of these latent features at horizon five, not a target or
-architecture artifact.
+target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.
+The allocation result closes as a scoped information bound.  Across $7$
+cross-fit readers, the strongest reader is pairwise RankNet with
+within-episode Spearman
+$$
+\rho = 0.49\ [0.32,\ 0.49],
+$$
+below the required $\rho^\star \approx 0.50$ from the $150$-seed oracle-blend
+distribution (p05 $0.501$).  No reader beats uniform allocation
+($\Delta$ CI\_high $\ge 0$), and the MI upper bound gives
+$\rho_{\max}\approx 0$.  The sanity checks are aligned: permutation gives
+$\rho\approx 0$, and oracle gives $\rho=1.0$.  The bound is not a theorem about
+all models; it is under the current latent export, finite CPU-readable feature
+family, and fixed $5/1/3$ allocation rule.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
@@ -204,21 +227,16 @@ $[0.568,\ 0.652]$, while the matched-random control has $0.507$
 $[0.458,\ 0.554]$; the detection criterion is interval-separated.  Its UER
 moves from $0.248$ to $0.210$ $[0.183,\ 0.233]$, overlapping its vanilla
 baseline, so the strict two-criterion rule does not grant the row.  For
-\texttt{quentinll/lewm-pusht}, with $150$ episodes, $3092$ transitions, and
-the same identity self-check at $0.0$, the learned head has AUROC $1.000$
-$[1.000,\ 1.000]$, while the matched-random control has $0.309$
-$[0.300,\ 0.318]$; its UER moves from $0.185$ to $0.000$, so both criteria
-separate and the row is positive.  Perfect separation means that, on this
-carrier, predictor failure is almost a deterministic readout of the current
-latent; the diagnostics recorded with the result show no trivial
-single-coordinate explanation, with strongest single dimension $0.84$ and
-norm $0.80$, mixed labels inside each episode, and a smooth error
-distribution.  The below-random permutation control is recorded as an
-anomaly of that control itself, not as evidence of leakage.  Thus the
-detection signal separates from the control intervals on all four
-environments (\texttt{tworooms} $0.731$, \texttt{reacher} $0.662$,
-\texttt{cube} $0.610$, \texttt{pusht} $1.000$), whereas the strict
-two-criterion rule holds for \texttt{tworooms} and \texttt{pusht} $(2/4)$.
+\texttt{quentinll/lewm-pusht}, the earlier contiguous episode block with
+$150$ episodes and $3092$ transitions gives AUROC $1.000$ $[1.000,\ 1.000]$,
+but that perfect result is a contiguous-block artifact rather than a
+representative population claim.  The independent stratified-random
+$150$-episode export gives post-hoc $h=1$ AUROC $0.744$ and native AUROC
+$0.800$, with CI95\_high $<0.95$ and UER $>0.02$.  The corrected conclusion is
+that representative pusht failure detection is about $0.74$--$0.80$, in the
+same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  The
+native $0.800 > 0.744$ comparison is consistent with the paired native-over-
+post-hoc result above.
 
 \paragraph{Record pointers.}
 The executed records live in the public repository
@@ -241,6 +259,10 @@ $$
 \text{horizon ledger completion} & \texttt{reports/g2n\_matrix\_completion.json},\\
 \text{cross-environment horizon ledger} & \texttt{reports/lewm\_crossenv\_horizon\_ledger.json},\\
 \text{allocation bridge study} & \texttt{reports/lewm\_allocation\_bridge.json},\\
+\text{native/post-hoc paired comparison} & \texttt{reports/lewm\_native\_vs\_posthoc\_paired.json},\\
+\text{allocation information bound} & \texttt{reports/lewm\_allocation\_information\_bound.json},\\
+\text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
+\text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
 \end{array}
 $$
@@ -249,13 +271,14 @@ published from the same repository.
 
 \paragraph{Boundary of this instantiation.}
 The detection-signal claim rests on four public checkpoints
-(\texttt{tworooms}, \texttt{reacher}, and \texttt{cube}), each with a single
-latent export; the strict two-criterion claim and all trained-ledger rows
-remain restricted to \texttt{tworooms}; the confidence intervals still use
-episode bootstrap rather than independent world seeds, and no claim of
-benchmark superiority is made.  These rows are an external baseline run beyond
-the fixed-checkpoint MiniGrid row, in gap-ledger form; they do not execute
-LeWorldModel's official benchmark setting and do not produce the
+(\texttt{tworooms}, \texttt{reacher}, \texttt{cube}, and \texttt{pusht}), each
+with a single latent export unless an independent export is explicitly named;
+the strict two-criterion claim and all trained-ledger rows remain scoped to the
+specified records; the confidence intervals still use episode bootstrap rather
+than independent world seeds, and no claim of benchmark superiority is made.
+The pusht $1.000$ row is retained only as a contiguous-block replication record,
+not as a representative population claim.  These rows are an external baseline
+run beyond the fixed-checkpoint MiniGrid row, in gap-ledger form; they do not
+execute LeWorldModel's official benchmark setting and do not produce the
 latent-prediction and rollout-or-planning fields of the public-baseline
-comparison record, so the comparison record carries no LeWorldModel score
-row.
+comparison record, so the comparison record carries no LeWorldModel score row.
