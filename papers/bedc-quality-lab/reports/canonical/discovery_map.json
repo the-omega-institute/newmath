@@ -15,10 +15,10 @@
       },
       {
         "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
+        "claim_verdict_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_decision_pointer",
         "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
+        "debt_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
         "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[3]",
@@ -174,15 +174,15 @@
     },
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-12T15:27:47.465919+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 19,
+    "D0": 21,
     "D1": 4,
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 2,
+    "D5-M": 1,
     "D5-O": 2,
     "DN": 7,
     "DR": 0
@@ -207,12 +207,15 @@
       "reports/canonical/jet_loss_frontier.json",
       "reports/canonical/lejepa_derivative_bridge.json",
       "reports/canonical/lejepa_mini_grid_negative_diagnosis.json",
+      "reports/canonical/reproduction-check-result.json",
+      "reports/canonical/reproduction-package.json",
+      "reports/canonical/scaling-ladder.json",
       "reports/canonical/spectral_jet_report.json",
       "reports/canonical/toy_safety_boundary.json"
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 39,
+  "row_count": 40,
   "rows": [
     {
       "audit_reason": "",
@@ -651,17 +654,30 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "dgt_scaling_ladder_owner-blocked-by-SCALE-HG2"
+        "no classifier shift or debt improvement"
       ],
-      "control_pointer": "$.d4_projection.matched_control",
-      "discovery_level": "D5-M",
-      "evidence_pointer": "$.scaling_ladder",
-      "failed_gate": "$.scaling_ladder.hardgate.gates.SCALE-HG2",
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "markdown_artifact": "reports/canonical/fair-l1-decision.md",
+      "projection_status": "source-insufficient",
+      "report": "fair-l1-decision",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "scaling-ladder-owner-closed:unresolved-pointer"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
+      "failed_gate": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-      "projection_status": "scaling-ladder-blocked",
+      "projection_status": "source-insufficient",
       "report": "discovery-gated-transformer",
-      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "terminal_verdict": ""
     },
     {

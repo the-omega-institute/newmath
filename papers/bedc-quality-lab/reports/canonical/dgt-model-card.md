@@ -1,4 +1,4 @@
-<!-- payload-sha256: 7592bf7a089522ec7252e713a1d47600d467f67bf65397f4e0f61a2ca2f0e78d -->
+<!-- payload-sha256: 4d5c7a1c74e3ef7b42a9db8c345d1ab1a2d91a3b0f453f6c139cc3a187c70cb1 -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
@@ -21,9 +21,9 @@
 
 ## Boundaries
 
-- L0 review status: `pass` (`reports/canonical/dgt-l0-controls.json:$.l0_toy_projection`)
+- L0 review status: `scoped-boundary` (`reports/canonical/dgt-l0-controls.json:$.l0_toy_projection`)
 - L1 scoped review: `pass` (`reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection`)
-- fair architecture comparison: `defer-to-fair-reconstruction` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit`)
+- fair architecture comparison: `bounded-negative` (`reports/canonical/fair-l1-decision.json:$.ladder_state_projection`)
 - ablation null interpretation: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
 - dgt-l0-controls construct validity: `fail` (`reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates`)
 - dgt-l1-controls construct validity: `pass` (`reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates`)
@@ -31,7 +31,7 @@
 ## Known Failure Modes
 
 - construct-validity boundary: `construct-boundary` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity`)
-- fair comparison boundary: `defer-to-fair-reconstruction` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action`)
+- fair comparison boundary: `l1-bounded-negative` (`reports/canonical/fair-l1-decision.json:$.ladder_state_projection`)
 - ablation null decomposition: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
 - OOD boundary: `not-claimed` (`reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary`)
 

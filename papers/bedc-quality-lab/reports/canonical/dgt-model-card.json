@@ -62,10 +62,10 @@
   "evaluation_boundaries": [
     {
       "boundary": "L0 review status",
-      "review_status": "pass",
+      "review_status": "scoped-boundary",
       "source_owner": "dgt-l0-controls",
       "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
-      "status": "pass"
+      "status": "scoped-boundary"
     },
     {
       "boundary": "L1 scoped review",
@@ -78,9 +78,10 @@
       "boundary": "fair architecture comparison",
       "claim": "no architecture advantage",
       "construct_validity_status": "construct-boundary",
-      "source_owner": "dgt-base-undertraining-audit",
-      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
-      "status": "defer-to-fair-reconstruction"
+      "ladder_state": "l1-bounded-negative",
+      "source_owner": "fair-l1-decision",
+      "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+      "status": "bounded-negative"
     },
     {
       "boundary": "ablation null interpretation",
@@ -109,7 +110,7 @@
       "status": "pass"
     }
   ],
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-12T15:27:47.465919+00:00",
   "intended_use": [
     {
       "scope": "bounded research card for the DGT canonical artifacts",
@@ -131,9 +132,9 @@
     },
     {
       "failure_mode": "fair comparison boundary",
-      "source_owner": "dgt-base-undertraining-audit",
-      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action",
-      "status": "defer-to-fair-reconstruction"
+      "source_owner": "fair-l1-decision",
+      "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+      "status": "l1-bounded-negative"
     },
     {
       "failure_mode": "ablation null decomposition",
@@ -191,7 +192,7 @@
       "artifact": "reports/canonical/dgt-l0-controls.json",
       "owner_issue": "github:issue:1200",
       "pointer": "$.l0_toy_projection",
-      "sha256": "82b27def6855666472d433442f3cf572a09b2df6c646c2cd04747a198e3a1895",
+      "sha256": "7bce0250dfe79238d60eb47eb2c096aa818cfaa59a213e1410d571c34863a9e3",
       "source_owner": "dgt-l0-controls",
       "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
       "status": "resolved"
@@ -203,6 +204,15 @@
       "sha256": "c3fbe577487639b92245b4abbf5fc888d47fd0739240131276a754f14a7bc7c0",
       "source_owner": "dgt-l1-controls",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/fair-l1-decision.json",
+      "owner_issue": "github:issue:1212",
+      "pointer": "$.ladder_state_projection",
+      "sha256": "e7e7ed847b7359d459b98e6e1656de56c95e4e2156b91c503c66c09a8465ff13",
+      "source_owner": "fair-l1-decision",
+      "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
       "status": "resolved"
     },
     {
@@ -218,7 +228,7 @@
       "artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
       "owner_issue": "github:issue:1206",
       "pointer": "$.null_decomposition",
-      "sha256": "755ff342caec3edf8e61b800d020dfd5bc9e35f1cbe7caf34e7eef1dfacd35ef",
+      "sha256": "42e53c3078a9ef20cd5d5a5c02e9ab57e96a3742305596a06fc3190f216b89be",
       "source_owner": "dgt-ablation-null-decomposition",
       "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
       "status": "resolved"
@@ -227,7 +237,7 @@
       "artifact": "reports/canonical/discovery-gated-transformer.json",
       "owner_issue": "github:issue:1201",
       "pointer": "$",
-      "sha256": "e54b1290f18e36a469d645d03d7a4a5d545646c31d36501666b94f28925b3456",
+      "sha256": "3e01e8e7ea019e2fb6be979df49937b872a4a0f9d0018ebc8391f27783955a9b",
       "source_owner": "discovery-gated-transformer",
       "source_pointer": "reports/canonical/discovery-gated-transformer.json:$",
       "status": "resolved"
@@ -289,7 +299,7 @@
   },
   "upstream_status": [
     {
-      "source_digest": "82b27def6855666472d433442f3cf572a09b2df6c646c2cd04747a198e3a1895",
+      "source_digest": "7bce0250dfe79238d60eb47eb2c096aa818cfaa59a213e1410d571c34863a9e3",
       "source_owner": "dgt-l0-controls",
       "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
       "status": "resolved"
@@ -301,19 +311,25 @@
       "status": "resolved"
     },
     {
+      "source_digest": "e7e7ed847b7359d459b98e6e1656de56c95e4e2156b91c503c66c09a8465ff13",
+      "source_owner": "fair-l1-decision",
+      "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+      "status": "resolved"
+    },
+    {
       "source_digest": "a59dcd5cae90368a48d1aff451236c3219b5fbb43d691b261d2304750ce44f91",
       "source_owner": "dgt-base-undertraining-audit",
       "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
       "status": "resolved"
     },
     {
-      "source_digest": "755ff342caec3edf8e61b800d020dfd5bc9e35f1cbe7caf34e7eef1dfacd35ef",
+      "source_digest": "42e53c3078a9ef20cd5d5a5c02e9ab57e96a3742305596a06fc3190f216b89be",
       "source_owner": "dgt-ablation-null-decomposition",
       "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
       "status": "resolved"
     },
     {
-      "source_digest": "e54b1290f18e36a469d645d03d7a4a5d545646c31d36501666b94f28925b3456",
+      "source_digest": "3e01e8e7ea019e2fb6be979df49937b872a4a0f9d0018ebc8391f27783955a9b",
       "source_owner": "discovery-gated-transformer",
       "source_pointer": "reports/canonical/discovery-gated-transformer.json:$",
       "status": "resolved"
