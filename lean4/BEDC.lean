@@ -2132,6 +2132,7 @@ import BEDC.Derived.CauchySequenceTailFilterCompletionUp
 import BEDC.Derived.CauchySequenceTailFilterCompletionUp.TasteGate
 import BEDC.Derived.CauchySequenceTailFilterUp.NameCertObligations
 import BEDC.Derived.CauchySequenceTailFilterUp.TasteGate
+import BEDC.Derived.CauchySequentialContinuityUp.TasteGate
 import BEDC.Derived.CauchySeriesCriterionUp.TasteGate
 import BEDC.Derived.CauchySeriesProductUp.TasteGate
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
@@ -2868,6 +2869,7 @@ import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
+import BEDC.Derived.CompleteTotallyBoundedCompactMetricUp.TasteGate
 import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
@@ -3243,6 +3245,7 @@ import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.CosetSpaceUp.TasteGate
 import BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
+import BEDC.Derived.CountableMetricCompletionUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CountablyCompactUp
 import BEDC.Derived.CounterfactualOutcomeUp.TasteGate
