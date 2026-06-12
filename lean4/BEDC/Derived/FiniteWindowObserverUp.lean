@@ -194,4 +194,61 @@ theorem FiniteWindowObserverBundleExhaustion [AskSetup] [PackageSetup]
   · exact
       ⟨inscriptionReadUnary, checkerReadUnary, acceptedReadUnary, consumerReadUnary⟩
 
+theorem FiniteWindowObserverStreamNameWindowReadback [AskSetup] [PackageSetup]
+    {O F I K D H C P N inscriptionRead checkerRead acceptedRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowObserverCarrier O F I K D H C P N bundle pkg ->
+      Cont O F inscriptionRead ->
+        Cont inscriptionRead I checkerRead ->
+          Cont checkerRead K acceptedRead ->
+            Cont acceptedRead D consumerRead ->
+              PkgSig bundle consumerRead pkg ->
+                hsame consumerRead (append (append (append (append O F) I) K) D) ∧
+                  SemanticNameCert
+                      (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row F ∨ hsame row I ∨ hsame row K ∨ hsame row D ∨
+                          hsame row inscriptionRead ∨ hsame row checkerRead ∨
+                            hsame row acceptedRead ∨ hsame row consumerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont O F inscriptionRead ∧
+                          Cont inscriptionRead I checkerRead ∧
+                            Cont checkerRead K acceptedRead ∧
+                              Cont acceptedRead D consumerRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle consumerRead pkg)
+                      hsame ∧
+                    UnaryHistory inscriptionRead ∧ UnaryHistory checkerRead ∧
+                      UnaryHistory acceptedRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: FiniteWindowObserverCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier inscriptionRoute checkerRoute acceptedRoute consumerRoute consumerPkg
+  have exhaustion :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row I ∨ hsame row K ∨ hsame row D ∨
+              hsame row inscriptionRead ∨ hsame row checkerRead ∨
+                hsame row acceptedRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont O F inscriptionRead ∧
+              Cont inscriptionRead I checkerRead ∧
+                Cont checkerRead K acceptedRead ∧
+                  Cont acceptedRead D consumerRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle consumerRead pkg)
+          hsame ∧
+        UnaryHistory inscriptionRead ∧ UnaryHistory checkerRead ∧
+          UnaryHistory acceptedRead ∧ UnaryHistory consumerRead :=
+    FiniteWindowObserverBundleExhaustion carrier inscriptionRoute checkerRoute acceptedRoute
+      consumerRoute consumerPkg
+  have inscriptionEq : inscriptionRead = append O F := inscriptionRoute
+  have checkerEq : checkerRead = append (append O F) I := by
+    cases inscriptionEq
+    exact checkerRoute
+  have acceptedEq : acceptedRead = append (append (append O F) I) K := by
+    cases checkerEq
+    exact acceptedRoute
+  have consumerEq : consumerRead = append (append (append (append O F) I) K) D := by
+    cases acceptedEq
+    exact consumerRoute
+  exact And.intro consumerEq exhaustion
+
 end BEDC.Derived.FiniteWindowObserverUp
