@@ -48,6 +48,22 @@ Perform primitive recursion over the closed $\mathsf{ProbeBundle}$ spine. At the
 The certificate $F$ records the comparison at every step, so the final precision history $D$ is below every bundled half-radius ledger. Because the comparisons are stored as $\RatUp$ rows and transported by the componentwise $\hsame$ rows in $L$, the result is stable under the $\UniformModulusUp$ classifier.
 \end{proof}
 
+\begin{theorem}[UniformModulus ProbeBundle induction derivation]
+\label{thm:uniformmodulus-probebundle-induction-derivation}
+For an accepted $\UniformModulusUp$ packet $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, the precision row $D$ is obtained by primitive induction over the displayed nonempty $\mathsf{ProbeBundle}$ spine $\mathcal{P}$. The base row uses the first positive $\RatUp$ half-radius ledger, and each successor step replaces the accumulator by the displayed lower $\RatUp$ comparison with the next half-radius row. All comparisons are transported by $L$ and replayed through $Q,P,N$.
+
+This derivation is a finite BEDC fold over $\mathcal{P}$. It does not appeal to compactness, a host minimum, or an external modulus selector.
+\end{theorem}
+\begin{proof}
+Induct over the displayed nonempty $\mathsf{ProbeBundle}$ spine. In the base case, the first bundled probe supplies a positive $\RatUp$ radius row, and its half-radius ledger becomes the initial accumulator for the precision row.
+
+For the successor step, assume the accumulator is already below every half-radius ledger seen so far. Read the next bundled radius row from $R$, use the displayed $\RatUp$ order comparison, and replace the accumulator by the lower of the old accumulator and the new half-radius ledger.
+
+The fold certificate $F$ records this comparison after each successor step. Therefore the terminal accumulator is a positive precision history $D$ below every bundled half-radius row, exactly as in \autoref{thm:uniformmodulus-finite-probebundle-fold}.
+
+Finally transport and replay the construction through $L,Q,P,N$. Componentwise $\hsame$ preserves the radius and comparison rows, while the displayed continuation, provenance, and naming rows expose the same finite induction to every consumer without invoking compactness, a host minimum, or an external selector.
+\end{proof}
+
 \begin{theorem}[UniformModulus finite-net consumer threshold package]
 \label{thm:uniformmodulus-finite-net-consumer-threshold-package}
 Let $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$ be an accepted $\UniformModulusUp$ packet. If its fold coordinate $F$ is supplied by an accepted $\FiniteNetMinimumFoldUp$ packet over the same $\mathsf{ProbeBundle}$ spine $\mathcal{P}$ and the same positive $\RatUp$ radius rows $R$, then the $\UniformModulusUp$ precision row $D$ is exactly the consumer threshold exported by that finite fold packet, transported through $L$ and routed by $Q,P,N$.
