@@ -5,6 +5,8 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.AxisZeckendorf.AxisNat
+import BEDC.Derived.AxisZeckendorf.Spine
 
 namespace BEDC.Derived.UnaryZeroSpineStandardIsoUp
 
@@ -15,6 +17,8 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.AxisZeckendorf.AxisNat
+open BEDC.Derived.AxisZeckendorf.Spine
 
 def UnaryZeroSpineStandardIsoCarrier [AskSetup] [PackageSetup]
     (unary axis length forward backward transport routes provenance cert : BHist)
@@ -125,5 +129,23 @@ theorem UnaryZeroSpineStandardIsoCarrier_namecert_obligations [AskSetup] [Packag
           (And.intro endpointUnary
             (And.intro forwardRow
               (And.intro backwardRow routesCert))))))
+
+theorem UnaryZeroSpineStandardIsoCarrier_nonidentification_boundary [AskSetup] [PackageSetup]
+    {unary axis length forward backward transport routes provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryZeroSpineStandardIsoCarrier unary axis length forward backward transport routes provenance
+        cert bundle pkg →
+      ZeroSpine axis →
+        (hsame unary BHist.Empty → False) →
+          hsame unary axis → False := by
+  -- BEDC touchpoint anchor: BHist hsame ProbeBundle Pkg UnaryHistory ZeroSpine
+  intro carrier axisSpine unaryNonempty sameUnaryAxis
+  have unaryRow : UnaryHistory unary := carrier.left
+  have axisUnary : UnaryHistory axis := by
+    cases sameUnaryAxis
+    exact unaryRow
+  have axisEmpty : hsame axis BHist.Empty :=
+    ZeroSpine_unaryHistory_intersection_empty axisSpine axisUnary
+  exact unaryNonempty (hsame_trans sameUnaryAxis axisEmpty)
 
 end BEDC.Derived.UnaryZeroSpineStandardIsoUp
