@@ -399,4 +399,61 @@ theorem MetricProjectionCarrier_public_projection_certificate [AskSetup] [Packag
   }
   exact ⟨cert, locatedUnary, projectionUnary, endpointUnary, publicUnary⟩
 
+theorem MetricProjectionCarrier_public_projection_separated_certificate
+    [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedEndpoint projectionEndpoint endpointRead publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont D I locatedEndpoint ->
+        Cont I W projectionEndpoint ->
+          Cont projectionEndpoint E endpointRead ->
+            Cont endpointRead N publicRead ->
+              PkgSig bundle projectionEndpoint pkg ->
+                PkgSig bundle publicRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨
+                          hsame row W ∨ hsame row E ∨ hsame row T ∨ hsame row R ∨
+                            hsame row P ∨ hsame row N ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont D I locatedEndpoint ∧
+                          Cont I W projectionEndpoint ∧
+                            Cont projectionEndpoint E endpointRead ∧
+                              Cont endpointRead N publicRead ∧
+                                PkgSig bundle publicRead pkg)
+                      hsame ∧
+                    UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧
+                      UnaryHistory locatedEndpoint ∧ UnaryHistory projectionEndpoint ∧
+                        UnaryHistory endpointRead ∧ UnaryHistory publicRead ∧
+                          Cont D I locatedEndpoint ∧ Cont I W projectionEndpoint ∧
+                            Cont projectionEndpoint E endpointRead ∧
+                              Cont endpointRead N publicRead ∧
+                                PkgSig bundle P pkg ∧
+                                  PkgSig bundle projectionEndpoint pkg ∧
+                                    PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier locatedRoute projectionRoute endpointRoute publicRoute projectionPkg
+    publicPkg
+  have separated :=
+    MetricProjectionCarrier_locatedset_endpoint_separation
+      (H := H) (C := C) (D := D) (I := I) (W := W) (E := E) (T := T)
+      (R := R) (P := P) (N := N) (bundle := bundle) (pkg := pkg)
+      carrier locatedRoute projectionRoute projectionPkg
+  have publicCert :=
+    MetricProjectionCarrier_public_projection_certificate
+      (H := H) (C := C) (D := D) (I := I) (W := W) (E := E) (T := T)
+      (R := R) (P := P) (N := N) (bundle := bundle) (pkg := pkg)
+      carrier locatedRoute projectionRoute endpointRoute publicRoute publicPkg
+  obtain
+    ⟨DUnary, IUnary, WUnary, locatedUnary, projectionUnary, locatedRoute',
+      projectionRoute', provenancePkg, projectionPkg'⟩ := separated
+  obtain ⟨cert, _locatedUnaryPublic, _projectionUnaryPublic, endpointUnary, publicUnary⟩ :=
+    publicCert
+  exact
+    ⟨cert, DUnary, IUnary, WUnary, locatedUnary, projectionUnary, endpointUnary,
+      publicUnary, locatedRoute', projectionRoute', endpointRoute, publicRoute,
+      provenancePkg, projectionPkg', publicPkg⟩
+
 end BEDC.Derived.MetricProjectionUp
