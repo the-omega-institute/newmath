@@ -37,6 +37,12 @@ private theorem bishopCompletionModulusSelectionDecode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def bishopCompletionModulusSelectionFields :
+    BishopCompletionModulusSelectionUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | BishopCompletionModulusSelectionUp.mk M n k W D R E H C P N =>
+      [M, n, k, W, D, R, E, H, C, P, N]
+
 def bishopCompletionModulusSelectionToEventFlow :
     BishopCompletionModulusSelectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
