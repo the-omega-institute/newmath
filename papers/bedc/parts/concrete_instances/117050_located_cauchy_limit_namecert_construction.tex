@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyLimitUp$}
+\label{ch:concrete-instances-located-cauchy-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedCauchyLimitUp$ packet records the finite located-limit boundary that sits between regular Cauchy readback and the terminal real-name seal. It reads StreamName windows from \autoref{ch:concrete-instances-streamname-namecert}, RegSeqRat readback from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance ledgers from \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal from \autoref{ch:concrete-instances-real-namecert}, and uniqueness discipline from \autoref{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}. The packet names a located candidate-limit route; it does not assert quotient completion, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedCauchyLimit carrier]
+\label{def:located-cauchy-limit-carrier}
+A $\LocatedCauchyLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,T,L_0,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row for the Cauchy source stream.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare requested precision with the displayed rational windows.
+\item $T$ is the located tail schedule, recording the finite threshold and neighbourhood data that make the candidate limit inspectable.
+\item $L_0$ is the candidate-limit row consumed by the terminal real-name seal.
+\item $U$ is the uniqueness boundary, read through $\RegularCauchyLimitUniquenessUp$ before any two candidate-limit rows are classified together.
+\item $E$ is the terminal $\RealUp$ seal row for the displayed candidate limit.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from stream windows through readback, tolerance, located tail schedule, candidate limit, uniqueness boundary, real seal, provenance, and naming.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCauchyLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyLimitUniquenessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedCauchyLimitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient limits, selected representatives, countable-choice schedules, host real equality, arbitrary completion objects, or ambient real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.LocatedCauchyLimitUp}
+
+\begin{theorem}[LocatedCauchyLimit NameCert obligations]
+\label{thm:located-cauchy-limit-namecert-obligations}
+For an accepted $\LocatedCauchyLimitUp$ carrier $L=(S,R,D,T,L_0,U,E,H,C,P,N)$, the local $\NameCert_{\LocatedCauchyLimitUp}$ surface consists exactly of StreamName window exposure, RegSeqRat readback exposure, DyadicRatCore tolerance comparison, located tail schedule admission, candidate-limit row admission, uniqueness-boundary routing, terminal RealUp sealing, componentwise transport, displayed replay, provenance, and local naming. No obligation is stored outside $S,R,D,T,L_0,U,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $S,R,D,T,L_0,U,E$, and the structural rows are $H,C,P,N$.
+
+The source route is forced by the carrier order: stream windows are read by $S$, regular rational data by $R$, and dyadic tolerance comparison by $D$. The located tail schedule $T$ is the only row that can expose the neighbourhood threshold needed by the candidate-limit row $L_0$.
+
+The uniqueness row $U$ and the terminal seal $E$ are downstream of the candidate-limit row. Transport, replay, provenance, and naming preserve exactly this finite route.
+
+Since the excluded objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocatedCauchyLimit RegSeqRat route]
+\label{thm:located-cauchy-limit-regseqrat-route}
+Every accepted $\LocatedCauchyLimitUp$ read reaches a candidate-limit row only through the finite route
+$$
+\StreamNameUp(S) \longmapsto \RegSeqRatUp(R) \longmapsto \DyadicRatCoreUp(D) \longmapsto T \longmapsto L_0.
+$$
+The route then passes through the uniqueness boundary $U$ and the terminal $\RealUp$ seal $E$ before any consumer reads $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read $S$ first. It is the only stream-window source in the carrier, so a regular rational readback cannot bypass it.
+
+The row $R$ is then compared against the requested precision by the dyadic ledger $D$. The located schedule $T$ records the finite tail threshold that lets the candidate-limit row $L_0$ be inspected.
+
+The remaining analytic rows $U$ and $E$ place uniqueness and terminal real-name sealing after the candidate-limit read. The structural rows preserve the same route and add no second source.
+\end{proof}
+
+\begin{theorem}[LocatedCauchyLimit nonescape]
+\label{thm:located-cauchy-limit-nonescape}
+No accepted $\LocatedCauchyLimitUp$ packet exports quotient completion, selected representatives, countable choice, host real equality, arbitrary completion data, or ambient $\RealUp$ completeness. Every completion-facing consumer receives only $S,R,D,T,L_0,U,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:located-cauchy-limit-namecert-obligations}. It identifies the full local obligation surface as the displayed finite rows.
+
+Apply \autoref{thm:located-cauchy-limit-regseqrat-route}. It orders the analytic source rows before the candidate-limit, uniqueness, and RealUp seal rows.
+
+The carrier definition has no field for the excluded objects. Thus transport, replay, provenance, and naming cannot synthesize them for a completion-facing consumer.
+\end{proof}
+
+\closureat{LocatedCauchyLimitUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyLimitUp}
+  \constructivestory{A $\LocatedCauchyLimitUp$ packet is generated from StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance ledgers, a located tail schedule, candidate-limit row, uniqueness boundary, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-limit-carrier}, \autoref{thm:located-cauchy-limit-namecert-obligations}, \autoref{thm:located-cauchy-limit-regseqrat-route}, and \autoref{thm:located-cauchy-limit-nonescape} seed the finite located Cauchy limit route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, arbitrary completion objects, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, RegSeqRat route exactness, uniqueness-boundary routing, terminal RealUp seal routing, and nonescape for BEDC.Derived.LocatedCauchyLimitUp.}
+\end{closurestatus}

@@ -911,6 +911,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ScopedKernelRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDeterminacy
+import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDiameterControl
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyCompletionUp.WindowInduction
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
@@ -4378,6 +4379,7 @@ import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.SingleModulus
+import BEDC.Derived.EvenOddCauchyCriterionUp.TailMerge
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.EventuallyConstantSequenceUp.TailFilterHandoff
@@ -5799,6 +5801,7 @@ import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.CountableNameBoundary
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
 import BEDC.Derived.LawlessSequenceUp.PrefixInductionObligation
+import BEDC.Derived.LawlessSequenceUp.PrefixWindowDeterminacy
 import BEDC.Derived.LawlessSequenceUp.RealBoundaryNonescape
 import BEDC.Derived.LawlessSequenceUp.RealNonescape
 import BEDC.Derived.LawlessSequenceUp.StreamNameChoiceWindow
