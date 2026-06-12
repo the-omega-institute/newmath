@@ -25,6 +25,9 @@ LABEL_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:_make_sequences"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease")
 REQUIRED_BASE_GRID = (36, 72, 128, 256, 512)
+INPUT_ABLATION_ARM_ID = "input_ablation_masked_tail"
+INPUT_ABLATION_ACCURACY_METRIC = "input_ablation_accuracy_mean"
+INPUT_ABLATION_LOSS_DECREASE_METRIC = "input_ablation_loss_decrease_mean"
 NOT_CLAIMED = (
     "Bounded L1 tiny-sequence base-undertraining audit only.",
     "No undertraining discharge claim under information-starved baseline.",
@@ -354,7 +357,7 @@ def _comparison_row(
             ci_low_separation=None,
             decision=missing_reason or "required-evidence-missing",
         )
-    base_metric = _metric(source_row, "information_starved_accuracy_mean")
+    base_metric = _metric(source_row, INPUT_ABLATION_ACCURACY_METRIC)
     dgt_metric = _metric(source_row, "dgt_accuracy_mean")
     if base_metric is None or dgt_metric is None:
         status = "missing"
@@ -365,7 +368,7 @@ def _comparison_row(
         ci_low = dgt_metric - base_metric
         ci_overlap = ci_low <= 0.0
         status = "resolved"
-        decision = "information-starved-catches-up" if ci_overlap else "noninformative-dgt-separated"
+        decision = "input-ablation-catches-up" if ci_overlap else "noninformative-dgt-separated"
     return BaseUndertrainingComparisonRow(
         comparison_id=comparison_id,
         status=status,
@@ -422,7 +425,7 @@ def construct_validity_assessment(
         "label_dependency_order": label_dependency_order,
         "second_predecessor_visible_to_baseline": second_predecessor_visible,
         "input_accessibility_preconditions": preconditions,
-        "baseline_feature_wiring": "[embed(x_prev_1), zero_like(embed(x_prev_2))]",
+        "baseline_feature_wiring": "full token sequence with x_prev_2 masked before attention",
         "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
         "hidden_coefficient_modulus_gcd": _gcd(hidden_coefficient, vocabulary_size),
         "bayes_upper_bound_accuracy": _round(bayes_upper_bound),
@@ -456,14 +459,14 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     equal_compute_match = (
         None
         if dgt_compute is None
-        else _nearest_by_value(rows, value_getter=lambda row: _compute(row, "information_starved_l1_baseline"), target=dgt_compute)
+        else _nearest_by_value(rows, value_getter=lambda row: _compute(row, INPUT_ABLATION_ARM_ID), target=dgt_compute)
     )
     equal_loss_match = (
         None
         if dgt_loss_dec is None
         else _nearest_by_value(
             rows,
-            value_getter=lambda row: _metric(row, "information_starved_loss_decrease_mean"),
+            value_getter=lambda row: _metric(row, INPUT_ABLATION_LOSS_DECREASE_METRIC),
             target=dgt_loss_dec,
         )
     )

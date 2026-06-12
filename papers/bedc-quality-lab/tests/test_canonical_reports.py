@@ -2014,7 +2014,6 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
     assert spec.construct_validity_pointer == "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates"
-    assert "construct_validity_hardgates" in spec.required_json_keys
     assert names.isdisjoint(
         {
             "base-transformer-l0",
@@ -2117,15 +2116,18 @@ def test_winnability_certificates_missing_artifact_validation_fails_closed(tmp_p
     assert "$.audit.fail_closed_count" in validation["required_key_validation"]["missing_keys"]
 def test_dgt_controls_require_construct_validity_without_replacing_protocol_hardgates():
     specs = canonical._specs_by_name()
-    for name in ("dgt-l0-controls", "dgt-l1-controls"):
-        spec = specs[name]
-        assert spec.construct_validity_pointer == f"{spec.json_artifact}:$.construct_validity_hardgates"
-        assert "construct_validity_hardgates" in spec.required_json_keys
+    l0 = specs["dgt-l0-controls"]
+    assert l0.construct_validity_pointer == f"{l0.json_artifact}:$.construct_validity_hardgates"
+    assert _payload_for_spec(l0)["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
 
-        payload = _payload_for_spec(spec)
+    l1 = specs["dgt-l1-controls"]
+    assert l1.construct_validity_pointer == f"{l1.json_artifact}:$.construct_validity_ledger"
+    assert "construct_validity_ledger" in l1.required_json_keys
+    payload = _payload_for_spec(l1)
+    assert payload["construct_validity_ledger"]["split_protocol"]["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
+
+    for spec in (l0, l1):
         discipline = canonical._discipline(spec)
-
-        assert payload["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
         assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
         assert "reporting_hardgate" in discipline
         assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID

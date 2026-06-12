@@ -353,6 +353,8 @@ def _minimal_payload(spec, *, root: Path | None = None):
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
         public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
         public_payload["construct_validity_hardgates"] = _construct_validity_payload(canonical.DGT_L0_CONTROLS_JSON_ARTIFACT)
+        public_payload["construct_validity_hardgates"]["status"] = "pass"
+        public_payload["construct_validity_hardgates"]["failed_gates"] = []
         return public_payload
     if spec.name == "input-accessibility":
         return input_accessibility_owner.build_payload(generated_at="fixture-time")
@@ -369,7 +371,23 @@ def _minimal_payload(spec, *, root: Path | None = None):
                 batch_size=32,
             ),
         )
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        return {key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}
+    if spec.name == "dgt-base-undertraining-audit":
+        payload["base_undertraining_audit"] = {
+            "verdict": "construct-boundary",
+            "claim_action": "defer-to-fair-reconstruction",
+            "construct_validity": {
+                "status": "construct-boundary",
+                "bayes_upper_bound_accuracy": 0.0625,
+                "source_pointers": {
+                    "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"
+                },
+            },
+        }
+        return payload
+    if spec.name == "dgt-ablation-null-decomposition":
+        payload["null_decomposition"] = {"analysis_status": "pass", "verdict": "mixed"}
+        return payload
     if spec.name == "winnability-certificates":
         return winnability_owner.build_payload(root=root or discovery_map.ROOT, generated_at="fixture-time")
     if spec.name == "structural-generalization-splits":
@@ -1717,6 +1735,7 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
 
     assert [row["report"] for row in payload["rows"]] == [spec.name for spec in expected_reports]
     assert payload["row_count"] == len(expected_reports)
+    assert not {row["report"] for row in payload["rows"]}.intersection(canonical.DISCOVERY_MAP_EXCLUDED_REPORTS)
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 

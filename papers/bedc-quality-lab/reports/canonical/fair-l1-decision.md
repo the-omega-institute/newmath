@@ -1,12 +1,12 @@
 # Fair L1 Decision
 
-- Status: `bounded-negative`
-- Ladder state: `l1-bounded-negative`
-- Failed gate: `FAIR-L1-HG2`
+- Status: `blocked`
+- Ladder state: `l1-scaling-blocked`
+- Failed gate: `FAIR-L1-HG1`
 
 ## Hardgates
 
-- `FAIR-L1-HG1`: `pass` - required owner pointers resolve before any L1 decision is emitted
+- `FAIR-L1-HG1`: `fail` - required owner pointers resolve before any L1 decision is emitted
 - `FAIR-L1-HG2`: `fail` - equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are resolved
 - `FAIR-L1-HG3`: `fail` - baseline arm has enough task information for a fair architecture comparison
 - `FAIR-L1-HG4`: `pass` - bounded L1 controls pass their owner-local review
@@ -23,6 +23,7 @@
 
 ## Boundary Ledger
 
+- `FAIR-L1-HG1`: `blocked` - one or more owner pointers are missing
 - `FAIR-L1-HG2`: `bounded-negative` - one or more fair alignment rows are missing
 - `FAIR-L1-HG3`: `bounded-negative` - baseline arm is information-starved or input-accessibility rows mark missing variables
 - `FAIR-L1-HG5`: `bounded-negative` - step-ladder evidence does not support fair scaling promotion

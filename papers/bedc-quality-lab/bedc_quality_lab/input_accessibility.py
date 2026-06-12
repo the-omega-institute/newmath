@@ -43,6 +43,7 @@ TOP_LEVEL_KEYS = (
     "generated_at",
     "producer",
     "owner",
+    "source_artifacts",
     "source_registry",
     "registry_digest",
     "visible_variables",
@@ -495,62 +496,29 @@ def _resolve_callable(module_name: str, callable_path: str) -> Any:
     return cursor
 
 
-DEFAULT_REGISTRY: tuple[FeatureSourceSpec, ...] = (
+DEFAULT_REGISTRY: tuple[FeatureSourceSpec, ...] = tuple(
     FeatureSourceSpec(
         experiment="dgt_l1_tiny_sequence",
-        split="in_distribution",
-        arm="information_starved_l1_baseline",
-        role="fairness-control",
+        split=split,
+        arm=arm,
+        role=role,
         feature_module="bedc_quality_lab.dgt_l1_controls",
-        feature_callable="_TinySequenceModel._features",
+        feature_callable=(
+            "_masked_tail_features_for_accessibility"
+            if arm == "input_ablation_masked_tail"
+            else "_full_sequence_pair_features_for_accessibility"
+        ),
         label_module="bedc_quality_lab.dgt_l1_controls",
-        label_callable="_make_sequences",
-        claim_scope="bounded-tiny-sequence-in-dist",
-    ),
-    FeatureSourceSpec(
-        experiment="dgt_l1_tiny_sequence",
-        split="ood",
-        arm="information_starved_l1_baseline",
-        role="boundary-control",
-        feature_module="bedc_quality_lab.dgt_l1_controls",
-        feature_callable="_TinySequenceModel._features",
-        label_module="bedc_quality_lab.dgt_l1_controls",
-        label_callable="_make_sequences",
-        claim_scope="bounded-tiny-sequence-ood-boundary",
-    ),
-    FeatureSourceSpec(
-        experiment="dgt_l1_tiny_sequence",
-        split="in_distribution",
-        arm="dgt_l1",
-        role="candidate",
-        feature_module="bedc_quality_lab.dgt_l1_controls",
-        feature_callable="_TinySequenceModel._features",
-        label_module="bedc_quality_lab.dgt_l1_controls",
-        label_callable="_make_sequences",
-        claim_scope="bounded-tiny-sequence-in-dist",
-    ),
-    FeatureSourceSpec(
-        experiment="dgt_l1_tiny_sequence",
-        split="ood",
-        arm="dgt_l1",
-        role="boundary-candidate",
-        feature_module="bedc_quality_lab.dgt_l1_controls",
-        feature_callable="_TinySequenceModel._features",
-        label_module="bedc_quality_lab.dgt_l1_controls",
-        label_callable="_make_sequences",
-        claim_scope="bounded-tiny-sequence-ood-boundary",
-    ),
-    FeatureSourceSpec(
-        experiment="dgt_l1_tiny_sequence",
-        split="in_distribution",
-        arm="matched_random_structural_l1",
-        role="structural-control",
-        feature_module="bedc_quality_lab.dgt_l1_controls",
-        feature_callable="_TinySequenceModel._features",
-        label_module="bedc_quality_lab.dgt_l1_controls",
-        label_callable="_make_sequences",
-        claim_scope="bounded-tiny-sequence-in-dist",
-    ),
+        label_callable="_same_rule_label_for_accessibility",
+        claim_scope=f"bounded-tiny-sequence-{split}",
+    )
+    for arm, role in (
+        ("input_ablation_masked_tail", "ablation"),
+        ("dgt_l1", "candidate"),
+        ("parameter_matched_attention", "attention-control"),
+        ("compute_matched_attention", "attention-control"),
+    )
+    for split in ("in_distribution", "ood")
 )
 
 
@@ -730,6 +698,12 @@ def build_payload(
         "generated_at": generated_at,
         "producer": PRODUCER,
         "owner": OWNER,
+        "source_artifacts": {
+            "owner_module": OWNER,
+            "producer": PRODUCER,
+            "registry_pointer": f"{JSON_ARTIFACT}:$.source_registry",
+            "row_pointer": f"{JSON_ARTIFACT}:$.rows",
+        },
         "source_registry": source_registry(registry),
         "registry_digest": registry_digest(registry),
         "visible_variables": {row["row_id"]: row["visible_variables"] for row in rows},

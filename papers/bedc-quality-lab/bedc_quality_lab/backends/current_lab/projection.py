@@ -3232,7 +3232,9 @@ def _manifest_audit(
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> dict[str, Any]:
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
-    registered = {spec.json_artifact for spec in reports}
+    from scripts.run_canonical_reports import CANONICAL_REPORTS as full_canonical_reports
+
+    registered = {spec.json_artifact for spec in reports} | {spec.json_artifact for spec in full_canonical_reports}
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
         "reports/canonical/formal_hardening.json",
