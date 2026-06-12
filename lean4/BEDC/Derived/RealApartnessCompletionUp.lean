@@ -364,4 +364,42 @@ theorem RealApartnessCompletionLedgerExhaustion [AskSetup] [PackageSetup]
   }
   exact ⟨cert, ledgerUnary⟩
 
+theorem RealApartnessCompletionWindowDeterminacy [AskSetup] [PackageSetup]
+    {apartness separation completion stream readback tolerance sealRow transport replay
+      provenance localName windowRead regularRead sealRead windowRead' regularRead'
+      sealRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApartnessCompletionCarrier apartness separation completion stream readback tolerance
+        sealRow transport replay provenance localName bundle pkg →
+      Cont stream readback windowRead →
+        Cont windowRead tolerance regularRead →
+          Cont regularRead sealRow sealRead →
+            Cont stream readback windowRead' →
+              Cont windowRead' tolerance regularRead' →
+                Cont regularRead' sealRow sealRead' →
+                  hsame windowRead windowRead' ∧ hsame regularRead regularRead' ∧
+                    hsame sealRead sealRead' ∧ UnaryHistory windowRead ∧
+                      UnaryHistory regularRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: RealApartnessCompletionCarrier BHist Cont hsame UnaryHistory
+  intro carrier windowRoute regularRoute sealRoute windowRoute' regularRoute' sealRoute'
+  obtain ⟨_apartnessUnary, _separationUnary, _completionUnary, streamUnary, readbackUnary,
+    toleranceUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _apartnessSeparationCompletion, _streamReadbackTolerance,
+    _toleranceSealReplay, _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ :=
+      carrier
+  have sameWindow : hsame windowRead windowRead' :=
+    cont_respects_hsame (hsame_refl stream) (hsame_refl readback) windowRoute windowRoute'
+  have sameRegular : hsame regularRead regularRead' :=
+    cont_respects_hsame sameWindow (hsame_refl tolerance) regularRoute regularRoute'
+  have sameSeal : hsame sealRead sealRead' :=
+    cont_respects_hsame sameRegular (hsame_refl sealRow) sealRoute sealRoute'
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed streamUnary readbackUnary windowRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowUnary toleranceUnary regularRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary sealUnary sealRoute
+  exact
+    ⟨sameWindow, sameRegular, sameSeal, windowUnary, regularUnary, sealReadUnary⟩
+
 end BEDC.Derived.RealApartnessCompletionUp
