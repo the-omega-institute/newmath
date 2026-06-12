@@ -50,6 +50,14 @@ from bedc_quality_lab.discovery_regularized_training import (
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
+from bedc_quality_lab.dgt_model_card import (
+    CARD_ID as DGT_MODEL_CARD_ARTIFACT_ID,
+    CANONICAL_JSON_ARTIFACT as DGT_MODEL_CARD_JSON_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT as DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as DGT_MODEL_CARD_SCHEMA_ID,
+    validate_dgt_model_card,
+    write_dgt_model_card,
+)
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
     JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
@@ -1482,6 +1490,38 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT}:$.component_redundancy_audit.audit_status",
     ),
     CanonicalReportSpec(
+        name="dgt-model-card",
+        command=("python3", "scripts/run_dgt_model_card.py"),
+        json_artifact=DGT_MODEL_CARD_JSON_ARTIFACT,
+        markdown_artifact=DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "card_id",
+            "source_artifacts",
+            "intended_use",
+            "not_intended_use",
+            "known_failure_modes",
+            "evaluation_boundaries",
+            "training_facts",
+            "upstream_status",
+            "card_hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.intended_use",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.card_hardgates.status",
+        control_pointer="$.evaluation_boundaries",
+        no_control_rationale_pointer=None,
+        evidence_envelope_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.upstream_status",
+        backend_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.status",
+        negative_witness_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.known_failure_modes",
+        formal_status_pointer=f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$.card_hardgates",
+    ),
+    CanonicalReportSpec(
         name="order-k-benchmark",
         command=("python3", "scripts/run_order_k_benchmark.py"),
         json_artifact="reports/canonical/order-k-benchmark.json",
@@ -2038,6 +2078,17 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
         paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
+    if spec.name == "dgt-model-card":
+        paths.update(
+            (
+                DGT_L0_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+                DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                "reports/canonical/index.json",
+            )
+        )
     if spec.name == "winnability-certificates":
         paths.update((DGT_L0_CONTROLS_JSON_ARTIFACT, DGT_L1_CONTROLS_JSON_ARTIFACT))
         input_accessibility = ROOT / "reports/canonical/input-accessibility.json"
@@ -4802,6 +4853,28 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     }
 
 
+def _dgt_model_card_index_section() -> dict[str, Any]:
+    return {
+        "artifact_id": DGT_MODEL_CARD_ARTIFACT_ID,
+        "schema_id": DGT_MODEL_CARD_SCHEMA_ID,
+        "json_artifact": DGT_MODEL_CARD_JSON_ARTIFACT,
+        "markdown_artifact": DGT_MODEL_CARD_MARKDOWN_ARTIFACT,
+        "card_pointer": f"{DGT_MODEL_CARD_JSON_ARTIFACT}:$",
+        "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
+        "canonical_role": "auxiliary_pointer_projection",
+        "not_claimed": "This index section does not copy model-card verdicts or status rows; read the card pointer.",
+    }
+
+
+def _evidence_provenance_index_section() -> dict[str, Any]:
+    return {
+        "status": "resolved",
+        "source_type": "canonical-quality-index",
+        "evidence_type": "pointer-owner-provenance",
+        "canonical_role": "index-owned evidence provenance cell",
+    }
+
+
 def _structural_generalization_splits_index_section() -> dict[str, Any]:
     return {
         "status": "pointer-only",
@@ -6021,12 +6094,20 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         )
         if not exists
     ]
-    status = "pass" if key_validation["status"] == "pass" and not missing_artifacts else "fail"
+    model_card_errors: list[dict[str, str]] = []
+    if spec.name == "dgt-model-card" and key_validation["status"] == "pass" and not missing_artifacts:
+        model_card_errors = [error.as_dict() for error in validate_dgt_model_card(_load_report_payload(spec), ROOT)]
+    status = (
+        "pass"
+        if key_validation["status"] == "pass" and not missing_artifacts and not model_card_errors
+        else "fail"
+    )
     return {
         "status": status,
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "model_card_errors": model_card_errors,
     }
 
 
@@ -6171,6 +6252,8 @@ def _index(
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
+        "dgt_model_card": _dgt_model_card_index_section(),
+        "evidence_provenance": _evidence_provenance_index_section(),
         "structural_generalization_splits": _structural_generalization_splits_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
@@ -6905,6 +6988,22 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
+    dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
+        write_dgt_model_card(root=ROOT, generated_at=timestamp)
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
+        card_result = _run_spec(dgt_model_card_spec, mode="verify", generated_at=timestamp)
+        replaced_card_result = False
+        updated_results = []
+        for result in results:
+            if result["name"] == "dgt-model-card":
+                updated_results.append(card_result)
+                replaced_card_result = True
+            else:
+                updated_results.append(result)
+        if not replaced_card_result:
+            updated_results.append(card_result)
+        results = updated_results
     payload = _index(
         results,
         generated_at=timestamp,
@@ -6913,6 +7012,8 @@ def run_reports(
     )
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if any(result["status"] != "pass" for result in results):
@@ -6939,6 +7040,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--list", action="store_true", help="List canonical report manifest rows.")
     parser.add_argument("--only", metavar="NAME", help="Run one canonical report by manifest name.")
+    parser.add_argument("--changed", action="store_true", help="Regenerate selected artifacts whose fingerprints do not match.")
     parser.add_argument("--force", action="store_true", help="Regenerate all selected canonical producer artifacts.")
     parser.add_argument("--cold", action="store_true", help="Regenerate all selected canonical producer artifacts and write fingerprint sidecars.")
     parser.add_argument(

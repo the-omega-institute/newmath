@@ -1,0 +1,328 @@
+{
+  "card_hardgates": {
+    "gates": {
+      "CARD-HG1": {
+        "gate_id": "CARD-HG1",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG2": {
+        "gate_id": "CARD-HG2",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG3": {
+        "gate_id": "CARD-HG3",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG4": {
+        "gate_id": "CARD-HG4",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG5": {
+        "gate_id": "CARD-HG5",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG6": {
+        "gate_id": "CARD-HG6",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG7": {
+        "gate_id": "CARD-HG7",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG8": {
+        "gate_id": "CARD-HG8",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      },
+      "CARD-HG9": {
+        "gate_id": "CARD-HG9",
+        "input_pointers": [],
+        "reason": "ok",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "card_id": "bedc-quality-lab:dgt-model-card",
+  "evaluation_boundaries": [
+    {
+      "boundary": "L0 review status",
+      "review_status": "pass",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "status": "pass"
+    },
+    {
+      "boundary": "L1 scoped review",
+      "review_status": "pass",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "status": "pass"
+    },
+    {
+      "boundary": "fair architecture comparison",
+      "claim": "no architecture advantage",
+      "construct_validity_status": "construct-boundary",
+      "source_owner": "dgt-base-undertraining-audit",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "defer-to-fair-reconstruction"
+    },
+    {
+      "boundary": "ablation null interpretation",
+      "source_owner": "dgt-ablation-null-decomposition",
+      "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+      "status": "mixed"
+    },
+    {
+      "boundary": "dgt-l0-controls construct validity",
+      "failed_gates": [
+        "CV-HG4"
+      ],
+      "rule_abstraction_claim": false,
+      "rule_abstraction_status": "not-claimed",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
+      "status": "fail"
+    },
+    {
+      "boundary": "dgt-l1-controls construct validity",
+      "failed_gates": [],
+      "rule_abstraction_claim": false,
+      "rule_abstraction_status": "not-claimed",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+      "status": "pass"
+    }
+  ],
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "intended_use": [
+    {
+      "scope": "bounded research card for the DGT canonical artifacts",
+      "source_owner": "discovery-gated-transformer",
+      "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.model_id"
+    },
+    {
+      "scope": "pointer index for L0 and L1 review boundaries",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection"
+    }
+  ],
+  "known_failure_modes": [
+    {
+      "failure_mode": "construct-validity boundary",
+      "source_owner": "dgt-base-undertraining-audit",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "status": "construct-boundary"
+    },
+    {
+      "failure_mode": "fair comparison boundary",
+      "source_owner": "dgt-base-undertraining-audit",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.claim_action",
+      "status": "defer-to-fair-reconstruction"
+    },
+    {
+      "failure_mode": "ablation null decomposition",
+      "source_owner": "dgt-ablation-null-decomposition",
+      "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+      "status": "mixed"
+    },
+    {
+      "failure_mode": "OOD boundary",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
+      "status": "not-claimed"
+    }
+  ],
+  "missing_source_refs": [],
+  "not_claimed": [
+    "No production deployment authority.",
+    "No global model superiority claim.",
+    "No LLM replacement claim.",
+    "No fair architecture advantage claim.",
+    "No OOD generalization claim.",
+    "No component-causal closure claim."
+  ],
+  "not_intended_use": [
+    {
+      "literal": "bounded BEDC prototype",
+      "source_owner": "maintainer-policy",
+      "source_pointer": "github:issue:1220"
+    },
+    {
+      "literal": "not production model",
+      "source_owner": "maintainer-policy",
+      "source_pointer": "github:issue:1220"
+    },
+    {
+      "literal": "not LLM replacement",
+      "source_owner": "maintainer-policy",
+      "source_pointer": "github:issue:1220"
+    },
+    {
+      "literal": "not global Transformer superiority",
+      "source_owner": "maintainer-policy",
+      "source_pointer": "github:issue:1220"
+    },
+    {
+      "literal": "current L1 evidence invalid as fair architecture comparison",
+      "source_owner": "maintainer-policy",
+      "source_pointer": "github:issue:1220"
+    }
+  ],
+  "producer": "scripts/run_dgt_model_card.py",
+  "schema_id": "bedc-quality-lab:dgt-model-card",
+  "source_artifacts": [
+    {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "owner_issue": "github:issue:1200",
+      "pointer": "$.l0_toy_projection",
+      "sha256": "ec9ebef08a41d4d3e212c0564df8fa16035a899269806cd5e4eb6f8b298f4ed5",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_issue": "github:issue:1212",
+      "pointer": "$.l1_tiny_sequence_projection",
+      "sha256": "e48dba2adbdb5d2f26998964f77cd1bbfc78ffee8ab825d94e8bc00be99b57bd",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
+      "owner_issue": "github:issue:1196",
+      "pointer": "$.base_undertraining_audit",
+      "sha256": "e82f40ea21ad724afb2d4db3ea880e822a902405a7e377f5dbd99f210d70104b",
+      "source_owner": "dgt-base-undertraining-audit",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
+      "owner_issue": "github:issue:1206",
+      "pointer": "$.null_decomposition",
+      "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd",
+      "source_owner": "dgt-ablation-null-decomposition",
+      "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "owner_issue": "github:issue:1201",
+      "pointer": "$",
+      "sha256": "e54b1290f18e36a469d645d03d7a4a5d545646c31d36501666b94f28925b3456",
+      "source_owner": "discovery-gated-transformer",
+      "source_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+      "status": "resolved"
+    },
+    {
+      "artifact": "reports/canonical/index.json",
+      "owner_issue": "canonical-index",
+      "pointer": "$.evidence_provenance",
+      "sha256": "3a56271fcc5da598f58c1795846a42651b6373c72eefb5eb5604cc7d289ad18e",
+      "source_owner": "canonical-index-evidence-provenance",
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "resolved"
+    }
+  ],
+  "status": "pass",
+  "training_facts": {
+    "evidence_provenance": {
+      "evidence_type": "pointer-owner-provenance",
+      "source_owner": "canonical-index-evidence-provenance",
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "source_type": "canonical-quality-index",
+      "status": "resolved"
+    },
+    "metric_cells": [
+      {
+        "interpretation": "boundary-only OOD cell",
+        "metric": "dgt_ood_accuracy_ci95_low",
+        "source_owner": "dgt-l1-controls",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.dgt_ood_accuracy_ci95_low",
+        "value": 0.06309
+      },
+      {
+        "interpretation": "boundary-only OOD baseline",
+        "metric": "chance_accuracy",
+        "source_owner": "dgt-l1-controls",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.chance_accuracy",
+        "value": 0.0625
+      },
+      {
+        "interpretation": "construct-validity boundary",
+        "metric": "bayes_upper_bound_accuracy",
+        "source_owner": "dgt-base-undertraining-audit",
+        "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity.bayes_upper_bound_accuracy",
+        "value": 0.0625
+      }
+    ],
+    "protocol_pointers": [
+      {
+        "fact": "bounded tiny-sequence task protocol",
+        "source_owner": "dgt-l1-controls",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
+      },
+      {
+        "fact": "owner-local training arms",
+        "source_owner": "dgt-l1-controls",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms"
+      }
+    ]
+  },
+  "upstream_status": [
+    {
+      "source_digest": "ec9ebef08a41d4d3e212c0564df8fa16035a899269806cd5e4eb6f8b298f4ed5",
+      "source_owner": "dgt-l0-controls",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "status": "resolved"
+    },
+    {
+      "source_digest": "e48dba2adbdb5d2f26998964f77cd1bbfc78ffee8ab825d94e8bc00be99b57bd",
+      "source_owner": "dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "status": "resolved"
+    },
+    {
+      "source_digest": "e82f40ea21ad724afb2d4db3ea880e822a902405a7e377f5dbd99f210d70104b",
+      "source_owner": "dgt-base-undertraining-audit",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "resolved"
+    },
+    {
+      "source_digest": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd",
+      "source_owner": "dgt-ablation-null-decomposition",
+      "source_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+      "status": "resolved"
+    },
+    {
+      "source_digest": "e54b1290f18e36a469d645d03d7a4a5d545646c31d36501666b94f28925b3456",
+      "source_owner": "discovery-gated-transformer",
+      "source_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+      "status": "resolved"
+    },
+    {
+      "source_digest": "3a56271fcc5da598f58c1795846a42651b6373c72eefb5eb5604cc7d289ad18e",
+      "source_owner": "canonical-index-evidence-provenance",
+      "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "resolved"
+    }
+  ]
+}

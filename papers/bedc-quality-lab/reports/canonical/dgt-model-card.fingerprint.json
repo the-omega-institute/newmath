@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "451aca9f6d530b53d520378da4bab8ef3230cec774882714f0ddb46459a5baa3",
+  "input_fingerprint": "f6e27945fc40fda90247a27f894921234f95718c4dccc6e4cc768e3106f5fb57",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -33,20 +33,20 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/winnability.py",
-        "sha256": "c3577a5a1112a7bafd2d14160774a69a45d4ee081923cbe9e32459ef3ba2df24"
+        "path": "bedc_quality_lab/dgt_model_card.py",
+        "sha256": "5563bf58729f0082e88516f84517d8cd0c8c30a6292be66967629bbf67f3e680"
       },
       {
-        "path": "scripts/run_winnability_certificates.py",
-        "sha256": "bc6ce57f684440b404d2638aeed96852c6f31eb2c74da0773e201a8a21fca022"
+        "path": "scripts/run_dgt_model_card.py",
+        "sha256": "29606ed0739105476a7f7ed933352e943928ffa45007a8a663e012926bcd43c4"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:winnability-certificates",
+    "report_output_schema_id": "bedc-quality-lab:dgt-model-card",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_winnability_certificates.py"
+        "scripts/run_dgt_model_card.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -54,22 +54,38 @@
     },
     "source_artifacts": [
       {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+      },
+      {
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "e82f40ea21ad724afb2d4db3ea880e822a902405a7e377f5dbd99f210d70104b"
+      },
+      {
         "path": "reports/canonical/dgt-l0-controls.json",
         "sha256": "ec9ebef08a41d4d3e212c0564df8fa16035a899269806cd5e4eb6f8b298f4ed5"
       },
       {
         "path": "reports/canonical/dgt-l1-controls.json",
         "sha256": "e48dba2adbdb5d2f26998964f77cd1bbfc78ffee8ab825d94e8bc00be99b57bd"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "e54b1290f18e36a469d645d03d7a4a5d545646c31d36501666b94f28925b3456"
+      },
+      {
+        "path": "reports/canonical/index.json",
+        "sha256": "c74f688f6717133cd693e0a8592a25628b9d034af7bf86f9a7f3d1d5e651a75e"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_winnability_certificates.py"
+        "scripts/run_dgt_model_card.py"
       ],
       "construct_validity_pointer": null,
-      "control_pointer": "$.hardgates",
+      "control_pointer": "$.evaluation_boundaries",
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
@@ -78,41 +94,36 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/winnability-certificates.json",
+      "json_artifact": "reports/canonical/dgt-model-card.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/winnability-certificates.md",
-      "name": "winnability-certificates",
+      "markdown_artifact": "reports/canonical/dgt-model-card.md",
+      "name": "dgt-model-card",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.audit.fail_closed_count",
+      "positive_claim_pointer": "$.card_hardgates.status",
       "required_json_keys": [
         "schema_id",
-        "artifact_id",
-        "generated_at",
-        "producer",
-        "owner",
+        "card_id",
         "source_artifacts",
-        "inputs",
-        "registered_splits",
-        "family_registry",
-        "oracle_runs",
-        "certificates",
-        "audit",
-        "hardgates",
-        "consumer_pointers",
-        "not_claimed",
-        "$.audit.fail_closed_count"
+        "intended_use",
+        "not_intended_use",
+        "known_failure_modes",
+        "evaluation_boundaries",
+        "training_facts",
+        "upstream_status",
+        "card_hardgates",
+        "not_claimed"
       ],
-      "scope_pointer": "$.not_claimed"
+      "scope_pointer": "$.intended_use"
     }
   },
-  "json_artifact": "reports/canonical/winnability-certificates.json",
-  "markdown_artifact": "reports/canonical/winnability-certificates.md",
-  "output_digest": "b415b549709907f549da33a1a684402d042bbee9b1b660c6120c2bee68d5d968",
+  "json_artifact": "reports/canonical/dgt-model-card.json",
+  "markdown_artifact": "reports/canonical/dgt-model-card.md",
+  "output_digest": "c87729ebeff634fe32182f0d49255cbbdb4cab0ae128bdcc99797d77aa786b7c",
   "producer_command": [
     "python3",
-    "scripts/run_winnability_certificates.py"
+    "scripts/run_dgt_model_card.py"
   ],
-  "report_name": "winnability-certificates",
+  "report_name": "dgt-model-card",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

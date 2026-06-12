@@ -237,6 +237,43 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_base_undertraining_audit
 
         return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "dgt-model-card":
+        return {
+            "schema_id": canonical.DGT_MODEL_CARD_SCHEMA_ID,
+            "card_id": canonical.DGT_MODEL_CARD_ARTIFACT_ID,
+            "generated_at": "fixture",
+            "status": "blocked",
+            "source_artifacts": [],
+            "intended_use": [],
+            "not_intended_use": [
+                {
+                    "literal": literal,
+                    "source_owner": "maintainer-policy",
+                    "source_pointer": "github:issue:1220",
+                }
+                for literal in (
+                    "bounded BEDC prototype",
+                    "not production model",
+                    "not LLM replacement",
+                    "not global Transformer superiority",
+                    "current L1 evidence invalid as fair architecture comparison",
+                )
+            ],
+            "known_failure_modes": [],
+            "evaluation_boundaries": [],
+            "training_facts": {
+                "protocol_pointers": [],
+                "metric_cells": [],
+                "evidence_provenance": {
+                    "status": "blocked",
+                    "source_owner": "canonical-index-evidence-provenance",
+                    "source_pointer": "reports/canonical/index.json:$.evidence_provenance",
+                },
+            },
+            "upstream_status": [],
+            "card_hardgates": {"status": "blocked", "gates": {}},
+            "not_claimed": ["fixture"],
+        }
     if spec.name == "discovery-gated-transformer":
         from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -1592,6 +1629,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
             "dgt-component-redundancy-audit",
+            "dgt-model-card",
             "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
@@ -1607,6 +1645,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
     assert "dgt-l0-controls" in names
+    assert "dgt-model-card" in names
     assert "mechanism-dna" in names
     assert "discovery_gated_transformer" not in names
     assert "tool-use-dgt" not in names
@@ -1802,6 +1841,76 @@ def test_dgt_l1_controls_owns_l1_ood_mechanism_without_standalone_report(tmp_pat
     assert payload["l1_ood_mechanism"]["owner"] == "dgt-l1-controls"
     assert "dgt-l1-ood-mechanism" not in names
     assert "reports/canonical/dgt-l1-ood-mechanism.json" not in artifacts
+
+
+def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
+    spec = canonical._specs_by_name()["dgt-model-card"]
+    section = canonical._dgt_model_card_index_section()
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_dgt_model_card.py")
+    assert spec.json_artifact == "reports/canonical/dgt-model-card.json"
+    assert spec.markdown_artifact == "reports/canonical/dgt-model-card.md"
+    assert "schema_id" in spec.required_json_keys
+    assert "not_intended_use" in spec.required_json_keys
+    assert "card_hardgates" in spec.required_json_keys
+    assert section["card_pointer"] == "reports/canonical/dgt-model-card.json:$"
+    assert "status" not in section
+    assert "upstream_status" not in section
+
+
+def test_dgt_model_card_report_row_consumes_card_hardgates():
+    spec = canonical._specs_by_name()["dgt-model-card"]
+    result = canonical._run_spec(spec, reuse_existing=True)
+    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert result["validation"]["model_card_errors"] == []
+    assert result["validation"]["status"] == "pass"
+    assert result["status"] == "pass"
+    assert payload["status"] == "pass"
+    assert payload["card_hardgates"]["status"] == "pass"
+    assert payload["missing_source_refs"] == []
+    assert payload["training_facts"]["evidence_provenance"]["status"] == "resolved"
+    assert payload["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert payload["source_artifacts"][5]["status"] == "resolved"
+
+
+def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
+    source_root = canonical.SOURCE_ROOT
+    source_artifacts = (
+        "reports/canonical/dgt-l0-controls.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-base-undertraining-audit.json",
+        "reports/canonical/dgt-ablation-null-decomposition.json",
+        "reports/canonical/discovery-gated-transformer.json",
+    )
+    for artifact in source_artifacts:
+        target = tmp_path / artifact
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text((source_root / artifact).read_text(encoding="utf-8"), encoding="utf-8")
+
+    index_payload = json.loads((source_root / "reports/canonical/index.json").read_text(encoding="utf-8"))
+    index_payload.pop("evidence_provenance", None)
+    index_path = tmp_path / "reports/canonical/index.json"
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(json.dumps(index_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    card = canonical.write_dgt_model_card(root=tmp_path, generated_at="fixture-time")
+    errors = [error.as_dict() for error in canonical.validate_dgt_model_card(card, tmp_path)]
+
+    assert card["status"] == "blocked"
+    assert card["card_hardgates"]["status"] == "blocked"
+    assert card["missing_source_refs"] == ["reports/canonical/index.json:$.evidence_provenance"]
+    assert card["training_facts"]["evidence_provenance"]["status"] == "blocked"
+    assert card["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert card["source_artifacts"][5]["status"] == "pointer-missing"
+    assert errors == [
+        {
+            "gate_id": "CARD-HG9",
+            "path": "$.source_artifacts[5].status",
+            "message": "source pointer is not resolved",
+        }
+    ]
 
 
 def test_no_standalone_dgt_component_ablation_registered():
