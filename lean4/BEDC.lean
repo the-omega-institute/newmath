@@ -1463,6 +1463,7 @@ import BEDC.Derived.CauchyCompleteApartnessSpaceUp.TasteGate
 import BEDC.Derived.CauchyCompleteOrderedFieldUniquenessUp.TasteGate
 import BEDC.Derived.CauchyCompletenessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
+import BEDC.Derived.CauchyCompletenessTheoremUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessObligationUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
@@ -3471,6 +3472,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
+import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
@@ -7982,6 +7984,7 @@ import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
 import BEDC.Derived.RealApartnessCompletionUp.ObligationRouting
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedCompletionHandoff
+import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealDeterminacy
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSourceExactness
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
