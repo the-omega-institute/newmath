@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier residual-row visibility]
+\label{thm:metacic-parallel-diamond-frontier-residual-row-visibility}
+Any accepted $\MetaCICParallelDiamondFrontierUp$ consumer that exports a parallel-diamond handoff must keep the residual-substitution row $P$, local join row $J$, typed residual budget row $R$, componentwise transport row $H$, displayed replay row $T$, provenance row $G$, and local $\NameCert$ row $N$ visible. The consumer cannot cite bounded normal equality, closed checker data, or confluence audit packets as a replacement for the residual row.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The accepted packet exposes the residual-substitution premise, candidate or local join, residual-frontier budget, transport, replay, provenance, and local naming rows as displayed coordinates rather than as ambient metadata.
+
+Cite the residual-substitution boundary and local-join ledger sibling routes. The boundary keeps the substitution premise explicit, while the local-join ledger reads the join only after the residual rows and bounded-check rows have been exposed.
+
+The remaining claim is nonescape of the carrier rows. Bounded normal equality, closed checker data, and confluence audit packets can be consumed only through the displayed frontier route; none supplies a second coordinate that discharges or hides the residual-substitution row.
+\end{proof}
