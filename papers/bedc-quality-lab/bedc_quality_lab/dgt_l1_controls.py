@@ -34,6 +34,7 @@ OWNER_MODULE = "bedc_quality_lab/dgt_l1_controls.py"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-l1-controls.fingerprint.json"
+INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
 RUN_ROOT = "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 LAB_ROOT = Path(__file__).resolve().parents[1]
@@ -1078,6 +1079,8 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "owner_module": OWNER_MODULE,
         "runner": PRODUCER,
         "command": ["python3", PRODUCER],
+        "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$",
+        "input_accessibility_consumer_pointers": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers",
         "order_k_required_order_source": ORDER_K_LEDGER_ROWS_POINTER,
         "order_k_required_order_row": ORDER_K_TASK_LEDGER_POINTER,
         "run_local_claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
@@ -1091,10 +1094,103 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
     }
 
 
+def _load_json_artifact(root: Path | None, artifact: str) -> Mapping[str, Any]:
+    path = (root or LAB_ROOT) / artifact
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except OSError as exc:
+        raise ValueError(f"DGT L1 required canonical artifact missing: {artifact}") from exc
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"DGT L1 required canonical artifact invalid: {artifact}") from exc
+    if not isinstance(payload, Mapping):
+        raise ValueError(f"DGT L1 required canonical artifact is not an object: {artifact}")
+    return payload
+
+
+def _input_accessibility_row_pointer(row: Mapping[str, Any]) -> str:
+    return f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}#row_id={row['row_id']}"
+
+
+def _input_accessibility_rows_by_ref(payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    rows = payload.get("rows")
+    if not isinstance(rows, list):
+        raise ValueError("DGT L1 input-accessibility rows missing")
+    result: dict[str, Mapping[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, Mapping) or not isinstance(row.get("row_id"), str):
+            raise ValueError("DGT L1 input-accessibility row shape mismatch")
+        result[_input_accessibility_row_pointer(row)] = row
+    return result
+
+
+def _input_accessibility_ref_rows(
+    payload: Mapping[str, Any],
+    key: str,
+) -> tuple[list[str], list[Mapping[str, Any]]]:
+    pointers = payload.get("consumer_pointers", {}).get(key)
+    if not isinstance(pointers, list) or not all(isinstance(pointer, str) for pointer in pointers):
+        raise ValueError(f"DGT L1 input-accessibility consumer pointer missing: {key}")
+    rows_by_ref = _input_accessibility_rows_by_ref(payload)
+    rows: list[Mapping[str, Any]] = []
+    for pointer in pointers:
+        row = rows_by_ref.get(pointer)
+        if row is None:
+            raise ValueError(f"DGT L1 input-accessibility consumer pointer does not resolve: {pointer}")
+        rows.append(row)
+    return list(pointers), rows
+
+
+def _input_accessibility_arm_input_access(*, root: Path | None = None) -> dict[str, Any]:
+    payload = _load_json_artifact(root, INPUT_ACCESSIBILITY_JSON_ARTIFACT)
+    consumers = payload.get("consumer_pointers")
+    if not isinstance(consumers, Mapping):
+        raise ValueError("DGT L1 input-accessibility consumer pointers missing")
+    input_ref = consumers.get("input_accessibility_ref")
+    if input_ref != f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$":
+        raise ValueError("DGT L1 input-accessibility root pointer mismatch")
+    information_starved_refs, _information_starved_rows = _input_accessibility_ref_rows(
+        payload,
+        "information_starved_arms_ref",
+    )
+    unanswerable_refs, _unanswerable_rows = _input_accessibility_ref_rows(
+        payload,
+        "unanswerable_ood_splits_ref",
+    )
+    rows = list(_input_accessibility_rows_by_ref(payload).values())
+    extraction_clean = all(
+        row.get("feature_extraction", {}).get("status") == "pass"
+        and row.get("label_extraction", {}).get("status") == "pass"
+        for row in rows
+    )
+    arms = {
+        f"{row['arm']}:{row['split']}": {
+            "variables": list(row.get("visible_variables", [])),
+            "required_variables": list(row.get("required_variables", [])),
+            "missing_variables": list(row.get("missing_variables", [])),
+            "coverage_status": row.get("coverage_status"),
+            "information_starved": row.get("information_starved"),
+            "unanswerable_ood": row.get("unanswerable_ood"),
+            "canonical_row": _input_accessibility_row_pointer(row),
+        }
+        for row in rows
+    }
+    return {
+        "label_invisibility_certificate": extraction_clean,
+        "certificate_pointer": input_ref,
+        "input_accessibility_ref": input_ref,
+        "information_starved_arms_ref": information_starved_refs,
+        "unanswerable_ood_splits_ref": unanswerable_refs,
+        "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
+        "boundary_ledger_count": len(payload.get("boundary_ledger", [])),
+        "arms": arms,
+    }
+
+
 def construct_validity_evidence(
     *,
     summaries: Mapping[str, Mapping[str, Any]] | None = None,
     config: L1TrainingConfig | None = None,
+    root: Path | None = None,
 ) -> ConstructValidityEvidence:
     cfg = config or L1TrainingConfig()
     metric_keys = list(L1_MEASURABLE_METRICS)
@@ -1115,11 +1211,7 @@ def construct_validity_evidence(
             "pointer": "$.construct_validity_hardgates.evidence.label_variables",
         },
         arm_input_access={
-            "label_invisibility_certificate": True,
-            "arms": {
-                arm_id: {"variables": ["token_sequence", "x_prev_1", "x_prev_2", "surface_id"]}
-                for arm_id in ARM_IDS
-            },
+            **_input_accessibility_arm_input_access(root=root),
         },
         arm_roles={
             "candidate": "dgt_l1",
@@ -1157,9 +1249,10 @@ def construct_validity_payload(
     *,
     summaries: Mapping[str, Mapping[str, Any]] | None = None,
     config: L1TrainingConfig | None = None,
+    root: Path | None = None,
 ) -> dict[str, Any]:
     return construct_validity_projection(
-        construct_validity_evidence(summaries=summaries, config=config),
+        construct_validity_evidence(summaries=summaries, config=config, root=root),
         artifact=CANONICAL_JSON_ARTIFACT,
         pointer="$.construct_validity_hardgates",
     )
@@ -1775,7 +1868,7 @@ def build_payload(
         "source_regression_guard": negative["source_regression_guard"],
         "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
-        "construct_validity_hardgates": construct_validity_payload(summaries=summaries, config=cfg),
+        "construct_validity_hardgates": construct_validity_payload(summaries=summaries, config=cfg, root=root),
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -1930,6 +2023,11 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     )
     if construct_validity != expected_cv:
         raise ValueError("DGT L1 construct validity hardgate evaluation mismatch")
+    evidence = construct_validity.get("evidence", {})
+    if not isinstance(evidence, Mapping):
+        raise ValueError("DGT L1 construct validity evidence missing")
+    if evidence.get("arm_input_access") != _input_accessibility_arm_input_access(root=root):
+        raise ValueError("DGT L1 construct validity arm input access must consume canonical input-accessibility rows")
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")

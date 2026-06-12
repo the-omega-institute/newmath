@@ -59,14 +59,48 @@
       "boundary_reason": "Given x_prev_1, varying hidden x_prev_2 permutes all labels, so the baseline Bayes limit is chance.",
       "chance_accuracy": 0.0625,
       "hidden_coefficient_modulus_gcd": 1,
+      "input_accessibility_preconditions": {
+        "boundary_ledger_count": 3,
+        "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+        "failures": [],
+        "information_starved_arms_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ],
+        "information_starved_row_count": 3,
+        "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
+        "missing_variables": [
+          "x_minus_2",
+          "x_minus_3"
+        ],
+        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
+        "source_artifact": "reports/canonical/input-accessibility.json",
+        "source_pointers": {
+          "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+          "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
+          "input_accessibility": "reports/canonical/input-accessibility.json:$",
+          "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
+        },
+        "status": "pass",
+        "unanswerable_ood_row_count": 2,
+        "unanswerable_ood_splits_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ]
+      },
       "label_dependency_order": 2,
       "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
       "second_predecessor_visible_to_baseline": false,
       "source_pointers": {
+        "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "controller_evidence": "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911",
         "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196",
         "feature_source": "bedc_quality_lab/dgt_l1_controls.py:_TinySequenceModel._features",
-        "label_source": "bedc_quality_lab/dgt_l1_controls.py:_make_sequences"
+        "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
+        "input_accessibility": "reports/canonical/input-accessibility.json:$",
+        "label_source": "bedc_quality_lab/dgt_l1_controls.py:_make_sequences",
+        "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
       },
       "status": "construct-boundary"
     },
@@ -74,8 +108,9 @@
     "generated_at": "2026-06-10T00:00:00+00:00",
     "hardgates": {
       "BASE-UNDER-HG0": {
-        "criterion": "baseline input bandwidth must cover the label dependency bandwidth before undertraining evidence is allowed",
+        "criterion": "input-accessibility boundary pointers and baseline input bandwidth must pass before undertraining evidence is allowed",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+        "input_accessibility_pointer": "reports/canonical/input-accessibility.json:$",
         "status": "fail-closed"
       },
       "BASE-UNDER-HG1": {
@@ -171,15 +206,50 @@
         "required_grid_present": false,
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
       },
+      "input_accessibility_preconditions": {
+        "boundary_ledger_count": 3,
+        "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+        "failures": [],
+        "information_starved_arms_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ],
+        "information_starved_row_count": 3,
+        "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
+        "missing_variables": [
+          "x_minus_2",
+          "x_minus_3"
+        ],
+        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
+        "source_artifact": "reports/canonical/input-accessibility.json",
+        "source_pointers": {
+          "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+          "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
+          "input_accessibility": "reports/canonical/input-accessibility.json:$",
+          "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
+        },
+        "status": "pass",
+        "unanswerable_ood_row_count": 2,
+        "unanswerable_ood_splits_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ]
+      },
       "pointer_only": true,
       "required_pointers": [
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
+        "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+        "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+        "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9",
+        "reports/canonical/input-accessibility.json:$",
+        "reports/canonical/input-accessibility.json:$.boundary_ledger"
       ],
-      "sha256": "602938e1dcb37c7ce980652e6b55b9503d3d0adf3137f4c32c45bf71855ed7ee",
+      "sha256": "a797524658b1d59057f9568254a67078f65c88bb6d6b09f318c67039eb7a19ea",
       "source_artifact": "reports/canonical/dgt-l1-controls.json",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "status": "resolved"

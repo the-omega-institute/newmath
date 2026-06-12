@@ -9,15 +9,15 @@
 
 | source | status | artifact |
 | --- | --- | --- |
-| `input_accessibility` | `missing` | `reports/canonical/input-accessibility.json` |
+| `input_accessibility` | `resolved` | `reports/canonical/input-accessibility.json` |
 | `winnability_certificates` | `resolved` | `reports/canonical/winnability-certificates.json` |
 
 ## Classifier Rows
 
 | row | classification | family | reason |
 | --- | --- | --- | --- |
-| `sgs-symbol-remapping` | `excluded` | `` | `required-source-artifact-unresolved` |
-| `sgs-position-shift-visible` | `excluded` | `` | `required-source-artifact-unresolved` |
+| `sgs-symbol-remapping` | `unanswerable` | `` | `target-variable-not-visible-to-all-required-arms` |
+| `sgs-position-shift-visible` | `unanswerable` | `` | `target-variable-not-visible-to-all-required-arms` |
 
 ## Nonclaims
 

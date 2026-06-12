@@ -3,6 +3,7 @@ import json
 import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
+from bedc_quality_lab import input_accessibility as ia
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_dgt_l1_controls as runner
 
@@ -140,6 +141,33 @@ def test_l1_matched_random_structural_control_fail_closed():
     mutated["training_arms"]["matched_random_structural_l1"]["metrics"]["classifier_shift_count"] = 0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG4|owner-required metric")
+
+
+def test_l1_construct_validity_consumes_input_accessibility_rows():
+    payload = _payload()
+    arm_input_access = payload["construct_validity_hardgates"]["evidence"]["arm_input_access"]
+    canonical = json.loads((l1.LAB_ROOT / l1.INPUT_ACCESSIBILITY_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    rows = {row["row_id"]: row for row in canonical["rows"]}
+
+    assert arm_input_access["input_accessibility_ref"] == f"{ia.JSON_ARTIFACT}:$"
+    assert arm_input_access["information_starved_arms_ref"] == canonical["consumer_pointers"]["information_starved_arms_ref"]
+    assert arm_input_access["unanswerable_ood_splits_ref"] == canonical["consumer_pointers"]["unanswerable_ood_splits_ref"]
+    for pointer in arm_input_access["information_starved_arms_ref"]:
+        row = rows[pointer.rsplit("=", 1)[-1]]
+        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
+        assert cell["missing_variables"] == row["missing_variables"]
+        assert cell["information_starved"] is row["information_starved"]
+        assert cell["canonical_row"] == pointer
+    for pointer in arm_input_access["unanswerable_ood_splits_ref"]:
+        row = rows[pointer.rsplit("=", 1)[-1]]
+        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
+        assert cell["missing_variables"] == row["missing_variables"]
+        assert cell["unanswerable_ood"] is True
+
+    mutated = json.loads(json.dumps(payload))
+    first_key = next(iter(mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"]))
+    mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"][first_key]["missing_variables"] = []
+    _expect_invalid(mutated, "canonical input-accessibility")
 
 
 def test_l1_compute_and_parameter_ledgers_require_positive_values():

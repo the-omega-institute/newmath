@@ -3,37 +3,15 @@
   "audit": {
     "certificate_count": 3,
     "duplicate_certificate_count": 0,
-    "fail_closed_count": 3,
-    "failed_count": 3,
-    "failures": [
-      {
-        "certificate_id": "win-f1471fec0fe8d17c",
-        "failure_reasons": [
-          "missing-input-accessibility-source"
-        ],
-        "reason": "row-failed"
-      },
-      {
-        "certificate_id": "win-aaf6363714569e58",
-        "failure_reasons": [
-          "missing-input-accessibility-source"
-        ],
-        "reason": "row-failed"
-      },
-      {
-        "certificate_id": "win-86184ea92f5c516b",
-        "failure_reasons": [
-          "missing-input-accessibility-source"
-        ],
-        "reason": "row-failed"
-      }
-    ],
+    "fail_closed_count": 2,
+    "failed_count": 0,
+    "failures": [],
     "missing_certificate_count": 0,
     "registered_split_count": 3,
-    "status": "fail",
-    "table_coverage_count": 0,
+    "status": "pass",
+    "table_coverage_count": 1,
     "unresolved_count": 0,
-    "unwinnable_count": 0
+    "unwinnable_count": 1
   },
   "certificates": [
     {
@@ -48,7 +26,7 @@
       },
       "coverage": {
         "coverage_ceiling": null,
-        "coverage_classification": "unresolved",
+        "coverage_classification": "not-applicable",
         "coverage_gap": null,
         "coverage_tolerance": null,
         "seen_accuracy": null,
@@ -59,7 +37,7 @@
       "epsilon": 1e-09,
       "experiment_id": "dgt-controls",
       "failure_reasons": [
-        "missing-input-accessibility-source"
+        "hidden-required-variable:x_minus_3"
       ],
       "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
       "method": "analytic_bayes",
@@ -76,10 +54,10 @@
       "split_fingerprint": "1b0aac0341d9a26b712a4885adce2d606c058e7da44bfb899fbb66d157dd1902",
       "split_id": "l1-ood-hidden-lag",
       "split_kind": "ood",
-      "status": "fail",
+      "status": "pass",
       "task_family": "analytic-visibility",
       "task_id": "dgt-l1-hidden-lag",
-      "unwinnable": false,
+      "unwinnable": true,
       "upper_bound_accuracy": 0.0625,
       "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].visible_variables",
       "winnable": false
@@ -90,25 +68,23 @@
       "claim_permissions": {
         "architecture_claim_allowed": false,
         "generalization_claim_allowed": false,
-        "memorization_claim_allowed": false,
+        "memorization_claim_allowed": true,
         "rule_abstraction_claim_allowed": false,
         "separation_claim_allowed": false
       },
       "coverage": {
-        "coverage_ceiling": null,
-        "coverage_classification": "unresolved",
-        "coverage_gap": null,
-        "coverage_tolerance": null,
-        "seen_accuracy": null,
-        "train_pair_coverage": null,
-        "unseen_accuracy": null
+        "coverage_ceiling": 0.982829,
+        "coverage_classification": "table-coverage",
+        "coverage_gap": -0.000895,
+        "coverage_tolerance": 0.01,
+        "seen_accuracy": 1.0,
+        "train_pair_coverage": 0.981684,
+        "unseen_accuracy": 0.0625
       },
       "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
       "epsilon": 1e-09,
       "experiment_id": "dgt-controls",
-      "failure_reasons": [
-        "missing-input-accessibility-source"
-      ],
+      "failure_reasons": [],
       "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
       "method": "analytic_bayes",
       "not_claimed": [
@@ -124,27 +100,27 @@
       "split_fingerprint": "ba2a0edf03f71d5b07faf9f70111cf776a5c549e420eabd6b2ff72ae1913b4b9",
       "split_id": "l1-indist-finite-pair",
       "split_kind": "in-distribution",
-      "status": "fail",
+      "status": "pass",
       "task_family": "analytic-table-coverage",
       "task_id": "dgt-l1-finite-pair",
       "unwinnable": false,
-      "upper_bound_accuracy": 0.0625,
+      "upper_bound_accuracy": 0.982829,
       "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables",
-      "winnable": false
+      "winnable": true
     },
     {
       "certificate_id": "win-86184ea92f5c516b",
       "chance_accuracy": 0.0625,
       "claim_permissions": {
-        "architecture_claim_allowed": false,
-        "generalization_claim_allowed": false,
-        "memorization_claim_allowed": false,
-        "rule_abstraction_claim_allowed": false,
-        "separation_claim_allowed": false
+        "architecture_claim_allowed": true,
+        "generalization_claim_allowed": true,
+        "memorization_claim_allowed": true,
+        "rule_abstraction_claim_allowed": true,
+        "separation_claim_allowed": true
       },
       "coverage": {
         "coverage_ceiling": null,
-        "coverage_classification": "unresolved",
+        "coverage_classification": "not-applicable",
         "coverage_gap": null,
         "coverage_tolerance": null,
         "seen_accuracy": null,
@@ -154,9 +130,7 @@
       "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
       "epsilon": 1e-09,
       "experiment_id": "dgt-controls",
-      "failure_reasons": [
-        "missing-input-accessibility-source"
-      ],
+      "failure_reasons": [],
       "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
       "method": "analytic_bayes",
       "not_claimed": [
@@ -172,13 +146,13 @@
       "split_fingerprint": "20ba694cec795953c610c9f043ebf076898b6ea7656f17c6b2670d1109dfb1f4",
       "split_id": "l1-held-out-pair",
       "split_kind": "held-out-pair",
-      "status": "fail",
+      "status": "pass",
       "task_family": "analytic-visibility",
       "task_id": "dgt-l1-held-out-pair",
       "unwinnable": false,
-      "upper_bound_accuracy": 0.0625,
+      "upper_bound_accuracy": 1.0,
       "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables",
-      "winnable": false
+      "winnable": true
     }
   ],
   "consumer_pointers": {
@@ -236,12 +210,8 @@
     },
     "ORACLE-HG5": {
       "checked_count": 3,
-      "failed_count": 3,
-      "failure_refs": [
-        "win-f1471fec0fe8d17c",
-        "win-aaf6363714569e58",
-        "win-86184ea92f5c516b"
-      ],
+      "failed_count": 0,
+      "failure_refs": [],
       "negative_control_expectations": [
         {
           "expected": "unwinnable",
@@ -252,19 +222,8 @@
           "split_id": "l1-held-out-pair"
         }
       ],
-      "negative_control_failures": [
-        {
-          "certificate_id": "win-f1471fec0fe8d17c",
-          "reason": "negative-control-expected-unwinnable",
-          "split_id": "l1-ood-hidden-lag"
-        },
-        {
-          "certificate_id": "win-86184ea92f5c516b",
-          "reason": "negative-control-expected-winnable",
-          "split_id": "l1-held-out-pair"
-        }
-      ],
-      "status": "fail"
+      "negative_control_failures": [],
+      "status": "pass"
     }
   },
   "inputs": {
@@ -370,13 +329,13 @@
     },
     "dgt_l1_controls": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
-      "sha256": "602938e1dcb37c7ce980652e6b55b9503d3d0adf3137f4c32c45bf71855ed7ee",
+      "sha256": "a797524658b1d59057f9568254a67078f65c88bb6d6b09f318c67039eb7a19ea",
       "status": "resolved"
     },
     "input_accessibility": {
       "artifact": "reports/canonical/input-accessibility.json",
-      "sha256": "missing",
-      "status": "missing"
+      "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
+      "status": "resolved"
     }
   }
 }
