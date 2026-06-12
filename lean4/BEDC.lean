@@ -6868,6 +6868,7 @@ import BEDC.Derived.MinkowskiDimensionUp
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.MirskyTheoremUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelCatUp.TasteGate

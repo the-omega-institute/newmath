@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MirskyTheoremUp$}
+\label{ch:concrete-instances-mirsky-theorem-namecert}
+\origin{human}
+
+Following Mirsky's theorem for finite partially ordered sets, the $\MirskyTheoremUp$ packet records the height-dual certificate to \autoref{ch:concrete-instances-dilworth-decomposition-namecert}: a finite $\PosetUp$ row, a chain-height ledger, an antichain-partition ledger, rank-layer witnesses, and local NameCert data are read as one finite certificate surface. The packet is also adjacent to the finite ordered rows of \autoref{ch:concrete-instances-sperner-lemma-namecert}, the matching discipline of \autoref{ch:concrete-instances-matching-namecert}, and the ordered witness spines of \autoref{ch:concrete-instances-list-namecert}. It exports only displayed finite rows, not a host poset, not quotient order equality, and not a selected partition outside the carrier.
+
+\begin{definition}[Mirsky theorem carrier]
+\label{def:mirsky-theorem-carrier}
+A $\MirskyTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+M=(O,H,A,R,K,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite $\PosetUp$ order row, including the carried elements, comparison ledger, and classifier for repeated element reads.
+\item $H$ is the chain-height row, recording a displayed maximal-chain height witness and a finite ledger that bounds all displayed chains by that height.
+\item $A$ is the antichain-partition row, recording finitely many layers whose union covers the carried elements and whose internal pairs are incomparable according to $O$.
+\item $R$ is the rank-layer row, assigning each element to the first displayed height level at which it appears in the finite predecessor recursion.
+\item $K$ is the chain-antichain consistency row, checking that the height ledger $H$ and partition ledger $A$ meet at the same number of displayed layers.
+\item $S$ is the sibling route row to $\DilworthDecompositionUp$, $\SpernerLemmaUp$, $\MatchingUp$, and $\ListUp$.
+\item $T$ is componentwise $\hsame$ transport for the order, height, partition, rank, consistency, sibling route, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay route from $O,H,A,R,K,S$ through $T$ to $P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MirskyTheoremUp$, $\PosetUp$, $\DilworthDecompositionUp$, $\SpernerLemmaUp$, $\MatchingUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MirskyTheoremUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient host partial order, quotient order equality, unlisted antichain partition, selected rank function outside $R$, countable choice, or infinite-height theorem.
+\end{definition}
+\leanstmt{BEDC.Derived.MirskyTheoremUp}
+
+\begin{theorem}[Mirsky theorem NameCert obligations]
+\label{thm:mirsky-theorem-namecert-obligations}
+For an accepted $\MirskyTheoremUp$ carrier
+$$
+M=(O,H,A,R,K,S,T,C,P,N),
+$$
+the local $\NameCert_{\MirskyTheoremUp}$ surface consists exactly of carrier admission for the finite order, chain-height, antichain-partition, rank-layer, consistency, sibling-route, transport, replay, provenance, and local naming rows; order exposure through $O$; height exposure through $H$; antichain-partition exposure through $A$; rank-layer compatibility through $R$; height-partition equality through $K$; and nonescape for host posets, quotient order equality, unlisted partitions, external rank selectors, choice, and infinite-order data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mirsky-theorem-carrier}. The finite order is $O$, the height witness is $H$, the antichain partition is $A$, the rank-layer assignment is $R$, and the equality check between height and layer count is $K$.
+
+The order exposure obligation is rowwise. Every chain, layer, rank comparison, and sibling read uses the same displayed $\PosetUp$ comparison ledger, so a consumer cannot mix the height of one order with the partition of another.
+
+The height and partition obligations are the two visible halves of Mirsky's finite theorem. Row $H$ records the maximal-chain height boundary, while $A$ records the layer partition into antichains.
+
+The rank and consistency rows then bind those halves. Row $R$ places elements into displayed layers using the finite predecessor recursion, and row $K$ checks that the number of layers agrees with the height ledger.
+
+Finally $S,T,C,P,N$ preserve the sibling route, transport, replay, provenance, and local name. Since the listed rows exhaust the carrier, the excluded host order, quotient equality, unlisted partitions, external rank selectors, choice, and infinite-order principles have no place in the certificate.
+\end{proof}
+
+\begin{theorem}[Mirsky chain-antichain rank handoff]
+\label{thm:mirsky-theorem-chain-antichain-rank-handoff}
+Let $M=(O,H,A,R,K,S,T,C,P,N)$ be an accepted $\MirskyTheoremUp$ carrier. Every chain-height or antichain-partition consumer exported by $M$ factors through the displayed route
+$$
+\PosetUp,\ \DilworthDecompositionUp,\ \SpernerLemmaUp,\ \MatchingUp,\ \ListUp
+$$
+by reading $O,H,A,R,K,S,T,C,P,N$ in order. The handoff identifies height, rank layers, and antichain partition only through the displayed finite rows, and it exports no host cardinality theorem, quotient order equality, selected external partition, countable choice, or infinite poset theorem.
+\end{theorem}
+\begin{proof}
+First read the finite order row. The $\PosetUp$ packet supplies the carried elements, comparison ledger, and classifier needed before chains, ranks, or antichain layers can be inspected.
+
+Next read the height and partition rows. The chain-height row $H$ records the displayed height witness, while the antichain-partition row $A$ records the covering family of layers.
+
+The rank handoff is supplied by $R$ and $K$. The rank-layer row assigns elements to finite levels, and the consistency row checks that the layer count and chain-height ledger meet at the same displayed boundary.
+
+Finally route the handoff through $S,T,C,P,N$. The sibling route may cite Dilworth, Sperner, Matching, and List packets as finite dependency surfaces, but the exported Mirsky read remains the listed BEDC packet rather than an ambient theorem over a host poset.
+\end{proof}
+
+\closureat{MirskyTheoremUp}{seedStr}
+
+\begin{closurestatus}{\MirskyTheoremUp}
+  \constructivestory{A $\MirskyTheoremUp$ packet is generated from a finite Poset row, a chain-height ledger, an antichain-partition ledger, rank-layer witnesses, height-partition consistency, sibling route rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mirsky-theorem-carrier}, \autoref{thm:mirsky-theorem-namecert-obligations}, and \autoref{thm:mirsky-theorem-chain-antichain-rank-handoff} seed the finite chain-height and antichain-partition certificate over Poset, DilworthDecomposition, SpernerLemma, Matching, and List rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host partial orders, quotient order equality, selected external partitions, countable choice, infinite posets, checked Lean obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, order exposure, height exposure, antichain-partition exposure, rank-layer compatibility, height-partition consistency, transport, replay, provenance, and local naming for BEDC.Derived.MirskyTheoremUp.}
+\end{closurestatus}
