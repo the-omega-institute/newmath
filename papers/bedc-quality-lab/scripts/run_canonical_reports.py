@@ -69,6 +69,7 @@ from bedc_quality_lab.reproduction_package import (
     CHECK_RESULT_JSON_ARTIFACT as REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT,
     CHECK_RESULT_MARKDOWN_ARTIFACT as REPRODUCTION_CHECK_RESULT_MARKDOWN_ARTIFACT,
     CHECK_RESULT_SCHEMA_ID as REPRODUCTION_CHECK_RESULT_SCHEMA_ID,
+    FAIR_L1_BLOCKED_REASON,
     PACKAGE_ARTIFACT_ID as REPRODUCTION_PACKAGE_ARTIFACT_ID,
     PACKAGE_JSON_ARTIFACT as REPRODUCTION_PACKAGE_JSON_ARTIFACT,
     PACKAGE_MARKDOWN_ARTIFACT as REPRODUCTION_PACKAGE_MARKDOWN_ARTIFACT,
@@ -481,6 +482,40 @@ MATCHED_RANDOM_CONTROL_REQUIRED_PATHS = (
     "$.audit_status",
     "$.failure_reasons",
     "$.evidence_pointers",
+)
+REPRODUCTION_BLOCKED_REASON_KEYS = frozenset(
+    {
+        "category",
+        "detail",
+        "evidence_ref",
+        "owner_gate_ref",
+        "dependency_ref",
+        "planning_context_ref",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_CATEGORIES = frozenset(
+    {
+        "source-blocked",
+        "missing-validation-loss-cell",
+        "tolerance-blocked",
+        "ci-rehearsal-missing",
+        "full-replay-not-invoked",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = frozenset(
+    {
+        "blocked_reason_class",
+        "blocked_evidence_ref",
+        "dependency_ref",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = frozenset(
+    {
+        "evidence_pointer",
+        "owner_gate_pointer",
+        "context_ref",
+        "owner_decision_ref",
+    }
 )
 
 
@@ -6525,6 +6560,113 @@ def _irreducibility_report_index_section() -> dict[str, Any]:
     }
 
 
+def _reproduction_error(path: str, message: str) -> dict[str, str]:
+    return {"path": path, "message": message}
+
+
+def _nonnull_text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value)
+
+
+def _validate_reproduction_blocked_reason(
+    row: Mapping[str, Any],
+    row_path: str,
+) -> list[dict[str, str]]:
+    errors: list[dict[str, str]] = []
+    target_id = row.get("target_id")
+    status = row.get("status")
+    aliases = sorted(REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES.intersection(row))
+    if aliases:
+        errors.append(_reproduction_error(row_path, f"blocked_reason alias field is forbidden: {aliases[0]}"))
+    if "blocked_reason" not in row:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", "blocked_reason field is required"))
+        return errors
+    reason = row.get("blocked_reason")
+    if status != "blocked":
+        if reason is not None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason", "non-blocked rows require blocked_reason null"))
+        return errors
+    if not isinstance(reason, Mapping):
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", "blocked rows require structured blocked_reason"))
+        return errors
+    reason_keys = set(reason)
+    missing_keys = sorted(REPRODUCTION_BLOCKED_REASON_KEYS - reason_keys)
+    if missing_keys:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason missing key: {missing_keys[0]}"))
+    extra_keys = sorted(reason_keys - REPRODUCTION_BLOCKED_REASON_KEYS)
+    if extra_keys:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason has unknown key: {extra_keys[0]}"))
+    object_aliases = sorted(REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES.intersection(reason))
+    if object_aliases:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason alias key is forbidden: {object_aliases[0]}"))
+    if missing_keys or extra_keys or object_aliases:
+        return errors
+    category = reason["category"]
+    detail = reason["detail"]
+    evidence_ref = reason["evidence_ref"]
+    for key in ("category", "detail", "evidence_ref"):
+        if not _nonnull_text(reason[key]):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"{key} must be a non-empty string"))
+    if _nonnull_text(category) and category not in REPRODUCTION_BLOCKED_REASON_CATEGORIES:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.category", f"unknown blocked_reason category: {category}"))
+    for key in ("owner_gate_ref", "dependency_ref", "planning_context_ref"):
+        value = reason[key]
+        if value is not None and not _nonnull_text(value):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"{key} must be a non-empty string or null"))
+    if errors:
+        return errors
+    evidence_value = _resolve_committed_artifact_pointer(ROOT, evidence_ref)
+    if evidence_value is None:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "evidence_ref does not resolve"))
+    owner_gate_ref = reason["owner_gate_ref"]
+    if owner_gate_ref is not None and _resolve_committed_artifact_pointer(ROOT, owner_gate_ref) is None:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref does not resolve"))
+    if category == "missing-validation-loss-cell":
+        if reason["owner_gate_ref"] is None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref is required"))
+        if reason["dependency_ref"] is None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.dependency_ref", "dependency_ref is required"))
+        if target_id == "fair-l1-training":
+            for key, expected in FAIR_L1_BLOCKED_REASON.items():
+                if reason[key] != expected:
+                    errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
+            gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
+            if not isinstance(evidence_value, Mapping) or (
+                evidence_value.get("comparison_id") != "equal-validation-loss"
+                or evidence_value.get("decision") != "validation-loss-cell-missing"
+                or evidence_value.get("status") != "missing"
+            ):
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))
+            if not isinstance(gate_value, Mapping) or (
+                gate_value.get("gate_id") != "FAIR-L1-HG2"
+                or gate_value.get("status") != "fail"
+            ):
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG2"))
+    return errors
+
+
+def _validate_reproduction_check_result_payload(payload: Mapping[str, Any]) -> list[dict[str, str]]:
+    errors: list[dict[str, str]] = []
+    rows = payload.get("target_results")
+    if payload.get("schema_id") != REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
+        errors.append(_reproduction_error("$.schema_id", "invalid reproduction check-result schema"))
+    if not isinstance(rows, list):
+        errors.append(_reproduction_error("$.target_results", "target_results must be a list"))
+        return errors
+    invalid_row = any(
+        not isinstance(row, Mapping)
+        or row.get("status") not in {"pass", "blocked", "fail"}
+        or row.get("target_kind") not in {"full-repro-ci", "projection-only"}
+        for row in rows
+    )
+    if invalid_row:
+        errors.append(_reproduction_error("$.target_results", "invalid target result row"))
+        return errors
+    for index, row in enumerate(rows):
+        errors.extend(_validate_reproduction_blocked_reason(row, f"$.target_results[{index}]"))
+    return errors
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -6558,18 +6700,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
             reproduction_errors.append({"path": spec.json_artifact, "message": str(exc)})
     if spec.name == "reproduction-check-result" and key_validation["status"] == "pass" and not missing_artifacts:
         payload = _load_report_payload(spec)
-        rows = payload.get("target_results")
-        if payload.get("schema_id") != REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
-            reproduction_errors.append({"path": "$.schema_id", "message": "invalid reproduction check-result schema"})
-        if not isinstance(rows, list):
-            reproduction_errors.append({"path": "$.target_results", "message": "target_results must be a list"})
-        elif any(
-            not isinstance(row, Mapping)
-            or row.get("status") not in {"pass", "blocked", "fail"}
-            or row.get("target_kind") not in {"full-repro-ci", "projection-only"}
-            for row in rows
-        ):
-            reproduction_errors.append({"path": "$.target_results", "message": "invalid target result row"})
+        reproduction_errors.extend(_validate_reproduction_check_result_payload(payload))
     status = (
         "pass"
         if key_validation["status"] == "pass"

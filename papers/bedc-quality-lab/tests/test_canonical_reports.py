@@ -2268,6 +2268,223 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
+def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-validation-loss", gate_id: str = "FAIR-L1-HG2") -> None:
+    path = root / "reports/canonical/fair-l1-decision.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    comparison_rows = [
+        {"comparison_id": "equal-step", "decision": "resolved", "status": "pass"},
+        {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
+        {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
+        {
+            "comparison_id": comparison_id,
+            "decision": "validation-loss-cell-missing",
+            "status": "missing",
+        },
+    ]
+    payload = {
+        "schema_id": "bedc-quality-lab:fair-l1-decision",
+        "artifact_id": "bedc-quality-lab:fair-l1-decision",
+        "fair_alignment": {"comparison_rows": comparison_rows},
+        "hardgates": {
+            "FAIR-L1-HG2": {
+                "gate_id": gate_id,
+                "status": "fail",
+            }
+        },
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _reproduction_check_payload() -> dict[str, object]:
+    return {
+        "schema_id": "bedc-quality-lab:reproduction-check-result",
+        "artifact_id": "bedc-quality-lab:reproduction-check-result",
+        "generated_at": "fixture",
+        "source_artifacts": {
+            "package": "reports/canonical/reproduction-package.json",
+            "runner": "scripts/run_reproduction_package.py",
+        },
+        "package_ref": "reports/canonical/reproduction-package.json:$",
+        "profile": "structural",
+        "target_results": [
+            {
+                "target_id": "dgt-l0-honest-rerun",
+                "target_kind": "full-repro-ci",
+                "status": "pass",
+                "blocked_reason": None,
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "pass",
+                "rerun_artifact_refs": [],
+                "failure_reasons": [],
+                "ci_rehearsal_ref": None,
+            },
+            {
+                "target_id": "fair-l1-training",
+                "target_kind": "full-repro-ci",
+                "status": "blocked",
+                "blocked_reason": dict(canonical.FAIR_L1_BLOCKED_REASON),
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "pass",
+                "rerun_artifact_refs": [],
+                "failure_reasons": ["fair-l1-training waits for seven-arm owner artifact"],
+                "ci_rehearsal_ref": None,
+            },
+            {
+                "target_id": "source-owned-block",
+                "target_kind": "full-repro-ci",
+                "status": "blocked",
+                "blocked_reason": {
+                    "category": "source-blocked",
+                    "detail": "source-pointer-blocked",
+                    "evidence_ref": "reports/canonical/reproduction-check-result.json:$.target_results",
+                    "owner_gate_ref": None,
+                    "dependency_ref": None,
+                    "planning_context_ref": None,
+                },
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "blocked",
+                "rerun_artifact_refs": [],
+                "failure_reasons": ["pointer does not resolve: reports/canonical/missing.json:$"],
+                "ci_rehearsal_ref": None,
+            },
+        ],
+        "blocked_targets": ["fair-l1-training", "source-owned-block"],
+        "failed_targets": [],
+        "not_claimed": ["fixture"],
+    }
+
+
+def _write_reproduction_check_fixture(tmp_path: Path, payload: dict[str, object]) -> dict[str, object]:
+    spec = canonical._specs_by_name()["reproduction-check-result"]
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+    return canonical._artifact_validation(spec)
+
+
+def test_reproduction_check_result_validation_accepts_six_key_blocked_reasons(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "pass"
+    assert validation["reproduction_errors"] == []
+
+
+@pytest.mark.parametrize("missing_key", ["owner_gate_ref", "dependency_ref", "planning_context_ref"])
+def test_reproduction_check_result_validation_rejects_missing_blocked_reason_keys(tmp_path, monkeypatch, missing_key):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    fair_row = payload["target_results"][1]
+    del fair_row["blocked_reason"][missing_key]
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason",
+        "message": f"blocked_reason missing key: {missing_key}",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_pass_row_with_blocked_reason(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][0]["blocked_reason"] = {
+        "category": "source-blocked",
+        "detail": "source-pointer-blocked",
+        "evidence_ref": "reports/canonical/reproduction-check-result.json:$.target_results",
+        "owner_gate_ref": None,
+        "dependency_ref": None,
+        "planning_context_ref": None,
+    }
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[0].blocked_reason",
+        "message": "non-blocked rows require blocked_reason null",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_prose_only_blocked_row(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][2]["blocked_reason"] = None
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[2].blocked_reason",
+        "message": "blocked rows require structured blocked_reason",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_alias_fields(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][1]["dependency_ref"] = "github:issue:1196"
+    payload["target_results"][1]["blocked_reason"]["evidence_pointer"] = canonical.FAIR_L1_BLOCKED_REASON["evidence_ref"]
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert any(error["message"] == "blocked_reason alias field is forbidden: dependency_ref" for error in validation["reproduction_errors"])
+    assert any(error["message"] == "blocked_reason has unknown key: evidence_pointer" for error in validation["reproduction_errors"])
+
+
+def test_reproduction_check_result_validation_treats_failure_reasons_as_non_authority(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    source_row = payload["target_results"][2]
+    source_row["failure_reasons"] = ["missing-validation-loss-cell"]
+    source_row["blocked_reason"]["category"] = "source-blocked"
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "pass"
+    assert validation["reproduction_errors"] == []
+
+
+def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path, comparison_id="equal-loss-decrease")
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason.evidence_ref",
+        "message": "fair-l1 evidence row does not match equal-validation-loss",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG3")
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason.owner_gate_ref",
+        "message": "fair-l1 owner gate does not match FAIR-L1-HG2",
+    } in validation["reproduction_errors"]
+
+
 def test_reproduction_check_result_validation_rejects_malformed_target_row(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     spec = canonical._specs_by_name()["reproduction-check-result"]
