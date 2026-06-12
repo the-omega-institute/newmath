@@ -62,16 +62,28 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/ProofTraceAuditWitnessUp/Tast
 
 \independenceWitness{kernelauditwitness, groundcompilerauditwitness, namecertmorphism, category, prooftermerasuretrace: none is bijective because this packet uniquely binds a proof trace to displayed transport, forbidden-resource refusal, audit verdict, provenance, and local NameCert rows.}
 
+\begin{theorem}[Proof trace audit bridge route]
+\label{thm:proof-trace-audit-bridge-route}
+Every bridge-facing proof-audit consumer of a $\ProofTraceAuditWitnessUp$ packet must preserve the scoped carrier of \autoref{def:proof-trace-audit-witness-carrier}, the NameCert obligations of \autoref{thm:proof-trace-audit-witness-namecert-obligations}, the ledger nonescape boundary of \autoref{thm:proof-trace-audit-witness-ledger-nonescape}, the TasteGate target, and the displayed sibling dependencies on KernelAuditWitness, CompilerTraceFaithfulness, NameCertMorphism, Category, and ProofTermErasureTrace rows. The route exports no untraced proof evidence, host equality rule, global proof search, kernel-soundness theorem, or proof-term-erasure correctness claim.
+\end{theorem}
+\begin{proof}
+Start with the scoped carrier. Its rows $T,S,K,H,L,F,A,P,N$ remain the only proof-audit coordinates available to a bridge-facing consumer.
+
+Apply the NameCert obligations and ledger nonescape theorem. They force proof-trace exposure, source-carrier exposure, classifier-witness stability, displayed transport, ledger replay, forbidden-resource refusal, audit verdict, provenance, and local naming to be read as one finite packet.
+
+Finally preserve the TasteGate target and displayed sibling dependencies. Since the bridge-facing route contains no coordinate for untraced proof evidence, host equality, global proof search, kernel soundness, or proof-term-erasure correctness, those objects cannot be exported by the paper bridge route.
+\end{proof}
+
 \closureat{ProofTraceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\ProofTraceAuditWitnessUp}
   \constructivestory{A $\ProofTraceAuditWitnessUp$ packet is generated from proof trace, source carrier, classifier witness, displayed transport, ledger witness, forbidden-resource refusal, audit verdict, provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:proof-trace-audit-witness-carrier}, \autoref{thm:proof-trace-audit-witness-namecert-obligations}, and \autoref{thm:proof-trace-audit-witness-ledger-nonescape} bind the carrier, NameCert obligations, ledger nonescape, TasteGate target, and displayed dependencies on KernelAuditWitness, CompilerTraceFaithfulness, NameCertMorphism, Category, ProofTermErasureTrace, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:proof-trace-audit-witness-carrier}, \autoref{thm:proof-trace-audit-witness-namecert-obligations}, \autoref{thm:proof-trace-audit-witness-ledger-nonescape}, and \autoref{thm:proof-trace-audit-bridge-route} bind the carrier, NameCert obligations, ledger nonescape, TasteGate target, and displayed dependencies on KernelAuditWitness, CompilerTraceFaithfulness, NameCertMorphism, Category, ProofTermErasureTrace, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ProofTraceAuditWitnessUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global proof search, kernel soundness, proof-term erasure correctness, or a host equality proof rule.}
-  \upgradepath{Public closure requires bridge-facing proof-audit consumers that preserve the scoped carrier, NameCert obligations, ledger nonescape, TasteGate target, and displayed sibling dependencies without adding untraced proof evidence.}
+  \upgradepath{Bridge checking requires an actual StdBridge theorem preserving the scoped carrier, NameCert obligations, ledger nonescape, TasteGate target, and displayed sibling dependencies without adding untraced proof evidence.}
 \end{closurestatus}
