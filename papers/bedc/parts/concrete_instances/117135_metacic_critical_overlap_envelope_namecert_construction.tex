@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCriticalOverlapEnvelopeUp$}
+\label{ch:concrete-instances-metacic-critical-overlap-envelope-namecert}
+\origin{ai}
+
+The $\MetaCICCriticalOverlapEnvelopeUp$ packet realizes the confluence audit map of \autoref{ch:metacic-confluence-audit-map} as finite candidate-overlap envelope data. It sits beside the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the confluence diamond ledger of \autoref{ch:concrete-instances-metacic-confluence-diamond-ledger-namecert}, the residual-substitution boundary packets cited in the same audit map, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The envelope names bounded local overlap rows only; it does not promote those rows to full confluence, kernel consistency, decidable conversion, or closed-normal completeness.
+
+\begin{definition}[MetaCIC critical overlap envelope carrier]
+\label{def:metacic-critical-overlap-envelope-carrier}
+A $\MetaCICCriticalOverlapEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,K,J,R,C,B,N,O,H,Q,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, recording the bounded context, source term, target term window, and typing side conditions under inspection.
+\item $K$ is the critical-pair row, recording the two local reduction choices and the overlap cell where they compete.
+\item $J$ is the candidate-join row, recording the proposed common reducts and the finite route by which each branch reaches them.
+\item $R$ is the residual-frontier row, recording the substitution-sensitive residual data that remains visible after the candidate join is proposed.
+\item $C$ is the closed-checker row, recording whether the bounded window is closed enough for the closed normal and atom fragments cited by the confluence audit map.
+\item $B$ is the bounded normal/check row, recording finite fuel, normal-form comparison, and local conversion checks for the candidate envelope.
+\item $N$ is the bounded normal endpoint row, recording any finished-normal or atom-fragment endpoint used by the checker.
+\item $O$ is the obstruction row, retaining the residual-substitution, closed-diamond, or local-check failure when the candidate envelope cannot discharge the overlap.
+\item $H$ records componentwise $\hsame$ transport for typed windows, critical pairs, candidate joins, residual frontiers, closed checks, bounded normal rows, obstruction rows, replay, provenance, and local naming.
+\item $Q$ records displayed $\Cont$ replay from a confluence-overlap request through $T,K,J,R,C,B,N,O,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCriticalOverlapEnvelopeUp$, $\MetaCICRedexFrontierUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\MetaCICCriticalOverlapEnvelopeUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $T,K,J,R,C,B,N,O,H,Q,P,L$. No coordinate stores full confluence, subject reduction, kernel consistency, unbounded proof search, decidable conversion, or a hidden substitution oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC critical overlap envelope obligations]
+\label{thm:metacic-critical-overlap-envelope-obligations}
+For every accepted $\MetaCICCriticalOverlapEnvelopeUp$ carrier $E=(T,K,J,R,C,B,N,O,H,Q,P,L)$, the local $\NameCert_{\MetaCICCriticalOverlapEnvelopeUp}$ surface consists exactly of typed-window admission through $T$; critical-pair visibility through $K$; candidate-join exposure through $J$; residual-frontier retention through $R$; closed-checker visibility through $C$; bounded normal and check rows through $B,N$; obstruction retention through $O$; and componentwise transport, replay, provenance, and local naming through $H,Q,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-critical-overlap-envelope-carrier}. The typed window $T$, critical pair $K$, candidate join $J$, and residual frontier $R$ are the only rows that describe the local overlap geometry.
+
+Read the checker rows next. The closed-checker row $C$ and bounded normal/check rows $B,N$ record finite inspection of the proposed envelope, while the obstruction row $O$ keeps any residual-substitution or closed-diamond failure visible rather than erasing it.
+
+Finally use the structural rows $H,Q,P,L$. They transport, replay, source, and name the same bounded envelope, so the accepted packet exports only the listed finite rows and not full confluence, kernel consistency, unbounded proof search, decidable conversion, or a hidden substitution oracle.
+\end{proof}
+
+\falsifiablePrediction{Any confluence consumer omitting typed-window, candidate-join, residual-frontier, obstruction, transport, replay, provenance, or local naming rows is not an accepted $\MetaCICCriticalOverlapEnvelopeUp$ packet.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, metacicconfluenceauditpacket, metacicnormalizationfrontier, metaciccriticalpath: the parallel-diamond frontier records a broader premise frontier without this packet's typed-window candidate envelope, the confluence audit packet records map-level boundary status without bounded overlap rows, the normalization frontier records candidate evidence and closed-normal use without confluence critical pairs, and the critical-path packet records programme routing without local candidate joins. None is bijective to $\MetaCICCriticalOverlapEnvelopeUp$.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \MetaCICCriticalOverlapEnvelopeUp$ and $\mathsf{FieldFaithful}\ \MetaCICCriticalOverlapEnvelopeUp$ instances in \texttt{BEDC.Derived.MetaCICCriticalOverlapEnvelopeUp.TasteGate}. Those instances must preserve $T,K,J,R,C,B,N,O,H,Q,P,L$ as distinct finite rows before a checked carrier-alignment theorem can serve as the public TasteGate realization.
+
+\closureat{MetaCICCriticalOverlapEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCriticalOverlapEnvelopeUp}
+  \constructivestory{A $\MetaCICCriticalOverlapEnvelopeUp$ packet is generated from typed-window, critical-pair, candidate-join, residual-frontier, closed-checker, bounded normal/check, endpoint, obstruction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-critical-overlap-envelope-carrier} and \autoref{thm:metacic-critical-overlap-envelope-obligations} seed the finite bounded-overlap envelope over typed windows, critical pairs, candidate joins, residual frontiers, check rows, obstruction retention, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full MetaCIC confluence, subject reduction, kernel consistency, unbounded proof search, decidable conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-window admission, critical-pair visibility, candidate-join exposure, residual-frontier retention, checker rows, obstruction retention, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.MetaCICCriticalOverlapEnvelopeUp.}
+\end{closurestatus}
