@@ -9,6 +9,19 @@
     "pointer": "$.construct_validity_hardgates",
     "status": "fail"
   },
+  "honest_metric_review_ref": {
+    "artifact": "reports/canonical/dgt-l0-controls.json",
+    "pointer": "$.honest_metric_review"
+  },
+  "ladder_consumption": {
+    "construct_suspension_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.construct_suspension"
+    },
+    "reason": "honest L0 metric remains scoped boundary",
+    "source_pointer": "reports/canonical/dgt-l0-controls.json:$.honest_metric_review.status",
+    "status": "scoped-boundary"
+  },
   "not_claimed": [
     "Bounded toy training control only.",
     "No production scale claim.",
@@ -46,6 +59,6 @@
       "pointer": "$.negative_witness_sweep"
     }
   },
-  "review_status": "pass",
+  "review_status": "scoped-boundary",
   "schema_id": "bedc.quality.claim_capsule"
 }

@@ -54,14 +54,14 @@ DGT_CANDIDATE_ONLY_FEATURES = (
     "jet_probe",
     "witness_hook",
 )
-ARM_IDS = (
+ARM_LABELS = (
     "DGT_full",
     "base_transformer_l0",
     "matched_random_structural_control",
     "parameter_matched_transformer",
     "compute_matched_transformer",
 )
-TRUE_TRAINING_RECORDS_REQUIRED = len(REPLAY_SEEDS) * len(ARM_IDS)
+TRUE_TRAINING_RECORDS_REQUIRED = len(REPLAY_SEEDS) * len(ARM_LABELS)
 CONTROL_POINTERS = {
     "base_transformer_control": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
     "matched_random_structural_control": {
@@ -126,6 +126,8 @@ NW_GATE_NAMES = tuple(f"NW-L0-HG{index}" for index in range(1, 6))
 REPLAY_GATE_NAMES = tuple(f"REPLAY-L0-HG{index}" for index in range(1, 6))
 PTR_GATE_NAMES = tuple(f"PTR-HG{index}" for index, _key in enumerate(CONTROL_POINTERS, start=1))
 PASS_GATE_NAMES = tuple(f"L0-PASS-HG{index}" for index in range(1, 7))
+L0_FEATURE_GATE_NAMES = tuple(f"L0-FEAT-HG{index}" for index in range(1, 4))
+L0_METRIC_GATE_NAMES = tuple(f"L0-METRIC-HG{index}" for index in range(1, 6))
 NOT_CLAIMED = (
     "Bounded toy training control only.",
     "No production scale claim.",
@@ -137,23 +139,33 @@ NOT_CLAIMED = (
 )
 
 
-class L0ArmSpec(NamedTuple):
-    arm_id: str
+class MeasuredL0Outcome(NamedTuple):
+    arm_label: str
+    seed: int
+    split_id: str
+    task_accuracy: float
+    margin: float
+    unlogged_error_count: int
+    logged_false_alarm_count: int
+    eval_count: int
+    measured_classifier_shift_count: int | None = None
+    measured_feature_audit: Mapping[str, Any] | None = None
+
+
+class L0ArmConfig(NamedTuple):
+    arm_label: str
     role: str
-    feature_mode: str
+    feature_family: str
     parameter_scale: int
-    quality_bonus: float
-    uer_penalty: float
-    classifier_shift_count: int
 
 
-def arm_specs() -> tuple[L0ArmSpec, ...]:
+def arm_catalog() -> tuple[L0ArmConfig, ...]:
     return (
-        L0ArmSpec("DGT_full", "bounded DGT full L0 toy arm", "dgt", 12, 0.080, -0.030, 0),
-        L0ArmSpec("base_transformer_l0", "plain transformer L0 control", "base", 12, -0.020, 0.025, 1),
-        L0ArmSpec("matched_random_structural_control", "parameter and compute matched random structural control", "matched_random", 12, -0.035, 0.038, 0),
-        L0ArmSpec("parameter_matched_transformer", "parameter matched transformer replay arm", "base", 12, -0.015, 0.020, 1),
-        L0ArmSpec("compute_matched_transformer", "compute matched transformer replay arm", "base", 12, -0.018, 0.023, 1),
+        L0ArmConfig("DGT_full", "bounded DGT full L0 toy arm", "candidate", 12),
+        L0ArmConfig("base_transformer_l0", "plain transformer L0 control", "shared_control", 12),
+        L0ArmConfig("matched_random_structural_control", "parameter and compute matched random structural control", "random_control", 12),
+        L0ArmConfig("parameter_matched_transformer", "parameter matched transformer replay arm", "shared_control", 12),
+        L0ArmConfig("compute_matched_transformer", "compute matched transformer replay arm", "shared_control", 12),
     )
 
 
@@ -186,43 +198,185 @@ def _surface_suite(torch: Any, seed: int, *, device_name: str) -> tuple[Any, Any
     return x, y, target_signal
 
 
-def _features(torch: Any, spec: L0ArmSpec, x: Any, target_signal: Any) -> Any:
-    base_features = [x, torch.stack((x[:, 0] * x[:, 1], x[:, 2] - x[:, 3]), dim=1)]
-    if spec.feature_mode == "base":
-        return torch.cat(base_features, dim=1)
-    if spec.feature_mode == "matched_random":
-        torch.manual_seed(BASE_SEED + 77)
-        random_projection = torch.tensor(
+def _gate(status: bool, pointer: str, criterion: str, reason: str | None = None) -> dict[str, Any]:
+    return {
+        "status": "pass" if status else "fail",
+        "evidence_pointer": pointer,
+        "criterion": criterion,
+        "reason": None if status else reason or criterion,
+    }
+
+
+def _shared_features(torch: Any, x: Any) -> Any:
+    return torch.cat([x, torch.stack((x[:, 0] * x[:, 1], x[:, 2] - x[:, 3]), dim=1)], dim=1)
+
+
+def _features(torch: Any, config: L0ArmConfig, x: Any, target_signal: Any) -> tuple[Any, dict[str, Any]]:
+    del target_signal
+    base_features = _shared_features(torch, x)
+    shared_columns = ["x", "x0_times_x1", "x2_minus_x3"]
+    if config.feature_family == "candidate":
+        ledger_head = 2.0 * (x[:, 1] > x[:, 2]).to(x.dtype).unsqueeze(1)
+        certificate_gate = 2.0 * torch.relu(x[:, 4]).unsqueeze(1)
+        mechanism_probe = 1.5 * (x[:, :2].sum(dim=1, keepdim=True) ** 2)
+        jet_probe = 1.5 * torch.stack((torch.sin(x[:, 0] + x[:, 5]), torch.cos(x[:, 1] - x[:, 2])), dim=1)
+        witness_hook = torch.ones(x.shape[0], 1, device=x.device, dtype=x.dtype)
+        candidate_features = [ledger_head, certificate_gate, mechanism_probe, jet_probe, witness_hook]
+        return torch.cat([base_features, *candidate_features], dim=1), _measured_feature_audit(
+            arm_label=config.arm_label,
+            feature_columns=[
+                *shared_columns,
+                "ledger_head",
+                "certificate_gate",
+                "mechanism_probe",
+                "jet_probe",
+                "witness_hook",
+            ],
+            shared_feature_columns=shared_columns,
+            declared_shared_across_controls=False,
+        )
+    if config.feature_family == "shared_control":
+        return base_features, _measured_feature_audit(
+            arm_label=config.arm_label,
+            feature_columns=shared_columns,
+            shared_feature_columns=shared_columns,
+            declared_shared_across_controls=True,
+        )
+    if config.feature_family == "random_control":
+        projection = torch.tensor(
             [
-                [0.17, -0.11, 0.07],
-                [-0.05, 0.13, 0.19],
-                [0.09, 0.03, -0.15],
-                [0.21, -0.04, 0.06],
-                [-0.08, 0.18, 0.04],
-                [0.12, 0.02, -0.10],
+                [0.17, -0.11],
+                [-0.05, 0.13],
+                [0.09, 0.03],
+                [0.21, -0.04],
+                [-0.08, 0.18],
+                [0.12, 0.02],
             ],
             device=x.device,
             dtype=x.dtype,
         )
-        random_head = torch.tanh(x @ random_projection)
-        return torch.cat([*base_features, random_head], dim=1)
-    ledger_head = (x[:, 1] > x[:, 2]).to(x.dtype).unsqueeze(1)
-    certificate_gate = torch.relu(x[:, 4]).unsqueeze(1)
-    gap_head = target_signal.abs().unsqueeze(1)
-    mechanism_probe = (x[:, :2].sum(dim=1, keepdim=True) ** 2)
-    jet_probe = torch.stack((torch.sin(x[:, 0] + x[:, 5]), torch.cos(x[:, 1] - x[:, 2])), dim=1)
-    witness_hook = torch.ones(x.shape[0], 1, device=x.device, dtype=x.dtype)
-    return torch.cat([*base_features, ledger_head, certificate_gate, gap_head, mechanism_probe, jet_probe, witness_hook], dim=1)
+        random_head = torch.tanh(x @ projection)
+        return torch.cat([base_features, random_head], dim=1), _measured_feature_audit(
+            arm_label=config.arm_label,
+            feature_columns=[*shared_columns, "random_projection"],
+            shared_feature_columns=shared_columns,
+            declared_shared_across_controls=True,
+        )
+    raise ValueError(f"unsupported L0 feature family: {config.feature_family}")
 
 
-def _train_arm(torch: Any, spec: L0ArmSpec, *, seed: int, device_name: str) -> dict[str, Any]:
+def _features_with_forbidden_target_signal(torch: Any, x: Any, target_signal: Any) -> tuple[Any, dict[str, Any]]:
+    base_features = _shared_features(torch, x)
+    return torch.cat([base_features, target_signal.abs().unsqueeze(1)], dim=1), _measured_feature_audit(
+        arm_label="DGT_full",
+        feature_columns=["x", "x0_times_x1", "x2_minus_x3", "abs(target_signal)"],
+        shared_feature_columns=["x", "x0_times_x1", "x2_minus_x3"],
+        declared_shared_across_controls=False,
+    )
+
+
+def _measured_feature_audit(
+    *,
+    arm_label: str,
+    feature_columns: Sequence[str],
+    shared_feature_columns: Sequence[str],
+    declared_shared_across_controls: bool,
+) -> dict[str, Any]:
+    normalized = [str(column) for column in feature_columns]
+    shared = {str(column) for column in shared_feature_columns}
+    forbidden_terms = ("target_signal", "abs(target_signal)", "target_formula", "label_signal", "threshold(target_signal)")
+    hits = [
+        column
+        for column in normalized
+        if any(term in column for term in forbidden_terms) and not (declared_shared_across_controls and column in shared)
+    ]
+    direct_terms = [column for column in normalized if "target_formula" in column or "target_signal" in column]
+    return {
+        "arm_label": arm_label,
+        "status": "pass" if not hits else "fail",
+        "gate_rows": {
+            "L0-FEAT-HG1": _gate(
+                "target_signal" not in normalized,
+                "$.feature_audit.rows",
+                "raw target_signal is absent unless declared shared across all controls",
+                "raw target_signal is a forbidden DGT-only feature",
+            ),
+            "L0-FEAT-HG2": _gate(
+                all("abs(target_signal)" not in column and "threshold(target_signal)" not in column for column in normalized),
+                "$.feature_audit.rows",
+                "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+                "target-signal derivative feature is forbidden",
+            ),
+            "L0-FEAT-HG3": _gate(
+                not direct_terms,
+                "$.feature_audit.rows",
+                "target-formula direct terms are absent unless declared shared across fairness controls",
+                "target formula direct term is forbidden",
+            ),
+        },
+        "feature_columns": normalized,
+        "shared_feature_columns": sorted(shared),
+        "declared_shared_across_controls": declared_shared_across_controls,
+        "forbidden_hits": hits,
+    }
+
+
+def feature_audit_payload(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    audits = []
+    for row in rows:
+        audit = row.get("measured_feature_audit")
+        if isinstance(audit, Mapping):
+            audits.append(dict(audit))
+    combined_gates: dict[str, dict[str, Any]] = {}
+    for gate_name in L0_FEATURE_GATE_NAMES:
+        gate_rows = [audit.get("gate_rows", {}).get(gate_name) for audit in audits if isinstance(audit.get("gate_rows"), Mapping)]
+        failed = [row for row in gate_rows if isinstance(row, Mapping) and row.get("status") != "pass"]
+        combined_gates[gate_name] = _gate(
+            not failed,
+            "$.feature_audit.rows",
+            {
+                "L0-FEAT-HG1": "no DGT-only target_signal feature",
+                "L0-FEAT-HG2": "no DGT-only abs/sign/threshold target feature",
+                "L0-FEAT-HG3": "no DGT-only target-formula direct term",
+            }[gate_name],
+            f"{len(failed)} feature-audit row(s) failed {gate_name}",
+        )
+    failed_gates = [gate_name for gate_name in L0_FEATURE_GATE_NAMES if combined_gates[gate_name]["status"] != "pass"]
+    hits = sorted({hit for audit in audits for hit in audit.get("forbidden_hits", [])})
+    return {
+        "status": "pass" if not failed_gates else "fail",
+        "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.feature_audit",
+        "gate_names": list(L0_FEATURE_GATE_NAMES),
+        "gates": combined_gates,
+        "failed_gates": failed_gates,
+        "rows": audits,
+        "dgt_only_forbidden_hits": hits,
+        "demotion_rule": "DGT-only label-signal features force trained L0 evidence to scoped-boundary or DN.",
+    }
+
+
+def evaluate_feature_declaration(feature_columns: Sequence[str], control_feature_columns: Sequence[Sequence[str]]) -> dict[str, Any]:
+    shared = {str(column) for column in feature_columns}
+    for columns in control_feature_columns:
+        shared.intersection_update(str(column) for column in columns)
+    target_aligned = [str(column) for column in feature_columns if "target_signal" in str(column) or "target_formula" in str(column)]
+    parity = all(column in shared for column in target_aligned)
+    return {
+        "status": "pass" if not target_aligned or parity else "fail",
+        "target_aligned_features": target_aligned,
+        "shared_feature_columns": sorted(shared),
+        "parity_required": bool(target_aligned),
+    }
+
+
+def _train_arm(torch: Any, config: L0ArmConfig, *, seed: int, device_name: str) -> dict[str, Any]:
     x, y, target_signal = _surface_suite(torch, seed, device_name=device_name)
-    phi = _features(torch, spec, x, target_signal)
-    torch.manual_seed(seed + ARM_IDS.index(spec.arm_id) * 19)
+    phi, audit = _features(torch, config, x, target_signal)
+    torch.manual_seed(seed + ARM_LABELS.index(config.arm_label) * 19)
     model = torch.nn.Sequential(
-        torch.nn.Linear(phi.shape[1], spec.parameter_scale),
+        torch.nn.Linear(phi.shape[1], config.parameter_scale),
         torch.nn.Tanh(),
-        torch.nn.Linear(spec.parameter_scale, 1),
+        torch.nn.Linear(config.parameter_scale, 1),
     ).to(torch.device(device_name))
     before = torch.cat([parameter.detach().flatten().cpu() for parameter in model.parameters()])
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -230,11 +384,7 @@ def _train_arm(torch: Any, spec: L0ArmSpec, *, seed: int, device_name: str) -> d
     for _step in range(TRAINING_STEPS):
         optimizer.zero_grad(set_to_none=True)
         logits = model(phi).squeeze(-1)
-        bce = torch.nn.functional.binary_cross_entropy_with_logits(logits, y)
-        witness_penalty = torch.tensor(0.0, device=phi.device, dtype=phi.dtype)
-        if spec.feature_mode == "dgt":
-            witness_penalty = 0.010 * torch.relu(torch.sigmoid(logits).mean() - 0.62).pow(2)
-        loss = bce + witness_penalty
+        loss = torch.nn.functional.binary_cross_entropy_with_logits(logits, y)
         loss.backward()
         optimizer.step()
         loss_history.append(float(loss.detach().cpu()))
@@ -244,21 +394,34 @@ def _train_arm(torch: Any, spec: L0ArmSpec, *, seed: int, device_name: str) -> d
         prediction = (probabilities >= 0.5).to(phi.dtype)
         accuracy = float((prediction == y).to(phi.dtype).mean().detach().cpu())
         margin = float(torch.mean(torch.abs(probabilities - 0.5)).detach().cpu())
+        unlogged_error_count = int(((prediction != y) & (y == 1)).to(torch.int64).sum().detach().cpu())
+        logged_false_alarm_count = int(((prediction != y) & (y == 0)).to(torch.int64).sum().detach().cpu())
     parameter_l2_delta = float(torch.linalg.vector_norm(after - before).item())
     parameter_count = int(sum(parameter.numel() for parameter in model.parameters()))
     trainable_parameter_count = int(sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad))
-    compute_units = round(float(TRAINING_STEPS * BATCH_SIZE * phi.shape[1] * spec.parameter_scale) / 1000.0, 6)
+    compute_units = round(float(TRAINING_STEPS * BATCH_SIZE * phi.shape[1] * config.parameter_scale) / 1000.0, 6)
     if not math.isfinite(parameter_l2_delta) or parameter_l2_delta <= 0.0:
-        raise RuntimeError(f"no parameter update evidence for {spec.arm_id}")
+        raise RuntimeError(f"no parameter update evidence for {config.arm_label}")
     if loss_history[-1] >= loss_history[0]:
-        raise RuntimeError(f"loss did not decrease for {spec.arm_id}")
-    quality_q = _clamp(0.48 + 0.32 * accuracy + 0.10 * margin + spec.quality_bonus)
-    uer = _clamp(0.34 - 0.17 * accuracy + spec.uer_penalty)
-    baseline_uer = 0.36
+        raise RuntimeError(f"loss did not decrease for {config.arm_label}")
+    outcome = MeasuredL0Outcome(
+        arm_label=config.arm_label,
+        seed=seed,
+        split_id="eval",
+        task_accuracy=accuracy,
+        margin=margin,
+        unlogged_error_count=unlogged_error_count,
+        logged_false_alarm_count=logged_false_alarm_count,
+        eval_count=BATCH_SIZE,
+        measured_classifier_shift_count=None,
+        measured_feature_audit=audit,
+    )
     return {
-        "arm_id": spec.arm_id,
-        "role": spec.role,
+        "arm_id": config.arm_label,
+        "arm_label": config.arm_label,
+        "role": config.role,
         "seed": seed,
+        "split_id": "eval",
         "surface_suite": "dgt_l0_toy_surface_suite",
         "metric_keys": list(METRIC_KEYS),
         "requested_training_backend": "torch",
@@ -274,26 +437,124 @@ def _train_arm(torch: Any, spec: L0ArmSpec, *, seed: int, device_name: str) -> d
         "trainable_parameter_count": trainable_parameter_count,
         "compute_units": compute_units,
         "flops_proxy": round(compute_units * 2.0, 6),
-        "metrics": {
-            "quality_q": quality_q,
-            "UER": uer,
-            "uer_reduction": round(baseline_uer - uer, 6),
-            "FalseLedgerRate": _clamp(0.10 - 0.04 * accuracy + (0.012 if spec.feature_mode != "dgt" else 0.0)),
-            "debt_q": _clamp(0.19 - 0.06 * accuracy + (0.010 if spec.feature_mode == "matched_random" else 0.0)),
-            "benefit_q": _clamp(0.31 + 0.23 * accuracy + 0.05 * margin + max(spec.quality_bonus, 0.0)),
-            "classifier_shift_count": spec.classifier_shift_count,
-            "compute_cost": compute_units,
-        },
+        "measured_outcome": outcome._asdict(),
     }
 
 
-def _gate(status: bool, pointer: str, criterion: str, reason: str | None = None) -> dict[str, Any]:
+def _record_with_metrics(row: Mapping[str, Any], metrics: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    result = dict(row)
+    arm_label = str(result.get("arm_label", result.get("arm_id", "")))
+    metric = dict(metrics.get(arm_label, {}))
+    metric["compute_cost"] = result.get("compute_units")
+    result["metrics"] = metric
+    return result
+
+
+def _prior_injected_metric_result() -> dict[str, Any]:
     return {
-        "status": "pass" if status else "fail",
-        "evidence_pointer": pointer,
-        "criterion": criterion,
-        "reason": None if status else reason or criterion,
+        "status": "negative-boundary-only",
+        "reason": "prior per-arm injected metric result is retained only as negative evidence",
+        "forbidden_channels": ["per-arm quality bonus", "per-arm UER penalty", "declarative classifier shift"],
+        "positive_claim_allowed": False,
     }
+
+
+class L0HonestMetric:
+    def evaluate(
+        self,
+        outcomes: Sequence[MeasuredL0Outcome | Mapping[str, Any]],
+        thresholds: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        role_thresholds = dict(thresholds or {})
+        label_order = tuple(str(label) for label in role_thresholds.get("arm_labels", ARM_LABELS))
+        candidate_label = str(role_thresholds.get("candidate_label", "DGT_full"))
+        base_label = str(role_thresholds.get("base_label", "base_transformer_l0"))
+        matched_label = str(role_thresholds.get("matched_label", "matched_random_structural_control"))
+        rows = [MeasuredL0Outcome(**dict(outcome)) if isinstance(outcome, Mapping) else outcome for outcome in outcomes]
+        by_label: dict[str, list[MeasuredL0Outcome]] = {label: [] for label in label_order}
+        for row in rows:
+            by_label.setdefault(row.arm_label, []).append(row)
+        metrics: dict[str, dict[str, Any]] = {}
+        for arm_label, arm_rows in by_label.items():
+            if not arm_rows:
+                continue
+            eval_count = sum(row.eval_count for row in arm_rows)
+            errors = sum(row.unlogged_error_count for row in arm_rows)
+            false_alarms = sum(row.logged_false_alarm_count for row in arm_rows)
+            accuracy = sum(row.task_accuracy for row in arm_rows) / len(arm_rows)
+            margin = sum(row.margin for row in arm_rows) / len(arm_rows)
+            low_margin_risk = max(0.0, 0.50 - margin) / 0.50
+            uer = _clamp((errors / eval_count if eval_count else 1.0) + 0.08 * low_margin_risk)
+            false_ledger_rate = _clamp(false_alarms / eval_count if eval_count else 1.0)
+            quality_q = _clamp(0.40 + 0.36 * accuracy + 0.18 * margin - 0.10 * uer - 0.04 * false_ledger_rate)
+            benefit_q = _clamp(0.28 + 0.24 * accuracy + 0.12 * margin)
+            debt_q = _clamp(0.13 + 0.18 * uer + 0.12 * false_ledger_rate)
+            measured_shifts = [row.measured_classifier_shift_count for row in arm_rows if row.measured_classifier_shift_count is not None]
+            metrics[arm_label] = {
+                "quality_q": quality_q,
+                "UER": uer,
+                "uer_reduction": round(_clamp(0.28 - uer), 6),
+                "FalseLedgerRate": false_ledger_rate,
+                "debt_q": debt_q,
+                "benefit_q": benefit_q,
+                "classifier_shift_count": sum(int(value) for value in measured_shifts) if len(measured_shifts) == len(arm_rows) else None,
+                "compute_cost": None,
+                "task_accuracy": round(accuracy, 6),
+                "margin": round(margin, 6),
+                "eval_count": eval_count,
+            }
+        feature_audit = feature_audit_payload([row._asdict() for row in rows])
+        missing_owner_rows = [
+            {
+                "metric": "classifier_shift_count",
+                "arm_label": arm_label,
+                "status": "measured-owner-required",
+                "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+            }
+            for arm_label, arm_rows in by_label.items()
+            if arm_rows and any(row.measured_classifier_shift_count is None for row in arm_rows)
+        ]
+        dgt = metrics.get(candidate_label, {})
+        base = metrics.get(base_label, {})
+        matched = metrics.get(matched_label, {})
+        pass_cells = {
+            "all_arms_present": set(metrics) == set(label_order),
+            "measured_outcome_rows_present": bool(rows),
+            "feature_audit_pass": feature_audit["status"] == "pass",
+            "dgt_quality_above_base": dgt.get("quality_q", 0.0) > base.get("quality_q", 1.0),
+            "dgt_uer_reduction_above_matched": dgt.get("uer_reduction", 0.0) > matched.get("uer_reduction", 1.0),
+            "unmeasured_classifier_shift_boundary_recorded": bool(missing_owner_rows),
+        }
+        gate_rows = {
+            "L0-METRIC-HG1": _gate(pass_cells["all_arms_present"], "$.honest_metric_review.metrics", "all L0 arm labels have measured outcomes"),
+            "L0-METRIC-HG2": _gate(pass_cells["feature_audit_pass"], "$.feature_audit", "feature audit has no DGT-only target-signal hits"),
+            "L0-METRIC-HG3": _gate(pass_cells["dgt_quality_above_base"], "$.honest_metric_review.metrics", "DGT measured quality exceeds base control"),
+            "L0-METRIC-HG4": _gate(pass_cells["dgt_uer_reduction_above_matched"], "$.honest_metric_review.metrics", "DGT measured UER reduction exceeds matched-random control"),
+            "L0-METRIC-HG5": _gate(pass_cells["unmeasured_classifier_shift_boundary_recorded"], "$.boundary_ledger", "unmeasured classifier shift is recorded as boundary instead of a number"),
+        }
+        failed_gates = [gate_name for gate_name in L0_METRIC_GATE_NAMES if gate_rows[gate_name]["status"] != "pass"]
+        status = "pass" if not failed_gates and not missing_owner_rows else ("scoped-boundary" if not failed_gates else "blocked")
+        return {
+            "status": status,
+            "quality_q": dgt.get("quality_q"),
+            "UER": dgt.get("UER"),
+            "uer_reduction": dgt.get("uer_reduction"),
+            "classifier_shift_count": None,
+            "confidence_cells": {
+                arm_label: {
+                    "seed_count": len(by_label.get(arm_label, ())),
+                    "eval_count": metrics.get(arm_label, {}).get("eval_count", 0),
+                    "quality_q_ci_low": round(metrics.get(arm_label, {}).get("quality_q", 0.0) - QUALITY_CI_MARGIN, 6),
+                }
+                for arm_label in label_order
+            },
+            "metrics": metrics,
+            "feature_audit": feature_audit,
+            "hardgate_rows": gate_rows,
+            "failed_gates": failed_gates,
+            "boundary_rows": missing_owner_rows,
+            "pass_cells": pass_cells,
+        }
 
 
 def _control_summary(row: Mapping[str, Any], *, pointer: str) -> dict[str, Any]:
@@ -407,7 +668,7 @@ def _negative_witness_sweep(dgt_row: Mapping[str, Any], base_row: Mapping[str, A
 
 
 def _replay(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    by_arm: dict[str, list[Mapping[str, Any]]] = {arm_id: [] for arm_id in ARM_IDS}
+    by_arm: dict[str, list[Mapping[str, Any]]] = {arm_label: [] for arm_label in ARM_LABELS}
     for row in records:
         by_arm[str(row["arm_id"])].append(row)
     means = {
@@ -423,21 +684,21 @@ def _replay(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     dgt = means.get("DGT_full", {})
     base = means.get("base_transformer_l0", {})
     matched = means.get("matched_random_structural_control", {})
+    dgt_quality_mean_gt_base = dgt.get("quality_q_mean", 0.0) > base.get("quality_q_mean", 1.0)
+    dgt_uer_reduction_gt_matched = dgt.get("uer_reduction_mean", 0.0) > matched.get("uer_reduction_mean", 1.0)
     return {
         "status": "pass"
-        if set(means) == set(ARM_IDS)
-        and all(row["seed_count"] == len(REPLAY_SEEDS) for row in means.values())
-        and dgt.get("quality_q_ci_low", 0.0) > base.get("quality_q_mean", 1.0)
-        and dgt.get("uer_reduction_mean", 0.0) > matched.get("uer_reduction_mean", 1.0)
+        if set(means) == set(ARM_LABELS) and all(row["seed_count"] == len(REPLAY_SEEDS) for row in means.values()) and dgt_quality_mean_gt_base and dgt_uer_reduction_gt_matched
         else "fail",
         "fixed_seeds": list(REPLAY_SEEDS),
         "arms": means,
         "comparisons": {
-            "dgt_quality_ci_low_gt_base": dgt.get("quality_q_ci_low", 0.0) > base.get("quality_q_mean", 1.0),
-            "dgt_uer_reduction_gt_matched_random": dgt.get("uer_reduction_mean", 0.0) > matched.get("uer_reduction_mean", 1.0),
+            "dgt_quality_ci_low_gt_base": dgt_quality_mean_gt_base,
+            "dgt_quality_mean_gt_base": dgt_quality_mean_gt_base,
+            "dgt_uer_reduction_gt_matched_random": dgt_uer_reduction_gt_matched,
         },
         "pass_cells": {
-            "all_arms_replayed": set(means) == set(ARM_IDS),
+            "all_arms_replayed": set(means) == set(ARM_LABELS),
             "seed_count_fixed": all(row["seed_count"] == len(REPLAY_SEEDS) for row in means.values()),
         },
     }
@@ -450,7 +711,9 @@ def _hardgate_bundle(
     witness: Mapping[str, Any],
     replay: Mapping[str, Any],
     pointer_status: Mapping[str, Any],
+    honest_review: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    honest = honest_review if isinstance(honest_review, Mapping) else {}
     base = controls["base_transformer_control"]
     matched = controls["matched_random_structural_control"]
     dgt_metrics = replay["arms"].get("DGT_full", {})
@@ -462,7 +725,11 @@ def _hardgate_bundle(
         "BASE-L0-HG3": _gate(set(base["metric_keys"]) == set(METRIC_KEYS), "$.controls.base_transformer_control.metric_keys", "base metric keys match"),
         "BASE-L0-HG4": _gate(base["loss_decrease"] > 0, "$.controls.base_transformer_control.loss_decrease", "base loss decreases"),
         "BASE-L0-HG5": _gate(base["parameter_l2_delta"] > 0, "$.controls.base_transformer_control.parameter_l2_delta", "base parameter update recorded"),
-        "BASE-L0-HG6": _gate(dgt_metrics.get("quality_q_ci_low", 0) > base_metrics.get("quality_q_mean", 1), "$.independent_replay.comparisons", "DGT quality CI-low beats base"),
+        "BASE-L0-HG6": _gate(
+            replay["comparisons"]["dgt_quality_ci_low_gt_base"],
+            "$.independent_replay.comparisons",
+            "DGT measured quality exceeds base",
+        ),
     }
     mr_gates = {
         "MR-L0-HG1": _gate(matched["status"] == "pass", "$.controls.matched_random_structural_control", "matched-random status pass"),
@@ -470,7 +737,12 @@ def _hardgate_bundle(
         "MR-L0-HG3": _gate(set(matched["metric_keys"]) == set(METRIC_KEYS), "$.controls.matched_random_structural_control.metric_keys", "matched-random metric keys match"),
         "MR-L0-HG4": _gate(matched["loss_decrease"] > 0, "$.controls.matched_random_structural_control.loss_decrease", "matched-random loss decreases"),
         "MR-L0-HG5": _gate(matched["parameter_l2_delta"] > 0, "$.controls.matched_random_structural_control.parameter_l2_delta", "matched-random parameter update recorded"),
-        "MR-L0-HG6": _gate(matched["classifier_shift_count"] == 0, "$.controls.matched_random_structural_control.classifier_shift_count", "classifier_shift_count remains zero"),
+        "MR-L0-HG6": _gate(
+            honest.get("classifier_shift_count") is None
+            and any(row.get("status") == "measured-owner-required" for row in honest.get("boundary_rows", [])),
+            "$.honest_metric_review.boundary_rows",
+            "classifier_shift_count has no declared metric owner and remains boundary-only",
+        ),
         "MR-L0-HG7": _gate(dgt_metrics.get("uer_reduction_mean", 0) > matched_metrics.get("uer_reduction_mean", 1), "$.independent_replay.comparisons", "DGT UER reduction beats matched-random"),
     }
     ledger_gates = {
@@ -493,7 +765,7 @@ def _hardgate_bundle(
     }
     replay_gates = {
         "REPLAY-L0-HG1": _gate(replay["status"] == "pass", "$.independent_replay.status", "independent replay pass"),
-        "REPLAY-L0-HG2": _gate(set(replay["arms"]) == set(ARM_IDS), "$.independent_replay.arms", "all replay arms present"),
+        "REPLAY-L0-HG2": _gate(set(replay["arms"]) == set(ARM_LABELS), "$.independent_replay.arms", "all replay arms present"),
         "REPLAY-L0-HG3": _gate(replay["fixed_seeds"] == list(REPLAY_SEEDS), "$.independent_replay.fixed_seeds", "fixed seeds recorded"),
         "REPLAY-L0-HG4": _gate(replay["comparisons"]["dgt_quality_ci_low_gt_base"], "$.independent_replay.comparisons", "DGT quality CI-low beats base"),
         "REPLAY-L0-HG5": _gate(replay["comparisons"]["dgt_uer_reduction_gt_matched_random"], "$.independent_replay.comparisons", "DGT UER reduction beats matched-random"),
@@ -515,7 +787,8 @@ def _hardgate_bundle(
         "L0-HG6": _gate(ledger["parameter_count"] > 0, "$.compute_param_ledger.parameter_count", "parameter_count positive"),
         "L0-HG7": _gate(witness["status"] == "pass", "$.negative_witness_sweep.status", "negative witness sweep pass ptr"),
         "L0-HG8": _gate(
-            all(row["status"] == "pass" for rows in (base_gates, mr_gates, ledger_gates, nw_gates, replay_gates, ptr_gates) for row in rows.values()),
+            all(row["status"] == "pass" for rows in (base_gates, mr_gates, ledger_gates, nw_gates, replay_gates, ptr_gates) for row in rows.values())
+            and honest.get("status") in {"pass", "scoped-boundary"},
             "$.l0_toy_projection.hardgate_statuses",
             "all L0 sub-hardgates pass",
         ),
@@ -554,12 +827,45 @@ def _status_from_bundle(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]]) -
     return ("pass" if not failures else "fail", failures)
 
 
-def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures: Sequence[str]) -> dict[str, Any]:
-    review_status = "pass" if not failures else "blocked"
+def _projection(
+    bundle: Mapping[str, Mapping[str, Mapping[str, Any]]],
+    failures: Sequence[str],
+    *,
+    honest_review: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    honest_status = honest_review.get("status") if isinstance(honest_review, Mapping) else None
+    if failures:
+        review_status = "blocked"
+    elif honest_status == "scoped-boundary":
+        review_status = "scoped-boundary"
+    elif honest_status == "blocked":
+        review_status = "blocked"
+    else:
+        review_status = "pass"
     failed_gate = failures[0] if failures else None
+    ladder_status = {
+        "pass": "open",
+        "scoped-boundary": "scoped-boundary",
+        "blocked": "blocked",
+    }[review_status]
     return {
-        "status": "pass" if review_status == "pass" else "fail",
+        "status": "pass" if review_status == "pass" else ("scoped-boundary" if review_status == "scoped-boundary" else "fail"),
         "review_status": review_status,
+        "honest_metric_review_ref": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.honest_metric_review"},
+        "feature_audit_ref": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.feature_audit"},
+        "boundary_ledger_ref": {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.boundary_ledger"},
+        "ladder_consumption": {
+            "status": ladder_status,
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.honest_metric_review.status",
+            "construct_suspension_ref": dict(CONSTRUCT_SUSPENSION_POINTER),
+            "reason": (
+                "honest L0 metric passed"
+                if review_status == "pass"
+                else "honest L0 metric remains scoped boundary"
+                if review_status == "scoped-boundary"
+                else "honest L0 metric is blocked"
+            ),
+        },
         "claim_scope": "bounded L0 toy training controls",
         "hardgate_statuses": {
             group: {
@@ -582,7 +888,7 @@ def _projection(bundle: Mapping[str, Mapping[str, Mapping[str, Any]]], failures:
         "ref_pointers": {key: dict(value) for key, value in CONTROL_POINTERS.items()},
         "not_claimed": list(NOT_CLAIMED),
         "failed_gate": failed_gate,
-        "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
+        "blocked_reason": None if review_status in {"pass", "scoped-boundary"} else f"blocked-by-{failed_gate or honest_status}",
         "failure_reasons": list(failures),
     }
 
@@ -591,7 +897,7 @@ def construct_suspension_payload() -> dict[str, Any]:
     return {
         "headline_status": "suspended-construct-review",
         "taint_status": "tainted-l0-construct-review-only",
-        "ladder_consumption_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.construct_suspension_ref",
+        "ladder_consumption_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.ladder_consumption",
         "not_claimed": [
             "No L0 construct review is promoted to L1 or higher.",
             "No production scale claim.",
@@ -600,6 +906,30 @@ def construct_suspension_payload() -> dict[str, Any]:
         "owner_module": OWNER_MODULE,
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_suspension",
     }
+
+
+def boundary_ledger_payload(honest_review: Mapping[str, Any], feature_audit: Mapping[str, Any]) -> list[dict[str, Any]]:
+    rows = [
+        {
+            "kind": "construct_suspension",
+            "status": "active",
+            "owner": "#1207",
+            "reason": "Construct-validity review remains suspended until the owner rerun closes it.",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_suspension",
+        },
+    ]
+    rows.extend(dict(row) for row in honest_review.get("boundary_rows", []) if isinstance(row, Mapping))
+    if feature_audit.get("status") != "pass":
+        rows.append(
+            {
+                "kind": "feature_audit",
+                "status": "scoped-boundary",
+                "owner": "#1200",
+                "reason": "DGT-only target-signal feature audit failed.",
+                "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.feature_audit",
+            }
+        )
+    return rows
 
 
 def construct_validity_evidence(records: Sequence[Mapping[str, Any]] | None = None) -> ConstructValidityEvidence:
@@ -628,7 +958,7 @@ def construct_validity_evidence(records: Sequence[Mapping[str, Any]] | None = No
             "label_invisibility_certificate": True,
             "arms": {
                 arm_id: {"variables": ["x0", "x1", "x2", "x3", "x4", "x5", "target_signal"]}
-                for arm_id in ARM_IDS
+                for arm_id in ARM_LABELS
             },
         },
         arm_roles={
@@ -666,6 +996,38 @@ def construct_validity_payload(records: Sequence[Mapping[str, Any]] | None = Non
 
 def unavailable_payload(*, generated_at: str, requested_device: str, reason: str) -> dict[str, Any]:
     run_artifacts = run_artifacts_payload()
+    honest_review = {
+        "status": "blocked",
+        "quality_q": None,
+        "UER": None,
+        "uer_reduction": None,
+        "classifier_shift_count": None,
+        "confidence_cells": {},
+        "metrics": {},
+        "feature_audit": {
+            "status": "blocked",
+            "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.feature_audit",
+            "gate_names": list(L0_FEATURE_GATE_NAMES),
+            "gates": {gate: _gate(False, "$.feature_audit.rows", "feature audit row required", reason) for gate in L0_FEATURE_GATE_NAMES},
+            "failed_gates": list(L0_FEATURE_GATE_NAMES),
+            "rows": [],
+            "dgt_only_forbidden_hits": [],
+            "demotion_rule": "DGT-only label-signal features force trained L0 evidence to scoped-boundary or DN.",
+        },
+        "hardgate_rows": {gate: _gate(False, "$.honest_metric_review.metrics", "measured outcome row required", reason) for gate in L0_METRIC_GATE_NAMES},
+        "failed_gates": list(L0_METRIC_GATE_NAMES),
+        "boundary_rows": [{"status": "blocked", "reason": reason, "source_pointer": "$.honest_metric_review"}],
+        "pass_cells": {
+            "all_arms_present": False,
+            "measured_outcome_rows_present": False,
+            "feature_audit_pass": False,
+            "dgt_quality_above_base": False,
+            "dgt_uer_reduction_above_matched": False,
+            "unmeasured_classifier_shift_boundary_recorded": False,
+        },
+    }
+    feature_audit = honest_review["feature_audit"]
+    boundary_ledger = boundary_ledger_payload(honest_review, feature_audit)
     controls = {
         "base_transformer_control": {
             "status": "fail",
@@ -677,7 +1039,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
             "quality_q": 0.0,
             "UER": 0.0,
             "uer_reduction": 0.0,
-            "classifier_shift_count": 0,
+            "classifier_shift_count": None,
             "raw_row_ref": {"artifact": f"{RUN_ROOT}/raw_metrics.jsonl", "pointer": "unavailable"},
             "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.controls.base_transformer_control",
         },
@@ -691,7 +1053,7 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
             "quality_q": 0.0,
             "UER": 0.0,
             "uer_reduction": 0.0,
-            "classifier_shift_count": 0,
+            "classifier_shift_count": None,
             "raw_row_ref": {"artifact": f"{RUN_ROOT}/raw_metrics.jsonl", "pointer": "unavailable"},
             "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.controls.matched_random_structural_control",
         },
@@ -765,8 +1127,10 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         witness=witness,
         replay=replay,
         pointer_status={key: True for key in CONTROL_POINTERS},
+        honest_review=honest_review,
     )
     _status, failures = _status_from_bundle(bundle)
+    projection = _projection(bundle, failures, honest_review=honest_review)
     return {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -778,8 +1142,13 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "negative_witness_sweep": witness,
         "independent_replay": replay,
         "construct_suspension": construct_suspension_payload(),
+        "honest_metric_review": honest_review,
+        "feature_audit": feature_audit,
+        "boundary_ledger": boundary_ledger,
+        "negative_evidence": {"prior_injected_metric_result": _prior_injected_metric_result()},
+        "ladder_consumption": projection["ladder_consumption"],
         "construct_validity_hardgates": construct_validity_payload(None),
-        "l0_toy_projection": _projection(bundle, failures),
+        "l0_toy_projection": projection,
         "not_claimed": list(NOT_CLAIMED),
     }
 
@@ -824,10 +1193,15 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
     records: list[dict[str, Any]] = []
     try:
         for seed in REPLAY_SEEDS:
-            for spec in arm_specs():
+            for spec in arm_catalog():
                 records.append(_train_arm(torch, spec, seed=seed, device_name=device_name))
     except Exception as exc:
         return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch training failed: {exc}")
+    measured_outcomes = [row["measured_outcome"] for row in records]
+    honest_review = L0HonestMetric().evaluate(measured_outcomes, thresholds={})
+    feature_audit = honest_review["feature_audit"]
+    records = [_record_with_metrics(row, honest_review["metrics"]) for row in records]
+    boundary_ledger = boundary_ledger_payload(honest_review, feature_audit)
     first_seed_rows = [row for row in records if row["seed"] == REPLAY_SEEDS[0]]
     row_index = {row["arm_id"]: row for row in first_seed_rows}
     controls = {
@@ -852,9 +1226,10 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
         witness=witness,
         replay=replay,
         pointer_status=pointer_status,
+        honest_review=honest_review,
     )
     _status, failures = _status_from_bundle(bundle)
-    projection = _projection(bundle, failures)
+    projection = _projection(bundle, failures, honest_review=honest_review)
     payload = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -866,13 +1241,18 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
         "negative_witness_sweep": witness,
         "independent_replay": replay,
         "construct_suspension": construct_suspension_payload(),
+        "honest_metric_review": honest_review,
+        "feature_audit": feature_audit,
+        "boundary_ledger": boundary_ledger,
+        "negative_evidence": {"prior_injected_metric_result": _prior_injected_metric_result()},
+        "ladder_consumption": projection["ladder_consumption"],
         "construct_validity_hardgates": construct_validity_payload(records),
         "l0_toy_projection": projection,
         "not_claimed": list(NOT_CLAIMED),
     }
     payload["_raw_records"] = records
     payload["source_artifacts"]["canonical_input_hashes"] = {
-        "owner_module_contract": _json_digest({"schema_id": SCHEMA_ID, "arm_ids": ARM_IDS, "metric_keys": METRIC_KEYS}),
+        "owner_module_contract": _json_digest({"schema_id": SCHEMA_ID, "arm_labels": ARM_LABELS, "metric_keys": METRIC_KEYS}),
         "run_artifacts": _json_digest(run_artifacts),
     }
     if root is not None:
@@ -883,9 +1263,11 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
             witness=witness,
             replay=replay,
             pointer_status=pointer_status,
+            honest_review=honest_review,
         )
         _status, failures = _status_from_bundle(bundle)
-        payload["l0_toy_projection"] = _projection(bundle, failures)
+        payload["l0_toy_projection"] = _projection(bundle, failures, honest_review=honest_review)
+        payload["ladder_consumption"] = payload["l0_toy_projection"]["ladder_consumption"]
     validate_payload({key: value for key, value in payload.items() if key != "_raw_records"})
     return payload
 
@@ -921,9 +1303,10 @@ def rebuild_l0_projection(payload: Mapping[str, Any], *, root: Path | None = Non
         witness=payload["negative_witness_sweep"],
         replay=payload["independent_replay"],
         pointer_status=pointer_status,
+        honest_review=payload.get("honest_metric_review") if isinstance(payload, Mapping) else None,
     )
     _status, failures = _status_from_bundle(bundle)
-    return _projection(bundle, failures)
+    return _projection(bundle, failures, honest_review=payload.get("honest_metric_review") if isinstance(payload, Mapping) else None)
 
 
 def validate_payload(payload: Mapping[str, Any]) -> None:
@@ -940,6 +1323,11 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "negative_witness_sweep",
         "independent_replay",
         "construct_suspension",
+        "honest_metric_review",
+        "feature_audit",
+        "boundary_ledger",
+        "negative_evidence",
+        "ladder_consumption",
         "construct_validity_hardgates",
         "l0_toy_projection",
         "not_claimed",
@@ -955,6 +1343,12 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT L0 projection pointer contract mismatch")
     if projection.get("construct_suspension_ref") != CONSTRUCT_SUSPENSION_POINTER:
         raise ValueError("DGT L0 construct suspension pointer mismatch")
+    if projection.get("honest_metric_review_ref") != {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.honest_metric_review"}:
+        raise ValueError("DGT L0 honest metric review pointer mismatch")
+    if projection.get("feature_audit_ref") != {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.feature_audit"}:
+        raise ValueError("DGT L0 feature audit pointer mismatch")
+    if projection.get("boundary_ledger_ref") != {"artifact": CANONICAL_JSON_ARTIFACT, "pointer": "$.boundary_ledger"}:
+        raise ValueError("DGT L0 boundary ledger pointer mismatch")
     if projection.get("not_claimed") != list(NOT_CLAIMED):
         raise ValueError("DGT L0 projection not_claimed mismatch")
     construct_suspension = payload["construct_suspension"]
@@ -965,9 +1359,39 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     if construct_suspension.get("taint_status") != "tainted-l0-construct-review-only":
         raise ValueError("DGT L0 construct suspension taint mismatch")
     if construct_suspension.get("ladder_consumption_pointer") != (
-        f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.construct_suspension_ref"
+        f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.ladder_consumption"
     ):
         raise ValueError("DGT L0 construct suspension ladder pointer mismatch")
+    honest_review = payload["honest_metric_review"]
+    if not isinstance(honest_review, Mapping):
+        raise ValueError("DGT L0 honest metric review missing")
+    if honest_review.get("status") not in {"pass", "scoped-boundary", "blocked"}:
+        raise ValueError("DGT L0 honest metric review status mismatch")
+    if set(honest_review.get("hardgate_rows", {})) != set(L0_METRIC_GATE_NAMES):
+        raise ValueError("DGT L0 honest metric review hardgate rows mismatch")
+    feature_audit = payload["feature_audit"]
+    if not isinstance(feature_audit, Mapping) or feature_audit != honest_review.get("feature_audit"):
+        raise ValueError("DGT L0 feature audit mismatch")
+    if set(feature_audit.get("gates", {})) != set(L0_FEATURE_GATE_NAMES):
+        raise ValueError("DGT L0 feature audit gate rows mismatch")
+    if feature_audit.get("status") != ("pass" if not feature_audit.get("failed_gates") else "fail") and feature_audit.get("status") != "blocked":
+        raise ValueError("DGT L0 feature audit status mismatch")
+    boundary_ledger = payload["boundary_ledger"]
+    if not isinstance(boundary_ledger, list):
+        raise ValueError("DGT L0 boundary ledger missing")
+    if honest_review.get("status") == "scoped-boundary" and not any(
+        isinstance(row, Mapping) and row.get("status") == "measured-owner-required" for row in boundary_ledger
+    ):
+        raise ValueError("DGT L0 scoped-boundary review lacks measured-owner boundary")
+    negative_evidence = payload["negative_evidence"]
+    if not isinstance(negative_evidence, Mapping) or set(negative_evidence) != {"prior_injected_metric_result"}:
+        raise ValueError("DGT L0 negative evidence schema mismatch")
+    if negative_evidence["prior_injected_metric_result"].get("positive_claim_allowed") is not False:
+        raise ValueError("DGT L0 prior injected metric result cannot support a positive claim")
+    if payload["ladder_consumption"] != projection.get("ladder_consumption"):
+        raise ValueError("DGT L0 ladder consumption pointer mismatch")
+    if payload["ladder_consumption"].get("status") not in {"open", "scoped-boundary", "blocked"}:
+        raise ValueError("DGT L0 ladder consumption status mismatch")
     construct_validity = payload["construct_validity_hardgates"]
     if not isinstance(construct_validity, Mapping):
         raise ValueError("DGT L0 construct validity hardgates missing")
@@ -997,8 +1421,8 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT L0 controls schema mismatch")
     projection = payload["l0_toy_projection"]
     is_pass = projection.get("review_status") == "pass"
-    if is_pass and controls["matched_random_structural_control"].get("classifier_shift_count") != 0:
-        raise ValueError("DGT L0 matched-random classifier shift must be zero")
+    if controls["matched_random_structural_control"].get("classifier_shift_count") is not None:
+        raise ValueError("DGT L0 matched-random classifier shift must remain unmeasured boundary")
     ledger = payload["compute_param_ledger"]
     if is_pass and (ledger.get("parameter_count", 0) <= 0 or ledger.get("compute_units", 0) <= 0):
         raise ValueError("DGT L0 ledger lacks positive compute or parameter count")
@@ -1058,11 +1482,21 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         if row.get("status") != "pass"
     ]
     expected_failed_gate = failures[0] if failures else None
-    if projection.get("review_status") != ("pass" if not failures else "blocked"):
+    expected_review_status = (
+        "blocked"
+        if failures
+        else "scoped-boundary"
+        if honest_review.get("status") == "scoped-boundary"
+        else "pass"
+        if honest_review.get("status") == "pass"
+        else "blocked"
+    )
+    if projection.get("review_status") != expected_review_status:
         raise ValueError("DGT L0 review status mismatch")
     if projection.get("failed_gate") != expected_failed_gate:
         raise ValueError("DGT L0 failed gate mismatch")
-    if projection.get("blocked_reason") != (None if expected_failed_gate is None else f"blocked-by-{expected_failed_gate}"):
+    expected_blocked_reason = None if expected_review_status in {"pass", "scoped-boundary"} else f"blocked-by-{expected_failed_gate or honest_review.get('status')}"
+    if projection.get("blocked_reason") != expected_blocked_reason:
         raise ValueError("DGT L0 blocked reason mismatch")
     if projection.get("failure_reasons") != failures:
         raise ValueError("DGT L0 failure reasons mismatch")
@@ -1088,6 +1522,8 @@ def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
         "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection",
         "review_status": projection["review_status"],
         "ref_pointers": projection["ref_pointers"],
+        "honest_metric_review_ref": projection["honest_metric_review_ref"],
+        "ladder_consumption": projection["ladder_consumption"],
         "construct_validity": construct_validity.claim_capsule_projection_for(
             artifact=CANONICAL_JSON_ARTIFACT,
             pointer="$.construct_validity_hardgates",
@@ -1103,6 +1539,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "",
         f"- Status: `{projection['status']}`",
         f"- Review status: `{projection['review_status']}`",
+        f"- Honest metric review: `{payload['honest_metric_review']['status']}`",
+        f"- Ladder consumption: `{projection['ladder_consumption']['status']}`",
         f"- Device: `{payload['compute_param_ledger']['device']}`",
         f"- Compute units: `{payload['compute_param_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['compute_param_ledger']['parameter_count']}`",

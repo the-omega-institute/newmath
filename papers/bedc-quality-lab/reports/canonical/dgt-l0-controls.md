@@ -1,10 +1,12 @@
 # DGT L0 controls
 
-- Status: `pass`
-- Review status: `pass`
-- Device: `mps`
-- Compute units: `7603.2`
-- Parameter count: `2175`
+- Status: `scoped-boundary`
+- Review status: `scoped-boundary`
+- Honest metric review: `scoped-boundary`
+- Ladder consumption: `scoped-boundary`
+- Device: `cpu`
+- Compute units: `7299.072`
+- Parameter count: `2103`
 - Construct validity: `fail`
 
 ## Hardgates

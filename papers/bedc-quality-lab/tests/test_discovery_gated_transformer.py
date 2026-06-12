@@ -9,6 +9,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     DGT_L0_CONTROLS_ARTIFACT,
     L0_FORBIDDEN_LADDER_KEYS,
     L0_HARDGATE_SUMMARY_REF,
+    L0_LADDER_CONSUMPTION_REF,
     L0_REVIEW_STATUS_REF,
     L0_TOY_PROJECTION_REF,
     TOOL_ROUTE_CGA_ROUTE_PATCH_REF,
@@ -708,7 +709,9 @@ def _ready_scaling_level(level_id, index):
             "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
             "review_status_ref": dict(L0_REVIEW_STATUS_REF),
             "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "review_status_alias": "pass",
+            "ladder_consumption_status": "open",
             "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
             "projected_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[{index}].claim_capsule",
             "level_state": "open",
@@ -850,19 +853,21 @@ def test_dgt_scaling_ladder_l0_projects_from_canonical_controls_without_inheriti
     ladder = owner["scaling_ladder"]
     l0_capsule = ladder["levels"][0]["claim_capsule"]
 
-    assert l0_capsule["level_state"] == "open"
-    assert l0_capsule["promotion_status"] == "opened-from-l0-pass-pointer"
+    assert l0_capsule["level_state"] == "scoped-boundary"
+    assert l0_capsule["promotion_status"] == "scoped-boundary-from-l0-owner-pointer"
     assert l0_capsule["l0_toy_projection_ref"] == L0_TOY_PROJECTION_REF
     assert l0_capsule["review_status_ref"] == L0_REVIEW_STATUS_REF
     assert l0_capsule["hardgate_summary_ref"] == L0_HARDGATE_SUMMARY_REF
-    assert l0_capsule["review_status_alias"] == "pass"
+    assert l0_capsule["ladder_consumption_ref"] == L0_LADDER_CONSUMPTION_REF
+    assert l0_capsule["review_status_alias"] == "scoped-boundary"
+    assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
     assert l0_capsule["review_status_alias_source"] == f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status"
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
-    assert ladder["opened_levels"] == ["L0_toy", "L1_tiny_sequence"]
+    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
     assert ladder["overall_status"] == "blocked"
     assert ladder["not_inherited_from_l0"] == list(SCALING_LADDER_LEVEL_IDS[1:])
     assert ladder["status"] == "blocked"
-    assert ladder["boundary_ledger"][0]["level_id"] == "L2_char_lm"
+    assert ladder["boundary_ledger"][0]["level_id"] == "L0_toy"
     assert validate_scaling_ladder_projection(owner) == []
 
 
@@ -888,8 +893,9 @@ def test_dgt_scaling_ladder_does_not_recompute_l0_hardgates_or_read_downstream_v
     ladder = payload["scaling_ladder"]
     l0_capsule = ladder["levels"][0]["claim_capsule"]
 
-    assert l0_capsule["level_state"] == "open"
-    assert ladder["opened_levels"] == ["L0_toy", "L1_tiny_sequence"]
+    assert l0_capsule["level_state"] == "scoped-boundary"
+    assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
+    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
     serialized = json.dumps(ladder, sort_keys=True)
     assert "L0-PASS-HG" not in serialized
@@ -1056,7 +1062,7 @@ def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
 
     blocked_capsule = blocked_owner["scaling_ladder"]["levels"][1]["claim_capsule"]
     assert blocked_capsule["level_state"] == "blocked"
-    assert blocked_owner["scaling_ladder"]["boundary_ledger"][0]["level_id"] == "L1_tiny_sequence"
+    assert any(row["level_id"] == "L1_tiny_sequence" for row in blocked_owner["scaling_ladder"]["boundary_ledger"])
 
 
 def test_dgt_scaling_ladder_missing_l0_pointer_keeps_l0_blocked(tmp_path):
@@ -1073,9 +1079,11 @@ def test_dgt_scaling_ladder_missing_l0_pointer_keeps_l0_blocked(tmp_path):
     )
     l0_capsule = payload["scaling_ladder"]["levels"][0]["claim_capsule"]
 
-    assert l0_capsule["level_state"] == "blocked"
-    assert l0_capsule["promotion_status"] == "blocked-by-l0-pass-pointer"
+    assert l0_capsule["level_state"] == "suspended"
+    assert l0_capsule["promotion_status"] == "suspended-by-l0-owner-pointer"
     assert l0_capsule["l0_toy_projection_ref"] == L0_TOY_PROJECTION_REF
+    assert l0_capsule["ladder_consumption_ref"] == L0_LADDER_CONSUMPTION_REF
+    assert l0_capsule["ladder_consumption_status"] == "suspended"
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
     assert payload["scaling_ladder"]["boundary_ledger"][0]["level_id"] == "L0_toy"
 

@@ -261,6 +261,7 @@ SCALING_LADDER_REQUIRED_KEYS = (
     "l0_toy_projection_ref",
     "review_status_ref",
     "hardgate_summary_ref",
+    "ladder_consumption_ref",
     "level_state",
     "promotion_status",
     "opened_levels",
@@ -294,6 +295,7 @@ L0_CONTROL_POINTER_CONTRACT = {
 L0_TOY_PROJECTION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection"}
 L0_REVIEW_STATUS_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection.review_status"}
 L0_HARDGATE_SUMMARY_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection.hardgate_statuses.pass"}
+L0_LADDER_CONSUMPTION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.l0_toy_projection.ladder_consumption"}
 L0_FORBIDDEN_LADDER_KEYS = frozenset(
     {
         "L0-PASS-HG1",
@@ -2755,7 +2757,13 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
     source_artifacts = payload.get("source_artifacts")
     if not isinstance(source_artifacts, Mapping):
         return False
-    owner_keys = ("construct_suspension_ref", "interpretation_boundary_ref", "negative_witness_sweep_ref")
+    owner_keys = (
+        "construct_suspension_ref",
+        "honest_metric_review_ref",
+        "ladder_consumption_ref",
+        "interpretation_boundary_ref",
+        "negative_witness_sweep_ref",
+    )
     owner_artifacts = [
         artifact
         for key in owner_keys
@@ -2767,9 +2775,30 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
         return False
     for key in owner_keys:
         cell = source_artifacts.get(key)
-        if not isinstance(cell, Mapping) or resolve_artifact_pointer(root, artifact_pointer(cell)) is None:
+        if not isinstance(cell, Mapping):
+            return False
+        if resolve_artifact_pointer(root, artifact_pointer(cell)) is None:
+            if key == "ladder_consumption_ref" and _l0_ladder_consumption_fails_closed(payload):
+                continue
             return False
     return True
+
+
+def _l0_ladder_consumption_fails_closed(payload: Mapping[str, Any]) -> bool:
+    ladder = payload.get("scaling_ladder")
+    levels = ladder.get("levels") if isinstance(ladder, Mapping) else None
+    if not isinstance(levels, list) or not levels:
+        return False
+    first = levels[0]
+    capsule = first.get("claim_capsule") if isinstance(first, Mapping) else None
+    if not isinstance(capsule, Mapping):
+        return False
+    return (
+        capsule.get("level_id") == "L0_toy"
+        and capsule.get("ladder_consumption_ref") == L0_LADDER_CONSUMPTION_REF
+        and capsule.get("ladder_consumption_status") in {"suspended", "scoped-boundary", "blocked"}
+        and capsule.get("level_state") in {"suspended", "scoped-boundary", "blocked"}
+    )
 
 
 def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[str, Any]:
@@ -2779,26 +2808,38 @@ def _l0_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[st
     review_status = projection.get("review_status")
     hardgate_summary = projection.get("hardgate_statuses", {}).get("pass") if isinstance(projection.get("hardgate_statuses"), Mapping) else None
     pass_ready = (
-        review_status == "pass"
+        isinstance(projection.get("ladder_consumption"), Mapping)
+        and projection["ladder_consumption"].get("status") == "open"
+        and review_status == "pass"
         and projection.get("status") == "pass"
         and isinstance(hardgate_summary, Mapping)
         and hardgate_summary.get("status") == "pass"
     )
     if pass_ready:
         capsule["review_status_alias"] = "pass"
+        capsule["ladder_consumption_status"] = "open"
         capsule["level_state"] = "open"
         capsule["promotion_status"] = "opened-from-l0-pass-pointer"
         capsule["boundary_ledger"] = []
     else:
+        ladder = projection.get("ladder_consumption") if isinstance(projection.get("ladder_consumption"), Mapping) else {}
+        ladder_status = ladder.get("status") if isinstance(ladder.get("status"), str) else "suspended"
         capsule["review_status_alias"] = str(review_status) if isinstance(review_status, str) else "missing"
-        capsule["level_state"] = "blocked"
-        capsule["promotion_status"] = "blocked-by-l0-pass-pointer"
+        capsule["ladder_consumption_status"] = ladder_status
+        capsule["level_state"] = "scoped-boundary" if ladder_status == "scoped-boundary" else ("suspended" if ladder_status == "suspended" else "blocked")
+        capsule["promotion_status"] = (
+            "scoped-boundary-from-l0-owner-pointer"
+            if ladder_status == "scoped-boundary"
+            else "suspended-by-l0-owner-pointer"
+            if ladder_status == "suspended"
+            else "blocked-by-l0-owner-pointer"
+        )
         capsule["boundary_ledger"] = [
             {
                 "level_id": "L0_toy",
-                "status": "blocked",
+                "status": capsule["level_state"],
                 "reason": "; ".join(str(item) for item in projection.get("failure_reasons", []))
-                or "dgt-l0-controls projection not ready",
+                or str(ladder.get("reason") or "dgt-l0-controls ladder consumption is not open"),
                 "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
             }
         ]
@@ -2842,15 +2883,17 @@ def _scaling_default_capsule(level_id: str) -> dict[str, Any]:
             "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
             "review_status_ref": dict(L0_REVIEW_STATUS_REF),
             "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "review_status_alias": "missing",
+            "ladder_consumption_status": "suspended",
             "review_status_alias_source": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status",
             "projected_claim_pointer": f"{SCALING_LADDER_POINTER}.levels[{index}].claim_capsule",
-            "level_state": "blocked",
-            "promotion_status": "blocked-by-l0-pass-pointer",
+            "level_state": "suspended",
+            "promotion_status": "suspended-by-l0-owner-pointer",
             "boundary_ledger": [
                 {
                     "level_id": level_id,
-                    "status": "blocked",
+                    "status": "suspended",
                     "reason": "missing dgt-l0-controls projection",
                     "source_pointer": f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection",
                 }
@@ -2947,7 +2990,9 @@ def _scaling_level_capsule(level_id: str, input_capsules: Mapping[str, Mapping[s
         "l0_toy_projection_ref",
         "review_status_ref",
         "hardgate_summary_ref",
+        "ladder_consumption_ref",
         "review_status_alias",
+        "ladder_consumption_status",
         "review_status_alias_source",
         "promotion_readiness_alias",
         "promotion_readiness_alias_source",
@@ -2985,6 +3030,10 @@ def _scaling_capsule_failures(capsule: Mapping[str, Any]) -> list[str]:
             failures.append("review status pointer mismatch")
         if capsule.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
             failures.append("hardgate summary pointer mismatch")
+        if capsule.get("ladder_consumption_ref") != L0_LADDER_CONSUMPTION_REF:
+            failures.append("ladder consumption pointer mismatch")
+        if capsule.get("ladder_consumption_status") != "open":
+            failures.append("ladder consumption not open")
         if capsule.get("review_status_alias_source") != artifact_pointer(L0_REVIEW_STATUS_REF):
             failures.append("review status alias source mismatch")
         copied_keys = sorted(key for key in L0_FORBIDDEN_LADDER_KEYS if key in capsule)
@@ -3067,6 +3116,8 @@ def _scaling_capsule_contract_passes(capsule: Mapping[str, Any]) -> bool:
             and capsule.get("l0_toy_projection_ref") == L0_TOY_PROJECTION_REF
             and capsule.get("review_status_ref") == L0_REVIEW_STATUS_REF
             and capsule.get("hardgate_summary_ref") == L0_HARDGATE_SUMMARY_REF
+            and capsule.get("ladder_consumption_ref") == L0_LADDER_CONSUMPTION_REF
+            and capsule.get("ladder_consumption_status") == "open"
             and all(key not in capsule for key in L0_FORBIDDEN_LADDER_KEYS)
             and "production" in text
             and "global superiority" in text
@@ -3303,6 +3354,7 @@ def build_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> dict[st
         "l0_toy_projection_ref": dict(L0_TOY_PROJECTION_REF),
         "review_status_ref": dict(L0_REVIEW_STATUS_REF),
         "hardgate_summary_ref": dict(L0_HARDGATE_SUMMARY_REF),
+        "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
         "level_state": "l0-open" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
         "promotion_status": "l0-open-only" if opened_levels == ["L0_toy"] else ("all-levels-ready" if len(opened_levels) == len(SCALING_LADDER_LEVEL_IDS) else "blocked"),
         "opened_levels": opened_levels,
@@ -3411,6 +3463,8 @@ def validate_scaling_ladder_projection(owner_payload: Mapping[str, Any]) -> list
         errors.append("DGT scaling ladder review status pointer mismatch")
     if payload.get("hardgate_summary_ref") != L0_HARDGATE_SUMMARY_REF:
         errors.append("DGT scaling ladder hardgate summary pointer mismatch")
+    if payload.get("ladder_consumption_ref") != L0_LADDER_CONSUMPTION_REF:
+        errors.append("DGT scaling ladder ladder consumption pointer mismatch")
     opened = payload.get("opened_levels")
     if not isinstance(opened, list):
         errors.append("DGT scaling ladder opened levels mismatch")
@@ -3491,6 +3545,8 @@ class DiscoveryGatedTransformerProjector:
             "ledger_aware_transformer_pointer": f"{LAT_CANONICAL_ARTIFACT}:$",
             "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
             "construct_suspension_ref": dict(L0_CONSTRUCT_SUSPENSION_REF),
+            "honest_metric_review_ref": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.honest_metric_review"},
+            "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "interpretation_boundary_ref": dict(L1_INTERPRETATION_BOUNDARY_REF),
             "negative_witness_sweep_ref": dict(L1_NEGATIVE_WITNESS_SWEEP_REF),
         },
@@ -3595,6 +3651,8 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT source artifacts missing")
     expected_owner_refs = {
         "construct_suspension_ref": L0_CONSTRUCT_SUSPENSION_REF,
+        "honest_metric_review_ref": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.honest_metric_review"},
+        "ladder_consumption_ref": L0_LADDER_CONSUMPTION_REF,
         "interpretation_boundary_ref": L1_INTERPRETATION_BOUNDARY_REF,
         "negative_witness_sweep_ref": L1_NEGATIVE_WITNESS_SWEEP_REF,
     }
