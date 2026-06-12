@@ -13,6 +13,18 @@ Now route candidate evidence through the existing candidate frontier. Theorems~\
 Finally use the L10 ordering row. Theorem~\ref{thm:metacic-critical-path-l10-candidate-discharge-order} places the Real-and-Completion route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the normal-form endpoint or discharge socket can be consumed. Therefore candidate-discharge reads may serve the current open phase only after the displayed source ledger has been read, and no candidate row becomes a substitute for the four source faces.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path L10 source-ledger nonescape]
+\label{thm:metacic-critical-path-l10-source-ledger-nonescape}
+Any MetaCIC candidate-discharge read consumed by the current Phase Real and Completion route must retain the four source rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as source-ledger rows. Candidate-mediated normalization, confluence, bounded-conversion, and discharge-socket evidence may be routed only as downstream readiness data; it cannot discharge, replace, or identify any one of the four source rows with a candidate row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-critical-path-open-phase-frontier}. It already orders every candidate-discharge read after the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source faces.
+
+Now read the source obligations and L10 ordering rows named in that proof. Theorem~\ref{thm:metacic-critical-path-phase-real-source-obligations} exposes the four source faces before discharge-socket or confluence-readiness evidence is consumed, and Theorem~\ref{thm:metacic-critical-path-l10-candidate-discharge-order} keeps the same four rows before the normal-form endpoint.
+
+The finite ledger has no remaining source coordinate. Candidate rows can therefore occupy only the downstream readiness slots already named by the open-frontier theorem, so none of them can discharge or replace $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$.
+\end{proof}
+
 \begin{theorem}[MetaCIC open-frontier source exhaustion]
 \label{thm:metacic-critical-path-frontier-source-exhaustion}
 Any candidate-mediated strong-normalization, confluence, bounded-conversion, or discharge-socket read serving the open Phase Real and Completion route is exhausted by the displayed source ledger over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, the obstruction row, and the finite candidate budget. No normal-form endpoint or discharge socket may replace one of those four L10 source faces.
