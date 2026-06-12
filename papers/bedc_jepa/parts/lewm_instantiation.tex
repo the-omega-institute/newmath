@@ -89,7 +89,14 @@ $0.66$, Gaussian noise $0.59$; color shift stays single-class), the strict
 final-strength claim holds on background tint (AUROC $0.77$), at the
 strongest slices the head conservatively declares gap on nearly everything
 (unlogged error $\rightarrow 0$), and clean evaluation is not degraded
-(AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).
+(AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).  A four-level
+purely discriminative readout scan (linear, one-hidden-layer, two-hidden-layer,
+and transformer readers on the same flattened-window input) shows that, without
+the joint next-latent loss, all levels pay a clean detection cost for robustness
+($\Delta$clean $=-0.076/-0.088/-0.084/-0.047$, non-monotone), while the matched
+transformer contrast with and without the joint loss is $0.721$ versus $0.624$;
+clean awareness is therefore preserved by the joint world-prediction objective,
+not by readout capacity.
 
 \paragraph{Probing what the ledger reads.}
 Three probes bound the nature of the failure signal.  First, the trained
@@ -108,11 +115,57 @@ matched compute \emph{raises} per-step rollout error against a uniform
 allocation ($+0.013$ $[+0.005,\ +0.021]$), while an oracle ranked by true
 future error lowers it ($-0.016$), so the allocation lever exists but the
 one-step ledger score selects the wrong direction for it.
+
+\paragraph{Horizon-indexed ledger.}
+The horizon-indexed label family is
+$y_{t,h,q} = 1[e_{t,h} > \tau_{h,q}]$, with
+$h \in \{1,3,5,10\}$ and $q \in \{50,75,90\}$.  Here $e_{t,h}$ is the
+endpoint error of the checkpoint predictor's $h$-step rollout, and
+$\tau_{h,q}$ is the corresponding clean train-split quantile.  Under this
+horizon-conditioned supervision, the trained ledger reaches clean $h=1$
+$0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
+detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
+logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
+horizon detection is label-driven rather than architecture-specific.
+
+Teacher distillation by logit matching to the post-hoc scores is harmful:
+distillation alone gives $0.661$, and distillation with the full loss gives
+$0.692$, both below the pure horizon-supervised value $0.739$.  The failure
+surface is directly learnable from horizon-indexed labels.  The strongest
+configuration is a perturbation- and horizon-aware trained ledger, trained
+with true perturbation rollout trajectories from perturbation train slices: it
+keeps clean $h=1$ at $0.720$ $[0.681,\ 0.757]$, lifts perturbation detection
+at $h=1$ to background tint $0.752$, occlusion $0.771$, and Gaussian noise
+$0.745$, and repairs the score-anticorrelated brightness slice from $0.069$ to
+$0.991$ $[0.982,\ 0.998]$.
+
+Budget allocation remains on the wrong side but converges monotonically:
+one-step scores give $+0.0128$, the full loss gives $+0.011$, pure horizon
+supervision gives $+0.0072$, and horizon supervision with ranking loss gives
+$+0.0075$ $[-0.003,\ +0.020]$, against a label-permutation control at
+$+0.031$ and an oracle at $-0.016$.  Detection-level scores therefore do not
+yet supply allocation-level ranking.
+
+\paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
 machine-checked in a mathlib-free Lean~4 package whose theorems depend on
 zero axioms (no \texttt{propext}, no \texttt{Classical.choice}); the full
 $\alpha$-statistical miscoverage bound (rank quantile plus exchangeability)
 is recorded as open rather than claimed.
+
+\paragraph{Calibrated selection.}
+Replacing the declared-OK rule by conservative thresholds chosen on a
+calibration split over an $\alpha$ grid makes the clean-evaluation guarantee
+observable but narrow.  At $\alpha = 0.10$, three of the four monitors satisfy
+the target on clean evaluation: the post-hoc monitor has clean risk $0.103$,
+the perturbation-aware trained ledger has risk $0.115$ and the highest usable
+coverage $0.422$, while the OOD-aware logistic monitor violates the clean case
+itself with risk $0.176$.  Under distribution shift, the guarantee fails in
+two modes.  Clean-only monitors fail dangerously, declaring OK for samples in
+the $0.92$--$0.98$ score range under strong color shift while the actual risk
+is $1.0$.  Perturbation-aware monitors fail safely, with usable coverage
+shrinking to zero through abstention.  At $\alpha = 0.05$, the calibration
+split has no feasible threshold, and the record fails closed.
 
 \paragraph{Record pointers.}
 The executed records live in the public repository
@@ -128,6 +181,10 @@ $$
 \text{dynamics comparison} & \texttt{reports/lewm\_lat\_dynamics\_comparison.json},\\
 \text{state-recovery probe} & \texttt{reports/lewm\_identifiability\_link.json},\\
 \text{rollout budget allocation} & \texttt{reports/lewm\_ledger\_gated\_rollout.json},\\
+\text{calibrated selection} & \texttt{reports/lewm\_conformal\_selective\_guarantee.json},\\
+\text{reader capacity sweep} & \texttt{reports/lewm\_reader\_capacity\_frontier.json},\\
+\text{horizon-indexed ledger} & \texttt{reports/g2n\_native\_ledger.json},\\
+\text{horizon ledger completion} & \texttt{reports/g2n\_matrix\_completion.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
 \end{array}
 $$
