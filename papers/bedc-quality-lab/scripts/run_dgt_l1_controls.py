@@ -65,6 +65,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "opened_ladder_level": "L1_tiny_sequence",
                 "l1_step_ladder_verdict": payload["l1_step_ladder"]["verdict"],
                 "l1_step_ladder_crossover": payload["l1_step_ladder"]["convergence_crossover"]["status"],
+                "l1_ood_mechanism_verdict": payload["l1_ood_mechanism"]["verdict"],
             },
             sort_keys=True,
         )

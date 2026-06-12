@@ -3,13 +3,21 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "302772630d178fdf1fa9be9872f5e25e9477b63407a491ce3c61af6e343ab8f6",
+  "input_fingerprint": "2532e1d2c8d8233dd20c938295752328ac7f50447983ec4062d0bb6f07e73e86",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
       {
         "path": "configs/default_cost_protocol.yaml",
         "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
       },
       {
         "path": "docs/lit/literature_ledger.yaml",
@@ -25,6 +33,10 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
+        "path": "bedc_quality_lab/canonical_cell_cache.py",
+        "sha256": "7c6f1db39e5279faa891d8429d268a34fdf213e22e172e34a72000273224a292"
+      },
+      {
         "path": "bedc_quality_lab/claim_terms.py",
         "sha256": "456004daca16b50ac7c4deab3af1b2001fa3d4d79f426cd731a8be01f555291f"
       },
@@ -34,7 +46,7 @@
       },
       {
         "path": "bedc_quality_lab/dgt_l1_controls.py",
-        "sha256": "83c5c59f85eb29182071308e477526ec3c8b177b2cdb1b2deb96ffb1ff981960"
+        "sha256": "d054e84c76749323ffd73ee4aebaab0cbabaea9742caf7caeac87106e3712214"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
@@ -46,7 +58,7 @@
       },
       {
         "path": "scripts/run_dgt_l1_controls.py",
-        "sha256": "032071b6ddf4fcf5cb6361b6c85d72f9e5ef445326426c949a1cfe52d91106d6"
+        "sha256": "82301ba8fa3fed5476a2769a91cf3cb9e2c09c11041c4acc88bf18a5e0e7f4eb"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:dgt-l1-controls",
@@ -66,16 +78,20 @@
         "sha256": "39230d0f48b4c3c0ece66e0adcfe2fee7990f917799bdbd9fd9ea25ee6a66d32"
       },
       {
+        "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+        "sha256": "8c5712519fc6d51be86bd7dfa080966be9d5d36ead8b05c3a248bdcad00266d6"
+      },
+      {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
         "sha256": "6e158f4a655a5a1baba867bada3c26fcbd3198d7071170740c84c1b79d252c54"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/report.md",
-        "sha256": "3a6d540e654a10138056a78921c0ba26bb808b3ceae0058b6e064966b1fbea08"
+        "sha256": "066736c5765aba7886c384342a0129ed158f636ed3952622bac4d05095a8b902"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
-        "sha256": "602938e1dcb37c7ce980652e6b55b9503d3d0adf3137f4c32c45bf71855ed7ee"
+        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
       }
     ],
     "spec": {
@@ -114,6 +130,7 @@
         "negative_witness_sweep",
         "independent_replay",
         "l1_step_ladder",
+        "l1_ood_mechanism",
         "construct_validity_hardgates",
         "review_status",
         "promotion_readiness",
@@ -129,7 +146,7 @@
   },
   "json_artifact": "reports/canonical/dgt-l1-controls.json",
   "markdown_artifact": "reports/canonical/dgt-l1-controls.md",
-  "output_digest": "50fd4a54cd9c57db28322d1de09f547c993620877b34ccc2141df8599cedd105",
+  "output_digest": "3af79078dee994a9f5a034d0312a718e38438721ba983e84479de96d48769dc4",
   "producer_command": [
     "python3",
     "scripts/run_dgt_l1_controls.py"

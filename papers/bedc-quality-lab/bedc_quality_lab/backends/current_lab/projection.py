@@ -3415,12 +3415,13 @@ def write_discovery_map(
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strict-manifest-audit", action="store_true", help="Exit nonzero on invalid rows or unregistered JSON artifacts.")
+    parser.add_argument("--generated-at", default=None, help="Override the generated_at timestamp for deterministic regeneration.")
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    payload = write_discovery_map()
+    payload = write_discovery_map(generated_at=args.generated_at)
     invalid_rows = [row for row in payload["rows"] if row["audit_status"] != "valid"]
     unregistered = payload["manifest_audit"]["unregistered_json_artifacts"]
     if args.strict_manifest_audit and (invalid_rows or unregistered):

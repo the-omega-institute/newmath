@@ -88,6 +88,7 @@ DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
+WINNABILITY_CERTIFICATES_ARTIFACT = "reports/canonical/winnability-certificates.json"
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -137,6 +138,102 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
         return None
     payload = _load_json(path)
     return payload if isinstance(payload, dict) else None
+
+
+def _load_winnability_certificates(root: Path) -> dict[str, Any]:
+    path = _artifact_path(root, WINNABILITY_CERTIFICATES_ARTIFACT)
+    if not path.exists():
+        return {"status": "missing", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
+    payload = _load_json(path)
+    rows = payload.get("certificates") if isinstance(payload, Mapping) else None
+    if not isinstance(rows, list):
+        return {"status": "malformed", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
+    by_certificate_id: dict[str, Mapping[str, Any]] = {}
+    duplicates: set[str] = set()
+    pointers: dict[str, str] = {}
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping) or not isinstance(row.get("certificate_id"), str):
+            continue
+        certificate_id = str(row["certificate_id"])
+        pointers[certificate_id] = f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[{index}]"
+        if certificate_id in by_certificate_id:
+            duplicates.add(certificate_id)
+        else:
+            by_certificate_id[certificate_id] = row
+    return {
+        "status": "ready",
+        "by_certificate_id": by_certificate_id,
+        "duplicates": duplicates,
+        "pointers": pointers,
+    }
+
+
+def _winnability_ref_cell(row: Mapping[str, Any], payload: Mapping[str, Any]) -> Mapping[str, Any] | str | None:
+    for source in (row, payload):
+        for key in (
+            "winnability_ref",
+            "winnability_certificate_ref",
+            "winnability_certificate",
+            "winnability",
+        ):
+            value = source.get(key)
+            if isinstance(value, (Mapping, str)):
+                return value
+        value = source.get("winnability_certificate_id")
+        if isinstance(value, str):
+            return value
+    return None
+
+
+def _winnability_certificate_id(ref: Mapping[str, Any] | str | None) -> str | None:
+    if isinstance(ref, str):
+        return ref
+    if not isinstance(ref, Mapping):
+        return None
+    value = ref.get("certificate_id")
+    return value if isinstance(value, str) else None
+
+
+def _winnability_block(
+    root: Path,
+    row: Mapping[str, Any],
+    payload: Mapping[str, Any],
+) -> tuple[str, str, str] | None:
+    ref = _winnability_ref_cell(row, payload)
+    certificate_id = _winnability_certificate_id(ref)
+    if certificate_id is None:
+        return None
+    certificate_map = _load_winnability_certificates(root)
+    pointer = certificate_map.get("pointers", {}).get(certificate_id)
+    if pointer is None:
+        pointer = (
+            ref.get("pointer")
+            if isinstance(ref, Mapping) and isinstance(ref.get("pointer"), str)
+            else f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates"
+        )
+    if certificate_map["status"] != "ready":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if certificate_id in certificate_map["duplicates"]:
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    certificate = certificate_map["by_certificate_id"].get(certificate_id)
+    if not isinstance(certificate, Mapping):
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    coverage = certificate.get("coverage") if isinstance(certificate.get("coverage"), Mapping) else {}
+    permissions = certificate.get("claim_permissions") if isinstance(certificate.get("claim_permissions"), Mapping) else {}
+    if certificate.get("status") == "fail" or certificate.get("method") == "unresolved":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if certificate.get("unwinnable") is True:
+        return "projected_discovery_required", "split-unwinnable", pointer
+    if coverage.get("coverage_classification") == "table-coverage":
+        return "projected_discovery_required", "table-coverage-ceiling", pointer
+    if any(permissions.get(key) is False for key in (
+        "generalization_claim_allowed",
+        "separation_claim_allowed",
+        "architecture_claim_allowed",
+        "rule_abstraction_claim_allowed",
+    )):
+        return "projected_discovery_required", "winnability-permission-denied", pointer
+    return None
 
 
 def _cost_protocol_loads(root: Path) -> bool:
@@ -596,6 +693,18 @@ def _mapped_discovery_row(
             scorecard_snapshot=scorecard_snapshot,
         )
 
+    winnability_block = _winnability_block(root, row, payload) if level in POSITIVE_LEVELS else None
+    if winnability_block is not None:
+        claim_verdict, reason, ledger_pointer = winnability_block
+        return _row(
+            claim_id=claim_id,
+            claim_verdict=claim_verdict,
+            reason=reason,
+            source=source,
+            ledger_pointer=ledger_pointer,
+            scorecard_snapshot=scorecard_snapshot,
+        )
+
     if not scorecard_snapshot.scorecard_hash and level in POSITIVE_LEVELS:
         evidence_result = validate_positive_claim_evidence(
             root,
@@ -921,12 +1030,13 @@ def claim_verdict_line_refs(*, root: Path | None = None) -> dict[str, str]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT, help="Lab root containing reports/canonical.")
+    parser.add_argument("--generated-at", default=None, help="Override the generated_at timestamp for deterministic regeneration.")
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    rows = write_claim_verdicts(root=args.root)
+    rows = write_claim_verdicts(root=args.root, generated_at=args.generated_at)
     print(f"wrote {len(rows)} claim verdict rows to {CLAIM_VERDICTS_JSONL_ARTIFACT}")
 
 

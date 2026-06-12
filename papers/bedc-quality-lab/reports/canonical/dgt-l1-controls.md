@@ -5,6 +5,8 @@
 - Evidence scope: `bounded-tiny-sequence`
 - Step-ladder verdict: `scoped-review-signal`
 - Step-ladder crossover: `no-information-starved-crossover-observed`
+- L1 OOD mechanism verdict: `memorization`
+- L1 OOD mechanism confidence: `medium`
 - Seeds: `16`
 - Compute units: `618.430464`
 - Parameter count: `8388`
@@ -35,6 +37,24 @@
 - `L1STEP-HG3`: `pass` - every ladder step has positive compute and parameter ledgers
 - `L1STEP-HG4`: `pass` - crossover is mechanically derived from the 36-step DGT anchor and per-step accuracy means
 - `L1STEP-HG5`: `pass` - matched-random structural arm must not reach the 36-step DGT anchor tolerance band
+
+## L1 OOD Mechanism
+
+- Verdict: `memorization`
+- Diagnostic confidence: `medium`
+- `train_seen_high_frequency_pair`: accuracy `0.991453`, margin `0.857049`, examples `234`
+- `train_seen_low_frequency_pair`: accuracy `0.275944`, margin `-0.548865`, examples `3787`
+- `train_unseen_pair`: accuracy `0.000000`, margin `-2.461352`, examples `76`
+- `ood_dependency_shift_pair`: accuracy `0.069580`, margin `-2.056503`, examples `4096`
+
+## L1 OOD Hardgates
+
+- `L1OOD-HG1`: `pass` - all required pair-frequency and dependency-shift strata are present for every arm
+- `L1OOD-HG2`: `pass` - read-only mechanism probe rows are canonical CPU forward passes
+- `L1OOD-HG3`: `pass` - probe contains aggregate true-class logits and margins without parameter mutation
+- `L1OOD-HG4`: `pass` - matched-random control rows are present and remain diagnostic controls rather than verdict owners
+- `L1OOD-HG5`: `pass` - mechanism diagnosis uses the existing pointer-backed order-two task source
+- `L1OOD-HG6`: `pass` - mechanism verdict is mechanically selected from the registered verdict set
 
 ## Claim Capsule
 

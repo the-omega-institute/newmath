@@ -4,7 +4,7 @@
 - Review status: `scoped-boundary`
 - Honest metric review: `scoped-boundary`
 - Ladder consumption: `scoped-boundary`
-- Device: `cpu`
+- Device: `mps`
 - Compute units: `7299.072`
 - Parameter count: `2103`
 - Construct validity: `fail`

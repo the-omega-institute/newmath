@@ -1,15 +1,23 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-11T00:00:00+00:00",
+    "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "9185ddb278849a4c056f0b9a75aa2aed3cdfeab4896b053a944d1a03aae033df",
+  "input_fingerprint": "da7a88a06981f1a62ebe9a812c3861cb94cd18bd880984f897fd2ff23717c81d",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
       {
         "path": "configs/default_cost_protocol.yaml",
         "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
       },
       {
         "path": "docs/lit/literature_ledger.yaml",
@@ -25,12 +33,16 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
+        "path": "bedc_quality_lab/canonical_cell_cache.py",
+        "sha256": "7c6f1db39e5279faa891d8429d268a34fdf213e22e172e34a72000273224a292"
+      },
+      {
         "path": "bedc_quality_lab/construct_validity.py",
         "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
       },
       {
         "path": "bedc_quality_lab/dgt_l0_controls.py",
-        "sha256": "92d73a84b0b43b6b5745aefc05a05e9adad649b681747a5b64b229600c13345a"
+        "sha256": "2f652107169deaee0e7af98866ff5c36ab6a23e1c8dedf02b7253d37ba5a0489"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
@@ -59,15 +71,15 @@
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
-        "sha256": "705731e98f1ad96c34c5e6733ac7fa433dfbab6dd03b360286b5043554da51c1"
+        "sha256": "94f1789af45d6c8aa4e692ec75e848f3f17c1aa67e99654170a5483a3f184d97"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/report.md",
-        "sha256": "613aad523feb423495d7b4b3bcb4fa3cf57b44e83b24ad394a410840d566c70b"
+        "sha256": "8ec4063920d29b3a07fae475c65033920cd0a3ead2545af356f4f1b79881fa25"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json",
-        "sha256": "eb9237e65c53e922128152a86f46bf333bdfa4a5991fcd143c5168e933d15459"
+        "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
       }
     ],
     "spec": {
@@ -118,7 +130,7 @@
   },
   "json_artifact": "reports/canonical/dgt-l0-controls.json",
   "markdown_artifact": "reports/canonical/dgt-l0-controls.md",
-  "output_digest": "267ce493438bb7b39e81f0b415cace5ba49fa6d8baf0d902c3df418ef3dcc3ec",
+  "output_digest": "8dd96b6c4a53401bced10c4431c81cccec1a9c8b8d1374bf28d72a4a01ded048",
   "producer_command": [
     "python3",
     "scripts/run_dgt_l0_controls.py"

@@ -280,6 +280,9 @@ SCALING_LADDER_REQUIRED_KEYS = (
 L1_TINY_SEQUENCE_PROJECTION_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection"
 L1_NEGATIVE_WITNESS_SWEEP_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.negative_witness_sweep"}
 L1_INTERPRETATION_BOUNDARY_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.l1_tiny_sequence_projection"}
+L1_OOD_MECHANISM_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.l1_ood_mechanism"}
+L1_OOD_MECHANISM_VERDICT_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_ood_mechanism.verdict"
+L1_OOD_MECHANISM_L2_IMPLICATION_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_ood_mechanism.l2_implication"
 L0_CONSTRUCT_SUSPENSION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.construct_suspension"}
 L0_CONTROL_POINTER_CONTRACT = {
     "base_transformer_control": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.controls.base_transformer_control"},
@@ -2749,6 +2752,8 @@ def _read_l1_tiny_sequence_projection(root: Path) -> Mapping[str, Any] | None:
     return {
         "review_status": projection.get("review_status"),
         "promotion_readiness": projection.get("promotion_readiness"),
+        "l1_ood_mechanism_verdict_alias_source": L1_OOD_MECHANISM_VERDICT_POINTER,
+        "l1_ood_mechanism_l2_implication_alias_source": L1_OOD_MECHANISM_L2_IMPLICATION_POINTER,
         "not_claimed": projection.get("not_claimed"),
     }
 
@@ -2763,6 +2768,7 @@ def _owner_refs_resolve(root: Path, payload: Mapping[str, Any]) -> bool:
         "ladder_consumption_ref",
         "interpretation_boundary_ref",
         "negative_witness_sweep_ref",
+        "l1_ood_mechanism_ref",
     )
     owner_artifacts = [
         artifact
@@ -2860,6 +2866,8 @@ def _l1_default_scaling_capsule() -> dict[str, Any]:
         "promotion_readiness_alias": "missing",
         "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
+        "l1_ood_mechanism_verdict_alias_source": L1_OOD_MECHANISM_VERDICT_POINTER,
+        "l1_ood_mechanism_l2_implication_alias_source": L1_OOD_MECHANISM_L2_IMPLICATION_POINTER,
         "level_state": "blocked",
         "promotion_status": "blocked-by-l1-review-status-pointer",
         "boundary_ledger": [
@@ -2954,6 +2962,8 @@ def _l1_capsule_from_projection(projection: Mapping[str, Any] | None) -> dict[st
             "promotion_readiness_alias_source": (
                 f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness"
             ),
+            "l1_ood_mechanism_verdict_alias_source": L1_OOD_MECHANISM_VERDICT_POINTER,
+            "l1_ood_mechanism_l2_implication_alias_source": L1_OOD_MECHANISM_L2_IMPLICATION_POINTER,
         }
     )
     if ready:
@@ -3549,6 +3559,7 @@ class DiscoveryGatedTransformerProjector:
             "ladder_consumption_ref": dict(L0_LADDER_CONSUMPTION_REF),
             "interpretation_boundary_ref": dict(L1_INTERPRETATION_BOUNDARY_REF),
             "negative_witness_sweep_ref": dict(L1_NEGATIVE_WITNESS_SWEEP_REF),
+            "l1_ood_mechanism_ref": dict(L1_OOD_MECHANISM_REF),
         },
             "component_refs": self.component_refs,
             "architecture_spec": default_architecture_spec(),
@@ -3655,6 +3666,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "ladder_consumption_ref": L0_LADDER_CONSUMPTION_REF,
         "interpretation_boundary_ref": L1_INTERPRETATION_BOUNDARY_REF,
         "negative_witness_sweep_ref": L1_NEGATIVE_WITNESS_SWEEP_REF,
+        "l1_ood_mechanism_ref": L1_OOD_MECHANISM_REF,
     }
     for key, expected_ref in expected_owner_refs.items():
         if source_artifacts.get(key) != expected_ref:

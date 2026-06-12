@@ -1,0 +1,129 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-11T08:40:12.594518+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "91351e7120ba78c50043c176c9771320e5a6e2cc9840882de488f9881be5675d",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_model_card.py",
+        "sha256": "5563bf58729f0082e88516f84517d8cd0c8c30a6292be66967629bbf67f3e680"
+      },
+      {
+        "path": "scripts/run_dgt_model_card.py",
+        "sha256": "29606ed0739105476a7f7ed933352e943928ffa45007a8a663e012926bcd43c4"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:dgt-model-card",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_model_card.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+      },
+      {
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "aee4eb2d8b4344842f25f294938da449de0d1d1853650d991bcf1e731f09f6e4"
+      },
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+      },
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "a05db65a447d4cba5ed0ff816e2ff72b52466460f8a8c8df5661c6655074c6b7"
+      },
+      {
+        "path": "reports/canonical/index.json",
+        "sha256": "5163a8b1e461da5b8954ff0070f3fe2df161578b36163aaabab967f999082f80"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_dgt_model_card.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.evaluation_boundaries",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/dgt-model-card.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-model-card.md",
+      "name": "dgt-model-card",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.card_hardgates.status",
+      "required_json_keys": [
+        "schema_id",
+        "card_id",
+        "source_artifacts",
+        "intended_use",
+        "not_intended_use",
+        "known_failure_modes",
+        "evaluation_boundaries",
+        "training_facts",
+        "upstream_status",
+        "card_hardgates",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.intended_use"
+    }
+  },
+  "json_artifact": "reports/canonical/dgt-model-card.json",
+  "markdown_artifact": "reports/canonical/dgt-model-card.md",
+  "output_digest": "a964489c1ca3f55fbbc7d768ccf47d286e0af495e286ecc8beeea3dc9a544dcf",
+  "producer_command": [
+    "python3",
+    "scripts/run_dgt_model_card.py"
+  ],
+  "report_name": "dgt-model-card",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

@@ -1,7 +1,7 @@
 # Claim Complexity
 
 - Artifact: `bedc-quality-lab:claim-complexity`
-- Generated at: `2026-06-09T08:21:49.156738+00:00`
+- Generated at: `2026-06-11T08:40:12.594518+00:00`
 - Role: `artifact-only evidence`
 
 ## Hardgates
@@ -36,17 +36,21 @@
 | `claim:mechanism-seeking-network` | `10` | `reports/canonical/claim_verdicts.jsonl:$.lines[17]` | `assumption_complexity=4, proof_burden=2, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
 | `claim:mechanism-dna` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
 | `claim:dgt-l0-controls` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:dgt-base-undertraining-audit` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:discovery-gated-transformer` | `12` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `assumption_complexity=6, proof_burden=2, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
-| `claim:dgt-neural-ablation` | `4` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `assumption_complexity=0, proof_burden=0, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
-| `claim:dgt-ablation-null-decomposition` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:dgt-component-redundancy-audit` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:order-k-benchmark` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:lejepa-theorem-ledger` | `2` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `assumption_complexity=0, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:observed-debt-sweep` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:spectral-ablation-hinge` | `6` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `assumption_complexity=2, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
-| `claim:model-comparison` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[29]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:causal-patch-suite` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[30]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
-| `claim:dimension-mismatch-debt-transfer` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[31]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
-| `claim:single-threshold-escape` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[32]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
-| `claim:training-choice-observability` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[33]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:winnability-certificates` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:structural-generalization-splits` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-base-undertraining-audit` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:input-accessibility` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:discovery-gated-transformer` | `12` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `assumption_complexity=6, proof_burden=2, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-neural-ablation` | `4` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `assumption_complexity=0, proof_burden=0, evidence_burden=3, backend_coupling=1, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-ablation-null-decomposition` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-component-redundancy-audit` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:dgt-model-card` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:order-k-benchmark` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[29]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:lejepa-theorem-ledger` | `2` | `reports/canonical/claim_verdicts.jsonl:$.lines[30]` | `assumption_complexity=0, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:observed-debt-sweep` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[31]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:spectral-ablation-hinge` | `6` | `reports/canonical/claim_verdicts.jsonl:$.lines[32]` | `assumption_complexity=2, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:model-comparison` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[33]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:causal-patch-suite` | `1` | `reports/canonical/claim_verdicts.jsonl:$.lines[34]` | `assumption_complexity=0, proof_burden=0, evidence_burden=1, backend_coupling=0, witness_exposure=0, revocation_fragility=0` |
+| `claim:dimension-mismatch-debt-transfer` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[35]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:single-threshold-escape` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[36]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |
+| `claim:training-choice-observability` | `7` | `reports/canonical/claim_verdicts.jsonl:$.lines[37]` | `assumption_complexity=2, proof_burden=0, evidence_burden=2, backend_coupling=0, witness_exposure=1, revocation_fragility=2` |

@@ -14,6 +14,7 @@ SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 PRODUCER = "scripts/run_dgt_base_undertraining_audit.py"
 L1_SOURCE_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
+INPUT_ACCESSIBILITY_SOURCE_ARTIFACT = "reports/canonical/input-accessibility.json"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.fingerprint.json"
@@ -155,6 +156,103 @@ def _load_json_artifact(root: Path, artifact: str) -> tuple[str, dict[str, Any] 
     if not isinstance(payload, dict):
         return "invalid", None, _file_digest(path)
     return "resolved", payload, _file_digest(path)
+
+
+def _row_pointer(row: Mapping[str, Any]) -> str:
+    return f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}#row_id={row['row_id']}"
+
+
+def _input_accessibility_preconditions(
+    root: Path,
+    payload: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    status = "resolved"
+    digest: str | None = None
+    if payload is None:
+        status, loaded, digest = _load_json_artifact(root, INPUT_ACCESSIBILITY_SOURCE_ARTIFACT)
+        payload = loaded
+    else:
+        digest = _json_digest(payload)
+    if status != "resolved" or not isinstance(payload, Mapping):
+        return {
+            "status": status,
+            "source_artifact": INPUT_ACCESSIBILITY_SOURCE_ARTIFACT,
+            "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+            "information_starved_arms_ref": [],
+            "unanswerable_ood_splits_ref": [],
+            "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            "source_pointers": {
+                "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+                "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            },
+            "sha256": digest,
+            "failures": ["input-accessibility-artifact-unresolved"],
+        }
+    rows = payload.get("rows")
+    consumers = payload.get("consumer_pointers")
+    boundary = payload.get("boundary_ledger")
+    if not isinstance(rows, list) or not isinstance(consumers, Mapping) or not isinstance(boundary, list):
+        return {
+            "status": "invalid",
+            "source_artifact": INPUT_ACCESSIBILITY_SOURCE_ARTIFACT,
+            "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+            "information_starved_arms_ref": [],
+            "unanswerable_ood_splits_ref": [],
+            "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            "source_pointers": {
+                "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+                "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            },
+            "sha256": digest,
+            "failures": ["input-accessibility-shape-mismatch"],
+        }
+    rows_by_pointer = {
+        _row_pointer(row): row
+        for row in rows
+        if isinstance(row, Mapping) and isinstance(row.get("row_id"), str)
+    }
+    information_refs = consumers.get("information_starved_arms_ref")
+    unanswerable_refs = consumers.get("unanswerable_ood_splits_ref")
+    failures: list[str] = []
+    if consumers.get("input_accessibility_ref") != f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$":
+        failures.append("input-accessibility-root-pointer-mismatch")
+    if not isinstance(information_refs, list) or not all(ref in rows_by_pointer for ref in information_refs):
+        failures.append("information-starved-pointer-unresolved")
+        information_refs = []
+    if not isinstance(unanswerable_refs, list) or not all(ref in rows_by_pointer for ref in unanswerable_refs):
+        failures.append("unanswerable-ood-pointer-unresolved")
+        unanswerable_refs = []
+    information_rows = [rows_by_pointer[ref] for ref in information_refs]
+    unanswerable_rows = [rows_by_pointer[ref] for ref in unanswerable_refs]
+    if not information_rows:
+        failures.append("information-starved-precondition-empty")
+    if not unanswerable_rows:
+        failures.append("unanswerable-ood-precondition-empty")
+    missing_variables = sorted({
+        variable
+        for row in information_rows + unanswerable_rows
+        for variable in row.get("missing_variables", [])
+    })
+    return {
+        "status": "pass" if not failures else "fail",
+        "source_artifact": INPUT_ACCESSIBILITY_SOURCE_ARTIFACT,
+        "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+        "information_starved_arms_ref": list(information_refs),
+        "unanswerable_ood_splits_ref": list(unanswerable_refs),
+        "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+        "boundary_ledger_count": len(boundary),
+        "information_starved_row_count": len(information_rows),
+        "unanswerable_ood_row_count": len(unanswerable_rows),
+        "missing_variables": missing_variables,
+        "source_pointers": {
+            "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
+            "information_starved_arms": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.consumer_pointers.information_starved_arms_ref",
+            "unanswerable_ood_splits": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.consumer_pointers.unanswerable_ood_splits_ref",
+            "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+        },
+        "sha256": digest,
+        "failures": failures,
+    }
 
 
 def _is_number(value: Any) -> bool:
@@ -302,25 +400,34 @@ def construct_validity_assessment(
     second_predecessor_visible: bool = False,
     vocabulary_size: int = 16,
     hidden_coefficient: int = 5,
+    input_accessibility_preconditions: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     information_starved = baseline_input_order < label_dependency_order and not second_predecessor_visible
     bayes_upper_bound = 1.0 / float(vocabulary_size) if information_starved else None
+    preconditions = dict(input_accessibility_preconditions or {})
+    source_pointers = {
+        "feature_source": FEATURE_SOURCE_POINTER,
+        "label_source": LABEL_SOURCE_POINTER,
+        "controller_evidence": CONTROLLER_EVIDENCE_POINTER,
+        "fair_reconstruction": FAIR_RECONSTRUCTION_POINTER,
+    }
+    source_pointers.update({
+        key: value
+        for key, value in preconditions.get("source_pointers", {}).items()
+        if isinstance(key, str) and isinstance(value, str)
+    })
     return {
         "status": "construct-boundary" if information_starved else "construct-valid",
         "baseline_input_order": baseline_input_order,
         "label_dependency_order": label_dependency_order,
         "second_predecessor_visible_to_baseline": second_predecessor_visible,
+        "input_accessibility_preconditions": preconditions,
         "baseline_feature_wiring": "[embed(x_prev_1), zero_like(embed(x_prev_2))]",
         "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
         "hidden_coefficient_modulus_gcd": _gcd(hidden_coefficient, vocabulary_size),
         "bayes_upper_bound_accuracy": _round(bayes_upper_bound),
         "chance_accuracy": _round(1.0 / float(vocabulary_size)),
-        "source_pointers": {
-            "feature_source": FEATURE_SOURCE_POINTER,
-            "label_source": LABEL_SOURCE_POINTER,
-            "controller_evidence": CONTROLLER_EVIDENCE_POINTER,
-            "fair_reconstruction": FAIR_RECONSTRUCTION_POINTER,
-        },
+        "source_pointers": source_pointers,
         "boundary_reason": (
             "Given x_prev_1, varying hidden x_prev_2 permutes all labels, so the baseline Bayes limit is chance."
             if information_starved
@@ -394,11 +501,14 @@ def _hardgates(
         for row in fair_rows
     )
     construct_boundary = construct_validity.get("status") == "construct-boundary"
+    input_accessibility = construct_validity.get("input_accessibility_preconditions")
+    input_access_ok = isinstance(input_accessibility, Mapping) and input_accessibility.get("status") == "pass"
     return {
         "BASE-UNDER-HG0": {
-            "criterion": "baseline input bandwidth must cover the label dependency bandwidth before undertraining evidence is allowed",
-            "status": "fail-closed" if construct_boundary else "pass",
+            "criterion": "input-accessibility boundary pointers and baseline input bandwidth must pass before undertraining evidence is allowed",
+            "status": "fail-closed" if construct_boundary or not input_access_ok else "pass",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity",
+            "input_accessibility_pointer": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
         },
         "BASE-UNDER-HG1": {
             "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
@@ -433,7 +543,7 @@ def _derive_decision(
     hardgates: Mapping[str, Mapping[str, Any]],
     construct_validity: Mapping[str, Any],
 ) -> tuple[str, str, list[dict[str, Any]], list[dict[str, Any]]]:
-    if construct_validity.get("status") == "construct-boundary":
+    if construct_validity.get("status") == "construct-boundary" or hardgates["BASE-UNDER-HG0"]["status"] != "pass":
         return (
             "construct-boundary",
             "defer-to-fair-reconstruction",
@@ -499,6 +609,7 @@ def build_payload(
     l1_sha256: str | None = None,
     downstream_verdict: Any | None = None,
     construct_validity_override: Mapping[str, Any] | None = None,
+    input_accessibility_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     if downstream_verdict is not None:
         raise ValueError("base-undertraining audit does not accept downstream verdict input")
@@ -524,7 +635,18 @@ def build_payload(
             "source_pointer": f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.step_grid",
         }
 
-    construct_validity = dict(construct_validity_override or construct_validity_assessment())
+    input_accessibility_preconditions = _input_accessibility_preconditions(
+        root,
+        input_accessibility_payload,
+    )
+    construct_validity = dict(
+        construct_validity_override
+        or construct_validity_assessment(input_accessibility_preconditions=input_accessibility_preconditions)
+    )
+    construct_validity["input_accessibility_preconditions"] = input_accessibility_preconditions
+    source_pointers = dict(construct_validity.get("source_pointers", {}))
+    source_pointers.update(input_accessibility_preconditions["source_pointers"])
+    construct_validity["source_pointers"] = source_pointers
     hardgates = _hardgates(comparison_rows, coverage, construct_validity)
     verdict, claim_action, boundary, evidence = _derive_decision(comparison_rows, hardgates, construct_validity)
     source_contract = {
@@ -539,9 +661,14 @@ def build_payload(
                 f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.per_step",
                 f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.step_grid",
                 *(str(row["source_pointer"]) for row in comparison_rows),
+                input_accessibility_preconditions["input_accessibility_ref"],
+                input_accessibility_preconditions["boundary_ledger_ref"],
+                *input_accessibility_preconditions["information_starved_arms_ref"],
+                *input_accessibility_preconditions["unanswerable_ood_splits_ref"],
             }
         ),
         "base_step_grid_coverage": coverage,
+        "input_accessibility_preconditions": input_accessibility_preconditions,
     }
     audit = BaseUndertrainingAudit(
         source_contract=source_contract,

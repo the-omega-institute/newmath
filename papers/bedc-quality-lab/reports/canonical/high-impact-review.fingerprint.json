@@ -3,13 +3,21 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "ba93dafdfdc4ea664594be175bc60a261587205b419ba2c5b6a58c4c48996008",
+  "input_fingerprint": "eb0796bae458832e5d85387c39f2261fe2bbfeb6f8ed600b09e13a0a12595127",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
       {
         "path": "configs/default_cost_protocol.yaml",
         "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "configs/metric_purity_allowlist.json",
+        "sha256": "74c34220417b87731f2dd58c1f560040ecf87635604e013f481a65c07a78ecba"
+      },
+      {
+        "path": "configs/metric_purity_targets.json",
+        "sha256": "e3a0b6a9b0cc04d4be7e6b33acace1ed39c85db0c43e4560f265b8f3938e3502"
       },
       {
         "path": "docs/lit/literature_ledger.yaml",
@@ -55,11 +63,11 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/claim_graph.json",
-        "sha256": "65b3d1fb8f90903d8441fddc3e85b7f538733b3f6b806f977225de28fe24ee9a"
+        "sha256": "b4770fb7972c5601f571a8fbcb068d2aed1c92e7e863e097fa9b0137aae79362"
       },
       {
         "path": "reports/canonical/discovery-gated-transformer.json",
-        "sha256": "0cc7a2c787ad979ccb0c6f8636bb1c6b428d2d878c86cf7967db92717e890216"
+        "sha256": "a05db65a447d4cba5ed0ff816e2ff72b52466460f8a8c8df5661c6655074c6b7"
       },
       {
         "path": "reports/canonical/model-comparison.json",
@@ -72,6 +80,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.hardgates",
       "cost_pointer": "$.hardgates",
       "estimated_seconds": 1,

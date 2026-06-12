@@ -1,0 +1,341 @@
+{
+  "artifact_id": "bedc-quality-lab:winnability-certificates",
+  "audit": {
+    "certificate_count": 3,
+    "duplicate_certificate_count": 0,
+    "fail_closed_count": 2,
+    "failed_count": 0,
+    "failures": [],
+    "missing_certificate_count": 0,
+    "registered_split_count": 3,
+    "status": "pass",
+    "table_coverage_count": 1,
+    "unresolved_count": 0,
+    "unwinnable_count": 1
+  },
+  "certificates": [
+    {
+      "certificate_id": "win-f1471fec0fe8d17c",
+      "chance_accuracy": 0.0625,
+      "claim_permissions": {
+        "architecture_claim_allowed": false,
+        "generalization_claim_allowed": false,
+        "memorization_claim_allowed": false,
+        "rule_abstraction_claim_allowed": false,
+        "separation_claim_allowed": false
+      },
+      "coverage": {
+        "coverage_ceiling": null,
+        "coverage_classification": "not-applicable",
+        "coverage_gap": null,
+        "coverage_tolerance": null,
+        "seen_accuracy": null,
+        "train_pair_coverage": null,
+        "unseen_accuracy": null
+      },
+      "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
+      "epsilon": 1e-09,
+      "experiment_id": "dgt-controls",
+      "failure_reasons": [
+        "hidden-required-variable:x_minus_3"
+      ],
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "method": "analytic_bayes",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.06958,
+      "oracle_run_ref": null,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].required_variables",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
+      "split_fingerprint": "1b0aac0341d9a26b712a4885adce2d606c058e7da44bfb899fbb66d157dd1902",
+      "split_id": "l1-ood-hidden-lag",
+      "split_kind": "ood",
+      "status": "pass",
+      "task_family": "analytic-visibility",
+      "task_id": "dgt-l1-hidden-lag",
+      "unwinnable": true,
+      "upper_bound_accuracy": 0.0625,
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].visible_variables",
+      "winnable": false
+    },
+    {
+      "certificate_id": "win-aaf6363714569e58",
+      "chance_accuracy": 0.0625,
+      "claim_permissions": {
+        "architecture_claim_allowed": false,
+        "generalization_claim_allowed": false,
+        "memorization_claim_allowed": true,
+        "rule_abstraction_claim_allowed": false,
+        "separation_claim_allowed": false
+      },
+      "coverage": {
+        "coverage_ceiling": 0.982829,
+        "coverage_classification": "table-coverage",
+        "coverage_gap": -0.000895,
+        "coverage_tolerance": 0.01,
+        "seen_accuracy": 1.0,
+        "train_pair_coverage": 0.981684,
+        "unseen_accuracy": 0.0625
+      },
+      "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
+      "epsilon": 1e-09,
+      "experiment_id": "dgt-controls",
+      "failure_reasons": [],
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "method": "analytic_bayes",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.981934,
+      "oracle_run_ref": null,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_rows[4]",
+      "split_fingerprint": "ba2a0edf03f71d5b07faf9f70111cf776a5c549e420eabd6b2ff72ae1913b4b9",
+      "split_id": "l1-indist-finite-pair",
+      "split_kind": "in-distribution",
+      "status": "pass",
+      "task_family": "analytic-table-coverage",
+      "task_id": "dgt-l1-finite-pair",
+      "unwinnable": false,
+      "upper_bound_accuracy": 0.982829,
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables",
+      "winnable": true
+    },
+    {
+      "certificate_id": "win-86184ea92f5c516b",
+      "chance_accuracy": 0.0625,
+      "claim_permissions": {
+        "architecture_claim_allowed": true,
+        "generalization_claim_allowed": true,
+        "memorization_claim_allowed": true,
+        "rule_abstraction_claim_allowed": true,
+        "separation_claim_allowed": true
+      },
+      "coverage": {
+        "coverage_ceiling": null,
+        "coverage_classification": "not-applicable",
+        "coverage_gap": null,
+        "coverage_tolerance": null,
+        "seen_accuracy": null,
+        "train_pair_coverage": null,
+        "unseen_accuracy": null
+      },
+      "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
+      "epsilon": 1e-09,
+      "experiment_id": "dgt-controls",
+      "failure_reasons": [],
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "method": "analytic_bayes",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.311768,
+      "oracle_run_ref": null,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.accuracy_mean",
+      "split_fingerprint": "20ba694cec795953c610c9f043ebf076898b6ea7656f17c6b2670d1109dfb1f4",
+      "split_id": "l1-held-out-pair",
+      "split_kind": "held-out-pair",
+      "status": "pass",
+      "task_family": "analytic-visibility",
+      "task_id": "dgt-l1-held-out-pair",
+      "unwinnable": false,
+      "upper_bound_accuracy": 1.0,
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables",
+      "winnable": true
+    }
+  ],
+  "consumer_pointers": {
+    "audit_pointer": "reports/canonical/winnability-certificates.json:$.audit",
+    "hardgates_pointer": "reports/canonical/winnability-certificates.json:$.hardgates",
+    "winnability_certificates": "reports/canonical/winnability-certificates.json:$.certificates"
+  },
+  "family_registry": [
+    {
+      "family_id": "analytic-table-coverage",
+      "metadata_only": "true",
+      "resolver": "analytic_visibility_resolver"
+    },
+    {
+      "family_id": "analytic-visibility",
+      "metadata_only": "true",
+      "resolver": "analytic_visibility_resolver"
+    },
+    {
+      "family_id": "oracle-arm",
+      "metadata_only": "true",
+      "resolver": "oracle_arm_resolver"
+    },
+    {
+      "family_id": "unresolved",
+      "metadata_only": "true",
+      "resolver": "unresolved_resolver"
+    }
+  ],
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "hardgates": {
+    "ORACLE-HG1": {
+      "checked_count": 3,
+      "failed_count": 0,
+      "failure_refs": [],
+      "status": "pass"
+    },
+    "ORACLE-HG2": {
+      "checked_count": 3,
+      "failed_count": 0,
+      "failure_refs": [],
+      "status": "pass"
+    },
+    "ORACLE-HG3": {
+      "checked_count": 3,
+      "failed_count": 0,
+      "failure_refs": [],
+      "status": "pass"
+    },
+    "ORACLE-HG4": {
+      "checked_count": 3,
+      "failed_count": 0,
+      "failure_refs": [],
+      "status": "pass"
+    },
+    "ORACLE-HG5": {
+      "checked_count": 3,
+      "failed_count": 0,
+      "failure_refs": [],
+      "negative_control_expectations": [
+        {
+          "expected": "unwinnable",
+          "split_id": "l1-ood-hidden-lag"
+        },
+        {
+          "expected": "winnable",
+          "split_id": "l1-held-out-pair"
+        }
+      ],
+      "negative_control_failures": [],
+      "status": "pass"
+    }
+  },
+  "inputs": {
+    "input_accessibility": "reports/canonical/input-accessibility.json:$",
+    "registered_splits": "reports/canonical/winnability-certificates.json:$.registered_splits"
+  },
+  "not_claimed": [
+    "Winnability certificates bound finite lab split evidence only.",
+    "No oracle training is performed by this producer.",
+    "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+    "An unresolved or unwinnable split remains barred from positive claim use."
+  ],
+  "oracle_runs": [],
+  "owner": "bedc_quality_lab.winnability",
+  "producer": "scripts/run_winnability_certificates.py",
+  "registered_splits": [
+    {
+      "chance_accuracy": 0.0625,
+      "epsilon": 1e-09,
+      "experiment_id": "dgt-controls",
+      "input_accessibility_arm": "dgt_l1",
+      "input_accessibility_row_id": "919ac19434f330f9",
+      "input_accessibility_split": "ood",
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.06958,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].required_variables",
+      "resolver_family": "analytic-visibility",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
+      "split_fingerprint": "1b0aac0341d9a26b712a4885adce2d606c058e7da44bfb899fbb66d157dd1902",
+      "split_id": "l1-ood-hidden-lag",
+      "split_kind": "ood",
+      "task_family": "analytic-visibility",
+      "task_id": "dgt-l1-hidden-lag",
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].visible_variables"
+    },
+    {
+      "chance_accuracy": 0.0625,
+      "epsilon": 1e-09,
+      "eval_pair_count": 256,
+      "experiment_id": "dgt-controls",
+      "input_accessibility_arm": "dgt_l1",
+      "input_accessibility_row_id": "815dc7a2b911856d",
+      "input_accessibility_split": "in_distribution",
+      "label_cardinality": 16,
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.981934,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
+      "resolver_family": "analytic-table-coverage",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_rows[4]",
+      "split_fingerprint": "ba2a0edf03f71d5b07faf9f70111cf776a5c549e420eabd6b2ff72ae1913b4b9",
+      "split_id": "l1-indist-finite-pair",
+      "split_kind": "in-distribution",
+      "task_family": "analytic-table-coverage",
+      "task_id": "dgt-l1-finite-pair",
+      "train_pair_count": 1024,
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables"
+    },
+    {
+      "chance_accuracy": 0.0625,
+      "epsilon": 1e-09,
+      "experiment_id": "dgt-controls",
+      "input_accessibility_arm": "dgt_l1",
+      "input_accessibility_row_id": "815dc7a2b911856d",
+      "input_accessibility_split": "in_distribution",
+      "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
+      "not_claimed": [
+        "Winnability certificates bound finite lab split evidence only.",
+        "No oracle training is performed by this producer.",
+        "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
+        "An unresolved or unwinnable split remains barred from positive claim use."
+      ],
+      "observed_accuracy": 0.311768,
+      "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
+      "resolver_family": "analytic-visibility",
+      "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.accuracy_mean",
+      "split_fingerprint": "20ba694cec795953c610c9f043ebf076898b6ea7656f17c6b2670d1109dfb1f4",
+      "split_id": "l1-held-out-pair",
+      "split_kind": "held-out-pair",
+      "task_family": "analytic-visibility",
+      "task_id": "dgt-l1-held-out-pair",
+      "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].visible_variables"
+    }
+  ],
+  "registry_digest": "44aeab0d1feef85ceaada1774158cc8adc5c9e877178e599b322ba187b3510e1",
+  "schema_id": "bedc-quality-lab:winnability-certificates",
+  "source_artifacts": {
+    "dgt_l0_controls": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93",
+      "status": "resolved"
+    },
+    "dgt_l1_controls": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "status": "resolved"
+    },
+    "input_accessibility": {
+      "artifact": "reports/canonical/input-accessibility.json",
+      "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
+      "status": "resolved"
+    }
+  }
+}
