@@ -5961,6 +5961,7 @@ import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyNetUp.TasteGate
 import BEDC.Derived.LocatedCauchyRepresentationUp.NameCertObligations
 import BEDC.Derived.LocatedCauchyRepresentationUp.RealSealHandoff
+import BEDC.Derived.LocatedCauchyRepresentationUp.TasteGate
 import BEDC.Derived.LocatedCauchySubsequenceUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedChoiceSequenceUp.TasteGate
