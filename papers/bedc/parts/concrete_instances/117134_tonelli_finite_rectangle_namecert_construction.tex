@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\TonelliFiniteRectangleUp$}
+\label{ch:concrete-instances-tonelli-finite-rectangle-namecert}
+\origin{human}
+
+Following Tonelli and Fubini on nonnegative iterated integration, the $\TonelliFiniteRectangleUp$ packet records the finite nonnegative rectangle-sum surface that may be read before any sigma-additive or completed measure theorem is available. It is a conservative companion to \autoref{ch:concrete-instances-fubini-finite-rectangle-namecert}; it also sits beside the finite summation surfaces of \autoref{ch:concrete-instances-riemannsum-namecert} and \autoref{ch:concrete-instances-darboux-sum-namecert}, the measure and integral rows of \autoref{ch:concrete-instances-measure-namecert} and \autoref{ch:concrete-instances-integral-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite nonnegative rectangular data only; it does not assert countable Tonelli, sigma-additivity, countable choice, measure completion, or an ambient product-measure theorem.
+
+\begin{definition}[Tonelli finite rectangle carrier]
+\label{def:tonelli-finite-rectangle-carrier}
+A $\TonelliFiniteRectangleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,C,A,U,V,F,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the row-index ledger, listing the finite outer rectangle coordinates and their cell tags.
+\item $C$ is the column-index ledger, listing the finite inner rectangle coordinates attached to the same cells.
+\item $A$ is the nonnegative rectangular entry ledger, recording each displayed cell value, its nonnegativity witness, and the finite measure/integral rows used to read it.
+\item $U$ is the row-first finite-sum readback, summing each row over $C$ before folding the visible row ledger $R$.
+\item $V$ is the column-first finite-sum readback, summing each column over $R$ before folding the visible column ledger $C$.
+\item $F$ is the $\FubiniFiniteRectangleUp$ handoff row, requiring both readbacks to remain inside the finite rectangle packet of \autoref{ch:concrete-instances-fubini-finite-rectangle-namecert}.
+\item $E$ is the terminal $\RealUp$ seal reached only after $R,C,A,U,V,F$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the row ledger, column ledger, nonnegative entry ledger, both finite-sum readbacks, the Fubini handoff, Real seal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a finite nonnegative rectangle request through $R,C,A,U,V,F,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TonelliFiniteRectangleUp$, $\FubiniFiniteRectangleUp$, $\MeasureUp$, $\IntegralUp$, $\RiemannSumUp$, $\DarbouxSumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TonelliFiniteRectangleUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $R,C,A,U,V,F,E,H,K,P,N$. No coordinate stores sigma-additivity, countable summation, countable choice, measure completion, quotient function equality, selected representatives, or an ambient product-measure theorem.
+\end{definition}
+
+\begin{theorem}[Tonelli finite rectangle NameCert obligations]
+\label{thm:tonelli-finite-rectangle-namecert-obligations}
+For every accepted $\TonelliFiniteRectangleUp$ carrier $T=(R,C,A,U,V,F,E,H,K,P,N)$, the local $\NameCert_{\TonelliFiniteRectangleUp}$ surface consists exactly of carrier admission for the displayed packet; nonnegative ledger visibility through $A$; row-first and column-first finite-sum route equality through $U,V$; confinement of the Fubini handoff row $F$ to the finite rectangle surface; Real sealing through $E$; componentwise transport, replay, provenance, and local naming through $H,K,P,N$; and refusal of sigma-additivity, countable choice, measure completion, quotient function equality, selected representatives, and ambient product-measure escape.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tonelli-finite-rectangle-carrier}. The only index rows are $R$ and $C$, and the only cell-value row is $A$, so carrier admission and nonnegative ledger visibility are read from those displayed coordinates.
+
+The two finite-sum routes are the rows $U$ and $V$. Since both routes consume the same finite rectangle cells from $R,C,A$, their equality is a finite ledger comparison before any completed measure or countable summation principle can be cited.
+
+Now read the handoff row $F$. It points to the already finite $\FubiniFiniteRectangleUp$ packet and therefore confines the equality route to displayed rectangle cells, not to a sigma-finite product theorem.
+
+Finally $E,H,K,P,N$ seal, transport, replay, source, and name the same finite packet. Because no carrier coordinate stores sigma-additivity, countable choice, measure completion, quotient function equality, selected representatives, or ambient product-measure structure, those readings are refused by the local NameCert surface.
+\end{proof}
+
+\closureat{TonelliFiniteRectangleUp}{seedStr}
+
+\begin{closurestatus}{\TonelliFiniteRectangleUp}
+  \constructivestory{A $\TonelliFiniteRectangleUp$ packet is generated from finite row and column ledgers, nonnegative rectangular entry rows, two iterated finite-sum readbacks, a FubiniFiniteRectangle handoff row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tonelli-finite-rectangle-carrier} and \autoref{thm:tonelli-finite-rectangle-namecert-obligations} seed the finite nonnegative rectangle-sum packet over displayed row, column, entry, iterated-sum, Fubini handoff, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable Tonelli, sigma-additivity, countable choice, measure completion, quotient function equality, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nonnegative ledger visibility, finite route equality, Fubini handoff confinement, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.TonelliFiniteRectangleUp.}
+\end{closurestatus}

@@ -4915,6 +4915,7 @@ import BEDC.Derived.FiniteLipschitzIterationUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.UniformModulusHandoff
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FiniteMarkovPartitionUp.TasteGate
 import BEDC.Derived.FiniteMetricEntropyUp.TasteGate
 import BEDC.Derived.FiniteMetricSpaceUp.TasteGate
 import BEDC.Derived.FiniteModulusCompactnessUp.TasteGate
