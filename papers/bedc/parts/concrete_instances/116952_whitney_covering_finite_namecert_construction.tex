@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\WhitneyCoveringFiniteUp$}
+\label{ch:concrete-instances-whitney-covering-finite-namecert}
+\origin{human}
+
+Following Whitney's covering decomposition and constructive metric-analysis finite-net practice, the $\WhitneyCoveringFiniteUp$ packet records a finite local covering family as BEDC NameCert data. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the doubling control of \autoref{ch:concrete-instances-doubling-metric-namecert}, the finite-net handoff of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the total-bounded consumer surface of \autoref{ch:concrete-instances-totallybounded-namecert}, and the multiscale dyadic skeleton of \autoref{ch:concrete-instances-dyadic-net-tree-namecert}. The packet names only the displayed finite covering route; it does not import measure theory, open-cover compactness, selected infinite covers, quotient equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[WhitneyCoveringFinite carrier]
+\label{def:whitney-covering-finite-carrier}
+A $\WhitneyCoveringFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,O,D,F,B,S,E,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, recording the carrier, distance-reading route, and local metric naming surface.
+\item $O$ is the open-region request row, naming the displayed region whose finite Whitney cells are being read.
+\item $D$ is the dyadic scale ledger, read through the $\DyadicNetTreeUp$ scale and parent-child rows.
+\item $F$ is the selected finite cell family, storing only the displayed cells and their attached centers, radii, and scale indices.
+\item $B$ is the bounded-overlap ledger, recording the finite overlap budget available for the selected cells.
+\item $S$ is the shadow-coverage row, asserting only the displayed coverage witnesses for the region requested by $O$.
+\item $E$ is the finite-epsilon-net handoff row, read through $\FiniteEpsilonNetUp$ and supplying the center witnesses consumed by $F$ and $S$.
+\item $T$ is the total-bounded consumer row, read through $\TotallyBoundedUp$ and used only as a finite coverage consumer.
+\item $H$ records componentwise $\hsame$ transport for the metric source, open-region request, dyadic ledger, selected cells, bounded-overlap ledger, coverage shadow, finite-net handoff, total-bounded consumer row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite Whitney-covering request through $M,O,D,F,B,S,E,T,H$.
+\item $P$ is the $\Pkg$ provenance over $\WhitneyCoveringFiniteUp$, $\MetricUp$, $\DoublingMetricUp$, $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, $\DyadicNetTreeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WhitneyCoveringFiniteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,O,D,F,B,S,E,T,H,C,P,N$. It has no coordinate for a measure algebra, open-cover compactness principle, selected infinite Whitney family, quotient equality of covers, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[WhitneyCoveringFinite NameCert obligations]
+\label{thm:whitney-covering-finite-namecert-obligations}
+For every accepted $\WhitneyCoveringFiniteUp$ carrier
+$$
+W=(M,O,D,F,B,S,E,T,H,C,P,N),
+$$
+the local $\NameCert_{\WhitneyCoveringFiniteUp}$ surface consists exactly of carrier admission through $M$, open-region request visibility through $O$, dyadic scale visibility through $D$, selected finite-cell admission through $F$, bounded-overlap accounting through $B$, shadow coverage through $S$, finite-epsilon-net handoff through $E$, total-bounded consumer routing through $T$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:whitney-covering-finite-carrier}. The metric source is $M$, the requested open region is $O$, and the scale information is the dyadic ledger $D$ read through the finite net-tree route.
+
+Next read the finite covering data. The selected cell family $F$ is available only with its displayed centers, radii, and scale indices. The bounded-overlap ledger $B$ and shadow-coverage row $S$ are tied to that same finite family.
+
+The consumer handoff is finite. The row $E$ supplies the $\FiniteEpsilonNetUp$ witnesses, and the row $T$ supplies the $\TotallyBoundedUp$ consumer route, with $\DoublingMetricUp$ and $\DyadicNetTreeUp$ only serving the displayed scale and overlap controls.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no measure-theoretic coordinate, open-cover compactness principle, infinite-cover selector, quotient-cover equality, or ambient real-completeness row, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WhitneyCoveringFiniteUp$ read exposes the MetricUp source, open-region request, dyadic scale ledger, selected finite cell family, bounded-overlap ledger, shadow-coverage row, finite-epsilon-net handoff, total-bounded consumer row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any Whitney-covering consumer reads the packet.}
+
+\independenceWitness{metric, doublingmetric, finite-epsilon-net, totallybounded, dyadic-net-tree: no listed sibling is bijective with $\WhitneyCoveringFiniteUp$ because this packet jointly stores an open-region request, selected finite cells, bounded-overlap ledger, shadow coverage, finite-net handoff, total-bounded consumer row, transport, replay, provenance, and local naming.}
+
+\closureat{WhitneyCoveringFiniteUp}{seedStr}
+
+\begin{closurestatus}{\WhitneyCoveringFiniteUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:whitney-covering-finite-carrier} and \autoref{thm:whitney-covering-finite-namecert-obligations} seed the finite Whitney-covering packet over displayed metric, open-region, dyadic-scale, finite-cell, bounded-overlap, shadow-coverage, finite-net, total-bounded, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure theory, open-cover compactness, selected infinite covers, quotient equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, finite-cell selection, bounded-overlap accounting, shadow coverage, finite-net handoff, total-bounded routing, transport, replay, provenance, and local naming for BEDC.Derived.WhitneyCoveringFiniteUp.}
+  \constructivestory{A $\WhitneyCoveringFiniteUp$ packet is generated from a MetricUp source row, an open-region request row, a dyadic scale ledger, selected finite cells, a bounded-overlap ledger, a shadow-coverage row, a FiniteEpsilonNetUp handoff, a TotallyBoundedUp consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
