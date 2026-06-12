@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SeminormFamilyUp$}
+\label{ch:concrete-instances-seminorm-family-namecert}
+\origin{human}
+
+Following Bourbaki and Treves on locally convex spaces and families of seminorms, the $\SeminormFamilyUp$ packet isolates the finite seminorm-family ledger consumed by \autoref{ch:concrete-instances-seminormed-space-namecert}, \autoref{ch:concrete-instances-locally-convex-space-namecert}, \autoref{ch:concrete-instances-topvecspace-namecert}, \autoref{ch:concrete-instances-vecspace-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It names the family before downstream packets read convex balanced neighbourhoods, induced uniform probes, seminormed-space comparisons, or completion-facing data.
+
+\begin{definition}[SeminormFamily carrier]
+\label{def:seminorm-family-carrier}
+A $\SeminormFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+S=(V,R,I,F,Z,T,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ vector source, exposing vector zero, addition, negation, and scalar action only through the displayed vector-space packet.
+\item $R$ is the $\RealUp$ scalar source, exposing nonnegative value rows, scalar absolute values, addition, multiplication, and order budgets used by the seminorm reads.
+\item $I$ is the finite family-index row listing exactly the seminorm labels admitted by the packet.
+\item $F$ is the seminorm-row ledger; for each displayed index in $I$, it records the value probe and the corresponding nonnegativity, zero, triangle, and scalar rows.
+\item $Z$ is the zero-compatibility row, comparing the vector-zero classifier of $V$ with every zero-value row in $F$.
+\item $T$ is the triangle-budget row, routing each displayed read of $p_i(x+y)$ through vector addition in $V$, the selected seminorm row in $F$, and the Real addition and order rows in $R$.
+\item $A$ is the scalar-budget row, routing each displayed read of $p_i(ax)$ through scalar action in $V$, the absolute-value and multiplication rows in $R$, and the selected seminorm row in $F$.
+\item $B$ is the generated-neighbourhood probe row, recording the finite seminorm balls and finite intersections handed to topological-vector-space and locally convex consumers.
+\item $H$ records componentwise $\hsame$ transport for $V,R,I,F,Z,T,A,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through vector source, Real source, family index, seminorm rows, zero, triangle, scalar, generated-neighbourhood probes, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\SeminormFamilyUp$, $\VecSpaceUp$, $\RealUp$, $\SeminormedSpaceUp$, $\LocallyConvexSpaceUp$, $\TopVecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SeminormFamilyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for an unbounded family, a hidden host topology, a selected quotient completion, a continuous dual, or a norm that replaces the family ledger.
+\end{definition}
+
+\begin{theorem}[SeminormFamily NameCert obligations]
+\label{thm:seminorm-family-namecert-obligations}
+For every accepted $\SeminormFamilyUp$ carrier
+$$
+S=(V,R,I,F,Z,T,A,B,H,C,P,N),
+$$
+the local $\NameCert_{\SeminormFamilyUp}$ surface consists exactly of carrier admission for the displayed vector source, Real scalar source, finite family index, seminorm rows, zero compatibility, triangle budget, scalar budget, generated neighbourhood probes, transport, replay, provenance, and local naming; index exposure through $I$ before any seminorm row in $F$ is consumed; zero compatibility through $Z$; triangle and scalar budget routing through $T$ and $A$; neighbourhood handoff through $B$; and transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:seminorm-family-carrier}. The accepted packet displays $V,R,I,F,Z,T,A,B,H,C,P,N$ and no further coordinate.
+
+Index exposure is row exhaustion. A seminorm read first names an index from $I$, then reads the matching entry of $F$ together with its zero, triangle, and scalar evidence.
+
+The compatibility budgets are the displayed rows $Z,T,A$. The row $Z$ compares zero-value data with the vector-zero classifier, $T$ routes sums through vector addition and Real addition-order data, and $A$ routes scalar multiplication through the Real absolute-value and multiplication rows.
+
+Finally $B$ is the only generated-neighbourhood handoff, while $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no hidden topology, unbounded index set, selected completion, continuous-dual selector, or replacement norm coordinate, these rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[SeminormFamily locally convex handoff]
+\label{thm:seminorm-family-locally-convex-handoff}
+Every $\LocallyConvexSpaceUp$ consumer and every Frechet-facing consumer that reads convex balanced neighbourhoods or completion-facing data from a finite seminorm family must first pass through the $\SeminormFamilyUp$ rows
+$$
+V,R,I,F,Z,T,A,B,H,C,P,N .
+$$
+The handoff exports finite indexed seminorm probes and generated neighbourhood rows; it exports no unbounded seminorm family, no hidden host topology, no selected quotient completion, and no detached norm substitute.
+\end{theorem}
+\begin{proof}
+Start with a locally convex or Frechet-facing request. The vector and scalar sources are $V$ and $R$, while the admissible seminorm labels are exactly the finite row $I$.
+
+Use the NameCert obligations of \autoref{thm:seminorm-family-namecert-obligations}. A consumer reaches any seminorm value only through $F$ after index exposure, and it reaches zero, triangle, and scalar budgets only through $Z,T,A$.
+
+The neighbourhood route is then $B$. Convex balanced neighbourhoods and completion-facing probes consume the generated finite seminorm balls and finite intersections recorded there, with transport, replay, provenance, and local naming preserved by $H,C,P,N$.
+
+Thus a downstream consumer receives only the displayed finite family route. With no coordinate for an unbounded family, host topology, selected quotient completion, or detached norm substitute, the named handoff is exactly the packet displayed above.
+\end{proof}
+
+\closureat{SeminormFamilyUp}{seedStr}
+
+\begin{closurestatus}{\SeminormFamilyUp}
+  \constructivestory{A $\SeminormFamilyUp$ packet is generated from displayed VecSpace and Real source rows, a finite family-index row, seminorm rows, zero, triangle, and scalar budgets, generated-neighbourhood probes, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:seminorm-family-carrier}, \autoref{thm:seminorm-family-namecert-obligations}, and \autoref{thm:seminorm-family-locally-convex-handoff} seed the finite seminorm-family ledger consumed by seminormed-space, locally convex, topological-vector, vector-space, Real, and completion-facing packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unbounded seminorm families, host locally convex topology, quotient completion, selected continuous duals, or norm replacement.}
+  \upgradepath{Scoped closure requires checked preservation of the displayed rows $V,R,I,F,Z,T,A,B,H,C,P,N$ through every locally convex and completion-facing consumer route.}
+\end{closurestatus}
