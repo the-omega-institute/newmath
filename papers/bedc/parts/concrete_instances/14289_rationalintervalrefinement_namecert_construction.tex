@@ -127,6 +127,18 @@ Use \autoref{thm:rational-interval-refinement-namecert-obligations}. The local $
 The excluded objects would require an additional coordinate: an infinite branch, completed real point, host subset, quotient, choice schedule, or bridge row. Since neither the carrier nor the NameCert obligation surface contains such a coordinate, public consumers receive none of them.
 \end{proof}
 
+\begin{theorem}[RationalIntervalRefinement finite branch exhaustion]
+\label{thm:rational-interval-refinement-window-branch-exhaustion}
+For any finite chain of accepted $\RationalIntervalRefinementUp$ packets, the public branch surface preserves only the displayed parent-child endpoint ledgers, retained-window rows, optional dyadic support rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert_{\RationalIntervalRefinementUp}$ rows. The chain cannot export an infinite branch, a completed $\RealUp$ point, a host interval subset, a quotient, a countable-choice schedule, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the retained-window induction of \autoref{thm:rational-interval-refinement-retained-window-induction}. It identifies the finite chain by repeatedly reading the next parent interval as the previous child interval and by carrying forward the displayed retained-window rows.
+
+Endpoint exactness from \autoref{thm:rational-interval-refinement-endpoint-exactness} forces every containment read at each step through the endpoint-inclusion ledger and the retained-window row. Optional dyadic support can witness the same containment, but it does not create another branch coordinate.
+
+Finally apply ledger exhaustion from \autoref{thm:rational-interval-refinement-ledger-exhaustion} to each accepted packet in the finite chain. Repacking the listed rows preserves exactly the parent-child endpoint ledgers, retained-window rows, optional dyadic support, transport, replay, provenance, and local naming. The excluded infinite branch, completed $\RealUp$ point, host subset, quotient, countable-choice schedule, and standard bridge have no coordinate in any packet and therefore cannot be exported by the chain.
+\end{proof}
+
 \begin{closurestatus}{\RationalIntervalRefinementUp}
   \constructivestory{A $\RationalIntervalRefinementUp$ packet is generated from a parent $\RationalIntervalUp$ row, a child $\RationalIntervalUp$ row, endpoint-inclusion evidence, a retained-window row, optional dyadic route support, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
