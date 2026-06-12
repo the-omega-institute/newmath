@@ -124,6 +124,23 @@ Apply the failure-surface and continuation-scope theorems, \autoref{thm:law-cert
 
 Finally use carrier admission and TasteGate field separation. The rows $H,R,Q,N$ preserve the same packet, and no coordinate outside $F,P,C,S,E,Ld,H,R,Q,N$ restores a missing ledger row.
 \end{proof}
+\leanchecked{BEDC.Derived.LawCertificateUp.taste\_gate}
+
+\begin{theorem}[Law certificate scope transport]
+\label{thm:law-certificate-scope-transport}
+Every accepted $\LawCertificateUp$ consumer route preserves the displayed rows
+$$
+F,P,C,S,E,Ld,H,R,Q,N
+$$
+through source fit, classifier comparison, continuation stability, failure-surface exposure, ledger accountability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ scope. No equation-only route and no ledger-free route exports law status.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. They make $F,P,C,S,E,Ld,H,R,Q,N$ the complete finite surface for source fit, pattern exposure, classifier comparison, continuation stability, failure surface, ledger accountability, transport, replay, provenance, and local naming.
+
+Apply the continuation-scope theorem and failure-surface nonescape theorem. A consumer route that keeps law status must preserve $S$ and $E$ together with the rows that source, classify, and transport the same packet.
+
+Apply classifier stability and ledger nonescape. Agreement of the equation pattern alone cannot transport law status, and dropping $Ld$ leaves the accepted surface. Thus every accepted route remains scoped by the displayed rows and exports neither equation-only nor ledger-free law status.
+\end{proof}
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.lean} must provide explicit $\Nontrivial\ \LawCertificateUp$ and $\FieldFaithful\ \LawCertificateUp$ instances, with witness-pair and field-projection proofs preserving $F,P,C,S,E,Ld,H,R,Q,N$ as separate displayed fields.
 
@@ -133,11 +150,12 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.le
 
 \closureat{LawCertificateUp}{seedStr}
 \closureat{LawCertificateUp}{obligationStr}
+\closureat{LawCertificateUp}{scopedStr}
 
 \begin{closurestatus}{\LawCertificateUp}
   \constructivestory{A $\LawCertificateUp$ packet is generated from finite source-fit, equation-pattern, classifier, continuation-stability, failure-surface, ledger, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, \autoref{thm:law-certificate-continuation-scope}, \autoref{thm:law-certificate-carrier-admission}, \autoref{thm:law-certificate-classifier-stability}, and \autoref{thm:law-certificate-ledger-nonescape} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, continuation scope, carrier admission, classifier stability, and ledger nonescape.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, \autoref{thm:law-certificate-continuation-scope}, \autoref{thm:law-certificate-carrier-admission}, \autoref{thm:law-certificate-classifier-stability}, \autoref{thm:law-certificate-ledger-nonescape}, and \autoref{thm:law-certificate-scope-transport} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, continuation scope, carrier admission, classifier stability, ledger nonescape, and accepted consumer-route scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total physical law, all-history prediction, equation-only law status, hidden stability, or ledger-free physical truth.}
