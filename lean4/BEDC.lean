@@ -921,6 +921,7 @@ import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
+import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
@@ -5801,6 +5802,7 @@ import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.CountableNameBoundary
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
 import BEDC.Derived.LawlessSequenceUp.PrefixInductionObligation
+import BEDC.Derived.LawlessSequenceUp.PrefixWindowDeterminacy
 import BEDC.Derived.LawlessSequenceUp.RealBoundaryNonescape
 import BEDC.Derived.LawlessSequenceUp.RealNonescape
 import BEDC.Derived.LawlessSequenceUp.StreamNameChoiceWindow
@@ -5954,6 +5956,7 @@ import BEDC.Derived.LocatedCauchyModulusSelectorUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyNetUp.TasteGate
 import BEDC.Derived.LocatedCauchyRepresentationUp.NameCertObligations
+import BEDC.Derived.LocatedCauchyRepresentationUp.RealSealHandoff
 import BEDC.Derived.LocatedCauchySubsequenceUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedChoiceSequenceUp.TasteGate
