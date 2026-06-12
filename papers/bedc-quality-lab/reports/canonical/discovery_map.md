@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-12T11:47:08.738560+00:00`
+- Generated at: `2026-06-12T14:49:10.626178+00:00`
 - Rows: `40`
 
 | report | level | base | mechanism | projection | audit | evidence |
@@ -30,7 +30,7 @@
 | `dgt-base-undertraining-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `input-accessibility` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `fair-l1-decision` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
+| `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `reports/canonical/scaling-ladder.json:$.levels[0]` |
 | `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-component-redundancy-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

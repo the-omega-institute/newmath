@@ -1,0 +1,123 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "73ca1d74e934865bf7442e6ff50b22ef5e5e9903b0eb829ac90ac308d6a070e4",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/scaling_ladder.py",
+        "sha256": "9b73928176a951586b5c5ba38aa68c6fdadef4918f8307dc178017a008cf71be"
+      },
+      {
+        "path": "scripts/run_scaling_ladder.py",
+        "sha256": "3b46df903c76669e98c70016c928df2ddfcf376523adaa22cd174cea5ddb40bb"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:scaling-ladder",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_scaling_ladder.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/index.json:$.evidence_provenance",
+        "sha256": "05aab23dc350bc4cdc1f6d76289e4040ea4c0530ce134dd9ee0ab7c4aa073a7a"
+      },
+      {
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "aee4eb2d8b4344842f25f294938da449de0d1d1853650d991bcf1e731f09f6e4"
+      },
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+      },
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "b70d155ac1fddcade5d12bfa7c28bdb33e555120a9b87eb7f7244874129e902c"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_scaling_ladder.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": null,
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/scaling-ladder.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/scaling-ladder.md",
+      "name": "scaling-ladder",
+      "no_control_rationale_pointer": "$.not_claimed",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.levels",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "levels",
+        "boundary_ledger",
+        "hardgates",
+        "not_claimed",
+        "$.levels[*].level_id",
+        "$.levels[*].state",
+        "$.levels[*].reason",
+        "$.levels[*].owner_decision_pointer",
+        "$.levels[*].evidence_provenance_pointer",
+        "$.levels[*].construct_validity_pointer",
+        "$.levels[*].split_winnability_pointer",
+        "$.levels[*].separation_pointer",
+        "$.levels[*].source_report_pointer",
+        "$.levels[*].boundary_ledger_pointer",
+        "$.levels[*].owner_contracts"
+      ],
+      "scope_pointer": "$.levels"
+    }
+  },
+  "json_artifact": "reports/canonical/scaling-ladder.json",
+  "markdown_artifact": "reports/canonical/scaling-ladder.md",
+  "output_digest": "c85b3a21ca5faf70d5e374efe3f69c8757979cb24c9d32df2d77f17f068d0b75",
+  "producer_command": [
+    "python3",
+    "scripts/run_scaling_ladder.py"
+  ],
+  "report_name": "scaling-ladder",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

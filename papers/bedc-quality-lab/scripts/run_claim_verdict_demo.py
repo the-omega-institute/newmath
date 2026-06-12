@@ -420,6 +420,13 @@ def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -
             if isinstance(value, str):
                 pointer = value
                 break
+    if isinstance(pointer, str) and pointer.startswith("reports/") and ":$" in pointer:
+        artifact, local_pointer = pointer.split(":", 1)
+        return ClaimSource(
+            report=str(row["report"]),
+            json_artifact=artifact,
+            pointer=local_pointer,
+        )
     return ClaimSource(
         report=str(row["report"]),
         json_artifact=str(row["json_artifact"]),
@@ -438,6 +445,21 @@ def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
                 raise ValueError(f"discovery map row lacks discovery_level cell: {row['report']}")
             return f"reports/canonical/discovery_map.json:$.rows[{index}].discovery_level"
     raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
+def _dgt_scaling_ladder_pointer(row: Mapping[str, Any]) -> str:
+    pointer = row.get("scaling_ladder_pointer")
+    return pointer if isinstance(pointer, str) else "reports/canonical/scaling-ladder.json:$.levels[0]"
+
+
+def _dgt_scaling_ladder_open(root: Path, row: Mapping[str, Any]) -> bool:
+    owner = resolve_artifact_pointer(root, _dgt_scaling_ladder_pointer(row))
+    if not isinstance(owner, Mapping) or owner.get("state") != "open":
+        return False
+    hardgates = resolve_artifact_pointer(root, "reports/canonical/scaling-ladder.json:$.hardgates")
+    if not isinstance(hardgates, Mapping):
+        return False
+    return all(isinstance(gate, Mapping) and gate.get("status") == "pass" for gate in hardgates.values())
 
 
 def _discovery_map_audit_pointer(root: Path, row: Mapping[str, Any]) -> str:
@@ -581,6 +603,16 @@ def _mapped_discovery_row(
     level = str(row.get("discovery_level", "D0"))
     source = _claim_source(row)
     claim_id = f"claim:{report}"
+    if report == "discovery-gated-transformer" and level in POSITIVE_LEVELS and not _dgt_scaling_ladder_open(root, row):
+        owner_pointer = _dgt_scaling_ladder_pointer(row)
+        return _row(
+            claim_id=claim_id,
+            claim_verdict="projected_discovery_required",
+            reason="source-insufficient",
+            source=owner_pointer,
+            ledger_pointer=owner_pointer,
+            scorecard_snapshot=scorecard_snapshot,
+        )
     if level == "D0":
         return _row(
             claim_id=claim_id,

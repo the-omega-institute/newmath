@@ -254,6 +254,19 @@ def test_cons_hg3_reason_scorecard_ready_taxonomy_is_consistent(tmp_path):
     assert _gate(report, "CONS-HG3").status == "fail"
 
 
+def test_cons_hg3_model_comparison_not_ready_can_keep_ready_scorecard(tmp_path):
+    root = _fixture_root(tmp_path)
+    rows = [json.loads(line) for line in (root / CLAIM_VERDICTS_ARTIFACT).read_text(encoding="utf-8").splitlines()]
+    rows[0]["claim_verdict"] = "projected_discovery_required"
+    rows[0]["reason"] = "model-comparison-not-ready"
+    rows[0]["scorecard_ready"] = True
+    _write_jsonl(root, CLAIM_VERDICTS_ARTIFACT, rows)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+
+    assert _gate(report, "CONS-HG3").status == "pass"
+
+
 def test_cons_hg4_terminal_node_points_to_dgt_d4_projection(tmp_path):
     root = _fixture_root(tmp_path)
     graph = json.loads((root / CLAIM_GRAPH_ARTIFACT).read_text(encoding="utf-8"))

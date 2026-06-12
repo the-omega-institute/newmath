@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:claim-complexity",
-  "generated_at": "2026-06-12T11:47:08.738560+00:00",
+  "generated_at": "2026-06-12T14:49:10.626178+00:00",
   "hardgates": {
     "CC-HG1": {
       "evidence_pointer": null,
@@ -982,29 +982,29 @@
     },
     {
       "claim_id": "claim:discovery-gated-transformer",
-      "complexity_score": 12,
+      "complexity_score": 2,
       "not_claimed": "Complexity score is artifact-only evidence and does not own terminal verdict authority.",
       "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
       "scoring_dimensions": [
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[25].discovery_level",
           "name": "assumption_complexity",
-          "weight": 6
+          "weight": 0
         },
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[25].classifier_reasons",
           "name": "proof_burden",
+          "weight": 0
+        },
+        {
+          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+          "name": "evidence_burden",
           "weight": 2
         },
         {
-          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
-          "name": "evidence_burden",
-          "weight": 3
-        },
-        {
-          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+          "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$",
           "name": "backend_coupling",
-          "weight": 1
+          "weight": 0
         },
         {
           "evidence_pointer": "reports/canonical/discovery_map.json:$.rows[25]",
