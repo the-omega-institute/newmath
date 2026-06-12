@@ -3,7 +3,9 @@ import json
 import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
+from bedc_quality_lab import input_accessibility as ia
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from scripts import run_canonical_reports as canonical
 from scripts import run_dgt_l1_controls as runner
 
 
@@ -140,6 +142,33 @@ def test_l1_matched_random_structural_control_fail_closed():
     mutated["training_arms"]["matched_random_structural_l1"]["metrics"]["classifier_shift_count"] = 0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG4|owner-required metric")
+
+
+def test_l1_construct_validity_consumes_input_accessibility_rows():
+    payload = _payload()
+    arm_input_access = payload["construct_validity_hardgates"]["evidence"]["arm_input_access"]
+    canonical = json.loads((l1.LAB_ROOT / l1.INPUT_ACCESSIBILITY_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    rows = {row["row_id"]: row for row in canonical["rows"]}
+
+    assert arm_input_access["input_accessibility_ref"] == f"{ia.JSON_ARTIFACT}:$"
+    assert arm_input_access["information_starved_arms_ref"] == canonical["consumer_pointers"]["information_starved_arms_ref"]
+    assert arm_input_access["unanswerable_ood_splits_ref"] == canonical["consumer_pointers"]["unanswerable_ood_splits_ref"]
+    for pointer in arm_input_access["information_starved_arms_ref"]:
+        row = rows[pointer.rsplit("=", 1)[-1]]
+        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
+        assert cell["missing_variables"] == row["missing_variables"]
+        assert cell["information_starved"] is row["information_starved"]
+        assert cell["canonical_row"] == pointer
+    for pointer in arm_input_access["unanswerable_ood_splits_ref"]:
+        row = rows[pointer.rsplit("=", 1)[-1]]
+        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
+        assert cell["missing_variables"] == row["missing_variables"]
+        assert cell["unanswerable_ood"] is True
+
+    mutated = json.loads(json.dumps(payload))
+    first_key = next(iter(mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"]))
+    mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"][first_key]["missing_variables"] = []
+    _expect_invalid(mutated, "canonical input-accessibility")
 
 
 def test_l1_compute_and_parameter_ledgers_require_positive_values():
@@ -314,6 +343,7 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
         l1.CANONICAL_JSON_ARTIFACT,
         l1.CANONICAL_MARKDOWN_ARTIFACT,
         run_artifacts["summary"],
+        run_artifacts["probe_metrics"],
         run_artifacts["raw_metrics"],
         run_artifacts["claim_capsule"],
         run_artifacts["report"],
@@ -330,6 +360,27 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
     assert claim_capsule == canonical_payload["claim_capsule_ref"]
     assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
+
+
+def test_dgt_l1_controls_fingerprint_rejects_tampered_probe_metrics(tmp_path, monkeypatch):
+    spec = next(row for row in canonical.CANONICAL_REPORTS if row.name == "dgt-l1-controls")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    payload = _payload()
+    l1.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
+    fingerprint = canonical._write_fingerprint_sidecar(spec, generated_at="fixture-time")
+
+    source_paths = {
+        row["path"]
+        for row in fingerprint["inputs"]["source_artifacts"]
+    }
+    assert l1.run_artifacts_payload()["probe_metrics"] in source_paths
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+    probe_path = tmp_path / l1.run_artifacts_payload()["probe_metrics"]
+    probe_path.write_text('{"tampered":true}\n', encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
 
 
 def test_dgt_l1_controls_regeneration_is_byte_stable(tmp_path, capsys):
@@ -422,6 +473,137 @@ def test_l1_step_ladder_grid_cell_integrity_fail_closed():
     mutated = json.loads(json.dumps(payload))
     mutated["l1_step_ladder"]["per_step"][0]["seed_counts"]["dgt_l1"] = 7
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
+
+
+def _fixture_stratum(accuracy, margin):
+    return {
+        "arm_id": "dgt_l1",
+        "stratum": "fixture",
+        "example_count": 16,
+        "seed_count": 8,
+        "pair_count": 4,
+        "accuracy": accuracy,
+        "true_class_logit_mean": margin + 0.5,
+        "true_class_margin_mean": margin,
+        "confidence_mean": 0.5,
+        "chance_accuracy": 0.0625,
+        "accuracy_minus_chance": round(accuracy - 0.0625, 6),
+        "device_resolved": "cpu",
+        "parameter_mutation_detected": False,
+        "source_probe_row_count": 16,
+    }
+
+
+def _verdict_strata(high, low, unseen, ood):
+    cells = {
+        "train_seen_high_frequency_pair": high,
+        "train_seen_low_frequency_pair": low,
+        "train_unseen_pair": unseen,
+        "ood_dependency_shift_pair": ood,
+    }
+    strata = {}
+    for stratum, cell in cells.items():
+        row = _fixture_stratum(*cell)
+        row["stratum"] = stratum
+        strata[stratum] = {"dgt_l1": row}
+    return strata
+
+
+def test_l1_ood_mechanism_surface_is_probe_derived_and_bounded():
+    payload = _payload()
+    mechanism = payload["l1_ood_mechanism"]
+
+    assert mechanism["owner"] == "dgt-l1-controls"
+    assert mechanism["verdict"] in set(l1.L1OOD_VERDICTS)
+    assert set(mechanism["strata"]) == set(l1.L1OOD_STRATA)
+    assert mechanism["source_pointers"]["probe_metrics"] == "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl"
+    assert mechanism["l2_implication"]["verdict_pointer"] == f"{l1.CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism.verdict"
+    assert "strata" not in json.dumps(mechanism["l2_implication"], sort_keys=True)
+    assert set(mechanism["hardgates"]) == set(l1.L1OOD_GATE_IDS)
+    assert all(row["status"] == "pass" for row in mechanism["hardgates"].values())
+
+    for stratum in l1.L1OOD_STRATA:
+        assert set(mechanism["strata"][stratum]) == set(l1.ARM_IDS)
+        dgt_row = mechanism["strata"][stratum]["dgt_l1"]
+        assert dgt_row["example_count"] == dgt_row["source_probe_row_count"]
+        assert dgt_row["seed_count"] >= 8
+        assert dgt_row["device_resolved"] == "cpu"
+        assert dgt_row["parameter_mutation_detected"] is False
+        assert isinstance(dgt_row["true_class_logit_mean"], float)
+        assert isinstance(dgt_row["true_class_margin_mean"], float)
+        assert dgt_row["accuracy_minus_chance"] == round(dgt_row["accuracy"] - dgt_row["chance_accuracy"], 6)
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_ood_mechanism"]["strata"]["ood_dependency_shift_pair"]["dgt_l1"]["true_class_logit_mean"] = "missing"
+    mutated["l1_ood_mechanism"]["hardgates"] = l1.evaluate_l1ood_hardgates(mutated["l1_ood_mechanism"])
+    _expect_invalid(mutated, "logit aggregates|L1-REVIEW-HG6|hardgates fail closed")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["l1_ood_mechanism"]["verdict"] = "scripted"
+    _expect_invalid(mutated, "verdict mismatch|decision table mismatch")
+
+
+def test_l1_ood_mechanism_decision_table_branches():
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.08, -0.1), (0.07, -0.1), (0.07, -0.1))
+    )["verdict"] == "memorization"
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.3, 0.1), (0.07, -0.1), (0.07, -0.1))
+    )["verdict"] == "brittle-rule"
+    assert l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.3, 0.1), (0.2, 0.1), (0.2, 0.1))
+    )["verdict"] == "partial-rule"
+
+    gates = {"L1OOD-HG1": {"status": "fail"}}
+    decision = l1.derive_l1_ood_mechanism_verdict(
+        _verdict_strata((0.4, 0.1), (0.08, -0.1), (0.07, -0.1), (0.07, -0.1)),
+        gates,
+    )
+    assert decision["verdict"] in set(l1.L1OOD_VERDICTS)
+    assert decision["diagnostic_confidence"] == "low"
+
+
+def test_l1_ood_mechanism_probe_metrics_are_run_local_and_idempotent(tmp_path, capsys):
+    config_args = [
+        "--root",
+        str(tmp_path),
+        "--generated-at",
+        "fixture-time",
+        "--seeds",
+        "1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189",
+        "--training-steps",
+        "8",
+        "--step-grid",
+        "8,16",
+        "--train-examples",
+        "64",
+        "--eval-examples",
+        "64",
+    ]
+    run_artifacts = l1.run_artifacts_payload()
+    checked_paths = [
+        tmp_path / run_artifacts["raw_metrics"],
+        tmp_path / run_artifacts["probe_metrics"],
+        tmp_path / l1.CANONICAL_JSON_ARTIFACT,
+    ]
+
+    assert runner.main(config_args) == 0
+    first_summary = json.loads(capsys.readouterr().out)
+    first = {path: path.read_bytes() for path in checked_paths}
+    assert first_summary["l1_ood_mechanism_verdict"] in set(l1.L1OOD_VERDICTS)
+
+    assert runner.main(config_args) == 0
+    second_summary = json.loads(capsys.readouterr().out)
+    second = {path: path.read_bytes() for path in checked_paths}
+
+    assert first == second
+    assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
+    assert second_summary["l1_ood_mechanism_verdict"] == first_summary["l1_ood_mechanism_verdict"]
+    raw_text = (tmp_path / run_artifacts["raw_metrics"]).read_text(encoding="utf-8")
+    probe_text = (tmp_path / run_artifacts["probe_metrics"]).read_text(encoding="utf-8")
+    assert "_probe_rows" not in raw_text
+    assert "true_class_logit" in probe_text
+    assert "true_class_margin" in probe_text
 
 
 def test_l1_step_ladder_cpu_training_evidence_fail_closed():

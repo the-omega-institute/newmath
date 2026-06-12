@@ -1103,6 +1103,48 @@ def test_order_k_benchmark_canonical_spec_required_keys():
     }
 
 
+def test_input_accessibility_canonical_spec_requires_rows_and_row_count():
+    spec = canonical._specs_by_name()["input-accessibility"]
+
+    assert spec.json_artifact == canonical.INPUT_ACCESSIBILITY_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT
+    assert {"rows", "row_count"} <= set(spec.required_json_keys)
+
+
+def test_input_accessibility_validation_fails_closed_without_rows(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    canonical.ROOT = tmp_path
+    canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
+    spec = canonical._specs_by_name()["input-accessibility"]
+    payload = {key: "fixture" for key in spec.required_json_keys if key not in {"rows", "row_count"}}
+    payload["schema_id"] = canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    payload["artifact_id"] = canonical.INPUT_ACCESSIBILITY_ARTIFACT_ID
+    payload["access_hardgates"] = {"status": "pass"}
+    payload["ood_hardgates"] = {"status": "pass"}
+    payload["boundary_ledger"] = []
+    payload["consumer_pointers"] = {}
+    payload["source_registry"] = []
+    payload["visible_variables"] = {}
+    payload["required_variables"] = {}
+    payload["not_claimed"] = []
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    try:
+        validation = canonical._artifact_validation(spec)
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+
+    assert validation["status"] == "fail"
+    assert validation["required_key_validation"]["status"] == "fail"
+    assert set(validation["required_key_validation"]["missing_keys"]) == {"rows", "row_count"}
+
+
 def test_order_k_benchmark_fingerprint_closure_has_runner_and_projector(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     spec = canonical._specs_by_name()["order-k-benchmark"]
@@ -1205,6 +1247,15 @@ def _write_release_pointer_fixture(root):
                         {"witness": "table_coverage_saturation"},
                         {"witness": "hand_engineered_task_aligned_gate"},
                     ],
+                },
+                "l1_ood_mechanism": {
+                    "owner": "dgt-l1-controls",
+                    "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                    "verdict": "memorization",
+                    "l2_implication": {
+                        "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                        "status": "pointer-only",
+                    },
                 },
             }
         )
@@ -1616,6 +1667,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "winnability-certificates",
             "structural-generalization-splits",
             "dgt-base-undertraining-audit",
+            "input-accessibility",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
@@ -1816,6 +1868,23 @@ def test_dgt_controls_require_construct_validity_without_replacing_protocol_hard
         assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
         assert "reporting_hardgate" in discipline
         assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
+
+
+def test_dgt_l1_controls_owns_l1_ood_mechanism_without_standalone_report(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["dgt-l1-controls"]
+    names = {item.name for item in canonical.CANONICAL_REPORTS}
+    artifacts = {item.json_artifact for item in canonical.CANONICAL_REPORTS}
+    payload = _payload_for_spec(spec)
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+
+    assert "l1_ood_mechanism" in spec.required_json_keys
+    assert payload["l1_ood_mechanism"]["verdict"] in {"memorization", "brittle-rule", "partial-rule"}
+    assert payload["l1_ood_mechanism"]["owner"] == "dgt-l1-controls"
+    assert "dgt-l1-ood-mechanism" not in names
+    assert "reports/canonical/dgt-l1-ood-mechanism.json" not in artifacts
 
 
 def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
@@ -3086,6 +3155,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "dgt-base-undertraining-audit":
             assert keys == {"base_undertraining_audit"}
             continue
+        if spec.name == "input-accessibility":
+            assert {"source_registry", "consumer_pointers", "access_hardgates"}.issubset(keys)
+            continue
         assert "generated_at" in keys
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
@@ -3682,6 +3754,29 @@ def test_dgt_base_undertraining_audit_canonical_spec_follows_l1_controls():
     assert spec.discovery_level_pointer == (
         "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.verdict"
     )
+
+
+def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["dgt-base-undertraining-audit"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    input_accessibility = tmp_path / canonical.INPUT_ACCESSIBILITY_JSON_ARTIFACT
+    input_accessibility.write_text('{"rows":[{"missing_variables":["changed"]}]}\n', encoding="utf-8")
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        _write_fingerprint_fixture(canonical, tmp_path, called)
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    result = canonical._run_spec(spec, mode="changed", generated_at="fixture")
+
+    assert calls == ["dgt-base-undertraining-audit"]
+    assert result["producer_status"] == "completed"
+    assert result["fingerprint_status"] == "written"
+    assert result["fingerprint_reason"] == "input-fingerprint"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
@@ -4737,6 +4832,31 @@ def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monke
     assert "experiment-stack-cards" in canonical.RELEASE_INPUT_REPORTS
     assert calls.index(("write-release", None)) < calls.index(("run-spec", "experiment-stack-cards"))
     assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "experiment-stack-cards"]
+
+
+def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["model-comparison"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(("producer", called.name))
+
+    def fake_write_fingerprint(called, *, generated_at=None):
+        calls.append(("fingerprint", called.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == []
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+    assert payload["reports"][0]["producer_status"] == "skipped"
 
 
 def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
