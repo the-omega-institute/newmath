@@ -1,5 +1,4 @@
 import BEDC.Derived.CriticalLineWitnessUp
-import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CriticalLineWitnessUp
 
@@ -9,25 +8,25 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem CriticalLineWitnessCarrier_stdbridge_premise_surface
-    {Z S M R Q H C P N image readback bridgePremise : BHist} :
+    {Z S M R Q H C P N image readback premise : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont (append Z S) Q image ->
-        Cont image H readback ->
-          Cont readback N bridgePremise ->
+        Cont C P readback ->
+          Cont image readback premise ->
             SemanticNameCert
-                (fun row : BHist => hsame row bridgePremise ∧ UnaryHistory row)
+                (fun row : BHist => hsame row premise ∧ UnaryHistory row)
                 (fun row : BHist =>
-                  hsame row Z ∨ hsame row S ∨ hsame row image ∨
-                    hsame row readback ∨ hsame row bridgePremise)
+                  hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨
+                    hsame row Q ∨ hsame row H ∨ hsame row image ∨
+                      hsame row readback ∨ hsame row premise)
                 (fun row : BHist =>
-                  hsame row bridgePremise ∧ Cont readback N bridgePremise)
-                hsame ∧ UnaryHistory image ∧ UnaryHistory readback ∧
-              UnaryHistory bridgePremise ∧ hsame H (append Z S) ∧
-                Cont (append Z S) Q image ∧ Cont image H readback ∧
-                  Cont readback N bridgePremise := by
+                  hsame row premise ∧ Cont image readback premise ∧ Cont C P readback)
+                hsame ∧
+              UnaryHistory image ∧ UnaryHistory readback ∧ UnaryHistory premise ∧
+                hsame H (append Z S) := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
-  intro packet imageRoute readbackRoute bridgeRoute
-  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+  intro packet imageRoute readbackRoute premiseRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, _routeN⟩ :=
     packet
   have unaryQ : UnaryHistory Q :=
     unary_cont_closed unaryM unaryR routeQ
@@ -37,25 +36,25 @@ theorem CriticalLineWitnessCarrier_stdbridge_premise_surface
     unary_transport sourceUnary (hsame_symm sameH)
   have unaryC : UnaryHistory C :=
     unary_cont_closed unaryQ unaryH routeC
-  have unaryN : UnaryHistory N :=
-    unary_cont_closed unaryC unaryP routeN
   have imageUnary : UnaryHistory image :=
     unary_cont_closed sourceUnary unaryQ imageRoute
   have readbackUnary : UnaryHistory readback :=
-    unary_cont_closed imageUnary unaryH readbackRoute
-  have bridgeUnary : UnaryHistory bridgePremise :=
-    unary_cont_closed readbackUnary unaryN bridgeRoute
+    unary_cont_closed unaryC unaryP readbackRoute
+  have premiseUnary : UnaryHistory premise :=
+    unary_cont_closed imageUnary readbackUnary premiseRoute
+  have sourceAtPremise : hsame premise premise ∧ UnaryHistory premise :=
+    ⟨hsame_refl premise, premiseUnary⟩
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row bridgePremise ∧ UnaryHistory row)
+          (fun row : BHist => hsame row premise ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row Z ∨ hsame row S ∨ hsame row image ∨
-              hsame row readback ∨ hsame row bridgePremise)
-          (fun row : BHist => hsame row bridgePremise ∧ Cont readback N bridgePremise)
+            hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row Q ∨
+              hsame row H ∨ hsame row image ∨ hsame row readback ∨ hsame row premise)
+          (fun row : BHist =>
+            hsame row premise ∧ Cont image readback premise ∧ Cont C P readback)
           hsame := {
     core := {
-      carrier_inhabited :=
-        Exists.intro bridgePremise ⟨hsame_refl bridgePremise, bridgeUnary⟩
+      carrier_inhabited := Exists.intro premise sourceAtPremise
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -73,13 +72,11 @@ theorem CriticalLineWitnessCarrier_stdbridge_premise_surface
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.left, bridgeRoute⟩
+      exact ⟨source.left, premiseRoute, readbackRoute⟩
   }
-  exact
-    ⟨cert, imageUnary, readbackUnary, bridgeUnary, sameH, imageRoute, readbackRoute,
-      bridgeRoute⟩
+  exact ⟨cert, imageUnary, readbackUnary, premiseUnary, sameH⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
