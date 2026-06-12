@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\FiniteFanCompactnessUp$}
+\label{ch:concrete-instances-finite-fan-compactness-namecert}
+\origin{human}
+
+Following Bishop--Bridges compact metric analysis, the $\FiniteFanCompactnessUp$ packet records the finite fan of cover probes used by the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. It sits after the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the metric distance rows of \autoref{ch:concrete-instances-metric-namecert}, the continuous pointwise-modulus surface of \autoref{ch:concrete-instances-continuous-namecert}, the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the rational tolerance rows of \autoref{ch:concrete-instances-rat-namecert}, and the finite lower-bound fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}. The packet names finite cover and uniform-modulus data only; it does not expose open-cover compactness, external choice, or ambient completeness.
+
+\begin{definition}[Finite fan compactness carrier]\label{def:finite-fan-compactness-carrier}
+A $\FiniteFanCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,K,M,A,U,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite $\mathsf{ProbeBundle}$ fan row, recording the bundled probe names, center histories, and coverage witnesses.
+\item $K$ is the consumed $\CompactUp$ row, restricted to the displayed finite fan and its located cover evidence.
+\item $M$ is the $\MetricUp$ row used to read source distances from points to fan centers and between source points.
+\item $A$ is the $\ContinuousUp$ pointwise-modulus row at each bundled center.
+\item $U$ is the $\UniformModulusUp$ handoff row produced only after the finite fan and centerwise modulus rows have been read.
+\item $R$ is the $\RatUp$ tolerance and positive-radius ledger attached to the same fan.
+\item $L$ is the $\FiniteNetMinimumFoldUp$ lower-bound fold row, recording primitive recursion over the finite fan and the certified minimum radius used by the uniform-modulus route.
+\item $H$ records componentwise $\hsame$ transport for fan, compact, metric, continuous, uniform-modulus, rational, lower-bound, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through finite cover recursion, centerwise modulus reads, rational lower-bound folding, metric triangle estimates, and uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\FiniteFanCompactnessUp$, $\CompactUp$, $\MetricUp$, $\ContinuousUp$, $\UniformModulusUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteFanCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,K,M,A,U,R,L,H,C,P,N$. It has no coordinate for open-cover compactness, selected subcovers, countable choice, quotient metric equality, or ambient completion of the metric space.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteFanCompactnessUp}
+
+\begin{theorem}[Finite fan compactness uniform-modulus route]\label{thm:finite-fan-compactness-uniform-modulus-route}
+Let $F=(B,K,M,A,U,R,L,H,C,P,N)$ be an accepted $\FiniteFanCompactnessUp$ carrier. Every compact-uniform-continuity consumer must read the finite $\mathsf{ProbeBundle}$ fan $B$, the compact and metric rows $K,M$, the centerwise continuous rows $A$, the rational tolerance ledger $R$, and the finite lower-bound fold $L$ before the $\UniformModulusUp$ handoff $U$ is exported. The route is constructive finite ProbeBundle recursion and exports no open-cover compactness, selected subcover, countable choice, quotient metric equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the finite fan row $B$. It lists the probe names and center histories consumed by the compact row $K$, so the cover data are already finite before any modulus is read.
+
+For each bundled probe, replay $C$ through the metric row $M$ and continuous row $A$. These rows produce only centerwise pointwise-modulus data attached to the displayed fan.
+
+The rational ledger $R$ and finite lower-bound fold $L$ then perform primitive recursion over the probes. The fold keeps a certified positive lower bound for the displayed center radii and supplies the tolerance-only precision needed by $U$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no row stores an arbitrary open cover, selected subcover, choice principle, quotient metric equality, or ambient completion, the uniform-modulus handoff can only be read through the finite fan route.
+\end{proof}
+
+\closureat{FiniteFanCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\FiniteFanCompactnessUp}
+  \constructivestory{A $\FiniteFanCompactnessUp$ packet is generated from a finite ProbeBundle fan, CompactUp cover row, MetricUp distance row, ContinuousUp centerwise modulus rows, UniformModulusUp handoff, RatUp tolerance ledger, FiniteNetMinimumFoldUp lower-bound fold, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-fan-compactness-carrier} and \autoref{thm:finite-fan-compactness-uniform-modulus-route} seed the finite fan compactness route feeding compact-uniform-continuity through CompactUp, MetricUp, ContinuousUp, UniformModulusUp, RatUp, and FiniteNetMinimumFoldUp rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, countable choice, quotient metric equality, ambient completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked fan admission, compact-cover exactness, metric triangle replay, centerwise-modulus extraction, rational fold stability, uniform-modulus nonescape, transport, provenance, and local naming for BEDC.Derived.FiniteFanCompactnessUp.}
+\end{closurestatus}
