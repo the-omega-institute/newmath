@@ -87,6 +87,46 @@ The support ledger $K$ does not change the carrier. It only records which dyadic
 Finally $H$ and $C$ transport and replay the same displayed rows, while $P$ and $N$ bind provenance and local naming. Since the carrier has no other coordinate, the listed rows exhaust the NameCert obligation surface.
 \end{proof}
 
+\begin{theorem}[RationalIntervalRefinement classifier stability]
+\label{thm:rational-interval-refinement-classifier-stability}
+Let $R=(I,J,E,W,K,H,C,P,N)$ be an accepted $\RationalIntervalRefinementUp$ packet. Any second displayed packet
+$$
+R'=(I',J',E',W',K',H',C',P',N')
+$$
+whose parent interval, child interval, endpoint-inclusion ledger, retained-window row, optional dyadic support row, componentwise transport row, continuation replay row, provenance row, and local naming row agree componentwise with the corresponding rows of $R$ is accepted by the same refinement classifier. The agreement is read only through the finite $\hsame$ rows in $H,H'$ and the displayed $\Cont$ replays in $C,C'$.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:rational-interval-refinement-carrier}. The carrier lists exactly $I,J,E,W,K,H,C,P,N$, so a classifier read has no row outside the two rational intervals, the endpoint-inclusion ledger, the retained window, the optional dyadic support, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:rational-interval-refinement-nested-window}. The accepted refinement classifier is determined by the retained child-in-parent read supplied by $I,J,E,W$, with $K$ only recording a finite dyadic route when such support is present.
+
+The componentwise $\hsame$ rows and displayed $\Cont$ replays preserve those same coordinates. Since $P$ and $N$ source and name no additional coordinate, replacing the packet by $R'$ with the same displayed rows preserves acceptedness.
+\end{proof}
+
+\begin{theorem}[RationalIntervalRefinement endpoint exactness]
+\label{thm:rational-interval-refinement-endpoint-exactness}
+Every public containment read from an accepted $\RationalIntervalRefinementUp$ packet $R=(I,J,E,W,K,H,C,P,N)$ factors through the displayed endpoint-inclusion ledger $E$ and the retained-window row $W$. The read may use $I$ and $J$ to expose the parent and child rational endpoints, and it may use $K,H,C,P,N$ to support, transport, replay, source, and name the same containment, but it cannot replace $E$ or $W$ by a host interval subset, an infinite branch, a completed real point, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:rational-interval-refinement-carrier}. The only endpoint-inclusion coordinate is $E$, and the only consumer-facing retained-window coordinate is $W$.
+
+Apply \autoref{thm:rational-interval-refinement-nested-window}. It identifies the finite retained-window step with the child rational interval $J$ retained inside the parent rational interval $I$ by $E$, and it identifies $W$ as the retained row delivered to consumers.
+
+The remaining rows do not create a second containment source. The optional support row $K$ only records a dyadic route for the same refinement, while $H,C,P,N$ transport, replay, source, and name the displayed rows. Thus every public containment read factors through $E$ and $W$.
+\end{proof}
+
+\begin{theorem}[RationalIntervalRefinement ledger exhaustion]
+\label{thm:rational-interval-refinement-ledger-exhaustion}
+An accepted $\RationalIntervalRefinementUp$ packet exposes to public consumers only the rows $I,J,E,W,K,H,C,P,N$ of \autoref{def:rational-interval-refinement-carrier}. In particular, a consumer receives no infinite refinement branch, completed real point, host interval subset, quotient, countable-choice schedule, or standard bridge from the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $R=(I,J,E,W,K,H,C,P,N)$. These nine rows are the whole displayed carrier, so the public ledger begins and ends with the parent interval, child interval, endpoint-inclusion ledger, retained window, optional dyadic support, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:rational-interval-refinement-namecert-obligations}. The local $\NameCert_{\RationalIntervalRefinementUp}$ surface exposes carrier data, classifier data, retained-window exactness, optional support, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local naming, and no other obligation row.
+
+The excluded objects would require an additional coordinate: an infinite branch, completed real point, host subset, quotient, choice schedule, or bridge row. Since neither the carrier nor the NameCert obligation surface contains such a coordinate, public consumers receive none of them.
+\end{proof}
+
 \begin{closurestatus}{\RationalIntervalRefinementUp}
   \constructivestory{A $\RationalIntervalRefinementUp$ packet is generated from a parent $\RationalIntervalUp$ row, a child $\RationalIntervalUp$ row, endpoint-inclusion evidence, a retained-window row, optional dyadic route support, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
