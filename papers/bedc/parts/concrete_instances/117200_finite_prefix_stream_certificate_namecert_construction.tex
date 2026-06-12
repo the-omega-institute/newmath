@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixStreamUp$}
+\label{ch:concrete-instances-finite-prefix-stream-certificate-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FinitePrefixStreamUp$ packet records the finite prefix of a countable name inspected at a displayed unary depth. It sits between the countable-name surface of \autoref{ch:concrete-instances-streamname-namecert} and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, while keeping its dyadic tolerance row anchored in \autoref{ch:concrete-instances-dyadicratcore-namecert}, its terminal real-facing seal anchored in \autoref{ch:concrete-instances-real-namecert}, and its completion-facing use anchored in \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet gives the Real and Completion route a named finite observation-prefix object, not quotient stream equality, selected limits, countable choice, host real equality, or ambient real completeness.
+
+\begin{definition}[Finite prefix stream certificate carrier]
+\label{def:finite-prefix-stream-certificate-carrier}
+A $\FinitePrefixStreamUp$ carrier is a finite $\BHist$ packet
+$$
+F=(k,W,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $k$ is the unary depth row. It fixes the largest inspected index and contains only the finite successor spine needed to reach that depth.
+\item $W$ is the finite $\StreamNameUp$ window row. It displays exactly the stream-name observations at indices $0,\ldots,k$ and no infinite representative.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the finite dyadic radii, slack bounds, and comparison budgets used by the displayed windows.
+\item $R$ is the $\RegSeqRatUp$ handoff row. It reads the same finite windows and dyadic budgets as regular rational data before any real-facing seal can be consumed.
+\item $H$ records componentwise $\hsame$ transport for the unary-depth, stream-window, dyadic, regular-rational, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite prefix request through $k,W,D,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FinitePrefixStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FinitePrefixStreamUp}$ row naming exactly this finite prefix certificate.
+\end{enumerate}
+The classifier compares accepted packets only through $k,W,D,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite prefix stream NameCert obligations]
+\label{thm:finite-prefix-stream-certificate-namecert-obligations}
+For every accepted $\FinitePrefixStreamUp$ carrier $F=(k,W,D,R,H,C,P,N)$, the local $\NameCert_{\FinitePrefixStreamUp}$ surface consists exactly of carrier admission for the unary depth, finite StreamName windows, dyadic tolerance rows, RegSeqRat handoff, componentwise transport, displayed replay, provenance, and local naming. The obligation surface may cite the StreamName source of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat source of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}; it cannot add quotient stream equality, a selected limit, countable choice, host real equality, ambient $\RealUp$ completeness, or a bridge certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-prefix-stream-certificate-carrier}. The visible analytic rows are exactly the unary depth $k$, finite stream window $W$, dyadic tolerance ledger $D$, and regular rational handoff $R$.
+
+Induct on the finite successor spine displayed by $k$. At depth $0$, the certificate reads only the initial window cell, its dyadic budget, and the matching regular rational observation. In the successor step, append one displayed window row and one matching dyadic budget, then transport the already-read prefix through $H$ and replay it through $C$.
+
+The rows $P$ and $N$ source and name only that finite packet. Since the excluded principles are not fields of the carrier and are not produced by the induction, no local NameCert obligation can export quotient stream equality, a selected limit, countable choice, host real equality, ambient real completeness, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Finite prefix stream window readback]
+\label{thm:finite-prefix-stream-certificate-window-readback}
+Every RegSeqRat-facing consumer of an accepted $\FinitePrefixStreamUp$ carrier reads the displayed prefix by the finite route
+$$
+k \longmapsto W \longmapsto D \longmapsto R \longmapsto H,C,P,N .
+$$
+The exported read is a prefix-bounded regular-rational handoff, not an equality class of streams, not a chosen infinite tail, not a countable-choice schedule, not host equality of real names, and not ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Fix a consumer of the accepted carrier. The first row available to the consumer is the unary depth $k$, so the consumer receives a finite bound before any stream observation is inspected.
+
+The window read is then bounded by $W$. For each displayed index at or below $k$, the consumer reads the corresponding dyadic budget from $D$ and the matching regular rational row from $R$.
+
+The structural rows $H,C,P,N$ preserve this same finite route under transport, replay, provenance, and naming. They do not add an infinite tail, an equality class of streams, a choice schedule, host equality of real names, or completeness data.
+\end{proof}
+
+\begin{theorem}[Finite prefix stream nonescape]
+\label{thm:finite-prefix-stream-certificate-nonescape}
+Every Real or Completion-facing use of an accepted $\FinitePrefixStreamUp$ carrier remains downstream of the displayed prefix window and the RegSeqRat handoff. Thus the packet may be used by the real-name and Bishop regular Cauchy completion routes only as finite prefix evidence; it does not export quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion-facing use of $F$. By \autoref{def:finite-prefix-stream-certificate-carrier}, the only analytic route into such a use is through $k,W,D,R$.
+
+Apply \autoref{thm:finite-prefix-stream-certificate-window-readback}. The consumer obtains only prefix-bounded regular rational readback, and the structural rows keep the same prefix route visible.
+
+Consequently any downstream $\RealUp$ or Bishop regular Cauchy completion argument can cite this packet only as finite observation evidence. The missing objects are absent from the route, so no quotient stream equality, selected limit, countable-choice schedule, host real equality, ambient real completeness, or checked bridge can escape from the certificate.
+\end{proof}
+
+\closureat{FinitePrefixStreamUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrefixStreamUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-stream-certificate-carrier}, \autoref{thm:finite-prefix-stream-certificate-namecert-obligations}, \autoref{thm:finite-prefix-stream-certificate-window-readback}, and \autoref{thm:finite-prefix-stream-certificate-nonescape} seed the finite observation-prefix certificate between StreamName and RegSeqRat real-name reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unary-depth prefix induction, finite StreamName window readback, DyadicRatCore tolerance exactness, RegSeqRat handoff, transport, replay, provenance, and local naming for BEDC.Derived.FinitePrefixStreamUp.}
+  \constructivestory{A $\FinitePrefixStreamUp$ packet is generated from a unary depth, finite StreamName windows, DyadicRatCore tolerance rows, a RegSeqRat handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

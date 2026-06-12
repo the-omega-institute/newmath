@@ -3037,6 +3037,8 @@ import BEDC.Derived.ConstantRealStreamUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
+import BEDC.Derived.ConstructiveCompletionEquivalenceUp
+import BEDC.Derived.ConstructiveCompletionEquivalenceUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveCompletionModulusUp.FiniteRoute
 import BEDC.Derived.ConstructiveCompletionModulusUp.TasteGate
@@ -6513,6 +6515,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierBudgetFactorization
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierCompanion
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankConsumerExactness
@@ -6590,6 +6593,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealAuditCleanFloor
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
@@ -8008,7 +8012,6 @@ import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
 import BEDC.Derived.RealApartnessCompletionUp.ObligationRouting
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedCompletionHandoff
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealDeterminacy
-import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealRoute
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSourceExactness
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
