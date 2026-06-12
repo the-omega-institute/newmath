@@ -87,6 +87,20 @@ For the step case, append one visible rational observation and its tolerance row
 Thus each prefix consumer receives exactly the finite window and ledger data already displayed at that stage. Passing from one prefix to the next preserves the route of \autoref{thm:speckersequence-monotone-bounded-ledger}; the $\RealUp$ seal remains downstream of the visible rational, tolerance, monotone, boundedness, and provenance rows. Since no induction clause contains a coordinate for located supremum data, selected limits, countable choice, trichotomy, or ambient completeness, none is introduced before the seal.
 \end{proof}
 
+\begin{theorem}[SpeckerSequence finite-prefix Real-tail inspection]
+\label{thm:regular-real-tail-selector-induction-window}
+Every accepted $\SpeckerSequenceUp$ consumer that inspects the packet before the $\RealUp$ seal is read through finite windows only. More precisely, before any completion-facing refusal or located-supremum boundary is invoked, the consumer can access only the displayed $\StreamNameUp$ prefix of $W$, the corresponding $\RegSeqRatUp$ readback from $R$, the $\DyadicRatCoreUp$ tolerance and bound rows in $D$, the monotone and bounded ledger prefixes in $M$ and $B$, and the structural rows $H,C,P,N$.
+
+The terminal $\RealUp$ seal $E$ may be cited only after those finite-prefix rows have been displayed, and the read still contains no located supremum, selected limit, quotient stream equality, countable-choice selector, trichotomy branch, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:speckersequence-carrier}. Its analytic coordinates before the seal are exactly the regular-source row $R$, the finite schedule $W$, the dyadic ledger $D$, and the monotone and boundedness ledgers $M,B$.
+
+Apply the finite-stage induction theorem, \autoref{thm:speckersequence-finite-stage-induction}. At the base prefix the consumer sees only the initial displayed rational window and its ledger rows; at each step it appends one finite observation, its tolerance row, and the matching monotone and boundedness entries.
+
+Use the monotone bounded ledger route, \autoref{thm:speckersequence-monotone-bounded-ledger}, to place the $\RealUp$ seal after these finite-prefix rows. Then apply the RealUp seal non-escape theorem, \autoref{thm:speckersequence-realup-seal-nonescape}, to keep completion-facing refusal and located-supremum boundaries outside the displayed packet.
+\end{proof}
+
 \begin{theorem}[SpeckerSequence non-located supremum boundary]
 \label{thm:speckersequence-nonlocated-supremum-boundary}
 An accepted $\SpeckerSequenceUp$ packet may certify a monotone bounded computable rational stream, but it does not certify a located supremum. Any downstream route that treats the packet as a located $\RealUp$ datum must supply an external location witness not contained in $R,W,D,M,B,E,H,C,P,N$.

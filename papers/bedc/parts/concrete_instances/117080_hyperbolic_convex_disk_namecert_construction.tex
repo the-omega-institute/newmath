@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicConvexDiskUp$}
+\label{ch:concrete-instances-hyperbolic-convex-disk-namecert}
+\origin{human}
+
+The $\HyperbolicConvexDiskUp$ packet realizes the finite geodesic-window convexity route suggested by \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as standard hyperbolic convexity inside a displayed Poincare disk surface. It sits over $\PoincareDiskMetricUp$ of \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, $\HyperbolicMetricUp$ of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, $\HyperbolicGeodesicBoundaryUp$ of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, $\RealUp$ of \autoref{ch:concrete-instances-real-namecert}, and $\StreamNameUp$ of \autoref{ch:concrete-instances-streamname-namecert}. These siblings expose disk metric reads, hyperbolic length, boundary endpoints, Real sealing, and finite stream windows; this chapter packages the finite convexity certificate consumed by geodesic and observer-phase routes.
+
+\begin{definition}[Hyperbolic convex disk carrier]
+\label{def:hyperbolic-convex-disk-carrier}
+A $\HyperbolicConvexDiskUp$ carrier is a finite $\BHist$ packet
+$$
+D=(U,M,G,B,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the finite Poincare-disk window row naming the disk points under inspection;
+\item $M$ is the $\PoincareDiskMetricUp$ metric-read row on $U$;
+\item $G$ is the finite geodesic-window row, listing the displayed geodesic segments whose endpoints lie in $U$;
+\item $B$ is the $\HyperbolicGeodesicBoundaryUp$ endpoint and boundary-transport row for the same windows;
+\item $W$ is the $\StreamNameUp$ sampling row used to enumerate the inspected endpoints and interior witnesses;
+\item $R$ is the $\RealUp$ seal row for the finite metric and parameter reads;
+\item $H$ is the componentwise $\hsame$ transport row for replacing the displayed disk window by an extensionally same one;
+\item $C$ is the displayed $\Cont$ replay route through $U,M,G,B,W,R,H$;
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicConvexDiskUp$, $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\HyperbolicConvexDiskUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary host subset of the disk, an infinite convex hull, quotient boundary equality, hidden geodesic existence, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Hyperbolic convex disk NameCert obligations]
+\label{thm:hyperbolic-convex-disk-namecert-obligations}
+For the carrier of \autoref{def:hyperbolic-convex-disk-carrier}, the local $\NameCert_{\HyperbolicConvexDiskUp}$ surface consists of carrier admission for $D=(U,M,G,B,W,R,H,C,P,N)$, disk-window exposure through $U$, metric-read exposure through $M$, finite geodesic-window exposure through $G$, boundary endpoint exposure through $B$, stream sampling through $W$, Real sealing through $R$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-convex-disk-carrier}. The admitted object is exactly the ten-row finite packet $D=(U,M,G,B,W,R,H,C,P,N)$.
+
+The geometric rows expose the convexity test. The disk window $U$, metric row $M$, geodesic-window row $G$, and boundary row $B$ are the only rows from which a consumer can read hyperbolic convexity.
+
+The sampling and seal rows make the finite measurement explicit. The stream row $W$ enumerates the inspected endpoints and witnesses, while $R$ records the Real-facing metric and parameter seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the displayed rows. Since no host subset, infinite hull, hidden geodesic, quotient boundary equality, or ambient completeness coordinate is admitted, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hyperbolic convex disk geodesic stability]
+\label{thm:hyperbolic-convex-disk-geodesic-stability}
+Let $D=(U,M,G,B,W,R,H,C,P,N)$ be an accepted $\HyperbolicConvexDiskUp$ packet. If a displayed geodesic segment has endpoints in the finite disk window and its sampled interior witnesses are carried by the same stream and Real-seal rows, then replacing the disk window by an extensionally same window preserves the accepted convex disk packet through the same boundary, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with the geodesic-window row $G$. Its endpoints are recorded inside the finite disk window $U$, and its metric read is governed by $M$.
+
+The interior witness read is finite. The stream row $W$ lists the sampled witnesses, while the Real seal $R$ records the metric and parameter values needed by the displayed segment check.
+
+Now apply the componentwise transport row $H$ to replace $U$ by an extensionally same disk window. The boundary row $B$ transports the endpoint read, the replay row $C$ repeats the same finite route, and the provenance and NameCert rows keep the packet identity fixed. Therefore the convex disk certificate is stable under displayed geodesic-window transport.
+\end{proof}
+
+\falsifiablePrediction{No accepted HyperbolicConvexDiskUp packet exports an arbitrary host disk subset, infinite convex hull, quotient boundary equality, hidden geodesic existence, or ambient completeness principle outside the displayed finite geodesic-window rows.}
+
+\independenceWitness{poincare-disk-metric, hyperbolic-metric, hyperbolic-geodesic-boundary, real, streamname: none is bijective to HyperbolicConvexDiskUp because the convex disk packet combines disk-window rows, metric reads, finite geodesic windows, boundary endpoints, stream sampling, Real sealing, transport, replay, provenance, and local NameCert rows in one carrier.}
+
+\closureat{HyperbolicConvexDiskUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicConvexDiskUp}
+  \constructivestory{A $\HyperbolicConvexDiskUp$ packet is generated from a finite Poincare-disk window, metric read, geodesic-window list, boundary endpoint row, stream sampling row, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-convex-disk-carrier}, \autoref{thm:hyperbolic-convex-disk-namecert-obligations}, and \autoref{thm:hyperbolic-convex-disk-geodesic-stability} give the seed finite convex disk carrier and its geodesic-window stability route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary host disk subsets, infinite convex hulls, quotient boundary equality, hidden geodesic existence, or ambient completeness.}
+  \upgradepath{Scoped closure requires Lean-backed NameCert obligations and geodesic-window stability evidence for the displayed convex disk rows.}
+\end{closurestatus}
