@@ -94,16 +94,55 @@ Replay and readback obligations are separate rows. The continuation row $K$ and 
 Finally apply \autoref{thm:groundcompiler-audit-verdict-nonescape}. The no-hidden-input boundary $B$ and local NameCert row $N$ prevent hidden dependency queries, alternate verdicts, raw classifier equality, or compiler inputs from escaping the displayed packet.
 \end{proof}
 
+\begin{theorem}[GroundCompiler audit verdict scoped handoff]
+\label{thm:ground-compiler-audit-verdict-scoped-handoff}
+For every accepted $\GroundCompilerAuditVerdictUp$ carrier
+$$
+G=(M,Q,F,V,A,R,C,B,H,K,P,N),
+$$
+the cited TasteGate marker
+$$
+\mathsf{BEDC.Derived.GroundCompilerAuditVerdictUp.GroundCompilerAuditVerdictTasteGate\_single\_carrier\_alignment}
+$$
+forces the scoped handoff to pass through exactly the displayed rows $M,Q,F,V,A,R,C,B,H,K,P,N$. The forbidden-row comparison is read only from $Q,F,V,A$; generated-recognizer readback is read only from $R$; certificate-gate readback is read only from $C$; and no-hidden-input nonescape is read only from $B,H,K,P,N$.
+\end{theorem}
+\begin{proof}
+Use the TasteGate marker as the single-carrier admission guard. It admits the packet only through the finite tuple of \autoref{def:groundcompiler-audit-verdict-carrier}, so a consumer first projects $M,Q,F,V,A,R,C,B,H,K,P,N$.
+
+The audit comparison route is then exhausted by $Q,F,V,A$. The query output $Q$ and forbidden-dependency row $F$ produce the verdict row $V$, and the audit-family alignment row $A$ records the family-facing comparison surface.
+
+The readback route is exhausted by $R$ and $C$. Generated recognizers are read through $R$, accepted exports through the certificate-gate row $C$, and no host recognizer or gate evidence is available outside those rows.
+
+Finally the boundary route is exhausted by $B,H,K,P,N$. The no-hidden-input row $B$, componentwise transport row $H$, continuation row $K$, provenance row $P$, and local naming row $N$ preserve the same displayed carrier and leave no separate input channel.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit verdict boundary exactness]
+\label{thm:ground-compiler-audit-verdict-boundary-exactness}
+The rows $M,Q,F,V,A,R,C,B,H,K,P,N$ are the complete scoped route for a $\GroundCompilerAuditVerdictUp$ consumer. Any accepted read of forbidden-row comparison, generated-recognizer readback, certificate-gate readback, or no-hidden-input nonescape factors through those rows and through the TasteGate marker
+$$
+\mathsf{BEDC.Derived.GroundCompilerAuditVerdictUp.GroundCompilerAuditVerdictTasteGate\_single\_carrier\_alignment}.
+$$
+Consequently the packet exports no theorem code proof, metric report proof, motif report proof, raw event-flow equality, classifier quotient equality, or compiler input beyond the displayed boundary.
+\end{theorem}
+\begin{proof}
+Start with an accepted consumer read. The TasteGate marker aligns the public name with the single carrier, so there is no alternate carrier from which comparison, recognizer, gate, or boundary evidence can be read.
+
+For forbidden-row comparison, the consumer must inspect $Q,F,V,A$. The module row $M$ fixes the inspected surface, $Q$ gives the displayed output, $F$ gives the forbidden row, $V$ records the comparison verdict, and $A$ ties the verdict to the audit-family alignment.
+
+For generated-recognizer and certificate-gate readback, the consumer must inspect $R$ and $C$. These two rows are the only coordinates assigned to those readbacks, while $H,K,P,N$ transport, replay, source, and name only the same displayed rows.
+
+For nonescape, inspect $B$. Since $B$ is the no-hidden-input boundary and the remaining structural rows add no analytic content, there is no exported proof from code or reports, no raw event-flow equality, no quotient classifier equality, and no compiler input outside the packet.
+\end{proof}
+
 \closureat{GroundCompilerAuditVerdictUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerAuditVerdictUp}
   \constructivestory{A $\GroundCompilerAuditVerdictUp$ packet is generated from a GroundCompiler module row, displayed query output, forbidden-dependency comparison, verdict row, audit-family alignment, generated-recognizer row, certificate-gate row, no-hidden-input boundary row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:groundcompiler-audit-verdict-carrier}, \autoref{thm:groundcompiler-audit-verdict-obligations}, \autoref{thm:groundcompiler-audit-verdict-nonescape}, and \autoref{thm:ground-compiler-audit-verdict-obligation-surface} bind the GroundCompiler audit verdict obligation surface as carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer readback, certificate-gate readback, and non-escape rows backed by the TasteGate marker.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-verdict-carrier}, \autoref{thm:groundcompiler-audit-verdict-obligations}, \autoref{thm:groundcompiler-audit-verdict-nonescape}, \autoref{thm:ground-compiler-audit-verdict-obligation-surface}, \autoref{thm:ground-compiler-audit-verdict-scoped-handoff}, and \autoref{thm:ground-compiler-audit-verdict-boundary-exactness} bind the GroundCompiler audit verdict scoped route as carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer readback, certificate-gate readback, and no-hidden-input nonescape backed by the TasteGate marker.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.GroundCompilerAuditVerdictUp.GroundCompilerAuditVerdictTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not prove global compiler self-hosting, complete environment purity, MetaCIC subject reduction, bridge checking, or any theorem content from code, reports, motifs, or classifier quotients.}
-  \upgradepath{Scoped closure requires checked exactness and handoff rows for the same carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer readback, certificate-gate readback, and non-escape surface.}
+  \upgradepath{Public closure requires a downstream theorem showing which GroundCompiler consumer reads this scoped audit-verdict surface.}
 \end{closurestatus}
