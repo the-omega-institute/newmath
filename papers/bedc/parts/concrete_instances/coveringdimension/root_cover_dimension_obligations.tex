@@ -10,6 +10,7 @@ D_{\mathrm{root}}=(K,E,C,R,O,S,V,H,T,P,N)
 $$
 where $K$ exposes the $\CompactMetricUp$ source and its $\MetricUp$ distance observations, $E$ exposes the $\FiniteEpsilonNetUp$ refinement witnesses, $C$ exposes finite open-cover rows, $R$ exposes containment rows for the refinement of $C$, $O$ exposes the order-count ledger, $S$ exposes the $\RealSeparabilityUp$ density rows used when covers are sampled through rational or dyadic windows, and $V$ exposes the $\SimplicialComplexUp$ nerve rows attached to the finite refined cover. The structural rows $H,T,P,N$ transport, replay, source, and name exactly these finite rows.
 \end{definition}
+\leandef{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverCarrierPacket}
 
 \begin{theorem}[CoveringDimension root cover NameCert obligations]
 \label{thm:coveringdimension-root-cover-namecert-obligations}
@@ -133,6 +134,30 @@ Use the compact-net refinement handoff. It orders the compact metric source, met
 Apply the density-nerve lock. The rows $S$ and $V$ are attached to the same displayed refined cover, so the $\RealSeparabilityUp$ witnesses and $\SimplicialComplexUp$ nerve rows cannot be replaced by detached sampling or external combinatorial data.
 
 Finally use the RealSeparability simplicial lock and the public-scope theorem. Together they route every public root-cover consumer through $K,E,C,R,O,S,V,H,T,P,N$, with $H,T,P,N$ transporting, replaying, sourcing, and naming only those rows. The excluded compactness, selected-subcover, host-dimension, dense-family, and external-nerve primitives are absent from the carrier and therefore outside the scope.
+\end{proof}
+
+\begin{theorem}[CoveringDimension simplicial star-refinement scope]
+\label{thm:covering-dimension-simplicial-star-refinement-scope}
+Every simplicial star-refinement read exported by $\CoveringDimensionUp$ must expose the same finite root-cover route
+$$
+K,E,C,R,O
+\longrightarrow
+\RealSeparabilityUp
+\longrightarrow
+\SimplicialComplexUp
+\longrightarrow
+H,T,P,N
+$$
+before any structural row is consumed. Thus the star-refinement read first displays the compact metric source row $K$, the finite epsilon-net row $E$, the finite cover row $C$, the containment row $R$, and the order ledger $O$; then it displays the $\RealSeparabilityUp$ density window and the $\SimplicialComplexUp$ nerve row; only after those rows are visible may transport, replay, provenance, and local naming be read.
+\end{theorem}
+\begin{proof}
+Start with the root cover carrier of \autoref{def:coveringdimension-root-cover-carrier}. The carrier makes $K,E,C,R,O,S,V,H,T,P,N$ the only rows available to a root-cover consumer, with $S$ serving the density window and $V$ serving the nerve row.
+
+Apply the root cover NameCert obligations of \autoref{thm:coveringdimension-root-cover-namecert-obligations}. They require compact metric admission, finite epsilon-net refinement, finite cover admission, containment, order counting, density compatibility, nerve compatibility, and structural transport to remain part of one local surface.
+
+Use the compact-net refinement handoff and the root cover scope lock, \autoref{thm:coveringdimension-compact-net-refinement-handoff} and \autoref{thm:covering-dimension-root-cover-scope-lock}. These force every downstream read to pass through $K,E,C,R,O$ before the $\RealSeparabilityUp$ density window and $\SimplicialComplexUp$ nerve row are used.
+
+Therefore a simplicial star-refinement read cannot skip directly to structural transport or to an external nerve construction. It exports only the displayed finite root-cover route followed by $H,T,P,N$, and no arbitrary open-cover compactness, selected dense subfamily, host star-refinement theorem, or detached simplicial primitive enters the scope.
 \end{proof}
 
 \begin{theorem}[CoveringDimension root scope ledger]
