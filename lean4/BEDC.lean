@@ -836,9 +836,13 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
 import BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusUp.ObligationPackage
 import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
+import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusUp.ThresholdHeredity
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
@@ -6671,6 +6675,7 @@ import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateConfluenceBudget
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateDischargeStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
@@ -6686,6 +6691,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.DischargeRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.DownstreamNormalizationBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.EvidenceChoiceExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedEndpointUseTotality
@@ -8652,6 +8658,7 @@ import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
+import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.WindowBudgetExactness
