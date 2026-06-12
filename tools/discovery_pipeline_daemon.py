@@ -199,9 +199,27 @@ def run_cycle(args: argparse.Namespace) -> dict[str, Any]:
 
     proven_before = jsonl_count(args.proven_pseudos)
     with structural_dna_already_checked(structural_dna_failure):
+        radar_result: dict[str, Any] = {}
+
+        def run_radar_stage() -> Any:
+            result = radar.run_once()
+            if isinstance(result, dict):
+                radar_result.clear()
+                radar_result.update(result)
+            return result
+
+        radar_stage = run_stage("radar", run_radar_stage)
+        radar_payload = None
+        if (
+            radar_stage.get("ok")
+            and not radar_result.get("degraded")
+            and isinstance(radar_result.get("_radar_payload"), dict)
+        ):
+            radar_payload = radar_result["_radar_payload"]
+
         stages = [
-            run_stage("radar", radar.run_once),
-            run_stage("publisher", lambda: publisher.run_once(no_push=bool(args.no_push))),
+            radar_stage,
+            run_stage("publisher", lambda: publisher.run_once(no_push=bool(args.no_push), radar_payload=radar_payload)),
             run_stage("generator", lambda: generator.run_once(make_generator_args(args))),
         ]
         proven_after_generator = jsonl_count(args.proven_pseudos)
