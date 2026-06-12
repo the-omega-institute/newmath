@@ -250,4 +250,65 @@ theorem MetricClosedBallCarrier_realalgorder_boundary_scope [AskSetup] [PackageS
   intro replayZero
   exact unary_no_zero_extension (unary_transport replayUnary replayZero)
 
+theorem MetricClosedBallCarrier_bridged_export [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N strict openRoute boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont d c m ->
+        Cont m rho boundaryRead ->
+          Cont m strict openRoute ->
+            PkgSig bundle boundaryRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row d ∨ hsame row c ∨ hsame row r ∨
+                      hsame row rho ∨ hsame row m ∨ hsame row boundaryRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont d c m ∧ Cont m rho boundaryRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle boundaryRead pkg)
+                  hsame ∧ hsame openRoute (append m strict) ∧
+                UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: MetricClosedBallCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier membershipRoute boundaryRoute strictRoute boundaryPkg
+  obtain ⟨_xUnary, dUnary, cUnary, _rUnary, rhoUnary, mUnary, _hUnary, _cSupportUnary,
+    _pUnary, _nUnary, _sourceRoute, _carrierMembership, _nameRoute, _membershipSame,
+    provenancePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed mUnary rhoUnary boundaryRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row d ∨ hsame row c ∨ hsame row r ∨ hsame row rho ∨
+              hsame row m ∨ hsame row boundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont d c m ∧ Cont m rho boundaryRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle boundaryRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundaryRead ⟨hsame_refl boundaryRead, boundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, membershipRoute, boundaryRoute, provenancePkg, boundaryPkg⟩
+  }
+  exact ⟨cert, strictRoute, boundaryUnary⟩
+
 end BEDC.Derived.MetricClosedBallUp
