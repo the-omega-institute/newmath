@@ -50,11 +50,13 @@ F=(C,K,E,N,S,H,R,P,L)
 $$
 whose carrier rows $C,K$ display candidate evidence, whose endpoint rows $E,N$ display finished-normal evidence, whose obstruction row $S$ retains subject-reduction failure data, whose ground-compiler rows $H,R$ record recognition and replay, whose provenance row $P$ names the source packet, and whose local ledger $L$ binds the exported normalization boundary to the same displayed rows.
 \end{definition}
+\leandef{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierGroundCompilerFormalTarget}
 
 \begin{theorem}[MetaCIC normalization frontier ground-compiler target scope]
 \label{thm:metacic-normalization-frontier-ground-compiler-target-scope}
 Any formal target for the $\MetaCICNormalizationFrontierUp$ normalization frontier must read candidate evidence $C,K$, finished-normal endpoint evidence $E,N$, obstruction retention $S$, and ground-compiler rows $H,R,P,L$ before exporting a normalization boundary. A target that exports the boundary without those rows is outside the displayed ground-compiler packet and does not inhabit the local formal-target surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierGroundCompilerTargetScope}
 \begin{proof}
 Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires a consumer to read the carrier surface, candidate evidence, and root normal-form boundary before any normalization boundary is exported.
 
