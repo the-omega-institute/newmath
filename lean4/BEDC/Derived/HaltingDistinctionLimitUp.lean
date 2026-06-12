@@ -101,4 +101,30 @@ theorem HaltingDistinctionLimitPublicBoundary [AskSetup] [PackageSetup]
   exact
     ⟨cert, publicUnary, inputTraceDiagonal, diagonalTransportRoute, publicRoute⟩
 
+theorem HaltingDistinctionLimitCarrier_bridge_boundary [AskSetup] [PackageSetup]
+    {program input trace diagonal transport route provenance nameRow bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionLimitCarrier program input trace diagonal transport route provenance
+        nameRow bundle pkg ->
+      Cont nameRow provenance bridgeRead ->
+        Cont input (append trace (append transport (append provenance provenance))) bridgeRead ∧
+          hsame nameRow nameRow ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier bridgeRoute
+  obtain ⟨_programUnary, _inputUnary, _traceUnary, _diagonalUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameRowUnary, inputTraceDiagonal,
+    diagonalTransportRoute, routeProvenanceNameRow, _sameDiagonal, namePkg⟩ := carrier
+  cases inputTraceDiagonal
+  cases diagonalTransportRoute
+  cases routeProvenanceNameRow
+  cases bridgeRoute
+  constructor
+  · exact
+      Eq.trans (append_assoc (append (append input trace) transport) provenance provenance)
+        (Eq.trans (append_assoc (append input trace) transport (append provenance provenance))
+          (append_assoc input trace (append transport (append provenance provenance))))
+  · constructor
+    · exact hsame_refl (append (append (append input trace) transport) provenance)
+    · exact namePkg
+
 end BEDC.Derived.HaltingDistinctionLimitUp
