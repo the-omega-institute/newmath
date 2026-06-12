@@ -5022,6 +5022,7 @@ import BEDC.Derived.FiniteVolumeUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteWindowObserverUp
+import BEDC.Derived.FiniteWindowObserverUp.InscriptionHandoff
 import BEDC.Derived.FiniteWindowObserverUp.TasteGate
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
@@ -9497,6 +9498,7 @@ import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
+import BEDC.Derived.TailCofinalityBudgetUp.ThresholdMonotonicity
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.TailCofinalityScheduleUp.CauchyLimitSealReadback
 import BEDC.Derived.TailCofinalityScheduleUp.DiagonalSelectorNonempty
