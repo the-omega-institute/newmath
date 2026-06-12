@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCriterionSeriesUp$}
+\label{ch:concrete-instances-cauchy-criterion-series-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyCriterionSeriesUp$ packet records the finite tail criterion for convergence of a displayed series as a BEDC NameCert surface. It reads dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, partial-sum readbacks through \autoref{ch:concrete-instances-regseqrat-namecert}, and terminal endpoint data through \autoref{ch:concrete-instances-real-namecert}. The packet is the local tail-Cauchy criterion consumed by product and uniform series routes such as \autoref{ch:concrete-instances-cauchy-product-series-namecert} and $\UniformCauchySeriesUp$; it names only finite windows, budgets, transport, replay, provenance, and local certificate rows.
+
+\begin{definition}[Cauchy criterion series carrier]
+\label{def:cauchy-criterion-series-carrier}
+A $\CauchyCriterionSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,P,T,D,R,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the summand source row, exposing only the inspected series terms and their local arithmetic provenance.
+\item $P$ is the partial-sum window row, naming the finite prefix sums and the tail windows compared by the criterion.
+\item $T$ is the tail-budget row, recording the displayed request that every inspected tail beyond the named bound stays inside the requested tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, including the dyadic radius, comparison slack, and arithmetic budget used by the tail estimate.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the displayed partial sums after $P,T,D$ have been inspected.
+\item $H$ records componentwise $\hsame$ transport for the summand source, partial-sum windows, tail budget, dyadic tolerance, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of a precision request through the source, window, tail-budget, tolerance, and readback rows.
+\item $G$ is the $\Pkg$ provenance over $\CauchyCriterionSeriesUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyProductSeriesUp$, $\UniformCauchySeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCriterionSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,P,T,D,R,H,C,G,N$. It has no coordinate for arbitrary choice of a threshold, quotient equality of series, a selected completed limit, unconditional rearrangement, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy criterion series obligations]
+\label{thm:cauchy-criterion-series-obligations}
+For every accepted $\CauchyCriterionSeriesUp$ carrier $S=(A,P,T,D,R,H,C,G,N)$, the local $\NameCert_{\CauchyCriterionSeriesUp}$ surface consists exactly of carrier admission, tail-Cauchy exactness, partial-sum stability, dyadic tolerance transport, $\RegSeqRatUp$ and $\RealUp$ handoff, and ledger nonescape through transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. Carrier admission exposes $A,P,T,D,R,H,C,G,N$, with the summand source and partial-sum windows available before any readback.
+
+Tail-Cauchy exactness is the joint read of $P,T,D$. The row $P$ supplies the displayed partial-sum windows, $T$ supplies the finite tail bound for the requested tolerance, and $D$ supplies the dyadic comparison budget used by the tail estimate.
+
+Partial-sum stability and dyadic tolerance transport are read before the endpoint handoff. Componentwise $\hsame$ transport in $H$ preserves the same windows and dyadic budget, while $C$ replays the same precision request through those rows.
+
+The $\RegSeqRatUp$ readback $R$ is downstream of the finite tail rows, and the $\RealUp$ handoff is available only through the provenance route $G$ after $R$ has been displayed. The same route is the one consumed by $\CauchyProductSeriesUp$ and $\UniformCauchySeriesUp$ when they need a tail-Cauchy series criterion.
+
+Ledger nonescape follows because $G$ and $N$ source and name only the displayed packet. Since the carrier contains no arbitrary choice coordinate, quotient series equality, selected completed limit, or ambient completeness row, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy criterion series finite-tail handoff]
+\label{thm:cauchy-criterion-series-finite-tail-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\CauchyCriterionSeriesUp$ packet first reads the summand source $A$, partial-sum windows $P$, tail-budget $T$, and dyadic tolerance row $D$, then the readback row $R$, and only then the transport, replay, provenance, and local naming rows $H,C,G,N$. The handoff exports no arbitrary threshold choice, quotient series equality, selected limit, unconditional rearrangement theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cauchy-criterion-series-carrier}. The only numerical rows before readback are $A,P,T,D$, and together they display the finite tail-Cauchy comparison requested by the consumer.
+
+Apply \autoref{thm:cauchy-criterion-series-obligations}. It places partial-sum stability and dyadic tolerance transport upstream of $R$, so the regular rational readback cannot be inspected before the finite tail window and tolerance budget have been displayed.
+
+The terminal Real-facing handoff is sourced by $G$ and named by $N$, with transport and replay through $H,C$. These structural rows preserve the same packet and add no new analytic coordinate.
+
+Thus the consumer receives a finite tail criterion route rather than a host convergence theorem, arbitrary selected bound, quotient-series equality, selected completed limit, or ambient completeness witness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyCriterionSeriesUp$ read is refuted if a series convergence consumer reaches RegSeqRat or Real data without first displaying the summand source, partial-sum windows, tail-budget, dyadic tolerance, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{dyadicratcore, regseqrat, real, cauchyproductseries, uniformcauchyseries: $\CauchyCriterionSeriesUp$ is not bijective to any listed sibling because it binds summand source rows, partial-sum windows, finite tail budgets, dyadic tolerances, regular readback, Real handoff, transport, replay, provenance, and local naming as one finite criterion packet.}
+
+\closureat{CauchyCriterionSeriesUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCriterionSeriesUp}
+  \constructivestory{A $\CauchyCriterionSeriesUp$ packet is generated from summand source rows, partial-sum windows, finite tail budgets, dyadic tolerance rows, RegSeqRat readback, Real handoff provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-criterion-series-carrier}, \autoref{thm:cauchy-criterion-series-obligations}, and \autoref{thm:cauchy-criterion-series-finite-tail-handoff} seed the finite tail-Cauchy criterion surface for series convergence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary choice of tail thresholds, quotient series equality, a selected completed limit, unconditional rearrangement, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-Cauchy exactness, partial-sum stability, dyadic tolerance transport, RegSeqRat and Real handoff, ledger nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCriterionSeriesUp.}
+\end{closurestatus}
