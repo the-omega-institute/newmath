@@ -5,9 +5,7 @@
     "CG-HG1": {
       "criterion": "accepted_positive_discovery terminals trace to raw_evidence through projected_discovery",
       "status": "pass",
-      "terminal_ids": [
-        "terminal:discovery-gated-transformer"
-      ]
+      "terminal_ids": []
     },
     "CG-HG2": {
       "criterion": "D5 projected discoveries explicitly record whether a mechanism node exists",
@@ -41,16 +39,6 @@
           "mechanism_status": "blocked",
           "projected_node_id": "projected:discovery-regularized-training",
           "source_pointer": "reports/canonical/discovery_map.json:$.rows[16]"
-        },
-        {
-          "discovery_level": "D5-M",
-          "mechanism_candidate_node_id": "mechanism:gap-head-attribution-capsule",
-          "mechanism_certificate_node_id": null,
-          "mechanism_pointer": null,
-          "mechanism_source_pointer": null,
-          "mechanism_status": "blocked",
-          "projected_node_id": "projected:discovery-gated-transformer",
-          "source_pointer": "reports/canonical/discovery_map.json:$.rows[25]"
         }
       ],
       "status": "pass"
@@ -123,8 +111,7 @@
       "criterion": "accepted positive terminals have acceptance evidence bundle",
       "status": "pass",
       "terminal_ids": [
-        "terminal:gap-head-transfer-atlas",
-        "terminal:discovery-gated-transformer"
+        "terminal:gap-head-transfer-atlas"
       ]
     },
     "CG-HG7": {
@@ -141,9 +128,7 @@
     "CG-HG8": {
       "criterion": "accepted high-impact terminal claims have resolvable review pointers",
       "status": "pass",
-      "terminal_ids": [
-        "terminal:discovery-gated-transformer"
-      ]
+      "terminal_ids": []
     }
   },
   "node_count": 143,
@@ -705,14 +690,14 @@
       "node_id": "raw:discovery-gated-transformer",
       "node_type": "raw_evidence",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "source_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "terminal_verdict": null
     },
     {
       "depends_on": [
         "raw:discovery-gated-transformer"
       ],
-      "discovery_level": "D5-M",
+      "discovery_level": "D0",
       "evidence_scope": [
         "bounded-design",
         "toy-model",
@@ -1493,7 +1478,7 @@
       "node_type": "terminal_claim",
       "not_claimed": [],
       "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
-      "terminal_verdict": "accepted_positive_discovery"
+      "terminal_verdict": "projected_discovery_required"
     },
     {
       "depends_on": [

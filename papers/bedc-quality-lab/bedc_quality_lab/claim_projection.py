@@ -112,8 +112,11 @@ def _records(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
         return []
     path = Path(artifact)
     if not path.is_absolute():
-        cwd_path = Path.cwd() / path
-        path = cwd_path if cwd_path.exists() else _artifact_root(payload) / path
+        source_root = payload.get("_artifact_root")
+        roots = [Path.cwd(), _artifact_root(payload)]
+        if isinstance(source_root, str):
+            roots.insert(0, Path(source_root))
+        path = next((root / path for root in roots if (root / path).exists()), roots[-1] / path)
     if not path.exists():
         return []
     return _load_jsonl(path)

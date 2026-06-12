@@ -173,9 +173,30 @@ def _payload_for_spec(spec):
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
     if spec.name == "dgt-l0-controls":
         from bedc_quality_lab import dgt_l0_controls
+        from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
 
         payload = dgt_l0_controls.build_payload(generated_at="fixture", requested_device="cpu")
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload["construct_validity_hardgates"] = construct_validity_projection(
+            ConstructValidityEvidence(
+                task_variables={"variables": ["x"]},
+                label_variables={"variables": ["q"]},
+                arm_input_access={
+                    "label_invisibility_certificate": True,
+                    "arms": {
+                        "candidate": {"variables": ["x"], "label_variables": []},
+                        "control": {"variables": ["x"], "label_variables": []},
+                    },
+                },
+                arm_roles={"candidate": "candidate", "controls": ["control"]},
+                finite_table={"support_count": 1, "rule_abstraction_claim": False, "coverage_status": "bounded-control"},
+                hand_feature_ledger={"mode": "no-gate", "features": [], "candidate_only_features": []},
+                metric_source={"source_kind": "held-out-evaluation", "metric_keys": ["accuracy"]},
+            ),
+            artifact=dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
+            pointer="$.construct_validity_hardgates",
+        )
+        return public_payload
     if spec.name == "dgt-l1-controls":
         from bedc_quality_lab import dgt_l1_controls
 
@@ -228,6 +249,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_base_undertraining_audit
 
         return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "scaling-ladder":
+        from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
+
+        return build_scaling_ladder_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "fair-l1-decision":
         from bedc_quality_lab import fair_l1_decision
 
@@ -1030,6 +1055,29 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         encoding="utf-8",
     )
 
+
+def _patch_scaling_ladder_pass_run_spec(monkeypatch):
+    real_run_spec = canonical._run_spec
+
+    def fake_run_spec(spec, *args, **kwargs):
+        if spec.name == "scaling-ladder":
+            return {
+                "name": spec.name,
+                "status": "pass",
+                "bundle_role": spec.bundle_role,
+                "json_artifact": spec.json_artifact,
+                "markdown_artifact": spec.markdown_artifact,
+                "fingerprint_sidecar": canonical._fingerprint_path(spec).relative_to(canonical.ROOT).as_posix(),
+                "discipline": canonical._discipline(spec),
+                "fingerprint_status": "match",
+                "producer_status": "skipped",
+                "artifact_validation": {"status": "pass"},
+            }
+        return real_run_spec(spec, *args, **kwargs)
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+
 def _mutate_payload(canonical_module, report_name, update):
     spec = canonical_module._specs_by_name()[report_name]
     json_path = canonical_module._artifact_path(spec.json_artifact)
@@ -1780,9 +1828,11 @@ def _without_discovery_rows(payload, excluded_reports):
 
 def _assert_dgt_discovery_map_row_uses_l0_consumption(row):
     assert row["classifier_reasons"] == [
-        "dgt_scaling_ladder_owner-l0-ladder-consumption-not-open"
+        "scaling-ladder-owner-closed:unresolved-pointer"
     ]
-    assert row["failed_gate"] == "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_status"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["evidence_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
 def _drop_dgt_l0_from_manifest(monkeypatch):
@@ -1824,23 +1874,24 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
-            "mechanism-seeking-network",
-            "mechanism-dna",
-            "dgt-l0-controls",
-            "dgt-l1-controls",
-            "reproduction-package",
-            "reproduction-check-result",
-            "winnability-certificates",
-            "structural-generalization-splits",
-            "dgt-base-undertraining-audit",
-            "input-accessibility",
-            "fair-l1-decision",
-            "discovery-gated-transformer",
-            "dgt-neural-ablation",
-            "dgt-ablation-null-decomposition",
-            "dgt-component-redundancy-audit",
-            "dgt-model-card",
-            "order-k-benchmark",
+        "mechanism-seeking-network",
+        "mechanism-dna",
+        "dgt-l0-controls",
+        "dgt-l1-controls",
+        "reproduction-package",
+        "reproduction-check-result",
+        "winnability-certificates",
+        "structural-generalization-splits",
+        "dgt-base-undertraining-audit",
+        "scaling-ladder",
+        "input-accessibility",
+        "fair-l1-decision",
+        "discovery-gated-transformer",
+        "dgt-neural-ablation",
+        "dgt-ablation-null-decomposition",
+        "dgt-component-redundancy-audit",
+        "dgt-model-card",
+        "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
@@ -1856,6 +1907,8 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-discovery" in names
     assert "discovery-gated-transformer" in names
     assert "dgt-l0-controls" in names
+    assert "scaling-ladder" in names
+    assert "input-accessibility" in names
     assert "dgt-model-card" in names
     assert "mechanism-dna" in names
     assert "reproduction-package" in names
@@ -1905,6 +1958,30 @@ def test_dgt_owner_path_is_hyphen_only():
     assert spec.control_pointer == "$.d4_projection.matched_control"
     assert "discovery_gated_transformer" not in names
     assert "dgt-scaling-ladder" not in names
+
+
+def test_scaling_ladder_canonical_spec_is_auxiliary_owner():
+    spec = canonical._specs_by_name()["scaling-ladder"]
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_scaling_ladder.py")
+    assert spec.json_artifact == "reports/canonical/scaling-ladder.json"
+    assert spec.markdown_artifact == "reports/canonical/scaling-ladder.md"
+    assert spec.required_json_keys[:8] == (
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "levels",
+        "boundary_ledger",
+        "hardgates",
+        "not_claimed",
+    )
+    assert spec.scope_pointer == "$.levels"
+    assert spec.positive_claim_pointer == "$.levels"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.control_pointer is None
+    assert "$.levels[*].owner_contracts" in spec.required_json_keys
 
 
 def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
@@ -3552,6 +3629,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "input-accessibility":
             assert {"source_registry", "consumer_pointers", "access_hardgates"}.issubset(keys)
             continue
+        if spec.name == "dgt-model-card":
+            assert {"card_id", "source_artifacts", "card_hardgates", "not_claimed"}.issubset(keys)
+            continue
         assert "generated_at" in keys
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
@@ -3562,7 +3642,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "dgt-component-redundancy-audit":
             assert "component_redundancy_audit" in keys
             continue
-        assert "source_artifacts" in keys
+        assert "source_artifacts" in keys or "source_registry" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
         set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
     )
@@ -3840,6 +3920,7 @@ def test_new_model_hardgates_sidecar_written_and_indexed(tmp_path, monkeypatch):
         lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
     )
     monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+    _patch_scaling_ladder_pass_run_spec(monkeypatch)
 
     payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
     sidecar = json.loads((tmp_path / canonical.NEW_MODEL_HARDGATES_JSON_ARTIFACT).read_text(encoding="utf-8"))
@@ -4393,10 +4474,15 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.discovery_level"
     )
     assert section["scaling_ladder_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder"
+        "reports/canonical/scaling-ladder.json:$.levels"
     )
     assert section["scaling_ladder_discovery_level_pointer"] == (
-        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level"
+        "reports/canonical/scaling-ladder.json:$.levels"
+    )
+    assert section["scaling_ladder_status_pointer"] == "reports/canonical/scaling-ladder.json:$.levels"
+    assert section["scaling_ladder_hardgate_pointer"] == "reports/canonical/scaling-ladder.json:$.hardgates"
+    assert section["scaling_ladder_source_projection_pointer"] == (
+        "reports/canonical/scaling-ladder.json:$.source_artifacts"
     )
     assert section["fair_l1_decision_projection_pointer"] == (
         "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
@@ -4417,6 +4503,24 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "schema_id\": \"bedc-quality-lab:dgt-jet-certificate",
     ):
         assert forbidden not in lowered
+
+
+def test_scaling_ladder_index_section_is_pointer_only():
+    section = canonical._scaling_ladder_index_section()
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:scaling-ladder",
+        "schema_id": "bedc-quality-lab:scaling-ladder",
+        "json_artifact": "reports/canonical/scaling-ladder.json",
+        "markdown_artifact": "reports/canonical/scaling-ladder.md",
+        "fingerprint_artifact": "reports/canonical/scaling-ladder.fingerprint.json",
+        "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels",
+        "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+        "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+        "source_artifacts_pointer": "reports/canonical/scaling-ladder.json:$.source_artifacts",
+        "not_claimed_pointer": "reports/canonical/scaling-ladder.json:$.not_claimed",
+    }
 
 
 def test_discovery_gated_transformer_forbidden_surfaces_absent():
@@ -4448,12 +4552,32 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
 
 def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    owner = _write_discovery_gated_transformer_owner_for_index(tmp_path)
-    payload = canonical._index(
-        [_index_row_for_spec(canonical._specs_by_name()["discovery-gated-transformer"])],
-        generated_at="2030-01-01T00:00:00+00:00",
-        claim_verdict_rows=[],
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
     )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+    _patch_scaling_ladder_pass_run_spec(monkeypatch)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
     section = payload["discovery-gated-transformer"]
 
     assert "discovery-gated-transformer" in {spec.name for spec in canonical.CANONICAL_REPORTS}
@@ -4494,22 +4618,71 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
 
 def test_discovery_gated_transformer_written_json_round_trips_validator(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    owner = _write_discovery_gated_transformer_owner_for_index(tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+    _patch_scaling_ladder_pass_run_spec(monkeypatch)
+
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
 
     canonical._validate_discovery_gated_transformer_payload(owner)
 
 
 def test_dgt_regen_is_idempotent(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_discovery_gated_transformer_owner_for_index(tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+    _patch_scaling_ladder_pass_run_spec(monkeypatch)
+
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
     first_owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    first_section = canonical._discovery_gated_transformer_index_section(first_owner)
-    _write_discovery_gated_transformer_owner_for_index(tmp_path)
+    first_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
     second_owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    second_section = canonical._discovery_gated_transformer_index_section(second_owner)
+    second_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
 
     assert first_owner == second_owner
-    assert first_section == second_section
+    assert first_index["discovery-gated-transformer"] == second_index["discovery-gated-transformer"]
 
 
 
@@ -5154,6 +5327,26 @@ def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_pa
     assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
 
 
+def test_run_reports_verify_fingerprints_allows_matching_fail_closed_auxiliary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["dgt-l0-controls"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    payload = json.loads(canonical._artifact_path(spec.json_artifact).read_text(encoding="utf-8"))
+    payload["construct_validity_hardgates"]["status"] = "fail"
+    payload["construct_validity_hardgates"]["failed_gates"] = ["CV-HG4"]
+    payload["construct_validity_hardgates"]["gates"]["CV-HG4"]["status"] = "fail"
+    canonical._artifact_path(spec.json_artifact).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+    result = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert result["reports"][0]["status"] == "fail"
+    assert result["reports"][0]["fingerprint_status"] == "match"
+    assert result["reports"][0]["producer_status"] == "skipped"
+
+
 def test_verify_fingerprints_allows_fail_closed_report_status(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -5301,6 +5494,120 @@ def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):
 
     assert calls == ["mixing-family-sweep"]
     assert payload["reports"][0]["producer_status"] == "completed"
+
+
+def test_run_reports_scaling_ladder_only_updates_pointer_index(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+    existing_index = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "old-time",
+        "root": canonical.INDEX_ROOT,
+        "reports": [_index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"])],
+        "paper_outline": {"status": "fixture", "core_reports": [], "auxiliary_reports": [], "sections": []},
+    }
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(existing_index) + "\n", encoding="utf-8")
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append((spec.name, mode, generated_at))
+        return _index_row_for_spec(spec)
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(only="scaling-ladder", generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [("scaling-ladder", "cold", "2030-01-01T00:00:00+00:00")]
+    assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "scaling-ladder"]
+    assert payload["scaling_ladder"]["levels_pointer"] == "reports/canonical/scaling-ladder.json:$.levels"
+    assert "discovery-gated-transformer" not in payload
+    assert json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8")) == payload
+    assert "reports/canonical/scaling-ladder.json:$.levels" in (
+        canonical.CANONICAL_DIR / "index.md"
+    ).read_text(encoding="utf-8")
+
+
+def test_scaling_ladder_artifact_validation_rejects_hand_edited_level_rows(tmp_path, monkeypatch):
+    from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload, render_scaling_ladder_markdown
+    from tests.test_scaling_ladder import _write_json, _write_owner_inputs
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_owner_inputs(tmp_path)
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery-gated-transformer.json",
+        {"scaling_ladder": {"opened_levels": ["L0_toy"]}},
+    )
+    spec = canonical._specs_by_name()["scaling-ladder"]
+    payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    payload["levels"][0]["state"] = "open"
+    payload["levels"][0]["reason"] = "eligible"
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    md_path.write_text(render_scaling_ladder_markdown(build_scaling_ladder_payload(root=tmp_path)), encoding="utf-8")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    assert validation["required_key_validation"]["status"] == "pass"
+    assert validation["semantic_errors"] == ["scaling ladder level owner projection mismatch"]
+
+
+def test_scaling_ladder_owner_boundary_forces_claim_verdict_downgrade(tmp_path, monkeypatch):
+    from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
+    from tests.test_discovery_map import _ready_dgt_scaling_level
+    from tests.test_scaling_ladder import _write_json, _write_owner_inputs
+    from scripts import run_discovery_gated_transformer as dgt_runner
+    from scripts import run_claim_verdict_demo as claim_verdict_demo
+    from bedc_quality_lab.discovery_gated_transformer import L0_LADDER_CONSUMPTION_REF
+
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_release_pointer_fixture(tmp_path)
+    _write_owner_inputs(tmp_path)
+    dgt_payload = dgt_runner.build_payload(generated_at="fixture-time")
+    dgt_payload["source_artifacts"]["ladder_consumption_ref"] = dict(L0_LADDER_CONSUMPTION_REF)
+    levels = [
+        {"level_id": level_id, "claim_capsule": _ready_dgt_scaling_level(level_id, index)}
+        for index, level_id in enumerate(dgt_runner.SCALING_LADDER_LEVEL_IDS)
+    ]
+    levels[0]["claim_capsule"]["ladder_consumption_ref"] = dict(L0_LADDER_CONSUMPTION_REF)
+    levels[0]["claim_capsule"]["ladder_consumption_status"] = "open"
+    dgt_payload["scaling_ladder"] = {"levels": levels}
+    dgt_payload["scaling_ladder"] = dgt_runner.build_scaling_ladder_projection(dgt_payload)
+    _write_json(tmp_path, "reports/canonical/discovery-gated-transformer.json", dgt_payload)
+    scaling_payload = build_scaling_ladder_payload(root=tmp_path, generated_at="fixture-time")
+    _write_json(tmp_path, "reports/canonical/scaling-ladder.json", scaling_payload)
+    scorecard = {
+        "artifact_id": canonical.QUALITY_SCORECARD_ARTIFACT_ID,
+        "rows": [
+            {"metric": metric, "status": "ready", "value": index}
+            for index, metric in enumerate(canonical.QUALITY_SCORECARD_METRICS)
+        ],
+    }
+    _write_json(tmp_path, "reports/canonical/quality-scorecard.json", scorecard)
+    _write_json(tmp_path, "reports/canonical/formal_hardening.json", {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+    specs = (canonical._specs_by_name()["discovery-gated-transformer"],)
+    discovery_payload = discovery_map.build_discovery_map(
+        generated_at="fixture-time",
+        root=tmp_path,
+        canonical_reports=specs,
+    )
+    _write_json(tmp_path, "reports/canonical/discovery_map.json", discovery_payload)
+
+    row = next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
+    verdict = claim_verdict_demo.compile_claim_verdicts(tmp_path, generated_at="fixture-time")[0]
+
+    assert row["discovery_level"] == "D0"
+    assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["evidence_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "model-comparison-not-ready"
+    assert verdict["source"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
 def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, monkeypatch):
@@ -7094,6 +7401,49 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
     assert report_payload["not_claimed"] == ["fixture boundary"]
     assert report_payload["main_claim_status"] == "positive"
     assert report_markdown == "# stub discovery\n"
+
+
+def test_certificate_guided_discovery_missing_control_commits_skipped_not_error(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
+    source_json = canonical.CANONICAL_DIR / "certificate-guided-training.json"
+    source_report = canonical.CANONICAL_DIR / "certificate-guided-training.md"
+    source_json.parent.mkdir(parents=True, exist_ok=True)
+    source_json.write_text(
+        json.dumps(
+            {
+                "generated_at": "fixture",
+                "source_artifacts": {"generation_script": "scripts/run_certificate_guided_training.py"},
+                "hardgate": {"status": "fail", "failed_gate": "fixture-missing-control"},
+                "failed_gate": "fixture-missing-control",
+                "scope_seal": {"not_claimed": ["fixture"]},
+                "not_claimed": ["fixture"],
+                "records": [{"role": "before", "candidate_id": "before"}],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    source_report.write_text("# canonical training\n", encoding="utf-8")
+
+    payload = canonical.run_reports(only="certificate-guided-discovery")
+    report = payload["reports"][0]
+    report_payload = json.loads((canonical.CANONICAL_DIR / "certificate-guided-discovery.json").read_text(encoding="utf-8"))
+    scorecard = json.loads((canonical.CANONICAL_DIR / "quality-scorecard.json").read_text(encoding="utf-8"))
+    scorecard_row = next(row for row in scorecard["input_reports"] if row["name"] == "certificate-guided-discovery")
+
+    assert report["status"] == "pass"
+    assert report["producer_status"] == "completed"
+    assert "error" not in report
+    assert scorecard_row["status"] == "pass"
+    assert report_payload["producer_status"] == "skipped"
+    assert report_payload["positive_discovery"] is None
+    assert report_payload["matched_random_baseline"] is None
+    assert report_payload["discovery_level"] == "D0"
+    assert report_payload["claim_gate"]["status"] == "skipped"
+    assert report_payload["main_claim_status"]["status"] == "skipped"
 
 
 def test_certificate_guided_discovery_validation_accepts_empty_revocation_ledger(tmp_path):

@@ -15,10 +15,10 @@
       },
       {
         "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.status",
+        "claim_verdict_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_decision_pointer",
         "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger",
-        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level",
+        "debt_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+        "discovery_level_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
         "mechanism_certificate_pointer": "reports/canonical/mechanism_dna.json:$.rows[3]",
@@ -177,12 +177,12 @@
   "generated_at": "2026-06-12T09:34:43.560066+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 20,
+    "D0": 21,
     "D1": 4,
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 2,
+    "D5-M": 1,
     "D5-O": 2,
     "DN": 7,
     "DR": 0
@@ -209,6 +209,7 @@
       "reports/canonical/lejepa_mini_grid_negative_diagnosis.json",
       "reports/canonical/reproduction-check-result.json",
       "reports/canonical/reproduction-package.json",
+      "reports/canonical/scaling-ladder.json",
       "reports/canonical/spectral_jet_report.json",
       "reports/canonical/toy_safety_boundary.json"
     ]
@@ -667,17 +668,16 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "dgt_scaling_ladder_owner-l0-ladder-consumption-not-open"
+        "scaling-ladder-owner-closed:unresolved-pointer"
       ],
-      "control_pointer": "$.d4_projection.matched_control",
-      "discovery_level": "D5-M",
-      "evidence_pointer": "$.scaling_ladder",
-      "failed_gate": "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_status",
+      "discovery_level": "D0",
+      "evidence_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
+      "failed_gate": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-      "projection_status": "scaling-ladder-blocked",
+      "projection_status": "source-insufficient",
       "report": "discovery-gated-transformer",
-      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "terminal_verdict": ""
     },
     {

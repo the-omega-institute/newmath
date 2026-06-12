@@ -3,7 +3,7 @@
     "generated_at": "2026-06-12T09:34:43.560066+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "bb94b9c8b032b8d6779b1dc129d6358535447890905edfb6fdd94d93be65c579",
+  "input_fingerprint": "2a74f5ce3ae8340bd92b0f91554f0f8b1311da8f079e3cfc416bf052021c2d59",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -15,20 +15,28 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/dgt_model_card.py",
-        "sha256": "9a75514eeb15647b21fae5b831cd4c63f61551276cd42c686a6bf20d11a36267"
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
       },
       {
-        "path": "scripts/run_dgt_model_card.py",
-        "sha256": "29606ed0739105476a7f7ed933352e943928ffa45007a8a663e012926bcd43c4"
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/scaling_ladder.py",
+        "sha256": "9b73928176a951586b5c5ba38aa68c6fdadef4918f8307dc178017a008cf71be"
+      },
+      {
+        "path": "scripts/run_scaling_ladder.py",
+        "sha256": "3b46df903c76669e98c70016c928df2ddfcf376523adaa22cd174cea5ddb40bb"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:dgt-model-card",
+    "report_output_schema_id": "bedc-quality-lab:scaling-ladder",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_dgt_model_card.py"
+        "scripts/run_scaling_ladder.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -36,8 +44,8 @@
     },
     "source_artifacts": [
       {
-        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
-        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+        "path": "reports/canonical/index.json:$.evidence_provenance",
+        "sha256": "3a56271fcc5da598f58c1795846a42651b6373c72eefb5eb5604cc7d289ad18e"
       },
       {
         "path": "reports/canonical/dgt-base-undertraining-audit.json",
@@ -54,24 +62,16 @@
       {
         "path": "reports/canonical/discovery-gated-transformer.json",
         "sha256": "381fd5dd908bd2e8990636c1518bb70e29a33230a98c320b0b915589e7948982"
-      },
-      {
-        "path": "reports/canonical/fair-l1-decision.json",
-        "sha256": "4cb7c8b2ed6dfc76b320b0a62908f68162904b28d29a497cad98a89526fae7fa"
-      },
-      {
-        "path": "reports/canonical/index.json",
-        "sha256": "5fee7f5e88eeb01646fec2de2aa4d5f4289165435118697dc54f472e86a2771d"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_dgt_model_card.py"
+        "scripts/run_scaling_ladder.py"
       ],
       "construct_validity_pointer": null,
-      "control_pointer": "$.evaluation_boundaries",
+      "control_pointer": null,
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
@@ -80,37 +80,44 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/dgt-model-card.json",
+      "json_artifact": "reports/canonical/scaling-ladder.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/dgt-model-card.md",
-      "name": "dgt-model-card",
-      "no_control_rationale_pointer": null,
+      "markdown_artifact": "reports/canonical/scaling-ladder.md",
+      "name": "scaling-ladder",
+      "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.card_hardgates.status",
+      "positive_claim_pointer": "$.levels",
       "required_json_keys": [
         "schema_id",
-        "card_id",
+        "artifact_id",
         "generated_at",
         "source_artifacts",
-        "intended_use",
-        "not_intended_use",
-        "known_failure_modes",
-        "evaluation_boundaries",
-        "training_facts",
-        "upstream_status",
-        "card_hardgates",
-        "not_claimed"
+        "levels",
+        "boundary_ledger",
+        "hardgates",
+        "not_claimed",
+        "$.levels[*].level_id",
+        "$.levels[*].state",
+        "$.levels[*].reason",
+        "$.levels[*].owner_decision_pointer",
+        "$.levels[*].evidence_provenance_pointer",
+        "$.levels[*].construct_validity_pointer",
+        "$.levels[*].split_winnability_pointer",
+        "$.levels[*].separation_pointer",
+        "$.levels[*].source_report_pointer",
+        "$.levels[*].boundary_ledger_pointer",
+        "$.levels[*].owner_contracts"
       ],
-      "scope_pointer": "$.intended_use"
+      "scope_pointer": "$.levels"
     }
   },
-  "json_artifact": "reports/canonical/dgt-model-card.json",
-  "markdown_artifact": "reports/canonical/dgt-model-card.md",
-  "output_digest": "d9ab78d0db23d8ecf0717d047fca2f62f7311c9419084f7f831cb77113333495",
+  "json_artifact": "reports/canonical/scaling-ladder.json",
+  "markdown_artifact": "reports/canonical/scaling-ladder.md",
+  "output_digest": "f7e0e13da67f0fb4c4ba6e522499076aa15f65efa2ec6e6cb6017e568f9bdbc1",
   "producer_command": [
     "python3",
-    "scripts/run_dgt_model_card.py"
+    "scripts/run_scaling_ladder.py"
   ],
-  "report_name": "dgt-model-card",
+  "report_name": "scaling-ladder",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

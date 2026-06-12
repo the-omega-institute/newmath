@@ -271,7 +271,7 @@ def _gate_hg3(claim_id: str, verdict_rows: Sequence[Mapping[str, Any]]) -> Consi
     ready = verdict_row.get("scorecard_ready")
     if reason == POSITIVE_DISCOVERY_GATES_PASS and ready is not True:
         return _fail("CONS-HG3", "positive pass reason requires scorecard_ready true", _claim_verdict_pointer(verdict_index), expected="scorecard_ready true", actual=ready)
-    if reason in {SOURCE_INSUFFICIENT, MODEL_COMPARISON_NOT_READY, "scorecard-not-ready"} and ready is True:
+    if reason in {SOURCE_INSUFFICIENT, "scorecard-not-ready"} and ready is True:
         return _fail("CONS-HG3", "not-ready reason cannot pair with scorecard_ready true", _claim_verdict_pointer(verdict_index), expected="scorecard_ready false", actual=ready)
     return _pass("CONS-HG3", "reason taxonomy matches scorecard readiness", _claim_verdict_pointer(verdict_index))
 

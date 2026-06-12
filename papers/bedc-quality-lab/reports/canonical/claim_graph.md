@@ -56,7 +56,7 @@
 | `projected:input-accessibility` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[23]` | `raw:input-accessibility` |
 | `raw:fair-l1-decision` | `raw_evidence` | `reports/canonical/fair-l1-decision.json:$` |  |
 | `projected:fair-l1-decision` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[24]` | `raw:fair-l1-decision` |
-| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder` |  |
+| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/scaling-ladder.json:$.levels[0]` |  |
 | `projected:discovery-gated-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[25]` | `raw:discovery-gated-transformer` |
 | `raw:dgt-neural-ablation` | `raw_evidence` | `reports/canonical/dgt-neural-ablation.json:$.component_causal_claims` |  |
 | `projected:dgt-neural-ablation` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[26]` | `raw:dgt-neural-ablation` |

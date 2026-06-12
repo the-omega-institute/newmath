@@ -181,6 +181,10 @@ DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertr
 DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
 DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
+SCALING_LADDER_JSON_ARTIFACT = "reports/canonical/scaling-ladder.json"
+SCALING_LADDER_MARKDOWN_ARTIFACT = "reports/canonical/scaling-ladder.md"
+SCALING_LADDER_ARTIFACT_ID = "bedc-quality-lab:scaling-ladder"
+SCALING_LADDER_SCHEMA_ID = "bedc-quality-lab:scaling-ladder"
 FAIR_L1_DECISION_JSON_ARTIFACT = "reports/canonical/fair-l1-decision.json"
 FAIR_L1_DECISION_MARKDOWN_ARTIFACT = "reports/canonical/fair-l1-decision.md"
 FAIR_L1_DECISION_ARTIFACT_ID = "bedc-quality-lab:fair-l1-decision"
@@ -203,6 +207,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "claim-complexity",
         "high-impact-review",
         "dgt-l1-controls",
+        "scaling-ladder",
         "reproduction-package",
         "reproduction-check-result",
     }
@@ -1442,6 +1447,47 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
     ),
     CanonicalReportSpec(
+        name="scaling-ladder",
+        command=("python3", "scripts/run_scaling_ladder.py"),
+        json_artifact=SCALING_LADDER_JSON_ARTIFACT,
+        markdown_artifact=SCALING_LADDER_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "source_artifacts",
+            "levels",
+            "boundary_ledger",
+            "hardgates",
+            "not_claimed",
+            "$.levels[*].level_id",
+            "$.levels[*].state",
+            "$.levels[*].reason",
+            "$.levels[*].owner_decision_pointer",
+            "$.levels[*].evidence_provenance_pointer",
+            "$.levels[*].construct_validity_pointer",
+            "$.levels[*].split_winnability_pointer",
+            "$.levels[*].separation_pointer",
+            "$.levels[*].source_report_pointer",
+            "$.levels[*].boundary_ledger_pointer",
+            "$.levels[*].owner_contracts",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.levels",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.levels",
+        control_pointer=None,
+        no_control_rationale_pointer="$.not_claimed",
+        claim_capsule_pointer="$.levels",
+        evidence_envelope_pointer=f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        backend_pointer=f"{SCALING_LADDER_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        negative_witness_pointer=f"{SCALING_LADDER_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{SCALING_LADDER_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="input-accessibility",
         command=("python3", "scripts/run_input_accessibility_audit.py"),
         json_artifact=INPUT_ACCESSIBILITY_JSON_ARTIFACT,
@@ -2279,6 +2325,7 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
     paths: set[str] = set()
+    pointer_inputs: list[dict[str, str]] = []
     if isinstance(source_artifacts, Mapping):
         paths.update(_local_fingerprint_paths(source_artifacts))
     if isinstance(payload, Mapping):
@@ -2303,6 +2350,27 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
         paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
+    if spec.name == "scaling-ladder":
+        paths.update(
+            (
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                DGT_L0_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+            )
+        )
+        paths.discard("reports/canonical/index.json")
+        pointer_inputs.append(
+            {
+                "path": "reports/canonical/index.json:$.evidence_provenance",
+                "sha256": _json_digest(
+                    _resolve_committed_artifact_pointer(
+                        ROOT,
+                        "reports/canonical/index.json:$.evidence_provenance",
+                    )
+                ),
+            }
+        )
     if spec.name == "fair-l1-decision":
         paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     if spec.name == "dgt-model-card":
@@ -2342,7 +2410,10 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     paths.discard(_relative(_fingerprint_path(spec)))
-    return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
+    return [
+        *pointer_inputs,
+        *({"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)),
+    ]
 
 
 def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
@@ -2471,6 +2542,7 @@ def _configure_metric_aliases(module: Any) -> None:
 def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
+    _set_existing_attr(module, "ROOT", ROOT)
     _set_existing_attr(module, "REPORT_JSON", json_path)
     _set_existing_attr(module, "REPORT_MD", markdown_path)
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
@@ -2510,6 +2582,14 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_mechanism_dna import write_mechanism_dna
 
         write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "scaling-ladder":
+        from scripts.run_scaling_ladder import main as run_scaling_ladder
+
+        args = ["--root", str(ROOT)]
+        if generated_at is not None:
+            args.extend(["--generated-at", generated_at])
+        run_scaling_ladder(args)
         return
     if spec.name == "experiment-stack-cards":
         from bedc_quality_lab.experiment_stack import write_experiment_stack_cards
@@ -3013,6 +3093,9 @@ def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[s
 def _scorecard_overclaim_rate(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
     report = "certificate-guided-discovery"
     pointer = "$.audit_decision.overclaim_rate"
+    payload = payloads.get(report, {})
+    if payload.get("producer_status") == "skipped":
+        return _metric_not_ready("OverclaimRate", f"{report}:$.skip_reason", str(payload.get("skip_reason") or "producer skipped"))
     value = _pointer_value(payloads.get(report, {}), pointer)
     if not isinstance(value, (int, float)):
         return _metric_not_ready("OverclaimRate", f"{report}:{pointer}", "missing explicit overclaim denominator")
@@ -4962,15 +5045,11 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level"
         ),
         "d5_m_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.hardgates",
-        "scaling_ladder_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder",
-        "scaling_ladder_discovery_level_pointer": (
-            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.discovery_level"
-        ),
-        "scaling_ladder_status_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.status",
-        "scaling_ladder_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.hardgate",
-        "scaling_ladder_source_projection_pointer": (
-            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder.source_projection"
-        ),
+        "scaling_ladder_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        "scaling_ladder_discovery_level_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        "scaling_ladder_status_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        "scaling_ladder_hardgate_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.hardgates",
+        "scaling_ladder_source_projection_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.source_artifacts",
         "l0_control_projection_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection",
         "construct_suspension_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.construct_suspension_ref",
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
@@ -5009,6 +5088,22 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
             )
             for index in range(1, 21)
         },
+    }
+
+
+def _scaling_ladder_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": SCALING_LADDER_ARTIFACT_ID,
+        "schema_id": SCALING_LADDER_SCHEMA_ID,
+        "json_artifact": SCALING_LADDER_JSON_ARTIFACT,
+        "markdown_artifact": SCALING_LADDER_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": "reports/canonical/scaling-ladder.fingerprint.json",
+        "levels_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
+        "boundary_ledger_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.boundary_ledger",
+        "hardgates_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.hardgates",
+        "source_artifacts_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.source_artifacts",
+        "not_claimed_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.not_claimed",
     }
 
 
@@ -6434,6 +6529,14 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
     key_validation = _validate_json(json_path, spec.required_json_keys)
+    semantic_errors: list[str] = []
+    if spec.name == "scaling-ladder" and key_validation["status"] == "pass":
+        try:
+            from bedc_quality_lab.scaling_ladder import validate_scaling_ladder_payload
+
+            validate_scaling_ladder_payload(_load_artifact_payload(spec.json_artifact), root=ROOT)
+        except ValueError as exc:
+            semantic_errors.append(str(exc))
     missing_artifacts = [
         path
         for path, exists in (
@@ -6471,6 +6574,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "pass"
         if key_validation["status"] == "pass"
         and not missing_artifacts
+        and not semantic_errors
         and not model_card_errors
         and not reproduction_errors
         else "fail"
@@ -6480,6 +6584,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "semantic_errors": semantic_errors,
         "model_card_errors": model_card_errors,
         "reproduction_errors": reproduction_errors,
     }
@@ -6658,6 +6763,7 @@ def _index(
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
+        "scaling_ladder": _scaling_ladder_index_section(),
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
         "input_accessibility": _input_accessibility_index_section(),
         "dgt_model_card": _dgt_model_card_index_section(),
@@ -6905,6 +7011,18 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Evidence envelope: `{payload['discovery-gated-transformer']['evidence_envelope_ref_pointer']}`",
             f"- Mechanism NameCert: `{payload['discovery-gated-transformer']['mechanism_namecert_ref_pointer']}`",
             f"- Jet certificate: `{payload['discovery-gated-transformer']['jet_certificate_ref_pointer']}`",
+            "",
+            "## Scaling Ladder",
+            "",
+            f"- Status: `{payload['scaling_ladder']['status']}`",
+            f"- JSON: `{payload['scaling_ladder']['json_artifact']}`",
+            f"- Markdown: `{payload['scaling_ladder']['markdown_artifact']}`",
+            f"- Schema: `{payload['scaling_ladder']['schema_id']}`",
+            f"- Levels: `{payload['scaling_ladder']['levels_pointer']}`",
+            f"- Boundary ledger: `{payload['scaling_ladder']['boundary_ledger_pointer']}`",
+            f"- Hardgates: `{payload['scaling_ladder']['hardgates_pointer']}`",
+            f"- Source artifacts: `{payload['scaling_ladder']['source_artifacts_pointer']}`",
+            f"- Not claimed: `{payload['scaling_ladder']['not_claimed_pointer']}`",
             "",
             "## Model Design Suite",
             "",
@@ -7201,6 +7319,95 @@ def _write_text_atomic(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
+def _minimal_scaling_ladder_index_markdown(payload: Mapping[str, Any]) -> str:
+    section = payload.get("scaling_ladder")
+    section = section if isinstance(section, Mapping) else _scaling_ladder_index_section()
+    return "\n".join(
+        [
+            "# Canonical Report Index",
+            "",
+            f"- Generated at: `{payload.get('generated_at', '')}`",
+            f"- Root: `{payload.get('root', INDEX_ROOT)}`",
+            "",
+            "## Scaling Ladder",
+            "",
+            f"- Status: `{section['status']}`",
+            f"- JSON: `{section['json_artifact']}`",
+            f"- Markdown: `{section['markdown_artifact']}`",
+            f"- Schema: `{section['schema_id']}`",
+            f"- Levels: `{section['levels_pointer']}`",
+            f"- Boundary ledger: `{section['boundary_ledger_pointer']}`",
+            f"- Hardgates: `{section['hardgates_pointer']}`",
+            f"- Source artifacts: `{section['source_artifacts_pointer']}`",
+            f"- Not claimed: `{section['not_claimed_pointer']}`",
+            "",
+        ]
+    )
+
+
+def _load_index_for_pointer_update(*, generated_at: str) -> dict[str, Any]:
+    if INDEX_ARTIFACT.exists():
+        try:
+            payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+    else:
+        payload = {}
+    if not isinstance(payload, dict):
+        payload = {}
+    payload = dict(payload)
+    payload["schema_id"] = INDEX_SCHEMA_ID
+    payload["generated_at"] = generated_at
+    payload["root"] = payload.get("root", INDEX_ROOT)
+    reports = payload.get("reports")
+    payload["reports"] = list(reports) if isinstance(reports, list) else []
+    return payload
+
+
+def _replace_report_result(payload: dict[str, Any], result: Mapping[str, Any]) -> None:
+    reports = [
+        report
+        for report in payload["reports"]
+        if not (isinstance(report, Mapping) and report.get("name") == result["name"])
+    ]
+    reports.append(dict(result))
+    payload["reports"] = reports
+
+
+def _write_index_markdown_pointer_update(payload: dict[str, Any]) -> None:
+    try:
+        markdown = _render_index_markdown(payload)
+    except KeyError:
+        markdown = _minimal_scaling_ladder_index_markdown(payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", markdown)
+
+
+def _run_scaling_ladder_report_only(
+    *,
+    mode: Literal["changed", "verify", "cold"],
+    timestamp: str,
+    json_summary: str | None,
+) -> dict[str, Any]:
+    spec = _specs_by_name()["scaling-ladder"]
+    producer_mode: Literal["changed", "verify", "cold"] = "cold" if mode == "changed" else mode
+    result = _run_spec(spec, mode=producer_mode, generated_at=timestamp)
+    payload = _load_index_for_pointer_update(generated_at=timestamp)
+    _replace_report_result(payload, result)
+    payload["scaling_ladder"] = _scaling_ladder_index_section()
+    dgt_payload = _load_artifact_payload(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT)
+    if dgt_payload:
+        payload["discovery-gated-transformer"] = _discovery_gated_transformer_index_section(dgt_payload)
+    payload["paper_outline"] = _paper_outline(payload["reports"])
+    payload["claims_nonclaims"] = _claims_nonclaims(payload["reports"])
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_index_markdown_pointer_update(payload)
+    if json_summary is not None:
+        _write_json_atomic(Path(json_summary), payload)
+    if result["status"] != "pass":
+        raise SystemExit(1)
+    return payload
+
+
 def _reusable_generated_at() -> str | None:
     if not INDEX_ARTIFACT.exists():
         return None
@@ -7229,6 +7436,12 @@ def run_reports(
         else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    if only == "scaling-ladder":
+        return _run_scaling_ladder_report_only(
+            mode=mode,
+            timestamp=timestamp,
+            json_summary=json_summary,
+        )
     if only == "structural-generalization-splits":
         spec = _specs_by_name()[only]
         result = _run_spec(spec, mode=mode, generated_at=timestamp)
@@ -7516,7 +7729,7 @@ def run_reports(
         _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
-    if mode == "verify":
+    if verify_fingerprints:
         if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
             raise SystemExit(1)
     elif any(_result_blocks_changed_run(result) for result in results):
