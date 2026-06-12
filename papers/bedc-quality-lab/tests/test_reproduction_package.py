@@ -2,11 +2,39 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
 from bedc_quality_lab import reproduction_package as repro
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _copy_reproduction_fixture(root: Path) -> None:
+    for artifact in (
+        "reports/canonical/dgt-l0-controls.json",
+        "reports/canonical/dgt-l0-controls.fingerprint.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-l1-controls.fingerprint.json",
+        "reports/canonical/dgt-neural-ablation.json",
+        "reports/canonical/dgt-neural-ablation.fingerprint.json",
+        "reports/canonical/dgt-ablation-null-decomposition.json",
+        "reports/canonical/dgt-ablation-null-decomposition.fingerprint.json",
+        "reports/canonical/discovery-gated-transformer.json",
+        "reports/canonical/discovery-gated-transformer.fingerprint.json",
+        "reports/canonical/claim_capsule.json",
+        "reports/canonical/claim_graph.json",
+        "reports/canonical/index.json",
+        "reports/canonical/index.md",
+        "reports/canonical/reproduction-package.fingerprint.json",
+        "configs/default_cost_protocol.yaml",
+    ):
+        source = ROOT / artifact
+        if source.exists():
+            target = root / artifact
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(source.read_bytes())
 
 
 def test_reproduction_package_schema_and_pointer_boundaries():
@@ -62,6 +90,47 @@ def test_reproduction_package_full_profile_does_not_accept_projection_target():
 
     assert result["target_results"][0]["status"] == "blocked"
     assert "full-repro-ci profile cannot target projection-only rows" in result["target_results"][0]["failure_reasons"]
+
+
+def test_reproduction_package_cli_writes_selected_projection_check_result(tmp_path):
+    _copy_reproduction_fixture(tmp_path)
+    package = repro.build_package(tmp_path, generated_at="fixture")
+    package_path = tmp_path / repro.PACKAGE_JSON_ARTIFACT
+    package_path.parent.mkdir(parents=True, exist_ok=True)
+    package_path.write_text(json.dumps(package, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_reproduction_package.py",
+            "--root",
+            str(tmp_path),
+            "--verify",
+            "--profile",
+            "projection",
+            "--target",
+            "canonical-index-view",
+            "--generated-at",
+            "fixture-check",
+            "--json-summary",
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    summary = json.loads(completed.stdout)
+    persisted = json.loads((tmp_path / repro.CHECK_RESULT_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    markdown = (tmp_path / repro.CHECK_RESULT_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+
+    assert persisted == summary
+    assert persisted["schema_id"] == "bedc-quality-lab:reproduction-check-result"
+    assert persisted["profile"] == "projection"
+    assert [row["target_id"] for row in persisted["target_results"]] == ["canonical-index-view"]
+    assert {row["target_kind"] for row in persisted["target_results"]} == {"projection-only"}
+    assert "fair-l1-training" not in json.dumps(persisted, sort_keys=True)
+    assert "| `canonical-index-view` | `projection-only` |" in markdown
 
 
 def test_reproduction_package_missing_seed_refs_fails_closed():

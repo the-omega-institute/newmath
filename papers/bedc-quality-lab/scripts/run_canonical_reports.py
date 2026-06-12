@@ -6522,6 +6522,27 @@ def _run_spec(
     return result
 
 
+def _replace_result_rows(
+    results: Sequence[dict[str, Any]],
+    replacements: Sequence[dict[str, Any]],
+    *,
+    append_missing: bool = True,
+) -> list[dict[str, Any]]:
+    replacement_by_name = {row["name"]: row for row in replacements}
+    seen: set[str] = set()
+    updated: list[dict[str, Any]] = []
+    for result in results:
+        name = result["name"]
+        if name in replacement_by_name:
+            updated.append(replacement_by_name[name])
+            seen.add(name)
+        else:
+            updated.append(result)
+    if append_missing:
+        updated.extend(row for row in replacements if row["name"] not in seen)
+    return updated
+
+
 def _index(
     results: Sequence[dict[str, Any]],
     *,
@@ -7272,13 +7293,22 @@ def run_reports(
         _artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT),
         _render_model_comparison_markdown(model_comparison),
     )
-    model_comparison_spec = _specs_by_name().get("model-comparison")
     if mode in {"verify", "cold"}:
+        refreshed_late_results: list[dict[str, Any]] = []
         for late_fingerprint_name in ("model-comparison", "causal-patch-suite", "mechanism-dna"):
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
                 _run_metric_purity_post_generation((late_fingerprint_spec.json_artifact,))
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+                refreshed_late_results.append(_run_spec(late_fingerprint_spec, mode="verify", generated_at=timestamp))
+        if refreshed_late_results:
+            results = _replace_result_rows(results, refreshed_late_results, append_missing=False)
+            scorecard = _build_quality_scorecard(results, generated_at=timestamp)
+            _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
+            _write_text_atomic(
+                _artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT),
+                _render_quality_scorecard_markdown(scorecard),
+            )
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
@@ -7381,17 +7411,7 @@ def run_reports(
         write_check_result(ROOT, profile="structural", target_ids=(), generated_at=timestamp)
         _write_fingerprint_sidecar(reproduction_check_spec, generated_at=timestamp)
         check_result = _run_spec(reproduction_check_spec, mode="verify", generated_at=timestamp)
-        updated_results = []
-        replaced_check = False
-        for result in results:
-            if result["name"] == "reproduction-check-result":
-                updated_results.append(check_result)
-                replaced_check = True
-            else:
-                updated_results.append(result)
-        if not replaced_check:
-            updated_results.append(check_result)
-        results = updated_results
+        results = _replace_result_rows(results, (check_result,))
         payload = _index(
             results,
             generated_at=timestamp,

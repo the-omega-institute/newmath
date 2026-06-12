@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import hashlib
-import json
 from pathlib import Path
 from typing import Any, Iterable, Literal, Mapping, Sequence
 
@@ -63,9 +62,7 @@ PROJECTION_ONLY_TARGET_IDS = frozenset(
         "claim-graph-view",
         "claim-capsule-view",
         "canonical-index-view",
-        "fair-decision-view",
         "scaling-ladder-view",
-        "scorecard-view",
         "generated-markdown-views",
     }
 )

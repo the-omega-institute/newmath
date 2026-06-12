@@ -2049,6 +2049,81 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
+def test_reproduction_check_result_validation_rejects_malformed_target_row(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["reproduction-check-result"]
+    payload = {
+        "schema_id": "bedc-quality-lab:reproduction-check-result",
+        "artifact_id": "bedc-quality-lab:reproduction-check-result",
+        "generated_at": "fixture",
+        "source_artifacts": {
+            "package": "reports/canonical/reproduction-package.json",
+            "runner": "scripts/run_reproduction_package.py",
+        },
+        "package_ref": "reports/canonical/reproduction-package.json:$",
+        "profile": "projection",
+        "target_results": [
+            {
+                "target_id": "canonical-index-view",
+                "target_kind": "projection-only",
+                "status": "pass",
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "pass",
+                "rerun_artifact_refs": [],
+                "failure_reasons": [],
+                "ci_rehearsal_ref": None,
+            },
+            {
+                "target_id": "tampered-row",
+                "target_kind": "projection-only",
+                "status": "unknown",
+            },
+        ],
+        "blocked_targets": [],
+        "failed_targets": [],
+        "not_claimed": ["fixture"],
+    }
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    assert validation["reproduction_errors"] == [
+        {"path": "$.target_results", "message": "invalid target result row"}
+    ]
+
+
+def test_reproduction_check_result_validation_rejects_wrong_schema(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["reproduction-check-result"]
+    payload = {
+        "schema_id": "bedc-quality-lab:reproduction-package",
+        "artifact_id": "bedc-quality-lab:reproduction-check-result",
+        "generated_at": "fixture",
+        "source_artifacts": {
+            "package": "reports/canonical/reproduction-package.json",
+            "runner": "scripts/run_reproduction_package.py",
+        },
+        "package_ref": "reports/canonical/reproduction-package.json:$",
+        "profile": "projection",
+        "target_results": [],
+        "blocked_targets": [],
+        "failed_targets": [],
+        "not_claimed": ["fixture"],
+    }
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    assert validation["reproduction_errors"] == [
+        {"path": "$.schema_id", "message": "invalid reproduction check-result schema"}
+    ]
+
+
 def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
     spec = canonical._specs_by_name()["dgt-model-card"]
     section = canonical._dgt_model_card_index_section()
