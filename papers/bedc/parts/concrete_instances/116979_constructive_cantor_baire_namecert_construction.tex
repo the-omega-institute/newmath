@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveCantorBaireUp$}
+\label{ch:concrete-instances-constructive-cantor-baire-namecert}
+\origin{human}
+
+Following Brouwer and Bishop on choice sequences and finite-prefix spaces, the $\ConstructiveCantorBaireUp$ packet records the finite-prefix embedding route by which Cantor-space binary observations and Baire-space natural-number observations are read as one BEDC naming surface. It consumes the Cantor prefix row of \autoref{ch:concrete-instances-cantorspace-namecert}, the Baire prefix row of \autoref{ch:concrete-instances-bairespace-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite bridge for countable names only; it does not add countable choice, completed stream quotients, host equality of functions, or ambient completeness of $\RealUp$.
+
+\begin{definition}[ConstructiveCantorBaire carrier]
+\label{def:constructive-cantor-baire-carrier}
+A $\ConstructiveCantorBaireUp$ carrier is a finite $\BHist$ packet
+$$
+E=(C,B,S,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CantorSpaceUp$ row exposing binary prefixes, Boolean branch observations, and the finite cylinder classifier;
+\item $B$ is the $\BaireSpaceUp$ row exposing natural-number finite prefixes, common-prefix comparison, and the Baire cylinder classifier;
+\item $S$ is the $\StreamNameUp$ observation row that records every coordinate inspected by the Cantor-to-Baire and Baire-to-Cantor finite-prefix reads;
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ window row, used only after the finite prefix route has exposed a regular rational readback and the terminal Real seal;
+\item $H$ is the componentwise $\hsame$ transport row for the Cantor prefix, Baire prefix, stream observation, regular-Cauchy readback, Real seal, replay, provenance, and local naming rows;
+\item $K$ is the displayed $\Cont$ replay row forcing each consumer to read finite binary prefixes and finite Baire prefixes before any countable-name or Real-facing observation is exported;
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCantorBaireUp$, $\CantorSpaceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ConstructiveCantorBaireUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through these displayed finite-prefix, stream-window, regular-readback, transport, replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[ConstructiveCantorBaire NameCert obligations]
+\label{thm:constructive-cantor-baire-namecert-obligations}
+For every accepted $\ConstructiveCantorBaireUp$ carrier $E=(C,B,S,R,H,K,P,N)$, the local $\NameCert_{\ConstructiveCantorBaireUp}$ surface consists exactly of these obligations:
+\begin{enumerate}
+\item carrier admission for the Cantor prefix row, Baire prefix row, stream observation row, regular-rational and Real readback row, transport row, replay row, provenance row, and local naming row;
+\item binary-to-Baire exposure, requiring each Cantor binary prefix consumed by the classifier to be replayed as a finite Baire prefix before any countable-name read is public;
+\item Baire-to-binary exposure, requiring each finite Baire prefix consumed by a Cantor-facing client to expose the finite binary observations used by the handoff;
+\item regular-Cauchy landing, requiring every $\RegSeqRatUp$ or $\RealUp$ read to pass first through the displayed finite-prefix and $\StreamNameUp$ rows;
+\item classifier transport through componentwise $\hsame$ and displayed $\Cont$ replay;
+\item non-escape of countable-choice selectors, completed stream quotients, host function equality, selected infinite branches, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No obligation is stored outside the finite packet $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-cantor-baire-carrier}. Carrier admission exposes exactly the rows $C,B,S,R,H,K,P,N$, so every local obligation must be read from those coordinates.
+
+For binary-to-Baire exposure, read the $\CantorSpaceUp$ prefix row $C$ and replay its inspected bits through the finite observation row $S$. The $\BaireSpaceUp$ row $B$ receives only the finite prefix data recorded by this replay.
+
+For Baire-to-binary exposure, read the finite Baire prefix row $B$ and then inspect only the binary observations displayed by $C$ and $S$. The route never chooses an infinite branch or a host function representative.
+
+The regular-Cauchy landing is forced by $R$. A $\RegSeqRatUp$ or $\RealUp$ consumer can inspect the readback only after the finite prefix rows and stream window have been exposed, and $H,K,P,N$ preserve and name that same route.
+
+The non-escape clauses follow by exhaustion of the carrier. There is no coordinate for countable choice, quotient streams, host equality, selected infinite branches, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[ConstructiveCantorBaire regular-Cauchy induction]
+\label{thm:constructive-cantor-baire-regular-cauchy-induction}
+Every $\RegSeqRatUp$ or $\RealUp$ observation exported by an accepted $\ConstructiveCantorBaireUp$ packet is induced from a finite sequence of prefix reads
+$$
+\CantorSpaceUp,\quad \BaireSpaceUp,\quad \StreamNameUp
+$$
+inside $E=(C,B,S,R,H,K,P,N)$. The induction step extends the displayed prefix window by one Cantor bit or one Baire entry, replays the enlarged finite window through $S$, and only then permits the regular-rational readback in $R$.
+\end{theorem}
+\begin{proof}
+The base window is the empty prefix displayed simultaneously by the Cantor and Baire rows. It has no Real-facing content until the stream observation row records the finite request.
+
+For a Cantor-bit extension, append the displayed bit to the binary prefix in $C$ and replay the corresponding finite request through $S$. The Baire-facing row $B$ can read only the finite prefix obtained from that replay.
+
+For a Baire-entry extension, append the displayed natural entry to the prefix in $B$ and inspect the finite binary observations recorded by $C$ and $S$. The replay row $K$ keeps the extension finite.
+
+After either step, $R$ may read the regular-rational window and terminal Real seal. Since the readback is reached only after the finite prefix rows and stream window, the induction exports no selected infinite branch or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[ConstructiveCantorBaire Cantor-space handoff]
+\label{thm:constructive-cantor-baire-cantor-space-handoff}
+Every Cantor-facing consumer of a $\ConstructiveCantorBaireUp$ packet first reads the $\CantorSpaceUp$ row of \autoref{ch:concrete-instances-cantorspace-namecert}, then the $\BaireSpaceUp$ prefix row of \autoref{ch:concrete-instances-bairespace-namecert}, and then the $\StreamNameUp$ observation row of \autoref{ch:concrete-instances-streamname-namecert}. Only after those rows are displayed may the consumer pass through $\RegSeqRatUp$ and $\RealUp$ as in \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Start with the Cantor prefix row $C$. It supplies binary cylinder data and no Baire or Real-facing value by itself.
+
+Next expose the Baire prefix row $B$. The handoff compares only finite prefixes, so the consumer receives a Baire cylinder route rather than an infinite branch or a selected sequence.
+
+The stream observation row $S$ records the actual finite coordinates inspected by both sides. The regular-rational and Real row $R$ is available only after that finite route is displayed, and $H,K,P,N$ preserve the same route for downstream consumers.
+\end{proof}
+
+\begin{theorem}[ConstructiveCantorBaire L10 status]
+\label{thm:constructive-cantor-baire-l10-status}
+The $\ConstructiveCantorBaireUp$ packet is a seed-level L10 countable-name bridge. It displays the finite route from Cantor and Baire prefixes to stream observations and regular-Cauchy readback, but it does not close a public countable-name theorem, a Lean verification target, a standard bridge, or a completed Real-space compactness statement.
+\end{theorem}
+\begin{proof}
+The carrier and obligations display a finite route through $C,B,S,R,H,K,P,N$. This is enough to name the bridge object and to state how countable-name consumers must enter the Real-facing readback.
+
+The same inventory also fixes the boundary. Public closure would require a downstream exported object surface for countable names, Lean closure would require a checked BEDC target, and bridge closure would require a standard bridge instance. None of those rows is part of this seed packet.
+\end{proof}
+
+\closureat{ConstructiveCantorBaireUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCantorBaireUp}
+  \constructivestory{A $\ConstructiveCantorBaireUp$ packet is generated from CantorSpace binary prefixes, BaireSpace finite prefixes, StreamName observations, RegSeqRat and Real windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-cantor-baire-carrier}, \autoref{thm:constructive-cantor-baire-namecert-obligations}, \autoref{thm:constructive-cantor-baire-regular-cauchy-induction}, \autoref{thm:constructive-cantor-baire-cantor-space-handoff}, and \autoref{thm:constructive-cantor-baire-l10-status} seed the finite-prefix bridge from Cantor and Baire rows to StreamName, RegSeqRat, and Real readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a public countable-name theorem, Lean verification, standard bridge checking, countable choice, completed stream quotients, host function equality, selected infinite branches, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix handoff, regular-Cauchy landing, classifier transport, and non-escape for BEDC.Derived.ConstructiveCantorBaireUp.}
+\end{closurestatus}
