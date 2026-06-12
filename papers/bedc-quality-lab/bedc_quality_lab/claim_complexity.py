@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
@@ -234,7 +235,7 @@ def _hardgates(root: Path, rows: list[dict[str, Any]]) -> dict[str, dict[str, An
 
 
 def _row_index_from_claim(root: Path, claim_id: str) -> int:
-    discovery = _load_json(root / DISCOVERY_MAP_ARTIFACT)
+    discovery = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
     rows = discovery.get("rows") if isinstance(discovery, Mapping) else None
     if not isinstance(rows, list):
         return -1
@@ -246,7 +247,7 @@ def _row_index_from_claim(root: Path, claim_id: str) -> int:
 
 
 def build_claim_complexity_payload(root: Path, generated_at: str | None) -> dict[str, Any]:
-    discovery = _load_json(root / DISCOVERY_MAP_ARTIFACT)
+    discovery = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
     discovery_rows = discovery.get("rows") if isinstance(discovery, Mapping) else None
     if not isinstance(discovery_rows, list) or not all(isinstance(row, Mapping) for row in discovery_rows):
         raise ValueError("discovery map must expose object rows")

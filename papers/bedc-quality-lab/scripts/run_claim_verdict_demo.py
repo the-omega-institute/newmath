@@ -27,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     reason_for_claim_verdict,
     validate_claim_verdict_reason,
 )
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_supports_empirical_claim
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
@@ -126,10 +127,11 @@ def _load_payload(root: Path, artifact: str) -> dict[str, Any]:
 def _load_discovery_rows(root: Path, generated_at: str | None) -> list[dict[str, Any]]:
     path = _artifact_path(root, "reports/canonical/discovery_map.json")
     if path.exists():
-        payload = _load_json(path)
-        rows = payload.get("rows") if isinstance(payload, Mapping) else None
-        if isinstance(rows, list) and all(isinstance(row, dict) for row in rows):
-            return rows
+        payload = load_validated_discovery_map_payload(root)
+        rows = payload["rows"]
+        if not all(isinstance(row, dict) for row in rows):
+            raise ValueError("discovery map must contain object rows")
+        return rows
     return list(build_discovery_map(generated_at=generated_at, root=root, canonical_reports=_discovery_map_reports())["rows"])
 
 

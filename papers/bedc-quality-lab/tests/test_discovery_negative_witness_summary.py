@@ -16,6 +16,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     reason_basis_from_negative_owner,
     reason_for_claim_verdict,
 )
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 
 
 ALLOWED_ROW_KEYS = {
@@ -52,6 +53,22 @@ def _build_payload():
         root=summary.ROOT,
         generated_at="2030-01-01T00:00:00+00:00",
     )
+
+
+def _discovery_row_for_negative(row):
+    return {
+        "report": row["report"],
+        "json_artifact": row["json_artifact"],
+        "markdown_artifact": row["markdown_artifact"],
+        "discovery_level": "DN",
+        "projection_status": "projected",
+        "evidence_pointer": row["evidence_pointer"],
+        "audit_status": "valid",
+        "audit_reason": "",
+        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+        "evidence_type": "boundary_negative",
+        "evidence_provenance_pointer": evidence_provenance_pointer_for_report(str(row["report"])),
+    }
 
 
 def test_summary_covers_all_dn_discovery_map_rows():
@@ -120,13 +137,7 @@ def test_summary_accepts_derivative_dn_as_pointer_only_negative_row(tmp_path):
     (canonical_dir / "discovery_map.json").write_text(
         json.dumps(
             {
-                "rows": [
-                    {
-                        "report": "transformer-derivative-atlas",
-                        "discovery_level": "DN",
-                        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-                    }
-                ]
+                "rows": [_discovery_row_for_negative(negative_row)]
             }
         )
         + "\n",
@@ -166,6 +177,72 @@ def test_summary_accepts_derivative_dn_as_pointer_only_negative_row(tmp_path):
     ]
 
 
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_negative_witness_summary_validates_committed_discovery_map_before_lookup(tmp_path, mutate, message):
+    canonical_dir = tmp_path / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    negative_row = {
+        "negative_id": "dn:transformer-derivative-atlas",
+        "report_id": "transformer-derivative-atlas",
+        "kind": "discovery_report",
+        "report": "transformer-derivative-atlas",
+        "claim_id": "claim:transformer-derivative-atlas",
+        "source": "reports/canonical/transformer_derivative_atlas.json:$.hardgates.by_layer.layer_0.status",
+        "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
+        "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
+        "ledger_pointer": "reports/canonical/transformer_derivative_atlas.json:$.ledger_gaps[0]",
+        "discovery_level": "DN",
+        "terminal_verdict": "negative_discovery",
+        "classifier_reasons": ["verdict=rejected"],
+        "projection_status": "projected",
+        "evidence_pointer": "$.bounded_lab_evidence",
+        "failed_gate": "$.hardgates.by_layer.layer_0.status",
+        "debt_row_pointer": "$.ledger_gaps[0]",
+        "audit_status": "pass",
+        "audit_reason": "",
+        "what_was_learned": "derivative hardgate failure remains ordinary debt evidence",
+        "next_hypothesis": "close high-order instability before claiming mechanism-level derivative evidence",
+        "discovery_map_pointer": None,
+        "claim_verdict_pointer": None,
+    }
+    (canonical_dir / "negative_discovery_reports.json").write_text(json.dumps({"rows": [negative_row]}) + "\n", encoding="utf-8")
+    discovery_row = _discovery_row_for_negative(negative_row)
+    mutate(discovery_row)
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"rows": [discovery_row]}) + "\n", encoding="utf-8")
+    (canonical_dir / "claim_verdicts.jsonl").write_text(
+        json.dumps(
+            {
+                "claim_id": "claim:transformer-derivative-atlas",
+                "claim_verdict": "negative_discovery",
+                "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+                "reason": "negative-discovery-failed-gate:hardgates-by-layer-layer-0-status",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "discovery_negative_witnesses.json").write_text(json.dumps({"witnesses": []}) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match=message):
+        summary.build_discovery_negative_witness_summary(root=tmp_path, generated_at="fixture-time")
+
+
 def test_summary_fails_mismatched_claim_verdict_reason(tmp_path):
     canonical_dir = tmp_path / "reports" / "canonical"
     canonical_dir.mkdir(parents=True, exist_ok=True)
@@ -200,13 +277,7 @@ def test_summary_fails_mismatched_claim_verdict_reason(tmp_path):
     (canonical_dir / "discovery_map.json").write_text(
         json.dumps(
             {
-                "rows": [
-                    {
-                        "report": "transformer-derivative-atlas",
-                        "discovery_level": "DN",
-                        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-                    }
-                ]
+                "rows": [_discovery_row_for_negative(negative_row)]
             }
         )
         + "\n",

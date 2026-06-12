@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -127,7 +128,13 @@ class DiscoveryMapRow:
     cells: Mapping[str, Any]
 
     @classmethod
-    def from_mapping(cls, row: Mapping[str, Any], *, root: Path | None = None) -> "DiscoveryMapRow":
+    def from_mapping(
+        cls,
+        row: Mapping[str, Any],
+        *,
+        root: Path | None = None,
+        validate_owner_projection: bool = True,
+    ) -> "DiscoveryMapRow":
         copied_reporting = sorted(key for key in REPORTING_VERDICT_FORBIDDEN_KEYS if key in row)
         if copied_reporting:
             raise ValueError(f"discovery map row copies reporting verdict fields: {', '.join(copied_reporting)}")
@@ -163,7 +170,7 @@ class DiscoveryMapRow:
         provenance_pointer = row.get("evidence_provenance_pointer")
         if not isinstance(provenance_pointer, str) or provenance_pointer != evidence_provenance_pointer_for_report(str(row["report"])):
             raise ValueError("discovery map row requires owner evidence provenance pointer")
-        if root is not None:
+        if root is not None and validate_owner_projection:
             _validate_owner_evidence_projection(root, row)
         if level == "DN" and evidence_type != "boundary_negative":
             raise ValueError("DN discovery map row must project boundary_negative evidence")
@@ -201,8 +208,16 @@ def level_counts(rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
     return {level: sum(1 for row in rows if row.get("discovery_level") == level) for level in DISCOVERY_LEVELS}
 
 
-def validate_rows(rows: Sequence[Mapping[str, Any]], *, root: Path | None = None) -> list[DiscoveryMapRow]:
-    return [DiscoveryMapRow.from_mapping(row, root=root) for row in rows]
+def validate_rows(
+    rows: Sequence[Mapping[str, Any]],
+    *,
+    root: Path | None = None,
+    validate_owner_projection: bool = True,
+) -> list[DiscoveryMapRow]:
+    return [
+        DiscoveryMapRow.from_mapping(row, root=root, validate_owner_projection=validate_owner_projection)
+        for row in rows
+    ]
 
 
 def owner_anti_triviality_check(root: Path, owner_pointer: str, *, accepted_level: str | None = None) -> tuple[bool, str]:
@@ -463,17 +478,37 @@ def _raise_coverage_cell_type() -> dict[str, Any]:
     raise ValueError("coverage_matrix cells must be objects")
 
 
-def validate_discovery_map_payload(payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Any]:
+def validate_discovery_map_payload(
+    payload: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+    validate_owner_projection: bool = True,
+) -> dict[str, Any]:
     rows = payload.get("rows")
     if not isinstance(rows, list):
         raise ValueError("discovery map rows must be a list")
-    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
+    validated = [
+        row.as_dict()
+        for row in validate_rows(rows, root=root, validate_owner_projection=validate_owner_projection)
+    ]
     coverage_matrix = payload.get("coverage_matrix")
     if coverage_matrix is not None:
         if not isinstance(coverage_matrix, Mapping):
             raise ValueError("discovery map coverage_matrix must be an object")
         validate_coverage_matrix(coverage_matrix, rows=validated, root=root)
     return dict(payload)
+
+
+def load_validated_discovery_map_payload(
+    root: Path,
+    *,
+    artifact: str = DISCOVERY_MAP_JSON_ARTIFACT,
+    validate_owner_projection: bool = True,
+) -> dict[str, Any]:
+    payload = json.loads((root / artifact).read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        raise ValueError("discovery map must be a JSON object")
+    return validate_discovery_map_payload(payload, root=root, validate_owner_projection=validate_owner_projection)
 
 
 def _validate_owner_evidence_projection(root: Path, row: Mapping[str, Any]) -> None:
@@ -502,8 +537,12 @@ def build_discovery_map_payload(
     coverage_matrix: Mapping[str, Any] | None = None,
     root: Path | None = None,
     expected_coverage_component_ids: frozenset[str] | None = None,
+    validate_owner_projection: bool = True,
 ) -> dict[str, Any]:
-    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
+    validated = [
+        row.as_dict()
+        for row in validate_rows(rows, root=root, validate_owner_projection=validate_owner_projection)
+    ]
     payload = {
         "schema_id": DISCOVERY_MAP_SCHEMA_ID,
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,

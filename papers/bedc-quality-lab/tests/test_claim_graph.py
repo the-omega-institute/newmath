@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
 from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
@@ -97,6 +98,75 @@ def _write_evidence_provenance_index(root: Path, rows, *, empirical_reports=("ga
     )
 
 
+def _positive_owner_contract(level: str) -> dict[str, object]:
+    return {
+        "anti_triviality_status": "pass",
+        "positive_discovery": True,
+        "not_claimed": ["fixture"],
+        "control": {"status": "present"},
+        "scope": {"status": "present"},
+        "owner_contract": {
+            "scale_only": {"status": "present"},
+            "metadata_only": ["fixture"],
+            "matched_random": {"status": "present"},
+            "forbidden_column": {"status": "present"},
+        },
+    } | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.owner_contract.scale_only",
+        metadata_only_pointer="$.owner_contract.metadata_only",
+        matched_random_pointer="$.owner_contract.matched_random",
+        forbidden_column_pointer="$.owner_contract.forbidden_column",
+    )
+
+
+def _write_dgt_high_impact_review_pass(root: Path) -> None:
+    hardgates = {
+        gate_id: {
+            "status": "pass",
+            "reason": "fixture",
+            "evidence_pointer": f"{high_impact_review.JSON_ARTIFACT}:$.not_claimed",
+        }
+        for gate_id in high_impact_review.HIR_GATE_IDS
+    }
+    hardgates["HIR-HG1"]["evidence_pointer"] = f"{high_impact_review.DGT_ARTIFACT}:$.d4_projection"
+    hardgates["HIR-HG6"]["evidence_pointer"] = f"{high_impact_review.MODEL_COMPARISON_ARTIFACT}:$.hardgates"
+    hardgates["HIR-HG7"]["evidence_pointer"] = f"{high_impact_review.MODEL_COMPARISON_ARTIFACT}:$.hardgates.MC-HG7"
+    hardgates["HIR-HG8"]["evidence_pointer"] = f"{high_impact_review.MODEL_COMPARISON_ARTIFACT}:$.hardgates.MC-HG8"
+    hardgates["HIR-HG9"]["evidence_pointer"] = f"{high_impact_review.MODEL_COMPARISON_ARTIFACT}:$.hardgates.MC-HG9"
+    hardgates["HIR-HG10"]["evidence_pointer"] = f"{high_impact_review.CLAIM_GRAPH_ARTIFACT}:$.nodes"
+    _write_json(
+        root,
+        high_impact_review.JSON_ARTIFACT,
+        {
+            "schema_id": high_impact_review.SCHEMA_ID,
+            "artifact_id": high_impact_review.ARTIFACT_ID,
+            "generated_at": "2030-01-01T00:00:00+00:00",
+            "seed": 1131,
+            "source_artifacts": {
+                "dgt": high_impact_review.DGT_ARTIFACT,
+                "model_comparison": high_impact_review.MODEL_COMPARISON_ARTIFACT,
+                "claim_graph": high_impact_review.CLAIM_GRAPH_ARTIFACT,
+            },
+            "review_rows": [
+                {
+                    "claim_id": high_impact_review.DGT_CLAIM_ID,
+                    "status": "pass",
+                    "review_level": "bounded-D4-terminal-gate",
+                    "review_scope": "DGT bounded deterministic toy D4 positive-discovery terminal promotion only",
+                    "ledger_pointer": high_impact_review.DGT_REVIEW_ROW_POINTER,
+                    "claim_pointer": f"{high_impact_review.DGT_ARTIFACT}:$.d4_projection",
+                    "hardgate_pointer": f"{high_impact_review.JSON_ARTIFACT}:$.hardgates",
+                    "not_claimed_pointer": f"{high_impact_review.JSON_ARTIFACT}:$.not_claimed",
+                    "reason": "positive-discovery-gates-pass",
+                }
+            ],
+            "hardgates": hardgates,
+            "not_claimed": list(high_impact_review.NOT_CLAIMED),
+        },
+    )
+
+
 def _row(claim_id, verdict):
     return {
         "claim_id": claim_id,
@@ -123,6 +193,7 @@ def _fixture_root(tmp_path: Path) -> Path:
             "final_main_claim_status": {"claim": "fixture"},
             "score_terms": {"status": "present"},
             "claim_capsule_ref": "reports/runs/gap-head-discovery/claim_capsule.json",
+            **_positive_owner_contract("D4"),
         },
     )
     _write_json(
@@ -133,7 +204,11 @@ def _fixture_root(tmp_path: Path) -> Path:
     _write_json(
         tmp_path,
         "reports/canonical/gap-head-transfer-atlas.json",
-        {"multi_surface_d5_o": {"decision": "pass"}, "config": {"control_arm": "matched_random_gap_head"}},
+        {
+            "multi_surface_d5_o": {"decision": "pass"},
+            "config": {"control_arm": "matched_random_gap_head"},
+            **_positive_owner_contract("D5-O"),
+        },
     )
     discovery_rows = [
         {
@@ -283,6 +358,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "No universal training recipe claim.",
             "No external verdict ownership.",
         ],
+        **_positive_owner_contract("D5-M"),
     }
     _write_json(
         root,
@@ -364,19 +440,32 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     rows.append(_row("claim:discovery-gated-transformer", "projected_discovery_required"))
     rows[-1]["source"] = f"{dgt_artifact}:$.d5_m_projection"
     rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
-    _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
-    provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
-    _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
-    _write_json(root, high_impact_review.JSON_ARTIFACT, {"not_claimed": list(high_impact_review.NOT_CLAIMED)})
-    payload = high_impact_review.build_high_impact_review_payload(
-        root,
-        generated_at="2030-01-01T00:00:00+00:00",
-    )
-    _write_json(root, high_impact_review.JSON_ARTIFACT, payload)
     rows[-1]["claim_verdict"] = "accepted_positive_discovery"
     rows[-1]["reason"] = "positive-discovery-gates-pass"
-    rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
     _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+    _write_json(
+        root,
+        claim_graph.CLAIM_GRAPH_JSON_ARTIFACT,
+        {
+            "nodes": [
+                {"node_id": "raw:discovery-gated-transformer", "node_type": "raw_evidence", "terminal_verdict": None},
+                {
+                    "node_id": "projected:discovery-gated-transformer",
+                    "node_type": "projected_discovery",
+                    "depends_on": ["raw:discovery-gated-transformer"],
+                    "terminal_verdict": None,
+                },
+                {
+                    "node_id": "terminal:discovery-gated-transformer",
+                    "node_type": "terminal_claim",
+                    "depends_on": ["projected:discovery-gated-transformer"],
+                },
+            ]
+        },
+    )
+    _write_dgt_high_impact_review_pass(root)
+    provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
 
 
 def test_claim_verdict_rows_have_terminal_graph_foreign_keys(tmp_path):
@@ -755,7 +844,7 @@ def test_accepted_positive_claim_fails_closed_without_owner_section(tmp_path):
     index_payload.pop("evidence_provenance")
     index_path.write_text(json.dumps(index_payload, sort_keys=True) + "\n", encoding="utf-8")
 
-    with pytest.raises(ValueError, match="provenance owner missing"):
+    with pytest.raises(ValueError, match="requires evidence provenance owner section"):
         claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
 
 
@@ -774,6 +863,34 @@ def test_claim_graph_rejects_unresolvable_evidence_provenance_pointer(tmp_path):
     assert any("evidence_provenance_pointer does not resolve" in error for error in errors)
 
 
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_claim_graph_discovery_map_loader_validates_committed_payload(tmp_path, mutate, message):
+    root = _fixture_root(tmp_path)
+    path = root / claim_graph.DISCOVERY_MAP_JSON_ARTIFACT
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutate(payload["rows"][0])
+    _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, payload)
+
+    with pytest.raises(ValueError, match=message):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
 def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):
     rows = [
         {
@@ -787,6 +904,8 @@ def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):
             "evidence_pointer": "$.positive_discovery",
             "audit_status": "valid",
             "audit_reason": "",
+            "evidence_type": "empirical_training_clean",
+            "evidence_provenance_pointer": evidence_provenance_pointer_for_report("d4"),
         }
     ]
     spec = canonical.CanonicalReportSpec(
@@ -814,19 +933,20 @@ def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):
     _write_json(
         tmp_path,
         "reports/canonical/d4.json",
-        {
-            "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
-            "scope": {"status": "present"},
-            "cost": {"status": "present"},
-            "not_claimed": ["fixture"],
-            "positive": {"claim": "fixture"},
-            "control": {"status": "present"},
-            "positive_discovery": True,
-            "net_information": 1.0,
-            "net_positive_signal": True,
-            "matched_random_control": {"control_verdict": {"positive": False}},
-        },
-    )
+            {
+                "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+                "scope": {"status": "present"},
+                "cost": {"status": "present"},
+                "not_claimed": ["fixture"],
+                "positive": {"claim": "fixture"},
+                "control": {"status": "present"},
+                "positive_discovery": True,
+                "net_information": 1.0,
+                "net_positive_signal": True,
+                "matched_random_control": {"control_verdict": {"positive": False}},
+                **_positive_owner_contract("D4"),
+            },
+        )
     (tmp_path / "configs").mkdir(parents=True, exist_ok=True)
     (tmp_path / "configs/default_cost_protocol.yaml").write_text(
         (Path(__file__).resolve().parents[1] / "configs/default_cost_protocol.yaml").read_text(encoding="utf-8"),
@@ -917,16 +1037,17 @@ def test_cg_hg6_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
                 "audit_status": "valid",
             },
             "matched_random_control": {"control_verdict": {"positive": False}},
-            "scope_seal": {
-                "status": "closed",
-                "toy": True,
-                "bounded": True,
-                "theorem": False,
-                "real_training": False,
-                "production_forbidden": True,
+                "scope_seal": {
+                    "status": "closed",
+                    "toy": True,
+                    "bounded": True,
+                    "theorem": False,
+                    "real_training": False,
+                    "production_forbidden": True,
+                },
+                **_positive_owner_contract("D4"),
             },
-        },
-    )
+        )
     _write_json(
         tmp_path,
         "reports/runs/d4/claim_capsule.json",
@@ -1001,19 +1122,20 @@ def test_cg_hg8_rejects_accepted_high_impact_terminal_without_review_pointer(tmp
     _write_json(
         tmp_path,
         "reports/canonical/d4.json",
-        {
-            "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
-            "scope": {"status": "present"},
-            "cost": {"status": "present"},
-            "not_claimed": ["fixture"],
+            {
+                "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+                "scope": {"status": "present"},
+                "cost": {"status": "present"},
+                "not_claimed": ["fixture"],
             "positive": {"claim": "bounded safety fixture"},
             "control": {"status": "present"},
-            "claim_capsule_ref": "reports/runs/d4/claim_capsule.json",
-            "positive_discovery": True,
-            "net_information": 1.0,
-            "net_positive_signal": True,
-        },
-    )
+                "claim_capsule_ref": "reports/runs/d4/claim_capsule.json",
+                "positive_discovery": True,
+                "net_information": 1.0,
+                "net_positive_signal": True,
+                **_positive_owner_contract("D4"),
+            },
+        )
     _write_json(
         tmp_path,
         "reports/runs/d4/claim_capsule.json",

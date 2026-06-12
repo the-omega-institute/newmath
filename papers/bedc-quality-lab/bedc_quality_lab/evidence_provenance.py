@@ -603,13 +603,16 @@ def _load_discovery_map_rows(root: Path) -> list[Mapping[str, Any]]:
     path = root / DISCOVERY_MAP_ARTIFACT
     if not path.exists():
         return []
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return []
+    from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
+
+    payload = load_validated_discovery_map_payload(
+        root,
+        artifact=DISCOVERY_MAP_ARTIFACT,
+        validate_owner_projection=False,
+    )
     rows = payload.get("rows") if isinstance(payload, Mapping) else None
     if not isinstance(rows, list):
-        return []
+        raise ValueError("discovery map rows must be a list")
     return [row for row in rows if isinstance(row, Mapping)]
 
 
@@ -676,6 +679,17 @@ def _classify_discovery_evidence(source_row: Mapping[str, Any] | None, metric_ro
     if metric_row.source_type in {"protocol_field", "declared_constant", "arm_branch"}:
         return "protocol_artifact"
     return "boundary_negative"
+
+
+def discovery_evidence_type_for_report(
+    *,
+    root: Path,
+    spec: Any,
+    source_row: Mapping[str, Any] | None,
+) -> str:
+    audit = _producer_training_audit(root, spec, 0)
+    metric = _metric_provenance_row(root, spec, audit, 0, 0)
+    return _classify_discovery_evidence(source_row, metric)
 
 
 def _discovery_map_pointer(source_row: Mapping[str, Any] | None, index: int | None) -> str | None:

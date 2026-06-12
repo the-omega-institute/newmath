@@ -11,6 +11,7 @@ from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
 from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
 from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_discovery_row, owner_metric_rows
@@ -168,8 +169,8 @@ def _load_optional_mapping(root: Path, artifact: str) -> Mapping[str, Any]:
 
 
 def _discovery_rows(root: Path) -> list[dict[str, Any]]:
-    payload = _load_json(root, DISCOVERY_MAP_JSON_ARTIFACT)
-    rows = payload.get("rows") if isinstance(payload, Mapping) else None
+    payload = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_JSON_ARTIFACT)
+    rows = payload.get("rows")
     if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
         raise ValueError("discovery map must contain object rows")
     return rows

@@ -14,6 +14,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     POSITIVE_DISCOVERY_GATES_PASS,
     SOURCE_INSUFFICIENT,
 )
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import (
     normalize_artifact_pointer,
     resolve_artifact_pointer,
@@ -375,7 +376,7 @@ def audit_claim_artifact_consistency(
     timestamp = generated_at if generated_at is not None else "reusable"
     resolver = PointerResolver(root)
     verdict_rows = _load_jsonl_rows(root, CLAIM_VERDICTS_ARTIFACT)
-    discovery_payload = _load_json_object(root, DISCOVERY_MAP_ARTIFACT)
+    discovery_payload = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
     discovery_rows_value = discovery_payload.get("rows")
     discovery_rows = [row for row in discovery_rows_value if isinstance(row, Mapping)] if isinstance(discovery_rows_value, list) else []
     graph_payload = _load_json_object(root, CLAIM_GRAPH_ARTIFACT)

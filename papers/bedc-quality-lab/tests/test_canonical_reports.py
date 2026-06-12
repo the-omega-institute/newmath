@@ -33,6 +33,7 @@ from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.order_k_benchmark import OrderKBenchmarkProjection
 
 
@@ -1192,7 +1193,6 @@ def _write_release_pointer_fixture(root):
     canonical_dir.mkdir(parents=True, exist_ok=True)
     (canonical_dir / "new_model_hardgates.json").write_text(json.dumps({"gates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
-    (canonical_dir / "discovery_map.json").write_text(json.dumps({"coverage_matrix": {"status": "pointer-only"}}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (canonical_dir / "dgt-l0-controls.json").write_text(
         json.dumps(
@@ -2570,6 +2570,41 @@ def test_committed_discovery_map_round_trip_rejects_provenance_field_mutations(
 
     with pytest.raises(ValueError, match=message):
         canonical._validate_committed_discovery_map_round_trip()
+
+
+def test_discovery_map_generation_error_fallback_validates_committed_payload(tmp_path, monkeypatch):
+    canonical_dir = tmp_path / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True)
+    row = _committed_discovery_map_row()
+    row.pop("evidence_type")
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"rows": [row]}), encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", canonical_dir)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_discovery_map",
+        types.SimpleNamespace(
+            build_discovery_map=lambda *args, **kwargs: (_ for _ in ()).throw(
+                ValueError("generated discovery map rejected")
+            )
+        ),
+    )
+
+    with pytest.raises(ValueError, match="requires owner evidence_type"):
+        canonical._index([], generated_at="2030-01-01T00:00:00+00:00")
+
+
+def test_evidence_provenance_owner_section_rejects_malformed_committed_discovery_map(tmp_path, monkeypatch):
+    canonical_dir = tmp_path / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True)
+    row = _committed_discovery_map_row()
+    row["evidence_provenance_pointer"] = None
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"rows": [row]}), encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", canonical_dir)
+
+    with pytest.raises(ValueError, match="requires owner evidence provenance pointer"):
+        canonical._write_evidence_provenance_owner_section(generated_at="2030-01-01T00:00:00+00:00")
 
 
 def test_coverage_matrix_pointers_resolve_and_dn_cells_point_to_negative_witness():
@@ -5145,23 +5180,10 @@ def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatc
     _write_release_pointer_fixture(tmp_path)
     _write_dimension_mismatch_gap_witness_fixture(tmp_path)
 
-    def fake_run_producer(spec):
-        json_path = canonical._artifact_path(spec.json_artifact)
-        md_path = canonical._artifact_path(spec.markdown_artifact)
-        json_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = _payload_for_spec(spec)
-        if spec.name == "gap-head-transfer-atlas":
-            payload["multi_surface_d5_o"] = {
-                "decision": "pass",
-                "discovery_level": "D5-O",
-                "pass_surface_count": 3,
-            }
-        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
-        md_path.write_text("# fixture\n", encoding="utf-8")
-
-    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
-
-    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    (canonical.CANONICAL_DIR / "index.md").write_text(canonical._render_index_markdown(payload), encoding="utf-8")
     scorecard_json = canonical.CANONICAL_DIR / "quality-scorecard.json"
     scorecard_md = canonical.CANONICAL_DIR / "quality-scorecard.md"
 
@@ -5180,23 +5202,10 @@ def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
     _drop_dgt_l0_from_manifest(monkeypatch)
     _write_release_pointer_fixture(tmp_path)
 
-    def fake_run_producer(spec):
-        json_path = canonical._artifact_path(spec.json_artifact)
-        md_path = canonical._artifact_path(spec.markdown_artifact)
-        json_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = _payload_for_spec(spec)
-        if spec.name == "gap-head-transfer-atlas":
-            payload["multi_surface_d5_o"] = {
-                "decision": "pass",
-                "discovery_level": "D5-O",
-                "pass_surface_count": 3,
-            }
-        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
-        md_path.write_text("# fixture\n", encoding="utf-8")
-
-    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
-
-    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    (canonical.CANONICAL_DIR / "index.md").write_text(canonical._render_index_markdown(payload), encoding="utf-8")
 
     assert payload["discovery_map"]["artifact_id"] == "bedc-quality-lab:discovery-map"
     assert payload["discovery_map"]["json_artifact"] == "reports/canonical/discovery_map.json"
@@ -5211,16 +5220,7 @@ def test_canonical_index_points_to_discovery_map_coverage_matrix(tmp_path, monke
     _drop_dgt_l0_from_manifest(monkeypatch)
     _write_release_pointer_fixture(tmp_path)
 
-    def fake_run_producer(spec):
-        json_path = canonical._artifact_path(spec.json_artifact)
-        md_path = canonical._artifact_path(spec.markdown_artifact)
-        json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
-        md_path.write_text("# fixture\n", encoding="utf-8")
-
-    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
-
-    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
 
     assert payload["discovery_map"]["coverage_matrix_pointer"] == "reports/canonical/discovery_map.json:$.coverage_matrix"
     assert "discovery_coverage" not in payload
@@ -5395,6 +5395,8 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
                             "evidence_pointer": "$.positive_discovery",
                             "audit_status": "valid",
                             "audit_reason": "",
+                            "evidence_type": "deterministic_projection",
+                            "evidence_provenance_pointer": evidence_provenance_pointer_for_report("gap-head-discovery"),
                         }
                     ],
                 },
@@ -7454,17 +7456,21 @@ def test_claim_complexity_index_section_is_artifact_only(tmp_path, monkeypatch):
         json.dumps(
             {
                 "rows": [
-                    {
-                        "report": "demo",
-                        "json_artifact": "reports/canonical/demo.json",
-                        "markdown_artifact": "reports/canonical/demo.md",
-                        "discovery_level": "D4",
-                        "projection_status": "projected",
-                        "classifier_reasons": ["fixture"],
-                        "evidence_pointer": "$.positive_claim",
-                        "control_pointer": "$.control",
-                    }
-                ]
+                        {
+                            "report": "demo",
+                            "json_artifact": "reports/canonical/demo.json",
+                            "markdown_artifact": "reports/canonical/demo.md",
+                            "discovery_level": "D4",
+                            "projection_status": "projected",
+                            "classifier_reasons": ["fixture"],
+                            "evidence_pointer": "$.positive_claim",
+                            "audit_status": "valid",
+                            "audit_reason": "",
+                            "evidence_type": "deterministic_projection",
+                            "evidence_provenance_pointer": evidence_provenance_pointer_for_report("demo"),
+                            "control_pointer": "$.control",
+                        }
+                    ]
             },
             sort_keys=True,
         )
@@ -7472,7 +7478,95 @@ def test_claim_complexity_index_section_is_artifact_only(tmp_path, monkeypatch):
         encoding="utf-8",
     )
     (tmp_path / "reports/canonical/demo.json").write_text(
-        json.dumps({"positive_claim": True, "control": {"status": "pass"}}, sort_keys=True) + "\n",
+        json.dumps(
+            {
+                "positive_claim": True,
+                "control": {"status": "pass"},
+                "anti_triviality_status": "pass",
+                "owner_contract": {
+                    "scale_only": {"status": "present"},
+                    "metadata_only": {"status": "present"},
+                    "matched_random": {"status": "present"},
+                    "forbidden_column": {"status": "present"},
+                },
+            }
+            | owner_local_anti_triviality_contract(
+                recommended_level="D4",
+                scale_only_pointer="$.owner_contract.scale_only",
+                metadata_only_pointer="$.owner_contract.metadata_only",
+                matched_random_pointer="$.owner_contract.matched_random",
+                forbidden_column_pointer="$.owner_contract.forbidden_column",
+            ),
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "reports/canonical/index.json").write_text(
+        json.dumps(
+            {
+                "evidence_provenance": {
+                    "schema_id": "bedc-quality-lab:evidence-provenance",
+                    "owner": "bedc_quality_lab.evidence_provenance",
+                    "generated_at": "fixture-time",
+                    "producer_audits": [
+                        {
+                            "report": "demo",
+                            "producer_command": ["python3", "scripts/run_demo.py"],
+                            "producer_source_pointer": None,
+                            "backward_pointers": [],
+                            "optimizer_step_pointers": [],
+                            "parameter_update_pointers": [],
+                            "training_evidence_status": "training_evidence_absent",
+                            "not_claimed": ["fixture"],
+                        }
+                    ],
+                    "metric_rows": [
+                        {
+                            "report": "demo",
+                            "metric_name": "headline",
+                            "source_type": "deterministic_projection",
+                            "source_code_pointer": None,
+                            "source_artifact_pointer": "reports/canonical/demo.json:$.positive_claim",
+                            "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                            "allowed_for_empirical_claim": False,
+                            "value": True,
+                            "not_claimed": ["fixture"],
+                            "not_measurable_reason": None,
+                        }
+                    ],
+                    "discovery_rows": [
+                        {
+                            "report": "demo",
+                            "evidence_type": "deterministic_projection",
+                            "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                            "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                            "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                            "allowed_claim_kinds": ["projection_only"],
+                            "not_claimed": ["fixture"],
+                        }
+                    ],
+                    "discovery_rows_by_report": {
+                        "demo": {
+                            "report": "demo",
+                            "evidence_type": "deterministic_projection",
+                            "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                            "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                            "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                            "allowed_claim_kinds": ["projection_only"],
+                            "not_claimed": ["fixture"],
+                        }
+                    },
+                    "hardgate_status": {},
+                    "artifact_pointers": {
+                        "owner_pointer": "reports/canonical/index.json:$.evidence_provenance",
+                        "discovery_map_rows": "reports/canonical/discovery_map.json:$.rows",
+                    },
+                }
+            },
+            sort_keys=True,
+        )
+        + "\n",
         encoding="utf-8",
     )
     (tmp_path / "reports/canonical/claim_verdicts.jsonl").write_text(
@@ -7569,10 +7663,10 @@ def test_evidence_provenance_index_section_uses_current_report_manifest(tmp_path
         json.dumps(
             {
                 "rows": [
-                    {
-                        "report": "provenance-fixture",
-                        "discovery_level": "D1",
-                        "audit_status": "valid",
+                    _committed_discovery_map_row("provenance-fixture")
+                    | {
+                        "json_artifact": "reports/canonical/provenance-fixture.json",
+                        "markdown_artifact": "reports/canonical/provenance-fixture.md",
                     }
                 ]
             },
