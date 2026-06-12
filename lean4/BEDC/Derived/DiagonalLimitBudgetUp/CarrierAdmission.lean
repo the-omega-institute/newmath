@@ -106,4 +106,107 @@ theorem DiagonalLimitBudgetCarrierAdmission [AskSetup] [PackageSetup]
   }
   exact ⟨cert, requestUnary, selectedUnary, dyadicUnary, sealUnary⟩
 
+def DiagonalLimitBudgetCarrier [AskSetup] [PackageSetup]
+    (D M W Q E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory D ∧ UnaryHistory M ∧ UnaryHistory W ∧ UnaryHistory Q ∧
+    UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N ∧ Cont H C W ∧ Cont H C Q ∧ PkgSig bundle P pkg ∧
+        PkgSig bundle N pkg
+
+theorem DiagonalLimitBudgetSynchronizationStability [AskSetup] [PackageSetup]
+    {D M W Q E H C P N Wread Qread Pread Nread : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitBudgetCarrier D M W Q E H C P N bundle pkg ->
+      Cont H C Wread ->
+        Cont H C Qread ->
+          PkgSig bundle Pread pkg ->
+            PkgSig bundle Nread pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row W ∨ hsame row Q ∨ hsame row P ∨ hsame row N) ∧
+                      UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row D ∨ hsame row M ∨ hsame row W ∨ hsame row Q ∨
+                      hsame row P ∨ hsame row N)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle Pread pkg ∧
+                      PkgSig bundle Nread pkg)
+                  hsame ∧
+                UnaryHistory Wread ∧ UnaryHistory Qread := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier wreadRoute qreadRoute preadPkg nreadPkg
+  obtain ⟨_dUnary, _mUnary, wUnary, qUnary, _eUnary, hUnary, cUnary, pUnary,
+    nUnary, _windowRoute, _dyadicRoute, _provenancePkg, _namePkg⟩ := carrier
+  have wreadUnary : UnaryHistory Wread :=
+    unary_cont_closed hUnary cUnary wreadRoute
+  have qreadUnary : UnaryHistory Qread :=
+    unary_cont_closed hUnary cUnary qreadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row W ∨ hsame row Q ∨ hsame row P ∨ hsame row N) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row M ∨ hsame row W ∨ hsame row Q ∨
+              hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle Pread pkg ∧
+              PkgSig bundle Nread pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro W ⟨Or.inl (hsame_refl W), wUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameW =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameW)
+          | inr tail =>
+              cases tail with
+              | inl sameQ =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameQ))
+              | inr tail =>
+                  cases tail with
+                  | inl sameP =>
+                      exact
+                        Or.inr
+                          (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameP)))
+                  | inr sameN =>
+                      exact
+                        Or.inr
+                          (Or.inr
+                            (Or.inr (hsame_trans (hsame_symm sameRows) sameN)))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameW =>
+          exact Or.inr (Or.inr (Or.inl sameW))
+      | inr tail =>
+          cases tail with
+          | inl sameQ =>
+              exact Or.inr (Or.inr (Or.inr (Or.inl sameQ)))
+          | inr tail =>
+              cases tail with
+              | inl sameP =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameP))))
+              | inr sameN =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sameN))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, preadPkg, nreadPkg⟩
+  }
+  exact ⟨cert, wreadUnary, qreadUnary⟩
+
 end BEDC.Derived.DiagonalLimitBudgetUp
