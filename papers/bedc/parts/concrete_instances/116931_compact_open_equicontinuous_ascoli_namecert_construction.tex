@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CompactOpenEquicontinuousAscoliUp$}
+\label{ch:concrete-instances-compact-open-equicontinuous-ascoli-namecert}
+\origin{human}
+
+Following Arzela, Ascoli, Kelley, and Bishop--Bridges, the $\CompactOpenEquicontinuousAscoliUp$ packet records the constructive compact-open Ascoli route where compact-open source probes, equicontinuity moduli, compact metric source data, complete metric target data, and finite-window diagonal extraction are exposed as NameCert rows. It sits over the compact-open topology certificate of \autoref{ch:concrete-instances-compact-open-topology-namecert}, the equicontinuity-family certificate of \autoref{ch:concrete-instances-equicontinuityfamily-namecert}, and the Ascoli finite-window handoff of \autoref{ch:concrete-instances-arzelaascoli-namecert}. The packet is a finite constructive-analysis carrier; it does not assert open-cover compactness, select a subnet, quotient functions by host equality, or import ambient completeness outside the displayed rows.
+
+\begin{definition}[Compact-open equicontinuous Ascoli carrier]
+\label{def:compact-open-equicontinuous-ascoli-carrier}
+A $\CompactOpenEquicontinuousAscoliUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,E,X,Y,D,S,Q,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\CompactOpenTopologyUp$ source-probe row, listing the compact test windows and finite function-observation requests admitted by the compact-open topology.
+\item $E$ is the $\EquicontinuityFamilyUp$ modulus row, recording the shared finite equicontinuity moduli used on the displayed compact windows.
+\item $X$ is the $\CompactMetricUp$ source row, read only through finite compact-metric witnesses and finite net data.
+\item $Y$ is the $\CompleteMetricUp$ target row, exposing the completion-facing target metric data used by limit-window reads.
+\item $D$ is the $\ArzelaAscoliUp$ finite-window diagonal handoff row, binding compact source windows, equicontinuity moduli, and target completeness into one displayed extraction route.
+\item $S$ is the $\StreamNameUp$ window row naming the inspected family stages and diagonal prefixes.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational tolerance observations attached to the selected finite windows.
+\item $R$ is the terminal $\RealUp$ seal for scalar tolerances, distances, and completion-facing readbacks.
+\item $L$ records local compact-open and equicontinuity compatibility of $O,E,X,Y,D,S,Q,R$.
+\item $H$ records componentwise $\hsame$ transport for every displayed row and the local naming row.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+O,E,X,Y \longmapsto D \longmapsto S \longmapsto Q \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactOpenEquicontinuousAscoliUp$, $\CompactOpenTopologyUp$, $\EquicontinuityFamilyUp$, $\ArzelaAscoliUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactOpenEquicontinuousAscoliUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,E,X,Y,D,S,Q,R,L,H,C,P,N$. It has no coordinate for a selected subnet, host function equality, open-cover compactness, quotient function space, countable choice, or ambient target completeness beyond the displayed $\CompleteMetricUp$ row.
+\end{definition}
+
+\begin{theorem}[Compact-open equicontinuous Ascoli NameCert obligations]
+\label{thm:compact-open-equicontinuous-ascoli-namecert-obligations}
+For every accepted $\CompactOpenEquicontinuousAscoliUp$ carrier
+$$
+A=(O,E,X,Y,D,S,Q,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\CompactOpenEquicontinuousAscoliUp}$ surface consists exactly of compact-open source-probe exposure through $O$; equicontinuity-family modulus exposure through $E$; compact metric source exposure through $X$; complete metric target exposure through $Y$; Ascoli finite-window diagonal handoff through $D$; StreamName window exposure through $S$; RegSeqRat readback through $Q$; Real sealing through $R$; local compatibility through $L$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:compact-open-equicontinuous-ascoli-carrier}. The rows $O,E,X,Y,D,S,Q,R,L,H,C,P,N$ are exactly the displayed compact-open, equicontinuity, compact-source, complete-target, diagonal, stream, rational-readback, Real-seal, compatibility, transport, replay, provenance, and naming coordinates.
+
+The compact-open and equicontinuity inputs are read first. The row $O$ supplies only finite compact-window probes, while $E$ supplies the shared modulus data needed to compare a family on those windows. The compact source row $X$ and complete target row $Y$ are therefore visible before any diagonal extraction is consumed.
+
+The finite-window exhaustion is the role of $D,S,Q,R$. The Ascoli handoff $D$ names the displayed diagonal route, $S$ records the inspected windows, $Q$ records rational readbacks, and $R$ seals the scalar tolerance and distance data for downstream completion-facing consumers.
+
+Finally $L,H,C,P,N$ bind the route locally. Compatibility, transport, replay, provenance, and naming preserve only the projected finite packet, so no selected subnet, quotient function equality, open-cover compactness, countable choice, or ambient completeness principle can be exported from the carrier.
+\end{proof}
+
+\closureat{CompactOpenEquicontinuousAscoliUp}{seedStr}
+
+\begin{closurestatus}{\CompactOpenEquicontinuousAscoliUp}
+  \constructivestory{A $\CompactOpenEquicontinuousAscoliUp$ packet is generated from compact-open source probes, equicontinuity-family moduli, a compact metric source row, a complete metric target row, an Ascoli finite-window diagonal handoff, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-open-equicontinuous-ascoli-carrier} and \autoref{thm:compact-open-equicontinuous-ascoli-namecert-obligations} seed the finite compact-open equicontinuous Ascoli route over $\CompactOpenTopologyUp$, $\EquicontinuityFamilyUp$, $\ArzelaAscoliUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subnets, quotient function equality, open-cover compactness, countable choice, ambient target completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-open probe exposure, equicontinuity modulus exposure, finite-window diagonal handoff, StreamName and RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CompactOpenEquicontinuousAscoliUp.}
+\end{closurestatus}
