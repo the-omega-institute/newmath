@@ -460,12 +460,16 @@ def commit_and_maybe_push(*, no_push: bool) -> tuple[bool, str]:
     return False, f"committed {commit_ref}; push failed"
 
 
-def build_ledgers(ledger_root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def build_ledgers(
+    ledger_root: Path,
+    *,
+    radar_payload: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     timestamp = now_iso()
     build_failure = ensure_structural_dna_build(append_log=append_log, label="refutation")
     if build_failure is not None:
         raise RuntimeError(build_failure)
-    payload = load_radar_payload()
+    payload = radar_payload if radar_payload is not None else load_radar_payload()
     degraded = radar_degraded_reason(payload)
     if degraded is not None:
         raise RuntimeError(f"discovery-radar degraded or empty: {degraded}")
@@ -487,11 +491,11 @@ def build_ledgers(ledger_root: Path) -> tuple[list[dict[str, Any]], dict[str, An
     return records, summary
 
 
-def run_once(*, no_push: bool) -> bool:
+def run_once(*, no_push: bool, radar_payload: dict[str, Any] | None = None) -> bool:
     try:
         if not ensure_publish_worktree():
             raise RuntimeError("publish worktree unavailable")
-        _records, summary = build_ledgers(PUBLISH_WORKTREE)
+        _records, summary = build_ledgers(PUBLISH_WORKTREE, radar_payload=radar_payload)
         ok, message = commit_and_maybe_push(no_push=no_push)
         status = "OK" if ok else "WARN"
         append_log(

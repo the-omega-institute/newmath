@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FiniteProofTraceSieveUp$}
+\label{ch:concrete-instances-finite-proof-trace-sieve-namecert}
+\origin{ai}
+
+The $\FiniteProofTraceSieveUp$ packet realizes the MetaCIC proof-search frontier as a finite sieve over candidate proof traces, bounded normal endpoints, discharge sockets, obstruction rows, and replayable audit data. It sits after the proof-search frontier of \autoref{ch:concrete-instances-metacic-proof-search-frontier-namecert}, the critical-path and bounded equality-checking surfaces of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the normalization boundary of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the closure-preservation witness of \autoref{ch:concrete-instances-metacic-closure-preservation-witness-namecert}. The chapter records only finite candidate, endpoint, discharge, obstruction, transport, replay, provenance, and NameCert rows; it does not claim global normalization, confluence, or subject reduction.
+
+\begin{definition}[Finite proof-trace sieve carrier]
+\label{def:finite-proof-trace-sieve-carrier}
+A $\FiniteProofTraceSieveUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,E,D,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite candidate trace table, listing proof-search candidates, local rule tags, dependency windows, and the bounded endpoints to be checked.
+\item $E$ is the bounded normal endpoint row, read through $\BoundedNormalEqualityCheckerUp$ and the MetaCIC normalization frontier, that records which displayed candidates have finished endpoint witnesses.
+\item $D$ is the discharge-socket row, recording the subject-reduction, closedness, and proof-obligation sockets that a candidate must fill before it can be consumed.
+\item $O$ is the obstruction row, naming the residual open frontier when a candidate endpoint, discharge socket, or closure-preservation trace is missing.
+\item $H$ records componentwise $\hsame$ transport for trace rows, endpoint rows, discharge sockets, obstruction rows, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from candidate enumeration through endpoint checking, discharge inspection, obstruction retention, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\FiniteProofTraceSieveUp$, $\MetaCICCriticalPathUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICNormalizationFrontierUp$, proof-trace audit witness rows, closure-preservation trace rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteProofTraceSieveUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a complete proof-search procedure, global normalization, unrestricted confluence, closed subject reduction, quotient equality of proof traces, hidden oracle discharge, or host equality of MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[Finite proof-trace sieve NameCert obligations]
+\label{thm:finite-proof-trace-sieve-namecert-obligations}
+For every accepted $\FiniteProofTraceSieveUp$ carrier
+$$
+S=(T,E,D,O,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteProofTraceSieveUp}$ surface consists exactly of carrier admission for the finite candidate table, bounded normal endpoint row, discharge-socket row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. These obligations keep each proof-search candidate inside the displayed sieve and expose any missing endpoint, discharge, or closure-preservation witness as an obstruction rather than a hidden success.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-proof-trace-sieve-carrier}. The packet exposes only $T,E,D,O,H,C,P,N$.
+
+The finite candidate table $T$ supplies the traces that may be inspected. Endpoint checking is confined to $E$, so a consumer sees only bounded normal endpoint witnesses and cannot infer a global normalization theorem.
+
+The discharge row $D$ records which subject-reduction, closedness, and proof-obligation sockets are filled. If any socket or endpoint is absent, the obstruction row $O$ is the exported frontier, not a replacement proof.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite sieve. Because the carrier contains no global confluence, subject-reduction, quotient trace equality, or oracle-discharge coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite proof-trace sieve frontier handoff]
+\label{thm:finite-proof-trace-sieve-frontier-handoff}
+Every consumer read from an accepted $\FiniteProofTraceSieveUp$ packet factors through the route
+$$
+\MetaCICCriticalPathUp,\ \BoundedNormalEqualityCheckerUp,\ \MetaCICNormalizationFrontierUp,\ T,E,D,O,H,C,P,N.
+$$
+The route first enumerates finite proof-trace candidates, then checks bounded normal endpoints, then inspects discharge sockets and closure-preservation traces, and finally exports either a replayable candidate row or the displayed obstruction row. It does not export global normalization, unrestricted confluence, closed subject reduction, quotient equality of proof traces, hidden oracle discharge, or host equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Begin with a consumer asking whether a proof-search candidate can be consumed. Carrier admission restricts the request to the finite table $T$, so only the listed trace candidates and dependency windows are visible.
+
+Next the endpoint row $E$ is read through the bounded normal-equality checker and normalization frontier. This gives bounded endpoint evidence for displayed candidates only, not a normalization theorem for all closed terms.
+
+The discharge row $D$ is then inspected together with the closure-preservation trace. A filled socket can be replayed as part of the finite candidate route; an unfilled socket is recorded by $O$ as the frontier handoff.
+
+Transport, replay, provenance, and naming preserve this same sieve. Since the packet contains no global confluence, subject-reduction, quotient trace equality, oracle discharge, or host equality coordinate, every consumer receives either the finite replayable rows or the explicit obstruction row.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteProofTraceSieveUp$ read exposes finite candidate proof traces, bounded normal endpoints, discharge sockets, obstruction rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any proof-search consumer can inspect a candidate endpoint.}
+
+\independenceWitness{metaciccriticalpath, bounded-normal-equality-checker, metacicnormalizationfrontier, prooftraceauditwitness, closurepreservationtrace: $\FiniteProofTraceSieveUp$ is not bijective to any listed sibling because it jointly carries finite candidate trace tables, bounded endpoint checks, discharge sockets, obstruction retention, closure-preservation replay, transport, provenance, and local naming while refusing global normalization, confluence, subject reduction, quotient trace equality, and hidden oracle discharge.}
+
+\closureat{FiniteProofTraceSieveUp}{seedStr}
+
+\begin{closurestatus}{\FiniteProofTraceSieveUp}
+  \constructivestory{A $\FiniteProofTraceSieveUp$ packet is generated from finite candidate proof traces, bounded normal endpoint rows, discharge sockets, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-proof-trace-sieve-carrier}, \autoref{thm:finite-proof-trace-sieve-namecert-obligations}, and \autoref{thm:finite-proof-trace-sieve-frontier-handoff} seed the finite MetaCIC proof-search sieve over candidate, endpoint, discharge, obstruction, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global normalization, unrestricted confluence, closed subject reduction, quotient equality of proof traces, hidden oracle discharge, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean declaration covering carrier admission, finite candidate enumeration, bounded endpoint checking, discharge-socket inspection, obstruction retention, transport, replay, provenance, and local naming.}
+\end{closurestatus}
