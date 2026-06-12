@@ -13,7 +13,6 @@ from .claim_verdict_reason import (
     reason_for_claim_verdict,
     validate_claim_verdict_reason,
 )
-from .map import load_validated_discovery_map_payload
 from .pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
@@ -373,7 +372,7 @@ def validate_negative_discovery_reports(
 
 
 def _discovery_map_pointers_by_negative_id(root: Path) -> dict[str, str]:
-    payload = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
+    payload = _load_json(root, DISCOVERY_MAP_ARTIFACT)
     raw_rows = payload.get("rows", [])
     rows = raw_rows if isinstance(raw_rows, list) else []
     result: dict[str, str] = {}
