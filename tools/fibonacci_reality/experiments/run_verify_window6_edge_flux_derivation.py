@@ -31,6 +31,10 @@ def matrix_fraction_record(matrix: list[list[Fraction]]) -> list[list[dict[str, 
     return [[fraction_record(value) for value in row] for row in matrix]
 
 
+def sympy_fraction_matrix_record(matrix: sp.Matrix) -> list[list[str]]:
+    return [[str(matrix[row, column]) for column in range(matrix.cols)] for row in range(matrix.rows)]
+
+
 def word_string(word: tuple[int, ...]) -> str:
     return "".join(str(bit) for bit in word)
 
@@ -148,6 +152,7 @@ def derive() -> dict[str, Any]:
 def main() -> None:
     data = derive()
     z = data["z"]
+    lam = sp.symbols("lam")
 
     expected_edge_matrix = [[28, 63, 23, 20], [63, 21, 21, 6], [23, 21, 2, 6], [20, 6, 6, 2]]
     expected_delta_r = sp.factor(
@@ -162,6 +167,29 @@ def main() -> None:
     dstar_assembly_right = sp.factor(
         47 + phi**-7 - sp.Rational(1, 2) * phi**-17 + sp.Rational(8, 9) * phi**-27
     )
+    a0 = sp.Matrix(
+        [
+            [sp.Rational(1, 2), sp.Rational(1, 2), 0, sp.Rational(1, 2)],
+            [0, 0, sp.Rational(1, 2), 0],
+            [sp.Rational(1, 2), 1, 0, 0],
+            [sp.Rational(1, 2), 0, 0, 0],
+        ]
+    )
+    expected_a0_charpoly = sp.factor((lam - 1) * (2 * lam - 1) * (2 * lam + 1) ** 2 / 8)
+    a0_charpoly = sp.factor(a0.charpoly(lam).as_expr())
+    a0_eigenvals = a0.eigenvals()
+    neghalf_kernel_rank = (a0 + sp.Rational(1, 2) * sp.eye(4)).rank()
+    neghalf_geometric_multiplicity = 4 - neghalf_kernel_rank
+    parry_kernel = sp.Matrix(
+        [
+            [sp.Rational(1, 2), sp.Rational(1, 4), 0, sp.Rational(1, 4)],
+            [0, 0, 1, 0],
+            [sp.Rational(1, 2), sp.Rational(1, 2), 0, 0],
+            [1, 0, 0, 0],
+        ]
+    )
+    parry_charpoly = sp.factor(parry_kernel.charpoly(lam).as_expr())
+    parry_row_stochastic = all(sum(parry_kernel[row, column] for column in range(4)) == 1 for row in range(4))
 
     x6_count = len(data["X6"])
     stable_counts = [len(block) for block in data["stable_blocks"]]
@@ -269,6 +297,26 @@ def main() -> None:
             sp.simplify(dstar_assembly_left - dstar_assembly_right) == 0,
             "47+phi^-7*(1-(1/2)phi^-10+(8/9)phi^-20) is definitionally 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; this is not a forcedness proof",
         ),
+        check(
+            "a0_charpoly",
+            sp.simplify(a0_charpoly - expected_a0_charpoly) == 0,
+            "the explicit paper-sourced A_0 has det(lam I - A_0)=(lam-1)(2lam-1)(2lam+1)^2/8 by exact rational linear algebra",
+        ),
+        check(
+            "a0_spectrum",
+            a0_eigenvals == {sp.Integer(1): 1, sp.Rational(1, 2): 1, sp.Rational(-1, 2): 2},
+            "spec(A_0)={1,1/2,-1/2}, with algebraic multiplicity 2 at -1/2",
+        ),
+        check(
+            "neghalf_jordan_2x2",
+            neghalf_kernel_rank == 3 and neghalf_geometric_multiplicity == 1,
+            "rank(A_0+(1/2)I)=3, so the -1/2 eigenspace is one-dimensional and the algebraic multiplicity two is one 2x2 Jordan block",
+        ),
+        check(
+            "parry_kernel_same_spectrum",
+            parry_row_stochastic and sp.simplify(parry_charpoly - expected_a0_charpoly) == 0,
+            "the Parry kernel P is row-stochastic and has the same characteristic polynomial as A_0",
+        ),
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
@@ -276,6 +324,9 @@ def main() -> None:
         "checks": checks,
         "result": {
             "anti_fit_guard": "All displayed quantities are outputs of finite predicates: X_6 enumeration, stable four-block decomposition, Foldbin tail-cube fibers, Q_6 edge enumeration, and rational Green resolvent.",
+            "paper_sourced_inputs": [
+                "A_0 fold-gauge operator (uniform-baseline mismatch-indicator weighted adjacency)",
+            ],
             "X6_count": x6_count,
             "stable_block_counts": dict(zip(LABELS, stable_counts)),
             "boundary_words": boundary_words,
@@ -308,9 +359,23 @@ def main() -> None:
                 "D_0+phi^-7 Q(phi^-10)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27 "
                 "with Q(u)=1-(1/2)u+(8/9)u^2; definitional re-expression only"
             ),
+            "a0_forward_spectral_certificate": {
+                "A_0": sympy_fraction_matrix_record(a0),
+                "charpoly": str(a0_charpoly),
+                "spectrum_with_algebraic_multiplicity": {
+                    "1": 1,
+                    "1/2": 1,
+                    "-1/2": 2,
+                },
+                "rank_A0_plus_half_I": neghalf_kernel_rank,
+                "geometric_multiplicity_at_minus_half": neghalf_geometric_multiplicity,
+                "jordan_statement": "-1/2 has algebraic multiplicity 2 and geometric multiplicity 1, hence one 2x2 Jordan block",
+                "Parry_kernel_P": sympy_fraction_matrix_record(parry_kernel),
+                "Parry_kernel_row_stochastic": parry_row_stochastic,
+                "Parry_kernel_charpoly": str(parry_charpoly),
+            },
             "obligations_not_verified": [
                 "GoldenLocalResponseFunctor form necessity",
-                "-1/2 AlternatingJordanMode A_0 spectrum",
                 "Delta_R'(z)>0 monotonicity",
                 "physical representation bridge R_6(D*)=alpha^-1",
             ],
