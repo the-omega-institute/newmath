@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompactModulusOscillationRouterUp
+namespace BEDC.Derived.CompactModulusOscillationRouterUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,25 +10,22 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CompactModulusOscillationRouterUp : Type where
-  | mk
-      (compact compactMetric continuity oscillation modulus dyadic regular real uniform
-        transport replay provenance name : BHist) :
-      CompactModulusOscillationRouterUp
+  | mk (K M F O Q D S A U H C P N : BHist) : CompactModulusOscillationRouterUp
   deriving DecidableEq
 
-def compactModulusOscillationRouterEncodeBHist : BHist → List BMark
+def compactModulusOscillationRouterEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: compactModulusOscillationRouterEncodeBHist h
   | BHist.e1 h => BMark.b1 :: compactModulusOscillationRouterEncodeBHist h
 
-def compactModulusOscillationRouterDecodeBHist : List BMark → BHist
+def compactModulusOscillationRouterDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (compactModulusOscillationRouterDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (compactModulusOscillationRouterDecodeBHist tail)
 
-private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode :
+private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       compactModulusOscillationRouterDecodeBHist
           (compactModulusOscillationRouterEncodeBHist h) =
@@ -43,10 +40,8 @@ private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignmen
 def compactModulusOscillationRouterFields :
     CompactModulusOscillationRouterUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CompactModulusOscillationRouterUp.mk compact compactMetric continuity oscillation modulus
-      dyadic regular real uniform transport replay provenance name =>
-      [compact, compactMetric, continuity, oscillation, modulus, dyadic, regular, real, uniform,
-        transport, replay, provenance, name]
+  | CompactModulusOscillationRouterUp.mk K M F O Q D S A U H C P N =>
+      [K, M, F, O, Q, D, S, A, U, H, C, P, N]
 
 def compactModulusOscillationRouterToEventFlow :
     CompactModulusOscillationRouterUp → EventFlow
@@ -54,47 +49,44 @@ def compactModulusOscillationRouterToEventFlow :
   | x => (compactModulusOscillationRouterFields x).map
       compactModulusOscillationRouterEncodeBHist
 
-private def compactModulusOscillationRouterEventAtDefault :
-    Nat → EventFlow → List BMark
+private def compactModulusOscillationRouterEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      compactModulusOscillationRouterEventAtDefault index rest
+  | Nat.succ index, _event :: rest => compactModulusOscillationRouterEventAt index rest
 
-def compactModulusOscillationRouterFromEventFlow :
-    EventFlow → Option CompactModulusOscillationRouterUp :=
+def compactModulusOscillationRouterFromEventFlow (ef : EventFlow) :
+    Option CompactModulusOscillationRouterUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (CompactModulusOscillationRouterUp.mk
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 0 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 1 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 2 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 3 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 4 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 5 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 6 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 7 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 8 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 9 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 10 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 11 ef))
-        (compactModulusOscillationRouterDecodeBHist
-          (compactModulusOscillationRouterEventAtDefault 12 ef)))
+  some
+    (CompactModulusOscillationRouterUp.mk
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 0 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 1 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 2 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 3 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 4 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 5 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 6 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 7 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 8 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 9 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 10 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 11 ef))
+      (compactModulusOscillationRouterDecodeBHist
+        (compactModulusOscillationRouterEventAt 12 ef)))
 
 private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_round_trip
     (x : CompactModulusOscillationRouterUp) :
@@ -103,58 +95,55 @@ private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignmen
       some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk compact compactMetric continuity oscillation modulus dyadic regular real uniform
-      transport replay provenance name =>
+  | mk K M F O Q D S A U H C P N =>
       change
         some
-            (CompactModulusOscillationRouterUp.mk
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist compact))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist compactMetric))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist continuity))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist oscillation))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist modulus))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist dyadic))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist regular))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist real))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist uniform))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist transport))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist replay))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist provenance))
-              (compactModulusOscillationRouterDecodeBHist
-                (compactModulusOscillationRouterEncodeBHist name))) =
-          some
-            (CompactModulusOscillationRouterUp.mk compact compactMetric continuity
-              oscillation modulus dyadic regular real uniform transport replay provenance name)
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode compact]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode compactMetric]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode continuity]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode oscillation]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode modulus]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode dyadic]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode regular]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode real]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode uniform]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode transport]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode replay]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode provenance]
-      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode name]
+          (CompactModulusOscillationRouterUp.mk
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist K))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist M))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist F))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist O))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist Q))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist D))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist S))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist A))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist U))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist H))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist C))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist P))
+            (compactModulusOscillationRouterDecodeBHist
+              (compactModulusOscillationRouterEncodeBHist N))) =
+          some (CompactModulusOscillationRouterUp.mk K M F O Q D S A U H C P N)
+      rw [CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode K,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode M,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode F,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode O,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode Q,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode D,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode S,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode A,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode U,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode H,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode C,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode P,
+        CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_injective
+private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CompactModulusOscillationRouterUp} :
     compactModulusOscillationRouterToEventFlow x =
-      compactModulusOscillationRouterToEventFlow y →
+        compactModulusOscillationRouterToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -169,6 +158,19 @@ private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignmen
       (CompactModulusOscillationRouterTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (CompactModulusOscillationRouterTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CompactModulusOscillationRouterUp,
+      compactModulusOscillationRouterFields x = compactModulusOscillationRouterFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk K₁ M₁ F₁ O₁ Q₁ D₁ S₁ A₁ U₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk K₂ M₂ F₂ O₂ Q₂ D₂ S₂ A₂ U₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance compactModulusOscillationRouterBHistCarrier :
     BHistCarrier CompactModulusOscillationRouterUp where
@@ -189,20 +191,48 @@ instance compactModulusOscillationRouterChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CompactModulusOscillationRouterTasteGate_single_carrier_alignment_injective heq)
+      (CompactModulusOscillationRouterTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
+
+instance compactModulusOscillationRouterFieldFaithful :
+    FieldFaithful CompactModulusOscillationRouterUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := compactModulusOscillationRouterFields
+  field_faithful :=
+    CompactModulusOscillationRouterTasteGate_single_carrier_alignment_fields_faithful
+
+instance compactModulusOscillationRouterNontrivial :
+    Nontrivial CompactModulusOscillationRouterUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CompactModulusOscillationRouterUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CompactModulusOscillationRouterUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def CompactModulusOscillationRouterTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate CompactModulusOscillationRouterUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  compactModulusOscillationRouterChapterTasteGate
 
 theorem CompactModulusOscillationRouterTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-        compactModulusOscillationRouterDecodeBHist
-            (compactModulusOscillationRouterEncodeBHist h) =
-          h) ∧
-      Nonempty (BHistCarrier CompactModulusOscillationRouterUp) ∧
-        Nonempty (ChapterTasteGate CompactModulusOscillationRouterUp) ∧
-          compactModulusOscillationRouterEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (BHistCarrier CompactModulusOscillationRouterUp) ∧
+      Nonempty (ChapterTasteGate CompactModulusOscillationRouterUp) ∧
+        (∀ x : CompactModulusOscillationRouterUp,
+          compactModulusOscillationRouterFromEventFlow
+              (compactModulusOscillationRouterToEventFlow x) =
+            some x) ∧
+          compactModulusOscillationRouterEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨CompactModulusOscillationRouterTasteGate_single_carrier_alignment_decode,
-      ⟨⟨compactModulusOscillationRouterBHistCarrier⟩,
-        ⟨⟨compactModulusOscillationRouterChapterTasteGate⟩, rfl⟩⟩⟩
+    ⟨⟨compactModulusOscillationRouterBHistCarrier⟩,
+      ⟨compactModulusOscillationRouterChapterTasteGate⟩,
+      CompactModulusOscillationRouterTasteGate_single_carrier_alignment_round_trip,
+      rfl⟩
 
-end BEDC.Derived.CompactModulusOscillationRouterUp
+end BEDC.Derived.CompactModulusOscillationRouterUp.TasteGate
