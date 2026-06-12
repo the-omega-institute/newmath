@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\GaugeIntegralCriterionUp$}
+\label{ch:concrete-instances-gauge-integral-criterion-namecert}
+\origin{human}
+
+Following Henstock, Kurzweil, and Bishop--Bridges on constructive integration, the $\GaugeIntegralCriterionUp$ packet records the finite gauge-test surface used to read an integral claim through displayed gauges, tagged sums, dyadic tolerances, regular rational witnesses, and a terminal Real seal. It sits between the gauge integral route of \autoref{ch:concrete-instances-gauge-integral-namecert}, the tagged-sum surface of $\RiemannSumGaugeUp$, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real row of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite BEDC criterion; it is not Lebesgue measure, a selected partition principle, open-cover compactness, countable choice, or ambient Real completeness.
+
+\begin{definition}[Gauge integral criterion carrier]
+\label{def:gauge-integral-criterion-carrier}
+A $\GaugeIntegralCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,S,W,T,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\GaugeIntegralUp$ row naming the displayed integrand, interval, and gauge-integral claim.
+\item $S$ is the $\RiemannSumGaugeUp$ row exposing tagged Riemann sums for the same displayed claim.
+\item $W$ is the finite gauge-window row recording the inspected tagged subintervals and their local gauge bounds.
+\item $T$ is the tolerance row naming the positive request against which the sums are compared.
+\item $D$ is the $\DyadicRatCoreUp$ row encoding the dyadic comparison budget for $T$ and $W$.
+\item $R$ is the $\RegSeqRatUp$ readback row recording the regular rational sum comparisons visible inside the window.
+\item $E$ is the $\RealUp$ seal row available only after $I,S,W,T,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the gauge-integral, tagged-sum, window, tolerance, dyadic, readback, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the gauge-integral row through tagged sums, gauge windows, tolerance comparison, dyadic readback, Real seal, and the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\GaugeIntegralCriterionUp$, $\GaugeIntegralUp$, $\RiemannSumGaugeUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GaugeIntegralCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It contains no coordinate for Lebesgue measure completion, a selected partition, open-cover compactness, countable choice, quotient Real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Gauge integral criterion NameCert obligations]
+\label{thm:gauge-integral-criterion-namecert-obligations}
+For every accepted $\GaugeIntegralCriterionUp$ carrier
+$$
+G=(I,S,W,T,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\GaugeIntegralCriterionUp}$ surface consists exactly of carrier admission for the gauge-integral, tagged-sum, gauge-window, tolerance, dyadic-budget, regular-rational readback, Real-seal, transport, replay, provenance, and local naming rows; gauge-window exposure; tolerance exactness; tagged-sum comparison through the displayed dyadic and regular rational rows; Real-seal nonescape; componentwise $\hsame$ transport; displayed $\Cont$ replay; $\Pkg$ provenance; and local naming for the same finite packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:gauge-integral-criterion-carrier}. The accepted packet exposes exactly the rows $I,S,W,T,D,R,E,H,C,P,N$.
+
+The analytic route is finite. The row $I$ names the gauge-integral claim, $S$ exposes the tagged sums, $W$ records the inspected gauge window, and $T$ fixes the tolerance request against which those sums are read.
+
+The comparison rows are also displayed. The dyadic budget $D$ and regular rational readback $R$ are the only numerical comparison rows before the Real seal $E$ is available. Thus a consumer cannot replace the criterion with Lebesgue measure completion, a selected partition, open-cover compactness, countable choice, quotient Real equality, or ambient Real completeness.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no further coordinate exists in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GaugeIntegralCriterionUp$ read exposes one GaugeIntegral row, one RiemannSumGauge row, one finite gauge-window row, one tolerance row, one DyadicRatCore comparison row, one RegSeqRat readback row, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the criterion is consumed.}
+
+\independenceWitness{gauge-integral, riemann-sum-gauge, dyadicratcore, regseqrat, real: $\GaugeIntegralCriterionUp$ is not bijective to any listed sibling because it jointly carries gauge claims, tagged sums, finite windows, tolerance budgets, dyadic comparison, regular rational readback, Real sealing, transport, replay, provenance, and local naming as one criterion packet.}
+
+\closureat{GaugeIntegralCriterionUp}{seedStr}
+
+\begin{closurestatus}{\GaugeIntegralCriterionUp}
+  \constructivestory{A $\GaugeIntegralCriterionUp$ packet is generated from a GaugeIntegral row, a RiemannSumGauge row, finite gauge windows, tolerance requests, DyadicRatCore comparison budgets, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gauge-integral-criterion-carrier} and \autoref{thm:gauge-integral-criterion-namecert-obligations} seed the finite gauge criterion over GaugeIntegral, RiemannSumGauge, gauge-window, tolerance, DyadicRatCore, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lebesgue measure completion, selected partitions, open-cover compactness, countable choice, quotient Real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, gauge-window exposure, tolerance exactness, tagged-sum comparison, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.GaugeIntegralCriterionUp.}
+\end{closurestatus}
