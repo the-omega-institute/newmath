@@ -1,0 +1,15 @@
+\begin{theorem}[Arzela--Ascoli sibling lattice repair]
+\label{thm:arzela-ascoli-finite-modulus-sibling-lattice-repair}
+Every selector-facing export from an accepted $\ArzelaAscoliFiniteModulusUp$ packet consumes the sibling rows
+$$
+\CompactMetricUp,\quad \CompactUniformContinuityUp,\quad \EquicontinuityUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \DyadicRatCoreUp
+$$
+before any finite-modulus selector row is public. The export therefore reads compact source data, compact-uniform continuity data, equicontinuity discipline, finite stream windows, regular-rational readback, the terminal real-name seal, and dyadic tolerance arithmetic as separate certificate rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:arzela-ascoli-finite-modulus-carrier}. Its selector-facing surface already exposes the compact source row, finite window row, regular rational readback, real seal, transport, replay, provenance, and local naming rows.
+
+Apply the sibling lattice routes recorded in \autoref{thm:arzela-ascoli-finite-modulus-forward-lattice}, \autoref{thm:arzela-ascoli-finite-modulus-compactmetric-forward-reference}, \autoref{thm:arzela-ascoli-finite-modulus-compact-uniform-repair}, and \autoref{thm:arzela-ascoli-finite-modulus-sibling-dependency-route}. These routes place $\CompactMetricUp$, $\CompactUniformContinuityUp$, and $\EquicontinuityUp$ before the exported selector row.
+
+The same carrier supplies $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the $\RealUp$ seal, and $\DyadicRatCoreUp$ arithmetic. Since the export is obtained only after those displayed rows are read, no selector-facing consumer can bypass the horizontal dependency lattice.
+\end{proof}
