@@ -339,4 +339,70 @@ theorem DyadicMidpointNestedIntervalNonEscape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, handoffReadUnary, nestedReadUnary⟩
 
+theorem DyadicMidpointCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {left right scale midpoint branch window sameRows transport route provenance nameCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMidpointCarrier left right scale midpoint branch window sameRows transport route
+        provenance nameCert endpoint bundle pkg ->
+      SemanticNameCert
+            (fun row : BHist => hsame row route ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row left ∨ hsame row right ∨ hsame row scale ∨
+                hsame row midpoint ∨ hsame row branch ∨ hsame row window ∨ hsame row route)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont left right scale ∧ Cont scale midpoint window ∧
+                Cont branch window route ∧ PkgSig bundle nameCert pkg)
+            hsame ∧
+        UnaryHistory route ∧ Cont left right scale ∧ Cont scale midpoint window ∧
+          Cont branch window route ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨leftUnary, rightUnary, scaleUnary, midpointUnary, branchUnary, _windowUnary,
+    _sameRowsUnary, _routeUnary, _transportUnary, _provenanceUnary, _nameCertUnary,
+    _endpointUnary, _midpointRow, _endpointRoute, scaleRoute, midpointRoute,
+    branchRoute, _endpointPkg, _provenancePkg, nameCertPkg⟩ := carrier
+  have windowClosed : UnaryHistory window :=
+    unary_cont_closed scaleUnary midpointUnary midpointRoute
+  have routeClosed : UnaryHistory route :=
+    unary_cont_closed branchUnary windowClosed branchRoute
+  have sourceRoute :
+      (fun row : BHist => hsame row route ∧ UnaryHistory row) route := by
+    exact ⟨hsame_refl route, routeClosed⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row route ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row left ∨ hsame row right ∨ hsame row scale ∨ hsame row midpoint ∨
+              hsame row branch ∨ hsame row window ∨ hsame row route)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont left right scale ∧ Cont scale midpoint window ∧
+              Cont branch window route ∧ PkgSig bundle nameCert pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro route sourceRoute
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, scaleRoute, midpointRoute, branchRoute, nameCertPkg⟩
+  }
+  exact ⟨cert, routeClosed, scaleRoute, midpointRoute, branchRoute, nameCertPkg⟩
+
 end BEDC.Derived.DyadicMidpointUp
