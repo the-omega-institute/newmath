@@ -1,6 +1,6 @@
 # New Model Hardgates
 
-- Generated at: `2026-06-11T08:40:12.594518+00:00`
+- Generated at: `2026-06-12T06:36:23.020151+00:00`
 - Schema: `bedc-quality-lab:new-model-hardgates`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
