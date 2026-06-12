@@ -3483,6 +3483,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootConsumerPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetLedgerStability
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
@@ -3514,6 +3515,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceCoverage
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceModulusAdmission
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceObligationTriad
@@ -5585,6 +5587,7 @@ import BEDC.Derived.HyperspaceUp.RootFiniteNetHitMiss
 import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
 import BEDC.Derived.HyperspaceUp.RootHausdorffTransport
 import BEDC.Derived.HyperspaceUp.RootVietorisNetBasis
+import BEDC.Derived.HyperspaceUp.ScopedClosureRoute
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
 import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
