@@ -359,4 +359,43 @@ theorem BishopCompletionModulusCarrier_threshold_coherence [AskSetup] [PackageSe
   }
   exact ⟨refinedKUnary, refinedWUnary, sameRefinedK, cert⟩
 
+theorem BishopCompletionModulusCarrier_finite_threshold_induction [AskSetup] [PackageSetup]
+    {M S n k W D R E H C P N request refinedK refinedW refinedR sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopCompletionModulusCarrier M S n k W D R E H C P N bundle pkg ->
+      UnaryHistory request ->
+        hsame request n ->
+          Cont M request refinedK ->
+            Cont S refinedK refinedW ->
+              Cont refinedW D refinedR ->
+                Cont refinedR E sealRead ->
+                  UnaryHistory request ∧ UnaryHistory refinedK ∧ UnaryHistory refinedW ∧
+                    UnaryHistory refinedR ∧ UnaryHistory sealRead ∧ hsame refinedK k ∧
+                      hsame refinedR R ∧ hsame sealRead H ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier requestUnary sameRequest refinedModulusRoute refinedWindowRoute
+    refinedRegularRoute refinedSealRoute
+  obtain ⟨unaryM, unaryS, _unaryN, _unaryK, _unaryW, unaryD, _unaryR, unaryE,
+    _unaryH, _unaryC, _unaryP, _unaryLocalName, modulusRoute, windowRoute,
+      regularRoute, sealRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have refinedKUnary : UnaryHistory refinedK :=
+    unary_cont_closed unaryM requestUnary refinedModulusRoute
+  have sameRefinedK : hsame refinedK k :=
+    cont_respects_hsame (hsame_refl M) sameRequest refinedModulusRoute modulusRoute
+  have refinedWUnary : UnaryHistory refinedW :=
+    unary_cont_closed unaryS refinedKUnary refinedWindowRoute
+  have sameRefinedW : hsame refinedW W :=
+    cont_respects_hsame (hsame_refl S) sameRefinedK refinedWindowRoute windowRoute
+  have refinedRUnary : UnaryHistory refinedR :=
+    unary_cont_closed refinedWUnary unaryD refinedRegularRoute
+  have sameRefinedR : hsame refinedR R :=
+    cont_respects_hsame sameRefinedW (hsame_refl D) refinedRegularRoute regularRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed refinedRUnary unaryE refinedSealRoute
+  have sameSealRead : hsame sealRead H :=
+    cont_respects_hsame sameRefinedR (hsame_refl E) refinedSealRoute sealRoute
+  exact
+    ⟨requestUnary, refinedKUnary, refinedWUnary, refinedRUnary, sealReadUnary,
+      sameRefinedK, sameRefinedR, sameSealRead, provenancePkg⟩
+
 end BEDC.Derived.BishopCompletionModulusUp
