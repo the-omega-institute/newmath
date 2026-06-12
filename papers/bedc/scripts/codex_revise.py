@@ -1636,6 +1636,7 @@ def merge_worktree_to_base(
 
     # Phase 2: Push retry loop (short push lock per attempt)
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
+        retry_merge_reason: str | None = None
         if verify_before_push:
             wt_tip_pre = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
             if wt_tip_pre not in verified_push_tips:
@@ -1675,6 +1676,7 @@ def merge_worktree_to_base(
                         f"{captured_base_sha[:8]} -> {current_base_sha[:8]}, "
                         f"retry needed (attempt {attempt})"
                     )
+                    retry_merge_reason = "origin-moved"
                 else:
                     wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
                     if verify_before_push and wt_tip not in verified_push_tips:
@@ -1727,6 +1729,8 @@ def merge_worktree_to_base(
                             f"[P{wt.round_number}] ff update failed attempt {attempt} "
                             f"(transient diverge, will retry): {msg.strip()[:200]}"
                         )
+                        if msg.strip() == "skipped-not-ancestor":
+                            retry_merge_reason = "local-not-ancestor"
         except TimeoutError as exc:
             logger.warning(f"[P{wt.round_number}] push lock timeout attempt {attempt}: {exc}")
 
@@ -1748,7 +1752,12 @@ def merge_worktree_to_base(
             return False
         with _git_lock:
             new_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
-        if new_base_sha != captured_base_sha:
+        if new_base_sha != captured_base_sha or retry_merge_reason == "local-not-ancestor":
+            if retry_merge_reason == "local-not-ancestor":
+                logger.info(
+                    f"[P{wt.round_number}] retry merging current local "
+                    f"{BASE_BRANCH} after skipped-not-ancestor"
+                )
             merge = run_cmd(
                 ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
                 cwd=wt.path, timeout=180,
