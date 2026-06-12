@@ -1,6 +1,6 @@
 # Scaling Ladder
 
-- Generated at: `2026-06-12T06:36:23.020151+00:00`
+- Generated at: `2026-06-12T09:34:43.560066+00:00`
 - Artifact: `bedc-quality-lab:scaling-ladder`
 - Schema: `bedc-quality-lab:scaling-ladder`
 

@@ -53,6 +53,7 @@ def test_reproduction_package_schema_and_pointer_boundaries():
     assert "fair_decision" not in serialized
     assert "ladder_state" not in serialized
     assert "tolerance_range" not in serialized
+    assert "inputs.config_inputs" not in serialized
 
 
 def test_reproduction_package_structural_profile_reports_upstream_gap_without_failure():
