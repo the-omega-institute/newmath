@@ -3895,6 +3895,27 @@ def test_fair_l1_decision_canonical_spec_projects_ladder_state():
     }
 
 
+def test_fair_l1_changed_run_allows_nonpass_when_committed_status_is_bounded_negative(monkeypatch):
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "bounded-negative")
+
+    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is False
+
+
+def test_fair_l1_changed_run_blocks_nonpass_when_committed_status_is_not_bounded_negative(monkeypatch):
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "blocked")
+
+    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is True
+
+
+def test_changed_run_blocks_non_fair_nonpass_without_committed_decision_lookup(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("non-fair changed result must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert canonical._result_blocks_changed_run({"name": "dgt-l1-controls", "status": "fail"}) is True
+
+
 def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")

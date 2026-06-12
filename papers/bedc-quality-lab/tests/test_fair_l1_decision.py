@@ -3,6 +3,7 @@ import json
 import pytest
 
 from bedc_quality_lab import fair_l1_decision as fair
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_canonical_reports as canonical
 from scripts import run_fair_l1_decision as runner
 
@@ -31,6 +32,38 @@ def _payload(root):
     return fair.build_payload(root=root, generated_at="fixture-time")
 
 
+def _read_json(root, artifact):
+    return json.loads((root / artifact).read_text(encoding="utf-8"))
+
+
+def _write_json(root, artifact, payload):
+    path = root / artifact
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _write_eligible_sources(root):
+    _write_sources(root)
+    l1 = _read_json(root, fair.DGT_L1_CONTROLS_ARTIFACT)
+    l1["l1_tiny_sequence_projection"]["ood_generalization_claim"] = "bounded-mechanism-evidence"
+    l1["l1_step_ladder"]["status"] = "pass"
+    l1["l1_step_ladder"]["verdict"] = "information-starved-catches-up"
+    l1["l1_step_ladder"]["step_rows"][0].setdefault("metrics", {})["validation_loss_mean"] = 0.25
+    l1["l1_ood_mechanism"]["verdict"] = "partial-rule"
+    _write_json(root, fair.DGT_L1_CONTROLS_ARTIFACT, l1)
+
+    base = _read_json(root, fair.DGT_BASE_UNDERTRAINING_ARTIFACT)
+    construct = base["base_undertraining_audit"]["construct_validity"]
+    construct["status"] = "pass"
+    construct["baseline_input_order"] = construct["label_dependency_order"]
+    for row in base["base_undertraining_audit"]["comparison_rows"]:
+        row["status"] = "resolved"
+    _write_json(root, fair.DGT_BASE_UNDERTRAINING_ARTIFACT, base)
+
+    accessibility = _read_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT)
+    accessibility["consumer_pointers"]["information_starved_arms_ref"] = []
+    _write_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT, accessibility)
+
+
 def test_fair_l1_decision_projects_bounded_negative_from_current_l1_evidence(tmp_path):
     payload = _payload(tmp_path)
 
@@ -51,6 +84,26 @@ def test_fair_l1_decision_projects_bounded_negative_from_current_l1_evidence(tmp
     assert any(row["gate_id"] == "FAIR-L1-HG3" for row in payload["boundary_ledger"])
     assert "unblocked" not in json.dumps(payload, sort_keys=True)
     assert "scoped-boundary" not in json.dumps(payload, sort_keys=True)
+
+
+def test_fair_l1_decision_projects_scaling_evidence_eligible_from_resolved_sources(tmp_path):
+    _write_eligible_sources(tmp_path)
+    payload = fair.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert {gate_id: row["status"] for gate_id, row in payload["hardgates"].items()} == {
+        gate_id: "pass" for gate_id in fair.HARDGATE_IDS
+    }
+    assert payload["decision"]["status"] == "scaling-evidence-eligible"
+    assert payload["decision"]["failed_gate"] is None
+    assert payload["decision"]["hardgate_status"] == "pass"
+    assert payload["ladder_state_projection"]["state"] == "l1-scaling-evidence-eligible"
+    assert payload["boundary_ledger"] == []
+
+    fair.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
+    capsule = payload["decision"]["claim_capsule"]
+    assert capsule["status"] == "pointer-only"
+    for pointer in capsule["evidence_pointers"] + capsule["projection_pointers"]:
+        assert resolve_artifact_pointer(tmp_path, pointer) is not None
 
 
 def test_fair_l1_decision_missing_source_blocks_instead_of_stub(tmp_path):
