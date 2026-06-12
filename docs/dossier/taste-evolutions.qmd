@@ -255,6 +255,8 @@ to case-by-case judgment.
 error: build failed
 BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unknown identifier `carrier`, audit=skipped, phase_d_lint=skipped.
 
+- 2026-06-12T17:12:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteEpsilonNetCarrier` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteEpsilonNetCarrier:acf7b076`). Rationale: The target has real BEDC content: it derives a finite epsilon-net/cover/sample SemanticNameCert and UnaryHistory sample from the covering-dimension carrier plus the epsilonNet-cover Cont route. Full-name grep found no existing downstream Lean or paper references, while the surrounding paper has a root-cover theorem for the same finite epsilon-net carrier theme. I added a sibling consumer theorem that calls the target and then pushes the sample through a refinement Cont route to a refinedSample NameCert, so the original theorem now supports a downstream refinement-facing handoff rather than standing as an isolated staging theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
