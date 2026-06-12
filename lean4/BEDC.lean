@@ -3576,6 +3576,7 @@ import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
+import BEDC.Derived.DarbouxOscillationUp
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
@@ -4756,6 +4757,7 @@ import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
 import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
+import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
@@ -6423,6 +6425,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
+import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -6490,6 +6493,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetScope
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCompletionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10LocalityObstruction
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
@@ -6886,6 +6890,7 @@ import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MirskyTheoremUp
+import BEDC.Derived.MittagLefflerBishopUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelCatUp.TasteGate
