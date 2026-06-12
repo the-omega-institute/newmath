@@ -324,9 +324,12 @@ def _optional_owner_row_pointer(
     collection: str,
     field: str,
 ) -> Mapping[str, Any] | None:
-    if key not in row or row.get(key) is None:
+    if key not in row:
+        raise ValueError(f"{field} must be present")
+    pointer = row[key]
+    if pointer is None:
         return None
-    return _required_owner_row_pointer(payload, row.get(key), collection=collection, field=field)
+    return _required_owner_row_pointer(payload, pointer, collection=collection, field=field)
 
 
 def _required_owner_row_pointer(

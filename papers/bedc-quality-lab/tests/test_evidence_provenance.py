@@ -271,7 +271,7 @@ def test_validation_rejects_unresolved_training_audit_pointer(tmp_path):
         validate_evidence_provenance_payload(payload)
 
 
-def test_validation_accepts_absent_sidecar_training_audit_pointer(tmp_path):
+def test_validation_requires_explicit_null_sidecar_training_audit_pointer(tmp_path):
     spec = _spec("fixture", "reports/canonical/fixture.json")
     _write_source(tmp_path, "scripts/run_fixture.py")
     _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
@@ -287,10 +287,17 @@ def test_validation_accepts_absent_sidecar_training_audit_pointer(tmp_path):
     )
     payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
     sidecar = payload["discovery_rows_by_report"]["sidecar-boundary"]
-    sidecar.pop("producer_training_audit_pointer")
-    payload["discovery_rows"][1] = sidecar
 
+    assert sidecar["producer_training_audit_pointer"] is None
     assert validate_evidence_provenance_payload(payload)["discovery_rows"][1] == sidecar
+
+    malformed = dict(sidecar)
+    malformed.pop("producer_training_audit_pointer")
+    payload["discovery_rows"][1] = malformed
+    payload["discovery_rows_by_report"]["sidecar-boundary"] = malformed
+
+    with pytest.raises(ValueError, match="producer_training_audit_pointer must be present"):
+        validate_evidence_provenance_payload(payload)
 
 
 def test_report_owner_pointer_resolves_through_generic_resolver(tmp_path):
