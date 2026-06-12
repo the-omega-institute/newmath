@@ -386,6 +386,47 @@ theorem CauchyContinuousMap_composition_route [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem CauchyContinuousMap_modulus_boundary_nonescape [AskSetup] [PackageSetup]
+    (M : BEDC.Derived.CauchyContinuousMapUp) {modulusRead imageRead sealRead
+      boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyContinuousMapPacket M.windows M.imageReadback M.toleranceLedger
+        M.realSealHandoff M.transport M.replay M.provenance M.localName bundle pkg →
+      Cont M.windows M.imageReadback imageRead →
+        Cont imageRead M.realSealHandoff sealRead →
+          Cont sealRead M.replay boundaryRead →
+            Cont boundaryRead M.localName modulusRead →
+              hsame modulusRead
+                  (append (append (append (append M.windows M.imageReadback)
+                    M.realSealHandoff) M.replay) M.localName) ∧
+                UnaryHistory modulusRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append UnaryHistory
+  intro packet imageRoute sealRoute boundaryRoute modulusRoute
+  obtain ⟨windowsUnary, imageReadbackUnary, _toleranceUnary, sealUnary,
+    _transportUnary, replayUnary, _provenanceUnary, localNameUnary,
+    _provenancePkg⟩ := packet
+  have imageUnary : UnaryHistory imageRead :=
+    unary_cont_closed windowsUnary imageReadbackUnary imageRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed imageUnary sealUnary sealRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed sealReadUnary replayUnary boundaryRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed boundaryReadUnary localNameUnary modulusRoute
+  have sealExact :
+      hsame sealRead (append (append M.windows M.imageReadback) M.realSealHandoff) :=
+    sealRoute.trans (congrArg (fun row => append row M.realSealHandoff) imageRoute)
+  have boundaryExact :
+      hsame boundaryRead
+        (append (append (append M.windows M.imageReadback) M.realSealHandoff) M.replay) :=
+    boundaryRoute.trans (congrArg (fun row => append row M.replay) sealExact)
+  have modulusExact :
+      hsame modulusRead
+        (append (append (append (append M.windows M.imageReadback)
+          M.realSealHandoff) M.replay) M.localName) :=
+    modulusRoute.trans (congrArg (fun row => append row M.localName) boundaryExact)
+  exact ⟨modulusExact, modulusUnary⟩
+
 end CauchyContinuousMapUp
 
 end BEDC.Derived
