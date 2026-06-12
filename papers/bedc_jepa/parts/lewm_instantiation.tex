@@ -184,16 +184,21 @@ $[0.568,\ 0.652]$, while the matched-random control has $0.507$
 $[0.458,\ 0.554]$; the detection criterion is interval-separated.  Its UER
 moves from $0.248$ to $0.210$ $[0.183,\ 0.233]$, overlapping its vanilla
 baseline, so the strict two-criterion rule does not grant the row.  For
-\texttt{pusht}, the public data are raw HDF5 compressed with \texttt{zstandard};
-the evaluation environment lacks that decoder, so the protocol records data
-unavailable under fail-closed handling and does not fabricate data.  Thus the
-detection signal for predictable failure separates from the capacity-matched
-control intervals on all three available environments
-(\texttt{tworooms} $0.731$, \texttt{reacher} $0.662$, \texttt{cube} $0.610$),
-whereas the strict two-criterion claim, requiring both detection separation
-and UER interval separation, holds only for \texttt{tworooms}: under the
-simplified feature protocol, the UER decreases have the same direction but do
-not separate.
+\texttt{quentinll/lewm-pusht}, with $150$ episodes, $3092$ transitions, and
+the same identity self-check at $0.0$, the learned head has AUROC $1.000$
+$[1.000,\ 1.000]$, while the matched-random control has $0.309$
+$[0.300,\ 0.318]$; its UER moves from $0.185$ to $0.000$, so both criteria
+separate and the row is positive.  Perfect separation means that, on this
+carrier, predictor failure is almost a deterministic readout of the current
+latent; the diagnostics recorded with the result show no trivial
+single-coordinate explanation, with strongest single dimension $0.84$ and
+norm $0.80$, mixed labels inside each episode, and a smooth error
+distribution.  The below-random permutation control is recorded as an
+anomaly of that control itself, not as evidence of leakage.  Thus the
+detection signal separates from the control intervals on all four
+environments (\texttt{tworooms} $0.731$, \texttt{reacher} $0.662$,
+\texttt{cube} $0.610$, \texttt{pusht} $1.000$), whereas the strict
+two-criterion rule holds for \texttt{tworooms} and \texttt{pusht} $(2/4)$.
 
 \paragraph{Record pointers.}
 The executed records live in the public repository
@@ -221,7 +226,7 @@ An interactive demonstration of the failure-versus-declared-gap readout is
 published from the same repository.
 
 \paragraph{Boundary of this instantiation.}
-The detection-signal claim rests on three public checkpoints
+The detection-signal claim rests on four public checkpoints
 (\texttt{tworooms}, \texttt{reacher}, and \texttt{cube}), each with a single
 latent export; the strict two-criterion claim and all trained-ledger rows
 remain restricted to \texttt{tworooms}; the confidence intervals still use
