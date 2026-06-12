@@ -424,6 +424,7 @@ Attach the ledger to modulus requests by \autoref{thm:critical-line-witness-modu
 
 The nonclassification and non-escape boundaries of \autoref{thm:critical-line-witness-rh-nonclassification-boundary} and \autoref{thm:critical-line-witness-nonescape-boundary} remove the excluded analytic and host-level coordinates. Thus ledger admission is exactly the comparison surface required by $M$.
 \end{proof}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_comparison\_ledger\_admission}
 
 \begin{theorem}[Critical-line witness public consumer factorization]
 \label{thm:critical-line-witness-public-consumer-factorization}
@@ -440,6 +441,7 @@ Use \autoref{thm:critical-line-witness-comparison-ledger-admission} for the $M,R
 
 Finally apply \autoref{thm:critical-line-witness-rh-nonclassification-boundary}, \autoref{thm:critical-line-witness-local-rh-boundary}, and \autoref{thm:critical-line-witness-obligation-closure-package}. These results keep the consumer inside $Z,S,M,R,Q,H,C,P,N$ and preserve the nonclassification boundary for $\mathsf{RH}$.
 \end{proof}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_public\_consumer\_factorization}
 
 \begin{theorem}[Critical-line witness root carrier scope]
 \label{thm:critical-line-witness-root-carrier-scope}
@@ -733,41 +735,7 @@ The non-escape part of that package rules out host equality, quotient representa
 \end{proof}
 \leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_transport\_replay\_obligation}
 
-\begin{theorem}[Critical-line witness downstream source obligation]
-\label{thm:critical-line-witness-downstream-source-obligation}
-Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet anchored in $\BHist$. Every $\mathsf{RH}$-facing downstream source read factors through the finite supplied-zero and modulus packet consisting of $Z,S,M,R,Q,H,C,P,N$. Such a consumer receives no $\mathsf{RH}$ proof, no global zero classifier, no host equality, no quotient representative, no analytic-continuation certificate, and no ambient completeness principle.
-\end{theorem}
-\begin{proof}
-Begin with \autoref{thm:critical-line-witness-rh-consumer-boundary-package}. It states the downstream consumer boundary as the zero-source route, strip-modulus ledger triad, nonproof boundary, refusal row, and local obligation package.
-
-Use \autoref{thm:critical-line-witness-zero-source-totality} to make the zero source explicit, and use \autoref{thm:critical-line-witness-strip-modulus-ledger-triad} to make the modulus source explicit. Together they factor every source read through $Z,S,M,R,Q,H,C,P,N$.
-
-Finally apply \autoref{thm:critical-line-witness-obligation-closure-package}. The package is finite and local to the accepted witness, so downstream reads cannot import an $\mathsf{RH}$ proof, global zero classifier, host equality, quotient representative, analytic-continuation certificate, or ambient completeness principle.
-\end{proof}
-
-\begin{theorem}[Critical-line witness carrier admission obligation]
-\label{thm:critical-line-witness-carrier-admission-obligation}
-For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the supplied zero row $Z$, critical-strip row $S$, real-part row $R$, rational comparison ledger $Q$, transport row $H$, continuation row $C$, package provenance $P$, and local $\NameCert$ row $N$ combine with the modulus row $M$ into the accepted $\BHist$ carrier surface. Carrier admission exposes exactly those finite rows and no zero search, $\mathsf{RH}$ proof, host equality, quotient representative, or ambient analytic-completeness row.
-\end{theorem}
-\begin{proof}
-Apply the carrier-admission row theorem to identify $Z,S,M,R,Q,H,C,P,N$ as the admitted packet. Use the supplied-input carrier row to keep the zero, strip, real-part, and rational comparison rows inside the same accepted $\BHist$ surface.
-
-Next apply the NameCert ledger theorem and the transport replay obligation. They attach the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to the same packet rather than to an external analytic certificate.
-
-Finally use the downstream source obligation. It rules out $\mathsf{RH}$ proof data, zero search, host equality, quotient representatives, and analytic-completeness rows as carrier coordinates, so the admitted carrier surface is exactly the finite packet displayed above.
-\end{proof}
-
-\begin{theorem}[Critical-line witness zero-strip compatibility obligation]
-\label{thm:critical-line-witness-zero-strip-compatibility-obligation}
-For an accepted $\CriticalLineWitnessUp$ packet, the supplied zero row $Z$ and critical-strip row $S$ are consumed together before any modulus row $M$, rational comparison ledger $Q$, or $\mathsf{RH}$-facing read is available. The zero and strip rows therefore form a local compatibility obligation over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a global zero-set classifier.
-\end{theorem}
-\begin{proof}
-Use strip-zero compatibility and strip-zero route exactness. These theorems bind $Z$ and $S$ to the same supplied complex-history route through the displayed transport and continuation rows.
-
-Then apply zero-source totality together with root strip readback. They force every zero-facing read to pass through the supplied zero and strip rows before the modulus or rational comparison ledger can be inspected.
-
-The RH consumer boundary package keeps the combined read at witness-boundary level. Thus the compatibility obligation is consumed before any modulus or RH-facing read and cannot become a global zero classifier.
-\end{proof}
+\input{parts/concrete_instances/criticallinewitness/downstream_obligations.tex}
 
 \begin{theorem}[Critical-line witness ledger non-escape obligation]
 \label{thm:critical-line-witness-ledger-nonescape-obligation}
