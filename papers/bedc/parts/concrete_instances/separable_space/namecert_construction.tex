@@ -10,8 +10,10 @@ of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational
 readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the
 terminal real-name surface of \autoref{ch:concrete-instances-real-namecert},
 and the complete-separable consumer of
-\autoref{ch:concrete-instances-polishspace-namecert}. The packet exports a
-dense schedule visible to L10 completion consumers without host set equality,
+\autoref{ch:concrete-instances-polishspace-namecert}. Its Real-facing dense
+schedule is also consumed by the downstream sibling dependency
+\autoref{ch:concrete-instances-real-separability-namecert}. The packet exports
+a dense schedule visible to L10 completion consumers without host set equality,
 selected dense points, countable choice, or ambient completeness.
 
 \begin{definition}[Separable-space carrier]
@@ -107,4 +109,18 @@ Finally pass the displayed route to the complete-separable consumers. The
 $\PolishSpaceUp$ and $\SeparableMetricUp$ packets may inspect the same finite
 schedule rows, but the carrier contains no coordinate for selected dense
 points, quotient equality, host enumeration, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Separable-space RealSeparability forward route]
+\label{thm:separable-space-real-separability-forward-route}
+Any $\RealSeparabilityUp$ consumer reading a $\SeparableSpaceUp$ dense schedule must factor the read through the $\MetricSpaceUp$ row $M$, the $\StreamNameUp$ row $S$, the $\RegSeqRatUp$ row $R$, the terminal $\RealUp$ seal displayed by $R,W$, and the countable-density ledger $D$ before the $\RealSeparabilityUp$ row of \autoref{ch:concrete-instances-real-separability-namecert} is consumed. The route exports a finite dense-readback dependency, not a selected dense point, quotient point equality, host enumeration, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $Q=(M,S,R,D,W,H,C,P,N)$. The metric source is $M$, the finite schedule is $S$, and the regular rational readback is $R$.
+
+Use \autoref{thm:separable-space-streamname-dense-readback}. It forces every dense read through $S,R,W,D$ over the same metric row $M$ before any Real-facing seal is consumed.
+
+Now route the downstream sibling dependency through \autoref{ch:concrete-instances-real-separability-namecert}. The $\RealSeparabilityUp$ row receives the displayed countable-density ledger only after the metric, stream, regular rational, and $\RealUp$ rows are visible.
+
+Because the carrier has no coordinate for selected dense points, quotient point equality, host enumeration, countable choice, or ambient completeness, the forward route remains a finite dependency edge.
 \end{proof}
