@@ -8594,6 +8594,7 @@ import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitOperatorUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyLimitTheoremUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyLimitUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
