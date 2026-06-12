@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDoubleLimitInterchangeUp$}
+\label{ch:concrete-instances-regular-cauchy-double-limit-interchange-namecert}
+\origin{human}
+
+Following Moore and Osgood, the $\RegularCauchyDoubleLimitInterchangeUp$ packet records the finite constructive data needed to compare two iterated regular Cauchy reads of a two-parameter rational grid. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rectangular observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the scheduled two-axis route of \autoref{ch:concrete-instances-cauchy-double-sequence-namecert}. The packet names a finite-window double-limit interchange surface; it does not assert quotient equality of arrays, select either iterated limit, use countable choice, or assume ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy double-limit interchange carrier]
+\label{def:regular-cauchy-double-limit-interchange}
+A $\RegularCauchyDoubleLimitInterchangeUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the two-parameter $\RegSeqRatUp$ grid row, recording the row and column rational reads admitted by the packet.
+\item $W$ is the rectangular $\StreamNameUp$ window row, naming the finite row, column, and diagonal observation rectangles opened by an interchange request.
+\item $R$ is the row-column regularity ledger, recording the two iterated $\RegSeqRatUp$ readback routes and their shared diagonal handoff.
+\item $D$ is the $\DyadicRatCoreUp$ rectangle-budget row, carrying dyadic tolerances, slack cells, and comparison entries for every admitted rectangle.
+\item $E$ is the $\RealUp$ seal row visible to downstream real consumers only after $G,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $G,W,R,D,E$ and for replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route from rectangular windows and dyadic budgets to the two iterated readbacks and the shared seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDoubleLimitInterchangeUp$, $\CauchyDoubleSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDoubleLimitInterchangeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $G,W,R,D,E,H,C,P,N$. It has no coordinate for a quotient double sequence, a selected row limit, a selected column limit, a global choice schedule, or an ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy double-limit interchange NameCert obligations]
+\label{thm:regular-cauchy-double-limit-interchange-namecert-obligations}
+For every accepted $\RegularCauchyDoubleLimitInterchangeUp$ carrier
+$$
+I=(G,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyDoubleLimitInterchangeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed grid, window, readback, budget, seal, transport, replay, provenance, and naming rows;
+\item classifier stability under componentwise transport of $G,W,R,D,E,H,C,P,N$;
+\item rectangle stability saying that each row, column, and diagonal observation used by $R$ is named by $W$ and bounded by the dyadic ledger $D$;
+\item diagonal handoff saying that the common diagonal read factors through the same scheduled window route as the underlying $\CauchyDoubleSequenceUp$ packet;
+\item nonescape for quotient arrays, selected iterated limits, countable choice, hidden real completeness, and bridge data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-double-limit-interchange}. The rows $G,W,R,D,E,H,C,P,N$ are the full accepted packet, so carrier admission and classifier stability are componentwise on those rows.
+
+Rectangle stability is read from the pair $W,D$. The window row names every finite row, column, and diagonal rectangle inspected by the two iterated readbacks, while the dyadic budget row supplies the visible tolerance and slack comparisons for those same rectangles.
+
+The diagonal handoff uses the scheduled two-axis route of \autoref{ch:concrete-instances-cauchy-double-sequence-namecert}. The packet can reuse the diagonal route only after the rectangular StreamName windows, RegSeqRat grid rows, and DyadicRatCore budget entries have been displayed.
+
+The rows $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. Since the carrier contains no quotient array, selected limit, choice schedule, hidden completeness field, or bridge row, the nonescape clauses follow from absence of those coordinates.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy double-limit interchange consumer boundary]
+\label{thm:regular-cauchy-double-limit-interchange-consumer-boundary}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyDoubleLimitInterchangeUp$ packet first reads the finite route
+$$
+\CauchyDoubleSequenceUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The consumer receives a rectangular window comparison surface and a diagonal seal handoff, not a theorem of host double-limit convergence and not a selected value for either iterated limit.
+\end{theorem}
+\begin{proof}
+Let $I=(G,W,R,D,E,H,C,P,N)$ be an accepted carrier. Any consumer first opens the rectangular StreamName windows $W$ and dyadic budget $D$ attached to the regular rational grid $G$.
+
+The iterated readbacks and common diagonal handoff are then read from $R$. The seal row $E$ becomes visible only after those finite rows have been displayed, so the Real-facing route is mediated by the same finite packet.
+
+Transport and replay do not add coordinates: $H$ is componentwise and $C$ replays only the displayed rectangle-to-seal route. Thus the consumer boundary is exactly the listed dependency route and cannot export a host convergence theorem, a quotient array, or a selected iterated limit.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyDoubleLimitInterchangeUp$ read factors through a RegSeqRat grid row, rectangular StreamName window row, DyadicRatCore rectangle-budget row, RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before any Real-facing comparison is visible.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchy-double-sequence: none is bijective with $\RegularCauchyDoubleLimitInterchangeUp$ because this packet alone binds rectangular finite windows, two iterated regular readbacks, a shared diagonal handoff, dyadic rectangle budgets, a Real seal, transport, replay, provenance, and local naming as one interchange carrier.}
+
+\closureat{RegularCauchyDoubleLimitInterchangeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDoubleLimitInterchangeUp}
+  \constructivestory{A $\RegularCauchyDoubleLimitInterchangeUp$ packet is generated from a two-parameter RegSeqRat grid, rectangular StreamName windows, dyadic rectangle budgets, two iterated readback routes, a shared diagonal handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-double-limit-interchange}, \autoref{thm:regular-cauchy-double-limit-interchange-namecert-obligations}, and \autoref{thm:regular-cauchy-double-limit-interchange-consumer-boundary} seed the finite-window double-limit interchange packet over rectangular observations, regular rational grid rows, dyadic budgets, diagonal handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of arrays, selected row or column limits, countable choice, host double-limit convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, rectangle stability, diagonal handoff, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyDoubleLimitInterchangeUp.}
+\end{closurestatus}
