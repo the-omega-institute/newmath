@@ -21,6 +21,7 @@ The containment test is then read through the metric ledger $M$ and the regular 
 
 Finally replay the incidence row through the simplicial nerve $S$ and consult the order table $A$. Since every step is indexed by the displayed finite cover rows, the refinement preserves the order carrier and exposes no host dimension theorem or choice-selected refinement.
 \end{proof}
+
 \leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteCoverOrderRefinement}
 
 \begin{theorem}[CoveringDimension finite cover order non-escape]
@@ -56,3 +57,19 @@ The refinement theorem \autoref{thm:coveringdimension-finite-cover-order-refinem
 The nonescape theorem \autoref{thm:coveringdimension-finite-cover-order-nonescape} then prevents the consumer from bypassing those root rows through arbitrary open-cover compactness, ambient dimension theory, or choice-selected refinements. Thus the order table is reachable only after the displayed root route has been exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteCoverOrderRoot}
+
+\begin{theorem}[CoveringDimension finite cover order scope]
+\label{thm:coveringdimension-finite-cover-order-scope}
+Every accepted $\CoveringDimensionUp$ finite-cover order consumer must display the source rows
+$$
+\CompactMetricUp,\FiniteEpsilonNetUp,\MetricUp,\RegSeqRatUp,\RealUp,\SimplicialComplexUp
+$$
+before the order table of $O_{\mathrm{fin}}=(K,E,M,R,Q,S,A,H,T,P,N)$ is public. The table is scoped only to those six source rows together with the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $T$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:coveringdimension-finite-cover-order-carrier}. It displays exactly the compact metric row $K$, finite epsilon-net support $E$, metric ledger $M$, regular rational comparison rows $R$, terminal Real seal rows $Q$, simplicial nerve row $S$, order table $A$, and structural rows $H,T,P,N$.
+
+Apply the refinement theorem \autoref{thm:coveringdimension-finite-cover-order-refinement}. It requires each refined member to read the finite support, metric containment test, rational and Real comparison rows, and simplicial incidence row before exporting an order count.
+
+Use the nonescape theorem \autoref{thm:coveringdimension-finite-cover-order-nonescape} and the root theorem \autoref{thm:covering-dimension-finite-cover-order-root}. Together they rule out arbitrary open-cover compactness, ambient dimension theory, and choice-selected refinements, so the public order table remains scoped to the displayed root rows and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
