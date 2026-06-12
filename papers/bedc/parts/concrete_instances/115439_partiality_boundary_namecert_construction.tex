@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\PartialityBoundaryUp$}
+\label{ch:concrete-instances-partiality-boundary-namecert}
+\origin{human}
+
+Following the total-functional-language discipline of CIC, Coq, Agda, Lean, and Idris totality checking, the $\PartialityBoundaryUp$ packet records the boundary between total host computation and explicitly marked partial escape as finite BEDC NameCert data. It concretizes the total-language analysis of \autoref{ch:visions-strong-normalization-vs-turing-completeness}, reads local channel termination through \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert}, and keeps refusal-to-decide separate through \autoref{ch:concrete-instances-terminationrefusalboundary-namecert}. The packet does not admit a partial-function surface inside BEDC; it records the attempted escape as a refusal row.
+
+\begin{definition}[Partiality-boundary carrier]
+\label{def:partiality-boundary-carrier}
+A $\PartialityBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,F,A,E,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the total-host row, recording the typed BEDC term or certificate route whose reduction is accepted only as a finite total computation.
+\item $F$ is the step-indexed computation row, exposing finite fuel and the displayed result-or-timeout observation for the inspected route.
+\item $A$ is the attempted partial escape row, naming the external request for unrestricted recursion, a partial annotation, or a non-total host function.
+\item $E$ is the termination-boundary row, read through \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert} when a local event endpoint is displayed.
+\item $R$ is the refusal ledger, read through \autoref{ch:concrete-instances-terminationrefusalboundary-namecert} when the attempted escape has no admitted total route.
+\item $L$ is the totality classifier row, accepting only routes that remain in $T,F,E$ or are recorded as refusal in $R$.
+\item $H$ records componentwise $\hsame$ transport for total-host rows, fuel rows, attempted escape rows, termination-boundary rows, refusal rows, classifier rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a host computation request through total reduction, step-indexed fuel, local endpoint exposure, attempted escape inspection, and refusal.
+\item $P$ is the $\Pkg$ provenance over $\PartialityBoundaryUp$, \autoref{ch:visions-strong-normalization-vs-turing-completeness}, $\ChannelTerminationHaltingBoundaryUp$, $\TerminationRefusalBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PartialityBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a BEDC partial function, unrestricted recursion, a divergence oracle, a total halting predicate, or a proof that a missing finite endpoint is nontermination.
+\end{definition}
+
+\begin{theorem}[Partiality-boundary NameCert obligations]
+\label{thm:partiality-boundary-namecert-obligations}
+For every accepted $\PartialityBoundaryUp$ carrier $B=(T,F,A,E,R,L,H,C,P,N)$, the local $\NameCert_{\PartialityBoundaryUp}$ surface consists exactly of total-host admission, step-indexed computation exposure, attempted-escape exposure, termination-boundary routing, refusal-ledger routing, totality classifier stability, componentwise transport, displayed replay, provenance, and local naming. The surface records the total-host versus partial-escape boundary but exports no partial BEDC function.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:partiality-boundary-carrier}. The total computation rows are $T,F,E$, the attempted escape is $A$, the refusal boundary is $R$, and the structural rows are $L,H,C,P,N$.
+
+The total-host row $T$ and step-indexed row $F$ keep every admitted computation finite. The termination-boundary row $E$ may expose a local endpoint, but only through the channel termination boundary of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert}.
+
+If the request asks for unrestricted recursion or a partial annotation, the attempted escape row $A$ is not converted into a BEDC function. It is routed to the refusal ledger $R$, whose role is the refusal-to-decide boundary of \autoref{ch:concrete-instances-terminationrefusalboundary-namecert}.
+
+The classifier $L$ accepts only those two outcomes: finite total exposure or displayed refusal. Transport, replay, provenance, and local naming preserve the same boundary, so no accepted route exports unrestricted recursion, a divergence oracle, a total halting predicate, or a nontermination proof.
+\end{proof}
+
+\begin{theorem}[Partiality-boundary total-host handoff]
+\label{thm:partiality-boundary-total-host-handoff}
+Every host-computation consumer that reads an accepted $\PartialityBoundaryUp$ packet receives either a displayed total route through $T,F,E,L,H,C,P,N$ or a displayed refusal route through $A,R,L,H,C,P,N$. These routes are disjoint at the local NameCert surface: the refusal route records the failed partial escape, while the total route records finite step-indexed computation.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:partiality-boundary-namecert-obligations}. The packet exposes the total-host rows, fuel row, termination-boundary row, attempted escape row, refusal row, classifier row, and structural rows as the whole local surface.
+
+For a total route, the consumer reads $T,F,E$ before the classifier $L$ and the structural rows. This is a finite computation route in the total host.
+
+For an attempted partial route, the consumer reads $A$ and then $R$ before the same classifier and structural rows. This is a refusal route, not a function definition.
+
+Because no carrier row identifies $A$ with a total endpoint or identifies $R$ with divergence, the two handoffs stay separated inside the same finite NameCert packet.
+\end{proof}
+
+\closureat{PartialityBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\PartialityBoundaryUp}
+  \constructivestory{A $\PartialityBoundaryUp$ packet is generated from total-host rows, step-indexed fuel rows, attempted partial-escape rows, termination-boundary rows, refusal-ledger rows, totality classifier rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:partiality-boundary-carrier}, \autoref{thm:partiality-boundary-namecert-obligations}, and \autoref{thm:partiality-boundary-total-host-handoff} seed the finite total-host versus partial-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not admit partial BEDC functions, unrestricted recursion, divergence oracles, a total halting predicate, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked total-host admission, step-indexed exposure, attempted-escape routing, termination-boundary routing, refusal-ledger exactness, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.PartialityBoundaryUp.}
+\end{closurestatus}

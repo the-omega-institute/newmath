@@ -1,0 +1,84 @@
+{
+  "artifact_id": "bedc-quality-lab:high-impact-review",
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgates": {
+    "HIR-HG1": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "reason": "DGT row is a bounded D4 projection",
+      "status": "pass"
+    },
+    "HIR-HG10": {
+      "evidence_pointer": "reports/canonical/claim_graph.json:$.nodes",
+      "reason": "claim graph contains DGT raw to projected to terminal ancestry",
+      "status": "pass"
+    },
+    "HIR-HG2": {
+      "evidence_pointer": "reports/canonical/high-impact-review.json:$.not_claimed",
+      "reason": "non-claim boundary excludes production, global superiority, LLM replacement, and universal recipe",
+      "status": "pass"
+    },
+    "HIR-HG3": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "reason": "DGT positive claim cell contains no production authority claim",
+      "status": "pass"
+    },
+    "HIR-HG4": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+      "reason": "DGT owner contains no LLM replacement claim",
+      "status": "pass"
+    },
+    "HIR-HG5": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+      "reason": "DGT owner contains no global superiority claim",
+      "status": "pass"
+    },
+    "HIR-HG6": {
+      "evidence_pointer": "reports/canonical/model-comparison.json:$.hardgates",
+      "reason": "model comparison is ready and all MC hardgates pass",
+      "status": "pass"
+    },
+    "HIR-HG7": {
+      "evidence_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
+      "reason": "DGT quality_q exceeds the base transformer control",
+      "status": "pass"
+    },
+    "HIR-HG8": {
+      "evidence_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG8",
+      "reason": "DGT UER reduction exceeds matched-random structural control",
+      "status": "pass"
+    },
+    "HIR-HG9": {
+      "evidence_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG9",
+      "reason": "matched-random structural control keeps classifier_shift_count at zero",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "Bounded D4 prototype only.",
+    "No production deployment authority is claimed.",
+    "No global model superiority claim is made.",
+    "No LLM replacement claim is made.",
+    "No universal training recipe is claimed.",
+    "No full BEDC closure is claimed."
+  ],
+  "review_rows": [
+    {
+      "claim_id": "claim:discovery-gated-transformer",
+      "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "hardgate_pointer": "reports/canonical/high-impact-review.json:$.hardgates",
+      "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+      "not_claimed_pointer": "reports/canonical/high-impact-review.json:$.not_claimed",
+      "reason": "positive-discovery-gates-pass",
+      "review_level": "bounded-D4-terminal-gate",
+      "review_scope": "DGT bounded deterministic toy D4 positive-discovery terminal promotion only",
+      "status": "pass"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:high-impact-review",
+  "seed": 1131,
+  "source_artifacts": {
+    "claim_graph": "reports/canonical/claim_graph.json",
+    "dgt": "reports/canonical/discovery-gated-transformer.json",
+    "model_comparison": "reports/canonical/model-comparison.json"
+  }
+}

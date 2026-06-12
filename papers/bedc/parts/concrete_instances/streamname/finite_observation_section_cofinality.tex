@@ -14,3 +14,47 @@ Now pass to the RegSeqRat and Real handoff files already carried by the StreamNa
 
 Thus the finite section windows are cofinal for the L10 handoff route. Since each step is expressed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no quotient stream equality, selected limit, host real equality, or ambient completeness principle is introduced.
 \end{proof}
+
+\begin{theorem}[StreamName finite observation section public cofinality]
+\label{thm:streamname-finite-observation-section-public-cofinality}
+Every public $\RegSeqRatUp$ or $\RealUp$ handoff read through $\StreamNameUp$ factors through the finite observation section package of \autoref{thm:streamname-finite-observation-section-cofinality}. Any later refinement remains a finite section refinement over the same certified StreamName source, with the same index ledger, finite $\BHist$ window, pointwise classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+The public handoff surface therefore exports finite sections only. It contains no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}. It already states that finite observation requests cofinally cover the RegSeqRat and Real handoff reads over the displayed StreamName source.
+
+Apply pointwise classifier stability, \autoref{thm:streamname-pointwise-classifier-stability}. The classifier row, finite $\BHist$ window, transport row, replay row, provenance row, and local naming row remain attached to the same source when the handoff is refined.
+
+The RegSeqRat and Real handoff inputs consume exactly those finite section rows before reading regular rational or real-seal data. Hence a public handoff cannot bypass the finite observation package; it may only request a larger finite section over the same source.
+
+Since the route never introduces quotient streams, selected limits, countable choice, host real equality, or ambient completeness, the public cofinality interface is the same finite-section interface already witnessed locally.
+\end{proof}
+
+\begin{theorem}[StreamName finite observation diagonal coherence]
+\label{thm:streamname-finite-observation-diagonal-coherence}
+Let two finite observation section refinements read the same certified $\StreamNameUp$ source before a $\RegSeqRatUp$ or $\RealUp$ handoff. Then they admit a common finite refinement over that source whose pointwise classifier row, finite $\BHist$ window, $\hsame$ transport row, $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ row still factor through the same public RegSeqRat and Real handoff surface. The common refinement synchronizes the two observations without adding quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, to each refinement. Both observations are finite section windows over the same certified StreamName source, so their downstream reads are represented by finite windows in the same index ledger.
+
+Use public cofinality, \autoref{thm:streamname-finite-observation-section-public-cofinality}, for the handoff surface. The RegSeqRat and Real consumers see only the finite section package, so a section large enough to contain both windows is again a public handoff refinement over the same source.
+
+Finally apply pointwise classifier stability, \autoref{thm:streamname-pointwise-classifier-stability}. It keeps the classifier row, $\BHist$ window, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row attached to the common source after the finite window is enlarged.
+
+Thus the two observations have a diagonal finite refinement that preserves exactly the rows visible to the RegSeqRat and Real handoff route. Since no step introduces a quotient stream, a selected limit, countable choice, host real equality, or ambient completeness, the synchronized refinement remains a finite-means StreamName observation.
+\end{proof}
+
+\begin{theorem}[StreamName finite observation section induction]
+\label{thm:streamname-finite-observation-section-induction}
+Every finite chain of accepted $\StreamNameUp$ observation-section refinements over a pointwise certified source is generated from the empty request section by finitely many successor steps. Each successor step opens one finite $\BHist$ window, preserves the pointwise classifier row for the same certified source, and replays through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any $\RegSeqRatUp$ or $\RealUp$ handoff reads the section. Consequently every finite handoff-facing chain is represented by a finite section trace over the same StreamName source, not by quotient stream equality, selected limits, countable-choice rows, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+The empty request section is the base surface supplied by finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}. It exposes only the index ledger, certified source row, and the finite row package visible to later RegSeqRat and Real consumers.
+
+For the successor step, open the next finite $\BHist$ window over the same certified StreamName source. Pointwise classifier stability keeps the classifier row attached to that source, and the cofinality theorem keeps the opened window inside the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ replay package.
+
+For two successor choices at the same finite stage, use diagonal coherence, \autoref{thm:streamname-finite-observation-diagonal-coherence}. It supplies a common finite refinement that preserves the displayed rows and synchronizes the observations without changing the public handoff surface.
+
+Finally use public cofinality, \autoref{thm:streamname-finite-observation-section-public-cofinality}, to pass the finished finite chain to a $\RegSeqRatUp$ or $\RealUp$ consumer. The consumer reads only the finite section trace just generated, so the construction never introduces quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}

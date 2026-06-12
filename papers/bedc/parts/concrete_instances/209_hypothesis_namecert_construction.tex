@@ -4,6 +4,8 @@
 
 The hypothesis-testing interface $\HypothesisTestUp$ packages a decision procedure between null and alternative distributional hypotheses certified by Type I and Type II error bounds. It depends on $\NameCert_{\DistributionUp}$ (\autoref{ch:concrete-instances-distribution-namecert}) and $\NameCert_{\ProbSpaceUp}$ (\autoref{ch:concrete-instances-probspace-namecert}).
 
+The null and alternative rows consumed from $\NameCert_{\DistributionUp}$ (\autoref{ch:concrete-instances-distribution-namecert}) supply the classifier surface for hypothesis alternatives, while the event rows consumed from $\NameCert_{\ProbSpaceUp}$ (\autoref{ch:concrete-instances-probspace-namecert}) supply the reject and accept-null event surfaces read by the Type I and Type II ledgers. The $\HypothesisTestUp$ packet adds only the decision row, threshold comparison row, and finite error-budget rows; it does not add probability completion, asymptotic optimality, or external statistical semantics.
+
 \section{Carrier definition}
 \label{sec:hypothesis-carrier}
 
@@ -172,12 +174,55 @@ transport field, and finite ledgers, the transported decision cannot acquire
 an optimality, asymptotic, or probability-completion coordinate.
 \end{proof}
 
+\begin{theorem}[HypothesisTestUp finite-risk public route]
+\label{thm:hypothesis-seed-public-route}
+For every accepted $\HypothesisTestUp$ carrier, any public finite-risk read
+factors through the displayed $\DistributionUp$ null and alternative rows, the
+consumed $\ProbSpaceUp$ event rows, the statistic-threshold comparison row, the
+decision row, the Type I/II error ledgers, and componentwise $\hsame$ transport.
+The route exports a finite decision surface over the named carrier and no
+statistical optimality, asymptotic consistency, probability-completion datum, or
+standard statistical bridge.
+\end{theorem}
+\begin{proof}
+Start with the finite-risk boundary of
+\autoref{thm:hypothesis-test-finite-risk-boundary}. It routes every public risk
+read through the displayed null and alternative distributions, consumed
+probability events, statistic row, threshold comparison, decision row, and both
+finite error budgets.
+
+Use \autoref{thm:hypothesis-test-decision-stability-under-transport} to make the
+same route stable under componentwise $\hsame$ transport. The transported read
+still sees only the displayed carrier coordinates and the two Type I/II ledgers.
+
+Finally repack the read through
+\autoref{thm:hypothesistest-namecert-obligation-surface}. The public surface is
+therefore exactly the finite carrier route through $\DistributionUp$,
+$\ProbSpaceUp$, statistic-threshold comparison, decision rows, error ledgers, and
+$\hsame$ transport, with no bridge or asymptotic field added.
+\end{proof}
+
+\closureat{HypothesisTestUp}{matureStr}[BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_namecert\_obligation\_surface]
+
 \begin{closurestatus}{\HypothesisTestUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the finite decision carrier, null and alternative DistributionUp rows, ProbSpaceUp event rows, finite threshold ledger, and Type I/Type II error-budget rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The bridge-facing scope names the finite decision carrier, Type I/II ledgers, distribution consumer boundary, decision transport, and public finite-risk route over displayed DistributionUp and ProbSpaceUp rows, with the checked decision-carrier obligation surface supplying the packet boundary.}
   \constructivestory{A $\HypothesisTestUp$ token names a finite decision carrier with null and alternative $\DistributionUp$ inputs, consumed $\ProbSpaceUp$ event rows, a displayed statistic-threshold comparison, and two visible finite error-budget ledgers. The classifier is $\hsame$ on the decision history, transport repacks the statistic, threshold, decision row, and error ledgers through that history comparison, and the source covers only the displayed distribution, event, threshold, and finite budget rows. A history $h$ lies in the signature gap of a $\HypothesisTestUp$ token $p$ when the finite carrier accepts $h$, the signature relation pairs it with the decision verdict and error-budget rows, and token introduction names that finite verdict as $p$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim statistical optimality, asymptotic consistency, classical probability completion, or a standard statistical bridge.}
+  \upgradepath{The remaining bridge work is standard statistical bridge verification for the same decision-carrier obligation surface and its Type I/II ledger route, not additional paper closure.}
+\end{closurestatus}
+
+\closureat{HypothesisUp}{seedStr}
+
+\begin{closurestatus}{\HypothesisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hypothesistest-decision-carrier}, \autoref{thm:hypothesistest-namecert-obligation-surface}, and \autoref{thm:hypothesis-seed-public-route} expose the finite carrier, decision obligation rows, Type I/II ledgers, and public finite-risk route for the hypothesis-testing surface.}
+  \constructivestory{A $\HypothesisUp$ token is recorded here through the displayed hypothesis-testing decision carrier: null and alternative distribution rows, probability-event rows, a finite statistic-threshold comparison, a decision row, Type I/II budget rows, componentwise transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{The chapter does not claim asymptotic consistency, optimality, classical probability completion, or a standard statistical bridge.}
-  \upgradepath{Obligation closure requires checked finite decision-stability and error-ledger exactness targets.}
+  \notclaimed{This seed record does not claim Lean verification, bridge checking, statistical optimality, asymptotic consistency, probability completion, or any global hypothesis-selection principle.}
+  \upgradepath{Obligation closure requires a local HypothesisUp carrier boundary that separates the general hypothesis token from the displayed HypothesisTestUp decision carrier and its finite risk ledgers.}
 \end{closurestatus}

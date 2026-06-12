@@ -109,17 +109,32 @@ The Lean theorem is stated for the inductive carrier with seven visible coordina
 The paper route therefore reads the checked gate as an alignment statement for the displayed packet itself. The theorem adds no second carrier and no extra truth or runtime coordinate; it records that the gate compares exactly the carrier rows already used by the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Reflection-limit mature consumer separation]
+\label{thm:reflection-limit-mature-consumer-separation}
+Let $L=(G,M,T,H,C,P,N)$ be an accepted $\ReflectionLimitBoundaryUp$ carrier. Every mature consumer of $L$ separates the closed ground-loop row $G$, the structural meta-description row $M$, and the truth-boundary row $T$ before reading the transport, replay, provenance, and local naming rows $H,C,P,N$. The consumer may route closed ground-loop data through $G$, structural descriptions through $M$, and boundary refusals through $T$, but it receives no BEDC truth predicate, self-validating runtime export, or validation-as-row classifier from the combined carrier.
+\end{theorem}
+\begin{proof}
+Start from the displayed carrier of \autoref{def:reflection-limit-boundary-carrier}. Its coordinates assign disjoint public roles to $G$, $M$, and $T$: ground-loop closure, structural meta-description, and truth-boundary recording.
+
+Apply \autoref{thm:reflection-limit-truth-boundary-nonescape}. Any truth-total, runtime-total, or validation-as-row request factors through $T$ and cannot be projected from $G,M,H,C,P,N$.
+
+Finally apply \autoref{thm:reflection-limit-package-route-closure}. The rows $H,C,P,N$ only transport, replay, package, and name the same separated packet, so a mature consumer can compose the three readings without acquiring a BEDC truth predicate or self-validating runtime export.
+\end{proof}
+
 \closureat{ReflectionLimitBoundaryUp}{obligationStr}
 \closureat{ReflectionLimitBoundaryUp}{scopedStr}
+\closureat{ReflectionLimitBoundaryUp}{publicStr}[BEDC.Derived.ReflectionLimitBoundaryUp.ReflectionLimitBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{ReflectionLimitBoundaryUp}{bridgedStr}[BEDC.Derived.ReflectionLimitBoundaryUp.ReflectionLimitBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{ReflectionLimitBoundaryUp}{matureStr}[BEDC.Derived.ReflectionLimitBoundaryUp.ReflectionLimitBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ReflectionLimitBoundaryUp}
   \constructivestory{A $\ReflectionLimitBoundaryUp$ packet is generated from a closed ground-loop ledger, a structural meta-description ledger, a truth-boundary ledger, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:reflection-limit-boundary-carrier}, \autoref{thm:reflection-limit-namecert-obligations}, \autoref{thm:reflection-limit-meta-loop-openness-obligation}, \autoref{thm:reflection-limit-boundary-exactness-obligation}, \autoref{thm:reflection-limit-package-closure-obligation}, \autoref{thm:reflection-limit-truth-boundary-nonescape}, \autoref{thm:reflection-limit-package-route-closure}, \autoref{thm:reflection-limit-tastegate-route-alignment}, and \leanchecked{BEDC.Derived.ReflectionLimitBoundaryUp.taste\_gate} bind the finite ground, structural meta-description, truth-boundary, transport, route, provenance, and naming rows.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ReflectionLimitBoundaryUp.ReflectionLimitBoundaryTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a BEDC truth predicate, self-validating runtime, runtime-validation row, or bridge checking for $\ReflectionLimitBoundaryUp$.}
-  \upgradepath{Public closure requires a downstream consumer surface for the displayed ground, structural meta-description, truth-boundary, transport, route, provenance, and naming rows.}
+  \upgradepath{Mature closure requires downstream examples and completeness-style cross-chapter consumers for the boundary surface.}
 \end{closurestatus}

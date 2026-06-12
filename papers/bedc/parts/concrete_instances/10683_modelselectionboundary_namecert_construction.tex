@@ -58,11 +58,13 @@ O=(B,F,D,L,A,S,T,P,N)
 $$
 where $B$ is an accepted $\ModelSelectionBoundaryUp$ carrier, $F$ is its comparative fit ledger, $D$ is its defeat surface, $L$ is its selection ledger, $A$ is the audit route through \autoref{ch:concrete-instances-open-fit-packet-namecert}, \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, \autoref{ch:concrete-instances-realityconstrainedsynthesisseal-namecert}, and \autoref{ch:concrete-instances-physical-truth-certificate-namecert}, $S$ is the corresponding TasteGate alignment row, $T$ is componentwise $\hsame$ transport, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert$ row. The carrier has no coordinate for a hidden model oracle, probability semantics, host truth predicate, or final winner outside the displayed finite family.
 \end{definition}
+\leandef{BEDC.Derived.ModelSelectionBoundaryUp.ModelSelectionBoundaryObligationCarrier}
 
 \begin{theorem}[ModelSelectionBoundary NameCert obligations]
 \label{thm:modelselectionboundary-namecert-obligations}
 For every accepted obligation carrier $O=(B,F,D,L,A,S,T,P,N)$, the $\ModelSelectionBoundaryUp$ NameCert obligation surface consists exactly of the fit ledger, defeat surface, selection ledger, sibling audit route, TasteGate alignment row, componentwise transport, package provenance, and local naming displayed in $O$. The selected model remains a current finite winner only relative to those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModelSelectionBoundaryUp.ModelSelectionBoundary\_namecert\_obligations}
 \begin{proof}
 Project the obligation carrier. The rows $F,D,L$ are inherited from the existing fit-ledger and defeat-surface theorems, so selection is exposed as a ledgered finite comparison rather than as an oracle.
 
@@ -75,6 +77,7 @@ Finally $T,P,N$ preserve, source, and name the same displayed rows. Since the ca
 \label{thm:modelselectionboundary-audit-scope}
 Every audit of a $\ModelSelectionBoundaryUp$ selection is limited to the displayed candidate family, observed signatures, fit ledger, defeat surface, selection ledger, sibling audit route, and TasteGate alignment row. A later observation may defeat the current winner by adding a visible row to $D$ and $L$, but the packet never exports a host-level final model order, probability semantics, or truth predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModelSelectionBoundaryUp.ModelSelectionBoundaryAuditScope}
 \begin{proof}
 Read the audit rows in order. The candidate family and observed signatures determine which finite rows are under comparison, while $F$ records the current selection and losing accepted rows.
 
@@ -93,14 +96,15 @@ The Lean follow-up in \texttt{lean4/BEDC/Derived/ModelSelectionBoundaryUp/TasteG
 \closureat{ModelSelectionBoundaryUp}{obligationStr}
 \closureat{ModelSelectionBoundaryUp}{scopedStr}
 \closureat{ModelSelectionBoundaryUp}{publicStr}
+\closureat{ModelSelectionBoundaryUp}{matureStr}
 
 \begin{closurestatus}{\ModelSelectionBoundaryUp}
   \constructivestory{A $\ModelSelectionBoundaryUp$ packet is generated from a finite model-family row, observed signatures, comparative fit, finite defeat surface, selection ledger, componentwise transport, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:model-selection-boundary-carrier}, \autoref{thm:model-selection-boundary-fit-ledger-separation}, \autoref{thm:model-selection-boundary-defeat-surface}, \autoref{def:modelselectionboundary-obligation-carrier}, \autoref{thm:modelselectionboundary-namecert-obligations}, \autoref{thm:modelselectionboundary-audit-scope}, and \leanchecked{BEDC.Derived.ModelSelectionBoundaryUp.taste\_gate} bind the public exported interface over $M,S,F,D,L,T,P,N$: candidate-family carrier rows, observed signatures, comparative fit-ledger separation, finite defeat visibility, obligation carrier rows, NameCert obligations, audit-scope limits, TasteGate instance evidence, and no-final-oracle refusal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not assert final physical truth, model--reality identity, total confirmation, host-level model ordering, Lean verification, or bridge checking for $\ModelSelectionBoundaryUp$.}
-  \upgradepath{Public closure requires a public exported interface for the scoped carrier, fit ledger, defeat surface, obligation rows, audit route, TasteGate evidence, and bridge boundary for $M,S,F,D,L,T,P,N$.}
+  \upgradepath{The paper-side mature package is recorded while Lean verification and bridge checking remain outside this closure block.}
 \end{closurestatus}

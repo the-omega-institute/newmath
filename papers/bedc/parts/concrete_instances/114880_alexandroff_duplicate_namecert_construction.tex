@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\AlexandroffDuplicateUp$}
+\label{ch:concrete-instances-alexandroff-duplicate-namecert}
+\origin{human}
+
+Following Alexandroff's duplicate-space construction, the $\AlexandroffDuplicateUp$ packet records the finite observable-open face of a duplicated point-set topology. It is anchored by the topology carrier of \autoref{ch:concrete-instances-topology-namecert} and the observable truth boundary of \autoref{ch:concrete-instances-sierpinski-space-namecert}; the optional order-topology source is read through \autoref{ch:concrete-instances-real-order-topology-namecert} when that row is present. The chapter names only the finite rows required for duplicate-tagged observable opens, not a host separation theorem, a completed real line, or an unrestricted lattice of open sets.
+
+\begin{definition}[Alexandroff duplicate carrier]
+\label{def:alexandroff-duplicate-carrier}
+An $\AlexandroffDuplicateUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,B,O,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row naming the finite open data currently under inspection.
+\item $B$ is the $\BoolUp$ duplicate-tag row; each inspected point is tagged by one of the two duplicate faces.
+\item $O$ is the $\SierpinskiSpaceUp$ observable-open truth row for the inspected tagged points.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the tagged observations actually read by the packet.
+\item $R$ is an optional $\RealOrderTopologyUp$ source anchor; when absent, the carrier still records the topology row $T$ and duplicate tag row $B$ without importing order-completeness data.
+\item $H$ records componentwise $\hsame$ transport for topology rows, duplicate tags, observable-open truth rows, finite windows, the optional order source, continuation rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $T,B$ to $O$, from $O$ to $W$, and from any present order-topology anchor $R$ back to the same finite topology source row.
+\item $P$ is the $\Pkg$ provenance over $\AlexandroffDuplicateUp$, $\TopologyUp$, $\BoolUp$, $\SierpinskiSpaceUp$, $\StreamNameUp$, $\RealOrderTopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlexandroffDuplicateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,B,O,W,R,H,C,P,N$. It has no coordinate for all open subsets of a host duplicate space, a separation axiom, quotient point equality, order completeness, countable choice, or a global topological representation.
+\end{definition}
+
+\begin{theorem}[Alexandroff duplicate NameCert obligations]
+\label{thm:alexandroff-duplicate-namecert-obligations}
+For every accepted $\AlexandroffDuplicateUp$ packet $A=(T,B,O,W,R,H,C,P,N)$, the local NameCert surface consists exactly of carrier admission for the $\TopologyUp$ source row, $\BoolUp$ duplicate tags, $\SierpinskiSpaceUp$ observable-open truth values, $\StreamNameUp$ finite observation windows, the optional $\RealOrderTopologyUp$ source anchor, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. A consumer may read an observable duplicate-open only after those finite rows are displayed; it cannot replace them by a host duplicate-space topology, a hidden open-set lattice, a separation theorem, or ambient real-order completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:alexandroff-duplicate-carrier}. The rows $T,B,O,W,R,H,C,P,N$ are the whole accepted packet, so the duplicate-open consumer cannot detach the observable truth row from the topology source or from the duplicate tag row.
+
+Read the finite route in order. The $\TopologyUp$ row supplies the source open data, the $\BoolUp$ row supplies the duplicate face, the $\SierpinskiSpaceUp$ row records the observable truth value, and the $\StreamNameUp$ row bounds the inspected window.
+
+The optional $\RealOrderTopologyUp$ row only anchors the source topology when it is present. The transport, continuation, provenance, and local naming rows replay the same displayed packet, so no hidden open-set lattice, separation axiom, countable-choice schedule, or real-order completeness datum is exported.
+\end{proof}
+
+\falsifiablePrediction{Every $\AlexandroffDuplicateUp$ observable-open read factors through $\TopologyUp$, $\BoolUp$, $\SierpinskiSpaceUp$, and $\StreamNameUp$ rows before any optional $\RealOrderTopologyUp$ source anchor is consumed.}
+
+\independenceWitness{topology, bool, sierpinski-space, streamname, real-order-topology: $\AlexandroffDuplicateUp$ is not bijective to any listed sibling because it jointly carries topology source data, duplicate tags, observable-open truth values, finite observation windows, an optional order-topology source anchor, transports, continuations, provenance, and local naming.}
+
+\closureat{AlexandroffDuplicateUp}{seedStr}
+
+\begin{closurestatus}{\AlexandroffDuplicateUp}
+  \constructivestory{An $\AlexandroffDuplicateUp$ packet is generated from a Topology source row, Bool duplicate tags, SierpinskiSpace observable-open truth rows, StreamName finite windows, an optional RealOrderTopology source anchor, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alexandroff-duplicate-carrier} and \autoref{thm:alexandroff-duplicate-namecert-obligations} bind the finite duplicate carrier and its observable-open NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim a host duplicate-space topology, separation axioms, a global open-set lattice, quotient point equality, real-order completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, duplicate-tag stability, observable-open replay, finite-window readback, optional order-anchor routing, and local NameCert exactness for BEDC.Derived.AlexandroffDuplicateUp.}
+\end{closurestatus}

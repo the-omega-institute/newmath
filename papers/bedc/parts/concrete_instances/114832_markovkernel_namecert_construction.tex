@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\MarkovKernelUp$}
+\label{ch:concrete-instances-markovkernel-namecert}
+\origin{human}
+
+Following Doob and Kallenberg on transition kernels, the $\MarkovKernelUp$ packet names the probability-theory interface that sends each displayed source state to a probability distribution on a displayed target event family. It sits between the event-and-measure surface of \autoref{ch:concrete-instances-probspace-namecert}, the measurable-preimage surface of \autoref{ch:concrete-instances-randomvar-namecert}, the pushforward-law surface of \autoref{ch:concrete-instances-distribution-namecert}, and the finite transition-row surface of \autoref{ch:concrete-instances-markovchain-namecert}. The chapter records the kernel row as its own NameCert object rather than reading it only as a Markov-chain transition coordinate.
+
+\begin{definition}[Markov-kernel carrier]
+\label{def:markov-kernel-carrier}
+A $\MarkovKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,\mathcal{A}_T,k,N,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-state row, carried as a measurable state surface compatible with a $\ProbSpaceUp$ source when one is present;
+\item $T$ is the target-state row, equipped with the target measurable-event family $\mathcal{A}_T$;
+\item $k$ is the endpoint assignment sending each displayed source state $s$ and target event $B\in\mathcal{A}_T$ to a $\RealUp$ endpoint $k(s,B)$;
+\item $N$ records normalization, requiring the row $B=T$ to read as the probability unit for each displayed source state;
+\item $E$ records empty-event and finite-disjoint-union readback for the target event family at each displayed source state;
+\item $H$ records componentwise $\hsame$ transport for source states, target events, and real endpoints;
+\item $C$ records displayed $\Cont$ replay from source state and target event rows through endpoint, normalization, finite-additivity, and naming rows;
+\item $P$ is the $\Pkg$ provenance over $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\MarkovChainUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\MarkovKernelUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host conditional probability object, filtration, selected stochastic process, quotient event algebra, or off-packet measurability theorem.
+\end{definition}
+
+\begin{theorem}[Markov-kernel NameCert obligations]
+\label{thm:markov-kernel-namecert-obligations}
+For the carrier of \autoref{def:markov-kernel-carrier}, the local $\NameCert_{\MarkovKernelUp}$ surface consists exactly of carrier admission for
+$$
+K=(S,T,\mathcal{A}_T,k,N,E,H,C,P,L),
+$$
+source-state exposure through $S$, target-event exposure through $T,\mathcal{A}_T$, endpoint readback through $k$, probability normalization through $N$, empty-event and finite-disjoint-union readback through $E$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $L$.
+
+Consequently an accepted $\MarkovKernelUp$ packet is a finite state-to-distribution interface. It is not a host conditional distribution, not a filtration, and not a Markov-chain process.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Its rows expose the source state, target event family, real-valued endpoint assignment, normalization row, finite-additivity row, transport, replay, provenance, and local name.
+
+Read $N$ and $E$ as the distribution discipline at a fixed source state. The normalization row supplies the total target event as probability unit, while the empty-event and finite-disjoint-union rows make each displayed source fiber behave as a probability-distribution row over $\mathcal{A}_T$.
+
+Use $H,C,P,L$ to bind the same rows under classifier transport and replay. Since no coordinate contains a conditional-probability object, filtration, stochastic process, or quotient event algebra, the NameCert obligations are exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Markov-kernel transition-distribution handoff]
+\label{thm:markov-kernel-transition-distribution-handoff}
+Every $\MarkovChainUp$ transition row that is accepted as a $\MarkovKernelUp$ packet hands its current-state input to a $\DistributionUp$ row on the next-state event family. The handoff first displays the $\ProbSpaceUp$ source boundary and the adjacent $\RandomVarUp$ rows, then reads the current-state coordinate through the kernel row $k$, and only then exposes the next-law endpoint as a $\DistributionUp$ target distribution. It exports no host stochastic process, filtration, conditional-expectation primitive, or selected path law.
+\end{theorem}
+\begin{proof}
+Start with the Markov-chain carrier of \autoref{def:markovchain-bhist-transition-carrier}. Its transition row already records a current-state to next-law datum between adjacent $\RandomVarUp$ rows over a $\ProbSpaceUp$ source.
+
+Apply the Markov-kernel carrier above to that transition row. The source state is the current-state coordinate, the target event family is the next-state measurable family, and the endpoint assignment $k(s,B)$ is the displayed next-law readback.
+
+Now read the target law through \autoref{def:distribution-pushforward-carrier}. The $\DistributionUp$ surface receives a target event and a real endpoint, while the $\RandomVarUp$ and $\ProbSpaceUp$ rows provide the measurable source boundary. The handoff therefore factors through the finite kernel packet rather than through any host stochastic-process structure.
+\end{proof}
+
+\closureat{MarkovKernelUp}{seedStr}
+
+\begin{closurestatus}{\MarkovKernelUp}
+  \constructivestory{A $\MarkovKernelUp$ packet is generated from source-state rows, target-event rows, state-indexed real endpoints, normalization, finite-disjoint-union readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:markov-kernel-carrier}, \autoref{thm:markov-kernel-namecert-obligations}, and \autoref{thm:markov-kernel-transition-distribution-handoff} seed the state-to-distribution kernel packet and its Markov-chain transition handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host conditional-probability object, filtration, selected stochastic process, quotient event algebra, full measurability theorem, or standard kernel bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint normalization, finite-additivity readback, classifier stability, distribution handoff, provenance, and local NameCert for the same packet.}
+\end{closurestatus}

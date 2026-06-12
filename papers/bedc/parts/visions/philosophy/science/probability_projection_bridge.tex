@@ -1,0 +1,179 @@
+\subsection{Probability Projection Bridge}
+\label{subsec:philosophy-probability-projection-bridge}
+
+The probability interfaces already present in the concrete layer do not
+license the claim that a probability space, a Hilbert space, a Fourier
+analysis interface, a conditional-expectation row, a belief ledger, and a
+spectral-measure packet are one object. They license a narrower reading:
+each interface exposes finite scalar readbacks through named certificates,
+and a scientific bridge may compare those readbacks only when the comparison
+row itself is recorded.
+
+\begin{definition}[Probability scalar shadow]
+\label{def:philosophy-probability-scalar-shadow}
+Let $P$ be a displayed $\ProbSpaceUp$ packet with total event $\Omega$,
+event ledger $\mathcal A$, $\RealUp$-valued measure readback $\mu$, and
+total-mass row $\mu(\Omega)\sim_R 1_R$. For a displayed event row
+$A\in\mathcal A$, the probability scalar shadow of $A$ is the exported
+$\RealUp$ endpoint
+$$
+\operatorname{Shadow}_{P}(A):=\mu(A).
+$$
+It is a one-dimensional public readback of the event row, not a complete
+description of the internal structure that produced the event.
+\end{definition}
+
+\begin{definition}[Hilbert projection shadow]
+\label{def:philosophy-hilbert-projection-shadow}
+Let $H$ be a displayed $\HilbertUp$ packet whose public surface includes an
+inner-product probe row. For a carried endpoint $v$ and a displayed observable
+direction $u$, the Hilbert projection shadow along $u$ is the scalar endpoint
+named by the finite probe
+$$
+\operatorname{ProjShadow}_{H}(v;u):=\langle v,u\rangle_H .
+$$
+When the packet also carries a norm or energy readback, that readback remains
+a separate ledger row and is not inferred from an unrecorded ambient Hilbert
+space.
+\end{definition}
+
+\begin{definition}[Prob-Hilbert projection bridge]
+\label{def:philosophy-prob-hilbert-projection-bridge}
+A Prob-Hilbert projection bridge is a finite bridge packet
+$$
+B_{PH}=(P,H,A,\chi_A,\mathbf 1,\pi,L)
+$$
+where $P$ is a $\ProbSpaceUp$ packet, $H$ is a $\HilbertUp$ packet,
+$A$ is a displayed event row of $P$, $\chi_A$ is an indicator row exposed to
+the Hilbert side, $\mathbf 1$ is the total-event direction, $\pi$ is the
+inner-product probe endpoint, and $L$ is the ledger that records the
+classifier comparison
+$$
+\mu(A)\sim_R\langle \chi_A,\mathbf 1\rangle_H .
+$$
+The packet is public only to the extent that $A$, $\chi_A$, $\mathbf 1$,
+$\pi$, the two scalar endpoints, the comparison row, and their provenance
+are all displayed in the same finite certificate surface.
+\end{definition}
+
+\begin{theorem}[Probability readback as finite projection]
+\label{thm:philosophy-probability-readback-finite-projection}
+Every accepted Prob-Hilbert projection bridge makes the probability scalar
+shadow of its displayed event readable as a Hilbert projection shadow along
+the displayed total-event direction.
+\end{theorem}
+\begin{proof}
+The bridge carrier includes the event row $A$, the indicator row $\chi_A$,
+the direction $\mathbf 1$, the probability readback $\mu(A)$, the Hilbert
+probe $\langle \chi_A,\mathbf 1\rangle_H$, and the comparison row
+$$
+\mu(A)\sim_R\langle \chi_A,\mathbf 1\rangle_H .
+$$
+By \autoref{def:philosophy-probability-scalar-shadow}, the left endpoint is
+$\operatorname{Shadow}_{P}(A)$. By
+\autoref{def:philosophy-hilbert-projection-shadow}, the right endpoint is
+$\operatorname{ProjShadow}_{H}(\chi_A;\mathbf 1)$. Thus the bridge reads the
+probability endpoint as the named Hilbert projection endpoint. No further
+ambient $L^2$ equality is used.
+\end{proof}
+
+\begin{definition}[Fourier projection ledger]
+\label{def:philosophy-fourier-projection-ledger}
+Let $H$ be a displayed Hilbert-side packet and let
+$\Phi=\{\phi_i:i\in I\}$ be a finite family of observable probe directions.
+A Fourier projection ledger for a carried endpoint $f$ is the finite packet
+$$
+\mathcal F_I(f)=\{(i,c_i,L_i):i\in I,\ c_i=\langle f,\phi_i\rangle_H\},
+$$
+where $L_i$ records the source of $\phi_i$, the inner-product probe, the
+integration or coefficient witness, the truncation window, classifier
+evidence, and package provenance attached to that coefficient row.
+\end{definition}
+
+\begin{theorem}[Fourier coefficients are projection shadows]
+\label{thm:philosophy-fourier-coefficients-projection-shadows}
+In a Fourier projection ledger, each displayed coefficient is a Hilbert
+projection shadow. The probability scalar shadow is the special case in
+which $f=\chi_A$ and the probe direction is the total-event direction
+$\mathbf 1$, provided the corresponding Prob-Hilbert bridge row is present.
+\end{theorem}
+\begin{proof}
+For each retained index $i$, the ledger defines the coefficient endpoint as
+$$
+c_i=\langle f,\phi_i\rangle_H .
+$$
+This is exactly the endpoint
+$\operatorname{ProjShadow}_{H}(f;\phi_i)$ from
+\autoref{def:philosophy-hilbert-projection-shadow}. If the finite family
+contains the total-event direction and the bridge packet supplies the
+comparison
+$$
+\mu(A)\sim_R\langle \chi_A,\mathbf 1\rangle_H ,
+$$
+then \autoref{thm:philosophy-probability-readback-finite-projection}
+identifies the probability readback with that one coefficient row. The
+argument does not use Plancherel, inversion, convergence closure, or a
+complete orthonormal basis.
+\end{proof}
+
+\begin{theorem}[Conditional expectation is a projected update surface]
+\label{thm:philosophy-conditional-expectation-projected-update-surface}
+A $\CondExpUp$ packet may be read as a projected update surface only through
+its displayed random-variable readback, Hilbert projection witness, residual
+continuation row, and ledger exactness rows. It does not export a completed
+sub-$\sigma$-algebra projection theorem beyond those rows.
+\end{theorem}
+\begin{proof}
+The conditional-expectation carrier is presented in
+\autoref{ch:concrete-instances-condexp-namecert} through a random-variable
+total-readback certificate, a Hilbert projection witness, and a continuation
+ledger. A scientific projection bridge may therefore read the packet as an
+update by projection only by projecting those displayed rows. Since the packet
+has no public coordinate for a completed measurable-space quotient or an
+unrestricted closed subspace, the bridge cannot promote the row to an
+unbounded host theorem.
+\end{proof}
+
+\begin{corollary}[Belief updates consume probability projections]
+\label{cor:philosophy-belief-updates-consume-probability-projections}
+When a $\BeliefUp$ packet consumes a probability row, the consumed datum is
+the displayed probability scalar shadow or a bridge-recorded projection
+shadow, together with the prior, observation, update trace, posterior endpoint,
+and evidence ledger. The belief packet does not gain access to hidden
+probability structure.
+\end{corollary}
+\begin{proof}
+The belief carrier of \autoref{ch:concrete-instances-belief-namecert} exposes
+only the prior row, observation row, update trace, probability row, posterior
+endpoint, evidence ledger, and provenance rows. If the probability row is
+supplied by a projection bridge, then its public content is the scalar
+comparison recorded in that bridge. All other probability or Hilbert data are
+outside the belief ledger and therefore unavailable to the consumer.
+\end{proof}
+
+\begin{theorem}[Projection bridge cannot-claim boundary]
+\label{thm:philosophy-projection-bridge-cannot-claim-boundary}
+The projection bridge does not identify probability spaces with Hilbert
+spaces, Fourier theory, conditional expectation, belief dynamics, or spectral
+measures. It identifies only displayed scalar readbacks whose comparison rows
+are present in a finite certificate ledger.
+\end{theorem}
+\begin{proof}
+Each participating interface has its own carrier and classifier: probability
+exports event-measure rows, Hilbert exports inner-product and projection
+rows, Fourier exports finite coefficient probes, conditional expectation
+exports random-variable readback and projection rows, belief exports
+observation-update ledgers, and spectral measure exports projection-family
+and scalar-window rows. A bridge can compare endpoints across these surfaces
+only by displaying the relevant source rows, probe rows, scalar endpoints,
+classifier comparison, continuation replay, and provenance. Therefore the
+shared content is the recorded projection readback, not an ontology-level
+fusion of the participating interfaces.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-probspace-namecert}{Probability scalar shadows are grounded in the finite $\ProbSpaceUp$ event-measure and total-mass rows.}
+\concretizedIn{ch:concrete-instances-hilbert-namecert}{Hilbert projection shadows are grounded in the finite $\HilbertUp$ inner-product and projection rows.}
+\concretizedIn{ch:concrete-instances-fourier-namecert}{Fourier projection ledgers are grounded in finite $\FourierUp$ coefficient, probe, truncation, and provenance rows.}
+\concretizedIn{ch:concrete-instances-condexp-namecert}{Conditional expectation is read through the finite $\CondExpUp$ random-variable readback, projection witness, and residual continuation rows.}
+\concretizedIn{ch:concrete-instances-belief-namecert}{Belief updates consume probability rows only through the finite $\BeliefUp$ observation-update ledger.}
+\concretizedIn{ch:concrete-instances-spectral-measure-namecert}{Spectral measures contribute only finite projection-family and scalar-window rows to this bridge.}

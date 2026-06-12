@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailMirrorUp$}
+\label{ch:concrete-instances-cauchy-tail-mirror-namecert}
+\origin{human}
+
+Following Bishop and Bridges on tail-equivalent Cauchy sequences, the $\CauchyTailMirrorUp$ packet records the finite mirror by which two displayed Cauchy tails are read through the same tolerance ledger before any $\RealUp$ consumer identifies their terminal seals. It sits on the L10 route supplied by the stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the common-tail completion surface of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet names a finite cofinal-tail comparison; it does not assert quotient stream equality, host real equality, selected representatives, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy tail mirror carrier]
+\label{def:cauchy-tail-mirror-carrier}
+A $\CauchyTailMirrorUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W_0,W_1,R_0,R_1,D,E_0,E_1,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W_0$ and $W_1$ are two $\StreamNameUp$ tail-window rows, recording the finite observations, tail indices, and point cells opened from the two stream names.
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ readback rows attached to those windows.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger, containing the dyadic precision request, comparison budget, and cofinal tail bound used by both readbacks.
+\item $E_0$ and $E_1$ are the two downstream $\RealUp$ seal rows reached only after the shared $D$ row and the displayed readbacks have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the two windows, the two regular readbacks, the shared tolerance ledger, the two Real seals, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail comparison request through $W_0,W_1,R_0,R_1,D,E_0,E_1,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailMirrorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailMirrorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $W_0,W_1,R_0,R_1,D,E_0,E_1,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, a selected limit, countable choice, hidden cofinal subsequences, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail mirror NameCert obligations]
+\label{thm:cauchy-tail-mirror-namecert-obligations}
+For every accepted $\CauchyTailMirrorUp$ carrier
+$$
+M=(W_0,W_1,R_0,R_1,D,E_0,E_1,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyTailMirrorUp}$ surface consists exactly of carrier admission for the two $\StreamNameUp$ tail windows, the two $\RegSeqRatUp$ readbacks, the shared $\DyadicRatCoreUp$ tolerance ledger, the two $\RealUp$ seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No mirror obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-tail-mirror-carrier}. The visible analytic rows are $W_0,W_1,R_0,R_1,D,E_0,E_1$, and the structural rows are $H,C,P,N$.
+
+Read the tail windows first. The two $\StreamNameUp$ rows fix the finite windows in which the two Cauchy tails are inspected, and the two $\RegSeqRatUp$ rows attach regular rational readbacks to exactly those windows.
+
+The shared dyadic ledger then binds the mirror. Since both readbacks consume the same $D$ row, the comparison has one displayed tolerance budget rather than two unrelated tail witnesses.
+
+Finally the seal, transport, replay, provenance, and local naming rows package the same route. The carrier has no excluded coordinate, so no quotient, host-equality, selected-limit, choice, hidden-subsequence, or ambient-completeness obligation can appear outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Cauchy tail mirror shared tolerance handoff]
+\label{thm:cauchy-tail-mirror-shared-tolerance-handoff}
+Every Real-facing consumer of an accepted $\CauchyTailMirrorUp$ packet must read the finite route
+$$
+W_0,W_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto E_0,E_1
+$$
+together with $H,C,P,N$ before comparing the terminal seals. Thus the mirror identifies cofinal Cauchy tails only through two displayed StreamName windows, two regular rational readbacks, and one shared dyadic tolerance ledger.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing tail comparison. Carrier admission exposes $W_0$ and $W_1$ before any regular readback or seal row can be consumed.
+
+Attach the regular readbacks. The rows $R_0$ and $R_1$ are tied to those displayed windows, so the comparison cannot switch to an unrecorded stream representative.
+
+Use the shared tolerance ledger $D$. It is the only dyadic precision row in the packet, and both readbacks must pass through it before either Real seal $E_0$ or $E_1$ is available.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite order. Hence the consumer receives a finite mirror route, not quotient stream equality, host real equality, selected limits, countable choice, hidden cofinal subsequences, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy tail mirror componentwise determinacy]
+\label{thm:cauchy-tail-mirror-componentwise-determinacy}
+Let $M$ and $M'$ be accepted $\CauchyTailMirrorUp$ packets whose two $\StreamNameUp$ tail windows, two $\RegSeqRatUp$ readbacks, shared $\DyadicRatCoreUp$ ledger, and structural rows agree componentwise through the displayed $\hsame$ transport. Then any comparison of their downstream $\RealUp$ seals is forced to use the same mirror route before either packet can expose a terminal Real-facing read.
+\end{theorem}
+\begin{proof}
+Project both carriers. Componentwise agreement on the two window rows fixes the finite observations available on each side, and agreement on the two readback rows fixes the regular rational data read from those observations.
+
+Compare the shared dyadic ledger next. Since the ledger row is common inside each packet and matched by the displayed transport, both packets present the same precision request, budget, and cofinal tail bound to any downstream consumer.
+
+The Real seals are downstream of those rows. Transport and replay preserve only the displayed route, while provenance and local naming add no independent comparison coordinate. Therefore the terminal reads are forced through the same mirror route.
+\end{proof}
+
+\closureat{CauchyTailMirrorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailMirrorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-mirror-carrier}, \autoref{thm:cauchy-tail-mirror-namecert-obligations}, \autoref{thm:cauchy-tail-mirror-shared-tolerance-handoff}, and \autoref{thm:cauchy-tail-mirror-componentwise-determinacy} seed the finite cofinal-tail mirror route from two StreamName windows through two RegSeqRat readbacks, one DyadicRatCore tolerance ledger, two RealUp seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected representatives, countable choice, hidden cofinal subsequences, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared tolerance exactness, tail-window readback compatibility, Real-seal handoff, componentwise determinacy, transport, replay, provenance, and local naming for BEDC.Derived.CauchyTailMirrorUp.}
+  \constructivestory{A $\CauchyTailMirrorUp$ packet is generated from two StreamName tail windows, two RegSeqRat readbacks, one shared DyadicRatCore tolerance ledger, two RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

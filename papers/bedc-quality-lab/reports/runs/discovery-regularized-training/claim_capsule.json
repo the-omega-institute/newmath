@@ -1,0 +1,391 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-regularized-training:claim-capsule",
+  "claim_status": "d5-m-candidate",
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:discovery-regularized-training",
+  "hardgates": {
+    "DGT-REPLAY-HG0-owner-ready": {
+      "evidence": "model-comparison owner must be ready before DGT replay can promote.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG1": {
+      "evidence": "Formal replay arm catalog must contain the exact public arm set.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG10": {
+      "evidence": "Forbidden claim audit must pass.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG2": {
+      "evidence": "Training replay bridge must emit one public row for each formal arm.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG3": {
+      "evidence": "Replay rows must carry matched parameter counts.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG4": {
+      "evidence": "Replay rows must carry matched compute budgets.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG5": {
+      "evidence": "Matched-random structural control must be explicitly randomized.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG6": {
+      "evidence": "DGT_full must have positive classifier shift.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG7": {
+      "evidence": "DGT_full must carry a net-positive replay signal.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG8": {
+      "evidence": "Matched-random classifier shift must remain zero.",
+      "status": "pass"
+    },
+    "DGT-REPLAY-HG9": {
+      "evidence": "Compute ledger must be complete.",
+      "status": "pass"
+    },
+    "DRT-HG1": {
+      "benefit_delta": 0.02,
+      "debt_delta": -0.074,
+      "evidence": "DRT must reduce debt while preserving benefit.",
+      "status": "pass"
+    },
+    "DRT-HG2": {
+      "evidence": "Quality promotion boundary clears DRT over task-only while benefit is nondecreasing.",
+      "status": "pass"
+    },
+    "DRT-HG3": {
+      "evidence": "Classifier shift and net positive signal are both recorded.",
+      "status": "pass"
+    },
+    "DRT-HG4": {
+      "control_positive": false,
+      "evidence": "DRT certificate loss improves over matched-random control.",
+      "status": "pass"
+    },
+    "DRT-HG5": {
+      "evidence": "Task-accuracy-only rows cannot promote discovery.",
+      "status": "pass"
+    },
+    "DRT-HG6": {
+      "classifier_surface_delta": {
+        "control_arm": "matched_random",
+        "drt_classifier_shift_count_mean": 1.0,
+        "drt_minus_matched_random_classifier_shift_count": 1.0,
+        "matched_random_classifier_shift_count_mean": 0.0,
+        "net_positive_signal": true,
+        "source_arm": "drt"
+      },
+      "evidence": "Bounded PyTorch training evidence must be available, protocol-complete, and positive against matched-random control.",
+      "expected_row_count": 16,
+      "protocol_count": 16,
+      "row_count": 16,
+      "status": "pass"
+    },
+    "DRT-HG7": {
+      "evidence": "DRT may compare against certificate-guided baselines only while preserving their sibling DN evidence and isolating terminal verdict semantics.",
+      "expected_dn_status": true,
+      "forbidden_actions_absent": true,
+      "required_refs_present": true,
+      "status": "pass",
+      "terminal_status_isolated": true
+    },
+    "DRT-HG8": {
+      "comparison_pointers_resolve": true,
+      "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
+      "full_beats_all_ablations": true,
+      "full_positive_mechanism_signal": true,
+      "no_ablation_net_positive_parity": true,
+      "required_arms_present": true,
+      "status": "pass"
+    },
+    "DRT-HG9": {
+      "all_required_pointers_resolve": true,
+      "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
+      "status": "pass"
+    },
+    "DRTJ-HG1": {
+      "evidence": "Jet arm must improve the required order while matched-random jet remains negative.",
+      "matched_random_jet_gain": -0.003867,
+      "required_order_gain": 0.019,
+      "status": "pass"
+    },
+    "DRTJ-HG2": {
+      "evidence": "Jet objective must not degrade order-1 behavior.",
+      "order_one_delta": 0.001,
+      "status": "pass"
+    },
+    "DRTJ-HG3": {
+      "evidence": "High-order gain must not be reducible to a shortcut witness flip.",
+      "shortcut_reduction_fraction": 0.50007,
+      "status": "pass"
+    },
+    "DRTJ-HG4": {
+      "evidence": "Matched-random jet control must remain negative.",
+      "matched_random_jet_gain": -0.003867,
+      "status": "pass"
+    },
+    "DRTJ-HG5": {
+      "evidence": "Jet quality_q CI-low must remain positive on the frontier.",
+      "quality_q_ci_low": 0.018,
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "full model training",
+    "global architecture superiority",
+    "full LeJEPA reproduction",
+    "mechanism closure",
+    "production device authority"
+  ],
+  "positive_claim": {
+    "level_candidate": "D5-M",
+    "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    },
+    "text": "Discovery-regularized training records a bounded lab-local positive signal under deterministic replay and matched-random controls."
+  },
+  "producer": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
+  "result_snapshot": {
+    "compute_ledger": {
+      "backend_row_counts": {
+        "deterministic-anchor": 2160,
+        "deterministic-mechanism-ablation": 1,
+        "torch-training-arm": 16
+      },
+      "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
+      "deterministic_seed_count": 3,
+      "device": "mps",
+      "energy_proxy": 0.010695,
+      "flops_proxy": 106954752,
+      "missing_fields": [],
+      "requested_device": "auto",
+      "resolved_device": "mps",
+      "status": "complete",
+      "torch_seed_count": 2,
+      "total_steps": 26112,
+      "wall_time_seconds_proxy": 6.48
+    },
+    "constraint_summary": {
+      "benefit_nondecreasing": true,
+      "debt_down": true,
+      "drt_minus_task_only_benefit_q": 0.02,
+      "drt_minus_task_only_debt_q": -0.074
+    },
+    "discovery_map_signal": {
+      "failed_gate": null,
+      "level_candidate": "D5-M",
+      "reason": "training-mechanism-certificate-positive",
+      "status": "d5-m-candidate",
+      "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
+    },
+    "lambda_summary": {
+      "benefit_nondecreasing": true,
+      "best_positive": {
+        "benefit_q_mean": 0.680267,
+        "debt_q_mean": 0.187733,
+        "delta_quality_ci_low_mean": 0.026,
+        "discovery_lambda": "0.01",
+        "quality_q_mean": 0.674767
+      },
+      "by_discovery_lambda": {
+        "0.0": {
+          "benefit_q_mean": 0.664267,
+          "debt_q_mean": 0.195733,
+          "delta_quality_ci_low_mean": 0.01,
+          "quality_q_mean": 0.634767
+        },
+        "0.0001": {
+          "benefit_q_mean": 0.668267,
+          "debt_q_mean": 0.193733,
+          "delta_quality_ci_low_mean": 0.014,
+          "quality_q_mean": 0.644767
+        },
+        "0.001": {
+          "benefit_q_mean": 0.672267,
+          "debt_q_mean": 0.191733,
+          "delta_quality_ci_low_mean": 0.018,
+          "quality_q_mean": 0.654767
+        },
+        "0.005": {
+          "benefit_q_mean": 0.676267,
+          "debt_q_mean": 0.189733,
+          "delta_quality_ci_low_mean": 0.022,
+          "quality_q_mean": 0.664767
+        },
+        "0.01": {
+          "benefit_q_mean": 0.680267,
+          "debt_q_mean": 0.187733,
+          "delta_quality_ci_low_mean": 0.026,
+          "quality_q_mean": 0.674767
+        }
+      },
+      "delta_quality_ci_low_positive": true,
+      "ordered_discovery_lambdas": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01
+      ]
+    },
+    "matched_random_control": {
+      "certificate_loss_improvement": true,
+      "control_positive": false,
+      "drt_certificate_loss_mean": 0.2122,
+      "matched_random_certificate_loss_mean": 0.3282
+    },
+    "quality_promotion_boundary": {
+      "arm_comparisons": {
+        "DGT_full": {
+          "arm": "DGT_full",
+          "comparison_to_task_only": "above-task-only",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+          "promotion_gate": "clears-boundary",
+          "quality_q": 0.654767,
+          "quality_q_ci_low": 0.607767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full.quality_q_mean",
+          "render_order": 3,
+          "slot_state": "present-but-fail-closed",
+          "source_arm": "DGT_full",
+          "task_only_quality_q": 0.581767
+        },
+        "base_transformer": {
+          "arm": "base_transformer",
+          "comparison_to_task_only": "task-only-reference",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer",
+          "promotion_gate": "reference",
+          "quality_q": 0.581767,
+          "quality_q_ci_low": 0.581767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+          "render_order": 1,
+          "slot_state": "present-but-fail-closed",
+          "source_arm": "base_transformer",
+          "task_only_quality_q": 0.581767
+        },
+        "matched_random_structural_control": {
+          "arm": "matched_random_structural_control",
+          "comparison_to_task_only": "above-task-only",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control",
+          "promotion_gate": "comparison-only",
+          "quality_q": 0.595767,
+          "quality_q_ci_low": 0.595767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
+          "render_order": 4,
+          "slot_state": "present-but-fail-closed",
+          "source_arm": "matched_random_structural_control",
+          "task_only_quality_q": 0.581767
+        },
+        "old_certificate_guided": {
+          "arm": "old_certificate_guided",
+          "comparison_to_task_only": "missing-evidence-fail-closed",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+          "promotion_gate": "fail-closed",
+          "quality_q": null,
+          "quality_q_ci_low": null,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+          "render_order": 5,
+          "slot_state": "present-but-fail-closed",
+          "source_arm": null,
+          "task_only_quality_q": 0.581767
+        },
+        "parameter_matched": {
+          "arm": "parameter_matched",
+          "comparison_to_task_only": "above-task-only",
+          "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched",
+          "promotion_gate": "comparison-only",
+          "quality_q": 0.599767,
+          "quality_q_ci_low": 0.599767,
+          "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+          "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean",
+          "render_order": 2,
+          "slot_state": "present-but-fail-closed",
+          "source_arm": "parameter_matched",
+          "task_only_quality_q": 0.581767
+        }
+      },
+      "arm_quality_order": [
+        "base_transformer",
+        "parameter_matched",
+        "DGT_full",
+        "matched_random_structural_control",
+        "old_certificate_guided"
+      ],
+      "hardgate": {
+        "drt_minus_task_only_quality_q_ci_low": 0.026,
+        "drt_quality_q_ci_low": 0.607767,
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
+        "fail_closed_when": "drt_quality_q_ci_low <= task_only_quality_q",
+        "gate_id": "DRT-HG2",
+        "promotion_gate": "clears-boundary",
+        "requirement": "DRT quality_q CI-low must be strictly above task_only quality_q.",
+        "slot_state": "present-but-fail-closed",
+        "task_only_quality_q": 0.581767
+      },
+      "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary",
+      "quality_metric": "quality_q",
+      "replay_dimension_pointers": {
+        "lambda": "reports/canonical/discovery-regularized-training.json:$.config.discovery_lambdas",
+        "mixings": "reports/canonical/discovery-regularized-training.json:$.config.mixings",
+        "rho": "reports/canonical/discovery-regularized-training.json:$.config.rhos",
+        "seeds": "reports/canonical/discovery-regularized-training.json:$.config.seeds",
+        "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
+      },
+      "slot_state": "present-but-fail-closed",
+      "source_artifact": "reports/canonical/discovery-regularized-training.json",
+      "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean"
+    }
+  },
+  "revocation": {
+    "rows": [
+      {
+        "active": true,
+        "condition": "revoke if deterministic replay changes rounded metric summaries beyond tolerance",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if matched-random certificate loss is no longer worse than DRT certificate loss",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if any task-accuracy-only row is promoted as discovery evidence",
+        "status": "armed"
+      }
+    ],
+    "status": "revocable"
+  },
+  "run_id": "discovery-regularized-training",
+  "schema_id": "bedc.quality.claim_capsule.run_local",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "summary": "reports/runs/discovery-regularized-training/summary.json"
+  },
+  "what_was_learned": "The deterministic anchor records debt reduction, benefit preservation, classifier shift, and matched-random certificate separation."
+}

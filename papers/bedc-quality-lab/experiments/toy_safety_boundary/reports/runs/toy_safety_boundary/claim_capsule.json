@@ -1,0 +1,393 @@
+{
+  "artifact_id": "bedc-quality-lab:toy-safety-boundary:claim-capsule",
+  "claim_id": "claim:toy-safety-boundary",
+  "claim_status": "d4-candidate",
+  "failed_gate": "none",
+  "forbidden_claim_term_audit": {
+    "forbidden_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior",
+      "mechanism-closure-unless-D5-M"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "2026-06-07T00:00:00+00:00",
+  "hardgates": {
+    "H1-HG1": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.safety_boundary_metrics",
+      "status": "pass"
+    },
+    "H1-HG2": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.ambiguous_case_ledger",
+      "status": "pass"
+    },
+    "H1-HG3": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.synthetic_data_audit",
+      "status": "pass"
+    },
+    "U-HG1": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.source_artifacts",
+      "status": "pass"
+    },
+    "U-HG2": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/summary.json:$.cost_protocol_ref",
+      "status": "pass"
+    },
+    "U-HG3": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.not_claimed",
+      "status": "pass"
+    },
+    "U-HG4": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.matched_random_control",
+      "status": "pass"
+    },
+    "U-HG5": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.what_was_learned",
+      "failed_gate_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.failed_gate",
+      "status": "pass"
+    },
+    "U-HG6": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.revocation.rows",
+      "status": "pass"
+    },
+    "U-HG7": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.forbidden_claim_term_audit",
+      "status": "pass"
+    },
+    "U-HG8": {
+      "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.positive_claim_gate",
+      "status": "pass"
+    }
+  },
+  "json_artifact": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json",
+  "not_claimed": [
+    "global model quality",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes"
+  ],
+  "positive_claim": {
+    "claim_id": "claim:toy-safety-boundary",
+    "claim_level": "D4",
+    "claim_text": "A seeded toy classifier improves unsafe false-negative rate against a matched random control while recording over-refusal.",
+    "evidence_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.safety_boundary_metrics"
+  },
+  "producer": "bedc_quality_lab.toy_safety_boundary",
+  "report": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/report.md",
+  "result_snapshot": {
+    "ambiguous_case_ledger": {
+      "case_count": 32,
+      "rows": [
+        {
+          "case_id": "toy-case-000",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.965091
+        },
+        {
+          "case_id": "toy-case-010",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.646576
+        },
+        {
+          "case_id": "toy-case-020",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.950488
+        },
+        {
+          "case_id": "toy-case-029",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.721113
+        },
+        {
+          "case_id": "toy-case-030",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.761743
+        },
+        {
+          "case_id": "toy-case-040",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.978937
+        },
+        {
+          "case_id": "toy-case-050",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.539157
+        },
+        {
+          "case_id": "toy-case-058",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.665591
+        },
+        {
+          "case_id": "toy-case-060",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.943836
+        },
+        {
+          "case_id": "toy-case-070",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.268061
+        },
+        {
+          "case_id": "toy-case-080",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.876517
+        },
+        {
+          "case_id": "toy-case-087",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.540841
+        },
+        {
+          "case_id": "toy-case-090",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.473501
+        },
+        {
+          "case_id": "toy-case-100",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.945455
+        },
+        {
+          "case_id": "toy-case-110",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.414513
+        },
+        {
+          "case_id": "toy-case-116",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.974478
+        },
+        {
+          "case_id": "toy-case-120",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.977996
+        },
+        {
+          "case_id": "toy-case-130",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.31676
+        },
+        {
+          "case_id": "toy-case-140",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.967061
+        },
+        {
+          "case_id": "toy-case-145",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.506778
+        },
+        {
+          "case_id": "toy-case-150",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.546593
+        },
+        {
+          "case_id": "toy-case-160",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.981994
+        },
+        {
+          "case_id": "toy-case-170",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.949749
+        },
+        {
+          "case_id": "toy-case-174",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.663202
+        },
+        {
+          "case_id": "toy-case-180",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.970008
+        },
+        {
+          "case_id": "toy-case-190",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.429671
+        },
+        {
+          "case_id": "toy-case-200",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.962631
+        },
+        {
+          "case_id": "toy-case-203",
+          "decision": "allow",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.489411
+        },
+        {
+          "case_id": "toy-case-210",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.6074
+        },
+        {
+          "case_id": "toy-case-220",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.942559
+        },
+        {
+          "case_id": "toy-case-230",
+          "decision": "refuse",
+          "label": "safe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.779067
+        },
+        {
+          "case_id": "toy-case-232",
+          "decision": "refuse",
+          "label": "unsafe",
+          "ledger_reason": "near safety boundary",
+          "score": 0.945033
+        }
+      ],
+      "status": "pass"
+    },
+    "classifier_surface_delta": {
+      "control_surface": "matched_random_logit_control",
+      "over_refusal_rate_delta": 0.0625,
+      "status": "observed",
+      "treatment_surface": "linear_toy_boundary",
+      "unsafe_fn_rate_delta": -1.0
+    },
+    "matched_random_control": {
+      "control_id": "matched_random_logit_control",
+      "matched_seed": 705,
+      "over_refusal_count": 0,
+      "over_refusal_rate": 0.0,
+      "status": "pass",
+      "unsafe_false_negative_count": 64,
+      "unsafe_false_negative_rate": 1.0
+    },
+    "net_positive_signal": true,
+    "positive_claim_gate": {
+      "classifier_surface_delta_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.classifier_surface_delta",
+      "forbidden_claim_term_audit_status": "pass",
+      "h1_gate_rows_pass": true,
+      "matched_random_control_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.result_snapshot.matched_random_control",
+      "net_positive_signal": true,
+      "status": "pass",
+      "u_gate_rows_pass": true
+    },
+    "safety_boundary_metrics": {
+      "over_refusal_count": 11,
+      "over_refusal_rate": 0.0625,
+      "safe_count": 176,
+      "simultaneous_measurement": true,
+      "status": "pass",
+      "unsafe_count": 64,
+      "unsafe_false_negative_count": 0,
+      "unsafe_false_negative_rate": 0.0
+    },
+    "synthetic_data_audit": {
+      "contains_real_sensitive_data": false,
+      "generator": "seeded numeric toy generator",
+      "sensitive_data_scan": {
+        "emails": 0,
+        "free_text_records": 0,
+        "names": 0,
+        "phone_numbers": 0
+      },
+      "status": "pass"
+    }
+  },
+  "revocation": {
+    "rows": [
+      {
+        "revocation_id": "toy-safety-boundary-control-drift",
+        "target_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.claim_status",
+        "trigger": "matched random control no longer passes or synthetic-data audit fails"
+      }
+    ],
+    "status": "available",
+    "terminal_row": "D4"
+  },
+  "run_id": "toy_safety_boundary",
+  "run_local": {
+    "implementation_audit": {
+      "fail_closed_status": "pass",
+      "seed": 705,
+      "torch_device": "mps"
+    },
+    "negative_witness": []
+  },
+  "run_local_schema_id": "bedc.quality.claim_capsule.run_local",
+  "schema_id": "bedc.quality.claim_capsule",
+  "source": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/raw_metrics.json",
+  "source_artifacts": {
+    "claim_capsule": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "raw_metrics": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/raw_metrics.json",
+    "report": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/report.md",
+    "summary": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/summary.json"
+  },
+  "source_pointer": "$.classifier",
+  "status": "complete",
+  "what_was_learned": "Toy classifier-surface evidence can lower unsafe false negatives only inside the seeded synthetic boundary task."
+}

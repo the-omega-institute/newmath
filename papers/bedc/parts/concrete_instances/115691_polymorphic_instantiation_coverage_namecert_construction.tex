@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\PolymorphicInstantiationCoverageUp$}
+\label{ch:concrete-instances-polymorphic-instantiation-coverage-namecert}
+\origin{ai}
+
+The $\PolymorphicInstantiationCoverageUp$ packet realizes the typed-example frontier of \autoref{sec:metacic-open-problems-typedexamples} as finite universe-instantiation and typed-window data. It sits beside the MetaCIC gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the typed-example matrix of \autoref{ch:concrete-instances-typedexamplecoveragematrix-namecert}, the dependent-eliminator coverage packet of \autoref{ch:concrete-instances-dependent-eliminator-coverage-namecert}, the typed-conversion residual frontier of \autoref{ch:concrete-instances-metacic-typed-conversion-residual-frontier-namecert}, and the proof-search frontier of \autoref{ch:concrete-instances-metacic-proof-search-frontier-namecert}. It records where polymorphic examples have been instantiated inside finite typed windows, while keeping eliminator coverage, conversion residuals, proof search, stream observation, and regular-rational readback as separate sibling routes through \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+\begin{definition}[Polymorphic-instantiation coverage carrier]
+\label{def:polymorphic-instantiation-coverage-carrier}
+A $\PolymorphicInstantiationCoverageUp$ carrier is a finite $\BHist$ packet
+$$
+P=(G,W,U,T,V,O,X,R,S,B,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite typed-example gallery row whose polymorphic identity, type-application, and Church-encoded examples are being audited.
+\item $W$ is the typed-window row, recording the finite contexts, binders, sort levels, type arguments, and term endpoints inspected by the packet.
+\item $U$ is the universe-instantiation row, listing the concrete universe and sort substitutions accepted by the window.
+\item $T$ is the typed-instantiation row, pairing polymorphic source terms with displayed type arguments and typed target endpoints.
+\item $V$ is the conversion-boundary row, recording where beta, type application, and definitional conversion checks are required before an instantiated example is counted.
+\item $O$ is the omission-obstruction row, retaining any polymorphic example whose type argument, universe row, or conversion boundary is missing from $W,U,T,V$.
+\item $X$ is the transport row from the typed-example coverage matrix into the local polymorphic-instantiation packet.
+\item $R$ is the replay row, recording bounded re-checks of the accepted instantiation windows without claiming global coverage of all polymorphic programs.
+\item $S$ is the source-provenance row, separating gallery examples, dependent-eliminator siblings, conversion-frontier siblings, proof-search siblings, stream observations, and regular-rational readbacks.
+\item $B$ is the boundary row refusing dependent-eliminator coverage, unrestricted conversion residual closure, proof-search completeness, and semantic parametricity as consequences of this packet.
+\item $H$ records componentwise $\hsame$ transport for $G,W,U,T,V,O,X,R,S,B$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+G,W,U,T,V,O,X,R,S,B \longmapsto H,K,N .
+$$
+\item $K$ is the $\Pkg$ provenance over $\PolymorphicInstantiationCoverageUp$, $\MetaCICTypedExamplesGalleryUp$, $\TypedExampleCoverageMatrixUp$, $\DependentEliminatorCoverageUp$, $\MetaCICTypedConversionResidualFrontierUp$, $\MetaCICProofSearchFrontierUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolymorphicInstantiationCoverageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,W,U,T,V,O,X,R,S,B,H,C,K,N$. It has no coordinate for all dependent eliminators, a full conversion algorithm, a proof-search completeness theorem, semantic parametricity, quotient syntax equality, host universe polymorphism, or global MetaCIC consistency.
+\end{definition}
+
+\begin{theorem}[Polymorphic-instantiation coverage NameCert obligations]
+\label{thm:polymorphic-instantiation-coverage-namecert-obligations}
+For every accepted $\PolymorphicInstantiationCoverageUp$ carrier
+$$
+P=(G,W,U,T,V,O,X,R,S,B,H,C,K,N),
+$$
+the local $\NameCert_{\PolymorphicInstantiationCoverageUp}$ surface consists exactly of carrier admission for the gallery row, typed-window row, universe-instantiation row, typed-instantiation row, conversion-boundary row, omission-obstruction row, coverage-matrix transport row, replay row, source-provenance row, boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A polymorphic example is counted only when $W,U,T,V$ are displayed together and the omission row $O$ records no missing instantiation-window component for that example.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:polymorphic-instantiation-coverage-carrier}. The polymorphic-instantiation surface is exactly $W,U,T,V$: the typed window, universe substitutions, term-level instantiations, and conversion boundary.
+
+The gallery and coverage-matrix rows $G,X$ identify the source examples being audited. The rows $O,R,S,B$ record omissions, bounded replay, provenance, and the separation from dependent-eliminator, conversion, proof-search, stream, and regular-rational sibling routes.
+
+Transport, replay, package provenance, and local naming through $H,C,K,N$ preserve the same rows. Since no row stores total dependent-eliminator coverage, full conversion closure, proof-search completeness, semantic parametricity, quotient syntax equality, host universe polymorphism, or global consistency, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Polymorphic-instantiation omission refutation]
+\label{thm:polymorphic-instantiation-omission-refutation}
+If a proposed typed-example coverage packet counts a polymorphic example while omitting the corresponding type argument from $T$, universe entry from $U$, typed window from $W$, or conversion boundary from $V$, then it is not accepted as a $\PolymorphicInstantiationCoverageUp$ carrier. The omitted component is retained in $O$ as a refutation of the proposed coverage count.
+\end{theorem}
+\begin{proof}
+Acceptance is read from the carrier rows $W,U,T,V,O$. A counted example must display its typed window, universe substitution, typed instantiation endpoint, and conversion boundary in the same packet.
+
+If any one of those components is absent, the omission-obstruction row $O$ is the only available destination for the proposed count. The replay row $R$ may re-check displayed windows, but it cannot manufacture a missing universe, type argument, typed endpoint, or conversion boundary.
+
+Thus a packet with such an omission fails carrier admission for the counted example, and the omission itself becomes the local refutation.
+\end{proof}
+
+\begin{theorem}[Polymorphic-instantiation sibling separation]
+\label{thm:polymorphic-instantiation-sibling-separation}
+Every accepted $\PolymorphicInstantiationCoverageUp$ read separates polymorphic instantiation from dependent-eliminator coverage, typed-conversion residuals, proof-search frontiers, stream observation, and regular-rational readback. Those consumers may cite the provenance row $S$, but they cannot read this packet as their own carrier or as a proof of their closure obligations.
+\end{theorem}
+\begin{proof}
+The provenance row $S$ names the sibling routes, while the boundary row $B$ records that their obligations are not discharged by the polymorphic-instantiation rows. The local carrier counts only examples whose $W,U,T,V$ rows are displayed.
+
+Dependent eliminators require eliminator-family rows not present here. Typed-conversion residuals require residual-frontier and endpoint rows, proof search requires search-frontier evidence, and stream or regular-rational consumers require their own observation and readback carriers.
+
+Therefore the local packet can route citations to those siblings but cannot replace their NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{A claimed polymorphic-instantiation coverage count that omits an instantiation-window component from $W,U,T,V$ is refuted by the omission-obstruction row $O$.}
+
+\independenceWitness{dependent-eliminator-coverage, metacic-typed-conversion-residual-frontier, metacic-proof-search-frontier, streamname, regseqrat: these siblings carry eliminator-family rows, residual-conversion rows, proof-search rows, stream-observation rows, or regular-rational readbacks, but none carries the combined universe-instantiation, typed-window, typed-instantiation, conversion-boundary, omission, transport, replay, provenance, and local NameCert surface of $\PolymorphicInstantiationCoverageUp$.}
+
+The future Lean TasteGate file must provide $\mathsf{Nontrivial}\ \PolymorphicInstantiationCoverageUp$ and $\mathsf{FieldFaithful}\ \PolymorphicInstantiationCoverageUp$ instances for the displayed rows $G,W,U,T,V,O,X,R,S,B,H,C,K,N$ before any positive gate may count this packet as field-faithful.
+
+\closureat{PolymorphicInstantiationCoverageUp}{seedStr}
+
+\begin{closurestatus}{\PolymorphicInstantiationCoverageUp}
+  \constructivestory{A $\PolymorphicInstantiationCoverageUp$ packet is generated from finite typed-example gallery rows, typed windows, universe-instantiation rows, typed-instantiation endpoints, conversion boundaries, omission obstructions, coverage-matrix transport, bounded replay, sibling provenance, boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polymorphic-instantiation-coverage-carrier}, \autoref{thm:polymorphic-instantiation-coverage-namecert-obligations}, \autoref{thm:polymorphic-instantiation-omission-refutation}, and \autoref{thm:polymorphic-instantiation-sibling-separation} seed the finite typed-window, universe-instantiation, conversion-boundary, omission, transport, replay, provenance, and local naming surface for polymorphic-instantiation coverage.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim dependent-eliminator coverage, full conversion residual closure, proof-search completeness, stream readback closure, regular-rational completeness, semantic parametricity, quotient syntax equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, instantiation-window exactness, omission-obstruction soundness, sibling separation, transport stability, replay stability, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.PolymorphicInstantiationCoverageUp.}
+\end{closurestatus}

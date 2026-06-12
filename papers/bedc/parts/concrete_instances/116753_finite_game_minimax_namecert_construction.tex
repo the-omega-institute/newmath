@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteGameMinimaxUp$}
+\label{ch:concrete-instances-finite-game-minimax-namecert}
+\origin{human}
+
+Following von Neumann's finite zero-sum game theorem, the $\FiniteGameMinimaxUp$ packet names a saddle-certificate surface for finite payoff tables. The BEDC packet consumes the finite ordered-field duality rows of \autoref{ch:concrete-instances-lpduality-namecert}, the simplex and convexity rows of \autoref{ch:concrete-instances-convexset-namecert}, the finite payoff-table rows of \autoref{ch:concrete-instances-matrix-namecert}, the scalar readback rows of \autoref{ch:concrete-instances-real-namecert}, and the ordered-field operations of \autoref{ch:concrete-instances-field-namecert}.
+
+\begin{definition}[FiniteGameMinimax carrier]
+\label{def:finite-game-minimax-carrier}
+A $\FiniteGameMinimaxUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,J,A,\Delta_I,\Delta_J,L,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ and $J$ are finite row-player and column-player pure-strategy carriers.
+\item $A:I\times J\to F$ is the payoff table, read as a finite $\MatrixUp$ row over the ordered-field scalar carrier $F$.
+\item $\Delta_I$ and $\Delta_J$ are the row and column mixed-strategy simplex rows, read through $\ConvexSetUp$ and the scalar $\FieldUp$ operations.
+\item $L$ is the finite $\LPDualityUp$ primal-dual row whose primal variables are row-player mixture and lower-value coordinates, and whose dual variables are column-player mixture and upper-value coordinates.
+\item $V$ is the value row, recording the scalar endpoint selected by the displayed primal-dual equality in $L$.
+\item $S$ is the saddle-inequality ledger, listing the finite comparisons
+$$
+\sum_{i\in I}p_iA_{ij}\preceq_F V
+\quad\text{and}\quad
+V\preceq_F\sum_{j\in J}A_{ij}q_j
+$$
+for every displayed pure column $j\in J$ and pure row $i\in I$.
+\item $H$ records componentwise $\hsame$ transport for the strategy carriers, payoff table, simplex rows, duality row, value row, saddle ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a saddle-value request through $A,\Delta_I,\Delta_J,L,V,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteGameMinimaxUp$, $\LPDualityUp$, $\ConvexSetUp$, $\MatrixUp$, $\RealUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteGameMinimaxUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host minimax selector, a hidden optimization solver, quotient equality of mixed strategies, an ambient completed real space, or a selected saddle pair outside the displayed finite packet.
+\end{definition}
+
+\begin{theorem}[FiniteGameMinimax obligation surface]
+\label{thm:finite-game-minimax-obligation-surface}
+For every accepted $\FiniteGameMinimaxUp$ carrier $G=(I,J,A,\Delta_I,\Delta_J,L,V,S,H,C,P,N)$, the local $\NameCert_{\FiniteGameMinimaxUp}$ surface consists exactly of carrier admission, classifier comparison, finite simplex feasibility, finite $\LPDualityUp$ handoff, saddle-inequality stability under $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A saddle-value read is admitted only after the payoff table, both mixed-strategy simplex rows, the duality row, the value row, and the saddle ledger are all visible in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-game-minimax-carrier}. The finite strategy carriers and payoff table are supplied by $I,J,A$, while $\Delta_I$ and $\Delta_J$ give the mixed-strategy feasibility rows.
+
+The duality handoff is exactly the row $L$. It supplies the finite primal-dual comparison whose common scalar endpoint is recorded in $V$.
+
+The saddle ledger $S$ lists the pure-row and pure-column comparisons obtained from that endpoint. Componentwise transport through $H$ preserves the strategy carriers, payoff entries, simplex coordinates, value endpoint, and comparison rows, while $C,P,N$ replay, source, and name the same packet.
+
+Since no row in the carrier stores a host solver, a quotient of strategy distributions, or an ambient completeness principle, the displayed fields exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[FiniteGameMinimax LPDuality handoff]
+\label{thm:finite-game-minimax-lpduality-handoff}
+Every saddle-value read from an accepted $\FiniteGameMinimaxUp$ packet factors through the displayed finite ordered-field $\LPDualityUp$ row $L$ of \autoref{def:finite-game-minimax-carrier}. The exported data are the payoff table, simplex feasibility rows, value endpoint, saddle comparisons, transport, replay, provenance, and local naming rows. The packet exports no optimization solver, host min/max selector, quotient strategy equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read an accepted saddle-value request through the replay row $C$. By definition it must pass through the payoff table $A$, the two simplex rows $\Delta_I,\Delta_J$, the duality row $L$, the value row $V$, and the saddle ledger $S$.
+
+The row $L$ is already an $\LPDualityUp$ finite ordered-field row. Its equality of primal and dual objective endpoints is the only source for the value coordinate $V$.
+
+The saddle comparisons are then read from $S$ as finite ordered-field comparisons against the same endpoint. Transport by $H$ and provenance by $P,N$ keep those comparisons in the named finite packet.
+
+Thus every public saddle-value read factors through $L$ and the listed BEDC rows, with no additional solver, selector, quotient, or completeness coordinate available.
+\end{proof}
+
+\closureat{FiniteGameMinimaxUp}{seedStr}
+
+\begin{closurestatus}{\FiniteGameMinimaxUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-game-minimax-carrier}, \autoref{thm:finite-game-minimax-obligation-surface}, and \autoref{thm:finite-game-minimax-lpduality-handoff} seed the finite zero-sum game saddle-certificate packet through displayed payoff, simplex, duality, value, and saddle-ledger rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host minimax theorem, an optimizer-selection procedure, quotient equality of mixed strategies, real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, simplex feasibility, ordered-field duality handoff, saddle-inequality stability, replay, provenance, and local NameCert registration for BEDC.Derived.FiniteGameMinimaxUp.}
+  \constructivestory{A $\FiniteGameMinimaxUp$ packet is generated from finite pure-strategy carriers, a payoff table, mixed-strategy simplex rows, an LPDuality row, a value endpoint, saddle-inequality ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -38,6 +38,7 @@ the endpoint rows are read first as $L$ and $R$ through \autoref{ch:concrete-ins
 
 Thus a $\DyadicBisectionUp$ consumer cannot read a midpoint branch without first inheriting the dyadic endpoint data named by the source endpoint rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointEndpointSourceRoute}
 \begin{proof}
 Project the accepted carrier as
 $$
@@ -102,6 +103,7 @@ It remains to compare consumer-visible branching and readback. The branch rows $
 \label{thm:dyadic-midpoint-branch-comparison-handoff}
 For every accepted $\DyadicMidpointUp$ carrier $M=(L,R,S,\mu,B,W,H,C,P,N)$, any $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, or $\LocatedIntervalUp$ consumer that branches at the midpoint consumes exactly the displayed branch-comparison row $B$ together with the endpoint rows $L,R$, the common-denominator row $S$, the midpoint row $\mu$, the finite readback row $W$, and the provenance rows $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointBranchComparisonHandoff}
 \begin{proof}
 Project the carrier. The only row that records a left/right comparison at the midpoint is $B$, and the only midpoint value available to that row is $\mu$.
 
@@ -129,6 +131,7 @@ The package row $P$ records which surrounding certificates may consume the route
 \label{thm:dyadic-midpoint-nested-interval-non-escape}
 Suppose a $\NestedIntervalUp$ or $\DyadicBisectionUp$ packet consumes a $\DyadicMidpointUp$ carrier during a finite refinement step. The retained subinterval endpoint rows, the selected midpoint row, and the branch comparison remain inside the displayed $\mathsf{BHist}$ packet of \autoref{def:dyadic-midpoint-carrier}; the handoff exports no host real equality, no quotient endpoints, no completed interval intersection, and no ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointNestedIntervalNonEscape}
 \begin{proof}
 Apply \autoref{thm:dyadic-midpoint-branch-comparison-handoff}. A refinement step can choose a retained subinterval only through the displayed branch row $B$ and the midpoint row $\mu$.
 
@@ -294,7 +297,7 @@ The projected rows list no host real equality, quotient endpoint, completed inte
 
 \begin{closurestatus}{\DyadicMidpointUp}
   \constructivestory{A $\DyadicMidpointUp$ packet is generated from two dyadic endpoint rows, a common-denominator scaling row, a finite midpoint calculation, a branch-comparison row, a finite-window readback row, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope packages the endpoint rows, common-denominator scaling row, midpoint row, branch-comparison row, finite-window readback route, local classifier stability, consumer handoff, nested-interval non-escape boundary, $\RealUp$ handoff, and downstream $\DyadicRatCoreUp$ surface for $\DyadicMidpointUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

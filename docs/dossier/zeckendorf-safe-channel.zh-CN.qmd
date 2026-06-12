@@ -1,0 +1,185 @@
+---
+title: "Zeckendorf-safe 通道"
+subtitle: "为什么 BEDC 的编译器输入是带可见边界的事件流, 不是裸 bitstream"
+author: "The Omega Institute"
+date: 2026-06-06
+lang: zh-Hans
+description: "GroundCompiler 通道使用 0 -> 0, 1 -> 10, End -> 11, 使事件边界在二进制流中保持公开可读, 但不把通道本身误读成证明、NameCert 或物理涌现证据."
+---
+
+```{=html}
+<div class="lang-switch"><a href="zeckendorf-safe-channel.qmd">English</a></div>
+```
+
+## 这个通道解决什么问题
+
+BEDC 的 GroundCompiler 不把一串裸 bit 当作形式输入. 它接受的是 `EventFlow`: 一个有限有序的 raw event 列表. 每个 raw event 本身是 `0` 和 `1` 上的有限串, 但 event 和 event 之间的切分也是数据的一部分.
+
+这点不能省. 如果把 event flow 拍平成一个裸串, 不同 flow 会塌成同一个 bitstring. 例如 `(0, 1)` 和 `(01)` 擦掉边界后都是 `01`. 边界一旦擦掉, 串内部就没有证据告诉 decoder 原本是哪一个 flow.
+
+所以 channel 问题不是"怎样把 bit 打印成 bit". 问题是:
+
+> 怎样把一个有限 event flow 显示成一条二进制流, 同时保留足够边界信息, 使原 event flow 可以在没有隐藏 parser、manifest、length table、模式或宿主 tree 的情况下被恢复?
+
+Zeckendorf-safe 通道是在这一层给出的答案.
+
+## 编码方式
+
+通道使用三条展示约定:
+
+```text
+raw 0  -> channel 0
+raw 1  -> channel 10
+End    -> channel 11
+```
+
+一个 event body 按从左到右替换每个 raw glyph:
+
+```text
+0    -> 0
+1    -> 10
+011  -> 01010
+100  -> 1000
+```
+
+然后在末尾追加 terminator `11`. 因此:
+
+```text
+event 0    -> 011
+event 1    -> 1011
+event 011  -> 0101011
+event 100  -> 100011
+```
+
+一个完整 flow 是 event code 的串接:
+
+```text
+(011, 100) -> 0101011 100011
+```
+
+合法通道语言是:
+
+```text
+LegalZStream = ((0 | 10)* 11)*
+```
+
+关键就在这里. 编码后的 event body 只由 `0` 和 `10` 拼出, 所以 body 内部不会出现相邻的 `11`. 读一个 event 时, 第一次遇到的 `11` 就只能是 event boundary.
+
+## 流式读回
+
+decoder 只需要看后一枚 glyph.
+
+| Channel prefix | Decoder 动作 |
+|---|---|
+| `0` | 输出 raw `0`, 继续 |
+| `10` | 输出 raw `1`, 继续 |
+| `11` | 关闭当前 event |
+| 末尾孤立 `1` | reject |
+
+于是得到往返:
+
+```text
+Decode(FlowEncoding(S)) = some S
+```
+
+对合法通道串, decode 也会落回到一个重新编码等于原串的 flow:
+
+```text
+LegalZStream(c) ->
+  exists S, Decode(c) = some S and FlowEncoding(S) = c
+```
+
+所以允许读取的等价正好是:
+
+```text
+EventFlow <-> LegalZStream
+```
+
+它不是 event flow 和任意 bitstring 之间的等价, 也不是语义对象和显示名字之间的等价. 它只是有限 event flow 与由这套 delimiter 纪律生成的合法通道串之间的 channel-level bijection.
+
+```{=html}
+<span class="elim-mark">✗ 「所以 BEDC 输入就是 bitstream」</span>
+```
+
+不是. 合法通道串是 event flow 的带边界展示. 裸 bitstream 已经把 event 边界扔掉了. 这个通道之所以存在, 正是因为边界擦除不是 injective.
+
+## 为什么叫 Zeckendorf-safe
+
+这个名字很容易误读. 通道叫 "Zeckendorf-safe", 是因为 body code 避开相邻 `11`, 从而把 `11` 留作无歧义 event terminator. 这不表示通道正在执行 Zeckendorf normalization.
+
+Source-level Zeckendorf 分类器住在上一层. 例如:
+
+```text
+011 -> 100
+```
+
+这样的源 relation 只有在相应历史 flow 被分类器和账本识别后, 才能读成 source-level carry 或 normal-form relation. 它不是 compiled channel string 上的 substring rewrite rule.
+
+例如:
+
+```text
+event 011 -> channel 0101011
+```
+
+如果有人把 `0101011` 里可见的后缀 `011` 直接改写成 `100`, 得到:
+
+```text
+0101100
+```
+
+channel decoder 会读 `0`, 再读 `10`, 然后把 `11` 看成 event 边界, 剩下没有 terminator 的 `00`. 这条 stream 是 malformed. 问题在于源 carry 被错误地应用到了 channel 层.
+
+合法路线是:
+
+```text
+channel stream
+  -> Decode
+event flow
+  -> source-level normalizer / classifier
+event flow
+  -> FlowEncoding
+channel stream
+```
+
+不允许直接改写 channel glyph.
+
+## 这个通道证明了什么
+
+GroundCompiler 通道证明的是一件窄而重要的事:
+
+> Event 边界可以作为公开数据进入一条有限二进制流, 并且可以流式 decode, 不需要结构性 hidden input.
+
+这足以挡住一种常见逃逸: consumer 不能说 "包边界、定理 identifier、AST node、parser 状态、manifest 这些结构从 bits 里显然可见". 它们不是形式输入. 它们要么作为 event-flow 数据被编码并在之后被识别, 要么就不属于已接纳的 compiler surface.
+
+因此, 这个通道是一种可见性纪律. 它把边界放进 stream, 而不是放进 reader 的默认假设里.
+
+## 它没有证明什么
+
+合法通道不是:
+
+- `NameCert`;
+- 定理 code;
+- 证明对象;
+- gap 账本;
+- source-level Zeckendorf carry 证明;
+- entropy、continuum、topology、geometry 或 physical space emergence 的证据.
+
+这些主张需要各自的证书表面和桥 argument. 通道只说: 这里有一种 lossless、自定界、二进制的有限 event flow 展示方式.
+
+```{=html}
+<span class="role-tag discovery">💡 发现</span>
+```
+
+发现是: 边界 information 不是辅助排版. 一旦擦掉, 它就不能从拍平后的 marks 自己恢复. 所以 BEDC 的 compiler 表面把 event 边界当成一等数据; Zeckendorf-safe 通道是在这个区域里让边界保持公开的最小二进制纪律.
+
+## 接下来读哪里
+
+```{=html}
+<div class="cta-choices">
+  <a href="zero-information-debt.zh-CN.qmd"><strong>零信息债 →</strong><br/>为什么 BEDC 把 hidden assumptions 读成 ledger debt, 而不是普通证明写作问题.</a>
+  <a href="pattern-as-mark.zh-CN.qmd"><strong>Pattern as Mark →</strong><br/>重复 mark 如何在不预设外部对象层的情况下成为可识别 pattern.</a>
+  <a href="goedel-boundary-as-data.zh-CN.qmd"><strong>Goedel Boundary as Data →</strong><br/>有限 refusal packet 如何暴露边界, 但不声称 truth-total capture.</a>
+</div>
+```
+
+— *The Omega Institute*

@@ -1,0 +1,113 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "a9502d43a15a853f5964c2fa7e642bd09b4fa13ff17724b3ab5b6fded277f3f3",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/mechanism_dna.py",
+        "sha256": "8979becc50751550c52e09fd1a37d12dfaf07db8ceeb9107ce935e63326e37ed"
+      },
+      {
+        "path": "scripts/run_mechanism_dna.py",
+        "sha256": "0651f0b62ffccfb7c00bc6a218b6e33a7b7e12e4f00fdf1535d518b1e2ae4953"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:mechanism-dna",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_mechanism_dna.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "c07334d7829354c1f8fbcb30ff95fe121fad5191ab1c89ca81a2e05a5e7bd377"
+      },
+      {
+        "path": "reports/canonical/discovery-regularized-training.json",
+        "sha256": "a7e64326e5876c68aaf031b9edbe8b35d20961df0e1ed6380f8f7b0c1b48bdf9"
+      },
+      {
+        "path": "reports/canonical/gap_head_attribution_capsule.json",
+        "sha256": "804dfcd444461ad2512bc34ab3e869913b81248ac143d35e853a2d9d0c81499e"
+      },
+      {
+        "path": "reports/canonical/mechanism-seeking-network.json",
+        "sha256": "4efd9cc1c800c2ff1c5505bee550e05526f4df49afe75904afa768679cd58fe4"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_mechanism_dna.py"
+      ],
+      "control_pointer": null,
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "terminal_verdict",
+        "final_verdict",
+        "terminal verdict"
+      ],
+      "json_artifact": "reports/canonical/mechanism_dna.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/mechanism_dna.md",
+      "name": "mechanism-dna",
+      "no_control_rationale_pointer": "$.not_claimed",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.hardgate",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "deterministic_seed",
+        "source_artifacts",
+        "rows",
+        "hardgate",
+        "not_claimed",
+        "forbidden_alias_audit"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/mechanism_dna.json",
+  "markdown_artifact": "reports/canonical/mechanism_dna.md",
+  "output_digest": "ff1456599adfe6e2722e1747ee47df54c135f3c2770d16ae8caf394bd030f94f",
+  "producer_command": [
+    "python3",
+    "scripts/run_mechanism_dna.py"
+  ],
+  "report_name": "mechanism-dna",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

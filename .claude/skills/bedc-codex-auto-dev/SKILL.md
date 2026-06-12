@@ -126,7 +126,7 @@ nohup python3 $REPO/lean4/scripts/codex_formalize.py \
 disown
 ```
 
-Branch sync daemon (third default-launched component):
+Rollup sync daemon (third default-launched component):
 
 ```bash
 mkdir -p $REPO/scripts/logs && \
@@ -140,7 +140,7 @@ nohup bash -c '
 disown
 ```
 
-The sync daemon runs `tools/sync_with_auto_dev.py` every 10 min (600s). Purpose: the two orchestrators only sync inside their own worktrees — they never push commits made directly on the main checkout (e.g. SKILL.md / prompt edits / hub splits done in this session). Without the daemon, those commits sit local until you remember to push. With the daemon, they get bidirectionally merged + pushed within 10 min. On conflict, the script invokes codex inside the worktree to resolve. When the main checkout is already on `codex-auto-dev` and clean (the typical case), the script degrades to a `git fetch + ff-only pull + push` — cheap, no merge commit churn.
+The sync daemon runs `tools/sync_with_auto_dev.py` every 600s. Its default flow maintains the managed rollup PR from `codex-auto-dev` into `dev`: build a candidate from `origin/dev`, merge `origin/codex-auto-dev`, update the managed rollup branch, open or refresh the PR, and merge it once GitHub reports green checks and a mergeable state. Use the script's `--source-branch`, `--target-branch`, and `--rollup-branch` options only when the operator wants a non-default rollup pair. Keep this daemon on a low-frequency loop; do not tighten the polling interval for routine operation.
 
 Concurrency autotune daemon (fourth default-launched component):
 
@@ -163,11 +163,13 @@ BASE auto-heal daemon (fifth default-launched component):
 
 ```bash
 mkdir -p $REPO/scripts/logs && \
-nohup python3 $REPO/tools/auto_heal_base.py >> $REPO/scripts/logs/auto_heal.log 2>&1 &
+AUTO_HEAL_CI_POLL_FALLBACK=1 nohup python3 $REPO/tools/auto_heal_base.py >> $REPO/scripts/logs/auto_heal.log 2>&1 &
 disown
 ```
 
-`tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
+**`AUTO_HEAL_CI_POLL_FALLBACK=1` is REQUIRED in the launch** (operator directive 2026-06-04: auto_heal's core job is "whatever turns CI red, codex-fix until green"). Without it the daemon only acts on externally-registered CI watchers (`/tmp/auto_heal_ci_watchers.json`), which in practice are never created → it stays blind to CI reds (logs "CI watch callbacks clean" forever even while `BEDC Build` is failing). With it set, each cycle runs `detect_ci_failures(60min)` across the rollup observation family — `_ci_detection_branches()` = managed rollup branch (`rollup-<source>-to-<target>`, host-derived isomorphically to sync's `_rollup_branch_name`), upstream `dev`, BASE `codex-auto-dev`, plus the retired read-only `auto-dev` for compatibility — → for each unseen failure `heal_ci_failure()` (dispatches codex with `gh run view --log-failed`) → `verify_then_push` onto BASE (`codex-auto-dev`), one heal per cycle, with an attempt-cap so a genuinely-unfixable run doesn't thrash codex forever. The failed run's branch is observation context only; the repair always lands on BASE content and is validated by the next rollup candidate the sync daemon rebuilds. BEDC Build runs on rollup-PR `pull_request` events and `dev` pushes — not on `codex-auto-dev` pushes — so the rollup branch is the primary red-signal source.
+
+`tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching) → then poll CI for failures and codex-heal them (per the flag above). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
 
 Taste curator daemon (sixth default-launched component):
 
@@ -183,6 +185,16 @@ Rule evolution path: the daemon handles at most one cluster per cycle (`MAX_AUTO
 
 Existing violations are not directly edited by the taste daemon. They are consumed organically when future P/R rounds touch the affected files: the new prompt rule or audit gate flags the pattern, then the orchestrator's post-rebase audit recovery invokes codex to repair the content as part of that round. Each successful rule evolution also **appends a Chinese section** to `docs/dossier/taste-evolutions.qmd` (Quarto page, rendered as part of the dossier site with navbar entry "Taste 演化") documenting 变更原因 / 意义 / 实施情况 / 元数据 — the visible self-improvement iteration log. Confirmed approvals in `papers/bedc/taste_approvals.json` use the same cluster rule-evolution path and are marked `done` or `failed` after the daemon attempt. No P/R orchestrator restart is needed because prompts are re-read each round and audit/lints run as subprocesses.
 
+Discovery pipeline daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_pipeline_daemon.py >> $REPO/tools/logs/discovery_pipeline_daemon.stdout.log 2>&1 &
+disown
+```
+
+`tools/discovery_pipeline_daemon.py` runs every 6h (`DISCOVERY_PIPELINE_INTERVAL_SECONDS` env override, default 21600s) under one PID lock at `/tmp/.bedc_discovery_pipeline.pid`. Each cycle builds/probes `structural_dna` once, then runs radar → refutation publisher → adversarial generator → gate evolver in one process. The stage implementations are still the existing `run_once` functions in `tools/discovery_radar_daemon.py`, `tools/discovery_refutation_publisher.py`, `tools/discovery_adversarial_generator.py`, and `tools/discovery_gate_evolver.py`; those scripts keep `--once` for debugging only. The generator writes `tools/logs/proven_pseudos.jsonl`, and the evolver reads that same file later in the same cycle, so proven pseudos do not wait for another 6h activation. Stage failures are logged in `tools/logs/discovery_pipeline_daemon.log` and do not stop later stages.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
@@ -190,18 +202,18 @@ After launching, run **two sequential one-shot checks** before declaring the res
 **Step 1 — process check:**
 
 ```bash
-ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base|taste_curator.py' | grep -v grep
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base|taste_curator.py|discovery_pipeline_daemon.py' | grep -v grep
 ```
 
-All six launched processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon, taste curator) must be detached. For the first five the python process should appear with `PPID=1`. The taste curator runs **under a supervisor wrapper** (`tools/run_taste_curator.sh`) so the bash supervisor has `PPID=1` and the python daemon is a child of the supervisor (look for both `run_taste_curator.sh` and `taste_curator.py` in `ps`). If `PPID` of any non-supervised process is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
+All seven launched processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon, taste curator, discovery pipeline daemon) must be detached. For the non-supervised processes the python process should appear with `PPID=1`. The taste curator runs **under a supervisor wrapper** (`tools/run_taste_curator.sh`) so the bash supervisor has `PPID=1` and the python daemon is a child of the supervisor (look for both `run_taste_curator.sh` and `taste_curator.py` in `ps`). If `PPID` of any non-supervised process is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
 
 **Step 2 — progress check:**
 
 ```bash
-sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log; echo '---taste---'; tail -3 $REPO/scripts/logs/taste_curator.log
+sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log; echo '---taste---'; tail -3 $REPO/scripts/logs/taste_curator.log; echo '---discovery---'; tail -3 $REPO/tools/logs/discovery_pipeline_daemon.log
 ```
 
-Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] done: ... synchronized` or `[sync] already on codex-auto-dev` for the daemon. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
+Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync; within the current discovery cycle for discovery) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] rollup: ...` for the daemon; `[discovery-pipeline] stage=...` or `cycle summary` for discovery. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
 
 Only after BOTH steps pass — processes alive with PPID=1 AND logs advancing past startup — should you optionally arm a persistent `tail -F` for ongoing observation (see "Monitor" section below). The persistent monitor is for steady-state observation, never for verifying that startup succeeded.
 
@@ -239,7 +251,7 @@ Concrete rules for token-saving replies (filter is already tight — every arriv
 2. **`[recovery] unrecoverable / codex crashed / stopped`**: one sentence noting the round/paper id was abandoned. Worktree is in `.worktrees/dead/` if the operator wants to triage later — don't investigate now.
 3. **`STALE MARKER` / `SHALLOW GROWTH`**: one sentence. If the same chapter / pattern repeats ≥3 times in 30 min, that's a prompt-rule problem worth flagging.
 4. **`memory_guard.*PAUSE`**: one sentence. If it repeats, lower `lean_lake` or `lean` in `.pipeline_parallel.json`.
-5. **`[sync] codex could not resolve` / `push origin codex-auto-dev failed`**: this is real — escalate with one sentence (`sync daemon 调 codex 解冲突失败，下一轮 600s 重试 / 或手动 sync_with_auto_dev.py`). If repeats, manual sync.
+5. **`[sync] rollup: push ... failed` / `[sync] rollup: gh pr ... failed` / `[sync] codex could not resolve`**: this is real — escalate with one sentence (`sync daemon 更新 rollup PR 失败，下一轮 600s 重试 / 或手动 sync_with_auto_dev.py`). If repeats, manual sync.
 6. **`Session complete:` / `draining N in-flight workers` / `Pipeline PID token is not current`**: **orchestrator exited** — run the liveness check and report to the user immediately. Daemon must be restarted.
 7. **First occurrence of a novel pattern**: one sentence, flag it — `首次见到 X，观察 1-2 例再决定`.
 8. **No actionable events in a tick**: zero output is fine.
@@ -255,8 +267,9 @@ tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
        $REPO/scripts/logs/auto_heal.log \
        $REPO/scripts/logs/taste_curator.log \
+       $REPO/tools/logs/discovery_pipeline_daemon.log \
   | grep -E --line-buffered \
-      'HEAL ALERT|TASTE ALERT|3 consecutive failures|\[recovery\]\s+(unrecoverable|codex crashed|stopped)|STALE MARKER|SHALLOW GROWTH|memory_guard.*PAUSE|axis-confusion|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|builder.*FAIL.*(consecutive|persistent)|Codex did not complete.*(persistent|after [0-9]+ attempts)|\[heal\] .*push failed|\[taste\] rule evolution (failed|completed)|\[supervisor\] .* taste_curator.py exited rc=[^0]' \
+      'HEAL ALERT|TASTE ALERT|3 consecutive failures|\[recovery\]\s+(unrecoverable|codex crashed|stopped)|STALE MARKER|SHALLOW GROWTH|memory_guard.*PAUSE|axis-confusion|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|builder.*FAIL.*(consecutive|persistent)|Codex did not complete.*(persistent|after [0-9]+ attempts)|\[heal\] .*push failed|\[taste\] rule evolution (failed|completed)|\[supervisor\] .* taste_curator.py exited rc=[^0]|\[discovery-pipeline\] stage=.*ERROR|\[discovery-pipeline\] cycle summary .*"ok": false' \
   | grep -vE --line-buffered 'queued|picking|RECOVERED'
 ```
 
@@ -293,11 +306,11 @@ If you need verbose per-phase visibility for a debugging session, swap the filte
 
 ### Liveness health check (run at every status query)
 
-Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Three daemons must each appear with `PPID=1`:
+Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Four daemon entries must appear with `PPID=1`:
 
 ```bash
 ps -axo pid,ppid,etime,command \
-  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' \
+  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|discovery_pipeline_daemon.py' \
   | grep -v grep
 ```
 
@@ -306,8 +319,9 @@ Expected:
 - one `codex_revise.py --continuous` (paper)
 - one `codex_formalize.py --continuous` (lean)
 - one `sync_with_auto_dev.py` loop wrapper (sync)
+- one `discovery_pipeline_daemon.py` (discovery)
 
-If any of the three is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
+If any of the four is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
 
 Symptom that should always trigger an immediate `ps` check:
 
@@ -456,7 +470,7 @@ The patterns below are residual failure modes that recovery handles but you shou
 | `Phase B failed: no targets extracted (0 chars)` with `Codex exec completed in <N>s (rc=1)` and `<N>` shorter than the configured timeout | Codex CLI returned non-zero with empty stdout — symptom of upstream API transient (rate limit, 5xx, token quota), not a prompt problem | Orchestrator dispatches replacement R<N+M> in the next tick; sibling rounds keep running unaffected | None unless you see ≥3 in 5 minutes (then check `gh run list` / OpenAI status) |
 | `[recovery] codex-R<N> unrecoverable; marking dead` for an R<N> that completed `Round SUCCESS` hours earlier | Stale recovery ticket: a recovery file was queued for an R<N> that the original worker rescued itself before the recovery consumer picked it up. By the time recovery acts, the worktree is gone and the picker can't find anything to fix | Recovery marks the ticket dead and moves on. The R<N> work is already merged | None — the SUCCESS log earlier is authoritative |
 | `[cooldown] 3 consecutive failures — sleeping 180s` with `All targets duplicated by other rounds; aborting` in failing-round logs | In-flight target saturation: at high `lean` concurrency (≥10), multiple Phase B workers select the same `critical_path.top[0..2]` chapter; orchestrator's in-flight dedup drops them all → empty target sets → cooldown trigger | 180s sleep gives sibling rounds time to finish and free the targets; pipeline resumes naturally | If it repeats every hour: drop `lean` to 8 in `.pipeline_parallel.json` (live edit, no restart) |
-| `[sync] [rejected] codex-auto-dev -> codex-auto-dev (non-fast-forward)` then `Traceback` then next `[sync]` cycle starts | sync_with_auto_dev push lost a race against a codex worker push that landed between `git fetch` and `git push`. The Python `RuntimeError: command failed (rc=128): git fetch origin --prune` (variant: HTTP/2 stream cancel) is also network transient | `bash` wrapper around `sync_with_auto_dev.py` catches the non-zero exit and re-enters the `while true; sleep 600; done` loop; next iteration fetches latest BASE and merges before pushing | None — the `[sync] done: ... converged` line within 10–15 min confirms recovery |
+| `[sync] rollup: push ... failed` then the next `[sync]` cycle starts | `sync_with_auto_dev.py` could not update the managed rollup branch, often because a remote ref or network state moved during the cycle | `bash` wrapper around `sync_with_auto_dev.py` catches the non-zero exit and re-enters the `while true; sleep 600; done` loop; next iteration fetches the latest source and target tips before building another candidate | None if the following cycle updates or keeps the managed rollup PR |
 | `make check` exits non-zero with `Runaway argument` followed by `! File ended while scanning use of \@newl@bel.` mentioning a `\newlabel{...}` from a chapter you didn't touch | Stale `main.aux` from an earlier interrupted run: the `\newlabel` line was truncated mid-write and now `pdflatex` reads it as unbalanced braces | `rm main.aux main.toc main.out` then re-run `make check` (or `make` for ship) | None for the pipeline (workers use isolated worktrees with their own `.aux`); only matters when you `make` in the main checkout |
 | `Traceback ... FileNotFoundError: [Errno 2] No such file or directory: '.../BEDC/Derived/<X>Up'` in `pathlib.rglob` during `count_lean_theorems` or similar walk | Long-running orchestrator script walks `BEDC/Derived/` while a sibling worker / builder cleanup removes a chapter dir mid-iteration. `pathlib.rglob` hard-fails on disappearing dirs (unlike `os.walk`). Whole orchestrator process dies. | None — orchestrator crashed, restart needed. Pattern fixed in `count_lean_theorems` via `os.walk(onerror=lambda e: None)`. Audit other rglobs in long-running scripts if you add new ones. | Restart the crashed daemon (see "Start" section). Then check whether the new code (fix-on-disk) is loaded — long-running scripts need restart to pick up source changes, the orchestrator that's currently running may still be vulnerable until next restart |
 | `[heal] cooldown hot-fix applied: <CATEGORY> → <sha>` in `scripts/logs/auto_heal.log` | The new auto_heal cooldown analyzer (added 2026-05-18) detected ≥3 cooldowns in 60 min, classified the cause, and dispatched codex to hot-fix one of the 3 fixable categories (`NO_BEDC_TOUCHPOINT_NARROW` / `SHALLOW_GROWTH_REPEATED` / `LAKE_BUILD_STUCK_DUP`). Commit landed; future rounds shouldn't hit the same lint/build issue. | The healer is the auto-recovery; one-sentence ack the operator | None — confirm the hot-fix commit landed (check the SHA on origin/codex-auto-dev) |

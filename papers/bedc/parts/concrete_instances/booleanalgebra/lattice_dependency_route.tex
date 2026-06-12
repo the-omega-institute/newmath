@@ -1,0 +1,10 @@
+\begin{theorem}[Boolean algebra lattice dependency route]
+\label{thm:boolean-algebra-lattice-dependency-route}
+Every accepted $\BooleanAlgebraUp$ read exposes the finite meet, join, complement, endpoint, order, transport, replay, provenance, and local naming rows before any $\LatticeUp$ or $\StoneDualityUp$ consumer can use the packet. The lattice consumer of \autoref{ch:concrete-instances-lattice-namecert} reads the meet and join rows together with the complement and endpoint rows as displayed Boolean data, while the Stone-duality consumer of \autoref{ch:concrete-instances-stoneduality-namecert} receives the same rows only after that finite lattice surface has been made visible.
+\end{theorem}
+\begin{proof}
+Project the $\BooleanAlgebraUp$ carrier rows used by the existing lattice and Stone routes. The meet and join rows are already displayed before the complement and endpoint rows can be consumed, and the structural rows only transport and replay that finite packet.
+
+Thus a $\LatticeUp$ consumer reads the lattice part directly from the Boolean carrier. A $\StoneDualityUp$ consumer then uses the same Boolean-source rows as its input side, but no host Boolean algebra, powerset representation, or ambient topology is introduced between the two reads.
+\end{proof}
+\leanchecked{BEDC.Derived.BooleanalgebraUp.BooleanAlgebraLatticeDependencyRoute}

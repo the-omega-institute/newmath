@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\MinkowskiQuestionMarkUp$}
+\label{ch:concrete-instances-minkowski-question-mark-namecert}
+\origin{human}
+
+Following Minkowski's question-mark function and the continued-fraction/Stern-Brocot coding of real numbers, the $\MinkowskiQuestionMarkUp$ packet records the finite route by which a continued-fraction or Stern--Brocot prefix is read as a dyadic real-name prefix before any $\RealUp$ consumer inspects it. It sits over the Stern--Brocot tree of \autoref{ch:concrete-instances-stern-brocot-namecert}, the continued-fraction prefix carrier of \autoref{ch:concrete-instances-continuedfraction-namecert}, the bridge packet of \autoref{ch:concrete-instances-stern-brocot-continued-fraction-bridge-namecert}, the dyadic arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite prefix conversion data; it does not assert quotient equality of real names, completed functional equality, selected infinite expansions, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Minkowski question-mark carrier]
+\label{def:minkowski-question-mark-carrier}
+A $\MinkowskiQuestionMarkUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,F,B,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SternBrocotUp$ branch-prefix row, recording the finite left/right address and boundary interval inspected by the consumer.
+\item $F$ is the $\ContinuedFractionUp$ prefix row, recording the finite partial-quotient block corresponding to the same branch-prefix request.
+\item $B$ is the Stern--Brocot/continued-fraction bridge row, read through \autoref{ch:concrete-instances-stern-brocot-continued-fraction-bridge-namecert} before any dyadic row is exposed.
+\item $D$ is the $\DyadicRatCoreUp$ output-prefix ledger, recording the dyadic denominator scale and numerator prefix generated from the displayed branch or partial-quotient block.
+\item $W$ is the $\StreamNameUp$ window row scheduling which branch, partial-quotient, and dyadic prefix cells are visible.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same dyadic prefix and window data.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,F,B,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the Stern--Brocot, continued-fraction, bridge, dyadic-prefix, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a question-mark request through finite prefix inspection, dyadic prefix conversion, regular rational readback, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\MinkowskiQuestionMarkUp$, $\SternBrocotUp$, $\ContinuedFractionUp$, $\SternBrocotContinuedFractionBridgeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MinkowskiQuestionMarkUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,F,B,D,W,R,E,H,C,P,N$. The carrier has no coordinate for quotient real equality, completed function equality, trichotomy, countable choice, a selected infinite expansion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Minkowski question-mark NameCert obligations]
+\label{thm:minkowski-question-mark-namecert-obligations}
+For every accepted $\MinkowskiQuestionMarkUp$ carrier $Q=(S,F,B,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\MinkowskiQuestionMarkUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Stern--Brocot branch prefix, continued-fraction prefix, bridge row, dyadic-prefix ledger, finite window, regular readback, Real seal, transport, replay, provenance, and local naming rows;
+\item prefix compatibility, requiring $S$ and $F$ to be read through the same bridge row $B$ before $D$ is available;
+\item dyadic conversion, requiring $D$ to expose only the dyadic prefix generated from the displayed branch or partial-quotient prefix and the window row $W$;
+\item real-name routing, requiring every $\RegSeqRatUp$ and $\RealUp$ read to pass through $D,W,R,E$ in that order;
+\item transport, replay, provenance, and local-name stability through $H,C,P,N$.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:minkowski-question-mark-carrier}. The accepted tuple exposes exactly the branch-prefix, partial-quotient, bridge, dyadic-prefix, window, readback, seal, and structural rows listed in the statement.
+
+Prefix compatibility reads $S,F,B$ together. The Stern--Brocot side supplies the finite branch address, the continued-fraction side supplies the finite partial-quotient block, and the bridge row records that both are the same finite prefix route before a dyadic prefix is presented.
+
+The dyadic conversion row $D$ is downstream of that bridge and of the window row $W$. Thus a consumer can inspect only the dyadic prefix generated from the displayed finite prefix, not a completed real function value.
+
+The regular readback and Real seal are ordered by the carrier. The row $R$ is obtained from $D,W$, and $E$ is terminal after $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name only this route. Since no excluded completed-real or choice-theoretic coordinate is present, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Minkowski question-mark prefix compatibility]
+\label{thm:minkowski-question-mark-prefix-compatibility}
+Every accepted $\MinkowskiQuestionMarkUp$ carrier reads a Stern--Brocot branch prefix and a continued-fraction prefix through the same bridge row before exposing a dyadic prefix. In the notation of \autoref{def:minkowski-question-mark-carrier}, the visible prefix route is
+$$
+S \longmapsto B \longleftarrow F \quad\text{and then}\quad B,W \longmapsto D .
+$$
+The compatibility claim is only about displayed finite prefixes; it is not equality of completed real functions or quotient equality of real names.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Q=(S,F,B,D,W,R,E,H,C,P,N)$. The branch-prefix coordinate is $S$, the partial-quotient coordinate is $F$, and the only row relating them is the bridge coordinate $B$.
+
+Read $B$ through the Stern--Brocot/continued-fraction bridge chapter. It mediates between finite tree intervals and finite continued-fraction prefixes by displayed rational-approximation data.
+
+The dyadic row $D$ is exposed only after $B$ and the window row $W$ have been read. Therefore both prefix descriptions feed the same dyadic prefix route, while completed function equality and quotient real equality remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[Minkowski question-mark dyadic route]
+\label{thm:minkowski-question-mark-dyadic-route}
+Every real-facing read exported by an accepted $\MinkowskiQuestionMarkUp$ carrier factors through
+$$
+\SternBrocotUp,\ \ContinuedFractionUp,\ \SternBrocotContinuedFractionBridgeUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The exported route is a finite dyadic real-name prefix route. It does not claim completeness of $\RealUp$, quotient equality between real names, or total equality of Minkowski's question-mark function as a completed map.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:minkowski-question-mark-prefix-compatibility}. Any branch or partial-quotient source must pass through the bridge row before the dyadic prefix row is available.
+
+The dyadic row is then read with the finite window row. The same window schedules the prefix cells passed to $\StreamNameUp$, and the regular rational row $R$ reads that dyadic prefix as a $\RegSeqRatUp$ handoff.
+
+The terminal Real seal $E$ is downstream of $R$. Since the structural rows only transport, replay, source, and name the same finite route, no ambient real completeness or completed functional equality can be read from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\MinkowskiQuestionMarkUp$ Real-facing read factors through a Stern--Brocot prefix, a continued-fraction prefix, their bridge row, a dyadic-prefix ledger, finite StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{stern-brocot, continuedfraction, stern-brocot-continued-fraction-bridge, dyadicratcore, streamname, regseqrat, real: $\MinkowskiQuestionMarkUp$ is not bijective to any listed sibling because it jointly carries the finite prefix bridge, dyadic conversion ledger, real-name readback route, and structural support while refusing completed function equality, quotient real equality, selected infinite expansions, choice, and ambient completeness.}
+
+\closureat{MinkowskiQuestionMarkUp}{seedStr}
+\begin{closurestatus}{\MinkowskiQuestionMarkUp}
+  \constructivestory{A $\MinkowskiQuestionMarkUp$ packet is generated from Stern--Brocot branch prefixes, continued-fraction prefixes, their bridge row, a DyadicRatCore prefix ledger, StreamName finite windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:minkowski-question-mark-carrier}, \autoref{thm:minkowski-question-mark-namecert-obligations}, \autoref{thm:minkowski-question-mark-prefix-compatibility}, and \autoref{thm:minkowski-question-mark-dyadic-route} seed the finite route from continued-fraction and Stern--Brocot prefixes to dyadic Real-name readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, completed functional equality, selected infinite expansions, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix compatibility, dyadic conversion, real-name routing, transport, replay, provenance, and local naming for BEDC.Derived.MinkowskiQuestionMarkUp.}
+\end{closurestatus}

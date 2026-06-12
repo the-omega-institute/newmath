@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyOscillationCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-oscillation-criterion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyOscillationCriterionUp$ packet records the finite oscillation criterion by which a displayed regular Cauchy rational name may be handed to Real and Completion consumers without quotienting streams or selecting limits. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the bounded oscillation packet of \autoref{ch:concrete-instances-bounded-oscillation-namecert}. The packet names only the displayed windows, dyadic budgets, oscillation rows, readback route, and seal boundary.
+
+\begin{definition}[Regular Cauchy oscillation criterion carrier]
+\label{def:regular-cauchy-oscillation-criterion-carrier}
+A $\RegularCauchyOscillationCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,W,D,O,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row naming the finite inspected stream-name entries of the candidate regular Cauchy rational name.
+\item $W$ is the finite observation-window ledger, including the paired indices and tail windows on which oscillation is tested.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget carrying the requested radius, slack, and comparison cells.
+\item $O$ is the finite oscillation-bound row, recording that the displayed windows are below the carried dyadic budget.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same stream windows, dyadic tolerances, and oscillation ledger.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $S,W,D,O,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic, oscillation, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an oscillation-criterion request through $S,W,D,O,R$ and then to the seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyOscillationCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BoundedOscillationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyOscillationCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, a selected limit, countable choice, host equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyOscillationCriterionUp.RegularCauchyOscillationCriterionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy oscillation criterion NameCert obligations]
+\label{thm:regular-cauchy-oscillation-criterion-namecert-obligations}
+For every accepted $\RegularCauchyOscillationCriterionUp$ carrier $K=(S,W,D,O,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyOscillationCriterionUp}$ surface consists exactly of carrier admission for the finite stream-name source row, observation-window ledger, dyadic tolerance budget, finite oscillation-bound row, regular rational readback, Real seal, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-oscillation-criterion-carrier}. The analytic rows are $S,W,D,O,R,E$, and the structural rows are $H,C,P,N$.
+
+The source and window obligations are finite. The row $S$ supplies the displayed stream-name entries, while $W$ lists the paired tail windows on which the oscillation test is read.
+
+The dyadic and oscillation obligations are also finite. The row $D$ supplies the tolerance budget, and $O$ records the bounded oscillation comparison against that budget before the regular rational readback $R$ is visible.
+
+Finally, $E$ seals the same route as a Real-facing name, and $H,C,P,N$ transport, replay, source, and name the packet. Since no further coordinate exists, the listed rows exhaust the NameCert surface and exclude quotient streams, selected limits, countable choice, host equality, trichotomy, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy oscillation criterion RegSeqRat handoff]
+\label{thm:regular-cauchy-oscillation-criterion-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyOscillationCriterionUp$ packet factors through the finite route
+$$
+\StreamNameUp,\ W,\ \DyadicRatCoreUp,\ \BoundedOscillationUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Thus the consumer sees the same stream source row, observation windows, dyadic tolerance budget, finite oscillation ledger, regular rational readback, and Real seal before the completion-facing boundary is available. It receives no quotient stream equality, selected limit, countable choice, host equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(S,W,D,O,R,E,H,C,P,N)$. By \autoref{thm:regular-cauchy-oscillation-criterion-namecert-obligations}, the regular rational readback $R$ is downstream of the stream source $S$, observation windows $W$, dyadic tolerance budget $D$, and oscillation-bound row $O$.
+
+The handoff therefore cannot expose $R$ directly. It must first display the finite windows and dyadic comparisons, then read the bounded oscillation row as the criterion that the regular Cauchy tail has stabilized within the carried budget.
+
+After $R$ is visible, the seal $E$ supplies the Real-facing endpoint along the same replay route $C$. Componentwise transport $H$, provenance $P$, and local naming $N$ preserve that route and add no quotient, choice, trichotomy, host equality, selected-limit, or ambient-completeness data.
+\end{proof}
+
+\closureat{RegularCauchyOscillationCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyOscillationCriterionUp}
+  \constructivestory{A $\RegularCauchyOscillationCriterionUp$ packet is generated from a StreamName source row, finite observation windows, DyadicRatCore tolerance budget, finite oscillation-bound row, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-oscillation-criterion-carrier}, \autoref{thm:regular-cauchy-oscillation-criterion-namecert-obligations}, and \autoref{thm:regular-cauchy-oscillation-criterion-regseqrat-handoff} seed the finite regular Cauchy oscillation criterion for Real and Completion consumers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyOscillationCriterionUp.RegularCauchyOscillationCriterionTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window exposure, dyadic tolerance exactness, oscillation-bound confinement, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyOscillationCriterionUp.}
+\end{closurestatus}

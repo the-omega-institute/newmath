@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ErdosSzekeresMonotoneSubsequenceUp$}
+\label{ch:concrete-instances-erdos-szekeres-monotone-subsequence-namecert}
+\origin{human}
+
+Following Erdos and Szekeres on finite monotone subsequences, the $\ErdosSzekeresMonotoneSubsequenceUp$ packet records the finite combinatorial surface that turns a long enough ordered list into either an increasing branch of prescribed length or a decreasing branch of prescribed length. The carrier sits after the finite spine discipline of \autoref{ch:concrete-instances-list-namecert}, the comparison surface of \autoref{ch:concrete-instances-order-namecert}, and the finite coloring handoff of \autoref{ch:concrete-instances-ramsey-namecert}. It is a displayed finite NameCert route, not an infinite subsequence selector, a countable-choice principle, or a host order-completeness theorem.
+
+\begin{definition}[Erdos--Szekeres monotone subsequence carrier]
+\label{def:erdos-szekeres-monotone-subsequence-carrier}
+An $\ErdosSzekeresMonotoneSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,I,D,L,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the source window ledger, recording the inspected finite list entries and the requested increasing and decreasing lengths.
+\item $I$ is the increasing-branch ledger, listing the retained positions and order comparisons for an accepted increasing branch when that side is selected.
+\item $D$ is the decreasing-branch ledger, listing the retained positions and order comparisons for an accepted decreasing branch when that side is selected.
+\item $L$ is the $\ListUp$ spine row that fixes the finite source order and the retained branch subspines.
+\item $O$ is the $\OrderUp$ comparison row used to classify each inspected pair of retained positions.
+\item $R$ is the $\RamseyUp$ coloring handoff row for the finite pair-coloring route that separates increasing-facing and decreasing-facing comparisons.
+\item $H$ stores componentwise $\hsame$ transport for windows, branch rows, list spines, order comparisons, Ramsey rows, replay rows, provenance rows, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from $W$ to $L,O$, from $L,O$ to $R$, and from $R$ to the selected branch row $I$ or $D$.
+\item $P$ is the $\Pkg$ provenance over $\ErdosSzekeresMonotoneSubsequenceUp$, $\ListUp$, $\OrderUp$, $\RamseyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ErdosSzekeresMonotoneSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for countable choice, an infinite subsequence object, a host total-order oracle, order completeness, or ambient sequence compactness.
+\end{definition}
+
+\begin{theorem}[Erdos--Szekeres monotone subsequence NameCert surface]
+\label{thm:erdos-szekeres-monotone-subsequence-namecert-surface}
+For every accepted $\ErdosSzekeresMonotoneSubsequenceUp$ carrier
+$$
+E=(W,I,D,L,O,R,H,C,P,N),
+$$
+the local $\NameCert_{\ErdosSzekeresMonotoneSubsequenceUp}$ surface consists exactly of carrier admission for the displayed finite source window, one selected branch ledger, the $\ListUp$ spine row, the $\OrderUp$ comparison row, the $\RamseyUp$ coloring handoff row, componentwise transport, replay, provenance, and the local name.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:erdos-szekeres-monotone-subsequence-carrier}. The rows $W,I,D,L,O,R,H,C,P,N$ are the only coordinates available to the local classifier, so carrier admission is admission of those displayed rows.
+
+The finite source discipline is read through \autoref{ch:concrete-instances-list-namecert}. The row $L$ fixes the inspected list spine and the retained branch subspines, while $W$ records the finite window and the requested branch lengths.
+
+The comparison and coloring data are then read through \autoref{ch:concrete-instances-order-namecert} and \autoref{ch:concrete-instances-ramsey-namecert}. The order row $O$ supplies the pairwise comparison cells, and the Ramsey row $R$ records the finite two-color handoff that selects either the increasing branch ledger $I$ or the decreasing branch ledger $D$.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since no coordinate carries an infinite selector, countable-choice schedule, host order oracle, completeness principle, or compactness theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Erdos--Szekeres Ramsey handoff]
+\label{thm:erdos-szekeres-monotone-subsequence-ramsey-handoff}
+Every $\ErdosSzekeresMonotoneSubsequenceUp$ consumer that reaches the selected monotone branch must first read the finite list spine through \autoref{ch:concrete-instances-list-namecert}, classify retained pairs through \autoref{ch:concrete-instances-order-namecert}, and pass the resulting two-color finite graph row through \autoref{ch:concrete-instances-ramsey-namecert}. The exported branch is therefore a finite route
+$$
+W \longmapsto L,O \longmapsto R \longmapsto I\ \mathrm{or}\ D
+$$
+rather than an independent subsequence selector.
+\end{theorem}
+\begin{proof}
+Start with the source window. The row $W$ exposes only finitely many inspected entries, and $L$ supplies their $\ListUp$ order, so the consumer cannot begin from an infinite sequence or from an unrecorded subsequence choice.
+
+Next classify the retained pairs. The row $O$ records the $\OrderUp$ comparison cells used to color each pair as increasing-facing or decreasing-facing, and the replay row $C$ sends those cells to the finite Ramsey handoff row $R$.
+
+The Ramsey consumer then returns one displayed side of the dichotomy. If the increasing side is selected, the branch is read from $I$; if the decreasing side is selected, the branch is read from $D$. In both cases $H,C,P,N$ preserve and name the same finite packet, so the handoff exports only the displayed list, order, and Ramsey route.
+\end{proof}
+
+\leanstmt{BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp}
+
+\closureat{ErdosSzekeresMonotoneSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\ErdosSzekeresMonotoneSubsequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:erdos-szekeres-monotone-subsequence-carrier}, \autoref{thm:erdos-szekeres-monotone-subsequence-namecert-surface}, and \autoref{thm:erdos-szekeres-monotone-subsequence-ramsey-handoff} seed the finite carrier, local NameCert surface, and Ramsey/List/Order handoff for the monotone subsequence route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim infinite subsequence selection, countable choice, a host total-order oracle, order completeness, ambient compactness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch ledger stability, ListUp spine exactness, OrderUp comparison exactness, and RamseyUp handoff non-escape for BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp.}
+  \constructivestory{An $\ErdosSzekeresMonotoneSubsequenceUp$ packet is generated from a finite source window, increasing and decreasing branch ledgers, a ListUp spine row, an OrderUp comparison row, a RamseyUp coloring handoff row, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

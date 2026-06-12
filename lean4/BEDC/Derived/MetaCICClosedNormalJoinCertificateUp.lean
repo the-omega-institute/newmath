@@ -1,0 +1,7 @@
+namespace BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
+
+inductive MetaCICClosedNormalJoinCertificateUp where
+  | closedNormalAtomFragmentCertificate
+
+end BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
+

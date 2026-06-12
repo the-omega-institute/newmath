@@ -4,6 +4,8 @@
 
 Following Weierstrass' approximation theorem in the Bishop--Bridges constructive reading, the $\WeierstrassApproximationUp$ packet records a finite polynomial-approximation surface for a continuous real-valued map on a compact real interval. It consumes the real-name endpoint surface of \autoref{ch:concrete-instances-real-namecert}, the interval-window rows of \autoref{ch:concrete-instances-real-interval-enclosure-namecert}, the compact-uniform-continuity route of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}, the polynomial code surface of \autoref{ch:concrete-instances-polynomial-namecert}, the endpoint handoff discipline of \autoref{ch:concrete-instances-uniformlimit-namecert}, and the finite tagged-sum mesh rows of \autoref{ch:concrete-instances-riemannsum-namecert}. The packet names the inspected approximation ledger only; it is not an open-cover compactness theorem, a Stone--Weierstrass algebra theorem, a quotient function-space construction, a host supremum norm, a selector for infinite data, or a completeness principle for ambient $\RealUp$.
 
+As a sibling dependency, the finite approximation ledger is a consumer of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert} and \autoref{ch:concrete-instances-polynomial-namecert} before it is exposed to \autoref{ch:concrete-instances-uniformlimit-namecert}.
+
 \begin{definition}[Weierstrass approximation carrier]
 \label{def:weierstrass-approximation-carrier}
 A $\WeierstrassApproximationUp$ carrier is a finite $\BHist$ packet
@@ -85,12 +87,26 @@ I,F,\varepsilon,P,S,M,E \longmapsto T,C,R,Q,
 $$
 with $\UniformLimitUp$ appearing only as the finite-window consumer named by the provenance row and by \autoref{ch:concrete-instances-uniformlimit-namecert}.
 \end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassApproximationUp.WeierstrassApproximationUniformLimitConsumer}
 \begin{proof}
 Start from the carrier of \autoref{def:weierstrass-approximation-carrier}. Its rows $I,F,\varepsilon,P,S,M,E$ are the only interval, map, error, polynomial, sample, modulus, and uniform-error data exposed before structural replay.
 
 Apply the polynomial handoff of \autoref{thm:weierstrass-approximation-polynomial-handoff}. It forces every approximation consumer to pass through the same source-window, sample, modulus, polynomial, and error route before $T,C,R,Q$ can transport, replay, source, and name the packet.
 
 The $\UniformLimitUp$ consumer boundary is then exactly the sibling chapter \autoref{ch:concrete-instances-uniformlimit-namecert}. Since the accepted carrier has no coordinate for a host supremum norm, quotient function space, selected infinite sample family, or ambient completeness principle, a uniform-limit-facing read receives only the displayed finite approximation ledger.
+\end{proof}
+
+\begin{theorem}[Weierstrass polynomial modulus ledger]
+\label{thm:weierstrass-polynomial-modulus-ledger}
+Let $W=(I,F,\varepsilon,P,S,M,E,T,C,R,Q)$ be an accepted $\WeierstrassApproximationUp$ packet. The packet exposes the polynomial approximation row $P$ only after the compact-uniform-modulus row $M$ fixes the finite mesh and the sample family $S$ has been read through $\RealIntervalEnclosureUp$; the uniform-error ledger $E$ then binds $P$ to the requested rational error row $\varepsilon$.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassApproximationUp.WeierstrassApproximationPolynomialModulusLedger}
+\begin{proof}
+Read the carrier of \autoref{def:weierstrass-approximation-carrier}. The interval row $I$, continuous-map row $F$, requested error row $\varepsilon$, sample family $S$, compact-uniform-modulus row $M$, and error ledger $E$ are all displayed coordinates of the accepted packet.
+
+Apply the NameCert obligations of \autoref{thm:weierstrass-approximation-namecert-obligations}. Compact interval source compatibility forces $S$ to be read through the same $\RealIntervalEnclosureUp$ service, while uniform-error exactness requires $M$ to fix the finite mesh before $E$ can compare the sampled function values with the polynomial row.
+
+Finally use the polynomial handoff theorem \autoref{thm:weierstrass-approximation-polynomial-handoff}. It places every downstream approximation read behind the route from $I,F,\varepsilon$ through $S,M$ and then through $P,E$. Thus $E$ binds the displayed polynomial row $P$ to the requested rational error, and no host supremum norm, quotient function space, selected infinite sample family, or ambient completeness row participates.
 \end{proof}
 
 \closureat{WeierstrassApproximationUp}{seedStr}

@@ -38,3 +38,21 @@ Finally, $p_U$ is the projection of the original provenance row $p$ to the depen
 
 The five projected coordinates therefore satisfy the same carrier clauses as \autoref{def:trie-bhist-source}. Hence $T|_U=(k_U,v_U,l_U,b_U,p_U)$ is an accepted $\TrieUp$ source packet under the same finite dependency certificates.
 \end{proof}
+
+\begin{theorem}[Trie prefix subledger provenance exhaustion]\label{thm:trie-prefix-subledger-formal-target}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet, and let $U$ be a displayed prefix subledger of $T$. Every public read of the restricted packet
+$$
+T|_U=(k_U,v_U,l_U,b_U,p_U)
+$$
+factors through the restricted key, value, depth, branch, and provenance rows $k_U,v_U,l_U,b_U,p_U$. In particular the restricted read can use only the projected $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, $\BitVectorUp$, $\hsame$, $\Cont$, and $\Pkg$ coordinates named by $p_U$; it cannot introduce a host finite map, hidden string equality, unlisted ordering on keys, ambient function space, or infinite-tree datum.
+\end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TriePrefixSubledger\_provenance\_exhaustion}
+\begin{proof}
+Start with the displayed prefix subledger of \autoref{def:trie-displayed-prefix-subledger}. Its inclusion row $\iota$ selects prefix-closed positions from the original finite key-path ledger, and its restricted rows $k_U,v_U,l_U,b_U,p_U$ are projections of the original five carrier coordinates.
+
+Apply \autoref{thm:trie-prefix-subledger-restriction-carrier}. The restricted tuple is again an accepted $\TrieUp$ source packet under the same finite dependency certificates, so its public reads are ordinary Trie reads rather than host-side lookups.
+
+Finally apply \autoref{thm:trie-ledger-coverage} to $T|_U$. Ledger coverage exhausts public access by the finite rows of the accepted packet. Since those rows are precisely the restricted rows supplied by the displayed subledger, the only available provenance is the projected row $p_U$, and none of the excluded host or infinite coordinates can enter the restricted read.
+\end{proof}
+\leanchecked{BEDC.Derived.TrieUp.TrieDisplayedPrefixSubledger\_public\_read\_exhaustion}
+\leanvariant{BEDC.Derived.TrieUp.TrieDisplayedPrefixSubledger\_provenance\_exhaustion}

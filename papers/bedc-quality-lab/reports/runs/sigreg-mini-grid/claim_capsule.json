@@ -1,0 +1,128 @@
+{
+  "artifact_id": "bedc-quality-lab:sigreg-mini-grid:claim-capsule",
+  "claim_status": "d2-candidate",
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:sigreg-mini-grid",
+  "hardgates": {
+    "C3-HG1": {
+      "collapsed": false,
+      "evidence": "SIGReg sliced-CF and covariance proxy are finite, separately named, separately sourced, and not collapsed",
+      "separate_reported": true,
+      "status": "pass"
+    },
+    "C3-HG2": {
+      "evidence": "Gaussianity improves while alignment loss increases, so the tradeoff ledger is populated",
+      "status": "pass"
+    },
+    "C3-HG3": {
+      "evidence": "Only the expected rho and lambda trend promotes D2",
+      "status": "pass"
+    },
+    "C3-HG4": {
+      "evidence": "full LeJEPA reproduction remains outside the mini-grid claim surface",
+      "full_lejepa_claim": false,
+      "not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure"
+      ],
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "full LeJEPA reproduction",
+    "global model quality",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure"
+  ],
+  "positive_claim": {
+    "level_candidate": "D2",
+    "scope": "run-local SIGReg mini-grid projection",
+    "text": "SIGReg mini-grid evidence supports a lab-local expected lambda and rho trend under Gaussian-OU toy conditions."
+  },
+  "producer": "bedc_quality_lab.sigreg_mini_grid.SIGRegMiniGridProjection",
+  "result_snapshot": {
+    "best_cell": {
+      "alignment_lambda": 1e-05,
+      "collapse_rate": 0.02,
+      "linear_identifiability_r2": 0.7000000000000001,
+      "mixing": "spiral",
+      "quality_q": 1.3599599999999998,
+      "rho": 0.95,
+      "seed": 23
+    },
+    "discovery_map_signal": {
+      "failed_gate": null,
+      "level_candidate": "D2",
+      "reason": "expected-trend",
+      "status": "d2-candidate"
+    },
+    "metric_separation": {
+      "collapsed": false,
+      "covariance_proxy_metric": {
+        "mean": 0.209,
+        "row_key": "covariance_proxy",
+        "source": "SlicedCFGaussianityProbe.score.cov_to_identity_fro"
+      },
+      "mean_delta_sigreg_minus_covariance_proxy": 0.211,
+      "separate_reported": true,
+      "sigreg_metric": {
+        "mean": 0.42,
+        "row_key": "sigreg_sliced_cf",
+        "source": "SlicedCFGaussianityProbe.score.sigreg_penalty"
+      },
+      "status": "pass"
+    },
+    "trend_summary": {
+      "expected_trend": {
+        "lambda_expected": true,
+        "rho_expected": true,
+        "status": "pass"
+      },
+      "lambda_collapse_rate_increasing": true,
+      "lambda_quality_q_decreasing": true,
+      "rho_linear_identifiability_r2_increasing": true
+    }
+  },
+  "revocation": {
+    "rows": [
+      {
+        "active": true,
+        "condition": "revoke if raw rows cannot reproduce the SIGReg mini-grid summary",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if SIGReg sliced-CF and covariance proxy metrics collapse into one field",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke D2 when the expected lambda and rho trend hardgate fails",
+        "status": "armed"
+      }
+    ],
+    "status": "revocable"
+  },
+  "run_id": "sigreg-mini-grid",
+  "schema_id": "bedc.quality.claim_capsule.run_local",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "raw_metrics": "reports/runs/sigreg-mini-grid/raw_metrics.jsonl",
+    "summary": "reports/runs/sigreg-mini-grid/summary.json"
+  },
+  "what_was_learned": "The mini-grid separates SIGReg sliced-CF from covariance proxy and records the expected lambda/rho trend."
+}

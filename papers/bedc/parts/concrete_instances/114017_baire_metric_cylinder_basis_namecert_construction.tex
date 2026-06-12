@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BaireMetricCylinderBasisUp$}
+\label{ch:concrete-instances-baire-metric-cylinder-basis-namecert}
+\origin{human}
+
+Following Brouwer, Bishop, and Bridges, the $\BaireMetricCylinderBasisUp$ packet names the finite prefix-cylinder basis used before $\BaireMetricUp$ consumers read compact-window or fan-style coverage data. It sits after the Baire metric of \autoref{ch:concrete-instances-bairemetric-namecert}, the prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic radius rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the finite bar surface of \autoref{ch:concrete-instances-fantheorem-namecert}. The packet records cylinders as displayed finite prefixes with dyadic radius witnesses; it is not a completed-stream topology, quotient equality of names, countable choice, or an open-cover compactness principle.
+
+\begin{definition}[Located Baire metric compactness carrier]
+\label{def:located-baire-metric-compactness-carrier}
+A $\BaireMetricCylinderBasisUp$ carrier is a finite $\BHist$ packet
+
+$$
+Z=(B,S,W,D,C,F,H,T,P,N)
+$$
+
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ prefix packet whose finite word names the cylinder stem.
+\item $S$ is the $\StreamNameUp$ schedule that authorizes every inspected prefix window.
+\item $W$ is the $\NatUp$ window row recording the displayed stem length and the first-disagreement boundary available to metric reads.
+\item $D$ is the $\DyadicRatCoreUp$ radius row attached to $W$, recording the dyadic cylinder radius read by $\BaireMetricUp$.
+\item $C$ is the $\BaireMetricUp$ cylinder-consumer row, requiring every metric read to pass through $B,S,W,D$ before any parent metric or ultrametric handoff.
+\item $F$ is the $\FanTheoremUp$ finite-window handoff row, available only as finite bar or compact-window evidence over displayed prefix cylinders.
+\item $H$ records componentwise $\hsame$ transport for the prefix packet, schedule, window, radius, metric consumer, fan handoff, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from cylinder requests through $B,S,W,D,C,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BaireMetricCylinderBasisUp$, $\BaireMetricUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FanTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $N$ is the local $\NameCert_{\BaireMetricCylinderBasisUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite prefix-cylinder basis packet. It has no coordinate for completed Baire streams, quotient equality of names, an arbitrary topology, countable choice, or open-cover compactness.
+\end{definition}
+
+\begin{theorem}[BaireMetricCylinderBasis NameCert obligations]
+\label{thm:bairemetric-cylinder-basis-namecert-obligations}
+For every accepted $\BaireMetricCylinderBasisUp$ carrier $Z=(B,S,W,D,C,F,H,T,P,N)$, the local $\NameCert_{\BaireMetricCylinderBasisUp}$ surface consists exactly of carrier admission for $Z$, prefix-packet admission through $B$, finite schedule admission through $S$, window exactness through $W$, dyadic radius exactness through $D$, BaireMetric cylinder handoff through $C$, FanTheorem compact-window handoff through $F$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$. No obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-baire-metric-compactness-carrier}. The analytic rows are $B,S,W,D,C,F$, and the structural rows are $H,T,P,N$.
+
+The prefix row $B$ and schedule row $S$ are inspected before any radius data is available. The window row $W$ then fixes the finite stem length and first-disagreement boundary, and the dyadic row $D$ records the corresponding radius.
+
+The metric row $C$ and fan row $F$ consume the same displayed prefix-cylinder data. Since $H,T,P,N$ only transport, replay, source, and name the listed rows, the NameCert surface has no remaining coordinate for completed streams, quotient equality, countable choice, or open-cover compactness.
+\end{proof}
+
+\begin{theorem}[BaireMetricCylinderBasis prefix cover]
+\label{thm:bairemetric-cylinder-basis-prefix-cover}
+Let $Z=(B,S,W,D,C,F,H,T,P,N)$ be an accepted $\BaireMetricCylinderBasisUp$ carrier. Every cylinder cover read exported by $Z$ is covered by the finite prefix route
+
+$$
+B,S,W,D \longmapsto C \longmapsto F \longmapsto H,T,P,N .
+$$
+
+Thus a BaireMetric consumer sees a located prefix stem, a finite StreamName schedule, a Nat first-disagreement window, and a DyadicRatCore radius row before any compact-window handoff is public.
+\end{theorem}
+\begin{proof}
+Start with the prefix and schedule rows $B,S$. They are the only rows that authorize a cylinder stem and its inspected finite windows.
+
+Read the window and radius rows $W,D$. These rows locate the cylinder by finite length and dyadic radius, so the metric consumer row $C$ cannot begin from a completed stream or a quotient name.
+
+Finally pass through $F,H,T,P,N$. The FanTheorem row receives the displayed finite cylinder route, while transport, replay, provenance, and local naming preserve that route without adding an arbitrary topology or compactness oracle.
+\end{proof}
+
+\begin{theorem}[BaireMetricCylinderBasis compact-window handoff]
+\label{thm:bairemetric-cylinder-basis-compact-window-handoff}
+For an accepted $\BaireMetricCylinderBasisUp$ carrier $Z=(B,S,W,D,C,F,H,T,P,N)$, every compact-window consumer that reads the $\FanTheoremUp$ row $F$ must first display the same $\BaireSpaceUp$ prefix packet, $\StreamNameUp$ schedule, $\NatUp$ window, $\DyadicRatCoreUp$ radius, and $\BaireMetricUp$ cylinder row used by the prefix cover theorem. The handoff is therefore a finite cylinder-basis surface for compact-window consumers, not a completed-stream topology, quotient equality principle, selected infinite branch, or open-cover compactness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bairemetric-cylinder-basis-prefix-cover}. It identifies every exported cover read with the displayed route $B,S,W,D,C,H,T,P,N$.
+
+The fan row $F$ is downstream of that route. It may read finite bar or compact-window evidence over the displayed cylinders, but it receives no separate branch selector or open-cover compactness coordinate.
+
+The structural rows $H,T,P,N$ preserve the same finite data under componentwise transport, continuation replay, provenance, and local naming. Hence compact-window consumers receive exactly the prefix-cylinder basis surface named in the statement.
+\end{proof}
+
+\falsifiablePrediction{A $\BaireMetricCylinderBasisUp$ consumer that exports a compact-window or BaireMetric cylinder cover without reading the prefix packet $B$, StreamName schedule $S$, Nat window $W$, DyadicRatCore radius $D$, and cylinder row $C$ refutes the carrier surface.}
+
+\independenceWitness{bairemetric, bairespace, streamname, dyadicratcore, fantheorem: $\BaireMetricCylinderBasisUp$ is not bijective to any listed sibling because it binds prefix stems, finite schedules, first-disagreement windows, dyadic radii, metric cylinder reads, fan compact-window handoff, transport, replay, provenance, and local naming as one finite basis packet.}
+
+\closureat{BaireMetricCylinderBasisUp}{seedStr}
+
+\begin{closurestatus}{\BaireMetricCylinderBasisUp}
+  \constructivestory{A $\BaireMetricCylinderBasisUp$ packet is generated from a BaireSpace prefix packet, StreamName schedule, Nat window, DyadicRatCore radius row, BaireMetric cylinder-consumer row, FanTheorem compact-window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-baire-metric-compactness-carrier}, \autoref{thm:bairemetric-cylinder-basis-namecert-obligations}, \autoref{thm:bairemetric-cylinder-basis-prefix-cover}, and \autoref{thm:bairemetric-cylinder-basis-compact-window-handoff} seed the finite prefix-cylinder basis surface for BaireMetric and compact-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed-stream topology, quotient equality of Baire names, selected infinite branches, countable choice, open-cover compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule exactness, dyadic radius exactness, metric cylinder handoff, compact-window handoff, transport, replay, provenance, and local naming for BEDC.Derived.BaireMetricCylinderBasisUp.}
+\end{closurestatus}

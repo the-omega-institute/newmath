@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BirkhoffJamesOrthogonalityUp$}
+\label{ch:concrete-instances-birkhoff-james-orthogonality-namecert}
+\origin{human}
+
+Following Birkhoff and James on normed-space orthogonality, the $\BirkhoffJamesOrthogonalityUp$ packet records the finite norm-variation surface by which one displayed vector is orthogonal to another in the Birkhoff--James sense. It sits after the normed and Hilbert source rows of \autoref{ch:concrete-instances-norm-namecert} and \autoref{ch:concrete-instances-hilbert-namecert}, the metric and projection rows of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-metricprojection-namecert}, and the scalar readback rows of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite norm-comparison ledger for scalar perturbations; it does not import a host inner-product characterization, a selected projection map, quotient equality of vectors, trichotomy, or ambient completeness.
+
+\begin{definition}[BirkhoffJamesOrthogonality carrier]
+\label{def:birkhoff-james-orthogonality-carrier}
+A $\BirkhoffJamesOrthogonalityUp$ carrier is a finite $\BHist$ packet
+$$
+O=(X,H,x,y,\Lambda,L,R,M,Q,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the normed-source row, exposing the carrier, addition, scalar action, zero vector, and norm read through $\NormUp$.
+\item $H$ is the optional Hilbert-source comparison row, present only when an inner-product route is being compared with the norm-variation route.
+\item $x$ and $y$ are the two displayed vector rows whose relation is being named.
+\item $\Lambda$ is the scalar perturbation window, listing the finite scalar samples and tolerance requests used to test $x+\lambda y$.
+\item $L$ is the norm-comparison ledger, recording the displayed inequalities $\|x\|\leq \|x+\lambda y\|$ for the perturbation window and its stated tolerance refinements.
+\item $R$ is the $\RealUp$ readback row for the norm values and comparison outcomes in $L$.
+\item $M$ is the $\MetricUp$ distance row induced by the norm source, keeping every distance read tied to the same displayed norm ledger.
+\item $Q$ is the projection-facing handoff row, recording what a $\MetricProjectionUp$ consumer may read from the orthogonality ledger before adding its own endpoint evidence.
+\item $T$ records componentwise $\hsame$ transport for source, Hilbert comparison, vector, scalar-window, norm-ledger, Real readback, metric, projection-handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an orthogonality request through $X,H,x,y,\Lambda,L,R,M,Q,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BirkhoffJamesOrthogonalityUp$, $\NormUp$, $\HilbertUp$, $\MetricProjectionUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BirkhoffJamesOrthogonalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host orthogonality predicate, an inner-product theorem, a selected best approximation, quotient vector equality, trichotomy of scalar comparisons, countable choice over perturbations, or ambient completion.
+\end{definition}
+
+\begin{theorem}[BirkhoffJamesOrthogonality NameCert obligations]
+\label{thm:birkhoff-james-orthogonality-namecert-obligations}
+For every accepted $\BirkhoffJamesOrthogonalityUp$ carrier $O=(X,H,x,y,\Lambda,L,R,M,Q,T,C,P,N)$, the local $\NameCert_{\BirkhoffJamesOrthogonalityUp}$ surface consists exactly of normed-source exposure, optional Hilbert comparison exposure, two-vector exposure, scalar perturbation-window exposure, norm-comparison ledger exactness, Real readback, induced metric readback, projection-facing handoff, componentwise transport, displayed replay, provenance, and local naming. A Birkhoff--James orthogonality read is admitted only after $x$, $y$, $\Lambda$, $L$, and $R$ are visible in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:birkhoff-james-orthogonality-carrier}. The source norm, optional Hilbert comparison, and two vector rows are exactly $X,H,x,y$.
+
+The scalar-variation data are supplied by $\Lambda$ and $L$. The ledger $L$ is the only row that records the comparison between $\|x\|$ and $\|x+\lambda y\|$, and $R$ is the only row that exports these comparisons as Real-facing reads.
+
+The metric and projection-facing rows $M,Q$ remain downstream of the same norm ledger. They may expose distance and projection-consumer data, but they do not add a nearest-point selector or replace the norm-variation test by a host projection theorem.
+
+Transport through $T$ preserves the displayed coordinates, while $C,P,N$ replay, source, and name the same packet. Since the refused objects are not carrier rows, the listed fields exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[BirkhoffJamesOrthogonality norm-variation handoff]
+\label{thm:birkhoff-james-orthogonality-norm-variation-handoff}
+Every projection-facing, Hilbert-facing, metric-facing, or Real-facing consumer of an accepted $\BirkhoffJamesOrthogonalityUp$ packet factors through the finite norm-variation route
+$$
+X,x,y,\Lambda,L,R
+\longmapsto
+M,Q .
+$$
+The consumer receives a displayed scalar perturbation window, norm-comparison ledger, Real readback, induced metric row, and projection-facing handoff. It receives no host inner-product characterization, selected projection endpoint, quotient vector equality, trichotomy branch, countable-choice perturbation family, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted consumer read. By the obligation surface, the read must first expose the normed source $X$, the two vectors $x,y$, the perturbation window $\Lambda$, the comparison ledger $L$, and the Real readback $R$.
+
+The Hilbert row $H$ can only compare an existing Hilbert presentation with that same norm-variation ledger. It is not a replacement for the ledger and does not export the inner-product characterization as a separate host theorem.
+
+The metric and projection stages are $M$ and $Q$. They read the norm ledger as distance data and hand it to projection-facing consumers, but endpoint selection belongs to the downstream $\MetricProjectionUp$ packet.
+
+Thus every public handoff remains inside the displayed route and cannot project any of the refused host principles from the $\BirkhoffJamesOrthogonalityUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BirkhoffJamesOrthogonalityUp$ read displays a normed source, optional Hilbert comparison row, two vector rows, a scalar perturbation window, a norm-comparison ledger, Real readback, induced Metric row, projection-facing handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert row before it is consumed.}
+
+\independenceWitness{norm, hilbert, metricprojection, real, metric: $\BirkhoffJamesOrthogonalityUp$ is not bijective to any listed sibling because it jointly carries two vectors, scalar perturbation windows, norm-comparison ledgers, Real readback, metric readback, projection-facing handoff, transport, replay, provenance, and local naming as one finite packet.}
+
+\closureat{BirkhoffJamesOrthogonalityUp}{seedStr}
+
+\begin{closurestatus}{\BirkhoffJamesOrthogonalityUp}
+  \constructivestory{A $\BirkhoffJamesOrthogonalityUp$ packet is generated from a Norm source, optional Hilbert comparison row, two vector rows, scalar perturbation windows, norm-comparison ledgers, Real readback, induced Metric rows, MetricProjection-facing handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:birkhoff-james-orthogonality-carrier}, \autoref{thm:birkhoff-james-orthogonality-namecert-obligations}, and \autoref{thm:birkhoff-james-orthogonality-norm-variation-handoff} seed the finite Birkhoff--James norm-variation packet through displayed normed-source, two-vector, scalar-window, comparison-ledger, Real, Metric, and projection-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host inner-product characterization, selected projection endpoint, quotient vector equality, trichotomy, countable choice over scalar perturbations, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, scalar-window exposure, norm-comparison ledger exactness, Real readback, Metric readback, projection-facing handoff, transport, replay, provenance, and local NameCert registration for BEDC.Derived.BirkhoffJamesOrthogonalityUp.}
+\end{closurestatus}

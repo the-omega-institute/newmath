@@ -119,14 +119,83 @@ It remains to check that the route is stable under the BEDC structural operation
 
 \independenceWitness{metric, dyadicratcore, streamname, regseqrat, real, separatedmetric: $\LocatedMetricUp$ is not bijective to any listed sibling because it jointly carries a point carrier, metric distance witness, dyadic locatedness comparison, StreamName window schedule, RegSeqRat readback, RealUp seal, separated zero-distance boundary, componentwise transport, continuation replay, provenance, and local NameCert row.}
 
-\closureat{LocatedMetricUp}{seedStr}
+\begin{theorem}[LocatedMetric radius-locality obligation]
+\label{thm:locatedmetric-radius-locality-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, every radius-locality read is a finite BEDC obligation over the existing carrier rows $M,D,S,R,H,C,P,N$. The metric row $M$ supplies the distance witness, the $\DyadicRatCoreUp$ row $D$ supplies the positive tolerance window, the $\StreamNameUp$ row $S$ selects the finite read, and the $\RegSeqRatUp$ row $R$ packages the readback before any $\RealUp$ seal is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:located-metric-carrier}. A radius request has no independent real-valued coordinate; it first reads the finite metric evidence in $M$ and the dyadic locatedness window in $D$.
+
+The schedule and readback rows are then forced by $S$ and $R$. They keep the request inside a finite stream window and a regular rational package, while $H,C,P,N$ only transport, replay, source, and name that same route.
+
+Thus radius locality is a projection-and-replay obligation on the displayed rows. It is not supplied by quotient distance equality, a chosen radius representative, trichotomy on distances, or ambient $\RealUp$ completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_radius\_locality\_obligation}
+
+\begin{theorem}[LocatedMetric separated-zero obligation]
+\label{thm:locatedmetric-separated-zero-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, any zero-distance-to-point-classifier read is a finite obligation through the existing separated boundary row $Z$. The rows $M,D,S,R,E$ may display, locate, schedule, package, and seal the zero-distance evidence, but the point identification route must pass through $\SeparatedMetricUp$ as recorded by $Z$.
+\end{theorem}
+\begin{proof}
+Start with the zero-distance evidence. Rows $M,D,S,R,E$ expose it as metric evidence, dyadic locatedness, a finite window, a regular rational readback, and a real-facing seal.
+
+The carrier definition isolates point identification in $Z$. Since no other row contains the separated point-classifier boundary, projection from \autoref{def:located-metric-carrier} leaves $Z$ as the only admissible route from zero distance to point classification.
+
+The structural rows $H,C,P,N$ preserve the selected displayed route by transport, replay, provenance, and naming. They do not add quotient point equality or host equality, so the separated-zero obligation remains finite and local.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_separated\_zero\_obligation}
+
+\begin{theorem}[LocatedMetric Real-seal obligation]
+\label{thm:locatedmetric-real-seal-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, every $\RealUp$ distance seal read is a finite obligation over $M,D,S,R,E,H,C,P,N$ and the separated boundary $Z$ when zero-distance compatibility is requested. The seal row $E$ is consumed only after the $\MetricUp$ witness, $\DyadicRatCoreUp$ locatedness row, $\StreamNameUp$ finite window, and $\RegSeqRatUp$ readback have been displayed.
+\end{theorem}
+\begin{proof}
+Read the seal route in the order displayed by the carrier. The metric witness $M$ grounds the distance request, $D$ locates it at the requested dyadic tolerance, $S$ selects the finite observations, and $R$ packages the scheduled reads.
+
+Only after those rows are present can $E$ be consumed as a $\RealUp$ seal. If the same read is used to identify points at zero distance, $Z$ supplies the separated metric boundary before the point classifier is reached.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite rows. The obligation therefore records a BEDC seal route rather than quotient real equality, choice of limits, or an ambient completeness principle.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_real\_seal\_obligation}
+
+\begin{theorem}[LocatedMetric obligation closure package]
+\label{thm:locatedmetric-obligation-closure-package}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, the obligation surface of the chapter is the finite package consisting of carrier admission, the local $\NameCert_{\LocatedMetricUp}$ obligations, completion handoff, dyadic radius localization, separated zero route, Real seal readback, and ledger non-escape. Every public read factors through
+$$
+X\longmapsto M\longmapsto D\longmapsto S\longmapsto R\longmapsto E
+$$
+together with $Z,H,C,P,N$ before any completion-facing, radius-facing, zero-distance-facing, or Real-facing consumer may inspect the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission and the local naming obligations are projections of \autoref{def:located-metric-carrier} and \autoref{thm:located-metric-namecert-obligations}. They expose the point carrier, metric-distance witness, dyadic locatedness row, stream schedule, regular rational readback, Real seal, separated boundary, transport, replay, provenance, and local NameCert row.
+
+The completion and radius routes are already finite obligation rows. Apply \autoref{thm:located-metric-completion-handoff} for the completion-facing consumer and \autoref{thm:located-metric-dyadic-radius-localization} together with \autoref{thm:locatedmetric-radius-locality-obligation} for radius-local reads.
+
+The zero-distance and Real-seal routes use the remaining displayed rows. Apply \autoref{thm:located-metric-separated-zero-route}, \autoref{thm:locatedmetric-separated-zero-obligation}, \autoref{thm:located-metric-real-seal-readback}, and \autoref{thm:locatedmetric-real-seal-obligation}. Since the carrier has no coordinate for quotient completion, selected limits, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness, the listed package exhausts the local obligation surface and supplies ledger non-escape.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_obligation\_closure\_package}
+
+\begin{theorem}[LocatedMetric scoped obligation rows]\label{thm:locatedmetric-scoped-obligation-rows}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, the radius-locality obligation, separated-zero obligation, and $\RealUp$-seal obligation depend only on displayed $\BHist$, $\hsame$, $\Cont$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows together with the carrier rows $M,D,S,R,E,Z,H,C,P,N$. No radius, zero-distance, or seal consumer may add a quotient metric, selected limit, trichotomy decision, countable-choice selector, open-cover compactness proof, or ambient $\RealUp$ completeness row outside that scope.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_scoped\_obligation\_rows}
+\begin{proof}
+The radius-locality theorem \autoref{thm:locatedmetric-radius-locality-obligation} displays the finite route through the metric row, dyadic locatedness row, stream schedule, regular-rational readback, transport, replay, provenance, and local naming row.
+
+For zero distance, \autoref{thm:locatedmetric-separated-zero-obligation} keeps the separated boundary $Z$ visible before any point classifier is reached. The surrounding rows only transport and name the same finite evidence.
+
+For the real seal, \autoref{thm:locatedmetric-real-seal-obligation} consumes $E$ after $M,D,S,R$ and retains $H,C,P,N$. Together with \autoref{thm:locatedmetric-obligation-closure-package}, these three obligations close the paper-side scope of the located-metric rows without changing the Lean verification state.
+\end{proof}
+
+\closureat{LocatedMetricUp}{matureStr}[BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_completion\_handoff]
 
 \begin{closurestatus}{\LocatedMetricUp}
   \constructivestory{A $\LocatedMetricUp$ packet is generated from a point carrier, a MetricUp distance witness, a DyadicRatCore locatedness ledger, StreamName windows, RegSeqRat readbacks, a RealUp seal, a separated zero-distance boundary, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-metric-carrier}, \autoref{thm:located-metric-namecert-obligations}, \autoref{thm:located-metric-completion-handoff}, \autoref{thm:located-metric-dyadic-radius-localization}, \autoref{thm:located-metric-separated-zero-route}, and \autoref{thm:located-metric-real-seal-readback} seed the finite located-metric interface consumed by completion routes.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:located-metric-carrier}, \autoref{thm:located-metric-completion-handoff}, \autoref{thm:locatedmetric-obligation-closure-package}, and \autoref{thm:locatedmetric-scoped-obligation-rows} bind the public completion handoff, radius-locality, separated-zero, and Real-seal obligations to displayed $\BHist$, $\hsame$, $\Cont$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_completion\_handoff}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion, selected limits, trichotomy on distances, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{Obligation closure requires checked carrier admission, metric-distance readback, dyadic locatedness stability, scheduled regular-rational readback, RealUp seal handoff, separated zero-distance compatibility, and ledger non-escape for BEDC.Derived.LocatedMetricUp.}
+  \upgradepath{No further paper-side theory-grade closure remains; bridge checking remains a separate verification-axis matter.}
 \end{closurestatus}

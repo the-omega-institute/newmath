@@ -1,0 +1,99 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "4eeb8ba4f4e5d235b3ac212da03acc1466e30780379200ab82094391e3a43977",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "scripts/run_irreducibility_report.py",
+        "sha256": "a1094a0a482698096ab593bd9f34aad3d4a4535aa4749f4c8eeee15e6cbfb0d1"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:irreducibility-report",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_irreducibility_report.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/conditional_information_table.json",
+        "sha256": "7ad10823b14f69ae7a1786884e15e3c2faed264fde60c3dc3144ae199fc3dd15"
+      }
+    ],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_irreducibility_report.py"
+      ],
+      "control_pointer": "$.control_protocol",
+      "cost_pointer": "$.control_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+      "name": "irreducibility-report",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "config",
+        "scope",
+        "control_protocol",
+        "seed_aggregation",
+        "hardgate",
+        "positive_claim",
+        "conditional_information_table",
+        "records",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.scope"
+    }
+  },
+  "json_artifact": "reports/canonical/irreducibility_report.json",
+  "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+  "output_digest": "f098b5d7af8a7cddcff099b4f9ddcec82322b9b50d7c671f07857b247057de2f",
+  "producer_command": [
+    "python3",
+    "scripts/run_irreducibility_report.py"
+  ],
+  "report_name": "irreducibility-report",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

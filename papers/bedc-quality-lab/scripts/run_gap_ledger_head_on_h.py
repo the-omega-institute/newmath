@@ -1,0 +1,1113 @@
+#!/usr/bin/env python3
+"""Run a gap-ledger-head experiment on learned h representations."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from datetime import datetime, timezone
+import json
+import math
+from pathlib import Path
+import sys
+from typing import Any, Sequence
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
+from bedc_quality_lab.toy_world import make_toy_batch
+from scripts.experiment_stats import metric_stats
+from scripts import run_gaussian_ou_distinction_head as distinction
+from scripts.run_gaussian_ou_gap_ledger_head import (
+    BETA,
+    ECE_BINS,
+    EPSILON_GRID,
+    GAP_CHANNELS,
+    GAP_L2,
+    GAP_LR,
+    GAP_STEPS,
+    PRIMARY_EPSILON,
+    PRIMARY_TAU,
+    RHO,
+    SAMPLE_COUNT,
+    SEED_COUNT,
+    TAU_GRID,
+    TRAIN_FRACTION,
+    USE_TORCH,
+    _fit_gap_head,
+    _metrics_for_arm,
+    _predict_gap_head,
+    _primary_gap_sound,
+    _seeds,
+)
+from scripts.run_gaussian_ou_lejepa import run_experiment
+
+
+DISTINCTIONS = distinction.DISTINCTIONS
+JSON_ARTIFACT = "reports/gap_ledger_head_on_h.json"
+REPORT_ARTIFACT = "reports/gap_ledger_head_on_h.md"
+REPRESENTATION_BOUNDARY = "learned_h"
+INFERENCE_NO_GROUND_TRUTH_Z = True
+MATCHED_RANDOM_ARM = "matched_random_gap_head"
+QUALITY_COLUMNS = (
+    "quality_q",
+    "quality_margin",
+    "linear_identifiability_r2",
+    "approx_identifiability_proxy",
+)
+FORBIDDEN_INFERENCE_COLUMNS = (
+    "label",
+    "z",
+    "z_pair",
+    "gap_label",
+    "gap_labels",
+    "prediction_error",
+    "eval_label",
+    "eval_labels",
+    "eval_gap_label",
+    "eval_gap_labels",
+    "config_metadata",
+)
+EPS = 1.0e-12
+CONTROL_SEED_SALT = 742_193
+MATCHED_RANDOM_AUDIT_MATCH_KEYS = (
+    "parameter_match",
+    "compute_match",
+    "threshold_match",
+    "surface_distribution_match",
+    "metric_helper_match",
+)
+MATCHED_RANDOM_AUDIT_REQUIRED_KEYS = MATCHED_RANDOM_AUDIT_MATCH_KEYS + (
+    "audit_status",
+    "failure_reasons",
+    "evidence_pointers",
+)
+
+
+@dataclass(frozen=True)
+class GapHeadRunConfig:
+    sample_count: int
+    seeds: tuple[int, ...]
+    rho: float
+    use_torch: bool
+    json_artifact: str
+    report_artifact: str
+    run_id_prefix: str
+    source_artifact_label: str = "gap-ledger-head-on-h"
+    seed_grid_kind: str | None = None
+
+
+DEFAULT_CONFIG = GapHeadRunConfig(
+    sample_count=SAMPLE_COUNT,
+    seeds=tuple(int(seed) for seed in _seeds()),
+    rho=RHO,
+    use_torch=USE_TORCH,
+    json_artifact=JSON_ARTIFACT,
+    report_artifact=REPORT_ARTIFACT,
+    run_id_prefix="gap-ledger-head-on-h",
+)
+
+
+def _require_finite(name: str, array: np.ndarray, *, ndim: int | None = None) -> np.ndarray:
+    value = np.asarray(array, dtype=np.float64)
+    if ndim is not None and value.ndim != ndim:
+        raise ValueError(f"{name} must be {ndim}-dimensional")
+    if value.shape[0] == 0:
+        raise ValueError(f"{name} must not be empty")
+    if not np.all(np.isfinite(value)):
+        raise ValueError(f"{name} contains non-finite values")
+    return value
+
+
+def _fit_representation(train_x: np.ndarray) -> dict[str, np.ndarray]:
+    x = _require_finite("train_x", train_x, ndim=2)
+    mean = np.mean(x, axis=0, keepdims=True)
+    scale = np.std(x, axis=0, keepdims=True)
+    scale = np.where(scale <= EPS, 1.0, scale)
+    return {"mean": mean, "scale": scale}
+
+
+def _apply_representation(x: np.ndarray, state: dict[str, np.ndarray]) -> np.ndarray:
+    value = _require_finite("x", x, ndim=2)
+    return ((value - state["mean"]) / state["scale"]).astype(np.float64)
+
+
+def _feature_columns(h_dim: int) -> list[str]:
+    columns = [f"h:{index}" for index in range(int(h_dim))]
+    columns.extend(f"score:{name}" for name in DISTINCTIONS)
+    columns.extend(f"margin:{name}" for name in DISTINCTIONS)
+    columns.extend(f"transition_delta:{name}" for name in DISTINCTIONS)
+    columns.extend(f"quality:{name}" for name in QUALITY_COLUMNS)
+    return columns
+
+
+def _forbidden_inference_column_matches(columns: Sequence[str]) -> list[dict[str, str]]:
+    forbidden = set(FORBIDDEN_INFERENCE_COLUMNS)
+    violations: list[dict[str, str]] = []
+    for raw_column in columns:
+        column = str(raw_column)
+        root = column.split(":", 1)[0]
+        reason = ""
+        matched_root = ""
+        if column in forbidden:
+            reason = "exact"
+            matched_root = column
+        elif root in forbidden:
+            reason = "root"
+            matched_root = root
+        elif column.startswith(("config_metadata.", "config_metadata:", "config_metadata[")):
+            reason = "config_metadata-family"
+            matched_root = "config_metadata"
+        if reason:
+            violations.append(
+                {
+                    "column": column,
+                    "matched_root": matched_root,
+                    "match": reason,
+                }
+            )
+    return violations
+
+
+def _assert_inference_columns(columns: Sequence[str]) -> None:
+    violations = _forbidden_inference_column_matches(columns)
+    if violations:
+        raise ValueError(f"forbidden inference column: {violations[0]['column']}")
+
+
+def _build_inference_features(
+    *,
+    h: np.ndarray,
+    score: np.ndarray,
+    margin: np.ndarray,
+    transition_delta: np.ndarray,
+    quality_scalars: np.ndarray,
+) -> tuple[np.ndarray, list[str]]:
+    h_value = _require_finite("h", h, ndim=2)
+    score_value = _require_finite("score", score, ndim=2)
+    margin_value = _require_finite("margin", margin, ndim=2)
+    transition_value = _require_finite("transition_delta", transition_delta, ndim=2)
+    quality_value = _require_finite("quality_scalars", quality_scalars, ndim=1)
+    expected = (h_value.shape[0], len(DISTINCTIONS))
+    if score_value.shape != expected or margin_value.shape != expected or transition_value.shape != expected:
+        raise ValueError("probe-derived feature blocks must align with h and distinctions")
+    if quality_value.shape[0] != len(QUALITY_COLUMNS):
+        raise ValueError("quality_scalars must align with quality columns")
+    quality = np.tile(quality_value.reshape(1, -1), (h_value.shape[0], 1))
+    features = np.column_stack([h_value, score_value, margin_value, transition_value, quality])
+    columns = _feature_columns(h_value.shape[1])
+    _assert_inference_columns(columns)
+    if features.shape[1] != len(columns):
+        raise ValueError("feature column count mismatch")
+    return features.astype(np.float64), columns
+
+
+def _quality_scalars(quality: Any) -> np.ndarray:
+    return np.array(
+        [float(quality.metrics.get(name, 0.0)) for name in QUALITY_COLUMNS],
+        dtype=np.float64,
+    )
+
+
+def _probe_blocks(
+    *,
+    probes: dict[str, Any],
+    h: np.ndarray,
+    h_pair: np.ndarray,
+) -> dict[str, np.ndarray]:
+    scores = []
+    margins = []
+    transitions = []
+    for name in DISTINCTIONS:
+        pred = distinction._predict_probe(probes[name], h)
+        pair_pred = distinction._predict_probe(probes[name], h_pair)
+        scores.append(pred["probabilities"])
+        margins.append(np.abs(pred["logits"]))
+        transitions.append(np.abs(pred["probabilities"] - pair_pred["probabilities"]))
+    return {
+        "score": np.column_stack(scores).astype(np.float64),
+        "margin": np.column_stack(margins).astype(np.float64),
+        "transition_delta": np.column_stack(transitions).astype(np.float64),
+    }
+
+
+def _surface_for_seed(*, seed: int, config: GapHeadRunConfig) -> dict[str, Any]:
+    batch = make_toy_batch(config.sample_count, rho=config.rho, seed=seed)
+    z = distinction._require_finite("z", batch.z)
+    z_pair = distinction._require_finite("z_pair", batch.z_pair)
+    train_idx, eval_idx = distinction._train_eval_split(z.shape[0], seed=seed)
+    state = _fit_representation(batch.x[train_idx])
+    h = _apply_representation(batch.x, state)
+    h_pair = _apply_representation(batch.x_pair, state)
+
+    high_threshold = distinction._high_energy_threshold(z, train_idx)
+    labels = {
+        name: distinction._label_truth(name, z, high_energy_threshold=high_threshold)
+        for name in DISTINCTIONS
+    }
+    pair_labels = {
+        name: distinction._label_truth(name, z_pair, high_energy_threshold=high_threshold)
+        for name in DISTINCTIONS
+    }
+    probes = {
+        name: distinction._fit_probe(h[train_idx], label[train_idx])
+        for name, label in labels.items()
+    }
+    blocks = _probe_blocks(probes=probes, h=h, h_pair=h_pair)
+
+    errors = []
+    transition_changed = []
+    for index, name in enumerate(DISTINCTIONS):
+        pred = distinction._predict_probe(probes[name], h)
+        errors.append((pred["predictions"] != labels[name]).astype(np.float64))
+        transition_changed.append((labels[name] != pair_labels[name]).astype(np.float64))
+    prediction_error = np.max(np.column_stack(errors), axis=1)
+    transition_unstable = np.max(np.column_stack(transition_changed), axis=1)
+
+    min_margin = np.min(blocks["margin"], axis=1)
+    margin_threshold = float(np.quantile(min_margin[train_idx], 0.30))
+    low_margin = (min_margin <= margin_threshold).astype(np.float64)
+
+    off_target_rows = []
+    for target in DISTINCTIONS:
+        z_changed = distinction._intervene(target, z, z_pair)
+        h_changed = _apply_representation(mix_latents(z_changed, DEFAULT_MIXING), state)
+        target_off_target = np.zeros(z.shape[0], dtype=np.float64)
+        for name in DISTINCTIONS:
+            if name == target:
+                continue
+            before = distinction._predict_probe(probes[name], h)["predictions"]
+            after = distinction._predict_probe(probes[name], h_changed)["predictions"]
+            target_off_target = np.maximum(target_off_target, (before != after).astype(np.float64))
+        off_target_rows.append(target_off_target)
+    off_target_intervention = np.max(np.column_stack(off_target_rows), axis=1)
+
+    gap_labels = np.column_stack(
+        [prediction_error, low_margin, transition_unstable, off_target_intervention]
+    ).astype(np.float64)
+    quality = run_experiment(
+        use_torch=config.use_torch,
+        sample_count=config.sample_count,
+        seed=seed,
+        rho=config.rho,
+        run_id=f"{config.run_id_prefix}-seed-{seed}",
+        envelope_artifact=config.json_artifact,
+        report_artifact=config.report_artifact,
+    )
+    features, feature_columns = _build_inference_features(
+        h=h,
+        score=blocks["score"],
+        margin=blocks["margin"],
+        transition_delta=blocks["transition_delta"],
+        quality_scalars=_quality_scalars(quality),
+    )
+    return {
+        "features": features,
+        "h_pair": h_pair,
+        "feature_columns": feature_columns,
+        "gap_labels": gap_labels,
+        "prediction_error": prediction_error,
+        "train_idx": train_idx,
+        "eval_idx": eval_idx,
+        "high_energy_threshold": float(high_threshold),
+        "low_margin_threshold": float(margin_threshold),
+        "gap_label_rates": {
+            channel: float(np.mean(gap_labels[:, index]))
+            for index, channel in enumerate(GAP_CHANNELS)
+        },
+        "eval_gap_label_rates": {
+            channel: float(np.mean(gap_labels[eval_idx, index]))
+            for index, channel in enumerate(GAP_CHANNELS)
+        },
+        "canonical_envelope_projection": {
+            "run_id": quality.run_id,
+            "source_spec": dict(quality.source_spec),
+            "classifier_spec": dict(quality.classifier_spec),
+            "metrics": {name: float(value) for name, value in quality.metrics.items()},
+            "artifacts": dict(quality.artifacts),
+        },
+        "representation": {
+            "name": "train-split-standardized-observation-h",
+            "input": "x",
+            "output_dim": int(h.shape[1]),
+            "fit_split": "train",
+        },
+    }
+
+
+def _metric_projection(metrics: dict[str, Any]) -> dict[str, Any]:
+    primary = _primary_gap_sound(metrics["gap_sound_scan"])
+    return {
+        "arm": metrics["arm"],
+        "failure_detection_auroc": metrics["failure_detection_auroc"],
+        "ece": metrics["ece"],
+        "unlogged_error_rate": float(metrics["unlogged_error_rate"]),
+        "critical_unlogged_error_rate": float(metrics["critical_unlogged_error_rate"]),
+        "prediction_error_rate": float(metrics["prediction_error_rate"]),
+        "gap_score_mean": float(metrics["gap_score_mean"]),
+        "critical_gap_score_mean": float(metrics["critical_gap_score_mean"]),
+        "primary_gap_sound": {
+            "tau": float(primary["tau"]),
+            "epsilon": float(primary["epsilon"]),
+            "low_gap_implies_error_within_epsilon": float(
+                primary["low_gap_implies_error_within_epsilon"]
+            ),
+            "error_above_epsilon_implies_gap_at_least_tau": float(
+                primary["error_above_epsilon_implies_gap_at_least_tau"]
+            ),
+            "low_gap_count": int(primary["low_gap_count"]),
+            "failure_count": int(primary["failure_count"]),
+        },
+        "loss": metrics["loss"],
+    }
+
+
+def _matched_random_gap_labels(labels: np.ndarray, *, seed: int) -> np.ndarray:
+    value = _require_finite("labels", labels, ndim=2)
+    if value.shape[1] != len(GAP_CHANNELS):
+        raise ValueError("labels must align with gap channels")
+    rng = np.random.default_rng(int(seed) + CONTROL_SEED_SALT)
+    randomized = np.empty_like(value, dtype=np.float64)
+    for index in range(value.shape[1]):
+        randomized[:, index] = value[rng.permutation(value.shape[0]), index]
+    return randomized
+
+
+def _posthoc_report_only(*, eval_labels: np.ndarray, eval_error: np.ndarray) -> dict[str, Any]:
+    oracle_metrics = _metrics_for_arm(
+        arm="posthoc_report_only",
+        probabilities=eval_labels,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    return {
+        "arm": "posthoc_report_only",
+        "inference": False,
+        "diagnostic_source": "eval_gap_labels",
+        "eval_gap_label_rates": {
+            channel: float(np.mean(eval_labels[:, index]))
+            for index, channel in enumerate(GAP_CHANNELS)
+        },
+        "oracle_diagnostics": _metric_projection(oracle_metrics),
+    }
+
+
+def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict[str, Any]:
+    surface = _surface_for_seed(seed=seed, config=config)
+    train_idx = surface["train_idx"]
+    eval_idx = surface["eval_idx"]
+    heads = _fit_gap_head(surface["features"][train_idx], surface["gap_labels"][train_idx])
+    eval_probabilities = _predict_gap_head(heads, surface["features"][eval_idx])
+    randomized_labels = _matched_random_gap_labels(surface["gap_labels"], seed=seed)
+    random_heads = _fit_gap_head(surface["features"][train_idx], randomized_labels[train_idx])
+    random_eval_probabilities = _predict_gap_head(random_heads, surface["features"][eval_idx])
+    eval_labels = surface["gap_labels"][eval_idx]
+    eval_error = surface["prediction_error"][eval_idx]
+    vanilla_probabilities = np.zeros_like(eval_probabilities, dtype=np.float64)
+    vanilla_metrics = _metrics_for_arm(
+        arm="vanilla",
+        probabilities=vanilla_probabilities,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    learned_metrics = _metrics_for_arm(
+        arm="learned_gap_head_on_h",
+        probabilities=eval_probabilities,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    random_metrics = _metrics_for_arm(
+        arm=MATCHED_RANDOM_ARM,
+        probabilities=random_eval_probabilities,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    return {
+        "seed_index": int(seed_index),
+        "seed_sequence_position": int(seed_index + 1),
+        "seed": int(seed),
+        "run_id": f"{config.run_id_prefix}-seed-{seed}",
+        "representation_boundary": REPRESENTATION_BOUNDARY,
+        "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
+        "feature_columns": list(surface["feature_columns"]),
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "config": {
+            "sample_count": config.sample_count,
+            "rho": config.rho,
+            "use_torch": config.use_torch,
+            "gap_channels": list(GAP_CHANNELS),
+            "distinctions": list(DISTINCTIONS),
+            "train_fraction": TRAIN_FRACTION,
+            "train_count": int(len(train_idx)),
+            "eval_count": int(len(eval_idx)),
+            "gap_steps": GAP_STEPS,
+            "gap_lr": GAP_LR,
+            "gap_l2": GAP_L2,
+            "high_energy_threshold": float(surface["high_energy_threshold"]),
+            "low_margin_threshold": float(surface["low_margin_threshold"]),
+            "beta": BETA,
+            "primary_tau": PRIMARY_TAU,
+            "primary_epsilon": PRIMARY_EPSILON,
+        },
+        "split": {
+            "train_indices": [int(index) for index in train_idx],
+            "eval_indices": [int(index) for index in eval_idx],
+            "overlap_count": int(len(set(train_idx.tolist()) & set(eval_idx.tolist()))),
+        },
+        "representation": surface["representation"],
+        "canonical_envelope_projection": surface["canonical_envelope_projection"],
+        "gap_label_rates": surface["gap_label_rates"],
+        "eval_gap_label_rates": surface["eval_gap_label_rates"],
+        "matched_random_control": {
+            "arm": MATCHED_RANDOM_ARM,
+            "label_protocol": "seed_deterministic_per_channel_permutation",
+            "seed_salt": CONTROL_SEED_SALT,
+            **_matched_random_control_audit(base_pointer="$.records[*]"),
+            "same_feature_columns": True,
+            "same_split": True,
+            "same_thresholds": True,
+            "same_budget": True,
+            "same_metric_helper": True,
+            "randomized_gap_label_rates": {
+                channel: float(np.mean(randomized_labels[:, index]))
+                for index, channel in enumerate(GAP_CHANNELS)
+            },
+            "eval_randomized_gap_label_rates": {
+                channel: float(np.mean(randomized_labels[eval_idx, index]))
+                for index, channel in enumerate(GAP_CHANNELS)
+            },
+        },
+        "arms": {
+            "vanilla": _metric_projection(vanilla_metrics),
+            "posthoc_report_only": _posthoc_report_only(
+                eval_labels=eval_labels,
+                eval_error=eval_error,
+            ),
+            "learned_gap_head_on_h": _metric_projection(learned_metrics),
+            MATCHED_RANDOM_ARM: _metric_projection(random_metrics),
+        },
+        "comparison": {
+            "unlogged_error_rate_delta_learned_minus_vanilla": float(
+                learned_metrics["unlogged_error_rate"] - vanilla_metrics["unlogged_error_rate"]
+            ),
+            "critical_unlogged_error_rate_delta_learned_minus_vanilla": float(
+                learned_metrics["critical_unlogged_error_rate"]
+                - vanilla_metrics["critical_unlogged_error_rate"]
+            ),
+            "failure_detection_auroc_delta_learned_minus_vanilla": float(
+                learned_metrics["failure_detection_auroc"]["value"]
+                - vanilla_metrics["failure_detection_auroc"]["value"]
+            ),
+            "unlogged_error_rate_delta_matched_random_minus_vanilla": float(
+                random_metrics["unlogged_error_rate"] - vanilla_metrics["unlogged_error_rate"]
+            ),
+            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": float(
+                random_metrics["critical_unlogged_error_rate"]
+                - vanilla_metrics["critical_unlogged_error_rate"]
+            ),
+            "failure_detection_auroc_delta_matched_random_minus_vanilla": float(
+                random_metrics["failure_detection_auroc"]["value"]
+                - vanilla_metrics["failure_detection_auroc"]["value"]
+            ),
+        },
+    }
+
+
+def _records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
+    return [
+        _run_record(seed=seed, seed_index=index, config=config)
+        for index, seed in enumerate(config.seeds)
+    ]
+
+
+def _pooled_metrics(records: list[dict[str, Any]], arm: str) -> dict[str, Any]:
+    auroc = [float(record["arms"][arm]["failure_detection_auroc"]["value"]) for record in records]
+    ece = [float(record["arms"][arm]["ece"]["value"]) for record in records]
+    unlogged = [float(record["arms"][arm]["unlogged_error_rate"]) for record in records]
+    critical = [float(record["arms"][arm]["critical_unlogged_error_rate"]) for record in records]
+    error_rate = [float(record["arms"][arm]["prediction_error_rate"]) for record in records]
+    low_gap_sound = [
+        float(record["arms"][arm]["primary_gap_sound"]["low_gap_implies_error_within_epsilon"])
+        for record in records
+    ]
+    failure_logged = [
+        float(record["arms"][arm]["primary_gap_sound"]["error_above_epsilon_implies_gap_at_least_tau"])
+        for record in records
+    ]
+    return {
+        "failure_detection_auroc": metric_stats(auroc),
+        "ece": metric_stats(ece),
+        "unlogged_error_rate": metric_stats(unlogged),
+        "critical_unlogged_error_rate": metric_stats(critical),
+        "prediction_error_rate": metric_stats(error_rate),
+        "gap_sound_low_gap_implies_error_within_epsilon": metric_stats(low_gap_sound),
+        "gap_sound_error_above_epsilon_implies_gap_at_least_tau": metric_stats(failure_logged),
+    }
+
+
+def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "record_count": len(records),
+        "seed_order": [int(record["seed"]) for record in records],
+        "by_arm": {
+            "vanilla": _pooled_metrics(records, "vanilla"),
+            "learned_gap_head_on_h": _pooled_metrics(records, "learned_gap_head_on_h"),
+            MATCHED_RANDOM_ARM: _pooled_metrics(records, MATCHED_RANDOM_ARM),
+        },
+        "comparison": {
+            "unlogged_error_rate_delta_learned_minus_vanilla": metric_stats(
+                [
+                    float(record["comparison"]["unlogged_error_rate_delta_learned_minus_vanilla"])
+                    for record in records
+                ]
+            ),
+            "critical_unlogged_error_rate_delta_learned_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "critical_unlogged_error_rate_delta_learned_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+            "failure_detection_auroc_delta_learned_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "failure_detection_auroc_delta_learned_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+            "unlogged_error_rate_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(record["comparison"]["unlogged_error_rate_delta_matched_random_minus_vanilla"])
+                    for record in records
+                ]
+            ),
+            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+            "failure_detection_auroc_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "failure_detection_auroc_delta_matched_random_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+        },
+    }
+
+
+def _boundary_no_z_audit(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "status": "pass",
+        "representation_boundary": REPRESENTATION_BOUNDARY,
+        "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
+        "record_count": len(config.seeds),
+    }
+
+
+def _forbidden_column_audit(columns: Sequence[str] | None = None) -> dict[str, Any]:
+    feature_columns = _feature_columns(2) if columns is None else [str(column) for column in columns]
+    violations = _forbidden_inference_column_matches(feature_columns)
+    status = "pass" if not violations else "blocked"
+    payload = {
+        "status": status,
+        "feature_columns": feature_columns,
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "forbidden_present": [violation["column"] for violation in violations],
+        "violations": violations,
+    }
+    if violations:
+        payload["failed_gate"] = "forbidden-inference-column"
+    return payload
+
+
+def _matched_random_record_evidence_pointers(*, base_pointer: str) -> dict[str, list[str]]:
+    return {
+        "parameter_match": [
+            f"{base_pointer}.feature_columns",
+            f"{base_pointer}.config.gap_channels",
+        ],
+        "compute_match": [
+            f"{base_pointer}.config.gap_steps",
+            f"{base_pointer}.config.gap_lr",
+            f"{base_pointer}.config.gap_l2",
+        ],
+        "threshold_match": [
+            f"{base_pointer}.config.high_energy_threshold",
+            f"{base_pointer}.config.low_margin_threshold",
+            f"{base_pointer}.config.primary_tau",
+            f"{base_pointer}.config.primary_epsilon",
+        ],
+        "surface_distribution_match": [
+            f"{base_pointer}.split.train_indices",
+            f"{base_pointer}.split.eval_indices",
+            f"{base_pointer}.matched_random_control.randomized_gap_label_rates",
+        ],
+        "metric_helper_match": [
+            f"{base_pointer}.arms.learned_gap_head_on_h",
+            f"{base_pointer}.arms.{MATCHED_RANDOM_ARM}",
+        ],
+    }
+
+
+def _matched_random_protocol_evidence_pointers() -> dict[str, list[str]]:
+    return {
+        "parameter_match": [
+            "$.feature_columns",
+            "$.config.gap_channels",
+        ],
+        "compute_match": [
+            "$.config.gap_steps",
+            "$.config.gap_lr",
+            "$.config.gap_l2",
+        ],
+        "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.config.primary_tau",
+            "$.config.primary_epsilon",
+        ],
+        "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates",
+        ],
+        "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            f"$.records[*].arms.{MATCHED_RANDOM_ARM}",
+        ],
+    }
+
+
+def _matched_random_control_audit(*, base_pointer: str | None = None) -> dict[str, Any]:
+    matches = {key: True for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS}
+    failure_reasons = [key for key, value in matches.items() if value is not True]
+    if base_pointer is None:
+        evidence_pointers = _matched_random_protocol_evidence_pointers()
+    else:
+        evidence_pointers = _matched_random_record_evidence_pointers(base_pointer=base_pointer)
+    return {
+        **matches,
+        "audit_status": "pass" if not failure_reasons else "fail",
+        "failure_reasons": failure_reasons,
+        "evidence_pointers": evidence_pointers,
+    }
+
+
+def _control_protocol(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "control_arm": MATCHED_RANDOM_ARM,
+        "label_protocol": "seed_deterministic_per_channel_permutation",
+        "seed_salt": CONTROL_SEED_SALT,
+        **_matched_random_control_audit(),
+        "same_feature_columns_as_treatment": True,
+        "same_train_eval_split_as_treatment": True,
+        "same_dimension_as_treatment": True,
+        "same_budget_as_treatment": True,
+        "same_thresholds_as_treatment": True,
+        "same_metric_helper_as_treatment": True,
+        "train_fraction": TRAIN_FRACTION,
+        "gap_steps": GAP_STEPS,
+        "gap_lr": GAP_LR,
+        "gap_l2": GAP_L2,
+        "primary_tau": PRIMARY_TAU,
+        "primary_epsilon": PRIMARY_EPSILON,
+        "sample_count": config.sample_count,
+        "seed_count": len(config.seeds),
+    }
+
+
+def _arm_metric_verdict(aggregate: dict[str, Any], *, arm: str, prefix: str) -> dict[str, Any]:
+    auroc = float(aggregate["by_arm"][arm]["failure_detection_auroc"]["mean"])
+    vanilla_unlogged = float(aggregate["by_arm"]["vanilla"]["unlogged_error_rate"]["mean"])
+    arm_unlogged = float(aggregate["by_arm"][arm]["unlogged_error_rate"]["mean"])
+    vanilla_critical = float(aggregate["by_arm"]["vanilla"]["critical_unlogged_error_rate"]["mean"])
+    arm_critical = float(aggregate["by_arm"][arm]["critical_unlogged_error_rate"]["mean"])
+    unlogged_reduction = (
+        (vanilla_unlogged - arm_unlogged) / vanilla_unlogged
+        if vanilla_unlogged > 0.0
+        else 0.0
+    )
+    critical_reduction = (
+        (vanilla_critical - arm_critical) / vanilla_critical
+        if vanilla_critical > 0.0
+        else 0.0
+    )
+    checks = {
+        "auroc_at_least_0_75": auroc >= 0.75,
+        "critical_unlogged_error_reduction_at_least_0_90": critical_reduction >= 0.90,
+        "unlogged_error_reduction_at_least_0_50": unlogged_reduction >= 0.50,
+    }
+    return {
+        "arm": arm,
+        "comparison_prefix": prefix,
+        "positive": all(checks.values()),
+        "checks": checks,
+        "metrics": {
+            "failure_detection_auroc": auroc,
+            "vanilla_unlogged_error_rate": vanilla_unlogged,
+            "arm_unlogged_error_rate": arm_unlogged,
+            "unlogged_error_reduction": unlogged_reduction,
+            "vanilla_critical_unlogged_error_rate": vanilla_critical,
+            "arm_critical_unlogged_error_rate": arm_critical,
+            "critical_unlogged_error_reduction": critical_reduction,
+        },
+    }
+
+
+def _treatment_verdict(aggregate: dict[str, Any]) -> dict[str, Any]:
+    return _arm_metric_verdict(
+        aggregate,
+        arm="learned_gap_head_on_h",
+        prefix="learned_minus_vanilla",
+    )
+
+
+def _control_verdict(aggregate: dict[str, Any]) -> dict[str, Any]:
+    return _arm_metric_verdict(
+        aggregate,
+        arm=MATCHED_RANDOM_ARM,
+        prefix="matched_random_minus_vanilla",
+    )
+
+
+def _source_artifacts(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "artifact_label": config.source_artifact_label,
+        "generation_script": "scripts/run_gap_ledger_head_on_h.py",
+        "imported_gap_ledger_head_runner": "scripts/run_gaussian_ou_gap_ledger_head.py",
+        "canonical_runner": "scripts/run_gaussian_ou_lejepa.py::run_experiment",
+        "distinction_head_runner": "scripts/run_gaussian_ou_distinction_head.py",
+        "toy_world": "bedc_quality_lab.toy_world.make_toy_batch",
+        "stats_helper": "scripts/experiment_stats.py",
+        "json_artifact": config.json_artifact,
+        "report_artifact": config.report_artifact,
+        "import_dependency_chain": [
+            "scripts/run_gap_ledger_head_on_h.py",
+            "scripts.run_gaussian_ou_gap_ledger_head",
+            "scripts.run_gaussian_ou_distinction_head",
+            "scripts.run_gaussian_ou_lejepa.run_experiment",
+            "bedc_quality_lab.toy_world.make_toy_batch",
+            "scripts.experiment_stats.metric_stats",
+        ],
+    }
+
+
+def _gap_channel_metadata() -> list[dict[str, str]]:
+    return [
+        {
+            "name": "prediction_error",
+            "origin": "upstream_truth_diagnostic",
+            "definition": "At least one held-out h-trained distinction probe predicts the wrong truth label.",
+        },
+        {
+            "name": "low_margin",
+            "origin": "h_probe_margin",
+            "definition": "Minimum absolute h-probe margin is below a train-split quantile.",
+        },
+        {
+            "name": "transition_unstable",
+            "origin": "upstream_transition_truth",
+            "definition": "At least one distinction truth label differs under the OU pair.",
+        },
+        {
+            "name": "off_target_intervention",
+            "origin": "h_probe_intervention_diagnostic",
+            "definition": "A target intervention flips at least one non-target h-probe prediction.",
+        },
+    ]
+
+
+def _applicability_boundary(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "admitted_family": "Gaussian-OU toy world generated by the existing lab toy-world generator.",
+        "representation_boundary": REPRESENTATION_BOUNDARY,
+        "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
+        "model": "Script-private numpy logistic gap heads over h-only inference features.",
+        "sample_count": config.sample_count,
+        "seed_count": len(config.seeds),
+        "rho": config.rho,
+        "gap_channels": list(GAP_CHANNELS),
+        "distinctions": list(DISTINCTIONS),
+        "feature_columns": _feature_columns(2),
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "tau_scan_range": list(TAU_GRID),
+        "epsilon_scan_range": list(EPSILON_GRID),
+        "primary_tau": PRIMARY_TAU,
+        "primary_epsilon": PRIMARY_EPSILON,
+    }
+
+
+def _negative_result_note(aggregate: dict[str, Any]) -> str:
+    learned_auroc = float(
+        aggregate["by_arm"]["learned_gap_head_on_h"]["failure_detection_auroc"]["mean"]
+    )
+    vanilla_unlogged = float(aggregate["by_arm"]["vanilla"]["unlogged_error_rate"]["mean"])
+    learned_unlogged = float(
+        aggregate["by_arm"]["learned_gap_head_on_h"]["unlogged_error_rate"]["mean"]
+    )
+    if abs(learned_auroc - 0.5) <= 0.03:
+        return (
+            "Failure-detection AUROC is approximately chance under the predeclared protocol; "
+            "this result is reported without threshold retuning."
+        )
+    if learned_unlogged >= vanilla_unlogged:
+        return (
+            "The learned h gap head did not reduce UnloggedErrorRate relative to vanilla under "
+            "the predeclared protocol; this result is reported directly."
+        )
+    return (
+        "The learned h gap head reduced UnloggedErrorRate relative to vanilla under the "
+        "predeclared protocol; thresholds and beta were not tuned after observing outcomes."
+    )
+
+
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.representation_boundary",
+        metadata_only_pointer="$.boundary_no_z_audit.status",
+        matched_random_pointer="$.control_verdict.positive",
+        forbidden_column_pointer="$.forbidden_column_audit.status",
+    )
+
+
+def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[str, Any]:
+    aggregate = _aggregate(records)
+    treatment_verdict = _treatment_verdict(aggregate)
+    control_verdict = _control_verdict(aggregate)
+    payload = {
+        "artifact": config.json_artifact,
+        "report": config.report_artifact,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "representation_boundary": REPRESENTATION_BOUNDARY,
+        "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
+        "feature_columns": _feature_columns(2),
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "boundary_no_z_audit": _boundary_no_z_audit(config),
+        "forbidden_column_audit": _forbidden_column_audit(),
+        "config": {
+            "sample_count": config.sample_count,
+            "seed_count": len(config.seeds),
+            "seeds": list(config.seeds),
+            "rho": config.rho,
+            "use_torch": config.use_torch,
+            "run_id_prefix": config.run_id_prefix,
+            "source_artifact_label": config.source_artifact_label,
+            "seed_grid_kind": config.seed_grid_kind,
+            "distinctions": list(DISTINCTIONS),
+            "gap_channels": list(GAP_CHANNELS),
+            "train_fraction": TRAIN_FRACTION,
+            "gap_steps": GAP_STEPS,
+            "gap_lr": GAP_LR,
+            "gap_l2": GAP_L2,
+            "beta": BETA,
+            "primary_tau": PRIMARY_TAU,
+            "primary_epsilon": PRIMARY_EPSILON,
+            "tau_grid": list(TAU_GRID),
+            "epsilon_grid": list(EPSILON_GRID),
+            "ece_bins": ECE_BINS,
+            "expected_record_count": len(config.seeds),
+        },
+        "gap_channel_metadata": _gap_channel_metadata(),
+        "source_artifacts": _source_artifacts(config),
+        "applicability_boundary": _applicability_boundary(config),
+        "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
+        "aggregate_metrics": aggregate,
+        "treatment_comparison": aggregate["comparison"],
+        "control_protocol": _control_protocol(config),
+        "treatment_verdict": treatment_verdict,
+        "control_verdict": control_verdict,
+        "main_claim_status": "source_evidence_only",
+        "negative_result_note": _negative_result_note(aggregate),
+        "records": records,
+        "aggregate": aggregate,
+    }
+    if treatment_verdict.get("positive") is True and control_verdict.get("positive") is False:
+        payload.update(_anti_triviality_contract("D5-O"))
+    return payload
+
+
+def _format_float(value: float) -> str:
+    if math.isnan(value):
+        return "nan"
+    return f"{value:.6f}"
+
+
+def _render_stats(stats: dict[str, Any]) -> str:
+    return (
+        f"{_format_float(float(stats['mean']))} +/- {_format_float(float(stats['std']))} "
+        f"(95% CI +/- {_format_float(float(stats['ci95_half_width']))})"
+    )
+
+
+def _render_report(payload: dict[str, Any]) -> str:
+    aggregate = payload["aggregate"]
+    lines = [
+        "# Gap-Ledger Head on Learned h",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Representation boundary: `{payload['representation_boundary']}`",
+        f"- Inference no ground-truth z: `{str(bool(payload['inference_no_ground_truth_z'])).lower()}`",
+        f"- Sample count: `{payload['config']['sample_count']}`",
+        f"- Seed count: `{payload['config']['seed_count']}`",
+        f"- Rho: `{payload['config']['rho']}`",
+        f"- Gap channels: `{', '.join(payload['config']['gap_channels'])}`",
+        f"- Total records: `{aggregate['record_count']}`",
+        "",
+        "## Arms",
+        "",
+        (
+            "| arm | failure-detection AUROC | ECE | UnloggedErrorRate | "
+            "critical unlogged error rate | prediction error rate |"
+        ),
+        "| --- | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for arm in ("vanilla", "learned_gap_head_on_h", MATCHED_RANDOM_ARM):
+        stats = aggregate["by_arm"][arm]
+        lines.append(
+            "| "
+            f"`{arm}` | "
+            f"{_render_stats(stats['failure_detection_auroc'])} | "
+            f"{_render_stats(stats['ece'])} | "
+            f"{_render_stats(stats['unlogged_error_rate'])} | "
+            f"{_render_stats(stats['critical_unlogged_error_rate'])} | "
+            f"{_render_stats(stats['prediction_error_rate'])} |"
+        )
+    comparison = aggregate["comparison"]
+    lines.extend(
+        [
+            "",
+            "## Comparison",
+            "",
+            (
+                "- UnloggedErrorRate delta learned minus vanilla: "
+                f"{_render_stats(comparison['unlogged_error_rate_delta_learned_minus_vanilla'])}"
+            ),
+            (
+                "- Critical unlogged error rate delta learned minus vanilla: "
+                f"{_render_stats(comparison['critical_unlogged_error_rate_delta_learned_minus_vanilla'])}"
+            ),
+            (
+                "- Failure-detection AUROC delta learned minus vanilla: "
+                f"{_render_stats(comparison['failure_detection_auroc_delta_learned_minus_vanilla'])}"
+            ),
+            (
+                "- UnloggedErrorRate delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['unlogged_error_rate_delta_matched_random_minus_vanilla'])}"
+            ),
+            (
+                "- Critical unlogged error rate delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['critical_unlogged_error_rate_delta_matched_random_minus_vanilla'])}"
+            ),
+            (
+                "- Failure-detection AUROC delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['failure_detection_auroc_delta_matched_random_minus_vanilla'])}"
+            ),
+            "",
+            "## Matched-Random Control",
+            "",
+            f"- Control arm: `{payload['control_protocol']['control_arm']}`",
+            f"- Label protocol: `{payload['control_protocol']['label_protocol']}`",
+            f"- Control positive: `{str(payload['control_verdict']['positive']).lower()}`",
+            f"- Main claim status: `{payload['main_claim_status']}`",
+            "",
+            "## Boundary",
+            "",
+            f"- Feature columns: `{', '.join(payload['feature_columns'])}`",
+            f"- Forbidden inference columns: `{', '.join(payload['forbidden_inference_columns'])}`",
+            "",
+            "## Gap Channels",
+            "",
+        ]
+    )
+    for item in payload["gap_channel_metadata"]:
+        lines.append(f"- `{item['name']}` ({item['origin']}): {item['definition']}")
+    lines.extend(
+        [
+            "",
+            "## Negative Result Note",
+            "",
+            payload["negative_result_note"],
+            "",
+            "## Source Artifacts",
+            "",
+            f"- Generation script: `{payload['source_artifacts']['generation_script']}`",
+            f"- Imported gap helper: `{payload['source_artifacts']['imported_gap_ledger_head_runner']}`",
+            f"- JSON artifact: `{payload['source_artifacts']['json_artifact']}`",
+            f"- Report artifact: `{payload['source_artifacts']['report_artifact']}`",
+            "- Import dependency chain:",
+        ]
+    )
+    for item in payload["source_artifacts"]["import_dependency_chain"]:
+        lines.append(f"  - `{item}`")
+    lines.extend(["", "## Seed Order", "", f"`{', '.join(str(seed) for seed in aggregate['seed_order'])}`", ""])
+    return "\n".join(lines)
+
+
+def _write_payload(payload: dict[str, Any], config: GapHeadRunConfig) -> None:
+    json_path = ROOT / config.json_artifact
+    report_path = ROOT / config.report_artifact
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    report_path.write_text(_render_report(payload), encoding="utf-8")
+
+
+def _reusable_generated_at(config: GapHeadRunConfig) -> str | None:
+    path = ROOT / config.json_artifact
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
+def _active_config() -> GapHeadRunConfig:
+    return GapHeadRunConfig(
+        sample_count=DEFAULT_CONFIG.sample_count,
+        seeds=DEFAULT_CONFIG.seeds,
+        rho=DEFAULT_CONFIG.rho,
+        use_torch=USE_TORCH,
+        json_artifact=JSON_ARTIFACT,
+        report_artifact=REPORT_ARTIFACT,
+        run_id_prefix=DEFAULT_CONFIG.run_id_prefix,
+        source_artifact_label=DEFAULT_CONFIG.source_artifact_label,
+        seed_grid_kind=DEFAULT_CONFIG.seed_grid_kind,
+    )
+
+
+def main() -> None:
+    config = _active_config()
+    payload = _payload(_records(config), config)
+    payload["generated_at"] = _reusable_generated_at(config) or payload["generated_at"]
+    _write_payload(payload, config)
+    print(f"wrote {config.json_artifact}")
+    print(f"wrote {config.report_artifact}")
+    print(f"records {len(payload['records'])}")
+
+
+if __name__ == "__main__":
+    main()

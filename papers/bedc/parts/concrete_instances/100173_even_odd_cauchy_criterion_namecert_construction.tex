@@ -62,6 +62,7 @@ $$
 $$
 The even side uses $A,S_A$ and the odd side uses $B,S_B$, while the cross-parity row $F$ records that both sides consume the same $M,D$ budget before the handoff to $R$. Thus the packet fuses the parity tails without introducing quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyCriterionCarrier\_parity\_tail\_fusion}
 \begin{proof}
 Start with an accepted carrier $K$. The projection of \autoref{def:even-odd-cauchy-criterion-carrier} exposes the two regular rows and their two schedules before any tolerance comparison is available.
 
@@ -110,6 +111,7 @@ Next apply the replay row $C$. Its route starts from a precision request and pas
 
 Finally combine the parity-tail factorization of \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion} with the Real seal boundary of \autoref{thm:even-odd-cauchy-criterion-real-seal-route}. The only late-tail route reaching $F$ or $R$ is the one carrying the same shared budget and dyadic tolerance ledger through $H$ and $C$.
 \end{proof}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyCriterionCarrier\_shared\_modulus\_transport}
 
 \begin{theorem}[EvenOddCauchyCriterion cross-parity handoff non-escape]
 \label{thm:even-odd-cauchy-criterion-cross-parity-handoff-non-escape}
@@ -119,6 +121,7 @@ K=(A,B,S_A,S_B,\epsilon,M,D,F,R,H,C,P,N),
 $$
 the cross-parity fusion row $F$ and the Real Cauchy handoff row $R$ can be consumed only after the packet has displayed the two $\RegSeqRatUp$ rows $A,B$, the two $\StreamNameUp$ schedules $S_A,S_B$, the selector $\epsilon$, the shared modulus ledger $M$, the dyadic tolerance ledger $D$, componentwise transport $H$, displayed replay $C$, provenance $P$, and the local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyCriterionCrossParityHandoffNonEscape}
 \begin{proof}
 The carrier definition \autoref{def:even-odd-cauchy-criterion-carrier} places $F$ and $R$ in a finite packet whose earlier coordinates name both regular rows, both schedules, the selector, the common budget, and the tolerance ledger. There is no independent coordinate from which a consumer could obtain a fusion row or a Real handoff.
 
@@ -129,12 +132,59 @@ The factorization in \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion} 
 The Real seal route in \autoref{thm:even-odd-cauchy-criterion-real-seal-route} adds the handoff boundary. Since $R$ is downstream of $F$ and is preserved only through $H,C,P,N$, a Real-facing consumer reaches $R$ only through the complete displayed NameCert route, and no quotient stream, selected limit, countable-choice selector, host real equality, trichotomy, or ambient completeness object can provide an escape path.
 \end{proof}
 
+\begin{theorem}[EvenOddCauchyCriterion induction lock]
+\label{thm:even-odd-cauchy-induction-lock}
+For every accepted $\EvenOddCauchyCriterionUp$ packet
+$$
+K=(A,B,S_A,S_B,\epsilon,M,D,F,R,H,C,P,N),
+$$
+finite induction over the displayed parity schedule $\epsilon$ routes every accepted read through exactly one of the two parity rows $A,S_A$ or $B,S_B$, and then through the same shared ledger cells $M,D$. Thus an accepted finite read has no route to $F$ or $R$ that bypasses the selected parity schedule, the common $\CauchyModulusUp$ ledger, or the $\DyadicRatCoreUp$ tolerance ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyInductionLock}
+\begin{proof}
+The base read is determined by the first displayed selector cell of $\epsilon$. By \autoref{def:even-odd-cauchy-criterion-carrier}, an even selector exposes $A,S_A$, and an odd selector exposes $B,S_B$; no third row is present in the carrier.
+
+For the successor step, assume the accepted prefix has already been routed through the selected parity row and the shared $M,D$ ledger. The next selector cell again chooses either $A,S_A$ or $B,S_B$, and \autoref{thm:even-odd-cauchy-criterion-namecert-obligations} requires parity schedule compatibility, shared modulus exactness, and dyadic tolerance exactness for that cell.
+
+The induction therefore preserves the invariant that each accepted read first uses one parity schedule and then the common ledger. \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion} and \autoref{thm:even-odd-cauchy-criterion-shared-modulus-transport} place $F$ and $R$ downstream of the same $M,D$ cells, so the completed finite schedule has no escaping handoff route.
+\end{proof}
+
+\begin{theorem}[EvenOddCauchyCriterion tail merge]
+\label{thm:even-odd-cauchy-tail-merge}
+For every accepted $\EvenOddCauchyCriterionUp$ packet $K$, once the late even tail and the late odd tail have both displayed the shared $M,D$ cells, the cross-parity fusion row $F$ merges the two parity tails into one BEDC route. The merge uses the same finite NameCert obligations as the carrier surface and does not introduce a quotient stream, selected limit, countable-choice selector, host real equality, trichotomy, or ambient Real completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyCriterionTailMerge}
+\begin{proof}
+Start from the two late tails exposed by \autoref{thm:even-odd-cauchy-induction-lock}. Each accepted read has already passed through either $A,S_A$ or $B,S_B$ and then through the shared modulus and tolerance cells.
+
+\autoref{thm:even-odd-cauchy-criterion-namecert-obligations} identifies those common cells as certificate obligations rather than auxiliary choices. Hence the two tails meet at displayed data: the same precision budget in $M$ and the same dyadic comparison ledger in $D$.
+
+Now apply \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion}. The row $F$ is exactly the downstream fusion row for those displayed parity tails, and \autoref{thm:even-odd-cauchy-criterion-cross-parity-handoff-non-escape} prevents a consumer from reaching $F$ through any undisplayed object. The late even and odd tails therefore merge through $F$ as one finite route.
+\end{proof}
+
+\begin{theorem}[EvenOddCauchyCriterion single modulus]
+\label{thm:even-odd-cauchy-single-modulus}
+For every accepted $\EvenOddCauchyCriterionUp$ packet
+$$
+K=(A,B,S_A,S_B,\epsilon,M,D,F,R,H,C,P,N),
+$$
+the $\RealCauchyCriterionUp$ handoff row $R$ consumes one shared modulus route. It cannot split into separate even and odd Cauchy budgets after $F$ has displayed the common $M,D$ ledger.
+\end{theorem}
+\begin{proof}
+The carrier definition displays only one $\CauchyModulusUp$ ledger $M$ and one $\DyadicRatCoreUp$ tolerance ledger $D$. The classifier of \autoref{def:even-odd-cauchy-criterion-carrier} has no coordinate for parity-specific replacement budgets.
+
+\autoref{thm:even-odd-cauchy-induction-lock} routes each finite parity read through that same ledger, and \autoref{thm:even-odd-cauchy-tail-merge} merges the late tails through $F$ once the shared cells have been displayed.
+
+Finally use the Real seal boundary of \autoref{thm:even-odd-cauchy-criterion-real-seal-route} together with the transport statement of \autoref{thm:even-odd-cauchy-criterion-shared-modulus-transport}. The handoff row $R$ sits downstream of the fused parity route and of componentwise $\hsame$ and $\Cont$ replay, so it receives the single shared $M,D$ route rather than two independent parity budgets.
+\end{proof}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchySingleModulus}
+
 \closureat{EvenOddCauchyCriterionUp}{obligationStr}
 
 \begin{closurestatus}{\EvenOddCauchyCriterionUp}
   \constructivestory{An $\EvenOddCauchyCriterionUp$ packet is generated from two RegSeqRat rows, two StreamName schedules, an even--odd selector, a shared CauchyModulus ledger, a DyadicRatCore tolerance ledger, a cross-parity fusion row, a RealCauchyCriterion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:even-odd-cauchy-criterion-carrier}, \autoref{thm:even-odd-cauchy-criterion-namecert-obligations}, \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion}, \autoref{thm:even-odd-cauchy-criterion-real-seal-route}, \autoref{thm:even-odd-cauchy-criterion-shared-modulus-transport}, and \autoref{thm:even-odd-cauchy-criterion-cross-parity-handoff-non-escape} seed the parity-tail criterion route through RegSeqRat, StreamName, CauchyModulus, DyadicRatCore, RealCauchyCriterion, and RegularCauchyInterleaving faces.}
+  \scopeclosed{\autoref{def:even-odd-cauchy-criterion-carrier}, \autoref{thm:even-odd-cauchy-criterion-namecert-obligations}, \autoref{thm:even-odd-cauchy-criterion-parity-tail-fusion}, \autoref{thm:even-odd-cauchy-criterion-real-seal-route}, \autoref{thm:even-odd-cauchy-criterion-shared-modulus-transport}, \autoref{thm:even-odd-cauchy-criterion-cross-parity-handoff-non-escape}, \autoref{thm:even-odd-cauchy-induction-lock}, \autoref{thm:even-odd-cauchy-tail-merge}, and \autoref{thm:even-odd-cauchy-single-modulus} seed the parity-tail criterion route through RegSeqRat, StreamName, CauchyModulus, DyadicRatCore, RealCauchyCriterion, and RegularCauchyInterleaving faces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient streams, selected limits, host real equality, trichotomy, countable choice, Lean verification, or a public standard bridge.}

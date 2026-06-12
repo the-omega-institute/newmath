@@ -141,3 +141,23 @@ Next apply the candidate-discharge budget route. It separates bounded conversion
 
 The displayed socket row $D$ is therefore either filled by an explicit subject-reduction certificate row, blocked by the still-visible obstruction row $O$, or carried forward as the residual socket. These alternatives exhaust the finite socket coordinates, and the nonescape theorems prevent any branch from exporting closed subject reduction or full closed consistency.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDischargeSocketCaseSplit}
+
+\begin{theorem}[MetaCIC subject-reduction socket case exhaustion]
+\label{thm:metacic-critical-path-subject-reduction-socket-case-exhaustion}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet whose candidate-discharge budget route is displayed. Every candidate-discharge read of $K$ falls into a filled-discharge case, a visible-obstruction case, or a residual-socket case. These cases exhaust the finite packet surface while preserving the refusal to claim closed subject reduction unless an explicit subject-reduction certificate row is displayed.
+\end{theorem}
+\begin{proof}
+First restrict the read to the displayed packet. The candidate-discharge frontier coverage of \autoref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage} allows only the rows $S,N,O,U,D,H,C,P,L$ and the visible L10 readiness faces.
+
+Next separate the candidate boundary. The bounded-conversion candidate boundary of \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary} keeps bounded conversion, confluence, and candidate-mediated strong-normalization rows attached to the same visible obstruction and discharge socket.
+
+Now read the L10 source side through \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate} and \autoref{thm:metacic-critical-path-phase-real-source-obligations}. Those rows provide dyadic, stream, regular-rational, and Real readiness evidence for the Phase Real and Completion route, not a hidden subject-reduction certificate.
+
+Finally apply the case split of \autoref{thm:metacic-critical-path-discharge-socket-case-split}. The socket is either filled by an explicit certificate row, blocked by the visible obstruction row, or carried as a residual socket. Since those are the only finite socket coordinates exposed by the packet, the cases exhaust the read while closed subject reduction remains unavailable without the displayed certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathSubjectReductionSocketCaseExhaustion}

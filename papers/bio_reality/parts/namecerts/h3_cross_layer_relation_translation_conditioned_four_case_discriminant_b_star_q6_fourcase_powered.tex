@@ -1,0 +1,45 @@
+\origin{ai}
+
+\subsection{Rank-powered translation-conditioned four-case discriminant}
+\label{subsec:q6-translation-conditioned-four-case-discriminant}
+
+\paragraph{Finite carrier.}
+This record studies a finite matched matrix whose rows are coding-sequence or protein entries and whose columns contain three kinds of readout: $B^*_{Q6}$ synonymous residual coordinates $q_i$, a translation-side readout $T_j$, and a protein-omics readout $P_k$.  The run uses $9$ residual coordinates in each organism.  The translation readout is the per-protein mean modeled tAI,
+$$
+\begin{aligned}
+T &= \frac{\sum_{c}\operatorname{count}(c)\operatorname{tAI}(c)}{\sum_{c}\operatorname{count}(c)},
+\end{aligned}
+$$
+where the codon weights are derived from GtRNAdb all-tRNA gene-copy counts with dos Reis wobble weights.  The protein-omics readout is $P=\log_{10}(\operatorname{abundance\_ppm})$ from measured PAXdb protein abundance joined to real CDS codon counts.  The joined finite panels contain $3739$ Escherichia coli K-12 MG1655 rows and $5815$ Saccharomyces cerevisiae rows.  The Escherichia coli CDS rows are paired with Escherichia coli tRNA counts; the Saccharomyces cerevisiae CDS rows are paired with Saccharomyces cerevisiae tRNA counts.
+
+\paragraph{Controlled residualization.}
+Before any positive case is allowed to survive, the $q_i$ block is residualized against the declared control matrix $Z$.  The controls include amino-acid composition, organism scope, GC3, CDS length, methionine density, mRNA-side controls where present, and simpler baseline codon summaries.  In both organisms the control matrix has $24$ columns and numerical rank $23$.  For Escherichia coli the residual degrees of freedom after $Z$ are $3716$; for Saccharomyces cerevisiae they are $5792$.  The residualized $B^*_{Q6}$ design remains full rank for both readout targets:
+$$
+\begin{aligned}
+\operatorname{rank}(\widetilde X_T) &= 9, & \operatorname{rank}(\widetilde X_P) &= 9
+\end{aligned}
+$$
+for each organism.  Thus the run is not using the three-organism all-$1.0$ saturation surface as positive evidence.  The declared degeneracy cutoff is $R^2 \geq 0.999999$, and both organism-specific panels are rank-powered rather than rank-collapsed.
+
+\paragraph{Four cases.}
+For each cell $(q_i,T_j,P_k)$ the run computes two controlled survival surfaces, $S^{QT}$ and $S^{QP}$, and a translation-conditioned mediation comparison $M^{QTP}$.  The decision threshold for classification is $10^{-12}$.  The four labels have the following local meaning:
+$$
+\begin{aligned}
+A &: S^{QT} \leq 0 \text{ and } S^{QP} \leq 0,\\
+B &: S^{QT} > 0 \text{ and } S^{QP} \leq 0,\\
+C &: S^{QT} \leq 0 \text{ and } S^{QP} > 0,\\
+D &: S^{QT} > 0 \text{ and } S^{QP} > 0 \text{ with the direct } q_i\to P_k \text{ association reduced after conditioning on } T_j.
+\end{aligned}
+$$
+Case A means that the coordinate is compressed away for both readouts.  Case B is a translation-level residual signal without propagation to the measured protein abundance readout.  Case C is a protein-omics predictive residual that is not mediated by the measured $T_j$; it must not be read as a translation mechanism.  Case D is the only positive-positive category that also passes the attenuation requirement after conditioning on the translation readout.
+
+\paragraph{Finite numerical readback.}
+The Escherichia coli panel has $R^2_{QT}=0.5416736993691318$ and $R^2_{QP}=0.10767526677985896$ across the $9$ residual coordinates.  Its residual energy for the modeled translation readout is $0.4728468725814029$, and its residual energy for the protein abundance readout is $4020.333671802061$.  The explained energy of the residual coordinate block is $0.256128714706293$ on $T$ and $432.89050065533684$ on $P$.  The four-case classifier assigns $7$ coordinates to case D, no coordinates to A, B, or C, and records $2$ positive-positive coordinates without the mediation drop required for D.  No coordinate is left unclassified.
+
+The Saccharomyces cerevisiae panel has $R^2_{QT}=0.8213457220900503$ and $R^2_{QP}=0.29837624994140827$ across the same $9$-coordinate residual block.  Its modeled-translation residual energy is $6.90537888244409$, and its protein-abundance residual energy is $2958.1865890925337$.  The explained energy of the residual coordinate block is $5.671703404506426$ on $T$ and $882.6526210803958$ on $P$.  All $9$ coordinates are classified as case D, with no A, B, C, unclassified, or positive-positive-without-drop coordinates.
+
+\paragraph{Interpretation.}
+The finite result supports the following bounded statement: in two matched organism panels, the $B^*_{Q6}$ residual coordinate block remains rank-sufficient after the declared controls, and the computed $S^{QT}$, $S^{QP}$, and $M^{QTP}$ surfaces assign the residual coordinates to an explicit four-case cross-layer discriminant.  The observed distribution is strongly concentrated in case D: $7/9$ D calls in Escherichia coli and $9/9$ D calls in Saccharomyces cerevisiae.  The Escherichia coli exception is not a null coordinate; it is a positive-positive coordinate for $S^{QT}$ and $S^{QP}$ that lacks the required mediation attenuation, so it is not promoted to D.
+
+\paragraph{Local boundary.}
+The run is cross-sectional and the translation-side readout is modeled tAI, not ribosome profiling.  Protein abundance is also not isolated from transcript abundance, turnover, localization, post-translational modification, folding, sample preparation, ionization, or pathway context.  Therefore the finite rows establish only the stated controlled four-case classification over the attached readouts.  They do not by themselves establish measured translation dynamics, folding, physical admissibility, molecular function, perturbation mechanism, phenotype, or a universal biological law.  A claim at any of those layers requires a separate layer-matched contact and its own statistic after the same controls.

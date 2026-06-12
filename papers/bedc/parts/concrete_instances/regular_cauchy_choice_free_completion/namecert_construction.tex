@@ -60,6 +60,18 @@ The sibling rows supply the route in order. The regular source is read through \
 The terminal row $E$ is therefore only the displayed $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. Because the carrier has no quotient, selector, choice, host-equality, compactness, or ambient-completeness coordinate, none can be exported by the seal.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy choice-free completion StreamName anchor]
+\label{thm:regular-cauchy-choice-free-completion-streamname-anchor}
+Every accepted $\RegularCauchyChoiceFreeCompletionUp$ completion read factors through the finite $\StreamNameUp$ window row and the $\RegSeqRatUp$ readback row before any terminal $\RealUp$ seal is consumed. The read is therefore anchored in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}, with $W$ listing the inspected windows, $R$ supplying the regular rational source rows, and $E$ serving only as the downstream real-name seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-choice-free-completion-carrier}. The rows $R,W,E$ are displayed before any completion-facing consumer can read the real seal.
+
+Apply the real-seal route theorem \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route}. It places $\RegSeqRatUp$ and $\StreamNameUp$ upstream of the $\RealUp$ terminal row and keeps the completion comparison and reflector rows downstream of the same finite observation surface.
+
+Thus every accepted read factors first through the sibling StreamName and RegSeqRat anchors, and the Real row is only the terminal seal of that displayed route.
+\end{proof}
+
 \begin{theorem}[Regular-Cauchy choice-free cofinal-window refinement]
 \label{thm:regular-cauchy-choice-free-completion-obligation-refinement}
 Let
@@ -100,6 +112,76 @@ Project the carrier in \autoref{def:regular-cauchy-choice-free-completion-carrie
 Apply \autoref{thm:regular-cauchy-window-cofinality-namecert-obligations} to the cofinal-window request. It exposes the finite window and tolerance data as BEDC rows before the request can be consumed by a completion-facing read.
 
 Finally apply \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route}. Since the real seal is reached only after the same displayed route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\CauchyCompletionReflectorUp$, the cofinal-window row is the unique completion-facing exactness surface available to the packet.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy choice-free window coverage]
+\label{thm:regular-cauchy-choice-free-completion-window-coverage}
+Let
+$$
+K=(R,W,D,U,F,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyChoiceFreeCompletionUp$ carrier. Before a completion-facing precision request for $K$ is read, the packet exposes the $\RegSeqRatUp$ source row $R$, the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ tolerance row $D$, and the displayed $\RegularCauchyWindowCofinalityUp$ cofinal-window rows that serve the request. These rows are the public finite window surface for the request, and no later reflector or real-seal read can bypass them.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-choice-free-completion-carrier}. Its first three rows are exactly the regular-rational source, finite-window, and dyadic-tolerance rows available before the comparison, reflector, and real-seal rows.
+
+Use \autoref{thm:regular-cauchy-choice-free-completion-namecert-obligations} to identify those rows as part of the local NameCert surface. For a precision request served by a cofinal-window row, \autoref{thm:regular-cauchy-choice-free-completion-obligation-refinement} and \autoref{thm:regular-cauchy-choice-free-completion-cofinal-window-exactness} place the $\RegularCauchyWindowCofinalityUp$ evidence on the same displayed route.
+
+Finally apply the real-seal route theorem \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route}. Since the terminal seal is downstream of $R,W,D$ and the cofinal-window evidence, every accepted precision read sees that finite window surface before any completion-facing seal is consumed.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy choice-free tail reflection]
+\label{thm:regular-cauchy-choice-free-completion-tail-reflection}
+Let
+$$
+K=(R,W,D,U,F,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyChoiceFreeCompletionUp$ carrier. Every tail precision read of $K$ reflects through the displayed route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \CauchyCompletionReflectorUp,\ \RealUp,
+$$
+preserving the packet rows $R,W,D,U,F,E,H,C,P,N$ and any $\RegularCauchyWindowCofinalityUp$ support used to serve the request. The reflected read cannot be replaced by quotient stream equality, selected limits, countable-choice schedules, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-choice-free-completion-carrier}. The tail precision read can inspect only the source, window, tolerance, comparison, reflector, seal, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-choice-free-completion-namecert-obligations}. They bind the accepted packet to the rows $R,W,D,U,F,E,H,C,P,N$ and give no separate completion object.
+
+Use \autoref{thm:regular-cauchy-choice-free-completion-cofinal-window-exactness} and \autoref{thm:regular-cauchy-choice-free-completion-window-coverage}. The cofinal support exposes the finite $\RegularCauchyWindowCofinalityUp$ rows beside the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, and $\RegSeqRatUp$ readback before the reflector and real seal are consumed.
+
+Finally apply the real-seal route of \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route}. The reflected read reaches $\CauchyCompletionReflectorUp$ and $\RealUp$ only downstream of that finite tail-window surface, so quotient stream equality, selected limits, countable choice, host equality, open-cover compactness, and ambient completeness cannot replace it.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy choice-free reflector nonescape]
+\label{thm:regular-cauchy-choice-free-completion-reflector-nonescape}
+Let
+$$
+K=(R,W,D,U,F,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyChoiceFreeCompletionUp$ carrier. The $\CauchyCompletionReflectorUp$ row $F$ and the terminal $\RealUp$ seal row $E$ export no quotient representative, selected limit, countable-choice schedule, host equality of completed objects, open-cover compactness datum, or ambient $\RealUp$ completeness principle. They only expose the displayed reflector route and the downstream real-name seal already named by the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-choice-free-completion-namecert-obligations}. The obligation surface lists $F$ as a displayed reflector row and $E$ as a terminal real-seal row, with no carrier coordinate for quotient representatives, selected limits, choice schedules, host equality, compactness, or ambient completeness.
+
+The route theorem \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route} keeps both rows downstream of the regular source, finite windows, dyadic tolerance, and separated comparison rows. Thus $F$ can only route the displayed completion data, and $E$ can only seal the resulting real-name boundary.
+
+The cofinal-window exactness theorem \autoref{thm:regular-cauchy-choice-free-completion-cofinal-window-exactness} rules out replacing the displayed window surface by any excluded completion principle. Hence neither the reflector row nor the real-seal row exports data outside the carrier's finite route.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy choice-free transport and replay preservation]
+\label{thm:regular-cauchy-choice-free-completion-transport-replay}
+Let
+$$
+K=(R,W,D,U,F,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyChoiceFreeCompletionUp$ carrier. Componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\RegularCauchyChoiceFreeCompletionUp}$ row $N$ preserve exactly the packet rows $R,W,D,U,F,E$ together with their displayed cofinal-window support. They add no quotient completion principle, selected limit, countable-choice schedule, host equality, open-cover compactness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. Rows $H,C,P,N$ are not new completion data; they are the transport, replay, provenance, and local naming rows attached to the displayed source, window, tolerance, comparison, reflector, and seal rows.
+
+Apply \autoref{thm:regular-cauchy-choice-free-completion-namecert-obligations}. It says the local NameCert surface consists exactly of $R,W,D,U,F,E,H,C,P,N$, so transport and replay preserve the same packet rows rather than extending the classifier with an extra completion coordinate.
+
+Use \autoref{thm:regular-cauchy-choice-free-completion-real-seal-route} and \autoref{thm:regular-cauchy-choice-free-completion-window-coverage} for the downstream route. The same finite observation surface reaches the reflector and real seal after componentwise transport, displayed replay, provenance, and local naming, and the excluded completion principles never appear in the carrier.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\RegularCauchyChoiceFreeCompletionUp$ read exposes RegSeqRat source, StreamName window, DyadicRatCore tolerance, CompletionUniqueness comparison, CauchyCompletionReflector route, RealUp seal, componentwise hsame, Cont replay, Pkg provenance, and local NameCert rows before any completion-facing real seal is consumed.}

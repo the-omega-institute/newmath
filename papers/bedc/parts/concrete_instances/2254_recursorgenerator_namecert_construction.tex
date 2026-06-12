@@ -134,17 +134,33 @@ Therefore a self-compilation row, a $\TasteGate$ row, or a generated-certificate
 \end{proof}
 \leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorDownstreamScopePackage}
 
+\begin{theorem}[RecursorGenerator bridge route status]
+\label{thm:recursor-generator-bridge-route-status}
+The public scope package $(I,E,B,A,M,H,C,P,N)$ bridges the concrete $\RecursorGeneratorUp$ packet to the abstract recursor-generator interface through the accepted inductive signature row, legal eliminator-call row, constructor-indexed branch package, audit row, closed-term handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The bridge exposes no host reflection principle, unchecked generator execution, unlisted branch, global normalization theorem, semantic completeness theorem, or dependency channel outside the displayed audit row.
+\end{theorem}
+\begin{proof}
+Start with the downstream scope package of \autoref{thm:recursor-generator-downstream-scope-package}. It gives every public consumer exactly the rows $I,E,B,A,M,H,C,P,N$ and no external generator interface.
+
+Use authorization, audit, and handoff. The accepted signature row $I$ licenses the legal eliminator call $E$, the branch package $B$ exhausts constructor cases, the audit row $A$ bars the forbidden dependency channels, and the closed-term row $M$ supplies the generated outputs as displayed handoffs.
+
+Finally replay the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ access, $\Pkg$ provenance, and the local $\NameCert$ row connect the concrete packet to the abstract interface without adding another coordinate, so the bridge route is exactly the public scope package.
+\end{proof}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorBridgeRouteStatus}
+
 \closureat{RecursorGeneratorUp}{seedStr}
 \closureat{RecursorGeneratorUp}{obligationStr}
 \closureat{RecursorGeneratorUp}{scopedStr}[BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorTasteGate\_single\_carrier\_alignment]
+\closureat{RecursorGeneratorUp}{publicStr}[BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorDownstreamScopePackage]
+\closureat{RecursorGeneratorUp}{bridgedStr}
+\closureat{RecursorGeneratorUp}{matureStr}
 
 \begin{closurestatus}{\RecursorGeneratorUp}
   \constructivestory{A $\RecursorGeneratorUp$ packet is generated from an accepted inductive signature, a legal recursor call, constructor-indexed branch packages, audit rows, MetaCIC closed-term substitution, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:recursor-generator-carrier}, \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:recursor-generator-audit-non-escape}, \autoref{thm:recursor-generator-closed-term-handoff}, \autoref{thm:recursor-generator-authorized-output-factorization}, \autoref{thm:recursor-generator-branch-descent-exhaustion}, and \autoref{thm:recursor-generator-downstream-scope-package} bind recursor generation as a finite authorization packet for accepted inductive signatures, legal eliminator calls, audit non-escape, closed-term handoff, authorized output factorization, branch and descent exhaustion, and downstream scope packaging.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:recursor-generator-carrier}, \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:recursor-generator-audit-non-escape}, \autoref{thm:recursor-generator-closed-term-handoff}, \autoref{thm:recursor-generator-authorized-output-factorization}, \autoref{thm:recursor-generator-branch-descent-exhaustion}, \autoref{thm:recursor-generator-downstream-scope-package}, and \autoref{thm:recursor-generator-bridge-route-status} bind recursor generation as a finite authorization packet and bridge route for accepted inductive signatures, legal eliminator calls, audit non-escape, closed-term handoff, authorized output factorization, branch and descent exhaustion, downstream scope packaging, and abstract interface access.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, host reflection, global normalization, semantic completeness, non-positive eliminators, or unchecked generator execution.}
-  \upgradepath{Public closure requires a public $\RecursorGeneratorUp$ export theorem for downstream self-compilation, $\TasteGate$, and generated-certificate consumers.}
+  \upgradepath{No further paper-theory upgrade remains for this chapter; formal verification and bridge checking remain on the verification axis.}
 \end{closurestatus}

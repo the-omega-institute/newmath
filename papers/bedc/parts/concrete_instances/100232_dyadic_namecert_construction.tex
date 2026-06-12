@@ -53,6 +53,7 @@ Transport and replay are componentwise. The $\hsame$ row $H$ preserves each disp
 
 Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H,C$, so the excluded choice, trichotomy, quotient, host-equality, and completeness data have no projection from the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
 
 \begin{theorem}[DyadicUp real-seal factorization]
 \label{thm:dyadic-up-real-seal-factorization}
@@ -60,6 +61,7 @@ Let $D=(Q,S,R,E,H,C,P,N)$ be an accepted $\DyadicUp$ carrier. Every $\RealUp$-fa
 
 Consequently a downstream Real or Completion route cannot introduce selected binary expansions, quotient stream representatives, trichotomy, host real equality, countable choice, or ambient completeness while still claiming to consume the same $\DyadicUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUpRealSealFactorization}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-up-carrier}. The only Real-facing coordinate is $E$, and it is displayed after the dyadic rational core $Q$, finite window row $S$, and regular rational row $R$.
 
@@ -72,6 +74,7 @@ The structural rows $H,C,P,N$ only preserve, replay, account for, and name that 
 \label{thm:dyadic-up-streamname-regseqrat-route}
 Let $D=(Q,S,R,E,H,C,P,N)$ be an accepted $\DyadicUp$ carrier. Every $\RealUp$-facing $\DyadicUp$ read first opens the $\DyadicRatCoreUp$ tolerance ledger $Q$, then the $\StreamNameUp$ finite window $S$, then the $\RegSeqRatUp$ readback row $R$, before the terminal $\RealUp$ seal $E$ is visible. Thus the dyadic route depends on the sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert} as finite packet rows, not as ambient host-real completeness data.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUp\_streamname\_regseqrat\_route}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-up-carrier}. The displayed coordinates place $Q$, $S$, and $R$ before the only terminal seal coordinate $E$.
 
@@ -84,6 +87,7 @@ The sibling chapters provide exactly those finite rows: the tolerance ledger fro
 \label{thm:dyadic-exponent-shift-composition}
 Two displayed $\DyadicUp$ exponent-shift tolerance ledgers compose only by common precision refinement. Any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the composed tolerance row must first read the two $\DyadicRatCoreUp$ ledgers, refine them to a common finite precision window, expose the corresponding $\StreamNameUp$ and $\RegSeqRatUp$ rows, and only then consume the terminal $\RealUp$ seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicExponentShiftComposition}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:dyadic-up-namecert-obligations}. Each exponent-shift read is a displayed dyadic core row together with its stream window, regular sequence row, Real seal boundary, transport, replay, provenance, and local naming.
 
@@ -92,6 +96,39 @@ Use \autoref{thm:dyadic-up-real-seal-factorization} for both ledgers. A Real-fac
 Now compare the two exponent-shift windows by common precision refinement. The refinement is finite because it is formed from the two displayed $\StreamNameUp$ windows and the two displayed dyadic tolerance rows; no quotient stream or selected limit is introduced.
 
 Finally apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. The composed tolerance row reaches $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers only through the refined finite route, so it exposes no host quotient, selected limit, trichotomy, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[DyadicUp common-exponent normalization]
+\label{thm:dyadic-up-common-exponent-normalization}
+Let $D_0=(Q_0,S_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $D_1=(Q_1,S_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted $\DyadicUp$ carriers whose dyadic tolerance ledgers are read by a common $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer. Then the two accepted reads admit a finite common exponent window before the consumer inspects either terminal row.
+
+Concretely, the consumer first projects the dyadic core rows $Q_0,Q_1$, refines the displayed stream windows $S_0,S_1$ to one finite precision request, transports the regular rational readbacks $R_0,R_1$ across the componentwise $\hsame$ rows, and only then exposes $E_0,E_1$ to the terminal $\RealUp$ handoff. The normalization exports the shared finite exponent window; it does not add a selected binary expansion, quotient stream, host equality, trichotomy, countable choice, or ambient Real-completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUpCommonExponentNormalization}
+\begin{proof}
+Project the two carriers of \autoref{def:dyadic-up-carrier}. Each accepted read exposes its dyadic core row, finite stream window, regular rational readback, terminal real seal, and the structural rows that transport and replay that route.
+
+Apply \autoref{thm:dyadic-exponent-shift-composition} to the two dyadic core ledgers. The common exponent is obtained by finite precision refinement of the two displayed windows, so the construction remains inside the $\BHist$ rows already present in $D_0$ and $D_1$.
+
+Use \autoref{thm:dyadic-up-streamname-regseqrat-route} after the refinement. Both regular rational readbacks are attached to the common window before the consumer reaches either $\RealUp$ seal.
+
+Finally apply \autoref{thm:dyadic-up-real-seal-factorization}. Since the terminal rows are visible only after the refined finite route, the normalized handoff cannot read any quotient, choice, trichotomy, host-equality, selected-expansion, or ambient-completeness data outside the accepted packets.
+\end{proof}
+
+\begin{theorem}[Dyadic common-exponent totality for shared finite consumers]
+\label{thm:dyadic-common-exponent-totality}
+For any two accepted $\DyadicUp$ carriers read by the same $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer, the displayed finite windows determine a common exponent and tolerance window before either terminal $\RealUp$ seal is exposed. The total common window is read from the two dyadic core rows, the two finite stream windows, the two regular rational readbacks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\DyadicUp}$ rows.
+
+The route excludes selected binary expansions, quotient streams, trichotomy, choice, host equality, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:dyadic-up-carrier}. The only rows available to the shared consumer are the two dyadic core ledgers, finite stream windows, regular rational readbacks, terminal seals, transport, replay, provenance, and local naming rows.
+
+Apply dyadic exponent-shift composition from \autoref{thm:dyadic-exponent-shift-composition}. The two displayed exponent-shift ledgers compose by finite precision refinement, so a common exponent and tolerance window is determined before any terminal seal can be read.
+
+Use common-exponent normalization, \autoref{thm:dyadic-up-common-exponent-normalization}. It places both $\StreamNameUp$ windows and both $\RegSeqRatUp$ readbacks over the common finite window and keeps the route inside componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally apply the StreamName-RegSeqRat route of \autoref{thm:dyadic-up-streamname-regseqrat-route} and the real-seal factorization of \autoref{thm:dyadic-up-real-seal-factorization}. The shared consumer reaches the terminal Real seals only after the finite common window is visible, and no carrier row supplies a selected binary expansion, quotient stream, trichotomy, choice principle, host equality, or ambient Real-completeness witness.
 \end{proof}
 
 \begin{theorem}[DyadicUp terminal Real-seal boundary]
@@ -111,6 +148,8 @@ Now use \autoref{thm:dyadic-up-real-seal-factorization} and \autoref{thm:dyadic-
 
 The remaining rows $H,C,P,N$ only transport, replay, source, and name that route. Since the excluded binary, quotient, host-equality, trichotomy, choice, and completeness data are absent from every displayed coordinate, no terminal consumer can read them while staying inside the accepted $\DyadicUp$ packet.
 \end{proof}
+
+The $\DyadicUp$ terminal route consumes the finite dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window classifier of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. These siblings are the displayed L10 dependency route for the dyadic packet, not external host-real infrastructure.
 
 The dyadic Cauchy interface packets collect finite approximation and
 tail-envelope certificates for displayed real-name routes before Real and

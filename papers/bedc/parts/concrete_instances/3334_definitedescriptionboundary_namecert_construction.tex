@@ -110,14 +110,27 @@ Apply \autoref{thm:definite-description-boundary-stability-route} for componentw
 \end{proof}
 \leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryKernelDependencyBinding}
 
-\closureat{DefiniteDescriptionBoundaryUp}{scopedStr}
+\begin{theorem}[DefiniteDescriptionBoundary public interface]
+\label{thm:definite-description-boundary-public-interface}
+Every public $\DefiniteDescriptionBoundaryUp$ consumer factors through the displayed existence route, uniqueness boundary, stability transport, ledger exhaustion, and kernel dependency binding rows before it may read a denoting-expression boundary.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $B=(D,E,U,S,H,C,P,N)$. The scoped kernel route forces the consumer through the description row, existence row, uniqueness-boundary row, stability row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+The existence and uniqueness routes bind all witness-facing reads to $E$ and $U$. The stability route binds transported reads to $S,H,C$, while ledger exhaustion removes every host-selected witness, quotient representative, proof-irrelevance shortcut, and non-displayed denoting term.
+
+Thus the public interface is not a separate operation. It is the finite dependency surface already certified by the displayed rows and by the kernel dependency binding theorem.
+\end{proof}
+
+\closureat{DefiniteDescriptionBoundaryUp}{matureStr}[BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryKernelDependencyBinding]
 
 \begin{closurestatus}{\DefiniteDescriptionBoundaryUp}
   \constructivestory{A $\DefiniteDescriptionBoundaryUp$ packet is generated from a description row, an existence witness row, a uniqueness-boundary row, a stability row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:definite-description-boundary-carrier}, \autoref{thm:definite-description-boundary-namecert-obligations}, \autoref{thm:definite-description-boundary-existence-route}, \autoref{thm:definite-description-boundary-uniqueness-route}, \autoref{thm:definite-description-boundary-stability-route}, \autoref{thm:definite-description-boundary-ledger-exhaustion}, and \autoref{thm:definite-description-boundary-scoped-kernel-route} specify the finite description-expansion carrier, its ledger boundary, and the kernel dependency route every denoting-expression consumer must read.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not prove Lean-side formal verification, a public definite-description operator, host choice, quotient representative selection, proof irrelevance, or a bridge to any external description calculus.}
-  \upgradepath{Scoped closure requires checked kernel dependency binding for the displayed carrier, existence route, uniqueness boundary, stability transport, replay provenance, and ledger non-escape.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:definite-description-boundary-carrier}, \autoref{thm:definite-description-boundary-namecert-obligations}, \autoref{thm:definite-description-boundary-existence-route}, \autoref{thm:definite-description-boundary-uniqueness-route}, \autoref{thm:definite-description-boundary-stability-route}, \autoref{thm:definite-description-boundary-ledger-exhaustion}, \autoref{thm:definite-description-boundary-scoped-kernel-route}, and \autoref{thm:definite-description-boundary-public-interface} specify the finite description-expansion carrier, its ledger boundary, the kernel dependency route, and the public interface every denoting-expression consumer must read.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryKernelDependencyBinding}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close a public definite-description operator, host choice, quotient representative selection, proof irrelevance, or a checked external bridge to any description calculus.}
+  \upgradepath{No paper-side closure remains; bridge checking is recorded only on the verification axis for the external description-calculus boundary.}
 \end{closurestatus}

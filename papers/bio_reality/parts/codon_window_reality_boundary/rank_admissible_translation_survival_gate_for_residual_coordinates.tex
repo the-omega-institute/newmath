@@ -1,0 +1,37 @@
+\subsection{Rank-Admissible Translation-Survival Gate for $B^{*}_{Q6}$ Residual Coordinates}
+\label{sec:q6-rank-admissible-translation-survival-gate-cross-layer}
+
+\paragraph{Question.}
+The object under test is not a protein-level phenotype and not a direct statement about ribosome motion.  It is a finite controlled row problem: a residualized $B^{*}_{Q6}$ coordinate $q_i$, an organism-indexed translation readout surface $T_j$, and a control block $Z$ containing amino-acid composition, organism identity, $GC3$, coding length, and $M$-density controls.  The proposed entry $S^{QT}_{ij}$ is allowed to mean translation-survival only when the residualized design still has independent row support after the controls have been removed.  If the post-control row space is exhausted, or if the remaining degrees of freedom are too small to make a held-out failure possible, the entry is demoted to coupling-only or needs-data status even when an in-sample fit is positive.
+
+\paragraph{Finite carrier.}
+For each organism $o$ with joined rows, let $Q_o$ be the residual $B^{*}_{Q6}$ design, let $T_o$ be the available translation or translation-proxy readout block, and let $Z_o$ be the baseline control matrix.  The gate is the finite record
+$$
+\begin{aligned}
+G_{ij,o} = \bigl(n_o,\operatorname{rank}(Z_o),\operatorname{rank}([Z_o,q_i]),\operatorname{rank}([Z_o,T_j]),\operatorname{rank}([Z_o,q_i,T_j]),\Delta_{ij,o},h_{ij,o}\bigr),
+\end{aligned}
+$$
+where $n_o$ is the joined row count, $\Delta_{ij,o}$ is the controlled improvement assigned to the candidate entry, and $h_{ij,o}$ records whether a held-out or degree-of-freedom-matched null comparison remains available.  The entry may be read as survival only when the ranks are not saturated relative to $n_o$ and $h_{ij,o}$ is true.  Otherwise the same numerical association is retained as a finite contact between layers, but it is not promoted to a translation-realization claim.
+
+\paragraph{Observed finite rows.}
+The computed scope contains four organisms with usable joined matrices and two organisms held at needs-data.  The joined row counts are $n=16008$ for \emph{Homo sapiens}, $n=14410$ for \emph{Danio rerio}, $n=3415$ for \emph{Escherichia coli} K12 MG1655, and $n=3046$ for \emph{Saccharomyces cerevisiae}.  \emph{Gallus gallus} and \emph{Mycobacterium smegmatis} str. MC2 155 have no joined-row residual calculation in this packet and therefore cannot pass or fail the survival gate.
+
+The residual extraction used the stated penalty $\lambda=0.01$ with description-length term $\log_2(1+n_{\mathrm{col}})$.  The residual curves were non-decaying in every computed organism.  For \emph{Danio rerio}, the $\rho$ list is $(1.000000,0.979183)$ with one candidate and $d_{\mathrm{modeled}}=0.874629$.  For \emph{E. coli}, the list is $(1.000000,0.998229,0.997948)$ with two candidates, $d_{\mathrm{modeled}}=0.662821$, and $d_{\mathrm{difference}}=0.000174886$.  For human, the list is $(1.000000,0.985220,0.980670,0.979254,0.978761,0.978723,0.972334)$ with six candidates, $d_{\mathrm{modeled}}=0.902071$, and $d_{\mathrm{difference}}=0.0188242$.  For yeast, the list is $(1.000000,0.996250,0.992984,0.991573,0.990331,0.989405,0.988590,0.988239,0.988152,0.979867)$ with nine candidates, $d_{\mathrm{modeled}}=0.219904$, and $d_{\mathrm{difference}}=0.00817184$.  The minimum final residual fraction over the computed organisms is $0.972334$, above the recorded floor $0.97$, so the module classification is persistent rather than compressible or partially compressible.
+
+\paragraph{Degree-of-freedom null contacts.}
+The finite-row evidence is strongest where a selected readout increment exceeds its matched null.  In \emph{Danio rerio}, measured tRNA tAI gives increment $0.0208171$ against null $95\%$ cutoff $0.000230637$ at step $1$.  In \emph{E. coli}, mRNA gives $0.00177070$ against $0.00133717$ at step $1$, while measured translation efficiency gives $0.000281972$ against $0.00102724$ at step $2$ and therefore does not clear that null.  In human, PTM density, complex membership, transmembrane count, measured tRNA tAI, and localization exceed their respective null cutoffs at steps $1$, $2$, $3$, $4$, and $6$; domain count at step $5$ does not, with increment $0.0000384039$ below $0.000219320$.  In yeast, measured translation efficiency, PTM density, transmembrane count, turnover, and localization exceed their null cutoffs at steps $1$, $2$, $3$, $4$, and $9$; complex membership, measured tRNA tAI, domain count, and mRNA fail the matched-null comparison at steps $5$ through $8$.
+
+\paragraph{Gate rule.}
+The survival decision is therefore not $S^{QT}_{ij}>0$ alone.  The admissible assertion is
+$$
+\begin{aligned}
+S^{QT}_{ij,o}>0 \quad\text{only if}\quad
+\operatorname{rank}([Z_o,q_i,T_j])<n_o-c_o
+\quad\text{and}\quad
+\Delta_{ij,o}>N_{0.95}(i,j,o),
+\end{aligned}
+$$
+with $c_o$ reserving the minimum held-out support required by the organism/readout design.  If the rank term is saturated, the fitted score is treated as a projection artifact.  If the null term fails, the entry remains a controlled contact without survival status.  If the organism lacks joined rows, the entry is not negative; it is simply not tested.
+
+\paragraph{Boundary.}
+This chapter licenses only a rank-audited entry test at the codon-residual-to-translation-readout boundary.  Codon-usage tables, tRNA gene-copy counts, and tAI or stAI weights are acceptable bounded readouts for this finite gate, but they do not by themselves establish realized translation, ribosome occupancy, protein abundance, folded structure, physical admissibility, biological function, mechanism, phenotype, or a universal biological law.  Any such statement requires a separate matched contact at the appropriate layer.  The present result is therefore a refusal rule as much as a support rule: saturated rank, insufficient degrees of freedom, or null failure blocks promotion even when the fitted in-sample score appears favorable.

@@ -45,6 +45,7 @@ Finally apply provenance and local naming. The package row $P$ records the sibli
 \label{thm:science-bridge-axis-separation}
 An accepted $\ScienceBridgeUp$ carrier cannot read scientific-object maturity, physical-model audit strength, reality-constrained truth, standard-bridge preservation, and gap/falsification visibility as one axis. The rows $O,A,T,B,G,F$ remain distinct under the same $R,H,C,P,N$ support, so a consumer may not promote a bridge row to physical truth, erase the failure surface, or treat the gap/falsification row as discharged by local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.ScienceBridgeUp.ScienceBridgeAxisSeparation}
 \begin{proof}
 Start from the carrier of \autoref{def:science-bridge-carrier}. The rows $O,A,T,B,G,F$ are separate coordinates, and each is transported and replayed through $H$ and $C$ without being identified with another coordinate.
 
@@ -53,21 +54,36 @@ Use \autoref{thm:science-bridge-namecert-obligations}. The local certificate adm
 Thus a bridge-preservation read cannot become physical truth, and a local name cannot erase an open gap or failure surface. Any such reading would collapse coordinates that the accepted packet stores separately.
 \end{proof}
 
+\begin{theorem}[Science bridge kernel-scope grounding]
+\label{thm:science-bridge-kernel-scope-grounding}
+Every accepted $\ScienceBridgeUp$ carrier $S=(R,O,A,T,B,G,F,H,C,P,N)$ is scoped only through finite $\BHist$ records, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ route. The rows $R,O,A,T,B,G,F$ may be consumed as records, scientific-object surface, physical-model audit, reality-constrained truth certificate, standard-bridge audit, gap/falsification surface, and failure surface inside that finite route, but none of them can be read as external physical truth, host scientific-object identity, complete empirical adequacy, or bridge closure.
+\end{theorem}
+\leanchecked{BEDC.Derived.ScienceBridgeUp.ScienceBridgeKernelScopeGrounding}
+\begin{proof}
+Project the carrier of \autoref{def:science-bridge-carrier}. The rows $R,O,A,T,B,G,F$ are finite coordinates of one $\BHist$ packet, and their only structural support is the displayed transport, replay, provenance, and local naming rows $H,C,P,N$.
+
+Apply the NameCert obligations, \autoref{thm:science-bridge-namecert-obligations}. They admit each row separately through the finite carrier surface and do not add an external truth coordinate, a host identity coordinate, or a bridge-checked export.
+
+Use axis separation, \autoref{thm:science-bridge-axis-separation}. It prevents the scientific-object, physical-audit, truth-certificate, bridge-audit, gap/falsification, and failure rows from collapsing into a single authority axis, so no row can promote another row into physical truth or bridge closure.
+
+The falsifiable prediction and independence witness give the same scope test. Omitting the gap/falsification or bridge-audit row refutes the carrier, and the packet is not bijective to any sibling surface; hence the accepted read remains grounded in the listed BEDC kernel primitives and nowhere else.
+\end{proof}
+
 \falsifiablePrediction{Any accepted ScienceBridgeUp packet that exports a bridge-checked scientific object while omitting the gap/falsification row or the standard-bridge audit row refutes the carrier.}
 
 \independenceWitness{scientificobject, physicalmodelaudit, realityconstrainedtruthcert, standardbridgeauditpacket, gapfailurebridgeaudit: none is bijective because ScienceBridgeUp binds records, object surface, audit row, truth row, bridge row, gap/falsification row, failure surface, transport, replay, provenance, and local NameCert in one carrier.}
 
 The Lean follow-up path \texttt{lean4/BEDC/Derived/ScienceBridgeUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ScienceBridgeUp$ and $\mathsf{FieldFaithful}\ \ScienceBridgeUp$ instances for the same finite $R,O,A,T,B,G,F,H,C,P,N$ carrier.
 
-\closureat{ScienceBridgeUp}{seedStr}
+\closureat{ScienceBridgeUp}{obligationStr}
 
 \begin{closurestatus}{\ScienceBridgeUp}
   \constructivestory{A $\ScienceBridgeUp$ packet is generated from records, scientific-object, physical-model-audit, reality-constrained-truth, standard-bridge-audit, gap/falsification, failure-surface, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:science-bridge-carrier}, \autoref{thm:science-bridge-namecert-obligations}, \autoref{thm:science-bridge-axis-separation}, the falsifiable prediction, and the independence witness record the seed carrier for the science-bridge surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:science-bridge-carrier}, \autoref{thm:science-bridge-namecert-obligations}, \autoref{thm:science-bridge-axis-separation}, the falsifiable prediction, and the independence witness close exactly the finite carrier, obligation, axis-separation, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope for the science-bridge surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, external physical truth, host scientific-object identity, complete empirical adequacy, or final model--reality correspondence.}
-  \upgradepath{The next paper grade is obligation closure for records, object, audit, truth, bridge, gap/falsification, failure, replay, provenance, and local NameCert rows.}
+  \upgradepath{Scoped closure requires grounding the records, scientific-object, audit, truth, bridge, gap/falsification, failure, transport, replay, provenance, and local NameCert rows against explicit kernel primitives.}
 \end{closurestatus}

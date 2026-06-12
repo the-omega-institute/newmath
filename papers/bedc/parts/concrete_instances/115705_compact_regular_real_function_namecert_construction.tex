@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CompactRegularRealFunctionUp$}
+\label{ch:concrete-instances-compact-regular-real-function-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CompactRegularRealFunctionUp$ packet names a real-valued function on a displayed compact metric source by a finite regular approximation surface rather than by a host function quotient. It sits after the compact metric carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite stream-name route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the locally convex functional-analysis source route of \autoref{ch:concrete-instances-locally-convex-space-namecert}. The packet gives compact/continuous and completion-facing routes a finite real-function carrier; it does not assert open-cover compactness, choice of covers, quotient real equality, or completeness of $\RealUp$.
+
+\begin{definition}[Compact regular real-function carrier]
+\label{def:compact-regular-real-function-carrier}
+A $\CompactRegularRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,C,W,R,E,L,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact metric source row, read through $\CompactMetricUp$ and naming only the compact carrier data visible to \autoref{ch:concrete-instances-compactmetric-namecert}.
+\item $C$ is the continuous-map row, read through $\ContinuousMapUp$ and exposing the domain, codomain, continuity witness, and modulus-facing data used by the packet.
+\item $W$ is the finite stream-window row, read through $\StreamNameUp$ and recording the inspected source windows and output-name windows.
+\item $R$ is the $\RegSeqRatUp$ output readback row for the regular rational approximants attached to those windows.
+\item $E$ is the $\RealUp$ seal row reached only after $W$ and $R$ have displayed the regular output name.
+\item $L$ is the local regularity ledger, recording the compact-window tolerance request, the displayed regular schedule, and the refusal to choose an open-cover subcover or a quotient representative of the function.
+\item $H$ records componentwise $\hsame$ transport for $K,C,W,R,E,L$ and the structural rows.
+\item $Q$ records displayed $\Cont$ replay from compact-window requests through the stream windows, regular readbacks, Real seal, and local regularity ledger.
+\item $P$ records $\Pkg$ provenance over $\CompactRegularRealFunctionUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocallyConvexSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactRegularRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $K,C,W,R,E,L,H,Q,P,N$. It has no coordinate for open-cover compactness, selected finite subcovers, quotient equality of real functions, countable choice, a hidden function-space completion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Compact regular real-function NameCert obligations]
+\label{thm:compact-regular-real-function-namecert-obligations}
+For every accepted $\CompactRegularRealFunctionUp$ carrier $F=(K,C,W,R,E,L,H,Q,P,N)$, the local $\NameCert_{\CompactRegularRealFunctionUp}$ surface consists exactly of compact metric source exposure, continuous-map exposure, stream-window exposure, regular rational output readback, Real seal routing, local regularity-ledger visibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-regular-real-function-carrier}. The compact source row $K$ and continuous-map row $C$ determine the displayed domain and continuity surface, while $W,R,E$ are the only path from a requested output window to a sealed real name.
+
+The local regularity ledger $L$ records the compact-window tolerance schedule inspected by the packet. It is a displayed finite row, so it cannot choose an open cover, select a hidden subcover, or replace regular output names by quotient real equality.
+
+Transport, replay, provenance, and local naming through $H,Q,P,N$ preserve the same rows. Since no other coordinate is present, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact regular real-function Real-seal handoff]
+\label{thm:compact-regular-real-function-real-seal-handoff}
+Every Real-facing read from an accepted $\CompactRegularRealFunctionUp$ packet must pass through the stream-window row $W$, the $\RegSeqRatUp$ output readback row $R$, and the $\RealUp$ seal row $E$ before it is visible to compact/continuous or functional-analysis consumers. The handoff exports only the sealed output route for displayed compact windows; it does not assert $\RealUp$ completeness or quotient equality of real-valued functions.
+\end{theorem}
+\begin{proof}
+The carrier presents $W,R,E$ in that order. A consumer asking for real output data first receives the finite stream windows named by $\StreamNameUp$, then the regular rational readback named by $\RegSeqRatUp$, and only then the terminal $\RealUp$ seal.
+
+The compact metric and continuous-map rows $K,C$ identify the source of the request, but they do not supply a real output by themselves. The regularity ledger $L$ records the displayed schedule connecting the compact window to the output route.
+
+Thus every Real-facing handoff is mediated by $W,R,E,L$ and then preserved through $H,Q,P,N$. No row supplies ambient completeness of $\RealUp$, a selected limit, or quotient equality of functions.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactRegularRealFunctionUp$ read exposes compact metric source data, continuous-map data, stream windows, RegSeqRat output readback, RealUp seal, local regularity ledger, transport, replay, provenance, and local naming before any compact real-function value is public.}
+
+\independenceWitness{compactmetric, continuousmap, streamname, regseqrat, real, locally-convex-space: these siblings carry compact source data, continuous-map data, stream windows, regular rational readbacks, Real seals, or locally convex functional-analysis routes, but none carries the combined compact source, regular real-output, local regularity, transport, replay, provenance, and local NameCert surface of $\CompactRegularRealFunctionUp$.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/CompactRegularRealFunctionUp.lean} should expose \texttt{BEDC.Derived.CompactRegularRealFunctionUp} without adding open-cover compactness, countable choice, quotient real equality, selected function representatives, or ambient Real completeness.
+
+\closureat{CompactRegularRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CompactRegularRealFunctionUp}
+  \constructivestory{A $\CompactRegularRealFunctionUp$ packet is generated from compact metric source rows, continuous-map rows, stream windows, regular rational output readbacks, a RealUp seal, a local regularity ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-regular-real-function-carrier}, \autoref{thm:compact-regular-real-function-namecert-obligations}, and \autoref{thm:compact-regular-real-function-real-seal-handoff} seed the finite compact regular real-function route over compact source, continuous-map, stream-window, regular-readback, Real-seal, regularity-ledger, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected finite subcovers, quotient equality of real-valued functions, countable choice, Lean verification, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source exposure, continuous-map exposure, stream-window exposure, regular-rational readback, Real-seal routing, local regularity-ledger stability, transport, replay, provenance, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.CompactRegularRealFunctionUp.}
+\end{closurestatus}

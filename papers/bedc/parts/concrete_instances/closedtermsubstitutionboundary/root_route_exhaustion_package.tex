@@ -6,6 +6,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The route may read closedness through $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$, shift through $Q$, substitution through $R$, ledger accounting through $L$, audit non-escape through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. It has no root coordinate for host substitution semantics, subject reduction, host syntax quotienting, hidden evaluator state, hidden compiler state, or an unlisted operation row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootRouteExhaustion}
 \begin{proof}
 Start with the carrier and the NameCert obligations. \autoref{def:closed-term-substitution-boundary-carrier} displays exactly the rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$, and \autoref{thm:closed-term-substitution-boundary-namecert-obligations} makes the closedness, operation, ledger, audit, transport, continuation, package, and naming rows the local certificate surface.
 
@@ -29,11 +30,13 @@ Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The led
 
 Now use \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The handoff gives downstream consumers one finite packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a second host substitution or compiler-correctness surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootNonescape}
 
 \begin{theorem}[Closed-term substitution boundary root downstream readiness]
 \label{thm:closed-term-substitution-boundary-root-downstream-readiness}
 The root route exhaustion and root non-escape rows make $\ClosedTermSubstitutionBoundaryUp$ ready for downstream self-compilation consumers exactly as a finite closed-boundary packet. A downstream chapter may consume the displayed $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ route, together with the NameCert obligation surface, ledger non-escape row, and root NameCert handoff, but it may not treat the packet as a host compiler theorem, a subject-reduction package, or an untracked substitution semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootDownstreamReadiness}
 \begin{proof}
 Begin with \autoref{thm:closed-term-substitution-boundary-root-route-exhaustion}. It supplies the finite operation route that downstream consumers may read.
 
@@ -57,3 +60,4 @@ Apply \autoref{thm:closed-term-substitution-boundary-root-nonescape}. It exclude
 
 Now consider the cited row $O$. If the named converse or reuse route asks for one of the displayed coordinates and $O$ records the failure, refusal, separation, or countermodel at that coordinate, then $O$ blocks precisely that named local route. If the attempted reading asks instead for a global impossibility statement, a host theorem, hidden external validation, host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, hidden compiler state, compiler-correctness evidence, or any unlisted operation row, the route exhaustion theorem supplies no coordinate for the request and the non-escape theorem explicitly excludes it. Hence $O$ has force only as the strict local obstruction to the named converse or reuse route, while every consumer read that continues to factor through the displayed packet rows remains a read of the accepted $\ClosedTermSubstitutionBoundaryUp$ boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootRouteStrictLocalObstruction}

@@ -171,6 +171,55 @@ Apply \autoref{thm:metacic-redex-frontier-scope-package}. The same rows form the
 
 The target confluence packet is a downstream consumer named by \autoref{ch:concrete-instances-metacic-normalization-window-confluence-namecert}. This chapter hands off only the finite redex-frontier rows; the closed subject-reduction, global confluence, and normalization claims are not coordinates of the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCarrier\_normalization\_window\_handoff}
+
+\begin{theorem}[MetaCICRedexFrontier candidate normalization]
+\label{thm:metacic-redex-frontier-candidate-normalization}
+A normalization-window candidate over an accepted $\MetaCICRedexFrontierUp$ carrier may be read only when all four discharge rows $B,A,L,P$, obstruction row $O$, beta-boundary route $E$, componentwise transport $H$, displayed replay $C$, provenance $G$, and local naming row $N$ are displayed. The candidate route hands a finite redex-frontier packet to the normalization-window consumer, but it does not close subject reduction, global confluence, normalization, substitution admissibility, or any hidden oracle claim.
+\end{theorem}
+\begin{proof}
+Begin with obstruction non-escape, \autoref{thm:metacic-redex-frontier-nonescape}. It forces every consumer to read the four discharge rows, the obstruction row, beta-boundary route, transport, replay, provenance, and local naming before the packet can be exposed.
+
+Apply the scoped package theorem, \autoref{thm:metacic-redex-frontier-scope-package}. The same rows form the primitive finite surface; a candidate missing one of $B,A,L,P$ or missing $O,E,H,C,G,N$ is not the scoped packet accepted by the carrier.
+
+Finally use the normalization-window handoff of \autoref{thm:metacic-redex-frontier-normalization-window-handoff}. It allows only the finite redex-frontier rows to pass to the downstream normalization-window consumer.
+
+The handoff is therefore candidate-mediated and finite. Since subject reduction, global confluence, normalization, substitution admissibility, and oracle access are not carrier rows, the candidate route cannot assert them.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCandidateNormalization}
+
+\begin{theorem}[MetaCICRedexFrontier candidate SN window]
+\label{thm:metacic-redex-frontier-candidate-sn-window}
+A strong-normalization-window consumer of an accepted
+$\MetaCICRedexFrontierUp$ carrier may read only the four discharge rows
+$B,A,L,P$, the obstruction row $O$, the beta-boundary row $E$, componentwise
+transport $H$, displayed replay $C$, provenance $G$, and local naming $N$. It
+may pass the resulting finite candidate packet to the normalization-window
+confluence route of
+\autoref{ch:concrete-instances-metacic-normalization-window-confluence-namecert},
+but it receives no subject-reduction theorem, global confluence theorem,
+normalization theorem, substitution oracle, or dependent-codomain readback.
+\end{theorem}
+\begin{proof}
+Begin with the scoped package theorem,
+\autoref{thm:metacic-redex-frontier-scope-package}. It identifies the primitive
+surface of an accepted carrier as exactly the typed term window carried by
+$B,A,L,P$, the beta-boundary row $E$, the obstruction row $O$, and the
+structural rows $H,C,G,N$.
+
+Next apply the normalization-window handoff,
+\autoref{thm:metacic-redex-frontier-normalization-window-handoff}. This
+handoff permits those finite redex-frontier rows to be read by the downstream
+normalization-window confluence packet, while keeping subject reduction,
+global confluence, and normalization outside the exported surface.
+
+Finally use candidate normalization,
+\autoref{thm:metacic-redex-frontier-candidate-normalization}. It sharpens the
+handoff to finite candidates and records that substitution admissibility and
+hidden oracle access are not carrier rows. Since dependent-codomain readback
+is also absent from the carrier inventory, the strong-normalization-window
+consumer receives only the displayed finite candidate packet.
+\end{proof}
 
 \closureat{MetaCICRedexFrontierUp}{scopedStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment]
 

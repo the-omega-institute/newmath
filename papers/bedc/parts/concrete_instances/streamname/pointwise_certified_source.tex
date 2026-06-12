@@ -49,3 +49,31 @@ Apply \autoref{thm:streamname-constant-certified-point}. Constancy identifies th
 
 The section handed to $\RegSeqRatUp$ or $\RealUp$ is therefore exactly the displayed row package. Since neither \autoref{def:streamname-pointwise-namecert-source} nor \autoref{thm:streamname-constant-certified-point} supplies quotient stream equality, a selected limit, countable choice, or $\RealUp$ completeness, no downstream consumer can read such data from the constant section.
 \end{proof}
+
+\begin{theorem}[Pointwise source reindex cofinality]
+\label{thm:streamname-pointwise-source-reindex-cofinality}
+Every accepted pointwise certified $\StreamNameUp$ source whose finite request section is transported along a displayed unary reindexing row still factors through the same pointwise source, componentwise classifier, and local $\NameCert$ rows before any $\RegSeqRatUp$ or $\RealUp$ consumer may read it. The reindexed request may change the displayed finite ledger index, but it does not export quotient stream equality, host function equality, a selected infinite tail, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:streamname-pointwise-namecert-source}. The only available data are the requested index ledger, certified stream source row, opened $\BHist$ window, componentwise transport, replay, provenance, and local naming row.
+
+Apply \autoref{thm:streamname-pointwise-classifier-stability} to the unary reindexing row. The classifier is transported componentwise with the opened finite window, so the target request remains a pointwise certified StreamName request rather than a host-level stream comparison.
+
+The constant-section route of \autoref{thm:streamname-pointwise-certified-source-constant-section} supplies only the base case in which the reindexing row leaves the displayed point fixed. General reindexing is therefore cofinal only through the same finite source, classifier, and NameCert rows.
+
+The downstream consumer can then read the reindexed section through $\Pkg$ provenance toward $\RegSeqRatUp$ or $\RealUp$. Since no coordinate in the source supplies quotient equality, host function equality, an infinite tail selector, countable choice, or completeness, none is exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Pointwise map composition finite-window stability]
+\label{thm:streamname-pointwise-map-composition-window}
+Let $W=(I,S,B,H,C,P,N)$ be an accepted pointwise certified $\StreamNameUp$ NameCert source. Suppose a displayed finite map row $M$ is carried in the same packet, with its finite graph, source and target index ledgers, opened $\BHist$ window, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\StreamNameUp}$ row all displayed before the request is handed to any downstream consumer. Then the composed finite-window read along $M$ still factors through the original pointwise source classifier and local naming row before any $\RegSeqRatUp$ or $\RealUp$ consumer can read it.
+
+The composed read remains a finite StreamName request surface. It exports no quotient stream equality, no host function equality, no selected infinite tail, no countable-choice row, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:streamname-pointwise-namecert-source}. The displayed map row contributes only a finite graph, the two finite ledgers, the opened history window, componentwise transport, replay, provenance, and the local naming row, so the composed request has no hidden host-level stream data.
+
+Apply \autoref{thm:streamname-pointwise-classifier-stability} to transport the opened window and classifier row across the displayed graph of $M$. Then apply \autoref{thm:streamname-pointwise-source-reindex-cofinality} to keep the target request inside the same finite pointwise source surface after the ledger has been mapped.
+
+The consumer route is therefore read only through the existing $\Pkg$ provenance. Since neither the source packet nor the displayed map row supplies quotient stream equality, host function equality, a selected infinite tail, countable choice, or $\RealUp$ completeness, the composed finite-window handoff cannot export any of them.
+\end{proof}

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyModulusSelectorUp$}
+\label{ch:concrete-instances-located-cauchy-modulus-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, a located Cauchy limit is read through explicit finite moduli, locatedness tests, and rational windows rather than through quotient streams, countable choice, or an ambient completion theorem. The $\LocatedCauchyModulusSelectorUp$ packet records that route as one NameCert carrier over the dyadic tolerances of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the located-real handoff of \autoref{ch:concrete-instances-locatedreal-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Located Cauchy modulus selector carrier]
+\label{def:located-cauchy-modulus-selector-carrier}
+A $\LocatedCauchyModulusSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,Q,M,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger naming the positive dyadic radius being requested;
+\item $W$ is the $\StreamNameUp$ finite-window row scheduled for that tolerance;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows;
+\item $M$ is the $\CauchyModulusUp$ row selecting the late threshold for the same tolerance;
+\item $L$ is the locatedness row deciding the displayed overlap or separation test at the selected threshold;
+\item $E$ is the $\RealUp$ seal row reached only after the readback, modulus, and locatedness rows are displayed;
+\item $H$ records componentwise $\hsame$ transport for $D,W,Q,M,L,E,C,P,N$;
+\item $C$ records displayed $\Cont$ replay from dyadic tolerance to stream window, from window to regular readback, from modulus and locatedness rows to the Real seal, and from the structural rows to the local name;
+\item $P$ records $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LocatedCauchyModulusSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-stream equality, a selected host limit, countable choice, an unlocated Cauchy witness, an ambient completion theorem, or a Real seal read that bypasses the displayed modulus and locatedness rows.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedCauchyModulusSelectorUp.LocatedCauchyModulusSelectorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located Cauchy modulus selector NameCert obligations]
+\label{thm:located-cauchy-modulus-selector-namecert-obligations}
+For an accepted $\LocatedCauchyModulusSelectorUp$ carrier $S=(D,W,Q,M,L,E,H,C,P,N)$, the local $\NameCert_{\LocatedCauchyModulusSelectorUp}$ surface consists exactly of carrier admission for the displayed dyadic tolerance, stream-window, regular readback, modulus, locatedness, Real seal, transport, replay, provenance, and naming rows; classifier stability under componentwise $\hsame$ transport; modulus coverage for every displayed dyadic tolerance; locatedness exactness at the selected finite threshold; and non-escape for quotient streams, host limits, countable choice, unlocated witnesses, ambient completion, and seal reads outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-cauchy-modulus-selector-carrier}. The packet exposes only the rows $D,W,Q,M,L,E,H,C,P,N$, so every local read must begin with the displayed dyadic tolerance, window, readback, modulus, locatedness, and seal data.
+
+The constructive selector route is finite. A dyadic tolerance request is recorded in $D$, scheduled as the finite window $W$, read back as $Q$, and bounded by the selected modulus threshold $M$. The locatedness row $L$ is read at the same threshold before the seal row $E$ can be offered to a Real-facing consumer.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly that route. Since the carrier contains none of the excluded coordinates, no quotient stream, host limit, choice schedule, unlocated witness, ambient completion theorem, or bypass seal can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Located Cauchy modulus selector Real seal handoff]
+\label{thm:located-cauchy-modulus-selector-real-seal-handoff}
+Every Real-facing consumer of an accepted $\LocatedCauchyModulusSelectorUp$ packet must read the scheduled $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, the $\CauchyModulusUp$ threshold row $M$, and the locatedness row $L$ before it can consume the $\RealUp$ seal row $E$. The handoff route is therefore
+$$
+D,W,Q,M,L \longmapsto E,H,C,P,N .
+$$
+It is not a quotient-stream construction, selected host limit, countable-choice route, unlocated Cauchy witness, or ambient completion theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyModulusSelectorUp.LocatedCauchyModulusSelectorRealSealHandoff}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:located-cauchy-modulus-selector-namecert-obligations}. They force the Real-facing read to pass through the displayed carrier rows rather than through an external completion object.
+
+The finite analytic route then orders the rows. The dyadic tolerance $D$ determines the requested scale, the stream window $W$ and regular readback $Q$ expose the inspected data, the modulus row $M$ supplies the late threshold, and the locatedness row $L$ decides the local located test at that threshold.
+
+Only after those rows are displayed can $E$ serve as the Real seal. The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve the same route, so any consumer omitting $W,Q,M,$ or $L$ is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Located Cauchy modulus selector threshold induction]
+\label{thm:located-cauchy-modulus-selector-threshold-induction}
+Every accepted tolerance request in a $\LocatedCauchyModulusSelectorUp$ packet is discharged by finite induction over the displayed $\CauchyModulusUp$ threshold row $M$. The base case opens the first admissible $\StreamNameUp$ window $W$, and the step case extends the window and $\RegSeqRatUp$ readback $Q$ until the selected threshold is reached. The locatedness row $L$ is then read at that same threshold before the $\RealUp$ seal $E$ is exposed. The derivation uses only the carrier of \autoref{def:located-cauchy-modulus-selector-carrier}, the NameCert obligations of \autoref{thm:located-cauchy-modulus-selector-namecert-obligations}, and the Real seal handoff of \autoref{thm:located-cauchy-modulus-selector-real-seal-handoff}; it does not use quotient streams, selected host limits, countable choice, unlocated Cauchy witnesses, or ambient completion.
+\end{theorem}
+\begin{proof}
+Start with the carrier row $M$. Since $M$ is part of the finite packet, its selected threshold is inspected as a displayed row rather than as an external choice function.
+
+Induct over the finite threshold named by $M$. In the base case, the first admissible stream window $W$ is opened for the requested dyadic tolerance $D$, and the regular rational readback $Q$ is read from that window.
+
+In the step case, extend the displayed window by one scheduled read and extend $Q$ by the corresponding $\RegSeqRatUp$ readback. The induction hypothesis supplies the previous finite window and readback route, and the NameCert obligations keep the extension inside the same carrier rows.
+
+At the selected threshold, read $L$ before exposing $E$. The Real seal handoff then forces every Real-facing consumer to pass through $W,Q,M,$ and $L$, so the construction has no coordinate for quotient streams, selected host limits, countable choice, unlocated Cauchy witnesses, or ambient completion.
+\end{proof}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchymodulus, locatedreal, real: $\LocatedCauchyModulusSelectorUp$ is not bijective to any listed sibling because it jointly stores the dyadic tolerance request, finite window schedule, regular-rational readback, selected Cauchy modulus threshold, locatedness row, Real seal, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{LocatedCauchyModulusSelectorUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyModulusSelectorUp}
+  \constructivestory{A $\LocatedCauchyModulusSelectorUp$ packet is generated from dyadic tolerance requests, finite stream windows, regular rational readback, selected Cauchy modulus thresholds, locatedness rows, Real seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-modulus-selector-carrier}, \autoref{thm:located-cauchy-modulus-selector-namecert-obligations}, and \autoref{thm:located-cauchy-modulus-selector-real-seal-handoff} seed the finite located Cauchy selector route over DyadicRatCore, StreamName, RegSeqRat, CauchyModulus, LocatedReal, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected host limits, countable choice, unlocated Cauchy witnesses, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for the displayed located Cauchy modulus selector route.}
+\end{closurestatus}

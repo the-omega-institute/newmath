@@ -74,6 +74,26 @@ Move the row only through the displayed transport and replay data. The rows $H$ 
 No carrier coordinate stores fuzzy matching, namespace guessing, prose reinterpretation, or consumer-selected substitution. A refused drift row therefore remains refused at every exported read.
 \end{proof}
 
+\begin{theorem}[AuditMembrane visible audit induction]
+\label{thm:auditmembrane-visible-audit-induction}
+Let
+$$
+M=(G,B,R,D,H,C,P,N)
+$$
+be an accepted $\AuditMembraneUp$ packet, and let $L$ be a finite list of displayed $\BHist$ audit-event rows. Suppose each row of $L$ is admitted through the same audit-gate-boundary content route as $B$, carries the displayed $\hsame$, $\Cont$, and $\Pkg$ provenance required by $H,C,P$, and presents no object outside the boundary-content format of \autoref{ch:concrete-instances-auditgateboundary-namecert}. Then extending $B$ by the rows of $L$ preserves the membrane verdict recorded by $R$: admitted rows remain admitted as displayed certificate content, refused rows remain refused boundary content, and no row of $L$ exports global audit completeness, arbitrary import conservativity, or host-kernel completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite list $L$ of displayed $\BHist$ rows.
+
+For the empty list, the extended boundary row is just the original $B$. The verdict is therefore the existing membrane verdict $R$, read through \autoref{thm:audit-membrane-boundary-refusal}.
+
+For the successor step, write the list as one displayed audit event followed by a tail. The head event is first consumed as an audit-gate-boundary row: it is presented to the same gate surface $G$, with the displayed content format required by $B$ and with the $\hsame$, $\Cont$, and $\Pkg$ rows required by $H,C,P$.
+
+The boundary-refusal theorem applies to that one displayed row, so its admitted or refused verdict is recorded by $R$ and not by any hidden audit theorem. The induction hypothesis then applies to the remaining finite tail, preserving the verdict for every later displayed row.
+
+Thus every finite extension by displayed audit events remains inside the membrane packet. The argument proves only this finite induction route over visible $\BHist$ rows; it does not assert global audit completeness, conservativity for arbitrary imports, or host-kernel completeness.
+\end{proof}
+
 \begin{theorem}[AuditMembrane consumer boundary]
 \label{thm:audit-membrane-consumer-boundary}
 Every downstream consumer of an accepted $\AuditMembraneUp$ packet factors through the finite rows
@@ -133,4 +153,22 @@ Now project the membrane packet by \autoref{def:audit-membrane-carrier}. The hyp
 By \autoref{thm:audit-membrane-boundary-refusal}, the membrane refusal row $R$ is the complete public result of applying $G_M$ to $B$. Therefore the classification already refused by the corresponding row of $A$ cannot be changed by the membrane packet; it appears in $R$ as refused boundary content rather than admitted substrate supply.
 
 Finally, \autoref{thm:audit-membrane-consumer-boundary} confines every downstream consumer of $M$ to the finite rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$. These rows allow inspection, transport, replay, provenance, and local naming, but none of them exports a theorem object for refused boundary content. Thus every item refused by the instantiated $\AuditGateBoundaryUp$ surface remains refused at the $\AuditMembraneUp$ boundary and cannot become substrate theorem content.
+\end{proof}
+
+\begin{theorem}[AuditMembrane repeated consumer replay boundary]
+\label{thm:audit-membrane-repeated-consumer-replay-boundary}
+Let
+$$
+M=(G_M,B,R,D_M,H_M,C_M,P_M,N_M)
+$$
+be an accepted $\AuditMembraneUp$ packet. Any finite sequence of downstream reads of $M$ factors through the same displayed rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$. Hence refused source axioms, forbidden dependencies, unresolved targets, and untracked origin edges remain refused under replay; no repeated consumer read exports them as substrate theorem content.
+\end{theorem}
+\begin{proof}
+Start with the refusal row. By \autoref{thm:audit-membrane-boundary-refusal}, the row $R$ is the complete public result of applying the gate surface $G_M$ to the boundary-content row $B$, and refused boundary content has no exported theorem route.
+
+Now read a downstream consumer. The consumer boundary theorem, \autoref{thm:audit-membrane-consumer-boundary}, forces the read through the finite rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$ and provides no coordinate outside those rows.
+
+For repeated reads, apply the same consumer-boundary factorization at each replay step. The refusal bridge of \autoref{thm:audit-gate-boundary-to-audit-membrane-refusal-bridge} identifies the refused boundary items with the membrane refusal row, so replay cannot reclassify a refused source axiom, forbidden dependency, unresolved target, or untracked origin edge.
+
+Thus every finite downstream replay remains inside the displayed membrane packet and preserves the refusal result.
 \end{proof}

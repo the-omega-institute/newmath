@@ -38,6 +38,32 @@ theorem DiagonalLimitCompatibility_seal_source_synchronization [AskSetup] [Packa
       sealSourceUnary, sealReadUnary, diagonalTriangleSource, sourceDyadicRead,
       dyadicWindowsReadback, provenancePkg, sealReadPkg⟩
 
+theorem DiagonalLimitCompatibilitySealSourceSynchronization [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont readback realSeal sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory dyadic ∧
+            UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+              UnaryHistory sealRead ∧ Cont diagonal triangle sealRow ∧
+                Cont dyadic windows readback ∧ Cont readback realSeal sealRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory PkgSig
+  intro carrier readbackRealSealRead sealReadPkg
+  obtain ⟨diagonalUnary, triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, diagonalTriangleSeal, dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary realSealUnary readbackRealSealRead
+  exact
+    ⟨diagonalUnary, triangleUnary, dyadicUnary, windowsUnary, readbackUnary,
+      realSealUnary, sealReadUnary, diagonalTriangleSeal, dyadicWindowsReadback,
+      readbackRealSealRead, provenancePkg, sealReadPkg⟩
+
 theorem DiagonalLimitCompatibility_real_seal_factorization [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       sealSource sealRead endpoint : BHist}

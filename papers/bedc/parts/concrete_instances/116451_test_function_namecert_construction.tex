@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\TestFunctionUp$}
+\label{ch:concrete-instances-test-function-namecert}
+\origin{human}
+
+Following Schwartz and Treves, the $\TestFunctionUp$ packet records compactly supported smooth test probes as finite BEDC NameCert data. It sits next to the rapidly decreasing smooth carrier of \autoref{ch:concrete-instances-schwartz-function-namecert}, the Schwartz-space packet of \autoref{ch:concrete-instances-schwartz-space-namecert}, the weak-derivative route of \autoref{ch:concrete-instances-weak-derivative-namecert}, and the distribution-facing scalar boundary of \autoref{ch:concrete-instances-tempered-distribution-namecert}. The packet exposes the finite support window, finite derivative ledger, local scalar readback, and replay route required by distribution, Fourier, Sobolev, and viscosity-solution consumers without importing a global LF-space topology, quotient germ equality, countable choice, or ambient smooth-completeness theorem.
+
+\begin{definition}[Test-function carrier]
+\label{def:test-function-carrier}
+A $\TestFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,D,L,Q,S,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the compact support window row. It displays the bounded local chart window on which the probe may be nonzero and records that all public reads outside the window are the zero read.
+\item $D$ is the finite derivative-order ledger. It lists the derivative orders inspected by the packet and the finite smoothness obligations replayed for those orders.
+\item $L$ is the localization domain row. It records the coordinate chart, bump-support inclusion, and domain restriction through which the test probe is consumed.
+\item $Q$ is the rational observation row, read through $\RegSeqRatUp$ and $\DyadicRatCoreUp$, for coefficient windows, derivative tolerances, and support-bound comparisons.
+\item $S$ is the scalar seal row, read through $\RealUp$, that turns the rational observations in $Q$ into Real-facing scalar names for probe values and derivative bounds.
+\item $V$ is the weak-derivative compatibility row. It records the sign, derivative-order, and integration-by-parts bookkeeping consumed by $\WeakDerivativeUp$.
+\item $H$ records componentwise $\hsame$ transport for $W,D,L,Q,S,V,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a test-probe request through support localization, derivative inspection, rational readback, Real scalar sealing, weak-derivative compatibility, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\TestFunctionUp$, $\SchwartzFunctionUp$, $\SchwartzSpaceUp$, $\WeakDerivativeUp$, $\TemperedDistributionUp$, $\FourierTransformUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TestFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,D,L,Q,S,V,H,C,P,N$. It has no coordinate for a global smooth-function topology, quotient germ equality, nonconstructive partitions of unity, countable support selection, or an ambient distribution theorem.
+\end{definition}
+
+\begin{theorem}[Test-function NameCert obligations]
+\label{thm:test-function-namecert-obligations}
+For every accepted $\TestFunctionUp$ carrier $T=(W,D,L,Q,S,V,H,C,P,N)$, the local $\NameCert_{\TestFunctionUp}$ surface consists exactly of compact support-window exposure, finite derivative-ledger exposure, localization-domain exposure, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rational readback, $\RealUp$ scalar sealing, $\WeakDerivativeUp$ compatibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:test-function-carrier}. The rows $W,D,L$ are the complete geometric and smoothness data visible to a test-probe consumer: support, derivative orders, and localization.
+
+Read the scalar data next. The row $Q$ supplies the finite rational observations for coefficients, derivative tolerances, and support bounds, while $S$ seals those observations as $\RealUp$ scalar names.
+
+The compatibility row $V$ is the only weak-derivative-facing row. It records the sign and derivative-order bookkeeping used by $\WeakDerivativeUp$ without adding a distribution value or Sobolev norm as a carrier coordinate.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no global smooth-function topology, quotient germ equality, nonconstructive partition row, countable support-selection row, or ambient distribution theorem, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Test-function tempered-distribution handoff]
+\label{thm:test-function-tempered-distribution-handoff}
+Every $\TemperedDistributionUp$ or $\FourierTransformUp$ consumer that reads a test probe from an accepted $\TestFunctionUp$ packet factors through
+$$
+W,D,L,Q,S,V,H,C,P,N .
+$$
+Consequently the handoff exposes a compact support window, finite derivative ledger, localization domain, rational and Real scalar readback, weak-derivative compatibility, transport, replay, provenance, and local naming before any distribution pairing, Fourier pairing, Sobolev test, or viscosity-solution probe is public.
+\end{theorem}
+\begin{proof}
+Begin with the support and localization rows. The compact window $W$ and localization domain $L$ determine where the probe may be read, and the derivative ledger $D$ determines which smoothness obligations are available to downstream chapters.
+
+Use the scalar readback route $Q,S$. The regular rational and dyadic observations in $Q$ provide the finite numerical budgets, and the $\RealUp$ seal in $S$ makes those budgets available to distribution and Fourier pairings.
+
+Now pass through the weak-derivative compatibility row $V$. This is the row consumed by $\WeakDerivativeUp$ when an integration-by-parts sign or derivative order is needed, and it is the row that keeps Sobolev and viscosity-solution test probes tied to the same finite carrier.
+
+Finally replay the route through $H,C,P,N$. The sibling rows from $\SchwartzFunctionUp$ and $\SchwartzSpaceUp$ provide smooth decay and space-level comparison surfaces when a consumer needs them, while the $\TestFunctionUp$ handoff itself remains compact-support data. No distribution pairing can bypass these rows to obtain quotient germ equality, a selected partition of unity, a global LF-space topology, or an ambient smooth-completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TestFunctionUp$ read must expose compact support windows, finite derivative ledgers, localization domains, RegSeqRat and DyadicRatCore rational observations, RealUp scalar seals, WeakDerivative compatibility, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before any distribution, Fourier, Sobolev, or viscosity-solution consumer may use the test probe.}
+
+\independenceWitness{schwartzfunction, schwartzspace, weakderivative, tempereddistribution, fouriertransform, real: $\TestFunctionUp$ is not bijective to any listed sibling because it jointly carries compact support windows, finite derivative ledgers, localization domains, rational and Real scalar readback, weak-derivative compatibility, transport, replay, provenance, and local naming while refusing global smooth-function topology, quotient germ equality, selected partitions of unity, and ambient distribution theorems.}
+
+\closureat{TestFunctionUp}{seedStr}
+
+\begin{closurestatus}{\TestFunctionUp}
+  \constructivestory{A $\TestFunctionUp$ packet is generated from compact support windows, finite derivative-order ledgers, localization domains, RegSeqRat and DyadicRatCore rational readbacks, Real scalar seals, WeakDerivative compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:test-function-carrier}, \autoref{thm:test-function-namecert-obligations}, and \autoref{thm:test-function-tempered-distribution-handoff} seed the compact-support smooth test-probe certificate used by distribution, Fourier, Sobolev, and viscosity-solution consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global LF-space topology, quotient germ equality, nonconstructive partitions of unity, countable support selection, Lean verification, or bridge checking for $\TestFunctionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact support-window exactness, finite derivative-ledger stability, localization replay, scalar readback, weak-derivative compatibility, transport, replay, provenance, and local naming for BEDC.Derived.TestFunctionUp.}
+\end{closurestatus}

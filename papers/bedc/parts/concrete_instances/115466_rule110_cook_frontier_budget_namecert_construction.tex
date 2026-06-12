@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenCookFrontierBudgetUp$}
+\label{ch:concrete-instances-rule110-cook-frontier-budget-namecert}
+\origin{ai}
+
+The $\RuleOneTenCookFrontierBudgetUp$ packet realizes the Cook compile-frontier budget named in \autoref{sec:cellular-automaton-reading-frontier-as-goedel} as finite NameCert data. It combines the cellular automaton substrate of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the Rule 110 trust substrate of \autoref{ch:concrete-instances-rule110-cellular-trust-substrate-namecert}, the coordinate packet of \autoref{ch:concrete-instances-cookfrontiercoordinate-namecert}, the Cook compile-frontier witness of \autoref{ch:concrete-instances-cookcompilefrontierwitness-namecert}, and the compile-frontier witness of \autoref{ch:concrete-instances-compilefrontierwitness-namecert}. The packet records a budget surface rather than a proof of universality: it displays production counts, tape-symbol counts, step budgets, closed round trips, and obstruction rows as inspectable finite data.
+
+\begin{definition}[Rule 110 Cook frontier-budget carrier]
+\label{def:rule110-cook-frontier-budget-carrier}
+A $\RuleOneTenCookFrontierBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,U,K,C,P,T,S,R,O,H,D,G,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the $\CellularAutomatonUp$ substrate row naming the local cellular rule and finite orbit interface.
+\item $U$ is the $\RuleOneTenCellularTrustSubstrateUp$ row naming the Rule 110 manifest, evaluator, classifier, and audit-route surface.
+\item $K$ is the $\CookFrontierCoordinateUp$ coordinate row for production-count, tape-symbol-count, and step-budget entries.
+\item $C$ is the $\CookCompileFrontierWitnessUp$ row recording the Cook compile-frontier witness consumed by the budget.
+\item $P$ is the $\CompileFrontierWitnessUp$ row recording the general compile-frontier witness aligned with $C$.
+\item $T$ is the production-count row.
+\item $S$ is the tape-symbol-count row.
+\item $R$ is the step-budget and closed-round-trip row.
+\item $O$ is the obstruction row, recording why a larger requested compile-frontier instance is outside the displayed budget.
+\item $H$ records componentwise $\hsame$ transport for substrate, coordinate, witness, count, round-trip, obstruction, replay, provenance, and local naming rows.
+\item $D$ records displayed $\Cont$ replay for the same rows.
+\item $G$ is the $\Pkg$ provenance over the substrate, coordinate, witness, budget, transport, replay, and local naming rows.
+\item $N$ is the local $\NameCert_{\RuleOneTenCookFrontierBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an unstated universality theorem, hidden evaluator, unbounded tape oracle, external complexity claim, or closed-round-trip result not displayed by the packet.
+\end{definition}
+
+\begin{theorem}[Rule 110 Cook frontier-budget NameCert obligations]
+\label{thm:rule110-cook-frontier-budget-namecert-obligations}
+For every accepted $\RuleOneTenCookFrontierBudgetUp$ carrier $F=(A,U,K,C,P,T,S,R,O,H,D,G,N)$, the local $\NameCert_{\RuleOneTenCookFrontierBudgetUp}$ surface consists exactly of carrier admission, cellular substrate exposure, Rule 110 trust-substrate exposure, Cook coordinate exposure, Cook compile-frontier witness exposure, compile-frontier witness exposure, production-count coverage, tape-symbol-count coverage, step-budget and closed-round-trip coverage, obstruction-row exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rule110-cook-frontier-budget-carrier}. The substrate and witness rows are $A,U,K,C,P$, while the concrete budget rows are $T,S,R,O$.
+
+Read the sibling packets in order. The cellular automaton and Rule 110 trust-substrate chapters provide the local-rule and manifest surface; the Cook coordinate and frontier-witness chapters provide the rows that interpret production counts, tape symbols, step budgets, round trips, and obstruction data.
+
+The rows $H,D,G,N$ transport, replay, source, and name exactly those displayed entries. Since no hidden evaluator, unbounded tape oracle, external complexity claim, or unstated universality proof is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rule 110 Cook frontier-budget closed observation]
+\label{thm:rule110-cook-frontier-budget-closed-observation}
+Recomputing the displayed $\RuleOneTenCookFrontierBudgetUp$ packet returns the same production-count row $T$, tape-symbol-count row $S$, step-budget and closed-round-trip row $R$, and obstruction row $O$ whenever the substrate, coordinate, and witness rows $A,U,K,C,P$ are unchanged. Thus the Cook compile-frontier budget is a closed observational packet over displayed rows, not a detached complexity estimate.
+\end{theorem}
+\begin{proof}
+Start with the substrate rows $A$ and $U$. They fix the local cellular rule, manifest surface, evaluator route, classifier route, and audit readback available to the packet.
+
+Use the coordinate and witness rows $K,C,P$. They determine which production-count, tape-symbol-count, step-budget, closed-round-trip, and obstruction entries are being measured.
+
+Now replay the budget through $H,D,G,N$. Componentwise transport and displayed continuation preserve the same count and obstruction rows, while provenance and local naming prevent replacement by an external estimate. Therefore recomputation over unchanged substrate and witness rows returns the same displayed budget packet.
+\end{proof}
+
+\falsifiablePrediction{Recomputing the displayed RuleOneTenCookFrontierBudgetUp packet returns the same production-count, tape-symbol-count, step-budget, closed-round-trip, and obstruction rows.}
+
+\independenceWitness{cellularautomaton, rule110-cellular-trust-substrate, cookfrontiercoordinate, cookcompilefrontierwitness, compilefrontierwitness: none is bijective to the combined budget packet because RuleOneTenCookFrontierBudgetUp simultaneously carries substrate rows, coordinate rows, compile-frontier witnesses, production counts, tape-symbol counts, step budgets, closed round trips, obstruction rows, transport, replay, provenance, and local NameCert naming.}
+
+\begin{theorem}[Rule 110 Cook frontier-budget TasteGate handoff]
+\label{thm:rule110-cook-frontier-budget-tastegate-handoff}
+The Lean follow-up site $\mathsf{lean4/BEDC/Derived/RuleOneTenCookFrontierBudgetUp/TasteGate.lean}$ must include explicit $\Nontrivial\ \RuleOneTenCookFrontierBudgetUp$ and $\FieldFaithful\ \RuleOneTenCookFrontierBudgetUp$ instances. The nontriviality instance must expose at least one accepted displayed budget packet, and the field-faithfulness instance must keep substrate, coordinate, witness, production-count, tape-symbol-count, step-budget, closed-round-trip, obstruction, transport, replay, provenance, and local naming rows distinct.
+\end{theorem}
+\begin{proof}
+The carrier is not a terminal tag: it has separate substrate, coordinate, witness, count, round-trip, obstruction, transport, replay, provenance, and naming rows.
+
+Nontriviality therefore has to exhibit an accepted budget packet over those rows. Field faithfulness has to prevent the count rows from replacing the witness rows, the closed-round-trip row from replacing the obstruction row, or the local NameCert row from replacing provenance.
+
+Thus the named TasteGate file is the correct follow-up site for the same displayed budget carrier.
+\end{proof}
+
+\closureat{RuleOneTenCookFrontierBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenCookFrontierBudgetUp}
+  \constructivestory{A $\RuleOneTenCookFrontierBudgetUp$ packet is generated from cellular substrate rows, Rule 110 trust-substrate rows, Cook coordinate rows, compile-frontier witness rows, production-count rows, tape-symbol-count rows, step-budget rows, closed-round-trip rows, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule110-cook-frontier-budget-carrier}, \autoref{thm:rule110-cook-frontier-budget-namecert-obligations}, and \autoref{thm:rule110-cook-frontier-budget-closed-observation} seed the finite budget packet for the Rule 110 Cook compile-frontier surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a new universality theorem, an unbounded tape oracle, an external complexity bound, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, substrate exposure, coordinate exposure, witness exposure, production-count coverage, tape-symbol-count coverage, step-budget coverage, closed-round-trip coverage, obstruction exactness, nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.RuleOneTenCookFrontierBudgetUp.}
+\end{closurestatus}

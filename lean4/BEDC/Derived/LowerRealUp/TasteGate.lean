@@ -1,13 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LowerRealUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -193,5 +201,120 @@ theorem LowerRealCarrier_realup_handoff
     change lowerRealDecodeBHist (lowerRealEncodeBHist E) = E
     exact LowerRealTasteGate_single_carrier_alignment_decode_encode E
   exact ⟨windowReadUnary, sealReadUnary, windowRoute, sealRoute, sealDecode⟩
+
+theorem LowerRealCarrier_scoped_kernel_obligation
+    {L0 W R E H C P N locatedRead rationalRead realRead scopedRead : BHist} :
+    lowerRealFields (LowerRealUp.mk L0 W R E H C P N) = [L0, W, R, E, H, C, P, N] ->
+      UnaryHistory L0 ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory N ->
+                Cont L0 W locatedRead ->
+                  Cont locatedRead R rationalRead ->
+                    Cont rationalRead E realRead ->
+                      Cont realRead N scopedRead ->
+                        UnaryHistory locatedRead ∧
+                          UnaryHistory rationalRead ∧
+                            UnaryHistory realRead ∧
+                              UnaryHistory scopedRead ∧
+                                Cont L0 W locatedRead ∧
+                                  Cont locatedRead R rationalRead ∧
+                                    Cont rationalRead E realRead ∧
+                                      Cont realRead N scopedRead ∧
+                                        hsame
+                                          (lowerRealDecodeBHist (lowerRealEncodeBHist L0))
+                                          L0 := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro fieldRows l0Unary windowUnary rationalUnary realUnary nameUnary locatedRoute
+    rationalRoute realRoute scopedRoute
+  cases fieldRows
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed l0Unary windowUnary locatedRoute
+  have rationalReadUnary : UnaryHistory rationalRead :=
+    unary_cont_closed locatedUnary rationalUnary rationalRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed rationalReadUnary realUnary realRoute
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed realReadUnary nameUnary scopedRoute
+  have lowerDecode :
+      hsame (lowerRealDecodeBHist (lowerRealEncodeBHist L0)) L0 := by
+    change lowerRealDecodeBHist (lowerRealEncodeBHist L0) = L0
+    exact LowerRealTasteGate_single_carrier_alignment_decode_encode L0
+  exact
+    ⟨locatedUnary, rationalReadUnary, realReadUnary, scopedReadUnary, locatedRoute,
+      rationalRoute, realRoute, scopedRoute, lowerDecode⟩
+
+theorem LowerRealPublicConsumer_export [AskSetup] [PackageSetup]
+    {L0 W R E H C P N lowerRead rationalRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    lowerRealFields (LowerRealUp.mk L0 W R E H C P N) = [L0, W, R, E, H, C, P, N] ->
+      UnaryHistory L0 ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              Cont L0 W lowerRead ->
+                Cont lowerRead R rationalRead ->
+                  Cont rationalRead E realRead ->
+                    PkgSig bundle P pkg ->
+                      PkgSig bundle realRead pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row L0 ∨ hsame row W ∨ hsame row R ∨
+                                hsame row E ∨ hsame row realRead)
+                            (fun row : BHist =>
+                              hsame row realRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle realRead pkg)
+                            hsame ∧
+                          UnaryHistory lowerRead ∧
+                            UnaryHistory rationalRead ∧ UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro fieldRows l0Unary wUnary rUnary eUnary lowerRoute rationalRoute realRoute pPkg realPkg
+  cases fieldRows
+  have lowerUnary : UnaryHistory lowerRead :=
+    unary_cont_closed l0Unary wUnary lowerRoute
+  have rationalUnary : UnaryHistory rationalRead :=
+    unary_cont_closed lowerUnary rUnary rationalRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed rationalUnary eUnary realRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L0 ∨ hsame row W ∨ hsame row R ∨
+              hsame row E ∨ hsame row realRead)
+          (fun row : BHist =>
+            hsame row realRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead ⟨hsame_refl realRead, realUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · exact hsame_trans (hsame_symm sameRows) source.left
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, pPkg, realPkg⟩
+  }
+  exact ⟨cert, lowerUnary, rationalUnary, realUnary⟩
 
 end BEDC.Derived.LowerRealUp

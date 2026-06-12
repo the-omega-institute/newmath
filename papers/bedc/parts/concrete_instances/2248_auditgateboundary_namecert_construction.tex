@@ -125,6 +125,22 @@ Finally use $P,N,G$ to close the boundary. Provenance and local naming identify 
 \end{proof}
 \leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_dependency\_forbidden\_set}
 
+\begin{theorem}[AuditGateBoundary inductive audit row]
+\label{thm:audit-gate-boundary-inductive-row}
+Every accepted audit-gate consumer of an $\AuditGateBoundaryUp$ packet is obtained by finite row induction over
+$$
+S,D,L,O,H,C,P,G,N.
+$$
+The source-token refusal, forbidden-dependency refusal, marker-resolution exactness, and origin conservativity reads are consumed one row at a time. The transport, replay, provenance, GAP boundary, and naming rows may preserve and route those four audit faces, but they cannot add host-kernel completeness, theorem-inventory completeness, fuzzy marker resolution, or semantic conservativity for arbitrary imports.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-boundary-carrier}. Its displayed rows are exactly $S,D,L,O,H,C,P,G,N$, so the audit consumer has no hidden coordinate beyond the finite packet.
+
+Read the four audit faces in order. Use \autoref{thm:audit-gate-boundary-source-token-refusal} for the source-token row $S$, \autoref{thm:audit-gate-boundary-dependency-forbidden-set} for the forbidden-dependency row $D$, \autoref{thm:audit-gate-boundary-paper-lean-drift-exactness} for the marker row $L$, and \autoref{thm:audit-gate-boundary-origin-conservativity} for the origin and import row $O$.
+
+It remains to inspect the support rows. Componentwise transport through $H$, replay through $C$, provenance through $P$, the GAP boundary $G$, and local naming through $N$ preserve the already displayed rows and do not create a new audit face. Therefore the consumer is obtained by finite row induction over the displayed packet, with host-kernel completeness and semantic conservativity outside the export.
+\end{proof}
+
 \begin{theorem}[AuditGateBoundary marker-resolution non-escape]
 \label{thm:audit-gate-boundary-marker-resolution-nonescape}
 For an accepted $\AuditGateBoundaryUp$ packet

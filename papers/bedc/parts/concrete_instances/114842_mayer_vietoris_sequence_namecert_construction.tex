@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MayerVietorisSequenceUp$}
+\label{ch:concrete-instances-mayer-vietoris-sequence-namecert}
+\origin{human}
+
+Following Mayer--Vietoris and the Eilenberg--Steenrod exactness discipline, the $\MayerVietorisSequenceUp$ packet records the finite boundary-route surface needed to read the classical decomposition sequence as BEDC NameCert data. It sits beside the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the cohomology substrate of \autoref{ch:concrete-instances-cohomology-namecert}, and the simplicial-complex rows of \autoref{ch:concrete-instances-simplicialcomplex-namecert}. The packet names cover, intersection, inclusion, boundary, connecting-map, transport, replay, provenance, and local naming rows; it does not assert full exactness beyond the displayed finite rows, excision as a global theorem, selected chain representatives, quotient homology equality, or ambient topological choice.
+
+\begin{definition}[Mayer--Vietoris sequence carrier]
+\label{def:mayer-vietoris-sequence-carrier}
+A $\MayerVietorisSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,U,V,I,A,B,C,D,\Delta,S,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\SimplicialComplexUp$ or homology-facing source row.
+\item $U,V$ are the two named subcomplex or subspace rows whose union is read only as a displayed cover ledger.
+\item $I$ is the intersection row $U\cap V$ with its own finite carrier and membership ledger.
+\item $A,B,C$ are the $\HomologyUp$ rows for $I$, $U\oplus V$, and $X$ at the inspected degree window.
+\item $D$ records the inclusion-induced maps from $I$ into $U$ and $V$, with the sign convention exposed as finite boundary data.
+\item $\Delta$ is the connecting-boundary row from the inspected $X$-homology window to the preceding intersection window.
+\item $S$ is the finite sequence ledger listing the displayed row order
+$$
+A \longmapsto B \longmapsto C \longmapsto \Delta .
+$$
+\item $H$ records componentwise $\hsame$ transport for cover, intersection, homology, inclusion, boundary, sequence, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay for consumers that ask for the same finite boundary route.
+\item $P$ is the $\Pkg$ provenance over $\MayerVietorisSequenceUp$, $\HomologyUp$, $\CohomologyUp$, $\SimplicialComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MayerVietorisSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for unrestricted exactness, excision outside the displayed cover, selected cycles, quotient homology representatives, host set equality, or ambient topological choice.
+\end{definition}
+\leanchecked{BEDC.Derived.MayerVietorisSequenceUp.MayerVietorisSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Mayer--Vietoris sequence NameCert obligations]
+\label{thm:mayer-vietoris-sequence-namecert-obligations}
+For every accepted $\MayerVietorisSequenceUp$ carrier $M=(X,U,V,I,A,B,C,D,\Delta,S,H,R,P,N)$, the local $\NameCert_{\MayerVietorisSequenceUp}$ surface consists exactly of carrier admission for the ambient source $X$, cover rows $U,V$, intersection row $I$, homology rows $A,B,C$, inclusion-boundary row $D$, connecting row $\Delta$, sequence ledger $S$, componentwise transport $H$, displayed replay $R$, provenance $P$, and local naming $N$. A consumer may read finite boundary-route obligations from these rows, but it receives no full long exact sequence principle beyond the displayed inspected window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mayer-vietoris-sequence-carrier}. The cover, intersection, homology, inclusion, connecting, sequence, transport, replay, provenance, and naming rows are the only coordinates available to the packet.
+
+The finite boundary route is then read through $A,B,C,D,\Delta,S$. The ledger $S$ fixes the inspected order, while $D$ and $\Delta$ expose only the inclusion and connecting-boundary data displayed for that window.
+
+Finally use the structural rows $H,R,P,N$. They preserve, replay, source, and name the same finite packet, so the local certificate cannot export unrestricted exactness, global excision, selected representatives, quotient equality, host set equality, or ambient topological choice.
+\end{proof}
+
+\begin{theorem}[Mayer--Vietoris boundary handoff]
+\label{thm:mayer-vietoris-sequence-boundary-handoff}
+Every downstream exact-sequence, homology, or cohomology consumer of an accepted $\MayerVietorisSequenceUp$ packet must read the displayed boundary route
+$$
+I,U,V,X \longmapsto A,B,C,D,\Delta,S
+$$
+before it may consume the structural rows $H,R,P,N$. The handoff supplies finite inclusion and connecting-boundary obligations for the inspected row window, not full exactness of all degrees, excision outside the named cover, selected chain representatives, quotient homology equality, or an ambient topological model.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:mayer-vietoris-sequence-namecert-obligations}. They force every consumer to read the cover rows $U,V$, the intersection row $I$, and the ambient row $X$ before the homology sequence ledger is inspected.
+
+The boundary data are then exposed by $D,\Delta,S$. These rows record the inclusion maps, sign convention, connecting boundary, and finite sequence order for the displayed window only.
+
+It remains to pass the route to downstream consumers. The transport and replay rows $H,R$ preserve the displayed boundary route, while $P,N$ source and name it. Since no other coordinate is present, the handoff cannot provide full long exactness, global excision, selected representatives, quotient equality, or host topological data.
+\end{proof}
+
+\closureat{MayerVietorisSequenceUp}{seedStr}
+
+\begin{closurestatus}{\MayerVietorisSequenceUp}
+  \constructivestory{A $\MayerVietorisSequenceUp$ packet is generated from an ambient simplicial or homology source row, two cover rows, an intersection row, homology rows, inclusion-boundary rows, a connecting-boundary row, a finite sequence ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mayer-vietoris-sequence-carrier}, \autoref{thm:mayer-vietoris-sequence-namecert-obligations}, and \autoref{thm:mayer-vietoris-sequence-boundary-handoff} seed the finite boundary-route NameCert surface for Mayer--Vietoris sequence packets over homology and simplicial-complex rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MayerVietorisSequenceUp.MayerVietorisSequenceTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full exactness beyond displayed rows, global excision, selected cycles, quotient homology equality, host set equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked cover, intersection, homology, inclusion, connecting-boundary, sequence-ledger, transport, replay, provenance, and local naming rows for BEDC.Derived.MayerVietorisSequenceUp.}
+\end{closurestatus}

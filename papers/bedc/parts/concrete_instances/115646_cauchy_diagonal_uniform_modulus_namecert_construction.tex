@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDiagonalUniformModulusUp$}
+\label{ch:concrete-instances-cauchy-diagonal-uniform-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyDiagonalUniformModulusUp$ packet records the finite diagonal uniform-modulus surface used when a family of regular Cauchy rational names is read through one displayed diagonal schedule before a Real or Completion consumer receives a seal. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the diagonal source route of \autoref{ch:concrete-instances-regularcauchydiagonal-namecert}, and the selector surface of \autoref{ch:concrete-instances-stream-diagonal-selector-namecert}. The packet is a Bishop-style finite modulus witness: it does not choose limits, quotient streams, countably many moduli, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy diagonal uniform modulus carrier]
+\label{def:cauchy-diagonal-uniform-modulus-carrier}
+A $\CauchyDiagonalUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,U,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the diagonal schedule row, read through $\StreamDiagonalSelectorUp$ and naming the finite precision-to-window assignments consumed by the diagonal read.
+\item $U$ is the uniform modulus row, assigning each displayed tolerance request one finite bound that serves all selected regular Cauchy rows visible to the schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget row, recording the dyadic request, slack conversion, radius ledger, and comparison cells used by $U$.
+\item $R$ is the $\RegSeqRatUp$ source row, displaying the regular rational readbacks inspected by the diagonal schedule.
+\item $E$ is the $\RealUp$ seal row reached only after $S,U,D,R$ and the $\RegularCauchyDiagonalUp$ source route have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, uniform modulus, dyadic budget, regular readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion tolerance request through $S,U,D,R,E$ and the structural rows.
+\item $P$ records $\Pkg$ provenance over $\CauchyDiagonalUniformModulusUp$, $\StreamDiagonalSelectorUp$, $\RegularCauchyDiagonalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyDiagonalUniformModulusUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose consumer-visible route is $S,U,D,R,E,H,C,P,N$. It has no coordinate for a countable-choice selector, a family of hidden moduli, quotient stream equality, a selected completed limit, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy diagonal uniform modulus NameCert obligations]
+\label{thm:cauchy-diagonal-uniform-modulus-namecert-obligations}
+For every accepted $\CauchyDiagonalUniformModulusUp$ packet $M=(S,U,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyDiagonalUniformModulusUp}$ surface consists exactly of carrier admission, diagonal schedule exposure through $S$, uniform modulus exposure through $U$, dyadic tolerance-budget visibility through $D$, RegSeqRat source readback through $R$, Real seal routing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-diagonal-uniform-modulus-carrier}. The packet displays one diagonal schedule, one uniform modulus row, one dyadic tolerance ledger, the regular rational readbacks inspected by that schedule, and the terminal Real seal.
+
+The diagonal schedule is read first. It fixes the finite StreamName windows and selector coordinates supplied by $\StreamDiagonalSelectorUp$ and $\RegularCauchyDiagonalUp$. The uniform row $U$ then answers a displayed tolerance request by a single bound over those scheduled reads rather than by choosing a separate hidden modulus for each source.
+
+The dyadic budget $D$ and regular readback row $R$ make the bound auditable. They display the precision, slack, comparison, and rational readback data consumed before the Real seal $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no countable-choice selector, quotient-stream equality, selected completed limit, host equality, or ambient completeness coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted CauchyDiagonalUniformModulusUp consumer displays the diagonal schedule, uniform modulus, DyadicRatCore tolerance budget, RegSeqRat source readback, RealUp seal, hsame transport, Cont replay, Pkg provenance, and NameCert rows before any Real-facing diagonal read is public.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regularcauchydiagonal, stream-diagonal-selector: no listed sibling supplies the whole nine-row packet $M=(S,U,D,R,E,H,C,P,N)$, because each sibling contributes only dyadic tolerance, finite window, regular readback, terminal seal, diagonal source, or selector data while this packet binds them under one uniform modulus row.}
+
+The future Lean file \texttt{lean4/BEDC/Derived/CauchyDiagonalUniformModulusUp.lean} should expose the carrier and NameCert-obligation surface for \texttt{BEDC.Derived.CauchyDiagonalUniformModulusUp} without adding quotient streams, selected limits, countable choice, or ambient Real completeness.
+
+\closureat{CauchyDiagonalUniformModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDiagonalUniformModulusUp}
+  \constructivestory{A $\CauchyDiagonalUniformModulusUp$ packet is generated from a diagonal schedule, a uniform modulus row, a DyadicRatCore tolerance budget, RegSeqRat source readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-diagonal-uniform-modulus-carrier} and \autoref{thm:cauchy-diagonal-uniform-modulus-namecert-obligations} seed the finite diagonal uniform-modulus route over schedule, tolerance, readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, countable choice, quotient stream equality, selected completed limits, host real equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule exposure, uniform modulus exposure, dyadic tolerance-budget visibility, regular readback stability, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyDiagonalUniformModulusUp.}
+\end{closurestatus}

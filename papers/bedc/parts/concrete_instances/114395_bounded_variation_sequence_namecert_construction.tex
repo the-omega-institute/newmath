@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BoundedVariationSequenceUp$}
+\label{ch:concrete-instances-bounded-variation-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a sequence of bounded variation is a regular real sequence whose finite variation ledgers are uniformly controlled by displayed rational data. The $\BoundedVariationSequenceUp$ packet records this classical constructive object on the L10 Real and Completion route. It sits after the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence interface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy route of \autoref{ch:concrete-instances-cauchy-namecert}. The packet names finite sequence-variation control without importing host sequence equality, selected limits, countable choice, completed sequence spaces, or full real completeness.
+
+\begin{definition}[BoundedVariationSequence carrier]
+\label{def:bounded-variation-sequence-carrier}
+A $\BoundedVariationSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+V=(S,Q,D,R,C,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row for the observation stream and finite prefix windows.
+\item $Q$ is the $\RegSeqRatUp$ row reading each displayed sequence value by regular rational names.
+\item $D$ is the $\DyadicRatCoreUp$ row for adjacent dyadic difference observations and finite variation sums.
+\item $R$ is the $\RealUp$ seal row for the accepted value names and variation-budget name.
+\item $C$ is the $\CauchyUp$ route row exposed only after the finite variation ledger supplies a tail-control modulus.
+\item $H$ stores componentwise $\hsame$ transport for stream windows, regular rational reads, dyadic difference ledgers, Real seals, Cauchy handoff, replay, provenance, and local naming.
+\item $K$ stores $\Cont$ replay from prefix windows to adjacent differences, from finite variation sums to tail budgets, and from tail budgets to the Cauchy consumer route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedVariationSequenceUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $S,Q,D,R,C,H,K,P,N$. It has no coordinate for host sequence equality, a selected limiting real, quotient sequence spaces, countable choice, or full $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BoundedVariationSequence variation ledger]
+\label{thm:bounded-variation-sequence-variation-ledger}
+For every accepted $\BoundedVariationSequenceUp$ carrier $V=(S,Q,D,R,C,H,K,P,N)$ and every displayed finite prefix window, the public variation read factors through
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The row $D$ accounts for adjacent dyadic differences and finite variation sums, while $R$ seals only the displayed regular rational values and their variation-budget read. No consumer receives a supremum over all partitions, host sequence equality, selected limit, or ambient completed sequence space from this ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-variation-sequence-carrier}. A variation request first chooses a finite prefix window from $S$ and then reads the corresponding value names through the regular rational row $Q$.
+
+The dyadic row $D$ is the only place where adjacent differences and finite variation sums are recorded. Its data are finite: each read is tied to the displayed prefix and to the regular names already exposed by $Q$.
+
+The Real row $R$ seals those displayed value names and the displayed variation-budget name. Because the carrier has no coordinate for a supremum over all prefixes, host sequence equality, quotient sequence space, selected limit, or full real completeness, the public variation ledger is exactly the finite route through $S,Q,D,R$.
+\end{proof}
+
+\begin{theorem}[BoundedVariationSequence Cauchy modulus route]
+\label{thm:bounded-variation-sequence-cauchy-modulus-route}
+Let $V=(S,Q,D,R,C,H,K,P,N)$ be an accepted $\BoundedVariationSequenceUp$ carrier. Any downstream $\CauchyUp$ or completion consumer that cites a modulus from $V$ must read the finite variation ledger $S,Q,D,R$ first and then consume the displayed handoff row $C$ with the same structural rows $H,K,P,N$. The route exports a tail-control obligation, not a selected limit or quotient equality of sequences.
+\end{theorem}
+\begin{proof}
+Start with the variation ledger of \autoref{thm:bounded-variation-sequence-variation-ledger}. It confines every finite variation read to stream windows, regular rational names, dyadic adjacent-difference observations, and the Real seal.
+
+The Cauchy row $C$ is downstream of that ledger. A consumer may read $C$ only after the finite variation sums and tail-budget comparisons have been replayed through $K$ and transported through $H$.
+
+The rows $P$ and $N$ source and name the same route for downstream completion-facing consumers. Since no coordinate of the carrier is a selected limit, quotient sequence equality, completed sequence-space object, countable-choice principle, or full real-completeness row, the Cauchy handoff is a modulus route over displayed finite data.
+\end{proof}
+
+\falsifiablePrediction{Every $\BoundedVariationSequenceUp$ read from an accepted packet factors through the stream window, regular rational sequence readback, dyadic adjacent-difference ledger, Real seal, Cauchy handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any completion consumer sees the route.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchy: $\BoundedVariationSequenceUp$ is not bijective to any listed sibling because it jointly carries prefix windows, regular rational value names, adjacent dyadic difference ledgers, finite variation sums, a Real seal, a Cauchy handoff, transport, replay, provenance, and local naming.}
+
+\closureat{BoundedVariationSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationSequenceUp}
+  \constructivestory{A $\BoundedVariationSequenceUp$ packet is generated from StreamName prefix windows, RegSeqRat value names, DyadicRatCore adjacent-difference and finite variation ledgers, a RealUp seal, a Cauchy handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-variation-sequence-carrier}, \autoref{thm:bounded-variation-sequence-variation-ledger}, and \autoref{thm:bounded-variation-sequence-cauchy-modulus-route} seed the finite bounded-variation sequence interface over StreamName, RegSeqRat, DyadicRatCore, Real, and Cauchy routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a selected sequence limit, host sequence equality, quotient sequence space, countable choice, full Real completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, variation-ledger exactness, Cauchy modulus handoff, classifier transport, and consumer nonescape for BEDC.Derived.BoundedVariationSequenceUp.}
+\end{closurestatus}

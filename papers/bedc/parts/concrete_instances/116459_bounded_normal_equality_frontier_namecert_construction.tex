@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalEqualityFrontierUp$}
+\label{ch:concrete-instances-bounded-normal-equality-frontier-namecert}
+\origin{ai}
+
+The $\BoundedNormalEqualityFrontierUp$ packet realizes the normal-equality boundary of \autoref{sec:metacic-decidable-audit-map-normal-equality} as finite MetaCIC audit data. It sits beside the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the decidable conversion frontier of \autoref{ch:concrete-instances-metacic-decidable-conversion-frontier-namecert}, the bounded decidable fragment of \autoref{ch:concrete-instances-metacic-decidable-fragment-namecert}, and the decidable neutral-spine packet of \autoref{ch:concrete-instances-metacic-decidable-neutral-spine-namecert}. The packet names the frontier where normalizer fuel, closedness rows, finished normal forms, equality checking, transport, replay, provenance, and local naming remain visible together; it does not claim unrestricted beta-conversion decidability, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[Bounded normal-equality frontier carrier]
+\label{def:bounded-normal-equality-frontier-carrier}
+A $\BoundedNormalEqualityFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,F,L,N,E,R,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed MetaCIC input row, listing the two closed terms, their type context, and the bounded equality query.
+\item $F$ is the finite normalizer-fuel row, recording the shared fuel value and the bounded evaluation trace admitted for each side.
+\item $L$ is the closedness ledger, recording the closed-term and closed-normal-form checks consumed by the frontier.
+\item $N$ is the finished-normal-form row, displaying the two bounded normal forms and the witnesses that the displayed fuel has reached finished endpoints.
+\item $E$ is the equality-checker row, recording the structural comparison of the finished normal forms.
+\item $R$ is the refusal row, naming unrestricted beta conversion, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, and kernel consistency as unavailable endpoints.
+\item $H$ records componentwise $\hsame$ transport for the input, fuel, closedness, finished-normal, equality-checker, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the audit-map query through $I,F,L,N,E,R,H,P,A$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedNormalEqualityFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICDecidableConversionFrontierUp$, $\MetaCICDecidableFragmentUp$, $\MetaCICDecidableNeutralSpineUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\BoundedNormalEqualityFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,F,L,N,E,R,H,C,P,A$. It has no coordinate for an unrestricted conversion decider, arbitrary-fuel normalization completeness, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[Bounded normal-equality frontier NameCert obligations]
+\label{thm:bounded-normal-equality-frontier-namecert-obligations}
+For every accepted $\BoundedNormalEqualityFrontierUp$ carrier $Q=(I,F,L,N,E,R,H,C,P,A)$, the local $\NameCert_{\BoundedNormalEqualityFrontierUp}$ surface consists exactly of closed input exposure, finite normalizer-fuel exposure, closedness ledger exposure, finished-normal-form exposure, equality-checker exposure, refusal-boundary retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-normal-equality-frontier-carrier}. The rows $I,F,L,N,E,R$ are the complete normal-equality audit data, and $H,C,P,A$ are the structural rows that transport, replay, source, and name that data.
+
+The fuel row $F$ bounds the normalizer traces. The closedness row $L$ records that the query and the finished endpoints are closed, while the finished-normal row $N$ exposes the two normal forms before any equality result is read.
+
+The equality-checker row $E$ is therefore consumed only under the retained refusal row $R$. Since no carrier coordinate contains unrestricted beta conversion, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency, those endpoints cannot be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded normal-equality frontier finished soundness route]
+\label{thm:bounded-normal-equality-frontier-finished-soundness-route}
+Every MetaCIC decidability consumer of an accepted $\BoundedNormalEqualityFrontierUp$ carrier must read
+$$
+I \longmapsto F \longmapsto L \longmapsto N \longmapsto E \longmapsto R,H,C,P,A
+$$
+before treating a positive equality-checker row as a finished bounded normal-equality result. The route is conditional on displayed fuel, closedness, finished endpoints, and structural equality of the displayed normal forms; it is not unrestricted beta-conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:bounded-normal-equality-frontier-namecert-obligations}. A consumer must expose the input, bounded fuel, closedness ledger, finished normal forms, equality checker, refusal boundary, transport, replay, provenance, and local naming before reading the frontier.
+
+The normal-equality result reaches the checker row $E$ only after the finite fuel row $F$, closedness row $L$, and finished-normal row $N$ have been displayed. Thus any positive checker read is a finished bounded-normal-form readback rather than a global conversion decision.
+
+The refusal row $R$ remains in the exported route. A consumer that wants arbitrary fuel, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency must supply a separate certificate outside this packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BoundedNormalEqualityFrontierUp$ consumer that exports a normal-equality result without displaying $I,F,L,N,E,R,H,C,P,A$ refutes the frontier surface.}
+
+\independenceWitness{metacic-decidable-conversion-frontier, metacic-decidable-fragment, metacic-decidable-typing-frontier, metacic-decidable-neutral-spine: $\BoundedNormalEqualityFrontierUp$ is not bijective to any listed sibling because it jointly stores normalizer fuel, closedness, finished-normal-form, equality-checker, refusal, transport, replay, provenance, and local NameCert rows. Later Lean instances should expose nontriviality by producing two distinct accepted frontier packets and field faithfulness by showing that equality of frontier fields is exactly equality of $I,F,L,N,E,R,H,C,P,A$.}
+
+\closureat{BoundedNormalEqualityFrontierUp}{seedStr}
+
+\begin{closurestatus}{\BoundedNormalEqualityFrontierUp}
+  \constructivestory{A $\BoundedNormalEqualityFrontierUp$ packet is generated from closed MetaCIC input rows, finite normalizer-fuel rows, closedness ledgers, finished-normal-form rows, equality-checker rows, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normal-equality-frontier-carrier}, \autoref{thm:bounded-normal-equality-frontier-namecert-obligations}, and \autoref{thm:bounded-normal-equality-frontier-finished-soundness-route} seed the finite bounded normal-equality frontier for MetaCIC decidability consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted beta-conversion decidability, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier, Nontrivial and FieldFaithful instances, and checked NameCert obligations for the displayed bounded normal-equality frontier route.}
+\end{closurestatus}

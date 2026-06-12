@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCauchyRealizerUp$}
+\label{ch:concrete-instances-bishop-regular-cauchy-realizer-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers by regular Cauchy sequences, the $\BishopRegularCauchyRealizerUp$ packet records the finite route by which dyadic tolerances, stream observations, regular rational readback, an explicit Cauchy modulus, and the terminal real-name seal are assembled into one choice-free realizer. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy-modulus carrier of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the displayed $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a realizer surface for regular Cauchy real names; it is not a quotient of streams, not a selected host limit, not countable choice, and not ambient completeness for $\RealUp$.
+
+\begin{definition}[BishopRegularCauchyRealizer carrier]
+\label{def:bishop-regular-cauchy-realizer-carrier}
+A $\BishopRegularCauchyRealizerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D,S,Q,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including dyadic scale, comparison, and refinement rows used by the regularity bound.
+\item $S$ is the $\StreamNameUp$ observation row, carrying the finite windows at which the rational name is inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row, recording the rational values attached to those windows.
+\item $M$ is the $\CauchyModulusUp$ row that binds a precision request to a displayed window budget before any Real-facing seal is read.
+\item $E$ is the $\RealUp$ endpoint seal row receiving the regular Cauchy name only after $D,S,Q,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerance, stream window, rational readback, modulus, endpoint seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay along the same route.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularCauchyRealizerUp}$ row.
+\end{enumerate}
+The classifier on such packets is componentwise transport through $H$ together with replay through $C$. No coordinate exports a quotient stream, a selected limit, an unrestricted choice schedule, host real equality, or a detached completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopRegularCauchyRealizer NameCert obligations]
+\label{thm:bishop-regular-cauchy-realizer-namecert-obligations}
+For every accepted $\BishopRegularCauchyRealizerUp$ carrier $R=(D,S,Q,M,E,H,C,P,N)$, the local $\NameCert_{\BishopRegularCauchyRealizerUp}$ surface consists exactly of carrier admission for the displayed dyadic tolerance ledger, stream-window row, regular-rational readback row, Cauchy-modulus row, Real seal, componentwise transport, replay, provenance, and local naming. Every Real-facing read of the packet must expose the route
+$$
+D,S,Q,M \longmapsto E \longmapsto H,C,P,N .
+$$
+It cannot replace the route by quotient equality of streams, a host-selected limit, countable choice, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted packet displays only the rows $D,S,Q,M,E,H,C,P,N$, and the local naming row has no coordinate outside that list.
+
+The dyadic tolerance row $D$ supplies the precision scale, the stream row $S$ supplies the finite inspection windows, and the regular rational row $Q$ supplies the rational values at those windows. The modulus row $M$ is the only admitted route from a precision request to a window budget.
+
+The endpoint seal $E$ is downstream from those four rows. Componentwise transport through $H$, displayed replay through $C$, and provenance through $P$ preserve the same route before the local $\NameCert$ row $N$ names it.
+
+The excluded objects are absent from the carrier. Therefore the NameCert obligations expose the finite regular Cauchy realizer route and do not create quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[BishopRegularCauchyRealizer Real-seal nonescape]
+\label{thm:bishop-regular-cauchy-realizer-seal-nonescape}
+Every $\RealUp$ seal read exported by an accepted $\BishopRegularCauchyRealizerUp$ carrier factors through the displayed dyadic, stream, regular-rational, and Cauchy-modulus rows
+$$
+D,S,Q,M,E,H,C,P,N .
+$$
+In particular, the seal cannot be read as a selected limit of a host sequence, a quotient class of Cauchy streams, a countable-choice construction, or a proof of ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Open the exported seal row $E$. By \autoref{def:bishop-regular-cauchy-realizer-carrier}, that row is part of the same finite packet as $D,S,Q,M,H,C,P,N$ and has no independent source.
+
+Apply \autoref{thm:bishop-regular-cauchy-realizer-namecert-obligations}. It forces each Real-facing read to pass first through dyadic tolerance, stream-window, regular-rational, and Cauchy-modulus rows, and then through transport, replay, provenance, and local naming.
+
+Since the carrier contains no quotient stream coordinate, no selected host limit, no countable-choice schedule, and no ambient completeness row, the exported seal remains inside the displayed finite route.
+\end{proof}
+
+\closureat{BishopRegularCauchyRealizerUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCauchyRealizerUp}
+  \constructivestory{A $\BishopRegularCauchyRealizerUp$ packet is generated from a dyadic tolerance ledger, finite stream-window observations, regular rational readback, an explicit Cauchy modulus, a Real endpoint seal, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-realizer-carrier}, \autoref{thm:bishop-regular-cauchy-realizer-namecert-obligations}, and \autoref{thm:bishop-regular-cauchy-realizer-seal-nonescape} seed the choice-free regular Cauchy realizer route over dyadic, stream, rational, modulus, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient real equality, selected limits, countable choice, host real equality, or ambient completeness for $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-window handoff, Real-seal factorization, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularCauchyRealizerUp.}
+\end{closurestatus}

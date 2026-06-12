@@ -8,6 +8,7 @@ $$
 $$
 read through the carrier of \autoref{def:covering-dimension-carrier}; it does not select dense points, arbitrary open covers, or external refinements.
 \end{proposition}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionMetricRealSeparabilityRoute}
 \begin{proof}
 Project the carrier of \autoref{def:covering-dimension-carrier}. The finite cover row and refinement row can be inspected only through displayed metric balls and the compact metric source already named by the packet.
 
@@ -16,4 +17,17 @@ Read the $\RealSeparabilityUp$ sibling through rational dense windows. Those win
 Conversely, any dense-window use of $\RealSeparabilityUp$ in this chapter must be tied back to a displayed metric-ball refinement. The covering-dimension consumer may cite the separability row only after the relevant ball, radius, and refinement rows have been exposed through $\MetricUp$.
 
 The order-bound ledger is then read from the same finite refinement packet. Since the route has no coordinate for arbitrary open covers or external refinements, the dependency remains the displayed metric-to-separability route.
+\end{proof}
+
+\begin{theorem}[CoveringDimension metric-real dependency]
+\label{thm:coveringdimension-metric-real-dependency}
+Every $\CoveringDimensionUp$ finite-refinement read that uses $\RealSeparabilityUp$ must expose, in order, the $\MetricUp$ ball rows, the $\RealSeparabilityUp$ dense-window rows, and the local order-bound ledger of the covering-dimension packet. The route premise is the metric separability dependency of \autoref{prop:coveringdimension-metric-real-separability-route}; no consumer may read the dense-window row before the metric-ball surface or the order-bound ledger before both preceding rows are displayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionMetricRealDependency}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The finite cover, refinement, and order-bound rows are local to the same packet, while \autoref{prop:coveringdimension-metric-real-separability-route} supplies the only route from the covering-dimension read to $\RealSeparabilityUp$.
+
+Use that route premise to expose the $\MetricUp$ ball rows first. The dense-window rows of $\RealSeparabilityUp$ sample only those displayed metric balls, so they cannot be read before the ball centers, radii, and finite refinement rows have been named.
+
+The order-bound ledger is then a downstream read of the covering-dimension packet. Since neither the carrier nor the route premise contains a coordinate for selected dense points, arbitrary open covers, or external refinements, the dependency order remains metric balls, dense windows, and the local order-bound ledger.
 \end{proof}

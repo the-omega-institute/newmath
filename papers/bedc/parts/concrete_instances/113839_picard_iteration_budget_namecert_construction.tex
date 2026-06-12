@@ -1,0 +1,104 @@
+\chapter{Picard Iteration Budget NameCert Construction}
+\label{ch:concrete-instances-picard-iteration-budget-namecert}
+\origin{human}
+
+Following Picard's successive approximations and Banach's contraction principle in Bishop--Bridges constructive analysis, the $\PicardIterationBudgetUp$ packet records the finite budget surface that a contraction orbit must expose before endpoint-facing completion data are read. It sits between the Cauchy contraction orbit of \autoref{ch:concrete-instances-cauchy-contraction-orbit-namecert}, the Banach contraction row of \autoref{ch:concrete-instances-banach-contraction-namecert}, the Picard ledger of \autoref{ch:concrete-instances-picard-iteration-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite means of an iteration budget; it does not assert a general completeness theorem, choose an endpoint, identify quotient reals, or import countable choice.
+
+\begin{definition}[Picard iteration budget carrier]
+\label{def:picard-iteration-budget-carrier}
+A $\PicardIterationBudgetUp$ carrier is a finite packet
+$$
+B=(S,K,W,D,E,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $S$ is the seed row, naming the initial point, accepted metric source, and contraction orbit entry used by the budget.
+\item $K$ is the contraction-modulus row, storing the displayed contraction comparison and the finite modulus read from the Banach contraction surface.
+\item $W$ is the iterate-window row, listing the finite interval of Picard iterates inspected by the budget request.
+\item $D$ is the dyadic error-budget row, recording the requested tolerance, the residual comparison, and the finite arithmetic certificate that the window is long enough.
+\item $E$ is the endpoint-handoff row, exposing only the completion-facing or Real-facing boundary available after $S,K,W,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the seed, modulus, window, dyadic error budget, endpoint handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the seed row through the contraction modulus, iterate window, dyadic budget, endpoint handoff, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PicardIterationBudgetUp$, $\CauchyContractionOrbitUp$, $\BanachContractionUp$, $\PicardIterationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PicardIterationBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,K,W,D,E,H,C,P,N$. It has no coordinate for a hidden infinite orbit, a selected fixed point, quotient equality of endpoint names, countable choice, host function extensionality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Picard iteration budget NameCert obligations]
+\label{thm:picard-iteration-budget-namecert-obligations}
+For every accepted $\PicardIterationBudgetUp$ carrier $B=(S,K,W,D,E,H,C,P,N)$, the local $\NameCert_{\PicardIterationBudgetUp}$ surface consists exactly of carrier admission for the seed row, contraction-modulus row, iterate-window row, dyadic error-budget row, endpoint-handoff row, componentwise transport, displayed replay, provenance, and local naming.
+
+The classifier agreement obligation requires two accepted packets to agree precisely when these rows agree componentwise through the displayed $\hsame$ route. The stability obligation requires the same row order to be preserved by $\hsame$ transport and $\Cont$ replay before any endpoint handoff is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:picard-iteration-budget-carrier}. The analytic part is $S,K,W,D,E$; the structural certificate part is $H,C,P,N$.
+
+The seed row and contraction-modulus row determine what orbit may be inspected. The iterate-window row then restricts the read to finitely many Picard rows, and the dyadic error-budget row records the tolerance comparison attached to that window.
+
+Endpoint handoff is terminal for the budget route. Since $E$ is downstream of $S,K,W,D$, no consumer can read endpoint data without first exposing the finite seed, modulus, iterate window, and dyadic budget rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. No excluded object is a carrier coordinate, so no hidden infinite orbit, selected fixed point, quotient endpoint equality, choice principle, host extensionality rule, or ambient Real-completeness theorem is a local obligation.
+\end{proof}
+
+\begin{theorem}[Picard iteration budget exactness]
+\label{thm:picard-iteration-budget-exactness}
+Every endpoint-facing read of an accepted $\PicardIterationBudgetUp$ carrier factors through
+$$
+\CauchyContractionOrbitUp \longmapsto \BanachContractionUp \longmapsto \PicardIterationUp \longmapsto \RealUp .
+$$
+The finite budget is exact in the following sense: it exposes the seed row, contraction modulus, iterate window, dyadic error budget, and endpoint handoff as displayed rows, and it exports no additional infinite orbit data beyond those rows.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:picard-iteration-budget-namecert-obligations}. They place the seed row, contraction-modulus row, iterate-window row, and dyadic budget row before the endpoint handoff.
+
+The Cauchy contraction orbit and Banach contraction rows supply the visible contraction data. The Picard iteration row supplies only the finite window requested by $W$, while $D$ checks the requested dyadic tolerance against that finite window.
+
+The endpoint handoff row $E$ is reached only after those rows have been displayed. It may feed completion-facing or Real-facing consumers, but it does not add a selected endpoint, quotient equality, host extensionality, countable choice, hidden tail stream, or ambient $\RealUp$ completeness coordinate.
+
+Thus the budget route is exact for finite inspection: every exported endpoint read is tied to the displayed rows of $B$, and no unlisted orbit data can be consumed by the local certificate.
+\end{proof}
+
+\begin{theorem}[Picard iteration budget Cauchy-tail handoff]
+\label{thm:picard-iteration-budget-cauchy-tail}
+Let $B=(S,K,W,D,E,H,C,P,N)$ be an accepted $\PicardIterationBudgetUp$ carrier whose displayed rows include a contraction row, a finite Picard iteration ledger, a ratio-tail budget, a $\CompleteMetricUp$ boundary, and a $\RegSeqRatUp$ handoff. For every tolerance history accepted by the dyadic error-budget row, the packet exports a unary stage after which every displayed pair of Picard iterates in the window is within the $\RegSeqRatUp$ tolerance read by the handoff row.
+
+The exported tail ledger is finite. It is transported componentwise by $\hsame$, replayed only through the displayed $\Cont$ rows, and consumed by completion and Banach fixed-point chapters without selected endpoints, host functions, quotient equality of completed names, or countable choice.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The seed row $S$ and contraction row $K$ fix the accepted orbit and the displayed contraction comparison; the window row $W$ names the finite Picard rows that may be inspected.
+
+Use the contraction row to shrink adjacent residuals inside the displayed window. The ratio-tail part of $D$ then dominates the finite sum of those residuals for the requested tolerance history, so the same row supplies a unary stage for the whole tail comparison.
+
+Route this finite comparison through the $\RegSeqRatUp$ readback and the $\CompleteMetricUp$ boundary named by the endpoint handoff row $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same ledger, and no selected endpoint or quotient equality is introduced after the finite tail stage has been exposed.
+\end{proof}
+
+\begin{theorem}[Picard iteration budget ledger nonescape]
+\label{thm:picard-iteration-budget-ledger-nonescape}
+For an accepted $\PicardIterationBudgetUp$ carrier, the ledger visible to downstream consumers is exhausted by the seed, contraction modulus, iterate window, dyadic error budget, endpoint handoff, transport, replay, provenance, and local naming rows. In particular, a downstream consumer cannot recover a hidden infinite orbit, a selected fixed point, quotient equality of completed endpoints, countable choice, host function extensionality, or ambient $\RealUp$ completeness from the budget packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:picard-iteration-budget-carrier}. The carrier lists exactly $S,K,W,D,E,H,C,P,N$.
+
+The analytic ledger is exhausted by $S,K,W,D,E$. These rows record the seed, contraction comparison, finite iterate window, dyadic tolerance comparison, and endpoint handoff.
+
+The structural ledger is exhausted by $H,C,P,N$. These rows preserve and name the analytic route, but they do not introduce another endpoint source or an infinite-orbit coordinate.
+
+The excluded objects are absent from both ledgers. Therefore they cannot be recovered from the local NameCert surface of the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PicardIterationBudgetUp$ endpoint-facing read must expose a seed row, contraction-modulus row, finite iterate-window row, dyadic error-budget row, endpoint-handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a completion or Real-facing consumer reads endpoint data.}
+
+\independenceWitness{cauchy-contraction-orbit, banach-contraction, picard-iteration, real: $\PicardIterationBudgetUp$ is not bijective to any listed sibling because it binds a seed row, contraction modulus, finite iterate window, dyadic error budget, endpoint handoff, transport, replay, provenance, and local naming in one finite budget packet.}
+
+\closureat{PicardIterationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\PicardIterationBudgetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-iteration-budget-carrier}, \autoref{thm:picard-iteration-budget-namecert-obligations}, \autoref{thm:picard-iteration-budget-exactness}, and \autoref{thm:picard-iteration-budget-ledger-nonescape} seed the finite budget interface from contraction orbit data to endpoint-facing reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general completeness, selected fixed points, quotient endpoint equality, countable choice, host function extensionality, hidden infinite orbit data, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, classifier agreement, hsame and Cont stability, ledger nonescape, finite budget exactness, and local naming for BEDC.Derived.PicardIterationBudgetUp.}
+  \constructivestory{A $\PicardIterationBudgetUp$ packet is generated from a seed row, contraction modulus, finite Picard iterate window, dyadic error budget, endpoint handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CoreCompactUp$}
+\label{ch:concrete-instances-core-compact-namecert}
+\origin{human}
+
+Following Isbell, Johnstone, and constructive locale practice, the $\CoreCompactUp$ packet records a core-compact neighbourhood relation as finite BEDC data. It sits between the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the local compact-neighbourhood certificate of \autoref{ch:concrete-instances-locallycompact-namecert}, the compact metric witness surface of \autoref{ch:concrete-instances-compactmetric-namecert}, and the located compact handoff of \autoref{ch:concrete-instances-locatedcompact-namecert}. The packet names one displayed way-below neighbourhood route and its compact witness support; it does not assert open-cover compactness, a host basis selector, countable choice, quotient opens, or ambient Real completeness.
+
+\begin{definition}[CoreCompact carrier]
+\label{def:core-compact-carrier}
+A $\CoreCompactUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,U,V,W,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\TopologyUp$ source row whose opens and incidence data are already admitted as finite BEDC carrier rows.
+\item $U$ is the inspected open-neighbourhood row requested by a consumer.
+\item $V$ is the displayed core row, read as a neighbourhood that is way below $U$ in the finite inspection order carried by the packet.
+\item $W$ is the way-below witness row, recording the finite containment and directed-cover test by which the packet justifies $V \ll U$ for the displayed request.
+\item $K$ is the $\CompactMetricUp$ or compact-window witness attached to the displayed core neighbourhood when a metric compact witness is available.
+\item $L$ is the optional $\LocatedCompactUp$ handoff row for the same core neighbourhood, or an explicit empty handoff row when no located boundary is claimed.
+\item $H$ records componentwise $\hsame$ transport for topology source, inspected open, core row, way-below witness, compact witness, located handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite neighbourhood request through $X,U,V,W,K,L,H$ and into local compactness, compact metric, located compact, or completion-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\CoreCompactUp$, $\TopologyUp$, $\LocallyCompactUp$, $\CompactMetricUp$, $\LocatedCompactUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CoreCompactUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these ten rows. It has no coordinate for arbitrary open covers, a host-selected basis, quotient-open equality, countable choice, all-neighbourhood local compactness, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CoreCompactUp.CoreCompactTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CoreCompact way-below neighbourhood route]
+\label{thm:core-compact-way-below-neighbourhood-route}
+Let $Q=(X,U,V,W,K,L,H,C,P,N)$ be an accepted $\CoreCompactUp$ packet. Every $\LocallyCompactUp$ or $\TopologyUp$ consumer that reads a core-compact neighbourhood must first display the topology source $X$, the inspected open row $U$, the core row $V$, and the way-below witness $W$. Only after those rows are present may the consumer inspect the compact witness $K$, the optional located compact handoff $L$, and the structural rows $H,C,P,N$. The route supplies a finite way-below neighbourhood certificate and does not export arbitrary open-cover compactness, a host basis selector, quotient-open equality, countable choice, all-centres/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:core-compact-carrier}. The first public rows are the topology source, the inspected open, the displayed core neighbourhood, and the way-below witness.
+
+Read the local compactness sibling through \autoref{ch:concrete-instances-locallycompact-namecert}. That sibling supplies compact neighbourhood data only after an inspected point and displayed compact window are named; here the analogous route is $U,V,W$ before compact support is read.
+
+The compact support is therefore downstream. The row $K$ records the compact metric or compact-window witness for the displayed core, and the optional row $L$ can refine the same neighbourhood only when located compact data are shown.
+
+Finally use the structural rows. Componentwise transport and replay preserve the same finite route, while provenance and local naming identify the sibling surfaces. Since no excluded open-cover, basis-selector, quotient, choice, properness-family, or ambient-completeness coordinate occurs in $Q$, no consumer can recover such data from the way-below route.
+\end{proof}
+
+\begin{theorem}[CoreCompact located compact handoff]
+\label{thm:core-compact-located-compact-handoff}
+Let $Q=(X,U,V,W,K,L,H,C,P,N)$ be an accepted $\CoreCompactUp$ packet. A $\LocatedCompactUp$ or $\CompactMetricUp$ consumer may read $L$ or $K$ only as support for the same displayed core neighbourhood $V \ll U$. The handoff factors through the $\TopologyUp$ source row, the $\LocallyCompactUp$ compact-neighbourhood route, the $\CompactMetricUp$ witness row, the optional $\LocatedCompactUp$ row, and then the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. It exports no independent located compact object, no open-cover compactness theorem, no countable choice, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:core-compact-way-below-neighbourhood-route}. It forces every consumer to expose $X,U,V,W$ before compact or located support is available.
+
+Use the compact metric sibling of \autoref{ch:concrete-instances-compactmetric-namecert}. The compact row $K$ is read only for the displayed core neighbourhood; it is not a host compactness theorem and not a compact object detached from $V \ll U$.
+
+Use the located compact sibling of \autoref{ch:concrete-instances-locatedcompact-namecert}. The row $L$ is optional and exact: when present it refines the same compact neighbourhood, and when absent the packet makes no locatedness claim.
+
+The remaining rows bind the handoff. Transport, replay, provenance, and local naming pass through $H,C,P,N$, so the located or compact consumer receives one displayed core-neighbourhood route and none of the excluded open-cover, choice, quotient, independent located-object, or ambient-completeness data.
+\end{proof}
+
+\closureat{$\CoreCompactUp$}{seedStr}
+
+\begin{closurestatus}{\CoreCompactUp}
+  \constructivestory{A $\CoreCompactUp$ packet is generated from a topology source row, an inspected open row, a displayed core neighbourhood row, a way-below witness row, a compact metric or compact-window witness, an optional located compact handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:core-compact-carrier}, \autoref{thm:core-compact-way-below-neighbourhood-route}, and \autoref{thm:core-compact-located-compact-handoff} seed the constructive core-compact interface between topology, local compactness, compact metric witnesses, and located compact handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, host basis selection, quotient-open equality, countable choice, all-neighbourhood local compactness, global properness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, way-below neighbourhood routing, compact witness projection, located compact handoff exactness, componentwise transport, replay stability, provenance, and local NameCert exactness for BEDC.Derived.CoreCompactUp.}
+\end{closurestatus}

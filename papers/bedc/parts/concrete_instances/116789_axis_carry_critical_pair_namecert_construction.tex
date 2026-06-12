@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\AxisCarryCriticalPairUp$}
+\label{ch:concrete-instances-axis-carry-critical-pair-namecert}
+\origin{human}
+
+Following Newman-style local confluence analysis for finite rewrite systems, the $\AxisCarryCriticalPairUp$ packet records the displayed critical pair formed by two overlapping Zeckendorf carry windows. It sits between the carry classifier of \autoref{ch:concrete-instances-zcarry-namecert}, the carry-normalization handoff of \autoref{ch:concrete-instances-zeckendorf-carry-normalization-namecert}, the normal-word boundary of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, the route-separation surface of \autoref{ch:concrete-instances-axis-carry-route-separation-namecert}, the diamond-route packet of \autoref{ch:concrete-instances-axis-carry-diamond-route-namecert}, and the confluence packet of \autoref{ch:concrete-instances-axis-carry-confluence-namecert}. The packet names a finite local overlap only; it is not a kernel rewrite, a quotient by history sameness, a global normalizer, or an unbounded confluence theorem.
+
+\begin{definition}[Axis carry critical-pair carrier]
+\label{def:axis-carry-critical-pair-carrier}
+An $\AxisCarryCriticalPairUp$ carrier is a finite $\BHist$ packet
+$$
+K=(s,\ell,r,j,n,V,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the overlapping Zeckendorf source-window row containing two visible carry redexes.
+\item $\ell$ is the left-first carry target row reached by applying the left window through $\ZCarryUp$.
+\item $r$ is the right-first carry target row reached by applying the right window through $\ZCarryUp$.
+\item $j$ is the shared join row obtained by normalizing the remaining visible carry window from both $\ell$ and $r$.
+\item $n$ is the terminal $\ZNormalUp$ row reached from $j$ by the local carry-normalization handoff.
+\item $V$ is the Fibonacci value ledger, recording that $s,\ell,r,j,n$ display the same finite value sum.
+\item $B$ is the boundary row recording the non-$\hsame$ status of the two carry edges and the fact that the join is a route comparison rather than a history identification.
+\item $H$ records componentwise $\hsame$ transport for $s,\ell,r,j,n,V,B$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay through the source window, the two one-step branches, the shared join, the normal target, the value ledger, the boundary row, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\AxisCarryCriticalPairUp$, $\ZCarryUp$, $\ZeckendorfCarryNormalizationUp$, $\ZNormalUp$, $\AxisCarryRouteSeparationUp$, $\AxisCarryDiamondRouteUp$, $\AxisCarryConfluenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AxisCarryCriticalPairUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $s,\ell,r,j,n,V,B,H,C,P,N$. It has no coordinate for source-target history sameness, quotient normal forms, host arithmetic equality, unbounded critical-pair search, global confluence, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Axis carry critical-pair NameCert obligations]
+\label{thm:axis-carry-critical-pair-namecert-obligations}
+For every accepted $\AxisCarryCriticalPairUp$ carrier
+$$
+K=(s,\ell,r,j,n,V,B,H,C,P,N),
+$$
+the local $\NameCert_{\AxisCarryCriticalPairUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the overlapping source window, two one-step carry branches, shared join, terminal normal row, value ledger, non-$\hsame$ boundary, transport, replay, provenance, and local naming;
+\item left-branch exactness, requiring $\ell$ to be read only through the displayed left carry window of $s$;
+\item right-branch exactness, requiring $r$ to be read only through the displayed right carry window of $s$;
+\item join exactness, requiring $j$ to be reached by normalizing the remaining visible carry window from both $\ell$ and $r$;
+\item value-ledger exactness, requiring $V$ to record the same finite Fibonacci value for $s,\ell,r,j,n$;
+\item boundary nonescape, requiring $B$ to keep both carry edges outside $\hsame$ and to export no quotient normal form, host arithmetic equality, unbounded search, global confluence, Lean verification, or bridge data;
+\item componentwise transport, displayed replay, provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No local critical-pair obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:axis-carry-critical-pair-carrier}. The accepted packet displays exactly the overlapping source window, the two one-step carry targets, the shared join, the terminal normal row, the value ledger, the boundary row, transport, replay, provenance, and local naming.
+
+The two branch clauses are forced by the route. The row $\ell$ is reachable only from the left carry window of $s$, while $r$ is reachable only from the right carry window of $s$.
+
+The join and value clauses are downstream. The row $j$ is the common target of the remaining visible carry window from both branches, and $V$ records the finite Fibonacci value read through all displayed windows.
+
+Finally, $B,H,C,P,N$ keep the comparison local. Since history-sameness collapse, quotient normal forms, host arithmetic equality, unbounded critical-pair search, global confluence, Lean verification, and bridge data are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Axis carry critical-pair local diamond]
+\label{thm:axis-carry-critical-pair-local-diamond}
+Every accepted $\AxisCarryCriticalPairUp$ packet exposes the local diamond route
+$$
+s \longmapsto \ell \longmapsto j
+\qquad
+\text{and}
+\qquad
+s \longmapsto r \longmapsto j
+$$
+before any $\AxisCarryConfluenceUp$ consumer may read the overlap as confluence evidence. The shared target $j$ is accompanied by the terminal normal row $n$, the value ledger $V$, the non-$\hsame$ boundary $B$, and the structural rows $H,C,P,N$; the handoff exports no source-target history sameness, quotient normal form, global normalizer, unbounded critical-pair search, or host arithmetic equality.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:axis-carry-critical-pair-namecert-obligations}. They force any accepted read to expose $s,\ell,r,j,n,V,B,H,C,P,N$ as one finite packet.
+
+The two branches are visible before the join. The left route reads $s$ then $\ell$ then $j$, while the right route reads $s$ then $r$ then $j$; both routes are replayed through the same continuation row $C$ and transported through $H$.
+
+The confluence-facing handoff is therefore the displayed diamond plus the value and boundary rows. Since $B$ keeps the carry edges outside $\hsame$ and no omitted endpoint is a carrier row, an $\AxisCarryConfluenceUp$ consumer receives only the finite local critical-pair packet stated above.
+\end{proof}
+
+\falsifiablePrediction{Every $\AxisCarryCriticalPairUp$ overlap read exposes one source window, two one-step carry branches, one shared join, one terminal normal row, one Fibonacci value ledger, one non-hsame boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any confluence-facing handoff is visible.}
+
+\independenceWitness{zcarry, zeckendorf-carry-normalization, zeckendorf-normal, axis-carry-route-separation, axis-carry-diamond-route, axis-carry-confluence: $\AxisCarryCriticalPairUp$ is not bijective to any listed sibling because it jointly carries the overlapping source, both one-step carry branches, the shared join, the terminal normal row, the value ledger, the non-hsame boundary, and the local confluence-facing handoff as one finite packet.}
+
+\closureat{AxisCarryCriticalPairUp}{seedStr}
+
+\begin{closurestatus}{\AxisCarryCriticalPairUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axis-carry-critical-pair-carrier}, \autoref{thm:axis-carry-critical-pair-namecert-obligations}, and \autoref{thm:axis-carry-critical-pair-local-diamond} seed the finite local critical-pair route for overlapping Zeckendorf carry windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close source-target history sameness, quotient normal forms, host arithmetic equality, unbounded critical-pair search, global confluence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch exactness, join exactness, value-ledger exactness, boundary nonescape, transport, replay, provenance, and local-diamond handoff for BEDC.Derived.AxisCarryCriticalPairUp.}
+  \constructivestory{An $\AxisCarryCriticalPairUp$ packet is generated from one overlapping Zeckendorf source window, two one-step carry branches, one shared join, one terminal normal row, one Fibonacci value ledger, one non-hsame boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

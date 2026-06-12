@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares two accepted carriers only by replaying these finite rows. It has no coordinate for a full $\ContinuousMapUp$ object, host real function, metric continuity theorem, uniform-continuity modulus, quotient of streams, or ambient completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMapTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[RegSeqRat image preservation]
 \label{thm:cauchy-continuous-map-regseqrat-image}
@@ -56,6 +57,8 @@ The componentwise $\hsame$ transports in $H$ keep the same dependency order afte
 \label{thm:cauchy-continuous-map-continuousmap-boundary}
 Every accepted $\CauchyContinuousMapUp$ packet supplies only a finite Cauchy-name transformer boundary for the $\ContinuousMapUp$ interface. A $\ContinuousMapUp$ consumer may read the packet only after the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows have been displayed through $W,R,D,E$ and transported through $H,C,P,N$. The packet does not provide a full host function, metric continuity theorem, uniform-continuity modulus, quotient stream map, or completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMapPacket\_continuousmap\_boundary}
+\leanvariant{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_continuousmap\_boundary}
 \begin{proof}
 Read the carrier rows from \autoref{def:cauchy-continuous-map-carrier}. The rows $W,R,D,E$ display the stream windows, regular rational image readback, dyadic tolerance checks, and real-seal handoff before any continuous-map consumer can inspect the packet.
 
@@ -86,6 +89,27 @@ The refusal row follows from the carrier inventory. None of the displayed coordi
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMapPacket\_namecert\_obligations}
 
+\begin{theorem}[CauchyContinuousMap composition route]
+\label{thm:cauchy-continuous-map-composition-route}
+Let $M_1=(W_1,R_1,D_1,E_1,H_1,C_1,P_1,N_1)$ and $M_2=(W_2,R_2,D_2,E_2,H_2,C_2,P_2,N_2)$ be accepted $\CauchyContinuousMapUp$ packets whose first target regular-rational row is the second source row. A public composite read is admitted only by displaying the two $\StreamNameUp$ window surfaces $W_1,W_2$, the $\RegSeqRatUp$ readback rows $R_1,R_2$, the $\DyadicRatCoreUp$ tolerance ledgers $D_1,D_2$, the $\RealUp$ seal handoffs $E_1,E_2$, the componentwise $\hsame$ transports $H_1,H_2$, the displayed $\Cont$ replays $C_1,C_2$, the $\Pkg$ provenance rows $P_1,P_2$, and the local $\NameCert$ rows $N_1,N_2$. The resulting route is a concatenation of displayed Cauchy-name packet reads; it exports no host function composition, selected limit, quotient stream equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_composition\_route}
+\begin{proof}
+Project the first carrier and read its output through $W_1,R_1,D_1,E_1$. This displays a regular-rational image row and Real-seal handoff, but no detached host value or quotient stream representative.
+
+Use the stated row match to present that displayed output as the second packet's source row. The second carrier must then reopen $W_2,R_2,D_2,E_2$ before any final seal is visible.
+
+Concatenate the displayed replay rows $C_1$ and $C_2$. Componentwise transport through $H_1$ and $H_2$ preserves the two window, readback, tolerance, seal, provenance, and local naming rows without adding a new coordinate.
+
+The public route is therefore the ordered packet read
+$$
+W_1,R_1,D_1,E_1,H_1,C_1,P_1,N_1
+\longmapsto
+W_2,R_2,D_2,E_2,H_2,C_2,P_2,N_2 .
+$$
+Since neither carrier stores host function composition, a selected limit, quotient stream equality, or ambient completeness, the composite read cannot export those objects.
+\end{proof}
+
 \begin{theorem}[Window composition]
 \label{thm:cauchy-continuous-map-window-composition}
 Let $M_1=(W_1,R_1,D_1,E_1,H_1,C_1,P_1,N_1)$ and $M_2=(W_2,R_2,D_2,E_2,H_2,C_2,P_2,N_2)$ be accepted $\CauchyContinuousMapUp$ packets. A composite read is admitted only when the $\RealUp$ seal handoff exposed by $E_1$ is replayed as the source-side input window surface inspected by $W_2$, and the second packet then reopens its $\StreamNameUp$ windows, $\RegSeqRatUp$ image-readback row, and $\DyadicRatCoreUp$ tolerance ledger before exposing $E_2$. Thus composition is a finite replay of the first packet's Real-seal handoff through the second packet's stream-name and regular-rational-name rows, not a host-level composition theorem for $\ContinuousMapUp$.
@@ -111,6 +135,19 @@ Replay the consumer route $C$ after transport. The route can inspect the transpo
 Because no coordinate in the carrier stores a quotient stream, host function on reals, metric-continuity proof, or completeness datum, the transported read preserves only the displayed regularity surface before the $\RealUp$ seal is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_regularity\_transport}
+
+\begin{theorem}[CauchyContinuousMap modulus boundary nonescape]
+\label{thm:cauchy-continuous-map-modulus-boundary-nonescape}
+Every accepted $\CauchyContinuousMapUp$ packet that is read by a modulus-facing consumer must expose only the finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ regularity row, $\RealUp$ seal handoff, $\ContinuousMapUp$ boundary row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The read does not create a uniform-continuity modulus, metric-continuity theorem over all points, quotient-stream function, or completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem, \autoref{thm:cauchy-continuous-map-continuousmap-boundary}. It identifies the $\ContinuousMapUp$ side of the packet as a finite Cauchy-name transformer boundary, not a full host function or all-points continuity theorem.
+
+Use window composition, \autoref{thm:cauchy-continuous-map-window-composition}. A downstream read must reopen the finite stream windows, regular-rational rows, dyadic tolerances, and Real seal handoff before any composite or modulus-facing consumer can inspect the packet.
+
+Finally apply regularity transport, \autoref{thm:cauchy-continuous-map-regularity-transport}. The transported packet preserves the same $W,R,D$ regularity surface before the seal is exposed. Since no carrier coordinate stores a uniform-continuity modulus, quotient-stream function, metric-continuity theorem over all points, or completeness datum, the modulus-facing read cannot create one.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_modulus\_boundary\_nonescape}
 
 \begin{closurestatus}{\CauchyContinuousMapUp}
   \constructivestory{A $\CauchyContinuousMapUp$ packet is generated from finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ image-readback row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal handoff, displayed $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}

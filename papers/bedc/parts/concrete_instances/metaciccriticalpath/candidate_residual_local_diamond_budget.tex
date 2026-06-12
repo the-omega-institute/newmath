@@ -1,0 +1,16 @@
+\begin{theorem}[MetaCIC critical-path candidate residual local-diamond budget]
+\label{thm:metacic-critical-path-candidate-residual-local-diamond-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated residual read that can feed a local-diamond or local-confluence consumer must expose residual substitution, the local diamond boundary, the bounded checker row, the obstruction row $O$, the discharge socket $D$, and the four L10 source rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any confluence or decidability consumer reads the packet. The budget is a finite candidate-residual precondition; it is not a global Church--Rosser theorem, subject-reduction theorem, beta-decision procedure, quotient term equality, selected limit, host equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateResidualLocalDiamondBudget}
+\begin{proof}
+Start from the residual-diamond local-confluence frontier of \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. It already forces residual substitution, residual-budget socket data, bounded checker data, and the four L10 source faces to appear before any local-confluence consumer reads $U$.
+
+Next use the candidate residual-diamond lock of \autoref{thm:metacic-critical-path-candidate-residual-diamond-lock}. Candidate rows may support the finite handoff, but they remain attached to $S,N,O,U,D,H,C,P,L$ and cannot erase the obstruction row or fill the discharge socket.
+
+Finally apply source determinacy, \autoref{thm:metacic-critical-path-residual-diamond-source-determinacy}. Since the four L10 source faces remain distinct rows and the bounded checker is read before the consumer-facing packet, the advertised budget is exactly a local candidate-residual precondition and does not export any of the excluded global metatheoretic or Real-completeness conclusions.
+\end{proof}

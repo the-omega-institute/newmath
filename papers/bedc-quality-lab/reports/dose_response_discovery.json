@@ -1,0 +1,272 @@
+{
+  "applicability_boundary": {
+    "admitted_family_id": "ornstein-uhlenbeck",
+    "behavior_id": "linear-identifiability",
+    "claim_scope": "Empirical monotonicity is claimed only for the generated Gaussian-OU toy world, the deterministic runner constants, and the listed debt grid.",
+    "debt_injection_model": "deterministic finite-sample-support debt injection through dose-indexed source sample counts, classifier certification status, and stability scope",
+    "debt_levels": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "model_id": "hidden-debt-dose-surface",
+    "quality_q_range": [
+      0.0,
+      1.0
+    ],
+    "sample_count_by_debt_level": {
+      "0.0": 2048,
+      "0.1": 2048,
+      "0.2": 384,
+      "0.3": 384,
+      "0.4": 384
+    },
+    "seed_count_per_level": 24,
+    "toy_world": "Gaussian-OU hidden-debt dose surface"
+  },
+  "artifact": "reports/dose_response_discovery.json",
+  "doses": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4
+  ],
+  "generated_from": {
+    "artifact": "reports/debt_dose_response.json",
+    "record_count": 120,
+    "source_runner": "scripts/run_debt_dose_response.py"
+  },
+  "matched_random_baseline": {
+    "max_abs_spearman": 0.9999999999999998,
+    "mean_abs_spearman": 0.42499999999999993,
+    "observed_exceeds_quantile95": true,
+    "observed_spearman": 0.9999999999999998,
+    "permutations": 200,
+    "quantile95_abs_spearman": 0.8999999999999998,
+    "seed": 53120260602
+  },
+  "monotonicity_conclusion": {
+    "criterion": "monotonic iff positive exists, net information is nondecreasing, rank direction is positive, abs(Spearman) >= 0.8, and observed abs(Spearman) exceeds matched-random 95% baseline",
+    "h0_categorical_or_threshold": false,
+    "h1_monotonic_dose_response": true,
+    "net_information_nondecreasing": true,
+    "result": "monotonic"
+  },
+  "per_dose_verdicts": [
+    {
+      "dose": 0.0,
+      "metrics": {
+        "approx_identifiability_proxy": 0.9599392074750849,
+        "linear_identifiability_r2": 0.9987127469716519,
+        "quality_debt": 0.0,
+        "quality_q": 0.9493259772233684,
+        "target_score": 0.0
+      },
+      "net_information": -0.03,
+      "net_positive_signal": false,
+      "positive_discovery": false,
+      "shift_information": 0,
+      "structural_discovery": false,
+      "surface_delta": [],
+      "surface_delta_count": 0,
+      "verdict": "compression"
+    },
+    {
+      "dose": 0.1,
+      "metrics": {
+        "approx_identifiability_proxy": 0.9592699341051759,
+        "linear_identifiability_r2": 0.9984909061071255,
+        "quality_debt": 0.10000000000000002,
+        "quality_q": 0.8488804201061507,
+        "target_score": 0.0
+      },
+      "net_information": 0.11044555711721772,
+      "net_positive_signal": true,
+      "positive_discovery": true,
+      "shift_information": 4,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:approx_identifiability_proxy",
+          "metric:approx_identifiability_proxy"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_debt",
+          "metric:quality_debt"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ]
+      ],
+      "surface_delta_count": 4,
+      "verdict": "positive"
+    },
+    {
+      "dose": 0.2,
+      "metrics": {
+        "approx_identifiability_proxy": 0.9468336130855345,
+        "linear_identifiability_r2": 0.9982348659021749,
+        "quality_debt": 0.20000000000000004,
+        "quality_q": 0.7425342394938547,
+        "target_score": 0.20000000000000004
+      },
+      "net_information": 0.5067917377295138,
+      "net_positive_signal": true,
+      "positive_discovery": true,
+      "shift_information": 5,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:approx_identifiability_proxy",
+          "metric:approx_identifiability_proxy"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_debt",
+          "metric:quality_debt"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:target_score",
+          "metric:target_score"
+        ]
+      ],
+      "surface_delta_count": 5,
+      "verdict": "positive"
+    },
+    {
+      "dose": 0.3,
+      "metrics": {
+        "approx_identifiability_proxy": 0.9427733735066336,
+        "linear_identifiability_r2": 0.9979421951502426,
+        "quality_debt": 0.30000000000000004,
+        "quality_q": 0.640357784328438,
+        "target_score": 0.20000000000000004
+      },
+      "net_information": 0.7089681928949305,
+      "net_positive_signal": true,
+      "positive_discovery": true,
+      "shift_information": 5,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:approx_identifiability_proxy",
+          "metric:approx_identifiability_proxy"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_debt",
+          "metric:quality_debt"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:target_score",
+          "metric:target_score"
+        ]
+      ],
+      "surface_delta_count": 5,
+      "verdict": "positive"
+    },
+    {
+      "dose": 0.4,
+      "metrics": {
+        "approx_identifiability_proxy": 0.9517734036557165,
+        "linear_identifiability_r2": 0.997718549735711,
+        "quality_debt": 0.4000000000000001,
+        "quality_q": 0.5447459766957136,
+        "target_score": 0.20000000000000004
+      },
+      "net_information": 0.9045800005276551,
+      "net_positive_signal": true,
+      "positive_discovery": true,
+      "shift_information": 5,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:approx_identifiability_proxy",
+          "metric:approx_identifiability_proxy"
+        ],
+        [
+          "metric:linear_identifiability_r2",
+          "metric:linear_identifiability_r2"
+        ],
+        [
+          "metric:quality_debt",
+          "metric:quality_debt"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:target_score",
+          "metric:target_score"
+        ]
+      ],
+      "surface_delta_count": 5,
+      "verdict": "positive"
+    }
+  ],
+  "projection_script": "scripts/run_dose_response_discovery.py",
+  "rank_correlation": {
+    "kendall_tau": 1.0,
+    "method": "dose-level-vs-discovery-net-information",
+    "pairs": [
+      {
+        "dose": 0.0,
+        "net_information": -0.03
+      },
+      {
+        "dose": 0.1,
+        "net_information": 0.11044555711721772
+      },
+      {
+        "dose": 0.2,
+        "net_information": 0.5067917377295138
+      },
+      {
+        "dose": 0.3,
+        "net_information": 0.7089681928949305
+      },
+      {
+        "dose": 0.4,
+        "net_information": 0.9045800005276551
+      }
+    ],
+    "spearman": 0.9999999999999998
+  },
+  "report": "reports/dose_response_discovery.md",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
+  "source_artifacts": {
+    "source_json_artifact": "reports/debt_dose_response.json",
+    "source_report_artifact": "reports/debt_dose_response_report.md",
+    "source_runner": "scripts/run_debt_dose_response.py"
+  }
+}

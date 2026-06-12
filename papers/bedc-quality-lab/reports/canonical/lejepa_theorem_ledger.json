@@ -1,0 +1,542 @@
+{
+  "artifact_id": "bedc-quality-lab:lejepa-theorem-ledger",
+  "backend_ledger_rows": [
+    {
+      "kind": "source",
+      "residue": "latent-distribution-gaussianity"
+    },
+    {
+      "kind": "source",
+      "residue": "transition-isotropy"
+    },
+    {
+      "kind": "source",
+      "residue": "dimension-match"
+    },
+    {
+      "kind": "source",
+      "residue": "finite-sample-support"
+    },
+    {
+      "kind": "classifier",
+      "residue": "optimizer-certificate"
+    }
+  ],
+  "backend_theorem_rows": [
+    {
+      "name": "theorem3-bound-certificate",
+      "owner": "scripts.run_gaussian_ou_lejepa.run_experiment",
+      "pointer": "$.classifier_spec.cert_status"
+    }
+  ],
+  "claim_gate": {
+    "status": "pass",
+    "training_audit_improvement_tradeoff": false
+  },
+  "generated_at": "2026-06-12T15:58:14.993058+00:00",
+  "hardgates": {
+    "F-HG1": {
+      "role_failures": [],
+      "severity": "none",
+      "status": "pass"
+    },
+    "F-HG2": {
+      "severity": "none",
+      "shape_failures": [],
+      "status": "pass",
+      "theorem_dna_warnings": []
+    },
+    "F-HG3": {
+      "hits": [],
+      "severity": "none",
+      "status": "pass"
+    },
+    "F-HG4": {
+      "severity": "none",
+      "status": "pass",
+      "used_by_pointer": "docs/lit/literature_ledger.yaml:$.records[id=lit-lejepa-theorem-ledger].used_by"
+    },
+    "metric_resolvability": {
+      "known_metrics": [
+        "actual_recovery_mse",
+        "alignment_gap_delta_mse",
+        "linear_identifiability_r2",
+        "theorem3_bound_mse",
+        "whitening_deviation_epsilon"
+      ],
+      "metric_failures": [],
+      "severity": "none",
+      "status": "pass"
+    },
+    "theorem_dna_warning": {
+      "severity": "none",
+      "status": "pass",
+      "warning_rows": []
+    }
+  },
+  "hermite_degree_boundary": [
+    {
+      "behavioral_boundary": "linear latent recovery boundary",
+      "degree_class": "degree1",
+      "label": "degree1",
+      "metric_pointers": [
+        "$.theorem_rows[2].implemented_metrics[2]",
+        "$.metric_catalog"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[2]"
+    },
+    {
+      "behavioral_boundary": "quadratic boundary",
+      "degree_class": "degree2",
+      "label": "degree2",
+      "metric_pointers": [
+        "$.theorem_rows[2].implemented_metrics[0]",
+        "$.metric_catalog"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[2]"
+    },
+    {
+      "behavioral_boundary": "high-order boundary",
+      "degree_class": "degree3+",
+      "label": "degree3+",
+      "metric_pointers": [
+        "$.theorem_rows[3].implemented_metrics",
+        "$.not_claimed"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[3]"
+    }
+  ],
+  "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+  "main_verdict": {
+    "status": "ledger-row-ssot"
+  },
+  "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
+  "metric_catalog": [
+    "alignment_gap_delta_mse",
+    "whitening_deviation_epsilon",
+    "theorem3_bound_mse",
+    "actual_recovery_mse",
+    "linear_identifiability_r2"
+  ],
+  "not_claimed": [
+    "The ledger records theorem-row certificate boundaries only.",
+    "The ledger does not discharge optimizer, finite-sample, or source reconstruction debt.",
+    "Hermite degree rows are label-level Gaussian-OU pointers and do not assert behavior outside the runner scope."
+  ],
+  "positive_claim": {
+    "scope": "canonical LeJEPA theorem-row mapping",
+    "status": "ledger-row-ssot"
+  },
+  "result": {
+    "not_claimed_pointer": "$.not_claimed",
+    "status": "pass"
+  },
+  "role_catalog": [
+    "Ledger",
+    "SourceSpec",
+    "StabCert"
+  ],
+  "run_id": "lejepa-theorem-ledger",
+  "schema_id": "bedc-quality-lab:lejepa-theorem-ledger",
+  "scope": {
+    "claim_boundary": "Rows map LeJEPA theorem labels to certificate roles and ledger debt.",
+    "not_claimed": [
+      "BEDC closure",
+      "paper theorem derivation",
+      "terminal verdict classification",
+      "general model quality"
+    ],
+    "status": "pointer-only-theorem-row-ledger"
+  },
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "gaussian_ou_runner": "scripts/run_gaussian_ou_lejepa.py",
+    "lejepa_backend": "bedc_quality_lab.backends.lejepa.LeJEPABackendEvidenceAdapter",
+    "literature_ledger": "docs/lit/literature_ledger.yaml",
+    "producer": "scripts/run_lejepa_theorem_ledger.py"
+  },
+  "status": "pass",
+  "theorem_rows": [
+    {
+      "bedc_role": "SourceSpec",
+      "evidence_pointer": "$.source_artifacts.gaussian_ou_runner",
+      "implemented_metrics": [],
+      "ledger_debt": "Source assumptions are explicit in the envelope, while theorem-level source discharge remains outside the lab-local certificate row.",
+      "not_implemented": [
+        "paper theorem statement is not represented as a kernel-checked formal target",
+        "source assumptions are recorded as payload fields rather than closed source reconstruction"
+      ],
+      "role_basis": "This row owns the theorem-to-source-spec mapping for Gaussian latent, OU transition, and dimension-match assumptions.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "declared"
+      },
+      "theorem": "theorem-1",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[0].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "medium",
+          "status": "declared"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[0].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[0].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[0].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[0].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[0].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-1",
+          "Gaussian-OU source specification",
+          "SourceSpec"
+        ],
+        "operators": [
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[0].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[0].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-1"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[0].theorem_dna",
+      "theorem_id": "theorem-1",
+      "title": "Gaussian-OU source specification"
+    },
+    {
+      "bedc_role": "StabCert",
+      "evidence_pointer": "$.metric_catalog",
+      "implemented_metrics": [
+        "alignment_gap_delta_mse",
+        "whitening_deviation_epsilon"
+      ],
+      "ledger_debt": "Stability evidence is metric-backed and scoped to the Gaussian-OU toy runner.",
+      "not_implemented": [
+        "stability claim is represented by metric cells rather than a closed theorem certificate",
+        "optimizer and population-optimum assumptions are not discharged by the local runner"
+      ],
+      "role_basis": "This row tracks the stability-facing alignment and whitening measurements emitted by the LeJEPA runner.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "partial"
+      },
+      "theorem": "theorem-2",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[1].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "medium",
+          "status": "partial"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[1].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[1].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[1].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[1].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[1].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-2",
+          "Representation stability certificate boundary",
+          "StabCert"
+        ],
+        "operators": [
+          {
+            "pointer": "$.theorem_rows[1].implemented_metrics[0]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.theorem_rows[1].implemented_metrics[1]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[1].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[1].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-2"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[1].theorem_dna",
+      "theorem_id": "theorem-2",
+      "title": "Representation stability certificate boundary"
+    },
+    {
+      "bedc_role": "StabCert",
+      "evidence_pointer": "$.backend_theorem_rows[0]",
+      "implemented_metrics": [
+        "theorem3_bound_mse",
+        "actual_recovery_mse",
+        "linear_identifiability_r2"
+      ],
+      "ledger_debt": "The existing LeJEPA backend points theorem3-bound-certificate at classifier_spec.cert_status; this ledger records the theorem-row boundary.",
+      "not_implemented": [
+        "bound projection is a certificate cell and not a theorem derivation",
+        "finite-sample and optimizer certificates remain ledger debt"
+      ],
+      "role_basis": "This row is the canonical location for the current theorem-bound certificate projection.",
+      "status_projection": {
+        "severity": "high",
+        "status": "partial"
+      },
+      "theorem": "theorem-3",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[2].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "high",
+          "status": "partial"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[2].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[2].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[2].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[2].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[2].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-3",
+          "Recovery bound certificate",
+          "StabCert"
+        ],
+        "operators": [
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[0]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[1]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[2]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[2].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[2].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-3"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[2].theorem_dna",
+      "theorem_id": "theorem-3",
+      "title": "Recovery bound certificate"
+    },
+    {
+      "bedc_role": "Ledger",
+      "evidence_pointer": "$.backend_ledger_rows",
+      "implemented_metrics": [],
+      "ledger_debt": "Ledger rows identify source and classifier residues that must stay visible until discharged by stronger evidence.",
+      "not_implemented": [
+        "ledger row statuses are derived from local debt machinery rather than theorem closure",
+        "terminal verdict classification is outside the LeJEPA backend theorem row"
+      ],
+      "role_basis": "This row owns the theorem-to-ledger mapping for source and classifier residues.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "declared"
+      },
+      "theorem": "theorem-4",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[3].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "medium",
+          "status": "declared"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[3].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[3].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[3].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[3].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[3].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-4",
+          "Ledger closure boundary",
+          "Ledger"
+        ],
+        "operators": [
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[3].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[3].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-4"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[3].theorem_dna",
+      "theorem_id": "theorem-4",
+      "title": "Ledger closure boundary"
+    }
+  ]
+}

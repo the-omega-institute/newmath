@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\DyadicNestedIntervalSelectorUp$}
+\label{ch:concrete-instances-dyadic-nested-interval-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on nested intervals and constructive real approximation, the $\DyadicNestedIntervalSelectorUp$ packet records the finite selector surface used when a displayed nested dyadic interval argument is handed to Real and Completion consumers. It sits over the nested-chain surface of \autoref{ch:concrete-instances-nestedinterval-namecert}, the center-radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite displayed rows by which a selected window is inspected; it does not assert interval compactness, countable choice, ambient $\RealUp$ completeness, or a selected completed real.
+
+\begin{definition}[Dyadic nested interval selector carrier]
+\label{def:dyadic-nested-interval-selector-carrier}
+A $\DyadicNestedIntervalSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the displayed $\NestedIntervalUp$ chain whose retained cells are being inspected.
+\item $D$ is the $\DyadicRatCoreUp$ center and radius ledger attached to the same retained cells.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the requested stages of the chain.
+\item $R$ is the $\RegSeqRatUp$ readback row serving the same finite windows with regular rational observations.
+\item $E$ is the terminal $\RealUp$ seal row available only after $I,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the nested-chain, dyadic-ledger, stream-window, readback, seal, provenance, route, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a dyadic selector request through $I,D,S,R,E$ and back to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicNestedIntervalSelectorUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicNestedIntervalSelectorUp}$ row.
+\end{enumerate}
+The carrier exports only this finite displayed selector packet. It contains no coordinate for a host choice function, selected completed real, interval compactness theorem, countable-choice schedule, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicNestedIntervalSelectorUp.DyadicNestedIntervalSelectorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic nested interval selector NameCert obligations]
+\label{thm:dyadic-nested-interval-selector-namecert-obligations}
+For every accepted $\DyadicNestedIntervalSelectorUp$ carrier
+$$
+K=(I,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicNestedIntervalSelectorUp}$ surface consists exactly of nested-chain exposure through $I$, dyadic center-radius exposure through $D$, finite-window exposure through $S$, regular rational readback through $R$, terminal seal admission through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Any selector-facing consumer must read those rows before using the finite nested dyadic interval route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-nested-interval-selector-carrier}. The nested chain, dyadic center-radius ledger, stream window, regular readback, Real seal, transport, replay, provenance, and local name are the complete visible packet.
+
+The selector route first reads $I$ and $D$. Thus the retained interval stage and its dyadic center-radius data are displayed before any window or Real-facing read is available.
+
+Next read $S$ and $R$. The stream row names the finite inspected stages, while the regular rational row supplies the readback for those stages. The seal row $E$ is downstream of that finite route.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no host selector, compactness theorem, countable-choice schedule, quotient equality, or ambient completeness coordinate, none of those principles can be exported by the local certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicNestedIntervalSelectorUp.DyadicNestedIntervalSelectorNamecertObligations}
+
+\begin{theorem}[Dyadic nested interval selector Real handoff]
+\label{thm:dyadic-nested-interval-selector-real-handoff}
+Every $\RealUp$-facing consumer of an accepted $\DyadicNestedIntervalSelectorUp$ packet factors through
+$$
+\NestedIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+using the finite rows $I,D,S,R,E,H,C,P,N$. The handoff may transport and replay the displayed selector route, but it cannot claim $\RealUp$ completeness, interval compactness, countable choice, a host-selected endpoint, quotient stream equality, or a selected completed real.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicNestedIntervalSelectorUp.DyadicNestedIntervalSelectorRealHandoff}
+\begin{proof}
+Begin with the obligation theorem. It forces the Real-facing request to expose the nested-chain row, dyadic center-radius ledger, finite stream window, and regular rational readback before the seal row can be consumed.
+
+The sibling chapters supply the named surfaces of that route. The nested interval chapter supplies $I$, the dyadic rational core supplies $D$, the stream and regular rational chapters supply $S$ and $R$, and the Real chapter supplies the terminal seal row $E$.
+
+Finally use the structural rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same finite route, while $P$ and $N$ source and name it. No row remains from which a consumer could recover ambient completeness, compactness, choice, a host endpoint selector, quotient stream equality, or a completed selected real.
+\end{proof}
+
+\begin{theorem}[Dyadic nested interval selector prefix seal]
+\label{thm:dyadic-nested-interval-selector-prefix-seal}
+Let $K=(I,D,S,R,E,H,C,P,N)$ be an accepted $\DyadicNestedIntervalSelectorUp$ carrier. Every prefix-window restriction of the selector packet preserves the route
+$$
+\NestedIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before it exposes the terminal seal row $E$. Thus a Real-facing consumer cannot skip the nested interval row $I$, the dyadic ledger $D$, the finite stream window $S$, or the regular rational readback $R$ by appealing to interval compactness, selected endpoints, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-nested-interval-selector-carrier}. A prefix-window restriction can only retain rows already displayed by the packet, so its visible selector data begins with $I,D,S,R$.
+
+Use the NameCert obligations of \autoref{thm:dyadic-nested-interval-selector-namecert-obligations}. They force nested-chain exposure through $I$, dyadic center-radius exposure through $D$, finite-window exposure through $S$, and regular rational readback through $R$ before the seal row can be consumed.
+
+Apply the Real handoff theorem \autoref{thm:dyadic-nested-interval-selector-real-handoff}. It identifies the terminal route through $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $H,C,P,N$ preserving the same finite prefix under transport, replay, provenance, and naming.
+
+No carrier coordinate supplies interval compactness, a selected endpoint, quotient stream equality, countable choice, or ambient Real completeness. The prefix seal therefore remains a finite displayed route rather than a completed-host selection principle.
+\end{proof}
+
+\begin{theorem}[Dyadic nested interval selector nested-chain dependency]
+\label{thm:dyadic-nested-interval-selector-nested-chain-dependency}
+Every selector read from an accepted $\DyadicNestedIntervalSelectorUp$ carrier must expose the $\NestedIntervalUp$ row $I$ before the $\DyadicRatCoreUp$ ledger $D$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$ can be consumed. No selector route can bypass $\NestedIntervalUp$ by appealing to compactness, selected endpoints, quotient equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:dyadic-nested-interval-selector-carrier}. The nested-chain row $I$ is the first analytic coordinate of the selector packet, and the rows $D,S,R,E$ are downstream of the retained chain.
+
+Use the NameCert obligations of \autoref{thm:dyadic-nested-interval-selector-namecert-obligations}. They identify nested-chain exposure through $I$ as part of the local certificate surface before any finite window, readback, or seal is available.
+
+Apply the prefix seal theorem \autoref{thm:dyadic-nested-interval-selector-prefix-seal}. It keeps every prefix-window restriction on the route through $I,D,S,R,E$, so compactness, selected endpoints, quotient equality, countable choice, and ambient completeness have no bypass coordinate.
+\end{proof}
+
+\closureat{DyadicNestedIntervalSelectorUp}{seedStr}
+
+\begin{closurestatus}{\DyadicNestedIntervalSelectorUp}
+  \constructivestory{A $\DyadicNestedIntervalSelectorUp$ packet is generated from a displayed NestedIntervalUp chain, a DyadicRatCoreUp center-radius ledger, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-nested-interval-selector-carrier}, \autoref{thm:dyadic-nested-interval-selector-namecert-obligations}, \autoref{thm:dyadic-nested-interval-selector-real-handoff}, and \autoref{thm:dyadic-nested-interval-selector-nested-chain-dependency} seed the finite selector route for displayed nested dyadic interval arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, interval compactness, countable choice, host-selected endpoints, quotient stream equality, selected completed reals, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-chain exposure, dyadic center-radius exposure, finite-window readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicNestedIntervalSelectorUp.}
+\end{closurestatus}

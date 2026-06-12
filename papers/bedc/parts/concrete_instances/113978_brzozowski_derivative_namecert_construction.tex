@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BrzozowskiDerivativeUp$}
+\label{ch:concrete-instances-brzozowski-derivative-namecert}
+\origin{human}
+
+Following Brzozowski's regular-expression derivatives and the finite-automaton presentation of Hopcroft--Ullman, the $\BrzozowskiDerivativeUp$ packet records the finite derivative closure of a regular language as BEDC NameCert data. It consumes the accepted-word surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, the deterministic presentation rows of \autoref{ch:concrete-instances-finite-automaton-namecert}, the finite word-spine rows of \autoref{ch:concrete-instances-list-namecert}, the right-congruence classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert}, and the minimal deterministic consumer of \autoref{ch:concrete-instances-minimal-dfa-namecert}. The packet names the derivative table and nullability replay before any consumer may import a host language quotient, regular-expression completeness theorem, nondeterministic branch selector, or minimization canonicality claim.
+
+\begin{definition}[Brzozowski derivative carrier]
+\label{def:brzozowski-derivative-carrier}
+A $\BrzozowskiDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\Sigma,W,L,R,\partial,\nu,C,Q,\delta,q_0,F,\mu,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is the finite alphabet row.
+\item $W$ is the finite word-spine row read through $\ListUp$ over $\Sigma$.
+\item $L$ is the accepted-word observation row supplied by a $\RegularLanguageUp$ packet.
+\item $R$ is the displayed regular-expression or regular-description row whose derivative reads are exposed only through finite syntax names.
+\item $\partial$ is the derivative table, assigning to each displayed derivative state and alphabet symbol the next displayed derivative state.
+\item $\nu$ is the nullability row, recording whether each displayed derivative accepts the empty word.
+\item $C$ is the closure ledger showing that repeated derivatives of $R$ by displayed words land back in the finite derivative table.
+\item $Q$ is the finite derivative-state carrier admitted by the closure ledger.
+\item $\delta$ is the deterministic transition row induced by $\partial$.
+\item $q_0$ is the starting derivative state named by the original description $R$.
+\item $F$ is the accepting-state row determined by $\nu$.
+\item $\mu$ is the handoff row to the $\MyhillNerodeUp$ and $\MinimalDfaUp$ consumers through the displayed derivative classes.
+\item $H$ records componentwise $\hsame$ transport for alphabet, word-spine, accepted-language observation, syntax, derivative table, nullability, closure, state, transition, start, accepting, handoff, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from finite word reads through derivative iteration and nullability lookup.
+\item $P$ is the $\Pkg$ provenance over $\BrzozowskiDerivativeUp$, $\RegularLanguageUp$, $\FiniteAutomatonUp$, $\ListUp$, $\MyhillNerodeUp$, $\MinimalDfaUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BrzozowskiDerivativeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $\Sigma,W,L,R,\partial,\nu,C,Q,\delta,q_0,F,\mu,H,K,P,N$. It has no coordinate for a host quotient of all languages, a proof that every regular language has a displayed expression, a nondeterministic branch choice, a canonical minimal automaton proof, or an external regular-expression equivalence oracle.
+\end{definition}
+
+\begin{theorem}[Brzozowski derivative NameCert obligations]
+\label{thm:brzozowski-derivative-namecert-obligations}
+For every accepted $\BrzozowskiDerivativeUp$ carrier
+$$
+D=(\Sigma,W,L,R,\partial,\nu,C,Q,\delta,q_0,F,\mu,H,K,P,N),
+$$
+the local $\NameCert_{\BrzozowskiDerivativeUp}$ surface consists exactly of finite alphabet exposure, word-spine exposure, accepted-language observation, displayed syntax naming, derivative-table replay, nullability lookup, finite closure coverage, derivative-state exposure, deterministic transition replay, start-state naming, accepting-state naming, Myhill--Nerode and minimal-DFA handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brzozowski-derivative-carrier}. The rows $\Sigma,W,L,R$ expose the finite alphabet, finite word spine, accepted-word observation, and displayed syntax source before any derivative table can be consumed.
+
+Read $\partial,\nu,C,Q,\delta,q_0,F$ next. The derivative table $\partial$ gives one-step symbolic evolution, $\nu$ decides empty-word acceptance at a displayed derivative, and $C$ certifies that iterating derivatives along displayed words remains inside the finite state carrier $Q$. The transition row $\delta$, start row $q_0$, and accepting row $F$ are therefore the deterministic automaton presentation obtained from those rows.
+
+The handoff row $\mu$ is bounded by this finite derivative table. It may be read by the Myhill--Nerode and minimal-DFA siblings, but it does not add a host quotient, regular-expression completeness theorem, nondeterministic branch selector, or canonical minimization proof.
+
+The rows $H,K,P,N$ transport, replay, source, and name the same packet. Since no further coordinate exists, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Brzozowski derivative regular-language handoff]
+\label{thm:brzozowski-derivative-regular-language-handoff}
+Every $\RegularLanguageUp$ or $\FiniteAutomatonUp$ consumer of an accepted $\BrzozowskiDerivativeUp$ packet first reads the displayed alphabet row, finite word-spine row, accepted-language observation, derivative table, nullability row, closure ledger, derivative-state carrier, deterministic transition row, start row, accepting row, and componentwise replay rows. The handoff through \autoref{ch:concrete-instances-regularlanguage-namecert}, \autoref{ch:concrete-instances-finite-automaton-namecert}, \autoref{ch:concrete-instances-myhill-nerode-namecert}, and \autoref{ch:concrete-instances-minimal-dfa-namecert} therefore exports only the finite derivative automaton route.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $D=(\Sigma,W,L,R,\partial,\nu,C,Q,\delta,q_0,F,\mu,H,K,P,N)$. The regular-language sibling reads the accepted-word observation $L$ only after the displayed alphabet, word spine, syntax row, derivative table, nullability row, and closure ledger have been exposed.
+
+The finite-automaton sibling then consumes $Q,\delta,q_0,F$ as a deterministic presentation. These rows are determined by derivative iteration and nullability lookup, so the consumer obtains a finite derivative automaton rather than an arbitrary presentation.
+
+Finally, the Myhill--Nerode and minimal-DFA siblings may read $\mu$ as a bounded classifier handoff. The route does not assert that every regular language has a chosen expression, identify external language quotients, choose nondeterministic branches, or prove minimization canonicality.
+\end{proof}
+
+\closureat{BrzozowskiDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\BrzozowskiDerivativeUp}
+  \constructivestory{A $\BrzozowskiDerivativeUp$ packet is generated from finite alphabet, word-spine, accepted-language observation, displayed syntax, derivative table, nullability, closure, derivative-state, deterministic transition, start, accepting, handoff, componentwise hsame transport, displayed continuation replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brzozowski-derivative-carrier}, \autoref{thm:brzozowski-derivative-namecert-obligations}, and \autoref{thm:brzozowski-derivative-regular-language-handoff} seed the finite derivative-automaton route over RegularLanguageUp, FiniteAutomatonUp, ListUp, MyhillNerodeUp, and MinimalDfaUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host language quotients, regular-expression completeness, nondeterministic branch choice, minimization canonicality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-table replay, nullability exactness, closure coverage, deterministic automaton handoff, Myhill--Nerode handoff, minimal-DFA handoff, transport, replay, provenance, and local naming for BEDC.Derived.BrzozowskiDerivativeUp.}
+\end{closurestatus}

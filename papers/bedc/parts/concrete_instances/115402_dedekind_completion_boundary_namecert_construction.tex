@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DedekindCompletionBoundaryUp$}
+\label{ch:concrete-instances-dedekind-completion-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DedekindCompletionBoundaryUp$ packet names the finite L10 boundary around the Dedekind-cut route to the real line. It sits beside the located-cut presentation of \autoref{ch:concrete-instances-located-cut-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records where a cut-based presentation may be read as finite BEDC data; it refuses quotient completion and does not construct $\RealUp$ from Dedekind cuts.
+
+\begin{definition}[DedekindCompletionBoundary carrier]
+\label{def:dedekind-completion-boundary-carrier}
+A $\DedekindCompletionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,R,D,S,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedCutRealUp$ located-cut exposure row, recording lower--upper cut evidence only through displayed finite observations.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row used when a cut-side observation is compared with a regular-Cauchy presentation.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that bounds every comparison window used by $L$ and $R$.
+\item $S$ is the $\StreamNameUp$ finite-window row carrying the bounded stream observations through which the comparison is replayed.
+\item $E$ is the terminal $\RealUp$ seal row available only after the located-cut, regular-readback, dyadic, and stream rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located-cut, regular-readback, dyadic, stream, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through $L,R,D,S,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DedekindCompletionBoundaryUp$, $\LocatedCutRealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DedekindCompletionBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, quotient-real equality, a selected representative, host real equality, countable choice, trichotomy, or an ambient construction of $\RealUp$ from Dedekind cuts.
+\end{definition}
+\leanstmt{BEDC.Derived.DedekindCompletionBoundaryUp}
+
+\begin{theorem}[Dedekind boundary located-cut route]
+\label{thm:dedekind-completion-boundary-located-cut-route}
+Every completion-facing consumer of an accepted $\DedekindCompletionBoundaryUp$ carrier $B=(L,R,D,S,E,H,C,P,N)$ reads the cut-side data only through the displayed route
+$$
+\LocatedCutRealUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RealUp .
+$$
+The route may expose located cut evidence, regular rational readback, dyadic tolerances, finite stream windows, and the terminal Real seal, but it does not export quotient completion or construct $\RealUp$ from Dedekind cuts.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dedekind-completion-boundary-carrier}. The only cut-side row is $L$, and it is paired in the same packet with the regular rational readback $R$, the dyadic ledger $D$, and the finite stream-window row $S$.
+
+The continuation row $C$ fixes the order in which a completion-facing request can inspect those rows. A request first sees located-cut evidence, then compares it against regular rational readback, then checks the dyadic tolerance ledger and the finite stream observations before the Real seal $E$ is visible.
+
+The structural rows $H,P,N$ transport, source, and name only that displayed route. Since the carrier has no quotient-completion or Dedekind-construction coordinate, the consumer receives a boundary certificate rather than a construction of $\RealUp$ from cuts.
+\end{proof}
+
+\begin{theorem}[Dedekind boundary no quotient scope]
+\label{thm:dedekind-completion-boundary-no-quotient-scope}
+For every accepted $\DedekindCompletionBoundaryUp$ carrier, the public scope is confined to the rows $L,R,D,S,E,H,C,P,N$ of \autoref{def:dedekind-completion-boundary-carrier}. In particular, the packet refuses quotient completion, quotient-real equality, selected representatives, host real equality, countable choice, trichotomy, and any claim that $\RealUp$ is constructed from Dedekind cuts.
+\end{theorem}
+\begin{proof}
+The carrier definition lists every visible row. None of those rows stores a quotient relation, an equivalence class, a selected representative, a host equality proof, a choice schedule, or a trichotomy decision.
+
+Apply the located-cut route of \autoref{thm:dedekind-completion-boundary-located-cut-route}. It shows that the only Real-facing handoff passes through $\LocatedCutRealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and the terminal $\RealUp$ seal.
+
+It remains only to inspect the structural rows. The $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ entries preserve, replay, source, and name the displayed finite route; they do not add a quotient completion object or a construction principle for $\RealUp$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DedekindCompletionBoundaryUp$ read exposes located-cut evidence, RegSeqRat readback, DyadicRatCore tolerances, StreamName finite windows, a RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any completion-facing consumer can inspect the packet.}
+
+\independenceWitness{located-cut-real, regseqrat, dyadicratcore, streamname, real: $\DedekindCompletionBoundaryUp$ is not reducible to any listed sibling because it binds the located-cut exposure, regular rational readback, dyadic tolerance ledger, finite stream windows, terminal Real seal, transport, replay, provenance, and local NameCert rows as one boundary packet.}
+
+\closureat{DedekindCompletionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\DedekindCompletionBoundaryUp}
+  \constructivestory{A $\DedekindCompletionBoundaryUp$ packet is generated from a LocatedCutReal exposure row, RegSeqRat readback, DyadicRatCore tolerance ledger, StreamName finite windows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dedekind-completion-boundary-carrier}, \autoref{thm:dedekind-completion-boundary-located-cut-route}, and \autoref{thm:dedekind-completion-boundary-no-quotient-scope} seed the L10 boundary around the Dedekind-cut completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, quotient-real equality, selected representatives, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, or a construction of $\RealUp$ from Dedekind cuts.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-cut exposure, regular rational readback, dyadic tolerance coverage, stream-window replay, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DedekindCompletionBoundaryUp.}
+\end{closurestatus}

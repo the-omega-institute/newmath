@@ -1,0 +1,765 @@
+{
+  "artifact_id": "dgt-ablation-null-decomposition",
+  "decision_table": {
+    "component_classification": [
+      {
+        "classification": "unresolved",
+        "condition": "required source pointers absent, nonnumeric, or schema-invalid",
+        "evidence_status": "missing_or_invalid"
+      },
+      {
+        "classification": "the active signal",
+        "condition": "exactly one signal active",
+        "evidence_status": "complete"
+      },
+      {
+        "classification": "mixed",
+        "condition": "more than one signal active",
+        "evidence_status": "complete"
+      },
+      {
+        "classification": "mixed",
+        "condition": "no signal active",
+        "evidence_status": "complete"
+      }
+    ],
+    "global_verdict": [
+      {
+        "analysis_status": "fail",
+        "condition": "any ND-HG1..ND-HG6 status is fail",
+        "roadmap_recommendation": "repair-evidence",
+        "verdict": "unresolved"
+      },
+      {
+        "analysis_status": "pass",
+        "condition": "unique empirical top category reaches global_dominance_min",
+        "roadmap_recommendation": "mapped route",
+        "verdict": "top category"
+      },
+      {
+        "analysis_status": "pass",
+        "condition": "top category is mixed, tied, or below global_dominance_min",
+        "roadmap_recommendation": "mixed",
+        "verdict": "mixed"
+      }
+    ],
+    "roadmap_mapping": [
+      {
+        "classification": "saturation",
+        "roadmap_recommendation": "climb-ladder"
+      },
+      {
+        "classification": "redundancy",
+        "roadmap_recommendation": "redesign-decomposition"
+      },
+      {
+        "classification": "underpowered",
+        "roadmap_recommendation": "add-seeds"
+      },
+      {
+        "classification": "mixed",
+        "roadmap_recommendation": "mixed"
+      },
+      {
+        "classification": "unresolved",
+        "roadmap_recommendation": "repair-evidence"
+      }
+    ]
+  },
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "hardgates": {
+    "ND-HG1": {
+      "criterion": "source artifact and root pointer resolve",
+      "input_pointers": [
+        "reports/canonical/dgt-neural-ablation.json:$"
+      ],
+      "mutation_test": "remove or corrupt the source artifact",
+      "status": "pass"
+    },
+    "ND-HG2": {
+      "criterion": "exactly ten source component ids are represented",
+      "input_pointers": [
+        "reports/canonical/dgt-neural-ablation.json:$.run_spec.arms",
+        "reports/canonical/dgt-neural-ablation.json:$.module_registry"
+      ],
+      "mutation_test": "drop or duplicate a DGT_without component arm",
+      "status": "pass"
+    },
+    "ND-HG3": {
+      "criterion": "saturation fields derive from numeric arm metrics",
+      "input_pointers": [
+        "reports/canonical/dgt-neural-ablation.json:$.arm_summaries"
+      ],
+      "mutation_test": "delete or denormalize a quality metric",
+      "status": "pass"
+    },
+    "ND-HG4": {
+      "criterion": "redundancy fields derive from numeric leave-one-out deltas",
+      "input_pointers": [
+        "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix"
+      ],
+      "mutation_test": "change or delete a leave-one-out delta",
+      "status": "pass"
+    },
+    "ND-HG5": {
+      "criterion": "underpowered fields derive from numeric paired-CI bands and seed pairing metadata",
+      "input_pointers": [
+        "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix"
+      ],
+      "mutation_test": "change CI crossing, width, effect, or paired seed metadata",
+      "status": "pass"
+    },
+    "ND-HG6": {
+      "criterion": "global verdict, route, priority, and counts are recomputed from component rows",
+      "input_pointers": [
+        "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components"
+      ],
+      "mutation_test": "mutate a component classification and recompute global fields",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "No production training claim.",
+    "No global model superiority claim.",
+    "No LLM replacement claim.",
+    "No final empirical verdict on DGT is claimed.",
+    "This report only diagnoses bounded-toy null causes from the existing neural ablation artifact."
+  ],
+  "null_decomposition": {
+    "analysis_status": "pass",
+    "components": [
+      {
+        "active_signals": [
+          "saturation",
+          "underpowered"
+        ],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "multiple-active-signals"
+        ],
+        "component_id": "LAT",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.000783
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.849574
+          },
+          "underpowered": {
+            "active": true,
+            "reason_codes": [
+              "ci-crosses-zero-wide-relative-to-effect"
+            ],
+            "score": 2.254151
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_LAT.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "no-active-signal"
+        ],
+        "component_id": "CGA",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.00182
+          },
+          "saturation": {
+            "active": false,
+            "reason_codes": [
+              "ceiling-or-spread-threshold-not-met"
+            ],
+            "score": 0.84573
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 0.946154
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_CGA.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation"
+        ],
+        "classification": "saturation",
+        "classification_reason_codes": [
+          "single-saturation-signal"
+        ],
+        "component_id": "DRT",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.001211
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.847146
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 1.263419
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_DRT.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation"
+        ],
+        "classification": "saturation",
+        "classification_reason_codes": [
+          "single-saturation-signal"
+        ],
+        "component_id": "gap_head",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.001316
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.846566
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 1.705167
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_gap_head.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "no-active-signal"
+        ],
+        "component_id": "ledger_head",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.001683
+          },
+          "saturation": {
+            "active": false,
+            "reason_codes": [
+              "ceiling-or-spread-threshold-not-met"
+            ],
+            "score": 0.845226
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 1.723113
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_ledger_head.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation",
+          "redundancy"
+        ],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "multiple-active-signals"
+        ],
+        "component_id": "route_certificate",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": true,
+            "reason_codes": [
+              "leave-one-out-delta-below-threshold"
+            ],
+            "score": 0.000162
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.851995
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 8.425926
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_route_certificate.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation",
+          "redundancy"
+        ],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "multiple-active-signals"
+        ],
+        "component_id": "mechanism_probe",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": true,
+            "reason_codes": [
+              "leave-one-out-delta-below-threshold"
+            ],
+            "score": 0.000213
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.850748
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 7.239437
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_mechanism_probe.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation"
+        ],
+        "classification": "saturation",
+        "classification_reason_codes": [
+          "single-saturation-signal"
+        ],
+        "component_id": "jet_loss",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.000927
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.850814
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 0.153182
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_jet_loss.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation",
+          "redundancy"
+        ],
+        "classification": "mixed",
+        "classification_reason_codes": [
+          "multiple-active-signals"
+        ],
+        "component_id": "negative_witness_loss",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": true,
+            "reason_codes": [
+              "leave-one-out-delta-below-threshold"
+            ],
+            "score": 4.4e-05
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.851912
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 2.090909
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_negative_witness_loss.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.paired_ci_min_seeds"
+          ]
+        }
+      },
+      {
+        "active_signals": [
+          "saturation"
+        ],
+        "classification": "saturation",
+        "classification_reason_codes": [
+          "single-saturation-signal"
+        ],
+        "component_id": "scope_seal",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "signals": {
+          "redundancy": {
+            "active": false,
+            "reason_codes": [
+              "leave-one-out-delta-above-threshold"
+            ],
+            "score": 0.000764
+          },
+          "saturation": {
+            "active": true,
+            "reason_codes": [
+              "near-ceiling-low-spread"
+            ],
+            "score": 0.849184
+          },
+          "underpowered": {
+            "active": false,
+            "reason_codes": [
+              "ci-width-predicate-not-met"
+            ],
+            "score": 1.301047
+          }
+        },
+        "source_pointers": {
+          "leave_one_out_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.metrics.quality_q"
+          ],
+          "metric_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_scope_seal.metrics.quality_q"
+          ],
+          "paired_ci_inputs": [
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.metrics.quality_q",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.low",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.high",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.paired_seed_count",
+            "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.paired_ci_min_seeds"
+          ]
+        }
+      }
+    ],
+    "dominance": {
+      "category": "mixed",
+      "count": 6,
+      "is_unique": true,
+      "share": 0.6
+    },
+    "global_counts": {
+      "mixed": 6,
+      "redundancy": 0,
+      "saturation": 4,
+      "underpowered": 0,
+      "unresolved": 0
+    },
+    "roadmap_priority": [
+      "climb-ladder",
+      "redesign-decomposition",
+      "add-seeds"
+    ],
+    "roadmap_recommendation": "mixed",
+    "verdict": "mixed"
+  },
+  "producer": "scripts/run_dgt_ablation_null_decomposition.py",
+  "schema_id": "bedc-quality-lab:dgt-ablation-null-decomposition",
+  "source_artifact": {
+    "json_pointer": "$",
+    "path": "reports/canonical/dgt-neural-ablation.json",
+    "required_pointers": [
+      "reports/canonical/dgt-neural-ablation.json:$",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_CGA.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_DRT.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_LAT.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_gap_head.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_jet_loss.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_ledger_head.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_mechanism_probe.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_negative_witness_loss.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_route_certificate.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.DGT_without_scope_seal.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.arm_summaries.full_DGT.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.paired_seed_count",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.high",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.low",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.metrics.quality_q",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.paired_ci_min_seeds",
+      "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.paired_seed_count"
+    ],
+    "sha256": "522a5182a28ff135c5312c076818abc831386dfb3818ea076eee9a11356fbd56",
+    "status": "resolved"
+  },
+  "threshold_schema": {
+    "ceiling_distance_max": {
+      "description": "Maximum distance from the metric ceiling for the weaker arm.",
+      "value": 0.2
+    },
+    "ceiling_metric_min": {
+      "description": "Minimum bounded quality metric for both full and leave-one-out arms.",
+      "value": 0.8
+    },
+    "ci_width_over_effect_min": {
+      "description": "Minimum CI width divided by absolute effect for an underpowered signal.",
+      "value": 2.0
+    },
+    "effect_tol": {
+      "description": "Minimum absolute paired effect before CI width can indicate low power.",
+      "value": 0.0005
+    },
+    "global_dominance_min": {
+      "description": "Minimum share required for a single empirical global verdict.",
+      "value": 0.7
+    },
+    "inter_arm_spread_max": {
+      "description": "Maximum absolute metric spread between full and leave-one-out arms.",
+      "value": 0.003
+    },
+    "redundancy_abs_delta_max": {
+      "description": "Maximum absolute leave-one-out delta for a redundancy signal.",
+      "value": 0.0005
+    }
+  }
+}

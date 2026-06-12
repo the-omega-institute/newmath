@@ -1,0 +1,675 @@
+{
+  "artifact_id": "bedc-quality-lab:irreducibility-report",
+  "conditional_information_table": {
+    "artifact": "reports/canonical/conditional_information_table.json",
+    "can_set_positive_irreducibility": false,
+    "diagnostic_only": true,
+    "pointer": "$.rows",
+    "row_count": 8
+  },
+  "conditional_information_table_artifact": "reports/canonical/conditional_information_table.json",
+  "config": {
+    "orders": [
+      2,
+      3
+    ],
+    "sample_count": 512,
+    "seeds": [
+      101,
+      211,
+      307,
+      401
+    ],
+    "smoke": false
+  },
+  "control_protocol": {
+    "high_order_candidate": "D^k",
+    "low_order_baseline": "D^{<k}",
+    "matched_random_high_order_residual_control": true,
+    "same_split": true,
+    "seed_stability_required": true
+  },
+  "elapsed_seconds": 0.003,
+  "generated_at": "2026-06-12T15:51:41.982764+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "IRR-HG1": {
+        "evidence_pointer": "$.records[*].orders[*].low_order_baseline_present",
+        "requirement": "D^{<k} low-order baseline exists and uses the same held-out split as D^k.",
+        "status": "pass"
+      },
+      "IRR-HG2": {
+        "evidence_pointer": "$.records[*].orders[*].conditioned_residual_gain",
+        "requirement": "Positive irreducibility requires held-out conditioned residual gain > 0.",
+        "status": "pass"
+      },
+      "IRR-HG3": {
+        "evidence_pointer": "$.records[*].orders[*].matched_random_control",
+        "requirement": "Matched-random high-order residual positives block the claim.",
+        "status": "pass"
+      },
+      "IRR-HG4": {
+        "evidence_pointer": "$.seed_aggregation.orders",
+        "requirement": "At least two seeds, finite metrics, and stable gain direction are required.",
+        "status": "pass"
+      }
+    },
+    "positive_irreducibility": true,
+    "status": "pass"
+  },
+  "json_artifact": "reports/canonical/irreducibility_report.json",
+  "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+  "not_claimed": [
+    "CMI diagnostics do not set positive irreducibility.",
+    "Matched-random high-order residual positives fail closed.",
+    "The report is bounded to the deterministic lab fixture."
+  ],
+  "positive_claim": {
+    "blocked_by": null,
+    "claim_pointer": "$.hardgate.positive_irreducibility",
+    "cmi_diagnostic_only": true,
+    "positive_irreducibility": true
+  },
+  "producer": "scripts/run_irreducibility_report.py",
+  "records": [
+    {
+      "orders": [
+        {
+          "added_high_order_columns": [
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 0.4795288782580862,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.7278533330731006,
+            "low_residual_variance": 1.8991416859623387
+          },
+          "conditioned_residual_gain": 1.1657449322649076,
+          "finite_metrics": true,
+          "high_order": 2,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "high_order_mse": 0.7335320673798164,
+          "low_order": 1,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3"
+          ],
+          "low_order_mse": 1.8992769996447239,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 1.1657449322649076,
+            "low_order_mse": 1.8992769996447239,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": -0.08647488465278252,
+            "high_order_mse": 1.9857518842975064,
+            "low_order_mse": 1.8992769996447239,
+            "matched_feature_shape": [
+              512,
+              7
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 2,
+          "seed": 101,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        },
+        {
+          "added_high_order_columns": [
+            "x1*x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 3.502271109235327,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.0006607084198932056,
+            "low_residual_variance": 0.7278533330731006
+          },
+          "conditioned_residual_gain": 0.7328713436705688,
+          "finite_metrics": true,
+          "high_order": 3,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3",
+            "x1*x2*x3"
+          ],
+          "high_order_mse": 0.000660723709247577,
+          "low_order": 2,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "low_order_mse": 0.7335320673798164,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.7328713436705688,
+            "low_order_mse": 0.7335320673798164,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": -0.009912020459509563,
+            "high_order_mse": 0.7434440878393259,
+            "low_order_mse": 0.7335320673798164,
+            "matched_feature_shape": [
+              512,
+              8
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 3,
+          "seed": 101,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        }
+      ],
+      "sample_count": 512,
+      "seed": 101
+    },
+    {
+      "orders": [
+        {
+          "added_high_order_columns": [
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 0.4685988777581661,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.5355675962100782,
+            "low_residual_variance": 1.3672064746925183
+          },
+          "conditioned_residual_gain": 0.84274951446421,
+          "finite_metrics": true,
+          "high_order": 2,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "high_order_mse": 0.539810079915502,
+          "low_order": 1,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3"
+          ],
+          "low_order_mse": 1.382559594379712,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.84274951446421,
+            "low_order_mse": 1.382559594379712,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": 0.0015771586947406213,
+            "high_order_mse": 1.3809824356849714,
+            "low_order_mse": 1.382559594379712,
+            "matched_feature_shape": [
+              512,
+              7
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 2,
+          "seed": 211,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        },
+        {
+          "added_high_order_columns": [
+            "x1*x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 3.453481063391863,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.0005359925513311765,
+            "low_residual_variance": 0.5355675962100782
+          },
+          "conditioned_residual_gain": 0.5392659288198168,
+          "finite_metrics": true,
+          "high_order": 3,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3",
+            "x1*x2*x3"
+          ],
+          "high_order_mse": 0.0005441510956851531,
+          "low_order": 2,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "low_order_mse": 0.539810079915502,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.5392659288198168,
+            "low_order_mse": 0.539810079915502,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": 0.0003866618715355763,
+            "high_order_mse": 0.5394234180439664,
+            "low_order_mse": 0.539810079915502,
+            "matched_feature_shape": [
+              512,
+              8
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 3,
+          "seed": 211,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        }
+      ],
+      "sample_count": 512,
+      "seed": 211
+    },
+    {
+      "orders": [
+        {
+          "added_high_order_columns": [
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 0.200884464659405,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 1.4621715305581033,
+            "low_residual_variance": 2.185165588152073
+          },
+          "conditioned_residual_gain": 0.7239462682386473,
+          "finite_metrics": true,
+          "high_order": 2,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "high_order_mse": 1.4622382346857654,
+          "low_order": 1,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3"
+          ],
+          "low_order_mse": 2.1861845029244127,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.7239462682386473,
+            "low_order_mse": 2.1861845029244127,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": 0.015124721856811796,
+            "high_order_mse": 2.171059781067601,
+            "low_order_mse": 2.1861845029244127,
+            "matched_feature_shape": [
+              512,
+              7
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 2,
+          "seed": 307,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        },
+        {
+          "added_high_order_columns": [
+            "x1*x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 3.890011996256773,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.0006111908369625564,
+            "low_residual_variance": 1.4621715305581033
+          },
+          "conditioned_residual_gain": 1.4616268150071188,
+          "finite_metrics": true,
+          "high_order": 3,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3",
+            "x1*x2*x3"
+          ],
+          "high_order_mse": 0.0006114196786467348,
+          "low_order": 2,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "low_order_mse": 1.4622382346857654,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 1.4616268150071188,
+            "low_order_mse": 1.4622382346857654,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": 0.00454598876199408,
+            "high_order_mse": 1.4576922459237713,
+            "low_order_mse": 1.4622382346857654,
+            "matched_feature_shape": [
+              512,
+              8
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 3,
+          "seed": 307,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        }
+      ],
+      "sample_count": 512,
+      "seed": 307
+    },
+    {
+      "orders": [
+        {
+          "added_high_order_columns": [
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 0.39831396957675774,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.5367038035453944,
+            "low_residual_variance": 1.1904352853405793
+          },
+          "conditioned_residual_gain": 0.6539189437242866,
+          "finite_metrics": true,
+          "high_order": 2,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "high_order_mse": 0.5368116870709873,
+          "low_order": 1,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3"
+          ],
+          "low_order_mse": 1.1907306307952739,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.6539189437242866,
+            "low_order_mse": 1.1907306307952739,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": -0.06206830588685319,
+            "high_order_mse": 1.252798936682127,
+            "low_order_mse": 1.1907306307952739,
+            "matched_feature_shape": [
+              512,
+              7
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 2,
+          "seed": 401,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        },
+        {
+          "added_high_order_columns": [
+            "x1*x2*x3"
+          ],
+          "conditional_information": {
+            "bounded_cmi": 3.3672856493607237,
+            "can_set_positive_irreducibility": false,
+            "diagnostic_only": true,
+            "high_residual_variance": 0.0006381863633980665,
+            "low_residual_variance": 0.5367038035453944
+          },
+          "conditioned_residual_gain": 0.5361660399550052,
+          "finite_metrics": true,
+          "high_order": 3,
+          "high_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3",
+            "x1*x2*x3"
+          ],
+          "high_order_mse": 0.0006456471159820809,
+          "low_order": 2,
+          "low_order_baseline_present": true,
+          "low_order_feature_columns": [
+            "constant",
+            "x1",
+            "x2",
+            "x3",
+            "x1*x2",
+            "x1*x3",
+            "x2*x3"
+          ],
+          "low_order_mse": 0.5368116870709873,
+          "lower_order_ablation": {
+            "baseline_pointer": "$.records[*].orders[*].low_order_mse",
+            "conditioned_residual_gain": 0.5361660399550052,
+            "low_order_mse": 0.5368116870709873,
+            "same_split": true,
+            "status": "pass"
+          },
+          "matched_random_control": {
+            "conditioned_residual_gain": 0.0009387625810731715,
+            "high_order_mse": 0.5358729244899141,
+            "low_order_mse": 0.5368116870709873,
+            "matched_feature_shape": [
+              512,
+              8
+            ],
+            "matched_split": true,
+            "positive": false,
+            "positive_gain_threshold": 0.05,
+            "status": "pass"
+          },
+          "order": 3,
+          "seed": 401,
+          "split": {
+            "eval_count": 231,
+            "overlap_count": 0,
+            "train_count": 281
+          }
+        }
+      ],
+      "sample_count": 512,
+      "seed": 401
+    }
+  ],
+  "schema_id": "bedc-quality-lab:irreducibility-report",
+  "scope": {
+    "admitted_fixture": "deterministic Gaussian-OU style polynomial lab fixture",
+    "feature_family": "same-split D^{<k} and D^k polynomial features",
+    "not_claimed": [
+      "No global irreducibility theorem.",
+      "No production model claim.",
+      "No claim from CMI alone."
+    ]
+  },
+  "seed_aggregation": {
+    "order_count": 2,
+    "orders": {
+      "2": {
+        "matched_random_any_positive": true,
+        "matched_random_gain": {
+          "all_positive": false,
+          "max": 0.015124721856811796,
+          "mean": -0.032960327497020825,
+          "min": -0.08647488465278252,
+          "n": 4
+        },
+        "order": 2,
+        "seed_count": 4,
+        "stable_positive_direction": true,
+        "treatment_gain": {
+          "all_positive": true,
+          "max": 1.1657449322649076,
+          "mean": 0.8465899146730128,
+          "min": 0.6539189437242866,
+          "n": 4
+        }
+      },
+      "3": {
+        "matched_random_any_positive": true,
+        "matched_random_gain": {
+          "all_positive": false,
+          "max": 0.00454598876199408,
+          "mean": -0.0010101518112266838,
+          "min": -0.009912020459509563,
+          "n": 4
+        },
+        "order": 3,
+        "seed_count": 4,
+        "stable_positive_direction": true,
+        "treatment_gain": {
+          "all_positive": true,
+          "max": 1.4616268150071188,
+          "mean": 0.8174825318631274,
+          "min": 0.5361660399550052,
+          "n": 4
+        }
+      }
+    }
+  },
+  "source_artifacts": {
+    "conditional_information_table": "reports/canonical/conditional_information_table.json",
+    "generation_script": "scripts/run_irreducibility_report.py",
+    "matched_random_control": "scripts/run_irreducibility_report.py::_matched_random_control",
+    "residual_scorer": "scripts/run_irreducibility_report.py::_residual_scorer",
+    "toy_fixture": "scripts/run_irreducibility_report.py::_lab_fixture"
+  }
+}

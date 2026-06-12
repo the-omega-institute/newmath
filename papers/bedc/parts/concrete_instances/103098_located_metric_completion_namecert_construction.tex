@@ -71,6 +71,18 @@ The source observation enters completion-facing form only through $E$. Numerical
 Finally, $H,C,P,N$ transport and name the same route. No other coordinate is available, so every completion-facing read has the displayed factorization.
 \end{proof}
 
+\begin{theorem}[LocatedMetricCompletion branch determinacy]
+\label{thm:located-metric-completion-branch-determinacy}
+Let $L=(X,M,F,D,E,R,S,H,C,P,N)$ be an accepted $\LocatedMetricCompletionUp$ packet. Any accepted completion-facing read determines one Cauchy-evidence branch before embedding or readback is inspected: a filter-presented read consumes the $\CauchyFilterUp$ row $F$ with $D$ empty, and a net-presented read consumes the $\CauchyNetUp$ row $D$ with $F$ empty. Transport through $H$ and replay through $C$ cannot switch the selected branch after the embedding row $E$ or the readback row $R$ has been read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-metric-completion-carrier}. The rows $F$ and $D$ are the only visible Cauchy-evidence coordinates, and the carrier description makes each one either an evidence row or the empty marker complementary to the other branch.
+
+Apply \autoref{thm:located-metric-completion-source-handoff}. Every completion-facing read reaches $F$ or $D$ after the located source row $X$ and the metric-completion row $M$, but before the embedding row $E$ and the readback row $R$ are available.
+
+Finally apply \autoref{thm:located-metric-completion-nonescape}. The support rows $H$ and $C$ transport and replay the already selected finite route; they do not add a second branch coordinate, and no quotient completion, selected representative, choice principle, host equality, ambient complete metric space, or detached $\RealUp$ completeness row is present to replace the selected branch.
+\end{proof}
+
 \begin{theorem}[LocatedMetricCompletion ledger non-escape]
 \label{thm:located-metric-completion-nonescape}
 For an accepted $\LocatedMetricCompletionUp$ carrier $L=(X,M,F,D,E,R,S,H,C,P,N)$, every exported completion read, tolerance read, embedding read, and separated comparison is exhausted by the rows

@@ -154,14 +154,32 @@ If an apartness-compatible strict comparison is needed, use the explicit MetricB
 \end{proof}
 \leanchecked{BEDC.Derived.MetricClosedBallUp.MetricClosedBallCarrier\_realalgorder\_boundary\_scope}
 
-\closureat{MetricClosedBallUp}{scopedStr}
+\begin{theorem}[MetricClosedBall bridged export]
+\label{thm:metric-closed-ball-bridged-export}
+For every accepted $\MetricClosedBallUp$ packet $Q=(X,d,c,r,\rho,m,H,C,P,N)$, the public export bridges the non-strict metric boundary row to any abstract closed-ball consumer exactly through $X,d,c,r,\rho,m,H,C,P,N$. Strict-radius consumers do not read this export directly: they factor through the sibling $\MetricBallUp$ handoff and the displayed RealAlgOrder comparison rows before returning to the closed-ball boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-closed-ball-namecert-obligations}. It fixes the carrier admission, classifier transport, radius ledger, closed-membership transport, boundary comparison, and ledger non-escape rows of $Q$.
+
+Apply \autoref{thm:metric-closed-ball-metricball-boundary-handoff}. It separates strict-radius consumers from the non-strict closed-ball export, so the strict route must pass through $\MetricBallUp$ rather than reading the closed boundary as an open ball.
+
+Apply \autoref{thm:metricclosedball-realalgorder-boundary}. It identifies the closed export as the RealAlgOrder comparison row carried by $d,r,\rho,m$ and transported through $H,C,P,N$. Thus the bridge-facing consumer receives exactly the displayed packet rows and no ambient closed subset, quotient point equality, compactness witness, or topology closure.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricClosedBallUp.MetricClosedBallCarrier\_bridged\_export}
+
+\begin{definition}[MetricClosedBall mature boundary inventory]
+\label{def:metricclosedball-mature-boundary}
+The mature $\MetricClosedBallUp$ export inventory is exactly the finite list consisting of the $\MetricSpaceUp$ carrier row, the $\mathsf{MetricDistanceWitness}$ row, the center row, the radius row, the radius ledger, the non-strict boundary comparison row, the strict-boundary handoff through $\MetricBallUp$ when separately supplied, the $\RealAlgOrderUp$ or $\RatUp$ order source, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetricClosedBallUp}$ row. No mature export includes compactness, a full metric topology, topology closure, quotient equality for points or radii, ambient subset data, Lean verification, or bridge checking.
+\end{definition}
+
+\closureat{MetricClosedBallUp}{matureStr}
 
 \begin{closurestatus}{\MetricClosedBallUp}
   \constructivestory{A $\MetricClosedBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp radius row, a nonnegative radius ledger with optional positive-radius handoff data, a closed-membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:metric-closed-ball-radius-source-scope}, \autoref{thm:metric-closed-ball-center-transport-scope}, and \autoref{thm:metric-closed-ball-realalgorder-boundary-scope} bind the radius source, center transport, and RealAlgOrder boundary rows to the displayed $\MetricClosedBallUp$ carrier scope.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:metric-closed-ball-radius-source-scope}, \autoref{thm:metric-closed-ball-center-transport-scope}, \autoref{thm:metric-closed-ball-realalgorder-boundary-scope}, \autoref{thm:metric-closed-ball-bridged-export}, and \autoref{def:metricclosedball-mature-boundary} export the mature $\MetricClosedBallUp$ boundary inventory through carrier admission, closed-membership transport, radius nonnegativity, strict-boundary handoff, order-source routing, and ledger non-escape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim compactness, full metric topology, topology closure, quotient equality for metric points or radii, ambient subsets, Lean verification, or bridge checking.}
-  \upgradepath{Formal verification can encode carrier admission, closed-membership transport, radius nonnegativity stability, strict-boundary handoff, and ledger non-escape for BEDC.Derived.MetricClosedBallUp.}
+  \upgradepath{Formal verification can encode the same carrier admission, closed-membership transport, radius nonnegativity, strict-boundary handoff, and ledger non-escape obligations for BEDC.Derived.MetricClosedBallUp.}
 \end{closurestatus}

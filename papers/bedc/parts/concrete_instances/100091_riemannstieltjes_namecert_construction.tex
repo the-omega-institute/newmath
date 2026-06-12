@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $F,A,T,S,I,E,H,C,P,N$. It has no coordinate for Lebesgue integration, measure completion, selected limits, host real equality, a quotient of integrands or integrators, or a standard bridge.
 \end{definition}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Riemann--Stieltjes NameCert obligations]
 \label{thm:riemann-stieltjes-namecert-obligations}
@@ -232,6 +233,7 @@ Mesh-refinement stability then preserves the same rows under subdivision. Apply 
 
 Finally use \autoref{thm:riemann-stieltjes-step-integrator-exactness}. The step contribution is computed from the displayed rows $S,T,A$, and the remaining rows $P,N$ only record provenance and local naming. Since the carrier has no coordinate for a measure-space integral, host quotient of integrators, or ambient real equality, the variation contribution is exact as a BEDC row calculation.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_regulated\_integrator\_variation\_exactness}
 
 \begin{theorem}[Riemann--Stieltjes tagged-partition induction]
 \label{thm:riemann-stieltjes-tagged-partition-induction}
@@ -248,12 +250,31 @@ Use \autoref{thm:riemann-stieltjes-bounded-variation-partition-coverage} to keep
 The induction hypothesis applies to the remaining cells, and the stated preservation clause applies to the subdivided cell. Since $I$ consumes only finite refinements produced by this ledger, every displayed refinement-window read satisfies the property.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes scoped ledger]
+\label{thm:riemann-stieltjes-scope-ledger}
+For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, every integral-facing consumer of the tagged-partition result factors through the concrete BEDC dependency ledger
+$$
+\BoundedVariationUp,\DyadicStepFunctionUp,\RealUp,\RegulatedIntegralUp,\RiemannSumUp,\BHist,\hsame,\Cont,\Pkg,\NameCert
+$$
+before the endpoint seal $E$ is public. In particular, the carrier read cannot bypass the bounded-variation integrator row $A$, the dyadic step row $S$, the tagged $\RiemannSumUp$ row $T$, the regulated-integral handoff row $I$, componentwise transport $H$, replay $C$, provenance $P$, or the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Begin with the regulated-integral handoff theorem. It places every endpoint-facing read behind the ordered rows $F,A,T,S,I$, so a consumer cannot reach $E$ directly from a tagged partition or from an ambient real object.
+
+Next use the Darboux mesh-refinement and bounded-variation ledger rows. Mesh refinement confines the partition read to $T$ and $S$, while the ledger theorem forces every jump, variation read, and endpoint contribution used by the sum to be a visible row inside $A$ before it is transported downstream.
+
+The exactness rows keep the calculation local. Step-integrator exactness computes each dyadic step contribution from $S,T,A$, and regulated-integrator variation exactness determines the variation contribution through $A,T,S,H,C,P,N$ rather than through a measure-space integral or selected limiting partition.
+
+Finally apply tagged-partition induction over the finite $\BHist$ refinement ledger. The base row and each subdivision step preserve the same $\RiemannSumUp$, $\DyadicStepFunctionUp$, $\BoundedVariationUp$, $\RegulatedIntegralUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so every integral-facing consumer reads the tagged-partition result only through the stated dependency ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_scope\_ledger}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
   \constructivestory{A $\RiemannStieltjesUp$ packet is generated from a regulated integrand row, bounded-variation integrator row, tagged partition and Riemann-sum row, dyadic step approximation row, regulated-integral handoff row, Real endpoint seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:riemann-stieltjes-carrier}, \autoref{thm:riemann-stieltjes-namecert-obligations}, and \autoref{thm:riemann-stieltjes-regulated-integral-handoff} seed the finite Riemann--Stieltjes boundary over $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, and $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-carrier}, \autoref{thm:riemann-stieltjes-namecert-obligations}, \autoref{thm:riemann-stieltjes-regulated-integral-handoff}, \autoref{thm:riemann-stieltjes-mesh-refinement-stability}, the bounded-variation jump boundary, and \autoref{thm:riemann-stieltjes-tagged-partition-induction} bind the carrier, NameCert obligations, regulated-integral handoff, Darboux mesh refinement, bounded-variation control, and refinement-window exhaustion as the finite Riemann--Stieltjes route over $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lebesgue integration, measure completion, selected limits, host real equality, any quotient of integrands or integrators, Lean verification, or any standard bridge.}

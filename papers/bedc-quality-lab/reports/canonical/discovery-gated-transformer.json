@@ -1,0 +1,2085 @@
+{
+  "architecture_spec": {
+    "architecture_id": "discovery-gated-transformer",
+    "component_order": [
+      "hardgate_contract",
+      "mechanism_dna",
+      "mechanism_namecert",
+      "discovery_map",
+      "training_replay"
+    ],
+    "evidence_policy": "pointer-only source cells",
+    "gating_protocol": "discovery hardgate before promotion",
+    "role": "bounded sequence transformer prototype"
+  },
+  "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+  "claim_capsule_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    "pointer": "$"
+  },
+  "component_ablation": {
+    "arm_count": 11,
+    "arms": [
+      {
+        "arm_id": "drop_hardgate_contract",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "hardgate_contract",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.hardgate_contract",
+        "disabled_components": [
+          "hardgate_contract"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.09,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.093,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_mechanism_namecert",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "mechanism_namecert",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.mechanism_namecert",
+        "disabled_components": [
+          "mechanism_namecert"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.06,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.06,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_discovery_map",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "discovery_map",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.discovery_map",
+        "disabled_components": [
+          "discovery_map"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.08,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.083,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_training_replay",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "training_replay",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.training_replay",
+        "disabled_components": [
+          "training_replay"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.04,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.044,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_tool_route_evidence",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "tool_route_evidence",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
+        "disabled_components": [
+          "tool_route_evidence"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.1,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.106,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_family_definition",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "family_definition",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition",
+        "disabled_components": [
+          "family_definition"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.05,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.052,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_jet_certificate",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "jet_certificate",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+        "disabled_components": [
+          "jet_certificate"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.07,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.074,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_d4_projection",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "d4_projection",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+        "disabled_components": [
+          "d4_projection"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.11,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.111,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_mechanism_pair",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "mechanism_namecert",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.mechanism_namecert",
+        "disabled_components": [
+          "mechanism_namecert",
+          "discovery_map"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.13,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.131,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_evidence_pair",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "tool_route_evidence",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
+        "disabled_components": [
+          "tool_route_evidence",
+          "jet_certificate"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.15,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.156,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      },
+      {
+        "arm_id": "drop_structural_contracts",
+        "causal_claim_allowed": true,
+        "claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.claim_policy",
+        "component_id": "family_definition",
+        "component_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition",
+        "disabled_components": [
+          "hardgate_contract",
+          "family_definition",
+          "d4_projection"
+        ],
+        "effect_status": "measurable",
+        "expected_signal_delta": 0.18,
+        "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        "measured_effect": 0.18,
+        "metric_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation.metric_contract",
+        "seed": 1105
+      }
+    ],
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.component-ablation",
+    "claim_policy": {
+      "causal_claim_rule": "claim only arms with measurable owner-local toy effect",
+      "owner_scope": "DGT canonical owner only",
+      "zero_effect_rule": "zero-effect arms remain blocked and cannot support causal attribution"
+    },
+    "components": [
+      {
+        "component_id": "hardgate_contract",
+        "component_role": "promotion boundary",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.hardgate_contract"
+      },
+      {
+        "component_id": "mechanism_namecert",
+        "component_role": "mechanism certificate pointer",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.mechanism_namecert"
+      },
+      {
+        "component_id": "discovery_map",
+        "component_role": "candidate-level map signal",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.discovery_map"
+      },
+      {
+        "component_id": "training_replay",
+        "component_role": "bounded replay hardgate pointer",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.training_replay"
+      },
+      {
+        "component_id": "tool_route_evidence",
+        "component_role": "tool-route admission evidence",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+      },
+      {
+        "component_id": "family_definition",
+        "component_role": "structural family invariant pointer",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition"
+      },
+      {
+        "component_id": "jet_certificate",
+        "component_role": "owner-local jet certificate pointer",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref"
+      },
+      {
+        "component_id": "d4_projection",
+        "component_role": "candidate projection",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection"
+      }
+    ],
+    "failed_gate": [],
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording",
+        "formal closure wording"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "gate_names": [
+        "ABL-HG1",
+        "ABL-HG2",
+        "ABL-HG3",
+        "ABL-HG4",
+        "ABL-HG5",
+        "ABL-HG6"
+      ],
+      "gates": {
+        "ABL-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.owner_ref"
+          },
+          "status": "pass"
+        },
+        "ABL-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.arms"
+          },
+          "status": "pass"
+        },
+        "ABL-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.arms"
+          },
+          "status": "pass"
+        },
+        "ABL-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.claim_policy"
+          },
+          "status": "pass"
+        },
+        "ABL-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.metric_contract"
+          },
+          "status": "pass"
+        },
+        "ABL-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "metric_contract": {
+      "matched_control_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+      "measurable_effect_threshold": 0.02,
+      "primary_delta": "bounded_toy_signal_delta",
+      "zero_effect_policy": "fail-closed-no-causal-claim"
+    },
+    "not_claimed": [
+      "Component ablation is bounded deterministic toy evidence inside the DGT owner artifact.",
+      "No standalone DGT component-ablation report, runner, registry entry, or sidecar is defined.",
+      "Zero-effect components do not support causal attribution."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+    "revocation_rows": [
+      {
+        "condition": "Revoke when the catalog is not exactly the eleven DGT ablation arms.",
+        "gate": "ABL-HG2"
+      },
+      {
+        "condition": "Revoke when a zero-effect arm is used as causal evidence.",
+        "gate": "ABL-HG4"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.component-ablation",
+    "seed": 1105,
+    "status": "bounded-owner-local"
+  },
+  "component_refs": {
+    "discovery_map": {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$.coverage_matrix"
+    },
+    "hardgate_contract": {
+      "artifact": "reports/canonical/new_model_hardgates.json",
+      "pointer": "$.gates"
+    },
+    "mechanism_dna": {
+      "artifact": "reports/canonical/mechanism_dna.json",
+      "pointer": "$.rows"
+    },
+    "mechanism_namecert": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$.mechanism_namecert_ref"
+    },
+    "training_replay": {
+      "artifact": "reports/canonical/discovery-gated-transformer-training.json",
+      "pointer": "$.hardgates"
+    }
+  },
+  "d4_projection": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.d4_projection.forbidden_claim_term_audit",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.d4_projection.matched_control",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.d4_projection.gates.PROJ-HG5",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.d4_projection.gates.PROJ-HG1",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D4",
+    "anti_triviality_status": "pass",
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+    "blocked_reason": null,
+    "claim_basis": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.gates.PROJ-HG1",
+      "positive_discovery": true
+    },
+    "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
+    "core_contracts": {
+      "claim_graph_owner": "Core",
+      "claim_verdict_owner": "Core",
+      "discovery_map_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+    },
+    "discovery_level": "D4",
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "gates": {
+      "PROJ-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG10": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.discovery_map_signal_ref"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.net_positive_signal"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.classifier_surface_delta"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.family_definition.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.claim_capsule_ref"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.forbidden_claim_term_audit"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG9": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$"
+        },
+        "status": "pass"
+      }
+    },
+    "input_pointers": {
+      "claim_capsule": "reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref",
+      "evidence_envelope": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+      "family_definition": "reports/canonical/discovery-gated-transformer.json:$.family_definition",
+      "forbidden_claim_term_audit": "reports/canonical/discovery-gated-transformer.json:$.forbidden_claim_term_audit",
+      "hardgate": "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+      "jet_certificate": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+      "mechanism_namecert": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+      "not_claimed": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "tool_route": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+    },
+    "matched_control": {
+      "control_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.blocked_route_evidence",
+      "control_positive": false
+    },
+    "model_id": "discovery-gated-transformer",
+    "net_positive_signal": true,
+    "not_claimed": [
+      "Bounded deterministic toy evidence only.",
+      "No external operation authority.",
+      "No universal training recipe claim.",
+      "No external verdict ownership."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "readiness": "ready",
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    }
+  },
+  "d4_projection_ref": {
+    "artifact": "reports/canonical/discovery-gated-transformer.json",
+    "pointer": "$.d4_projection"
+  },
+  "d5_m_projection": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.d5_m_projection.hardgates.D5M-HG10",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.d5_m_projection.hardgates.D5M-HG9",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.d5_m_projection.hardgates.D5M-HG2",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.d5_m_projection.hardgates.D5M-HG7",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D5-M",
+    "anti_triviality_status": "pass",
+    "blocked_reason": null,
+    "boundary_ledger": [
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection",
+        "gate": "D5M-HG1",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.evidence_scope",
+        "gate": "D5M-HG2",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+        "gate": "D5M-HG3",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+        "gate": "D5M-HG4",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+        "gate": "D5M-HG5",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref",
+        "gate": "D5M-HG6",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.score_margin_shortcut",
+        "gate": "D5M-HG7",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.scale_leakage",
+        "gate": "D5M-HG8",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive",
+        "gate": "D5M-HG9",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-M",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.forbidden_claim_audit",
+        "gate": "D5M-HG10",
+        "status": "pass"
+      }
+    ],
+    "causal_patch_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+    "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.neural_ablation_ref",
+    "discovery_level": "D5-M",
+    "evidence_scope": [
+      "bounded-design",
+      "toy-model",
+      "theorem-backed",
+      "production-forbidden"
+    ],
+    "failed_gate": null,
+    "forbidden_claim_audit": {
+      "claim_surface_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+      "forbidden_terms": [
+        "production authority",
+        "production deployment",
+        "global superiority",
+        "llm replacement",
+        "unbounded mechanism"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "gate_status": "pass",
+    "hardgates": {
+      "D5M-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection"
+        },
+        "status": "pass"
+      },
+      "D5M-HG10": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_projection.forbidden_claim_audit"
+        },
+        "status": "pass"
+      },
+      "D5M-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_projection.evidence_scope"
+        },
+        "status": "pass"
+      },
+      "D5M-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.mechanism_namecert_ref"
+        },
+        "status": "pass"
+      },
+      "D5M-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.jet_certificate_ref"
+        },
+        "status": "pass"
+      },
+      "D5M-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.operational_robustness"
+        },
+        "status": "pass"
+      },
+      "D5M-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.neural_ablation_ref"
+        },
+        "status": "pass"
+      },
+      "D5M-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_projection.negative_witness_pointers.score_margin_shortcut"
+        },
+        "status": "pass"
+      },
+      "D5M-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_projection.negative_witness_pointers.scale_leakage"
+        },
+        "status": "pass"
+      },
+      "D5M-HG9": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d4_projection.matched_control.control_positive"
+        },
+        "status": "pass"
+      }
+    },
+    "jet_certificate_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+    "mechanism_certificate_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+    "mechanism_closure_status": "closed",
+    "negative_witness_pointers": {
+      "control_positive": "cleared",
+      "control_positive_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive",
+      "scale_leakage": "cleared",
+      "scale_leakage_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.surfaces",
+      "score_margin_shortcut": "cleared",
+      "score_margin_shortcut_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier"
+    },
+    "neural_ablation_pointer": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
+    "not_claimed": [
+      "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
+      "No production authority claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No unbounded mechanism closure claim."
+    ],
+    "readiness": "ready",
+    "source_level": "D5-O",
+    "status": "ready",
+    "terminal_verdict_scope": "Core"
+  },
+  "d5_o_projection": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.d5_o_projection.not_claimed",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.d5_o_projection.gates.D5O-HG3",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.d5_o_projection.gates.D5O-HG2",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D5-O",
+    "anti_triviality_status": "pass",
+    "blocked_reason": null,
+    "boundary_ledger": [
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+        "gate": "D5O-HG1",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+        "gate": "D5O-HG2",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary",
+        "gate": "D5O-HG3",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.seed",
+        "gate": "D5O-HG4",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier",
+        "gate": "D5O-HG5",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.evidence_pointers.stronger_matched_random",
+        "gate": "D5O-HG6",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.boundary_ledger",
+        "gate": "D5O-HG7",
+        "status": "pass"
+      },
+      {
+        "boundary": "closed for bounded D5-O",
+        "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.not_claimed",
+        "gate": "D5O-HG8",
+        "status": "pass"
+      }
+    ],
+    "discovery_level": "D5-O",
+    "evidence_pointers": {
+      "component_ablation": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+      "high_impact_review": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+      "operational_robustness": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+      "source_d4_projection": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "stronger_matched_random": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.surface_summary.threshold_frontier.matched_random_pass_count",
+      "terminal_d4_acceptance": "reports/canonical/high-impact-review.json:$.review_rows[0]"
+    },
+    "gate_status": "pass",
+    "gates": {
+      "D5O-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/high-impact-review.json",
+          "pointer": "$.review_rows[0]"
+        },
+        "status": "pass"
+      },
+      "D5O-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d4_projection"
+        },
+        "status": "pass"
+      },
+      "D5O-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary"
+        },
+        "status": "pass"
+      },
+      "D5O-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary.seed"
+        },
+        "status": "pass"
+      },
+      "D5O-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.surface_summary.threshold_frontier"
+        },
+        "status": "pass"
+      },
+      "D5O-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.evidence_pointers.stronger_matched_random"
+        },
+        "status": "pass"
+      },
+      "D5O-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.boundary_ledger"
+        },
+        "status": "pass"
+      },
+      "D5O-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_o_projection.not_claimed"
+        },
+        "status": "pass"
+      }
+    },
+    "not_claimed": [
+      "Bounded D5-O claim over deterministic toy surfaces only.",
+      "No production robustness claim.",
+      "No global robustness claim.",
+      "No LLM replacement claim.",
+      "No D5-M mechanism closure claim."
+    ],
+    "scope": {
+      "claim": "bounded deterministic toy operational robustness",
+      "owner": "discovery-gated-transformer",
+      "review": "High-impact review accepted for bounded D5-O projection."
+    },
+    "source_level": "D4",
+    "status": "ready",
+    "surface_summary": {
+      "nontrivial_ood_pass_count": 4,
+      "required_nontrivial_ood_pass_count": 3,
+      "seed": 1105,
+      "surface_count": 4,
+      "surfaces": [
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.45,
+          "owner_pass": true,
+          "owner_score": 0.74,
+          "seed": 1106,
+          "surface_id": "toy-seed-1105-surface-1",
+          "threshold": 0.56
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.47,
+          "owner_pass": true,
+          "owner_score": 0.77,
+          "seed": 1107,
+          "surface_id": "toy-seed-1105-surface-2",
+          "threshold": 0.6
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.46,
+          "owner_pass": true,
+          "owner_score": 0.81,
+          "seed": 1108,
+          "surface_id": "toy-seed-1105-surface-3",
+          "threshold": 0.64
+        },
+        {
+          "boundary_status": "passed",
+          "matched_random_pass": false,
+          "matched_random_score": 0.48,
+          "owner_pass": true,
+          "owner_score": 0.79,
+          "seed": 1109,
+          "surface_id": "toy-seed-1105-surface-4",
+          "threshold": 0.68
+        }
+      ],
+      "threshold_frontier": {
+        "frontier_status": "pass",
+        "matched_random_pass_count": 0,
+        "owner_pass_count": 4,
+        "thresholds": [
+          0.56,
+          0.6,
+          0.64,
+          0.68
+        ]
+      }
+    }
+  },
+  "discovery_map_signal": {
+    "evidence": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$.d4_projection.discovery_level"
+    },
+    "level_candidate": "D4",
+    "map_ref": {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$.coverage_matrix"
+    },
+    "status": "candidate-local-positive"
+  },
+  "discovery_map_signal_ref": {
+    "artifact": "reports/canonical/discovery-gated-transformer.json",
+    "pointer": "$.discovery_map_signal"
+  },
+  "evidence_envelope_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+    "pointer": "$"
+  },
+  "family_definition": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
+    "definition_scope": "bounded DGT structural family definition",
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "global superiority",
+        "architecture superiority",
+        "production authority",
+        "universal training recipe",
+        "terminal verdict"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-FAMILY-HG1",
+        "DGT-FAMILY-HG2",
+        "DGT-FAMILY-HG3",
+        "DGT-FAMILY-HG4"
+      ],
+      "gates": {
+        "DGT-FAMILY-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.architecture"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.objective"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.certificate"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "invariant_groups": {
+      "architecture": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.model_id",
+          "reports/canonical/discovery-gated-transformer.json:$.architecture_spec",
+          "reports/canonical/discovery-gated-transformer.json:$.component_refs"
+        ],
+        "group_id": "architecture",
+        "required": true
+      },
+      "certificate": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref"
+        ],
+        "group_id": "certificate",
+        "required": true
+      },
+      "objective": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+          "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+          "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+        ],
+        "group_id": "objective",
+        "required": true
+      }
+    },
+    "model_family_claim_status": {
+      "claim_allowed": false,
+      "claim_scope": "structural pointer definition only",
+      "status": "definition-recorded"
+    },
+    "not_claimed": [
+      "The family definition is a pointer bundle inside the DGT owner.",
+      "The family definition is not a standalone report, runner, backend, registry, or host setting.",
+      "The family definition does not admit deployment, promotion, or external authority."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
+    "slot_state": "present-fail-closed"
+  },
+  "forbidden_claim_term_audit": {
+    "forbidden_terms": [
+      "terminal verdict token",
+      "operation authority wording",
+      "external superiority wording",
+      "architecture superiority wording"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgate": {
+    "gate_names": [
+      "DGT-HG1",
+      "DGT-HG2",
+      "DGT-HG3",
+      "DGT-HG4",
+      "DGT-HG5",
+      "DGT-HG6",
+      "DGT-HG7",
+      "DGT-HG8",
+      "DGT-HG9",
+      "DGT-HG10",
+      "DGT-HG11",
+      "DGT-HG12",
+      "DGT-HG13",
+      "DGT-HG14",
+      "DGT-HG15",
+      "DGT-HG16",
+      "DGT-HG17",
+      "DGT-HG18",
+      "DGT-HG19",
+      "DGT-HG20"
+    ],
+    "gates": {
+      "DGT-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.schema_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG10": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.claim_capsule_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG11": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.evidence_envelope_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG12": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.mechanism_namecert_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG13": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.jet_certificate_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG14": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG15": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+          "pointer": "$.owner_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG16": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+          "pointer": "$.component_refs"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG17": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/mechanism_namecert.json",
+          "pointer": "$.evidence_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG18": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.owner_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG19": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.mechanism_dna"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.artifact_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG20": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.model_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.architecture_spec"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.hardgate_contract"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.mechanism_namecert"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.discovery_map"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.training_replay"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG9": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.discovery_map_signal"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "hardgate_ref": {
+    "artifact": "reports/canonical/discovery-gated-transformer.json",
+    "pointer": "$.hardgate"
+  },
+  "jet_certificate_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+    "pointer": "$"
+  },
+  "mechanism_namecert_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/mechanism_namecert.json",
+    "pointer": "$"
+  },
+  "model_id": "discovery-gated-transformer",
+  "neural_ablation_ref": {
+    "artifact": "reports/canonical/dgt-neural-ablation.json",
+    "pointer": "$.nabl_hardgates.status"
+  },
+  "not_claimed": [
+    "Bounded deterministic toy evidence only.",
+    "No external operation authority.",
+    "No universal training recipe claim.",
+    "No external verdict ownership."
+  ],
+  "operational_robustness": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.robustness",
+    "discovery_level": "D5-O",
+    "failed_gate": [],
+    "failed_gate_pointer": null,
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording",
+        "host-private refactor path",
+        "host-private env path"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-ROB-HG1",
+        "DGT-ROB-HG2",
+        "DGT-ROB-HG3",
+        "DGT-ROB-HG4",
+        "DGT-ROB-HG5",
+        "DGT-ROB-HG6",
+        "DGT-ROB-HG7",
+        "DGT-ROB-HG8"
+      ],
+      "gates": {
+        "DGT-ROB-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.owner_ref"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.d4_projection"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.component_ablation.hardgate"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.source_evidence.ledger_aware_transformer"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.source_evidence.model_comparison"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.source_artifacts"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG7": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.not_claimed"
+          },
+          "status": "pass"
+        },
+        "DGT-ROB-HG8": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.operational_robustness.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "model_id": "discovery-gated-transformer",
+    "not_claimed": [
+      "No deployment readiness is claimed.",
+      "No cross-model winner is claimed.",
+      "No external operation authority is claimed.",
+      "No D5-M mechanism closure is claimed."
+    ],
+    "operational_contract": {
+      "lat_relationship": "LAT remains component evidence input only",
+      "owner_policy": "DGT owner-local readiness only",
+      "readiness_pointer": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+      "robustness_basis": "bounded deterministic toy evidence with matched controls"
+    },
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+    "readiness": "ready",
+    "revocation_rows": [
+      {
+        "condition": "Revoke when the D4 owner projection is blocked.",
+        "gate": "DGT-ROB-HG2"
+      },
+      {
+        "condition": "Revoke when LAT multi-surface evidence is absent or not passing.",
+        "gate": "DGT-ROB-HG4"
+      },
+      {
+        "condition": "Revoke when forbidden authority wording appears in DGT robustness fields.",
+        "gate": "DGT-ROB-HG8"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.robustness",
+    "source_artifacts": {
+      "component_ablation_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+      "d4_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "ledger_aware_transformer_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+      "model_comparison_pointer": "reports/canonical/model-comparison.json:$"
+    },
+    "source_evidence": {
+      "ledger_aware_transformer": {
+        "artifact_id": "bedc-quality-lab:ledger-aware-transformer",
+        "hardgate_status": "pass",
+        "level_candidate": "D5-O",
+        "pass_surface_count": 3,
+        "required_pass_surface_count": 3,
+        "robustness_status": "pass",
+        "source_role": "component-evidence-input"
+      },
+      "model_comparison": {
+        "artifact_id": "bedc-quality-lab:model-comparison",
+        "hardgate_status": "pass",
+        "source_role": "matched-control-evidence-input"
+      },
+      "owner": {
+        "component_ablation_status": "pass",
+        "d4_discovery_level": "D4",
+        "d4_readiness": "ready",
+        "model_id": "discovery-gated-transformer"
+      }
+    },
+    "status": "ready"
+  },
+  "producer": "scripts/run_discovery_gated_transformer.py",
+  "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
+  "revocation_rows": [
+    {
+      "condition": "Revoke when the owner-local jet certificate pointer is absent.",
+      "gate": "DGT-HG13"
+    },
+    {
+      "condition": "Revoke when forbidden claim language appears in DGT claim fields.",
+      "gate": "DGT-HG20"
+    }
+  ],
+  "scaling_ladder": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG6",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG2",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG3",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.scaling_ladder.hardgate.gates.SCALE-HG1",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D5-M",
+    "anti_triviality_status": "pass",
+    "boundary_ledger": [
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L2_char_lm",
+        "reason": "level state not ready; promotion status not level-local ready; base_transformer_control missing pass pointer; matched_random_structural_control missing pass pointer; compute/param ledger missing pass status; compute_units missing positive numeric value; parameter_count missing positive numeric value; negative witness sweep missing pass pointer",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule",
+        "status": "failed"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L3_byte_lm",
+        "reason": "blocked by earlier failed level L2_char_lm",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L4_tool_use_toy",
+        "reason": "blocked by earlier failed level L2_char_lm",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule",
+        "status": "blocked"
+      },
+      {
+        "failed_gate": "SCALE-HG5",
+        "level_id": "L5_small_world_model",
+        "reason": "blocked by earlier failed level L2_char_lm",
+        "source_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule",
+        "status": "blocked"
+      }
+    ],
+    "discovery_level": "D5-M",
+    "evidence_scope": "bounded-model-prototype-scaling",
+    "hardgate": {
+      "blocked_reason": "blocked-by-SCALE-HG2",
+      "failed_gate": "SCALE-HG2",
+      "failed_gate_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels",
+      "gate_names": [
+        "SCALE-HG1",
+        "SCALE-HG2",
+        "SCALE-HG3",
+        "SCALE-HG4",
+        "SCALE-HG5",
+        "SCALE-HG6"
+      ],
+      "gates": {
+        "SCALE-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.d5_m_projection"
+          },
+          "status": "pass"
+        },
+        "SCALE-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.levels"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.boundary_ledger"
+          },
+          "status": "fail"
+        },
+        "SCALE-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.scaling_ladder.evidence_scope"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "fail"
+    },
+    "hardgate_summary_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection.hardgate_statuses.pass"
+    },
+    "l0_toy_projection_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection"
+    },
+    "level_state": "blocked",
+    "levels": [
+      {
+        "claim_capsule": {
+          "boundary_ledger": [],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L0_toy",
+          "hardgate_summary_ref": {
+            "artifact": "reports/canonical/dgt-l0-controls.json",
+            "pointer": "$.l0_toy_projection.hardgate_statuses.pass"
+          },
+          "l0_toy_projection_ref": {
+            "artifact": "reports/canonical/dgt-l0-controls.json",
+            "pointer": "$.l0_toy_projection"
+          },
+          "level_id": "L0_toy",
+          "level_state": "open",
+          "not_claimed": [
+            "Bounded toy training control only.",
+            "No production scale claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim.",
+            "No verdict inheritance to L1 or higher scaling levels."
+          ],
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule",
+          "promotion_status": "opened-from-l0-pass-pointer",
+          "review_status_alias": "pass",
+          "review_status_alias_source": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.review_status",
+          "review_status_ref": {
+            "artifact": "reports/canonical/dgt-l0-controls.json",
+            "pointer": "$.l0_toy_projection.review_status"
+          }
+        },
+        "level_id": "L0_toy"
+      },
+      {
+        "claim_capsule": {
+          "boundary_ledger": [],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+          "level_id": "L1_tiny_sequence",
+          "level_state": "ready",
+          "not_claimed": [
+            "Bounded tiny-sequence order-k training only.",
+            "No production deployment claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal training recipe claim.",
+            "No full BEDC closure claim.",
+            "No L2 or higher scaling claim.",
+            "No natural-language capability claim.",
+            "No component-causal stability beyond the #1168 measured owner."
+          ],
+          "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
+          "promotion_readiness_alias": "ready-pass",
+          "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+          "promotion_status": "level-local-evidence-ready",
+          "review_status_alias": "pass",
+          "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status"
+        },
+        "level_id": "L1_tiny_sequence"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L2_char_lm",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L2_char_lm",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L2_char_lm",
+          "level_state": "blocked",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule",
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule",
+          "promotion_status": "blocked-until-level-local-evidence"
+        },
+        "level_id": "L2_char_lm"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L3_byte_lm",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L3_byte_lm",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L3_byte_lm",
+          "level_state": "blocked",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule",
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule",
+          "promotion_status": "blocked-until-level-local-evidence"
+        },
+        "level_id": "L3_byte_lm"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L4_tool_use_toy",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L4_tool_use_toy",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L4_tool_use_toy",
+          "level_state": "blocked",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule",
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule",
+          "promotion_status": "blocked-until-level-local-evidence"
+        },
+        "level_id": "L4_tool_use_toy"
+      },
+      {
+        "claim_capsule": {
+          "base_transformer_control": null,
+          "boundary_ledger": [
+            {
+              "level_id": "L5_small_world_model",
+              "reason": "missing bounded scaling level capsule evidence",
+              "status": "blocked"
+            }
+          ],
+          "claim_id": "claim:dgt_scaling_ladder_owner:L5_small_world_model",
+          "compute_param_ledger": null,
+          "hardgates": {
+            "SCALE-HG2": "fail",
+            "SCALE-HG3": "fail",
+            "SCALE-HG4": "fail"
+          },
+          "level_id": "L5_small_world_model",
+          "level_state": "blocked",
+          "matched_random_structural_control": null,
+          "negative_witness_sweep": null,
+          "not_claimed": [
+            "Bounded model prototype scaling only.",
+            "No production scale claim.",
+            "No GPT or Llama claim.",
+            "No global superiority claim.",
+            "No LLM replacement claim.",
+            "No universal recipe claim.",
+            "No unbounded scaling law claim."
+          ],
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule",
+          "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[5].claim_capsule",
+          "promotion_status": "blocked-until-level-local-evidence"
+        },
+        "level_id": "L5_small_world_model"
+      }
+    ],
+    "not_claimed": [
+      "Bounded model prototype scaling only.",
+      "No production scale claim.",
+      "No GPT or Llama claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No universal recipe claim.",
+      "No unbounded scaling law claim."
+    ],
+    "not_inherited_from_l0": [
+      "L1_tiny_sequence",
+      "L2_char_lm",
+      "L3_byte_lm",
+      "L4_tool_use_toy",
+      "L5_small_world_model"
+    ],
+    "opened_levels": [
+      "L0_toy",
+      "L1_tiny_sequence"
+    ],
+    "overall_status": "blocked",
+    "promotion_status": "blocked",
+    "review_status": "review-line-blocked",
+    "review_status_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.l0_toy_projection.review_status"
+    },
+    "source_projection": {
+      "discovery_level": "D5-M",
+      "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+      "mechanism_closure_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.mechanism_closure_status",
+      "mechanism_closure_status": "closed",
+      "status": "ready",
+      "status_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status"
+    },
+    "status": "blocked"
+  },
+  "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+  "source_artifacts": {
+    "component_refs": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$.component_refs"
+    },
+    "ledger_aware_transformer_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+    "model_comparison_pointer": "reports/canonical/model-comparison.json:$"
+  },
+  "tool_route_evidence": {
+    "admission_ledger": {
+      "policy": "admit only valid positive-discovery routes with classifier delta and net-positive signal",
+      "rows": [
+        {
+          "admission_basis_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[0]",
+          "route_class": "valid_positive_discovery",
+          "route_id": "route_math_lookup_positive"
+        },
+        {
+          "admission_basis_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[1]",
+          "route_class": "valid_positive_discovery",
+          "route_id": "route_ledger_patch_positive"
+        }
+      ]
+    },
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence",
+    "blocked_route_evidence": {
+      "rows": [
+        {
+          "block_basis": "invalid-or-unsafe-route",
+          "evidence_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[2]",
+          "route_class": "invalid_route",
+          "route_id": "route_schema_invalid"
+        },
+        {
+          "block_basis": "invalid-or-unsafe-route",
+          "evidence_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[3]",
+          "route_class": "unsafe_route",
+          "route_id": "route_secret_unsafe"
+        }
+      ]
+    },
+    "cga_route_patch_ref": "reports/canonical/certificate-gated-attention.json:$.route_patch_protocol",
+    "classifier_surface_delta": {
+      "route_ledger_patch_positive": {
+        "after": "route-patched-positive-discovery",
+        "before": "candidate-ledger-gap",
+        "surface_delta_count": 1
+      },
+      "route_math_lookup_positive": {
+        "after": "tool-route-positive-discovery",
+        "before": "route-unclassified",
+        "surface_delta_count": 2
+      }
+    },
+    "failed_gate": [],
+    "forbidden_alias_audit": {
+      "checked_ref_classes": [
+        "host-private refs",
+        "terminal verdict refs",
+        "DGT alias refs",
+        "standalone tool route refs"
+      ],
+      "forbidden_refs": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-TOOL-HG1",
+        "DGT-TOOL-HG2",
+        "DGT-TOOL-HG3",
+        "DGT-TOOL-HG4",
+        "DGT-TOOL-HG5",
+        "DGT-TOOL-HG6"
+      ],
+      "gates": {
+        "DGT-TOOL-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.classifier_surface_delta"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.cga_route_patch_ref"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.admission_ledger"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.blocked_route_evidence"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.not_claimed"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.forbidden_alias_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "net_positive_signal": true,
+    "not_claimed": [
+      "Tool-route evidence is bounded to deterministic synthetic DGT route rows.",
+      "CGA route-patch authority is pointer-only and not copied into the DGT owner.",
+      "Invalid or unsafe routes are blocked evidence, not admitted ledger rows."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "revocation_rows": [
+      {
+        "condition": "Revoke if an invalid or unsafe route appears in admission_ledger.rows.",
+        "gate": "DGT-TOOL-HG3"
+      },
+      {
+        "condition": "Revoke if the CGA route-patch pointer is replaced by copied route-patch payload.",
+        "gate": "DGT-TOOL-HG2"
+      }
+    ],
+    "route_classes": {
+      "blocked": [
+        "invalid_route",
+        "unsafe_route"
+      ],
+      "claimed_positive": [
+        "valid_positive_discovery"
+      ],
+      "control": [
+        "neutral_control"
+      ]
+    },
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence",
+    "source_issue_ref": "github:issue:928",
+    "synthetic_tool_call_grid": [
+      {
+        "admission_decision": "admit",
+        "classifier_surface_delta": {
+          "after": "tool-route-positive-discovery",
+          "before": "route-unclassified",
+          "surface_delta_count": 2
+        },
+        "net_positive_signal": true,
+        "route_class": "valid_positive_discovery",
+        "route_id": "route_math_lookup_positive",
+        "tool": "symbolic-table"
+      },
+      {
+        "admission_decision": "admit",
+        "classifier_surface_delta": {
+          "after": "route-patched-positive-discovery",
+          "before": "candidate-ledger-gap",
+          "surface_delta_count": 1
+        },
+        "net_positive_signal": true,
+        "route_class": "valid_positive_discovery",
+        "route_id": "route_ledger_patch_positive",
+        "tool": "ledger-patcher"
+      },
+      {
+        "admission_decision": "block",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "invalid_route",
+        "route_id": "route_schema_invalid",
+        "tool": "schema-mutator"
+      },
+      {
+        "admission_decision": "block",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "unsafe_route",
+        "route_id": "route_secret_unsafe",
+        "tool": "host-secret-reader"
+      },
+      {
+        "admission_decision": "do-not-admit",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "neutral_control",
+        "route_id": "route_control_neutral",
+        "tool": "no-op-control"
+      }
+    ],
+    "unsafe_invalid_audit": {
+      "invalid_or_unsafe_route_ids": [
+        "route_schema_invalid",
+        "route_secret_unsafe"
+      ],
+      "ledgered_invalid_or_unsafe_route_ids": [],
+      "status": "pass"
+    }
+  }
+}

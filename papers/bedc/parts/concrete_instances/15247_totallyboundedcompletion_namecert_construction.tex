@@ -52,6 +52,35 @@ The separated and extension obligations are then local to $S$ and $U$. Equality 
 Finally, the provenance row $P$ and local naming row $L$ name only the displayed coordinates. Since none of those coordinates contains open-cover compactness, quotient representatives, selected limit points, countable choice, detached Real completeness, or ambient completeness, no such datum can be exported by the NameCert surface.
 \end{proof}
 
+\begin{definition}[TotallyBoundedCompletion carrier admission obligation]
+\label{def:totally-bounded-completion-carrier-admission-obligation}
+The carrier admission obligation for $\TotallyBoundedCompletionUp$ is the requirement that every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ display all eleven rows before its local $\NameCert_{\TotallyBoundedCompletionUp}$ row is read. The source metric row $X$ feeds the $\TotallyBoundedUp$ finite-net ledger $T$; the refinement row $N$ feeds the $\CauchyFilterBasisUp$ row $F$; the dense $\CompletionEmbeddingUp$ row $E$ and $\ConstructiveMetricCompletionUp$ route $C$ precede the separated equality row $S$ and the $\UniformContinuousExtensionUp$ handoff $U$; and $H,P,L$ record componentwise $\hsame$ transport, package provenance, and local naming. The displayed $\Cont$ replay may follow only this row order.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion refinement ledger obligation]
+\label{thm:totally-bounded-completion-refinement-ledger-obligation}
+For every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ satisfying \autoref{def:totally-bounded-completion-carrier-admission-obligation}, every refinement request admitted by $\NameCert_{\TotallyBoundedCompletionUp}$ must consume the $\TotallyBoundedUp$ ledger $T$, the net-refinement row $N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$ before it is transported by $H$ or replayed by $\Cont$. The request cannot bypass $T,N,F,E,C$ by reading only $S,U,H,P,L$.
+\end{theorem}
+\begin{proof}
+Project the refinement request from the displayed packet. Carrier admission supplies the rows $X,T,N,F,E,C,S,U,H,P,L$ and names the permitted dependency order through the local $\NameCert$ row.
+
+The refinement request is indexed by a tolerance read, so it first inspects the finite centers, membership rows, distance witnesses, and rational bounds in the $\TotallyBoundedUp$ ledger $T$. The row $N$ is then the only permitted refinement coordinate, and the generated basis row $F$ records the corresponding $\CauchyFilterBasisUp$ packet.
+
+The completion-facing part of the request must pass through $E$ and $C$ before separated comparison or extension handoff is visible. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay preserve this route; they do not create a shortcut around the finite-net, basis, embedding, and constructive-completion rows.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion separated extension obligation]
+\label{thm:totally-bounded-completion-separated-extension-obligation}
+For every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ admitted by $\NameCert_{\TotallyBoundedCompletionUp}$, a separated equality read in $S$ or a uniformly continuous extension read in $U$ is valid only after the source row $X$, the $\TotallyBoundedUp$ finite-net ledger $T$, the refinement row $N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$ have been displayed. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay may transport the separated or extension read, but they may not replace the dependency on $T,N,F,E,C$.
+\end{theorem}
+\begin{proof}
+Read the separated equality coordinate $S$ and the extension handoff coordinate $U$ from the carrier. Both coordinates are downstream rows of the same $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, so their admission is governed by the local $\NameCert$ surface rather than by an external completion theorem.
+
+The source, finite-net, refinement, basis, embedding, and constructive-completion rows are already displayed before $S$ or $U$ can be consumed. Thus a separated equality comparison still depends on the Cauchy-filter and completion route, and a uniformly continuous extension consumer still depends on the finite-net route that produced the completed packet.
+
+Transport and replay preserve that dependency. The $\hsame$ row $H$ moves each coordinate componentwise, while the displayed $\Cont$ replay follows the same row order; neither operation supplies a new separated quotient, a selected limit, or an extension principle outside $\TotallyBoundedUp$, $\CauchyFilterBasisUp$, $\CompletionEmbeddingUp$, $\ConstructiveMetricCompletionUp$, and $\UniformContinuousExtensionUp$.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion net handoff]
 \label{thm:totally-bounded-completion-net-handoff}
 Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ be an accepted $\TotallyBoundedCompletionUp$ packet. Every completion-facing consumer that requests finite total-bounded data factors through
@@ -70,6 +99,82 @@ The completion route then consumes this refined net data through $F$, $E$, and $
 The separated equality row $S$ and the uniformly continuous handoff $U$ are downstream of that route. Transport, provenance, and local naming through $H,P,L$ preserve the same dependency order, which proves the stated factorization and excludes the unavailable compactness, subnet, quotient, and ambient-completeness reads.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion net-refinement stability]
+\label{thm:totally-bounded-completion-net-refinement-stability}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, any net-refinement read transported through $T,N,F,E,C$ remains a read of the same displayed finite-net ledger before it reaches separated comparison, uniformly continuous extension, transport, provenance, or local naming. In particular, refinement stability cannot be witnessed by $S,U,H,P,L$ alone and cannot replace the finite net row $T$ or refinement row $N$ by an open-cover compactness witness.
+\end{theorem}
+\begin{proof}
+Project the packet using \autoref{def:totally-bounded-completion-carrier}. The only finite-net and refinement coordinates are $T$ and $N$, while $F,E,C$ are the downstream Cauchy-filter, embedding, and constructive-completion rows generated from them.
+
+Apply the NameCert obligations of \autoref{thm:totally-bounded-completion-namecert-obligations}. Their finite-net persistence and basis-and-embedding replay clauses require every refinement read to display $T,N,F,E,C$ before it is transported or replayed.
+
+Finally use the route of \autoref{thm:totally-bounded-completion-net-handoff}. Since the displayed route sends $X,T,N$ through $F,E,C$ before $S,U,H,P,L$ are available, refinement stability is carried by the same finite-net ledger and not by an external compactness or open-cover row.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion Cauchy-filter-basis handoff]
+\label{thm:totally-bounded-completion-cauchy-filter-basis-handoff}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, each $\CauchyFilterBasisUp$ handoff exposed by $F$ must first expose the total-bounded ledger $T$ and the refinement row $N$ before the dense embedding row $E$ or constructive completion route $C$ is read. No Cauchy-filter-basis consumer can enter the dense completion boundary while bypassing $T,N$.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:totally-bounded-completion-carrier}. The row $F$ is not an independent basis source; it is the Cauchy-filter-basis row generated from the same metric and net data displayed in $X,T,N$.
+
+The NameCert obligations of \autoref{thm:totally-bounded-completion-namecert-obligations} require basis and embedding replay. Thus the handoff through $F$ is admitted only after the finite-net ledger and refinement rows have already been exposed.
+
+The net handoff theorem, \autoref{thm:totally-bounded-completion-net-handoff}, fixes the order $X,T,N \longmapsto F \longmapsto E \longmapsto C$. Therefore dense embedding reads in $E$ and constructive completion reads in $C$ cannot replace or skip the total-bounded ledger that generated the basis.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion extension nonescape]
+\label{thm:totally-bounded-completion-extension-nonescape}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, a uniformly continuous extension read through $U$ remains inside the displayed route
+$$
+X,T,N,F,E,C,S,U,H,P,L .
+$$
+It cannot bypass the source metric, total-bounded ledger, refinement row, Cauchy-filter basis, embedding, constructive completion route, separated comparison, transport, provenance, or local naming rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The extension handoff row $U$ is one coordinate of the same finite packet, and its permitted context includes the source, net, refinement, basis, embedding, completion, separated equality, transport, provenance, and naming rows.
+
+Apply \autoref{thm:totally-bounded-completion-namecert-obligations}. The separated and extension handoff clause places $U$ downstream from $F,E,C$, while finite-net persistence keeps $F,E,C$ tied to $T,N$.
+
+Use \autoref{thm:totally-bounded-completion-net-handoff} to read the complete route. Since the extension handoff occurs after $X,T,N,F,E,C,S$, and $H,P,L$ only transport, source, and name the same packet, the extension read cannot bypass any displayed row in the listed ledger.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root finite-net ledger]
+\label{thm:totally-bounded-completion-root-net-ledger}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the root finite-net ledger exposed to completion consumers is exactly the pair $T,N$. The row $T$ records the $\TotallyBoundedUp$ centers, membership constructors, distance witnesses, and rational bounds for each displayed positive tolerance, while $N$ records permitted refinement between such displayed ledgers. No root consumer may replace $T,N$ by an open cover, a host finite subset, a selected subnet, or a compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:totally-bounded-completion-carrier}. The only rows typed as total-bounded finite-net data are $T$ and $N$.
+
+Use the route surface of \autoref{def:totally-bounded-completion-route-surface}. Its first completion-facing segment is $X,T,N$, so every later completion row must inherit the finite-net ledger from the same pair.
+
+The non-escape theorem then excludes replacement data. Since open covers, host finite subsets, selected subnets, and compactness witnesses have no carrier coordinate, the root ledger remains exactly $T,N$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root completion handoff]
+\label{thm:totally-bounded-completion-root-completion-handoff}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, every completion-facing handoff forced by the root ledger factors through $F,E,C,S$ in that order after $T,N$ have been displayed. The $\CauchyFilterBasisUp$ row $F$ consumes the finite-net rows, the $\CompletionEmbeddingUp$ row $E$ inserts source observations, the $\ConstructiveMetricCompletionUp$ route $C$ records the constructive completion read, and the separated comparison row $S$ is available only after that route.
+\end{theorem}
+\begin{proof}
+Start with the root finite-net ledger theorem above. It identifies $T,N$ as the input that any completion consumer must read.
+
+Apply \autoref{thm:totally-bounded-completion-completion-route-exactness}. The only completion-facing rows are $F,E,C$, and the separated comparison row is downstream of those rows.
+
+Finally use \autoref{thm:totally-bounded-completion-route-coverage}. It makes the route exhaustive, so the handoff from the finite-net ledger to separated completion comparison must pass through $F,E,C,S$ in the displayed order.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root extension nonescape]
+\label{thm:totally-bounded-completion-root-extension-nonescape}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the downstream rows $U,H,P,L$ export only the uniformly continuous extension handoff, componentwise transport, provenance, and local naming for the already displayed route. They export no quotient completion, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or second completion route.
+\end{theorem}
+\begin{proof}
+Read $U,H,P,L$ from the carrier. These rows occur after $X,T,N,F,E,C,S$ in the displayed route and therefore have no independent source of completion data.
+
+Use the extension consumer boundary \autoref{thm:totally-bounded-completion-extension-consumer-boundary}. It requires uniformly continuous consumers to enter through $T,N,F,E,C$ before they can read $U$.
+
+The ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape} supplies the final exclusion. Quotient completion, selected limits, countable choice, open-cover compactness, ambient Real completeness, and a second completion route have no coordinate in $U,H,P,L$ and cannot be exported from them.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion ledger non-escape]
 \label{thm:totally-bounded-completion-no-escape}
 For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, every exported completion read remains inside the finite ledger
@@ -84,6 +189,160 @@ Project an exported completion read from the carrier. By \autoref{def:totally-bo
 Apply \autoref{thm:totally-bounded-completion-namecert-obligations}. Finite-net persistence keeps the read inside $T,N$; basis and embedding replay moves it through $F,E,C$; separated and extension handoff moves it through $S,U$; and the structural rows $H,P,L$ record only the same route.
 
 Every excluded principle is absent from this route. Open-cover compactness, quotient representatives, selected limit points, countable-choice schedules, and full $\RealUp$ completeness have no carrier coordinate, no replay edge, and no provenance row in the packet, so the exported read cannot escape the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion finite-net completion obligations]
+\label{thm:totally-bounded-completion-finite-net-completion-obligations}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, a completion-facing read is admitted only after it displays the finite-net rows of $\TotallyBoundedUp$, the generated $\CauchyFilterBasisUp$ row, the dense $\CompletionEmbeddingUp$ row, the $\ConstructiveMetricCompletionUp$ route, and the downstream $\UniformContinuousExtensionUp$ handoff. The carrier has no completion obligation outside those rows.
+\end{theorem}
+\begin{proof}
+Project the read from \autoref{def:totally-bounded-completion-carrier}. The finite-net rows are exactly $T$ and their refinement requests are exactly $N$.
+
+Next apply \autoref{thm:totally-bounded-completion-net-handoff}. The displayed route sends $T,N$ through the Cauchy-filter basis $F$, the completion embedding $E$, and the constructive completion route $C$ before separated comparison or extension reads are available.
+
+Finally use \autoref{thm:totally-bounded-completion-namecert-obligations}. Its separated and extension handoff clause forces $S$ and $U$ to remain downstream of $F,E,C$, while $H,P,L$ only transport, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion refinement stability]
+\label{thm:totally-bounded-completion-refinement-stability}
+Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ and $K'=(X',T',N',F',E',C',S',U',H',P',L')$ be accepted $\TotallyBoundedCompletionUp$ packets. If their displayed source metric rows, finite-net ledgers, Cauchy-filter basis rows, embedding rows, completion routes, extension rows, provenance rows, and local naming rows are related componentwise by $\hsame$, and the displayed $\Cont$ replay sends each tolerance request in $K$ to the corresponding request in $K'$, then every refinement request in $K'$ remains on the same finite-net and Cauchy-filter route as the corresponding request in $K$.
+\end{theorem}
+\begin{proof}
+Begin with the refinement coordinate. By carrier projection, a refinement request can inspect only the finite-net ledger $T$, the refinement row $N$, and their transported counterparts $T',N'$.
+
+The componentwise $\hsame$ hypotheses identify the displayed source metric, centers, membership constructors, distance witnesses, and rational bounds. The $\Cont$ replay preserves the tolerance request, so the target request is not replaced by an open cover, a host finite set, or a selected subnet.
+
+Apply \autoref{thm:totally-bounded-completion-net-handoff} on both packets. The source refinement moves through $F,E,C$ and the target refinement moves through $F',E',C'$ in the same order, with $S,U,H,P,L$ and $S',U',H',P',L'$ only recording separated comparison, extension handoff, transport, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion extension handoff]
+\label{thm:totally-bounded-completion-extension-handoff}
+Every $\UniformContinuousExtensionUp$ consumer of an accepted $\TotallyBoundedCompletionUp$ packet receives only the displayed route
+$$
+X,T,N,F,E,C,S,U,H,P,L .
+$$
+In particular, the consumer cannot read a quotient completion, a selected limit, countable choice, an open-cover compactness theorem, or ambient $\RealUp$ completeness in place of the finite completion route.
+\end{theorem}
+\begin{proof}
+The extension consumer first opens the carrier coordinate $U$. By \autoref{def:totally-bounded-completion-carrier}, that row is downstream from the source metric, finite-net ledger, refinement row, Cauchy-filter basis, embedding, constructive completion route, and separated equality row.
+
+Use \autoref{thm:totally-bounded-completion-finite-net-completion-obligations}. It requires the finite-net, Cauchy-filter, embedding, constructive completion, and extension rows to be displayed before the handoff can be read.
+
+The non-escape conclusion follows from \autoref{thm:totally-bounded-completion-no-escape}. The excluded objects have no carrier coordinate and no provenance row, so the uniformly continuous extension read is exactly the listed route.
+\end{proof}
+
+\begin{definition}[TotallyBoundedCompletion route surface]
+\label{def:totally-bounded-completion-route-surface}
+The $\TotallyBoundedCompletionUp$ route surface of an accepted carrier
+$K=(X,T,N,F,E,C,S,U,H,P,L)$ is the displayed BEDC route
+$$
+X,T,N \longmapsto F \longmapsto E \longmapsto C \longmapsto S,U \longmapsto H,P,L .
+$$
+It is admissible exactly when the source metric row $X$, the total-bounded finite-net ledger $T$, and the net-refinement row $N$ are consumed before the $\CauchyFilterBasisUp$ row $F$; $F$ is consumed before the $\CompletionEmbeddingUp$ row $E$; $E$ is consumed before the $\ConstructiveMetricCompletionUp$ row $C$; $C$ is consumed before separated comparison $S$ or uniformly continuous extension handoff $U$; and $H,P,L$ only transport, source, and name that displayed route. No other row order is an admissible $\TotallyBoundedCompletionUp$ route surface.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion route coverage]
+\label{thm:totally-bounded-completion-route-coverage}
+Every accepted $\TotallyBoundedCompletionUp$ packet displays exactly the route surface of \autoref{def:totally-bounded-completion-route-surface}. In particular, every accepted packet has the route
+$$
+X,T,N \longmapsto F \longmapsto E \longmapsto C \longmapsto S,U \longmapsto H,P,L
+$$
+and has no second completion-facing route through open-cover compactness, quotient representatives, selected limit points, countable choice, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:totally-bounded-completion-carrier}. Its visible coordinates are precisely $X,T,N,F,E,C,S,U,H,P,L$, and the classifier exports only componentwise transport through those coordinates.
+
+The NameCert obligations of \autoref{thm:totally-bounded-completion-namecert-obligations} make the same list exhaustive. Finite-net persistence reads $T,N$; basis and embedding replay reads $F,E,C$; separated and extension handoff reads $S,U$; and the remaining rows $H,P,L$ transport, source, and name the same packet.
+
+The route displayed in \autoref{thm:totally-bounded-completion-net-handoff} is therefore not merely one possible consumer path. Together with the ledger non-escape statement of \autoref{thm:totally-bounded-completion-no-escape}, it is the whole completion-facing surface, and the excluded completion principles have no carrier row from which a second route could be read.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion total-bounded input admission]
+\label{thm:totally-bounded-completion-total-bounded-input-admission}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the total-bounded finite-net rows $T,N$ are consumed before any Cauchy-filter, embedding, constructive-completion, separated-equality, or uniformly continuous extension read is admitted. Thus no read of $F,E,C,S,$ or $U$ can supply the finite-net input that the route surface requires from $T,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission gives the ordered coordinates of $K$ by \autoref{def:totally-bounded-completion-carrier}. The rows $T$ and $N$ are the only rows that record finite centers, membership constructors, distance witnesses, rational bounds, and tolerance refinement.
+
+Apply the finite-net persistence clause of \autoref{thm:totally-bounded-completion-namecert-obligations}. It requires each completion-facing tolerance request to inspect the displayed $\TotallyBoundedUp$ ledger and its refinement row before a completion read is formed.
+
+The handoff theorem \autoref{thm:totally-bounded-completion-net-handoff} then transports that input through $F,E,C$ and only afterward reaches $S$ or $U$. Since \autoref{thm:totally-bounded-completion-no-escape} excludes external compactness and selected-limit rows, none of $F,E,C,S,$ or $U$ can replace the total-bounded input supplied by $T,N$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion completion route exactness]
+\label{thm:totally-bounded-completion-completion-route-exactness}
+For every accepted $\TotallyBoundedCompletionUp$ packet, the only completion-facing route rows are the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$. All separated comparison, uniformly continuous extension, transport, provenance, and local naming reads are downstream of $F,E,C$ and do not form another completion route.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:totally-bounded-completion-carrier}. The rows named as completion-facing are exactly $F,E,C$: $F$ forms the Cauchy-filter basis, $E$ supplies the dense embedding boundary, and $C$ records the constructive completion route.
+
+The basis and embedding replay clause of \autoref{thm:totally-bounded-completion-namecert-obligations} admits completion reads only by passing through those three rows. The displayed route of \autoref{thm:totally-bounded-completion-net-handoff} places $S,U,H,P,L$ strictly after them.
+
+It remains to exclude hidden completion rows. The ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape} says that exported completion reads stay inside the finite ledger $X,T,N,F,E,C,S,U,H,P,L$, and no coordinate outside $F,E,C$ is typed as a Cauchy-filter, embedding, or constructive-completion route. Hence $F,E,C$ are exact.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion extension consumer boundary]
+\label{thm:totally-bounded-completion-extension-consumer-boundary}
+Every $\UniformContinuousExtensionUp$ consumer of an accepted $\TotallyBoundedCompletionUp$ packet must enter through the displayed finite-net and completion route surface of \autoref{def:totally-bounded-completion-route-surface}. Such a consumer cannot bypass $T,N,F,E,C$ by reading only separated equality, transport, provenance, local naming, quotient completion, selected limits, countable choice, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Start from the extension coordinate. By \autoref{thm:totally-bounded-completion-extension-handoff}, a uniformly continuous extension consumer receives the displayed route $X,T,N,F,E,C,S,U,H,P,L$.
+
+The total-bounded input admission theorem above forces $T,N$ to be read before the extension consumer reaches completion-facing rows. The completion route exactness theorem above then identifies $F,E,C$ as the only completion-facing rows between those finite-net inputs and the downstream separated or extension reads.
+
+Finally apply the ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape}. Since quotient completion, selected limits, countable choice, and open-cover compactness have no coordinate in the packet, and since $S,H,P,L$ only compare, transport, source, and name the already displayed route, the extension consumer has no bypass around $T,N,F,E,C$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root route exhaustion]
+\label{thm:totally-bounded-completion-root-route-exhaustion}
+Every accepted $\TotallyBoundedCompletionUp$ packet has all accepted packet routes exhausted by the finite BEDC rows
+$$
+X,T,N,F,E,C,S,U,H,P,L .
+$$
+The rows $X,T,N$ supply the root metric and total-bounded input, $F,E,C$ supply the exact completion-facing route, $S,U$ supply separated comparison and uniformly continuous extension handoff, and $H,P,L$ supply transport, provenance, and local naming. No accepted route may enter through an open-cover compactness theorem, a quotient-completion carrier, a selected limit point, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the route surface of \autoref{def:totally-bounded-completion-route-surface}. It lists the only admissible row order for an accepted carrier and places every consumer read inside the displayed finite route.
+
+The coverage theorem \autoref{thm:totally-bounded-completion-route-coverage} makes that displayed surface exhaustive for accepted packets. The exactness theorem \autoref{thm:totally-bounded-completion-completion-route-exactness} then identifies $F,E,C$ as the only completion-facing segment of the route.
+
+It remains to rule out an external root entry. The ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape} excludes the open-cover, quotient, selected-limit, countable-choice, and ambient-real objects from the carrier. Thus every accepted route is exhausted by $X,T,N,F,E,C,S,U,H,P,L$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root extension ledger]
+\label{thm:totally-bounded-completion-root-extension-ledger}
+Every uniformly continuous extension read through the $U$ row of an accepted $\TotallyBoundedCompletionUp$ packet inherits the finite-net and completion rows $T,N,F,E,C,S$ from the same $\BHist$ and $\NameCert_{\TotallyBoundedCompletionUp}$ carrier. The read exports no open-cover compactness, quotient completion, selected limits, countable choice, or ambient $\RealUp$ completeness beyond that ledger.
+\end{theorem}
+\begin{proof}
+The extension consumer boundary theorem \autoref{thm:totally-bounded-completion-extension-consumer-boundary} forces every $U$-read to enter through the displayed route surface before it may be treated as a uniformly continuous extension.
+
+The route surface already carries the finite-net rows $T,N$, the completion rows $F,E,C$, and the separated comparison row $S$ in the same accepted carrier. Since the read is through $U$, the transport and provenance rows $H,P,L$ only preserve that finite ledger and do not supply another completion principle.
+
+Finally apply ledger non-escape, \autoref{thm:totally-bounded-completion-no-escape}. The excluded open-cover, quotient, selected-limit, countable-choice, and ambient-real principles have no row in the accepted $\BHist$ packet and no local $\NameCert_{\TotallyBoundedCompletionUp}$ obligation from which an extension consumer could export them.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion net-filter carrier admission]
+\label{thm:totally-bounded-completion-net-filter-carrier-admission}
+Every accepted $\TotallyBoundedCompletionUp$ packet admits its completion-facing carrier only after the source $\MetricSpaceUp$ row $X$, finite epsilon-net ledger $T$, refinement ledger $N$, $\CauchyFilterBasisUp$ handoff $F$, separated $\CompletionEmbeddingUp$ row $E$, constructive completion route $C$, separated comparison row $S$, $\RealUp$-facing completion seal implicit in the route, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay, $\Pkg$ provenance $P$, and local $\NameCert_{\TotallyBoundedCompletionUp}$ row $L$ have all been read from the same finite $\BHist$ packet. No downstream $\CompleteMetricUp$, $\CompactMetricUp$, or uniformly continuous extension consumer may replace those rows by open-cover compactness, a quotient completion, selected limits, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:totally-bounded-completion-carrier}. The rows $X,T,N,F,E,C,S,U,H,P,L$ are exactly the metric source, finite-net ledger, refinement ledger, Cauchy-filter basis, dense embedding, constructive completion, separated comparison, extension handoff, transport, provenance, and local naming rows.
+
+Use finite-net persistence and basis-and-embedding replay from \autoref{thm:totally-bounded-completion-namecert-obligations}. They force a completion-facing consumer to read $T,N$ before $F$, and then to read $F,E,C$ before separated comparison or extension handoff.
+
+The root route exhaustion theorem \autoref{thm:totally-bounded-completion-root-route-exhaustion} and the root extension ledger theorem above keep $S,U,H,P,L$ downstream of the same route. Thus later complete-metric or compact-metric consumers inherit the finite net and Cauchy-filter rows as one carrier surface, not as an open-cover or selected-limit substitute.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion Cauchy-filter stability]
+\label{thm:totally-bounded-completion-cauchy-filter-stability}
+For every accepted $\TotallyBoundedCompletionUp$ packet, any $\CauchyFilterBasisUp$ read generated from finite epsilon-net data remains stable under refinement only through the same rows $X,T,N,F,E,C,S,U,H,P,L$. The refinement ledger, separated completion extension, $\MetricSpaceUp$ source, $\RealUp$-facing completion seal, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row therefore stay attached to the displayed Cauchy-filter route before any downstream completion consumer reads the result.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-filter-basis handoff of \autoref{thm:totally-bounded-completion-cauchy-filter-basis-handoff}. It requires the total-bounded ledger $T$ and refinement row $N$ before the basis row $F$ can enter the dense embedding or constructive completion route.
+
+Apply net-refinement stability, \autoref{thm:totally-bounded-completion-net-refinement-stability}. Refining a tolerance request preserves the same finite centers, membership rows, distance witnesses, rational bounds, and Cauchy-filter handoff rather than switching to an open cover or host compactness theorem.
+
+Finally use completion route exactness and root extension non-escape. The rows $E,C,S,U,H,P,L$ only embed, complete, compare, extend, transport, source, and name the already displayed Cauchy-filter route. Hence stability is a property of the finite net-filter carrier itself and exports no quotient completion, selected limit, countable choice, or ambient Real-completeness row.
 \end{proof}
 
 \begin{closurestatus}{\TotallyBoundedCompletionUp}

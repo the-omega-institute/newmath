@@ -1,0 +1,373 @@
+{
+  "artifact_id": "bedc-quality-lab:mechanism-dna",
+  "deterministic_seed": 935,
+  "forbidden_alias_audit": {
+    "forbidden_key_count": 0,
+    "scanned_key_count": 275,
+    "status": "pass"
+  },
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgate": {
+    "gates": {
+      "MDNA-HG1-row-schema": {
+        "reason": "rows expose only canonical pointer fields",
+        "status": "pass"
+      },
+      "MDNA-HG2-row-local-pointers": {
+        "reason": "all row-local pointer gates resolve",
+        "status": "pass"
+      },
+      "MDNA-HG3-no-terminal-surface": {
+        "reason": "mechanism owner does not expose decision fields",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "not_claimed": [
+    "MechanismDNA owns only canonical mechanism vocabulary and pointer gates.",
+    "Terminal claim decisions remain outside this artifact.",
+    "Downstream mechanism evidence payloads remain in their source artifacts."
+  ],
+  "rows": [
+    {
+      "ablation_dependency_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.head_causal_patch",
+        "pointer": "$.a4_hardgates.gates.head_causal_patch"
+      },
+      "causal_path_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+        "pointer": "$.mechanism_evidence"
+      },
+      "component_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_case",
+        "pointer": "$.mechanism_case"
+      },
+      "intervention_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.causal_patch_claim",
+        "pointer": "$.head_channel_patch_evidence.causal_patch_claim"
+      },
+      "mechanism_id": "gap-head-residualized-attribution",
+      "negative_witness_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.negative_witness[0]",
+        "pointer": "$.negative_witness[0]"
+      },
+      "not_claimed": [
+        "No D5-M promotion is made by this owner.",
+        "No downstream evidence body is copied into the row."
+      ],
+      "row_hardgate": {
+        "gates": {
+          "MDNA-gap-head-attribution-capsule-ablation_dependency_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.head_causal_patch",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-causal_path_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-component_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_case",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-intervention_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.causal_patch_claim",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-negative_witness_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.negative_witness[0]",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-source_level_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_level",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-gap-head-attribution-capsule-source_status_ref": {
+            "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status",
+            "reason": "pointer resolves",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      },
+      "row_id": "gap-head-attribution-capsule",
+      "source_level_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_level",
+        "pointer": "$.mechanism_evidence.mechanism_level"
+      },
+      "source_status_ref": {
+        "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status",
+        "pointer": "$.mechanism_evidence.mechanism_status"
+      }
+    },
+    {
+      "ablation_dependency_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.status",
+        "pointer": "$.mechanism_ablation.status"
+      },
+      "causal_path_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+        "pointer": "$.training_loop_trace"
+      },
+      "component_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
+        "pointer": "$.training_mechanism_cert"
+      },
+      "intervention_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+        "pointer": "$.torch_training_evidence"
+      },
+      "mechanism_id": "training-mechanism-certificate",
+      "negative_witness_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+        "pointer": "$.negative_witness_mutations"
+      },
+      "not_claimed": [
+        "No training superiority claim is made here.",
+        "No claim verdict is owned by this report."
+      ],
+      "row_hardgate": {
+        "gates": {
+          "MDNA-discovery-regularized-training-ablation_dependency_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.status",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-causal_path_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-component_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-intervention_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-negative_witness_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-source_level_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.level_candidate",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-regularized-training-source_status_ref": {
+            "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert.status",
+            "reason": "pointer resolves",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      },
+      "row_id": "discovery-regularized-training",
+      "source_level_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.level_candidate",
+        "pointer": "$.discovery_map_signal.level_candidate"
+      },
+      "source_status_ref": {
+        "artifact": "reports/canonical/discovery-regularized-training.json",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert.status",
+        "pointer": "$.training_mechanism_cert.status"
+      }
+    },
+    {
+      "ablation_dependency_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence.records[0].ablation_rows_pointer",
+        "pointer": "$.distinction_module_evidence.records[0].ablation_rows_pointer"
+      },
+      "causal_path_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence",
+        "pointer": "$.distinction_module_evidence"
+      },
+      "component_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary.by_mechanism",
+        "pointer": "$.mechanism_gate_summary.by_mechanism"
+      },
+      "intervention_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence.records[0].patch_rows_pointer",
+        "pointer": "$.distinction_module_evidence.records[0].patch_rows_pointer"
+      },
+      "mechanism_id": "distinction-module-mechanism",
+      "negative_witness_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
+        "pointer": "$.revocation_rows"
+      },
+      "not_claimed": [
+        "No module is promoted by this owner alone.",
+        "No raw module registry is copied into the row."
+      ],
+      "row_hardgate": {
+        "gates": {
+          "MDNA-mechanism-seeking-network-ablation_dependency_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence.records[0].ablation_rows_pointer",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-causal_path_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-component_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary.by_mechanism",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-intervention_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_evidence.records[0].patch_rows_pointer",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-negative_witness_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-source_level_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.level_candidate",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-mechanism-seeking-network-source_status_ref": {
+            "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.d5_m_readiness.status",
+            "reason": "pointer resolves",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      },
+      "row_id": "mechanism-seeking-network",
+      "source_level_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.level_candidate",
+        "pointer": "$.discovery_map_signal.level_candidate"
+      },
+      "source_status_ref": {
+        "artifact": "reports/canonical/mechanism-seeking-network.json",
+        "owner_pointer": "reports/canonical/mechanism-seeking-network.json:$.d5_m_readiness.status",
+        "pointer": "$.d5_m_readiness.status"
+      }
+    },
+    {
+      "ablation_dependency_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+        "pointer": "$.component_ablation"
+      },
+      "causal_path_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+        "pointer": "$.mechanism_namecert_ref"
+      },
+      "component_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+        "pointer": "$.component_refs"
+      },
+      "intervention_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
+        "pointer": "$.tool_route_evidence"
+      },
+      "mechanism_id": "discovery-gated-transformer-namecert",
+      "negative_witness_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.revocation_rows",
+        "pointer": "$.revocation_rows"
+      },
+      "not_claimed": [
+        "No architecture superiority claim is made here.",
+        "External mechanism certificate payloads stay behind pointers."
+      ],
+      "row_hardgate": {
+        "gates": {
+          "MDNA-discovery-gated-transformer-ablation_dependency_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-causal_path_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-component_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-intervention_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-negative_witness_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.revocation_rows",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-source_level_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+            "reason": "pointer resolves",
+            "status": "pass"
+          },
+          "MDNA-discovery-gated-transformer-source_status_ref": {
+            "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
+            "reason": "pointer resolves",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      },
+      "row_id": "discovery-gated-transformer",
+      "source_level_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
+        "pointer": "$.d5_m_projection.discovery_level"
+      },
+      "source_status_ref": {
+        "artifact": "reports/canonical/discovery-gated-transformer.json",
+        "owner_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.status",
+        "pointer": "$.d5_m_projection.status"
+      }
+    }
+  ],
+  "schema_id": "bedc-quality-lab:mechanism-dna",
+  "source_artifacts": {
+    "discovery-gated-transformer": "reports/canonical/discovery-gated-transformer.json",
+    "discovery-regularized-training": "reports/canonical/discovery-regularized-training.json",
+    "gap-head-attribution-capsule": "reports/canonical/gap_head_attribution_capsule.json",
+    "mechanism-seeking-network": "reports/canonical/mechanism-seeking-network.json"
+  }
+}

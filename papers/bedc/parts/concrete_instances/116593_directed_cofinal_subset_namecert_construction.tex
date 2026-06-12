@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\DirectedCofinalSubsetUp$}
+\label{ch:concrete-instances-directed-cofinal-subset-namecert}
+\origin{human}
+
+Following Moore--Smith and Kelley directed subsets, the $\DirectedCofinalSubsetUp$ packet records a cofinal retained index surface inside an already named directed-index carrier. It refines the finite upper-window data of \autoref{ch:concrete-instances-directedset-namecert} for downstream net and completion arguments that need to restrict an index substrate without quotienting indices, selecting a cofinal sequence, or importing a choice-indexed thinning function.
+
+The packet is a sibling handoff for the net routes of $\CauchyNetUp$, $\CauchyNetLimitUp$, $\MooreSmithConvergenceUp$, and the completion-facing Cauchy chapters. It keeps the ambient directed packet and the retained cofinal packet visible at the same time, so a consumer can prove that every ambient finite request is met inside the retained surface by displayed rows rather than by an external cofinality theorem.
+
+\begin{definition}[Directed cofinal subset carrier]
+\label{def:directed-cofinal-subset-carrier}
+A $\DirectedCofinalSubsetUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,J,\preceq,W_I,W_J,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the ambient directed-index row read from a $\DirectedSetUp$ packet.
+\item $J$ is the retained index row naming the finite cofinal subset surface.
+\item $\preceq$ is the displayed comparison row inherited from the ambient directed packet and restricted to the retained rows when both endpoints lie in $J$.
+\item $W_I$ is the ambient finite-window row for downstream net or completion requests.
+\item $W_J$ is the retained finite-window row whose entries lie in $J$.
+\item $U$ is the cofinal-witness row, assigning to every displayed ambient request in $W_I$ a retained address in $J$ above that request by $\preceq$.
+\item $H$ records componentwise $\hsame$ transport for the ambient row, retained row, comparison row, ambient and retained windows, cofinal witnesses, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an ambient finite-window request through the retained cofinal witness route.
+\item $P$ is the $\Pkg$ provenance over $\DirectedCofinalSubsetUp$, $\DirectedSetUp$, the downstream net and completion consumers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirectedCofinalSubsetUp}$ row.
+\end{enumerate}
+The carrier has no quotient of directed indices, no selected cofinal sequence, no countable choice schedule, no total-order refinement, and no host-level completeness principle.
+\end{definition}
+\leanstmt{BEDC.Derived.DirectedCofinalSubsetUp}
+
+\begin{theorem}[Directed cofinal subset NameCert obligations]
+\label{thm:directed-cofinal-subset-namecert-obligations}
+For an accepted $\DirectedCofinalSubsetUp$ carrier $S=(I,J,\preceq,W_I,W_J,U,H,C,P,N)$, the local $\NameCert_{\DirectedCofinalSubsetUp}$ surface consists of carrier admission for the displayed rows, ambient directed-index readability through $\DirectedSetUp$, retained-row stability for $J$ and $W_J$, cofinal-window coverage through $U$, componentwise transport and replay through $H$ and $C$, provenance through $P$, and local naming through $N$. Every obligation is discharged by the finite rows of $S$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:directed-cofinal-subset-carrier}. The ambient index row, retained index row, comparison row, window rows, cofinal-witness row, transport row, replay row, provenance row, and local naming row are the complete visible packet.
+
+Ambient directed-index readability is inherited from \autoref{ch:concrete-instances-directedset-namecert}: comparisons and upper-window requests are read through the displayed $\DirectedSetUp$ rows before the retained subset is consulted.
+
+For retained-row stability and cofinal-window coverage, inspect $J,W_J,U$. The retained window row names only addresses in $J$, and the cofinal-witness row supplies, for each ambient request in $W_I$, a retained address certified above the request by the displayed comparison row.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since no coordinate stores quotient indices, a cofinal sequence, countable choice, a total-order refinement, or ambient completeness, the NameCert surface is exhausted by the rows of $S$.
+\end{proof}
+
+\begin{theorem}[Directed cofinal subset net handoff]
+\label{thm:directed-cofinal-subset-net-handoff}
+Every $\CauchyNetUp$, $\CauchyNetLimitUp$, $\MooreSmithConvergenceUp$, or completion-facing consumer that reads a directed index through an accepted $\DirectedCofinalSubsetUp$ packet receives only the ambient directed row $I$, retained row $J$, comparison row $\preceq$, ambient and retained finite windows $W_I,W_J$, cofinal-witness row $U$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The handoff may restrict a net read to the retained cofinal surface, but it does not provide a quotient net, selected subnet sequence, countable-choice selector, host directed set, or Real completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with a downstream finite-window request. The request is first read as an ambient directed-window row in $W_I$ over the $\DirectedSetUp$ substrate of \autoref{ch:concrete-instances-directedset-namecert}.
+
+The cofinal witness row $U$ then names a retained address in $J$ above the requested ambient window, and $W_J$ records the retained window through which the downstream net or completion consumer continues.
+
+Transport and replay through $H$ and $C$ keep the same ambient row, retained row, comparison row, window rows, and cofinal witness. The provenance and naming rows package exactly that route, so the consumer cannot replace it by a quotient net, selected subnet sequence, countable-choice selector, host directed set, or Real completeness datum.
+\end{proof}
+
+\begin{closurestatus}{\DirectedCofinalSubsetUp}
+  \constructivestory{A $\DirectedCofinalSubsetUp$ packet is generated from an ambient directed-index row, a retained index row, a displayed comparison row, ambient and retained finite-window rows, a cofinal-witness row, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:directed-cofinal-subset-carrier}, \autoref{thm:directed-cofinal-subset-namecert-obligations}, and \autoref{thm:directed-cofinal-subset-net-handoff} seed the finite cofinal-subset carrier and its net-facing handoff over a displayed $\DirectedSetUp$ substrate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient nets, selected subnet sequences, countable choice, host directed sets, Real completeness, Lean verification of the obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, retained-row stability, cofinal-window coverage, net handoff, non-escape, and package provenance for the same finite packet.}
+\end{closurestatus}

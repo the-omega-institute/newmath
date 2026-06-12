@@ -1,0 +1,35 @@
+\begin{theorem}[MetaCIC candidate-normalization scope]
+\label{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}
+Every candidate-normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the full frontier spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before it reads the candidate row. The consumer may use $J$ only as the displayed candidate-join row of a candidate-mediated residual route, and only while the residual-substitution premise row $P$ and obstruction row $O$ remain visible. Thus the candidate-normalization read is not a premise-free confluence theorem, not a completed residual-substitution theorem, not full normalization, not subject reduction, not evaluator equality, not quotient equality of terms, and not a kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated residual route of \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-route}. It permits a local peak to reach the candidate row $J$ only through the displayed critical-pair row $K$ and residual-frontier row $R$, with the retained premise row $P$ still attached.
+
+Next apply substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. That theorem keeps substitution data confined to $P$ and $R$ through the typed-window local join, so the candidate-normalization consumer cannot turn $J$ into a discharged substitution result.
+
+Use residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-pasting}. Even after two typed-window residual reads are pasted through $J$, the pasted read remains the finite residual packet under $P$ and still carries $S,C,B,O,H,T,G,N$.
+
+Finally apply the normalization-frontier handoff of \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. The handoff exports only the conditional spine $P,K,J,R,S,C,B,O,H,T,G,N$ to normalization consumers, so $P$ and $O$ cannot be hidden when $J$ is consumed.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier obstruction retention under candidate normalization]
+\label{thm:metacic-parallel-diamond-frontier-obstruction-retention-under-candidate-normalization}
+Every candidate-normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ carrier that reads the candidate row $J$ must keep both the residual-substitution premise row $P$ and obstruction row $O$ visible through the full spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The read can use $J$ only as a candidate-normalization row inside that conditional spine. It cannot retype candidate normalization as premise-free confluence, residual-substitution compatibility, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-normalization scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. It already requires the consumer to expose $P,K,J,R,S,C,B,O,H,T,G,N$ before the candidate row is read, with $P$ and $O$ still visible.
+
+Next use substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. The substitution premise remains confined to the displayed residual route, so reading $J$ cannot discharge $P$ or replace it by an unconditional compatibility theorem.
+
+Apply residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-pasting}. Pasting two typed-window residual reads through $J$ preserves the same finite residual packet and keeps the obstruction row $O$ in the exported spine.
+
+Finally hand the read to \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. That handoff exports only the conditional normalization-facing route, so the consumer cannot obtain premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency from candidate normalization alone.
+\end{proof}

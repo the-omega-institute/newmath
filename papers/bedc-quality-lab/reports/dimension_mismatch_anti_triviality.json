@@ -1,0 +1,1062 @@
+{
+  "arms": [
+    {
+      "arm": "config_metadata_only",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "feature_column_count": 4,
+      "feature_columns": [
+        "encoder_dim",
+        "reference_latent_dim",
+        "abs_encoder_dim_minus_reference_dim",
+        "is_reference_encoder_dim"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "encoder_dim",
+          "reference_latent_dim",
+          "abs_encoder_dim_minus_reference_dim",
+          "is_reference_encoder_dim"
+        ],
+        "arm": "config_metadata_only",
+        "declared_allowlist": [
+          "encoder_dim",
+          "reference_latent_dim",
+          "abs_encoder_dim_minus_reference_dim",
+          "is_reference_encoder_dim"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.483577704028353,
+        "ci95_high": 0.889827704028353,
+        "ci95_low": -0.07732770402835298,
+        "mean": 0.40625,
+        "n": 4,
+        "std": 0.4934466367636255
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.483577704028353,
+        "ci95_high": 1.0773277040283529,
+        "ci95_low": 0.11017229597164702,
+        "mean": 0.59375,
+        "n": 4,
+        "std": 0.4934466367636255
+      },
+      "positive": false,
+      "strict_conjunction_positive": false
+    },
+    {
+      "arm": "scale_only",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "feature_column_count": 9,
+      "feature_columns": [
+        "h_l2_mean",
+        "h_l2_std",
+        "h_abs_mean",
+        "h_abs_max",
+        "h_abs_q25",
+        "h_abs_q50",
+        "h_abs_q75",
+        "h_pair_delta_l2_mean",
+        "h_pair_delta_l2_std"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "h_l2_mean",
+          "h_l2_std",
+          "h_abs_mean",
+          "h_abs_max",
+          "h_abs_q25",
+          "h_abs_q50",
+          "h_abs_q75",
+          "h_pair_delta_l2_mean",
+          "h_pair_delta_l2_std"
+        ],
+        "arm": "scale_only",
+        "declared_allowlist": [
+          "h_l2_mean",
+          "h_l2_std",
+          "h_abs_mean",
+          "h_abs_max",
+          "h_abs_q25",
+          "h_abs_q50",
+          "h_abs_q75",
+          "h_pair_delta_l2_mean",
+          "h_pair_delta_l2_std"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.35640600879303486,
+        "ci95_high": 0.780190731015257,
+        "ci95_low": 0.06737871342918733,
+        "mean": 0.4237847222222222,
+        "n": 4,
+        "std": 0.36367960080921924
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.3564060087930349,
+        "ci95_high": 0.9326212865708128,
+        "ci95_low": 0.2198092689847429,
+        "mean": 0.5762152777777778,
+        "n": 4,
+        "std": 0.3636796008092193
+      },
+      "positive": true,
+      "strict_conjunction_positive": true
+    },
+    {
+      "arm": "h_normalized_no_scale",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "feature_column_count": 12,
+      "feature_columns": [
+        "h_direction_abs_mean",
+        "h_direction_abs_max",
+        "h_direction_abs_q25",
+        "h_direction_abs_q50",
+        "h_direction_abs_q75",
+        "h_pair_direction_abs_mean",
+        "h_pair_direction_abs_max",
+        "h_pair_direction_abs_q25",
+        "h_pair_direction_abs_q50",
+        "h_pair_direction_abs_q75",
+        "h_direction_pair_delta_l2_mean",
+        "h_direction_pair_delta_l2_std"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "h_direction_abs_mean",
+          "h_direction_abs_max",
+          "h_direction_abs_q25",
+          "h_direction_abs_q50",
+          "h_direction_abs_q75",
+          "h_pair_direction_abs_mean",
+          "h_pair_direction_abs_max",
+          "h_pair_direction_abs_q25",
+          "h_pair_direction_abs_q50",
+          "h_pair_direction_abs_q75",
+          "h_direction_pair_delta_l2_mean",
+          "h_direction_pair_delta_l2_std"
+        ],
+        "arm": "h_normalized_no_scale",
+        "declared_allowlist": [
+          "h_direction_abs_mean",
+          "h_direction_abs_max",
+          "h_direction_abs_q25",
+          "h_direction_abs_q50",
+          "h_direction_abs_q75",
+          "h_pair_direction_abs_mean",
+          "h_pair_direction_abs_max",
+          "h_pair_direction_abs_q25",
+          "h_pair_direction_abs_q50",
+          "h_pair_direction_abs_q75",
+          "h_direction_pair_delta_l2_mean",
+          "h_direction_pair_delta_l2_std"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.20188999151230727,
+        "ci95_high": 0.673417769290085,
+        "ci95_low": 0.2696377862654705,
+        "mean": 0.47152777777777777,
+        "n": 4,
+        "std": 0.20601019542072171
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.20188999151230727,
+        "ci95_high": 0.7303622137345295,
+        "ci95_low": 0.326582230709915,
+        "mean": 0.5284722222222222,
+        "n": 4,
+        "std": 0.20601019542072171
+      },
+      "positive": true,
+      "strict_conjunction_positive": true
+    },
+    {
+      "arm": "whitened_h_normalized_no_scale",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "diagnostics": {
+        "whitening": {
+          "max_abs_column_mean": 3.711142865236994e-10,
+          "max_column_std": 1.0000000000000004,
+          "reason": "whitened diagnostics are finite and column-centered",
+          "status": "pass",
+          "zero_variance_column_count": 0
+        }
+      },
+      "feature_column_count": 12,
+      "feature_columns": [
+        "whitened:h_direction_abs_mean",
+        "whitened:h_direction_abs_max",
+        "whitened:h_direction_abs_q25",
+        "whitened:h_direction_abs_q50",
+        "whitened:h_direction_abs_q75",
+        "whitened:h_pair_direction_abs_mean",
+        "whitened:h_pair_direction_abs_max",
+        "whitened:h_pair_direction_abs_q25",
+        "whitened:h_pair_direction_abs_q50",
+        "whitened:h_pair_direction_abs_q75",
+        "whitened:h_direction_pair_delta_l2_mean",
+        "whitened:h_direction_pair_delta_l2_std"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "whitened:h_direction_abs_mean",
+          "whitened:h_direction_abs_max",
+          "whitened:h_direction_abs_q25",
+          "whitened:h_direction_abs_q50",
+          "whitened:h_direction_abs_q75",
+          "whitened:h_pair_direction_abs_mean",
+          "whitened:h_pair_direction_abs_max",
+          "whitened:h_pair_direction_abs_q25",
+          "whitened:h_pair_direction_abs_q50",
+          "whitened:h_pair_direction_abs_q75",
+          "whitened:h_direction_pair_delta_l2_mean",
+          "whitened:h_direction_pair_delta_l2_std"
+        ],
+        "arm": "whitened_h_normalized_no_scale",
+        "declared_allowlist": [
+          "whitened:h_direction_abs_mean",
+          "whitened:h_direction_abs_max",
+          "whitened:h_direction_abs_q25",
+          "whitened:h_direction_abs_q50",
+          "whitened:h_direction_abs_q75",
+          "whitened:h_pair_direction_abs_mean",
+          "whitened:h_pair_direction_abs_max",
+          "whitened:h_pair_direction_abs_q25",
+          "whitened:h_pair_direction_abs_q50",
+          "whitened:h_pair_direction_abs_q75",
+          "whitened:h_direction_pair_delta_l2_mean",
+          "whitened:h_direction_pair_delta_l2_std"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.20188999151230727,
+        "ci95_high": 0.673417769290085,
+        "ci95_low": 0.2696377862654705,
+        "mean": 0.47152777777777777,
+        "n": 4,
+        "std": 0.20601019542072171
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.20188999151230727,
+        "ci95_high": 0.7303622137345295,
+        "ci95_low": 0.326582230709915,
+        "mean": 0.5284722222222222,
+        "n": 4,
+        "std": 0.20601019542072171
+      },
+      "positive": true,
+      "strict_conjunction_positive": true
+    },
+    {
+      "arm": "deterministic_random_projection",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "diagnostics": {
+        "deterministic_random_projection": {
+          "feature_width": 6,
+          "projection_fingerprint_sha256": "4356e959ee9141e03f89c4f726829fd0f2283b73e0bb03c1e4ff794997c28de1",
+          "projection_seed": 90117,
+          "projection_width": 6,
+          "reason": "deterministic random projection width and seed are recorded",
+          "source_family": "whitened_h_normalized_no_scale",
+          "status": "pass"
+        }
+      },
+      "feature_column_count": 6,
+      "feature_columns": [
+        "random_projection:component_0",
+        "random_projection:component_1",
+        "random_projection:component_2",
+        "random_projection:component_3",
+        "random_projection:component_4",
+        "random_projection:component_5"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "random_projection:component_0",
+          "random_projection:component_1",
+          "random_projection:component_2",
+          "random_projection:component_3",
+          "random_projection:component_4",
+          "random_projection:component_5"
+        ],
+        "arm": "deterministic_random_projection",
+        "declared_allowlist": [
+          "random_projection:component_0",
+          "random_projection:component_1",
+          "random_projection:component_2",
+          "random_projection:component_3",
+          "random_projection:component_4",
+          "random_projection:component_5"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.22508198534175455,
+        "ci95_high": 0.6843329774052467,
+        "ci95_low": 0.23416900672173752,
+        "mean": 0.45925099206349207,
+        "n": 4,
+        "std": 0.22967549524668832
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.22508198534175455,
+        "ci95_high": 0.7658309932782625,
+        "ci95_low": 0.3156670225947534,
+        "mean": 0.5407490079365079,
+        "n": 4,
+        "std": 0.22967549524668832
+      },
+      "positive": true,
+      "strict_conjunction_positive": true
+    },
+    {
+      "arm": "rank_proxy_diagnostic",
+      "diagnostic_only": {
+        "wide_or_positive": true
+      },
+      "diagnostic_wide_or_positive": true,
+      "diagnostics": {
+        "rank_proxy": {
+          "feature_width": 12,
+          "max_value": 1.0,
+          "min_value": 0.0,
+          "reason": "rank proxy diagnostics are finite unit-interval feature order summaries",
+          "status": "pass"
+        }
+      },
+      "feature_column_count": 12,
+      "feature_columns": [
+        "rank_proxy:h_direction_abs_mean",
+        "rank_proxy:h_direction_abs_max",
+        "rank_proxy:h_direction_abs_q25",
+        "rank_proxy:h_direction_abs_q50",
+        "rank_proxy:h_direction_abs_q75",
+        "rank_proxy:h_pair_direction_abs_mean",
+        "rank_proxy:h_pair_direction_abs_max",
+        "rank_proxy:h_pair_direction_abs_q25",
+        "rank_proxy:h_pair_direction_abs_q50",
+        "rank_proxy:h_pair_direction_abs_q75",
+        "rank_proxy:h_direction_pair_delta_l2_mean",
+        "rank_proxy:h_direction_pair_delta_l2_std"
+      ],
+      "forbidden_feature_audit": {
+        "actual_model_input_columns": [
+          "rank_proxy:h_direction_abs_mean",
+          "rank_proxy:h_direction_abs_max",
+          "rank_proxy:h_direction_abs_q25",
+          "rank_proxy:h_direction_abs_q50",
+          "rank_proxy:h_direction_abs_q75",
+          "rank_proxy:h_pair_direction_abs_mean",
+          "rank_proxy:h_pair_direction_abs_max",
+          "rank_proxy:h_pair_direction_abs_q25",
+          "rank_proxy:h_pair_direction_abs_q50",
+          "rank_proxy:h_pair_direction_abs_q75",
+          "rank_proxy:h_direction_pair_delta_l2_mean",
+          "rank_proxy:h_direction_pair_delta_l2_std"
+        ],
+        "arm": "rank_proxy_diagnostic",
+        "declared_allowlist": [
+          "rank_proxy:h_direction_abs_mean",
+          "rank_proxy:h_direction_abs_max",
+          "rank_proxy:h_direction_abs_q25",
+          "rank_proxy:h_direction_abs_q50",
+          "rank_proxy:h_direction_abs_q75",
+          "rank_proxy:h_pair_direction_abs_mean",
+          "rank_proxy:h_pair_direction_abs_max",
+          "rank_proxy:h_pair_direction_abs_q25",
+          "rank_proxy:h_pair_direction_abs_q50",
+          "rank_proxy:h_pair_direction_abs_q75",
+          "rank_proxy:h_direction_pair_delta_l2_mean",
+          "rank_proxy:h_direction_pair_delta_l2_std"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input columns match the arm allowlist",
+        "status": "pass"
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 4,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.13429173306186265,
+        "ci95_high": 0.49660985475498437,
+        "ci95_low": 0.22802638863125907,
+        "mean": 0.3623181216931217,
+        "n": 4,
+        "std": 0.13703238067537005
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.13429173306186265,
+        "ci95_high": 0.771973611368741,
+        "ci95_low": 0.5033901452450156,
+        "mean": 0.6376818783068783,
+        "n": 4,
+        "std": 0.13703238067537005
+      },
+      "positive": true,
+      "strict_conjunction_positive": true
+    }
+  ],
+  "artifact_id": "bedc-quality-lab:dimension-mismatch-anti-triviality",
+  "claim_term_audit": {
+    "hits": [],
+    "status": "pass",
+    "term_count": 13,
+    "term_source": "bedc_quality_lab.claim_terms plus sidecar boundary terms"
+  },
+  "config": {
+    "arm_order": [
+      "config_metadata_only",
+      "scale_only",
+      "h_normalized_no_scale",
+      "whitened_h_normalized_no_scale",
+      "deterministic_random_projection",
+      "rank_proxy_diagnostic"
+    ],
+    "auroc_positive_threshold": 0.75,
+    "fold_seeds": [
+      31013,
+      31039,
+      31051,
+      31063
+    ],
+    "shared_schema_id": "not_used"
+  },
+  "controlled_geometry": {
+    "artifact_boundary": {
+      "writes_claim_capsule": false,
+      "writes_claim_outcome": false,
+      "writes_run_local_bundle": false
+    },
+    "control_family_coverage": {
+      "diagnostic_pointers": {
+        "deterministic_random_projection": "$.arms.4.diagnostics",
+        "rank_proxy_diagnostic": "$.arms.5.diagnostics",
+        "whitened_h_normalized_no_scale": "$.arms.3.diagnostics"
+      },
+      "family_pointers": {
+        "config_metadata_only": "$.arms.0",
+        "deterministic_random_projection": "$.arms.4",
+        "h_normalized_no_scale": "$.arms.2",
+        "rank_proxy_diagnostic": "$.arms.5",
+        "scale_only": "$.arms.1",
+        "whitened_h_normalized_no_scale": "$.arms.3"
+      },
+      "feature_column_pointers": {
+        "config_metadata_only": "$.arms.0.feature_columns",
+        "deterministic_random_projection": "$.arms.4.feature_columns",
+        "h_normalized_no_scale": "$.arms.2.feature_columns",
+        "rank_proxy_diagnostic": "$.arms.5.feature_columns",
+        "scale_only": "$.arms.1.feature_columns",
+        "whitened_h_normalized_no_scale": "$.arms.3.feature_columns"
+      },
+      "observed_families": [
+        "config_metadata_only",
+        "scale_only",
+        "h_normalized_no_scale",
+        "whitened_h_normalized_no_scale",
+        "deterministic_random_projection",
+        "rank_proxy_diagnostic"
+      ],
+      "reason": "all six control-family pointers are present in the sidecar arm table",
+      "required_families": [
+        "config_metadata_only",
+        "scale_only",
+        "h_normalized_no_scale",
+        "whitened_h_normalized_no_scale",
+        "deterministic_random_projection",
+        "rank_proxy_diagnostic"
+      ],
+      "status": "pass"
+    },
+    "evidence_refs": [
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
+        "evidence_id": "B2-HG1",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG1"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.pointer_contract",
+        "evidence_id": "B2-HG2",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG2"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.geometry_controls",
+        "evidence_id": "B2-HG3",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG3"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.status_owner_boundary",
+        "evidence_id": "B2-HG4",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG4"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.artifact_boundary",
+        "evidence_id": "B2-HG5",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG5"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.control_family_coverage",
+        "evidence_id": "B2-HG6",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG6"
+      }
+    ],
+    "feature_partition": {
+      "config_metadata_only": [
+        "encoder_dim",
+        "reference_latent_dim",
+        "abs_encoder_dim_minus_reference_dim",
+        "is_reference_encoder_dim"
+      ],
+      "deterministic_random_projection": [
+        "random_projection:component_0",
+        "random_projection:component_1",
+        "random_projection:component_2",
+        "random_projection:component_3",
+        "random_projection:component_4",
+        "random_projection:component_5"
+      ],
+      "feature_column_pointers": {
+        "config_metadata_only": "$.arms.0.feature_columns",
+        "deterministic_random_projection": "$.arms.4.feature_columns",
+        "h_normalized_no_scale": "$.arms.2.feature_columns",
+        "rank_proxy_diagnostic": "$.arms.5.feature_columns",
+        "scale_only": "$.arms.1.feature_columns",
+        "whitened_h_normalized_no_scale": "$.arms.3.feature_columns"
+      },
+      "h_normalized_no_scale": [
+        "h_direction_abs_mean",
+        "h_direction_abs_max",
+        "h_direction_abs_q25",
+        "h_direction_abs_q50",
+        "h_direction_abs_q75",
+        "h_pair_direction_abs_mean",
+        "h_pair_direction_abs_max",
+        "h_pair_direction_abs_q25",
+        "h_pair_direction_abs_q50",
+        "h_pair_direction_abs_q75",
+        "h_direction_pair_delta_l2_mean",
+        "h_direction_pair_delta_l2_std"
+      ],
+      "rank_proxy_diagnostic": [
+        "rank_proxy:h_direction_abs_mean",
+        "rank_proxy:h_direction_abs_max",
+        "rank_proxy:h_direction_abs_q25",
+        "rank_proxy:h_direction_abs_q50",
+        "rank_proxy:h_direction_abs_q75",
+        "rank_proxy:h_pair_direction_abs_mean",
+        "rank_proxy:h_pair_direction_abs_max",
+        "rank_proxy:h_pair_direction_abs_q25",
+        "rank_proxy:h_pair_direction_abs_q50",
+        "rank_proxy:h_pair_direction_abs_q75",
+        "rank_proxy:h_direction_pair_delta_l2_mean",
+        "rank_proxy:h_direction_pair_delta_l2_std"
+      ],
+      "scale_only": [
+        "h_l2_mean",
+        "h_l2_std",
+        "h_abs_mean",
+        "h_abs_max",
+        "h_abs_q25",
+        "h_abs_q50",
+        "h_abs_q75",
+        "h_pair_delta_l2_mean",
+        "h_pair_delta_l2_std"
+      ],
+      "whitened_h_normalized_no_scale": [
+        "whitened:h_direction_abs_mean",
+        "whitened:h_direction_abs_max",
+        "whitened:h_direction_abs_q25",
+        "whitened:h_direction_abs_q50",
+        "whitened:h_direction_abs_q75",
+        "whitened:h_pair_direction_abs_mean",
+        "whitened:h_pair_direction_abs_max",
+        "whitened:h_pair_direction_abs_q25",
+        "whitened:h_pair_direction_abs_q50",
+        "whitened:h_pair_direction_abs_q75",
+        "whitened:h_direction_pair_delta_l2_mean",
+        "whitened:h_direction_pair_delta_l2_std"
+      ]
+    },
+    "geometry_controls": {
+      "matched_random_control": "matched_random_gap_head",
+      "metric_pointers": {
+        "config_metadata_only": {
+          "delta": "$.arms.0.learned_minus_matched_random_auroc",
+          "learned": "$.arms.0.learned_auroc",
+          "matched_random": "$.arms.0.matched_random_auroc"
+        },
+        "deterministic_random_projection": {
+          "delta": "$.arms.4.learned_minus_matched_random_auroc",
+          "learned": "$.arms.4.learned_auroc",
+          "matched_random": "$.arms.4.matched_random_auroc"
+        },
+        "h_normalized_no_scale": {
+          "delta": "$.arms.2.learned_minus_matched_random_auroc",
+          "learned": "$.arms.2.learned_auroc",
+          "matched_random": "$.arms.2.matched_random_auroc"
+        },
+        "rank_proxy_diagnostic": {
+          "delta": "$.arms.5.learned_minus_matched_random_auroc",
+          "learned": "$.arms.5.learned_auroc",
+          "matched_random": "$.arms.5.matched_random_auroc"
+        },
+        "scale_only": {
+          "delta": "$.arms.1.learned_minus_matched_random_auroc",
+          "learned": "$.arms.1.learned_auroc",
+          "matched_random": "$.arms.1.matched_random_auroc"
+        },
+        "whitened_h_normalized_no_scale": {
+          "delta": "$.arms.3.learned_minus_matched_random_auroc",
+          "learned": "$.arms.3.learned_auroc",
+          "matched_random": "$.arms.3.matched_random_auroc"
+        }
+      },
+      "random_projection_diagnostics_pointer": "$.arms.4.diagnostics",
+      "rank_proxy_diagnostics_pointer": "$.arms.5.diagnostics",
+      "same_budget": true,
+      "same_split": true,
+      "same_threshold": true,
+      "whitening_diagnostics_pointer": "$.arms.3.diagnostics"
+    },
+    "pointer_contract": {
+      "evidence_pointer_cells": [
+        "controlled_geometry_pointer",
+        "source_pointer"
+      ],
+      "hardgate_root": "$.controlled_geometry_hardgates",
+      "pointer_root": "$.controlled_geometry",
+      "resolution_rule": "every pointer cell resolves inside its declared source artifact",
+      "source_artifact": "reports/dimension_mismatch_anti_triviality.json"
+    },
+    "status": "evidence_only",
+    "status_owner_boundary": {
+      "canonical_claim_owner": "claim:dimension-mismatch-debt-transfer",
+      "claim_capsule_owner_pointer": "$.run_local",
+      "claim_outcome_owner": "reports/canonical/dimension-mismatch-debt-transfer.json",
+      "sidecar_role": "evidence_source"
+    }
+  },
+  "controlled_geometry_hardgates": {
+    "B2-HG1": {
+      "criterion": "controlled geometry partitions the six issue-facing control families",
+      "source_pointer": "$.controlled_geometry.feature_partition",
+      "status": "pass"
+    },
+    "B2-HG2": {
+      "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
+      "source_pointer": "$.controlled_geometry.pointer_contract",
+      "status": "pass"
+    },
+    "B2-HG3": {
+      "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
+      "source_pointer": "$.controlled_geometry.geometry_controls",
+      "status": "pass"
+    },
+    "B2-HG4": {
+      "criterion": "sidecar records evidence without owning terminal claim language",
+      "source_pointer": "$.controlled_geometry.status_owner_boundary",
+      "status": "pass"
+    },
+    "B2-HG5": {
+      "criterion": "sidecar does not write run-local claim-capsule artifacts",
+      "source_pointer": "$.controlled_geometry.artifact_boundary",
+      "status": "pass"
+    },
+    "B2-HG6": {
+      "criterion": "six control-family pointers cover the sidecar arm table",
+      "source_pointer": "$.controlled_geometry.control_family_coverage",
+      "status": "pass"
+    }
+  },
+  "controlled_geometry_pointer_contract": {
+    "evidence_pointer_cells": [
+      "controlled_geometry_pointer",
+      "source_pointer"
+    ],
+    "hardgate_root": "$.controlled_geometry_hardgates",
+    "pointer_root": "$.controlled_geometry",
+    "resolution_rule": "every pointer cell resolves inside its declared source artifact",
+    "source_artifact": "reports/dimension_mismatch_anti_triviality.json"
+  },
+  "d5m_status": "not_claimed",
+  "failed_gates": [
+    "HG-B1-AT4"
+  ],
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgate_evidence": {
+    "HG-B1-AT1": {
+      "criterion": "each arm uses its exact allowlist and learned/matched-random share split, threshold, budget, and metric helper",
+      "matched_random_helper": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
+      "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+      "per_arm_forbidden_feature_audit": {
+        "config_metadata_only": {
+          "actual_model_input_columns": [
+            "encoder_dim",
+            "reference_latent_dim",
+            "abs_encoder_dim_minus_reference_dim",
+            "is_reference_encoder_dim"
+          ],
+          "arm": "config_metadata_only",
+          "declared_allowlist": [
+            "encoder_dim",
+            "reference_latent_dim",
+            "abs_encoder_dim_minus_reference_dim",
+            "is_reference_encoder_dim"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        },
+        "deterministic_random_projection": {
+          "actual_model_input_columns": [
+            "random_projection:component_0",
+            "random_projection:component_1",
+            "random_projection:component_2",
+            "random_projection:component_3",
+            "random_projection:component_4",
+            "random_projection:component_5"
+          ],
+          "arm": "deterministic_random_projection",
+          "declared_allowlist": [
+            "random_projection:component_0",
+            "random_projection:component_1",
+            "random_projection:component_2",
+            "random_projection:component_3",
+            "random_projection:component_4",
+            "random_projection:component_5"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        },
+        "h_normalized_no_scale": {
+          "actual_model_input_columns": [
+            "h_direction_abs_mean",
+            "h_direction_abs_max",
+            "h_direction_abs_q25",
+            "h_direction_abs_q50",
+            "h_direction_abs_q75",
+            "h_pair_direction_abs_mean",
+            "h_pair_direction_abs_max",
+            "h_pair_direction_abs_q25",
+            "h_pair_direction_abs_q50",
+            "h_pair_direction_abs_q75",
+            "h_direction_pair_delta_l2_mean",
+            "h_direction_pair_delta_l2_std"
+          ],
+          "arm": "h_normalized_no_scale",
+          "declared_allowlist": [
+            "h_direction_abs_mean",
+            "h_direction_abs_max",
+            "h_direction_abs_q25",
+            "h_direction_abs_q50",
+            "h_direction_abs_q75",
+            "h_pair_direction_abs_mean",
+            "h_pair_direction_abs_max",
+            "h_pair_direction_abs_q25",
+            "h_pair_direction_abs_q50",
+            "h_pair_direction_abs_q75",
+            "h_direction_pair_delta_l2_mean",
+            "h_direction_pair_delta_l2_std"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        },
+        "rank_proxy_diagnostic": {
+          "actual_model_input_columns": [
+            "rank_proxy:h_direction_abs_mean",
+            "rank_proxy:h_direction_abs_max",
+            "rank_proxy:h_direction_abs_q25",
+            "rank_proxy:h_direction_abs_q50",
+            "rank_proxy:h_direction_abs_q75",
+            "rank_proxy:h_pair_direction_abs_mean",
+            "rank_proxy:h_pair_direction_abs_max",
+            "rank_proxy:h_pair_direction_abs_q25",
+            "rank_proxy:h_pair_direction_abs_q50",
+            "rank_proxy:h_pair_direction_abs_q75",
+            "rank_proxy:h_direction_pair_delta_l2_mean",
+            "rank_proxy:h_direction_pair_delta_l2_std"
+          ],
+          "arm": "rank_proxy_diagnostic",
+          "declared_allowlist": [
+            "rank_proxy:h_direction_abs_mean",
+            "rank_proxy:h_direction_abs_max",
+            "rank_proxy:h_direction_abs_q25",
+            "rank_proxy:h_direction_abs_q50",
+            "rank_proxy:h_direction_abs_q75",
+            "rank_proxy:h_pair_direction_abs_mean",
+            "rank_proxy:h_pair_direction_abs_max",
+            "rank_proxy:h_pair_direction_abs_q25",
+            "rank_proxy:h_pair_direction_abs_q50",
+            "rank_proxy:h_pair_direction_abs_q75",
+            "rank_proxy:h_direction_pair_delta_l2_mean",
+            "rank_proxy:h_direction_pair_delta_l2_std"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        },
+        "scale_only": {
+          "actual_model_input_columns": [
+            "h_l2_mean",
+            "h_l2_std",
+            "h_abs_mean",
+            "h_abs_max",
+            "h_abs_q25",
+            "h_abs_q50",
+            "h_abs_q75",
+            "h_pair_delta_l2_mean",
+            "h_pair_delta_l2_std"
+          ],
+          "arm": "scale_only",
+          "declared_allowlist": [
+            "h_l2_mean",
+            "h_l2_std",
+            "h_abs_mean",
+            "h_abs_max",
+            "h_abs_q25",
+            "h_abs_q50",
+            "h_abs_q75",
+            "h_pair_delta_l2_mean",
+            "h_pair_delta_l2_std"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        },
+        "whitened_h_normalized_no_scale": {
+          "actual_model_input_columns": [
+            "whitened:h_direction_abs_mean",
+            "whitened:h_direction_abs_max",
+            "whitened:h_direction_abs_q25",
+            "whitened:h_direction_abs_q50",
+            "whitened:h_direction_abs_q75",
+            "whitened:h_pair_direction_abs_mean",
+            "whitened:h_pair_direction_abs_max",
+            "whitened:h_pair_direction_abs_q25",
+            "whitened:h_pair_direction_abs_q50",
+            "whitened:h_pair_direction_abs_q75",
+            "whitened:h_direction_pair_delta_l2_mean",
+            "whitened:h_direction_pair_delta_l2_std"
+          ],
+          "arm": "whitened_h_normalized_no_scale",
+          "declared_allowlist": [
+            "whitened:h_direction_abs_mean",
+            "whitened:h_direction_abs_max",
+            "whitened:h_direction_abs_q25",
+            "whitened:h_direction_abs_q50",
+            "whitened:h_direction_abs_q75",
+            "whitened:h_pair_direction_abs_mean",
+            "whitened:h_pair_direction_abs_max",
+            "whitened:h_pair_direction_abs_q25",
+            "whitened:h_pair_direction_abs_q50",
+            "whitened:h_pair_direction_abs_q75",
+            "whitened:h_direction_pair_delta_l2_mean",
+            "whitened:h_direction_pair_delta_l2_std"
+          ],
+          "forbidden_present": [],
+          "reason": "actual model input columns match the arm allowlist",
+          "status": "pass"
+        }
+      },
+      "same_budget": true,
+      "same_split": true,
+      "same_threshold": true,
+      "status": "pass"
+    },
+    "HG-B1-AT2": {
+      "arm": "config_metadata_only",
+      "criterion": "config_metadata_only uses deterministic fold seeds",
+      "fold_seeds": [
+        31013,
+        31039,
+        31051,
+        31063
+      ],
+      "status": "pass"
+    },
+    "HG-B1-AT3": {
+      "criterion": "config_metadata_only learned arm must be non-positive to avoid metadata demotion",
+      "demotion_reachable": false,
+      "metadata_positive": false,
+      "status": "pass"
+    },
+    "HG-B1-AT4": {
+      "arm_positive": {
+        "config_metadata_only": false,
+        "deterministic_random_projection": true,
+        "h_normalized_no_scale": true,
+        "rank_proxy_diagnostic": true,
+        "scale_only": true,
+        "whitened_h_normalized_no_scale": true
+      },
+      "criterion": "selected anti-triviality status must pass before any positive projection is retained",
+      "fail_closed_reason": "selected status blocks positive anti-triviality",
+      "precedence_order": [
+        "source_not_pass",
+        "metadata_leakage_detected",
+        "scale_leakage_detected",
+        "random_projection_positive",
+        "whitening_failure_detected",
+        "anti_triviality_passed",
+        "defer_no_normalized_signal"
+      ],
+      "selected_status": "scale_leakage_detected",
+      "status": "fail"
+    },
+    "HG-B1-AT5": {
+      "criterion": "status-driving positivity uses only the strict source-style conjunction predicate",
+      "diagnostic_only_field": "$.arms[*].diagnostic_only.wide_or_positive",
+      "positive_predicate": {
+        "conditions": [
+          "learned_auroc.ci95_low >= 0.75",
+          "learned_auroc.ci95_low > matched_random_auroc.ci95_high",
+          "learned_minus_matched_random_auroc.ci95_low > 0.0",
+          "matched_random_auroc.ci95_low < 0.75"
+        ],
+        "drives_status": true,
+        "kind": "strict_source_style_conjunction",
+        "wide_or_rule": "diagnostic_only"
+      },
+      "status": "pass"
+    },
+    "HG-B1-AT6": {
+      "canonical_role": "sidecar_not_canonical",
+      "claim_term_audit": {
+        "hits": [],
+        "status": "pass",
+        "term_count": 13,
+        "term_source": "bedc_quality_lab.claim_terms plus sidecar boundary terms"
+      },
+      "criterion": "sidecar is non-canonical, not_claimed for mechanism and D5-M, and no forbidden positive claim term is present",
+      "d5m_status": "not_claimed",
+      "mechanism_status": "not_claimed",
+      "source_pass": true,
+      "status": "pass"
+    }
+  },
+  "json_artifact": "reports/dimension_mismatch_anti_triviality.json",
+  "markdown_artifact": "reports/dimension_mismatch_anti_triviality.md",
+  "mechanism_status": "not_claimed",
+  "not_claimed": [
+    "No global quality claim.",
+    "No full LeJEPA claim.",
+    "No full Tensor NameCert claim.",
+    "No LLM behavior claim.",
+    "No D5 mechanism closure claim.",
+    "No standalone positive discovery-map promotion from this evidence source."
+  ],
+  "positive_predicate": {
+    "conditions": [
+      "learned_auroc.ci95_low >= 0.75",
+      "learned_auroc.ci95_low > matched_random_auroc.ci95_high",
+      "learned_minus_matched_random_auroc.ci95_low > 0.0",
+      "matched_random_auroc.ci95_low < 0.75"
+    ],
+    "drives_status": true,
+    "kind": "strict_source_style_conjunction",
+    "wide_or_rule": "diagnostic_only"
+  },
+  "reason": "scale-only arm is positive under the strict conjunction predicate",
+  "recommended_projection": "demote_to_DN_or_D1",
+  "schema_id": "bedc-quality-lab:dimension-mismatch-anti-triviality",
+  "scope_note": "SCOPE_NOTE: requested bedc_quality_lab/gap_head.py and bedc_quality_lab/observed_debt.py do not exist in this checkout; reused the matching helpers from scripts/run_gaussian_ou_gap_ledger_head.py and scripts/run_observed_debt_sweep.py without interface changes.",
+  "sidecar_role": "folded_evidence_source",
+  "source": {
+    "reason": "source dimension-mismatch debt-transfer status is pass",
+    "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+    "source_pass": true,
+    "source_pointer": "$.dimension_mismatch_debt_transfer.status",
+    "status": "pass"
+  },
+  "source_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.status",
+  "status": "scale_leakage_detected"
+}

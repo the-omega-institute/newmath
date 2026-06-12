@@ -1,0 +1,94 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "9e9aee2f41760dc8ee51aa08ae163be7c62b2c4040f377200a6555ff9beba4a1",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_ablation_null_decomposition.py",
+        "sha256": "6bae72305e89b6bf5ab6ad40688045a3affbab6484223d032c3186dc10819785"
+      },
+      {
+        "path": "scripts/run_dgt_ablation_null_decomposition.py",
+        "sha256": "6f3d96a3569aa5803e7825d760d6c04b5fe40231537eb903c03869541440426f"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:dgt-ablation-null-decomposition",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_ablation_null_decomposition.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_dgt_ablation_null_decomposition.py"
+      ],
+      "control_pointer": "$.source_artifact",
+      "cost_pointer": "$.source_artifact",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-ablation-null-decomposition.md",
+      "name": "dgt-ablation-null-decomposition",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.null_decomposition.verdict",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifact",
+        "threshold_schema",
+        "decision_table",
+        "null_decomposition",
+        "hardgates",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/dgt-ablation-null-decomposition.json",
+  "markdown_artifact": "reports/canonical/dgt-ablation-null-decomposition.md",
+  "output_digest": "c40856866f0ade24b0579d6c3cf9463c8aae703ae1bdc65e651d6933cd3bbcd2",
+  "producer_command": [
+    "python3",
+    "scripts/run_dgt_ablation_null_decomposition.py"
+  ],
+  "report_name": "dgt-ablation-null-decomposition",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

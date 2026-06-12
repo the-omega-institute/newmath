@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCutApartnessUp$}
+\label{ch:concrete-instances-located-cut-apartness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedCutApartnessUp$ packet records the finite route by which apartness evidence can be read from located-cut data before any real-name seal or comparison consumer receives it. It sits beside the located-cut carrier of \autoref{ch:concrete-instances-locatedcut-namecert}, the located-real comparison surface of \autoref{ch:concrete-instances-locatedreal-namecert}, the apartness-real evidence route of \autoref{ch:concrete-instances-apartnessreal-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite L10 boundary for reading apartness from located cuts; it does not import quotient cuts, trichotomy, selected representatives, countable choice, host real equality, or ambient Real completeness.
+
+\begin{definition}[LocatedCutApartness carrier]
+\label{def:located-cut-apartness-carrier}
+A $\LocatedCutApartnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,U,G,D,S,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower located-cut row read from $\LocatedCutUp$, exposing finite rational evidence below the cut.
+\item $U$ is the upper located-cut row read from $\LocatedCutUp$, exposing finite rational evidence above the same cut.
+\item $G$ is the positive gap row read through $\ApartnessRealUp$, recording the apartness witness that separates the displayed lower and upper observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the lower and upper observations at the requested precision.
+\item $S$ is the $\StreamNameUp$ finite-window row through which the located-cut observations are inspected.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback extracted from those windows.
+\item $Q$ is the $\LocatedRealUp$ comparison row attached to the same located-cut request.
+\item $E$ is the terminal $\RealUp$ seal, available only after the located-cut, apartness, dyadic, stream, readback, and located-real rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,U,G,D,S,R,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a located-cut apartness request through the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCutApartnessUp$, $\LocatedCutUp$, $\LocatedRealUp$, $\ApartnessRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCutApartnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient cuts, host real equality, trichotomy, selected cut representatives, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[LocatedCutApartness NameCert obligations]
+\label{thm:located-cut-apartness-namecert-obligations}
+For every accepted $\LocatedCutApartnessUp$ carrier $A=(L,U,G,D,S,R,Q,E,H,C,P,N)$, the local $\NameCert_{\LocatedCutApartnessUp}$ surface consists exactly of carrier admission for the displayed lower located-cut row, upper located-cut row, apartness gap row, dyadic tolerance ledger, finite stream windows, regular rational readback, located-real comparison row, Real seal, componentwise transport, displayed replay, provenance, and local naming; lower-upper exactness requiring $L,U$ to remain attached to the same located-cut request; gap exactness requiring $G$ before any apartness consumer can read $Q$ or $E$; regular readback exactness requiring $D,S,R$ before the seal; and ledger exhaustion excluding quotient cuts, trichotomy, selected representatives, countable choice, host equality, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-cut-apartness-carrier}. The rows $L,U,G,D,S,R,Q,E,H,C,P,N$ are the complete displayed packet, so carrier admission is a finite coordinate read.
+
+Lower-upper exactness is forced by the shared $\LocatedCutUp$ source. The lower and upper rows cannot be separated from the same located-cut request because the apartness row $G$ reads them as one finite gap witness.
+
+The readback and seal clauses follow the route $D,S,R,Q,E$. The dyadic ledger fixes the requested precision, the stream row records the inspected windows, the regular rational row records the Cauchy-facing handoff, and the located-real comparison row is displayed before the terminal Real seal.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name only this packet. Since the excluded principles are not carrier coordinates, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[LocatedCutApartness gap handoff]
+\label{thm:located-cut-apartness-gap-handoff}
+Let $A=(L,U,G,D,S,R,Q,E,H,C,P,N)$ be an accepted $\LocatedCutApartnessUp$ packet. Every apartness consumer of $A$ reads the positive gap evidence through
+$$
+L,U \longmapsto G \longmapsto D,S,R,Q .
+$$
+Thus the consumer sees lower and upper located-cut observations, a displayed $\ApartnessRealUp$ gap witness, the dyadic precision ledger, finite stream windows, regular rational readback, and located-real comparison data before any terminal seal is available.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:located-cut-apartness-namecert-obligations}. The gap exactness clause places $G$ downstream of the common lower and upper located-cut rows $L,U$.
+
+Read the finite observation rows next. The dyadic ledger $D$ supplies the tolerance, the stream row $S$ supplies the inspected windows, and the regular rational row $R$ supplies the Cauchy-facing readback.
+
+The located-real comparison row $Q$ is reached only after that finite route. Therefore an apartness consumer receives the route displayed in the statement and cannot replace it by trichotomy, host real equality, quotient cuts, selected representatives, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[LocatedCutApartness Real seal non-escape]
+\label{thm:located-cut-apartness-real-seal-nonescape}
+Let $A=(L,U,G,D,S,R,Q,E,H,C,P,N)$ be an accepted $\LocatedCutApartnessUp$ packet. Every $\LocatedRealUp$ or $\RealUp$ consumer of the terminal seal receives only
+$$
+L,U,G,D,S,R,Q,E,H,C,P,N .
+$$
+The seal exports no quotient cut, trichotomy branch, selected representative, countable-choice schedule, host equality row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Apply the gap handoff of \autoref{thm:located-cut-apartness-gap-handoff}. A consumer cannot reach the located-real comparison row $Q$ until the lower and upper located-cut rows, apartness gap, dyadic ledger, stream windows, and regular readback have been displayed.
+
+The terminal Real seal $E$ is downstream of the same route by \autoref{thm:located-cut-apartness-namecert-obligations}. After $E$ is read, the only remaining coordinates are $H,C,P,N$.
+
+Those structural rows preserve the displayed packet by componentwise transport, replay, provenance, and local naming. Since the excluded principles are absent from both the carrier and the obligation surface, no seal-facing consumer can obtain them from $\LocatedCutApartnessUp$.
+\end{proof}
+
+\closureat{LocatedCutApartnessUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCutApartnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cut-apartness-carrier}, \autoref{thm:located-cut-apartness-namecert-obligations}, \autoref{thm:located-cut-apartness-gap-handoff}, and \autoref{thm:located-cut-apartness-real-seal-nonescape} seed the finite route reading apartness evidence from located-cut data through dyadic, stream, RegSeqRat, LocatedReal, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, trichotomy, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-upper exactness, gap handoff, regular readback discipline, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedCutApartnessUp.}
+  \constructivestory{A $\LocatedCutApartnessUp$ packet is generated from lower and upper LocatedCut rows, an ApartnessReal positive gap witness, DyadicRatCore tolerance data, StreamName windows, RegSeqRat readback, a LocatedReal comparison row, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

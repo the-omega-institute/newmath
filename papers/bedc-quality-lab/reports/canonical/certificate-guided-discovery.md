@@ -1,0 +1,25 @@
+# Certificate-Guided Discovery Projection
+
+- Source JSON artifact: `reports/canonical/certificate-guided-training.json`
+- Projection script: `scripts/run_certificate_guided_discovery.py`
+- Main claim status: `observed-negative`
+- Terminal verdict: `demoted`
+- Discovery level: `DN`
+- Hardgate status: `failed`
+- Failed gate: `audit-improvement-tradeoff`
+- Four-gate positive: `false`
+- Training quality gate: `false`
+- Gate blockers: `imported-positive-discovery-false, net-information-nonpositive, training-positive-quality-gate-false, scope-seal-false`
+- Audit status: `unverifiable`
+- Audit reason: `missing-schema-id`
+- Audit ledger rows: `1`
+- Revocation downgraded: `false`
+- Revocation reason: `no-certified-claim`
+- Revocation ledger rows: `0`
+- Verdict: `negative` / net `-0.007800` / positive `false`
+- Matched-random baseline: `negative` / net `-0.069800` / positive `false`
+- Benefit declined by `-0.009800` under the shared cost protocol.
+- Debt declined by `-0.078000` under the shared cost protocol.
+- Net information did not clear zero: `-0.007800`.
+- Quality-q delta: `0.059000`.
+- Not claimed: `lab-local constraint-training evidence only; global model quality is not claimed; full LeJEPA is not claimed; full TensorNameCert is not claimed; LLM behavior is not claimed; mechanism closure is not claimed; claim is falsifiable and revocable; positive wording is not claimed for audit-improvement-tradeoff DN evidence; positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold`

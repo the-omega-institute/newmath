@@ -65,21 +65,48 @@ Suppose a consumer exhibits neither. Then the classifier row $F$ has no registry
 It follows that the local naming row $N$ names no exported claim in this case. The attempted prose-only reading therefore fails to escape the registry layer.
 \end{proof}
 
+\begin{theorem}[Registry layer public export route]
+\label{thm:registrylayer-public-export-route}
+Every public export read of an accepted $\RegistryLayerUp$ packet is exhausted by the displayed registry route through $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert$ row. The route may expose concept, theorem, tradition-and-science, formalization-target, gap, cannot-claim, upgrade-obligation, and export-control rows, but it exports no hidden verification claim, private package override, host truth oracle, unledgered registry entry, or external standard-model assertion.
+\end{theorem}
+\begin{proof}
+Start with the export-control exactness theorem, \autoref{thm:registry-layer-export-control-exactness}. It says that every exported package-level claim is admitted by a displayed registry row among $C,T,D,U$ or blocked by a displayed registry row among $G,S,K$.
+
+Read the public route through the structural rows. The carrier stores those registry rows as finite $\BHist$ data, transports them componentwise by $H$, replays the displayed export decision through $\Cont$, records package provenance by $P$, and names the same packet locally by $N$.
+
+Apply claim nonescape, \autoref{thm:registry-layer-claim-nonescape}. Since a prose-only claim without admission or blocking rows has no route through the packet, the public export surface cannot add hidden verification, private package override, host truth, unledgered registry entry, or an external standard-model assertion.
+\end{proof}
+
 The obligation boundary is anchored by the TasteGate carrier in \texttt{lean4/BEDC/Derived/RegistryLayerUp/TasteGate.lean}, preserving $C,T,G,D,S,K,U,F,H,P,N$ as separate displayed rows for $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$.
+
+\begin{theorem}[Registry layer bridge surface]
+\label{thm:registrylayer-bridge-surface}
+Every accepted $\RegistryLayerUp$ public export route bridges exactly the displayed concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, transport, provenance, and local $\NameCert$ rows to downstream registry consumers. The bridge exports no hidden verification claim, private package override, host truth oracle, unledgered registry entry, or undisplayed standard-model assertion.
+\end{theorem}
+\begin{proof}
+Start with the public export route of \autoref{thm:registrylayer-public-export-route}. It exhausts every downstream read through the displayed registry rows, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert$ row.
+
+Use export-control exactness from \autoref{thm:registry-layer-export-control-exactness}. The row $F$ can admit a claim only through the concept, theorem, tradition-and-science, or formalization-target rows, and can block a claim only through the gap, cannot-claim, or upgrade rows.
+
+Apply claim nonescape from \autoref{thm:registry-layer-claim-nonescape}. A consumer with no displayed admission row and no displayed blocking row has no route through the packet, so there is no private package override or hidden verification surface.
+
+The TasteGate marker $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$ remains visible at the boundary. Since the carrier has no further coordinate, the bridge surface is exactly the displayed public registry route.
+\end{proof}
 
 \falsifiablePrediction{If the cannot-claim row is removed, the packet cannot distinguish blocked export from unregistered absence; if the theorem-registry row is removed, theorem export cannot be audited.}
 
 \independenceWitness{selectorledger, focused-multi-hist-ledger, choicerecipeledger, axiomrequirementledger, witnesseddescentledger: none is bijective because RegistryLayer carries simultaneous admit/block/export rows, while those siblings carry selector, focused-record, recipe, axiom-requirement, or descent rows only.}
 
-\closureat{RegistryLayerUp}{scopedStr}[BEDC.Derived.RegistryLayerUp.taste\_gate]
+\closureat{RegistryLayerUp}{bridgedStr}[BEDC.Derived.RegistryLayerUp.taste\_gate]
+\closureat{RegistryLayerUp}{matureStr}
 
 \begin{closurestatus}{\RegistryLayerUp}
   \constructivestory{A $\RegistryLayerUp$ packet is generated from concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, and \autoref{thm:registry-layer-claim-nonescape} bind the carrier, NameCert obligations, export-control exactness, claim nonescape, TasteGate marker \leanchecked{BEDC.Derived.RegistryLayerUp.taste\_gate}, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows for $C,T,G,D,S,K,U,F,H,P,N$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, \autoref{thm:registry-layer-claim-nonescape}, \autoref{thm:registrylayer-public-export-route}, and \autoref{thm:registrylayer-bridge-surface} bind the public bridge route through the carrier, NameCert obligations, export-control exactness, claim nonescape, TasteGate marker \leanchecked{BEDC.Derived.RegistryLayerUp.taste\_gate}, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows for $C,T,G,D,S,K,U,F,H,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, complete registry governance, or correctness of every downstream registry entry.}
-  \upgradepath{Obligation closure requires checked carrier admission, export-control exactness, claim nonescape, TasteGate nontriviality, and field faithfulness for $C,T,G,D,S,K,U,F,H,P,N$.}
+  \upgradepath{No further theory-axis upgrade remains for the displayed registry layer; verification and bridge checking remain separate formal-axis obligations.}
 \end{closurestatus}

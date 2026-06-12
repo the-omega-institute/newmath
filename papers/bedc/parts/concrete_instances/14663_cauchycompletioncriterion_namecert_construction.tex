@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted carriers only through these ten rows. It contains no coordinate for quotient streams, selected host limits, countable choice, host real equality, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyCompletionCriterionUp.CauchyCompletionCriterionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy completion criterion NameCert obligations]
 \label{thm:cauchy-completion-criterion-namecert-obligations}
@@ -65,14 +66,127 @@ The admission row $Q$ is then the sole bridge from the regular Cauchy data to th
 Thus every Real-facing read factors through $S,R,D,M,Q,E,H,C,P,N$. The forbidden outputs are absent by inspection of the carrier, so the consumer cannot obtain quotient streams, selected host limits, countable choice, host real equality, or ambient completeness from this certificate.
 \end{proof}
 
-\closureat{CauchyCompletionCriterionUp}{seedStr}
+\begin{theorem}[Cauchy completion criterion finite-window handoff]
+\label{thm:cauchy-completion-criterion-finite-window-handoff}
+For every accepted $\CauchyCompletionCriterionUp$ carrier $K=(S,R,D,M,Q,E,H,C,P,N)$, each read of the regular rational row $R$ factors through the displayed $\StreamNameUp$ schedule $S$ and the continuation replay stored in $C$. No consumer of $R$ can bypass $S$ by reading a hidden stream tail, a selected subsequence, a countable-choice schedule, or an ambient host sequence object.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:cauchy-completion-criterion-carrier}. The only sequence-facing coordinate is the finite schedule $S$, and the only regular-rational coordinate is the handoff row $R$.
+
+The replay row $C$ records the allowed continuation from the displayed finite windows to $R$. Since the classifier compares accepted carriers through the ten displayed rows, any use of $R$ must preserve the same $S$-indexed route under the componentwise transport row $H$ and the provenance row $P$.
+
+There is no carrier coordinate for a hidden tail, selected subsequence, countable-choice schedule, or host sequence object. Thus every $R$ read factors through $S$ and $C$, and no bypass is available inside the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion tolerance-modulus compatibility]
+\label{thm:cauchy-completion-criterion-tolerance-modulus-compatibility}
+For every accepted $\CauchyCompletionCriterionUp$ carrier $K=(S,R,D,M,Q,E,H,C,P,N)$, the dyadic tolerance ledger $D$ and the Bishop completion modulus row $M$ answer the same precision request for the same finite stream windows and regular rational handoff. The dyadic threshold route consumed by $D$ is the threshold route selected by $M$ before the criterion row $Q$ is visible.
+\end{theorem}
+\begin{proof}
+Read $D$ and $M$ from the displayed packet. By definition of the carrier, $D$ records the rational thresholds, comparison rows, and dyadic scale used by the handoff, while $M$ sends each precision request to a displayed finite threshold for the same windows and tolerances.
+
+The rows are consumed before $Q$. The continuation replay $C$ supplies one route from the windows and handoff through the dyadic and modulus ledgers to the criterion row, and the componentwise transport row $H$ keeps that route stable under accepted carrier comparison.
+
+Consequently the two rows cannot answer different requests or use different threshold routes inside this certificate. A consumer reaching $Q$ has already consumed the shared request, the same finite windows, the same regular rational handoff, and the same dyadic threshold route.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion admission]
+\label{thm:cauchy-completion-criterion-criterion-admission}
+For every accepted $\CauchyCompletionCriterionUp$ carrier $K=(S,R,D,M,Q,E,H,C,P,N)$, the row $Q$ is the sole local admission row from the displayed data $S,R,D,M$ to the Real seal row $E$. Any $\RealUp$-facing read that reaches $E$ must pass through $Q$ after the finite-window handoff and tolerance-modulus compatibility rows have been consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the route to the seal. The displayed sequence schedule $S$, regular handoff $R$, dyadic ledger $D$, and modulus row $M$ are upstream of the criterion row $Q$, while the Real seal row $E$ is downstream of $Q$.
+
+The continuation row $C$ records this order as a replay route, and the provenance row $P$ records it as part of the local package. The transport row $H$ preserves the same row order under accepted carrier comparison, so a consumer cannot replace $Q$ by another local admission coordinate.
+
+The carrier has no second admission row between $S,R,D,M$ and $E$. Therefore $Q$ is the sole local admission row, and every Real-facing read of $E$ passes through $Q$ after the finite-window and tolerance-modulus obligations have been met.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion regular-tail induction]
+\label{thm:cauchycompletioncriterion-regular-tail-induction}
+Every accepted $\CauchyCompletionCriterionUp$ carrier routes a tail-refinement request by induction over the displayed $\StreamNameUp$ windows before exposing the $\RegSeqRatUp$ row and the terminal $\RealUp$ seal. The induction consumes the $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ handoff, local $\CauchyCompletionCriterionUp$ $\NameCert$ row, componentwise $\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance, and exports no quotient stream, selected limit, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,R,D,M,Q,E,H,C,P,N)$ from \autoref{def:cauchy-completion-criterion-carrier}. The only tail schedule available to a refinement request is the finite $\StreamNameUp$ window row $S$, and the regular rational readback $R$ is not visible before that schedule is traversed.
+
+Induct over the finite visible tail-window schedule. At each window, use the dyadic tolerance ledger $D$ and the modulus row $M$ to keep the requested threshold inside the displayed packet, then use the continuation row $C$ to replay the same route without adding a second convergence source.
+
+The existing NameCert obligations provide carrier admission and regular-rational visibility for the handoff through $R$. The local row $N$, transport row $H$, and provenance row $P$ preserve the same displayed packet during the induction.
+
+Finally apply the Real seal non-escape result of \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}. The terminal seal $E$ is read only after the displayed induction route has reached $Q$, so the exported surface contains no quotient stream, selected limit, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion tail-modulus criterion]
+\label{thm:cauchy-completion-criterion-tail-modulus-criterion}
+Every accepted $\CauchyCompletionCriterionUp$ carrier routes a precision request through the same $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ tolerance ledger, $\BishopCompletionModulusUp$ row, criterion row, and $\RealUp$ seal before any completion consumer reads it. The route is the displayed finite path
+$$
+S \longmapsto R \longmapsto D,M \longmapsto Q \longmapsto E
+$$
+together with the stored $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it exports no quotient stream, selected host limit, host real equality, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,R,D,M,Q,E,H,C,P,N)$ from \autoref{def:cauchy-completion-criterion-carrier}. The precision request first reaches the finite stream schedule $S$, and the regular rational handoff $R$ is readable only as the displayed readback from those windows.
+
+Use the NameCert obligations of \autoref{thm:cauchy-completion-criterion-namecert-obligations}. They identify tolerance-modulus compatibility as a local obligation of the same packet: the dyadic ledger $D$ and Bishop completion modulus row $M$ must answer the same threshold and precision data before the criterion row $Q$ can admit a completion read.
+
+Apply regular-tail induction from \autoref{thm:cauchycompletioncriterion-regular-tail-induction}. Tail refinement stays inside the same StreamName schedule and reuses the same dyadic tolerance ledger, regular handoff, transport, continuation replay, provenance, and local naming rows.
+
+Finally apply Real seal non-escape from \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}. Since the terminal seal $E$ is visible only after $S,R,D,M,Q$ have been traversed, a completion consumer cannot read quotient streams, selected host limits, host real equality, countable choice, or ambient completeness from the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion window exhaustion]
+\label{thm:cauchy-completion-criterion-window-exhaustion}
+Every accepted $\CauchyCompletionCriterionUp$ carrier routes any completion-facing request through the finite $\StreamNameUp$ window schedule $S$ and the $\RegSeqRatUp$ readback $R$ before the dyadic ledger $D$, modulus row $M$, criterion row $Q$, and $\RealUp$ seal $E$ are visible. Thus a completion consumer receives only the displayed finite-window route $S,R,D,M,Q,E,H,C,P,N$, not a hidden stream tail, selected host limit, quotient equality, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,R,D,M,Q,E,H,C,P,N)$ and read the NameCert obligations of \autoref{thm:cauchy-completion-criterion-namecert-obligations}. Carrier admission exposes exactly the ten displayed rows, while the finite-window handoff obligation places $S$ before every read of the regular rational handoff $R$.
+
+Apply the tail-modulus criterion of \autoref{thm:cauchy-completion-criterion-tail-modulus-criterion}. The dyadic ledger $D$ and modulus row $M$ answer the same precision request after the displayed windows and readback have been consumed, and the criterion row $Q$ is available only after that finite route has been traversed.
+
+Finally use Real seal non-escape from \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}. Since the seal row $E$ exports no quotient stream, selected host limit, host equality, countable choice, or ambient completeness witness, exhaustion of the displayed windows is the only completion-facing route available inside the certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion scoped source exhaustion]
+\label{thm:cauchy-completion-criterion-scoped-source-exhaustion}
+Every scoped consumer of an accepted $\CauchyCompletionCriterionUp$ carrier factors through the displayed $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ tolerance ledger, $\BishopCompletionModulusUp$ row, criterion row $Q$, $\RealUp$ seal, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. Within this scoped surface, no second completion source, hidden stream tail, selected limit, quotient equality, countable-choice schedule, host real equality, or ambient completeness principle is exposed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,R,D,M,Q,E,H,C,P,N)$ from \autoref{def:cauchy-completion-criterion-carrier}. The carrier inventory names the finite window source $S$, regular handoff $R$, dyadic tolerance ledger $D$, completion modulus $M$, criterion row $Q$, Real seal $E$, transport $H$, replay $C$, provenance $P$, and local name $N$ as the whole scoped packet.
+
+Apply the finite-window handoff of \autoref{thm:cauchy-completion-criterion-finite-window-handoff} and tolerance-modulus compatibility of \autoref{thm:cauchy-completion-criterion-tolerance-modulus-compatibility}. These force every regular read through $S$ and keep $D$ and $M$ attached to the same displayed precision route.
+
+Apply criterion admission from \autoref{thm:cauchy-completion-criterion-criterion-admission}, regular-tail induction from \autoref{thm:cauchycompletioncriterion-regular-tail-induction}, and the tail-modulus criterion from \autoref{thm:cauchy-completion-criterion-tail-modulus-criterion}. The only completion-facing route then passes from the finite windows through the regular handoff, dyadic ledger, modulus row, and $Q$.
+
+Finally use window exhaustion from \autoref{thm:cauchy-completion-criterion-window-exhaustion} and Real seal non-escape from \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}. The structural rows $H,C,P,N$ preserve the same route without adding data, so the scoped consumer has no second completion source outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion scoped route]
+\label{thm:cauchy-completion-criterion-scope-lock}
+Let $K=(S,R,D,M,Q,E,H,C,P,N)$ be an accepted $\CauchyCompletionCriterionUp$ carrier. Any downstream completion consumer, $\RealUp$ consumer, or regular-Cauchy consumer of $K$ must reuse exactly the finite-window handoff, tolerance-modulus compatibility, criterion admission, and Real seal non-escape rows named in this chapter. Such a consumer cannot introduce a second completion source, quotient stream, selected limit, countable-choice schedule, or ambient completeness principle.
+
+Consequently the scoped route for $K$ is the displayed BEDC kernel path through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BishopCompletionModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the NameCert obligations of \autoref{thm:cauchy-completion-criterion-namecert-obligations}. The carrier row exposes exactly $S,R,D,M,Q,E,H,C,P,N$, and the obligation surface names the finite-window handoff, tolerance-modulus compatibility, criterion admission, and Real seal boundary as the rows a completion-facing consumer may use.
+
+Apply the finite-window handoff of \autoref{thm:cauchy-completion-criterion-finite-window-handoff}. A downstream consumer reaches the regular rational handoff $R$ only through the displayed $\StreamNameUp$ schedule $S$ and the stored continuation replay, so no second stream source or hidden tail can be read.
+
+Next apply tolerance-modulus compatibility from \autoref{thm:cauchy-completion-criterion-tolerance-modulus-compatibility} and criterion admission from \autoref{thm:cauchy-completion-criterion-criterion-admission}. The dyadic ledger $D$ and modulus row $M$ answer the same precision route before $Q$ is visible, and $Q$ is the sole local admission row from $S,R,D,M$ to the seal row $E$.
+
+Use regular-tail induction from \autoref{thm:cauchycompletioncriterion-regular-tail-induction} and the tail-modulus criterion of \autoref{thm:cauchy-completion-criterion-tail-modulus-criterion}. These results keep tail refinement and precision routing inside the same finite window schedule, regular handoff, dyadic tolerance ledger, completion modulus row, transport, continuation replay, provenance, and local naming row.
+
+Finally apply window exhaustion from \autoref{thm:cauchy-completion-criterion-window-exhaustion} and Real seal non-escape from \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}. The only terminal route is the displayed BEDC kernel path through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BishopCompletionModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and the forbidden completion sources are absent from the carrier.
+\end{proof}
+
+\closureat{CauchyCompletionCriterionUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyCompletionCriterionUp}
   \constructivestory{A $\CauchyCompletionCriterionUp$ packet is generated from a finite StreamName schedule, RegSeqRat handoff, DyadicRatCore tolerance ledger, BishopCompletionModulus row, local completion-admission criterion, RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-criterion-carrier}, \autoref{thm:cauchy-completion-criterion-namecert-obligations}, and \autoref{thm:cauchy-completion-criterion-real-seal-non-escape} declare the finite carrier, its five NameCert obligations, and the Real seal non-escape boundary for completion consumers.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-criterion-carrier}, \autoref{thm:cauchy-completion-criterion-namecert-obligations}, \autoref{thm:cauchy-completion-criterion-real-seal-non-escape}, \autoref{thm:cauchy-completion-criterion-finite-window-handoff}, \autoref{thm:cauchy-completion-criterion-tolerance-modulus-compatibility}, \autoref{thm:cauchy-completion-criterion-criterion-admission}, \autoref{thm:cauchycompletioncriterion-regular-tail-induction}, \autoref{thm:cauchy-completion-criterion-tail-modulus-criterion}, \autoref{thm:cauchy-completion-criterion-window-exhaustion}, \autoref{thm:cauchy-completion-criterion-scoped-source-exhaustion}, and \autoref{thm:cauchy-completion-criterion-scope-lock} declare the finite carrier, its NameCert obligation surface, the Real seal boundary, the finite-window handoff, the tolerance-modulus compatibility route, the unique criterion admission row, the tail route, the window exhaustion route, scoped source exhaustion, and the downstream scoped consumer lock.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyCompletionCriterionUp.CauchyCompletionCriterionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, host real equality, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window handoff, tolerance-modulus compatibility, criterion admission, and Real seal non-escape for the same finite packet.}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, host real equality, ambient completeness, a public completion object, or bridge checking.}
+  \upgradepath{Public closure requires a public completion-object surface and bridge checking beyond the scoped finite route.}
 \end{closurestatus}

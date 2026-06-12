@@ -38,7 +38,7 @@ For every accepted $\RealMetricUp$ carrier $M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)$, th
 \end{enumerate}
 No NameCert obligation is stored outside these finite rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.RealMetricUp.RealMetricTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:real-metric-carrier}. The only available distance data are the endpoint seals $X,Y$, the absolute-value distance row $A$, the dyadic tolerance row $D$, the stream windows $S$, the regular readback $R$, and the structural rows $H,C,P,N$.
 
@@ -68,6 +68,23 @@ The distance value is therefore obtained through the absolute-value route. The e
 Only after that route is displayed may the consumer invoke a generic $\MetricUp$ law. Symmetry reuses $A$ under endpoint transport, zero-distance returns through the displayed $\RealUp$ seal classifier, and triangle reads the composed dyadic budget before applying the metric triangle row.
 
 The remaining coordinates are structural support. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport, replay, source, and name the same route, with no row from which host real equality, quotient representatives, selected limits, trichotomy, or completeness can be read.
+\end{proof}
+
+\begin{theorem}[Real metric located-distance handoff]
+\label{thm:real-metric-located-distance-handoff}
+Every located-distance or completion-facing consumer of an accepted $\RealMetricUp$ packet must pass through the endpoint seals $X,Y$, the stream windows $S$, the regular readback $R$, the dyadic tolerance row $D$, and the $\RealAbsUp$ row $A$ before it reads any $\MetricUp$ law. The located-distance route is therefore
+$$
+X,Y \longmapsto S,R,D \longmapsto A \longmapsto \MetricUp
+$$
+inside the structural rows $H,C,P,N$. It exports no host real equality, quotient representative, selected limit, trichotomy, or completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricLocatedDistanceHandoff}
+\begin{proof}
+Project the accepted carrier $M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)$ of \autoref{def:real-metric-carrier}. A located-distance request first receives only the displayed endpoint seals $X,Y$, so every downstream read is still tied to the two $\RealUp$ names carried by the packet.
+
+The request then follows the same finite readback route as \autoref{thm:real-metric-absolute-value-distance-handoff}. The stream windows $S$ expose the finite observations, the regular readback row $R$ presents the $\RegSeqRatUp$ data over those windows, and the dyadic tolerance row $D$ records the requested distance precision before the $\RealAbsUp$ distance row $A$ is visible.
+
+Only after $A$ is exposed may a completion-facing consumer read a $\MetricUp$ law. The rows $H,C,P,N$ preserve this route under componentwise transport, replay, provenance, and local naming, while no carrier row names host equality, quotient representatives, selected limits, trichotomy, or completeness.
 \end{proof}
 
 \begin{closurestatus}{\RealMetricUp}

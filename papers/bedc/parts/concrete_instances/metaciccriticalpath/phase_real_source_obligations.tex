@@ -21,3 +21,16 @@ Then route the read through the open source ledger. Definition~\ref{def:metacic-
 
 Finally attach the confluence-decidability budget. Theorem~\ref{thm:metaciccriticalpath-confluence-decidability-budget} and Theorem~\ref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion} allow confluence-facing and decidability-facing consumers only after the ledger and socket rows have been displayed. This matches the existing Lean-facing packet names for discharge socket coverage, transport row stability, kernel frontier exposure, and downstream readiness boundary: each consumes displayed BEDC rows rather than supplying a hidden source before $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ have been exposed.
 \end{proof}
+
+\begin{theorem}[MetaCICCriticalPath formal-target surface]
+\label{thm:metacic-critical-path-formal-target-surface}
+A $\MetaCICCriticalPathUp$ formal target for the Phase Real route may name the four source rows only as separate local formal targets: $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each retain their own closurestatus, formalstatus, and leantarget records. The aggregate MetaCIC route may cite those rows as the source surface of the Phase Real packet, but it cannot infer verification from paper closure and cannot infer paper closure from verification.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFormalTargetSurface}
+\begin{proof}
+Apply \autoref{thm:metacic-critical-path-phase-real-source-obligations}. It forces every Phase Real read to expose the dyadic finite-observation row, stream schedule, regular-rational readback, and Real seal before socket, confluence, obstruction, or readiness consumers can use the packet.
+
+Now read the four-object exit certificate through Theorems~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate}, \ref{thm:metacic-critical-path-phase-real-four-face-obligation-surface}, and \ref{thm:metacic-critical-path-phase-real-exit-refusal-boundary}. These references identify the four named source faces as the boundary objects of the route rather than as fields whose statuses are absorbed into $\MetaCICCriticalPathUp$.
+
+Finally separate the two ledgers. The Phase Real source theorem supplies paper-side routing, while the individual $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ chapters retain their own verification records. Hence the aggregate route can depend on those local records without converting a closure grade into a formal grade or a formal grade into a closure grade.
+\end{proof}

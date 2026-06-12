@@ -42,11 +42,13 @@ The sibling chapters supply the surrounding surfaces: $\ScientificObjectUp$ supp
 
 The structural rows $H,C,Q,N$ preserve, replay, source, and name only the displayed packet. Since the carrier has no additional coordinate, the listed obligations exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedger\_namecert\_obligations}
 
 \begin{theorem}[Truth residue ledger falsifiable boundary]
 \label{thm:truth-residue-ledger-falsifiable-boundary}
 Every accepted $\TruthResidueLedgerUp$ consumer that reads model fit or invariant stability as scientific truth must pass through both the prediction-gap row $P$ and the falsification row $F$ before the local name $N$ is readable. A route from $B$ or $I$ directly to final model truth is not an accepted $\TruthResidueLedgerUp$ route.
 \end{theorem}
+\leanchecked{BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedger\_falsifiable\_boundary}
 \begin{proof}
 Start from the carrier of \autoref{def:truth-residue-ledger-carrier}. The bridge row $B$ and invariant row $I$ are distinct from the prediction-gap row $P$, the falsification row $F$, and the non-finality row $G$.
 
@@ -63,6 +65,7 @@ O,I,B,P,F,G,H,C,Q,N.
 $$
 The consumer receives finite observation records, stable invariant rows, conservative bridge rows, prediction-gap rows, falsification rows, non-finality rows, componentwise transport, displayed replay, package provenance, and local NameCert naming. It receives no final truth oracle, no unbounded correspondence claim, no hidden model identity, no erased prediction debt, and no falsification-free route.
 \end{theorem}
+\leanchecked{BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedger\_field\_coverage}
 \begin{proof}
 Use \autoref{thm:truth-residue-ledger-namecert-obligations} to identify the complete local certificate surface. Every accepted consumer must expose the six content rows and the four structural rows listed there.
 
@@ -72,15 +75,19 @@ The sibling dependencies remain sources rather than replacements. $\ScientificOb
 \end{proof}
 
 The Lean TasteGate file \texttt{lean4/BEDC/Derived/TruthResidueLedgerUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \TruthResidueLedgerUp$ and $\mathsf{FieldFaithful}\ \TruthResidueLedgerUp$ instances over the same carrier. The instances must preserve $O,I,B,P,F,G,H,C,Q,N$ and must keep conservative fit, prediction-gap, falsification, and non-finality rows as separate fields.
+\leanchecked{BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedgerTasteGate\_single\_carrier\_alignment}
 
-\closureat{TruthResidueLedgerUp}{seedStr}
+\closureat{TruthResidueLedgerUp}{scopedStr}
+\closureat{TruthResidueLedgerUp}{publicStr}[BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedgerTasteGate\_single\_carrier\_alignment]
+\closureat{TruthResidueLedgerUp}{bridgedStr}
+\closureat{TruthResidueLedgerUp}{matureStr}
 
 \begin{closurestatus}{\TruthResidueLedgerUp}
   \constructivestory{A $\TruthResidueLedgerUp$ packet is generated from observation records, invariant rows, conservative model-bridge rows, prediction-gap rows, falsification rows, non-finality rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} bind scientific truth as audited stability through a finite residue ledger.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} close the sibling lattice and mature falsifiable field-coverage route over $O,I,B,P,F,G,H,C,Q,N$ for scientific truth as audited stability.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final correspondence, model--world identity, ambient completeness, or falsification-free truth.}
-  \upgradepath{Lean closure requires Nontrivial TruthResidueLedgerUp and FieldFaithful TruthResidueLedgerUp instances in \texttt{lean4/BEDC/Derived/TruthResidueLedgerUp/TasteGate.lean}.}
+  \upgradepath{Lean closure requires checked Nontrivial TruthResidueLedgerUp and FieldFaithful TruthResidueLedgerUp coverage for the enumerated carrier, obligation, falsifiable-boundary, and field-coverage rows.}
 \end{closurestatus}

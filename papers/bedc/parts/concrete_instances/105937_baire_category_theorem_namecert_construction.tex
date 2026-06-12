@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a host countable intersection, countable choice, a selected point outside the displayed readback, open-cover compactness, or ambient completeness of $\RealUp$.
 \end{definition}
+\leanchecked{BEDC.Derived.BaireCategoryTheoremUp.BaireCategoryTheoremTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Baire category theorem NameCert obligations]
 \label{thm:baire-category-theorem-namecert-obligations}
@@ -82,6 +83,22 @@ For the successor step, assume the predecessor prefix already has its predecesso
 Append the finite observation data through $S$ and $R$. The $\StreamNameUp$ windows record the schedule, center, radius, and tolerance reads for the successor ball, and the $\RegSeqRatUp$ readback converts those finite windows into the regular-rational row used before the terminal seal $E$.
 
 Finally transport the extended prefix through $H,C,P,N$. These rows do not introduce a second schedule or an unrecorded point; they preserve the route named by \autoref{def:baire-category-theorem-finite-certificate-route}. Thus every finite dense-open prefix is matched by the displayed predecessor, successor, Cauchy-thread, finite-window, readback, and real-seal rows in order.
+\end{proof}
+
+\begin{theorem}[BaireCategoryTheorem finite-prefix nested ball route]
+\label{thm:baire-category-theorem-finite-prefix-nested-ball}
+Let $T=(B,U,K,M,S,R,E,H,C,P,N)$ be an accepted $\BaireCategoryTheoremUp$ carrier. Every finite dense-open prefix recorded in the schedule row $B$ determines a nested predecessor/successor ball chain in which each successor ball is read through the same metric row $M$, its radius and requested tolerance are displayed through the finite-window and regular-rational rows $S,R$, containment in the predecessor ball is preserved by the transport and replay rows $H,C$, and the terminal $\RealUp$ seal $E$ is reachable only after that finite nested chain has been displayed. The chain is part of the finite certificate route of \autoref{def:baire-category-theorem-finite-certificate-route} and carries no host intersection object, countable-choice selector, or ambient completeness assertion outside the accepted packet.
+\end{theorem}
+\begin{proof}
+Use induction over the finite prefix, as in \autoref{thm:baire-category-theorem-schedule-induction}. The base case reads the first predecessor ball from $B$ and the metric comparison row from $M$; the NameCert obligations of \autoref{thm:baire-category-theorem-namecert-obligations} attach those reads to the displayed theorem route before any terminal seal can be inspected.
+
+For the successor step, assume the previous prefix has already produced a nested chain whose last ball is the current predecessor. The next dense-open request in $B$ is consumed through the finite certificate route of \autoref{def:baire-category-theorem-finite-certificate-route}, and the successor ball is read through the same $M$ row rather than through a new metric carrier.
+
+The radius and tolerance attached to the successor ball are then exposed through $S$ and $R$. The row $S$ supplies the finite schedule window, center, radius, and requested tolerance reads, while $R$ records the regular-rational readback used by the route before any $\RealUp$ seal is available.
+
+It remains to preserve containment. The transport row $H$ carries the predecessor/successor comparison componentwise, and the replay row $C$ displays the same containment relation inside the accepted packet. Thus the terminal seal $E$ can be reached only after the finite nested chain has been built, transported, and replayed.
+
+No step introduces a coordinate for a host intersection, a countable-choice selector, or ambient completeness. Those objects are absent from the carrier of \autoref{def:baire-category-theorem-carrier}, so the induction isolates exactly the finite nested-ball invariant consumed by downstream complete-metric readers.
 \end{proof}
 
 \begin{theorem}[BaireCategoryTheorem route nonescape]

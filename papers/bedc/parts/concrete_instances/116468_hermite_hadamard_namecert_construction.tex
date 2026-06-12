@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\HermiteHadamardUp$}
+\label{ch:concrete-instances-hermite-hadamard-namecert}
+\origin{human}
+
+Following Hermite and Hadamard, the $\HermiteHadamardUp$ packet records the interval convexity route by which a convex-function source, closed interval endpoints, the midpoint comparison, and the interval-average comparison produce the two-sided Hermite--Hadamard inequality surface. It consumes the Jensen route of \autoref{ch:concrete-instances-jensen-inequality-namecert}, the finite convex comparison discipline of \autoref{ch:concrete-instances-karamata-inequality-namecert}, the convex-carrier surface of \autoref{ch:concrete-instances-convexset-namecert}, the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the rational subdivision source of \autoref{ch:concrete-instances-rat-namecert}, the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, and the endpoint comparison discipline of \autoref{ch:concrete-instances-real-min-max-namecert}. The packet names the Real-facing finite interval readback for the classical convex-analysis inequality; it does not import a host integral, quotient equality of real names or functions, selected extrema, trichotomy, countable choice, or ambient real completeness.
+
+\begin{definition}[Hermite--Hadamard carrier]
+\label{def:hermite-hadamard-carrier}
+A $\HermiteHadamardUp$ carrier is a finite $\BHist$ packet
+$$
+H=(F,I,M,A,J,K,R,Q,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the convex-function source row, recording the displayed domain, codomain, convexity ledger, and function-read route.
+\item $I$ is the closed-interval endpoint row, recording endpoints $a \leq b$, their $\RealUp$ reads, and the $\RealMinMaxUp$ boundary comparison.
+\item $M$ is the midpoint row, recording the displayed midpoint $(a+b)/2$ and its $\RatUp$ coefficient read inside the interval.
+\item $A$ is the interval-average row, recording the finite rational subdivision windows, normalized averaging weights, and the displayed average comparison surface.
+\item $J$ is the $\JensenInequalityUp$ handoff row, recording the finite midpoint and subdivision Jensen calls used on the interval carrier.
+\item $K$ is the $\KaramataInequalityUp$ handoff row, recording the finite convex-order comparison between symmetric endpoint windows and interior subdivision windows.
+\item $R$ is the $\RealUp$ comparison row for the displayed two-sided inequality
+$$
+f((a+b)/2) \leq A_{\mathrm{int}}(f,a,b) \leq (f(a)+f(b))/2 .
+$$
+\item $Q$ is the endpoint row, recording the real comparison data used when a consumer reads the lower midpoint bound and upper endpoint bound together.
+\item $T$ records componentwise $\hsame$ transport for $F,I,M,A,J,K,R,Q$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the endpoint and subdivision rows through the Jensen and Karamata handoffs, real comparison, endpoint row, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\HermiteHadamardUp$, $\JensenInequalityUp$, $\KaramataInequalityUp$, $\ConvexSetUp$, $\RealUp$, $\RatUp$, $\VecSpaceUp$, $\RealMinMaxUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HermiteHadamardUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,I,M,A,J,K,R,Q,T,C,P,N$. It has no coordinate for a host integral, quotient equality of functions or real names, a selected supremum, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.HermiteHadamardUp}
+
+\begin{theorem}[Hermite--Hadamard NameCert obligations]
+\label{thm:hermite-hadamard-namecert-obligations}
+For every accepted $\HermiteHadamardUp$ carrier $H=(F,I,M,A,J,K,R,Q,T,C,P,N)$, the local $\NameCert_{\HermiteHadamardUp}$ surface consists exactly of carrier admission for the convex-function source row, closed-interval endpoint row, midpoint row, interval-average row, Jensen handoff row, Karamata handoff row, real comparison row, endpoint row, structural rows $T,C,P$, and local naming row $N$; endpoint accountability through $I,Q$; midpoint and average accountability through $M,A$; Jensen and Karamata comparison accountability through $J,K,R$; and componentwise transport, replay, provenance, and naming for the same finite interval route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $H=(F,I,M,A,J,K,R,Q,T,C,P,N)$. The carrier definition exposes exactly the convex-function source, closed interval, midpoint, averaging, Jensen handoff, Karamata handoff, real comparison, endpoint comparison, transport, replay, provenance, and naming rows.
+
+The endpoint and midpoint rows are read before any inequality row. Thus $I$ supplies the two endpoint real names and boundary comparison, while $M$ supplies the displayed midpoint and its rational coefficient read.
+
+The average row $A$ then supplies the finite subdivision windows and normalized rational weights. The handoff rows $J,K$ record the Jensen and Karamata routes that turn those finite rows into the lower midpoint comparison and upper endpoint comparison.
+
+Finally $R,Q,T,C,P,N$ expose the two-sided real comparison, endpoint comparison, transport, replay, provenance, and local naming. Since no host integral, quotient-equality object, selected supremum, or ambient completeness coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.HermiteHadamardUp.HermiteHadamardTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Hermite--Hadamard Jensen interval route]
+\label{thm:hermite-hadamard-jensen-interval-route}
+Every accepted $\HermiteHadamardUp$ carrier routes its public two-sided inequality through
+$$
+I,M,A \longmapsto J,K \longmapsto R,Q \longmapsto T,C,P,N .
+$$
+Consequently a consumer must read the closed interval endpoints, midpoint row, finite rational subdivision averages, $\JensenInequalityUp$ handoff row, $\KaramataInequalityUp$ handoff row, $\RealUp$ comparison row, $\RealMinMaxUp$ endpoint row, componentwise transport, replay, provenance, and local naming before it can cite the Hermite--Hadamard inequality surface.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the two-sided comparison. By \autoref{def:hermite-hadamard-carrier}, the only interval data are the endpoint row $I$, midpoint row $M$, and finite average row $A$.
+
+The Jensen handoff row $J$ is downstream of those interval rows. It supplies the midpoint and subdivision convexity comparisons only after the finite rational weights and interval membership data have been displayed.
+
+The Karamata handoff row $K$ is read on the same finite interval windows. It records the convex-order route from symmetric endpoint windows to the interior average comparison, so the upper endpoint inequality cannot be cited independently of the displayed subdivision ledger.
+
+Finally $R,Q,T,C,P,N$ expose the real comparison, endpoint comparison, transport, replay, provenance, and local naming. Thus no consumer can bypass the finite interval route by invoking a host integration theorem or an ambient real-completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\HermiteHadamardUp$ consumer reads a convex-function source row, closed interval endpoint row, midpoint row, finite rational subdivision-average row, JensenInequality handoff row, KaramataInequality handoff row, Real comparison rows, RealMinMax endpoint rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the Hermite--Hadamard inequality surface is public.}
+
+\independenceWitness{jenseninequality, karamatainequality, convexset, real, rat, vecspace, realminmax: $\HermiteHadamardUp$ is not bijective to any listed sibling because it jointly carries interval endpoints, midpoint data, finite subdivision averages, Jensen handoffs, Karamata handoffs, real comparison, endpoint comparison, transport, replay, provenance, and local NameCert data as one finite interval inequality packet.}
+
+\closureat{HermiteHadamardUp}{seedStr}
+
+\begin{closurestatus}{\HermiteHadamardUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermite-hadamard-carrier}, \autoref{thm:hermite-hadamard-namecert-obligations}, and \autoref{thm:hermite-hadamard-jensen-interval-route} seed the finite Hermite--Hadamard interval route over convex-function, endpoint, midpoint, finite-average, Jensen, Karamata, ConvexSet, Real, Rat, VecSpace, and RealMinMax rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.HermiteHadamardUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host integrals, quotient equality of real names or functions, selected extrema, trichotomy, countable choice, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint accountability, midpoint and subdivision-average exactness, Jensen and Karamata handoff exactness, Real comparison nonescape, endpoint comparison handoff, and public export scope for BEDC.Derived.HermiteHadamardUp.}
+  \constructivestory{A $\HermiteHadamardUp$ packet is generated from a convex-function source row, closed interval endpoint row, midpoint row, finite rational subdivision-average row, JensenInequality and KaramataInequality handoff rows, Real comparison rows, RealMinMax endpoint rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

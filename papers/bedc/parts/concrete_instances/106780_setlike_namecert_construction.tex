@@ -43,6 +43,7 @@ Here $M$ is the membership-source row, $Q$ is the classifier-based membership ro
 \label{thm:setlike-membership-stability}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every classifier-based membership read through the membership carrier $S_{\in}=(M,Q,H,C,P,N)$ remains the same finite $\BHist$ read after componentwise $\hsame$ transport and $\Cont$ replay. In particular, transport may expose only the membership source $M$, classifier row $Q$, structural route $H,C$, provenance $P$, and local $\NameCert_{\SetLikeUp}$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipStability}
 \begin{proof}
 Project the membership carrier of \autoref{def:setlike-membership-carrier}. Its only membership data are the source row $M$ and the classifier row $Q$.
 
@@ -55,6 +56,7 @@ The rows $P$ and $N$ source and name the same finite packet. Hence a transported
 \label{thm:setlike-subset-ledger-exactness}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the subset ledger is exact: every accepted subset read is the implication row $I$ over the classifier-based membership carrier $S_{\in}$, together with the restricted-comprehension row $R$ only as a bounded consumer of $M,Q,I$. No subset consumer receives host-set extensionality, a global inclusion predicate, quotient equality of sets, or a powerset row outside $M,Q,I,R,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeSubsetLedger\_exactness}
 \begin{proof}
 Start with the membership carrier $S_{\in}$ and the subset row $I$. The classifier $Q$ is the only membership classifier available to the implication row, and $M$ is the only membership source.
 
@@ -153,91 +155,7 @@ Apply \autoref{thm:setlike-namecert-obligations}. Its obligation surface keeps s
 Use \autoref{thm:setlike-classifier-transport-route}. Since classifier transport stays inside $Q,I,R,E,H,C,P,N$, exactness is a property of the displayed rows rather than an ambient powerset, host universe, unrestricted separation rule, quotient equality, or external inclusion relation.
 \end{proof}
 
-\begin{theorem}[SetLike TypeLike and model-theory handoff]
-\label{thm:setlike-typelike-modeltheory-handoff}
-Every $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumer that reads family, satisfaction, or model data from an accepted $\SetLikeUp$ packet must first pass through the membership carrier $M,Q,H,C,P,N$ and the classifier route $Q,I,R,E,H,C,P,N$. Satisfaction-facing and family-facing reads therefore remain downstream of the SetLike membership and classifier surface, not of an ambient set-theoretic assumption.
-\end{theorem}
-\begin{proof}
-Begin with the accepted carrier of \autoref{def:setlike-carrier}. The membership source, classifier, subset implication, restricted comprehension, and extensional boundary rows are $M,Q,I,R,E$.
-
-Use \autoref{def:setlike-membership-carrier} and \autoref{thm:setlike-namecert-obligations}. These fix the membership carrier and require the structural rows $H,C,P,N$ before a sibling consumer receives any membership data.
-
-Apply \autoref{thm:setlike-classifier-transport-route}. The classifier route remains displayed through $Q,I,R,E,H,C,P,N$, so $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ consumers may build family, syntax, and satisfaction reads only after that SetLike surface is visible.
-
-Thus no downstream consumer obtains satisfaction, family membership, or model-theory data from an ambient powerset, host universe, external satisfaction relation, quotient set equality, or unrestricted comprehension principle.
-\end{proof}
-
-\begin{theorem}[SetLike membership classifier transport]
-\label{thm:setlike-membership-classifier-transport}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, membership transport is accepted only as the displayed classifier route
-$$
-M,Q \longmapsto H,C,P,N .
-$$
-Here $M$ is the finite $\BHist$ membership source, $Q$ is the membership classifier, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, and $N$ is the local $\NameCert_{\SetLikeUp}$ row. The transported read cannot become host elementhood, an ambient powerset, quotient equality of sets, unrestricted comprehension, or an external satisfaction relation.
-\end{theorem}
-\begin{proof}
-Project the accepted carrier and its membership subcarrier. The only element-facing rows before the structural tail are $M$ and $Q$.
-
-Apply the SetLike membership route and classifier transport route. These force every transported membership read to remain a classifier-bounded $\BHist$ read before $H$ and $C$ replay it.
-
-Finally use the local $\NameCert$ obligations. The rows $P$ and $N$ source and name the same displayed route, so no host elementhood, powerset, quotient equality, unrestricted comprehension, or external satisfaction coordinate is available.
-\end{proof}
-
-\begin{theorem}[SetLike NameCert ledger nonescape]
-\label{thm:setlike-namecert-ledger-nonescape}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the local $\NameCert_{\SetLikeUp}$ ledger records membership, subset implication, restricted comprehension, and extensional-boundary obligations only through
-$$
-M,Q,I,R,E \longmapsto H,C,P,N .
-$$
-The ledger is a finite $\BHist$ route stable under $\hsame$ and $\Cont$; it cannot export an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, or a host universe outside the displayed packet.
-\end{theorem}
-\begin{proof}
-Read the NameCert obligations of \autoref{thm:setlike-namecert-obligations}. They expose exactly the carrier rows $M,Q,I,R,E,H,C,P,N$.
-
-Use subset classifier exactness, restricted-comprehension membership factorization, and extensional-subset transport. These keep subset, comprehension, and extensional comparison on the same membership classifier before structural replay.
-
-The structural tail is exhausted by $\hsame$ transport, $\Cont$ replay, provenance, and local naming. Therefore the ledger cannot escape into powersets, unrestricted separation, quotient equality, selected representatives, or a host universe.
-\end{proof}
-
-\begin{theorem}[SetLike type-model satisfaction boundary]
-\label{thm:setlike-type-model-satisfaction-boundary}
-Every $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ satisfaction consumer of an accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$ must first expose $M,Q,I,R,E,H,C,P,N$ as a finite $\BHist$ route with componentwise $\hsame$, displayed $\Cont$, provenance, and local $\NameCert$ rows. Type, syntax, and satisfaction reads remain downstream of this displayed SetLike route and cannot replace it by host membership, quotient equality of sets, unrestricted comprehension, an ambient universe, or an external satisfaction predicate.
-\end{theorem}
-\begin{proof}
-Start with the SetLike TypeLike and model-theory handoff. It already requires family, syntax, and satisfaction consumers to pass through the membership carrier and classifier route.
-
-Apply membership classifier transport and NameCert ledger nonescape. Together they expose $M,Q,I,R,E,H,C,P,N$ and block any replacement by host membership or a powerset-style carrier.
-
-Finally use the FirstOrder signature and ModelTheory satisfaction root-unblock theorems. A typed or model-theoretic consumer that stays on the displayed route receives only the finite BEDC packet, while a consumer that leaves it lacks the required SetLike source.
-\end{proof}
-
-\begin{theorem}[SetLike family handoff obligation]
-\label{thm:setlike-family-handoff-obligation}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every $\TypeLikeUp$ family consumer that reads indexed fibers from $S$ must expose the membership source $M$, classifier row $Q$, subset implication row $I$, restricted-comprehension row $R$, extensional boundary row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. The family handoff cannot replace these rows by an ambient powerset, unrestricted separation principle, host element relation, quotient equality of sets, or external universe.
-\end{theorem}
-\begin{proof}
-Project the accepted carrier of \autoref{def:setlike-carrier}. The family consumer sees only the displayed rows $M,Q,I,R,E,H,C,P,N$ before it can build a TypeLike fiber read.
-
-Use \autoref{thm:setlike-typelike-modeltheory-handoff}. It forces sibling family reads through the membership carrier and the classifier route, so $M,Q$ and $Q,I,R,E$ remain visible before the consumer proceeds.
-
-Finally apply \autoref{thm:setlike-bounded-comprehension-nonescape} and \autoref{thm:setlike-extensional-boundary-classifier-lock}. These keep the restricted family row bounded and the comparison row tied to the displayed classifier; hence no ambient powerset, unrestricted separation, quotient set equality, host element relation, or external universe is exported.
-\end{proof}
-
-\begin{theorem}[SetLike satisfaction handoff obligation]
-\label{thm:setlike-satisfaction-handoff-obligation}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every $\FirstOrderUp$ or $\ModelTheoryUp$ satisfaction consumer must obtain its membership and comprehension base through the concrete route
-$$
-M,Q,I,R,E \longmapsto H,C,P,N .
-$$
-The satisfaction handoff exports no host satisfaction predicate, ambient powerset, unrestricted separation rule, quotient equality of sets, selected representative, or external universe outside those nine rows.
-\end{theorem}
-\begin{proof}
-Start with \autoref{thm:setlike-typelike-modeltheory-handoff}. Satisfaction-facing reads are downstream of the SetLike membership and classifier surface, not independent model-theoretic coordinates.
-
-Apply \autoref{thm:setlike-firstorder-membership-handoff}. First-order syntax may consume membership, subset implication, restricted comprehension, and extensional comparison only after the carrier route has been displayed.
-
-Then use \autoref{thm:setlike-modeltheory-satisfaction-envelope}. The ModelTheory satisfaction consumer inherits the same classifier-bounded envelope through FirstOrder syntax, so host satisfaction, ambient powersets, unrestricted separation, quotient equality, selected representatives, and external universes remain outside the route.
-\end{proof}
+\input{parts/concrete_instances/setlike/family_fiber_obligations.tex}
 
 \begin{theorem}[SetLike extensionality refusal obligation]
 \label{thm:setlike-extensionality-refusal-obligation}
@@ -280,8 +198,11 @@ Extensional reads are likewise bounded. The row $E$ permits comparison only thro
 
 Finally replay the structural rows. The rows $H,C,P,N$ preserve, replay, source, and name the same finite route, while $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ can cite the packet only through $P$ and $C$. No sibling read therefore bypasses $M,Q,I,R,E$.
 \end{proof}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipRoute}
 
 \input{parts/concrete_instances/setlike/root_obligation_surface.tex}
+\input{parts/concrete_instances/setlike/root_membership_family_obligations.tex}
+\input{parts/concrete_instances/setlike/root_unblock_membership_classifier_rows.tex}
 
 \begin{theorem}[SetLike extensional boundary classifier lock]
 \label{thm:setlike-extensional-boundary-classifier-lock}
@@ -325,6 +246,50 @@ Start with \autoref{thm:setlike-membership-route}. It states the exact finite ro
 Project the carrier of \autoref{def:setlike-carrier}. The rows $M,Q,I,R,E$ are the only membership, subset, comprehension, and extensional comparison rows available before structural replay.
 
 Finally replay $H,C,P,N$. These rows transport, replay, source, and name the same finite membership route for the $\FirstOrderUp$ consumer, so first-order syntax receives no independent powerset, unrestricted comprehension, quotient equality, selected representative, or external satisfaction surface.
+\end{proof}
+
+\begin{theorem}[SetLike finite-family membership route]
+\label{thm:setlike-finite-family-membership-route}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a finite family of membership reads accepted by $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumers is routed componentwise through the same displayed packet
+$$
+M,Q,I,R,E,H,C,P,N .
+$$
+Each family member first reads the $\BHist$ membership source $M$ and classifier $Q$, then consumes subset implication $I$, bounded comprehension $R$, and the extensional boundary $E$ before the shared transport, replay, provenance, and local $\NameCert_{\SetLikeUp}$ rows may be used. The family route exports no ambient powerset, unrestricted separation, quotient equality of sets, selected representative, host elementhood relation, or external satisfaction predicate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the family one displayed member at a time. Carrier admission supplies the same finite rows $M,Q,I,R,E,H,C,P,N$ for every member, with no additional row indexed by the family.
+
+Apply the membership route and the bounded-comprehension transport theorem. They force every member read to enter through $M,Q$ and to use $I,R$ only as bounded rows over that same classifier.
+
+Finally use the extensional boundary classifier lock. The row $E$ compares only displayed SetLike data, while $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no powerset, unrestricted separation, quotient-set equality, selector, host elementhood, or satisfaction row, a finite family cannot export one.
+\end{proof}
+
+\begin{theorem}[SetLike TypeLike consumer handoff]
+\label{thm:setlike-typelike-consumer-handoff}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a $\TypeLikeUp$ consumer receives SetLike membership as the classifier-bounded route $M,Q$ together with the bounded-comprehension rows $I,R,E$ and the structural tail $H,C,P,N$. The handoff preserves both the displayed membership classifier and the bounded-comprehension ledger; it cannot replace them by a host type predicate, an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, or a global elementhood oracle.
+\end{theorem}
+\begin{proof}
+Start with the membership route for downstream TypeLike, FirstOrder, and ModelTheory consumers. It gives the TypeLike consumer access to SetLike data only after the membership source, classifier, subset, comprehension, extensional, transport, replay, provenance, and local naming rows have been displayed.
+
+Use the extensional boundary classifier lock to keep $Q$ attached to the same source row $M$. Then use bounded-comprehension transport to keep $I,R,E$ attached to that classifier route rather than an ambient type predicate or powerset.
+
+The structural rows $H,C,P,N$ complete the handoff by transporting, replaying, sourcing, and naming the same finite packet. Because no host type predicate, powerset, unrestricted separation, quotient equality, selector, or global elementhood coordinate occurs in the accepted carrier, the TypeLike consumer receives only the preserved SetLike route.
+\end{proof}
+
+\begin{theorem}[SetLike ModelTheory satisfaction boundary]
+\label{thm:setlike-modeltheory-satisfaction-boundary}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a $\ModelTheoryUp$ satisfaction consumer may read SetLike data only through the FirstOrder-facing finite route
+$$
+M,Q,I,R,E \longmapsto H,C,P,N .
+$$
+The boundary supplies displayed membership, classifier-bounded subset and comprehension rows, extensional comparison, componentwise transport, continuation replay, provenance, and local naming. It refuses external satisfaction predicates, powerset semantics, unrestricted separation, quotient equality of sets, selected representatives, host universes, and completed model-theoretic semantics.
+\end{theorem}
+\begin{proof}
+First route the consumer through the FirstOrder membership handoff. The syntax-facing read exposes $M,Q,I,R,E,H,C,P,N$ before satisfaction-facing data can be consumed.
+
+Next apply the root unblock for ModelTheory satisfaction. It keeps satisfaction downstream of the FirstOrder syntactic carrier and therefore downstream of the displayed SetLike membership classifier and bounded-comprehension ledger.
+
+Finally use the finite-family route for any displayed family of satisfaction reads. Each member still reads the same rows, and the carrier has no external satisfaction predicate, powerset semantics, unrestricted separation, quotient equality, selector, host universe, or completed semantic closure coordinate. The ModelTheory boundary is therefore the finite BEDC packet itself.
 \end{proof}
 
 \begin{theorem}[SetLike subset implication obligation]
@@ -639,120 +604,32 @@ Apply classifier extensional nonescape from \autoref{thm:setlike-classifier-exte
 Finally use the TypeLike FirstOrder ModelTheory consumer boundary \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. Downstream consumers receive the visible ledger $M,Q,I,R,E,H,C,P,N$ and no equality oracle outside it.
 \end{proof}
 
-\begin{theorem}[SetLike membership carrier root surface]
-\label{thm:setlike-membership-carrier}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the membership-facing root surface seen by $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ is exactly the finite $\BHist$ carrier
+\begin{theorem}[SetLike extensional-boundary consumer exactness]
+\label{thm:setlike-extensional-boundary-consumer-exactness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, any $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumer of a SetLike extensional comparison must read exactly
 $$
-S_{\in}=(M,Q,H,C,P,N).
+M,Q,I,R,E,H,C,P,N .
 $$
-Here $M$ is the displayed membership source, $Q$ is the membership classifier, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\SetLikeUp}$ row. The surface exports no powerset, host elementhood, quotient equality of sets, unrestricted comprehension, selected representatives, or external satisfaction predicate.
+The row $E$ remains the displayed extensional-boundary ledger over the membership, classifier, subset, and restricted-comprehension route. It cannot be replaced by host set equality, quotient equality, powerset equality, unrestricted separation, or any equality oracle outside the accepted packet.
 \end{theorem}
 \begin{proof}
-Project the accepted carrier and the membership carrier of \autoref{def:setlike-membership-carrier}. The only rows retained in $S_{\in}$ are $M,Q,H,C,P,N$.
+Begin with the extensional boundary route \autoref{thm:setlike-extensional-boundary-route}. It makes $E$ a boundary row over $M,Q,I,R$ before the structural tail $H,C,P,N$ is replayed.
 
-Use the membership route theorem \autoref{thm:setlike-membership-route}. It forces TypeLike, FirstOrder, and ModelTheory consumers to enter through the carried membership source and classifier before any sibling read is available.
+Use the classifier transport route \autoref{thm:setlike-classifier-transport-route}. Transport by $H$ preserves the displayed classifier route and does not substitute a host equality predicate, quotient equality, powerset equality, or unrestricted separation row for $E$.
 
-Finally apply membership carrier stability and the consumer boundary, \autoref{thm:setlike-membership-carrier-stability} and \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. Componentwise transport and continuation replay keep the read inside the same $\BHist$ route, while provenance and local naming certify that no host element relation, powerset, quotient equality, unrestricted comprehension, selected representative, or external satisfaction row has been inserted.
+Apply ledger scope closure \autoref{thm:setlike-ledger-scope-closure}. The membership, classifier, subset, comprehension, and extensional rows are repacked with $H,C,P,N$ as one finite BEDC ledger.
+
+Finally use the TypeLike FirstOrder ModelTheory consumer boundary \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. A downstream consumer that reads the extensional comparison therefore receives exactly $M,Q,I,R,E,H,C,P,N$, while any attempted replacement for $E$ leaves the accepted $\SetLikeUp$ packet.
 \end{proof}
 
-\begin{theorem}[SetLike membership classifier stability]
-\label{thm:setlike-membership-classifier-stability}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the membership classifier $Q$ remains stable under the complete displayed route
-$$
-M,Q,I,R,E \longmapsto H,C,P,N .
-$$
-Subset implication through $I$, bounded comprehension through $R$, and extensional comparison through $E$ may consume $Q$ only as the same classifier over the same $\BHist$ source $M$. A $\FirstOrderUp$, $\TypeLikeUp$, or $\ModelTheoryUp$ consumer therefore receives a stable SetLike classifier, not a proof-irrelevant host predicate, ambient powerset classifier, unrestricted separation rule, or external satisfaction relation.
-\end{theorem}
-\begin{proof}
-Start with classifier transport exactness, \autoref{thm:setlike-classifier-transport-exactness}. It states that $I,R,E$ consume the displayed membership classifier $Q$ and that transport by $H$ does not replace it with a second predicate.
+\input{parts/concrete_instances/setlike/root_unblock_consumer_routes.tex}
 
-Next use subset-comprehension stability and extensional ledger nonescape, \autoref{thm:setlike-subset-comprehension-stability} and \autoref{thm:setlike-extensional-ledger-kernel-nonescape}. These keep the subset, comprehension, and comparison rows attached to the same $M,Q$ route.
-
-The structural tail is supplied by $C,P,N$. By the TypeLike, FirstOrder, and ModelTheory consumer boundary, any downstream read that omits this tail is not an accepted SetLike read, and any downstream read that keeps it receives only the stable displayed classifier.
-\end{proof}
-
-\begin{theorem}[SetLike bounded comprehension ledger]
-\label{thm:setlike-bounded-comprehension-ledger}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the bounded-comprehension ledger is the finite route
-$$
-M,Q,I,R \longmapsto E,H,C,P,N .
-$$
-The row $R$ records only comprehension over classifiers already exposed by the membership source $M$, membership classifier $Q$, and subset-implication row $I$; the extensional ledger $E$ can compare only the displayed result. Thus FirstOrder syntax, TypeLike family data, and ModelTheory satisfaction may consume the ledger only through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, with no powerset, unrestricted separation, host subset object, quotient set equality, or external comprehension predicate.
-\end{theorem}
-\begin{proof}
-Apply restricted-comprehension membership factorization, \autoref{thm:setlike-restricted-comprehension-membership-factorization}. It factors every $R$ read through $M,Q,I$ before the structural rows are available.
-
-Use bounded comprehension nonescape and the extensional boundary route, \autoref{thm:setlike-bounded-comprehension-nonescape} and \autoref{thm:setlike-extensional-boundary-route}. The first keeps $R$ from becoming a powerset or unrestricted separation principle; the second keeps any comparison of the displayed result inside $E$ over the same classifier route.
-
-Finally replay ledger scope closure and the sibling consumer boundary, \autoref{thm:setlike-ledger-scope-closure} and \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. The FirstOrder, TypeLike, and ModelTheory consumers therefore receive only the finite BEDC ledger $M,Q,I,R,E,H,C,P,N$ and no host comprehension or quotient-set coordinate.
-\end{proof}
-
-\begin{theorem}[SetLike TypeLike signature scope]
-\label{thm:setlike-typelike-signature-scope}
-Let $S=(M,Q,I,R,E,H,C,P,N)$ be an accepted $\SetLikeUp$ packet. Any TypeLike, FirstOrder, or ModelTheory consumer that reads $S$ as a set-like signature must first read the membership source row $M$, membership classifier row $Q$, subset implication row $I$, restricted-comprehension row $R$, extensional boundary row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local $\NameCert_{\SetLikeUp}$ row $N$. The signature read exports no ambient powerset, unrestricted separation, quotient equality of sets, selected representative, or host equality oracle outside $M,Q,I,R,E,H,C,P,N$.
-\end{theorem}
-\begin{proof}
-Start with the membership route of \autoref{thm:setlike-membership-route}. It makes $M$ and $Q$ the visible source of every membership read before a typed, syntactic, or satisfaction-facing consumer can inspect the packet.
-
-Next apply restricted comprehension factorization from \autoref{thm:setlike-restricted-comprehension-membership-factorization} and the kernel scope theorem \autoref{thm:setlike-restricted-comprehension-kernel-scope}. These force $R$ to remain a row over $M,Q,I$ rather than a powerset or unrestricted separation principle.
-
-Finally use the consumer boundary of \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary} together with the extensional ledger nonescape theorem \autoref{thm:setlike-extensional-ledger-kernel-nonescape}. The downstream TypeLike, FirstOrder, and ModelTheory reads receive exactly $M,Q,I,R,E,H,C,P,N$, and no external set-equality or comprehension coordinate is available.
-\end{proof}
-
-\begin{theorem}[SetLike typed-comprehension kernel envelope]
-\label{thm:setlike-typed-comprehension-kernel-envelope}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a typed-comprehension read is accepted only as the finite BEDC envelope
-$$
-M,Q,I,R \longmapsto H,C,P,N .
-$$
-Here $M$ is the $\BHist$ membership source, $Q$ is the classifier-bounded membership row, $I$ is subset implication over that classifier, and $R$ is restricted comprehension over the same displayed rows. The envelope cannot be read as an ambient powerset, a host universe, unrestricted separation, quotient equality of sets, or an external comprehension predicate.
-\end{theorem}
-\begin{proof}
-Project the carrier. The rows $M,Q,I,R$ are the only membership, classifier, subset, and restricted-comprehension data before the structural tail.
-
-Use restricted-comprehension membership factorization and restricted-comprehension kernel scope. These results force $R$ to remain bounded by $M,Q,I$ rather than becoming an unrestricted separation or powerset row.
-
-Finally replay the structural route through $H,C,P,N$. Since no carrier coordinate stores an ambient powerset, host universe, quotient equality, or external comprehension predicate, the accepted typed-comprehension read is exactly the finite BEDC envelope.
-\end{proof}
-
-\begin{theorem}[SetLike FirstOrder membership substitution boundary]
-\label{thm:setlike-firstorder-membership-substitution-boundary}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a $\FirstOrderUp$ substitution consumer may substitute membership only through the displayed classifier route
-$$
-M,Q,I,R,E \longmapsto H,C,P,N .
-$$
-The substitution boundary is classifier-bounded over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it cannot import host membership, an ambient universe of sets, unrestricted comprehension, quotient equality, or an external satisfaction relation.
-\end{theorem}
-\begin{proof}
-Start with SetLike TypeLike signature scope. It exposes $M,Q,I,R,E,H,C,P,N$ before any syntactic consumer may read the packet as a signature.
-
-Apply the typed-comprehension kernel envelope. The comprehension side of the substitution remains bounded by $M,Q,I,R$, and the extensional row $E$ stays a boundary ledger over the same classifier route.
-
-Use the FirstOrder signature root unblock theorem. A substitution consumer that leaves $M,Q,I,R,E,H,C,P,N$ lacks the displayed SetLike base, so host membership, ambient universes, unrestricted comprehension, quotient equality, and external satisfaction remain outside the accepted boundary.
-\end{proof}
-
-\begin{theorem}[SetLike ModelTheory satisfaction envelope]
-\label{thm:setlike-modeltheory-satisfaction-envelope}
-For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a $\ModelTheoryUp$ satisfaction consumer may read SetLike data only after the $\FirstOrderUp$ syntax has consumed the classifier-bounded membership and typed-comprehension route
-$$
-M,Q,I,R,E \longmapsto H,C,P,N .
-$$
-Thus satisfaction sees a BEDC envelope over displayed membership, restricted comprehension, extensional boundary, transport, replay, provenance, and local naming rows, not an ambient powerset, host universe, quotient set equality, unrestricted separation, or external satisfaction predicate.
-\end{theorem}
-\begin{proof}
-Read the ModelTheory satisfaction root unblock theorem. It already routes satisfaction-facing use through the classifier-based membership route and the FirstOrder syntactic carrier.
-
-Next use FirstOrder membership substitution boundary. The syntactic carrier receives only $M,Q,I,R,E,H,C,P,N$, so the satisfaction consumer inherits the same classifier-bounded envelope.
-
-Finally apply typed-comprehension kernel envelope and extensional ledger kernel nonescape. The comprehension and extensional rows remain finite BEDC ledgers, and no ambient powerset, host universe, quotient set equality, unrestricted separation, or external satisfaction predicate is available.
-\end{proof}
-
-\closureat{SetLikeUp}{seedStr}
+\closureat{SetLikeUp}{obligationStr}
 
 \begin{closurestatus}{\SetLikeUp}
   \constructivestory{A $\SetLikeUp$ packet is generated from a finite membership source, classifier row, subset implication row, restricted-comprehension row, extensionality-boundary ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:setlike-carrier}, \autoref{thm:setlike-namecert-obligations}, and \autoref{thm:setlike-membership-route} seed the finite membership carrier used by sibling typed, syntactic, and satisfaction packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:setlike-carrier}, \autoref{thm:setlike-namecert-obligations}, \autoref{thm:setlike-membership-route}, subset implication, bounded comprehension, extensional-boundary, and the TypeLike, FirstOrder, and ModelTheory consumer boundaries bind the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope of the finite SetLike membership carrier.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, Lean verification, bridge checking, or a host universe of all sets.}

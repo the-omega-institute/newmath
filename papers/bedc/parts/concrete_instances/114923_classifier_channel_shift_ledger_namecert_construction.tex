@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierChannelShiftLedgerUp$}
+\label{ch:concrete-instances-classifier-channel-shift-ledger-namecert}
+\origin{ai}
+
+The $\ClassifierChannelShiftLedgerUp$ packet realizes the classifier-level information distinction of \autoref{ch:visions-classifier-level-information} as finite before-and-after channel data. It separates record growth from classifier shift by displaying the before classifier row, after classifier row, record-growth row, shift witness, transport, replay, provenance, and local naming in one NameCert surface. The classifier-shift witness row is consumed after the gap-closure boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}, because a classifier channel only counts as moved once the source gap has a displayed closure boundary rather than mere record growth. The packet is a BEDC-native ledger for classifier-channel movement, not a longer continuation trace and not a host semantic comparison.
+
+The before and after classifier rows consume the classifier-membership surface of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert}: a channel comparison reads $B$ and $A$ only after membership has been exposed as a finite type-checking classifier row. The refusal row for record-growth-as-discovery is routed through \autoref{ch:concrete-instances-gapclosureboundary-namecert}, so the ledger distinguishes classifier-row consumption from refusal-row consumption before $W$ is allowed to witness movement.
+
+\begin{definition}[Classifier-channel shift ledger carrier]\label{def:classifier-channel-shift-ledger-carrier}
+A $\ClassifierChannelShiftLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,A,R,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the before-classifier row, naming the certified classifier state before the audited transition.
+\item $A$ is the after-classifier row, naming the certified classifier state after the audited transition.
+\item $R$ is the record-growth row, naming the displayed histories added by mechanical unfolding or continuation replay.
+\item $W$ is the classifier-shift witness row, empty exactly when $B$ and $A$ have identical classifier readings on the displayed source scope and nonempty when the channel changes.
+\item $H$ records componentwise $\hsame$ transport for before classifier, after classifier, record growth, shift witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the before classifier and record-growth rows to the after classifier and shift witness rows.
+\item $P$ is the $\Pkg$ provenance over classifier-level information, computation as continuation, type checking as classifier membership, gap-closure boundary, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClassifierChannelShiftLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,A,R,W,H,C,P,N$. It has no coordinate that identifies record growth with classifier shift, no hidden semantic oracle, and no permission to read a longer record as discovery without the displayed shift witness.
+\end{definition}
+
+\begin{theorem}[Classifier-channel shift ledger NameCert obligations]\label{thm:classifier-channel-shift-ledger-namecert-obligations}
+For every accepted $\ClassifierChannelShiftLedgerUp$ carrier
+$$
+L=(B,A,R,W,H,C,P,N),
+$$
+the local $\NameCert_{\ClassifierChannelShiftLedgerUp}$ surface consists exactly of before-classifier exposure, after-classifier exposure, record-growth exposure, shift-witness exactness, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:classifier-channel-shift-ledger-carrier}. The analytic rows are $B,A,R,W$: the two classifier states, the record-growth row, and the witness that says whether the classifier channel moved.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite tuple. They can carry the classifier-channel packet through a consumer, but they cannot replace the shift witness by the existence of a longer record.
+
+Since the carrier has no further coordinate, the local NameCert surface has exactly the stated obligations and no hidden semantic oracle, host classifier comparison, or record-growth-as-discovery rule.
+\end{proof}
+
+\begin{theorem}[Classifier-channel shift ledger record-growth separation]\label{thm:classifier-channel-shift-ledger-record-growth-separation}
+An accepted $\ClassifierChannelShiftLedgerUp$ packet with identical before and after classifier rows has an empty classifier-shift witness row even when the record-growth row is nonempty. Conversely, a nonempty shift witness must be read from $W$ and cannot be inferred from $R$ alone.
+\end{theorem}
+\begin{proof}
+Read the before and after classifier rows $B$ and $A$. When they are identical on the displayed source scope, the carrier definition fixes $W$ as the empty shift witness row.
+
+The record-growth row $R$ is separate. It may record added histories from continuation replay, but no clause of the carrier turns that growth into classifier movement.
+
+For the converse reading, a consumer must project $W$ directly. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the displayed tuple, so a nonempty classifier shift is witnessed by $W$ and not by $R$ alone.
+\end{proof}
+
+\falsifiablePrediction{A packet with identical before/after classifier rows has zero classifier-shift witness even when the record-growth row is nonempty.}
+
+\independenceWitness{Compare \texttt{classifier\_level\_information}, \texttt{computation\_as\_continuation}, \texttt{type\_checking\_as\_classifier\_membership}, and gapclosureboundary: the packet has before/after classifier rows and a shift witness that none of those siblings carry, so no bijection preserves all fields.}
+
+\closureat{ClassifierChannelShiftLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ClassifierChannelShiftLedgerUp}
+  \constructivestory{A $\ClassifierChannelShiftLedgerUp$ packet is generated from before-classifier, after-classifier, record-growth, shift-witness, componentwise hsame, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:classifier-channel-shift-ledger-carrier}, \autoref{thm:classifier-channel-shift-ledger-namecert-obligations}, and \autoref{thm:classifier-channel-shift-ledger-record-growth-separation} seed the finite classifier-channel ledger separating record growth from classifier shift.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close positive discovery certification, a global semantic classifier oracle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shift-witness exactness, record-growth separation, Nontrivial ClassifierChannelShiftLedgerUp, and FieldFaithful ClassifierChannelShiftLedgerUp in TasteGate.lean.}
+\end{closurestatus}

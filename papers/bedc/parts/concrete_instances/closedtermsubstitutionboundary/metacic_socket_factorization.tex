@@ -1,0 +1,18 @@
+\begin{theorem}[Closed-term substitution boundary MetaCIC socket factorization]
+\label{thm:closed-term-substitution-boundary-metacic-socket-factorization}
+Every MetaCIC critical-path consumer of closed-term substitution that reaches candidate-mediated strong-normalization or confluence readiness must first factor through the displayed binder-budget, recursor-generator, shift-substitution, audit-route, and subject-reduction socket rows of the accepted $\ClosedTermSubstitutionBoundaryUp$ packet. Concretely, the consumer route must expose the finite boundary rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+together with the binder-budget and authorized-generator rows cited by the $\MetaCICCriticalPathUp$ route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. Only after those rows are visible may the consumer read candidate-mediated SN or confluence readiness. The factorization exports no global subject reduction, full confluence, beta-decision procedure, host equality, quotient term equality, hidden substitution semantics, or selected term representative.
+\end{theorem}
+\begin{proof}
+Start with the closed-term substitution carrier and classifier, \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They display the source term, value term, depth, source/value closedness, closed shift row, substitute-closed row, ledger, audit, transport, replay, provenance, and local naming rows before any substitution consumer can proceed.
+
+Next lock the operation side. Apply \autoref{thm:closed-term-substitution-boundary-namecert-source-lock}, \autoref{thm:closed-term-substitution-boundary-route-saturation}, and \autoref{thm:closed-term-substitution-boundary-socket-separation}. These rows force the shift-substitution read through the source/value closedness witnesses, the finite ledger, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Now attach the MetaCIC side. The MetaCIC critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} reads binder-budget, authorized recursor-generator, candidate-mediated SN, confluence, and subject-reduction socket data as separate rows. The nonescape theorem \autoref{thm:closed-term-substitution-boundary-metacic-consumer-nonescape} and the audit route totality theorem \autoref{thm:closed-term-substitution-boundary-audit-route-totality} keep the closed-substitution part of that path inside the displayed boundary packet.
+
+Finally use the candidate frontier rows from the critical-path chapter, including \autoref{thm:metacic-critical-path-candidate-discharge-frontier} and \autoref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}. Candidate-mediated SN and confluence readiness can consume the closed-substitution boundary only as one socket row among the displayed packet rows. Since neither chapter supplies a closed subject-reduction certificate, full confluence theorem, beta-decision procedure, host equality proof, quotient term equality proof, hidden substitution semantics, or selected representative, no such export is available at the factorized route.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryMetacicSocketFactorization}

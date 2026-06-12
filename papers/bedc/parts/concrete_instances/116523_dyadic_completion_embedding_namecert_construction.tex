@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCompletionEmbeddingUp$}
+\label{ch:concrete-instances-dyadic-completion-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicCompletionEmbeddingUp$ packet names the finite route by which a displayed dyadic rational source enters the regular Cauchy completion surface and reaches the $\RealUp$ seal. It sits after the dyadic source packet of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the admission criterion of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}, and the terminal Real packet of \autoref{ch:concrete-instances-real-namecert}. The certificate is an explicit embedding handoff, not a quotient stream, selected limit, host real equality, or ambient completeness principle.
+
+\begin{definition}[Dyadic completion embedding carrier]
+\label{def:dyadic-completion-embedding-carrier}
+A $\DyadicCompletionEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,S,R,L,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row, including the dyadic numerator, scale, comparison ledger, and tolerance budget used by the embedding request.
+\item $S$ is the $\StreamNameUp$ finite observation window through which the dyadic source is scheduled for completion-facing reads.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows and dyadic tolerance ledger.
+\item $L$ is the $\RealUp$ seal row reached only after $D,S,R$ and the criterion row have been displayed.
+\item $Q$ is the $\CauchyCompletionCriterionUp$ admission row, recording that the StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, and Real seal handoff are mutually compatible.
+\item $H$ stores componentwise $\hsame$ transport for the source, window, readback, seal, criterion, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the dyadic source through the stream window, regular readback, completion criterion, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCompletionEmbeddingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyCompletionCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCompletionEmbeddingUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these nine rows. It has no coordinate for quotient streams, selected limits, host real equality, countable choice, or ambient completeness of the Real completion.
+\end{definition}
+\leandef{BEDC.Derived.DyadicCompletionEmbeddingUp}
+
+\begin{theorem}[Dyadic completion embedding NameCert obligations]
+\label{thm:dyadic-completion-embedding-namecert-obligations}
+For every accepted $\DyadicCompletionEmbeddingUp$ carrier $E=(D,S,R,L,Q,H,C,P,N)$, the local $\NameCert_{\DyadicCompletionEmbeddingUp}$ surface consists exactly of dyadic source exposure through $D$, finite StreamName scheduling through $S$, RegSeqRat readback through $R$, CauchyCompletionCriterion admission through $Q$, Real seal handoff through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionEmbeddingUp.DyadicCompletionEmbeddingNameCertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-completion-embedding-carrier}. The dyadic source, stream window, regular readback, Real seal, completion criterion, transport, replay, provenance, and local naming rows are the only classifier-visible coordinates.
+
+The source and readback obligations are forced by the route. The dyadic row $D$ supplies the displayed rational source and tolerance budget, the stream row $S$ supplies the finite observation schedule, and the regular readback row $R$ is read only after those two rows are visible.
+
+The completion-facing obligations are then local. The criterion row $Q$ admits the handoff to the Real seal row $L$, while $H,C,P,N$ transport, replay, package, and name the same finite packet.
+
+Since the carrier has no coordinate for quotient streams, selected limits, host real equality, countable choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic completion embedding Real seal handoff]
+\label{thm:dyadic-completion-embedding-real-seal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\DyadicCompletionEmbeddingUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyCompletionCriterionUp \longmapsto \RealUp .
+$$
+The consumer receives the dyadic source row, finite window, regular readback, criterion admission, Real seal, transport, replay, provenance, and local naming rows, and receives no quotient stream, selected limit, host real equality, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $E=(D,S,R,L,Q,H,C,P,N)$. The only source row is the displayed $\DyadicRatCoreUp$ row $D$, so a Real-facing read cannot begin from an unstated rational representative or a host real.
+
+Next read the finite observation route. The $\StreamNameUp$ row $S$ schedules the dyadic source, and the $\RegSeqRatUp$ row $R$ is the readback obtained from that schedule together with the displayed tolerance ledger.
+
+Apply the admission row $Q$. It is the sole local $\CauchyCompletionCriterionUp$ row that licenses the move from the regular rational readback to the seal row $L$.
+
+The structural rows $H,C,P,N$ preserve the same finite packet during transport, replay, provenance, and naming. Therefore the terminal $\RealUp$ consumer receives exactly the displayed handoff route and cannot read quotient streams, selected limits, host real equality, countable choice, or ambient completeness from the certificate.
+\end{proof}
+
+\closureat{DyadicCompletionEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCompletionEmbeddingUp}
+  \constructivestory{A $\DyadicCompletionEmbeddingUp$ packet is generated from a DyadicRatCore source row, StreamName observation window, RegSeqRat readback, RealUp seal, CauchyCompletionCriterion admission row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-completion-embedding-carrier}, \autoref{thm:dyadic-completion-embedding-namecert-obligations}, and \autoref{thm:dyadic-completion-embedding-real-seal-handoff} seed the finite dyadic-to-regular-Cauchy embedding route through StreamName, RegSeqRat, CauchyCompletionCriterion, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicCompletionEmbeddingUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName scheduling, RegSeqRat readback, completion-criterion admission, and Real seal handoff for the same dyadic source packet.}
+\end{closurestatus}

@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiZornLemmaBoundaryUp$}
+\label{ch:concrete-instances-kuratowski-zorn-lemma-boundary-namecert}
+\origin{human}
+
+Following Kuratowski and Zorn on maximal principles, the $\KuratowskiZornLemmaBoundaryUp$ packet records the finite BEDC boundary at which a maximality request is visible without importing choice or a host-level maximal selector. It sits beside the ordered-carrier rows of \autoref{ch:concrete-instances-order-namecert} and \autoref{ch:concrete-instances-poset-namecert}, the set-like membership rows of \autoref{ch:concrete-instances-setlike-namecert}, the finite chain discipline of \autoref{thm:poset-finite-chain-namecert-surface}, and the NameCert, BHist, Cont, and Pkg support surfaces already used by finite certificate packets. The chapter names the displayed pressure surface around Zorn-style maximality; it does not prove Zorn's lemma, does not add choice, and exports only finite displayed boundary data.
+
+\begin{definition}[Kuratowski-Zorn lemma boundary carrier]
+\label{def:kuratowski-zorn-lemma-boundary-carrier}
+A $\KuratowskiZornLemmaBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(O,S,C,U,M,F,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the underlying $\OrderUp$ or $\POSetUp$ source row whose comparison relation is being inspected through finite BEDC data.
+\item $S$ is the $\SetLikeUp$ membership row for the displayed carrier fragment under inspection.
+\item $C$ is the chain-window row, recording a finite chain-like order window and its local comparison entries.
+\item $U$ is the upper-bound row, recording a proposed upper-bound witness for the same displayed chain window.
+\item $M$ is the maximality-request row, recording the consumer request that asks whether a displayed element can be extended inside the same order surface.
+\item $F$ is the refusal row for global choice, an unrestricted maximal selector, host powerset search, quotient collapse of chains, and an ambient proof of Zorn's lemma.
+\item $H$ records componentwise $\hsame$ transport for the order, membership, chain-window, upper-bound, maximality-request, refusal, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay for finite inspection of the same rows.
+\item $P$ is the $\Pkg$ provenance over the order, set-like, chain-window, upper-bound, maximality-request, refusal, transport, replay, and local naming surfaces.
+\item $N$ is the local $\NameCert_{\KuratowskiZornLemmaBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a choice function, a maximal-element selector, a completed chain union outside the displayed upper-bound row, a host powerset traversal, or a proof of Zorn's lemma.
+\end{definition}
+
+\begin{theorem}[Kuratowski-Zorn lemma boundary NameCert obligations]
+\label{thm:kuratowski-zorn-lemma-boundary-namecert-obligations}
+For the carrier of \autoref{def:kuratowski-zorn-lemma-boundary-carrier}, the local $\NameCert_{\KuratowskiZornLemmaBoundaryUp}$ surface consists exactly of finite carrier admission for $Z=(O,S,C,U,M,F,H,R,P,N)$, order and set-like source exposure through $O,S$, chain-window exposure through $C$, upper-bound exposure through $U$, maximality-request exposure through $M$, refusal exactness through $F$, componentwise transport through $H$, replay through $R$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The order source and set-like membership rows are read through \autoref{ch:concrete-instances-order-namecert}, \autoref{ch:concrete-instances-poset-namecert}, and \autoref{ch:concrete-instances-setlike-namecert}, while the finite chain-window row is read through the finite chain-like order surface of \autoref{thm:poset-finite-chain-namecert-surface}.
+
+Read the maximality-facing rows next. The upper-bound row $U$ is attached to the same displayed chain window $C$, and the maximality-request row $M$ records only the finite request seen by the consumer. The row $F$ refuses a global choice function, a maximal selector, host powerset traversal, quotient collapse of chain data, and a proof of Zorn's lemma.
+
+Finally transport, replay, source, and name the packet through $H,R,P,N$. These rows are the standard NameCert, BHist, Cont, and Pkg support surface for finite BEDC certificates, so the obligation list is exhausted by the displayed packet and no hidden maximal-principle resource is exported.
+\end{proof}
+
+\begin{theorem}[Kuratowski-Zorn lemma boundary choice refusal]
+\label{thm:kuratowski-zorn-lemma-boundary-choice-refusal}
+Every accepted $\KuratowskiZornLemmaBoundaryUp$ read that exposes a Zorn-style maximality request must factor through the finite chain-window row $C$, the displayed upper-bound row $U$, the maximality-request row $M$, and the refusal row $F$ before any order consumer reads the packet. Consequently the boundary does not prove Zorn's lemma, does not add choice, does not select a maximal element, and exports only finite displayed boundary data.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:kuratowski-zorn-lemma-boundary-namecert-obligations}. They force the order source, set-like source, chain-window, upper-bound, maximality request, refusal, transport, replay, provenance, and local naming rows to be read as one finite packet.
+
+If the refusal row is absent, the consumer has no BEDC record separating a finite maximality request from a host choice principle or maximal selector. If the chain-window or upper-bound row is absent, the request is no longer grounded in displayed finite order data. If transport, replay, provenance, or local naming is absent, the request is detached from the certificate surface.
+
+Thus an accepted read can expose only the finite boundary around a maximal-principle request. The carrier records where Zorn-style pressure appears, while refusing a proof of Zorn's lemma, choice, global maximal selection, and ambient powerset search.
+\end{proof}
+
+\falsifiablePrediction{Any accepted KuratowskiZornLemmaBoundaryUp packet that exposes a maximality request while omitting the finite chain-window, displayed upper-bound, refusal, transport, replay, provenance, or local naming rows refutes the packet.}
+
+\independenceWitness{order, poset, setlike, finite-chain: none is bijective with $\KuratowskiZornLemmaBoundaryUp$ because this packet jointly carries chain-window rows, upper-bound rows, a maximality request, and explicit refusal of global choice and maximal selectors.}
+
+\closureat{KuratowskiZornLemmaBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiZornLemmaBoundaryUp}
+  \constructivestory{A $\KuratowskiZornLemmaBoundaryUp$ packet is generated from order or POSet source rows, SetLike membership rows, finite chain-window rows, displayed upper-bound rows, a maximality-request row, a refusal row for choice and maximal selectors, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-zorn-lemma-boundary-carrier}, \autoref{thm:kuratowski-zorn-lemma-boundary-namecert-obligations}, and \autoref{thm:kuratowski-zorn-lemma-boundary-choice-refusal} seed the finite boundary around Zorn-style maximality requests without proving Zorn's lemma or adding choice.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Zorn's lemma, global choice, maximal-element selection, host powerset traversal, quotient chain collapse, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite chain-window exposure, upper-bound exposure, maximality-request exactness, refusal exactness, transport, replay, provenance, and local naming for BEDC.Derived.KuratowskiZornLemmaBoundaryUp.}
+\end{closurestatus}

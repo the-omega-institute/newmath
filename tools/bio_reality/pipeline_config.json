@@ -86,7 +86,8 @@
         "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
         "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
         "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
-        "papers/bedc/parts/bio_reality_module.tex"
+        "papers/bedc/parts/bio_reality_module.tex",
+        "papers/bedc/preamble_chapter_macros_late_tail.tex"
       ]
     },
     {
@@ -153,7 +154,8 @@
       "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
       "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
       "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
-      "papers/bedc/parts/bio_reality_module.tex"
+      "papers/bedc/parts/bio_reality_module.tex",
+      "papers/bedc/preamble_chapter_macros_late_tail.tex"
     ],
     "exclude_paths": [
       "tools/bio_reality/state/*",
@@ -208,13 +210,20 @@
     "min_seconds_between_pushes": 60,
     "max_push_retries": 2,
     "merge_back": {
-      "enabled": true,
+      "enabled": false,
       "upstream_branch": "auto-dev",
       "min_seconds_between_merge_backs": 1800
+    },
+    "dev_rollup": {
+      "enabled": true,
+      "head_branch": "feat/bio-reality-deepening",
+      "base_branch": "dev",
+      "min_seconds_between": 600,
+      "comment": "bio-D delegates to tools/sync_with_auto_dev.py --source-branch <head> --target-branch <base>. The script builds the separate managed branch rollup-<head>-to-<base>, maintains one PR, and auto-merges it once checks are green + mergeable. We never PR the integration branch directly; bio-S handles the reverse dev->feat back-merge."
     }
   },
   "bedc_writeback": {
-    "enabled": true,
+    "enabled": false,
     "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
     "module_aggregator": "papers/bedc/parts/bio_reality_module.tex",
     "max_writebacks_per_cycle": 5,
@@ -278,7 +287,7 @@
   "sync_lane": {
     "enabled": true,
     "remote": "origin",
-    "upstream_branch": "auto-dev",
+    "upstream_branch": "dev",
     "fetch_timeout_seconds": 60,
     "merge_strategy": "no-ff",
     "intelligence_keywords": [

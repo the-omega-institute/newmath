@@ -99,12 +99,48 @@ Apply \autoref{thm:halting-distinction-limit-fixed-point-boundary} and \autoref{
 The sibling packet of \autoref{ch:concrete-instances-haltingobstruction-namecert} is exactly the downstream obstruction classifier boundary, and \autoref{ch:visions-halting-as-form-of-distinction-limit} names the fixed-point limit being exposed. Therefore the public read factors through that sibling boundary while exporting only $P,h,T,D,H,C,K,N$.
 \end{proof}
 
-\closureat{HaltingDistinctionLimitUp}{seedStr}
+\begin{theorem}[Halting distinction limit public boundary]
+\label{thm:halting-distinction-limit-public-boundary}
+The public $\HaltingDistinctionLimitUp$ interface exports only the finite fixed-point obstruction route
+$$
+P,h,T,D,H,C,K,N .
+$$
+It names the program-certificate row, input history row, finite trace row, diagonal obstruction row, componentwise transport, displayed continuation routes, package provenance, and local naming certificate. It does not export a total halting predicate, divergence oracle, global truth predicate, host evaluator, or unrecorded classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionLimitUp.HaltingDistinctionLimitPublicBoundary}
+\begin{proof}
+Project the carrier of \autoref{def:halting-distinction-limit-carrier}. Its public coordinates are exactly $P,h,T,D,H,C,K,N$.
+
+Apply \autoref{thm:halting-distinction-limit-fixed-point-boundary}. The diagonal read reaches only the fixed-point obstruction boundary through those displayed rows.
+
+Apply \autoref{thm:halting-distinction-limit-namecert-obligations} and \autoref{thm:halting-distinction-limit-sibling-boundary}. The local certificate and sibling boundary preserve the same finite route, so no total halting predicate, divergence oracle, global truth predicate, host evaluator, or unrecorded classifier is available to a public consumer.
+\end{proof}
+
+\begin{theorem}[Halting distinction limit bridge boundary]
+\label{thm:halting-distinction-limit-bridge-boundary}
+The public $\HaltingDistinctionLimitUp$ route
+$$
+P,h,T,D,H,C,K,N
+$$
+can bridge to the $\HaltingObstructionUp$ sibling only as a finite obstruction-classifier boundary. The bridge target may read the displayed program-certificate row, input history row, finite trace row, diagonal obstruction row, transports, routes, provenance, and local naming, but it cannot export a total halting predicate, divergence oracle, global truth predicate, host evaluator, or unrecorded classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionLimitUp.HaltingDistinctionLimitCarrier\_bridge\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:halting-distinction-limit-carrier}. The only public route is the finite packet $P,h,T,D,H,C,K,N$.
+
+Apply the fixed-point boundary \autoref{thm:halting-distinction-limit-fixed-point-boundary}. The diagonal read reaches the obstruction point through $D$ and stops at the boundary on total classifier extension.
+
+Use the NameCert obligations of \autoref{thm:halting-distinction-limit-namecert-obligations}. They keep the trace finite, keep the diagonal row as an obstruction row, and require all downstream reads to remain inside the displayed carrier.
+
+Now apply the sibling boundary \autoref{thm:halting-distinction-limit-sibling-boundary} and the public boundary \autoref{thm:halting-distinction-limit-public-boundary}. The $\HaltingObstructionUp$ sibling is therefore a finite obstruction-classifier interface for the same route, not a halting oracle.
+\end{proof}
+
+\closureat{HaltingDistinctionLimitUp}{obligationStr}
 
 \begin{closurestatus}{\HaltingDistinctionLimitUp}
   \constructivestory{A $\HaltingDistinctionLimitUp$ packet is generated from a program-certificate row, an input history row, a finite $\Cont_P$ trace row, a diagonal obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:halting-distinction-limit-carrier}, \autoref{def:halting-distinction-limit-classifier}, \autoref{thm:halting-distinction-limit-fixed-point-boundary}, \autoref{thm:halting-distinction-limit-namecert-obligations}, and \autoref{thm:halting-distinction-limit-sibling-boundary} bind the finite carrier, displayed classifier, fixed-point boundary, obstruction sibling boundary, non-decision ledger, and downstream non-escape surface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:halting-distinction-limit-carrier}, \autoref{def:halting-distinction-limit-classifier}, \autoref{thm:halting-distinction-limit-fixed-point-boundary}, \autoref{thm:halting-distinction-limit-namecert-obligations}, \autoref{thm:halting-distinction-limit-sibling-boundary}, and \autoref{thm:halting-distinction-limit-public-boundary} export the public $\HaltingDistinctionLimitUp$ NameCert surface for the finite $\BHist$, $\Ext$, $\Cont$, $\hsame$, classifier transport, diagonal rows, $\Pkg$, and $\NameCert$ obstruction boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

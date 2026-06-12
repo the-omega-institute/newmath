@@ -83,7 +83,7 @@ LOG_DIRS = [
 #
 # ============================================================
 # Caps pinned by user directive:
-#   LEAN_MAX = 20 (2026-05-11)
+#   LEAN_MAX = 16 (2026-05-11)
 #   PAPER_MAX = 25 (2026-05-12, raised from 20)
 #
 # Floors:
@@ -103,12 +103,12 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 16  # lowered 2026-05-15 (later): push lock starvation observed —
-               # R6327 held lock 1076s for codex_resolve_conflicts (which
-               # runs INSIDE the lock). With 16+ contenders, flock unfairness
-               # starves P workers >600s → cooldown cascades. Cap at 12
-               # reduces waiter pool. Structural fix (move codex_resolve
-               # outside lock) deferred to next orchestrator restart.
+LEAN_MAX = 8  # 2026-06-07: dropped 20->16->8 over the session. On this 8-core
+               # box even 12/14 (autotune-settled under 16/14) drove load ~70 →
+               # bedc_ci.py audit timeouts (600s), ff-push herd (8 retries), and
+               # target saturation → repeating cooldowns. 8/6 is the box's
+               # sustainable point (skill cooldown-remedy: drop lean to 8).
+               # Stage-2 single-writer broker would let this go higher safely.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
@@ -132,9 +132,8 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 14  # lowered 2026-05-15 (later): same push-lock starvation —
-                # P workers wait >600s when R holds lock for codex_resolve.
-                # Cut from 25 → 10 reduces concurrent push contenders.
+PAPER_MAX = 6  # 2026-06-07: dropped to PAPER_MIN floor — see LEAN_MAX note;
+                # 8/6 is what this 8-core box sustains without audit timeouts.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
@@ -185,12 +184,23 @@ def compute_target(cp_data: dict) -> dict:
     }
 
 
-def run_critical_path() -> dict:
-    res = subprocess.run(
-        ["python3", str(CRITICAL_PATH)],
-        capture_output=True, text=True, check=True,
-    )
-    return json.loads(res.stdout)
+def run_critical_path() -> dict | None:
+    try:
+        res = subprocess.run(
+            ["python3", str(CRITICAL_PATH)],
+            capture_output=True, text=True, check=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        rc = exc.returncode
+        stderr_tail = (exc.stderr or "").strip().splitlines()[-3:]
+        detail = " | ".join(stderr_tail) if stderr_tail else "no stderr"
+        print(f"critical_path: failed rc={rc}; keeping existing config; {detail}", file=sys.stderr)
+        return None
+    try:
+        return json.loads(res.stdout)
+    except json.JSONDecodeError as exc:
+        print(f"critical_path: invalid JSON ({exc}); keeping existing config", file=sys.stderr)
+        return None
 
 
 def read_system_metrics() -> dict:
@@ -422,6 +432,54 @@ def main() -> int:
     print(metric_summary, file=sys.stderr)
 
     cp_data = run_critical_path()
+    if cp_data is None:
+        load5 = metrics.get("load_5min", 0.0)
+        if load5 <= LOAD_HIGH:
+            return 0
+
+        try:
+            config = json.loads(CONFIG.read_text())
+        except FileNotFoundError:
+            config = {
+                "phase_b_timeout": 3600,
+                "phase_c_timeout": 6000,
+                "paper_review_timeout": 1800,
+                "paper_revise_timeout": 3600,
+            }
+
+        cur_lean = int(config.get("lean", LEAN_MAX))
+        cur_paper = int(config.get("paper", PAPER_MAX))
+        target = {
+            "lean": clamp(cur_lean // 2, LEAN_MIN, LEAN_MAX),
+            "paper": clamp(cur_paper // 2, PAPER_MIN, PAPER_MAX),
+            "lean_lake": LAKE_MIN,
+        }
+        keys = ("paper", "lean", "lean_lake")
+        diffs = []
+        for k in keys:
+            cur = config.get(k)
+            new = target[k]
+            if cur != new:
+                diffs.append(f"{k}: {cur} → {new}")
+                config[k] = new
+
+        if diffs:
+            print(
+                "critical_path-failure-under-load: "
+                f"load5={load5:.1f}>{LOAD_HIGH:.0f}; emergency concurrency cut: "
+                + ", ".join(diffs),
+                file=sys.stderr,
+            )
+            if not args.dry_run:
+                CONFIG.write_text(json.dumps(config, indent=2) + "\n")
+                print(f"wrote {CONFIG.relative_to(REPO_ROOT)}", file=sys.stderr)
+        else:
+            print(
+                "critical_path-failure-under-load: "
+                f"load5={load5:.1f}>{LOAD_HIGH:.0f}; emergency config already at floor",
+                file=sys.stderr,
+            )
+        return 0
     target = compute_target(cp_data)
     signals = target.pop("_signals")
     pressure_notes = apply_pressure_adjustments(target, metrics)

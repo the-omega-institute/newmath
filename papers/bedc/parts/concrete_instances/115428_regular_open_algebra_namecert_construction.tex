@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegularOpenAlgebraUp$}
+\label{ch:concrete-instances-regular-open-algebra-namecert}
+\origin{human}
+
+Following Stone and Birkhoff on Boolean algebras of regular open sets, the $\RegularOpenAlgebraUp$ packet records the topology-facing Boolean algebra obtained by regularizing displayed opens through closure and interior. It sits beside the indexed-open topology of \autoref{ch:concrete-instances-topology-namecert}, the finite closure rows of \autoref{ch:concrete-instances-kuratowski-closure-namecert}, the Boolean operation packet of \autoref{ch:concrete-instances-booleanalgebra-namecert}, the generated-set consumer of \autoref{ch:concrete-instances-borel-set-namecert}, and the clopen handoff of \autoref{ch:concrete-instances-stoneduality-namecert}. The chapter names the regular-open algebra as finite NameCert data; it does not import a host powerset algebra, ultrafilter space, choice principle, or completed locale.
+
+\begin{definition}[RegularOpenAlgebra carrier]
+\label{def:regular-open-algebra-carrier}
+A $\RegularOpenAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,C,I,K,J,M,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the indexed open-set row read through $\TopologyUp$.
+\item $C$ is the closure row read through the Kuratowski closure surface.
+\item $I$ is the interior row, displayed as the topology-facing open extractor paired with $C$.
+\item $K$ is the regularization row $I(C(O))$, naming the regular open representative obtained from the displayed open row.
+\item $J$ is the Boolean join row, read as regularized union on displayed regular-open rows.
+\item $M$ is the Boolean meet row, read as displayed intersection on regular-open rows.
+\item $H$ records Boolean complement as interior of the displayed closed complement boundary, transported only through the topology and closure rows already present.
+\item $R$ records componentwise $\hsame$ transport for open, closure, interior, regularization, Boolean operation, complement, provenance, replay, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularOpenAlgebraUp$, $\TopologyUp$, $\BooleanAlgebraUp$, Kuratowski closure, Borel generated-set, $\StoneDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularOpenAlgebraUp}$ row.
+\end{enumerate}
+The carrier contains no host powerset of opens, arbitrary complement oracle, selected ultrafilter, quotient locale, ambient Borel universe, or external Stone representation theorem.
+\end{definition}
+
+\begin{theorem}[RegularOpenAlgebra NameCert obligations]
+\label{thm:regular-open-algebra-namecert-obligations}
+For an accepted $\RegularOpenAlgebraUp$ carrier $A=(O,C,I,K,J,M,H,R,P,N)$, the local $\NameCert_{\RegularOpenAlgebraUp}$ surface consists exactly of carrier admission for the ten displayed rows, topology-row exposure through $O$, closure exposure through $C$, interior and regularization exactness through $I,K$, Boolean operation exposure through $J,M,H$, componentwise transport through $R$, provenance and replay through $P$, and local naming through $N$. Every topology, Boolean-algebra, Borel-facing, or Stone-duality consumer must read those rows before treating a displayed open as a regular-open algebra element.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible inventory is exactly $O,C,I,K,J,M,H,R,P,N$, with no additional host set or algebra coordinate.
+
+Read the topology and closure rows first. The row $O$ supplies the indexed open surface, while $C$ supplies the closure route already recorded by the Kuratowski closure packet. The interior row $I$ is paired with the same topology surface, so the regularization row $K=I(C(O))$ is a displayed finite route rather than a powerset operation.
+
+Read the Boolean rows next. Join $J$, meet $M$, and complement $H$ are accepted only after regularization has exposed the relevant open, closure, and interior rows. Thus the Boolean-algebra consumer receives the finite complemented distributive-lattice interface of \autoref{ch:concrete-instances-booleanalgebra-namecert} through topology-facing data.
+
+Finally $R,P,N$ transport, source, replay, and name the same row inventory. Since no row stores host powersets, arbitrary complements, ultrafilters, quotient locales, completed Borel universes, or ambient Stone representation data, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularOpenAlgebra closure-interior handoff]
+\label{thm:regular-open-algebra-closure-interior-handoff}
+Every consumer of an accepted $\RegularOpenAlgebraUp$ packet that reads a regular-open element must factor through the finite handoff
+$$
+\TopologyUp,\ C,\ I,\ K,\ \BooleanAlgebraUp,\ \StoneDualityUp,\ R,P,N .
+$$
+The handoff first reads the indexed open row, then the closure row, then the interior row, then the regularization row $I(C(O))$, and only then exposes Boolean meet, join, and complement rows for Stone-duality or Borel-facing consumers. It exports no powerset algebra, selected ultrafilter, quotient locale, arbitrary complement choice, or ambient Borel completion.
+\end{theorem}
+\begin{proof}
+Start from the regularization row $K$. By carrier admission, $K$ is readable only after the open row $O$, closure row $C$, and interior row $I$ have been displayed.
+
+Use \autoref{thm:regular-open-algebra-namecert-obligations}. It forces Boolean join, meet, and complement reads to pass through the regularization route before a Boolean-algebra or Stone-duality consumer receives the packet.
+
+The Borel-facing route is only a generated-set consumer route: it can observe the displayed regular open through the same topology and regularization rows, but it receives no completed Borel universe. The Stone-duality route likewise receives the Boolean rows after regularization, not an ultrafilter or point-space construction.
+
+The structural rows $R,P,N$ preserve and name this handoff. Since the carrier has no coordinate for host powersets, selected ultrafilters, quotient locales, arbitrary complement choice, or ambient Borel completion, those objects cannot be exported by the closure-interior route.
+\end{proof}
+
+\closureat{RegularOpenAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\RegularOpenAlgebraUp}
+  \constructivestory{A $\RegularOpenAlgebraUp$ packet is generated from an indexed open row, closure row, interior row, regularization row, Boolean join, meet, and complement rows, componentwise hsame transport, provenance and replay rows, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-open-algebra-carrier}, \autoref{thm:regular-open-algebra-namecert-obligations}, and \autoref{thm:regular-open-algebra-closure-interior-handoff} seed the finite regular-open algebra packet over topology, closure, interior, regularization, Boolean operation, transport, provenance, replay, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powerset algebras, ultrafilter construction, quotient locales, arbitrary complement choice, completed Borel universes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closure-interior regularization exactness, Boolean operation exposure, topology and Stone-duality handoff, transport stability, provenance replay, and non-escape for BEDC.Derived.RegularOpenAlgebraUp.}
+\end{closurestatus}

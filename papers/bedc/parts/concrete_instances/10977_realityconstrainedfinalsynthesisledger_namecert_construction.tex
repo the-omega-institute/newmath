@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-reality-constrained-final-synthesis-ledger-namecert}
 \origin{ai}
 
-The $\RealityConstrainedFinalSynthesisLedgerUp$ packet realizes the final-synthesis route of \autoref{sec:reality-constrained-synthesis} as a finite BEDC NameCert carrier. It consumes the truth-certificate surface of \autoref{ch:concrete-instances-physical-truth-certificate-namecert}, the reality-constrained truth packet of \autoref{ch:concrete-instances-reality-constrained-truth-cert-namecert}, the methodology-ledger route of \autoref{ch:concrete-instances-reality-constrained-methodology-ledger-namecert}, the failure-surface row of \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}, and the model-selection boundary of \autoref{ch:concrete-instances-model-selection-boundary-namecert}. Those siblings separately expose truth fields, methodology export discipline, open defeat, comparative model selection, observer-invariant reading, and local naming; this carrier binds them into the finite packet by which final synthesis is admitted without asserting final model--reality identity.
+The $\RealityConstrainedFinalSynthesisLedgerUp$ packet realizes the final-synthesis route of \autoref{sec:reality-constrained-synthesis} as a finite BEDC NameCert carrier. It consumes the truth-certificate surface of \autoref{ch:concrete-instances-physical-truth-certificate-namecert}, the reality-constrained truth packet of \autoref{ch:concrete-instances-reality-constrained-truth-cert-namecert}, the methodology-ledger route of \autoref{ch:concrete-instances-reality-constrained-methodology-ledger-namecert}, the failure-surface row of \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}, and the model-selection boundary of \autoref{ch:concrete-instances-model-selection-boundary-namecert}. The methodology export row is consumed through \autoref{ch:concrete-instances-reality-constrained-methodology-ledger-namecert} before final truth, open-failure, model-selection, or observer-invariant synthesis rows are read. Those siblings separately expose truth fields, methodology export discipline, open defeat, comparative model selection, observer-invariant reading, and local naming; this carrier binds them into the finite packet by which final synthesis is admitted without asserting final model--reality identity.
 
 \begin{definition}[Reality-constrained final-synthesis-ledger carrier]
 \label{def:reality-constrained-final-synthesis-ledger-carrier}
@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for unbounded confirmation, final model--reality identity, unledgered methodology authority, hidden observer privilege, erased defeat, model-selection outside the displayed boundary, or truth export outside the displayed packet.
 \end{definition}
+\leanchecked{BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.RealityConstrainedFinalSynthesisLedger\_carrier\_namecert\_surface}
 
 \begin{theorem}[Reality-constrained final-synthesis-ledger obligations]
 \label{thm:reality-constrained-final-synthesis-ledger-obligations}
@@ -48,6 +49,7 @@ The structural rows $H,C,P,N$ then transport, replay, package, and name exactly 
 \label{thm:reality-constrained-final-synthesis-ledger-model-selection-handoff}
 For every accepted $\RealityConstrainedFinalSynthesisLedgerUp$ carrier $Z=(T,R,M,F,B,O,S,H,C,P,N)$, a final-synthesis export must read the model-selection boundary row $B$ before the observer-invariant public reading row $O$ and the synthesis-scope row $S$ are consumed. The truth-certificate row $T$, reality-constrained TruthCert row $R$, methodology-ledger row $M$, and open-fit failure row $F$ cannot bypass $B$, erase finite defeat, or turn the export into final model--reality identity.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.RealityConstrainedFinalSynthesisLedger\_model\_selection\_handoff}
 \begin{proof}
 Project the carrier $Z=(T,R,M,F,B,O,S,H,C,P,N)$. The model-selection boundary row $B$ is a displayed coordinate of the same packet as the truth, methodology, failure, observer, and scope rows.
 
@@ -60,6 +62,7 @@ Finally use the sibling-independence theorem \autoref{thm:reality-constrained-fi
 \label{thm:reality-constrained-final-synthesis-ledger-sibling-independence}
 The $\RealityConstrainedFinalSynthesisLedgerUp$ carrier is not bijective to $\PhysicalTruthCertificateUp$, $\RealityConstrainedTruthCertUp$, $\RealityConstrainedMethodologyLedgerUp$, $\RealityConstrainedFailureSurfaceUp$, or $\ModelSelectionBoundaryUp$. The final-synthesis ledger uniquely binds truth fields, methodology export, failure exposure, model-selection boundary, observer invariance, synthesis scope, transport, replay, provenance, and local naming in one finite carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.RealityConstrainedFinalSynthesisLedger\_sibling\_independence}
 \begin{proof}
 Compare the displayed carrier fields. $\PhysicalTruthCertificateUp$ and $\RealityConstrainedTruthCertUp$ supply truth-certificate rows, but they do not by themselves bind the methodology-ledger export row, model-selection boundary, and final synthesis scope.
 
@@ -91,6 +94,7 @@ Use \autoref{thm:reality-constrained-final-synthesis-ledger-model-selection-hand
 
 The falsifiable prediction and independence witness state the observable refusal boundary, while the TasteGate marker records the finite carrier-alignment check on the Lean side. Together these rows give the obligation-closure route without adding a final oracle, unbounded confirmation, hidden observer privilege, or erased defeat.
 \end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.RealityConstrainedFinalSynthesis\_obligation\_route\_closure}
 
 \falsifiablePrediction{A final-synthesis export whose carrier omits either the open-fit failure row or the methodology-ledger export row is not accepted by the local NameCert.}
 
@@ -101,13 +105,16 @@ The Lean follow-up must provide \texttt{Nontrivial RealityConstrainedFinalSynthe
 \closureat{RealityConstrainedFinalSynthesisLedgerUp}{seedStr}
 \closureat{RealityConstrainedFinalSynthesisLedgerUp}{obligationStr}
 \closureat{RealityConstrainedFinalSynthesisLedgerUp}{scopedStr}
+\closureat{RealityConstrainedFinalSynthesisLedgerUp}{publicStr}
+\closureat{RealityConstrainedFinalSynthesisLedgerUp}{bridgedStr}
+\closureat{RealityConstrainedFinalSynthesisLedgerUp}{matureStr}
 
 \begin{closurestatus}{\RealityConstrainedFinalSynthesisLedgerUp}
   \constructivestory{A $\RealityConstrainedFinalSynthesisLedgerUp$ packet is generated from displayed truth-certificate, reality-constrained TruthCert, methodology-ledger, open-failure, model-selection-boundary, observer-invariance, synthesis-scope, componentwise transport, continuation, provenance, and local naming rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation scope is the carrier of \autoref{def:reality-constrained-final-synthesis-ledger-carrier}, the obligation surface of \autoref{thm:reality-constrained-final-synthesis-ledger-obligations}, the model-selection handoff of \autoref{thm:reality-constrained-final-synthesis-ledger-model-selection-handoff}, the sibling-independence witness of \autoref{thm:reality-constrained-final-synthesis-ledger-sibling-independence}, the falsifiable prediction, the independence witness, and the existing TasteGate marker.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The bridge-facing surface is the route of \autoref{thm:reality-constrained-final-synthesis-obligation-closure-route} together with the model-selection handoff, sibling-independence witness, falsifiable prediction, independence witness, and existing TasteGate marker as the exported final-synthesis ledger boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim final model--reality identity, unbounded confirmation, hidden observer privilege, erased defeat, Lean verification, or bridge checking.}
-  \upgradepath{Next obligations are Lean carrier encoding, TasteGate nontriviality, and field faithfulness for the displayed final-synthesis ledger.}
+  \upgradepath{No further paper-side theory closure remains; Lean verification and bridge checking remain independent formal-axis work.}
 \end{closurestatus}

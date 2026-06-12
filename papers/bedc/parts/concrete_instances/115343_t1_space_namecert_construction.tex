@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\TOneSpaceUp$}
+\label{ch:concrete-instances-t1-space-namecert}
+\origin{human}
+
+Following Engelking and Kelley on separation axioms, the $\TOneSpaceUp$ packet records the finite singleton-closed surface needed by Real-facing topology consumers before they ask for stronger separation. It sits over the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the set-like point and singleton rows of \autoref{ch:concrete-instances-setlike-namecert}, the metric-neighbouring separation route of \autoref{ch:concrete-instances-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed point classifier and singleton-closed witnesses; it does not assert Hausdorff separation, compactness, quotient spaces, host point equality, or choice.
+
+\begin{definition}[T1 space carrier]\label{def:t1-space-carrier}
+A $\TOneSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,O,Q,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\SetLikeUp$ point-carrier row, exposing only the finite public point observations admitted by the packet.
+\item $O$ is the $\TopologyUp$ open-row packet, recording the open observations and finite topology provenance currently under inspection.
+\item $Q$ is the point classifier row. It classifies inspected point rows only through the displayed $\SetLikeUp$ membership and $\TopologyUp$ open data.
+\item $S$ is the singleton-closed witness row. For each inspected point row accepted by $Q$, it records the finite boundary witness that the singleton is closed in the displayed topology packet.
+\item $B$ is the Real-facing boundary row, reached by metric and real consumers only after $X,O,Q,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the point carrier, topology packet, classifier row, singleton-closed witness row, boundary row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from point and open observations to singleton-closed witnesses and then to the Real-facing boundary row.
+\item $P$ is the $\Pkg$ provenance over $\TOneSpaceUp$, $\TopologyUp$, $\SetLikeUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TOneSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,O,Q,S,B,H,C,P,N$. It has no coordinate for Hausdorff separation, compactness, quotient spaces, host point equality, selected representatives, or choice.
+\end{definition}
+
+\begin{theorem}[T1 space NameCert obligations]\label{thm:t1-space-namecert-obligations}
+For every accepted $\TOneSpaceUp$ carrier $T=(X,O,Q,S,B,H,C,P,N)$, the local $\NameCert_{\TOneSpaceUp}$ surface consists exactly of carrier admission for the displayed point carrier, topology packet, point classifier, singleton-closed witness row, Real-facing boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Any topology, metric, or Real-facing consumer must expose $X,O,Q,S$ before the boundary row $B$ can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:t1-space-carrier}. The accepted packet exposes exactly the point carrier $X$, topology row $O$, classifier $Q$, singleton-closed witnesses $S$, boundary row $B$, and structural rows $H,C,P,N$.
+
+Read the point and topology sources through \autoref{ch:concrete-instances-setlike-namecert} and \autoref{ch:concrete-instances-topology-namecert}. The classifier $Q$ is therefore tied to displayed membership and open-row data, not to host point equality.
+
+The singleton-closed row $S$ is then the only separation witness available to the packet. Transport, replay, provenance, and local naming preserve that witness through $H,C,P,N$ without adding a Hausdorff, compactness, quotient, or choice coordinate.
+\end{proof}
+
+\begin{theorem}[T1 singleton-closed boundary]\label{thm:t1-space-singleton-closed-boundary}
+Every accepted $\TOneSpaceUp$ packet that exports a Real-facing or metric-facing separation read must first expose the route
+$$
+\SetLikeUp\longmapsto\TopologyUp\longmapsto Q\longmapsto S\longmapsto B\longmapsto H,C,P,N .
+$$
+The exported boundary is exactly singleton-closed separation for displayed point rows. It is not Hausdorff separation, not compactness, not a quotient-space theorem, not host point equality, and not a choice principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:t1-space-namecert-obligations}. They force every consumer to read the point carrier, topology packet, classifier, and singleton-closed witness row before the boundary row is available.
+
+Use the metric and real anchors only as consumers. The chapters \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-real-namecert} may read the displayed boundary $B$, but the carrier gives them no coordinate for stronger separation or selected host points.
+
+Finally inspect the structural rows. The $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row preserve the same finite singleton-closed route, so the exported boundary cannot be retyped as Hausdorff separation, compactness, quotient data, host point equality, or choice.
+\end{proof}
+
+\closureat{TOneSpaceUp}{seedStr}
+
+\begin{closurestatus}{\TOneSpaceUp}
+  \constructivestory{A $\TOneSpaceUp$ packet is generated from a SetLikeUp point carrier, a TopologyUp open-row packet, a point classifier, singleton-closed witnesses, a Real-facing boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:t1-space-carrier}, \autoref{thm:t1-space-namecert-obligations}, and \autoref{thm:t1-space-singleton-closed-boundary} seed the finite singleton-closed separation surface for Real-facing topology consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hausdorff separation, compactness, quotient spaces, host point equality, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology packet visibility, point classifier exactness, singleton-closed witness stability, Real-facing boundary non-escape, transport, replay, provenance, and local naming for BEDC.Derived.T1SpaceUp.}
+\end{closurestatus}

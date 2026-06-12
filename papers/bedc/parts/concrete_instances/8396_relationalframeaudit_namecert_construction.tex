@@ -38,6 +38,7 @@ where $S_A$ and $S_B$ are the two source-row lists, $\ell$ is the displayed two-
 
 The packet is accepted only as relation-audit data. It may compare the refinement shape of two displayed chains, but it does not identify their objects, sources, observers, empirical content, or host frames.
 \end{definition}
+\leandef{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditLayeredRelationCertCarrier}
 
 \begin{theorem}[RelationalFrameAudit NameCert obligations]
 \label{thm:relational-frame-audit-namecert-obligations}
@@ -57,6 +58,23 @@ The negative route is the refusal verdict $F$. By the no-global-synchronization 
 Finally $H,C,P,N$ only transport, replay, package, and name the same rows. Thus the NameCert surface is exhausted by the displayed packet.
 \end{proof}
 \leanchecked{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RelationalFrameAudit obligation totality]
+\label{thm:relational-frame-audit-obligation-totality}
+Any accepted $\RelationalFrameAuditUp$ consumer must expose exactly the finite obligation surface
+$$
+M,A,B,Q,S,D,L,F,H,C,P,N
+$$
+of \autoref{def:relational-frame-audit-carrier}. Thus the consumer displays the $\MultiHistConfigUp$ row $M$, the two observer slots $A,B$, the frame request $Q$, the observer-symmetry audit $S$, the $\CrossHistCausalUp$ route $D$, the $\MaxCausalRateUp$ bound $L$, the $\NoGlobalSyncBoundaryUp$ refusal verdict $F$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\RelationalFrameAuditUp}$ row $N$. No accepted consumer may replace one of these rows by a global frame, shared clock, selected synchronization map, host Lorentz chart, metric tensor, detached comparison, or source-equivalence transport.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:relational-frame-audit-carrier}. The tuple $R=(M,A,B,Q,S,D,L,F,H,C,P,N)$ is the complete displayed inventory for an accepted frame-audit packet.
+
+Apply \autoref{thm:relational-frame-audit-namecert-obligations}. Its NameCert surface reads the same configuration row, two observer slots, request row, symmetry audit, causal route, maximum-rate boundary, refusal verdict, transport, replay, provenance, and local naming rows.
+
+It remains to exclude extra exits. The carrier contains no coordinate for a global frame, shared clock, selected synchronization map, Lorentz chart, metric tensor, detached comparison, or source-equivalence transport. Hence every accepted consumer exposes exactly the listed finite rows and nothing outside their projection.
+\end{proof}
+\leanchecked{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditObligationTotality}
 
 \begin{theorem}[LayeredRelationCert NameCert obligation surface]
 \label{thm:layeredrelationcert-namecert-obligation-surface}
@@ -125,21 +143,38 @@ The row $S$ supplies the observer-symmetry audit. Both directions must be visibl
 For the unsupported exit, apply \autoref{thm:relational-frame-audit-no-global-frame-refusal}. A request that does not pass through the two-Hist route has no accepted destination except $F$.
 \end{proof}
 
+\begin{theorem}[RelationalFrameAudit formal-target boundary]
+\label{thm:relational-frame-audit-formal-target-boundary}
+Any future formal target for $\RelationalFrameAuditUp$ must expose the same carrier rows
+$$
+M,A,B,Q,S,D,L,F,H,C,P,N
+$$
+together with the $\mathrm{LayeredRelationCert}$ rows of \autoref{def:layeredrelationcert-carrier} before it claims TasteGate admission, no-global-frame refusal, or observer-symmetry factorization. A target that omits either the frame-audit carrier rows or the relation-audit rows cannot be read as the Lean-facing boundary for this chapter.
+\end{theorem}
+\leanchecked{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditFormalTargetBoundary}
+\begin{proof}
+Project the carrier of \autoref{def:relational-frame-audit-carrier}. It fixes the frame-audit rows $M,A,B,Q,S,D,L,F,H,C,P,N$ as the finite packet visible to any target.
+
+Read the $\mathrm{LayeredRelationCert}$ obligation surface through \autoref{thm:layeredrelationcert-namecert-obligation-surface}. The source-list, layer-map, preservation, non-preservation, ledger, exactness, failure-boundary, transport, replay, provenance, and naming rows are separate relation-audit obligations rather than optional prose.
+
+Finally use no-global-frame refusal and observer-symmetry factorization, \autoref{thm:relational-frame-audit-no-global-frame-refusal} and \autoref{thm:relational-frame-audit-observer-symmetry-factorization}. Those theorems consume the displayed refusal and two-Hist route rows, so a later formal target may claim their boundary only after the same carrier and relation-audit surfaces have been exposed.
+\end{proof}
+
 \falsifiablePrediction{If a relation packet omits the not-preserved row, it cannot satisfy the RelationalFrameAuditUp export gate for same-schema language.}
 
 \independenceWitness{multihistconfig, multihistcoupling, multihistsuperposition, finite-multihist-packet: these siblings carry multi-Hist sites, couplings, superpositions, or packet rows, but none carries a two-chain layer map with preserved and not-preserved relation-audit fields, so no carrier bijection preserves the NameCert obligations.}
 
 The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \RelationalFrameAuditUp$ and $\mathsf{FieldFaithful}\ \RelationalFrameAuditUp$ instances for the displayed rows $M,A,B,Q,S,D,L,F,H,C,P,N$.
 
-\closureat{RelationalFrameAuditUp}{seedStr}
+\closureat{RelationalFrameAuditUp}{scopedStr}
 
 \begin{closurestatus}{\RelationalFrameAuditUp}
   \constructivestory{A $\RelationalFrameAuditUp$ packet is generated from a multi-Hist configuration, two observer-history slots, a frame request, observer-symmetry audit row, cross-Hist causal route, maximum-rate boundary, no-global-frame refusal verdict, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:relational-frame-audit-carrier}, \autoref{def:layeredrelationcert-carrier}, \autoref{thm:relational-frame-audit-namecert-obligations}, \autoref{thm:layeredrelationcert-namecert-obligation-surface}, \autoref{thm:layeredrelationcert-finite-relation-exactness}, \autoref{thm:relational-frame-audit-no-global-frame-refusal}, and \autoref{thm:relational-frame-audit-observer-symmetry-factorization} display the finite audit boundary for local frame-comparison and same-schema relation requests.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:relational-frame-audit-carrier}, \autoref{def:layeredrelationcert-carrier}, \autoref{thm:relational-frame-audit-namecert-obligations}, \autoref{thm:relational-frame-audit-obligation-totality}, \autoref{thm:layeredrelationcert-namecert-obligation-surface}, \autoref{thm:layeredrelationcert-finite-relation-exactness}, \autoref{thm:relational-frame-audit-no-global-frame-refusal}, \autoref{thm:relational-frame-audit-observer-symmetry-factorization}, \autoref{thm:relational-frame-audit-formal-target-boundary}, the falsifiable prediction, the independence witness, and the TasteGate field-faithfulness awareness bind the finite carrier, layered relation carrier, obligation-totality, relation-exactness, no-global-frame refusal, observer-symmetry factorization, formal-boundary theorem, and scoped frame-comparison surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not construct a metric tensor, Lorentz chart, shared clock, global synchronization map, Lean proof, or bridge checking for $\RelationalFrameAuditUp$.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, no-global-frame refusal theorem, observer-symmetry factorization theorem, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Public closure requires a checked Lean carrier, checked NameCert obligation theorem, checked no-global-frame refusal theorem, checked observer-symmetry theorem, and bridge-facing standard route for $\RelationalFrameAuditUp$.}
 \end{closurestatus}

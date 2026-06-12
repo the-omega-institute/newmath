@@ -1,0 +1,349 @@
+\chapter{Zeckendorf Golden Phase Projection}
+\label{ch:visions-zeckendorf-golden-phase-projection}
+\origin{human}
+
+This chapter records a vision-level derived interface attached to the
+Axis-Zeckendorf route. It reads the no-adjacent-\(11\) grammar as a
+finite visible surface, keeps the raw binary microstates in a residual
+fiber ledger, and assigns a golden-ratio phase only as an external
+projection. The projection is not a BEDC kernel object, not a physical
+law, not a real-completion theorem, and not a quotient of histories.
+
+\section{Window observers and residual fibers}
+
+\begin{definition}[Stable Zeckendorf window]
+\label{def:zeckendorf-stable-window}
+For \(m\geq 0\), let
+$$
+  \Omega_m:=\{0,1\}^{m}.
+$$
+The stable Zeckendorf window is the subcarrier
+$$
+  X_m
+  :=
+  \{x\in\Omega_m:\ x_kx_{k+1}=0\ \text{for all admissible }k\}.
+$$
+Equivalently, a visible word in \(X_m\) contains no adjacent \(11\)
+pattern.
+\end{definition}
+
+\begin{definition}[Fibonacci value and fold]
+\label{def:zeckendorf-window-fold}
+Let \(F_0=0\), \(F_1=1\), and \(F_{n+1}=F_n+F_{n-1}\) for \(n\geq 1\).
+For \(\omega\in\Omega_m\), define its Fibonacci value by
+$$
+  N_m(\omega)
+  :=
+  \sum_{k=1}^{m}\omega_kF_{k+1}.
+$$
+Let \(Z(N_m(\omega))\) be the Zeckendorf normal digit sequence of this
+value. The window fold is the visible truncation
+$$
+  \mathsf{Fold}_m:\Omega_m\to X_m,
+  \qquad
+  \mathsf{Fold}_m(\omega):=\pi_m Z(N_m(\omega)).
+$$
+The map is a projection from raw binary words to stable visible words;
+it is not an identification of the raw histories.
+\end{definition}
+
+\begin{definition}[Zeckendorf window observer]
+\label{def:zeckendorf-window-observer}
+A Zeckendorf window observer at width \(m\) consumes only the visible
+word
+$$
+  x=\mathsf{Fold}_m(\omega)\in X_m.
+$$
+The hidden residual fiber over \(x\) is
+$$
+  \mathcal{F}_m(x)
+  :=
+  \mathsf{Fold}_m^{-1}(x),
+  \qquad
+  d_m(x):=|\mathcal{F}_m(x)|.
+$$
+Thus the observer sees a stable Zeckendorf word while the ledger retains
+the raw microstates compressed by the fold.
+\end{definition}
+
+\begin{principle}[Fold readout does not erase the fiber]
+\label{prin:zeckendorf-fold-readout-fiber}
+Any consumer of \(\mathsf{Fold}_m(\omega)=x\) may use \(x\) as a visible
+normal-form token only together with the residual-fiber row
+\(\mathcal{F}_m(x)\) or an explicit exactness certificate. In
+particular, equality of visible windows is not equality of raw histories.
+\end{principle}
+
+\section{Window-six Fibonacci ledger}
+
+\begin{definition}[Window-six ledger coordinates]
+\label{def:zeckendorf-window-six-ledger-coordinates}
+For \(m=6\), define
+$$
+  V_6:=|X_6|,\qquad
+  B_6:=F_9,\qquad
+  O_6:=F_{10},\qquad
+  P_6:=F_6,\qquad
+  T_6:=F_7.
+$$
+The visible stable-window count is
+$$
+  V_6=F_8=21.
+$$
+The boundary entries have the concrete values
+$$
+  F_6=8,\qquad
+  F_7=13,\qquad
+  F_8=21,\qquad
+  F_9=34,\qquad
+  F_{10}=55.
+$$
+\end{definition}
+
+\begin{definition}[Window-six residual denominator]
+\label{def:zeckendorf-window-six-residual-denominator}
+The Window-six residual denominator is
+$$
+  D_0:=F_9+F_7.
+$$
+Equivalently,
+$$
+  D_0=F_{10}-F_6=47.
+$$
+\end{definition}
+
+\begin{theorem}[Window-six residual denominator identity]
+\label{thm:zeckendorf-window-six-residual-denominator}
+The two Window-six residual readings agree:
+$$
+  F_9+F_7=F_{10}-F_6=47.
+$$
+\end{theorem}
+\begin{proof}
+The displayed Fibonacci values give \(F_9+F_7=34+13=47\). They also
+give \(F_{10}-F_6=55-8=47\). Hence the two expressions name the same
+finite ledger denominator.
+\end{proof}
+
+\begin{corollary}[Boundary and tail readings share one ledger]
+\label{cor:zeckendorf-window-six-boundary-tail-ledger}
+The expression \(F_9+F_7\) reads the next boundary together with the
+deep tail, while \(F_{10}-F_6\) reads the second outer boundary after
+removing the eightfold parity/carry defect. These are two descriptions
+of the same finite residual ledger \(D_0\), not two independent
+invariants.
+\end{corollary}
+
+\begin{principle}[Window-six residual closure]
+\label{prin:zeckendorf-window-six-residual-closure}
+The Window-six residual ledger is allowed to close only from the three
+displayed tail layers
+$$
+  21,\qquad 13,\qquad 9,
+$$
+together with the eightfold boundary-parity row \(8=F_6\). No host-side
+fit parameter, external physical constant, or unledgered continuous
+geometry may enter the residual denominator.
+\end{principle}
+
+\begin{definition}[Closed Window-six residual denominator]
+\label{def:zeckendorf-window-six-closed-residual-denominator}
+The closed Window-six residual denominator is
+$$
+\begin{aligned}
+  D_6^\star
+  &:=
+  F_9+F_7
+  +
+  \varphi^{-(F_5+F_3)}
+  \left[
+    1
+    -
+    \frac{F_2}{F_3}\varphi^{-(F_6+F_3)}
+    +
+    \frac{F_6}{F_6+F_2}\varphi^{-2(F_6+F_3)}
+  \right].
+\end{aligned}
+$$
+Equivalently,
+$$
+  D_6^\star
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}+\frac89\varphi^{-27}.
+$$
+\end{definition}
+
+\begin{remark}[The \(8/9\) closure coefficient]
+\label{rem:zeckendorf-eight-nine-closure-coefficient}
+The coefficient \(8/9\) records the ratio between the eightfold
+boundary-parity row and the nine-dimensional invisible residual layer of
+the Window-six tail ledger. It is therefore part of the residual closure
+surface, not a free numerical tuning parameter.
+\end{remark}
+
+\section{Golden phase projection}
+
+\begin{definition}[Golden self-scale]
+\label{def:zeckendorf-golden-self-scale}
+The golden self-scale is the limiting Fibonacci ratio
+$$
+  \varphi
+  :=
+  \lim_{n\to\infty}\frac{F_{n+1}}{F_n},
+$$
+read through the algebraic relation
+$$
+  \varphi=1+\varphi^{-1}.
+$$
+\end{definition}
+
+\begin{definition}[Zeckendorf phase character and circumference certificate]
+\label{def:zeckendorf-phase-character-circumference}
+The Zeckendorf phase character \(\chi_\varphi^Z\) is the phase-circle
+interface whose ordinary continuous semantics is
+$$
+  \chi_\varphi^Z
+  =
+  \cos^2\left(\frac{\pi}{\varphi}\right).
+$$
+The phase-circumference certificate \(\tau_Z^\uparrow\) is the
+circle-interface row whose ordinary continuous semantics is
+$$
+  \tau_Z^\uparrow=2\pi.
+$$
+These rows are certificates for a phase display. They are not finite
+kernel objects, not host trigonometric primitives, and not physical
+laws.
+\end{definition}
+
+\begin{definition}[Closed Window-six cascade kernel]
+\label{def:zeckendorf-window-six-closed-cascade-kernel}
+The closed Window-six cascade kernel is
+$$
+  C_{Z6}^\star
+  :=
+  \frac{F_2}{F_3}
+  +
+  \frac{F_2}{F_3^{F_3}}\chi_\varphi^Z
+  +
+  \frac{F_2}{D_6^\star\varphi^{F_5}}.
+$$
+Under the ordinary continuous semantics of
+\autoref{def:zeckendorf-phase-character-circumference}, this reads
+$$
+  C_6^\star
+  =
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+  +
+  \frac{1}{D_6^\star\varphi^5}.
+$$
+\end{definition}
+
+\begin{definition}[Closed Window-six Zeckendorf-golden phase readout]
+\label{def:zeckendorf-window-six-closed-phase-readout}
+The closed Window-six Zeckendorf-golden phase readout is
+$$
+  R_{Z6}^\star
+  :=
+  \tau_Z^\uparrow\varphi^{F_5}
+  \frac{
+    F_8+F_9C_{Z6}^\star
+  }{
+    F_8\varphi^{-F_2}
+    +
+    F_9C_{Z6}^\star\varphi^{-F_3}
+  }.
+$$
+In ordinary continuous notation this is
+$$
+  \alpha_{Z6}^{-1}
+  =
+  2\pi\varphi^5
+  \frac{
+    21+34C_6^\star
+  }{
+    21\varphi^{-1}+34C_6^\star\varphi^{-2}
+  }.
+$$
+\end{definition}
+
+\begin{definition}[Golden phase projection]
+\label{def:zeckendorf-golden-phase-projection}
+A golden phase projection for a visible window \(x\in X_m\) is an
+external display assignment
+$$
+  \Theta_m(x)
+  :=
+  \exp(2\pi i\,\theta_m(x)),
+$$
+where \(\theta_m(x)\) is a rational or real readout obtained from the
+Fibonacci-value ledger of \(x\). The projection may be used to compare
+visible periodicities, carry shadows, or residual-fiber weights. Its
+source remains the finite fold ledger
+$$
+  \Omega_m
+  \xrightarrow{\ \mathsf{Fold}_m\ }
+  X_m
+  \xleftarrow{\ \mathcal{F}_m\ }
+  \Omega_m.
+$$
+\end{definition}
+
+\begin{theorem}[Golden phase is a derived readout]
+\label{thm:zeckendorf-golden-phase-derived-readout}
+The golden phase projection is a derived interface over the
+Axis-Zeckendorf fold ledger. It does not identify raw histories, does not
+replace \(\mathsf{ZCarry}\) by \(\HSame\), does not export field
+operations of \(\RealUp\) or a circle carrier, and does not assert a
+physical law.
+\end{theorem}
+\begin{proof}
+By Definition~\ref{def:zeckendorf-golden-phase-projection}, the phase
+token \(\Theta_m(x)\) is assigned only after the visible word \(x\) has
+been obtained from \(\mathsf{Fold}_m\). By
+Principle~\ref{prin:zeckendorf-fold-readout-fiber}, use of the visible
+word must retain the residual-fiber row or an exactness certificate.
+Therefore the phase token cannot collapse raw histories. The carry
+discipline of Theorem~\ref{thm:zcarry-not-hsame} keeps carry
+classification separate from \(\HSame\), and the cannot-claim registry
+of \autoref{ch:concrete-instances-axis-zeckendorf-cannot-claim} blocks
+promotion to \(\RealUp\), a primitive dimension, or a replacement of
+\(\NatUp\). The projection is therefore only a display interface over
+finite ledger data.
+\end{proof}
+
+\begin{corollary}[Allowed use of the projection]
+\label{cor:zeckendorf-golden-phase-allowed-use}
+A valid consumer may use \(\Theta_m\) to organize visible
+Axis-Zeckendorf patterns, compare Window-six residual ledgers, or state a
+horizon bridge toward analytic phase language. Such a consumer must also
+carry the fold source, residual fiber, carry-separation row, and
+cannot-claim boundary.
+\end{corollary}
+
+\begin{theorem}[Closed Window-six readout is a candidate, not a physical theorem]
+\label{thm:zeckendorf-window-six-readout-candidate-boundary}
+The readout \(R_{Z6}^\star\) is the Window-six Zeckendorf-golden phase
+projection candidate. It is not, by itself, an equality with the low
+energy electromagnetic fine-structure constant, a derivation of a
+physical law, or a reconstruction of continuous spacetime.
+\end{theorem}
+\begin{proof}
+The construction of \(R_{Z6}^\star\) uses the finite Window-six fold
+ledger, the residual closure principle, the phase-character row, and the
+phase-circumference certificate. These data close the derived-interface
+readout but do not supply a physical representation certificate. A
+physical identification must add a separate map
+$$
+  \rho_{\mathrm{phys}}(R_{Z6}^\star)
+  =
+  \alpha_{\mathrm{EM}}^{-1}(0),
+$$
+where the right-hand side is the low-energy electromagnetic coupling
+readout. Without that representation certificate, the result remains a
+mathematical projection candidate inside the Axis-Zeckendorf vision.
+\end{proof}
+
+\input{parts/visions/axiszeckendorf/physical_representation_obligations}

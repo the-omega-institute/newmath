@@ -38,6 +38,7 @@ Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
 $$
 body typing readback, argument typing readback, beta-redex route replay, codomain boundary readback, substituted body readback, substituted codomain readback, ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and non-escape from host substitution semantics, semantic term equality, unrestricted conversion, and closed subject reduction.
 \end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:betasubstitutionpreservation-carrier}. The packet exposes exactly $B,A,V,C_0,R,C_1,L,H,K,P,N$.
 
@@ -48,10 +49,52 @@ The existing $\ClosedTermSubstitutionBoundaryUp$ and $\BinderContextSubstitution
 Finally $L,H,K,P,N$ bind the readbacks to one local NameCert surface. Since no carrier coordinate names host substitution semantics, semantic term equality, unrestricted conversion, or a closed subject-reduction theorem, no local projection can export one.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation redex carrier]
+\label{thm:beta-substitution-preservation-redex-carrier}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+the beta redex visible to the MetaCIC route is exactly the closed term source row $B$, the argument row $A$, the binder-context boundary $C_0$, the beta-redex row $V$, the substitution seal carried by $R,C_1$, the typed reduction and normal-form row read through $L$, the subject-reduction discharge socket in $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The closed term source and argument source are the rows $B$ and $A$, while $V$ is the only row that names the beta-redex site.
+
+The binder context is read at $C_0$, and the substitution seal is visible only through the substituted body and codomain rows $R,C_1$. The ledger $L$ records the typed reduction and normal-form boundary for those rows.
+
+The subject-reduction consumer receives a socket only through $K$. The remaining rows $H,P,N$ transport, source, and name the same finite packet, so the redex carrier has no coordinate for closed subject reduction or global confluence.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation context transport]
+\label{thm:beta-substitution-preservation-context-transport}
+Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier. Every binder-context transport of the beta-substitution route must keep the closed term source $B$, argument source $A$, substitution seal $R,C_1$, typed reduction and normal-form ledger $L$, subject-reduction discharge socket $K$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row in the same packet.
+\end{theorem}
+\begin{proof}
+Start with the binder-context row $C_0$. It records the shifted-domain boundary before substitution, so a context transport has to carry $C_0$ with the source rows $B,A$ and the redex row $V$.
+
+Use the componentwise transport row $H$. It moves $B,A,V,C_0,R,C_1,L,K,P,N$ together and therefore prevents the substituted rows from being read after changing the binder context.
+
+Replay is displayed through $K$, which is also the only subject-reduction discharge socket. Provenance $P$ and naming $N$ keep the route local to this packet, with no appeal to closed subject reduction or global confluence.
+\end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationContextTransport}
+
+\begin{theorem}[BetaSubstitutionPreservation typed residual non-escape]
+\label{thm:beta-substitution-preservation-typed-residual-nonescape}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$, the typed residual endpoint consumed by the MetaCIC route is read only through the closed term source, binder context, substitution seal, typed reduction and normal-form ledger, subject-reduction discharge socket, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of $Q$. It cannot be replaced by closed subject reduction, global confluence, host substitution semantics, or unrestricted conversion.
+\end{theorem}
+\begin{proof}
+Read the residual endpoint through the substituted rows $R,C_1$ and the ledger $L$. These rows are available only after the body source $B$, argument source $A$, redex row $V$, and binder context $C_0$ have been displayed.
+
+The discharge socket is the route in $K$. It passes the typed residual endpoint to the surrounding MetaCIC interface as a finite row, not as a closed subject-reduction theorem.
+
+Finally apply the non-escape boundary of \autoref{thm:betasubstitutionpreservation-nonescape}. Since $Q$ has no coordinates for global confluence, host substitution semantics, unrestricted conversion, or closed subject reduction, the typed residual remains local NameCert data.
+\end{proof}
+
 \begin{theorem}[BetaSubstitutionPreservation redex closure]
 \label{thm:betasubstitutionpreservation-redex-closure}
 Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier. Any public read of the beta-redex preservation step reaches the substituted body row $R$ and the substituted codomain row $C_1$ only through the displayed body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary $C_0$, ledger $L$, componentwise $\hsame$ transports, and displayed $\Cont$ routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationRedexClosure}
 \begin{proof}
 Project the accepted carrier. The source typing information is exactly $B$ and $A$, and the beta-redex site is exactly $V$.
 
@@ -59,6 +102,7 @@ The route $K$ replays the redex boundary through the codomain readback $C_0$ and
 
 Apply the $\SubjectReductionUp$ anchor only at the handoff row recorded in $K$. The packet therefore supplies the beta-case input consumed by subject reduction, not an ambient subject-reduction theorem or a second reduction semantics.
 \end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationEventFlow\_extra\_tail\_rejected}
 
 \begin{theorem}[BetaSubstitutionPreservation non-escape]
 \label{thm:betasubstitutionpreservation-nonescape}
@@ -75,6 +119,7 @@ Use \autoref{thm:betasubstitutionpreservation-namecert-obligations}. The substit
 
 The exclusions follow from absence of coordinates. Host substitution semantics, semantic term equality, unrestricted conversion, and closed subject reduction would each require a separate row or external route, and neither is present in $Q$.
 \end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNonescape}
 
 \begin{theorem}[BetaSubstitutionPreservation subject-reduction handoff]
 \label{thm:betasubstitutionpreservation-subjectreduction-handoff}
@@ -91,6 +136,7 @@ The handoff route in $K$ is the only $\SubjectReductionUp$-facing coordinate. It
 
 Use \autoref{thm:betasubstitutionpreservation-nonescape} for the boundary condition. The packet cannot be read as unrestricted conversion, global normalization, or closed subject reduction, so the subject-reduction consumer receives exactly the named beta-substitution preservation input.
 \end{proof}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationSubjectReductionHandoff}
 
 \begin{theorem}[Beta row consumption by SubjectReductionDischarge]
 \label{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}
@@ -116,6 +162,7 @@ Finally apply the obstruction boundary of \autoref{thm:subject-reduction-dischar
 \label{thm:betasubstitutionpreservation-redex-ledger-exactness}
 Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier. The redex ledger row $L$ records exactly the body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary row $C_0$, substituted body row $R$, substituted codomain row $C_1$, componentwise transports $H$, continuation routes $K$, provenance row $P$, and local naming row $N$ from \autoref{def:betasubstitutionpreservation-carrier}. It does not add host substitution semantics, a semantic term-equality row, unrestricted conversion, or closed subject reduction to the beta case.
 \end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationRedexLedgerExactness}
 \begin{proof}
 Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The ledger row $L$ is listed after the beta source, redex, codomain, substituted-body, and substituted-codomain rows, so its source inventory is $B,A,V,C_0,R,C_1$.
 
@@ -136,13 +183,38 @@ The rows $H$ and $K$ transport and replay the codomain pair together with $B,A,V
 Non-escape is supplied by \autoref{thm:betasubstitutionpreservation-nonescape}. Since no replacement coordinate exists for host substitution semantics, unrestricted conversion, or closed subject reduction, the codomain-boundary pair is stable only inside the displayed packet.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation residual-budget monotonicity]
+\label{thm:betasubstitutionpreservation-residual-budget-monotonicity}
+Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier consumed by a downstream $\SubjectReductionDischargeUp$ packet. If the discharge packet preserves the beta row supplied by $Q$, then the displayed residual obligation budget can only decrease or remain unchanged: the beta row is consumed, while the application-argument, lambda-domain, and Pi-domain rows remain external discharge obligations. No row of $Q$ creates an additional discharge obligation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. Its rows are exactly $B,A,V,C_0,R,C_1,L,H,K,P,N$, with the $\SubjectReductionUp$ handoff recorded through the displayed routes in $K$ and provenance in $P$.
+
+Apply \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. The downstream discharge surface has four rows, and the accepted beta packet supplies exactly the beta row. The application-argument, lambda-domain, and Pi-domain rows remain outside this carrier.
+
+Use \autoref{thm:betasubstitutionpreservation-nonescape}. Since $Q$ has no coordinate for host substitution semantics, unrestricted conversion, closed subject reduction, or a replacement discharge row, it cannot introduce a new residual obligation.
+
+Thus consuming the beta row removes one displayed obligation from the residual budget or leaves the external budget unchanged when the downstream packet merely records the handoff. The finite packet has no route that increases the discharge inventory.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation discharge progress]\label{thm:betasubstitutionpreservation-discharge-progress}
+Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier consumed by an accepted $\SubjectReductionDischargeUp$ packet. If the consumer records the beta row supplied by $Q$, then the residual discharge surface removes exactly that beta row. The application-argument row, lambda-domain row, and Pi-domain row remain external discharge obligations, and no row of $Q$ supplies host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+First read the four-row boundary through \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. The accepted beta packet supplies exactly the beta row of the $\SubjectReductionDischargeUp$ surface, while the application-argument, lambda-domain, and Pi-domain rows are still outside the carrier.
+
+Next apply \autoref{thm:betasubstitutionpreservation-residual-budget-monotonicity}. Consuming the displayed beta row cannot create an additional residual obligation, because the handoff in $K$ and the provenance in $P$ route only the same finite beta packet to the downstream discharge consumer.
+
+Finally use \autoref{thm:betasubstitutionpreservation-nonescape}. The carrier has no coordinate for host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction. The only progress made by consuming $Q$ is therefore the removal of the beta row; the other three discharge rows remain external.
+\end{proof}
+
 \begin{theorem}[BetaSubstitutionPreservation beta-case obligation package]
 \label{thm:betasubstitutionpreservation-beta-case-obligation-package}
 The beta case exposed by an accepted $\BetaSubstitutionPreservationUp$ carrier is the finite BEDC package
 $$
 Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)
 $$
-together with the carrier obligations of \autoref{thm:betasubstitutionpreservation-namecert-obligations}, the redex closure of \autoref{thm:betasubstitutionpreservation-redex-closure}, the non-escape boundary of \autoref{thm:betasubstitutionpreservation-nonescape}, the subject-reduction handoff of \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}, the redex ledger exactness of \autoref{thm:betasubstitutionpreservation-redex-ledger-exactness}, and the codomain-boundary stability of \autoref{thm:betasubstitutionpreservation-codomain-boundary-stability}. This package is an obligation surface for the beta case; it is not host substitution semantics, unrestricted conversion, a global normalization theorem, or closed subject reduction.
+together with the carrier obligations of \autoref{thm:betasubstitutionpreservation-namecert-obligations}, the redex closure of \autoref{thm:betasubstitutionpreservation-redex-closure}, the non-escape boundary of \autoref{thm:betasubstitutionpreservation-nonescape}, the subject-reduction handoff of \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}, the redex ledger exactness of \autoref{thm:betasubstitutionpreservation-redex-ledger-exactness}, the codomain-boundary stability of \autoref{thm:betasubstitutionpreservation-codomain-boundary-stability}, and the residual-budget monotonicity of \autoref{thm:betasubstitutionpreservation-residual-budget-monotonicity}. This package is an obligation surface for the beta case; it is not host substitution semantics, unrestricted conversion, a global normalization theorem, or closed subject reduction.
 \end{theorem}
 \begin{proof}
 The carrier obligations name the rows $B,A,V,C_0,R,C_1,L,H,K,P,N$ and the local exclusions. Redex closure then shows how the substituted body and substituted codomain are reached from the body typing, argument typing, redex, and codomain boundary rows.
@@ -150,6 +222,24 @@ The carrier obligations name the rows $B,A,V,C_0,R,C_1,L,H,K,P,N$ and the local 
 The handoff theorem presents the same packet to $\SubjectReductionUp$. Redex ledger exactness records that the ledger contains precisely the displayed beta rows, and codomain-boundary stability records that the codomain pair remains paired under $H$ and $K$.
 
 Combining these finite rows gives the beta-case obligation package. The non-escape theorem excludes host substitution semantics, unrestricted conversion, global normalization, and closed subject reduction from the package boundary.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation scoped discharge inventory]
+\label{thm:betasubstitutionpreservation-scoped-discharge-inventory}
+Let
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)
+$$
+be an accepted $\BetaSubstitutionPreservationUp$ carrier consumed by $\SubjectReductionDischargeUp$. Every scoped discharge read supplied by $Q$ factors through the body row $B$, argument row $A$, beta-redex row $V$, codomain boundary $C_0$, substituted body row $R$, substituted codomain row $C_1$, ledger row $L$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replay $K$, provenance row $P$, and local $\NameCert$ row $N$. It cannot supply the application-argument, lambda-domain, or Pi-domain discharge rows, nor host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The only rows available to the discharge consumer are the displayed coordinates $B,A,V,C_0,R,C_1,L,H,K,P,N$.
+
+Use the beta-case obligation package of \autoref{thm:betasubstitutionpreservation-beta-case-obligation-package}. It binds the body, argument, redex, codomain, substituted readback, ledger, transport, replay, provenance, and local naming rows as one finite beta obligation surface.
+
+Apply the four-row consumption theorem \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. The accepted packet is exactly the beta row consumed by $\SubjectReductionDischargeUp$, while the application-argument, lambda-domain, and Pi-domain rows remain outside this carrier.
+
+Finally use non-escape from \autoref{thm:betasubstitutionpreservation-nonescape}. Since no coordinate of $Q$ names host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction, every scoped discharge read stays inside the displayed beta inventory.
 \end{proof}
 
 \begin{theorem}[BetaSubstitutionPreservation body and argument boundary]
@@ -224,15 +314,61 @@ Apply codomain readback from \autoref{thm:beta-substitution-preservation-codomai
 Finally use the subject-reduction handoff \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. The discharge consumer receives the beta row through $K$ and $P$ as a finite handoff, while the other discharge rows remain outside this carrier. Thus the sibling route is substantive, but it exports no closed subject reduction.
 \end{proof}
 
+\begin{theorem}[Beta substitution preservation obligation surface]
+\label{thm:beta-substitution-preservation-obligation-surface}
+Every accepted $\BetaSubstitutionPreservationUp$ packet exposes a finite obligation surface consisting of beta-redex replay, substituted body readback, codomain readback, binder-context transport, subject-reduction handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The surface exports no host substitution function, no quotient equality of terms, no unrestricted conversion, and no closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:betasubstitutionpreservation-carrier} in order. The body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary $C_0$, substituted body row $R$, and substituted codomain row $C_1$ supply the finite redex replay and readback data.
+
+Next read the ledger and transport rows. The ledger $L$ ties the displayed readbacks to one beta case, while $H$ gives the componentwise $\hsame$ transport and $K$ gives the displayed $\Cont$ replay routes, including the binder-context and subject-reduction handoff routes.
+
+Finally read provenance and naming through $P$ and $N$. These rows keep the packet inside the local $\NameCert_{\BetaSubstitutionPreservationUp}$ surface and record which sibling boundaries are consumed.
+
+The exclusions are inspection of the same finite inventory. No coordinate of $Q$ is a host substitution function, a quotient equality of terms, unrestricted conversion, or closed subject reduction, so no accepted read of the obligation surface can export one.
+\end{proof}
+
+\begin{theorem}[Beta substitution preservation obligation rows]
+\label{thm:beta-substitution-preservation-obligation-rows}
+Every accepted $\BetaSubstitutionPreservationUp$ packet exposes, in order, the binder-context row, substituted body row, codomain readback row, subject-reduction handoff, closed-term substitution boundary, nonescape ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any MetaCIC consumer may read beta preservation. The row order is part of the finite NameCert route: a consumer cannot read $\SubjectReductionUp$ through this packet before the $\ClosedTermSubstitutionBoundaryUp$, $\BinderContextSubstitutionSealUp$, and $\TypedReductionNormalFormUp$ rows have been displayed inside the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The rows $C_0,R,C_1$ give the binder-context boundary, substituted body readback, and codomain readback after the source rows $B,A,V$ have fixed the beta site.
+
+Next read the sibling boundaries. The $\BinderContextSubstitutionSealUp$ row keeps the binder-context surface attached to $C_0$, the $\ClosedTermSubstitutionBoundaryUp$ row keeps the substituted body route attached to $R$, and the $\TypedReductionNormalFormUp$ row keeps the endpoint readback attached to $C_1$ and $L$.
+
+The subject-reduction handoff is then available only through $K$ and $P$. The existing handoff theorem \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} presents the beta case to $\SubjectReductionUp$ as the same finite packet, while \autoref{thm:betasubstitutionpreservation-nonescape} blocks host substitution semantics, unrestricted conversion, and closed subject reduction from replacing the displayed rows.
+
+Finally transport, replay, provenance, and local naming are componentwise. The rows $H,K,P,N$ carry the same ordered packet to the MetaCIC consumer, so any accepted read of beta preservation first passes through the listed obligation rows and never through an off-packet preservation theorem.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation scoped discharge socket]
+\label{thm:betasubstitutionpreservation-scoped-discharge-socket}
+The beta row handed to $\SubjectReductionDischargeUp$ by an accepted $\BetaSubstitutionPreservationUp$ packet is scoped exactly by the body typing row, argument row, beta-redex row, binder-context boundary, substituted body row, substituted codomain row, typed residual ledger, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows already named in
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N).
+$$
+The discharge socket supplies only the beta row consumed by $\SubjectReductionDischargeUp$; the application-argument, lambda-domain, and Pi-domain rows remain external, and no read escapes to host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. It presents $Q$ as the finite beta-substitution preservation packet handed to the subject-reduction interface, with the body typing, argument typing, beta-redex, substituted readbacks, ledger, transport, replay, provenance, and local naming rows all displayed.
+
+Apply \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. It identifies the downstream discharge surface and fixes this packet as exactly the beta row of $\SubjectReductionDischargeUp$, leaving the other three discharge rows outside the carrier.
+
+Apply \autoref{thm:betasubstitutionpreservation-nonescape}. Since the carrier contains no host substitution semantics, unrestricted conversion, global confluence, or closed subject-reduction coordinate, the discharge socket is scoped precisely by the rows of $Q$ and cannot export anything beyond them.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
+\closureat{BetaSubstitutionPreservationUp}{obligationStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
   \constructivestory{A $\BetaSubstitutionPreservationUp$ packet is generated from body typing, argument typing, beta-redex, codomain readback, substituted body, substituted codomain, finite ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:betasubstitutionpreservation-carrier}, \autoref{thm:betasubstitutionpreservation-namecert-obligations}, \autoref{thm:betasubstitutionpreservation-redex-closure}, \autoref{thm:betasubstitutionpreservation-nonescape}, and \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} bind beta-substitution preservation as a finite NameCert packet for the MetaCIC subject-reduction beta case.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:betasubstitutionpreservation-carrier}, \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}, \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}, \autoref{thm:betasubstitutionpreservation-nonescape}, and \autoref{thm:betasubstitutionpreservation-scoped-discharge-socket} scope the $\SubjectReductionDischargeUp$ beta socket exactly by the displayed body typing, argument, beta-redex, binder-context, substituted body and codomain, typed residual ledger, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of $Q$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNonescape}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host substitution semantics, semantic term equality, unrestricted conversion, the other three MetaCIC subject-reduction discharge obligations, global normalization, Lean verification, or closed subject reduction.}
-  \upgradepath{Obligation closure requires checked carrier admission, beta-redex replay, substituted body and codomain readback, ledger exactness, non-escape, and the subject-reduction handoff for the same finite packet.}
+  \upgradepath{Scoped closure asks for consumer coverage, socket factorization, and downstream MetaCIC consolidation for the same finite packet.}
 \end{closurestatus}

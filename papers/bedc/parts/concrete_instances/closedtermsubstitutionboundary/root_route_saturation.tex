@@ -6,6 +6,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
 $$
 and the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. A route may read the term row, value row, inspected depth, source and value closedness rows, closed shift row, substitute-closed row, finite ledger, audit row, componentwise transport, displayed continuation, package provenance, and local naming row, but it has no additional coordinate for a host substitution relation, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free variable.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRouteSaturation}
 \begin{proof}
 Start from the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They make the displayed rows the complete carrier surface and allow only componentwise $\hsame$ transport and recorded $\Cont$ reads across that surface.
 
@@ -25,6 +26,7 @@ Use the classifier and local $\NameCert$ obligations from \autoref{def:closed-te
 
 Apply \autoref{thm:closed-term-substitution-boundary-source-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}, and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. The shift/substitution read is therefore locked behind the source/value rows and the finite ledger before $Q$ or $R$ can be consumed.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryNamecertSourceLock}
 
 \begin{theorem}[Closed-term substitution boundary consumer non-escape]
 \label{thm:closed-term-substitution-boundary-consumer-nonescape}
@@ -33,6 +35,7 @@ $$
 T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryConsumerNonescape}
 \begin{proof}
 First inspect the carrier, classifier, and $\NameCert$ obligations. The only available rows are the term, value, depth, closedness, operation, ledger, audit, transport, continuation, package, and local naming rows displayed in the accepted packet.
 
@@ -49,6 +52,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
 $$
 and then tries to omit, replace, detach, or bypass one of the displayed packet coordinates or one of the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The same row cannot be reinterpreted as a global impossibility statement, host theorem, hidden external validation, host substitution semantics, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free-variable route.
 \end{corollary}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRouteSaturationStrictObstruction}
 \begin{proof}
 By \autoref{thm:closed-term-substitution-boundary-route-saturation}, every accepted route of the packet is already exhausted by the displayed finite carrier rows and by the listed BEDC primitives. Thus a converse or reuse route has no independent entry point for a host substitution relation, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free variable. Its consumer-facing content must first be a read of the term row, value row, inspected depth, source and value closedness rows, operation rows, finite ledger, audit row, componentwise transport, displayed continuation, package provenance, and local naming row.
 

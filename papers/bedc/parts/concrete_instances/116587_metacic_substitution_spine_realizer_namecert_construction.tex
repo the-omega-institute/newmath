@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionSpineRealizerUp$}
+\label{ch:concrete-instances-metacic-substitution-spine-realizer-namecert}
+\origin{human}
+
+Following the standard de Bruijn account of shifting and substitution under binders, the $\MetaCICSubstitutionSpineRealizerUp$ packet realizes the audit map of \autoref{ch:metacic-substitution-audit-map} as finite BEDC spine data. It sits after the closed substitution spine of \autoref{ch:concrete-instances-metacic-substitution-spine-namecert}, the substitution audit packet of \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, the closed substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, and the subject-reduction obstruction map of \autoref{ch:metacic-subject-reduction-obstruction}. The packet records closed shift, closed substitution, closed composition, and binder-seal audit rows; it does not claim unrestricted substitution commutation, beta-substitution preservation, closed subject reduction, quotient syntax equality, host evaluator soundness, or kernel consistency.
+
+\begin{definition}[MetaCIC substitution spine realizer carrier]
+\label{def:metacic-substitution-spine-realizer-carrier}
+A $\MetaCICSubstitutionSpineRealizerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,I,B,Z,S,U,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed MetaCIC term row, exposing the source term, payload term, and binder depth used by the audit map.
+\item $I$ is the de Bruijn index row, recording cutoff, depth, and successor arithmetic needed by the closed shift and substitution clauses.
+\item $B$ is the binder-seal row, recording the $\mathsf{ClosedAt}$ boundary that advances under lambda and Pi constructors.
+\item $Z$ is the closed shift row, read through the displayed term, index, and binder-seal rows.
+\item $S$ is the closed substitution row, read through the same closed boundary and payload visibility.
+\item $U$ is the closed composition row, restricted to the checked closed-fragment composition and swap laws named by the audit map.
+\item $K$ is the subject-reduction handoff row, retaining the beta-substitution preservation boundary as an obligation surface rather than a discharged theorem.
+\item $L$ is the local audit ledger row, recording that the consumer may inspect $Z,S,U$ before reaching $K$.
+\item $H$ records componentwise $\hsame$ transport for term, index, binder-seal, shift, substitution, composition, handoff, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a substitution-audit request through $T,I,B,Z,S,U,K,L$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICSubstitutionSpineRealizerUp$, \autoref{ch:metacic-substitution-audit-map}, \autoref{ch:concrete-instances-metacic-substitution-spine-namecert}, \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, \autoref{ch:metacic-subject-reduction-obstruction}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICSubstitutionSpineRealizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,I,B,Z,S,U,K,L,H,C,P,N$. It has no coordinate for unrestricted substitution calculus, beta-substitution preservation, closed subject reduction, quotient syntax equality, host evaluator soundness, erased derivation semantics, or kernel consistency.
+\end{definition}
+\leanchecked{BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.MetaCICSubstitutionSpineRealizerTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MetaCIC substitution spine realizer boundary]
+\label{thm:metacic-substitution-spine-realizer-boundary}
+For every accepted $\MetaCICSubstitutionSpineRealizerUp$ carrier
+$$
+R=(T,I,B,Z,S,U,K,L,H,C,P,N),
+$$
+the closed shift row $Z$, closed substitution row $S$, and closed composition row $U$ are readable only after the term row $T$, de Bruijn index row $I$, and binder-seal row $B$ have been displayed. A consumer that reaches the subject-reduction handoff $K$ receives only the syntax-side audit ledger $L$ and the structural rows $H,C,P,N$; it receives no beta-substitution preservation theorem, no closed subject-reduction theorem, no quotient syntax equality, and no host evaluator soundness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-substitution-spine-realizer-carrier}. The rows preceding the operation surface are exactly the term data $T$, index data $I$, and binder-seal data $B$.
+
+Read the operation rows in that order. The closed shift row $Z$ and closed substitution row $S$ both depend on the displayed $\mathsf{ClosedAt}$ boundary, while the composition row $U$ is limited to the checked closed-fragment laws cited by the audit map.
+
+The subject-reduction handoff $K$ is a boundary row. The local ledger $L$ records that the syntax-side rows $Z,S,U$ may be inspected before this boundary, but it does not fill the beta-substitution preservation obligation.
+
+Transport and replay through $H$ and $C$ preserve the same row order, while $P$ and $N$ attach provenance and local naming. Since no carrier coordinate stores unrestricted substitution commutation, beta preservation, closed subject reduction, quotient syntax equality, host evaluator soundness, erased derivation semantics, or kernel consistency, the consumer cannot export any of those endpoints from this packet.
+\end{proof}
+
+\closureat{MetaCICSubstitutionSpineRealizerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubstitutionSpineRealizerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-substitution-spine-realizer-carrier} and \autoref{thm:metacic-substitution-spine-realizer-boundary} seed the finite substitution-audit realizer over displayed MetaCIC term, de Bruijn index, binder-seal, closed shift, closed substitution, closed composition, handoff, ledger, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution commutation, beta-substitution preservation, closed subject reduction, quotient syntax equality, host evaluator soundness, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, binder-seal gating, closed shift routing, closed substitution routing, closed composition routing, subject-reduction handoff non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.}
+  \constructivestory{A $\MetaCICSubstitutionSpineRealizerUp$ packet is generated from closed MetaCIC term data, de Bruijn index data, a ClosedAt binder seal, closed shift rows, closed substitution rows, closed composition rows, a subject-reduction handoff row, an audit ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

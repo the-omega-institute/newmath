@@ -1,0 +1,170 @@
+\begin{definition}[LowerSemicontinuous closed-superlevel carrier]
+\label{def:lowersemicontinuous-closed-superlevel-carrier}
+A closed-superlevel row for the root packet
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ is a finite $\BHist$ packet
+$$
+S=(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+where $q$ is the rational threshold being tested, $E_q$ is the lower-real
+epigraph window read from $E$ at threshold $q$, $O_q$ is the $\RealUp$-seal and
+$\LocatedRealUp$ comparison route attached to the same threshold, $B_q$ is the
+$\BHist$ evidence that the complement of the displayed sublevel window remains
+stable under the shown $\hsame$ and $\Cont$ transports, and $H_q,C_q,P_q,N_q$
+transport, replay, source, and name the same threshold row. The row records a
+constructive complement boundary for the finite lower-real window; it does not
+assert classical topological closedness of a host superlevel set.
+\end{definition}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousClosedSuperlevelCarrier\_surface}
+
+\begin{theorem}[LowerSemicontinuous closed-superlevel stability]
+\label{thm:lowersemicontinuous-closed-superlevel-stability}
+For every accepted closed-superlevel row
+$$
+S=(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+attached to $L_{\mathrm{root}}$, transport by the displayed $\hsame$ rows and
+replay by the displayed $\Cont$ route preserves the finite superlevel
+complement boundary determined by $q$. Equivalently, a consumer that avoids the
+open-sublevel window at threshold $q$ may keep that avoidance only through the
+lower-real epigraph row $E_q$, the located readback route $O_q$, the $\RealUp$
+seal data, and the stability evidence $B_q$; it cannot replace them by host
+closedness, semantic liminf data, quotient real equality, countable choice,
+open-cover compactness, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousClosedSuperlevel\_stability}
+\begin{proof}
+Project the closed-superlevel carrier. Its threshold is the displayed rational
+$q$, and all boundary information is stored in $E_q,O_q,B_q,H_q,C_q,P_q,N_q$.
+There is no coordinate for a host topological closed set.
+
+Apply \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. The
+threshold row $E_q$ is read only through the lower-real epigraph window
+attached to the original root packet, after the scheduled source windows and
+regular rational value rows have been displayed.
+
+Use \autoref{thm:lower-semicontinuous-located-readback-stability}. The located
+comparison row $O_q$ remains on the same route under the componentwise
+$\hsame$ transport and the displayed $\Cont$ replay. Hence the complement of
+the open-sublevel window is carried by $B_q$ as finite transport evidence, not
+as a detached topological predicate.
+
+Finally apply \autoref{thm:lowersemicontinuous-open-sublevel-route} together
+with \autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. The open-sublevel
+route identifies the boundary being avoided, and the real-seal nonescape row
+prevents the consumer from substituting classical closedness, semantic liminf
+data, quotient real equality, countable choice, compactness, or ambient
+completeness for the displayed finite boundary.
+\end{proof}
+
+\begin{definition}[LowerSemicontinuous superlevel threshold surface]
+\label{def:lowersemicontinuous-superlevel-threshold-surface}
+For a rational threshold $q$ attached to an accepted closed-superlevel row
+$$
+S=(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q),
+$$
+the superlevel threshold surface is the finite reusable read
+$$
+(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q).
+$$
+It records the threshold, lower-real epigraph window, located comparison and $\RealUp$-seal route, complement-boundary evidence, componentwise transport, replay, provenance, and local naming needed by any closed-superlevel consumer.
+\end{definition}
+\leandef{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousSuperlevelThresholdSurface}
+\leandef{BEDC.Derived.LowerSemicontinuousUp.lowerSemicontinuousSuperlevelThresholdSurface}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousSuperlevelThresholdSurface\_exact}
+
+\begin{theorem}[LowerSemicontinuous closed-superlevel threshold exhaustion]
+\label{thm:lowersemicontinuous-closed-superlevel-threshold-exhaustion}
+Every closed-superlevel consumer of an accepted threshold surface
+$$
+(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+must exhaust $E_q,O_q,B_q,H_q,C_q,P_q,N_q$ before reading a boundary at $q$. The consumer cannot replace those rows by host closedness, semantic liminf data, quotient real equality, countable choice, open-cover compactness, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousClosedSuperlevelThresholdExhaustion}
+\begin{proof}
+Start from the threshold surface of \autoref{def:lowersemicontinuous-superlevel-threshold-surface}. Its only analytic rows are the lower-real epigraph window $E_q$, located comparison and Real-seal route $O_q$, and complement-boundary evidence $B_q$.
+
+Apply closed-superlevel stability, \autoref{thm:lowersemicontinuous-closed-superlevel-stability}. It preserves the finite complement boundary only through the displayed transport and replay rows, so $H_q$ and $C_q$ must be read with the same threshold.
+
+The provenance and local naming rows $P_q,N_q$ bind the threshold row to the original packet. Since no coordinate stores host topology, semantic liminf data, quotient equality, choice, compactness, or ambient completeness, the listed rows exhaust every boundary read at $q$.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous Baire-one superlevel handoff]
+\label{thm:lowersemicontinuous-baire-one-superlevel-handoff}
+Every Baire-one or lower-real consumer of an accepted $\LowerSemicontinuousUp$ packet receives the same superlevel threshold surface
+$$
+(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+when it asks for a closed-superlevel read at threshold $q$. The handoff contains no host topology coordinate, semantic liminf coordinate, choice coordinate, quotient real equality, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousBaireOneSuperlevelHandoff}
+\begin{proof}
+Project the closed-superlevel carrier and the threshold surface. Both expose the same rows $q,E_q,O_q,B_q,H_q,C_q,P_q,N_q$, so there is no second Baire-one or lower-real boundary object to receive.
+
+Use the threshold exhaustion theorem. It forces the consumer to read the epigraph window, located comparison and seal route, complement-boundary evidence, transport, replay, provenance, and local naming before a boundary at $q$ is available.
+
+Finally apply the Baire-window factorization theorem, \autoref{thm:lowersemicontinuous-baire-window-factorization}. Baire-one and lower-real consumers already factor through the finite $W,R,E,O$ route, and the threshold surface is the closed-superlevel read of that same route rather than a host topology, liminf, choice, quotient, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous Baire-window factorization]
+\label{thm:lowersemicontinuous-baire-window-factorization}
+Every Baire-one or lower-real consumer of an accepted $\LowerSemicontinuousUp$ packet $L=(X,F,E,W,R,O,H,C,P,N)$ factors its finite request through the route
+$$
+W \longmapsto R \longmapsto E \longmapsto O
+$$
+before any $\RealUp$-facing seal is read. The consumer cannot replace that route by host topology, semantic liminf data, quotient equality, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:lower-semicontinuous-carrier}. The finite request first chooses the inspected windows in $W$, then reads regular rational data from $R$, then reaches the lower-real epigraph ledger $E$, and only then enters the located comparison row $O$.
+
+Use epigraph exactness and located readback compatibility, \autoref{thm:lowersemicontinuous-epigraph-window-exactness} and \autoref{thm:lowersemicontinuous-located-readback-compatibility}. These theorems keep lower-bound reads and real-facing comparison data on the displayed route rather than on a host liminf or topology predicate.
+
+Finally apply closed-superlevel stability from \autoref{thm:lowersemicontinuous-closed-superlevel-stability}. The open-sublevel and closed-superlevel boundary reads remain finite BEDC rows, so a Baire-one or lower-real consumer receives exactly the $W,R,E,O$ factorization before any terminal seal is available.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous kernel scope]
+\label{thm:lowersemicontinuous-kernel-scope}
+Every lower-semicontinuous epigraph, located-readback, or Real-seal consumer of an accepted $\LowerSemicontinuousUp$ packet must route through the visible $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedRealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the carrier. The route may read epigraph windows, open-sublevel boundaries, closed-superlevel stability, transport replay, and Real handoff data, but it cannot replace those rows by host topology, semantic liminf data, quotient real equality, countable choice, compactness, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousKernelScope}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:lower-semicontinuous-namecert-obligation-surface}. It lists the finite source, graph, epigraph, window, readback, located comparison, transport, replay, provenance, and local naming rows that any consumer must expose.
+
+Apply epigraph exactness and the epigraph-window route, \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route} and \autoref{thm:lowersemicontinuous-open-sublevel-route}. These results keep lower-real and sublevel reads inside the displayed $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\LowerRealUp$, and $\UpperRealUp$ rows.
+
+Next use located-readback stability and transport replay. The theorems \autoref{thm:lower-semicontinuous-located-readback-stability} and \autoref{thm:lowersemicontinuous-transport-replay-exactness} keep the $\LocatedRealUp$, $\hsame$, and $\Cont$ rows visible when a comparison is moved or replayed.
+
+Finally apply the Real handoff and nonescape statements, \autoref{thm:lowersemicontinuous-real-handoff} and \autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. They force every Real-facing read through the same $\Pkg$ and $\NameCert$ rows and exclude host topology, semantic liminf data, quotient real equality, countable choice, compactness, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous root obligation split]
+\label{thm:lowersemicontinuous-root-obligation-split}
+Every lower-real epigraph window, located comparison row, and $\RealUp$ seal read consumed by a Baire-one or lower-real reader of an accepted $\LowerSemicontinuousUp$ packet must factor through the displayed route
+$$
+W \longrightarrow R \longrightarrow E \longrightarrow O \longrightarrow P \longrightarrow N
+$$
+before any consumer can inspect it. The route first displays source windows, then regular rational value rows, then lower-real epigraph witnesses, then located comparison and Real-seal data, then provenance and local naming; it exports no host topology, semantic liminf operator, quotient real equality, choice schedule, compactness principle, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface, \autoref{thm:lower-semicontinuous-namecert-obligation-surface}. It forces the source windows, value rows, epigraph rows, comparison rows, provenance, and local name to be visible for the accepted packet.
+
+Apply the lower-real epigraph route, \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. That route orders the lower-real read from $W$ to $R$ to $E$ before any located comparison row can be consumed.
+
+Finally use the kernel scope theorem, \autoref{thm:lowersemicontinuous-kernel-scope}. It keeps the located comparison, Real-seal read, provenance, and local naming rows inside the same finite packet boundary, so every Baire-one or lower-real consumer receives exactly the displayed $W,R,E,O,P,N$ route and none of the excluded host or completeness principles.
+\end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRootObligationSplit}
+
+\begin{theorem}[LowerSemicontinuous superlevel tail obligation]
+\label{thm:lowersemicontinuous-superlevel-tail-obligation}
+Every closed-superlevel tail consumer of an accepted $\LowerSemicontinuousUp$ packet must first expose the threshold row, lower-real epigraph window, located comparison route, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows carried by the same finite packet. The consumer cannot substitute host topology, semantic liminf data, quotient real equality, countable choice, open-cover compactness, or ambient completeness for those rows.
+\end{theorem}
+\begin{proof}
+Start with the closed-superlevel threshold exhaustion theorem, \autoref{thm:lowersemicontinuous-closed-superlevel-threshold-exhaustion}. It forces any boundary read at a displayed rational threshold to consume $E_q,O_q,B_q,H_q,C_q,P_q,N_q$ rather than a host closedness predicate.
+
+Next apply the Baire-window factorization theorem, \autoref{thm:lowersemicontinuous-baire-window-factorization}. It keeps lower-real and Baire-one requests on the finite route through the displayed window, readback, epigraph, and located-comparison rows before any Real-facing seal is read.
+
+Use the kernel scope theorem, \autoref{thm:lowersemicontinuous-kernel-scope}. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows remain part of the same packet when the threshold data is transported or replayed.
+
+Finally invoke root obligation split, \autoref{thm:lowersemicontinuous-root-obligation-split}. It orders the exposed route through the lower-real epigraph window, located comparison row, Real seal, provenance, and local naming, so the listed host and completeness principles have no coordinate from which to enter the superlevel tail.
+\end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousSuperlevelTailObligation}

@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\CompactFiniteLowerBoundUp$}
+\label{ch:concrete-instances-compact-finite-lower-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges on the finite-cover proof of uniform continuity on compact metric spaces, the $\CompactFiniteLowerBoundUp$ packet records the lower-bound fold that turns a compact finite-net radius family into one classifier-stable radius row. It sits over the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the metric distance surface of \autoref{ch:concrete-instances-metric-namecert}, the pointwise continuity rows of \autoref{ch:concrete-instances-continuous-namecert}, the rational order readback of \autoref{ch:concrete-instances-rat-namecert}, and the $\mathsf{ProbeBundle}$ fold used by \autoref{thm:compact-uniform-finite-minimum-certificate}. The packet specializes the lower-bound handoff of \autoref{ch:concrete-instances-finite-lower-bound-fold-namecert} to compact-uniform-continuity consumers.
+
+\begin{definition}[Compact finite lower-bound carrier]
+\label{def:compact-finite-lower-bound-carrier}
+A $\CompactFiniteLowerBoundUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,M,F,\mathcal{P},R,O,A,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ finite-net row whose displayed cover supplies the centers and coverage witnesses.
+\item $M$ is the $\MetricUp$ source-distance row used by the compact cover and later uniform-modulus consumer.
+\item $F$ is the $\ContinuousUp$ pointwise-modulus row attached to the same source metric.
+\item $\mathcal{P}$ is the nonempty $\mathsf{ProbeBundle}$ spine indexing the finite net.
+\item $R$ is the finite family of positive $\RatUp$ radius rows carried by the bundled probes.
+\item $O$ is the total-order finite-minimum readback row comparing the current accumulator with the next displayed radius.
+\item $A$ is the accumulator history produced by primitive recursion over $\mathcal{P}$.
+\item $L$ is the exported lower-bound row, classifier-stably below every displayed radius in $R$.
+\item $H$ stores componentwise $\hsame$ transport for the compact, metric, continuous, bundle, rational, order, accumulator, lower-bound, replay, provenance, and local-name rows.
+\item $C$ stores displayed $\Cont$ replay from compact finite-net data and pointwise-modulus rows through the rational fold to the lower-bound export.
+\item $P$ records $\Pkg$ provenance over $\CompactFiniteLowerBoundUp$, $\CompactUp$, $\MetricUp$, $\ContinuousUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactFiniteLowerBoundUp}$ row.
+\end{enumerate}
+The packet has no row for an external selector, host minimum, completed cover, countable choice, quotient metric equality, or ambient compactness theorem.
+\end{definition}
+
+\begin{theorem}[Compact finite lower-bound NameCert obligations]
+\label{thm:compact-finite-lower-bound-namecert-obligations}
+For every accepted $\CompactFiniteLowerBoundUp$ carrier $B=(K,M,F,\mathcal{P},R,O,A,L,H,C,P,N)$, the local $\NameCert_{\CompactFiniteLowerBoundUp}$ surface consists exactly of bundle admission, nonempty seed, successor comparison, lower-bound export, classifier stability, structural transport, displayed replay, provenance, and local naming. The successor comparison consumes the $\RatUp$ total-order readback row $O$ at each displayed probe, and the export row $L$ is available only after the finite $\mathsf{ProbeBundle}$ recursion has consumed the compact finite-net row $K$, metric source row $M$, continuous pointwise-modulus row $F$, and radius family $R$.
+
+Thus compact uniform-continuity consumers may read the exported lower bound as finite BEDC data, but they may not import an external selector, host minimum, completed cover, countable choice, quotient metric equality, or ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+Bundle admission projects $K$ and $\mathcal{P}$ from \autoref{def:compact-finite-lower-bound-carrier}. The nonempty seed is part of the displayed compact finite-net row, so the fold starts from a named radius history rather than from a host default.
+
+At a successor probe, the row $O$ compares the current accumulator with the next $\RatUp$ radius in $R$. The accumulator $A$ is updated by primitive recursion over the displayed $\mathsf{ProbeBundle}$ spine, so no outside enumeration or choice functional is used.
+
+The lower-bound export $L$ is then read from the completed finite recursion. Componentwise transport in $H$ and replay in $C$ preserve the compact, metric, continuous, rational, order, accumulator, and lower-bound rows along one packet, while $P$ and $N$ record the same source and local name.
+
+Classifier stability follows because every comparison in $O$ and every accumulator update in $A$ is attached to the same finite bundle and radius family. Since the carrier contains no row for an external selector, host minimum, completed cover, countable choice, quotient metric equality, or ambient compactness theorem, none can appear as a local obligation.
+\end{proof}
+
+\closureat{CompactFiniteLowerBoundUp}{seedStr}
+
+\begin{closurestatus}{\CompactFiniteLowerBoundUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-finite-lower-bound-carrier} and \autoref{thm:compact-finite-lower-bound-namecert-obligations} seed the finite compact-net lower-bound fold over Compact, Metric, Continuous, Rat, and ProbeBundle rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an external selector, host minimum, completed cover, countable choice, quotient metric equality, ambient compactness theorem, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked bundle admission, nonempty seed, successor comparison, lower-bound export, classifier stability, transport, replay, provenance, and local naming for the same finite fold packet.}
+  \constructivestory{A $\CompactFiniteLowerBoundUp$ packet is generated from compact finite-net data, a Metric source row, Continuous pointwise-modulus rows, positive Rat radius rows, a ProbeBundle spine, total-order finite-minimum readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

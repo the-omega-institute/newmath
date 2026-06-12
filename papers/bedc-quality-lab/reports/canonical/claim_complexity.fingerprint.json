@@ -1,0 +1,104 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "4a6f26dfe9ac4c320e40c85f365b6436d04a02bf56fdc1ff8ee263778d56429e",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/claim_complexity.py",
+        "sha256": "f01c3319271335b25b779fb25f299c47322e581c52bee884b5994bf3cd78bb13"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/pointers.py",
+        "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "scripts/run_claim_complexity_score.py",
+        "sha256": "2b067378fa8904f8c99ef4f9d7d008e08f70701dffb243b5cdfd3e333546bc2c"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:claim-complexity",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_claim_complexity_score.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/claim_verdicts.jsonl",
+        "sha256": "53e4e7fb31b59ab891230d2473a33d79e51401bf422aecbed2f19b589f3cf943"
+      },
+      {
+        "path": "reports/canonical/discovery_map.json",
+        "sha256": "658ed728fecbf1c1da55722747005d3d31bcd84c82a9af26b06c15ee3597fac1"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_claim_complexity_score.py"
+      ],
+      "control_pointer": null,
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/claim_complexity.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/claim_complexity.md",
+      "name": "claim-complexity",
+      "no_control_rationale_pointer": "$.not_claimed",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.rows",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "rows",
+        "hardgates",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/claim_complexity.json",
+  "markdown_artifact": "reports/canonical/claim_complexity.md",
+  "output_digest": "7ce84210a9dcaec2e986ced181611791c7fa4d0c79b07e3f4a7beeb19bcfb06a",
+  "producer_command": [
+    "python3",
+    "scripts/run_claim_complexity_score.py"
+  ],
+  "report_name": "claim-complexity",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

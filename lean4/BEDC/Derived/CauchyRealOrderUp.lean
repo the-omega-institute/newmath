@@ -103,4 +103,28 @@ theorem CauchyRealOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, sourceLeftUnary, sourceRightUnary, windowUnary, dyadicUnary, quotientUnary,
       realSealUnary, verdictUnary, auditUnary, replayNameAudit, provenancePkg, auditPkg⟩
 
+theorem CauchyRealOrderCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {sourceLeft sourceRight window dyadic quotient realSeal verdict transport replay provenance
+      nameRow sealRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRealOrderCarrier sourceLeft sourceRight window dyadic quotient realSeal verdict
+        transport replay provenance nameRow bundle pkg →
+      Cont quotient realSeal sealRead →
+        Cont sealRead verdict auditRead →
+          PkgSig bundle auditRead pkg →
+            UnaryHistory sealRead ∧ UnaryHistory auditRead ∧ Cont quotient realSeal sealRead ∧
+              Cont sealRead verdict auditRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier sealRoute auditRoute auditPkg
+  obtain ⟨_sourceLeftUnary, _sourceRightUnary, _windowUnary, _dyadicUnary, quotientUnary,
+    realSealUnary, verdictUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _nameRowUnary, _sourcePairWindow, _windowDyadicQuotient, _quotientRealVerdict,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed quotientUnary realSealUnary sealRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed sealUnary verdictUnary auditRoute
+  exact ⟨sealUnary, auditUnary, sealRoute, auditRoute, provenancePkg, auditPkg⟩
+
 end BEDC.Derived.CauchyRealOrderUp

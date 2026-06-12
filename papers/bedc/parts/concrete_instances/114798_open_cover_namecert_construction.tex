@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\OpenCoverUp$}
+\label{ch:concrete-instances-open-cover-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges, the $\OpenCoverUp$ packet records the finite interface by which an open cover is displayed before a compactness, finite-subcover, Lebesgue-number, or compact-uniform-continuity consumer may read it. It sits between the open-set rows of $\TopologyUp$, the radius and ball rows of $\MetricUp$, the compact source row of $\CompactUp$, the finite-subcover extraction route of $\FiniteSubcoverCriterionUp$, and the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. The packet names an indexed family only through finite $\BHist$ rows; it does not import host powersets, arbitrary choice of subcovers, or open-cover compactness as a primitive.
+
+The finite cover ledger is consumed by \autoref{ch:concrete-instances-compactmetric-namecert} and the finite extraction row of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert} before compact-uniform-continuity arguments inspect it.
+
+The finite index, open-set, membership, refinement, and finite-subcover rows are read through \autoref{ch:concrete-instances-topology-namecert}, \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-compact-namecert}, and \autoref{ch:concrete-instances-finite-subcover-criterion-namecert} before compact-uniform-continuity consumers inspect them.
+
+\begin{definition}[Open-cover carrier]
+\label{def:open-cover-carrier}
+An $\OpenCoverUp$ carrier is a finite $\BHist$ packet
+$$
+O=(I,U,M,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $I$ is the finite index-window row, naming the cover indices visible to the current consumer request.
+  \item $U$ is the open-set predicate row over $\TopologyUp$, recording for each displayed index the local open-set certificate used by the cover.
+  \item $M$ is the membership and coverage row: each covered point read is tied to one displayed index of $I$ and one open row of $U$.
+  \item $R$ is the refinement row, comparing two displayed cover windows only by finite index maps and inclusion witnesses between their open-set rows.
+  \item $F$ is the finite-subcover ledger, exposed only when a $\CompactUp$ or $\FiniteSubcoverCriterionUp$ consumer has supplied the compact source and the finite extraction route.
+  \item $H$ records componentwise $\hsame$ transport for index, open-set, membership, coverage, refinement, finite-subcover, replay, provenance, and local naming rows.
+  \item $C$ records displayed $\Cont$ replay from a cover request through $I,U,M,R,F,H,P,N$.
+  \item $P$ is the $\Pkg$ provenance over $\OpenCoverUp$, $\TopologyUp$, $\MetricUp$, $\CompactUp$, $\FiniteSubcoverCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+  \item $N$ is the local $\NameCert_{\OpenCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. There is no coordinate for a host powerset of all opens, an arbitrary subcover selector, a quotient of covers, countable choice, or open-cover compactness as an ambient principle.
+\end{definition}
+
+\begin{theorem}[Open-cover finite ledger obligations]
+\label{thm:open-cover-finite-ledger-obligation}
+For every accepted $\OpenCoverUp$ carrier $O=(I,U,M,R,F,H,C,P,N)$, the local cover ledger visible to any compactness-facing consumer is exhausted by finite index admission, open-set predicate admission, membership and coverage exactness, refinement exactness, finite-subcover handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. A $\CompactUp$ or $\FiniteSubcoverCriterionUp$ consumer may inspect $F$ only after $I,U,M,R$ have been displayed, and no consumer may replace those rows by a host powerset, arbitrary subcover choice, or primitive open-cover compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:open-cover-carrier}. The rows $I,U,M,R$ expose the only index, open-set, membership, coverage, and refinement data available to the packet.
+
+The finite-subcover row $F$ is downstream of those rows. It is read only as a handoff to the compact or finite-subcover-criterion consumer, so it cannot select a hidden subfamily or quantify over an ambient powerset of opens.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no carrier coordinate stores a host powerset, arbitrary selector, quotient cover equality, countable-choice schedule, or primitive open-cover compactness principle, none of those objects can become a local ledger obligation.
+\end{proof}
+
+\begin{theorem}[Open-cover NameCert surface]
+\label{thm:open-cover-namecert-surface}
+The seed $\NameCert_{\OpenCoverUp}$ surface consists exactly of the carrier rows in \autoref{def:open-cover-carrier}: finite index windows, $\TopologyUp$ open-set predicates, membership and coverage witnesses, refinement rows, a finite-subcover ledger for $\CompactUp$ and $\FiniteSubcoverCriterionUp$ consumers, componentwise transport, displayed replay, provenance, and local naming. When the same cover is used in a metric argument, the $\MetricUp$ contribution is read only through the displayed ball or radius rows named by $U,M,R$, not through a separate open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+The NameCert surface first reads $I,U,M,R$. These rows determine the displayed cover window, the open predicates, and the finite coverage and refinement evidence.
+
+The compact handoff is then represented by $F$. It is a finite ledger row over the same displayed cover window, so the compact-uniform-continuity route of \autoref{ch:visions-compact-uniform-continuity} receives a finite cover interface rather than an ambient cover-selection principle.
+
+The remaining rows $H,C,P,N$ are structural. They preserve the same finite route under transport, replay it for downstream consumers, record its provenance, and name it locally. Thus the surface is exactly the stated finite open-cover interface.
+\end{proof}
+
+\begin{theorem}[Open-cover constructive boundary]
+\label{thm:open-cover-constructive-boundary}
+Every $\OpenCoverUp$ read used by compact, finite-subcover, Lebesgue-number, or compact-uniform-continuity arguments must pass through the finite route
+$$
+I,U,M,R,F,H,C,P,N .
+$$
+The route may cite $\TopologyUp$ for open-set predicates, $\MetricUp$ for ball and radius witnesses, $\CompactUp$ for the compact source, and $\FiniteSubcoverCriterionUp$ for finite extraction, but it exports no host powerset of opens, arbitrary choice of subcovers, quotient cover equality, countable-choice schedule, or primitive open-cover compactness theorem.
+\end{theorem}
+\begin{proof}
+Read the cover rows in order. The index window $I$ bounds the visible family, $U$ supplies the open predicates, and $M,R$ account for coverage and refinement using only displayed rows.
+
+The finite-subcover ledger $F$ is available only after the compact source or finite-subcover criterion has supplied its own finite extraction data. This keeps compactness-facing arguments on the same finite ledger used by the cover.
+
+Transport, replay, provenance, and local naming do not add new cover data. Therefore every downstream consumer receives the finite route named in the statement and none of the excluded host or choice principles.
+\end{proof}
+
+\closureat{OpenCoverUp}{seedStr}
+
+\begin{closurestatus}{\OpenCoverUp}
+  \constructivestory{An $\OpenCoverUp$ packet is generated from finite index windows, Topology open-set predicate rows, membership and coverage rows, refinement rows, finite-subcover ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:open-cover-carrier}, \autoref{thm:open-cover-finite-ledger-obligation}, \autoref{thm:open-cover-namecert-surface}, and \autoref{thm:open-cover-constructive-boundary} seed the finite open-cover interface for compactness and compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host powersets of opens, arbitrary subcover choice, quotient cover equality, countable choice, primitive open-cover compactness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-set predicate exactness, membership and coverage exactness, refinement stability, finite-subcover handoff, transport, replay, provenance, and local naming for BEDC.Derived.OpenCoverUp.}
+\end{closurestatus}

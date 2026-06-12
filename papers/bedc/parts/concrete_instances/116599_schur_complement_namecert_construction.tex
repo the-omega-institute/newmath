@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SchurComplementUp$}
+\label{ch:concrete-instances-schur-complement-namecert}
+\origin{human}
+
+Following Schur and standard finite block-matrix linear algebra, the $\SchurComplementUp$ packet records the finite displayed route by which a block matrix with an invertible pivot block exposes its complement row. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the determinant rows of \autoref{ch:concrete-instances-determinant-namecert}, the field scalar source of \autoref{ch:concrete-instances-field-namecert}, and the vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names only displayed block rows, pivot invertibility evidence, finite multiplication rows, transport, replay, provenance, and local naming; it does not assert a host matrix inverse theorem, quotient matrix equality, Gaussian elimination over arbitrary ambient objects, or a selected global decomposition.
+
+\begin{definition}[Schur complement carrier]
+\label{def:schur-complement-carrier}
+A $\SchurComplementUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,V,M,A,B,C,D,I,Q,E,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FieldUp$ scalar row and $V$ is the finite $\VecSpaceUp$ row used by the block coordinates.
+\item $M$ is the ambient $\MatrixUp$ row, read as the displayed block matrix with rows $A,B,C,D$.
+\item $I$ is the pivot-invertibility row for $D$, recording the finite right and left inverse checks available inside the matrix packet.
+\item $Q$ is the displayed product row for $B D^{-1} C$ and the complement row $A-BD^{-1}C$.
+\item $E$ is the exactness row tying the complement to the block multiplication and determinant handoff.
+\item $H$ records componentwise $\hsame$ transport for the field, vector, block, inverse, product, exactness, replay, provenance, and naming rows.
+\item $R$ records displayed $\Cont$ replay from the block matrix through the complement row to determinant, inverse, and factorization consumers.
+\item $P$ is the $\Pkg$ provenance over $\SchurComplementUp$, $\MatrixUp$, $\LinearMapUp$, $\DeterminantUp$, $\FieldUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchurComplementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host matrix equality, an unbounded inverse operator, a selected Gaussian-elimination trace outside the displayed block ledger, or choice of bases beyond the finite vector-space rows already named.
+\end{definition}
+
+\begin{theorem}[Schur complement NameCert obligations]
+\label{thm:schur-complement-namecert-obligations}
+For every accepted $\SchurComplementUp$ carrier $S=(F,V,M,A,B,C,D,I,Q,E,H,R,P,N)$, the local $\NameCert_{\SchurComplementUp}$ surface consists exactly of carrier admission, field and vector-space exposure, block-matrix exposure, pivot-invertibility display, finite product display, complement exactness, determinant-facing handoff, componentwise transport, replay, provenance, and local naming.
+
+The five-row obligation sketch is:
+\begin{enumerate}
+\item block admission exposes $F,V,M,A,B,C,D$ as displayed $\FieldUp$, $\VecSpaceUp$, $\MatrixUp$, and $\LinearMapUp$ rows;
+\item pivot admission exposes $I$ only as finite inverse checks for the chosen pivot block;
+\item complement formation exposes $Q$ only as the displayed multiplication and subtraction row for $A-BD^{-1}C$;
+\item determinant handoff exposes $E$ only through the determinant-facing route, with no host determinant lemma imported as theorem content;
+\item structural replay exposes $H,R,P,N$ as transport, continuation, provenance, and naming rows, and exports no hidden matrix equality principle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schur-complement-carrier}. The field, vector-space, block-matrix, pivot, product, and exactness rows are displayed before any consumer-facing route is available.
+
+The pivot row $I$ supplies only finite inverse checks for the displayed block $D$. The product row $Q$ then records the multiplication path through $B$, the inverse witness, and $C$, and the exactness row $E$ binds the result to the complement read.
+
+The determinant-facing handoff is routed through $E,R,P,N$ and remains inside the same finite packet. Componentwise $\hsame$ transport in $H$ preserves each displayed row, so no host matrix equality, global inverse theorem, or selected elimination trace can be projected from the certificate.
+\end{proof}
+
+\begin{theorem}[Schur complement block-matrix handoff]
+\label{thm:schur-complement-block-matrix-handoff}
+Every matrix-factorization, determinant, inverse, or finite linear-system consumer of an accepted $\SchurComplementUp$ packet must first read the finite rows
+$$
+F,V,M,A,B,C,D,I,Q,E,H,R,P,N.
+$$
+In particular, a consumer may use the complement row only after the block matrix, pivot inverse checks, product route, exactness row, transport row, replay row, provenance row, and local naming certificate have been displayed.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer route be given. Carrier projection gives the displayed scalar, vector, matrix, block, pivot, product, exactness, transport, replay, provenance, and naming rows.
+
+The consumer first reads the block matrix through $M,A,B,C,D$. It then reads the pivot evidence through $I$ and the complement route through $Q,E$.
+
+Finally the consumer-facing handoff must pass through $H,R,P,N$. These rows preserve and expose the same displayed packet, but they do not add host matrix equality, an ambient inverse theorem, a determinant lemma outside the displayed route, or choice of bases.
+\end{proof}
+
+\closureat{SchurComplementUp}{seedStr}
+
+\begin{closurestatus}{\SchurComplementUp}
+  \constructivestory{A $\SchurComplementUp$ packet is generated from displayed FieldUp, VecSpaceUp, MatrixUp, LinearMapUp, DeterminantUp, block, pivot-inverse, product, complement-exactness, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-complement-carrier}, \autoref{thm:schur-complement-namecert-obligations}, and \autoref{thm:schur-complement-block-matrix-handoff} seed the finite block-matrix complement surface over displayed matrix, linear-map, determinant, field, vector-space, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host matrix equality, a global matrix inverse theorem, arbitrary Gaussian elimination, determinant lemmas outside the displayed route, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pivot-inverse display, finite product exactness, determinant handoff, transport stability, and consumer non-escape for BEDC.Derived.SchurComplementUp.}
+\end{closurestatus}

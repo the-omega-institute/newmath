@@ -1,0 +1,1073 @@
+{
+  "applicability_boundary": {
+    "claimed_scope": "Gaussian 2D latent + Gaussian OU transition + canonical nonlinear observation mixing families.",
+    "latent_dim": 2,
+    "latent_family": "gaussian",
+    "mixing_families": [
+      "spiral",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "realnvp_coupling"
+    ],
+    "not_claimed": "This sweep does not claim non-Gaussian latent coverage, non-Gaussian transition noise, or non-canonical mixing closure.",
+    "transition_family": "ornstein-uhlenbeck",
+    "transition_noise_family": "gaussian"
+  },
+  "artifact": "reports/mixing_family_discovery.json",
+  "baseline_family": "spiral",
+  "certification_blockers": [
+    {
+      "arm": "baseline",
+      "family": "sinusoidal_shear",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "arm": "target",
+      "family": "sinusoidal_shear",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "arm": "target",
+      "family": "sinusoidal_shear",
+      "reason": "not-certified",
+      "seed": 6478
+    },
+    {
+      "family": "sinusoidal_shear",
+      "net_information": -0.322,
+      "reason": "net-nonpositive"
+    },
+    {
+      "family": "sinusoidal_shear",
+      "reason": "predicate-not-positive"
+    },
+    {
+      "arm": "baseline",
+      "family": "parabolic_shear",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "arm": "target",
+      "family": "parabolic_shear",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "arm": "target",
+      "family": "parabolic_shear",
+      "reason": "not-certified",
+      "seed": 6478
+    },
+    {
+      "family": "parabolic_shear",
+      "net_information": -0.322,
+      "reason": "net-nonpositive"
+    },
+    {
+      "family": "parabolic_shear",
+      "reason": "predicate-not-positive"
+    },
+    {
+      "arm": "baseline",
+      "family": "realnvp_coupling",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "arm": "target",
+      "family": "realnvp_coupling",
+      "reason": "not-certified",
+      "seed": 3840
+    },
+    {
+      "family": "realnvp_coupling",
+      "net_information": -0.24102740097745406,
+      "reason": "net-nonpositive"
+    },
+    {
+      "family": "realnvp_coupling",
+      "reason": "predicate-not-positive"
+    }
+  ],
+  "generated_from": {
+    "artifact": "reports/mixing_family_sweep.json",
+    "record_count": 24,
+    "source_runner": "scripts/run_mixing_family_sweep.py"
+  },
+  "matched_random_baseline": {
+    "max_positive_count": 3,
+    "mean_positive_count": 1.57,
+    "method": "matched-sign-flip-net-information",
+    "observed_positive_count": 0,
+    "permutations": 200,
+    "quantile95_positive_count": 3,
+    "seed": 53320260602
+  },
+  "positive_probe_summary": {
+    "answer": "H0",
+    "criterion": "H1 iff any non-baseline family has positive_discovery true under the existing predicates",
+    "positive_families": [],
+    "second_positive_probe_found": false
+  },
+  "projection_script": "scripts/run_mixing_family_discovery.py",
+  "report": "reports/mixing_family_discovery.md",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
+  "source_artifacts": {
+    "source_json_artifact": "reports/mixing_family_sweep.json",
+    "source_report_artifact": "reports/mixing_family_sweep.md",
+    "source_runner": "scripts/run_mixing_family_sweep.py"
+  },
+  "verdicts": [
+    {
+      "blockers": [
+        {
+          "arm": "baseline",
+          "family": "sinusoidal_shear",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "arm": "target",
+          "family": "sinusoidal_shear",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "arm": "target",
+          "family": "sinusoidal_shear",
+          "reason": "not-certified",
+          "seed": 6478
+        },
+        {
+          "family": "sinusoidal_shear",
+          "net_information": -0.322,
+          "reason": "net-nonpositive"
+        },
+        {
+          "family": "sinusoidal_shear",
+          "reason": "predicate-not-positive"
+        }
+      ],
+      "family": "sinusoidal_shear",
+      "net_information": -0.322,
+      "net_positive_signal": false,
+      "positive_discovery": false,
+      "shift_information": 0,
+      "source_ids": [
+        "seed:1530:metric:actual_recovery_error",
+        "seed:1530:metric:alignment_loss",
+        "seed:1530:metric:approx_identifiability_proxy",
+        "seed:1530:metric:bound_margin",
+        "seed:1530:metric:linear_identifiability_r2",
+        "seed:1530:metric:quality_benefit",
+        "seed:1530:metric:quality_cost",
+        "seed:1530:metric:quality_debt",
+        "seed:1530:metric:quality_margin",
+        "seed:1530:metric:quality_q",
+        "seed:1530:metric:theorem3_bound",
+        "seed:2644:metric:actual_recovery_error",
+        "seed:2644:metric:alignment_loss",
+        "seed:2644:metric:approx_identifiability_proxy",
+        "seed:2644:metric:bound_margin",
+        "seed:2644:metric:linear_identifiability_r2",
+        "seed:2644:metric:quality_benefit",
+        "seed:2644:metric:quality_cost",
+        "seed:2644:metric:quality_debt",
+        "seed:2644:metric:quality_margin",
+        "seed:2644:metric:quality_q",
+        "seed:2644:metric:theorem3_bound",
+        "seed:3840:metric:actual_recovery_error",
+        "seed:3840:metric:alignment_loss",
+        "seed:3840:metric:approx_identifiability_proxy",
+        "seed:3840:metric:bound_margin",
+        "seed:3840:metric:linear_identifiability_r2",
+        "seed:3840:metric:quality_benefit",
+        "seed:3840:metric:quality_cost",
+        "seed:3840:metric:quality_debt",
+        "seed:3840:metric:quality_margin",
+        "seed:3840:metric:quality_q",
+        "seed:3840:metric:theorem3_bound",
+        "seed:498:metric:actual_recovery_error",
+        "seed:498:metric:alignment_loss",
+        "seed:498:metric:approx_identifiability_proxy",
+        "seed:498:metric:bound_margin",
+        "seed:498:metric:linear_identifiability_r2",
+        "seed:498:metric:quality_benefit",
+        "seed:498:metric:quality_cost",
+        "seed:498:metric:quality_debt",
+        "seed:498:metric:quality_margin",
+        "seed:498:metric:quality_q",
+        "seed:498:metric:theorem3_bound",
+        "seed:5118:metric:actual_recovery_error",
+        "seed:5118:metric:alignment_loss",
+        "seed:5118:metric:approx_identifiability_proxy",
+        "seed:5118:metric:bound_margin",
+        "seed:5118:metric:linear_identifiability_r2",
+        "seed:5118:metric:quality_benefit",
+        "seed:5118:metric:quality_cost",
+        "seed:5118:metric:quality_debt",
+        "seed:5118:metric:quality_margin",
+        "seed:5118:metric:quality_q",
+        "seed:5118:metric:theorem3_bound",
+        "seed:6478:metric:actual_recovery_error",
+        "seed:6478:metric:alignment_loss",
+        "seed:6478:metric:approx_identifiability_proxy",
+        "seed:6478:metric:bound_margin",
+        "seed:6478:metric:linear_identifiability_r2",
+        "seed:6478:metric:quality_benefit",
+        "seed:6478:metric:quality_cost",
+        "seed:6478:metric:quality_debt",
+        "seed:6478:metric:quality_margin",
+        "seed:6478:metric:quality_q",
+        "seed:6478:metric:theorem3_bound"
+      ],
+      "structural_discovery": false,
+      "surface_delta": [
+        [
+          "seed:1530:metric:actual_recovery_error",
+          "seed:1530:metric:actual_recovery_error"
+        ],
+        [
+          "seed:1530:metric:alignment_loss",
+          "seed:1530:metric:alignment_loss"
+        ],
+        [
+          "seed:1530:metric:approx_identifiability_proxy",
+          "seed:1530:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:1530:metric:bound_margin",
+          "seed:1530:metric:bound_margin"
+        ],
+        [
+          "seed:1530:metric:linear_identifiability_r2",
+          "seed:1530:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:1530:metric:quality_benefit",
+          "seed:1530:metric:quality_benefit"
+        ],
+        [
+          "seed:1530:metric:quality_margin",
+          "seed:1530:metric:quality_margin"
+        ],
+        [
+          "seed:1530:metric:quality_q",
+          "seed:1530:metric:quality_q"
+        ],
+        [
+          "seed:1530:metric:theorem3_bound",
+          "seed:1530:metric:theorem3_bound"
+        ],
+        [
+          "seed:2644:metric:actual_recovery_error",
+          "seed:2644:metric:actual_recovery_error"
+        ],
+        [
+          "seed:2644:metric:alignment_loss",
+          "seed:2644:metric:alignment_loss"
+        ],
+        [
+          "seed:2644:metric:approx_identifiability_proxy",
+          "seed:2644:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:2644:metric:bound_margin",
+          "seed:2644:metric:bound_margin"
+        ],
+        [
+          "seed:2644:metric:linear_identifiability_r2",
+          "seed:2644:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:2644:metric:quality_benefit",
+          "seed:2644:metric:quality_benefit"
+        ],
+        [
+          "seed:2644:metric:quality_margin",
+          "seed:2644:metric:quality_margin"
+        ],
+        [
+          "seed:2644:metric:quality_q",
+          "seed:2644:metric:quality_q"
+        ],
+        [
+          "seed:2644:metric:theorem3_bound",
+          "seed:2644:metric:theorem3_bound"
+        ],
+        [
+          "seed:3840:metric:actual_recovery_error",
+          "seed:3840:metric:actual_recovery_error"
+        ],
+        [
+          "seed:3840:metric:alignment_loss",
+          "seed:3840:metric:alignment_loss"
+        ],
+        [
+          "seed:3840:metric:approx_identifiability_proxy",
+          "seed:3840:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:3840:metric:bound_margin",
+          "seed:3840:metric:bound_margin"
+        ],
+        [
+          "seed:3840:metric:linear_identifiability_r2",
+          "seed:3840:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:3840:metric:quality_debt",
+          "seed:3840:metric:quality_debt"
+        ],
+        [
+          "seed:3840:metric:quality_margin",
+          "seed:3840:metric:quality_margin"
+        ],
+        [
+          "seed:3840:metric:quality_q",
+          "seed:3840:metric:quality_q"
+        ],
+        [
+          "seed:3840:metric:theorem3_bound",
+          "seed:3840:metric:theorem3_bound"
+        ],
+        [
+          "seed:498:metric:actual_recovery_error",
+          "seed:498:metric:actual_recovery_error"
+        ],
+        [
+          "seed:498:metric:alignment_loss",
+          "seed:498:metric:alignment_loss"
+        ],
+        [
+          "seed:498:metric:approx_identifiability_proxy",
+          "seed:498:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:498:metric:bound_margin",
+          "seed:498:metric:bound_margin"
+        ],
+        [
+          "seed:498:metric:linear_identifiability_r2",
+          "seed:498:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:498:metric:theorem3_bound",
+          "seed:498:metric:theorem3_bound"
+        ],
+        [
+          "seed:5118:metric:actual_recovery_error",
+          "seed:5118:metric:actual_recovery_error"
+        ],
+        [
+          "seed:5118:metric:alignment_loss",
+          "seed:5118:metric:alignment_loss"
+        ],
+        [
+          "seed:5118:metric:approx_identifiability_proxy",
+          "seed:5118:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:5118:metric:bound_margin",
+          "seed:5118:metric:bound_margin"
+        ],
+        [
+          "seed:5118:metric:linear_identifiability_r2",
+          "seed:5118:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:5118:metric:quality_benefit",
+          "seed:5118:metric:quality_benefit"
+        ],
+        [
+          "seed:5118:metric:quality_margin",
+          "seed:5118:metric:quality_margin"
+        ],
+        [
+          "seed:5118:metric:quality_q",
+          "seed:5118:metric:quality_q"
+        ],
+        [
+          "seed:5118:metric:theorem3_bound",
+          "seed:5118:metric:theorem3_bound"
+        ],
+        [
+          "seed:6478:metric:actual_recovery_error",
+          "seed:6478:metric:actual_recovery_error"
+        ],
+        [
+          "seed:6478:metric:alignment_loss",
+          "seed:6478:metric:alignment_loss"
+        ],
+        [
+          "seed:6478:metric:approx_identifiability_proxy",
+          "seed:6478:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:6478:metric:bound_margin",
+          "seed:6478:metric:bound_margin"
+        ],
+        [
+          "seed:6478:metric:linear_identifiability_r2",
+          "seed:6478:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:6478:metric:quality_benefit",
+          "seed:6478:metric:quality_benefit"
+        ],
+        [
+          "seed:6478:metric:quality_debt",
+          "seed:6478:metric:quality_debt"
+        ],
+        [
+          "seed:6478:metric:quality_margin",
+          "seed:6478:metric:quality_margin"
+        ],
+        [
+          "seed:6478:metric:quality_q",
+          "seed:6478:metric:quality_q"
+        ],
+        [
+          "seed:6478:metric:theorem3_bound",
+          "seed:6478:metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 52,
+      "verdict": "not_positive"
+    },
+    {
+      "blockers": [
+        {
+          "arm": "baseline",
+          "family": "parabolic_shear",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "arm": "target",
+          "family": "parabolic_shear",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "arm": "target",
+          "family": "parabolic_shear",
+          "reason": "not-certified",
+          "seed": 6478
+        },
+        {
+          "family": "parabolic_shear",
+          "net_information": -0.322,
+          "reason": "net-nonpositive"
+        },
+        {
+          "family": "parabolic_shear",
+          "reason": "predicate-not-positive"
+        }
+      ],
+      "family": "parabolic_shear",
+      "net_information": -0.322,
+      "net_positive_signal": false,
+      "positive_discovery": false,
+      "shift_information": 0,
+      "source_ids": [
+        "seed:1530:metric:actual_recovery_error",
+        "seed:1530:metric:alignment_loss",
+        "seed:1530:metric:approx_identifiability_proxy",
+        "seed:1530:metric:bound_margin",
+        "seed:1530:metric:linear_identifiability_r2",
+        "seed:1530:metric:quality_benefit",
+        "seed:1530:metric:quality_cost",
+        "seed:1530:metric:quality_debt",
+        "seed:1530:metric:quality_margin",
+        "seed:1530:metric:quality_q",
+        "seed:1530:metric:theorem3_bound",
+        "seed:2644:metric:actual_recovery_error",
+        "seed:2644:metric:alignment_loss",
+        "seed:2644:metric:approx_identifiability_proxy",
+        "seed:2644:metric:bound_margin",
+        "seed:2644:metric:linear_identifiability_r2",
+        "seed:2644:metric:quality_benefit",
+        "seed:2644:metric:quality_cost",
+        "seed:2644:metric:quality_debt",
+        "seed:2644:metric:quality_margin",
+        "seed:2644:metric:quality_q",
+        "seed:2644:metric:theorem3_bound",
+        "seed:3840:metric:actual_recovery_error",
+        "seed:3840:metric:alignment_loss",
+        "seed:3840:metric:approx_identifiability_proxy",
+        "seed:3840:metric:bound_margin",
+        "seed:3840:metric:linear_identifiability_r2",
+        "seed:3840:metric:quality_benefit",
+        "seed:3840:metric:quality_cost",
+        "seed:3840:metric:quality_debt",
+        "seed:3840:metric:quality_margin",
+        "seed:3840:metric:quality_q",
+        "seed:3840:metric:theorem3_bound",
+        "seed:498:metric:actual_recovery_error",
+        "seed:498:metric:alignment_loss",
+        "seed:498:metric:approx_identifiability_proxy",
+        "seed:498:metric:bound_margin",
+        "seed:498:metric:linear_identifiability_r2",
+        "seed:498:metric:quality_benefit",
+        "seed:498:metric:quality_cost",
+        "seed:498:metric:quality_debt",
+        "seed:498:metric:quality_margin",
+        "seed:498:metric:quality_q",
+        "seed:498:metric:theorem3_bound",
+        "seed:5118:metric:actual_recovery_error",
+        "seed:5118:metric:alignment_loss",
+        "seed:5118:metric:approx_identifiability_proxy",
+        "seed:5118:metric:bound_margin",
+        "seed:5118:metric:linear_identifiability_r2",
+        "seed:5118:metric:quality_benefit",
+        "seed:5118:metric:quality_cost",
+        "seed:5118:metric:quality_debt",
+        "seed:5118:metric:quality_margin",
+        "seed:5118:metric:quality_q",
+        "seed:5118:metric:theorem3_bound",
+        "seed:6478:metric:actual_recovery_error",
+        "seed:6478:metric:alignment_loss",
+        "seed:6478:metric:approx_identifiability_proxy",
+        "seed:6478:metric:bound_margin",
+        "seed:6478:metric:linear_identifiability_r2",
+        "seed:6478:metric:quality_benefit",
+        "seed:6478:metric:quality_cost",
+        "seed:6478:metric:quality_debt",
+        "seed:6478:metric:quality_margin",
+        "seed:6478:metric:quality_q",
+        "seed:6478:metric:theorem3_bound"
+      ],
+      "structural_discovery": false,
+      "surface_delta": [
+        [
+          "seed:1530:metric:actual_recovery_error",
+          "seed:1530:metric:actual_recovery_error"
+        ],
+        [
+          "seed:1530:metric:alignment_loss",
+          "seed:1530:metric:alignment_loss"
+        ],
+        [
+          "seed:1530:metric:approx_identifiability_proxy",
+          "seed:1530:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:1530:metric:bound_margin",
+          "seed:1530:metric:bound_margin"
+        ],
+        [
+          "seed:1530:metric:linear_identifiability_r2",
+          "seed:1530:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:1530:metric:quality_benefit",
+          "seed:1530:metric:quality_benefit"
+        ],
+        [
+          "seed:1530:metric:quality_margin",
+          "seed:1530:metric:quality_margin"
+        ],
+        [
+          "seed:1530:metric:quality_q",
+          "seed:1530:metric:quality_q"
+        ],
+        [
+          "seed:1530:metric:theorem3_bound",
+          "seed:1530:metric:theorem3_bound"
+        ],
+        [
+          "seed:2644:metric:actual_recovery_error",
+          "seed:2644:metric:actual_recovery_error"
+        ],
+        [
+          "seed:2644:metric:alignment_loss",
+          "seed:2644:metric:alignment_loss"
+        ],
+        [
+          "seed:2644:metric:approx_identifiability_proxy",
+          "seed:2644:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:2644:metric:bound_margin",
+          "seed:2644:metric:bound_margin"
+        ],
+        [
+          "seed:2644:metric:linear_identifiability_r2",
+          "seed:2644:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:2644:metric:quality_benefit",
+          "seed:2644:metric:quality_benefit"
+        ],
+        [
+          "seed:2644:metric:quality_margin",
+          "seed:2644:metric:quality_margin"
+        ],
+        [
+          "seed:2644:metric:quality_q",
+          "seed:2644:metric:quality_q"
+        ],
+        [
+          "seed:2644:metric:theorem3_bound",
+          "seed:2644:metric:theorem3_bound"
+        ],
+        [
+          "seed:3840:metric:actual_recovery_error",
+          "seed:3840:metric:actual_recovery_error"
+        ],
+        [
+          "seed:3840:metric:alignment_loss",
+          "seed:3840:metric:alignment_loss"
+        ],
+        [
+          "seed:3840:metric:approx_identifiability_proxy",
+          "seed:3840:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:3840:metric:bound_margin",
+          "seed:3840:metric:bound_margin"
+        ],
+        [
+          "seed:3840:metric:linear_identifiability_r2",
+          "seed:3840:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:3840:metric:quality_debt",
+          "seed:3840:metric:quality_debt"
+        ],
+        [
+          "seed:3840:metric:quality_margin",
+          "seed:3840:metric:quality_margin"
+        ],
+        [
+          "seed:3840:metric:quality_q",
+          "seed:3840:metric:quality_q"
+        ],
+        [
+          "seed:3840:metric:theorem3_bound",
+          "seed:3840:metric:theorem3_bound"
+        ],
+        [
+          "seed:498:metric:actual_recovery_error",
+          "seed:498:metric:actual_recovery_error"
+        ],
+        [
+          "seed:498:metric:alignment_loss",
+          "seed:498:metric:alignment_loss"
+        ],
+        [
+          "seed:498:metric:approx_identifiability_proxy",
+          "seed:498:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:498:metric:bound_margin",
+          "seed:498:metric:bound_margin"
+        ],
+        [
+          "seed:498:metric:linear_identifiability_r2",
+          "seed:498:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:498:metric:theorem3_bound",
+          "seed:498:metric:theorem3_bound"
+        ],
+        [
+          "seed:5118:metric:actual_recovery_error",
+          "seed:5118:metric:actual_recovery_error"
+        ],
+        [
+          "seed:5118:metric:alignment_loss",
+          "seed:5118:metric:alignment_loss"
+        ],
+        [
+          "seed:5118:metric:approx_identifiability_proxy",
+          "seed:5118:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:5118:metric:bound_margin",
+          "seed:5118:metric:bound_margin"
+        ],
+        [
+          "seed:5118:metric:linear_identifiability_r2",
+          "seed:5118:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:5118:metric:quality_benefit",
+          "seed:5118:metric:quality_benefit"
+        ],
+        [
+          "seed:5118:metric:quality_margin",
+          "seed:5118:metric:quality_margin"
+        ],
+        [
+          "seed:5118:metric:quality_q",
+          "seed:5118:metric:quality_q"
+        ],
+        [
+          "seed:5118:metric:theorem3_bound",
+          "seed:5118:metric:theorem3_bound"
+        ],
+        [
+          "seed:6478:metric:actual_recovery_error",
+          "seed:6478:metric:actual_recovery_error"
+        ],
+        [
+          "seed:6478:metric:alignment_loss",
+          "seed:6478:metric:alignment_loss"
+        ],
+        [
+          "seed:6478:metric:approx_identifiability_proxy",
+          "seed:6478:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:6478:metric:bound_margin",
+          "seed:6478:metric:bound_margin"
+        ],
+        [
+          "seed:6478:metric:linear_identifiability_r2",
+          "seed:6478:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:6478:metric:quality_benefit",
+          "seed:6478:metric:quality_benefit"
+        ],
+        [
+          "seed:6478:metric:quality_debt",
+          "seed:6478:metric:quality_debt"
+        ],
+        [
+          "seed:6478:metric:quality_margin",
+          "seed:6478:metric:quality_margin"
+        ],
+        [
+          "seed:6478:metric:quality_q",
+          "seed:6478:metric:quality_q"
+        ],
+        [
+          "seed:6478:metric:theorem3_bound",
+          "seed:6478:metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 52,
+      "verdict": "not_positive"
+    },
+    {
+      "blockers": [
+        {
+          "arm": "baseline",
+          "family": "realnvp_coupling",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "arm": "target",
+          "family": "realnvp_coupling",
+          "reason": "not-certified",
+          "seed": 3840
+        },
+        {
+          "family": "realnvp_coupling",
+          "net_information": -0.24102740097745406,
+          "reason": "net-nonpositive"
+        },
+        {
+          "family": "realnvp_coupling",
+          "reason": "predicate-not-positive"
+        }
+      ],
+      "family": "realnvp_coupling",
+      "net_information": -0.24102740097745406,
+      "net_positive_signal": false,
+      "positive_discovery": false,
+      "shift_information": 0,
+      "source_ids": [
+        "seed:1530:metric:actual_recovery_error",
+        "seed:1530:metric:alignment_loss",
+        "seed:1530:metric:approx_identifiability_proxy",
+        "seed:1530:metric:bound_margin",
+        "seed:1530:metric:linear_identifiability_r2",
+        "seed:1530:metric:quality_benefit",
+        "seed:1530:metric:quality_cost",
+        "seed:1530:metric:quality_debt",
+        "seed:1530:metric:quality_margin",
+        "seed:1530:metric:quality_q",
+        "seed:1530:metric:theorem3_bound",
+        "seed:2644:metric:actual_recovery_error",
+        "seed:2644:metric:alignment_loss",
+        "seed:2644:metric:approx_identifiability_proxy",
+        "seed:2644:metric:bound_margin",
+        "seed:2644:metric:linear_identifiability_r2",
+        "seed:2644:metric:quality_benefit",
+        "seed:2644:metric:quality_cost",
+        "seed:2644:metric:quality_debt",
+        "seed:2644:metric:quality_margin",
+        "seed:2644:metric:quality_q",
+        "seed:2644:metric:theorem3_bound",
+        "seed:3840:metric:actual_recovery_error",
+        "seed:3840:metric:alignment_loss",
+        "seed:3840:metric:approx_identifiability_proxy",
+        "seed:3840:metric:bound_margin",
+        "seed:3840:metric:linear_identifiability_r2",
+        "seed:3840:metric:quality_benefit",
+        "seed:3840:metric:quality_cost",
+        "seed:3840:metric:quality_debt",
+        "seed:3840:metric:quality_margin",
+        "seed:3840:metric:quality_q",
+        "seed:3840:metric:theorem3_bound",
+        "seed:498:metric:actual_recovery_error",
+        "seed:498:metric:alignment_loss",
+        "seed:498:metric:approx_identifiability_proxy",
+        "seed:498:metric:bound_margin",
+        "seed:498:metric:linear_identifiability_r2",
+        "seed:498:metric:quality_benefit",
+        "seed:498:metric:quality_cost",
+        "seed:498:metric:quality_debt",
+        "seed:498:metric:quality_margin",
+        "seed:498:metric:quality_q",
+        "seed:498:metric:theorem3_bound",
+        "seed:5118:metric:actual_recovery_error",
+        "seed:5118:metric:alignment_loss",
+        "seed:5118:metric:approx_identifiability_proxy",
+        "seed:5118:metric:bound_margin",
+        "seed:5118:metric:linear_identifiability_r2",
+        "seed:5118:metric:quality_benefit",
+        "seed:5118:metric:quality_cost",
+        "seed:5118:metric:quality_debt",
+        "seed:5118:metric:quality_margin",
+        "seed:5118:metric:quality_q",
+        "seed:5118:metric:theorem3_bound",
+        "seed:6478:metric:actual_recovery_error",
+        "seed:6478:metric:alignment_loss",
+        "seed:6478:metric:approx_identifiability_proxy",
+        "seed:6478:metric:bound_margin",
+        "seed:6478:metric:linear_identifiability_r2",
+        "seed:6478:metric:quality_benefit",
+        "seed:6478:metric:quality_cost",
+        "seed:6478:metric:quality_debt",
+        "seed:6478:metric:quality_margin",
+        "seed:6478:metric:quality_q",
+        "seed:6478:metric:theorem3_bound"
+      ],
+      "structural_discovery": false,
+      "surface_delta": [
+        [
+          "seed:1530:metric:actual_recovery_error",
+          "seed:1530:metric:actual_recovery_error"
+        ],
+        [
+          "seed:1530:metric:alignment_loss",
+          "seed:1530:metric:alignment_loss"
+        ],
+        [
+          "seed:1530:metric:approx_identifiability_proxy",
+          "seed:1530:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:1530:metric:bound_margin",
+          "seed:1530:metric:bound_margin"
+        ],
+        [
+          "seed:1530:metric:linear_identifiability_r2",
+          "seed:1530:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:1530:metric:quality_benefit",
+          "seed:1530:metric:quality_benefit"
+        ],
+        [
+          "seed:1530:metric:quality_margin",
+          "seed:1530:metric:quality_margin"
+        ],
+        [
+          "seed:1530:metric:quality_q",
+          "seed:1530:metric:quality_q"
+        ],
+        [
+          "seed:1530:metric:theorem3_bound",
+          "seed:1530:metric:theorem3_bound"
+        ],
+        [
+          "seed:2644:metric:actual_recovery_error",
+          "seed:2644:metric:actual_recovery_error"
+        ],
+        [
+          "seed:2644:metric:alignment_loss",
+          "seed:2644:metric:alignment_loss"
+        ],
+        [
+          "seed:2644:metric:approx_identifiability_proxy",
+          "seed:2644:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:2644:metric:bound_margin",
+          "seed:2644:metric:bound_margin"
+        ],
+        [
+          "seed:2644:metric:linear_identifiability_r2",
+          "seed:2644:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:2644:metric:quality_benefit",
+          "seed:2644:metric:quality_benefit"
+        ],
+        [
+          "seed:2644:metric:quality_margin",
+          "seed:2644:metric:quality_margin"
+        ],
+        [
+          "seed:2644:metric:quality_q",
+          "seed:2644:metric:quality_q"
+        ],
+        [
+          "seed:2644:metric:theorem3_bound",
+          "seed:2644:metric:theorem3_bound"
+        ],
+        [
+          "seed:3840:metric:actual_recovery_error",
+          "seed:3840:metric:actual_recovery_error"
+        ],
+        [
+          "seed:3840:metric:alignment_loss",
+          "seed:3840:metric:alignment_loss"
+        ],
+        [
+          "seed:3840:metric:approx_identifiability_proxy",
+          "seed:3840:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:3840:metric:bound_margin",
+          "seed:3840:metric:bound_margin"
+        ],
+        [
+          "seed:3840:metric:linear_identifiability_r2",
+          "seed:3840:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:3840:metric:quality_debt",
+          "seed:3840:metric:quality_debt"
+        ],
+        [
+          "seed:3840:metric:quality_margin",
+          "seed:3840:metric:quality_margin"
+        ],
+        [
+          "seed:3840:metric:quality_q",
+          "seed:3840:metric:quality_q"
+        ],
+        [
+          "seed:3840:metric:theorem3_bound",
+          "seed:3840:metric:theorem3_bound"
+        ],
+        [
+          "seed:498:metric:actual_recovery_error",
+          "seed:498:metric:actual_recovery_error"
+        ],
+        [
+          "seed:498:metric:alignment_loss",
+          "seed:498:metric:alignment_loss"
+        ],
+        [
+          "seed:498:metric:approx_identifiability_proxy",
+          "seed:498:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:498:metric:bound_margin",
+          "seed:498:metric:bound_margin"
+        ],
+        [
+          "seed:498:metric:linear_identifiability_r2",
+          "seed:498:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:498:metric:theorem3_bound",
+          "seed:498:metric:theorem3_bound"
+        ],
+        [
+          "seed:5118:metric:actual_recovery_error",
+          "seed:5118:metric:actual_recovery_error"
+        ],
+        [
+          "seed:5118:metric:alignment_loss",
+          "seed:5118:metric:alignment_loss"
+        ],
+        [
+          "seed:5118:metric:approx_identifiability_proxy",
+          "seed:5118:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:5118:metric:bound_margin",
+          "seed:5118:metric:bound_margin"
+        ],
+        [
+          "seed:5118:metric:linear_identifiability_r2",
+          "seed:5118:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:5118:metric:quality_benefit",
+          "seed:5118:metric:quality_benefit"
+        ],
+        [
+          "seed:5118:metric:quality_margin",
+          "seed:5118:metric:quality_margin"
+        ],
+        [
+          "seed:5118:metric:quality_q",
+          "seed:5118:metric:quality_q"
+        ],
+        [
+          "seed:5118:metric:theorem3_bound",
+          "seed:5118:metric:theorem3_bound"
+        ],
+        [
+          "seed:6478:metric:actual_recovery_error",
+          "seed:6478:metric:actual_recovery_error"
+        ],
+        [
+          "seed:6478:metric:alignment_loss",
+          "seed:6478:metric:alignment_loss"
+        ],
+        [
+          "seed:6478:metric:approx_identifiability_proxy",
+          "seed:6478:metric:approx_identifiability_proxy"
+        ],
+        [
+          "seed:6478:metric:bound_margin",
+          "seed:6478:metric:bound_margin"
+        ],
+        [
+          "seed:6478:metric:linear_identifiability_r2",
+          "seed:6478:metric:linear_identifiability_r2"
+        ],
+        [
+          "seed:6478:metric:quality_benefit",
+          "seed:6478:metric:quality_benefit"
+        ],
+        [
+          "seed:6478:metric:quality_margin",
+          "seed:6478:metric:quality_margin"
+        ],
+        [
+          "seed:6478:metric:quality_q",
+          "seed:6478:metric:quality_q"
+        ],
+        [
+          "seed:6478:metric:theorem3_bound",
+          "seed:6478:metric:theorem3_bound"
+        ]
+      ],
+      "surface_delta_count": 51,
+      "verdict": "not_positive"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "base_undertraining_audit": {
+    "artifact_id": "bedc-quality-lab:dgt-base-undertraining-audit",
+    "boundary_ledger": [
+      {
+        "ledger_id": "base-undertraining-construct-validity",
+        "reason": "equal-compute and equal-loss-decrease rows are non-informative for an information-starved baseline",
+        "reconstruction_pointer": "https://github.com/the-omega-institute/newmath/issues/1196",
+        "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+        "status": "construct-boundary"
+      }
+    ],
+    "claim_action": "defer-to-fair-reconstruction",
+    "comparison_rows": [
+      {
+        "base_metric": 0.06543,
+        "ci_low_separation": 0.246338,
+        "ci_overlap": false,
+        "comparison_id": "equal_step",
+        "decision": "noninformative-dgt-separated",
+        "dgt_metric": 0.311768,
+        "match_axis": "training_steps",
+        "match_value": 36,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "base_metric": 0.06543,
+        "ci_low_separation": 0.246338,
+        "ci_overlap": false,
+        "comparison_id": "equal_compute",
+        "decision": "noninformative-dgt-separated",
+        "dgt_metric": 0.311768,
+        "match_axis": "compute_units",
+        "match_value": 125.3376,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "base_metric": 0.068603,
+        "ci_low_separation": 0.913331,
+        "ci_overlap": false,
+        "comparison_id": "equal_loss_decrease",
+        "decision": "noninformative-dgt-separated",
+        "dgt_metric": 0.981934,
+        "match_axis": "loss_decrease",
+        "match_value": 0.972321,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "status": "resolved"
+      }
+    ],
+    "construct_validity": {
+      "baseline_feature_wiring": "[embed(x_prev_1), zero_like(embed(x_prev_2))]",
+      "baseline_input_order": 1,
+      "bayes_upper_bound_accuracy": 0.0625,
+      "boundary_reason": "Given x_prev_1, varying hidden x_prev_2 permutes all labels, so the baseline Bayes limit is chance.",
+      "chance_accuracy": 0.0625,
+      "hidden_coefficient_modulus_gcd": 1,
+      "label_dependency_order": 2,
+      "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
+      "second_predecessor_visible_to_baseline": false,
+      "source_pointers": {
+        "controller_evidence": "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911",
+        "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196",
+        "feature_source": "bedc_quality_lab/dgt_l1_controls.py:239",
+        "label_source": "bedc_quality_lab/dgt_l1_controls.py:205"
+      },
+      "status": "construct-boundary"
+    },
+    "evidence_ledger": [],
+    "generated_at": "2026-06-10T00:00:00+00:00",
+    "hardgates": {
+      "BASE-UNDER-HG0": {
+        "criterion": "baseline input bandwidth must cover the label dependency bandwidth before undertraining evidence is allowed",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+        "status": "fail-closed"
+      },
+      "BASE-UNDER-HG1": {
+        "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG2": {
+        "criterion": "base step grid covers the DGT compute and loss-decrease interval",
+        "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG3": {
+        "criterion": "missing comparison evidence fails closed to inconclusive",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
+        "status": "pass"
+      },
+      "BASE-UNDER-HG4": {
+        "criterion": "construct-valid compute or loss catch-up records a bounded downgrade ledger",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.boundary_ledger",
+        "status": "not-triggered"
+      },
+      "BASE-UNDER-HG5": {
+        "criterion": "resolved compute and loss rows retain positive CI-low separation",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.evidence_ledger",
+        "status": "pass"
+      }
+    },
+    "mechanical_decision_table": [
+      {
+        "claim_action": "defer-to-fair-reconstruction",
+        "condition": "baseline input bandwidth is lower than the label dependency bandwidth",
+        "verdict": "construct-boundary"
+      },
+      {
+        "claim_action": "hold",
+        "condition": "any required comparison row is missing or has unresolved source evidence",
+        "verdict": "inconclusive"
+      },
+      {
+        "claim_action": "hold",
+        "condition": "base grid does not cover DGT compute and loss-decrease intervals",
+        "verdict": "inconclusive"
+      },
+      {
+        "claim_action": "fair_compute_artifact",
+        "condition": "equal-compute row has CI overlap or nonpositive CI-low separation",
+        "verdict": "downgrade"
+      },
+      {
+        "claim_action": "fair_loss_decrease_artifact",
+        "condition": "equal-loss-decrease row has CI overlap or nonpositive CI-low separation",
+        "verdict": "downgrade"
+      },
+      {
+        "claim_action": "record_noninformative_rows",
+        "condition": "all required rows resolve and non-informative rows retain positive CI-low separation",
+        "verdict": "noninformative-separation"
+      }
+    ],
+    "not_claimed": [
+      "Bounded L1 tiny-sequence base-undertraining audit only.",
+      "No undertraining discharge claim under information-starved baseline.",
+      "No production deployment claim.",
+      "No global superiority claim.",
+      "No LLM replacement claim.",
+      "No cross-level verdict inheritance."
+    ],
+    "producer": "scripts/run_dgt_base_undertraining_audit.py",
+    "revoke_if": [
+      "Any required L1 canonical pointer becomes missing or unresolvable.",
+      "The construct-validity source no longer identifies the current baseline feature boundary.",
+      "The audit is used as evidence outside bounded L1 tiny-sequence scope."
+    ],
+    "schema_id": "bedc-quality-lab:dgt-base-undertraining-audit",
+    "source_contract": {
+      "base_step_grid_coverage": {
+        "covers_dgt_compute_loss_interval": true,
+        "observed_grid": [
+          36,
+          72,
+          144,
+          288,
+          576
+        ],
+        "required_grid": [
+          36,
+          72,
+          128,
+          256,
+          512
+        ],
+        "required_grid_present": false,
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+      },
+      "pointer_only": true,
+      "required_pointers": [
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
+      ],
+      "sha256": "e95ac7bff95d024afde3f4854c31274c9c7d4eed7fefcb5a2cb051b58ee17103",
+      "source_artifact": "reports/canonical/dgt-l1-controls.json",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+      "status": "resolved"
+    },
+    "verdict": "construct-boundary"
+  }
+}

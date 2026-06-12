@@ -1,0 +1,31 @@
+\subsection{cellstate.promotion-frontier.gse165180}
+
+\paragraph{Biological object.} CellStatePromotionFrontierUp over MPTR age, identity, and safety readbacks
+
+\paragraph{Current claim.} The full GSE165179 methylation and GSE165177 RNA MPTR time series can be scanned as a promotion frontier: every true donor/day/condition/experiment scope is classified by age gain, fibroblast identity-marker RMS, and pluripotency-marker safety deltas, with Case 3 supporting only an identity-safe age-reset candidate and not downstream rejuvenation or maintenance claims.
+
+\paragraph{External reality input.}
+\textbf{k-a.gse165179-transient}. The processed EPIC methylation matrix exposes donor-labelled O1/O2/O3 fibroblast baseline, negative-control day-10 exp2, and transiently reprogrammed day-10 exp2 samples; covered Horvath353 CpGs can be scored as DNAm age signatures and aligned by donor and condition to the MPTR RNA identity contact.
+
+Can test: age\_signature; cross\_layer\_relation as the age side of a donor-condition join with k-i.gse165177-mptr. Cannot test: function\_realization; safety\_boundary; renewable\_maintenance; organismal\_maintenance.
+
+\textbf{k-i.gse165177-mptr}. The processed RNA-seq matrices expose donor-labelled fibroblast negative-control and transiently reprogrammed samples plus iPSC boundary samples; the curated contact contains fibroblast identity markers and pluripotency markers for donor-matched exp2 day-10 pairs.
+
+Can test: cell\_identity. Cannot test: age\_signature; function\_realization; safety\_boundary; renewable\_maintenance; organismal\_maintenance; cross\_layer\_relation.
+
+\paragraph{Internal newmath/BEDC derivation.} Carrier: B\_F=(M,E,J,S\_A,S\_I,Q\_I,C,L,N). Distinctions: M: GSE165179 EPIC methylation beta matrix scored by Horvath353; E: GSE165177 Log2 RPM marker expression matrix; J: exact donor/day/condition/experiment join with no imputed modality; S\_A: same-scope DNAm age gain readback against the matched negative-control age sample; S\_I: fibroblast identity marker RMS delta readback; Q\_I: pluripotency marker max delta and strict positive-count readback; C: finite case classifier over no age gain, clock-only, break, and candidate scopes; L: cross\_layer\_relation frontier label; N: no-promotion boundary for function, repeat-cycle maintenance, organismal outcome, rejuvenation, renewable maintenance, and immortality potential. Readback: For each matched MPTR scope, compute control DNAm age minus treated DNAm age, treated-minus-control identity RMS, and treated-minus-control pluripotency max and positive-count values; report Case 3 only when all fixed boundaries pass and strict no-positive pluripotency deltas hold.. Internal structure: relation.
+
+\paragraph{Falsifiable probes.}
+\textbf{cellstate.promotion-frontier.gse165180}. Across the full MPTR time series, join GSE165179 methylation age and GSE165177 RNA marker readbacks by exact donor, day, condition, and experiment, then classify each scope into no-age-gain, clock-only, identity-or-safety-break, or identity-safe age-reset candidate cases.
+
+Support condition: Support requires at least one true joined scope with positive DNAm age gain, identity marker RMS at or below 1.5 Log2 RPM, pluripotency marker max delta at or below 1.0 Log2 RPM, and strict no-positive pluripotency-marker deltas.
+
+Break condition: The frontier is negative when all age-gain scopes are clock-only or break the fixed identity/safety thresholds; it is needs\_data when the true joined age/RNA scopes are absent or too sparse to evaluate the three-layer relation.
+
+\paragraph{Mismatch ledger.}
+\paragraph{Cannot-claim boundary.} Case 3 does not establish RejuvenationUp.; Case 3 does not establish RenewableMaintenanceUp.; Case 3 does not establish ImmortalityPotentialUp.; The frontier does not supply function, repeat-cycle, organismal, or independent safety-assay contacts.
+
+\paragraph{Verified facts.}
+No verified facts attached yet.
+
+\origin{ai}

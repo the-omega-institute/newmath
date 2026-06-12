@@ -166,10 +166,73 @@ do not make the compiler a source of new mathematical axioms. They show which
 event-flow, code, recognizer, certificate, metric, motif, and bootstrap claims
 are licensed inside the displayed compiler substrate.
 
+\section{Channel boundary discipline}
+\label{sec:bedc-groundcompiler-audit-map-channel-boundary-discipline}
+
+The channel layer has one especially sharp audit role: it turns an
+$\mathsf{EventFlow}$ into a single display string without erasing the event
+boundaries that make the flow a formal input. The relevant encoding is the
+Zeckendorf-safe channel of
+\autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding}. Its body map
+sends raw $0$ to channel $0$ and raw $1$ to channel $10$, and each event ends
+with the channel terminator $11$. Thus the legal channel language is
+$$
+  \mathsf{LegalZStream}
+  =
+  \big((0\mid 10)^{*}11\big)^{*}.
+$$
+
+The audit content is not the informal observation that this language is
+prefix-readable. It is the conjunction of four checked boundaries. First,
+\autoref{prop:channel-encoding-no-adjacent-11-in-body} proves that no encoded
+body contains adjacent $11$, and
+\autoref{cor:channel-encoding-first-11-is-terminator} therefore identifies the
+first adjacent $11$ as the event terminator. Second,
+\autoref{thm:channel-encoding-event-round-trip} and
+\autoref{thm:channel-encoding-flow-round-trip} prove event-level and
+flow-level readback. Third, \autoref{cor:channel-encoding-bijection} fixes the
+exact surface on which
+$$
+  \mathsf{EventFlow}\cong\mathsf{LegalZStream}
+$$
+is allowed to be read. Fourth,
+\autoref{cor:channel-encoding-no-tree-no-manifest} separates the legal channel
+from host parsers, manifests, package objects, theorem identifiers, and other
+structural hidden input.
+
+This boundary also explains why the event-flow layer cannot be replaced by a
+bare bitstream. The erasure map of
+\autoref{prop:ground-event-flow-erasure-not-injective} forgets event
+segmentation, and \autoref{cor:ground-event-flow-input-not-bare-bitstream}
+therefore refuses any decoder that tries to reconstruct every event flow from
+its flattened mark stream. The channel encoder repairs this only by making
+the boundaries explicit as part of the legal display language. It does not
+license a boundary-free input format.
+
+The source-level Zeckendorf classifiers remain separate. $\mathsf{ZNormal}$,
+$\mathsf{ZCarry}$, and the displayed carry row $011\leadsto 100$ are relations
+on recognized history flows. They are not substring rewrites on a channel
+stream. The source--channel separation theorem
+\autoref{thm:source-channel-layer-separation} is the audit fence: a consumer
+may decode a legal stream to an event flow, apply a licensed source-level
+normalizer to that event flow, and compile the result again; it may not
+rewrite channel glyphs directly and then treat the result as if it were a
+recognized source event.
+
+Consequently the GroundCompiler audit map admits the following channel
+reading and no stronger one. The encoding $0\mapsto 0$, $1\mapsto 10$,
+$\mathrm{End}\mapsto 11$ is a conservative, self-delimiting display of
+finite event-flow boundaries. It is not a $\NameCert$, not a theorem code, not
+a proof object, not a gap ledger, not a source-level Zeckendorf carry proof,
+and not evidence for entropy, continuum, topology, geometry, or physical
+space emergence. Those readings require separately named bridges and
+separately displayed certificate surfaces.
+
 \concretizedIn{ch:concrete-instances-groundcompilereventflowaudit-namecert}{GroundCompiler event-flow audit packets make the lossless source/channel and no-hidden-input boundary a concrete NameCert surface.}
 \concretizedIn{ch:concrete-instances-groundcompilereventflowauditroute-namecert}{The GroundCompiler event-flow audit route is realized as a finite channel, recognizer, certificate-gate, and non-evidence NameCert packet.}
 \concretizedIn{ch:concrete-instances-groundcompiler-audit-route-namecert}{GroundCompiler audit routes are realized as finite event-flow, MetaCIC-boundary, no-hidden-input, transport, replay, provenance, and local NameCert rows.}
 \concretizedIn{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}{GroundCompiler flow-level round trips are realized as finite encoding, decoding, legal-stream, transport, route, provenance, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-groundcompiler-audit-map-closure-namecert}{GroundCompiler audit-map closures realize compiler event-flow, source-channel, recognizer, certificate-gate, metric-report, and non-evidence rows as finite NameCert data.}
 
 \section{Relation to MetaCIC}
 \label{sec:bedc-groundcompiler-audit-map-relation-to-metacic}

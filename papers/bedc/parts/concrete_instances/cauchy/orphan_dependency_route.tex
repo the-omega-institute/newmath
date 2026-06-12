@@ -10,6 +10,20 @@ The sibling dependency spine then sends those rows to $\RegSeqRatUp$ and $\RealU
 The completion-facing consumer follows the same rows through the Cauchy-filter completion surface. Because the hub contains only child inputs and each child route exposes finite $\BHist$ and $\NameCert$ data, the L10 dependency path is connected through sibling chapters rather than through an unstated top-level object.
 \end{proof}
 
+\begin{theorem}[Cauchy RegSeqRat and completion forward route]
+\label{thm:cauchy-regseqrat-completion-forward-route}
+Every $\CauchyUp$ finite-window packet consumed by $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ factors through $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readback, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The route exports no quotient streams, selected limits, choice schedules, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the child dependency route above. It already displays the finite stream-window, dyadic tolerance, regular readback, Real-seal, transport, replay, provenance, and naming rows before any L10 consumer reads a Cauchy packet.
+
+The regular rational and Real consumers are the first forward users. The chapters \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert} read only the displayed finite windows, readback rows, tolerance rows, and terminal seal.
+
+The completion consumer reads the same route through \autoref{ch:concrete-instances-metriccompletion-namecert}. A metric-completion request can inspect Cauchy data only after the finite windows, tolerances, readbacks, Real seal, transport, replay, provenance, and local naming rows have been displayed.
+
+The excluded objects have no row in this finite route. Thus quotient streams, selected limits, choice schedules, host equality, and ambient completeness cannot be exported by the forward handoff.
+\end{proof}
+
 The L10 route consumes $\CauchyUp$ through the finite-window surface of
 \autoref{ch:concrete-instances-streamname-namecert}, the regular readback of
 \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance rows
@@ -18,3 +32,5 @@ seal rows of \autoref{ch:concrete-instances-real-namecert}. These four child
 dependencies keep the Cauchy packet attached to finite stream windows,
 regular rational evidence, dyadic budgets, and the Real seal before any L10
 consumer may read it.
+
+Every $\CauchyUp$ read used by Real and completion consumers factors through the same horizontal lattice: finite observation windows from \autoref{ch:concrete-instances-streamname-namecert}, regular-rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance rows from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. Downstream consumers therefore receive a displayed finite-window route before they may treat the packet as Real-facing Cauchy data.

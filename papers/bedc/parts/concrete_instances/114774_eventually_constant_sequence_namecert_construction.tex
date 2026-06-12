@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\EventuallyConstantSequenceUp$}
+\label{ch:concrete-instances-eventually-constant-sequence-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on sequences, tails, and constructive real names, the $\EventuallyConstantSequenceUp$ packet records the finite route by which an inspected sequence becomes constant after a displayed threshold. It sits beside the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the cofinite-tail interface of \autoref{ch:concrete-instances-frechetfilter-namecert}, the sequence-limit carrier of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a tail certificate: it does not identify quotient streams, select a limiting value, invoke countable choice, assert host equality, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Eventually constant sequence carrier]
+\label{def:eventually-constant-sequence-carrier}
+An $\EventuallyConstantSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+E_{\mathrm{tail}}=(S,T,F,R,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ sequence-window row, exposing the inspected finite prefixes and tail windows of the source sequence.
+\item $T$ is the $\FrechetFilterUp$ cofinite-tail row, carrying the displayed threshold after which the sequence is read as constant.
+\item $F$ is the finite constant-value row, naming the value repeated on the admitted tail.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to the same tail windows and constant value.
+\item $L$ is the $\RealSequenceLimitUp$ limit-handoff row, available only through the displayed tail threshold and constant readback.
+\item $A$ is the terminal $\RealUp$ seal row for the constant value and its sequence-limit handoff.
+\item $H$ records componentwise $\hsame$ transport for sequence windows, Frechet-tail threshold, constant-value row, regular readback, limit handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an eventual-constant request through $S,T,F,R,L,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EventuallyConstantSequenceUp$, $\StreamNameUp$, $\FrechetFilterUp$, $\RealSequenceLimitUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventuallyConstantSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,F,R,L,A,H,C,P,N$. It has no coordinate for quotient-stream equality, a selected subsequence, an ambient convergence predicate, countable choice, host real equality, or $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.EventuallyConstantSequenceUp.EventuallyConstantSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Eventually constant sequence NameCert obligations]
+\label{thm:eventually-constant-sequence-namecert-obligations}
+For every accepted $\EventuallyConstantSequenceUp$ carrier $E_{\mathrm{tail}}=(S,T,F,R,L,A,H,C,P,N)$, the local $\NameCert_{\EventuallyConstantSequenceUp}$ surface consists exactly of carrier admission for the displayed ten-row packet; StreamName window exposure through $S$; Frechet-tail threshold exposure through $T$; constant-value admission through $F$; regular-rational readback through $R$; RealSequenceLimit handoff through $L$; terminal Real seal through $A$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eventually-constant-sequence-carrier}. The analytic rows are exactly $S,T,F,R,L,A$, and the structural rows are exactly $H,C,P,N$.
+
+The sequence is read first through finite windows. The row $S$ exposes the inspected prefixes, while $T$ supplies the cofinite-tail threshold that makes the eventuality claim visible as a finite Frechet-filter row.
+
+The constant-value row $F$ is then checked only on the displayed tail. The regular readback row $R$ and limit handoff row $L$ use that same tail threshold before the terminal Real seal $A$ can be consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since quotient streams, selected subsequences, ambient convergence predicates, countable choice, host equality, and Real completeness are absent from these rows, none is a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Eventually constant sequence tail-filter handoff]
+\label{thm:eventually-constant-sequence-tail-filter-handoff}
+Every RealSequenceLimit-facing consumer of an accepted $\EventuallyConstantSequenceUp$ packet reaches the limit handoff only through the finite route
+$$
+\StreamNameUp \longmapsto \FrechetFilterUp \longmapsto \RegSeqRatUp \longmapsto \RealSequenceLimitUp \longmapsto \RealUp .
+$$
+The Frechet tail row supplies the threshold, the StreamName row supplies the inspected windows, and the RegSeqRat row supplies the regular readback of the constant value. The handoff exports no quotient stream, selected limit, countable-choice tail selector, host equality proof, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.EventuallyConstantSequenceUp.EventuallyConstantSequenceTailFilterHandoff}
+\begin{proof}
+Start from the NameCert obligation surface of \autoref{thm:eventually-constant-sequence-namecert-obligations}. It forces every accepted read to expose the sequence-window row $S$ and the Frechet-tail threshold $T$ before a limit-facing consumer reaches $L$.
+
+Next read the constant-value and regular-rational rows. The row $F$ identifies the repeated tail value inside the displayed threshold, and $R$ records the same value through the regular-rational route used by Real-facing consumers.
+
+The limit handoff $L$ and Real seal $A$ are downstream of those rows. Componentwise transport, continuation replay, provenance, and local naming preserve the same finite route, so no quotient stream, selected limit, countable-choice selector, host equality proof, or ambient completeness theorem is exported.
+\end{proof}
+
+\begin{theorem}[Eventually constant sequence Real seal nonescape]
+\label{thm:eventually-constant-sequence-real-seal-nonescape}
+Let $E_{\mathrm{tail}}=(S,T,F,R,L,A,H,C,P,N)$ be an accepted $\EventuallyConstantSequenceUp$ carrier. Any consumer that reads the terminal $\RealUp$ seal $A$ must have already displayed $S,T,F,R,L,H,C,P,N$. Thus the Real seal is a finite tail certificate for an eventually constant sequence, not a hidden proof of arbitrary sequence convergence, quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.EventuallyConstantSequenceUp.EventuallyConstantSequenceRealSealNonescape}
+\begin{proof}
+Read the carrier projection. The terminal Real row $A$ is listed only after the StreamName row, Frechet-tail threshold, constant-value row, regular readback, and RealSequenceLimit handoff.
+
+Apply the tail-filter handoff theorem, \autoref{thm:eventually-constant-sequence-tail-filter-handoff}. It places every limit-facing route through $S,T,F,R,L$ before the Real seal can be consumed.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same displayed route. Because the packet has no coordinate for arbitrary convergence, quotient streams, selected limits, countable choice, host equality, or Real completeness, the seal cannot export any of those claims.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EventuallyConstantSequenceUp$ consumer must display a $\StreamNameUp$ window row, a $\FrechetFilterUp$ cofinite-tail threshold, a constant-value row, a $\RegSeqRatUp$ readback row, a $\RealSequenceLimitUp$ handoff, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before the tail certificate can be consumed.}
+
+\independenceWitness{streamname, frechetfilter, real-sequence-limit, regseqrat, real: no listed sibling is bijective with $\EventuallyConstantSequenceUp$, because this packet alone binds a displayed sequence-window row, a cofinite-tail threshold, a constant-value row, regular readback, RealSequenceLimit handoff, Real seal, transport, replay, provenance, and local naming into one finite eventually-constant certificate.}
+
+\closureat{EventuallyConstantSequenceUp}{seedStr}
+
+\begin{closurestatus}{\EventuallyConstantSequenceUp}
+  \constructivestory{An $\EventuallyConstantSequenceUp$ packet is generated from StreamName sequence windows, a FrechetFilter cofinite-tail threshold, a constant-value row, RegSeqRat readback, a RealSequenceLimit handoff, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventually-constant-sequence-carrier}, \autoref{thm:eventually-constant-sequence-namecert-obligations}, \autoref{thm:eventually-constant-sequence-tail-filter-handoff}, and \autoref{thm:eventually-constant-sequence-real-seal-nonescape} seed the finite eventually-constant tail route over StreamName, FrechetFilter, RegSeqRat, RealSequenceLimit, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary sequence convergence, quotient stream equality, selected limits, countable choice, host real equality, RealUp completeness, Lean theorem coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-threshold exposure, constant-value exactness, RegSeqRat readback, RealSequenceLimit handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EventuallyConstantSequenceUp.}
+\end{closurestatus}

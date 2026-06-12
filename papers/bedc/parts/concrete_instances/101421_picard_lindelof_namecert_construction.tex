@@ -99,6 +99,24 @@ Apply \autoref{thm:osgood-criterion-picard-handoff} to the uniqueness modulus. T
 Finally replay the structural rows $H,C,G,N$. They transport, replay, source, and name the same finite certificate, and no row supplies a selected solution, host solver, ambient completeness principle, or continuation beyond $U$.
 \end{proof}
 
+\begin{theorem}[Picard--Lindelof Gronwall uniqueness handoff]
+\label{thm:picard-lindelof-gronwall-uniqueness-handoff}
+Let
+$$
+P=(I,F,L,R,Q,U,H,C,G,N)
+$$
+be an accepted $\PicardLindelofUp$ carrier. If two displayed endpoint reads share the same initial cell $I$ and the same Lipschitz ledger $F$, and the displayed $\GronwallInequalityUp$ comparison row bounds their finite difference envelope inside the nonescape window $U$, then the local uniqueness classifier $Q$ classifies the two endpoint reads as the same local endpoint of the packet. The handoff uses only $I,F,L,R,Q,U,H,C,G,N$ and the Gronwall comparison row; it does not add global continuation, a selected solution curve, host function-space equality, or an ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:picard-lindelof-carrier}. The row $Q$ is the only local uniqueness classifier, and it is keyed by the same initial cell $I$ and Lipschitz vector-field ledger $F$ named in the theorem statement.
+
+Apply \autoref{thm:picard-lindelof-gronwall-osgood-nonescape}. The Gronwall comparison row keeps the finite difference envelope for the two displayed endpoint reads inside $U$, so the comparison remains within the same local time-state window carried by $P$.
+
+Now read the uniqueness row $Q$. Because both endpoint reads share $I$ and $F$, and the comparison envelope is bounded inside $U$, $Q$ classifies them through the displayed ODE endpoint classifier rather than through a host function-space equality.
+
+Finally transport and replay the classification through $H$ and $C$, with provenance and naming supplied by $G$ and $N$. These support rows do not add a selected solution curve, global continuation, or ambient completeness coordinate, so the uniqueness handoff stays local to the packet.
+\end{proof}
+
 \falsifiablePrediction{Every $\PicardLindelofUp$ local endpoint read factors through one initial time-state cell, one Lipschitz vector-field ledger, one PicardContraction route, one CompleteMetric convergence row, one local uniqueness classifier, one nonescape window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{ode, lipschitzmap, completemetric, picardcontraction, banachfixedpoint: $\PicardLindelofUp$ is not bijective to any listed sibling because it jointly carries the initial time-state cell, vector-field Lipschitz ledger, Picard iteration route, complete-metric convergence row, local uniqueness classifier, nonescape window, and the transport/replay/provenance rows tying them together.}

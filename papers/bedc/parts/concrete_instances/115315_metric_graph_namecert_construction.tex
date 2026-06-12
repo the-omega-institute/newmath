@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\MetricGraphUp$}
+\label{ch:concrete-instances-metric-graph-namecert}
+\origin{human}
+
+Following Diestel and Burago--Burago--Ivanov, the $\MetricGraphUp$ packet names the path metric carried by a finite weighted graph. It reads graph adjacency from \autoref{ch:concrete-instances-graph-namecert}, finite path ledgers from \autoref{ch:concrete-instances-shortestpath-namecert}, center-radius requests from \autoref{ch:concrete-instances-metricball-namecert}, and the generated-open handoff from \autoref{ch:concrete-instances-metric-topology-namecert}. The packet is finite: it records visible vertex rows, edge-length rows, path ledgers, metric-ball rows, topology rows, transport, replay, provenance, and a local naming row, without importing an ambient continuum graph, a selected geodesic, quotient equality of vertices, or open-set data outside the displayed ball basis.
+
+\begin{definition}[Metric graph carrier]
+\label{def:metric-graph-carrier}
+A $\MetricGraphUp$ carrier is a finite $\BHist$ packet
+$$
+M_{\mathrm{graph}}=(G,E,W,S,L,D,B,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ carrier row, including finite vertex rows, edge-incidence rows, endpoint readback, and componentwise edge classification.
+\item $E$ is the finite edge inventory over $G$, naming the directed or undirected edge rows that may be used by a path ledger.
+\item $W$ is the edge-length ledger, attaching a nonnegative $\RealUp$ or $\RatUp$ length row to every displayed edge of $E$.
+\item $S$ is the $\ShortestPathUp$ source row, carrying finite path ledgers, endpoint rows, relaxation or comparison rows, and provenance for path-weight reads.
+\item $L$ is the path-length ledger. For each displayed path row it records the finite edge list, the endpoint row pair, the sum of the edge-length rows from $W$, and the comparison row used to read shortest-path distance.
+\item $D$ is the metric-distance row $d_G(x,y)$ obtained by reading the shortest displayed path length between the two endpoint rows when the packet admits such a path.
+\item $B$ is the $\MetricBallUp$ center-radius ledger whose membership row is read as $d_G(c,x)<_{\mathsf R}r$.
+\item $T$ is the $\MetricTopologyUp$ generated-open row obtained from the finite family of metric-ball rows in $B$.
+\item $H$ records componentwise $\hsame$ transport for vertices, edges, edge-length rows, path ledgers, distance rows, ball rows, topology rows, replay rows, provenance, and the local certificate.
+\item $C$ records $\Cont$ replay from an endpoint request through $G,E,W,S,L,D,B,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetricGraphUp$, $\GraphUp$, $\ShortestPathUp$, $\MetricBallUp$, $\MetricTopologyUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricGraphUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. There is no coordinate for a hidden all-pairs distance table, a selected geodesic outside the path ledger, quotient equality of vertices, an ambient graph completion, or topology data outside the generated metric-ball surface.
+\end{definition}
+\leanchecked{BEDC.Derived.MetricGraphUp.MetricGraphTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Metric graph NameCert obligations]
+\label{thm:metric-graph-namecert-obligations}
+For every accepted $\MetricGraphUp$ carrier $M_{\mathrm{graph}}=(G,E,W,S,L,D,B,T,H,C,P,N)$, the local $\NameCert_{\MetricGraphUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the graph row $G$, finite edge inventory $E$, edge-length ledger $W$, shortest-path source row $S$, path-length ledger $L$, distance row $D$, metric-ball row $B$, topology row $T$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$;
+\item edge-length stability, requiring every edge read from $E$ to carry the displayed nonnegative $\RealUp$ or $\RatUp$ length row of $W$ through $\hsame$ transport;
+\item path-ledger exactness, requiring each finite path length in $L$ to be computed from the edge rows admitted by $G,E,W$ and the path source row $S$;
+\item shortest-path distance readback, requiring $D$ to be read only through the finite comparison rows of $S,L$;
+\item metric-ball handoff, requiring every membership read in $B$ to use the displayed distance row $D$ and radius ledger before a topology consumer can see it;
+\item metric-topology handoff, requiring every generated-open row in $T$ to arise from the carried metric-ball rows of $B$;
+\item ledger non-escape, requiring every public read to stay inside $G,E,W,S,L,D,B,T,H,C,P,N$.
+\end{enumerate}
+No obligation is discharged by an ambient graph metric, a selected geodesic, quotient equality of vertices, an infinite graph completion, a host powerset topology, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-graph-carrier}. The graph row $G$, finite edge inventory $E$, edge-length ledger $W$, shortest-path source row $S$, path-length ledger $L$, distance row $D$, ball row $B$, topology row $T$, and structural rows $H,C,P,N$ are the only exported coordinates.
+
+Read the graph and path ledgers first. The graph chapter supplies endpoint and edge-row readback, while the shortest-path chapter supplies the finite path ledger and the comparison surface for path weights. Thus every distance read in $D$ is downstream of visible edge incidence, visible edge lengths, and a finite path ledger.
+
+Next read the metric-ball and topology rows. The ball membership row in $B$ consumes the distance comparison $d_G(c,x)<_{\mathsf R}r$, and the topology row $T$ consumes the carried ball rows as generated-open indices. These handoffs preserve the same finite packet through $H$ and $C$.
+
+Since the packet has no coordinate for a hidden distance table, selected geodesic, quotient vertex equality, graph completion, host powerset topology, or ambient real completeness, none of those objects can discharge a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Metric graph shortest-path metric route]
+\label{thm:metric-graph-shortest-path-metric-route}
+Every public metric read from an accepted $\MetricGraphUp$ packet factors through the finite shortest-path route
+$$
+\GraphUp,\ShortestPathUp,\MetricBallUp,\MetricTopologyUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+In particular, a consumer that asks for the metric ball around a vertex must first read the graph endpoint rows, the edge-length rows, the finite path ledger, and the shortest-path comparison row before it can use the center-radius membership row or the generated metric topology row.
+\end{theorem}
+\begin{proof}
+Start with a public distance request between two vertex rows of $G$. By \autoref{def:metric-graph-carrier}, the request can reach $D$ only through the finite edge inventory $E$, the edge-length ledger $W$, the shortest-path source row $S$, and the path-length ledger $L$.
+
+Apply the visible path-ledger and relaxation surfaces of \autoref{ch:concrete-instances-shortestpath-namecert}. They constrain the path read to displayed endpoint rows, finite edge-incidence rows, nonnegative edge weights, finite comparison rows, and provenance over the same graph packet.
+
+The resulting distance row is then consumed by \autoref{ch:concrete-instances-metricball-namecert}. A ball membership row reads $d_G(c,x)<_{\mathsf R}r$ through the displayed center, radius, positive-radius ledger, and comparison row.
+
+Finally the metric-topology consumer of \autoref{ch:concrete-instances-metric-topology-namecert} receives only the finite family of metric-ball rows. The route therefore exposes graph, shortest-path, ball, and topology data in order, and cannot export a selected geodesic, an all-pairs host metric, quotient equality, or ambient completeness.
+\end{proof}
+
+\closureat{MetricGraphUp}{seedStr}
+
+\begin{closurestatus}{\MetricGraphUp}
+  \constructivestory{A $\MetricGraphUp$ packet is generated from Graph rows, finite edge-length rows, ShortestPath path ledgers, MetricBall center-radius rows, MetricTopology generated-open rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-graph-carrier}, \autoref{thm:metric-graph-namecert-obligations}, and \autoref{thm:metric-graph-shortest-path-metric-route} seed the finite route from graph path ledgers to metric balls and generated metric topology.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, selected geodesics, all-pairs host metrics, quotient equality of vertices, graph completions, host powerset topology, ambient RealUp completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, edge-length stability, path-ledger exactness, shortest-path distance readback, ball handoff, topology handoff, transport, replay, provenance, refusal, and local naming for BEDC.Derived.MetricGraphUp.}
+\end{closurestatus}

@@ -132,6 +132,7 @@ $\ListUp$ sentential-form rows, and the terminal-yield readback $y$ as
 stack-transition and run-ledger rows. The handoff exports no infinite parse
 tree, host language set, grammar quotient, or unbounded machine trace.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPushdownHandoff}
 \begin{proof}
 Project the grammar carrier of
 \autoref{def:contextfreegrammar-bhist-carrier}. The start row $S$ initializes
@@ -155,6 +156,7 @@ grammar packet has no coordinate for an infinite parse tree, host language
 set, grammar quotient, or unbounded machine trace, the pushdown consumer
 cannot extract one through this route.
 \end{proof}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_pushdown\_handoff}
 
 \begin{theorem}[ContextFreeGrammar terminal-yield finite window]
 \label{thm:contextfreegrammar-terminal-yield-window}
@@ -275,6 +277,19 @@ rows named by the consumer boundary. Since the packet has no coordinate for
 ambiguity, parsing completeness, pumping arguments, Chomsky normal form, or a
 complete recognizer, none of those structures is exported to
 $\RegularLanguageUp$ or $\TuringMachineUp$ readers.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar regular-language inclusion certificate]
+\label{thm:contextfreegrammar-regularlanguage-inclusion-certificate}
+Every accepted $\RegularLanguageUp$ finite-automaton packet yields a $\ContextFreeGrammarUp$ packet whose production ledger simulates the deterministic transition ledger and whose terminal yield is the accepted $\ListUp$ word. The construction reads only the finite alphabet row, state row, transition table, initial row, accepting endpoint row, input-word spine, deterministic run ledger, componentwise transport rows, continuation rows, and package provenance of \autoref{ch:concrete-instances-regularlanguage-namecert}; it does not pass through a host language-set semantics or an ambient subset relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarRegularLanguageInclusionCertificate}
+\begin{proof}
+Start from the grammar carrier of \autoref{def:contextfreegrammar-bhist-carrier}. For each visible automaton transition row in the deterministic run ledger of \autoref{thm:regularlanguage-deterministic-run-ledger}, create the corresponding finite production row carrying the current state, consumed terminal, and next state as displayed nonterminal and terminal coordinates.
+
+Use \autoref{thm:contextfreegrammar-production-stability} along the run ledger. Componentwise transport of the automaton rows therefore transports the simulated production rows without replacing them by an external language predicate.
+
+Finally apply \autoref{thm:contextfreegrammar-yield-readback}. The derivation consumes exactly the stored $\ListUp$ word spine, so the terminal yield row is the accepted word row named by the regular-language packet. Repacking the production ledger, derivation ledger, yield row, transports, continuation, provenance, and local name gives the required $\ContextFreeGrammarUp$ packet.
 \end{proof}
 
 \begin{theorem}[ContextFreeGrammar consumer boundary determinacy]
@@ -508,6 +523,7 @@ infinitary parse-tree semantics, pumping arguments, Chomsky normal form, or
 recognizer completeness, the forgetful projection cannot export any of those
 structures.
 \end{proof}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_bhist\_forgetful\_projection\_boundary}
 
 \begin{lemma}[ContextFreeGrammar BHist classifier alignment boundary]
 \label{lem:contextfreegrammar-bhist-classifier-alignment-boundary}
@@ -548,6 +564,7 @@ Thus the receiving classifier gate must re-read the grammar rows through
 \autoref{def:contextfreegrammar-bhist-carrier}; it cannot treat a copied
 source excerpt as an additional transported coordinate.
 \end{lemma}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_bhist\_classifier\_alignment\_boundary}
 \begin{proof}
 Project both accepted packets through
 \autoref{def:contextfreegrammar-bhist-carrier}. The carrier definition lists

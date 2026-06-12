@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\ModulusOfConvexityUp$}
+\label{ch:concrete-instances-modulus-of-convexity-namecert}
+\origin{human}
+
+Following Bishop, Clarkson, and the uniformly convex Banach-space tradition, the $\ModulusOfConvexityUp$ packet records the finite tolerance surface that witnesses how midpoint separation forces a norm drop. It sits over the Banach carrier of \autoref{ch:concrete-instances-banachspace-namecert}, the norm rows of \autoref{ch:concrete-instances-norm-namecert}, the convex-set rows of \autoref{ch:concrete-instances-convexset-namecert}, the scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the Milman--Pettis consumer of \autoref{ch:concrete-instances-milman-pettis-namecert}. The packet names only displayed norm bounds, midpoint convexity, Real tolerance budgets, transport, replay, provenance, local naming, and uniform-convexity handoff rows; it does not import host compactness, selected minimizers, Hahn--Banach separation, quotient norm equality, or a completed ambient Banach theorem.
+
+\begin{definition}[Modulus of convexity carrier]
+\label{def:modulus-of-convexity-carrier}
+A $\ModulusOfConvexityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,N,K,R,E,M,H,C,P,L,U)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachSpaceUp$ row whose complete normed-space surface is read before any modulus value is inspected.
+\item $N$ is the $\NormUp$ row for the norm, unit-ball boundary, midpoint norm, and comparison windows.
+\item $K$ is the $\ConvexSetUp$ row naming the unit-ball and midpoint convexity surface used by the modulus read.
+\item $R$ is the $\RealUp$ tolerance row carrying the positive separation budget, midpoint-drop budget, and comparison precision.
+\item $E$ is the separation row saying that two displayed unit-ball points are at least the tolerance named by $R$ apart.
+\item $M$ is the modulus row returning a displayed positive drop budget for the midpoint norm.
+\item $H$ records componentwise $\hsame$ transport for the Banach, norm, convex-set, Real tolerance, separation, modulus, continuation, provenance, local naming, and handoff rows.
+\item $C$ records displayed $\Cont$ replay from a modulus request through $B,N,K,R,E,M,H,P,L,U$.
+\item $P$ is the $\Pkg$ provenance over $\ModulusOfConvexityUp$, $\BanachSpaceUp$, $\NormUp$, $\ConvexSetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ModulusOfConvexityUp}$ row.
+\item $U$ is the uniform-convexity handoff row made available to $\UniformlyConvexSpaceUp$ and $\MilmanPettisUp$ consumers.
+\end{enumerate}
+The classifier compares accepted packets only through $B,N,K,R,E,M,H,C,P,L,U$.
+\end{definition}
+
+\begin{theorem}[Modulus of convexity NameCert obligations]
+\label{thm:modulus-of-convexity-namecert-obligations}
+For every accepted $\ModulusOfConvexityUp$ carrier $D=(B,N,K,R,E,M,H,C,P,L,U)$, the local $\NameCert_{\ModulusOfConvexityUp}$ surface consists exactly of carrier admission for the Banach row, norm row, convex unit-ball row, Real tolerance row, separation row, modulus-drop row, transport, continuation, provenance, local naming, and uniform-convexity handoff. A consumer may read the modulus route only by exposing $\BanachSpaceUp$, $\NormUp$, $\ConvexSetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in that order.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-of-convexity-carrier}. The analytic rows are $B,N,K,R,E,M$: Banach completeness, norm access, unit-ball convexity, Real tolerance budgets, displayed separation, and the midpoint-drop modulus.
+
+The structural rows $H,C,P,L$ transport, replay, source, and name those analytic rows as one finite packet. They do not add host compactness, selected minimizers, quotient norm equality, or ambient separation.
+
+The handoff row $U$ is therefore readable only after the displayed modulus rows are present. This exhausts the local NameCert surface and fixes the consumer order through the finite BEDC rows.
+\end{proof}
+
+\begin{theorem}[Modulus of convexity uniform-convexity handoff]
+\label{thm:modulus-of-convexity-uniform-convexity-handoff}
+Every uniformly convex Banach-space consumer of an accepted $\ModulusOfConvexityUp$ packet factors through
+$$
+\BanachSpaceUp,\ \NormUp,\ \ConvexSetUp,\ \RealUp
+\longmapsto
+\UniformlyConvexSpaceUp .
+$$
+In carrier notation, the handoff row $U$ can be read only after the Banach row $B$, norm row $N$, convex-set row $K$, tolerance row $R$, separation row $E$, and modulus-drop row $M$ are visible. The same handoff is the modulus surface consumed by the Milman--Pettis route.
+\end{theorem}
+\begin{proof}
+Begin with the Banach and norm rows. The row $B$ supplies the complete normed-space surface, while $N$ supplies the unit-ball, distance, midpoint, and comparison windows used by the modulus read.
+
+Read the convexity and scalar rows next. The row $K$ restricts the midpoint operation to the displayed convex unit-ball surface, and $R$ supplies the Real-valued separation and midpoint-drop tolerances.
+
+Only after $E$ and $M$ expose the separation-to-drop relation does $U$ become available. Transport through $H$, replay through $C$, and provenance through $P,L$ keep the handoff inside the same finite packet, so $\UniformlyConvexSpaceUp$ and $\MilmanPettisUp$ receive a displayed modulus route rather than an ambient Banach-space theorem.
+\end{proof}
+
+\independenceWitness{banachspace, norm, convexset, real, milman-pettis: $\ModulusOfConvexityUp$ is not bijective to any listed sibling because it jointly carries Banach completeness, norm windows, convex unit-ball rows, Real tolerance budgets, separation, midpoint-drop data, transport, replay, provenance, local naming, and a uniform-convexity handoff as one finite packet.}
+
+\closureat{ModulusOfConvexityUp}{seedStr}
+
+\begin{closurestatus}{\ModulusOfConvexityUp}
+  \constructivestory{A $\ModulusOfConvexityUp$ packet is generated from BanachSpace rows, Norm rows, ConvexSet unit-ball rows, Real tolerance rows, separation rows, midpoint-drop rows, displayed hsame transport, displayed Cont replay, Pkg provenance, local NameCert rows, and a uniform-convexity handoff.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-of-convexity-carrier}, \autoref{thm:modulus-of-convexity-namecert-obligations}, and \autoref{thm:modulus-of-convexity-uniform-convexity-handoff} seed the finite route from a Banach norm and convex unit-ball surface to a uniform-convexity modulus handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host compactness, selected minimizers, Hahn--Banach separation, quotient norm equality, ambient Banach-space uniform convexity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exactness, midpoint-drop nonescape, uniform-convexity handoff, transport, replay, provenance, and local naming for BEDC.Derived.ModulusOfConvexityUp.}
+\end{closurestatus}

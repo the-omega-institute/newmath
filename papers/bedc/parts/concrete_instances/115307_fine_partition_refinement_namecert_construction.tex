@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FinePartitionRefinementUp$}
+\label{ch:concrete-instances-fine-partition-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, and the Cousin gauge-integration route for tagged subdivisions, the $\FinePartitionRefinementUp$ packet names the finite operation that takes an already displayed fine tagged partition and a displayed refinement request to a common fine refinement. It sits between the fine tagged partition surface of \autoref{ch:concrete-instances-fine-partition-gauge-namecert}, the local finite cover route of \autoref{ch:concrete-instances-cousin-cover-namecert}, and the Darboux--Riemann comparison handoff of \autoref{ch:concrete-instances-riemann-refinement-criterion-namecert}. The packet records only interval source rows, source and target tagged-cell ledgers, refinement maps, gauge-fineness preservation, mesh comparison, handoff, transport, replay, provenance, and local naming; it does not assert an ambient partition lattice, selected refinement limit, quotient equality of tagged partitions, choice-selected tags, or completeness of $\RealUp$.
+
+\begin{definition}[FinePartitionRefinement carrier]
+\label{def:fine-partition-refinement-carrier}
+A $\FinePartitionRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,G,S,T,\rho,L,M,U,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval source shared by the refined cells.
+\item $G$ is the positive gauge row used to test every target cell.
+\item $S$ is the source $\FinePartitionGaugeUp$ tagged-cell ledger.
+\item $T$ is the target tagged-cell ledger after refinement.
+\item $\rho$ is the finite refinement map sending every target cell of $T$ to a source cell of $S$ with endpoint containment and tag compatibility.
+\item $L$ is the fineness-preservation row, recording that each target cell remains $G$-fine through the row $\rho$.
+\item $M$ is the mesh comparison row, displaying the finite dyadic ledger that bounds the target mesh by the source mesh and by the requested refinement tolerance.
+\item $U$ is the $\CousinCoverUp$ handoff row witnessing that the refined cells still lie on the displayed local cover route.
+\item $Q$ is the $\RiemannRefinementCriterionUp$ handoff row consumed by Darboux and Riemann-sum comparison packets.
+\item $E$ is the terminal $\RealUp$ seal row available only after the finite mesh and handoff rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for interval, gauge, source partition, target partition, refinement map, fineness, mesh, handoff, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through the finite rows above.
+\item $P$ is the $\Pkg$ provenance over $\FinePartitionRefinementUp$, $\FinePartitionGaugeUp$, $\CousinCoverUp$, $\RiemannRefinementCriterionUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FinePartitionRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,G,S,T,\rho,L,M,U,Q,E,H,C,P,N$. It has no coordinate for a host refinement relation, an infinite partition net, quotient tagged-partition equality, selected mesh limit, hidden tag choice, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[FinePartitionRefinement NameCert obligations]
+\label{thm:fine-partition-refinement-namecert-obligations}
+For every accepted $\FinePartitionRefinementUp$ carrier
+$$
+R=(I,G,S,T,\rho,L,M,U,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\FinePartitionRefinementUp}$ surface consists exactly of interval and gauge admission, source $\FinePartitionGaugeUp$ admission, target tagged-cell admission, finite refinement-map exactness, fineness preservation, mesh comparison over $\DyadicRatCoreUp$, $\CousinCoverUp$ locality, $\RiemannRefinementCriterionUp$ handoff, terminal $\RealUp$ sealing, componentwise transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source data are $I,G,S$, where $S$ is already a $\FinePartitionGaugeUp$ packet over the displayed interval and gauge.
+
+The target data are $T,\rho,L,M$. The map $\rho$ records finite containment of target cells in source cells, $L$ records preservation of gauge-fineness along that containment, and $M$ records the dyadic mesh comparison. These rows are the only refinement operation stored in the carrier.
+
+The handoff rows $U$ and $Q$ then expose the same refined partition to the Cousin cover and Riemann refinement criterion siblings. The remaining rows transport, replay, source, and name the packet. Since no coordinate stores a host refinement lattice, hidden selector, quotient equality, or ambient completeness theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FinePartitionRefinement handoff]
+\label{thm:fine-partition-refinement-handoff}
+Every accepted $\FinePartitionRefinementUp$ packet turns a displayed $\FinePartitionGaugeUp$ source row into a finite target refinement before any $\RiemannRefinementCriterionUp$ consumer may read the Darboux--Riemann comparison route. The consumer receives only
+$$
+\FinePartitionGaugeUp,\ \CousinCoverUp
+\longmapsto T,\rho,L,M
+\longmapsto \RiemannRefinementCriterionUp,\ \RealUp ,
+$$
+with $\DyadicRatCoreUp$ controlling the finite mesh ledger.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:fine-partition-refinement-carrier}. The source row $S$ is read as a fine tagged partition through \autoref{ch:concrete-instances-fine-partition-gauge-namecert}, while $U$ keeps the refined cells on the Cousin cover route of \autoref{ch:concrete-instances-cousin-cover-namecert}.
+
+The finite target rows $T,\rho,L,M$ expose the actual operation: a displayed target cell ledger, a displayed refinement map, a fineness-preservation row, and a dyadic mesh comparison row. No downstream consumer can read $Q$ before these rows have been presented.
+
+Finally $Q$ is the $\RiemannRefinementCriterionUp$ handoff, so the Darboux--Riemann comparison receives a finite refinement packet rather than a host-level partition principle. The terminal seal $E$ and the structural rows $H,C,P,N$ preserve only this route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FinePartitionRefinementUp$ consumer must expose a source FinePartitionGauge row, target tagged-cell ledger, finite refinement map, fineness-preservation row, dyadic mesh comparison, CousinCover handoff, and RiemannRefinementCriterion handoff before using the refinement.}
+
+\independenceWitness{finepartitiongauge, cousincover, riemannrefinementcriterion, dyadicratcore: $\FinePartitionRefinementUp$ is not bijective to any listed sibling because it jointly carries a finite refinement map, target tagged-cell ledger, fineness preservation, mesh comparison, and two downstream handoff rows.}
+
+\closureat{FinePartitionRefinementUp}{seedStr}
+
+\begin{closurestatus}{\FinePartitionRefinementUp}
+  \constructivestory{A $\FinePartitionRefinementUp$ packet is generated from interval and gauge rows, a source FinePartitionGauge row, a target tagged-cell ledger, finite refinement maps, fineness-preservation rows, DyadicRatCore mesh comparisons, CousinCover and RiemannRefinementCriterion handoffs, RealUp sealing, transport, replay, provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fine-partition-refinement-carrier}, \autoref{thm:fine-partition-refinement-namecert-obligations}, and \autoref{thm:fine-partition-refinement-handoff} seed the finite refinement-operation carrier between fine partitions and Riemann refinement consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host partition lattices, selected mesh limits, quotient tagged-partition equality, hidden tag choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement-map exactness, fineness preservation, DyadicRatCore mesh comparison, CousinCover locality, RiemannRefinementCriterion handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.FinePartitionRefinementUp.}
+\end{closurestatus}

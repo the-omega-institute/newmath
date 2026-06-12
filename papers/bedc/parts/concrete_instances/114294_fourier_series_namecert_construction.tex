@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FourierSeriesUp$}
+\label{ch:concrete-instances-fourier-series-namecert}
+\origin{human}
+
+Following Zygmund and Stein--Shakarchi on classical Fourier series, the $\FourierSeriesUp$ packet records the finite coefficient-window interface for trigonometric-polynomial partial sums on the circle. It sits over the finite Fourier observation surface of \autoref{ch:concrete-instances-fourier-namecert}, the circle source of \autoref{ch:concrete-instances-s1-namecert}, the real and complex scalar rows of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-complex-namecert}, and the pointwise graph discipline of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names finite windows, partial-sum evaluation rows, componentwise transport, replay, provenance, and local naming; it does not import convergence, $L^{2}$ completeness, pointwise convergence, or host-function equality.
+
+\begin{definition}[Fourier series carrier]
+\label{def:fourier-series-carrier}
+A $\FourierSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+F=(W,T,E,R,K,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $W$ is the finite coefficient-window row, listing the retained integer frequencies and their displayed source addresses.
+\item $T$ is the trigonometric-polynomial partial-sum row, binding each retained window to its finite sine, cosine, and exponential tags.
+\item $E$ is the $S^{1}$ evaluation row, exposing only displayed phase samples read through $\SOneUp$.
+\item $R$ is the $\RealUp$ coefficient row for real sine and cosine coefficients, including the finite rational or real-name readback ledger used by the packet.
+\item $K$ is the $\ComplexUp$ coefficient row for complex exponential coefficients and the corresponding scalar readback.
+\item $H$ records componentwise $\hsame$ transport for coefficient windows, partial sums, $S^{1}$ evaluations, real and complex coefficient rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite window request through $W,T,E,R,K$.
+\item $P$ is the $\Pkg$ provenance over $\FourierSeriesUp$, $\FourierUp$, $\SOneUp$, $\RealUp$, $\ComplexUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FourierSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $W,T,E,R,K,H,C,P,N$. It has no coordinate for equality of host functions, limiting Fourier series, $L^{2}$ completion, pointwise convergence, or a selected representative in an ambient function space.
+\end{definition}
+
+\begin{theorem}[Fourier series NameCert obligations]
+\label{thm:fourier-series-namecert-obligations}
+For every accepted $\FourierSeriesUp$ carrier $F=(W,T,E,R,K,H,C,P,N)$, the local $\NameCert_{\FourierSeriesUp}$ surface consists exactly of finite coefficient-window admission through $W$, trigonometric-polynomial partial-sum admission through $T$, $S^{1}$ evaluation admission through $E$, real and complex coefficient readback through $R$ and $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fourier-series-carrier}. Its visible rows are exactly $W,T,E,R,K,H,C,P,N$, so every naming duty begins with a finite coefficient window rather than with a completed function or limiting series.
+
+The analytic rows are then read only as finite data. The row $T$ supplies the trigonometric-polynomial partial sum attached to the displayed window, $E$ supplies the circle samples, and $R,K$ supply the real and complex coefficient readbacks.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for host-function equality, convergence, $L^{2}$ completeness, or pointwise convergence, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fourier series finite partial-sum route]
+\label{thm:fourier-series-finite-partial-sum-route}
+Every $\ContinuousMapUp$-facing or scalar-facing read from an accepted $\FourierSeriesUp$ packet factors through
+$$
+W,T,E,R,K \longmapsto H,C,P,N .
+$$
+The read may consume finite Fourier observations, displayed $S^{1}$ phase samples, real coefficient rows, complex coefficient rows, and continuous-map graph rows, but it exports only the finite partial-sum route displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Start with the coefficient window. The row $W$ fixes the retained frequencies, and $T$ attaches the trigonometric-polynomial partial sum to that finite window.
+
+Read the evaluation and scalar rows next. The $S^{1}$ row $E$ supplies the displayed phase samples, while $R$ and $K$ expose the real and complex coefficient readbacks available to the partial sum.
+
+The structural rows $H,C,P,N$ preserve that same finite route under componentwise transport, replay, provenance, and local naming. Therefore any downstream read receives the displayed partial-sum packet only, with convergence, $L^{2}$ completeness, pointwise convergence, and host-function equality outside the route.
+\end{proof}
+
+\falsifiablePrediction{Deleting the coefficient-window row $W$ prevents any accepted $\FourierSeriesUp$ partial-sum read, even when trigonometric-polynomial, $S^{1}$ evaluation, scalar, transport, replay, provenance, and local naming rows remain displayed.}
+
+\independenceWitness{The finite Fourier observation packet $\FourierUp$ is not interchangeable with $\FourierSeriesUp$ because only $\FourierSeriesUp$ binds coefficient windows, trigonometric-polynomial partial sums, $S^{1}$ evaluations, real and complex coefficient rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted partial-sum route.}
+
+\closureat{FourierSeriesUp}{seedStr}
+
+\begin{closurestatus}{\FourierSeriesUp}
+  \constructivestory{A $\FourierSeriesUp$ packet is generated from a finite coefficient window, a trigonometric-polynomial partial-sum row, an $S^{1}$ evaluation row, real and complex coefficient rows, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fourier-series-carrier}, \autoref{thm:fourier-series-namecert-obligations}, and \autoref{thm:fourier-series-finite-partial-sum-route} seed the finite Fourier-series partial-sum route over $\FourierUp$, $\SOneUp$, $\RealUp$, $\ComplexUp$, and $\ContinuousMapUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FourierSeriesUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close convergence, completeness of $L^{2}$, pointwise convergence, host-function equality, Lean-checked obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window admission, partial-sum readback, circle evaluation, real and complex coefficient readback, transport, replay, provenance, and local naming for BEDC.Derived.FourierSeriesUp.}
+\end{closurestatus}

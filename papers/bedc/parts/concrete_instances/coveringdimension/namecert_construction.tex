@@ -49,6 +49,139 @@ The Lebesgue-ledger row $L$ ties the same cover route to positive radius data. I
 Finally $H,T,P,N$ transport, replay, package, and name the same finite surface. Since the carrier contains no arbitrary open-cover coordinate, choice-selected refinement, host subcover theorem, classical dimension theorem, quotient equality, or external multiplicity oracle, none of those objects can enter the local NameCert obligations.
 \end{proof}
 
+\begin{definition}[Covering dimension compact-net root]
+\label{def:covering-dimension-compact-net-root}
+For an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the compact-net root is the finite source surface consisting of $K,E$ together with the downstream cover, refinement, order, Lebesgue-ledger, transport, replay, provenance, and naming rows. It is the reusable $\BHist$ root through which every compact finite-cover consumer must enter before reading any dimension-bound data.
+\end{definition}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier\_compact\_net\_admission}
+
+\begin{theorem}[Covering dimension compact-net admission]
+\label{thm:covering-dimension-compact-net-admission}
+Every compact finite-cover consumer of an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+must first admit the compact-net root through the compact metric row $K$ and the finite epsilon-net row $E$. The consumer cannot read the finite cover row $C$, refinement row $R$, order row $O$, Lebesgue ledger $L$, or structural rows $H,T,P,N$ as a dimension-bound packet until the $\BHist$ source of $K,E$ is visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The compact source row $K$ and finite epsilon-net row $E$ precede every cover or refinement row in the displayed packet.
+
+Use the NameCert obligations of \autoref{thm:covering-dimension-namecert-obligations}. They require compact metric admission and finite epsilon-net admission before cover admission, refinement containment, order-bound verification, and Lebesgue-ledger compatibility are available.
+
+Thus the compact-net root of \autoref{def:covering-dimension-compact-net-root} is not optional bookkeeping. It is the entry surface for later finite-cover consumers, while $H,T,P,N$ only transport, replay, source, and name the same root.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCompactNetAdmission}
+
+\begin{theorem}[Covering dimension refinement multiplicity window]
+\label{thm:covering-dimension-refinement-multiplicity-window}
+For every accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+any refinement-order read must pass from the finite cover row $C$ through the refinement map $R$ before the order-bound witness row $O$ is inspected. The multiplicity window counted by $O$ is therefore a finite $\BHist$ ledger over displayed refined members and their parents in $C$, not a host overlap oracle or an arbitrary open-cover dimension predicate.
+\end{theorem}
+\begin{proof}
+Read the cover and refinement rows from \autoref{def:covering-dimension-carrier}. The row $C$ lists the cover members, while $R$ assigns each refined member to one displayed parent and records the containment witness.
+
+Apply the NameCert obligations. Order-bound verification through $O$ is downstream of cover admission and refinement containment, so $O$ can count only refined members already visible through $C$ and $R$.
+
+The structural rows $H,T,P,N$ preserve this finite multiplicity window. Since no carrier coordinate stores a host overlap oracle, choice-selected refinement, or classical dimension predicate, the order read is exactly the displayed $C,R,O$ window.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRefinementMultiplicityWindow}
+
+\begin{theorem}[Covering dimension Lebesgue-ledger handoff]
+\label{thm:covering-dimension-lebesgue-ledger-handoff}
+Every compact-cover Lebesgue read exported by an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+must pass through the finite ledger route
+$$
+L \longmapsto H,T,P,N
+$$
+after the compact-net root $K,E$ and the finite cover-refinement rows $C,R,O$ have been displayed. The handoff exports the same $\CompactCoverLebesgueLedgerUp$ evidence, componentwise transport, replay, provenance, and local naming; it does not export open-cover compactness, selected subcovers, quotient real equality, or host dimension data.
+\end{theorem}
+\begin{proof}
+Start with the compact-net admission theorem, \autoref{thm:covering-dimension-compact-net-admission}. It places $K,E$ before every downstream cover and dimension-bound read.
+
+Then use \autoref{thm:covering-dimension-refinement-multiplicity-window}. The finite cover, refinement map, and order ledger are read through $C,R,O$ before a Lebesgue-style handoff can certify compatibility with the same finite cover route.
+
+Finally apply the NameCert obligations of \autoref{thm:covering-dimension-namecert-obligations}. They keep the Lebesgue ledger $L$ attached to componentwise transport $H$, displayed replay $T$, provenance $P$, and local naming $N$, excluding open-cover compactness, selected subcovers, quotient real equality, and host dimension data from the handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionLebesgueLedgerHandoff}
+
+\begin{theorem}[Covering dimension root finite-cover carrier]
+\label{thm:covering-dimension-root-cover-carrier}
+Every root $\CoveringDimensionUp$ packet admits a dimension read only through the finite carrier rows
+$$
+K,E,C,R,O,L,H,T,P,N .
+$$
+The admitted rows are exactly compact metric source data, finite epsilon-net support, finite $\BHist$ cover entries, finite refinement membership, order-bound witnesses, compact-cover Lebesgue ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CoveringDimensionUp}$ naming. The carrier has no coordinate for arbitrary open-cover compactness, choice-selected refinements, host countable dense sets, quotient completion data, or an external dimension oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The compact and metric source rows are read through $\CompactMetricUp$ and $\MetricUp$, with finite sampling supplied by \autoref{ch:concrete-instances-compactmetric-namecert}, \autoref{ch:concrete-instances-metric-namecert}, and \autoref{ch:concrete-instances-finite-epsilon-net-namecert}.
+
+The cover, refinement, order, and radius rows are exactly $C,R,O,L$. Their finite lower-bound support is the $\CompactCoverLebesgueLedgerUp$ and $\FiniteLebesgueNumberUp$ route of \autoref{ch:concrete-instances-compact-cover-lebesgue-ledger-namecert} and \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, not a host compactness theorem.
+
+Finally $H,T,P,N$ preserve the same displayed packet. Since the carrier has no row for the excluded objects, a root dimension read cannot admit them as local obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverCarrier}
+
+\begin{theorem}[Covering dimension root refinement obligation]
+\label{thm:covering-dimension-root-refinement-obligation}
+Every root order comparison exported by an accepted $\CoveringDimensionUp$ carrier factors through the finite refinement ledger before any dimension bound is inspected. In carrier notation, a consumer must read
+$$
+C \longmapsto R \longmapsto O
+$$
+after the $\CompactMetricUp$, $\MetricUp$, and $\FiniteEpsilonNetUp$ source rows have been displayed and before any $\DyadicRatCoreUp$, $\FiniteLebesgueNumberUp$, $\RealSeparabilityUp$, $\RegSeqRatUp$, or $\MetricCompletionUp$ handoff reuses the bound.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRefinementObligation}
+\begin{proof}
+Use \autoref{thm:covering-dimension-refinement-multiplicity-window}. It already places the refinement map $R$ between the finite cover row $C$ and the order-bound row $O$.
+
+Attach the root carrier admission of \autoref{thm:covering-dimension-root-cover-carrier}. The compact source rows from $\CompactMetricUp$, $\MetricUp$, and $\FiniteEpsilonNetUp$ precede $C,R,O$, while the finite Lebesgue and dyadic support rows are downstream consumers of the same displayed route.
+
+The completion and separability siblings can therefore reuse only the finite order ledger already exposed by $C,R,O$. They cannot replace the refinement step by a selected subcover or by a host order comparison.
+\end{proof}
+
+\begin{theorem}[Covering dimension root separability route]
+\label{thm:covering-dimension-root-separability-route}
+When a root $\CoveringDimensionUp$ packet uses $\RealSeparabilityUp$, that row supplies only the finite cover-selection route needed by the displayed refinement ledger. It contributes rational windows, dyadic tolerances, and regular-rational readback through
+$$
+\RealSeparabilityUp,\DyadicRatCoreUp,\RegSeqRatUp
+$$
+before the order row is exported; it does not supply a host countable dense set, selected dense sequence, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite-density route \autoref{thm:real-separability-coveringdimension-finite-density-route}. It routes dense Real witnesses through displayed rational and dyadic density rows before $O$ is exposed.
+
+The dyadic and rational readback rows are the siblings \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-separability-namecert}. They refine finite cover selection and tolerance inspection, but they do not add a separate dense-set carrier.
+
+Combine this with \autoref{thm:covering-dimension-root-refinement-obligation}. The separability route is inserted before the displayed order export and remains attached to $C,R,O,L,H,T,P,N$, so no selected dense sequence or host completeness principle is available.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier\_root\_separability\_route}
+
+\begin{theorem}[Covering dimension root completion handoff]
+\label{thm:covering-dimension-root-completion-handoff}
+Every $\MetricCompletionUp$ or Cauchy-facing read of a root $\CoveringDimensionUp$ packet is consumed only after the finite cover and refinement ledgers have been displayed. The handoff route first exposes
+$$
+K,E,C,R,O,L
+$$
+and only then permits completion-facing rows from $\MetricCompletionUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the regular Cauchy support of \autoref{ch:concrete-instances-regseqrat-namecert} to inspect the same bound.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:covering-dimension-root-refinement-obligation}. It fixes $C,R,O$ downstream of the compact source rows and upstream of every order-bound export.
+
+Next apply the Lebesgue-ledger handoff \autoref{thm:covering-dimension-lebesgue-ledger-handoff}. The row $L$ ties the displayed finite cover and refinement to compact-cover lower-bound data before structural transport and replay are read.
+
+Only after those rows are visible may the completion-facing siblings of \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert} consume the bound. The completion handoff therefore receives a finite displayed cover-refinement packet, not a selected completion object or a hidden Cauchy limit.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier\_root\_completion\_handoff}
+
 \begin{theorem}[Covering dimension refinement order]
 \label{thm:covering-dimension-refinement-order}
 Every accepted $\CoveringDimensionUp$ refinement factors through the finite route
@@ -57,6 +190,7 @@ K,E,C \longmapsto R,O,L \longmapsto H,T,P,N .
 $$
 Thus a downstream dimension consumer receives a displayed finite cover, a displayed refinement map into that cover, an order-bound witness over the refined rows, and the compact Lebesgue ledger before it may read the packet as a dimension bound.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRefinementOrder}
 \begin{proof}
 Begin with a downstream consumer of an accepted carrier $D$. By \autoref{def:covering-dimension-carrier}, the consumer enters through the compact metric row $K$ and the finite epsilon-net row $E$ before it can inspect any cover data.
 
@@ -67,10 +201,30 @@ The order-bound row $O$ counts only refined members that are already visible thr
 The Lebesgue-ledger row $L$ supplies the positive radius readback compatible with the same finite cover route. Transport, replay, provenance, and naming through $H,T,P,N$ preserve that route for the dimension consumer.
 \end{proof}
 
+\begin{theorem}[Covering dimension compact-metric dependency]
+\label{thm:coveringdimension-compactmetric-dependency}
+Every finite-cover refinement read exported as a $\CoveringDimensionUp$ dimension bound must expose the $\MetricUp$ and $\CompactMetricUp$ carrier rows, the finite cover row, the finite refinement row, the order-bound row, any $\RealSeparabilityUp$ or $\MetricCompletionUp$ rows used by the read, and the local $\NameCert_{\CoveringDimensionUp}$ provenance before the bound is exported. In carrier terms, an accepted packet
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+is consumed through compact metric source $K$, finite-net row $E$, finite cover row $C$, refinement row $R$, order row $O$, compact Lebesgue ledger $L$, transport $H$, replay $T$, package provenance $P$, and local naming $N$, with the dependency routes of the compact-metric and metric siblings remaining visible.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCompactMetricDependency}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The rows $K,E,C,R,O,L,H,T,P,N$ are the only compact source, finite-net, cover, refinement, order, Lebesgue-ledger, transport, replay, provenance, and naming rows available to the dimension consumer.
+
+Use the compact metric route and metric dependency route, \autoref{thm:covering-dimension-metric-dependency} together with the displayed route in \texttt{compact\_metric\_dependency\_route.tex}. They force the cover-refinement read through $\CompactMetricUp$ finite-net data and $\MetricUp$ ball observations before the refinement map and order ledger are inspected.
+
+If the read uses dense real witnesses or completion-facing metric data, apply \autoref{thm:real-separability-coveringdimension-finite-density-route} and the completion dependency child routes. Those routes place $\RealSeparabilityUp$ and $\MetricCompletionUp$ rows before the order-bound export rather than after it.
+
+Finally $H,T,P,N$ keep the route componentwise stable, replayed, sourced, and locally named. Since no carrier row stores arbitrary open-cover compactness, a choice-selected refinement, a host dimension theorem, quotient real equality, or an external multiplicity oracle, a dimension bound can be exported only after the listed dependency rows are visible.
+\end{proof}
+
 \begin{theorem}[Covering dimension ledger non-escape]
 \label{thm:covering-dimension-ledger-non-escape}
 No accepted $\CoveringDimensionUp$ packet can replace its finite rows $K,E,C,R,O,L,H,T,P,N$ by arbitrary open-cover compactness, choice-selected refinements, a host multiplicity oracle, or a classical dimension theorem. Any exported dimension-bound claim must be read through the displayed cover, refinement, order-bound, Lebesgue-ledger, transport, replay, provenance, and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionLedgerNonEscape}
 \begin{proof}
 Inspect the carrier inventory of \autoref{def:covering-dimension-carrier}. The only compactness data are the compact metric row $K$, the finite epsilon-net row $E$, and the finite Lebesgue-ledger row $L$.
 
@@ -80,6 +234,51 @@ The structural rows $H,T,P,N$ preserve and expose these displayed rows. They do 
 
 Therefore any consumer that exports a dimension-bound claim without reading $K,E,C,R,O,L,H,T,P,N$ leaves the carrier surface and is not reading a $\CoveringDimensionUp$ certificate.
 \end{proof}
+
+\begin{theorem}[CoveringDimension nerve order bound]
+\label{thm:coveringdimension-nerve-order-bound}
+An accepted $\CoveringDimensionUp$ finite cover-refinement packet may export an order-bound ledger to $\SimplicialComplexUp$ only through displayed finite cover members, refinement rows, overlap and multiplicity rows, and a finite face inventory. In carrier coordinates, the route from $D=(K,E,C,R,O,L,H,T,P,N)$ to a nerve consumer first reads the $\CompactMetricUp$ source $K$, $\FiniteEpsilonNetUp$ row $E$, finite cover row $C$, refinement map $R$, order-bound ledger $O$, and $\CompactCoverLebesgueLedgerUp$ row $L$ before the $\SimplicialComplexUp$ face rows can receive a dimension bound.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionNerveOrderBound}
+\begin{proof}
+Project the accepted carrier. The compact metric source $K$ and finite epsilon-net row $E$ are the only rows from which cover members can be sampled.
+
+The cover and refinement rows are then opened as finite data. The row $C$ supplies displayed cover members, and $R$ assigns each refined member to a parent row before any overlap count is meaningful.
+
+The order ledger $O$ counts only overlaps among those displayed refined members. Hence the nerve face inventory sent to $\SimplicialComplexUp$ is finite: its vertices are cover rows, and its faces are exactly the inspected nonempty overlap rows bounded by $O$.
+
+Finally $L,H,T,P,N$ keep the compact-cover Lebesgue ledger, transport, replay, provenance, and local naming attached to the same finite route. The density and completion neighbours, $\RealSeparabilityUp$ and $\MetricCompletionUp$, may be cited only through their displayed finite rows, so the nerve export remains non-parametric and concrete.
+\end{proof}
+
+\begin{theorem}[CoveringDimension compact-cover nerve nonescape]
+\label{thm:coveringdimension-compact-cover-nerve-nonescape}
+No accepted $\CoveringDimensionUp$ nerve route can export ambient open-cover compactness, a selected subcover, or a host dimension predicate to $\SimplicialComplexUp$. Every compact-cover nerve read must remain inside the displayed $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\CompactCoverLebesgueLedgerUp$, $\RealSeparabilityUp$, $\MetricCompletionUp$, finite cover, refinement, overlap, multiplicity, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCompactCoverNerveNonescape}
+\begin{proof}
+Start with \autoref{thm:covering-dimension-ledger-non-escape}. It rules out replacing the carrier rows by arbitrary open-cover compactness, choice-selected refinements, host multiplicity oracles, or classical dimension theorems.
+
+Now read the nerve route of \autoref{thm:coveringdimension-nerve-order-bound}. The $\SimplicialComplexUp$ consumer receives only the finite face inventory determined by displayed cover members, refinement rows, overlap rows, and the order-bound ledger.
+
+The compactness source is still the compact metric finite route. $\CompactMetricUp$, $\FiniteEpsilonNetUp$, and $\CompactCoverLebesgueLedgerUp$ provide sampled cover data and positive-radius ledger rows, while $\RealSeparabilityUp$ and $\MetricCompletionUp$ may contribute only their finite density or completion-facing rows when the read asks for them.
+
+Since no carrier coordinate stores an ambient open cover, a selected subcover, or a host dimension predicate, none of those objects can be exported to the nerve. Any such export leaves the accepted $\CoveringDimensionUp$ surface.
+\end{proof}
+
+\begin{theorem}[CoveringDimension scope-closure witness]
+\label{thm:covering-dimension-scope-closure-witness}
+Every scoped $\CoveringDimensionUp$ consumer that exports a dimension-bound claim must first read the displayed compact metric source row $K$, finite epsilon-net row $E$, finite cover row $C$, finite refinement map $R$, order-bound row $O$, and compact-cover Lebesgue ledger $L$. When the read uses dense or completion-facing support, the $\RealSeparabilityUp$ or $\MetricCompletionUp$ rows must be displayed before $O$ is exported. When the read exports a nerve, the $\SimplicialComplexUp$ face rows must be displayed after the compact cover, refinement, overlap, and multiplicity rows. In every case, the local $H,T,P,N$ rows for $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ must be read before the bound leaves the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:covering-dimension-namecert-obligations}. It identifies $K,E,C,R,O,L,H,T,P,N$ as the complete local obligation surface, so a scoped consumer cannot read a dimension-bound claim before those rows are available.
+
+Next apply \autoref{thm:coveringdimension-compactmetric-dependency}. It keeps the compact metric source, finite-net row, finite cover, refinement, order, optional $\RealSeparabilityUp$ or $\MetricCompletionUp$ rows, and local provenance visible before any finite-cover refinement read is exported.
+
+The completion side is governed by \autoref{thm:covering-dimension-root-completion-handoff}. It allows completion-facing rows only after $K,E,C,R,O,L$ have been displayed, so completion support cannot replace the finite cover-refinement route.
+
+Finally apply \autoref{thm:coveringdimension-compact-cover-nerve-nonescape}. A nerve consumer receives only the displayed finite face inventory determined by compact cover, refinement, overlap, multiplicity, transport, replay, provenance, and local naming rows. Combining the cited routes gives the stated scoped-closure witness for every dimension-bound export.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionScopeClosureWitness}
 
 \begin{theorem}[Covering dimension finite-density route]
 \label{thm:real-separability-coveringdimension-finite-density-route}
@@ -98,6 +297,50 @@ Insert that RealSeparability route before $O$ is exposed. The finite cover and r
 
 Finally $L,H,T,P,N$ replay and name the same route. Since the covering-dimension carrier has no arbitrary open-cover coordinate, choice-selected refinement, or host dimension theorem, and the RealSeparability route has no selected dense point or ambient completeness coordinate, the composed finite-density route exports none of them.
 \end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteDensityRoute}
+
+\begin{theorem}[CoveringDimension finite-order refinement bridge]
+\label{thm:coveringdimension-finite-order-refinement-bridge}
+Every accepted $\CoveringDimensionUp$ finite-order refinement bridge is read through finite cover rows, compact-net rows, $\RealSeparabilityUp$ budget rows, and the structural route
+$$
+\BHist,\ \Cont,\ \hsame,\ \NameCert .
+$$
+For a carrier $D=(K,E,C,R,O,L,H,T,P,N)$, the bridge first displays the compact metric row $K$, finite epsilon-net row $E$, finite cover row $C$, refinement map row $R$, and order-bound row $O$; if dense real witnesses are used, their $\RealSeparabilityUp$ finite rational and dyadic budget rows must be displayed before $O$ is exported as a dimension-bound ledger.
+\end{theorem}
+\begin{proof}
+Apply the compact-net admission theorem, \autoref{thm:covering-dimension-compact-net-admission}. It places $K,E$ before every finite cover and refinement read.
+
+Use the refinement-order theorem, \autoref{thm:covering-dimension-refinement-order}. The finite cover row $C$, refinement map $R$, and order ledger $O$ are read as a single displayed multiplicity route.
+
+Finally apply the finite-density route, \autoref{thm:real-separability-coveringdimension-finite-density-route}. It inserts the $\RealSeparabilityUp$ rational and dyadic budget rows before the order-bound export, while $H,T,P,N$ preserve the route through $\hsame$, $\Cont$, provenance, and $\NameCert$.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteOrderRefinementBridge}
+
+\begin{theorem}[CoveringDimension compact-net simplicial nerve]
+\label{thm:coveringdimension-compact-net-simplicial-nerve}
+Every $\SimplicialComplexUp$ nerve exported by an accepted $\CoveringDimensionUp$ packet consumes compact-net rows and finite cover rows before it forms its finite face inventory. In carrier notation, $K,E$ supply the compact-net source, $C,R$ supply the finite cover and refinement rows, $O$ supplies the order-budget ledger, and any $\RealSeparabilityUp$ density budget is read before the nerve face rows are named through $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with the nerve order-bound theorem, \autoref{thm:coveringdimension-nerve-order-bound}. It sends only displayed cover members, refinement rows, overlap rows, and the order-bound ledger to the simplicial consumer.
+
+Then use compact-cover nerve nonescape, \autoref{thm:coveringdimension-compact-cover-nerve-nonescape}. It keeps the nerve route inside $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\CompactCoverLebesgueLedgerUp$, and the optional $\RealSeparabilityUp$ finite rows rather than inside an ambient open-cover theorem.
+
+The structural rows finish the handoff. Componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local $\NameCert$ naming preserve the compact-net and finite-cover rows as the only source of nerve faces.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCompactNetSimplicialNerve}
+
+\begin{theorem}[CoveringDimension RealSeparability finite-cover budget]
+\label{thm:coveringdimension-real-separability-finite-cover-budget}
+Whenever an accepted $\CoveringDimensionUp$ packet uses $\RealSeparabilityUp$ to inspect a finite cover, the separability data is a finite budget row, not a selected dense sequence. The consumer must display rational enumeration rows, dyadic tolerance rows, compact-net rows $K,E$, finite cover rows $C,R$, the order-bound row $O$, and the structural $\BHist$, $\Cont$, $\hsame$, and $\NameCert$ rows before the finite-cover budget can support a dimension-bound export.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRealSeparabilityFiniteCoverBudget}
+\begin{proof}
+Read the finite-density route, \autoref{thm:real-separability-coveringdimension-finite-density-route}. It already places $\RealSeparabilityUp$ rational and dyadic rows before the order-bound ledger is exposed.
+
+Attach the compact metric dependency theorem, \autoref{thm:coveringdimension-compactmetric-dependency}. It keeps the compact metric source, finite-net row, finite cover, refinement, order-bound ledger, and local NameCert provenance visible throughout the read.
+
+Finally use the ledger nonescape theorem, \autoref{thm:covering-dimension-ledger-non-escape}. Since neither $\CoveringDimensionUp$ nor $\RealSeparabilityUp$ stores a selected dense point, arbitrary open-cover compactness, or a host dimension theorem, the finite-cover budget remains the displayed row family $K,E,C,R,O,L,H,T,P,N$ with the separability rows inserted before $O$.
+\end{proof}
 
 \falsifiablePrediction{A consumer that claims a $\CoveringDimensionUp$ bound while omitting the finite cover row, refinement map row, order-bound witness row, compact Lebesgue ledger, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ rows refutes the carrier of \autoref{def:covering-dimension-carrier}.}
 
@@ -107,7 +350,7 @@ Finally $L,H,T,P,N$ replay and name the same route. Since the covering-dimension
 
 \begin{closurestatus}{\CoveringDimensionUp}
   \constructivestory{A $\CoveringDimensionUp$ packet is generated from a CompactMetricUp source, a FiniteEpsilonNetUp center bundle, a finite BHist cover row, a finite refinement map, an order-bound witness ledger, a CompactCoverLebesgueLedgerUp row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:covering-dimension-carrier}, \autoref{thm:covering-dimension-namecert-obligations}, \autoref{thm:covering-dimension-refinement-order}, and \autoref{thm:covering-dimension-ledger-non-escape} seed the finite cover-refinement dimension packet over compact metric finite-net and Lebesgue-ledger rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

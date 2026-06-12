@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BourbakiCauchyFilterUp$}
+\label{ch:concrete-instances-bourbaki-cauchy-filter-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on Cauchy filters and constructive completion, the $\BourbakiCauchyFilterUp$ packet records the traditional Cauchy-filter presentation as finite BEDC certificate data rather than as a quotient of filters or a selected completion point. It sits after the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}. The packet gives Real and Completion consumers a human-origin source row whose public reads stay inside finite $\BHist$, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Bourbaki Cauchy-filter carrier]
+\label{def:bourbaki-cauchy-filter-carrier}
+A $\BourbakiCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(F_0,B,E,W,R,D,S,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F_0$ is the filter source row, exposing the displayed Cauchy-filter request that a completion consumer may inspect.
+\item $B$ is the finite base row, recording the named base elements used for the current filter read.
+\item $E$ is the entourage and tolerance row, keeping the requested closeness data explicit before any completion handoff.
+\item $W$ is the $\StreamNameUp$ window row, listing the finite observations made from the source.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ accounting row for tolerance cells, slack, and comparison budget.
+\item $S$ is the terminal $\RealUp$ seal row, visible only after $F_0,B,E,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport of the source, base, tolerance, window, readback, dyadic, and seal rows.
+\item $C$ records displayed $\Cont$ replay of the same ordered route.
+\item $P$ is the $\Pkg$ provenance over $\BourbakiCauchyFilterUp$, $\CauchyFilterUp$, $\CauchyFilterCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BourbakiCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filter equality, ultrafilter extension, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bourbaki Cauchy-filter NameCert obligations]
+\label{thm:bourbaki-cauchy-filter-namecert-obligations}
+For every accepted $\BourbakiCauchyFilterUp$ carrier
+$$
+F=(F_0,B,E,W,R,D,S,H,C,P,N),
+$$
+the local $\NameCert_{\BourbakiCauchyFilterUp}$ surface consists exactly of filter-source exposure through $F_0$, finite-base exposure through $B$, entourage and tolerance exposure through $E$, finite $\StreamNameUp$ windows through $W$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ accounting through $D$, terminal $\RealUp$ sealing through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bourbaki-cauchy-filter-carrier}. The first three rows expose the Cauchy-filter source, the finite base, and the entourage or tolerance request as displayed data rather than as an ambient filter quotient.
+
+The next four rows order the completion read through finite windows, regular rational readback, dyadic accounting, and the terminal Real seal. Thus a consumer cannot reach $S$ before the rows $F_0,B,E,W,R,D$ have been read.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. No row introduces quotient filter equality, ultrafilters, selected limits, countable choice, trichotomy, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Bourbaki Cauchy-filter RegSeqRat handoff]
+\label{thm:bourbaki-cauchy-filter-regseqrat-handoff}
+Every Real or Completion consumer of an accepted $\BourbakiCauchyFilterUp$ packet must factor its read through the ordered route
+$$
+\CauchyFilterUp \longmapsto B \longmapsto E \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+Consequently the $\RegSeqRatUp$ handoff is read only after the filter source, finite base, tolerance row, and finite window service are visible, and the terminal $\RealUp$ seal is read only after the dyadic accounting row has been displayed.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:bourbaki-cauchy-filter-namecert-obligations}. They list $F_0,B,E,W,R,D,S$ as the only analytic rows available before the structural certificate rows.
+
+The ordered route first exposes the Cauchy-filter source and finite base. The tolerance row then fixes which finite windows are relevant, so the $\StreamNameUp$ service can be read without choosing a representative sequence or a limit point.
+
+The $\RegSeqRatUp$ row reads those windows as regular rational data, and the $\DyadicRatCoreUp$ row accounts for the displayed tolerance budget before the $\RealUp$ seal is reached. Transport, replay, provenance, and local naming preserve this order, so the handoff exports no quotient filter equality, ultrafilter argument, selected limit, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{proof}
+
+\closureat{BourbakiCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\BourbakiCauchyFilterUp}
+  \constructivestory{A $\BourbakiCauchyFilterUp$ packet is generated from a Cauchy-filter source row, finite base row, entourage and tolerance row, StreamName windows, RegSeqRat readback, DyadicRatCore accounting, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bourbaki-cauchy-filter-carrier}, \autoref{thm:bourbaki-cauchy-filter-namecert-obligations}, and \autoref{thm:bourbaki-cauchy-filter-regseqrat-handoff} seed the finite Bourbaki Cauchy-filter presentation consumed by Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filter equality, ultrafilters, selected limits, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-source exposure, finite-base exposure, tolerance routing, StreamName windows, RegSeqRat readback, DyadicRatCore accounting, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.BourbakiCauchyFilterUp.}
+\end{closurestatus}

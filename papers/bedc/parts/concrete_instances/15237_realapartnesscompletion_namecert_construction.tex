@@ -40,6 +40,7 @@ For every accepted $\RealApartnessCompletionUp$ carrier $A=(X,Q,M,S,R,D,E,H,C,P,
 \end{enumerate}
 No local obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionObligationSurface}
 \begin{proof}
 Carrier admission is projection from \autoref{def:real-apartness-completion-carrier}. The tuple displays exactly the apartness row, Hausdorff separation row, constructive completion route, stream windows, regular rational readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local name.
 
@@ -50,6 +51,38 @@ The regular readback discipline is the role of $S,R,D,E$. The seal row $E$ is do
 Componentwise stability and ledger exhaustion follow from $H,C,P,N$. These rows transport, replay, package, and name only the displayed packet, so they cannot add quotient completions, host real equality, selected limits, countable choice, trichotomy, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealApartnessCompletion obligation routing]
+\label{thm:real-apartness-completion-obligation-routing}
+Every accepted $\RealApartnessCompletionUp$ packet routes each local $\NameCert$ obligation through
+$$
+X,Q,M,S,R,D,E,H,C,P,N
+$$
+in that order. Carrier admission, separated-source exactness, regular readback discipline, componentwise stability, and ledger exhaustion are exactly the five projections of this finite route over the $\ApartnessRealUp$, $\HausdorffCompletionUp$, $\ConstructiveMetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionObligationRouting}
+\begin{proof}
+Project the carrier of \autoref{def:real-apartness-completion-carrier}. The displayed tuple places the apartness source, Hausdorff separation row, constructive completion route, stream windows, regular readback, dyadic tolerance ledger, and Real seal before the structural rows.
+
+Apply the obligation surface of \autoref{thm:real-apartness-completion-obligation-surface}. Its five clauses are carrier admission, separated-source exactness, regular readback discipline, componentwise stability, and ledger exhaustion, so each clause is a projection of the same ordered route.
+
+Finally use the non-escape boundary of \autoref{thm:real-apartness-completion-nonescape}. Since quotient completion, choice, trichotomy, host equality, and ambient completeness rows are absent, the obligation surface has no route outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[RealApartnessCompletion obligation partition]
+\label{thm:real-apartness-completion-obligation-partition}
+For every accepted $\RealApartnessCompletionUp$ packet $A=(X,Q,M,S,R,D,E,H,C,P,N)$, the local obligation surface partitions into separated-source rows $(X,Q,M)$, finite window and readback rows $(S,R,D)$, the terminal seal row $E$, and structural ledger rows $(H,C,P,N)$. No consumer may discharge an obligation in one partition by borrowing a row from another partition unless an explicit displayed transport or replay row in $H$ or $C$ carries that row across the named boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionObligationPartition}
+\begin{proof}
+Project the carrier of \autoref{def:real-apartness-completion-carrier}. The tuple displays the apartness source $X$, Hausdorff separation row $Q$, constructive completion row $M$, stream window $S$, regular readback $R$, dyadic tolerance row $D$, seal $E$, and structural rows $H,C,P,N$ as distinct coordinates.
+
+Apply the obligation surface of \autoref{thm:real-apartness-completion-obligation-surface} and the routing theorem of \autoref{thm:real-apartness-completion-obligation-routing}. Their carrier, separated-source, regular readback, stability, and ledger clauses are projections of the same ordered packet, so the source rows, window/readback rows, seal row, and structural rows cannot be identified by prose alone.
+
+The non-escape boundary of \autoref{thm:real-apartness-completion-nonescape} prevents quotient completion, selected limits, choice, trichotomy, host equality, and ambient completeness from supplying substitute rows. The separated-source exactness and regular readback discipline theorems, \autoref{thm:real-apartness-completion-separated-source-exactness} and \autoref{thm:real-apartness-completion-regular-readback-discipline}, fix the entry to $M$ through $X,Q$ and the entry to $E$ through $S,R,D$.
+
+It remains only to account for permitted movement between partitions. Such movement must be displayed by $H$ or $C$, because those are the only transport and replay rows in the carrier. Hence a consumer cannot satisfy one partition by borrowing from another unless the borrowing is itself recorded as an explicit structural route.
+\end{proof}
+
 \begin{theorem}[RealApartnessCompletion non-escape boundary]
 \label{thm:real-apartness-completion-nonescape}
 Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every separated completion read of $A$ factors through the finite route
@@ -58,6 +91,7 @@ X,Q,M,S,R,D \longmapsto E \longmapsto H,C,P,N .
 $$
 Thus the boundary can expose apartness-separated real-name evidence only through the displayed $\ApartnessRealUp$, $\HausdorffCompletionUp$, $\ConstructiveMetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It excludes quotient completions, host real equality, selected limits, countable choice, trichotomy, and ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionNonescape}
 \begin{proof}
 Begin with an accepted separated completion read. Carrier admission gives a single visible route from the apartness source $X$ and Hausdorff separation row $Q$ into the constructive completion row $M$.
 
@@ -66,11 +100,117 @@ Replay the observation path through the finite windows. The stream schedule $S$,
 Finally transport and package the same route through $H,C,P,N$. Since no other coordinate occurs in the carrier or obligation surface, the read cannot escape to quotient completions, host real equality, selected limits, countable choice, trichotomy, or ambient Real completeness.
 \end{proof}
 
+\begin{definition}[RealApartnessCompletion apartness-Cauchy window]
+\label{def:real-apartness-completion-apartness-cauchy-window}
+For an accepted $\RealApartnessCompletionUp$ packet $A=(X,Q,M,S,R,D,E,H,C,P,N)$, the apartness-Cauchy window is the finite prefix
+$$
+W_{\mathrm{ac}}(A)=(X,Q,M,S,R,D).
+$$
+Its rows are read with the following roles:
+\begin{enumerate}
+\item $X$ is the $\ApartnessRealUp$ apartness source for the boundary read.
+\item $Q$ is the $\HausdorffCompletionUp$ separated-completion witness attached to that source.
+\item $M$ is the $\ConstructiveMetricCompletionUp$ route by which the completion request is replayed.
+\item $S$ is the $\StreamNameUp$ finite-window ledger for the inspected name.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback exposed by those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the readback at the requested precision.
+\end{enumerate}
+The window has no coordinate for the $\RealUp$ seal $E$ and no coordinate for quotient completion, trichotomy, selected limits, countable choice, host equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealApartnessCompletion separated completion handoff]
+\label{thm:real-apartness-completion-separated-completion-handoff}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every completion-facing read of $A$ that reaches the $\RealUp$ seal $E$ first factors through the apartness-Cauchy window
+$$
+X,Q,M,S,R,D .
+$$
+Thus no consumer can inspect $E$ as a separated completion seal without first reading the $\ApartnessRealUp$ source, the $\HausdorffCompletionUp$ separation row, the $\ConstructiveMetricCompletionUp$ route, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionSeparatedCompletionHandoff}
+\begin{proof}
+Project the accepted packet through \autoref{def:real-apartness-completion-carrier}. The seal row $E$ is displayed only after the source, separation, completion route, window, readback, and tolerance rows have already appeared.
+
+Apply the obligation surface of \autoref{thm:real-apartness-completion-obligation-surface}. Its separated-source exactness clause forces $X,Q$ to be read before the completion row $M$, and its regular readback clause forces $S,R,D$ to be read before $E$.
+
+The handoff is therefore the finite prefix named in \autoref{def:real-apartness-completion-apartness-cauchy-window}. Since the carrier contains no bypass coordinate, a completion-facing consumer cannot reach $E$ by quotient completion, selected limit, countable choice, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RealApartnessCompletion located Real seal non-escape]
+\label{thm:real-apartness-completion-located-real-seal-nonescape}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every $\LocatedRealUp$ or $\RealUp$ consumer of the seal receives only the displayed apartness-Cauchy window together with the seal, transport, replay, provenance, and local naming rows
+$$
+W_{\mathrm{ac}}(A),E,H,C,P,N .
+$$
+The consumer receives no quotient completion, trichotomy, selected limit, countable-choice schedule, host equality row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionLocatedRealSealNonescape}
+\begin{proof}
+Begin with a $\LocatedRealUp$ or $\RealUp$ consumer of the seal. By \autoref{thm:real-apartness-completion-separated-completion-handoff}, the consumer must first pass through $W_{\mathrm{ac}}(A)$ before it can read $E$.
+
+After the seal is read, \autoref{thm:real-apartness-completion-nonescape} routes the remaining observation through $H,C,P,N$. These rows transport, replay, package, and name the same displayed packet; they do not add a second completion object or an external equality principle.
+
+Combining the handoff with the non-escape boundary gives exactly $W_{\mathrm{ac}}(A),E,H,C,P,N$. The excluded principles are absent from both the carrier coordinates and the local obligation surface, so no located-real or real-seal consumer can obtain them from the packet.
+\end{proof}
+
+\begin{theorem}[RealApartnessCompletion finite apartness-completion obligation]
+\label{thm:real-apartness-completion-finite-apartness-completion-obligation}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every apartness-completion obligation exported by $A$ is exposed only through the $\DyadicRatCoreUp$ tolerance row $D$, the $\StreamNameUp$ finite-window row $S$, the $\RegSeqRatUp$ readback row $R$, the $\LocatedRealUp$ or $\ApartnessRealUp$ comparison surface carried by $X,Q,M$, and the $\RealUp$ seal $E$, followed by $H,C,P,N$.
+
+Consequently the packet exports no quotient real equality, trichotomy, selected Cauchy limit, countable-choice schedule, host equality row, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionFiniteApartnessCompletionObligation}
+\begin{proof}
+Project the accepted carrier through \autoref{def:real-apartness-completion-carrier}. The apartness source, Hausdorff separation row, constructive completion route, stream windows, regular readback, dyadic tolerance ledger, and Real seal are the only analytic rows before transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:real-apartness-completion-obligation-surface}. Its separated-source exactness and regular readback clauses force every completion read to pass through $X,Q,M,S,R,D$ before $E$ is available.
+
+The separated completion handoff of \autoref{thm:real-apartness-completion-separated-completion-handoff} and the located Real seal non-escape theorem of \autoref{thm:real-apartness-completion-located-real-seal-nonescape} identify the downstream consumer surface as $W_{\mathrm{ac}}(A),E,H,C,P,N$. Since the excluded principles are absent from both the carrier rows and the local obligation surface, they cannot be exported by the apartness-completion obligation.
+\end{proof}
+
+\begin{theorem}[RealApartnessCompletion separated-source exactness]
+\label{thm:real-apartness-completion-separated-source-exactness}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Any completion-facing consumer that reads the constructive completion row $M$ must first read the $\ApartnessRealUp$ source row $X$ and the $\HausdorffCompletionUp$ separation row $Q$ through the same componentwise transport and replay rows $H,C$. The consumer cannot enter through a quotient completion, host real equality, selected limit, countable-choice schedule, trichotomy row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-apartness-completion-carrier}. The route displays $X$ and $Q$ before $M$, and the structural rows $H,C$ transport and replay that same ordered packet.
+
+Apply \autoref{thm:real-apartness-completion-obligation-surface}. Its separated-source exactness clause is precisely the assertion that $X,Q$ are consumed before any completion-facing inspection of $M$.
+
+The separated completion handoff of \autoref{thm:real-apartness-completion-separated-completion-handoff} keeps every later read of the seal downstream of the same prefix. Since \autoref{thm:real-apartness-completion-located-real-seal-nonescape} excludes all bypass rows at the seal, no completion-facing consumer can reach $M$ through an external completion or equality principle.
+\end{proof}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionSeparatedSourceExactness}
+
+\begin{theorem}[RealApartnessCompletion regular readback discipline]
+\label{thm:real-apartness-completion-regular-readback-discipline}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every Real-facing read of the seal $E$ must pass through the stream-window row $S$, the $\RegSeqRatUp$ regular rational readback row $R$, and the $\DyadicRatCoreUp$ tolerance ledger $D$. Thus $E$ is available only as the terminal seal of the displayed regular-Cauchy route, not as a selected limit or host completion point.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionRegularReadbackDiscipline}
+\begin{proof}
+Start from \autoref{thm:real-apartness-completion-separated-completion-handoff}. It identifies the apartness-Cauchy window $X,Q,M,S,R,D$ as the finite prefix required before $E$ can be read.
+
+Apply \autoref{thm:real-apartness-completion-obligation-surface}. Its regular readback discipline clause names $S,R,D$ as the rows that mediate every completion observation before the Real seal becomes visible.
+
+Finally use \autoref{thm:real-apartness-completion-located-real-seal-nonescape}. The downstream $\LocatedRealUp$ or $\RealUp$ consumer receives $W_{\mathrm{ac}}(A),E,H,C,P,N$ and no selected limit, quotient completion, trichotomy, countable-choice schedule, host equality row, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[RealApartnessCompletion ledger exhaustion]
+\label{thm:real-apartness-completion-ledger-exhaustion}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. The complete obligation ledger exported by $A$ is the displayed carrier route together with its transport, replay, provenance, and local naming rows. Every separated-source, regular-readback, componentwise-stability, and seal-facing consumer is therefore exhausted by $X,Q,M,S,R,D,E,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealApartnessCompletionUp.RealApartnessCompletionLedgerExhaustion}
+\begin{proof}
+Use \autoref{thm:real-apartness-completion-obligation-routing}. It routes carrier admission, separated-source exactness, regular readback discipline, componentwise stability, and ledger exhaustion through the single finite packet $X,Q,M,S,R,D,E,H,C,P,N$.
+
+The separated-source theorem above fixes the entry to $M$ through $X,Q$, and the regular readback theorem above fixes the entry to $E$ through $S,R,D$. These two routes are the analytic part of the same ledger.
+
+The remaining rows are structural. By \autoref{thm:real-apartness-completion-nonescape} and \autoref{thm:real-apartness-completion-located-real-seal-nonescape}, $H,C,P,N$ only transport, replay, package, and name the displayed packet, so the ledger has no coordinate left for quotient completion, selected limits, countable choice, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \closureat{RealApartnessCompletionUp}{seedStr}
 
 \begin{closurestatus}{\RealApartnessCompletionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-apartness-completion-carrier}, \autoref{thm:real-apartness-completion-obligation-surface}, and \autoref{thm:real-apartness-completion-nonescape} seed the separated apartness-completion boundary over ApartnessReal, HausdorffCompletion, ConstructiveMetricCompletion, StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
+  \scopeclosed{\autoref{def:real-apartness-completion-carrier}, \autoref{thm:real-apartness-completion-obligation-surface}, \autoref{thm:real-apartness-completion-nonescape}, \autoref{def:real-apartness-completion-apartness-cauchy-window}, \autoref{thm:real-apartness-completion-separated-completion-handoff}, \autoref{thm:real-apartness-completion-located-real-seal-nonescape}, \autoref{thm:real-apartness-completion-separated-source-exactness}, \autoref{thm:real-apartness-completion-regular-readback-discipline}, and \autoref{thm:real-apartness-completion-ledger-exhaustion} seed the separated apartness-completion boundary over ApartnessReal, HausdorffCompletion, ConstructiveMetricCompletion, StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, host real equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, or Lean verification.}

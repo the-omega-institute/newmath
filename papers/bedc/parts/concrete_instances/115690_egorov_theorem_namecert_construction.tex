@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\EgorovTheoremUp$}
+\label{ch:concrete-instances-egorov-theorem-namecert}
+\origin{human}
+
+Following Egorov and Lebesgue, the $\EgorovTheoremUp$ packet records the theorem-level finite route from almost-uniform convergence data to measure-convergence consumers without adding a host measure-completion primitive. It sits after the finite measure and integration ledgers of \autoref{ch:concrete-instances-measure-namecert} and \autoref{ch:concrete-instances-integral-namecert}, the lower-semicontinuity route of \autoref{ch:concrete-instances-fatou-lemma-namecert}, the domination route of \autoref{ch:concrete-instances-dominated-convergence-namecert}, the large-set continuous approximation route of \autoref{ch:concrete-instances-lusin-approximation-namecert}, and the regular-rational and real-name seals of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for the theorem interface: it exports exceptional-set and uniform-window rows that later Fatou, dominated-convergence, and Lusin-style readers can consume, but it does not claim ambient measure completion, almost-everywhere quotient equality, selected representatives, countable choice, or the full host Egorov theorem.
+
+\begin{definition}[Egorov theorem carrier]
+\label{def:egorov-theorem-carrier}
+An $\EgorovTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,I,F,D,L,R,E,A,W,U,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite $\MeasureUp$ row whose measurable-set ledger bounds every exceptional-set read.
+\item $I$ is the $\IntegralUp$ row used by downstream integral consumers after the exceptional and uniform rows have been displayed.
+\item $F$ is the $\FatouLemmaUp$ source row, exposed only as a lower-bound and liminf-facing consumer of the same finite measure ledger.
+\item $D$ is the $\DominatedConvergenceUp$ source row, exposed only as a domination and integrability consumer of $M,I,A,W,U$.
+\item $L$ is the $\LusinApproximationUp$ source row, exposing large-set continuous approximation only after the exceptional-set budget is visible.
+\item $R$ is the $\RegSeqRatUp$ readback route for all displayed real-valued observations and tolerance comparisons.
+\item $E$ is the terminal $\RealUp$ seal reached by the regular-rational readback route, not by a host real-completeness argument.
+\item $A$ is the finite exceptional-set row, recording the measurable approximants, the finite measure budget, and containment checks used by the theorem packet.
+\item $W$ is the finite uniform-window row, recording the index threshold, precision requests, and observation sites on which the theorem route is uniform outside $A$.
+\item $U$ is the almost-uniform convergence row, asserting that the displayed $R,E,W$ comparisons are uniform on the complement of the displayed exceptional budget.
+\item $Q$ is the theorem-handoff row, routing accepted reads from $A,W,U$ into the Fatou, dominated-convergence, Lusin, and integral consumers without changing their carrier rows.
+\item $H$ records componentwise $\hsame$ transport for $M,I,F,D,L,R,E,A,W,U,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+M,I,F,D,L,R,E,A,W,U,Q \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EgorovTheoremUp$, $\MeasureUp$, $\IntegralUp$, $\FatouLemmaUp$, $\DominatedConvergenceUp$, $\LusinApproximationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EgorovTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,I,F,D,L,R,E,A,W,U,Q,H,C,P,N$. It has no coordinate for completed measure algebras, quotient almost-everywhere equality, selected representatives, countable exceptional unions, countable choice, or an ambient theorem object outside the finite carrier.
+\end{definition}
+
+\begin{theorem}[Egorov theorem NameCert obligations]
+\label{thm:egorov-theorem-namecert-obligations}
+For every accepted $\EgorovTheoremUp$ carrier
+$$
+G=(M,I,F,D,L,R,E,A,W,U,Q,H,C,P,N),
+$$
+the local $\NameCert_{\EgorovTheoremUp}$ surface consists exactly of carrier admission for the finite measure row, integral row, Fatou row, dominated-convergence row, Lusin row, regular-rational readback row, real-name seal, exceptional-set row, uniform-window row, almost-uniform convergence row, theorem-handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every theorem-level public read must pass through $A,W,U,Q$ before it can reach the Fatou, dominated-convergence, Lusin, or integral consumers.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:egorov-theorem-carrier}. The theorem-facing rows are $A,W,U,Q$: they name the finite exceptional budget, the finite uniform window, the almost-uniform comparison, and the handoff to downstream consumers.
+
+The rows $M,I,F,D,L,R,E$ supply the measure, integral, Fatou, dominated-convergence, Lusin, regular-rational, and real-name dependency surface on which those four rows are interpreted. The structural rows $H,C,P,N$ transport, replay, source, and name exactly the same finite route.
+
+Since the carrier contains no completed measure algebra, quotient almost-everywhere equality, selected representative, countable exceptional union, countable choice row, or ambient theorem object, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Egorov theorem finite handoff]
+\label{thm:egorov-theorem-finite-handoff}
+For every accepted $\EgorovTheoremUp$ carrier $G$, any downstream almost-uniform convergence read by a Fatou, dominated-convergence, Lusin, or integral consumer factors through the finite route
+$$
+A,W,U,Q \longrightarrow F,D,L,I .
+$$
+The handoff preserves the displayed $\MeasureUp$, $\RegSeqRatUp$, and $\RealUp$ rows and does not replace them by selected exceptional sets, almost-everywhere quotient equality, selected representatives, countable choice, or ambient measure completion.
+\end{theorem}
+\begin{proof}
+Start with the theorem-handoff row $Q$. By carrier admission, $Q$ is displayed only together with the exceptional-set row $A$, uniform-window row $W$, and almost-uniform convergence row $U$.
+
+Read the downstream consumers next. The Fatou row $F$, dominated-convergence row $D$, Lusin row $L$, and integral row $I$ receive the same finite measure ledger and the same regular-rational and real-name seals already named by $M,R,E$.
+
+Transport and replay through $H$ and $C$ preserve those rows componentwise. Because no selected exceptional set, quotient almost-everywhere equality, selected representative, countable-choice row, or measure-completion row occurs in $G$, the handoff is exhausted by the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Egorov theorem exceptional-window nonescape]
+\label{thm:egorov-theorem-exceptional-window-nonescape}
+Every accepted $\EgorovTheoremUp$ packet exposes its theorem-level convergence content only through the paired exceptional-set and uniform-window rows $A,W$ together with the almost-uniform row $U$. A consumer may refine a finite observation schedule through the same $\RegSeqRatUp$ and $\RealUp$ rows, but it may not bypass $A,W,U$ by invoking ambient measure completion, almost-everywhere quotient equality, selected representatives, countable choice, or the full host Egorov theorem.
+\end{theorem}
+\begin{proof}
+The finite observation schedule is read through $W$, and each precision comparison is evaluated through $R$ and sealed by $E$. The exceptional-set budget is read through $A$, whose finite measure ledger is interpreted by $M$.
+
+The almost-uniform row $U$ binds these two reads together. Thus any refinement of observations that preserves the same $A,W,U,R,E$ data gives the same public theorem-level verdict.
+
+No other carrier coordinate can export the convergence content. In particular $Q,H,C,P,N$ only hand off, transport, replay, source, and name the displayed rows, so the forbidden ambient objects have no projection from the packet.
+\end{proof}
+
+\closureat{EgorovTheoremUp}{seedStr}
+
+\begin{closurestatus}{\EgorovTheoremUp}
+  \constructivestory{An $\EgorovTheoremUp$ packet is generated from finite Measure and Integral rows, Fatou, DominatedConvergence, and Lusin consumer rows, RegSeqRat readbacks, Real seals, exceptional-set and uniform-window rows, almost-uniform handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:egorov-theorem-carrier}, \autoref{thm:egorov-theorem-namecert-obligations}, \autoref{thm:egorov-theorem-finite-handoff}, and \autoref{thm:egorov-theorem-exceptional-window-nonescape} seed the finite theorem-level almost-uniform convergence route through exceptional-set, uniform-window, Fatou, dominated-convergence, Lusin, integral, regular-rational, real-name, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient measure completion, almost-everywhere quotient equality, selected representatives, countable choice, the full host Egorov theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exceptional-set budget exactness, uniform-window exactness, almost-uniform handoff, consumer routing, transport stability, and replay stability for BEDC.Derived.EgorovTheoremUp.}
+\end{closurestatus}

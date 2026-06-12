@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FiniteGaugeCoverUp$}
+\label{ch:concrete-instances-finite-gauge-cover-namecert}
+\origin{human}
+
+Following Cousin, Henstock, and Kurzweil, the $\FiniteGaugeCoverUp$ packet records the finite gauge-cover surface used by constructive gauge integration. It sits between the local cover extraction of $\CousinLemmaUp$ and $\CousinCoverUp$, the tagged-sum rows of $\RiemannSumGaugeUp$, the integral endpoint of $\GaugeIntegralUp$, and the arithmetic readback rows of $\DyadicRatCoreUp$ and $\RealUp$. Its mesh-control row also consumes the finite lower-bound cover sibling of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}: finite gauge cells reuse that lower-bound ledger before the $\RiemannSumGaugeUp$ and $\GaugeIntegralUp$ handoffs inspect tagged sums and endpoints. The packet names only finite gauge cells, tagged witnesses, dyadic mesh control, readback, handoff, transport, provenance, and local naming; it does not import open-cover compactness, hidden point choice, quotient cover equality, or ambient real completeness.
+
+\begin{definition}[Finite gauge-cover carrier]
+\label{def:finite-gauge-cover-carrier}
+A $\FiniteGaugeCoverUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,C,T,M,Q,E,U,R,I,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $D$ is the gauge row, naming the local positive-radius data inspected by the cover.
+  \item $C$ is the finite cell ledger: each accepted cell carries its interval row, center row, and gauge-admissibility witness.
+  \item $T$ is the tag row, pairing each finite cell with the displayed point used by the tagged partition.
+  \item $M$ is the mesh-control row, exposing only finite refinements of the displayed cells.
+  \item $Q$ is the $\DyadicRatCoreUp$ readback row used to compare radii, endpoints, and mesh bounds.
+  \item $E$ is the $\RealUp$ seal row for the terminal value read inspected by the integration consumer.
+  \item $U$ is the $\CousinLemmaUp$ and $\CousinCoverUp$ handoff row, recording the finite cover obtained from the displayed gauge data.
+  \item $R$ is the $\RiemannSumGaugeUp$ handoff row for tagged sums over the same cells and tags.
+  \item $I$ is the $\GaugeIntegralUp$ handoff row exposed only after $U,R,Q,E$ have been displayed.
+  \item $H$ is the componentwise $\hsame$ transport row for gauge, cover, tag, mesh, readback, seal, and handoff coordinates.
+  \item $P$ is the $\Pkg$ provenance over $\FiniteGaugeCoverUp$, $\CousinLemmaUp$, $\CousinCoverUp$, $\GaugeIntegralUp$, $\RiemannSumGaugeUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+  \item $N$ is the local $\NameCert_{\FiniteGaugeCoverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary open covers, selected subcovers outside the displayed finite ledger, quotient equality of covers, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteGaugeCoverUp}
+
+\begin{theorem}[Finite gauge-cover NameCert obligations]
+\label{thm:finite-gauge-cover-namecert-obligations}
+For every accepted $\FiniteGaugeCoverUp$ carrier $G=(D,C,T,M,Q,E,U,R,I,H,P,N)$, the local $\NameCert_{\FiniteGaugeCoverUp}$ surface consists exactly of gauge-row admission, finite cell-ledger exactness, tag admission, finite mesh control, $\DyadicRatCoreUp$ readback, $\RealUp$ seal exposure, $\CousinLemmaUp$ and $\CousinCoverUp$ finite-cover handoff, $\RiemannSumGaugeUp$ tagged-sum handoff, $\GaugeIntegralUp$ endpoint handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. No obligation is discharged by open-cover compactness, host subcover selection, quotient cover equality, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier into its displayed rows. The gauge, finite cell ledger, tag row, and mesh row expose the only cover data visible to a consumer.
+
+Read the arithmetic boundary through $Q$ and $E$. The $\DyadicRatCoreUp$ row compares the finite radii and mesh bounds, and the $\RealUp$ seal is reached only as the terminal value read.
+
+Finally use the named handoff rows. The Cousin rows supply finite-cover extraction, the Riemann-sum row supplies tagged-sum use, and the gauge-integral row is visible only after those rows are present. Componentwise transport and replay therefore keep every NameCert obligation inside the listed packet.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteGaugeCoverUp.FiniteGaugeCover\_namecert\_obligations}
+
+\begin{theorem}[Cousin finite-cover handoff]
+\label{thm:finite-gauge-cover-cousin-handoff}
+Let $G=(D,C,T,M,Q,E,U,R,I,H,P,N)$ be an accepted $\FiniteGaugeCoverUp$ carrier. Any consumer read that uses $G$ as a cover witness for $\CousinLemmaUp$ or $\CousinCoverUp$ must first expose the gauge row $D$, finite cell ledger $C$, tag row $T$, mesh row $M$, dyadic readback $Q$, and handoff row $U$. The read exports only the displayed finite cover and no arbitrary open cover, hidden refinement selector, quotient cover equality, or choice-like subcover operation.
+\end{theorem}
+\begin{proof}
+Begin with the cover-facing rows $D,C,T,M$. These rows determine the finite ledger that the Cousin consumer is allowed to inspect.
+
+The dyadic row $Q$ supplies the finite arithmetic comparison needed to check that each tagged cell is gauge-admissible. The handoff row $U$ then records the Cousin read over that same finite ledger.
+
+Since the packet has no row for an ambient open-cover object or selected subcover outside $C,T,M$, any accepted read remains within the displayed finite cover surface.
+\end{proof}
+
+\begin{theorem}[Gauge-integral nonescape]
+\label{thm:finite-gauge-cover-gauge-integral-nonescape}
+Let $G=(D,C,T,M,Q,E,U,R,I,H,P,N)$ be an accepted $\FiniteGaugeCoverUp$ carrier. Every $\GaugeIntegralUp$ consumer read that factors through $G$ must pass through the $\CousinLemmaUp$ and $\CousinCoverUp$ handoff $U$, the $\RiemannSumGaugeUp$ handoff $R$, the $\DyadicRatCoreUp$ readback $Q$, and the terminal $\RealUp$ seal $E$ before reaching $I$. It cannot replace those rows by open-cover compactness, an ambient real-completeness theorem, quotient stream equality, or a host limit selector.
+\end{theorem}
+\begin{proof}
+The integral-facing read starts from the same finite cover rows used by the Cousin handoff. Thus $U$ is visible before a tagged-sum or integral endpoint can be consumed.
+
+Next the tagged-sum handoff $R$ reads the finite tags and cells, while $Q$ and $E$ provide the arithmetic and real-name boundary. These rows are the only path from finite cover data to the displayed endpoint row $I$.
+
+The transport, replay, provenance, and local naming rows preserve this path componentwise. Therefore the consumer receives the finite gauge-integration route and no stronger compactness, equality, choice, or completeness principle.
+\end{proof}
+
+\closureat{FiniteGaugeCoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteGaugeCoverUp}
+  \constructivestory{A $\FiniteGaugeCoverUp$ packet is generated from gauge rows, finite cell ledgers, tag rows, mesh-control rows, DyadicRatCore readback, RealUp seals, CousinLemmaUp and CousinCoverUp handoffs, RiemannSumGaugeUp tagged-sum handoffs, GaugeIntegralUp endpoint handoffs, structural transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-gauge-cover-carrier}, \autoref{thm:finite-gauge-cover-namecert-obligations}, \autoref{thm:finite-gauge-cover-cousin-handoff}, and \autoref{thm:finite-gauge-cover-gauge-integral-nonescape} seed the finite gauge-cover route through CousinLemmaUp, CousinCoverUp, GaugeIntegralUp, RiemannSumGaugeUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, open-cover compactness, quotient cover equality, hidden subcover selection, countable choice, ambient RealUp completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, gauge-cell exactness, Cousin handoff, Riemann-sum handoff, GaugeIntegral nonescape, structural replay, provenance exhaustion, and local naming for the same packet.}
+\end{closurestatus}

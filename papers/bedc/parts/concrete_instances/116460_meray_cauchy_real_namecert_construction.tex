@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\MerayCauchyRealUp$}
+\label{ch:concrete-instances-meray-cauchy-real-namecert}
+\origin{human}
+
+Following Méray and Bishop--Bridges on Cauchy presentations of the real line, the $\MerayCauchyRealUp$ packet records the historical construction as finite displayed name data rather than as a quotient of Cauchy sequences. It sits after the Cauchy-real presentation of \autoref{ch:concrete-instances-cauchy-real-presentation-namecert}, the quotient-free boundary of \autoref{ch:concrete-instances-cauchy-reals-without-quotient-namecert}, the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the Real and Completion phase a traditional source row whose public reads remain finite all the way to the $\RealUp$ seal.
+
+\begin{definition}[Méray Cauchy-real carrier]
+\label{def:meray-cauchy-real-carrier}
+A $\MerayCauchyRealUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the displayed Cauchy source row. It records the rational Cauchy presentation used by the historical construction, with its modulus and tolerance requests shown as finite data.
+\item $W$ is the $\StreamNameUp$ finite-window service row. It exposes exactly the inspected prefixes of the source and no infinite stream equality.
+\item $R$ is the $\RegSeqRatUp$ readback row. It converts the displayed windows into the regular rational sequence data consumed by downstream real-name readers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the Cauchy source, window reads, regular readback, and terminal seal.
+\item $E$ is the $\RealUp$ seal, exposed only after $A,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy source, windows, readback, tolerance ledger, seal, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay along the finite route
+$$
+A,W,R,D \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MerayCauchyRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MerayCauchyRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the nine displayed rows. It has no coordinate for quotient stream equality, selected representatives, host real equality, countable choice, trichotomy, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Méray Cauchy-real NameCert obligations]
+\label{thm:meray-cauchy-real-namecert-obligations}
+For every accepted $\MerayCauchyRealUp$ carrier $M=(A,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\MerayCauchyRealUp}$ surface consists exactly of the finite carrier row, displayed Cauchy-source admission, StreamName window locality, RegSeqRat readback, DyadicRatCore tolerance accounting, RealUp seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:meray-cauchy-real-carrier}. The tuple lists the Cauchy source, finite window service, regular rational readback, dyadic ledger, terminal seal, transport, replay, provenance, and local name.
+
+The analytic rows are then read in order. The source row $A$ supplies only displayed rational Cauchy data, $W$ exposes the finite windows inspected from it, $R$ records the regular readback of those windows, and $D$ accounts for every tolerance used before the seal.
+
+The structural rows add no extra primitive. The $\hsame$ row transports the displayed coordinates, the $\Cont$ row replays the same route, and $P,N$ source and name the packet. Since quotient classes, selected representatives, host equality, choice, trichotomy, and ambient completeness are not coordinates of $M$, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Méray Cauchy-real RegSeqRat handoff]
+\label{thm:meray-cauchy-real-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\MerayCauchyRealUp$ packet must first read the displayed Cauchy source row, the $\StreamNameUp$ finite-window row, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, the componentwise $\hsame$ transport, the displayed $\Cont$ replay, the $\Pkg$ provenance, and the local $\NameCert$ row. The handoff exports no quotient stream equality, selected Cauchy representative, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:meray-cauchy-real-namecert-obligations}. They force every accepted read to stay inside $A,W,R,D,E,H,C,P,N$.
+
+The pre-seal route is explicit. A RegSeqRat consumer receives $R$ only as the readback of the displayed windows $W$ over the Cauchy source $A$, with every tolerance charged to $D$.
+
+The Real-facing route is downstream of the same readback. The seal row $E$ is available only after $A,W,R,D$ have been displayed and replayed through $H,C,P,N$. Thus the historical Cauchy-real presentation hands off to regular rational and real-name consumers without adding any quotient, selector, host equality, choice, trichotomy, or completeness coordinate.
+\end{proof}
+
+\closureat{MerayCauchyRealUp}{seedStr}
+
+\begin{closurestatus}{\MerayCauchyRealUp}
+  \constructivestory{A $\MerayCauchyRealUp$ packet is generated from a displayed rational Cauchy source, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:meray-cauchy-real-carrier}, \autoref{thm:meray-cauchy-real-namecert-obligations}, and \autoref{thm:meray-cauchy-real-regseqrat-handoff} seed the historical quotient-free Cauchy-real presentation boundary over StreamName, RegSeqRat, DyadicRatCore, RealUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real construction, selected Cauchy representatives, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy-source display, StreamName locality, RegSeqRat handoff, DyadicRatCore tolerance accounting, Real-seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.MerayCauchyRealUp.}
+\end{closurestatus}

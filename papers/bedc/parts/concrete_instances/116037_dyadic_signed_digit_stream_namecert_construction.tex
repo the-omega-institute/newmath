@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DyadicSignedDigitStreamUp$}
+\label{ch:concrete-instances-dyadic-signed-digit-stream-namecert}
+\origin{human}
+
+Following Bishop--Bridges signed-digit real-name practice, the $\DyadicSignedDigitStreamUp$ packet records a finite stream interface in which each observed dyadic digit is signed, locally normalized, and routed toward the regular rational and Real-name layers without quotienting streams. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a signed-digit real-name carrier, not a host real, selected limit, quotient stream class, trichotomy oracle, or ambient completeness theorem.
+
+\begin{definition}[Dyadic signed-digit stream carrier]
+\label{def:dyadic-signed-digit-stream-carrier}
+A $\DyadicSignedDigitStreamUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,A,B,M,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the signed dyadic digit stream window row, listing the inspected positions and their digits in $\{-1,0,1\}$.
+\item $A$ is the digit-admissibility row, checking that every displayed digit lies in the signed dyadic alphabet and is attached to the requested dyadic place.
+\item $B$ is the carry and normalization budget row, recording the finite carry radius and local overlap bounds used to compare neighbouring windows.
+\item $M$ is the $\StreamNameUp$ window row that schedules the same finite observation as a stream-name request.
+\item $Q$ is the $\RegSeqRatUp$ handoff row, reading the normalized signed-window prefix as a regular rational approximation.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $W,A,B,M,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $W,A,B,M,Q,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from signed dyadic windows through normalization, stream-name scheduling, regular rational readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicSignedDigitStreamUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicSignedDigitStreamUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,A,B,M,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic signed-digit stream NameCert obligations]
+\label{thm:dyadic-signed-digit-stream-namecert-obligations}
+For every accepted $\DyadicSignedDigitStreamUp$ carrier $S=(W,A,B,M,Q,E,H,C,P,N)$, the local $\NameCert_{\DyadicSignedDigitStreamUp}$ surface consists exactly of signed-window admission, digit-admissibility checking, carry and normalization budget exposure, $\StreamNameUp$ window scheduling, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-signed-digit-stream-carrier}. The signed-window row $W$, admissibility row $A$, carry budget row $B$, stream-name row $M$, regular readback row $Q$, and Real seal row $E$ are the only analytic coordinates of an accepted packet.
+
+The normalization budget is finite. It records how signed digits may carry across neighbouring displayed places before the window is read as a regular rational approximation, so the handoff cannot bypass $A$ or $B$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly the same finite route. Since the carrier contains no quotient stream, selected representative, host real equality, trichotomy, countable-choice schedule, or ambient completeness coordinate, none of those endpoints belongs to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic signed-digit stream RegSeqRat handoff]
+\label{thm:dyadic-signed-digit-stream-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicSignedDigitStreamUp$ packet must first expose the signed dyadic window $W$, digit-admissibility row $A$, carry and normalization budget row $B$, and $\StreamNameUp$ window row $M$. The resulting handoff reaches $\RegSeqRatUp$ through $Q$ and reaches $\RealUp$ through $E$ only as the finite route
+$$
+W,A,B,M \longmapsto Q \longmapsto E,H,C,P,N .
+$$
+It is not a quotient-stream construction, selected host limit, host real equality, trichotomy principle, countable-choice route, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:dyadic-signed-digit-stream-namecert-obligations}. They force every consumer-facing read to expose the signed-window, admissibility, normalization-budget, stream-window, readback, seal, transport, replay, provenance, and naming rows.
+
+The regular rational handoff is downstream of normalization. A displayed signed digit may contribute to neighbouring dyadic places only through the finite budget $B$, so the readback row $Q$ is read from $W,A,B,M$ together, not from a raw stream of host digits.
+
+Finally the Real seal row $E$ is consumed after $Q$. Transport and replay preserve the same route through $H$ and $C$, with $P$ and $N$ recording provenance and local naming. The excluded endpoints require coordinates absent from the packet and cannot be exported by this handoff.
+\end{proof}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\DyadicSignedDigitStreamUp$ is not bijective to any listed sibling because it stores signed dyadic windows, digit admissibility, a carry and normalization budget, stream-window scheduling, regular rational readback, terminal Real sealing, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{DyadicSignedDigitStreamUp}{seedStr}
+
+\begin{closurestatus}{\DyadicSignedDigitStreamUp}
+  \constructivestory{A $\DyadicSignedDigitStreamUp$ packet is generated from signed dyadic digit windows, digit-admissibility checks, carry and normalization budgets, StreamName windows, RegSeqRat handoff rows, a Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-signed-digit-stream-carrier}, \autoref{thm:dyadic-signed-digit-stream-namecert-obligations}, and \autoref{thm:dyadic-signed-digit-stream-regseqrat-handoff} seed the finite signed-digit stream route from dyadic windows to RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for the displayed dyadic signed-digit stream route.}
+\end{closurestatus}

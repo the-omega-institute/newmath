@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ConsistencyObservationBudgetUp$}
+\label{ch:concrete-instances-consistency-observation-budget-namecert}
+\origin{ai}
+
+The $\ConsistencyObservationBudgetUp$ packet realizes the finite observation side of the computation-and-consistency vision in \autoref{ch:visions-subhub-computation-consistency}. It sits after the MetaCIC critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the stream-name observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet records bounded consistency observations as NameCert rows; it does not claim global consistency, semantic soundness for every host model, or an unbounded proof search oracle.
+
+\begin{definition}[Consistency observation budget carrier]
+\label{def:consistency-observation-budget-carrier}
+A $\ConsistencyObservationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,O,S,R,E,M,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\MetaCICCriticalPathUp$ kernel route row through which accepted declarations, reduction traces, and checker handoffs are observed.
+\item $O$ is the finite observation schedule row, listing the declarations, reductions, checker calls, and local contradiction probes admitted by the budget.
+\item $S$ is the $\StreamNameUp$ row naming the finite stream of observation windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for numeric or ranked budget counters attached to those windows.
+\item $E$ is the $\RealUp$ seal row for any Real-facing budget threshold used by an observation consumer.
+\item $M$ is the metatheoretic boundary row, recording that each observation is local to the displayed MetaCIC route.
+\item $L$ is the ledger row listing accepted observation outcomes, refused out-of-budget requests, and unresolved probes.
+\item $F$ is the field-faithfulness request row that later Lean TasteGate work must discharge with $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the carrier.
+\item $H$ records componentwise $\hsame$ transport for $K,O,S,R,E,M,L,F$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from observation request through kernel route, schedule, stream windows, readback, seal, boundary, ledger, field-faithfulness request, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ConsistencyObservationBudgetUp$, $\MetaCICCriticalPathUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConsistencyObservationBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these displayed rows. It has no coordinate for global consistency, hidden model identity, unbounded proof search, semantic soundness outside the inspected route, quotient proof equality, or a final contradiction oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.ConsistencyObservationBudgetUp}
+
+\begin{theorem}[Consistency observation budget NameCert obligations]
+\label{thm:consistency-observation-budget-namecert-obligations}
+For every accepted $\ConsistencyObservationBudgetUp$ carrier $B=(K,O,S,R,E,M,L,F,H,C,P,N)$, the local $\NameCert_{\ConsistencyObservationBudgetUp}$ surface consists exactly of carrier admission, $\MetaCICCriticalPathUp$ route exposure, finite observation schedule exposure, $\StreamNameUp$ window admission, $\RegSeqRatUp$ counter readback, $\RealUp$ threshold seal non-escape, metatheoretic boundary exposure, observation ledger exposure, $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate request exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:consistency-observation-budget-carrier}. The kernel route, observation schedule, stream windows, readback counters, threshold seal, boundary row, ledger row, field-faithfulness request, and structural rows are exactly the displayed coordinates.
+
+The observation route begins at $\MetaCICCriticalPathUp$. The packet can inspect accepted declarations, reductions, and checker handoffs only through the route row $K$ and the finite schedule $O$.
+
+The stream, readback, and seal rows bind the budget to finite observations. The ledger row $L$ then records outcomes, refusals, and unresolved probes without turning any local observation into a global consistency theorem.
+
+Finally the row $F$ states the downstream Lean TasteGate obligation: Nontrivial and FieldFaithful instances must be supplied before the carrier can be read as a faithful field surface. Transport, replay, provenance, and local naming preserve the same finite packet, so no hidden model or unbounded oracle is exported.
+\end{proof}
+
+\begin{theorem}[Consistency observation finite-budget boundary]
+\label{thm:consistency-observation-finite-budget-boundary}
+Every consistency-facing read exported by an accepted $\ConsistencyObservationBudgetUp$ packet factors through the finite observation route
+$$
+\MetaCICCriticalPathUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+together with the boundary, ledger, field-faithfulness request, transport, replay, provenance, and local $\NameCert$ rows. The read reports bounded observations only; it does not certify global consistency, hidden model identity, unbounded proof search, or semantic soundness outside the displayed MetaCIC route.
+\end{theorem}
+\begin{proof}
+Start with the kernel route and schedule rows $K,O$. They define which declarations, reductions, checker calls, and local contradiction probes are inside the observation budget.
+
+Next read $S,R,E$. The stream windows, counter readbacks, and threshold seal keep the budget finite and inspectable before any consistency-facing report is consumed.
+
+Use the boundary and ledger rows $M,L$. The boundary row states that the observation is local to the displayed MetaCIC route, and the ledger row records accepted outcomes, refused out-of-budget requests, and unresolved probes.
+
+Finally keep $F,H,C,P,N$ visible. The TasteGate request records the needed Nontrivial and FieldFaithful instances, while transport, replay, provenance, and naming preserve the same carrier. Therefore the exported read is a bounded observation packet, not a global consistency claim.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\ConsistencyObservationBudgetUp$ consumer is refuted if it exports global consistency, hidden model identity, unbounded proof search, or semantic soundness outside a finite MetaCICCriticalPath observation schedule.}
+
+\independenceWitness{metaciccriticalpath, streamname, regseqrat, real: none is bijective with $\ConsistencyObservationBudgetUp$, because the siblings supply kernel route, observation windows, counter readback, and threshold seal rows while this packet additionally binds observation schedule, metatheoretic boundary, ledger, TasteGate request, transport, replay, provenance, and local NameCert rows.}
+
+Lean TasteGate work for $\ConsistencyObservationBudgetUp$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances before the budget can serve as a faithful carrier for downstream consistency-observation consumers.
+
+\closureat{ConsistencyObservationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\ConsistencyObservationBudgetUp}
+  \constructivestory{A $\ConsistencyObservationBudgetUp$ packet is generated from a MetaCICCriticalPath route, finite observation schedule, StreamName windows, RegSeqRat counters, Real threshold seal, metatheoretic boundary, observation ledger, TasteGate request, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:consistency-observation-budget-carrier}, \autoref{thm:consistency-observation-budget-namecert-obligations}, and \autoref{thm:consistency-observation-finite-budget-boundary} seed the finite consistency-observation budget surface.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global consistency, hidden model identity, unbounded proof search, semantic soundness outside the displayed route, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, MetaCIC route exposure, finite schedule exposure, stream-window admission, counter readback, threshold seal non-escape, boundary and ledger exposure, TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.ConsistencyObservationBudgetUp.}
+\end{closurestatus}

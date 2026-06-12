@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowRegSeqRatRefinementUp$}
+\label{ch:concrete-instances-finite-window-regseqrat-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteWindowRegSeqRatRefinementUp$ packet records the finite observation data by which a regular rational name is refined before a Real-facing consumer may read a terminal seal. It sits over the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Cauchy modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite envelope of \autoref{ch:concrete-instances-finitewindowenvelope-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite-window refinement certificate; it is not a quotient of streams, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite-window RegSeqRat refinement carrier]
+\label{def:finite-window-regseqrat-refinement-carrier}
+A $\FiniteWindowRegSeqRatRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,R,D,M,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row whose finite windows are inspected before any regular-rational refinement is read.
+\item $R$ is the $\RegSeqRatUp$ row naming the source regular rational readback.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the coarse and refined windows.
+\item $M$ is the $\CauchyModulusUp$ row supplying the finite threshold that bounds the requested refinement.
+\item $W$ is the $\FiniteWindowEnvelopeUp$ row packaging the refined window, its source window, and the dyadic tolerance request in one envelope.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $S,R,D,M,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the displayed rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowRegSeqRatRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowRegSeqRatRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,R,D,M,W,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable-choice schedules, host real equality, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.FiniteWindowRegSeqRatRefinementUp.FiniteWindowRegSeqRatRefinementUp}
+
+\begin{theorem}[Finite-window RegSeqRat refinement NameCert obligations]
+\label{thm:finite-window-regseqrat-refinement-namecert-obligations}
+For every accepted $\FiniteWindowRegSeqRatRefinementUp$ carrier $F=(S,R,D,M,W,E,H,C,P,N)$, the local $\NameCert_{\FiniteWindowRegSeqRatRefinementUp}$ surface consists exactly of carrier admission, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ source readback, $\DyadicRatCoreUp$ tolerance accounting, $\CauchyModulusUp$ threshold exposure, $\FiniteWindowEnvelopeUp$ refinement packaging, terminal $\RealUp$ seal discipline, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-regseqrat-refinement-carrier}. The rows $S,R,D,M,W,E$ display the whole finite observation route before any structural row is read.
+
+The numerical rows are exhausted by $S,R,D,M,W$. Stream windows are opened in $S$, regular rational readback is exposed by $R$, dyadic tolerance accounting is displayed in $D$, the modulus threshold is supplied by $M$, and the finite-window envelope $W$ records the refinement boundary.
+
+The structural rows are exhausted by $H,C,P,N$. They transport, replay, source, and name the same displayed packet, while the carrier provides no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite-window RegSeqRat refinement Real handoff]
+\label{thm:finite-window-regseqrat-refinement-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\FiniteWindowRegSeqRatRefinementUp$ carrier $F=(S,R,D,M,W,E,H,C,P,N)$ must read
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyModulusUp \longmapsto \FiniteWindowEnvelopeUp \longmapsto \RealUp
+$$
+through the displayed rows $S,R,D,M,W,E$ before the terminal seal is consumed. The handoff exports no quotient stream, selected host limit, countable-choice selector, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The only available source window is $S$, the only regular rational readback is $R$, and the only tolerance ledger is $D$.
+
+Read the modulus and envelope rows next. The threshold row $M$ bounds the finite refinement request, while $W$ packages the refined window and the source window in the same finite packet.
+
+Finally consume the seal row $E$ through $H,C,P,N$. Because the packet has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness, the Real-facing consumer receives only the displayed finite-window handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteWindowRegSeqRatRefinementUp$ Real-facing read displays StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, a CauchyModulus threshold, a FiniteWindowEnvelope refinement row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, cauchymodulus, finitewindowenvelope, real: $\FiniteWindowRegSeqRatRefinementUp$ is not bijective to any listed sibling because it packages the finite refinement envelope between regular rational readback and the terminal Real seal.}
+
+\closureat{FiniteWindowRegSeqRatRefinementUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowRegSeqRatRefinementUp}
+  \constructivestory{A $\FiniteWindowRegSeqRatRefinementUp$ packet is generated from finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, a CauchyModulus threshold, a FiniteWindowEnvelope refinement row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-regseqrat-refinement-carrier}, \autoref{thm:finite-window-regseqrat-refinement-namecert-obligations}, and \autoref{thm:finite-window-regseqrat-refinement-real-handoff} seed the finite-window RegSeqRat refinement route before any Real-facing seal consumption.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.FiniteWindowRegSeqRatRefinementUp.FiniteWindowRegSeqRatRefinementUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, regular readback, dyadic tolerance accounting, modulus threshold exposure, envelope exactness, seal discipline, transport, replay, provenance, and local naming.}
+\end{closurestatus}

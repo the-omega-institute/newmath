@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ClosedObservationProofTraceUp$}
+\label{ch:concrete-instances-closed-observation-proof-trace-namecert}
+\origin{ai}
+
+The $\ClosedObservationProofTraceUp$ packet realizes the finite-observation branch of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as a MetaCIC-facing NameCert object. It records a proof trace only when finite observation rows, termination rows, transport, replay, provenance, local naming, refusal rows, kernel-acceptance rows, and proof-trace rows are displayed together. The packet is not a quotient of proof terms, not a host equality of derivations, not an erasure theorem, and not a divergent computation hidden behind a proof record.
+
+The proof-trace row consumes the finite evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} and the kernel acceptance boundary of \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert} before it is replayed. The finite evaluator supplies the closed observation and totality surface, while the kernel acceptance boundary supplies the accepted proof-record row; no closurestatus or TasteGate promotion is made at this dependency handoff.
+
+\begin{definition}[Closed observation proof-trace carrier]
+\label{def:closed-observation-proof-trace-carrier}
+A $\ClosedObservationProofTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(O,Q,H,C,P,N,R,K,D)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the closed finite-observation row, recording the observed proof-facing object as finite data.
+\item $Q$ is the termination row, displaying the normal-form or totality evidence required before the trace is accepted.
+\item $H$ records componentwise $\hsame$ transport for observation, termination, refusal, kernel, trace, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from observation through termination, kernel acceptance, trace replay, refusal checks, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ClosedObservationProofTraceUp$, closed observation rows, total proof records, kernel acceptance witnesses, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedObservationProofTraceUp}$ row.
+\item $R$ is the divergence-refusal row, rejecting any reduction row that is not displayed as terminating.
+\item $K$ is the kernel-acceptance witness row for the total proof record.
+\item $D$ is the proof-trace row, recording the finite derivation trace that is replayed by $C$.
+\end{enumerate}
+The classifier compares accepted packets only through $O,Q,H,C,P,N,R,K,D$. It has no coordinate for divergent reduction, quotient proof equality, erased proof-term identity, host derivation equality, or an unbounded computation trace.
+\end{definition}
+\leandef{BEDC.Derived.ClosedObservationProofTraceUp}
+
+\begin{theorem}[Closed observation proof-trace obligations]
+\label{thm:closed-observation-proof-trace-obligations}
+For every accepted $\ClosedObservationProofTraceUp$ carrier
+$$
+T=(O,Q,H,C,P,N,R,K,D),
+$$
+the local $\NameCert_{\ClosedObservationProofTraceUp}$ surface consists exactly of carrier admission for finite observation, termination, componentwise transport, displayed replay, provenance, local naming, divergence refusal, kernel acceptance, and proof-trace rows. The packet admits no proof trace unless $Q$ and $R$ jointly display totality and refusal of divergent reduction before the kernel row $K$ and trace row $D$ are replayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-observation-proof-trace-carrier}. The observation row is $O$, the termination row is $Q$, the refusal row is $R$, the kernel row is $K$, and the trace row is $D$.
+
+The totality condition is local. A trace can be replayed only after $Q$ displays termination and $R$ rejects the divergent alternative, so a nonterminating reduction row has no route into $K$ or $D$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this finite surface. Since no carrier coordinate stores quotient proof equality, erased proof identity, host derivation equality, or an unbounded computation trace, none becomes a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Closed observation proof-trace totality route]
+\label{thm:closed-observation-proof-trace-totality-route}
+Every accepted $\ClosedObservationProofTraceUp$ proof record factors through
+$$
+O \longmapsto Q,R \longmapsto K,D \longmapsto H,C,P,N .
+$$
+The route exposes finite observation, termination, divergent-row refusal, kernel acceptance, proof-trace replay, transport, provenance, and local naming before a proof record is accepted. It exports no divergent reduction row, quotient proof identity, proof-term erasure equivalence, host derivation equality, or unbounded trace.
+\end{theorem}
+\begin{proof}
+Read the carrier rows. The finite observation row $O$ is the only source row, and $Q,R$ are the only totality and refusal gates.
+
+The kernel row $K$ and proof-trace row $D$ are downstream of those gates. Thus the accepted trace is a total proof record with displayed termination and refusal data, not an erased or quotient proof object.
+
+Finally $H,C,P,N$ preserve the same route. A consumer that asks for an unbounded trace or a divergent reduction row leaves the accepted carrier.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\ClosedObservationProofTraceUp$ proof trace with a divergent reduction row is rejected by \autoref{def:closed-observation-proof-trace-carrier}, because the refusal row $R$ and termination row $Q$ must be displayed before kernel acceptance and proof-trace replay.}
+
+\independenceWitness{curryhoward, typecheckingderivationtrace, prooftermerasuretrace, kernelacceptancewitness: the packet is not bijective with any sibling because the obligation rows jointly require finite observation, termination, divergence refusal, kernel acceptance, trace replay, transport, provenance, and local NameCert naming.}
+
+\closureat{ClosedObservationProofTraceUp}{seedStr}
+
+\begin{closurestatus}{\ClosedObservationProofTraceUp}
+  \constructivestory{A $\ClosedObservationProofTraceUp$ packet is generated from finite observation rows, termination rows, divergent-row refusal, kernel acceptance, proof-trace replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-observation-proof-trace-carrier}, \autoref{thm:closed-observation-proof-trace-obligations}, and \autoref{thm:closed-observation-proof-trace-totality-route} seed the finite proof-trace packet over total observation records and divergence refusal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ClosedObservationProofTraceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient proof equality, proof-term erasure equivalence, host derivation equality, divergent computation rows, Lean theorem verification, or bridge checking.}
+  \upgradepath{The Lean follow-up must provide Nontrivial and FieldFaithful TasteGate instances after carrier admission, totality routing, divergence refusal, kernel acceptance, trace replay, transport, provenance, and local naming are formalized for BEDC.Derived.ClosedObservationProofTraceUp.}
+\end{closurestatus}

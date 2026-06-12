@@ -1,0 +1,152 @@
+{
+  "ablation_spec": {
+    "ablation_pointer": "reports/canonical/gap-head-ablation.json:$.hardgate.status",
+    "robustness_ablation_pointer": "reports/canonical/gap-head-robustness-sweep.json:$.A2_feature_ablation.status",
+    "robustness_status": "complete",
+    "source_status": "fail",
+    "status": "closed"
+  },
+  "artifact_id": "bedc-quality-lab:gap-head-mechanism-namecert",
+  "audit": {
+    "d5_m_ready": false,
+    "missing_required_pointers": [],
+    "required_pointers": {
+      "$.closure_status.mechanism_spec": "partial",
+      "$.ledger_policy.mechanism_closure_debt": "open",
+      "$.mechanism_spec.candidate_mechanism": "unresolved",
+      "$.mechanism_spec.full_vs_score_plus_margin": "separated"
+    },
+    "scope_seal": "closed",
+    "status": "pass"
+  },
+  "candidate_semantics": "lab-local candidate only",
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "closure_status": {
+    "ablation_spec": "closed",
+    "intervention_spec": "closed",
+    "ledger_policy": "open",
+    "mechanism_spec": "partial",
+    "source_spec": "closed",
+    "stability_spec": "closed",
+    "target_classifier": "closed"
+  },
+  "generated_at": "2026-06-09T02:07:57.744320+00:00",
+  "intervention_spec": {
+    "control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict.positive",
+    "status": "closed",
+    "treatment_pointer": "reports/canonical/gap-head-on-h.json:$.treatment_verdict.positive"
+  },
+  "json_artifact": "reports/gap_head_mechanism_namecert.json",
+  "ledger_policy": {
+    "blocking_cells": [
+      "A4-HG1",
+      "A4-HG2",
+      "A4-HG3",
+      "A4-HG4",
+      "A4-HG5"
+    ],
+    "closure_pointer": "$.closure_status.mechanism_spec",
+    "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
+    "ledger_pointer": "$.ledger_policy.mechanism_closure_debt",
+    "mechanism_closure_debt": "open"
+  },
+  "markdown_artifact": "reports/gap_head_mechanism_namecert.md",
+  "mechanism_spec": {
+    "a1_d5_m_passed": false,
+    "a1_d5_m_status": "blocked",
+    "a1_failed_gate": "A1-HG3",
+    "a1_mechanism_case": "mechanism_evidence",
+    "a1_mechanism_status": "blocked",
+    "a4_d5_m_passed": false,
+    "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.required_gate_pointers",
+    "a4_pointer_present": true,
+    "candidate_mechanism": "unresolved",
+    "e_hardgates_pointer_present": true,
+    "e_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates.status",
+    "full_vs_score_plus_margin": "separated",
+    "mechanism_evidence_closure_pointer": "$.mechanism_evidence.mechanism_status",
+    "mechanism_evidence_gate_pointers": [
+      "$.a4_hardgates.gates.A4-HG2.status",
+      "$.a4_hardgates.gates.A4-HG3.status",
+      "$.a4_hardgates.gates.head_causal_patch.status",
+      "$.a4_hardgates.gates.A4-HG5.status"
+    ],
+    "mechanism_evidence_ledger_debt_pointer": "$.ledger_debt.0.status",
+    "mechanism_evidence_metric_pointers": {
+      "head_patch_delta": "$.head_channel_patch_evidence.null_head.ci_summaries.AUROC_after_minus_before.mean",
+      "head_patch_status": "$.head_channel_patch_evidence.gate_status",
+      "replacement_control_delta": "$.score_margin_causal_evidence.replace_high_gap_score_margin_from_low_gap.ci_summaries.AUROC_after_minus_before.mean",
+      "residualized_full_auroc": "$.residualized_attribution.ci_summaries.full_residualized_against_score_margin.AUROC.mean",
+      "residualized_status": "$.residualized_attribution.status",
+      "residualized_without_score_margin_auroc": "$.residualized_attribution.ci_summaries.full_without_score_and_margin.AUROC.mean",
+      "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+      "shuffle_score_margin_delta": "$.score_margin_causal_evidence.shuffle_score_margin.ci_summaries.AUROC_after_minus_before.mean"
+    },
+    "mechanism_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+    "residualized_attribution_claim_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+    "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+    "residualized_claim_pointer_present": true,
+    "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.metric_pointers.score_margin_channel_classification",
+    "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
+  },
+  "name": "MechanismNameCertCandidate:gap-head-on-h",
+  "schema_id": "bedc-quality-lab:mechanism-namecert-candidate",
+  "source_artifacts": {
+    "a1_capsule": "reports/canonical/gap_head_attribution_capsule.json",
+    "ablation": "reports/canonical/gap-head-ablation.json",
+    "operational": "reports/canonical/gap-head-on-h.json",
+    "robustness": "reports/canonical/gap-head-robustness-sweep.json",
+    "stability": "reports/gap_head_discovery_stability.json"
+  },
+  "source_spec": {
+    "canonical_source": {
+      "artifact_id": "gap_head_attribution_capsule",
+      "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "run_id": "a1-canonical",
+      "status": "present"
+    },
+    "optional_sources": {
+      "ablation": {
+        "artifact": "reports/canonical/gap-head-ablation.json",
+        "status": "present"
+      },
+      "operational": {
+        "artifact": "reports/canonical/gap-head-on-h.json",
+        "status": "present"
+      },
+      "robustness": {
+        "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+        "status": "present"
+      },
+      "stability": {
+        "artifact": "reports/gap_head_discovery_stability.json",
+        "status": "present"
+      }
+    },
+    "scope_seal": {
+      "formal_bedc_namecert": false,
+      "lean_verification": false,
+      "mechanism_theorem_closure": false,
+      "not_claimed": [
+        "not a formal BEDC NameCert",
+        "not Lean verification",
+        "not a paper closurestatus",
+        "not mechanism theorem closure"
+      ],
+      "paper_closurestatus": false,
+      "semantics": "lab-local MechanismNameCertCandidate"
+    }
+  },
+  "stability_spec": {
+    "seed_expansion_pointer": "reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict",
+    "seed_expansion_status": "robust_positive",
+    "stability_pointer": "reports/gap_head_discovery_stability.json:$.final_verdict",
+    "stability_status": "robust_positive",
+    "status": "closed"
+  },
+  "target_classifier": {
+    "name": "gap-head-on-h",
+    "operational_level": "missing",
+    "operational_source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_o"
+  }
+}

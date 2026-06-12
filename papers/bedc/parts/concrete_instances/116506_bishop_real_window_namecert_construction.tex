@@ -1,0 +1,79 @@
+\chapter{Bishop Real Window NameCert Construction}
+\label{ch:concrete-instances-bishop-real-window-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\BishopRealWindowUp$ packet records the finite rational windows through which a regular real name is inspected before a Real or Completion consumer reaches a terminal seal. It sits over the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite readback interface for one displayed real-name route; it is not quotient equality of real names, a selected limit, a choice schedule, or an ambient completeness principle.
+
+\begin{definition}[Bishop real window carrier]
+\label{def:bishop-real-window-carrier}
+A $\BishopRealWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected prefix and request schedule.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row obtained from the displayed window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the rational cells, endpoint budgets, and comparison slack used by the window.
+\item $E$ is the $\RealUp$ seal row exposed only after $S,R,D$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, tolerance, seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite window through regular rational readback and dyadic comparison into the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopRealWindowUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRealWindowUp}$ row naming exactly this finite rational-window packet.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected real representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop real window finite readback]
+\label{thm:bishop-real-window-finite-readback}
+For every accepted $\BishopRealWindowUp$ carrier $W=(S,R,D,E,H,C,P,N)$, every Real or Completion-facing finite rational-window read factors through the displayed route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+Equivalently, the consumer-visible rows are exactly $S,R,D,E,H,C,P,N$: the inspected StreamName window is read as a regular rational sequence, checked against the dyadic tolerance ledger, transported and replayed through the local structural rows, and only then exposed as a Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-window-carrier}. The only source window is $S$, the only regular rational readback is $R$, and the only tolerance ledger is $D$.
+
+Read the route in order. A finite request first inspects the $\StreamNameUp$ row $S$; the same displayed entries are then read through $R$ as regular rational data; the dyadic comparisons required by the requested rational window are accounted for in $D$.
+
+The rows $H$ and $C$ transport and replay that same finite route before the provenance and naming rows $P,N$ admit the packet. The terminal row $E$ is therefore exposed only after the window, readback, and dyadic ledger have all been displayed.
+
+Since the carrier has no coordinate for quotient equality, selected limits, choice, host real equality, or ambient completeness, no consumer can obtain a second Real-facing read outside the displayed finite-window projection and regular-rational readback.
+\end{proof}
+
+\begin{theorem}[Bishop real window NameCert obligations]
+\label{thm:bishop-real-window-namecert-obligations}
+For every accepted $\BishopRealWindowUp$ carrier $W=(S,R,D,E,H,C,P,N)$, the local $\NameCert_{\BishopRealWindowUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $W$;
+\item $\StreamNameUp$ window locality through $S$;
+\item $\RegSeqRatUp$ regular rational readback through $R$;
+\item $\DyadicRatCoreUp$ tolerance and rational-cell exactness through $D$;
+\item $\RealUp$ seal ordering through $E$, together with componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No additional NameCert obligation is exported for quotient real equality, selected representatives, choice schedules, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet displayed in \autoref{def:bishop-real-window-carrier}. Each listed row is one of its coordinates, so the local name can inspect it directly.
+
+The obligation order follows the readback theorem \autoref{thm:bishop-real-window-finite-readback}. The window row supplies the inspected finite data, the regular rational row supplies the readback, the dyadic row supplies the tolerance evidence, and the Real row is exposed only at the end of that route.
+
+The structural rows $H,C,P,N$ preserve and name the same displayed packet. Because the forbidden objects are not carrier coordinates, they cannot create extra NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopRealWindowUp$ consumer can be audited by checking that its Real-facing read first displays a $\StreamNameUp$ finite window, then a $\RegSeqRatUp$ readback, then a $\DyadicRatCoreUp$ tolerance ledger, before the $\RealUp$ seal is consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\BishopRealWindowUp$ is not bijective to any listed sibling because it jointly carries the finite window, regular rational readback, dyadic tolerance ledger, Real seal, componentwise transport, replay, provenance, and local naming rows.}
+
+\closureat{BishopRealWindowUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealWindowUp}
+  \constructivestory{A $\BishopRealWindowUp$ packet is generated from a StreamName finite-window row, a RegSeqRat regular rational readback row, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-window-carrier}, \autoref{thm:bishop-real-window-finite-readback}, and \autoref{thm:bishop-real-window-namecert-obligations} seed the finite rational-window readback route from L10 StreamName and RegSeqRat data to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of real names, selected limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName locality, RegSeqRat readback, DyadicRatCore tolerance exactness, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.BishopRealWindowUp.}
+\end{closurestatus}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverStarRefinementModulusUp$}
+\label{ch:concrete-instances-finite-cover-star-refinement-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on compact metric uniform continuity, and the finite-cover construction of \autoref{ch:visions-compact-uniform-continuity}, the $\FiniteCoverStarRefinementModulusUp$ packet records the finite route from star refinements and local moduli to a tolerance-only uniform-modulus handoff. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite Lebesgue-number surface of \autoref{ch:concrete-instances-finite-cover-lebesgue-number-namecert}, the compact-cover lower-bound ledger of $\CompactCoverLebesgueLedgerUp$, the rational and dyadic tolerance rows of $\RatUp$ and $\DyadicRatCoreUp$, and the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names a finite star-refinement modulus and not an open-cover compactness theorem, selected subcover, host continuous function, quotient cover equality, or ambient completeness principle.
+
+\begin{definition}[Finite cover star-refinement modulus carrier]
+\label{def:finite-cover-star-refinement-modulus-carrier}
+A $\FiniteCoverStarRefinementModulusUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,f,U,V,L,R,D,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row whose compact evidence is read as finite cover data.
+\item $f$ is the $\ContinuousMapUp$ row carrying the local modulus data attached to the same source.
+\item $U$ is the finite cover row and $V$ is the star-refinement row over that cover.
+\item $L$ is the $\FiniteLebesgueNumberUp$ or $\CompactCoverLebesgueLedgerUp$ lower-bound row for the star refinement.
+\item $R$ is the positive $\RatUp$ tolerance row requested by the target consumer.
+\item $D$ is the $\DyadicRatCoreUp$ ledger comparing the requested tolerance with the finite lower-bound data.
+\item $M$ is the resulting $\UniformModulusUp$ handoff row, available only after $K,f,U,V,L,R,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the compact source, continuous map, cover, star refinement, lower-bound, rational, dyadic, uniform-modulus, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a compact-uniform-continuity request through $K,f,U,V,L,R,D,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverStarRefinementModulusUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\FiniteLebesgueNumberUp$, $\CompactCoverLebesgueLedgerUp$, $\RatUp$, $\DyadicRatCoreUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteCoverStarRefinementModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, selected subcovers, host-function equality, quotient covers, countable choice, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Finite cover star-refinement modulus NameCert obligations]
+\label{thm:finite-cover-star-refinement-modulus-namecert-obligations}
+For every accepted $\FiniteCoverStarRefinementModulusUp$ carrier $S=(K,f,U,V,L,R,D,M,H,C,P,N)$, the local $\NameCert_{\FiniteCoverStarRefinementModulusUp}$ surface consists exactly of compact metric admission, continuous-map local-modulus admission, finite cover exposure, star-refinement exactness, finite Lebesgue-number or compact-cover ledger admission, positive rational tolerance admission, dyadic tolerance comparison, uniform-modulus output exactness, componentwise transport, displayed replay, provenance, and local naming for the rows of \autoref{def:finite-cover-star-refinement-modulus-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $K,f,U,V,L,R,D,M$, and the structural rows are $H,C,P,N$.
+
+The compact source $K$ and continuous-map row $f$ are read before the finite cover is used. The cover row $U$ and star-refinement row $V$ then give the finite local geometry inspected by the modulus construction.
+
+The lower-bound row $L$, rational tolerance row $R$, and dyadic comparison row $D$ determine the tolerance-only output row $M$. This order prevents the uniform-modulus consumer from replacing the finite star-refinement data by an open-cover compactness theorem or selected subcover.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same packet. Since no forbidden principle is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite cover star-refinement uniform handoff]
+\label{thm:finite-cover-star-refinement-modulus-uniform-handoff}
+Every $\UniformModulusUp$ consumer of an accepted $\FiniteCoverStarRefinementModulusUp$ carrier reads the route
+$$
+\CompactMetricUp,\ContinuousMapUp,U,V,\FiniteLebesgueNumberUp,\CompactCoverLebesgueLedgerUp,\RatUp,\DyadicRatCoreUp \longmapsto \UniformModulusUp
+$$
+through the displayed rows $K,f,U,V,L,R,D,M,H,C,P,N$. The handoff exports a tolerance-only uniform-modulus row and exports no open-cover compactness theorem, selected finite subcover, host continuous map, quotient cover equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-cover-star-refinement-modulus-namecert-obligations}. It fixes the compact source, continuous-map data, finite cover, star refinement, lower-bound ledger, rational tolerance, dyadic comparison, and structural rows before the uniform-modulus output can be read.
+
+The row $M$ is therefore downstream of the star-refinement and lower-bound rows. A consumer reading $M$ receives only the tolerance-indexed precision certified by $R,D,L$, not a selected subcover or host modulus function.
+
+The structural rows $H,C,P,N$ replay the same finite packet for the compact-uniform-continuity route of \autoref{ch:visions-compact-uniform-continuity}. Because the carrier lacks open-cover compactness, quotient cover equality, choice, and ambient completeness coordinates, the uniform handoff is exactly the displayed BEDC route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteCoverStarRefinementModulusUp$ consumer that exports a $\UniformModulusUp$ precision without displaying $K,f,U,V,L,R,D,M,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{Nearest siblings: compactmetric, continuousmap, finite-cover-lebesgue-number, compactcoverlebesgueledger, rat, dyadicratcore, and uniformmodulus. The packet binds a star-refinement row to the tolerance-only uniform-modulus output, while each sibling supplies only its own carrier surface.}
+
+\closureat{FiniteCoverStarRefinementModulusUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverStarRefinementModulusUp}
+  \constructivestory{A $\FiniteCoverStarRefinementModulusUp$ packet is generated from CompactMetricUp source rows, ContinuousMapUp local-modulus rows, finite cover rows, star-refinement rows, FiniteLebesgueNumberUp or CompactCoverLebesgueLedgerUp lower-bound rows, positive RatUp tolerances, DyadicRatCoreUp comparisons, a UniformModulusUp output, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-star-refinement-modulus-carrier}, \autoref{thm:finite-cover-star-refinement-modulus-namecert-obligations}, and \autoref{thm:finite-cover-star-refinement-modulus-uniform-handoff} seed the finite star-refinement route from compact finite-cover data to a tolerance-only uniform-modulus handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected finite subcovers, host continuous maps, quotient cover equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, star-refinement exactness, lower-bound ledger admission, Rat and DyadicRatCore tolerance comparison, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCoverStarRefinementModulusUp.}
+\end{closurestatus}

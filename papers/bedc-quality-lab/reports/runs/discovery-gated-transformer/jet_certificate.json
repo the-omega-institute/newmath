@@ -1,0 +1,272 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-gated-transformer.jet-certificate",
+  "certificate_scope": "DGT owner-local boundary-causal-jet certificate",
+  "claim_status": {
+    "claim_scope": "bounded deterministic toy evidence only",
+    "status": "owner-local-candidate"
+  },
+  "derivative_debt_ledger": {
+    "rows": [
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "boundary_spec"
+      },
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "derivative_spec"
+      },
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "causal_spec"
+      },
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "irreducibility_spec"
+      },
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "matched_random_control"
+      },
+      {
+        "ledger_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+        "status": "complete",
+        "surface_id": "jet_coverage"
+      }
+    ],
+    "status": "complete"
+  },
+  "failed_gate": [],
+  "forbidden_claim_term_audit": {
+    "forbidden_terms": [
+      "terminal verdict token",
+      "operation authority wording",
+      "release authority wording",
+      "external superiority wording",
+      "architecture superiority wording"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgate": {
+    "failed_gate": [],
+    "gate_names": [
+      "JET-HG1",
+      "JET-HG2",
+      "JET-HG3",
+      "JET-HG4",
+      "JET-HG5",
+      "JET-HG6",
+      "JET-HG7",
+      "JET-HG8"
+    ],
+    "gates": {
+      "JET-HG1": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.surface_rows"
+        },
+        "status": "pass"
+      },
+      "JET-HG2": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.surface_rows"
+        },
+        "status": "pass"
+      },
+      "JET-HG3": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.surface_rows"
+        },
+        "status": "pass"
+      },
+      "JET-HG4": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.surface_rows"
+        },
+        "status": "pass"
+      },
+      "JET-HG5": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.surface_rows"
+        },
+        "status": "pass"
+      },
+      "JET-HG6": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.jet_coverage"
+        },
+        "status": "pass"
+      },
+      "JET-HG7": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.derivative_debt_ledger"
+        },
+        "status": "pass"
+      },
+      "JET-HG8": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.forbidden_claim_term_audit"
+        },
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "jet_coverage": {
+    "base_control": 0.41,
+    "coverage_matrix_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.jet_coverage_matrix",
+    "dgt": 0.72,
+    "matched_random_control": 0.37
+  },
+  "model_id": "discovery-gated-transformer",
+  "not_claimed": [
+    "The certificate is bounded to deterministic toy source refs.",
+    "The certificate is owner-local evidence only.",
+    "The certificate does not claim external verdict ownership."
+  ],
+  "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+  "revocation_rows": [
+    {
+      "condition": "Revoke when any required Boundary, Derivative, Causal, or Irreducibility slot is absent.",
+      "gate": "JET-HG1"
+    },
+    {
+      "condition": "Revoke when forbidden authority language appears in claim fields.",
+      "gate": "JET-HG8"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:discovery-gated-transformer.jet-certificate",
+  "source_artifacts": {
+    "boundary_spec": {
+      "artifact": "reports/canonical/boundary_causal_derivative_schema.json",
+      "pointer": "$.boundary_spec"
+    },
+    "causal_patch_suite": {
+      "artifact": "reports/canonical/causal_patch_suite.json",
+      "pointer": "$.patches"
+    },
+    "derivative_spec": {
+      "artifact": "reports/canonical/derivative_order_ledger.json",
+      "pointer": "$.rows"
+    },
+    "discovery_map": {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$.coverage_matrix"
+    },
+    "irreducibility_report": {
+      "artifact": "reports/canonical/irreducibility_report.json",
+      "pointer": "$.residual_gains"
+    },
+    "jet_coverage_matrix": {
+      "artifact": "reports/canonical/jet_coverage_matrix.json",
+      "pointer": "$.rows"
+    },
+    "matched_random_control": {
+      "artifact": "reports/canonical/order-k-benchmark.json",
+      "pointer": "$.matched_random_controls"
+    }
+  },
+  "source_refs_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/source_refs.json",
+    "pointer": "$.source_refs"
+  },
+  "surface_rows": [
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.21000000000000002,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.060000000000000005,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.01,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "boundary_spec"
+    },
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.22,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.07,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.02,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "derivative_spec"
+    },
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.23,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.08,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.03,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "causal_spec"
+    },
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.24000000000000002,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.09,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.04,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "irreducibility_spec"
+    },
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.25,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.1,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.05,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "matched_random_control"
+    },
+    {
+      "base_jet_gain": 0.1,
+      "boundary_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.boundary_spec",
+      "causal_patch_evidence_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "causal_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.causal_patch_suite",
+      "derivative_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "dgt_jet_gain": 0.26,
+      "irreducibility_spec_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.irreducibility_report",
+      "irreducible_residual_gain": 0.11,
+      "low_order_baseline_ref": "reports/runs/discovery-gated-transformer/source_refs.json:$.source_refs.derivative_spec",
+      "matched_random_gain": -0.06,
+      "matched_random_jet_gain": 0.0,
+      "surface_id": "jet_coverage"
+    }
+  ]
+}

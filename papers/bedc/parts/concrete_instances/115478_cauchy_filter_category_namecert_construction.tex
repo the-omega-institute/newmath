@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterCategoryUp$}
+\label{ch:concrete-instances-cauchy-filter-category-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion and Kelley on filter convergence, the packet records Cauchy filters as objects and refinement/limit-compatible maps as morphisms. It sits after the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the uniform-completion interface of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the metric-completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The category packet is a finite interface for Cauchy-filter transport; it is not a quotient completion, a selected limit operation, countable choice, or an ambient complete object.
+
+\begin{definition}[Cauchy filter category carrier]
+\label{def:cauchy-filter-category-carrier}
+A $\CauchyFilterCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,M,I,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the object row, listing accepted $\CauchyFilterUp$ packets and their finite basis, refinement, compatibility, and endpoint windows.
+\item $M$ is the morphism row, listing refinement maps and limit-compatible handoff maps between displayed Cauchy-filter objects.
+\item $I$ is the identity row, assigning to each displayed object its local refinement identity over the same basis and compatibility surface.
+\item $A$ is the composition row, composing two compatible morphism rows only when their middle Cauchy-filter object is displayed.
+\item $H$ records componentwise $\hsame$ transport for objects, morphisms, identities, composition, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from object admission through refinement maps, identity, composition, transport, provenance, and the local name.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterCategoryUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterCategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,M,I,A,H,C,P,N$. It has no coordinate for quotient filter equality, selected limits, countable-choice schedules, ambient complete objects, quotient real equality, or $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyFilterCategoryUp}
+
+\begin{theorem}[Cauchy filter category NameCert obligations]
+\label{thm:cauchy-filter-category-namecert-obligations}
+For every accepted $\CauchyFilterCategoryUp$ carrier $K=(O,M,I,A,H,C,P,N)$, the local $\NameCert_{\CauchyFilterCategoryUp}$ surface consists exactly of Cauchy-filter object exposure through $O$, refinement and limit-compatible morphism exposure through $M$, identity exposure through $I$, composition exposure through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-category-carrier}. The accepted packet displays exactly the rows $O,M,I,A,H,C,P,N$.
+
+The object row keeps the $\CauchyFilterUp$ data visible before any categorical read. The morphism row then records only refinement and limit-compatible maps between displayed objects; it does not create a quotient object or choose a limit.
+
+The identity and composition rows are local BEDC rows over the same displayed objects. Transport, replay, provenance, and naming preserve that packet surface, so the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy filter category composition nonescape]
+\label{thm:cauchy-filter-category-composition-nonescape}
+Every composition read in an accepted $\CauchyFilterCategoryUp$ packet factors through two displayed morphism rows and their shared middle $\CauchyFilterUp$ object before the composed row $A$ is readable. The composition may be consumed by $\UniformCompletionUp$ and $\MetricCompletionUp$ routes as a finite refinement interface, but it exports no quotient completion, selected limit, countable choice, ambient complete object, quotient real equality, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the morphism row $M$ and the composition row $A$ in \autoref{def:cauchy-filter-category-carrier}. The composition row is available only after the source, middle, and target Cauchy-filter objects are displayed in $O$.
+
+Use the NameCert obligations of \autoref{thm:cauchy-filter-category-namecert-obligations}. They force the object, morphism, identity, and composition rows to be exposed before transport, replay, provenance, and local naming.
+
+The completion-facing siblings may consume this interface as finite refinement data. Since the carrier has no row for quotient filter equality, selected limits, choice schedules, ambient complete objects, quotient real equality, or Real completeness, composition cannot export any of those claims.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyFilterCategoryUp$ consumer that composes Cauchy-filter maps must display the two morphism rows, the shared middle CauchyFilterUp object, transport, replay, provenance, and local NameCert row before any completion-facing read is named.}
+
+\independenceWitness{cauchyfilter, uniformcompletion, metriccompletion, regseqrat, streamname, real: none is bijective with $\CauchyFilterCategoryUp$ because this packet jointly carries Cauchy-filter objects, refinement morphisms, identities, composition, transport, replay, provenance, and local naming rows, while each sibling supplies only one source or consumer surface.}
+
+\closureat{CauchyFilterCategoryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterCategoryUp}
+  \constructivestory{A $\CauchyFilterCategoryUp$ packet is generated from CauchyFilter objects, refinement and limit-compatible morphisms, identity rows, composition rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-category-carrier}, \autoref{thm:cauchy-filter-category-namecert-obligations}, and \autoref{thm:cauchy-filter-category-composition-nonescape} seed the categorical finite-data interface for Cauchy filters over object, morphism, identity, composition, transport, replay, provenance, and NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CauchyFilterCategoryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, countable choice, ambient complete objects, quotient real equality, $\RealUp$ completeness, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, object exposure, refinement-morphism exposure, identity exposure, composition nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterCategoryUp.}
+\end{closurestatus}

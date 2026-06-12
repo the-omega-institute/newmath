@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RouthHurwitzCriterionUp$}
+\label{ch:concrete-instances-routh-hurwitz-criterion-namecert}
+\origin{human}
+
+Following Routh and Hurwitz, the $\RouthHurwitzCriterionUp$ packet records the finite stability test for a displayed real polynomial through coefficient rows, Hurwitz matrix rows, determinant rows, and ordered-sign rows. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the real algebra and order boundary of \autoref{ch:concrete-instances-real-alg-order-namecert}, the determinant packet of \autoref{ch:concrete-instances-determinant-namecert}, and the scalar field source of \autoref{ch:concrete-instances-field-namecert}. The packet names a finite algebraic stability certificate for downstream control and ODE consumers; it does not import complex-root choice, a host spectral theorem, quotient polynomial equality, selected roots, or an ambient analytic flow theorem.
+
+\begin{definition}[Routh--Hurwitz criterion carrier]
+\label{def:routh-hurwitz-criterion-carrier}
+A $\RouthHurwitzCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,M,D,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\PolynomialUp$ coefficient row, listing the finite real coefficient sequence, leading-coefficient witness, degree window, and normalization request consumed by the stability test.
+\item $M$ is the $\MatrixUp$ Hurwitz row, displaying the finite Hurwitz matrix entries read from $A$.
+\item $D$ is the $\DeterminantUp$ minor row, listing the finite leading principal determinant requests and their replay paths through $M$.
+\item $S$ is the $\RealAlgOrderUp$ sign row, recording the ordered-real reads that classify each determinant or boundary minor as positive, zero, or obstructed for the displayed request.
+\item $T$ records componentwise $\hsame$ transport for coefficient, matrix, determinant, sign, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+A \longmapsto M \longmapsto D \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RouthHurwitzCriterionUp$, $\PolynomialUp$, $\MatrixUp$, $\RealAlgOrderUp$, $\DeterminantUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RouthHurwitzCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,D,S,T,C,P,N$. It has no coordinate for complex roots, spectral decompositions, quotient polynomial equality, selected eigenvalues, or analytic trajectories.
+\end{definition}
+
+\begin{theorem}[Routh--Hurwitz NameCert obligations]
+\label{thm:routh-hurwitz-criterion-namecert-obligations}
+For every accepted $\RouthHurwitzCriterionUp$ carrier $R=(A,M,D,S,T,C,P,N)$, the local $\NameCert_{\RouthHurwitzCriterionUp}$ surface consists exactly of coefficient admission through $A$, Hurwitz matrix assembly through $M$, leading-principal determinant and minor exposure through $D$, ordered-sign classification through $S$, componentwise transport through $T$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Every downstream control, ODE, or algebra consumer must expose these rows before reading a Routh--Hurwitz stability conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:routh-hurwitz-criterion-carrier}. The coefficient row $A$ is the only polynomial input, so the test begins from finite displayed coefficients rather than quotient polynomial equality or selected roots.
+
+Assemble the finite Hurwitz matrix through $M$. Each entry is read from the coefficient row, and the matrix row exposes only the finite table needed for the displayed degree window.
+
+Read the determinant and sign rows next. The row $D$ supplies the leading-principal determinant and boundary minor requests through $\DeterminantUp$, while $S$ supplies the $\RealAlgOrderUp$ sign reads used by the criterion.
+
+Finally transport and replay the same route through $T,C,P,N$. Since no carrier coordinate contains complex roots, a spectral theorem, selected eigenvalues, quotient polynomial equality, or analytic trajectories, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Routh--Hurwitz polynomial handoff]
+\label{thm:routh-hurwitz-criterion-polynomial-handoff}
+Every accepted $\RouthHurwitzCriterionUp$ packet exports the finite polynomial handoff
+$$
+A \longmapsto M \longmapsto D \longmapsto S \longmapsto T,C,P,N
+$$
+from displayed coefficient rows to stability-facing sign rows. A consumer may cite the handoff only after the $\PolynomialUp$ coefficient row, $\MatrixUp$ Hurwitz row, $\DeterminantUp$ minor row, $\RealAlgOrderUp$ sign row, $\FieldUp$ scalar provenance, transport, replay, provenance, and local name have been exposed.
+\end{theorem}
+\begin{proof}
+Start with a stability-facing read of the packet. By \autoref{thm:routh-hurwitz-criterion-namecert-obligations}, the read first exposes the coefficient row $A$ and cannot replace it by an ambient polynomial quotient.
+
+The Hurwitz matrix row $M$ is then assembled from those coefficients, and the determinant row $D$ reads only the leading principal minors and boundary minors displayed by that matrix. This keeps the computation finite and rowwise.
+
+The sign row $S$ supplies the ordered-real classification through $\RealAlgOrderUp$, while $\FieldUp$ appears only as scalar provenance for the displayed operations. Transport, replay, provenance, and local naming then carry the same rows to the downstream consumer.
+
+Thus the exported handoff is the finite polynomial route stated above. It is not a complex-root factorization, host spectral theorem, selected-eigenvalue argument, quotient polynomial equality, or analytic-flow assertion.
+\end{proof}
+
+\begin{theorem}[Routh--Hurwitz stability boundary]
+\label{thm:routh-hurwitz-criterion-stability-boundary}
+Any stability conclusion read from an accepted $\RouthHurwitzCriterionUp$ packet is bounded by the displayed sign pattern of the determinant and minor rows $D,S$ over the coefficient and Hurwitz-matrix rows $A,M$. If a determinant sign row is absent, zero, or obstructed, the packet exports only that boundary status and not a strict stability certificate. No consumer may fill the gap with complex-root choice, a host spectral theorem, selected roots, quotient polynomial equality, or an ambient ODE stability theorem.
+\end{theorem}
+\begin{proof}
+Apply the polynomial handoff theorem \autoref{thm:routh-hurwitz-criterion-polynomial-handoff}. It routes every stability-facing read through $A,M,D,S,T,C,P,N$ before any conclusion is consumed.
+
+Inspect the ordered-sign row $S$. Positive determinant rows provide the displayed strict side of the criterion, while absent, zero, or obstructed sign rows remain visible as boundary data rather than hidden obligations.
+
+Use the NameCert obligations of \autoref{thm:routh-hurwitz-criterion-namecert-obligations}. They keep coefficient admission, matrix assembly, determinant exposure, sign classification, transport, replay, provenance, and local naming attached to the same finite packet.
+
+Because the carrier has no root-choice, spectral, quotient-polynomial, selected-root, or analytic-flow coordinate, a consumer cannot strengthen an obstructed sign boundary into a strict stability certificate by importing one of those host endpoints.
+\end{proof}
+
+\closureat{RouthHurwitzCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RouthHurwitzCriterionUp}
+  \constructivestory{A $\RouthHurwitzCriterionUp$ packet is generated from finite polynomial coefficient rows, Hurwitz matrix rows, determinant and minor rows, RealAlgOrder sign rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:routh-hurwitz-criterion-carrier}, \autoref{thm:routh-hurwitz-criterion-namecert-obligations}, \autoref{thm:routh-hurwitz-criterion-polynomial-handoff}, and \autoref{thm:routh-hurwitz-criterion-stability-boundary} seed the finite algebraic stability certificate route from polynomial coefficients through Hurwitz matrices, determinants, ordered signs, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close complex-root choice, host spectral theorems, selected eigenvalues, quotient polynomial equality, analytic ODE stability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked coefficient admission, Hurwitz matrix assembly, determinant exposure, ordered-sign classification, boundary refusal, transport, replay, provenance, and local naming for BEDC.Derived.RouthHurwitzCriterionUp.}
+\end{closurestatus}

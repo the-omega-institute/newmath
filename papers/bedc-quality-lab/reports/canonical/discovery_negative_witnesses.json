@@ -1,0 +1,256 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
+  "expected_kind_count": 9,
+  "forbidden_claim_terms_count": 4,
+  "forbidden_claim_terms_source": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+  "generated_at": "2026-06-03T09:31:24.148018+00:00",
+  "producer": "tools/quality_discovery_adversarial_generator.py",
+  "status": "pointer-only",
+  "witnesses": [
+    {
+      "bedc_gap_field": "ClassifierSpec gap",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "mixed",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "mixed",
+        "rejected": true,
+        "rejection_reason": "no-classifier-shift",
+        "scorecard_ready": true
+      },
+      "kind": "classifier_surface_delta_zero",
+      "regression_test_pointer": "tests/test_certificate_guided_discovery.py::test_nonpositive_net_information_forces_non_positive_discovery_on_classifier_surface",
+      "required_ledger_row": "ClassifierSpec row recording the classifier surface delta and rejected zero-delta projection.",
+      "soundness": "A pseudo discovery with zero surface delta has no classifier shift and must be rejected.",
+      "terminal_reason": "no-classifier-shift",
+      "terminal_verdict": "rejected",
+      "violated_principle": "Classifier movement requires a nonzero surface delta before a discovery claim can leave observation status."
+    },
+    {
+      "bedc_gap_field": "Control / Intervention ledger gap",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": true,
+        "rejection_reason": "control-unresolved",
+        "scorecard_ready": true
+      },
+      "kind": "matched_control_positive",
+      "regression_test_pointer": "tests/test_gap_head_discovery.py::test_control_positive_forces_unresolved_main_claim",
+      "required_ledger_row": "Control ledger row comparing treatment and matched control under the same cost and split protocol.",
+      "soundness": "A positive matched control makes the main improvement unresolved and must be rejected.",
+      "terminal_reason": "control-unresolved",
+      "terminal_verdict": "rejected",
+      "violated_principle": "A matched control with the same positive signal blocks attribution to the intervention."
+    },
+    {
+      "bedc_gap_field": "LedgerPolicy gap",
+      "demotion_rule": "demoted/DR",
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "hidden_debt_positive",
+      "regression_test_pointer": "tests/test_demote_thesis_invariant_audit.py::test_positive_tradeoff_fixture_is_caught",
+      "required_ledger_row": "LedgerPolicy row binding positive status to visible debt and audit-improvement tradeoff status.",
+      "soundness": "A positive certificate over an observed-negative projection hides debt and must be demoted.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted",
+      "violated_principle": "A positive certificate cannot hide debt behind an observed-negative projection."
+    },
+    {
+      "bedc_gap_field": "CostProtocol gap",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "unverifiable",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": null,
+        "malformed_detail": "projection-unavailable:certificate-guided payload must share a cost protocol",
+        "net_positive_signal": false,
+        "new_status": "observed-negative",
+        "rejected": true,
+        "rejection_reason": "malformed-evidence",
+        "scorecard_ready": true
+      },
+      "kind": "cost_protocol_missing",
+      "regression_test_pointer": "tests/test_certificate_guided_discovery.py::test_loader_rejects_when_shared_cost_protocol_name_not_true",
+      "required_ledger_row": "CostProtocol row naming the shared protocol that prices benefit, cost, and debt cells.",
+      "soundness": "A missing shared cost protocol makes the projection malformed and must be rejected.",
+      "terminal_reason": "malformed-evidence",
+      "terminal_verdict": "rejected",
+      "violated_principle": "A discovery projection is malformed when the payload does not share a cost protocol."
+    },
+    {
+      "bedc_gap_field": "ClosureStatus gap",
+      "demotion_rule": "ledger-only/D1",
+      "discovery_level": "D1",
+      "discovery_reasons": [
+        "claim_gate.training_audit_improvement_tradeoff=true"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "observed-negative",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": false
+      },
+      "kind": "scorecard_not_ready",
+      "regression_test_pointer": "tests/test_verdict.py::test_well_formed_not_ready_scorecard_goes_to_ledger_only",
+      "required_ledger_row": "ClosureStatus row recording quality scorecard readiness for every required metric.",
+      "soundness": "A not-ready quality scorecard cannot certify a positive discovery and stays ledger-only.",
+      "terminal_reason": "scorecard-not-ready",
+      "terminal_verdict": "ledger-only",
+      "violated_principle": "A not-ready scorecard cannot certify a positive discovery terminal status."
+    },
+    {
+      "bedc_gap_field": "SourceSpec contamination",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [
+          "full-lejepa"
+        ],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": true,
+        "rejection_reason": "overclaim",
+        "scorecard_ready": true
+      },
+      "kind": "forbidden_inference_column",
+      "regression_test_pointer": "tests/test_rejection.py::test_rejects_forbidden_positive_claim_term_from_shared_owner",
+      "required_ledger_row": "SourceSpec row listing forbidden claim-term hits and the contaminated source cell.",
+      "soundness": "A positive claim containing a forbidden claim term must be rejected by the overclaim gate.",
+      "terminal_reason": "overclaim",
+      "terminal_verdict": "rejected",
+      "violated_principle": "A source specification with forbidden inference terms cannot support a positive claim."
+    },
+    {
+      "bedc_gap_field": "Positive information gap",
+      "demotion_rule": "demoted/DR",
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "benefit_debt_tradeoff",
+      "regression_test_pointer": "tests/test_certificate_guided_discovery.py::test_tradeoff_training_payload_keeps_discovery_main_claim_non_positive",
+      "required_ledger_row": "Positive-information row separating quality benefit from debt tradeoff status.",
+      "soundness": "A claimed positive with audit-improvement tradeoff must be downgraded instead of accepted.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted",
+      "violated_principle": "A benefit claim with unresolved debt tradeoff is audit improvement, not positive discovery."
+    },
+    {
+      "bedc_gap_field": "Revocation ledger gap",
+      "demotion_rule": "demoted/DR",
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "fresh_claim_downgrade",
+      "regression_test_pointer": "tests/test_research_discovery.py::test_hg_dl_4_revocation_decision_is_revoked_discovery",
+      "required_ledger_row": "Revocation ledger row naming the stale certificate, fresh evidence, and downgraded status.",
+      "soundness": "Fresh weakened claim evidence must revoke the old positive certificate.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted",
+      "violated_principle": "Fresh weak evidence must revoke the earlier positive status instead of preserving it."
+    },
+    {
+      "bedc_gap_field": "SourceSpec contamination",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "synthetic_leakage_injection",
+      "regression_test_pointer": "tests/test_discovery_negative_witnesses.py::test_synthetic_leakage_injection_witness_fails_closed",
+      "required_ledger_row": "SourceSpec row recording synthetic leakage injection surfaces and their rejected terminal projection.",
+      "soundness": "Injected label, error, and metadata-derived cells are not discovery evidence and must fail closed.",
+      "terminal_reason": "malformed-evidence",
+      "terminal_verdict": "rejected",
+      "violated_principle": "Injected label, error, or metadata-derived cells cannot be treated as discovery evidence."
+    }
+  ]
+}

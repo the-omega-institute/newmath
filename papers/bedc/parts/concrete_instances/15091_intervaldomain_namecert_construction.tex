@@ -50,6 +50,7 @@ Endpoint-window transport reads $W$ and $Q$ as a pair. The stream row names the 
 
 Finally, real-seal non-escape follows because $E$ is downstream of $L,R,N,W,Q$ and the structural rows. Since the carrier has no quotient, host-equality, compactness, selected-limit, or completeness coordinate, none of those principles can be read from the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainNameCertObligations}
 
 \begin{theorem}[IntervalDomain completion approximation scope]
 \label{thm:interval-domain-completion-approximation-scope}
@@ -67,6 +68,196 @@ Next read the directed approximation layer. The row $N$ records the $\NestedInte
 Then read the observation layer. The stream windows $W$ and regular rational readbacks $Q$ supply the finite endpoint observations for the same directed refinement route.
 
 The seal row $E$ is reached only after those rows have been consumed. The structural rows $H,C,P,A$ transport, replay, source, and name the same route, so every completion-facing consumer factors through the displayed chain and receives no additional quotient, host-equality, compactness, selected-limit, or completeness data.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainCompletionApproximationScope}
+
+\begin{theorem}[IntervalDomain carrier admission]
+\label{thm:interval-domain-carrier-admission}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Before any interval-domain read is exported, the packet must expose $\LocatedIntervalUp$ cells, $\NestedIntervalUp$ nesting, $\RationalIntervalUp$ refinement rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\IntervalDomainUp}$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-carrier}. Its visible rows are exactly $L,R,N,W,Q,E,H,C,P,A$, and the introductory dependency route ties those rows to the located interval, nested interval, rational interval, stream, regular rational, and Real seal sibling chapters.
+
+Now apply the carrier-admission clause of \autoref{thm:interval-domain-namecert-obligations}. A public interval-domain read must consume the listed rows as one finite packet before the local NameCert row $A$ can certify the read.
+
+The completion approximation scope of \autoref{thm:interval-domain-completion-approximation-scope} keeps the same row order for Real-facing consumers, so no interval-domain read can be exported from a strict subpacket or from a host interval primitive.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainCarrierAdmission}
+
+\begin{theorem}[IntervalDomain regular Cauchy window]
+\label{thm:interval-domain-regular-cauchy-window}
+For every accepted $\IntervalDomainUp$ packet $D=(L,R,N,W,Q,E,H,C,P,A)$, each interval refinement read factors through the displayed $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readbacks $Q$, with $\DyadicRatCoreUp$ tolerance support supplied by the rational refinement route and $\RealUp$ seal support supplied by $E$. It does not factor through host intervals, quotient cuts, selected endpoints, or ambient real equality.
+\end{theorem}
+\begin{proof}
+Start from the endpoint-window transport clause of \autoref{thm:interval-domain-namecert-obligations}. It binds every endpoint and refinement read to the paired stream-window and regular rational rows $W,Q$.
+
+Next use \autoref{def:interval-domain-carrier}. The rational refinement ledger $R$ supplies the finite width and containment data for the located cells, while the sibling dyadic and rational interval routes named in the introduction provide the tolerance surface consumed before $Q$ is read.
+
+Finally apply \autoref{thm:interval-domain-completion-approximation-scope}. The Real seal row $E$ is downstream of $L,R,N,W,Q$, so the refinement read is the displayed regular Cauchy window route and not a host interval, quotient cut, selected endpoint, or host equality principle.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainRegularCauchyWindow}
+
+\begin{theorem}[IntervalDomain finite endpoint order]
+\label{thm:interval-domain-finite-endpoint-order}
+Every accepted $\IntervalDomainUp$ packet $D=(L,R,N,W,Q,E,H,C,P,A)$ must expose the $\RationalIntervalUp$ endpoint-order and containment rows attached to each $\LocatedIntervalUp$ cell before any $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer may read the approximation route. The endpoint-order row is a finite BEDC row of the packet, not a host interval primitive, selected endpoint comparison, quotient cut, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:interval-domain-carrier}. The located cell row $L$ is paired with the rational refinement ledger $R$, and the carrier definition states that $R$ includes endpoint order, containment, and width-budget rows for those cells.
+
+Apply \autoref{thm:interval-domain-namecert-obligations}. Its refinement-stability clause keeps every $\RationalIntervalUp$ refinement row attached to its transported $\LocatedIntervalUp$ cell and its transported window data.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The Real-facing route reads $\LocatedIntervalUp$ and $\RationalIntervalUp$ before $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, so no consumer can bypass endpoint order through host intervals, selected endpoints, quotient cuts, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainFiniteEndpointOrder}
+
+\begin{theorem}[IntervalDomain dyadic endpoint coverage]
+\label{thm:interval-domain-dyadic-endpoint-coverage}
+Every accepted $\IntervalDomainUp$ packet $D=(L,R,N,W,Q,E,H,C,P,A)$ whose $\RationalIntervalUp$ ledger exposes endpoint order also exposes the $\DyadicRatCoreUp$ tolerance rows used by the endpoint windows before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the approximation. The coverage row is a finite dependency of the interval-domain packet through \autoref{ch:concrete-instances-rationalinterval-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}; it does not select endpoints, identify quotient cuts, assert host extensional equality, or close ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-carrier}. The rational refinement row $R$ is the endpoint-order, containment, and width-budget ledger attached to the located cells in $L$.
+
+Read $R$ through the rational-interval dependency named in the chapter introduction. Endpoint order is accepted only together with the tolerance budget that makes the endpoint windows readable, and that budget is supplied by the dyadic-rational core route cited in \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+Now apply the endpoint-window transport clause of \autoref{thm:interval-domain-namecert-obligations}. The stream windows $W$ and regular rational readbacks $Q$ may replay an endpoint request only after the same transported rational refinement row has been displayed.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. Since $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are downstream of $L,R,N$, every completion-facing read first sees the dyadic tolerance support carried by $R$. The statement therefore records finite endpoint-window coverage only, excluding selected endpoints, quotient cuts, host extensional equality, and ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDyadicEndpointCoverage}
+
+\begin{theorem}[IntervalDomain rational-width monotonicity]
+\label{thm:intervaldomain-rational-width-monotonicity}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. If a displayed $\LocatedIntervalUp$ cell is refined through the $\NestedIntervalUp$ row $N$, then the $\RationalIntervalUp$ width-budget row in $R$ is monotonically tightened along the displayed $\DyadicRatCoreUp$ tolerance route before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the seal. The monotonicity is a finite relation among the accepted carrier rows $L,R,N,H,C,P,A$, not a host metric-width comparison, quotient-cut equality, selected endpoint oracle, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-carrier}. The located cells are carried by $L$, the rational endpoint-order, containment, and width-budget ledger is carried by $R$, and the displayed refinement relation is carried by $N$.
+
+Use \autoref{thm:interval-domain-finite-endpoint-order} and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. The first keeps endpoint order and containment inside the finite rational-interval row, while the second supplies the dyadic tolerance support needed to compare successive endpoint windows without selecting external endpoints.
+
+Now apply \autoref{thm:interval-domain-directed-refinement-covers}. A later nested cell remains inside the same finite route through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the later width budget can only be read as the transported tightening of the earlier displayed budget.
+
+Consequently every stream, regular-rational, or Real-seal consumer sees the tightened rational-width row before it reads the seal. The statement records this monotone finite budget discipline and exports no host comparison or completeness principle.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainRationalWidthMonotonicity}
+
+\begin{theorem}[IntervalDomain regular-Cauchy directed width]
+\label{thm:interval-domain-regular-cauchy-directed-width}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. If a directed refinement through $N$ tightens the $\RationalIntervalUp$ width budget recorded in $R$, then the same refinement preserves the paired $\StreamNameUp$ window row $W$ and $\RegSeqRatUp$ readback row $Q$ before any $\RealUp$ seal consumer may inspect $E$. Thus rational-width monotonicity supplies a regular-Cauchy directed readback route inside the displayed packet, not a host metric-width comparison, quotient cut, endpoint selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The located cells are read from $L$, the endpoint order, containment, and width-budget ledger from $R$, the directed refinement row from $N$, and the paired stream and regular rational observations from $W,Q$.
+
+Use \autoref{thm:interval-domain-finite-endpoint-order} and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. These keep endpoint order, dyadic tolerance support, and width comparisons inside the finite rational-interval route attached to the displayed located cells.
+
+Apply \autoref{thm:intervaldomain-rational-width-monotonicity}. Along a nested refinement, the later width budget is the transported tightening of the earlier displayed budget. Then apply \autoref{thm:interval-domain-directed-refinement-covers}: the same later cell is read through the common $\StreamNameUp$ and $\RegSeqRatUp$ observation surface before the Real seal is available.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The seal row $E$ lies downstream of $L,R,N,W,Q$ and the structural rows $H,C,P,A$, so the directed-width route is exactly the regular-Cauchy readback route of the packet. No carrier coordinate supplies a host metric-width comparison, quotient cut, endpoint selector, or ambient completeness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainRegularCauchyDirectedWidth}
+
+\begin{theorem}[IntervalDomain directed width non-completion]
+\label{thm:interval-domain-directed-width-noncompletion}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. The rational-width monotonicity row and regular-Cauchy directed-width row expose only finite directed approximation through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. They do not supply quotient cuts, selected endpoints, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:intervaldomain-rational-width-monotonicity}. It reads width tightening only from the displayed located cell, rational refinement ledger, nested refinement row, dyadic tolerance support, and structural rows of the accepted packet.
+
+Next apply \autoref{thm:interval-domain-regular-cauchy-directed-width}. The directed-width readback keeps the same refinement inside the paired $\StreamNameUp$ window row $W$ and $\RegSeqRatUp$ readback row $Q$ before the $\RealUp$ seal $E$ is inspected.
+
+Finally use \autoref{thm:interval-domain-directed-completion-scope}. That theorem records the complete completion-facing route as the finite BEDC surface through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the structural rows. Since none of the cited rows contains quotient cuts, selected endpoints, trichotomy, host equality, or ambient completeness, directed width remains a finite approximation route and not a completion principle.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedWidthNoncompletion}
+
+\begin{theorem}[IntervalDomain directed approximation induction]
+\label{thm:interval-domain-directed-approximation-induction}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet, and let a finite displayed chain of nested refinements be read from the rows $L,R,N$. Induction on the accepted refinement rows gives a stable route through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any completion-facing consumer reads the seal row $E$. The induction exports no quotient cuts, selected endpoints, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the base refinement row, use the finite endpoint order theorem and the dyadic endpoint coverage theorem, \autoref{thm:interval-domain-finite-endpoint-order} and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. They place endpoint order, containment, rational width, and dyadic tolerance support inside the displayed $\LocatedIntervalUp$ and $\RationalIntervalUp$ rows before any stream or seal read occurs.
+
+For the induction step, apply rational-width monotonicity, \autoref{thm:intervaldomain-rational-width-monotonicity}. A later nested row can only be read as the transported tightening of the earlier displayed rational-width budget along the same $\NestedIntervalUp$ route.
+
+Next apply regular-Cauchy directed width, \autoref{thm:interval-domain-regular-cauchy-directed-width}. The tightened rational-width row preserves the paired $\StreamNameUp$ window and $\RegSeqRatUp$ readback before the $\RealUp$ seal is inspected.
+
+Finally use directed width non-completion, \autoref{thm:interval-domain-directed-width-noncompletion}. It identifies the resulting chain as a finite approximation route through the seven displayed faces and excludes quotient cuts, selected endpoints, trichotomy, host equality, and ambient $\RealUp$ completeness at every induction stage.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedApproximationInduction}
+
+\begin{theorem}[IntervalDomain directed refinement covers]
+\label{thm:interval-domain-directed-refinement-covers}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedRefinementCovers}
+\begin{proof}
+Project the carrier rows of \autoref{def:interval-domain-carrier}. The located cells are read from $L$, their rational containment and width ledgers from $R$, and their directed nesting relation from $N$.
+
+Replay the nested-window refinement using the directedness clause of \autoref{thm:interval-domain-namecert-obligations}. Two cells admitted for a common completion-facing read must pass through a later displayed $\NestedIntervalUp$ row before the Real seal can be inspected.
+
+Now read the common observation surface. The $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readbacks $Q$ expose the shared endpoint observations, while \autoref{thm:interval-domain-regular-cauchy-window} keeps the refinement inside the regular Cauchy window route.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The $\RealUp$ seal row $E$ is downstream of the displayed located, rational, nested, stream, and regular-rational rows, so the directed refinement covers the overlapping readback without exporting quotient real equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[IntervalDomain directed-refinement obligation scope]
+\label{thm:intervaldomain-directed-refinement-obligation-scope}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. For any two overlapping interval-domain cells, the directed refinement row must cite $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as its complete finite scope before any $\RealUp$ consumer reads the seal row $E$. The obligation exports no quotient cuts, selected limits, host equality, trichotomy, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedRefinementObligationScope}
+\begin{proof}
+Project $D=(L,R,N,W,Q,E,H,C,P,A)$. The carrier rows place located cells in $L$, rational refinement data in $R$, directed nesting in $N$, stream windows in $W$, regular rational readbacks in $Q$, the terminal seal in $E$, and the structural transport, replay, provenance, and naming rows in $H,C,P,A$.
+
+Apply \autoref{thm:interval-domain-directed-refinement-covers}. For two overlapping cells, the common later cell is read only through the displayed route over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:interval-domain-real-seal-nonescape}. Any consumer of $E$ still factors through the finite route and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the refinement row is the complete obligation scope before the seal is read.
+
+Since neither the carrier nor the two cited theorems supplies quotient cuts, selected limits, host equality, trichotomy, or ambient completeness, those objects remain outside the directed-refinement obligation.
+\end{proof}
+
+\begin{theorem}[IntervalDomain directed completion scope]
+\label{thm:interval-domain-directed-completion-scope}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any directed-refinement read from $D$ that is consumed by $\RealUp$ or by a completion-facing chapter must pass through the complete finite route
+$$
+\LocatedIntervalUp,\RationalIntervalUp,\NestedIntervalUp,\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The handoff is exactly a displayed interval-domain completion route over BEDC rows. It exports no quotient cuts, selected endpoints, trichotomy, host equality, or ambient completeness of $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedCompletionScope}
+\begin{proof}
+First read the directed-refinement witness through \autoref{thm:interval-domain-directed-refinement-covers}. The common later cell is available only through the located interval, rational interval, nested interval, stream-window, regular-rational, and Real seal surfaces already carried by $D$.
+
+Next apply \autoref{thm:intervaldomain-directed-refinement-obligation-scope}. That theorem records the complete obligation scope of the same refinement row, adding the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any $\RealUp$ consumer can inspect the seal.
+
+Finally use \autoref{thm:interval-domain-real-seal-nonescape}. A completion-facing consumer of $E$ receives the directed route only after the displayed approximation and structural rows have been read. The dyadic tolerance support is the same endpoint-budget surface named by the rational-refinement route through \autoref{ch:concrete-instances-dyadicratcore-namecert}, so the handoff includes $\DyadicRatCoreUp$ without adding a new host principle.
+
+The excluded objects require coordinates absent from the carrier and from the three cited theorems. Thus quotient cuts, selected endpoints, trichotomy, host equality, and ambient $\RealUp$ completeness remain outside the completion-facing directed-refinement read.
+\end{proof}
+
+\begin{theorem}[Interval-domain endpoint directedness scope]
+\label{thm:interval-domain-endpoint-directedness-scope}
+Every completion-facing consumer of an accepted $\IntervalDomainUp$ packet $D=(L,R,N,W,Q,E,H,C,P,A)$ must expose the directed endpoint rows, rational width monotonicity, dyadic endpoint coverage, directed refinement covers, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal route before reading a completion consumer. The scope is the displayed finite route over $L,R,N,W,Q,E,H,C,P,A$ and exports no quotient cuts, selected endpoints, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainEndpointDirectednessScope}
+\begin{proof}
+Project the accepted carrier. Endpoint data enters through the located cell row $L$ and rational refinement ledger $R$, while directedness is carried by the nested refinement row $N$.
+
+Apply \autoref{thm:intervaldomain-rational-width-monotonicity}, \autoref{thm:interval-domain-regular-cauchy-directed-width}, and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. These bind endpoint order, dyadic tolerance support, and rational width tightening to the same displayed cell route before stream or regular-rational reads are available.
+
+Next use \autoref{thm:interval-domain-directed-refinement-covers} and \autoref{thm:intervaldomain-directed-refinement-obligation-scope}. They require every completion-facing directed refinement to pass through the located, rational, nested, stream-window, regular-rational, Real-seal, and structural rows.
+
+Finally apply \autoref{thm:interval-domain-directed-completion-scope} and \autoref{thm:interval-domain-real-seal-nonescape}. The completion consumer can read the terminal route only after $L,R,N,W,Q,E,H,C,P,A$ have been displayed, so the endpoint-directedness scope remains a finite L10 completion route and not a host completion principle.
+\end{proof}
+
+\begin{theorem}[IntervalDomain Real seal nonescape]
+\label{thm:interval-domain-real-seal-nonescape}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. A consumer of the $\RealUp$ seal row $E$ receives only the finite route through located cells, rational refinements, nested directedness, stream windows, regular rational readbacks, transport, replay, provenance, and local naming. The packet exports no host completeness, selected endpoints, trichotomy, quotient real equality, or ambient interval compactness.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainRealSealNonescape}
+\begin{proof}
+Use the real-seal non-escape clause of \autoref{thm:interval-domain-namecert-obligations}. It places $E$ after $L,R,N,W,Q$ and after the structural rows $H,C,P,A$.
+
+The completion approximation scope theorem then identifies the whole Real-facing path as the finite chain through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The sibling anchors in the chapter introduction supply those displayed surfaces.
+
+Since \autoref{def:interval-domain-carrier} contains no row for host completeness, endpoint selection, trichotomy, quotient real equality, or interval compactness, none of those principles can be exported by consuming $E$.
 \end{proof}
 
 \begin{closurestatus}{\IntervalDomainUp}

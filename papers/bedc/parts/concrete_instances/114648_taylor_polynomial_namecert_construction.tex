@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\TaylorPolynomialUp$}
+\label{ch:concrete-instances-taylor-polynomial-namecert}
+\origin{human}
+
+Following Taylor's classical finite polynomial approximation in differential calculus, the $\TaylorPolynomialUp$ packet records the finite jet-to-polynomial object used between derivative observations and theorem-facing Taylor estimates. It sits beside the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the derivative observation row of \autoref{ch:concrete-instances-derivative-namecert}, the calculus substrate of \autoref{ch:concrete-instances-calculus-namecert}, and the Taylor theorem route of \autoref{ch:concrete-instances-taylor-theorem-namecert}. The packet names a finite Taylor polynomial certificate for one displayed center, order, coefficient ledger, polynomial assembly row, and evaluation handoff; it does not import a host smooth-function space, analytic convergence, quotient equality of real functions, or an infinite Taylor series.
+
+\begin{definition}[Taylor polynomial carrier]
+\label{def:taylor-polynomial-carrier}
+A $\TaylorPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+T=(c,k,D,J,P,V,Q,E,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $c$ is the named $\RealUp$ center row and $k$ is the finite order row.
+\item $D$ is the $\DerivativeUp$ observation row naming exactly the derivative data used for orders at most $k$.
+\item $J$ is the finite jet ledger. Each coefficient row cites $c,k,D$ and the dyadic rational arithmetic used to normalize the displayed derivative read.
+\item $P$ is the $\PolynomialUp$ assembly row whose coefficients are exactly the rows of $J$.
+\item $V$ is the finite evaluation handoff. It records the polynomial value requests, the local displacement from $c$, and the coefficient rows of $P$ consumed by each request.
+\item $Q$ lists the $\RegSeqRatUp$ readback rows for coefficients, displacements, and finite polynomial values.
+\item $E$ records the terminal $\RealUp$ seals for the center, coefficient reads, and polynomial values.
+\item $H$ records componentwise $\hsame$ transport for the center, order, derivative source, jet ledger, polynomial assembly, evaluation handoff, readback rows, endpoint seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every Taylor-polynomial read through $c,k,D,J,P,V,Q,E,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\TaylorPolynomialUp$, $\RealUp$, $\DerivativeUp$, $\CalculusUp$, $\PolynomialUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TaylorPolynomialUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $c,k,D,J,P,V,Q,E,H,C,G,N$. It has no coordinate for a host function, an infinite Taylor series, analytic convergence, quotient equality of functions, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.TaylorPolynomialUp.TaylorPolynomialTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Taylor polynomial NameCert obligations]
+\label{thm:taylor-polynomial-namecert-obligations}
+For every accepted $\TaylorPolynomialUp$ carrier
+$$
+T=(c,k,D,J,P,V,Q,E,H,C,G,N),
+$$
+the local $\NameCert_{\TaylorPolynomialUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed center, finite order, derivative source, jet ledger, polynomial assembly, evaluation handoff, readback rows, endpoint seals, transport, replay, provenance, and local naming rows;
+\item derivative-to-coefficient routing, requiring every coefficient in $J$ to cite the $\DerivativeUp$ row $D$ at the center $c$ and finite order $k$;
+\item polynomial assembly exactness, requiring $P$ to use exactly the coefficient rows displayed in $J$ and no hidden host polynomial;
+\item evaluation handoff exactness, requiring every row of $V$ to consume only the displayed displacement from $c$, the assembled polynomial row $P$, and finite coefficient arithmetic;
+\item regular and real readback, requiring $Q$ to expose regular rational reads before the terminal $\RealUp$ seals in $E$ are consumed;
+\item structural stability, requiring $H,C,G,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No $\TaylorPolynomialUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:taylor-polynomial-carrier}. The theorem-facing rows are exactly $c,k,D,J,P,V,Q,E$, and the structural rows are exactly $H,C,G,N$.
+
+The coefficient route is finite. Each row of $J$ is attached to the displayed derivative source $D$, the center $c$, and the finite order $k$, so a coefficient consumer cannot replace it by a host smooth-function expansion or by an infinite Taylor series.
+
+The polynomial and evaluation rows are then forced. The row $P$ assembles precisely the listed coefficient ledger $J$, while $V$ reads finite polynomial values from $P$ and the displayed displacement from $c$.
+
+Finally $Q,E,H,C,G,N$ seal the route. Regular rational readback precedes the terminal real seals, and transport, replay, provenance, and local naming preserve exactly the same finite packet. Since no carrier coordinate names analytic convergence, quotient function equality, selected limits, or ambient real completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Taylor polynomial jet route]
+\label{thm:taylor-polynomial-jet-route}
+Every accepted $\TaylorPolynomialUp$ carrier exports a coefficient only through the finite route
+$$
+\CalculusUp,\DerivativeUp \longmapsto J \longmapsto \PolynomialUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+More precisely, a consumer must first read the center $c$, finite order $k$, derivative row $D$, jet ledger $J$, polynomial row $P$, readback row $Q$, endpoint seals $E$, transport $H$, replay $C$, provenance $G$, and local naming row $N$ before it may consume a displayed Taylor coefficient. The export is a finite jet read, not a host differentiability theorem, analytic convergence claim, quotient equality of functions, selected limit, or ambient real-completeness row.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $T=(c,k,D,J,P,V,Q,E,H,C,G,N)$. The only derivative source is $D$, and the order bound is the displayed finite row $k$.
+
+Read the coefficient ledger $J$. Each coefficient row is already tied to $c,k,D$ and to finite dyadic arithmetic, so the route stays inside the displayed calculus and derivative surface.
+
+Then pass through $P,Q,E,H,C,G,N$. The assembled polynomial records the same finite ledger, regular rational readback exposes coefficient data before real sealing, and the structural rows preserve the packet. Therefore every coefficient export factors through the stated finite route.
+\end{proof}
+
+\begin{theorem}[Taylor polynomial polynomial handoff]
+\label{thm:taylor-polynomial-polynomial-handoff}
+Every accepted $\TaylorPolynomialUp$ carrier hands a polynomial value to downstream calculus or Taylor-theorem consumers only through the displayed rows
+$$
+c,k,D,J,P,V,Q,E,H,C,G,N .
+$$
+The handoff exports a finite $\PolynomialUp$ object with named center, finite order, coefficient ledger, evaluation requests, regular rational readbacks, and terminal real seals. It does not export a Taylor theorem remainder, analytic convergence, a selected germ, quotient equality of functions, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the assembled polynomial row $P$ from the accepted carrier. By \autoref{thm:taylor-polynomial-namecert-obligations}, that row is assembled only from the displayed jet ledger $J$, and $J$ is routed through the finite derivative source $D$ at $c$ and order $k$.
+
+Next read the evaluation handoff $V$ and the readback rows $Q,E$. Each value request consumes the polynomial row and the displayed displacement from the center, then passes through regular rational readback before any terminal real seal is visible.
+
+The remaining rows $H,C,G,N$ transport, replay, source, and name the same packet. Since the carrier contains no remainder row, analytic convergence row, selected germ, quotient function equality, countable-choice row, or ambient real-completeness row, every downstream polynomial handoff is exhausted by the displayed finite data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TaylorPolynomialUp$ coefficient or value read factors through a displayed center, finite order, DerivativeUp source, finite jet ledger, PolynomialUp assembly row, evaluation handoff, RegSeqRat readback, Real endpoint seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{real, polynomial, derivative, calculus, taylor-theorem: $\TaylorPolynomialUp$ is not bijective to any listed sibling because it jointly binds one center, one finite order, derivative observations, a coefficient ledger, a polynomial assembly row, evaluation requests, readback rows, endpoint seals, transport, replay, provenance, and local naming in one finite-jet certificate.}
+
+\closureat{TaylorPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\TaylorPolynomialUp}
+  \constructivestory{A $\TaylorPolynomialUp$ packet is generated from a displayed $\RealUp$ center, finite order, $\DerivativeUp$ source over the $\CalculusUp$ substrate, finite coefficient ledger, $\PolynomialUp$ assembly row, evaluation handoff, $\RegSeqRatUp$ readbacks, $\RealUp$ endpoint seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:taylor-polynomial-carrier}, \autoref{thm:taylor-polynomial-namecert-obligations}, \autoref{thm:taylor-polynomial-jet-route}, and \autoref{thm:taylor-polynomial-polynomial-handoff} seed the finite Taylor-polynomial route from derivative observations to polynomial coefficients and value handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Taylor theorem remainders, analytic convergence, selected germs, quotient equality of functions, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-to-coefficient routing, polynomial assembly exactness, evaluation handoff exactness, regular and real readback, transport and replay stability, and nonescape for BEDC.Derived.TaylorPolynomialUp.}
+\end{closurestatus}

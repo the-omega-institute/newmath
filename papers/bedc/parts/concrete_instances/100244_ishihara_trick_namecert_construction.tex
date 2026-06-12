@@ -40,6 +40,7 @@ For every accepted $\IshiharaTrickUp$ carrier $O=(S,R,T,W,D,E,A,H,C,P,N)$, the l
 \end{enumerate}
 No NameCert obligation is stored outside these five rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.IshiharaTrickUp.IshiharaTrickCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:ishihara-trick-carrier}. The visible data are the finite schedule $S$, readback $R$, displayed test sequence $T$, finite window $W$, tolerance ledger $D$, terminal real seal $E$, inspected boundary $A$, and structural rows $H,C,P,N$.
 
@@ -54,6 +55,7 @@ The real-boundary handoff is downstream of $E$, with transport and replay suppli
 \label{thm:ishihara-trick-finite-test-boundary}
 Every accepted $\IshiharaTrickUp$ packet exposes its binary branch only through the displayed real-name test sequence $T$, finite inspection window $W$, and dyadic ledger $D$. Hence the classifier can distinguish the displayed local branch from continued refinement only by finite inspection of the named rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.IshiharaTrickUp.IshiharaTrickCarrier\_finite\_test\_boundary}
 \begin{proof}
 The carrier presents the test sequence $T$ through the already displayed stream and regular-rational rows. The window $W$ names the inspected indices, so no classifier step can read outside the finite schedule.
 
@@ -89,6 +91,7 @@ Thus a displayed apartness branch remains an apartness branch with transported d
 \label{thm:ishihara-trick-binary-branch-boundary}
 Every accepted $\IshiharaTrickUp$ packet exposes exactly two branch readings at the finite Real/Completion boundary: either a displayed dyadic apartness branch whose radius, endpoint, and margin rows come from $D$ inside $W$, or a refinement request inside the transported schedule. No LLPO, WLPO, Markov principle, trichotomy, quotient equality, selected limit, countable choice, or $\RealUp$ completeness supplies a third case.
 \end{theorem}
+\leanchecked{BEDC.Derived.IshiharaTrickUp.IshiharaTrickCarrier\_binary\_branch\_boundary}
 \begin{proof}
 Project the carrier described in \autoref{def:ishihara-trick-carrier}. The branch coordinate $A$ is read only after the schedule $S$, readback $R$, test sequence $T$, finite window $W$, dyadic ledger $D$, and real seal $E$ have been displayed.
 
@@ -105,6 +108,7 @@ S,R,T,W,D,E,A,H,C,P,N.
 $$
 Consequently the consumer receives only a finite schedule, rational readback, displayed test sequence, finite inspection window, dyadic tolerance ledger, terminal real seal, inspected binary boundary, componentwise transport, continuation replay, provenance, and local NameCert row. It receives no LLPO, WLPO, Markov-principle leakage, trichotomy, quotient real equality, selected limit, countable choice, or ambient $\RealUp$ completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.IshiharaTrickUp.IshiharaTrickCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Let a Real/Completion consumer accept the packet $O=(S,R,T,W,D,E,A,H,C,P,N)$. By the carrier definition, the only real-facing coordinate is the seal $E$, and that seal is reached after the schedule, readback, test sequence, finite window, tolerance ledger, inspected boundary, and structural rows have been displayed.
 
@@ -113,12 +117,48 @@ The consumer's branch information is therefore finite. It can inspect the schedu
 No omitted semi-classical or completion principle is a coordinate of the packet. Thus factorization through the displayed rows cannot export LLPO, WLPO, Markov-principle leakage, trichotomy, quotient real equality, a selected limit, countable choice, or ambient real completeness.
 \end{proof}
 
+\begin{theorem}[Ishihara trick bounded-sequence route]
+\label{thm:ishihara-trick-bounded-sequence-route}
+Any bounded real-sequence or Specker-boundary consumer using an accepted $\IshiharaTrickUp$ packet must pass through the displayed rows
+$$
+S,R,T,W,D,E,A,H,C,P,N
+$$
+before interpreting a branch as bounded-sequence evidence. The route presents a finite schedule, regular-rational readback, displayed real-name test sequence, finite inspection window, dyadic tolerance ledger, terminal real seal, binary boundary row, componentwise transport, continuation replay, provenance, and local NameCert row. It does not expose LLPO, WLPO, Markov-principle leakage, trichotomy, quotient real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ishihara-trick-carrier}. Its coordinates are exactly the displayed rows $S,R,T,W,D,E,A,H,C,P,N$, so a bounded-sequence consumer has no independent sequence, bound, or completion coordinate to inspect.
+
+Apply the finite-test boundary of \autoref{thm:ishihara-trick-finite-test-boundary}. The branch can be read only after the test sequence $T$, window $W$, and dyadic ledger $D$ are exposed through the schedule and regular-rational readback rows.
+
+Apply the binary branch boundary of \autoref{thm:ishihara-trick-binary-branch-boundary}. A consumer may receive either the displayed dyadic apartness branch or the refinement request still inside the schedule; no third case is available for a bounded-sequence or Specker-boundary reading.
+
+Finally use the real-seal nonescape theorem \autoref{thm:ishihara-trick-real-seal-nonescape}. The terminal $\RealUp$ handoff carries the same finite rows and no LLPO/WLPO, Markov-principle leakage, trichotomy, quotient real equality, selected limit, countable choice, or ambient completeness principle, so bounded-sequence evidence can be interpreted only along the displayed route.
+\end{proof}
+
+\begin{theorem}[Ishihara trick Specker-boundary handoff]
+\label{thm:ishihara-trick-specker-boundary-handoff}
+Every Bishop--Specker or Markov-boundary consumer of an accepted $\IshiharaTrickUp$ packet must read the displayed rows
+$$
+S,R,T,W,D,E,A,H,C,P,N
+$$
+before interpreting the branch as obstruction evidence for \autoref{ch:concrete-instances-speckersequence-namecert}, \autoref{ch:concrete-instances-bishop-specker-completion-boundary-namecert}, or \autoref{ch:concrete-instances-markov-principle-boundary-namecert}. The handoff presents only the finite schedule, regular-rational readback, displayed real-name test sequence, finite inspection window, dyadic tolerance ledger, terminal real seal, binary boundary row, componentwise transport, continuation replay, provenance, and local NameCert row. It exports no LLPO, WLPO, Markov-principle leakage, trichotomy, quotient real equality, selected limit, countable choice, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ishihara-trick-carrier}. A Bishop--Specker or Markov-boundary reader receives exactly the tuple $S,R,T,W,D,E,A,H,C,P,N$, so the downstream obstruction interpretation has no independent supremum, negative-evidence rule, or completion row to inspect.
+
+Apply the finite-test boundary of \autoref{thm:ishihara-trick-finite-test-boundary}. The possible obstruction evidence is visible only after the displayed test sequence $T$, finite window $W$, and dyadic ledger $D$ have been read through the schedule $S$ and regular-rational row $R$.
+
+Apply the binary branch boundary of \autoref{thm:ishihara-trick-binary-branch-boundary}. The consumer may interpret a displayed dyadic apartness branch, or it may continue with the refinement request still inside the schedule; no third branch is supplied by a Specker, Bishop--Specker, or Markov-sensitive boundary read.
+
+Finally use the real-seal nonescape theorem \autoref{thm:ishihara-trick-real-seal-nonescape}. The terminal $\RealUp$ seal and the structural rows $H,C,P,N$ preserve the same finite route, excluding LLPO/WLPO, Markov-principle leakage, trichotomy, quotient real equality, selected limits, countable choice, and ambient completeness from the obstruction handoff.
+\end{proof}
+
 \closureat{IshiharaTrickUp}{seedStr}
 
 \begin{closurestatus}{\IshiharaTrickUp}
   \constructivestory{An $\IshiharaTrickUp$ packet is generated from a StreamName schedule, RegSeqRat readback, displayed real-name test sequence, finite inspection window, DyadicRatCore tolerance ledger, Real seal, inspected binary boundary, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ishihara-trick-carrier}, \autoref{thm:ishihara-trick-namecert-obligations}, \autoref{thm:ishihara-trick-finite-test-boundary}, \autoref{thm:ishihara-trick-branch-stability}, \autoref{thm:ishihara-trick-binary-branch-boundary}, and \autoref{thm:ishihara-trick-real-seal-nonescape} seed the finite Real/Completion boundary for Ishihara-style inspection.}
+  \scopeclosed{\autoref{def:ishihara-trick-carrier}, \autoref{thm:ishihara-trick-namecert-obligations}, \autoref{thm:ishihara-trick-finite-test-boundary}, \autoref{thm:ishihara-trick-branch-stability}, \autoref{thm:ishihara-trick-binary-branch-boundary}, \autoref{thm:ishihara-trick-real-seal-nonescape}, \autoref{thm:ishihara-trick-bounded-sequence-route}, and \autoref{thm:ishihara-trick-specker-boundary-handoff} seed the finite Real/Completion boundary for Ishihara-style inspection.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.IshiharaTrickUp}
   \bridgestatus{none}

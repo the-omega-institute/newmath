@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSupportingHyperplaneUp$}
+\label{ch:concrete-instances-finite-supporting-hyperplane-namecert}
+\origin{human}
+
+Following Rockafellar and Bishop--Bridges, the $\FiniteSupportingHyperplaneUp$ packet records the finite-dimensional supporting-hyperplane data used by convex-analysis consumers before any separation principle is available. It sits beside the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map row of \autoref{ch:concrete-instances-linearmap-namecert}, and the scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite-dimensional rows; it does not claim Hahn--Banach, arbitrary Banach separation, selected minimizers, quotient dual spaces, ambient $\RealUp$ completeness, or choice.
+
+\begin{definition}[Finite supporting hyperplane packet]
+\label{def:finite-supporting-hyperplane-packet}
+A $\FiniteSupportingHyperplaneUp$ carrier is a finite $\BHist$ packet
+$$
+K=(V,C,p,\ell,\alpha,W,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite-dimensional $\VecSpaceUp$ row over the displayed $\RealUp$ scalar seal;
+\item $C$ is the $\ConvexSetUp$ row whose finite convex-combination operations are visible to the packet;
+\item $p$ is the boundary point row, recorded only as a point already admitted by the finite-dimensional carrier;
+\item $\ell$ is the $\LinearMapUp$ functional row;
+\item $\alpha$ is the displayed $\RealUp$ scalar level row;
+\item $W$ is the finite witness ledger saying that the inspected convex rows lie on one side of the displayed affine hyperplane and that $p$ lies on its boundary;
+\item $H$ records componentwise $\hsame$ transport for the vector, convex, point, functional, scalar, witness, replay, package, and naming rows;
+\item $R$ records displayed $\Cont$ replay routes by which downstream optimization or convexity consumers inspect the same finite rows;
+\item $P$ is the $\Pkg$ provenance over $\FiniteSupportingHyperplaneUp$, $\VecSpaceUp$, $\ConvexSetUp$, $\LinearMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteSupportingHyperplaneUp}$ row.
+\end{enumerate}
+The carrier is finite-dimensional by construction. It has no coordinate for Hahn--Banach, arbitrary Banach separation, selected minimizers, quotient dual equality, open-cover compactness, or choice-selected witnesses.
+\end{definition}
+
+\begin{theorem}[Finite supporting hyperplane NameCert obligations]
+\label{thm:finite-supporting-hyperplane-obligations}
+For every accepted $\FiniteSupportingHyperplaneUp$ carrier $K=(V,C,p,\ell,\alpha,W,H,R,P,N)$, the local $\NameCert_{\FiniteSupportingHyperplaneUp}$ surface consists exactly of finite-dimensional vector-space admission, convex-set admission, boundary-point display, linear-functional display, scalar-level display, one-sided witness ledger exactness, componentwise transport, displayed replay, package provenance, and local naming. The certificate exports no Hahn--Banach principle, arbitrary Banach separation theorem, selected minimizer, quotient dual-space equality, ambient $\RealUp$ completeness principle, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the packet rows. The finite-dimensional vector-space row $V$, convex row $C$, boundary-point row $p$, functional row $\ell$, scalar row $\alpha$, and witness row $W$ provide the entire supporting-hyperplane surface.
+
+Read the local certificate through the structural rows. The transport row $H$ preserves the displayed coordinates componentwise, the replay row $R$ exposes only the same finite route to consumers, and $P,N$ record provenance and the local name.
+
+Since no carrier coordinate stores Hahn--Banach separation, arbitrary Banach separation, selected minimizers, quotient dual equality, ambient $\RealUp$ completeness, or choice, the NameCert obligations cannot export any of those objects.
+\end{proof}
+
+\closureat{FiniteSupportingHyperplaneUp}{seedStr}
+\closureat{FiniteSupportingHyperplaneUp}{obligationStr}
+
+\begin{closurestatus}{\FiniteSupportingHyperplaneUp}
+  \constructivestory{A $\FiniteSupportingHyperplaneUp$ packet is generated from finite-dimensional vector-space data, a displayed convex-set row, a boundary point, a linear functional, a scalar level, a finite one-sided witness ledger, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-supporting-hyperplane-packet} and \autoref{thm:finite-supporting-hyperplane-obligations} specify the finite-dimensional carrier rows and local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim Hahn--Banach, arbitrary Banach separation, selected minimizers, quotient dual-space equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A checked closure requires Lean carrier admission, witness-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSupportingHyperplaneUp.}
+\end{closurestatus}

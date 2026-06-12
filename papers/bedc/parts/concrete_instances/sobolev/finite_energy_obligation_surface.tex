@@ -62,6 +62,21 @@ Use transport, replay, provenance, and naming to close the route. Since $H,C,P,N
 \end{proof}
 \leanchecked{BEDC.Derived.SobolevUp.SobolevCarrier\_root\_trace\_nonescape}
 
+\begin{theorem}[Sobolev finite-energy induction route]
+\label{thm:sobolev-finite-energy-induction-route}
+Let $S=(D,M,V,L,G,H,C,P,N)$ be an accepted $\SobolevUp$ finite-energy packet. Every accepted finite-energy consumer derived from $S$ is obtained by induction over the displayed rows $D,M,V,L,G,H,C,P,N$: the domain, base, and codomain rows $D,M,V$ are read first, the integral and weak-gradient rows $L,G$ are read next, and the structural rows $H,C,P,N$ then provide componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. The induction has no cases for distributional duals, Lebesgue completion, quotient function equality, selected representatives, compact embedding, or trace operators.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sobolev-bhist-carrier}. The projected row list is finite, ordered as $D,M,V,L,G,H,C,P,N$, and contains no host analytic coordinate beyond those displayed rows.
+
+Induct over that finite list. The initial segment reads the $\RealUp$ domain row, the metric or complete-metric base row, and the norm or Hilbert codomain row. The next segment reads the $\IntegralUp$ magnitude row and the $\DerivativeUp$ weak-gradient row.
+
+Use \autoref{thm:sobolev-finite-energy-namecert-obligation}, \autoref{thm:sobolev-root-norm-completion-ledger}, and \autoref{thm:sobolev-root-trace-nonescape} to close the consumer-facing cases. These theorems identify the finite-energy surface, keep norm and completion reads inside the same packet, and block trace-facing escape.
+
+Finally repack the induction result through $H,C,P,N$. Componentwise transport, replay, provenance, and local naming turn the row induction back into a $\NameCert_{\SobolevUp}$ obligation, while distributional duals, Lebesgue completion, quotient function equality, selected representatives, compact embedding, and trace operators remain absent rather than additional induction cases.
+\end{proof}
+\leanchecked{BEDC.Derived.SobolevUp.SobolevFiniteEnergyInductionRoute}
+
 \begin{theorem}[Sobolev test-function source]
 \label{thm:sobolev-test-function-source}
 Every accepted $\SobolevUp$ test-function read must expose the finite source route

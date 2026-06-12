@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LawlessSequenceUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -181,5 +183,17 @@ theorem LawlessSequenceTasteGate_single_carrier_alignment :
         intro x y heq
         exact lawlessSequenceToEventFlow_injective heq,
       rfl⟩
+
+theorem LawlessSequenceFiniteWindowScope (x : LawlessSequenceUp) :
+    ∃ W B I H C P N : BHist,
+      x = LawlessSequenceUp.mk W B I H C P N ∧ Cont BHist.Empty I I ∧
+        Cont BHist.Empty W W ∧ Cont BHist.Empty B B ∧ hsame H H ∧ hsame C C ∧
+          hsame P P ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk W B I H C P N =>
+      exact
+        ⟨W, B, I, H, C, P, N, rfl, cont_left_unit I, cont_left_unit W,
+          cont_left_unit B, hsame_refl H, hsame_refl C, hsame_refl P, hsame_refl N⟩
 
 end BEDC.Derived.LawlessSequenceUp

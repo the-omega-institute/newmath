@@ -55,13 +55,59 @@ The schedule and handoff rows are downstream. The row $S$ records the finite pre
 Finally $E,H,C,P,N$ close the route. The Real seal is reachable only after the regular handoff has been displayed, while the structural rows only transport, replay, source, and name the same finite data. Therefore no completed intersection, quotient stream equality, host real equality, countable choice, ambient completeness, Lean verification, or bridge-checking coordinate is present.
 \end{proof}
 
+\begin{theorem}[Nested dyadic Cauchy regularity-readback obligation]
+\label{thm:nested-dyadic-cauchy-obligation-regularity}
+For every accepted $\NestedDyadicCauchyUp$ carrier $K=(I,B,S,R,E,H,C,P,N)$, a $\RegSeqRatUp$ or $\RealUp$ consumer may read regularity only after it has displayed the $\StreamNameUp$ schedule row $S$, the $\RegSeqRatUp$ handoff row $R$, and the terminal $\RealUp$ seal row $E$. The readback route is exactly
+$$
+S\longmapsto R\longmapsto E
+$$
+together with $I,B,H,C,P,N$ as structural support; it exports no completed intersection, quotient stream equality, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The schedule row $S$ is the only source of endpoint or midpoint observations available to a regular rational consumer, so regularity cannot be read before the schedule is displayed.
+
+Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}. The handoff theorem forces every regular rational read through the finite interval prefix $I$, the shrinking-width budget $B$, the schedule $S$, and then the handoff row $R$.
+
+The Real-facing step is downstream. By \autoref{thm:nested-dyadic-cauchy-real-seal-boundary}, the seal row $E$ is opened only after $R$ has fixed the regular rational route.
+
+Tail compatibility is stable under \autoref{thm:nested-dyadic-cauchy-tail-gluing}: two compatible carriers share the displayed finite route before either seal is consumed. Thus the regularity-readback obligation is exactly the carrier projection through $S,R,E$ and the structural rows.
+\end{proof}
+
+\begin{theorem}[Nested dyadic Cauchy shrinking-width obligation]
+\label{thm:nested-dyadic-cauchy-obligation-width}
+For every accepted $\NestedDyadicCauchyUp$ carrier $K=(I,B,S,R,E,H,C,P,N)$, each Cauchy tolerance request is discharged by a row of the shrinking-width budget $B$ whose endpoint comparison is read through $\DyadicRatCoreUp$. No $\RegSeqRatUp$ handoff, $\RealUp$ seal, or completion-facing consumer may use the request until that dyadic width comparison and its prefix index have been displayed.
+\end{theorem}
+\begin{proof}
+The row $B$ is the only shrinking-width coordinate of the carrier. It assigns each displayed tolerance request to a prefix index and to the dyadic width comparison for the corresponding interval.
+
+The comparison is not external arithmetic. The endpoint rows of $I$ and the width comparison stored in $B$ are read through the $\DyadicRatCoreUp$ surface named in the carrier provenance, so the request is answered by displayed dyadic data.
+
+Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}. Since $R$ is formed only after $I,B,S$ are projected, the RegSeqRat handoff cannot consume a tolerance request without first opening the dyadic width row.
+
+The same restriction persists through \autoref{thm:nested-dyadic-cauchy-tail-gluing}. Common-tail gluing compares two requests by a shared dyadic budget row $B^*$ before any shared regular rational row is exported.
+\end{proof}
+
+\begin{theorem}[Nested dyadic Cauchy schedule-compatibility obligation]
+\label{thm:nested-dyadic-cauchy-obligation-schedule}
+For every accepted $\NestedDyadicCauchyUp$ carrier $K=(I,B,S,R,E,H,C,P,N)$, the $\StreamNameUp$ schedule row $S$ exposes exactly the finite interval-prefix entries and endpoint observations used by $B$ and $R$. Any consumer that reads $R$ or $E$ must therefore show the displayed schedule row first, and the structural rows $H,C,P,N$ may transport only that scheduled route.
+\end{theorem}
+\begin{proof}
+Project $S$ from the carrier. Its entries are the finite interval-prefix and endpoint observations that the packet permits downstream consumers to inspect.
+
+The budget row $B$ and the handoff row $R$ are compatible with that same row. A budget comparison may cite only a scheduled prefix entry, and the regular rational handoff may repack only scheduled endpoint or midpoint observations.
+
+Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}. The displayed route $I\mapsto B\mapsto S\mapsto R$ makes the schedule row a prerequisite for every RegSeqRat read.
+
+Finally use \autoref{thm:nested-dyadic-cauchy-tail-gluing}. When two carriers are glued, the common schedule $S^*$ restricts both reads before the shared handoff $R^*$ is formed. Hence $H,C,P,N$ can only transport, replay, source, and name the scheduled route already displayed.
+\end{proof}
+
 \begin{theorem}[Nested dyadic Cauchy RegSeqRat handoff]
 \label{thm:nested-dyadic-cauchy-regseqrat-handoff}
 Let $K=(I,B,S,R,E,H,C,P,N)$ be an accepted $\NestedDyadicCauchyUp$ carrier. Every $\RegSeqRatUp$ consumer of $K$ factors through the finite route
 $$
 I\longmapsto B\longmapsto S\longmapsto R\longmapsto H,C,P,N .
 $$
-The route reads a finite nested dyadic interval prefix, a shrinking-width budget, and the scheduled endpoint observations before it exports the regular rational Cauchy row.
+The route reads a finite nested dyadic interval prefix, a shrinking-width budget, and the scheduled endpoint observations before it exports the regular rational Cauchy row. Any $\BishopRegularCauchyCompletionUp$ consumer of the same packet must therefore read the route through $I,B,S,R$ before its completion-facing tail modulus, common-tail window, and terminal Real seal rows are available, as in \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}.
 \end{theorem}
 \begin{proof}
 Start with the displayed interval prefix $I$. Its rows give the only endpoint data available to a regular rational consumer, and the refinement relation keeps later prefix rows inside earlier rows.
@@ -71,6 +117,8 @@ Use the budget row $B$ to answer a displayed Cauchy tolerance request. The selec
 The schedule row $S$ then fixes which interval endpoints or midpoint observations are opened. The handoff row $R$ is obtained by reading those scheduled observations under the budget discipline and repacking them as the regular rational Cauchy surface.
 
 The rows $H,C,P,N$ transport, replay, source, and name that handoff. Since the carrier has no additional tail selector or quotient coordinate, every RegSeqRat read factors through the displayed route.
+
+Apply the Bishop regular Cauchy completion carrier route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. Its $E,S,R,D,W,H,C,P,N$ rows cannot be opened for this packet until the NestedDyadicCauchy handoff has supplied the finite interval prefix $I$, dyadic width budget $B$, StreamName schedule $S$, and RegSeqRat row $R$. Thus the completion consumer adds no quotient stream equality, selected limit, countable choice, host real equality, or ambient Real completeness beyond the displayed finite handoff.
 \end{proof}
 
 \begin{theorem}[Nested dyadic Cauchy tail gluing]
@@ -126,14 +174,14 @@ Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}. The regular rational
 The seal row $E$ packages that handoff as the terminal Real boundary. Because the carrier contains no separate coordinate for an intersection point, a quotient stream, host real equality, a choice-selected tail, or ambient completeness, those objects cannot be exported by the local NameCert surface.
 \end{proof}
 
-\closureat{NestedDyadicCauchyUp}{seedStr}
+\closureat{NestedDyadicCauchyUp}{obligationStr}
 
 \begin{closurestatus}{\NestedDyadicCauchyUp}
   \constructivestory{A $\NestedDyadicCauchyUp$ packet is generated from finite nested dyadic interval windows, a shrinking-width dyadic budget, a StreamName schedule, a RegSeqRat handoff, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:nested-dyadic-cauchy-carrier}, \autoref{thm:nested-dyadic-cauchy-namecert-obligations}, \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}, \autoref{thm:nested-dyadic-cauchy-tail-gluing}, and \autoref{thm:nested-dyadic-cauchy-real-seal-boundary} seed the finite nested dyadic Cauchy route from interval prefixes to RegSeqRat readback and the Real seal boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:nested-dyadic-cauchy-carrier}, \autoref{thm:nested-dyadic-cauchy-namecert-obligations}, \autoref{thm:nested-dyadic-cauchy-obligation-regularity}, \autoref{thm:nested-dyadic-cauchy-obligation-width}, \autoref{thm:nested-dyadic-cauchy-obligation-schedule}, \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}, \autoref{thm:nested-dyadic-cauchy-tail-gluing}, and \autoref{thm:nested-dyadic-cauchy-real-seal-boundary} close the finite nested dyadic Cauchy obligation surface from interval prefixes to RegSeqRat readback and the Real seal boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close completed intersections, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, nested-prefix exposure, dyadic-width exactness, schedule compatibility, RegSeqRat handoff, and Real seal nonescape for BEDC.Derived.NestedDyadicCauchyUp.}
+  \upgradepath{Scoped closure requires Lean-checked carrier admission, nested-prefix exposure, dyadic-width exactness, schedule compatibility, RegSeqRat handoff, and Real seal nonescape for BEDC.Derived.NestedDyadicCauchyUp.}
 \end{closurestatus}

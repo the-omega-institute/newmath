@@ -1,0 +1,94 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "aa653746c5af73f2332d90fb315eb8bc1a82f30fb4b22870e0cedddc9b4c5c81",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "scripts/experiment_stats.py",
+        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
+      },
+      {
+        "path": "scripts/run_gap_head_ablation.py",
+        "sha256": "1f6596caff5bb96a4ba18a43950f566f9dcf3bd709beb94a0f124eda8fc04fef"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:gap-head-ablation",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_gap_head_ablation.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_gap_head_ablation.py"
+      ],
+      "control_pointer": "$.control_protocol",
+      "cost_pointer": "$.control_protocol",
+      "estimated_seconds": 120,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/gap-head-ablation.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/gap-head-ablation.md",
+      "name": "gap-head-ablation",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.applicability_boundary.not_claimed",
+      "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
+      "required_json_keys": [
+        "generated_at",
+        "source_artifacts",
+        "applicability_boundary",
+        "control_protocol",
+        "config",
+        "records",
+        "aggregate",
+        "factor_attribution",
+        "hardgate",
+        "positive_discovery_pointer"
+      ],
+      "scope_pointer": "$.applicability_boundary"
+    }
+  },
+  "json_artifact": "reports/canonical/gap-head-ablation.json",
+  "markdown_artifact": "reports/canonical/gap-head-ablation.md",
+  "output_digest": "0863125b8fcd1f64efc273346c0a9f806f8074fe7c870aae649e44f5664fd529",
+  "producer_command": [
+    "python3",
+    "scripts/run_gap_head_ablation.py"
+  ],
+  "report_name": "gap-head-ablation",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

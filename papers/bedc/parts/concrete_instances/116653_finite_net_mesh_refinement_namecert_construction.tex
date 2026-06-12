@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteNetMeshRefinementUp$}
+\label{ch:concrete-instances-finite-net-mesh-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteNetMeshRefinementUp$ packet records the Heine--Cantor finite-net route from compact metric data to a tolerance-only uniform-modulus handoff. It realizes the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity} by exposing finite ProbeBundle nets, dyadic mesh refinements, compact metric source rows, rational radius ledgers, continuous-map pointwise modulus rows, and the terminal $\UniformModulusUp$ consumer surface. It sits with the compact metric certificate of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite epsilon-net carrier of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the uniform-modulus packet of \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+
+\begin{definition}[Finite-net mesh-refinement carrier]
+\label{def:finite-net-mesh-refinement-carrier}
+A $\FiniteNetMeshRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,B,G,D,Q,L,A,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, displaying the compact metric carrier and its finite-cover witness surface.
+\item $B$ is the finite $\ProbeBundle$ net row, displaying the centers used for the current tolerance request.
+\item $G$ is the dyadic mesh-refinement row, replacing a coarse net by a finer net through named dyadic radius data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the mesh comparison.
+\item $Q$ is the rational radius ledger, recording the finite lower-bound fold over the bundled radii.
+\item $L$ is the continuous-map pointwise modulus row attached to the bundled centers.
+\item $A$ is the compact-source admission row connecting the finite net to the source points it covers.
+\item $U$ is the $\UniformModulusUp$ handoff row produced after the mesh, radius, and pointwise-modulus rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for compact source, finite net, mesh refinement, dyadic tolerance, rational radius fold, pointwise modulus, compact admission, uniform-modulus handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+K,B,G,D,Q,L,A \longmapsto U \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteNetMeshRefinementUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteNetMeshRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,B,G,D,Q,L,A,U,H,C,P,N$. It has no coordinate for an external finite-subcover selector, a selected minimum radius, an ambient compactness oracle, or a global modulus function outside the displayed history rows.
+\end{definition}
+
+\begin{theorem}[Finite-net mesh-refinement NameCert obligations]
+\label{thm:finite-net-mesh-refinement-namecert-obligations}
+For every accepted $\FiniteNetMeshRefinementUp$ carrier $M=(K,B,G,D,Q,L,A,U,H,C,P,N)$, the local $\NameCert_{\FiniteNetMeshRefinementUp}$ surface consists exactly of compact metric source admission through $K$, finite ProbeBundle net exposure through $B$, dyadic mesh refinement through $G$, dyadic tolerance comparison through $D$, rational radius folding through $Q$, pointwise continuous-map modulus reading through $L$, compact-source admission through $A$, uniform-modulus handoff through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-net-mesh-refinement-carrier}. The displayed rows are exactly $K,B,G,D,Q,L,A,U,H,C,P,N$, so the compact source, finite net, mesh, radius, and pointwise-modulus data are visible before the uniform-modulus handoff can be consumed.
+
+The mesh row $G$ is finite because it is attached to the ProbeBundle row $B$ and compared by the dyadic ledger $D$. The rational fold row $Q$ is likewise internal to the displayed bundled radii, so no selected external minimum is introduced.
+
+The handoff row $U$ is downstream of the compact admission row $A$ and the pointwise modulus row $L$. Transport, replay, provenance, and local naming preserve this dependency order, which exhausts the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite-net mesh-refinement uniform-modulus handoff]
+\label{thm:finite-net-mesh-refinement-uniform-modulus-handoff}
+Every compact-uniform-continuity consumer of an accepted $\FiniteNetMeshRefinementUp$ packet factors its read through the finite route
+$$
+\CompactMetricUp,\FiniteEpsilonNetUp,\DyadicRatCoreUp
+\longmapsto \ContinuousMapUp
+\longmapsto \UniformModulusUp .
+$$
+The mesh-refinement packet may refine a finite net only by displaying a dyadic mesh row, the rational lower-bound ledger over bundled radii, and the pointwise modulus rows consumed by the final $\UniformModulusUp$ handoff.
+\end{theorem}
+\begin{proof}
+Start with the compact source row $K$ and the finite ProbeBundle net $B$. These rows are the concrete finite-net surface singled out by \autoref{ch:visions-compact-uniform-continuity}, and the consumer may inspect only the centers and coverage rows they display.
+
+Use finite induction over the mesh-refinement row $G$. The base case is the original finite net; the successor step replaces a bundled mesh cell by displayed dyadic subcells whose tolerance comparison is recorded in $D$.
+
+Fold the resulting radius data through $Q$. Because the fold is over the displayed ProbeBundle rows, it produces a history-level lower-bound ledger rather than an external radius selector.
+
+Finally read the pointwise modulus row $L$ at the bundled centers and pass through compact admission $A$ to the uniform-modulus handoff $U$. The structural rows $H,C,P,N$ replay and name the same finite route, so the packet exports no ambient compactness oracle, external finite-subcover choice, or global modulus function.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteNetMeshRefinementUp$ read displays a CompactMetric source row, a finite ProbeBundle net row, a dyadic mesh-refinement row, a DyadicRatCore tolerance ledger, a rational radius fold, pointwise continuous-map modulus rows, a UniformModulus handoff, and local transport, replay, provenance, and naming rows before compact-uniform-continuity consumers inspect it.}
+
+\independenceWitness{compactmetric, finiteepsilonnet, dyadicratcore, uniformmodulus: $\FiniteNetMeshRefinementUp$ is not bijective to any listed sibling because it binds finite net exposure, dyadic mesh refinement, rational radius folding, pointwise modulus reading, compact-source admission, uniform-modulus handoff, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted packet.}
+
+\closureat{FiniteNetMeshRefinementUp}{seedStr}
+
+\begin{closurestatus}{\FiniteNetMeshRefinementUp}
+  \constructivestory{A $\FiniteNetMeshRefinementUp$ packet is generated from CompactMetric source data, finite ProbeBundle net rows, dyadic mesh-refinement rows, DyadicRatCore tolerance ledgers, rational radius folds, pointwise continuous-map modulus rows, compact-source admission, a UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-net-mesh-refinement-carrier}, \autoref{thm:finite-net-mesh-refinement-namecert-obligations}, and \autoref{thm:finite-net-mesh-refinement-uniform-modulus-handoff} seed the finite mesh route from compact nets to tolerance-only uniform-modulus data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an external finite-subcover selector, a selected minimum radius, an ambient compactness oracle, a global modulus function, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact source admission, finite ProbeBundle net exposure, dyadic mesh refinement, radius folding, pointwise modulus reading, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteNetMeshRefinementUp.}
+\end{closurestatus}

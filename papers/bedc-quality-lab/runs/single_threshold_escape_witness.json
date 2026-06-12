@@ -1,0 +1,127 @@
+{
+  "artifact": "runs/single_threshold_escape_witness.json",
+  "bounded_policy_basis": null,
+  "canonical_role": "sidecar-not-in-CANONICAL_REPORTS",
+  "escape_semantics": "escaped positive is gate failure evidence, not discovery evidence",
+  "escaped_rows": [
+    {
+      "discovery_level": "DN",
+      "kind": "single_threshold_escape_witness",
+      "positive_signal": {
+        "ci95_low": 0.7996948122113381,
+        "comparison": "> 0.5",
+        "metric": "AUROC"
+      },
+      "reason": "escaped positive captured as gate failure evidence, not discovery evidence",
+      "source_pointer": "reports/canonical/gap-head-threshold-frontier.json:$.threshold_curve[0]",
+      "terminal_verdict": "positive-discovery"
+    }
+  ],
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgates": {
+    "HG-STEW-1": {
+      "failures": [],
+      "source_pointers": [
+        "reports/canonical/gap-head-threshold-frontier.json:$.threshold_curve",
+        "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.checks",
+        "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.policy"
+      ],
+      "status": "pass"
+    },
+    "HG-STEW-2": {
+      "criterion": "single_threshold_basis is exactly one checked threshold cell and the only positive basis",
+      "failures": [],
+      "status": "pass"
+    },
+    "HG-STEW-3": {
+      "criterion": "positive-discovery or D4/D5 is captured as gate failure evidence",
+      "projection": {
+        "discovery_level": "DN",
+        "discovery_reasons": [
+          "classifier_shift=false",
+          "net_positive_signal=false",
+          "control_negative=false",
+          "scorecard_ready=false",
+          "audit_pass=false"
+        ],
+        "escaped": true,
+        "escaped_positive_is_discovery_evidence": false,
+        "status": "escaped-positive-captured",
+        "terminal_verdict": "positive-discovery"
+      },
+      "status": "pass"
+    },
+    "HG-STEW-5": {
+      "failures": [],
+      "source_pointers": [
+        "reports/canonical/gap-head-threshold-frontier.json:$.threshold_summary.control_baseline",
+        "reports/canonical/gap-head-threshold-frontier.json:$.applicability_boundary.not_claimed"
+      ],
+      "status": "pass"
+    },
+    "HG-STEW-6": {
+      "criterion": "single-threshold evidence is never promoted as discovery by this sidecar",
+      "promotion": "none",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "No global quality claim.",
+    "No full LeJEPA claim.",
+    "No full Tensor NameCert claim.",
+    "No LLM behavior claim.",
+    "No inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels."
+  ],
+  "projection": {
+    "discovery_level": "DN",
+    "discovery_reasons": [
+      "classifier_shift=false",
+      "net_positive_signal=false",
+      "control_negative=false",
+      "scorecard_ready=false",
+      "audit_pass=false"
+    ],
+    "escaped": true,
+    "escaped_positive_is_discovery_evidence": false,
+    "status": "escaped-positive-captured",
+    "terminal_verdict": "positive-discovery"
+  },
+  "report": "runs/single_threshold_escape_witness.md",
+  "revoke_conditions": [
+    "threshold policy changes so single-threshold readiness is unavailable or actively covered",
+    "control baseline pointer is missing",
+    "forbidden claim term or score field appears in claim-bearing fields"
+  ],
+  "schema_id": "bedc-quality-lab:single-threshold-escape-witness-sidecar",
+  "sidecar_not_claimed": [
+    "No threshold tuning claim.",
+    "No D5 claim.",
+    "No canonical discovery-map promotion.",
+    "No model-quality solution claim."
+  ],
+  "single_threshold_basis": [
+    {
+      "positive_rule": "AUROC.ci95_low > 0.5",
+      "positive_signal": {
+        "ci95_low": 0.7996948122113381,
+        "comparison": "> 0.5",
+        "metric": "AUROC"
+      },
+      "source_pointer": "reports/canonical/gap-head-threshold-frontier.json:$.threshold_curve[0]",
+      "threshold": 0.05
+    }
+  ],
+  "source_artifacts": {
+    "claim_terms": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+    "projector": "bedc_quality_lab.research_discovery.assign_discovery_level",
+    "threshold_frontier": "reports/canonical/gap-head-threshold-frontier.json"
+  },
+  "source_pointers": {
+    "control_baseline": "reports/canonical/gap-head-threshold-frontier.json:$.threshold_summary.control_baseline",
+    "hardgate_checks": "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.checks",
+    "hardgate_policy": "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.policy",
+    "not_claimed": "reports/canonical/gap-head-threshold-frontier.json:$.applicability_boundary.not_claimed",
+    "threshold_curve": "reports/canonical/gap-head-threshold-frontier.json:$.threshold_curve"
+  },
+  "status": "escaped-positive-captured"
+}

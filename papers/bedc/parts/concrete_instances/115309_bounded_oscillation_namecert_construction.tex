@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\BoundedOscillationUp$}
+\label{ch:concrete-instances-bounded-oscillation-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\BoundedOscillationUp$ packet records a finite dyadic oscillation ledger over displayed $\RealUp$ windows. It sits between the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite Darboux-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, and the bounded-variation function route of \autoref{ch:concrete-instances-bounded-variation-real-function-namecert}. The packet names only the finite ledger by which Darboux-facing consumers receive an oscillation bound; it does not claim host function equality, selected suprema, measure completion, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bounded oscillation carrier]
+\label{def:bounded-oscillation-carrier}
+A $\BoundedOscillationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(I,W,R,D,L,B,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ window row naming the displayed interval or cell on which the oscillation ledger is read.
+\item $W$ is the finite $\StreamNameUp$ observation window for endpoint and sample reads inside $I$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the observations in $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested oscillation radius, slack, and comparison budget.
+\item $L$ is the finite dyadic oscillation ledger, pairing the sampled upper and lower readbacks with the tolerance row $D$.
+\item $B$ is the displayed boundedness row asserting that the ledger oscillation is below the carried $\RealUp$ bound.
+\item $S$ is the $\DarbouxSumUp$ handoff row through which lower and upper sum consumers read the same bounded ledger.
+\item $H$ records componentwise $\hsame$ transport for $I,W,R,D,L,B,S$ and for the continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Darboux-facing oscillation request through the window, readback, tolerance, ledger, bound, and sum-handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\BoundedOscillationUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\DarbouxSumUp$, $\BoundedVariationRealFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedOscillationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host function equality, selected suprema, measure completion, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BoundedOscillationUp.TasteGate.BoundedOscillationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bounded oscillation NameCert obligations]
+\label{thm:bounded-oscillation-namecert-obligations}
+For every accepted $\BoundedOscillationUp$ carrier $O=(I,W,R,D,L,B,S,H,C,P,N)$, the local $\NameCert_{\BoundedOscillationUp}$ surface consists exactly of carrier admission for the displayed real window, finite stream observations, regular rational readback, dyadic tolerance row, finite oscillation ledger, boundedness row, Darboux-sum handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedOscillationUp.TasteGate.BoundedOscillationNamecertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-oscillation-carrier}. The analytic rows are $I,W,R,D,L,B,S$, and the structural rows are $H,C,P,N$.
+
+The window and observation obligations are finite. The row $I$ displays the Real window, $W$ opens only the finite inspected observations, and $R$ supplies the corresponding regular rational readback.
+
+The tolerance and bound obligations are also finite. The dyadic row $D$ fixes the comparison budget, the ledger $L$ records the upper and lower oscillation readbacks against that budget, and $B$ records the displayed bound before any Darboux consumer can use the packet.
+
+Finally the Darboux handoff $S$ exposes the same bounded ledger to lower and upper sum consumers, while $H,C,P,N$ transport, replay, source, and name the packet. Since no other coordinate exists, the listed rows exhaust the local NameCert surface and exclude host equality, selected suprema, measure completion, choice, quotient equality, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bounded oscillation Darboux handoff]
+\label{thm:bounded-oscillation-darboux-handoff}
+Every $\DarbouxSumUp$ or $\BoundedVariationRealFunctionUp$ consumer of an accepted $\BoundedOscillationUp$ packet reads the finite route
+$$
+\RealUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ L,\ B \longrightarrow \DarbouxSumUp .
+$$
+The consumer therefore receives a displayed Real window, finite observations, regular rational readback, dyadic tolerance budget, finite oscillation ledger, and boundedness row before the Darboux handoff is visible. It receives no host function equality, selected supremum, measure completion, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from an admitted consumer read. By \autoref{def:bounded-oscillation-carrier}, the Darboux row $S$ is downstream of the Real window $I$, finite observations $W$, readback $R$, dyadic tolerance row $D$, oscillation ledger $L$, and bound row $B$.
+
+Apply \autoref{thm:bounded-oscillation-namecert-obligations}. It requires the same rows as the local NameCert surface, so a Darboux or bounded-variation consumer cannot read the handoff without exposing the finite oscillation ledger and its bound.
+
+The structural rows $H,C,P,N$ preserve that route componentwise. They do not add analytic coordinates, and the carrier has no row for host function equality, selected suprema, measure completion, countable choice, quotient stream equality, or ambient completeness.
+
+Thus the packet supplies exactly the finite Darboux-facing oscillation ledger stated in the theorem, and no excluded principle can be projected from it.
+\end{proof}
+
+\begin{theorem}[BoundedVariation oscillation partition route]
+\label{thm:bounded-variation-oscillation-partition-route}
+Every $\BoundedVariationRealFunctionUp$ consumer that reads an oscillation partition through $\BoundedOscillationUp$ must first expose the same $\RealUp$ window, finite $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance budget, finite oscillation ledger, boundedness row, and $\DarbouxSumUp$ handoff carried by \autoref{def:bounded-oscillation-carrier}. The partition route is therefore a Darboux-facing finite ledger over displayed rows; it exports no host function equality, selected suprema, variation measure, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-oscillation-carrier}. The partition-facing data are already ordered as the Real window $I$, finite observations $W$, regular readback $R$, dyadic tolerance row $D$, oscillation ledger $L$, boundedness row $B$, and Darboux handoff $S$.
+
+Apply \autoref{thm:bounded-oscillation-namecert-obligations}. It makes those rows the complete local NameCert surface before any bounded-variation consumer can inspect the packet.
+
+Now apply \autoref{thm:bounded-oscillation-darboux-handoff}. The Darboux row $S$ is downstream of the same window, observation, readback, tolerance, ledger, and bound rows, so an oscillation partition read by $\BoundedVariationRealFunctionUp$ cannot bypass the finite Darboux route.
+
+The carrier has no coordinate for host function equality, selected suprema, variation measure, countable choice, quotient stream equality, or ambient completeness. Those principles therefore cannot be projected from the bounded-variation oscillation partition route.
+\end{proof}
+
+\closureat{BoundedOscillationUp}{seedStr}
+
+\begin{closurestatus}{\BoundedOscillationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-oscillation-carrier}, \autoref{thm:bounded-oscillation-namecert-obligations}, and \autoref{thm:bounded-oscillation-darboux-handoff} seed the finite dyadic oscillation ledger over Real windows for DarbouxSum and bounded-variation consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected suprema, measure completion, countable choice, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window readback, dyadic tolerance exactness, oscillation-ledger confinement, boundedness-row nonescape, Darboux handoff, and TasteGate field faithfulness for BEDC.Derived.BoundedOscillationUp.}
+  \constructivestory{A $\BoundedOscillationUp$ packet is generated from a RealUp window row, StreamName observations, RegSeqRat readback, DyadicRatCore tolerance budget, finite oscillation ledger, displayed boundedness row, DarbouxSum handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

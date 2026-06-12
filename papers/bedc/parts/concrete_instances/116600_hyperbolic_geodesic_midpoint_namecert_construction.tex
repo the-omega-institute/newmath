@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicGeodesicMidpointUp$}
+\label{ch:concrete-instances-hyperbolic-geodesic-midpoint-namecert}
+\origin{ai}
+
+The $\HyperbolicGeodesicMidpointUp$ packet realizes the Poincare disk midpoint route of \autoref{sec:hyperbolic-poincare-disk} as finite metric, boundary, phase-transport, provenance, and NameCert rows. It sits after the metric readback of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the boundary-geodesic surface of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, the disk automorphism carrier of \autoref{ch:concrete-instances-poincare-disk-automorphism-namecert}, the visual-boundary packet of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, and the reversible phase-transport route of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}. The packet names only a displayed finite midpoint certificate; it does not complete the disk, quotient ideal endpoints, select a global geodesic representative, or import host equality of hyperbolic points.
+
+\begin{definition}[Hyperbolic geodesic midpoint carrier]
+\label{def:hyperbolic-geodesic-midpoint-carrier}
+A $\HyperbolicGeodesicMidpointUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,G,B,A,V,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the Poincare disk coordinate row for the two displayed endpoints and the candidate midpoint.
+\item $G$ is the $\HyperbolicMetricUp$ readback row comparing the two endpoint-to-midpoint distances.
+\item $B$ is the $\HyperbolicGeodesicBoundaryUp$ row naming the boundary-determined geodesic route on which the midpoint is read.
+\item $A$ is the $\PoincareDiskAutomorphismUp$ normalization row used to move the finite geodesic read to a standard disk position and back.
+\item $V$ is the $\HyperbolicVisualBoundaryUp$ readback row for the same boundary pair.
+\item $T$ is the $\PoincareDiskPhaseTransportUp$ row carrying the midpoint read through reversible phase transport.
+\item $E$ is the midpoint exactness row, recording equal displayed metric halves and the boundary-geodesic incidence check.
+\item $H$ records componentwise $\hsame$ transport for the disk, metric, boundary, automorphism, visual-boundary, phase-transport, exactness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from endpoint data through midpoint exactness to metric, boundary, automorphism, and phase-transport consumers.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicGeodesicMidpointUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, $\PoincareDiskAutomorphismUp$, $\HyperbolicVisualBoundaryUp$, $\PoincareDiskPhaseTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicGeodesicMidpointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,G,B,A,V,T,E,H,C,P,N$. It has no coordinate for a completed hyperbolic plane, quotient ideal boundary, selected global geodesic object, physical observer law, or host point equality.
+\end{definition}
+
+\begin{theorem}[Hyperbolic geodesic midpoint NameCert obligations]
+\label{thm:hyperbolic-geodesic-midpoint-namecert-obligations}
+For every accepted $\HyperbolicGeodesicMidpointUp$ carrier $M=(D,G,B,A,V,T,E,H,C,P,N)$, the local $\NameCert_{\HyperbolicGeodesicMidpointUp}$ surface consists exactly of carrier admission, disk-coordinate exposure, metric midpoint readback, boundary-geodesic incidence, automorphism normalization, visual-boundary readback, phase-transport replay, midpoint exactness, componentwise transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-geodesic-midpoint-carrier}. The disk endpoints and candidate midpoint are displayed by $D$, while the metric, boundary, automorphism, visual-boundary, and phase rows are displayed by $G,B,A,V,T$.
+
+The exactness row $E$ records the finite midpoint check: the candidate lies on the displayed boundary-geodesic route and the two metric halves agree inside the recorded readback. Transport through $H$ is componentwise, so it preserves exactly those rows.
+
+Consumers can inspect the midpoint only through $C,P,N$. These rows replay and name the same finite packet, and therefore cannot export a completed hyperbolic plane, quotient boundary, selected global geodesic, or host point equality.
+\end{proof}
+
+\begin{theorem}[Hyperbolic geodesic midpoint boundary handoff]
+\label{thm:hyperbolic-geodesic-midpoint-boundary-handoff}
+Every boundary, visual, automorphism, phase-transport, or observer-expansion consumer of an accepted $\HyperbolicGeodesicMidpointUp$ packet must first read the finite rows
+$$
+D,G,B,A,V,T,E,H,C,P,N.
+$$
+In particular, the midpoint row is exported only as the displayed point that lies on the named boundary-geodesic route, has equal displayed $\HyperbolicMetricUp$ distance halves, and is transported through the same $\PoincareDiskPhaseTransportUp$ provenance.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer be given. Carrier projection gives the disk-coordinate row $D$, the metric row $G$, the boundary row $B$, the automorphism row $A$, the visual-boundary row $V$, and the phase-transport row $T$.
+
+The consumer then reads the midpoint exactness through $E$. This row binds the incidence and equal-half metric checks to the same displayed endpoint pair and candidate midpoint.
+
+Finally the handoff passes through $H,C,P,N$. These structural rows transport, replay, record provenance, and name the packet without adding a completed disk, quotient ideal endpoints, a selected global geodesic, or host point equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicGeodesicMidpointUp$ packet exposes disk-coordinate, hyperbolic-metric, geodesic-boundary, Poincare-disk-automorphism, visual-boundary, phase-transport, exactness, transport, replay, provenance, and NameCert rows before any midpoint consumer reads it.}
+
+\independenceWitness{hyperbolic-metric, hyperbolic-geodesic-boundary, poincare-disk-automorphism, hyperbolic-visual-boundary, poincare-disk-phase-transport: $\HyperbolicGeodesicMidpointUp$ is not bijective to any listed sibling because it jointly binds a displayed endpoint pair, candidate midpoint, metric equal-half readback, boundary-geodesic incidence, automorphism normalization, visual-boundary readback, phase transport, exactness, transport, replay, provenance, and local naming in one packet.}
+
+Lean follow-up requires $\mathsf{Nontrivial}$ $\HyperbolicGeodesicMidpointUp$ and $\mathsf{FieldFaithful}$ $\HyperbolicGeodesicMidpointUp$ witnesses in the corresponding TasteGate surface.
+
+\closureat{HyperbolicGeodesicMidpointUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicGeodesicMidpointUp}
+  \constructivestory{A $\HyperbolicGeodesicMidpointUp$ packet is generated from disk-coordinate, hyperbolic-metric, geodesic-boundary, automorphism, visual-boundary, phase-transport, midpoint-exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-geodesic-midpoint-carrier}, \autoref{thm:hyperbolic-geodesic-midpoint-namecert-obligations}, \autoref{thm:hyperbolic-geodesic-midpoint-boundary-handoff}, the falsifiable prediction, and the independence witness seed the finite Poincare-disk geodesic midpoint surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a completed hyperbolic plane, quotient ideal boundary, selected global geodesic representatives, host point equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric midpoint readback, boundary-geodesic incidence, automorphism normalization, visual-boundary readback, phase-transport replay, nontrivial and field-faithful TasteGate instances, and consumer non-escape for BEDC.Derived.HyperbolicGeodesicMidpointUp.}
+\end{closurestatus}

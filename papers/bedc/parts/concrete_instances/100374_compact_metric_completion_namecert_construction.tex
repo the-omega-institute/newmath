@@ -48,6 +48,7 @@ The compact export reads \autoref{ch:concrete-instances-compact-namecert} as a d
 
 Transport and replay stability are precisely the roles of $H$ and $C$. The provenance and naming rows $P,N$ name only this packet, so the excluded principles have no carrier coordinate, replay edge, or ledger row from which to escape.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactMetricCompletionUp.CompactMetricCompletionCarrier\_namecert\_obligations}
 
 \begin{theorem}[Compact metric completion finite-net seal]\label{thm:compact-metric-completion-finite-net-seal}
 Let $M=(T,U,B,K,E,H,C,P,N)$ be an accepted $\CompactMetricCompletionUp$ carrier. Every $\CompactUp$ read exported by $M$ factors through the finite-net completion route
@@ -65,6 +66,7 @@ The second part of the route is fixed by \autoref{ch:concrete-instances-complete
 
 Finally, \autoref{ch:concrete-instances-compact-namecert} is reached only at $K$. The rows $H,C,P,N$ preserve and name the same dependency order, so every exported compact read factors through the displayed finite-net completion route.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactMetricCompletionUp.CompactMetricCompletionFiniteNetSeal}
 
 \begin{theorem}[Compact metric completion uniform-modulus seal]
 \label{thm:compact-metric-completion-uniform-modulus-seal}
@@ -76,6 +78,24 @@ Begin with an accepted $\CompactMetricCompletionUp$ carrier. By \autoref{thm:com
 Now let the downstream consumer be a $\UniformModulusUp$ or $\CompactModulusRealizerUp$ packet. The compact-uniform finite fold surface of \autoref{thm:compact-uniform-finite-minimum-certificate} needs compact finite-net data before it can fold pointwise radii into a uniform precision.
 
 The only compact finite-net data exposed by the completion packet are the displayed $\TotallyBoundedUp$ ledger $B$, the $\TotallyBoundedCompletionUp$ route $T$, the $\CompleteUniformSpaceUp$ row $U$, the $\RealUp$ seal $E$, and the $\CompactUp$ export $K$. Therefore any uniform-modulus consumer must read those rows first, and it cannot replace them by open-cover compactness, quotient completion, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Compact metric completion Lebesgue-number consumer route]
+\label{thm:compact-metric-completion-lebesgue-number-consumer-route}
+Every Lebesgue-number, finite-cover, or cover-radius consumer of an accepted $\CompactMetricCompletionUp$ packet must first read the $\TotallyBoundedUp$ finite-net rows, the $\CompleteUniformSpaceUp$ convergence rows, the $\RealUp$ sealing row, and the $\CompactUp$ export row. In the notation of \autoref{def:compact-metric-completion-carrier}, the route is
+$$
+B \longmapsto T \longmapsto U \longmapsto E \longmapsto K \longmapsto H,C,P,N .
+$$
+Thus cover-radius data are available only as a finite-net completion read, not as primitive open-cover compactness, quotient completion, selected limits, or countable choice.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $M=(T,U,B,K,E,H,C,P,N)$. By \autoref{thm:compact-metric-completion-finite-net-seal}, every compact-facing read already factors through the finite-net ledger $B$, the completion route $T$, the complete-uniform row $U$, the Real seal $E$, and the compact export $K$.
+
+A Lebesgue-number or finite-cover consumer is a compact-facing read with a radius request. The only radius source exposed by the packet is the tolerance-indexed $\TotallyBoundedUp$ finite-net ledger $B$, and the only convergence source that validates the completed metric read is the $\CompleteUniformSpaceUp$ row $U$.
+
+Apply \autoref{thm:compact-metric-completion-uniform-modulus-seal}. It keeps downstream modulus consumers behind the same $B,T,U,E,K$ route, so a cover-radius read cannot bypass the Real seal or detach itself from the CompactUp export row.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this route. Since the carrier has no coordinate for open-cover compactness, quotient completions, selected limits, or countable choice, the finite-net route is the entire public consumer surface.
 \end{proof}
 
 \falsifiablePrediction{Every $\CompactMetricCompletionUp$ compact read factors through a TotallyBounded finite-net ledger, a TotallyBoundedCompletion route, a CompleteUniformSpace convergence row, a RealUp seal, CompactUp export, transport, replay, provenance, and local naming.}

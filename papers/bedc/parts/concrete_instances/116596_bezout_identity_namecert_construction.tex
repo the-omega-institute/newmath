@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\BezoutIdentityUp$}
+\label{ch:concrete-instances-bezout-identity-namecert}
+\origin{human}
+
+Following Bezout and Euclid, the $\BezoutIdentityUp$ packet records the finite arithmetic surface in which a displayed common divisor is reached by backtracking through a Euclidean trace. It sits over the natural-number rows of \autoref{ch:concrete-instances-nat-namecert}, the signed coefficient rows of \autoref{ch:concrete-instances-int-namecert}, and the multiplication-witness divisibility ledger of \autoref{ch:concrete-instances-divisibility-namecert}. The packet names only the displayed trace, coefficient ledger, divisor boundary, history transport, continuation replay, package provenance, and local certificate row; it does not select a unique gcd normalization, host integer equality, quotient ideals, classical Euclidean-domain generality, or an algorithm outside the finite trace shown by the carrier.
+
+\begin{definition}[Bezout identity carrier]
+\label{def:bezout-identity-carrier}
+A $\BezoutIdentityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(g,a,b,x,y,e,d,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $g,a,b$ are accepted arithmetic rows naming the displayed common divisor and the two input rows, with $a$ and $b$ read through $\NatUp$ or through the signed readback supplied by $\IntUp$ when coefficients are consumed.
+\item $x$ and $y$ are accepted $\IntUp$ coefficient rows.
+\item $e$ is the finite Euclidean backtracking trace, listing the displayed remainder steps and the coefficient substitutions used by the trace.
+\item $d$ is the divisibility boundary row, recording displayed witnesses that $g$ divides $a$ and $g$ divides $b$ through the $\DivisibilityUp$ multiplication-witness surface.
+\item $h$ records componentwise $\hsame$ transport for the input rows, coefficient rows, trace row, divisibility boundary, continuation, provenance, and local naming rows.
+\item $c$ stores the $\Cont$ replay route that reads the trace as the displayed identity surface $x\cdot a+y\cdot b=g$ together with the divisor boundary.
+\item $p$ is the $\Pkg$ provenance over $\BezoutIdentityUp$, $\NatUp$, $\IntUp$, $\DivisibilityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $n$ is the local $\NameCert_{\BezoutIdentityUp}$ row.
+\end{enumerate}
+The carrier exports no row for unique gcd normalization, host integer equality, quotient ideals, an ambient Euclidean domain, or a selected algorithm beyond the finite Euclidean trace $e$.
+\end{definition}
+
+\begin{theorem}[BezoutIdentity NameCert obligations]
+\label{thm:bezout-identity-namecert-obligations}
+For every accepted $\BezoutIdentityUp$ carrier
+$$
+B=(g,a,b,x,y,e,d,h,c,p,n),
+$$
+the local $\NameCert_{\BezoutIdentityUp}$ surface consists exactly of carrier admission for $B$, input admission for $g,a,b$, integer-coefficient admission for $x,y$, Euclidean-trace exposure through $e$, divisibility-boundary exposure through $d$, componentwise $\hsame$ stability through $h$, $\Cont$ replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bezout-identity-carrier}. The rows $g,a,b$ name the divisor and inputs, while $x,y$ name the signed coefficient rows supplied by the integer certificate.
+
+The trace row $e$ is the only place where Euclidean backtracking is stored. Its displayed substitutions are replayed by $c$ as the identity surface $x\cdot a+y\cdot b=g$.
+
+The divisor boundary row $d$ is read through \autoref{ch:concrete-instances-divisibility-namecert}. It supplies multiplication-witness divisibility of $a$ and $b$ by $g$, not a quotient ideal or a host gcd predicate.
+
+Finally, the rows $h,p,n$ transport, source, and name the same finite packet. Since the carrier has no coordinate for unique normalization, host integer equality, classical Euclidean-domain generality, or an algorithm selector outside $e$, none of those objects belongs to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bezout Euclidean backtracking]
+\label{thm:bezout-identity-euclidean-backtrack}
+Every downstream consumer of an accepted $\BezoutIdentityUp$ carrier that reads a displayed identity $x\cdot a+y\cdot b=g$ must factor through the finite route
+$$
+e,d \longmapsto h,c,p,n .
+$$
+The Euclidean trace $e$ supplies the only backtracking substitutions, and the continuation row $c$ is the only route by which those substitutions are read as a signed $\IntUp$ coefficient identity over the input rows.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $B=(g,a,b,x,y,e,d,h,c,p,n)$. The rows $x$ and $y$ are integer coefficient rows, while $a$ and $b$ are the input rows cited by the trace.
+
+The Euclidean trace $e$ lists the finite remainder and substitution steps. Reading the displayed identity requires replaying those steps through $c$, so the consumer cannot replace the trace by a host-level algorithm or by an untracked extended-gcd routine.
+
+The rows $h,p,n$ then preserve, source, and name the same trace route. Any selected algorithm outside $e$ would require an additional coordinate, and \autoref{def:bezout-identity-carrier} has none.
+\end{proof}
+
+\begin{theorem}[Bezout gcd-divisibility boundary]
+\label{thm:bezout-identity-gcd-divisibility-boundary}
+For every accepted $\BezoutIdentityUp$ carrier $B=(g,a,b,x,y,e,d,h,c,p,n)$, the common-divisor information exported by the packet is exactly the displayed $\DivisibilityUp$ boundary row $d$ together with the Euclidean trace $e$. The packet may be consumed as a Bezout witness for the named divisor row $g$, but it does not identify $g$ with a uniquely normalized gcd, does not quotient integer rows by host equality, does not build a quotient ideal, and does not assert Euclidean-domain generality beyond the displayed finite trace.
+\end{theorem}
+\begin{proof}
+Read $d$ through the divisibility carrier of \autoref{ch:concrete-instances-divisibility-namecert}. It exposes multiplication witnesses for the two divisor claims involving $g,a,b$.
+
+Read $e$ through the backtracking theorem \autoref{thm:bezout-identity-euclidean-backtrack}. This supplies the displayed coefficient identity over the same input rows and coefficient rows.
+
+Together these two rows give the Bezout witness surface: a named divisor row, displayed divisibility of both inputs, and a finite signed coefficient identity. The carrier contains no row for least positive representative, associate-class normalization, quotient ideals, or ambient Euclidean-domain law, so the gcd boundary remains exactly the displayed divisibility boundary.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\BezoutIdentityUp$ certificate while omitting the Euclidean trace row, the divisibility boundary row, integer coefficient rows, $\hsame$, $\Cont$, $\Pkg$, or the local $\NameCert$ row refutes the carrier of \autoref{def:bezout-identity-carrier}.}
+
+\independenceWitness{nat, int, divisibility: $\BezoutIdentityUp$ is not bijective to any listed sibling because it jointly carries a Euclidean backtracking trace, signed coefficient rows, and a divisibility boundary. NatUp supplies unsigned arithmetic rows; IntUp supplies signed coefficient rows without a Euclidean trace; DivisibilityUp supplies multiplication-witness divisor rows without the coefficient identity route.}
+
+\closureat{BezoutIdentityUp}{seedStr}
+\closureat{BezoutIdentityUp}{obligationStr}
+
+\begin{closurestatus}{\BezoutIdentityUp}
+  \constructivestory{A $\BezoutIdentityUp$ packet is generated from displayed input rows, signed coefficient rows, a finite Euclidean backtracking trace, a divisibility boundary, componentwise hsame transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bezout-identity-carrier}, \autoref{thm:bezout-identity-namecert-obligations}, \autoref{thm:bezout-identity-euclidean-backtrack}, and \autoref{thm:bezout-identity-gcd-divisibility-boundary} form the obligation surface for finite Bezout backtracking over NatUp, IntUp, and DivisibilityUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unique gcd normalization, host integer equality, quotient ideals, classical Euclidean-domain generality, Lean verification, bridge checking, or a selected algorithm outside the displayed finite trace.}
+  \upgradepath{Scoped closure requires a consumer certificate showing that later dyadic, rational, modular, and divisibility readers factor through the displayed Euclidean trace and divisor boundary.}
+\end{closurestatus}

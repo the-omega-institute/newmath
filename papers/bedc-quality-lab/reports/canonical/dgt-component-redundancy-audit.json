@@ -1,0 +1,473 @@
+{
+  "component_redundancy_audit": {
+    "artifact_id": "bedc-quality-lab:dgt-component-redundancy-audit",
+    "audit_status": "pass",
+    "components": [
+      {
+        "arm_id": "DGT_without_LAT",
+        "component_id": "LAT",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation",
+            "underpowered"
+          ],
+          "classification": "mixed",
+          "component_index": 0,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": true,
+          "high": 0.001666,
+          "low": -9.9e-05
+        },
+        "quality_delta": 0.000783,
+        "quality_delta_abs": 0.000783,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[0]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "inconclusive",
+        "verdict_reason_codes": [
+          "evidence-band-does-not-separate"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_CGA",
+        "component_id": "CGA",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [],
+          "classification": "mixed",
+          "component_index": 1,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": 0.002681,
+          "low": 0.000959
+        },
+        "quality_delta": 0.00182,
+        "quality_delta_abs": 0.00182,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[1]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_DRT",
+        "component_id": "DRT",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation"
+          ],
+          "classification": "saturation",
+          "component_index": 2,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": 0.001976,
+          "low": 0.000446
+        },
+        "quality_delta": 0.001211,
+        "quality_delta_abs": 0.001211,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[2]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_gap_head",
+        "component_id": "gap_head",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation"
+          ],
+          "classification": "saturation",
+          "component_index": 3,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": 0.002438,
+          "low": 0.000194
+        },
+        "quality_delta": 0.001316,
+        "quality_delta_abs": 0.001316,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[3]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_ledger_head",
+        "component_id": "ledger_head",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [],
+          "classification": "mixed",
+          "component_index": 4,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": 0.003133,
+          "low": 0.000233
+        },
+        "quality_delta": 0.001683,
+        "quality_delta_abs": 0.001683,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[4]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_route_certificate",
+        "component_id": "route_certificate",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation",
+            "redundancy"
+          ],
+          "classification": "mixed",
+          "component_index": 5,
+          "redundancy_signal": true
+        },
+        "quality_ci": {
+          "crosses_zero": true,
+          "high": 0.000521,
+          "low": -0.000844
+        },
+        "quality_delta": -0.000162,
+        "quality_delta_abs": 0.000162,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[5]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q"
+        },
+        "suspect_component": true,
+        "verdict": "confirmed-redundant",
+        "verdict_reason_codes": [
+          "near-zero-delta-with-null-redundancy-signal"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_mechanism_probe",
+        "component_id": "mechanism_probe",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation",
+            "redundancy"
+          ],
+          "classification": "mixed",
+          "component_index": 6,
+          "redundancy_signal": true
+        },
+        "quality_ci": {
+          "crosses_zero": true,
+          "high": 0.000984,
+          "low": -0.000558
+        },
+        "quality_delta": 0.000213,
+        "quality_delta_abs": 0.000213,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[6]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.quality_q"
+        },
+        "suspect_component": true,
+        "verdict": "confirmed-redundant",
+        "verdict_reason_codes": [
+          "near-zero-delta-with-null-redundancy-signal"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_jet_loss",
+        "component_id": "jet_loss",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation"
+          ],
+          "classification": "saturation",
+          "component_index": 7,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": -0.000856,
+          "low": -0.000998
+        },
+        "quality_delta": -0.000927,
+        "quality_delta_abs": 0.000927,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[7]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_negative_witness_loss",
+        "component_id": "negative_witness_loss",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation",
+            "redundancy"
+          ],
+          "classification": "mixed",
+          "component_index": 8,
+          "redundancy_signal": true
+        },
+        "quality_ci": {
+          "crosses_zero": true,
+          "high": 9e-05,
+          "low": -2e-06
+        },
+        "quality_delta": 4.4e-05,
+        "quality_delta_abs": 4.4e-05,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[8]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.metrics.quality_q"
+        },
+        "suspect_component": true,
+        "verdict": "confirmed-redundant",
+        "verdict_reason_codes": [
+          "near-zero-delta-with-null-redundancy-signal"
+        ]
+      },
+      {
+        "arm_id": "DGT_without_scope_seal",
+        "component_id": "scope_seal",
+        "evidence_status": "complete",
+        "missing_evidence": [],
+        "null_decomposition": {
+          "active_signals": [
+            "saturation"
+          ],
+          "classification": "saturation",
+          "component_index": 9,
+          "redundancy_signal": false
+        },
+        "quality_ci": {
+          "crosses_zero": false,
+          "high": 0.001261,
+          "low": 0.000267
+        },
+        "quality_delta": 0.000764,
+        "quality_delta_abs": 0.000764,
+        "source_pointers": {
+          "null_component_row": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[9]",
+          "null_components": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "quality_ci_high": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.high",
+          "quality_ci_low": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.low",
+          "quality_delta": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.metrics.quality_q"
+        },
+        "suspect_component": false,
+        "verdict": "independent",
+        "verdict_reason_codes": [
+          "nonzero-delta-with-noncrossing-ci"
+        ]
+      }
+    ],
+    "decision_table": [
+      {
+        "condition": "required neural or null-decomposition pointers are missing or nonnumeric",
+        "reason_code": "required-evidence-missing",
+        "verdict": "inconclusive"
+      },
+      {
+        "condition": "absolute leave-one-out quality delta is at most redundancy_abs_delta_max and null report exposes an active redundancy signal",
+        "reason_code": "near-zero-delta-with-null-redundancy-signal",
+        "verdict": "confirmed-redundant"
+      },
+      {
+        "condition": "absolute leave-one-out quality delta is at least independent_abs_delta_min and the quality CI does not cross zero",
+        "reason_code": "nonzero-delta-with-noncrossing-ci",
+        "verdict": "independent"
+      },
+      {
+        "condition": "available evidence does not identify either near-zero redundancy or a stable independent contribution",
+        "reason_code": "evidence-band-does-not-separate",
+        "verdict": "inconclusive"
+      }
+    ],
+    "generated_at": "2026-06-10T00:00:00+00:00",
+    "global_recommendation": {
+      "confirmed_redundant_components": [
+        "route_certificate",
+        "mechanism_probe",
+        "negative_witness_loss"
+      ],
+      "inconclusive_components": [
+        "LAT"
+      ],
+      "reason_code": "suspect-components-confirmed-redundant-in-bounded-toy-audit",
+      "recommendation": "redesign-confirmed-redundant-components",
+      "redesign_action": "advisory-only",
+      "suspect_confirmed_redundant_components": [
+        "route_certificate",
+        "mechanism_probe",
+        "negative_witness_loss"
+      ]
+    },
+    "not_claimed": [
+      "Bounded toy component redundancy audit only.",
+      "No production or global DGT component necessity verdict is claimed.",
+      "No architecture redesign is performed by this report.",
+      "No claim outside the existing canonical leave-one-out artifacts is made."
+    ],
+    "producer": "scripts/run_dgt_component_redundancy_audit.py",
+    "schema_id": "bedc-quality-lab:dgt-component-redundancy-audit",
+    "scope": {
+      "claim": "bounded toy read-only audit of DGT leave-one-out component redundancy",
+      "component_count": 10,
+      "diagnostic_metric": "quality_q"
+    },
+    "source_artifacts": {
+      "dgt_ablation_null_decomposition": {
+        "json_pointer": "$",
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "required_pointers": [
+          "reports/canonical/dgt-ablation-null-decomposition.json:$",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[0]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[1]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[2]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[3]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[4]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[5]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[6]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[7]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[8]",
+          "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.components[9]"
+        ],
+        "sha256": "515bd997bdff33b53d0a12450480dde247668987b2978f6717a87d991132559e",
+        "status": "resolved"
+      },
+      "dgt_neural_ablation": {
+        "json_pointer": "$",
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "required_pointers": [
+          "reports/canonical/dgt-neural-ablation.json:$",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_CGA.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_DRT.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_LAT.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_gap_head.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_jet_loss.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_ledger_head.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_negative_witness_loss.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_route_certificate.metrics.quality_q",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.high",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.confidence_intervals.quality_q.low",
+          "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_scope_seal.metrics.quality_q"
+        ],
+        "sha256": "522a5182a28ff135c5312c076818abc831386dfb3818ea076eee9a11356fbd56",
+        "status": "resolved"
+      }
+    },
+    "suspect_components": [
+      "route_certificate",
+      "mechanism_probe",
+      "negative_witness_loss"
+    ],
+    "threshold_schema": {
+      "independent_abs_delta_min": {
+        "description": "Minimum absolute leave-one-out quality delta before a non-crossing CI can support independence.",
+        "value": 0.0005
+      },
+      "redundancy_abs_delta_max": {
+        "description": "Maximum absolute leave-one-out quality delta for a near-zero independent contribution.",
+        "value": 0.0005
+      }
+    },
+    "verdict_counts": {
+      "confirmed-redundant": 3,
+      "inconclusive": 1,
+      "independent": 6
+    }
+  }
+}

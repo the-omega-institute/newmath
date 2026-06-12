@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularIntervalUp$}
+\label{ch:concrete-instances-bishop-regular-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRegularIntervalUp$ packet records a regular interval by finite rational endpoint data and explicit tolerance control, not by a quotient of intervals or a choice-selected limiting endpoint. It sits on the L10 route through dyadic rational rows, stream-name windows, regular rational readback, the terminal real-name seal, and located interval containment. The packet is a constructive interval carrier for downstream completion arguments.
+
+\begin{definition}[Bishop regular interval carrier]
+\label{def:bishop-regular-interval-carrier}
+A $\BishopRegularIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,S,R,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dyadic endpoint-and-tolerance row, read through $\DyadicRatCoreUp$, containing two rational endpoint windows and a visible tolerance budget.
+\item $S$ is the $\StreamNameUp$ finite-window row that records which endpoint and tolerance windows have been inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational endpoint names and their common tolerance schedule.
+\item $E$ is the terminal $\RealUp$ seal for the endpoint readbacks supplied by $R$.
+\item $L$ is the located interval containment row, read through \autoref{ch:concrete-instances-located-rational-interval-namecert}, recording which displayed rational subinterval contains the accepted endpoint windows.
+\item $H$ stores componentwise $\hsame$ transport for $D,S,R,E,L$.
+\item $C$ is the displayed $\Cont$ replay of the same finite interval evidence.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedRationalIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopRegularIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient interval equality, a selected real endpoint, trichotomy of endpoints, ambient real completeness, or countable choice.
+\end{definition}
+
+\begin{theorem}[Bishop regular interval NameCert obligations]
+\label{thm:bishop-regular-interval-namecert-obligations}
+For the carrier of \autoref{def:bishop-regular-interval-carrier}, the local $\NameCert_{\BishopRegularIntervalUp}$ surface consists exactly of carrier admission for $I=(D,S,R,E,L,H,C,P,N)$, dyadic endpoint-and-tolerance coverage by $D$, finite window coverage by $S$, regular rational readback by $R$, terminal real sealing by $E$, located interval containment by $L$, componentwise transport by $H$, displayed replay by $C$, package provenance by $P$, and local naming by $N$.
+\end{theorem}
+\begin{proof}
+Project the packet. The dyadic row $D$ supplies the only endpoint and tolerance data, and the stream row $S$ records which finite windows are visible to the consumer.
+
+Read the rational endpoint names through $R$ and then through the terminal real seal $E$. This is the same L10-facing route used by \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Use the located interval row $L$ to bind the endpoint windows to the displayed containment surface of \autoref{ch:concrete-instances-located-rational-interval-namecert}. The transport, replay, provenance, and naming rows $H,C,P,N$ carry those same rows and do not add a second interval object.
+
+Since the carrier has no further coordinate, all NameCert obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Bishop regular interval L10 handoff]
+\label{thm:bishop-regular-interval-l10-handoff}
+Every L10 consumer of an accepted $\BishopRegularIntervalUp$ packet must read the interval through $\DyadicRatCoreUp$ endpoint tolerances, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ regular rational readback, the terminal $\RealUp$ seal, located interval containment, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\BishopRegularIntervalUp}$ row. The handoff exports no quotient interval, choice-selected endpoint, endpoint trichotomy, host real equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bishop-regular-interval-namecert-obligations}. They identify the visible route as $D,S,R,E,L,H,C,P,N$.
+
+The numerical part of the handoff is forced through \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Thus a consumer cannot skip from a rational endpoint window to an ambient real interval.
+
+The containment part is forced through \autoref{ch:concrete-instances-located-rational-interval-namecert}. It records located containment for the displayed rational interval row and supplies no quotient equality between interval representatives.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite evidence. The excluded endpoint-selection and completeness readings have no carrier coordinate, so the L10 handoff is exactly the displayed constructive route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopRegularIntervalUp$ interval read must display dyadic endpoint tolerances, finite stream windows, regular rational readback, terminal Real sealing, located containment, transport, replay, provenance, and local NameCert rows before it exports interval data to a completion consumer.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, located-rational-interval: no listed sibling is bijective to $\BishopRegularIntervalUp$ because this packet jointly carries endpoint tolerances, finite read windows, regular rational endpoint names, Real sealing, located containment, transport, replay, provenance, and local naming.}
+
+\closureat{BishopRegularIntervalUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularIntervalUp}
+  \constructivestory{A $\BishopRegularIntervalUp$ packet is generated from dyadic endpoint-and-tolerance rows, StreamName finite windows, RegSeqRat readback, Real sealing, located interval containment, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-interval-carrier}, \autoref{thm:bishop-regular-interval-namecert-obligations}, and \autoref{thm:bishop-regular-interval-l10-handoff} describe the finite constructive interval carrier and its L10 handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient interval theory, real-order trichotomy, ambient completeness, or selected endpoint existence.}
+  \upgradepath{Scoped closure requires checked carrier coverage, located containment exactness, and L10 handoff nonescape for $D,S,R,E,L,H,C,P,N$.}
+\end{closurestatus}

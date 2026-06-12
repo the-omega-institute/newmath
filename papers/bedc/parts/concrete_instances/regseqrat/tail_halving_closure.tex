@@ -1,0 +1,37 @@
+\begin{theorem}[RegSeqRat tail-halving closure]
+\label{thm:regseqrat-tail-halving-closure}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $n$ be a displayed unary scale whose dyadic tolerance window is valid for the tail budget carried by $P$. Then there is a displayed successor route at the halved scale through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows: the next finite StreamName window is read first, the DyadicRatCore tolerance ledger refines the visible radius from scale $n$ to its halved successor, the RegSeqRat classifier reads back the same regular-rational source surface, and the downstream $\RealUp$ seal consumes only that displayed finite route.
+
+The route exports no quotient stream equality, selected limit, host real equality, metric-completeness datum, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted tail-budget rows of $P$. The visible data are the $\StreamNameUp$ finite schedule, the $\DyadicRatCoreUp$ endpoint and tolerance rows, the RegSeqRat regularity ledger, the classifier row, the displayed $\hsame$ and $\Cont$ supports, $\Pkg$ provenance, local $\NameCert$ naming, and the downstream $\RealUp$ seal-source row.
+
+Use the StreamName finite schedule to choose the next visible window after the displayed scale $n$. This is a window read inside the packet, not a choice of an infinite subsequence or a selected limit.
+
+Apply the DyadicRatCore tolerance rows on that next window. Their monotonicity and halving budget refine the radius ledger from the scale $n$ window to the halved successor window while preserving the same endpoint and regularity rows available to the classifier.
+
+Now repackage the successor window through \autoref{thm:regseqrat-tail-shift-stability}. The shifted finite window has the transported StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat regularity rows, classifier support, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows required for the same public classifier read.
+
+Finally read the $\RealUp$ seal through the existing regular-rational handoff. Since the successor route has only displayed StreamName, DyadicRatCore, RegSeqRat, and RealUp-facing rows, quotient stream equality, selected limits, host real equality, completion data, and ambient completeness have no carrier coordinate from which to enter.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-halving induction]
+\label{thm:regseqrat-tail-halving-induction}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let
+$$
+n_0 \to n_1 \to \cdots \to n_k
+$$
+be a finite displayed unary ledger whose adjacent arrows are accepted tail-halving steps for the tail budget carried by $P$. Then the whole ledger composes into one route through the same $\StreamNameUp$ finite schedule, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ classifier and readback rows, and downstream $\RealUp$ seal. Every intermediate window is read by shifting the finite schedule already carried by $P$, and the terminal route exports no quotient stream equality, selected limit, countable choice, metric-completeness row, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite halving ledger.
+
+In the base case the ledger has no successor step. The route is the original accepted $\RegSeqRatUp$ packet, whose StreamName schedule, DyadicRatCore tolerance ledger, classifier and readback rows, and RealUp seal are already displayed.
+
+For the successor step, apply \autoref{thm:regseqrat-tail-halving-closure} to the current accepted route. It supplies the next halved-scale window through the same StreamName, DyadicRatCore, RegSeqRat, and RealUp rows.
+
+Use \autoref{thm:regseqrat-tail-shift-stability} to shift the finite window before applying the induction hypothesis to the remaining ledger. The shifted route preserves the displayed schedule, tolerance, classifier, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows needed by the next step.
+
+Composing the successor route with the induction hypothesis gives one finite route through the same packet rows. Since each adjacent step excludes quotient stream equality, selected limits, countable choice, metric completeness, and ambient RealUp completeness, the finite composite has no row from which any of those objects can enter.
+\end{proof}

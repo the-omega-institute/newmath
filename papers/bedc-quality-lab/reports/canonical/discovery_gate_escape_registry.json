@@ -1,0 +1,175 @@
+{
+  "active_kinds": [
+    "mechanism_ablation_fail_but_d5m_claim",
+    "scale_only_overclaim"
+  ],
+  "artifact_id": "bedc-quality-lab:discovery-gate-escape-registry",
+  "audit": {
+    "checked_row_count": 0,
+    "escape_row_count": 2,
+    "overflow": false
+  },
+  "capacity": {
+    "admission_order": [
+      "kind",
+      "source_pointer",
+      "recipe_pointer",
+      "recipe_digest"
+    ],
+    "max_escape_rows": 32,
+    "max_rows_per_kind": 4,
+    "overflow_policy": "fail-closed"
+  },
+  "checked_rows": [],
+  "deferred_kinds": [
+    {
+      "kind": "single_threshold_positive_only",
+      "rationale": "awaits an active single-threshold escape recipe",
+      "status": "deferred"
+    }
+  ],
+  "escape_semantics": "escaped positive is gate failure evidence, not discovery evidence",
+  "escaped_rows": [
+    {
+      "discovery_level": "D0",
+      "discovery_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "escaped": true,
+      "escaped_positive_is_discovery_evidence": false,
+      "gate": "discovery-gate",
+      "gate_basis_summary": {
+        "audit_status": "consistent",
+        "control_positive_discovery": false,
+        "downgraded": false,
+        "failed_gate": null,
+        "forbidden_claim_term_hits": [],
+        "hardgate_status": null,
+        "main_claim_status": "positive",
+        "main_shift_information": 7,
+        "main_structural_discovery": true,
+        "main_surface_delta_count": 7,
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "mechanism_ablation_fail_but_d5m_claim",
+      "recipe_digest": "ebed6f345ffeed13cec30c75edebeaa792314a0a13c13042bb418a1aaa27431e",
+      "recipe_pointer": "recipe://discovery-gate-escape-hardening/mechanism-ablation-fail-but-d5m-claim",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[2]",
+      "terminal_reason": "net-positive-signal",
+      "terminal_verdict": "positive-discovery"
+    },
+    {
+      "discovery_level": "D0",
+      "discovery_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "escaped": true,
+      "escaped_positive_is_discovery_evidence": false,
+      "gate": "discovery-gate",
+      "gate_basis_summary": {
+        "audit_status": "consistent",
+        "control_positive_discovery": false,
+        "downgraded": false,
+        "failed_gate": null,
+        "forbidden_claim_term_hits": [],
+        "hardgate_status": null,
+        "main_claim_status": "positive",
+        "main_shift_information": 7,
+        "main_structural_discovery": true,
+        "main_surface_delta_count": 7,
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "scale_only_overclaim",
+      "recipe_digest": "3bff5172f2b71b5f2a05121f0ebac561afb7dd3561a5b2c45314eeaad17a7ff8",
+      "recipe_pointer": "recipe://discovery-gate-escape-hardening/scale-only-overclaim",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[2]",
+      "terminal_reason": "net-positive-signal",
+      "terminal_verdict": "positive-discovery"
+    }
+  ],
+  "generated_at": "2026-06-06T21:52:58.973274+00:00",
+  "producer": "tools/quality_discovery_escape_hardening.py",
+  "sidecar_policy": "not-in-CANONICAL_REPORTS",
+  "source_policy": "read-only-existing-witnesses-verdict-projector-and-claim-verdict-rows",
+  "static_witness_audit": {
+    "expected_kind_count": 9,
+    "fail_closed": true,
+    "source": "reports/canonical/discovery_negative_witnesses.json",
+    "witnesses": [
+      {
+        "discovery_level": "DN",
+        "fail_closed": true,
+        "kind": "classifier_surface_delta_zero",
+        "terminal_verdict": "rejected",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]"
+      },
+      {
+        "discovery_level": "DN",
+        "fail_closed": true,
+        "kind": "matched_control_positive",
+        "terminal_verdict": "rejected",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]"
+      },
+      {
+        "discovery_level": "DR",
+        "fail_closed": true,
+        "kind": "hidden_debt_positive",
+        "terminal_verdict": "demoted",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]"
+      },
+      {
+        "discovery_level": "DN",
+        "fail_closed": true,
+        "kind": "cost_protocol_missing",
+        "terminal_verdict": "rejected",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[3]"
+      },
+      {
+        "discovery_level": "D1",
+        "fail_closed": true,
+        "kind": "scorecard_not_ready",
+        "terminal_verdict": "ledger-only",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[4]"
+      },
+      {
+        "discovery_level": "DN",
+        "fail_closed": true,
+        "kind": "forbidden_inference_column",
+        "terminal_verdict": "rejected",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]"
+      },
+      {
+        "discovery_level": "DR",
+        "fail_closed": true,
+        "kind": "benefit_debt_tradeoff",
+        "terminal_verdict": "demoted",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]"
+      },
+      {
+        "discovery_level": "DR",
+        "fail_closed": true,
+        "kind": "fresh_claim_downgrade",
+        "terminal_verdict": "demoted",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]"
+      },
+      {
+        "discovery_level": "DN",
+        "fail_closed": true,
+        "kind": "synthetic_leakage_injection",
+        "terminal_verdict": "rejected",
+        "witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]"
+      }
+    ]
+  },
+  "status": "pointer-only"
+}

@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ArchimedeanDyadicApproximationUp$}
+\label{ch:concrete-instances-archimedean-dyadic-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ArchimedeanDyadicApproximationUp$ packet records a finite route from a displayed unary Archimedean bound to dyadic approximation data that can be handed to $\RealUp$ consumers. It sits beside the natural-number bound surface of \autoref{ch:concrete-instances-nat-namecert}, the rational approximation rows of \autoref{ch:concrete-instances-rat-namecert}, the dyadic precision ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the approximation packet of \autoref{ch:concrete-instances-dyadicapproximation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite BEDC witness for Archimedean dyadic approximation; it does not import host real equality, quotient cuts, selected Cauchy limits, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[ArchimedeanDyadicApproximation carrier]
+\label{def:archimedean-dyadic-approximation-carrier}
+An $\ArchimedeanDyadicApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(B,Q,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the unary Archimedean bound row, read through the finite $\NatUp$ naming surface.
+\item $Q$ is the $\RatUp$ approximation row attached to the same bound request.
+\item $D$ is the $\DyadicRatCoreUp$ precision row that records the dyadic denominator and tolerance ledger.
+\item $W$ is the $\DyadicApproximationUp$ bracket row, exposing the finite dyadic enclosure licensed by $B,Q,D$.
+\item $E$ is the $\RealUp$ seal, available only after the bound, rational approximation, precision, and bracket rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bound, rational approximation, dyadic precision, bracket, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the Archimedean bound through rational approximation, dyadic precision, dyadic bracket, and then the real seal.
+\item $P$ is the $\Pkg$ provenance over $\ArchimedeanDyadicApproximationUp$, $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArchimedeanDyadicApproximationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient cuts, host real equality, a selected Cauchy limit, trichotomy, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[ArchimedeanDyadicApproximation NameCert obligations]
+\label{thm:archimedean-dyadic-approximation-obligations}
+For every accepted $\ArchimedeanDyadicApproximationUp$ carrier $A=(B,Q,D,W,E,H,C,P,N)$, the local $\NameCert_{\ArchimedeanDyadicApproximationUp}$ surface consists exactly of carrier admission for the displayed bound, rational approximation, dyadic precision, bracket, real seal, transport, replay, provenance, and local naming rows; Archimedean exactness requiring $B$ to be read before $Q$; dyadic precision exactness requiring $D$ before $W$; real handoff exactness requiring $W$ before $E$; and ledger exhaustion excluding quotient cuts, host equality, selected limits, trichotomy, choice schedules, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:archimedean-dyadic-approximation-carrier}. The rows $B,Q,D,W,E,H,C,P,N$ are displayed as separate coordinates, so none of the downstream rows can hide the bound or precision data.
+
+The Archimedean and dyadic clauses are read in order. The rational approximation row $Q$ is attached to the unary bound row $B$, while the bracket row $W$ is downstream of the dyadic precision row $D$.
+
+Finally, the real seal $E$ is reached only after $B,Q,D,W$ have been displayed. The structural rows $H,C,P,N$ transport, replay, package, and name this same finite packet, so the excluded principles have no carrier coordinate from which they can be exported.
+\end{proof}
+
+\begin{theorem}[Archimedean dyadic approximation real handoff]
+\label{thm:archimedean-dyadic-approximation-real-handoff}
+Every $\RealUp$ consumer of an accepted $\ArchimedeanDyadicApproximationUp$ packet receives the finite route
+$$
+B,Q,D,W \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer reads a unary Archimedean bound, a $\RatUp$ approximation row, a $\DyadicRatCoreUp$ precision row, a $\DyadicApproximationUp$ bracket row, and the $\RealUp$ seal; it receives no host real equality, quotient cut, selected Cauchy limit, trichotomy row, choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:archimedean-dyadic-approximation-obligations}. Its Archimedean exactness, dyadic precision exactness, and real handoff exactness clauses force the route $B,Q,D,W,E$ before any real-facing read can occur.
+
+After the seal is read, the only remaining coordinates are $H,C,P,N$. These rows preserve the same finite packet by componentwise transport, displayed replay, provenance, and local naming.
+
+Therefore a $\RealUp$ consumer receives exactly the displayed bound-to-bracket route with the seal and structural rows. Since quotient cuts, host equality, selected limits, trichotomy, choice schedules, and ambient completeness are absent from the carrier and the obligation surface, the handoff cannot export them.
+\end{proof}
+
+\leanstmt{BEDC.Derived.ArchimedeanDyadicApproximationUp.ArchimedeanDyadicApproximationUp}
+
+\begin{closurestatus}{\ArchimedeanDyadicApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:archimedean-dyadic-approximation-carrier}, \autoref{thm:archimedean-dyadic-approximation-obligations}, and \autoref{thm:archimedean-dyadic-approximation-real-handoff} seed the finite Archimedean dyadic approximation route from unary bounds to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ArchimedeanDyadicApproximationUp.ArchimedeanDyadicApproximationUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, host real equality, selected Cauchy limits, trichotomy, countable choice, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, bound exactness, dyadic precision exactness, real handoff exactness, transport, replay, provenance, and local naming for BEDC.Derived.ArchimedeanDyadicApproximationUp.}
+  \constructivestory{An $\ArchimedeanDyadicApproximationUp$ packet is generated from a unary Archimedean bound, a Rat approximation row, a DyadicRatCore precision row, a DyadicApproximation bracket row, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

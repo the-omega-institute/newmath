@@ -1,0 +1,201 @@
+{
+  "anti_triviality_failed_gate": null,
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.boundary_checks.forbidden_inference_columns",
+      "status": "pass"
+    },
+    "matched_random": {
+      "pointer": "$.matched_random_control.control_verdict.positive",
+      "status": "pass"
+    },
+    "metadata_only": {
+      "pointer": "$.boundary_checks",
+      "status": "pass"
+    },
+    "scale_only": {
+      "pointer": "$.boundary_checks",
+      "status": "pass"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "D4",
+  "anti_triviality_status": "pass",
+  "artifact": "reports/canonical/gap-head-discovery.json",
+  "audit_decision": {
+    "audit_status": "pass"
+  },
+  "benefit_terms": {
+    "critical_unlogged_error_reduction": 0.5052173913043478,
+    "unlogged_error_reduction": 0.38086956521739135
+  },
+  "boundary_checks": {
+    "after_arm": "learned_gap_head_on_h",
+    "before_arm": "vanilla",
+    "common_source_seed_order": [
+      3787384488,
+      710762332,
+      4167120010,
+      1271555634,
+      614003796,
+      2194464496,
+      1717970438,
+      3479488918,
+      3184052640,
+      831661604,
+      717283106,
+      2840917146,
+      2907596428,
+      917320952,
+      1165058014,
+      3650807614,
+      4079602456,
+      2451442540,
+      3061295162,
+      1614193026,
+      2405103428,
+      1139059072,
+      2111027254,
+      1026040678,
+      2179066640,
+      1275137844,
+      2609221586,
+      1886350570,
+      3401492092,
+      2859678856
+    ],
+    "feature_columns": [
+      "h:0",
+      "h:1",
+      "score:latent_x_positive",
+      "score:latent_y_positive",
+      "score:high_energy",
+      "margin:latent_x_positive",
+      "margin:latent_y_positive",
+      "margin:high_energy",
+      "transition_delta:latent_x_positive",
+      "transition_delta:latent_y_positive",
+      "transition_delta:high_energy",
+      "quality:quality_q",
+      "quality:quality_margin",
+      "quality:linear_identifiability_r2",
+      "quality:approx_identifiability_proxy"
+    ],
+    "forbidden_inference_columns": [
+      "label",
+      "z",
+      "z_pair",
+      "gap_label",
+      "gap_labels",
+      "prediction_error",
+      "eval_label",
+      "eval_labels",
+      "eval_gap_label",
+      "eval_gap_labels",
+      "config_metadata"
+    ],
+    "inference_no_ground_truth_z": true,
+    "representation_boundary": "learned_h"
+  },
+  "classifier_state": {
+    "after_pattern_id": "gap-head-after-learned-gap-head-on-h",
+    "before_pattern_id": "gap-head-before-vanilla",
+    "feature_count": 15,
+    "recorded_ledger_rows": 30,
+    "required_ledger_rows": 30
+  },
+  "common_source_record_count": 30,
+  "debt_terms": {
+    "boundary_protocol": 0.05,
+    "classifier_ledger_rows": 0.3
+  },
+  "final_main_claim_status": "promoted",
+  "generated_at": "2026-06-12T15:51:31.052562+00:00",
+  "laundering_modes": [],
+  "main_claim_reason": null,
+  "main_claim_status": "promoted",
+  "matched_random_control": {
+    "audit_status": "pass",
+    "compute_match": true,
+    "control_projection": {
+      "arm": "matched_random_gap_head",
+      "net_information": 0.20869565217391306,
+      "non_discovery_reason": null,
+      "positive_discovery": true,
+      "shift_information": 30,
+      "structural_discovery": true,
+      "surface_delta_count": 30
+    },
+    "control_verdict": {
+      "positive": false,
+      "projection_positive_discovery": true,
+      "reason": "control_non_positive",
+      "source_metrics": {
+        "arm_critical_unlogged_error_rate": 0.0,
+        "arm_unlogged_error_rate": 0.2628985507246377,
+        "critical_unlogged_error_reduction": 1.0,
+        "failure_detection_auroc": 0.493182532138793,
+        "unlogged_error_reduction": 0.4802292263610315,
+        "vanilla_critical_unlogged_error_rate": 0.5057971014492754,
+        "vanilla_unlogged_error_rate": 0.5057971014492754
+      },
+      "source_positive": false
+    },
+    "evidence_pointers": {
+      "compute_match": [
+        "source-json $.control_protocol.compute_match",
+        "source-json $.records[*].matched_random_control.compute_match"
+      ],
+      "metric_helper_match": [
+        "source-json $.control_protocol.metric_helper_match",
+        "source-json $.records[*].matched_random_control.metric_helper_match"
+      ],
+      "parameter_match": [
+        "source-json $.control_protocol.parameter_match",
+        "source-json $.records[*].matched_random_control.parameter_match"
+      ],
+      "surface_distribution_match": [
+        "source-json $.control_protocol.surface_distribution_match",
+        "source-json $.records[*].matched_random_control.surface_distribution_match"
+      ],
+      "threshold_match": [
+        "source-json $.control_protocol.threshold_match",
+        "source-json $.records[*].matched_random_control.threshold_match"
+      ]
+    },
+    "failure_reasons": [],
+    "metric_helper_match": true,
+    "parameter_match": true,
+    "source_protocol": "source-json matched_random_control per record",
+    "surface_distribution_match": true,
+    "threshold_match": true,
+    "verified": true
+  },
+  "net_information": 0.34608695652173915,
+  "net_positive_signal": true,
+  "non_discovery_reason": null,
+  "omitted_debt_terms": {},
+  "positive_discovery": true,
+  "report": "reports/canonical/gap-head-discovery.md",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
+  "score_terms": {
+    "gap_channel_heads": 0.04,
+    "h_only_feature_surface": 0.15
+  },
+  "shift_information": 30,
+  "source_artifacts": {
+    "producer_script": "scripts/run_gap_ledger_head_on_h.py",
+    "projection_script": "scripts/run_gap_head_discovery.py",
+    "source_json_artifact": "reports/canonical/gap-head-on-h.json",
+    "source_report_artifact": "reports/canonical/gap-head-on-h.md"
+  },
+  "structural_discovery": true,
+  "surface_delta_count": 30
+}

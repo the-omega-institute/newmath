@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\TaylorSeriesUp$}
+\label{ch:concrete-instances-taylor-series-namecert}
+\origin{human}
+
+Following Taylor's finite expansion method and Bishop--Bridges constructive analysis, the $\TaylorSeriesUp$ packet records a finite Taylor-jet surface before any analytic convergence claim is read. It sits after the local-linear approximation route of \autoref{ch:concrete-instances-calculus-namecert}, the displayed derivative rows of \autoref{ch:concrete-instances-derivative-namecert}, the finite polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, and the L10 real-name substrate of \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a finite jet, its polynomial readback, and its tolerance ledger; it does not assert analytic convergence, a remainder theorem, a radius of convergence, host smoothness, quotient equality of functions, or completeness of $\RealUp$.
+
+\begin{definition}[TaylorSeries carrier]
+\label{def:taylor-series-carrier}
+A $\TaylorSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,x,k,J,P,R,D,H,C,G,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the $\CalculusUp$ local approximation row naming the source function only through finite observation histories.
+\item $x$ is the $\RealUp$ center row at which the jet is read.
+\item $k$ is the finite order budget for the displayed jet.
+\item $J$ is the finite list of derivative-read rows, each routed through $\DerivativeUp$ and indexed by an order at most $k$.
+\item $P$ is the $\PolynomialUp$ readback row whose coefficients are the displayed jet entries.
+\item $R$ is the $\RegSeqRatUp$ tolerance row used when coefficients or center data are read as regular rational names.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic ledger for finite factorial, power, and tolerance accounting.
+\item $H$ records componentwise $\hsame$ transport for the center, order, derivative rows, polynomial readback, regular-rational row, dyadic ledger, route, provenance, and local name.
+\item $C$ records the displayed $\Cont$ replay from finite calculus observations to the derivative rows, polynomial row, tolerance ledger, provenance, and local name.
+\item $G$ is the $\Pkg$ provenance over $\TaylorSeriesUp$, $\CalculusUp$, $\DerivativeUp$, $\PolynomialUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TaylorSeriesUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for infinite series convergence, analytic continuation, a radius-of-convergence theorem, a remainder estimate beyond the displayed finite order, host smoothness, quotient equality of functions, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[TaylorSeries NameCert obligations]
+\label{thm:taylor-series-namecert-obligations}
+For an accepted $\TaylorSeriesUp$ carrier $T=(A,x,k,J,P,R,D,H,C,G,N)$, the local $\NameCert_{\TaylorSeriesUp}$ surface consists exactly of carrier admission for the finite center, order, derivative rows, polynomial readback, regular-rational tolerance row, dyadic arithmetic ledger, transports, replay route, provenance, and local name; derivative-to-polynomial exactness up to the displayed order $k$; finite coefficient stability under componentwise $\hsame$ transport; and ledger non-escape excluding analytic convergence, remainder bounds beyond $k$, host smoothness, quotient function equality, selected infinite sums, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:taylor-series-carrier}. The tuple displays exactly the finite center row, order budget, derivative rows, polynomial readback, regular-rational tolerance row, dyadic arithmetic ledger, transport rows, replay route, provenance, and local name.
+
+Derivative-to-polynomial exactness is also finite. The row $J$ lists only derivative reads of order at most $k$, and the row $P$ reads those entries as coefficients of the finite polynomial surface rather than as an infinite expansion.
+
+Stability follows from $H$ and $C$. Componentwise $\hsame$ transport preserves the displayed center, order, coefficient, and tolerance rows, while replay through $C$ keeps the calculus, derivative, polynomial, regular-rational, and dyadic rows in the same order.
+
+No remaining carrier coordinate names convergence, a remainder theorem, a radius of convergence, host smoothness, quotient equality of functions, a selected infinite sum, or real completeness. The local certificate is therefore exhausted by the finite Taylor-jet route.
+\end{proof}
+
+\begin{theorem}[TaylorSeries finite-jet non-escape]
+\label{thm:taylor-series-finite-jet-nonescape}
+Every consumer-facing read of an accepted $\TaylorSeriesUp$ packet factors through the finite rows
+$$
+A,x,k,J,P,R,D,H,C,G,N .
+$$
+Consequently the packet exposes only a finite Taylor jet and its polynomial readback, not an infinite Taylor series convergence theorem, analytic continuation, a radius-of-convergence object, a host smoothness principle, quotient equality of functions, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:taylor-series-carrier}. A consumer first reads the finite calculus source row $A$, the Real center $x$, and the order budget $k$.
+
+The derivative data are then confined to $J$. Since $J$ is indexed only by orders at most $k$, the polynomial row $P$ can read exactly those entries as finite coefficients and cannot expose an infinite tail.
+
+The tolerance and arithmetic support rows $R$ and $D$ account for regular-rational and dyadic coefficient reads. Transport, replay, provenance, and local naming through $H,C,G,N$ preserve that finite route.
+
+Because the carrier lists no convergence, analytic-continuation, radius, host-smoothness, quotient-function, selected-infinite-sum, or real-completeness coordinate, finite route exhaustion prevents any such principle from escaping the packet.
+\end{proof}
+
+\closureat{TaylorSeriesUp}{seedStr}
+
+\begin{closurestatus}{\TaylorSeriesUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:taylor-series-carrier}, \autoref{thm:taylor-series-namecert-obligations}, and \autoref{thm:taylor-series-finite-jet-nonescape} seed the finite Taylor-jet packet over calculus observations, derivative rows, polynomial readback, Real center data, regular-rational tolerances, and dyadic arithmetic ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic convergence, Taylor remainder theorems, a radius of convergence, host smoothness, quotient equality of functions, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-to-polynomial exactness, finite coefficient stability, and finite-jet non-escape for BEDC.Derived.TaylorSeriesUp.}
+  \constructivestory{A $\TaylorSeriesUp$ packet is generated from a finite calculus observation row, a Real center, a finite order budget, displayed derivative rows, a polynomial readback, regular-rational tolerance data, dyadic arithmetic ledgers, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+\end{closurestatus}

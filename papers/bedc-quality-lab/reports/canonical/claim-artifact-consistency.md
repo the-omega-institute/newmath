@@ -1,0 +1,14 @@
+# Claim Artifact Consistency Audit
+
+- Generated at: `2026-06-12T15:51:27.413052+00:00`
+- Claim: `claim:discovery-gated-transformer`
+- Status: `pass`
+
+| gate | status | pointer | reason | expected | actual |
+| --- | --- | --- | --- | --- | --- |
+| `CONS-HG1` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | discovery level and verdict are coherent | `consistent` | `consistent` |
+| `CONS-HG2` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | positive verdict uses the current scorecard hash | `db1c15a9ba4cc5643488863d2d3c974f9f53e5e9383842a01c7227c4f291b373` | `db1c15a9ba4cc5643488863d2d3c974f9f53e5e9383842a01c7227c4f291b373` |
+| `CONS-HG3` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | reason taxonomy matches scorecard readiness | `consistent` | `consistent` |
+| `CONS-HG4` | `pass` | `reports/canonical/claim_graph.json:$.nodes[103]` | terminal graph path uses Core claim verdict row | `consistent` | `consistent` |
+| `CONS-HG5` | `pass` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[1]` | coverage matrix DGT cell points to the DGT owner | `consistent` | `consistent` |
+| `CONS-HG6` | `pass` | `reports/canonical/high-impact-review.fingerprint.json:$.inputs.source_artifacts` | artifact hashes are current | `consistent` | `consistent` |

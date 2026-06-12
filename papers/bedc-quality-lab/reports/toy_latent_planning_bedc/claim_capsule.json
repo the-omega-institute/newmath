@@ -1,0 +1,184 @@
+{
+  "artifact_id": "bedc-quality-lab:toy-latent-planning-bedc:claim-capsule",
+  "capsule_subtype": "bedc.quality.toy_latent_planning",
+  "claim_id": "claim:toy-latent-planning-bedc",
+  "claim_status": "failed",
+  "cost_protocol": {
+    "artifact": "configs/default_cost_protocol.yaml",
+    "pointer": "$"
+  },
+  "evidence_pointers": [
+    "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG2",
+    "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG4"
+  ],
+  "failed_gate": "G1-HG1",
+  "generated_at": "run-local:toy_latent_planning_bedc",
+  "hardgates": {
+    "G1-HG1": {
+      "evidence": "primary planning success exceeds vanilla latent planning",
+      "primary_minus_baseline_success": 0.0,
+      "status": "fail"
+    },
+    "G1-HG2": {
+      "evidence": "gap-head logging is treated as audit improvement, not transition identification",
+      "primary_minus_baseline_unlogged_error": 0.0,
+      "status": "pass"
+    },
+    "G1-HG3": {
+      "control_rows": [
+        {
+          "control_arm": "jepa_posthoc_probe",
+          "control_value": 0.5572916666666666,
+          "metric": "success_rate_mean",
+          "primary_better": false,
+          "primary_value": 0.5572916666666666
+        },
+        {
+          "control_arm": "jepa_posthoc_bedc_report",
+          "control_value": 0.5572916666666666,
+          "metric": "success_rate_mean",
+          "primary_better": false,
+          "primary_value": 0.5572916666666666
+        }
+      ],
+      "evidence": "D4-D5 controls are present and do not beat the owner arm",
+      "status": "fail"
+    },
+    "G1-HG4": {
+      "evidence": "planner lift is not promoted to action-conditioned transition identification",
+      "lambda_grid": [
+        0.0,
+        0.25,
+        0.5,
+        1.0,
+        2.0
+      ],
+      "primary_minus_baseline_regret": 6.178741451018377e-05,
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "global planning optimality",
+    "action-conditioned transition identification",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality"
+  ],
+  "positive_claim": {
+    "level": "DN",
+    "scope": "owner-local toy latent planning benchmark",
+    "text": "Toy latent planning BEDC records owner-local audit improvement evidence under Gaussian-OU planning conditions."
+  },
+  "producer": "bedc_quality_lab.toy_latent_planning_bedc",
+  "report": "toy_latent_planning_bedc",
+  "revocation": {
+    "rows": [
+      {
+        "active": true,
+        "condition": "revoke if owner-local committed JSON no longer round-trips",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if gap-head logging is promoted to transition identification",
+        "status": "armed"
+      }
+    ],
+    "status": "revocable"
+  },
+  "schema_id": "bedc.quality.claim_capsule",
+  "source": "reports/toy_latent_planning_bedc/summary.json",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "gaussian_ou_dynamics_planning": "reports/gaussian_ou_dynamics_planning.json",
+    "raw_metrics": "reports/toy_latent_planning_bedc/raw_metrics.jsonl",
+    "summary": "reports/toy_latent_planning_bedc/summary.json"
+  },
+  "source_pointer": "$.result",
+  "status": "complete",
+  "u_hardgates": {
+    "failed_gates": [],
+    "gates": {
+      "U-HG1": {
+        "capsule_artifact": "reports/toy_latent_planning_bedc/claim_capsule.json",
+        "status": "pass"
+      },
+      "U-HG2": {
+        "pointers": [
+          {
+            "pointer": "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG2",
+            "resolves": true
+          },
+          {
+            "pointer": "reports/toy_latent_planning_bedc/claim_capsule.json:$.hardgates.G1-HG4",
+            "resolves": true
+          }
+        ],
+        "status": "pass"
+      },
+      "U-HG3": {
+        "cost_pointer": "$.cost_protocol.artifact",
+        "status": "pass"
+      },
+      "U-HG4": {
+        "missing": [],
+        "not_claimed": [
+          "global planning optimality",
+          "action-conditioned transition identification",
+          "full LeJEPA reproduction",
+          "full TensorNameCert",
+          "LLM behavior quality"
+        ],
+        "required_not_claimed": [
+          "global planning optimality",
+          "action-conditioned transition identification",
+          "full LeJEPA reproduction",
+          "full TensorNameCert",
+          "LLM behavior quality"
+        ],
+        "status": "pass"
+      },
+      "U-HG5": {
+        "control_required": true,
+        "control_row_count": 2,
+        "status": "pass"
+      },
+      "U-HG6": {
+        "dn_requires_failed_gate": true,
+        "failed_gate": "G1-HG1",
+        "status": "pass",
+        "what_was_learned_present": true
+      },
+      "U-HG7": {
+        "revocation_pointer": "$.revocation.rows",
+        "revocation_row_count": 2,
+        "status": "pass"
+      },
+      "U-HG8": {
+        "forbidden_column_audit": {
+          "forbidden_columns": [
+            "terminal_verdict",
+            "positive_claim",
+            "arm_aggregates",
+            "metrics"
+          ],
+          "hits": [],
+          "status": "pass"
+        },
+        "positive_claim_audit": {
+          "forbidden_positive_claim_terms": [
+            "full-lejepa",
+            "global-quality",
+            "full-tensor-namecert",
+            "llm-behavior"
+          ],
+          "hits": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "what_was_learned": "The owner-local BEDC arm improves audit-aware planning signals while action-conditioned transition identification remains outside the claim."
+}

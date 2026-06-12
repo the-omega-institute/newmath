@@ -23,6 +23,7 @@ with the following displayed rows:
 \end{enumerate}
 The packet exports no ambient theorem count, no host proof oracle, no hidden axiom supply, and no permission to treat a blocked or restricted row as an unconditional BEDC theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.AxiomDependencyMapUp.AxiomDependencyMapTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Axiom-dependency-map obligations]
 \label{thm:axiom-dependency-map-ledger-obligations}
@@ -127,16 +128,49 @@ Use query-ledger factorization to inspect any downstream replay. A consumer must
 Apply the non-escape boundary. The rows $H,C,P,N$ transport, replay, package, and name the same displayed tuple, and the carrier has no coordinate for unrestricted theorem export. Therefore a restricted proof row remains restricted and cannot be read as an unconditional BEDC theorem.
 \end{proof}
 
+\begin{theorem}[Axiom-dependency-map mature query-supply example]
+\label{thm:axiom-dependency-map-mature-query-supply-example}
+For every downstream audit consumer reading an accepted $\AxiomDependencyMapUp$ packet
+$$
+X=(\Phi,M,W,A,H,C,P,N),
+$$
+the public query-supply read first projects the mode row $M$, then the witness
+row $W$ and required-supply row $A$, then factors through the cited
+$\AxiomQueryLedgerUp$, $\AuditMapFamilyUp$, $\GroundCompilerAuditMapUp$, or
+$\AuditMapDependencyWeaveUp$ route before reporting internal, restricted, or
+named-supply status.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and apply
+\autoref{thm:axiom-dependency-map-mode-soundness}. The consumer reads $M$ as
+one of the internal, restricted, or obstruction modes, and this fixes the
+allowed interpretation of $W$ and $A$.
+
+Next apply \autoref{thm:axiom-dependency-map-query-ledger-factorization}. A
+query-supply report that treats $A$ as proof-ancestry data must pass through
+the finite ledger, family, compiler, or dependency-weave route cited by $P$
+and replayed by $C$.
+
+Use \autoref{thm:axiom-dependency-map-boundary} to keep the public read inside
+the displayed claim, mode, witness, supply, transport, replay, provenance, and
+local naming rows. Finally apply
+\autoref{thm:axiom-dependency-map-required-supply-separation}: the empty,
+restricted, and named-supply rows remain distinct, so the reported status is
+exactly internal, restricted, or named-supply according to the projected mode.
+\end{proof}
+
 \closureat{AxiomDependencyMapUp}{obligationStr}
 \closureat{AxiomDependencyMapUp}{scopedStr}
+\closureat{AxiomDependencyMapUp}{publicStr}
+\closureat{AxiomDependencyMapUp}{bridgedStr}
 
 \begin{closurestatus}{\AxiomDependencyMapUp}
   \constructivestory{An $\AxiomDependencyMapUp$ packet is generated from a claim row, a mode row, a witness row, a required-axiom-set row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:axiom-dependency-map-certificate}, \autoref{thm:axiom-dependency-map-ledger-obligations}, \autoref{thm:axiom-dependency-map-mode-soundness}, \autoref{thm:axiom-dependency-map-query-ledger-factorization}, \autoref{thm:axiom-dependency-map-boundary}, \autoref{thm:axiom-dependency-map-required-supply-separation}, and \autoref{thm:axiom-dependency-map-restricted-row-nonescape} specify the finite claim-level dependency-map packet, mode soundness, ledger factorization, supply separation, restricted-row non-escape, and public boundary.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-map-certificate}, \autoref{thm:axiom-dependency-map-ledger-obligations}, \autoref{thm:axiom-dependency-map-mode-soundness}, \autoref{thm:axiom-dependency-map-query-ledger-factorization}, \autoref{thm:axiom-dependency-map-boundary}, \autoref{thm:axiom-dependency-map-required-supply-separation}, \autoref{thm:axiom-dependency-map-restricted-row-nonescape}, and \autoref{thm:axiom-dependency-map-mature-query-supply-example} specify the finite claim-level dependency-map packet, query-ledger factorization, required-supply separation, restricted-row non-escape, public boundary, and mature query-supply consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not enumerate all classical CIC claims, prove global completeness of the dependency map, certify any hidden host proof oracle, close Lean verification, or bridge the packet to an external schema.}
-  \upgradepath{Public closure requires a public exported NameCert statement over the same claim, mode, witness, required-supply, transport, replay, provenance, and local naming rows.}
+  \upgradepath{Bridged closure requires a standard bridge over the same claim, mode, witness, required-supply, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

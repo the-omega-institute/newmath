@@ -54,6 +54,9 @@ ALLOWLIST_FILE = REPO_ROOT / "papers" / "bedc" / "taste_allowlist.json"
 APPROVALS_FILE = REPO_ROOT / "papers" / "bedc" / "taste_approvals.json"
 CONFIG_FILE = REPO_ROOT / "papers" / "bedc" / "taste_curator_config.json"
 TASTE_EVOLUTIONS_FILE = REPO_ROOT / "docs" / "dossier" / "taste-evolutions.qmd"
+SELF_OWNED_TRACKED_DIRT_PATHS = frozenset({
+    "docs/dossier/taste-evolutions.qmd",
+})
 RESOLVE_PROMPT_FILE = REPO_ROOT / "tools" / "taste_resolve_prompt.txt"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
@@ -800,6 +803,20 @@ def tracked_dirty_paths() -> list[str]:
     return dirty
 
 
+def _foreign_dirty_paths(dirty_lines: list[str]) -> list[str]:
+    foreign: list[str] = []
+    for raw in dirty_lines:
+        status = raw[:2]
+        path = raw[3:] if len(raw) > 3 and raw[2] == " " else ""
+        if (
+            status not in {" M", "M ", "MM"}
+            or " -> " in path
+            or path not in SELF_OWNED_TRACKED_DIRT_PATHS
+        ):
+            foreign.append(raw)
+    return foreign
+
+
 def dirty_paths() -> list[str]:
     out = git("status", "--porcelain", capture=True).stdout
     return [line for line in out.splitlines() if line.strip()]
@@ -828,9 +845,12 @@ def sync_phase(state: dict[str, Any], dry_run: bool) -> ChangedArtifacts | None:
         return None
 
     dirty = tracked_dirty_paths()
-    if dirty:
-        print(f"[taste] tracked working tree dirt; skipping cycle: {dirty[:5]}", file=sys.stderr)
+    foreign = _foreign_dirty_paths(dirty)
+    if foreign:
+        print(f"[taste] tracked working tree dirt; skipping cycle: {foreign[:5]}", file=sys.stderr)
         return None
+    if dirty:
+        print(f"[taste] tolerating self-owned tracked dirt: {dirty[:5]}", file=sys.stderr)
 
     acquire_push_lock = import_push_lock()
     try:
@@ -1741,7 +1761,13 @@ def refresh_current_observation_snapshot(state: dict[str, Any], dry_run: bool) -
 
 
 def commit_dossier_refresh_if_needed(changed: bool, dry_run: bool) -> None:
-    if dry_run or not changed:
+    """Commit dossier refreshes when the file is dirty.
+
+    The `changed` flag only reports writes from this cycle; porcelain status is
+    the commit gate so dirty content left by an earlier failed commit is retried.
+    """
+    del changed
+    if dry_run:
         return
     status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
     if status.returncode != 0 or not status.stdout.strip():
@@ -1749,6 +1775,14 @@ def commit_dossier_refresh_if_needed(changed: bool, dry_run: bool) -> None:
     acquire_push_lock = import_push_lock()
     try:
         with acquire_push_lock(BASE_BRANCH, timeout=120):
+            fetch = git("fetch", "origin", BASE_BRANCH, check=False, capture=True)
+            if fetch.returncode != 0:
+                append_alert("dossier_snapshot_sync_failed", {"stderr": tail(fetch.stderr or fetch.stdout or "")})
+                return
+            merge = git("merge", "--ff-only", f"origin/{BASE_BRANCH}", check=False, capture=True)
+            if merge.returncode != 0:
+                append_alert("dossier_snapshot_sync_failed", {"stderr": tail(merge.stderr or merge.stdout or "")})
+                return
             git("add", rel(TASTE_EVOLUTIONS_FILE))
             commit = git("commit", "-m", "taste: refresh dossier observation snapshot", check=False, capture=True)
             if commit.returncode != 0:

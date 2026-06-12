@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\ClassifyingSpaceUp$}
+\label{ch:concrete-instances-classifying-space-namecert}
+\origin{human}
+
+Following Steenrod and May on universal bundles, classifying spaces, and simplicial models for topological classification, the $\ClassifyingSpaceUp$ packet records a finite NameCert seed for the route from a displayed topological group action to a bundle classifier. It sits after the $\TopGroupUp$ operation and continuity surface of \autoref{ch:concrete-instances-topgroup-namecert}, the $\BundleUp$ local-trivialization surface of \autoref{ch:concrete-instances-bundle-namecert}, the $\HomotopyUp$ deformation route of \autoref{ch:concrete-instances-homotopy-namecert}, the $\SimplicialSetUp$ face-and-degeneracy ledger of \autoref{ch:concrete-instances-simplicialset-namecert}, and the $\CategoryUp$ object-and-arrow carrier of \autoref{ch:concrete-instances-category-namecert}. The chapter names only finite classifier rows, universal-bundle dependency rows, simplicial approximation rows, homotopy transport, categorical provenance, replay, and local naming; it does not construct quotient spaces, choose representatives of orbits, assert ambient homotopy equivalence, or import a host principal-bundle classification theorem.
+
+\begin{definition}[ClassifyingSpace carrier]
+\label{def:classifying-space-carrier}
+A $\ClassifyingSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,U,S,H,C,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\TopGroupUp$ row whose multiplication, unit, inverse, and continuity data are used by the classifier.
+\item $U$ is the $\BundleUp$ row naming the displayed universal-bundle dependency and its local trivialization data.
+\item $S$ is the $\SimplicialSetUp$ row carrying finite face and degeneracy ledgers used to present the classifying object.
+\item $H$ is the $\HomotopyUp$ row recording the deformation route through which bundle classifiers are compared.
+\item $C$ is the $\CategoryUp$ row naming the finite object and arrow context for classifier morphisms and pullback-shaped reads.
+\item $T$ records componentwise $\hsame$ transport for the topological-group, bundle, simplicial, homotopy, and category rows.
+\item $R$ records displayed $\Cont$ replay of classifier reads through $G,U,S,H,C,T$.
+\item $P$ is the $\Pkg$ provenance over $\ClassifyingSpaceUp$, $\TopGroupUp$, $\BundleUp$, $\HomotopyUp$, $\SimplicialSetUp$, $\CategoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClassifyingSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-space formation, orbit-representative choice, host homotopy equivalence, ambient universal object selection, or an unrestricted principal-bundle classification theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.ClassifyingSpaceUp.ClassifyingSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ClassifyingSpace NameCert obligations]
+\label{thm:classifying-space-namecert-obligations}
+For the carrier of \autoref{def:classifying-space-carrier}, the local $\NameCert_{\ClassifyingSpaceUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $B=(G,U,S,H,C,T,R,P,N)$;
+\item topological-group exposure through the $\TopGroupUp$ row $G$;
+\item universal-bundle and classifier exposure through the $\BundleUp$ row $U$ together with the $\SimplicialSetUp$ row $S$;
+\item homotopy and categorical transport through the $\HomotopyUp$ row $H$, the $\CategoryUp$ row $C$, and componentwise transport $T$;
+\item replay, provenance, and local naming through $R,P,N$.
+\end{enumerate}
+Ledger exactness says that every accepted classifying-space read exposes precisely those rows before a bundle-classifier route is consumed. The obligations do not add quotient spaces, selected orbit representatives, host universal bundles, ambient homotopy equivalences, or a principal-bundle classification theorem.
+\end{theorem}
+
+\begin{theorem}[ClassifyingSpace principal-bundle route]
+\label{thm:classifying-space-principal-bundle-route}
+Every accepted $\ClassifyingSpaceUp$ packet routes a principal-bundle classifier read through
+$$
+\TopGroupUp,\ \BundleUp,\ \SimplicialSetUp,\ \HomotopyUp,\ \CategoryUp .
+$$
+The topological-group row fixes the structure group surface, the bundle row fixes the local-trivialization dependency, the simplicial row presents the finite classifying object ledger, the homotopy row records classifier comparison, and the category row records the object-and-arrow context for pullback-shaped reads. A consumer that omits one of these rows is outside the accepted $\ClassifyingSpaceUp$ carrier.
+\end{theorem}
+
+\closureat{ClassifyingSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ClassifyingSpaceUp}
+  \constructivestory{A $\ClassifyingSpaceUp$ packet is generated from TopGroupUp operation data, BundleUp local-trivialization data, SimplicialSetUp face and degeneracy ledgers, HomotopyUp comparison routes, CategoryUp object and arrow context, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:classifying-space-carrier}, \autoref{thm:classifying-space-namecert-obligations}, and \autoref{thm:classifying-space-principal-bundle-route} seed the finite classifying-space NameCert surface over topological groups, bundles, homotopy, simplicial carriers, and categories.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-space formation, orbit-representative choice, ambient universal-object selection, host homotopy equivalence, principal-bundle classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topological-group exposure, universal-bundle dependency, simplicial ledger exactness, homotopy comparison, categorical context, transport, replay, provenance, and local naming for BEDC.Derived.ClassifyingSpaceUp.}
+\end{closurestatus}

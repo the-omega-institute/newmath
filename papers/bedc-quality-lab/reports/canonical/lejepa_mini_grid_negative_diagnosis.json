@@ -1,0 +1,52 @@
+{
+  "artifact_id": "bedc-quality-lab:lejepa-mini-grid-negative-diagnosis",
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "diagnosis_ref": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]",
+  "diagnosis_slices": {
+    "debt_impact": {
+      "artifact_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0].demotion_rule",
+      "reason": "D2-HG2 records failed lambda/rho trend evidence for the LeJEPA mini-grid claim capsule.",
+      "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+      "status": "fail"
+    },
+    "metric_trend": {
+      "artifact_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+      "reason": "D2-HG2 owns the lambda/rho metric trend diagnosis.",
+      "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+      "status": "fail"
+    },
+    "quality_q_trend": {
+      "artifact_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2.lambda_quality_q_decreasing",
+      "reason": "The quality_q trend is read through the D2-HG2 evidence pointer.",
+      "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+      "status": "fail"
+    },
+    "theorem_bound_pass_rate": {
+      "artifact_pointer": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl:0",
+      "reason": "The raw metrics artifact owns theorem3_bound_mse rows; this sidecar stores only its pointer.",
+      "status": "pass"
+    }
+  },
+  "generated_at": "run-local:lejepa-mini-grid",
+  "hardgate": {
+    "source_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness_hardgates",
+    "status": "pass"
+  },
+  "not_claimed": [
+    "full LeJEPA reproduction",
+    "global model quality",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes",
+    "broad non-Gaussian mixing generalization"
+  ],
+  "producer": "scripts/run_lejepa_mini_grid.py",
+  "projector": "bedc_quality_lab.lejepa_mini_grid.LeJEPAMiniGridProjection",
+  "schema_id": "bedc-quality-lab:lejepa-mini-grid-negative-diagnosis",
+  "source_artifacts": {
+    "claim_capsule": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+    "raw_metrics": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl",
+    "report": "reports/runs/lejepa-mini-grid/report.md",
+    "summary": "reports/runs/lejepa-mini-grid/summary.json"
+  }
+}

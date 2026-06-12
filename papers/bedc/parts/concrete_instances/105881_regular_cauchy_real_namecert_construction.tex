@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $S,D,Q,K,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host real equality, Lean verification, or bridge checking.
 \end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyRealUp.RegularCauchyRealTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[RegularCauchyReal NameCert obligations]
 \label{thm:regular-cauchy-real-namecert-obligations}
@@ -59,6 +60,24 @@ The route cannot skip the finite observation stage because $S$ is the only coord
 The regular readback and convergence handoff are also forced. The row $Q$ is the sole $\RegSeqRatUp$ readback, while $K$ is the sole $\CauchyConvergenceCriterionUp$ handoff available to a completion consumer.
 
 Transport, replay, provenance, and local naming preserve the same route. Since $H,C,P,N$ have no quotient, selected-limit, countable-choice, or ambient-completeness coordinate, every Real-facing read reaches $E$ only through the displayed route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyReal seal factorization]
+\label{thm:regular-cauchy-real-seal-factorization}
+Every accepted $\RegularCauchyRealUp$ Real seal factors through the L10 four-object route
+$$
+\StreamNameUp(S) \longmapsto \DyadicRatCoreUp(D) \longmapsto \RegSeqRatUp(Q) \longmapsto \CauchyConvergenceCriterionUp(K) \longmapsto \RealUp(E)
+$$
+before any consumer can expose the terminal $\RealUp$ row. The factorization is carried by the same $H,C,P,N$ support rows of the carrier, and it supplies no quotient equality of Cauchy names, no selected limit, no host real equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $R=(S,D,Q,K,E,H,C,P,N)$ through \autoref{def:regular-cauchy-real-carrier}. The rows $S,D,Q,K,E$ are the only analytic rows available to a Real-facing consumer.
+
+The sibling route is ordered by the carrier itself. The finite windows of \autoref{ch:concrete-instances-streamname-namecert} are read from $S$, the tolerance comparisons of \autoref{ch:concrete-instances-dyadicratcore-namecert} are read from $D$, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert} is read from $Q$.
+
+Apply \autoref{thm:regular-cauchy-real-seal-route} and \autoref{thm:regular-cauchy-real-cauchy-criterion-handoff}. The first theorem forces every Real-facing read through $S,D,Q,K$ before $E$, while the second identifies $K$ as the displayed Cauchy-convergence handoff rather than an ambient completeness theorem.
+
+Finally use the support rows $H,C,P,N$. They transport, replay, source, and name exactly the displayed route, so the terminal $\RealUp(E)$ seal has no coordinate from which quotient equality, selected limits, host real equality, or ambient completeness could be recovered.
 \end{proof}
 
 \begin{theorem}[RegularCauchyReal Cauchy-criterion handoff]
@@ -108,7 +127,8 @@ None of the displayed coordinates stores quotient stream equality, selected limi
 \begin{closurestatus}{\RegularCauchyRealUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:regular-cauchy-real-carrier}, \autoref{thm:regular-cauchy-real-namecert-obligations}, \autoref{thm:regular-cauchy-real-seal-route}, \autoref{thm:regular-cauchy-real-cauchy-criterion-handoff}, \autoref{thm:regular-cauchy-real-cauchy-modulus-source-lock}, and \autoref{thm:regular-cauchy-real-nonescape} seed the non-quotient regular Cauchy real-name packet over displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyConvergenceCriterionUp$, $\CauchyModulusSpaceUp$, and $\RealUp$ rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyRealUp.RegularCauchyRealTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host real equality, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, stream-window exposure, dyadic tolerance exactness, regular rational readback, convergence handoff, Real-seal routing, transport stability, replay stability, provenance, local naming, and non-escape for BEDC.Derived.RegularCauchyRealUp.}

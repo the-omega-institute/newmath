@@ -27,6 +27,7 @@ $$
 \end{enumerate}
 The carrier contains no open-cover compactness witness, no quotient equality of real-valued functions, no selected supremum or infimum, no unbounded partition search, and no ambient real-completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.FiniteOscillationPartitionUp.FiniteOscillationPartitionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Finite oscillation partition NameCert obligations]
 \label{thm:finite-oscillation-partition-namecert-obligations}
@@ -43,6 +44,7 @@ Refinement stability is read from $R$ and transported by $H$. A downstream consu
 
 Since the carrier has no coordinate for open-cover compactness, quotient function equality, selected extrema, unbounded search, or ambient completeness, no accepted NameCert obligation can project one of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteOscillationPartitionUp.FiniteOscillationPartition\_namecert\_obligations}
 
 \begin{theorem}[Finite oscillation partition uniform window]
 \label{thm:finite-oscillation-partition-uniform-window}
@@ -76,6 +78,26 @@ Use \autoref{thm:finite-oscillation-partition-uniform-window} to identify the un
 Finally inspect the absent coordinates of the carrier. It contains no open-cover compactness witness, selected extrema, quotient comparison of functions, unbounded partition search, or ambient completeness row; hence none of those principles can be projected from the finite oscillation modulus.
 \end{proof}
 
+\begin{theorem}[Finite oscillation partition step-function handoff]
+\label{thm:finite-oscillation-partition-step-function-handoff}
+Let $O=(I,M,A,B,R,H,C,P,N)$ be an accepted $\FiniteOscillationPartitionUp$ packet whose cell-bound row $B$ chooses displayed lower and upper real-name reads for every cell of the finite mesh $M$. Then every $\StepFunctionUp$ or $\RegulatedFunctionUp$ consumer that reads the packet receives a finite approximation route through
+$$
+I,M,A,B,R,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ H,C,P,N .
+$$
+The route first exposes the interval source, finite mesh, oscillation modulus, stream windows, regular rational readbacks, dyadic tolerance rows, and terminal real seal; it then repacks the displayed cellwise constant lower and upper reads as $\StepFunctionUp$ rows and as the finite schedule visible to $\RegulatedFunctionUp$. No open-cover compactness, selected extrema, quotient functions, unbounded partition search, or ambient $\RealUp$ completeness principle is introduced by this handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-oscillation-partition-carrier}. The interval source $I$, mesh $M$, oscillation row $A$, cell-bound row $B$, and refinement row $R$ are already finite rows of the accepted packet, while $H,C,P,N$ provide componentwise transport, displayed replay, provenance, and the local naming certificate.
+
+Apply \autoref{thm:finite-oscillation-partition-namecert-obligations}. The NameCert obligations force every consumer to expose the interval source, mesh exactness, oscillation-window accounting, cell-bound readback, refinement stability, transport, replay, provenance, and local name before the packet can be read as approximation data.
+
+Use \autoref{thm:compact-uniform-finite-oscillation-modulus} to expose the uniform cell window. For each cell of $M$, the selected lower and upper reads in $B$ pass through $\StreamNameUp$ and $\RegSeqRatUp$, are calibrated by the $\DyadicRatCoreUp$ tolerance rows, and reach the terminal $\RealUp$ seal only along that displayed finite route.
+
+Now repack each displayed cellwise constant read as a $\StepFunctionUp$ row over the same interval source and finite mesh. Reading the finitely many rows in the order recorded by $R$ gives the regulated-function finite schedule: the $\RegulatedFunctionUp$ consumer sees only the interval, mesh, step rows, oscillation window, readbacks, transport, replay, provenance, and local name.
+
+Finally inspect the absent coordinates of the carrier. Since the packet has no coordinate for open-cover compactness, selected extrema, quotient functions, unbounded partition search, or ambient $\RealUp$ completeness, the step-function and regulated-function consumers cannot acquire any of those principles through this handoff.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\FiniteOscillationPartitionUp$ consumer that claims a uniform oscillation window while omitting one of the interval source, finite mesh, oscillation-modulus, cell-bound, refinement, transport, replay, provenance, or local naming rows refutes the packet.}
 
 \independenceWitness{closedboundedinterval, located-real-interval-partition, oscillationmodulus, real, regseqrat, streamname: none is bijective with $\FiniteOscillationPartitionUp$ because this packet jointly carries interval source, finite mesh, oscillation tolerance, cell-bound readback, refinement stability, transport, replay, provenance, and local naming rows.}
@@ -85,7 +107,7 @@ Finally inspect the absent coordinates of the carrier. It contains no open-cover
 \begin{closurestatus}{\FiniteOscillationPartitionUp}
   \constructivestory{A $\FiniteOscillationPartitionUp$ packet is generated from a closed bounded located interval row, a finite mesh row, an oscillation-modulus row, cell-bound readbacks through StreamName and RegSeqRat, a refinement-readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-oscillation-partition-carrier}, \autoref{thm:finite-oscillation-partition-namecert-obligations}, and \autoref{thm:finite-oscillation-partition-uniform-window} seed the finite oscillation-controlled partition route for uniform-continuity and integration-facing consumers.}
+  \scopeclosed{\autoref{def:finite-oscillation-partition-carrier}, \autoref{thm:finite-oscillation-partition-namecert-obligations}, \autoref{thm:finite-oscillation-partition-uniform-window}, and \autoref{thm:finite-oscillation-partition-step-function-handoff} seed the finite oscillation-controlled partition route for uniform-continuity, step-function, regulated-function, and integration-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, quotient equality of real-valued functions, selected suprema, unbounded partition search, ambient RealUp completeness, Lean verification, or bridge checking.}

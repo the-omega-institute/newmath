@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CantorTernaryExpansionUp$}
+\label{ch:concrete-instances-cantor-ternary-expansion-namecert}
+\origin{human}
+
+Following Cantor's middle-third construction and the Bishop--Bridges discipline for real names, the $\CantorTernaryExpansionUp$ packet records a finite ternary-prefix presentation of Cantor-set membership before any downstream real consumer reads it as a $\RealUp$ name. It sits beside the retained-set surface of \autoref{ch:concrete-instances-cantorset-namecert}, the nested-interval route of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic interval arithmetic of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed finite-window route from ternary digits to a real seal; it does not import quotient real equality, choice of an infinite branch, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cantor ternary expansion carrier]
+\label{def:cantor-ternary-expansion-carrier}
+A $\CantorTernaryExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,D,I,K,W,R,E,H,C,P,L)
+$$
+with the following rows:
+\begin{enumerate}
+\item $A$ is the finite ternary prefix row, listing the inspected digits and their prefix length.
+\item $D$ is the digit-compatibility row requiring every displayed digit to be $0$ or $2$ and recording the excluded middle-third alternative.
+\item $I$ is the retained interval row read through $\CantorSetUp$, $\NestedIntervalUp$, and $\DyadicIntervalUp$ siblings.
+\item $K$ is the $\DyadicRatCoreUp$ tolerance row comparing ternary prefix intervals with dyadic observation budgets.
+\item $W$ is the $\StreamNameUp$ window row naming the finite digit stream segment consumed by the real-name read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same prefix window and tolerance budget.
+\item $E$ is the terminal $\RealUp$ seal reached after the prefix, tolerance, stream, and rational readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,D,I,K,W,R,E$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from ternary-prefix requests through interval, tolerance, stream, rational, and Real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\CantorTernaryExpansionUp$, $\CantorSetUp$, $\NestedIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CantorTernaryExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a completed infinite ternary choice sequence, host subset equality, quotient real equality, selected branch, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cantor ternary expansion NameCert obligations]
+\label{thm:cantor-ternary-expansion-namecert-obligations}
+For every accepted $\CantorTernaryExpansionUp$ carrier
+$$
+T=(A,D,I,K,W,R,E,H,C,P,L),
+$$
+the local $\NameCert_{\CantorTernaryExpansionUp}$ surface consists exactly of ternary prefix data $A$, digit compatibility $D$, retained interval data $I$, $\DyadicRatCoreUp$ tolerance $K$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-ternary-expansion-carrier}. The only digit data are the finite prefix row $A$ and the compatibility row $D$, so the packet cannot read an unbounded ternary branch before the displayed window has been named.
+
+The retained interval row $I$ is then read through the Cantor-set, nested-interval, and dyadic-interval siblings. The dyadic tolerance row $K$, stream window $W$, regular rational readback $R$, and terminal Real seal $E$ turn that interval route into a finite real-name observation.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same rows. Since the carrier contains no branch selector, quotient real equality, host closed-set equality, or ambient completeness row, the NameCert surface is exhausted by the displayed finite-window route.
+\end{proof}
+
+\begin{theorem}[Cantor ternary expansion Real seal route]
+\label{thm:cantor-ternary-expansion-real-seal-route}
+Every Real-facing read of an accepted $\CantorTernaryExpansionUp$ carrier must factor in order through the ternary prefix row $A$, digit-compatibility row $D$, retained interval row $I$, dyadic tolerance row $K$, stream window $W$, regular rational readback $R$, and terminal Real seal $E$ before the structural rows $H,C,P,L$ are consumed. The route strengthens the $\CantorSetUp$, $\NestedIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ frontier without importing quotient real equality or choice.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cantor-ternary-expansion-namecert-obligations}. It places the prefix and digit rows before the interval, tolerance, stream, rational, and Real rows.
+
+The interval row reads the Cantor-set and nested-interval siblings as finite retained intervals, while the dyadic interval and dyadic rational rows provide the tolerance comparison needed by the stream and rational readback.
+
+The Real seal is therefore available only after $A,D,I,K,W,R$ have been displayed. The structural rows $H,C,P,L$ preserve and name that route, so a Real-facing consumer receives a finite NameCert path rather than a selected infinite ternary branch or a quotient real equality proof.
+\end{proof}
+
+\closureat{CantorTernaryExpansionUp}{seedStr}
+
+\begin{closurestatus}{\CantorTernaryExpansionUp}
+  \constructivestory{A $\CantorTernaryExpansionUp$ packet is generated from ternary prefix data, digit-compatibility rows, retained interval rows, DyadicRatCore tolerance rows, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-ternary-expansion-carrier}, \autoref{thm:cantor-ternary-expansion-namecert-obligations}, and \autoref{thm:cantor-ternary-expansion-real-seal-route} seed the finite ternary-prefix real-name route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected infinite ternary branches, Cantor-set compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked prefix, digit, interval, tolerance, stream, rational readback, Real-seal, transport, replay, provenance, and local naming rows for BEDC.Derived.CantorTernaryExpansionUp.}
+\end{closurestatus}

@@ -1,0 +1,27 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier seed registration]
+\label{thm:metacic-parallel-diamond-frontier-seed-registration}
+Every seed read of an accepted $\MetaCICParallelDiamondFrontierUp$ packet that presents a conditional parallel-diamond handoff must first expose the residual-substitution premise row $P$, critical-pair row $K$, candidate join $J$, residual frontier $R$, closed checker $S$, closed-normal fragment $C$, bounded check $B$, obstruction $O$, and structural rows $H,T,G,N$. The handoff is public only at this finite row surface; it does not claim a premise-free diamond, full Church--Rosser theorem, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes $P,K,J,R,S,C,B,O,H,T,G,N$ the visible rows of the accepted frontier packet, with $P$ retained as an actual residual-substitution premise.
+
+Next use the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. A conditional diamond handoff cannot be consumed until the critical-pair, residual-frontier, closed-checker, closed-normal, bounded-check, and obstruction rows have been read alongside the structural rows.
+
+Finally apply premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The premise row remains visible through the local-diamond route, so the seed registration records the finite frontier interface rather than any of the refused confluence or kernel endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier seed-status route]
+\label{thm:metacic-parallel-diamond-frontier-seed-status-route}
+The hub seed registration for $\MetaCICParallelDiamondFrontierUp$ is valid only through the retained rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+and the sibling critical-path consumer route. It does not discharge residual substitution, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the carrier and obligation surfaces, \autoref{def:metacic-parallel-diamond-frontier-carrier} and \autoref{thm:metacic-parallel-diamond-frontier-obligations}. They make $P,K,J,R,S,C,B,O,H,T,G,N$ the whole retained packet for the seed registration.
+
+Next use the route theorem and seed-readiness theorem, \autoref{thm:metacic-parallel-diamond-frontier-route} and \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}. These force the seed read to keep the residual-substitution premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, transport, replay, provenance, and local name rows visible.
+
+Finally apply the critical-path consumer route, \autoref{thm:metacic-parallel-diamond-frontier-critical-path-consumer-route}. The downstream consumer receives only that retained row surface, so the seed-status route remains a registered frontier boundary rather than any of the refused residual-substitution, subject-reduction, confluence, evaluator-equality, quotient-equality, or kernel-consistency endpoints.
+\end{proof}

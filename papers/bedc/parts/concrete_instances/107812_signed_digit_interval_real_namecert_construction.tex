@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $L,U,D,O,S,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected infinite signed-digit expansion, real trichotomy, a selected point of the interval, open-cover compactness, countable choice, or ambient completeness of $\RealUp$.
 \end{definition}
+\leanchecked{BEDC.Derived.SignedDigitIntervalRealUp.SignedDigitIntervalRealTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Signed digit interval real NameCert obligations]
 \label{thm:signed-digit-interval-real-namecert-obligations}
@@ -59,6 +60,24 @@ Start with the endpoint rows. The lower and upper endpoints are visible only as 
 Normalize those endpoint windows through $D$ and compare them through $O$. This is the only place where the carrier records containment of the lower endpoint below the upper endpoint, and it is expressed as a finite dyadic ledger rather than as trichotomy or quotient real equality.
 
 The RealUp-facing read then passes through $R,E,H,C,P,N$. Since the carrier has no further public coordinates, any interval consumer is confined to the displayed finite route and none of the excluded selection, compactness, choice, or completeness principles can escape through the seal.
+\end{proof}
+
+\begin{theorem}[Signed digit interval real endpoint-order nonescape]
+\label{thm:signed-digit-interval-real-endpoint-order-nonescape}
+Let
+$$
+I=(L,U,D,O,S,R,E,H,C,P,N)
+$$
+be an accepted $\SignedDigitIntervalRealUp$ carrier. Any consumer read that uses interval containment or the lower-before-upper comparison must expose the finite signed-digit endpoint rows $L,U$, the finite schedule $S$, the dyadic normalization ledger $D$, and the endpoint-order row $O$ before it can pass to the readback and seal rows $R,E$.
+
+Consequently the order-facing read exports only finite dyadic endpoint comparison data. It exports no real trichotomy, quotient real equality, selected endpoint, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier displayed in \autoref{def:signed-digit-interval-real-carrier}. The rows $L$ and $U$ are the only endpoint-window sources, and $S$ is the only row that records which finite windows and precision requests the packet has inspected.
+
+The order-facing data then factors through $D$ and $O$. The ledger $D$ is the unique dyadic normalization row for the inspected endpoint windows, while $O$ is the only coordinate that records the lower-before-upper comparison.
+
+The rows $R,E,H,C,P,N$ are downstream readback, seal, transport, replay, provenance, and naming rows. They add no further order coordinate, so every public order-facing read remains confined to the finite endpoint windows, their dyadic normalization ledger, and the displayed endpoint-order row.
 \end{proof}
 
 \closureat{SignedDigitIntervalRealUp}{seedStr}

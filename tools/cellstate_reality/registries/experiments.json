@@ -1,0 +1,284 @@
+{
+  "version": "cellstate-reality-experiments-v1",
+  "experiments": [
+    {
+      "experiment_id": "gse142439_horvath353_age_clock_shift",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_horvath353_age_clock_shift.py",
+      "claim_id": "cellstate.age-clock-shift.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "paired.sample.structure",
+          "mean.delta.negative",
+          "paired.direction.statistic"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse142439_horvath353_age_clock_shift_robustness",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_horvath353_age_clock_shift_robustness.py",
+      "claim_id": "cellstate.age-clock-shift.robustness.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "paired.sample.structure",
+          "per_cell_type.direction_consistency",
+          "leave_one_donor_out.all_negative",
+          "age_signature.scope_boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165177_mptr_identity_samesig",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165177_mptr_identity_samesig.py",
+      "claim_id": "cellstate.identity-samesig.gse165177-mptr",
+      "required_data": [
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "sample.structure",
+          "identity.marker.coverage",
+          "pluripotency.marker.coverage",
+          "identity.distance.threshold",
+          "pluripotency.exclusion",
+          "promotion.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_samescope_identity_age_reset",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_samescope_identity_age_reset.py",
+      "claim_id": "cellstate.identity-preserving-age-reset.samescope.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_transient_clock_inputs.json",
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "age.coverage.floor",
+          "age.same-donor.baseline-treated-pairs",
+          "age.clock.shift",
+          "same-scope.join",
+          "identity.marker.coverage",
+          "pluripotency.marker.coverage",
+          "promotion.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165177_pluripotency_break_decomposition",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165177_pluripotency_break_decomposition.py",
+      "claim_id": "cellstate.identity-samesig.break-decomposition.gse165177",
+      "required_data": [
+        "tools/cellstate_reality/data/k_i_gse165177_mptr_identity_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "pluripotency.marker.coverage",
+          "donor.decomposition.produced",
+          "negative_evidence.structured",
+          "promotion.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_phase_frontier",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_phase_frontier.py",
+      "claim_id": "cellstate.promotion-frontier.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_phase_frontier_inputs.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "age.coverage.floor",
+          "marker.panel.coverage",
+          "full-timeseries.join",
+          "promotion.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse142439_missing_cpg_bound",
+      "script_path": "tools/cellstate_reality/experiments/run_gse142439_missing_cpg_bound.py",
+      "claim_id": "cellstate.age-clock-shift.coverage-bound.gse142439",
+      "required_data": [
+        "tools/cellstate_reality/data/gse142439_horvath353_clock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "clock.coverage.partition",
+          "paired.delta-z.produced",
+          "missing-cpg.bound.produced",
+          "age_signature.scope_boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse190665-function-signature",
+      "script_path": "tools/cellstate_reality/experiments/run_gse190665_function_signature.py",
+      "claim_id": "cellstate.function-signature-shift.gse190665",
+      "required_data": [
+        "tools/cellstate_reality/data/gse190665_function_signature_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "marker.panel.coverage",
+          "age-matched.sample.structure",
+          "mean.delta.senescence.negative",
+          "mean.delta.sasp.negative",
+          "finite-scope.direction.consistency",
+          "function-assay.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_age_clock_shift_crossmethod",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_age_clock_shift_crossmethod.py",
+      "claim_id": "cellstate.age-clock-shift.crossmethod.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_crossmethod_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "paired.sample.structure",
+          "mean.delta.negative",
+          "age-signature.scope-boundary",
+          "cohort.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_age_clock_shift_dose_response",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_age_clock_shift_dose_response.py",
+      "claim_id": "cellstate.age-clock-shift.dose-response.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "coverage.floor",
+          "timecourse.sample.structure",
+          "pooled.mean.delta.negative",
+          "age-signature.scope-boundary",
+          "cohort.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_horvath353_reversal_decomposition",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_horvath353_reversal_decomposition.py",
+      "claim_id": "cellstate.age-clock-shift.reversal-decomposition.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "coverage.floor",
+          "additive.z-decomposition",
+          "dnam-age.direction.sanity",
+          "top-k.localization",
+          "concentration.quantified",
+          "age-signature.scope-boundary",
+          "annotation.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165177-function-signature",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165177_function_signature.py",
+      "claim_id": "cellstate.function-signature-shift.gse165177-mptr-human",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165177_function_signature_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "human.sample.structure",
+          "marker.panel.coverage",
+          "mean.delta.senescence.negative",
+          "mean.delta.sasp.negative",
+          "function-signature-only.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165179_clock_dependence",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165179_clock_dependence.py",
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "dual-clock.coverage",
+          "timecourse.sample.structure",
+          "pan-tissue.sanity",
+          "clock-dependence.verdict",
+          "age-signature-only.boundary",
+          "cohort.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165179_clock_dependence_coverage_control",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165179_clock_dependence_coverage_control.py",
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "clock.cpg.partition",
+          "skinblood.full.coverage",
+          "coverage.not.explanatory",
+          "intersection.day17.control",
+          "age-signature-only.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_reversal_leave_top20_out",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_reversal_leave_top20_out.py",
+      "claim_id": "cellstate.age-clock-shift.reversal-leave-top20-out.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "top20.selected",
+          "leaveout.coverage",
+          "reversal.leaveout.response",
+          "age-signature-only.boundary"
+        ]
+      }
+    }
+  ]
+}

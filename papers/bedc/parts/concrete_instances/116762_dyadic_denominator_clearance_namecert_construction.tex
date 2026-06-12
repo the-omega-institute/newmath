@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DyadicDenominatorClearanceUp$}
+\label{ch:concrete-instances-dyadic-denominator-clearance-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real-number calculation and the Hardy--Wright denominator-clearing discipline for rational arithmetic, the $\DyadicDenominatorClearanceUp$ packet records the finite common-scale step used before regular Cauchy consumers compare dyadic approximants. It sits after the rational and dyadic source rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the signed normal-form rows of \autoref{ch:concrete-instances-signed-dyadic-normal-form-namecert}, the valuation ledger of \autoref{ch:concrete-instances-dyadic-valuation-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names common-denominator clearing as a displayed finite route; it does not import quotient rational equality, host integer normalization, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic denominator clearance carrier]
+\label{def:dyadic-denominator-clearance-carrier}
+A $\DyadicDenominatorClearanceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Q,V,M,E,T,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational and dyadic source row, read through $\RatUp$ and $\DyadicRatCoreUp$, exposing only the finitely presented numerator and dyadic-scale cells admitted by the source certificate.
+\item $V$ is the $\DyadicValuationUp$ row that records the visible dyadic exponents and the divisibility checks used to compare source scales.
+\item $M$ is the signed mantissa row, read through $\SignedDyadicNormalFormUp$, carrying sign, finite mantissa, and zero-status data for each displayed source cell.
+\item $E$ is the common exponent row, generated from the displayed $V$ cells and naming the shared dyadic scale to which the visible source cells are lifted.
+\item $T$ is the dyadic tolerance row, recording that the common exponent is fine enough for the current local tolerance request.
+\item $S$ is the $\StreamNameUp$ window row that lists exactly the finite source windows whose entries have been lifted to the common exponent.
+\item $R$ is the $\RegSeqRatUp$ handoff row that consumes the common-scale windows without receiving a quotient rational object or a host sequence function.
+\item $H$ records componentwise $\hsame$ transport for source, valuation, mantissa, exponent, tolerance, stream-window, regular handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $Q,V,M,E,T,S,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicDenominatorClearanceUp$, $\RatUp$, $\DyadicRatCoreUp$, $\DyadicValuationUp$, $\SignedDyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicDenominatorClearanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $Q,V,M,E,T,S,R,H,C,P,N$. It has no coordinate for quotient rational equality, host integer normalization, trichotomy, selected representatives, countable choice, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic denominator clearance NameCert obligations]
+\label{thm:dyadic-denominator-clearance-namecert-obligations}
+For every accepted $\DyadicDenominatorClearanceUp$ carrier $D=(Q,V,M,E,T,S,R,H,C,P,N)$, the local $\NameCert_{\DyadicDenominatorClearanceUp}$ surface consists exactly of rational and dyadic source exposure, valuation exposure, signed mantissa exposure, common exponent admission, dyadic tolerance admission, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ handoff, componentwise transport, displayed continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only arithmetic source rows are $Q,V,M,E,T$, so every denominator-clearing read starts with finitely displayed rational and dyadic cells, their visible valuations, their signed mantissas, a named common exponent, and the tolerance row that licenses that exponent.
+
+The stream and regular rows are downstream of that arithmetic surface. Row $S$ records the finite windows lifted to the common scale, and row $R$ is available only after those windows have been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since quotient rational equality, host integer normalization, trichotomy, selected representatives, countable choice, and ambient Real completeness are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic denominator clearance scale locality]
+\label{thm:dyadic-denominator-clearance-scale-clearing}
+Every common-scale comparison exposed by an accepted $\DyadicDenominatorClearanceUp$ packet factors through the finite route
+$$
+Q,V,M
+\longmapsto
+E,T
+\longmapsto
+S,R .
+$$
+The common exponent row $E$ is determined only from displayed valuation and mantissa rows, and the resulting comparison exports no quotient rational equality, no host normalization algorithm, no trichotomy, and no selected representative.
+\end{theorem}
+\begin{proof}
+Read $Q,V,M$ first. These rows expose the source cells, the dyadic exponents visible for the current comparison, and the signed mantissas attached to those cells.
+
+The common exponent row $E$ is then admitted as a finite row over the displayed valuation data, and $T$ checks that this exponent is fine enough for the local tolerance. No unlisted normalization routine is consulted.
+
+Finally $S$ and $R$ consume only the lifted finite windows. Because the refused objects are not carrier rows, the scale-clearing comparison remains local to the displayed BEDC data.
+\end{proof}
+
+\begin{theorem}[Dyadic denominator clearance regular handoff]
+\label{thm:dyadic-denominator-clearance-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\DyadicDenominatorClearanceUp$ packet receives regular rational data only through displayed common-scale $\StreamNameUp$ windows and the structural rows $H,C,P,N$. The handoff cannot be read as a proof of quotient rational equality, a host integer normal form, a trichotomy decision, a selected representative, a countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:dyadic-denominator-clearance-scale-clearing}. It places every common-scale comparison downstream of the finite source, valuation, mantissa, exponent, and tolerance rows.
+
+The $\StreamNameUp$ row $S$ records exactly the finite windows produced by that route. A $\RegSeqRatUp$ consumer therefore reaches $R$ only after the common-scale windows have been displayed.
+
+Transport, replay, provenance, and local naming keep the handoff attached to the same carrier. Since the excluded principles are not rows of $D$, the regular handoff has no route by which to export them.
+\end{proof}
+
+\falsifiablePrediction{Every $\DyadicDenominatorClearanceUp$ regular-rational read factors through rational and dyadic source rows, DyadicValuation rows, SignedDyadicNormalForm mantissas, a common exponent row, dyadic tolerance, StreamName windows, RegSeqRat handoff, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, signed-dyadic-normal-form, dyadic-valuation, streamname, regseqrat, real: $\DyadicDenominatorClearanceUp$ is not bijective to any listed sibling because it jointly carries source dyadic cells, visible valuations, signed mantissas, common exponent clearance, tolerance admission, finite stream windows, and regular rational handoff as one finite NameCert packet.}
+
+\closureat{DyadicDenominatorClearanceUp}{seedStr}
+
+\begin{closurestatus}{\DyadicDenominatorClearanceUp}
+  \constructivestory{A $\DyadicDenominatorClearanceUp$ packet is generated from rational and dyadic source rows, DyadicValuation rows, SignedDyadicNormalForm mantissas, a common exponent row, dyadic tolerance, StreamName windows, RegSeqRat handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-denominator-clearance-carrier}, \autoref{thm:dyadic-denominator-clearance-namecert-obligations}, \autoref{thm:dyadic-denominator-clearance-scale-clearing}, and \autoref{thm:dyadic-denominator-clearance-regseqrat-handoff} seed the finite denominator-clearing route from DyadicRatCore valuation data and signed normal forms to StreamName windows and RegSeqRat consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rational equality, host integer normalization, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source exposure, valuation exposure, signed mantissa exposure, common exponent admission, dyadic tolerance exactness, StreamName window exposure, RegSeqRat handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicDenominatorClearanceUp.}
+\end{closurestatus}

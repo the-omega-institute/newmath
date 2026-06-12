@@ -28,7 +28,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier contains no hidden typing derivation, no unrestricted compiler correctness theorem, no host substitution semantics, and no coordinate for an unregistered free variable.
 \end{definition}
-\leanchecked{BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedTermSubstitutionBoundaryPacket\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedTermSubstitutionBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[Closed-term substitution boundary classifier]
 \label{def:closed-term-substitution-boundary-classifier}
@@ -90,6 +90,19 @@ Read the carrier coordinates from \autoref{def:closed-term-substitution-boundary
 Apply \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Their substitution boundary clause permits a read of $R$ only after the source and value closedness witnesses have been displayed and recorded in the local ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryValueClosednessAdmission}
+
+\begin{theorem}[Closed-term substitution boundary closed-value preservation]
+\label{thm:closed-term-substitution-boundary-closed-value-preservation}
+Any accepted substitution-row read that preserves the $\ClosedTermSubstitutionBoundaryUp$ packet must keep the value closedness row $C_{\mathsf{val}}$ displayed through $R,L,A,H,C,P,N$. The read cannot replace $C_{\mathsf{val}}$ by host substitution semantics, hidden equality, or an ambient subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. The row $C_{\mathsf{val}}$ is a named coordinate of the same finite packet as the substitution row $R$, ledger $L$, audit row $A$, transport $H$, route $C$, provenance $P$, and local name $N$.
+
+Use \autoref{thm:closed-term-substitution-boundary-value-closedness-admission} and \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}. The first admits the displayed value-closedness row, and the second requires any substitution-row read to expose that row before $R$ is consumed.
+
+Thus preservation of the boundary preserves the displayed $C_{\mathsf{val}}$ row. No carrier coordinate supplies host substitution semantics, hidden equality, or subject reduction.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryClosedValuePreservation}
 
 \begin{theorem}[Closed-term substitution boundary substitution-row exactness]
 \label{thm:closed-term-substitution-boundary-substitution-row-exactness}
@@ -745,11 +758,11 @@ subject reduction.
 
 \begin{closurestatus}{\ClosedTermSubstitutionBoundaryUp}
   \constructivestory{A $\ClosedTermSubstitutionBoundaryUp$ packet is generated from displayed $\mathsf{Term}$ rows, $\mathsf{ClosedAt}$ witnesses, a depth row, closed $\mathsf{shift}$ and $\mathsf{substitute}$ boundary rows, a finite closedness ledger, an audit-visible non-escape row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-consumer-boundary}, \autoref{thm:closed-term-substitution-boundary-obligation-route-triad}, \autoref{thm:closed-term-substitution-boundary-kernel-scope-package}, \autoref{thm:closed-term-substitution-boundary-closedness-consumer-export}, and \autoref{thm:closed-term-substitution-boundary-root-audit-totality} bind closed-term substitution as a public finite audit package over $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-consumer-boundary}, \autoref{thm:closed-term-substitution-boundary-obligation-route-triad}, \autoref{thm:closed-term-substitution-boundary-kernel-scope-package}, \autoref{thm:closed-term-substitution-boundary-closedness-consumer-export}, \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, \autoref{thm:closed-term-substitution-boundary-metacic-public-handoff}, \autoref{thm:closed-term-substitution-boundary-metacic-consumer-nonescape}, and \autoref{thm:closed-term-substitution-boundary-metacic-socket-factorization} bind closed-term substitution as a bridged finite audit route over $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with the paper-side bridge route recorded by the sibling status ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full compiler correctness, subject reduction, host syntax quotienting, hidden semantic models, or bridge checking.}
-  \upgradepath{A Lean theorem for the scoped kernel package is the next verification-axis obligation for the same closed-term substitution packet.}
+  \upgradepath{Mature closure asks for examples, completeness coverage, and downstream MetaCIC consumer consolidation; Lean verification remains an independent axis.}
 \end{closurestatus}

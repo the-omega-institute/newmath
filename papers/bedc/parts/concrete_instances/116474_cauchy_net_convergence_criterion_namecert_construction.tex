@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNetConvergenceCriterionUp$}
+\label{ch:concrete-instances-cauchy-net-convergence-criterion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley-style net convergence, the $\CauchyNetConvergenceCriterionUp$ packet records the finite criterion by which a displayed Cauchy net is read as a convergence candidate only through named windows, regular rational tolerances, and the terminal real seal. It sits after the Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The criterion is a finite BEDC NameCert surface; it does not construct quotient filters, select a limit, invoke countable choice, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy net convergence criterion carrier]
+\label{def:cauchy-net-convergence-criterion-carrier}
+A $\CauchyNetConvergenceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,S,R,D,W,T,E,H,A,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $C$ is the $\CauchyNetUp$ source row exposing the directed Cauchy-net request.
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect named tails of the net.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational tolerance comparisons.
+\item $D$ is the $\DyadicRatCoreUp$ budget row, recording precision cells and refinement slack for each request.
+\item $W$ is the window-eventuality row, sending a requested tolerance to a displayed finite tail window.
+\item $T$ is the tail-coherence row, recording that later displayed windows preserve the same rational tolerance decision.
+\item $E$ is the Real-seal eligibility row, exposed only after $C,S,R,D,W,T$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the source, window, readback, dyadic, eventuality, coherence, and seal-eligibility rows.
+\item $A$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyNetConvergenceCriterionUp$, $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyNetConvergenceCriterionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected limits, countable choice, host equality of nets, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyNetConvergenceCriterionUp.CauchyNetConvergenceCriterionUp}
+\leanchecked{BEDC.Derived.CauchyNetConvergenceCriterionUp.CauchyNetConvergenceCriterionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy net convergence criterion NameCert obligations]
+\label{thm:cauchy-net-convergence-criterion-namecert-obligations}
+For every accepted $\CauchyNetConvergenceCriterionUp$ carrier
+$$
+K=(C,S,R,D,W,T,E,H,A,P,N),
+$$
+the local $\NameCert_{\CauchyNetConvergenceCriterionUp}$ surface consists exactly of Cauchy-net source exposure through $C$, stream-window inspection through $S$, regular rational readback through $R$, dyadic budget exposure through $D$, eventual tail-window selection through $W$, tail coherence through $T$, Real-seal eligibility through $E$, componentwise transport through $H$, displayed continuation replay through $A$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $C$ supplies the directed Cauchy-net request, while $S$ and $R$ expose the finite stream window and rational readback used to inspect that request.
+
+The dyadic budget row $D$ fixes the tolerance cell. The eventuality row $W$ then records which displayed tail window answers the request, and the coherence row $T$ records that later displayed windows keep the same tolerance decision.
+
+Only after those rows are visible may the eligibility row $E$ reach the Real seal. The structural rows $H,A,P,N$ transport, replay, source, and name the same finite route, so the local NameCert cannot export a quotient filter, a selected limit, countable choice, host net equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy net convergence criterion Real seal handoff]
+\label{thm:cauchy-net-convergence-criterion-real-seal-handoff}
+Every Real-facing consumer of an accepted $\CauchyNetConvergenceCriterionUp$ packet must read the handoff through the displayed route
+$$
+C,S,R,D,W,T,E \longmapsto H,A,P,N .
+$$
+Consequently a Cauchy-net convergence request reaches $\RealUp$ only after the StreamName window, RegSeqRat readback, DyadicRatCore budget, eventuality row, and tail-coherence row are all visible.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-net source row $C$ and the finite window row $S$. They determine which displayed tail of the net is inspected for the current tolerance request.
+
+The regular rational row $R$ and dyadic row $D$ provide the comparison budget. The eventuality row $W$ and coherence row $T$ bind that budget to a finite tail route rather than to an unrecorded filter representative or a chosen limit.
+
+The Real-seal row $E$ is therefore downstream of the displayed Cauchy-net, window, readback, and budget data. Transport, replay, provenance, and local naming through $H,A,P,N$ preserve the same route, so a Real-facing consumer obtains no bypass around StreamName, RegSeqRat, DyadicRatCore, or the terminal Real seal.
+\end{proof}
+
+\closureat{CauchyNetConvergenceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNetConvergenceCriterionUp}
+  \constructivestory{A $\CauchyNetConvergenceCriterionUp$ packet is generated from a CauchyNet source row, StreamName finite windows, RegSeqRat readback, a DyadicRatCore budget row, eventual tail-window evidence, tail coherence, Real-seal eligibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-net-convergence-criterion-carrier}, \autoref{thm:cauchy-net-convergence-criterion-namecert-obligations}, and \autoref{thm:cauchy-net-convergence-criterion-real-seal-handoff} seed the finite Cauchy-net convergence criterion for StreamName, RegSeqRat, DyadicRatCore, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host net equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular rational readback, dyadic budget exposure, eventuality, tail coherence, Real-seal eligibility, transport, replay, provenance, and local naming for BEDC.Derived.CauchyNetConvergenceCriterionUp.}
+\end{closurestatus}

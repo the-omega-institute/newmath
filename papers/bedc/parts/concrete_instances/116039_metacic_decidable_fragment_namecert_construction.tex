@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDecidableFragmentUp$}
+\label{ch:concrete-instances-metacic-decidable-fragment-namecert}
+\origin{human}
+
+Following the Tait, Girard, and Coquand tradition of bounded decidability arguments around typed calculi, the $\MetaCICDecidableFragmentUp$ packet records the finite fragment in which closed checking, bounded normal comparison, and endpoint refusal are displayed together before a decidability-facing consumer reads any result. It sits beside the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the closed checker seal of \autoref{ch:concrete-instances-closed-type-checker-seal-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet names a finite decidable fragment, not global conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[MetaCIC decidable fragment carrier]
+\label{def:metacic-decidable-fragment-carrier}
+A $\MetaCICDecidableFragmentUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,S,E,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed-term input row, listing the finite typed closed terms and the bounded query being inspected.
+\item $S$ is the checker-seal row, read through $\ClosedTypeCheckerSealUp$ and recording the accepted closed checker output.
+\item $E$ is the bounded normal endpoint row, read through $\MetaCICNormalizationFrontierUp$ and recording the finished endpoint available at the displayed bound.
+\item $Q$ is the comparison-result row, read through $\BoundedNormalEqualityCheckerUp$ and recording the bounded normal comparison output.
+\item $R$ is the refusal-boundary row, naming global conversion decidability, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, and kernel consistency as unavailable endpoints.
+\item $H$ records componentwise $\hsame$ transport for $I,S,E,Q,R$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the closed-term input through checker sealing, bounded endpoint comparison, refusal retention, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICDecidableFragmentUp$, $\MetaCICDecidableBoundaryUp$, $\ClosedTypeCheckerSealUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICDecidableFragmentUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,E,Q,R,H,C,P,N$. It has no coordinate for a global closed conversion decider, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable fragment NameCert obligations]
+\label{thm:metacic-decidable-fragment-namecert-obligations}
+For every accepted $\MetaCICDecidableFragmentUp$ carrier $F=(I,S,E,Q,R,H,C,P,N)$, the local $\NameCert_{\MetaCICDecidableFragmentUp}$ surface consists exactly of closed-term input exposure, checker-seal exposure, bounded normal endpoint exposure, comparison-result exposure, refusal-boundary retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-fragment-carrier}. The rows $I,S,E,Q,R$ are the complete decidability-facing data, and $H,C,P,N$ are the structural rows that transport, replay, source, and name that data.
+
+The checker and comparison rows are bounded. The checker seal $S$ accepts only the displayed closed input, the endpoint row $E$ records only the finished normal data available at the bound, and the comparison row $Q$ records only the bounded comparison result.
+
+The refusal row $R$ remains part of the same packet. Since no carrier coordinate contains global conversion decidability, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency, those endpoints cannot be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable fragment closed-checker handoff]
+\label{thm:metacic-decidable-fragment-closed-checker-handoff}
+Every decidability-facing consumer of an accepted $\MetaCICDecidableFragmentUp$ packet must read the closed-term input row $I$, checker-seal row $S$, bounded normal endpoint row $E$, comparison-result row $Q$, and refusal-boundary row $R$ before it consumes a fragment decision. The handoff is the finite route
+$$
+I \longmapsto S \longmapsto E,Q,R,H,C,P,N .
+$$
+It is a bounded closed-checker handoff and not a global conversion decision procedure, subject-reduction theorem, evaluator equality, quotient syntax equality, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metacic-decidable-fragment-namecert-obligations}. They force a consumer to expose the closed input, checker seal, bounded endpoint, comparison result, refusal boundary, transport, replay, provenance, and naming rows before reading the fragment decision.
+
+The closed checker handoff is then ordered by the carrier. The input row $I$ is checked by $S$, the bounded endpoint row $E$ supplies the normal form surface at the displayed bound, and $Q$ records the comparison result under the retained refusal row $R$.
+
+Finally $H,C,P,N$ preserve the same finite route. A consumer that wants global conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency must supply a separate certificate outside this packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable fragment bounded-normal refusal]
+\label{thm:metacic-decidable-fragment-bounded-normal-refusal}
+An accepted $\MetaCICDecidableFragmentUp$ packet may consume bounded normal endpoint rows and bounded comparison rows through $E$ and $Q$, after the closed input $I$ and checker seal $S$ have been displayed, but it exports no arbitrary-fuel normalizer, no global conversion decider, no subject-reduction theorem, no evaluator equality, no quotient syntax equality, and no kernel-consistency certificate. The refusal row $R$ remains part of the public finite route
+$$
+I,S,E,Q,R,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(I,S,E,Q,R,H,C,P,N)$ of \autoref{def:metacic-decidable-fragment-carrier}. The rows $E$ and $Q$ are named only as bounded normal endpoint and bounded comparison data, and the preceding rows $I$ and $S$ keep the read tied to the displayed closed input and checker seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same finite route. They do not add a coordinate for arbitrary fuel, global conversion, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+The refusal row $R$ is therefore not auxiliary prose; it is one of the displayed carrier rows. Any consumer that reads $E$ or $Q$ must retain $R$ with the same package provenance, so the bounded-normal surface cannot be reinterpreted as an unrestricted conversion procedure.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable fragment gallery handoff]
+\label{thm:metacic-decidable-fragment-gallery-handoff}
+Gallery sanity rows attached to a $\MetaCICDecidableFragmentUp$ packet are audit-facing examples of the finite route $I,S,E,Q,R,H,C,P,N$. They may witness that the bounded checker, endpoint, comparison, and refusal rows are populated in displayed cases, but they are not the source of general typing completeness, global conversion decidability, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the gallery row only through the carrier of \autoref{def:metacic-decidable-fragment-carrier}. A gallery example can expose a closed input $I$, a checker seal $S$, a bounded endpoint $E$, a comparison result $Q$, the refusal row $R$, and the structural rows $H,C,P,N$.
+
+That exposure is example-facing rather than theorem-generating. The NameCert obligations of \autoref{thm:metacic-decidable-fragment-namecert-obligations} already identify the complete public surface, and \autoref{thm:metacic-decidable-fragment-bounded-normal-refusal} keeps the bounded-normal read from escaping its refusal boundary.
+
+Thus a gallery handoff can support audit rows for particular closed checks, but no gallery row supplies a new coordinate for general typing completeness or for any endpoint named in $R$.
+\end{proof}
+
+\independenceWitness{metacicdecidableboundary, closed-type-checker-seal, bounded-normal-equality-checker, metacicnormalizationfrontier: $\MetaCICDecidableFragmentUp$ is not bijective to any listed sibling because it jointly stores closed-term input, checker seal, bounded normal endpoint, comparison result, refusal boundary, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{MetaCICDecidableFragmentUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDecidableFragmentUp}
+  \constructivestory{A $\MetaCICDecidableFragmentUp$ packet is generated from closed-term input rows, closed checker seal rows, bounded normal endpoint rows, comparison-result rows, refusal-boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-fragment-carrier}, \autoref{thm:metacic-decidable-fragment-namecert-obligations}, and \autoref{thm:metacic-decidable-fragment-closed-checker-handoff} seed the finite bounded decidable fragment for MetaCIC decidability consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global conversion decidability, arbitrary-fuel completeness, subject reduction, evaluator equality, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for the displayed MetaCIC decidable fragment route.}
+\end{closurestatus}

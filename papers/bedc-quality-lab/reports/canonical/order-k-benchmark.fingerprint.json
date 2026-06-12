@@ -1,0 +1,104 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "691f7464df930770593cff2f996a29f75fe2f05f828bf66702533729e406f147",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/private/tmp/newmath-bedc-quality-lab-venv/bin/python3",
+      "numpy": "2.4.6",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/claim_terms.py",
+        "sha256": "456004daca16b50ac7c4deab3af1b2001fa3d4d79f426cd731a8be01f555291f"
+      },
+      {
+        "path": "bedc_quality_lab/order_k_benchmark.py",
+        "sha256": "29d56b74b416fb220c8241d2d805024eedf03e3e7b74af010a2ee2ce62a9980c"
+      },
+      {
+        "path": "scripts/run_order_k_benchmark.py",
+        "sha256": "e033bbbcb84d2121b288305e9438ab2548171dc314da040a271ee48752eda0ca"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:order-k-benchmark",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_order_k_benchmark.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_order_k_benchmark.py"
+      ],
+      "control_pointer": "$.matched_random_controls",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/order-k-benchmark.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+      "name": "order-k-benchmark",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "task_specs",
+        "order_rows",
+        "minimal_order_summary",
+        "surface_required_order_ledger",
+        "surface_required_order_ledger_ref",
+        "hardgate",
+        "discovery_map_signal",
+        "matched_random_controls",
+        "ood_stability",
+        "not_claimed",
+        "positive_claim",
+        "forbidden_claim_term_audit"
+      ],
+      "scope_pointer": "$.task_specs"
+    }
+  },
+  "json_artifact": "reports/canonical/order-k-benchmark.json",
+  "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+  "output_digest": "ed0310ada017921845bba99abfa67a3383f99311fe3f1ecade7757ea0507240c",
+  "producer_command": [
+    "python3",
+    "scripts/run_order_k_benchmark.py"
+  ],
+  "report_name": "order-k-benchmark",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

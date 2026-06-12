@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\TychonoffPlankUp$}
+\label{ch:concrete-instances-tychonoff-plank-namecert}
+\origin{human}
+
+Following Kelley and Steen--Seebach point-set topology, the $\TychonoffPlankUp$ packet records the closed ordinal-rectangle surface used to test compactness and product-separation arguments without importing arbitrary Tychonoff compactness. It sits beside the finite compact-product packet of \autoref{ch:concrete-instances-tychonoff-finite-product-namecert}, the indexed-open topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the compactness boundary of \autoref{ch:concrete-instances-compact-namecert}, and the observable-open truth discipline of \autoref{ch:concrete-instances-sierpinski-space-namecert}. The packet names only the displayed long-edge rows, corner-deletion row, product-neighbourhood rows, transport, replay, provenance, and local certificate data; it does not claim unrestricted product compactness, choice-selected subcovers, quotient open equality, or a host ordinal topology.
+
+\begin{definition}[Tychonoff plank carrier]
+\label{def:tychonoff-plank-carrier}
+A $\TychonoffPlankUp$ carrier is a finite $\BHist$ packet
+$$
+P_{\mathsf{tp}}=(L,R,O,K,S,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left long-edge row, naming the finite observations of the first ordinal interval used by the plank read.
+\item $R$ is the right long-edge row, naming the finite observations of the second ordinal interval used by the plank read.
+\item $O$ is the product-neighbourhood row, read through the $\TopologyUp$ interface for rectangular opens and their finite meet and union ledgers.
+\item $K$ is the compact-side row, exposing only the compact rectangle or closed-side witness currently displayed by the packet.
+\item $S$ is the $\SierpinskiSpaceUp$ observable-open row used to record whether the inspected corner, edge, or deleted-corner test is visible to the finite read.
+\item $H$ records componentwise $\hsame$ transport for the two edge rows, product-neighbourhood row, compact row, observable-open row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a plank observation through $L,R,O,K,S,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\TychonoffPlankUp$, $\TychonoffFiniteProductUp$, $\TopologyUp$, $\CompactUp$, $\SierpinskiSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TychonoffPlankUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for arbitrary indexed products, unrestricted Tychonoff compactness, host ordinal spaces, selected subcovers, quotient open equality, countable choice, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Tychonoff plank NameCert obligations]
+\label{thm:tychonoff-plank-namecert-obligations}
+For every accepted $\TychonoffPlankUp$ carrier $P_{\mathsf{tp}}=(L,R,O,K,S,H,C,G,N)$, the local $\NameCert_{\TychonoffPlankUp}$ surface consists exactly of carrier admission for the two long-edge rows, the product-neighbourhood row, the compact-side row, the observable-open row, transport, replay, provenance, and local naming; product-neighbourhood readback through $\TopologyUp$; compact-side visibility through $\CompactUp$; observable corner and edge tests through $\SierpinskiSpaceUp$; componentwise $\hsame$ stability; displayed $\Cont$ replay; provenance nonescape; and local naming exactness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tychonoff-plank-carrier}. The two edge rows and the product-neighbourhood row are the only data by which a consumer can inspect the plank.
+
+The topology-facing obligations are read through $O$. Rectangular neighbourhoods, finite meets, and indexed unions must therefore use the same $\TopologyUp$ row before any plank open is consumed.
+
+The compact and observable-open obligations are rowwise. The row $K$ exposes only the displayed compact-side witness, while $S$ records the visible corner or edge test through the $\SierpinskiSpaceUp$ classifier.
+
+Finally $H,C,G,N$ transport, replay, source, and name exactly the same rows. Since the carrier has no coordinate for arbitrary products, selected subcovers, quotient open equality, or host ordinal topology, those objects cannot become local NameCert data.
+\end{proof}
+
+\closureat{TychonoffPlankUp}{seedStr}
+
+\begin{closurestatus}{\TychonoffPlankUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tychonoff-plank-carrier} and \autoref{thm:tychonoff-plank-namecert-obligations} seed the finite Tychonoff plank packet over displayed long-edge, topology, compactness, observable-open, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary Tychonoff products, choice-based product compactness, host ordinal spaces, selected subcovers, quotient open equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, long-edge readback, product-neighbourhood exactness, compact-side visibility, observable corner and edge tests, transport, replay, provenance, and local naming for BEDC.Derived.TychonoffPlankUp.}
+  \constructivestory{A $\TychonoffPlankUp$ packet is generated from two long-edge rows, a TopologyUp product-neighbourhood row, a CompactUp side row, a SierpinskiSpaceUp observable-open row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

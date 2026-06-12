@@ -26,7 +26,6 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a registry export stronger than the displayed reference, for merging the theory and verification axes, for erasing the bridge-status row, or for bypassing the not-claimed and next-grade rows.
 \end{definition}
-\leanchecked{BEDC.Derived.ClosureStatusReferenceUp.ClosureStatusReferenceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Closure status reference export bound]
 \label{thm:closure-status-reference-export-bound}
@@ -61,17 +60,32 @@ The excluded claims would require a truth row, global-correctness row, host-sear
 \independenceWitness{registryexportsurface, registryexportconsistencygate, refusalregistry, theoremgapregistry, conceptregistrysurface: the registry export surface lacks the full constructive-story and next-grade packet, the consistency gate lacks the not-claimed and bridge-status rows, the refusal registry lacks positive two-axis status, the theorem-gap registry lacks the complete closure reference, and the concept registry surface lacks the export-bound reference; none carries the full constructive-story, two-axis status, bridge-status, not-claimed, and next-grade packet.}
 
 The Lean TasteGate follow-up must include explicit $\Nontrivial\ \ClosureStatusReferenceUp$ and $\FieldFaithful\ \ClosureStatusReferenceUp$ instances in \texttt{lean4/BEDC/Derived/ClosureStatusReferenceUp/TasteGate.lean}. The proofs must exhibit a witness pair for the carrier and prove field projections for $S,T,F,L,B,N,U,H,C,P,Q$ so the two axes, bridge status, not-claimed row, and next-grade route remain separate.
+\leanchecked{BEDC.Derived.ClosureStatusReferenceUp.ClosureStatusReferenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closure status reference obligation surface]
+\label{thm:closure-status-reference-obligation-surface}
+For every accepted $\ClosureStatusReferenceUp$ carrier $R=(S,T,F,L,B,N,U,H,C,P,Q)$, the obligation surface consists exactly of carrier admission, two-axis status separation, Lean-target display, bridge-status row, not-claimed row, next-grade route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ClosureStatusReferenceUp}$ row. In particular, $T$ and $F$ remain separate, $B$ remains a visible bridge-status coordinate, $N$ remains the refusal boundary, and $U$ remains the only next-grade route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closure-status-reference-carrier}. The displayed rows $S,T,F,L,B,N,U,H,C,P,Q$ are the only accepted coordinates for the reference.
+
+Use \autoref{thm:closure-status-reference-export-bound}. A registry export is bounded by the same theory row $T$, formal row $F$, Lean-target row $L$, bridge row $B$, not-claimed row $N$, and next-grade row $U$, so no field can be promoted by replay alone.
+
+Finally apply \autoref{thm:closure-status-reference-nonescape}. Transport by $H$, replay by $C$, provenance by $P$, and naming by $Q$ preserve the displayed rows but cannot add theorem truth, bridge completion, status promotion, or global registry correctness. The listed rows therefore exhaust the local obligation surface.
+\end{proof}
 
 \closureat{ClosureStatusReferenceUp}{seedStr}
 \closureat{ClosureStatusReferenceUp}{obligationStr}
+\closureat{ClosureStatusReferenceUp}{scopedStr}[BEDC.Derived.ClosureStatusReferenceUp.ClosureStatusReferenceTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ClosureStatusReferenceUp}
   \constructivestory{A $\ClosureStatusReferenceUp$ packet is generated from constructive-story, theory-closure, formal-status, Lean-target, bridge-status, not-claimed, next-grade, transport, replay, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closure-status-reference-carrier}, \autoref{thm:closure-status-reference-export-bound}, and \autoref{thm:closure-status-reference-nonescape} seed the registry export bound as a displayed finite closure-status reference.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:closure-status-reference-carrier}, \autoref{thm:closure-status-reference-export-bound}, \autoref{thm:closure-status-reference-nonescape}, and \autoref{thm:closure-status-reference-obligation-surface} bind the paper scope from the carrier, export-bound, nonescape, and obligation-surface rows; Lean verification is recorded separately by the TasteGate carrier-alignment target.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ClosureStatusReferenceUp.ClosureStatusReferenceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, theorem truth, global registry correctness, host proof search, or status promotion outside the displayed reference.}
-  \upgradepath{Lean closure requires Nontrivial ClosureStatusReferenceUp and FieldFaithful ClosureStatusReferenceUp instances with explicit witness-pair and field-projection proofs.}
+  \notclaimed{This chapter does not close bridge checking, theorem truth, global registry correctness, host proof search, or status promotion outside the displayed reference.}
+  \upgradepath{The next theory step is a checked bridge for the displayed closure-status reference rows.}
 \end{closurestatus}

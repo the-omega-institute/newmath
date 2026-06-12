@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionBudgetRouterUp$}
+\label{ch:concrete-instances-real-completion-budget-router-namecert}
+\origin{ai}
+
+The $\RealCompletionBudgetRouterUp$ packet realizes the finite-budget route named by the Real completeness vision of \autoref{ch:visions-real-completeness}. It separates observation budget, selector budget, stream-window access, regular rational readback, dyadic tolerance accounting, and terminal real-seal admission before any completion-facing consumer can treat the route as a real-name handoff. The packet sits over \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and the CauchyLimitSeal consumer boundary already used by the Real-completion siblings.
+
+\begin{definition}[Real completion budget-router carrier]
+\label{def:real-completion-budget-router-carrier}
+A $\RealCompletionBudgetRouterUp$ carrier is a finite $\BHist$ packet
+$$
+B=(o,s,W,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $o$ is the observation-budget row. It bounds which StreamName windows may be inspected.
+\item $s$ is the selector-budget row. It records the finite selector requests allowed before a completion-facing route is admitted.
+\item $W$ is the $\StreamNameUp$ window row available under $o$.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the request, windows, readback, limit-seal handoff, and terminal seal.
+\item $L$ is the CauchyLimitSeal-compatible handoff row consuming only $o,s,W,R,D$.
+\item $E$ is the $\RealUp$ seal, exposed only after the budgeted window and readback route has passed through $L$.
+\item $H$ records componentwise $\hsame$ transport for the budget, window, readback, tolerance, seal, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay along the finite route from $o,s,W,R,D$ through $L$ to $E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionBudgetRouterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionBudgetRouterUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose completion-facing reads are routed through these rows. It has no coordinate for unbounded observation, an external selector, quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real completion budget-router NameCert obligations]
+\label{thm:real-completion-budget-router-namecert-obligations}
+For every accepted $\RealCompletionBudgetRouterUp$ carrier $B=(o,s,W,R,D,L,E,H,C,P,N)$, the local $\NameCert_{\RealCompletionBudgetRouterUp}$ surface consists exactly of budget admission, selector admission, StreamName window locality, RegSeqRat readback, DyadicRatCore tolerance accounting, CauchyLimitSeal-compatible handoff, RealUp seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-budget-router-carrier}. Its coordinates expose the two budget rows, the window and readback rows, the dyadic ledger, the seal handoff, the terminal seal, and the structural transport, replay, provenance, and naming rows.
+
+The route order is forced by the carrier shape. A StreamName read is admitted only under $o$, a selector read only under $s$, a RegSeqRat row only as readback from $W$, and a tolerance comparison only through $D$.
+
+The handoff and endpoint rows add no second source. The row $L$ consumes the same budgeted $W,R,D$ route, and $E$ is exposed only after that route has been replayed through $H,C,P,N$. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real completion budget-router non-escape]
+\label{thm:real-completion-budget-router-nonescape}
+Every $\RealUp$ or CauchyLimitSeal-facing consumer of an accepted $\RealCompletionBudgetRouterUp$ packet reads only the observation budget, selector budget, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, CauchyLimitSeal-compatible handoff, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It cannot bypass the budget rows or import an unbounded observation service, external selector, quotient stream equality, selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-completion-budget-router-namecert-obligations} to identify the only rows available to any accepted consumer. The window row $W$ is behind $o$, the readback row $R$ is behind $W$, and all tolerance comparisons are behind $D$.
+
+Now read the completion-facing rows. The CauchyLimitSeal-compatible handoff $L$ and terminal seal $E$ consume the same displayed budgeted route; neither row carries a detached selector or completed real object.
+
+Finally replay through $H,C,P,N$. These structural rows preserve the displayed route and name its provenance, so a consumer has no remaining coordinate from which an unbudgeted observation, quotient, chosen limit, host equality, choice principle, or ambient completeness theorem could be read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealCompletionBudgetRouterUp$ consumer can be audited by checking that its first reads are the observation-budget and selector-budget rows before the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, CauchyLimitSeal, or $\RealUp$ rows are consumed.}
+\independenceWitness{Nearest siblings: streamname, regseqrat, dyadicratcore, real, and cauchy-limit-seal routes. The router is not bijective to any one sibling because it carries the two budget gates together with the downstream window, readback, tolerance, handoff, and seal rows; deleting either budget row changes the admitted consumer route.}
+
+\closureat{RealCompletionBudgetRouterUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionBudgetRouterUp}
+  \constructivestory{A $\RealCompletionBudgetRouterUp$ packet is generated from observation-budget and selector-budget rows, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyLimitSeal-compatible handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-budget-router-carrier}, \autoref{thm:real-completion-budget-router-namecert-obligations}, and \autoref{thm:real-completion-budget-router-nonescape} seed the finite budget-router route for Real completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full $\RealUp$ completeness, selected limits, quotient stream equality, host real equality, countable choice, unbounded observation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked budget admission, selector admission, StreamName locality, RegSeqRat readback, DyadicRatCore tolerance accounting, CauchyLimitSeal-compatible handoff, Real-seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionBudgetRouterUp.}
+\end{closurestatus}

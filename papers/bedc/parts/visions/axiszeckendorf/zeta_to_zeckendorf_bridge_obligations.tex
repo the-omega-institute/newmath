@@ -1,0 +1,232 @@
+\chapter{Zeta-to-Zeckendorf Bridge Obligations}
+\label{ch:visions-axiszeckendorf-zeta-to-zeckendorf-bridge-obligations}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fingerprint-separation} supplies the zeta-side
+separation row: an off-critical mirror pair is visible to the prime channels.
+\autoref{ch:visions-axiszeckendorf-window-six-inverse-limit-lifting} and
+\autoref{ch:visions-axiszeckendorf-layer-kernel-residual-induction} supply
+the Window-six and projection-kernel elimination form.  The present chapter
+records the bridge still absent between these two surfaces.  It does not
+claim a proof of $\mathsf{RH}$; it isolates the exact rows that would be
+needed to route a zeta zero-skew packet into the Zeckendorf residual tower.
+
+\section{Bridge interface}
+\label{sec:axiszeckendorf-zeta-bridge-interface}
+
+\begin{definition}[Prime tilt packet]
+\label{def:axiszeckendorf-prime-tilt-packet}
+For a complex history
+$$
+s=\frac{1}{2}+\delta+i\tau,
+$$
+the prime tilt packet is the centered-amplitude family
+$$
+\mathsf{Tilt}_{\zeta}(s)
+:=
+\bigl(p^{-\delta}\bigr)_{p\in\PrimeUp}.
+$$
+It is nontrivial when $\delta\neq0$.  By
+\autoref{cor:rh-off-critical-mirror-pairs-prime-visible}, this is exactly
+the amplitude-bias row by which prime-local channels distinguish $s$ from
+$J(s)$.
+\end{definition}
+
+\begin{definition}[Zeta-to-Zeckendorf residual bridge]
+\label{def:axiszeckendorf-zeta-to-zeckendorf-residual-bridge}
+A zeta-to-Zeckendorf residual bridge is a displayed transformer
+$$
+\mathcal B_{\zeta\to Z}:
+\mathsf{OffMirrorZero}_{\zeta}(s)
+\to
+r_\infty(s),
+$$
+where $r_\infty(s)$ is a residual tower in the sense of
+\autoref{def:axiszeckendorf-residual-tower}.  Its finite projections are
+written
+$$
+r_m(s):=P_m^{\mathcal R}(r_\infty(s))
+\qquad
+(m\geq6).
+$$
+The bridge is certified only if it also exports the rows listed in
+\autoref{def:axiszeckendorf-zeta-bridge-certificate-rows}.
+\end{definition}
+
+\begin{definition}[Bridge certificate rows]
+\label{def:axiszeckendorf-zeta-bridge-certificate-rows}
+The zeta-to-Zeckendorf bridge certificate has four required rows:
+$$
+\mathsf{NonzeroDetect}_{\zeta\to Z}:
+\delta(s)\neq0\Longrightarrow r_\infty(s)\neq0,
+$$
+$$
+\mathsf{ProjectionCompat}_{\zeta\to Z}:
+\Pi_{m+1,m}(r_{m+1}(s))=r_m(s),
+$$
+$$
+\mathsf{ZeroEventReturnInvariant}_{m}:
+R_mr_m(s)=r_m(s),
+$$
+and
+$$
+\mathsf{NoNeutralLeak}_{m}:
+r_m(s)\in K_m^{\mathrm{skew}}.
+$$
+The nonzero-detection row transfers prime-visible off-critical bias to a
+nonzero Zeckendorf residual tower.  The projection row makes the tower a
+compatible projection object.  The return-invariance row says that the zero
+event is the same information packet after Zeckendorf return.  The
+no-neutral-leak row excludes leakage into the neutral $1$-mode sector.
+\end{definition}
+
+\begin{principle}[Address carrier is not residual dynamics]
+\label{prin:axiszeckendorf-address-not-residual-dynamics}
+The address identity
+$$
+X_6=P_6(X_\infty^Z)
+$$
+does not by itself construct the bridge of
+\autoref{def:axiszeckendorf-zeta-to-zeckendorf-residual-bridge}.  The RH
+residual is not a no-adjacent address word.  It is a weighted, linearized, or
+operator-facing packet in spaces of the form
+$$
+V_m=\mathbb Q[X_m],
+$$
+with compatible return operators $R_m$ and layer kernels $K_m$.  Therefore
+the bridge must supply residual-space data, not only address-space data.
+\end{principle}
+
+\section{Neutral-mode obstruction}
+\label{sec:axiszeckendorf-neutral-mode-obstruction}
+
+\begin{definition}[Neutral leak]
+\label{def:axiszeckendorf-neutral-leak}
+For a return operator $R_m:V_m\to V_m$, a neutral leak of a residual
+$r_m(s)$ is a nonzero component in the $1$-eigenspace of $R_m$.  The bridge
+has no neutral leak at level $m$ when the admitted residual lies in the skew
+sector:
+$$
+r_m(s)\in K_m^{\mathrm{skew}},
+$$
+and the layer exclusion row
+$$
+1\notin\operatorname{spec}(R_m|_{K_m^{\mathrm{skew}}})
+$$
+is available.
+\end{definition}
+
+\begin{proposition}[Why the return eigenvalue alone is insufficient]
+\label{prop:axiszeckendorf-return-eigenvalue-alone-insufficient}
+The Window-six skew return law
+$$
+R_6r=-\frac{1}{2}r
+$$
+does not refute a residual tower unless the bridge also supplies
+zero-event return invariance and no-neutral-leak rows.
+\end{proposition}
+
+\begin{proof}
+The eigenvalue row says how an admitted skew component transforms.  A
+contradiction requires the return-invariance row
+$$
+R_6r=r,
+$$
+so that $r=-\frac{1}{2}r$ forces $r=0$.  If a residual also contains a
+neutral component with $R_6r=r$, that component is compatible with return
+invariance and is not eliminated by the $-\frac{1}{2}$ calculation.  Hence
+the bridge must identify the residual as a skew-sector object and exclude
+neutral leakage before the Window-six return law can be used as a refutation
+step.
+\end{proof}
+
+\begin{definition}[All-layer bridge target]
+\label{def:axiszeckendorf-all-layer-bridge-target}
+The all-layer bridge target is the conjunction
+$$
+\forall m\geq6,\quad
+\mathsf{ZeroEventReturnInvariant}_{m}
+\wedge
+\mathsf{NoNeutralLeak}_{m}
+\wedge
+\mathsf{LayerSpectralExclusion}_{m}.
+$$
+It is the projection-tower strengthening of the Window-six local residual
+calculation.
+\end{definition}
+
+\section{Bridge-to-refutation criterion}
+\label{sec:axiszeckendorf-bridge-to-refutation-criterion}
+
+\begin{theorem}[Bridge rows close the residual refutation]
+\label{thm:axiszeckendorf-bridge-rows-close-residual-refutation}
+Assume an off-mirror zeta zero packet for $s$ supplies
+$$
+\delta(s)\neq0.
+$$
+If a zeta-to-Zeckendorf residual bridge supplies all rows of
+\autoref{def:axiszeckendorf-zeta-bridge-certificate-rows} and the all-layer
+spectral exclusions of
+\autoref{def:axiszeckendorf-all-layer-bridge-target}, then the corresponding
+nonzero residual tower is impossible.
+\end{theorem}
+
+\begin{proof}
+The nonzero-detection row gives $r_\infty(s)\neq0$.  Projection
+compatibility makes $r_\infty(s)$ a residual tower.  By
+\autoref{thm:axiszeckendorf-layer-kernel-residual-refutation}, a nonzero
+admitted tower cannot satisfy zero-event return invariance, skew-sector
+admission, and layer spectral exclusion at each least nonzero layer.  The
+bridge supplies precisely those rows.  This contradicts
+$r_\infty(s)\neq0$.
+\end{proof}
+
+\begin{corollary}[Bridge obstruction to a Window-six RH proof]
+\label{cor:axiszeckendorf-bridge-obstruction-window-six-rh-proof}
+Window six can serve as the initial finite fixed-shadow test for an RH
+residual only after the bridge rows are certified.  Without
+\autoref{def:axiszeckendorf-zeta-bridge-certificate-rows}, the route remains
+the implication target
+$$
+\mathsf{OffMirrorZero}_{\zeta}(s)
+\to
+\mathsf{NonzeroZeckendorfSkewResidual}(s),
+$$
+not a proof that the target exists.
+\end{corollary}
+
+\begin{proof}
+The Window-six calculation eliminates a residual already known to be a
+nonzero skew residual with return invariance.  It does not construct that
+residual from a zeta zero packet.  The construction and admissibility rows
+are exactly the bridge certificate rows.
+\end{proof}
+
+\section{Work order}
+\label{sec:axiszeckendorf-zeta-bridge-work-order}
+
+\begin{principle}[Local work before RH closure]
+\label{prin:axiszeckendorf-local-work-before-rh-closure}
+The bridge route separates into local tasks on three surfaces: the pure
+Zeckendorf surface constructs compatible return operators and proves layer
+spectral exclusion on the skew sectors; the zeta surface encodes the prime
+tilt packet of \autoref{def:axiszeckendorf-prime-tilt-packet} as a residual
+tower and proves nonzero detection; the zero-event semantic surface proves
+return invariance for that encoded residual.  Only the conjunction of these
+tasks turns the Window-six fixed-shadow geometry into an RH-facing residual
+refutation route.
+\end{principle}
+
+\begin{remark}[Bridge status]
+\label{rem:axiszeckendorf-zeta-bridge-status}
+The present chapter is a bridge-obligation ledger.  It makes the unclosed
+rows explicit: prime tilt must become a nonzero Zeckendorf residual, the
+residual must remain compatible through all projections, zero events must be
+return invariant, and neutral mode leakage must be excluded.  None of these
+rows follows from the existence of the golden-mean address tower or from the
+functional-equation mirror carrier alone.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-prime-namecert}{Prime packets supply the probe family whose amplitude tilt is the zeta-side input to the bridge.}
+\concretizedIn{ch:concrete-instances-zeckendorf-normal-namecert}{Zeckendorf normal packets supply the no-adjacent address windows used to build the residual tower.}
+\concretizedIn{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}{Axis-Zeckendorf refusal packets mark the boundary between bridge targets and closed RH proof rows.}

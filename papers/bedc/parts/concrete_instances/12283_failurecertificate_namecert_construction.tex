@@ -52,7 +52,20 @@ None of those siblings carries the joint two-axis gate-blocking row of $A$ toget
 \end{proof}
 \leanchecked{BEDC.Derived.FailureCertificateUp.FailureCertificate\_axis\_row\_separation}
 
-The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness must keep $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
+\begin{theorem}[Failure certificate public axis export]
+\label{thm:failurecertificate-public-axis-export}
+The exported $\FailureCertificateUp$ public row consists exactly of the typed failure branch, the blocked axis, the diagnostic evidence row, the non-collapse of theory and verification axes, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. A public consumer may read $A,B,D,H,K,P,L$ together with the named claim $N_0$ and the separate closure rows $C,V$, but it cannot reinterpret the packet as a private gate override, hidden verifier result, host equality, prose repair route, or untyped failure reason.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:failure-certificate-carrier}. The rows $A$ and $B$ expose the typed failure branch and blocked gate, while $C$ and $V$ keep the theory and verification axes separate.
+
+Apply gate blocking and axis separation, \autoref{thm:failure-certificate-gate-blocking} and \autoref{thm:failure-certificate-axis-separation}. These force the failure evidence to remain tied to the selected axis and prevent sibling audit packets from collapsing the two-axis certificate surface.
+
+The remaining rows $D,H,K,P,L$ provide diagnostic evidence, transport, replay, provenance, and local naming for the same packet. Since no private override, hidden verifier, host equality, prose repair, or untyped reason is a carrier coordinate, the listed rows are exactly the public export surface.
+\end{proof}
+
+The Lean TasteGate file provides explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness keeps $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
+\leanchecked{BEDC.Derived.FailureCertificateUp.taste\_gate}
 
 \falsifiablePrediction{Removing either the failed-axis row or blocked-gate row breaks the gate-blocking theorem for an accepted packet.}
 
@@ -60,14 +73,16 @@ The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateU
 
 \closureat{FailureCertificateUp}{seedStr}
 \closureat{FailureCertificateUp}{obligationStr}
+\closureat{FailureCertificateUp}{scopedStr}
+\closureat{FailureCertificateUp}{publicStr}
 
 \begin{closurestatus}{\FailureCertificateUp}
   \constructivestory{A $\FailureCertificateUp$ packet is generated from a named claim row, separate theory-closure and verification-status rows, a failed-axis row, a blocked-gate row, a diagnostic witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, and \autoref{thm:failure-certificate-axis-separation} bind the seed paper surface for the finite failure-certificate carrier, its gate-blocking row, and its axis-separation witness.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, \autoref{thm:failure-certificate-axis-separation}, \autoref{thm:failurecertificate-public-axis-export}, and the checked TasteGate witness bind the carrier, gate-blocking row, axis-separation row, public axis export, TasteGate, Nontrivial, and FieldFaithful obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, private gate overrides, host equality, hidden verifier results, or untyped failure reasons.}
-  \upgradepath{Obligation closure requires checked carrier admission, gate blocking, axis separation, TasteGate nontriviality, and field faithfulness for the same finite failure-certificate packet.}
+  \upgradepath{Bridge closure requires a checked standard bridge for the public failure-certificate carrier and its gate-blocking consumers.}
 \end{closurestatus}

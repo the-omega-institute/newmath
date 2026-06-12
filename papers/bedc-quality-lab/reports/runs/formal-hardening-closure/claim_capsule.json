@@ -1,0 +1,56 @@
+{
+  "artifact_id": "bedc-quality-lab:formal-hardening-claim-capsule",
+  "claim_id": "formal-hardening-closure",
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "json_artifact": "reports/runs/formal-hardening-closure/claim_capsule.json",
+  "not_claimed": [
+    "The run-local bundle does not create a separate readiness lifecycle.",
+    "The run-local bundle does not certify BEDC closure."
+  ],
+  "producer": "scripts/run_formal_hardening_report.py",
+  "report": "reports/runs/formal-hardening-closure/report.md",
+  "run_local": {
+    "artifact": "reports/canonical/formal_hardening.json",
+    "artifact_bundle": {
+      "claim_capsule": "reports/runs/formal-hardening-closure/claim_capsule.json",
+      "raw_metrics": "reports/runs/formal-hardening-closure/raw_metrics.jsonl",
+      "report": "reports/runs/formal-hardening-closure/report.md",
+      "summary": "reports/runs/formal-hardening-closure/summary.json"
+    },
+    "evidence_refs": [
+      {
+        "artifact": "reports/canonical/formal_hardening.json",
+        "item_id": "same-class-equivalence",
+        "source_artifact": "reports/canonical/formal_hardening.json",
+        "source_pointer": "$.verification_ledger.0"
+      },
+      {
+        "artifact": "reports/canonical/formal_hardening.json",
+        "item_id": "margin-stability",
+        "source_artifact": "reports/canonical/formal_hardening.json",
+        "source_pointer": "$.verification_ledger.1"
+      },
+      {
+        "artifact": "reports/canonical/formal_hardening.json",
+        "item_id": "finite-ledger-coverage",
+        "source_artifact": "reports/canonical/formal_hardening.json",
+        "source_pointer": "$.verification_ledger.2"
+      },
+      {
+        "artifact": "reports/canonical/formal_hardening.json",
+        "item_id": "missing-row-negative-example",
+        "source_artifact": "reports/canonical/formal_hardening.json",
+        "source_pointer": "$.verification_ledger.3"
+      }
+    ],
+    "ledger_pointer": "$.verification_ledger",
+    "projection_kind": "formal_hardening_run_local",
+    "ready_pointer": "$.ready",
+    "source_artifact": "reports/canonical/formal_hardening.json",
+    "source_pointer": "$.artifact_id"
+  },
+  "schema_id": "bedc.quality.claim_capsule",
+  "source": "reports/canonical/formal_hardening.json",
+  "source_pointer": "$.artifact_id",
+  "status": "complete"
+}

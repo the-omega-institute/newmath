@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BishopSplineSpaceUp$}
+\label{ch:concrete-instances-bishop-spline-space-namecert}
+\origin{human}
+
+Following de Boor and Bishop--Bridges, the $\BishopSplineSpaceUp$ packet records a constructive finite spline carrier over dyadic knot data, polynomial pieces, regular rational readback, and compact-uniform modulus routes. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the polynomial row of \autoref{ch:concrete-instances-polynomial-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, the regular sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the compact-uniform handoff of \autoref{ch:concrete-instances-compact-uniform-modulus-namecert}. The packet names only the finite knot-and-piece data needed by later compact-uniform and Real approximation readers.
+
+\begin{definition}[Bishop spline space carrier]
+\label{def:bishop-spline-space-carrier}
+A $\BishopSplineSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,C,P,R,E,H,T,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the knot-grid row. It contains a finite increasing dyadic list, its endpoint order tests, adjacent-cell membership tests, and the $\DyadicRatCoreUp$ evidence used to replay each comparison without a hidden real cut.
+\item $C$ is the coefficient row family. For every displayed cell of $G$ it stores the finite rational or dyadic coefficient tuple that determines the local polynomial piece.
+\item $P$ is the piecewise-polynomial row. It reads each coefficient tuple through the $\PolynomialUp$ carrier and records the cell-local polynomial value, degree bound, and endpoint trace requested by the finite knot grid.
+\item $R$ is the $\RegSeqRatUp$ readback row. It turns each displayed local value and endpoint trace into the regular rational sequence data used by the surrounding constructive real layer.
+\item $E$ is the $\RealUp$ seal row. It records the finite Real comparison and tolerance tokens produced from $R$ and keeps them attached to the same knot cell and polynomial piece.
+\item $H$ records componentwise $\hsame$ transport for $G,C,P,R,E,T,Q,N$ and for the finite cell index used to select a piece.
+\item $T$ records displayed $\Cont$ replay of the route
+$$
+G,C \longmapsto P \longmapsto R \longmapsto E .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\BishopSplineSpaceUp$, $\DyadicRatCoreUp$, $\PolynomialUp$, $\RegSeqRatUp$, $\RealUp$, $\CompactUniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopSplineSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed knot grid, coefficient rows, piecewise-polynomial rows, regular rational readback, Real seal, componentwise transport, displayed replay, provenance, and local naming rows.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopSplineSpaceUp.BishopSplineSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop spline space NameCert obligations]
+\label{thm:bishop-spline-space-namecert-obligations}
+For every accepted $\BishopSplineSpaceUp$ carrier
+$$
+K=(G,C,P,R,E,H,T,Q,N),
+$$
+the local $\NameCert_{\BishopSplineSpaceUp}$ surface consists exactly of knot-grid admission, coefficient-row admission, piecewise-polynomial interpretation, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every public spline read must pass through the finite rows $G,C,P,R,E,H,T,Q,N$ before it names a cell value, endpoint trace, or compact-uniform approximation datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-spline-space-carrier}. The analytic rows are $G,C,P,R,E$: the finite knot grid, finite coefficient family, polynomial interpretation, regular rational readback, and Real seal.
+
+The structural rows then keep that analytic route finite. The transport row $H$ moves the grid, coefficients, cell index, polynomial piece, readback, and seal together, while $T$ replays the route from knot-and-coefficient data to Real-sealed local values.
+
+Finally the provenance and local naming rows $Q,N$ certify that the public object is exactly this finite packet. Since the classifier has no coordinate for a selected interpolation theorem, quotient function equality, ambient completion, or global approximation claim, those objects cannot be read from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop spline finite knot replay]
+\label{thm:bishop-spline-space-finite-knot-replay}
+For every accepted $\BishopSplineSpaceUp$ carrier $K=(G,C,P,R,E,H,T,Q,N)$ and every displayed cell of the finite knot grid $G$, the spline value route is obtained by finite recursion over the knot list: select the adjacent cell row, read its coefficient tuple through $C$, interpret it through the corresponding polynomial row of $P$, pass the resulting local value through $R$, and seal the read in $E$. The replay exposes no open-ended node choice, quotient equality of functions, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Induct over the finite knot list in $G$. The endpoint row supplies the base comparison, and each adjacent-pair step either identifies the displayed cell or passes to the next finite grid edge with the same $\DyadicRatCoreUp$ comparison evidence.
+
+Once the cell is identified, project the matching coefficient tuple from $C$ and the matching polynomial row from $P$. The regular rational readback $R$ and Real seal $E$ are attached to that same cell by the componentwise transport row $H$.
+
+Replay the route through $T$ and record it through $Q,N$. The construction never asks for an interpolation-node selector, a quotient equality of global functions, an ambient completion point, or any infinitary compactness object beyond the displayed compact-uniform handoff named in the package provenance.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BishopSplineSpaceUp$ read is refuted if a consumer obtains a spline value, endpoint trace, or compact-uniform approximation datum without first displaying the knot-grid, coefficient, polynomial, $\RegSeqRatUp$, $\RealUp$, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{dyadicratcore, polynomial, real, regseqrat, compactuniformmodulus: $\BishopSplineSpaceUp$ is not bijective to any listed sibling because it jointly carries finite knot-grid data, coefficient rows, piecewise-polynomial rows, regular rational readback, Real sealing, transport, replay, package provenance, and local naming.}
+
+\closureat{BishopSplineSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopSplineSpaceUp}
+  \constructivestory{A $\BishopSplineSpaceUp$ packet is generated from finite dyadic knot-grid rows, coefficient rows, piecewise-polynomial rows, RegSeqRat readback rows, Real seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-spline-space-carrier}, \autoref{thm:bishop-spline-space-namecert-obligations}, and \autoref{thm:bishop-spline-space-finite-knot-replay} seed the finite spline-space route over dyadic knots, polynomial pieces, regular rational readback, Real sealing, and compact-uniform package provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an approximation theorem, selected interpolation nodes, quotient function equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite knot recursion, piecewise-polynomial readback, Real sealing, compact-uniform handoff preservation, transport stability, replay stability, and local naming for BEDC.Derived.BishopSplineSpaceUp.}
+\end{closurestatus}

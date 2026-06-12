@@ -177,6 +177,38 @@ For the induction step, assume a synchronized readback route has already been bu
 Apply \autoref{thm:regseqrat-tail-shift-window-stability} to keep the extended family on one finite window, and then use \autoref{thm:regseqrat-tail-shift-synchronized-readback} to repack the accumulated family and the next shifted window as one synchronized readback. No proof step introduces quotient stream equality, selected limits, choice, metric completeness, completion points, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-shift Real-seal classifier lock]
+\label{thm:regseqrat-tail-shift-real-seal-classifier-lock}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let $t_0,\ldots,t_k$ be a finite displayed family of tail shifts admitted by \autoref{thm:regseqrat-tail-shift-finite-section-induction}. Before any Real consumer may read the shifted sequence, the synchronized route must preserve the same $\StreamNameUp$ finite section, the same $\DyadicRatCoreUp$ tolerance row, the same $\RegSeqRatUp$ readback, and the same terminal $\RealUp$ seal classifier.
+
+Equivalently, every admitted tail-shift family is locked to the four displayed objects already visible in the finite-section route. The lock exports no quotient stream equality, selected limit, countable choice, metric completeness, completion point, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the displayed family. It gives one synchronized finite readback route whose available rows are the finite StreamName windows, dyadic budgets, regular-rational classifier rows, transport, replay, provenance, and local naming.
+
+Next route that synchronized tail through the dyadic tolerance ledger. The same $\DyadicRatCoreUp$ row supplies the budget consumed by each shifted finite section, so no shifted read can replace the ledger by a selected limit or by a host Cauchy object.
+
+The readback and seal are downstream of that ledger. The $\RegSeqRatUp$ row is the only regular-rational classifier available to the synchronized route, and the terminal $\RealUp$ seal is opened only after the same finite section, tolerance row, and readback row have been displayed.
+
+Thus a Real consumer receives the shifted family only through the locked four-object surface $\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. Since the proof never adds quotient stream equality, selected limits, countable choice, metric completeness, completion points, or ambient Real completeness, no additional classifier coordinate remains.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift cofinal fusion]
+\label{thm:regseqrat-tail-shift-cofinal-fusion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet. Let $t_0,\ldots,t_k$ and $u_0,\ldots,u_m$ be two finite displayed families of unary tail shifts over the same $\StreamNameUp$ source and the same $\DyadicRatCoreUp$ tolerance budget. Suppose both families expose the transported endpoint rows, dyadic-radius rows, regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $P$. Then the two synchronized RegSeqRat readback routes admit one finite cofinal fusion route preserving the $\mathsf{RegSeqRatClassifier}$ value and the terminal $\RealUp$ seal.
+
+The fusion route exports only the shared finite StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat regularity readback, transport, replay, provenance, and local naming rows. It exports no quotient stream equality, selected limit, countable-choice schedule, metric-completeness datum, completion point, or ambient Real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the first displayed family and again to the second. This gives two synchronized finite readback routes over the same StreamName source and DyadicRatCore tolerance budget.
+
+Next use \autoref{thm:regseqrat-tail-shift-synchronized-readback} to compare the two synchronized routes on their shared finite support. The visible rows are exactly the transported endpoint rows, regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, so a common cofinal window can read both routes as one RegSeqRat row.
+
+Finally apply \autoref{thm:regseqrat-tail-shift-real-seal-classifier-lock}. The fused route remains locked to the same $\StreamNameUp$ finite section, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal classifier before any Real-facing consumer opens the seal.
+
+All rows used by the fusion are finite BEDC rows already displayed by the packet. Hence the fusion introduces no quotient stream equality, selected limit, countable-choice schedule, metric-completeness datum, completion point, or ambient Real-completeness coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-shift regularity refinement]
 \label{thm:regseqrat-tail-shift-regularity-refinement}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let
@@ -228,5 +260,19 @@ Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the display
 Use \autoref{thm:regseqrat-tail-shift-regularity-refinement} to preserve the regularity ledger on the common refinement. Then apply \autoref{thm:regseqrat-tail-window-cofinality} to keep the synchronized readback inside the same finite StreamName schedule and DyadicRatCore tolerance budget.
 
 When the terminal radius is read by a Real-facing consumer, apply \autoref{thm:dyadicratcore-terminal-radius-half-step-inversion}. The half-radius row is already determined by the finite DyadicRatCore common-scale refinement, so the RegSeqRat route has no need for a selected limit, quotient stream equality, countable-choice schedule, completion point, metric-completeness datum, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift regularity]
+\label{thm:regseqrat-tail-shift-regularity}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let $t_0,\ldots,t_k$ be a finite displayed family of tail shifts over the same $\StreamNameUp$ schedule and the same $\DyadicRatCoreUp$ tolerance budget. Suppose every shifted finite window preserves the scheduled endpoint rows, dyadic-radius rows, regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $P$. Then every inspected tail window preserves the regular Cauchy inequality witnessed by the RegSeqRat regularity ledger before any downstream $\RealUp$ seal is consumed.
+
+The regularity preservation is choice-free: it uses only the displayed finite windows and does not introduce a new selector, quotient stream equality, terminal Real seal, metric-completeness datum, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the finite family of scheduled tail shifts. This builds one synchronized finite readback route whose rows are the shifted StreamName windows, DyadicRatCore tolerance budgets, regular-rational classifier rows, transport, replay, provenance, and local naming.
+
+Next use \autoref{thm:regseqrat-tail-shift-synchronized-readback}. The synchronized route keeps every inspected tail window on the same RegSeqRat readback row, so the regularity ledger is read from one finite source surface rather than from a selected limit.
+
+Finally apply \autoref{thm:regseqrat-tail-shift-choice-free-window}. The choice-free finite-window theorem keeps the downstream Real-facing read inside the displayed StreamName schedule and DyadicRatCore tolerance budget. Therefore the regular Cauchy inequality carried by the RegSeqRat ledger is preserved on all inspected tail windows, with no new selector or terminal Real seal.
 \end{proof}
 \closureat{RegSeqRatUp}{seedStr}

@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\CarlemanInequalityUp$}
+\label{ch:concrete-instances-carleman-inequality-namecert}
+\origin{human}
+
+Following Hardy--Littlewood--Polya's treatment of inequalities, the $\CarlemanInequalityUp$ packet records the finite row surface by which a positive real-series source may expose partial-sum, geometric-mean, and summable-majorant control before a downstream inequality consumer reads the endpoint. It sits beside the real-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, the Cauchy majorant route of \autoref{ch:concrete-instances-cauchy-majorant-series-namecert}, the Young inequality packet of \autoref{ch:concrete-instances-young-inequality-namecert}, and the Poincare inequality boundary of \autoref{ch:concrete-instances-poincare-inequality-namecert}. The packet names a displayed Carleman inequality certificate; it does not choose an infinite sum, import host measure theory, quotient a sequence space, or assert a bridge-checked classical theorem.
+
+\begin{definition}[Carleman inequality carrier]\label{def:carleman-inequality-carrier}
+A $\CarlemanInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,G,M,R,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the partial-sum row, recording the finite initial-segment sums of the displayed nonnegative real series source.
+\item $G$ is the geometric-mean row, recording the finite products and root reads used for the Carleman mean at each displayed index.
+\item $M$ is the summable-majorant row, carrying the majorant schedule and tail budget that bound the accumulated geometric means.
+\item $R$ is the $\RealSeriesUp$ readback row, exposing the source series only through the finite real-series packet.
+\item $B$ is the boundary comparison row, recording the displayed Carleman constant, endpoint budget, and comparison with the majorant route.
+\item $H$ records componentwise $\hsame$ transport for the partial-sum, geometric-mean, majorant, RealSeries readback, boundary comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Carleman read through $S,G,M,R,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CarlemanInequalityUp$, $\RealSeriesUp$, $\CauchyMajorantSeriesUp$, $\YoungInequalityUp$, $\PoincareInequalityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CarlemanInequalityUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite Carleman inequality packet. It has no coordinate for selected infinite sums, quotient sequence equality, ambient integral theory, host convexity, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Carleman inequality NameCert obligations]\label{thm:carleman-inequality-namecert-obligations}
+For every accepted $\CarlemanInequalityUp$ carrier $K=(S,G,M,R,B,H,C,P,N)$, the local $\NameCert_{\CarlemanInequalityUp}$ surface consists exactly of partial-sum exposure, geometric-mean exposure, summable-majorant exposure, $\RealSeriesUp$ readback, boundary-comparison exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted Carleman inequality request is classified only by those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:carleman-inequality-carrier}. The analytic rows are the partial-sum row $S$, the geometric-mean row $G$, the summable-majorant row $M$, the real-series readback row $R$, and the boundary comparison row $B$.
+
+The partial-sum and geometric-mean rows display the finite source of the inequality read. The summable-majorant row then supplies the tail budget and comparison schedule, while the real-series readback row keeps the source inside the finite $\RealSeriesUp$ packet.
+
+The boundary row $B$ records the Carleman constant and endpoint comparison as packet data. It does not add an infinite-sum choice, quotient equality, host integral theorem, or convexity theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed packet. Hence the local $\NameCert_{\CarlemanInequalityUp}$ row exhausts the obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CarlemanInequalityUp$ read factors through partial-sum rows, geometric-mean rows, a summable-majorant row, a RealSeriesUp readback row, a boundary-comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{realseries, cauchy-majorant-series, young-inequality, poincare-inequality: $\CarlemanInequalityUp$ is not bijective to any listed sibling because it jointly carries partial-sum rows, geometric-mean rows, a summable-majorant route, RealSeries readback, boundary comparison, transport, replay, provenance, and local naming as one finite packet.}
+
+\closureat{CarlemanInequalityUp}{seedStr}
+
+\begin{closurestatus}{\CarlemanInequalityUp}
+  \constructivestory{A $\CarlemanInequalityUp$ packet is generated from partial-sum rows, geometric-mean rows, a summable-majorant row, a RealSeries readback row, a boundary-comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:carleman-inequality-carrier} and \autoref{thm:carleman-inequality-namecert-obligations} seed the finite Carleman inequality route from displayed real-series data through geometric-mean and majorant comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite sums, quotient sequence equality, ambient integral theory, host convexity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partial-sum exposure, geometric-mean exposure, summable-majorant exactness, RealSeries readback, boundary comparison, transport, replay, provenance, and local naming for BEDC.Derived.CarlemanInequalityUp.}
+\end{closurestatus}

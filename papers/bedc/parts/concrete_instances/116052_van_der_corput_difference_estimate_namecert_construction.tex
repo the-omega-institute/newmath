@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\VanDerCorputDifferenceEstimateUp$}
+\label{ch:concrete-instances-van-der-corput-difference-estimate-namecert}
+\origin{human}
+
+Following van der Corput and Bishop--Bridges constructive analysis, the $\VanDerCorputDifferenceEstimateUp$ packet records a finite-difference estimate by reading a source sequence only through named finite windows, shifted-pair difference rows, dyadic tolerance budgets, averaged correlation rows, regular rational readback, and the terminal real seal. It sits over the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the real-series packet of \autoref{ch:concrete-instances-realseries-namecert}. The certificate supplies downstream oscillation, Fourier, series, and completion routes with a finite estimate surface; it does not import host sequence limits, countable choice, quotient equality, selected subsequences, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Van der Corput finite-difference estimate carrier]
+\label{def:van-der-corput-difference-estimate-carrier}
+A $\VanDerCorputDifferenceEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+V=(A,W,S,D,\Gamma,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source-sequence row, exposed either as a $\RealSeriesUp$ term stream or as a named regular rational stream whose observations are read only through finite requests.
+\item $W$ is the family of $\StreamNameUp$ source windows naming the finite index blocks used by the estimate.
+\item $S$ is the shifted-pair row listing the finite pairs $(n,n+h)$ inspected for each displayed shift $h$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-budget row, carrying the precision cells for source reads, difference reads, average comparisons, and the final estimate.
+\item $\Gamma$ is the averaged correlation row recording the finite sums of shifted products or shifted differences admitted by $S,W,D$.
+\item $M$ is the finite estimate row that binds the window length, the shift bound, the dyadic slack, and the averaged correlation rows into the displayed van der Corput bound.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $M$ after the same finite windows and dyadic budgets have been consumed.
+\item $E$ is the terminal $\RealUp$ seal row for the estimate value after regular rational readback.
+\item $H$ records componentwise $\hsame$ transport for source windows, shifted-pair rows, dyadic budgets, averaged correlations, estimate rows, readback, seal, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a requested estimate through $A,W,S,D,\Gamma,M,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\VanDerCorputDifferenceEstimateUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RealSeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VanDerCorputDifferenceEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,S,D,\Gamma,M,R,E,H,C,P,N$. It has no coordinate for an infinite Cesaro limit, a selected subsequence, quotient stream equality, countable choice, Hilbert-space compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.VanDerCorputDifferenceEstimateUp.VanDerCorputDifferenceEstimateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Van der Corput finite-difference estimate NameCert obligations]
+\label{thm:van-der-corput-difference-estimate-namecert-obligations}
+For every accepted $\VanDerCorputDifferenceEstimateUp$ carrier $V=(A,W,S,D,\Gamma,M,R,E,H,C,P,N)$, the local $\NameCert_{\VanDerCorputDifferenceEstimateUp}$ surface consists exactly of source admission, finite $\StreamNameUp$ source-window admission, shifted-pair difference admission, $\DyadicRatCoreUp$ tolerance exactness, averaged correlation exactness, finite estimate-row exactness, $\RegSeqRatUp$ readback, $\RealUp$ seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:van-der-corput-difference-estimate-carrier}. The only source observations are the source row $A$, the finite window family $W$, and the shifted-pair row $S$.
+
+The tolerance row $D$ supplies the precision cells used by the shifted differences and by the averaged correlation row $\Gamma$. The estimate row $M$ is downstream of these rows, so it can bind only the displayed window length, shift bound, dyadic slack, and averaged correlations already present in the carrier.
+
+The readback row $R$ and the seal row $E$ are reached after $M$. The transport, replay, provenance, and local naming rows preserve the same finite route. Since the carrier has no coordinate for infinite limits, selected subsequences, quotient stream equality, countable choice, compactness, or ambient completeness, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Van der Corput finite-window route]
+\label{thm:van-der-corput-difference-estimate-finite-window-route}
+Every oscillation, Fourier, series, or completion-route consumer of an accepted $\VanDerCorputDifferenceEstimateUp$ packet receives the estimate only through the finite route
+$$
+A\longmapsto W\longmapsto S\longmapsto D\longmapsto \Gamma\longmapsto M\longmapsto R\longmapsto E .
+$$
+In particular, the estimate can be consumed by $\RealSeriesUp$ and $\RealUp$ routes only after the same $\StreamNameUp$ windows, $\DyadicRatCoreUp$ budgets, shifted-pair rows, averaged correlation rows, and $\RegSeqRatUp$ readback have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:van-der-corput-difference-estimate-namecert-obligations}. They force every accepted estimate read to expose $A,W,S,D,\Gamma,M,R,E,H,C,P,N$.
+
+The finite windows $W$ delimit the source observations, and the shifted-pair row $S$ names the exact pairs inspected for each shift. No downstream consumer can read a correlation row before these windows and pairs have been displayed.
+
+The dyadic budget row $D$ then controls both the shifted difference reads and the averaged correlation row $\Gamma$. The estimate row $M$ is the first row that binds those correlations into a numerical estimate, and the regular readback $R$ is downstream of that row.
+
+Finally the terminal seal $E$ is reached only after $R$. Thus any consumer that enters the packet from a real-series, Fourier, oscillation, or completion route sees the same finite window route and no hidden sequence-limit object.
+\end{proof}
+
+\begin{theorem}[Van der Corput finite-difference non-escape]
+\label{thm:van-der-corput-difference-estimate-nonescape}
+An accepted $\VanDerCorputDifferenceEstimateUp$ packet exports no data outside its displayed carrier rows. In particular, it does not export a host convergence theorem, a Cesaro-limit value, a selected density subsequence, quotient equality of streams, countable-choice schedules, trichotomy, or ambient $\RealUp$ completeness; every exported estimate is mediated by $W,S,D,\Gamma,M,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the carrier description in \autoref{def:van-der-corput-difference-estimate-carrier}. The accepted packet stores only the source row, finite windows, shifted pairs, dyadic budgets, averaged correlations, estimate row, readback, seal, and structural certificate rows.
+
+Apply the finite-window route of \autoref{thm:van-der-corput-difference-estimate-finite-window-route}. Any exported estimate must pass through $W,S,D,\Gamma,M,R,E$ before the structural rows transport and replay it.
+
+The excluded principles have no carrier coordinate and are not introduced by $\hsame$, $\Cont$, $\Pkg$, or local naming. Therefore they cannot escape through the certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VanDerCorputDifferenceEstimateUp$ read factors through source windows, shifted-pair difference rows, DyadicRatCore tolerance budgets, averaged correlation rows, a finite estimate row, RegSeqRat readback, RealUp sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, realseries: $\VanDerCorputDifferenceEstimateUp$ is not bijective to any listed sibling because it jointly carries source sequence windows, shifted-pair difference rows, dyadic tolerance budgets, averaged correlation rows, finite estimate accounting, regular rational readback, terminal Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{VanDerCorputDifferenceEstimateUp}{seedStr}
+
+\begin{closurestatus}{\VanDerCorputDifferenceEstimateUp}
+  \constructivestory{A $\VanDerCorputDifferenceEstimateUp$ packet is generated from source sequence windows, shifted-pair difference rows, dyadic tolerance budgets, averaged correlation rows, a finite estimate row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:van-der-corput-difference-estimate-carrier}, \autoref{thm:van-der-corput-difference-estimate-namecert-obligations}, \autoref{thm:van-der-corput-difference-estimate-finite-window-route}, and \autoref{thm:van-der-corput-difference-estimate-nonescape} seed the finite van der Corput difference-estimate carrier, certificate surface, finite-window route, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence limits, Fourier convergence, oscillation decay, selected subsequences, quotient stream equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, shifted-pair exactness, finite window coverage, dyadic tolerance exactness, averaged correlation exactness, regular readback, Real seal non-escape, transport, replay, provenance, and local NameCert coverage for BEDC.Derived.VanDerCorputDifferenceEstimateUp.}
+\end{closurestatus}

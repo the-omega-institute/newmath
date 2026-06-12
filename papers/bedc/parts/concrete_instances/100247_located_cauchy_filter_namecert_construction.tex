@@ -43,6 +43,7 @@ For every accepted $\LocatedCauchyFilterUp$ carrier $L=(F,B,R,S,Q,D,T,E,H,C,P,N)
 \end{enumerate}
 No local NameCert obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:located-cauchy-filter-carrier}. The visible analytic rows are precisely the Cauchy filter, basis, regularity, stream-window, rational readback, dyadic tolerance, located-tail, and downstream seal rows.
 
@@ -63,6 +64,7 @@ F,B,D \longmapsto T \longmapsto R \longmapsto S,Q,H,C,P,N .
 $$
 Thus the regular filter consumer receives a displayed Cauchy filter, a finite basis neighborhood, a dyadic tolerance ledger, and a located-tail witness before any sequence-facing readback or real-facing seal can be inspected.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterRegularTailLocation}
 \begin{proof}
 Start with a regular-tail request. By \autoref{def:located-cauchy-filter-carrier}, the row $R$ is packaged with the Cauchy filter row $F$, the basis row $B$, the dyadic ledger $D$, and the located-tail row $T$.
 
@@ -79,6 +81,7 @@ L=(F,B,R,S,Q,D,T,E,H,C,P,N)
 $$
 first fixes the $\CauchyFilterUp$ row $F$, then refines through the $\CauchyFilterBasisUp$ row $B$ at the displayed dyadic tolerance $D$, and only then exposes the $\RegularCauchyFilterUp$ row $R$, $\StreamNameUp$ windows $S$, $\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal row $E$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterBasisRefinementRoute}
 \begin{proof}
 Project the carrier. The located-tail coordinate $T$ is packaged with exactly one Cauchy filter row $F$, one basis row $B$, one dyadic tolerance ledger $D$, and the downstream rows $R,S,Q,E,H,C,P,N$.
 
@@ -93,6 +96,7 @@ The remaining rows only preserve or consume the finite route. Hence quotient fil
 \label{thm:located-cauchy-filter-choice-free-basis}
 Every accepted $\LocatedCauchyFilterUp$ read factors through the displayed filter row $F$, basis row $B$, regular tail ledger $R$, $\StreamNameUp$ and $\RegSeqRatUp$ readback rows $S,Q$, dyadic located-tail rows $D,T$, and the $\RealUp$ seal row $E$ before any limit-facing consumer can inspect it. The route introduces no countable choice, hidden filter selection, quotient filter equality, selected limit, host equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterChoiceFreeBasis}
 \begin{proof}
 Project the carrier $L=(F,B,R,S,Q,D,T,E,H,C,P,N)$ using \autoref{def:located-cauchy-filter-carrier}. The displayed filter and basis rows are $F$ and $B$, and the regular tail and located dyadic rows are $R,D,T$.
 
@@ -109,6 +113,7 @@ F,B,R,S,Q,D,T,E,H,C,P,N.
 $$
 Consequently a downstream consumer cannot read the terminal real-name seal without also reading the Cauchy filter row, basis row, regular tail budget, finite stream windows, regular rational readback, dyadic tolerance ledger, located-tail witness, componentwise transport, displayed continuation, provenance, and local NameCert row.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterRealSealBoundary}
 \begin{proof}
 Begin with a downstream real-facing read. The carrier exposes the seal only as $E$, and $E$ is listed after the filter, basis, regularity, window, readback, dyadic, and located-tail rows in \autoref{def:located-cauchy-filter-carrier}.
 
@@ -145,6 +150,7 @@ $$
 $$
 before the downstream $\RealUp$ seal row $E$ can be inspected. Equivalently, a consumer that asks for a sequence presentation of the located filter must read the window row $S$, the regular rational readback $Q$, the dyadic tolerance ledger $D$, and the located-tail witness $T$ before it reaches $E$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCauchyFilterUp.LocatedCauchyFilterRegularSequenceHandoff}
 \begin{proof}
 Project the accepted carrier. The sequence-facing rows are exactly $S$ and $Q$, and the dyadic tolerance needed to interpret their located readback is the displayed ledger $D$.
 

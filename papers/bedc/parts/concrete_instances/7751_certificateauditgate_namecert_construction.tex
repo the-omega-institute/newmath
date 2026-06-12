@@ -134,17 +134,38 @@ Apply \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:cert
 
 Apply \autoref{thm:certificate-audit-gate-nonescape} and \autoref{thm:certificate-audit-gate-kernel-scope}. The public export is therefore bounded by $I,S,R,D,A,H,C,P,N$ and cannot leave the local NameCert packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CertificateAuditGateUp.CertificateAuditGatePublicExport}
 
-\closureat{CertificateAuditGateUp}{scopedStr}
+\begin{theorem}[CertificateAuditGate bridge boundary]
+\label{thm:certificate-audit-gate-bridge-boundary}
+An accepted $\CertificateAuditGateUp$ public export through
+$$
+I,S,R,D,A,H,C,P,N
+$$
+remains a paper-side certificate surface until a separate standard bridge theorem is supplied. The pass row $S$ cannot be read as $\bridgeCheckedV$, repository completeness, host-kernel completeness, semantic conservativity, a quotient representative, a choice selector, proposition equality, unresolved target replacement, or substrate-internal closure.
+\end{theorem}
+\begin{proof}
+Begin with the public export of \autoref{thm:certificateauditgate-public-export}. It exposes exactly the rows $I,S,R,D,A,H,C,P,N$ and excludes repository completeness, host-kernel completeness, semantic conservativity, quotient representatives, choice selectors, proposition equality, unresolved target replacement, and substrate-internal closure.
+
+Apply the soundness boundary of \autoref{thm:certificate-audit-gate-soundness-boundary}. The pass row is local non-breach for the displayed audit rows, not a theorem about all manuscript, repository, host-kernel, or semantic behaviour.
+
+Use drift exactness from \autoref{thm:certificate-audit-gate-drift-exactness} and axiom-purity exactness from \autoref{thm:certificate-audit-gate-axiom-purity-exactness}. These keep $D$ and $A$ as exact finite audit rows rather than bridge certificates or external correctness principles.
+
+Finally apply non-escape and kernel scope, \autoref{thm:certificate-audit-gate-nonescape} and \autoref{thm:certificate-audit-gate-kernel-scope}. The public read remains inside the same local NameCert packet, so bridge-checked status requires a separate standard bridge theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CertificateAuditGateUp.CertificateAuditGateBridgeBoundary}
+
+\closureat{CertificateAuditGateUp}{matureStr}
 
 \begin{closurestatus}{\CertificateAuditGateUp}
   \constructivestory{A $\CertificateAuditGateUp$ packet is generated from gate input, checked surface, refusal, drift, axiom-purity, componentwise transport, displayed route, provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:certificate-audit-gate-carrier}, \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-soundness-boundary}, \autoref{thm:certificate-audit-gate-nonescape}, and \autoref{thm:certificateauditgate-public-export} bind the finite audit-gate certificate surface and its public non-escape boundary.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:certificate-audit-gate-carrier}, \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-soundness-boundary}, \autoref{thm:certificate-audit-gate-nonescape}, \autoref{thm:certificateauditgate-public-export}, and \autoref{thm:certificate-audit-gate-bridge-boundary} bind the finite audit-gate certificate surface, its public non-escape boundary, and its paper-side bridge boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CertificateAuditGateUp.taste\_gate}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.certificateAuditGateDeltaLedger}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not claim Lean verification, bridge checking, global repository correctness, host-kernel completeness, semantic conservativity, quotient representatives, choice selectors, proposition equality, or substrate-internal closure from a gate pass.}
-  \upgradepath{Scoped closure requires kernel-scoped citations for the same carrier admission, checked-surface exactness, refusal attachment, drift exactness, axiom-purity exactness, nontriviality, and field-faithfulness rows.}
+  \notclaimed{This chapter does not claim bridge checking, global repository correctness, host-kernel completeness, semantic conservativity, quotient representatives, choice selectors, proposition equality, or substrate-internal closure from a gate pass.}
+  \upgradepath{Bridge-checked status requires a separate standard bridge package for the same finite audit-gate surface.}
 \end{closurestatus}

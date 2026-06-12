@@ -6,6 +6,15 @@ Following Bishop and Bridges, the $\RealModulusOfConvergenceUp$ packet records t
 
 The uniqueness-facing consumer is the regular Cauchy route of \autoref{ch:concrete-instances-regular-cauchy-uniqueness-namecert}, which reads the same dyadic tolerance, $\StreamNameUp$ window, $\RegSeqRatUp$ handoff, and $\RealUp$ seal rows before comparing representatives.
 
+Before the Real seal is read, this packet depends explicitly on the finite
+window route of \autoref{ch:concrete-instances-streamname-namecert} and the
+regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}.
+Those sibling rows supply the L10 lattice edge that turns a displayed modulus
+request into pre-seal stream and readback data rather than a detached Real
+claim.
+
+The completion-facing consumers are \autoref{ch:concrete-instances-cauchyfilterlimit-namecert} and \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The former reads the modulus row as a filter-limit tolerance schedule, while the latter reuses the displayed tolerance, finite-window, and readback rows before equality-facing $\RealUp$ seals are compared. Thus the same finite ledger supplies both completion and equality routes without quotient stream equality, selected representatives, or host real limits.
+
 \begin{definition}[Real modulus of convergence carrier]
 \label{def:real-modulus-of-convergence-carrier}
 A $\RealModulusOfConvergenceUp$ carrier is a finite $\BHist$ packet
@@ -35,6 +44,7 @@ D,W,Q,M \longmapsto E \longmapsto H,C,P,N
 $$
 before using the convergence modulus as evidence for a Real-facing seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.Real\_modulus\_of\_convergenceUp.RealModulusOfConvergenceCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The dyadic row $D$ supplies the tolerance request, and the window row $W$ is the only finite observation service available to answer it.
 
@@ -197,6 +207,20 @@ Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability}. Later requests
 Apply Theorem~\ref{thm:real-modulus-of-convergence-window-composition} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the dyadic tolerance ledger, finite window, readback row, and monotone comparison on one displayed route before the $\RealUp$ seal is consumed.
 
 Finally apply Theorem~\ref{thm:real-modulus-of-convergence-tail-comparison-route}. The downstream rows $E,H,C,P,N$ supply only the Real-facing seal, transport, replay, provenance, and local naming for that route. Since no carrier coordinate records quotient streams, selected limits, countable choice, host Real equality, ambient completeness, or a separate metric-completion row, the accepted later-tail comparison is exhausted by the stated data.
+\end{proof}
+
+\begin{theorem}[Real modulus of convergence Bishop interface forward route]
+\label{thm:real-modulus-of-convergence-bishop-interface-forward-route}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every read of $R$ sourced from the Bishop real-line interface first consumes \autoref{ch:concrete-instances-bishop-real-line-interface-namecert}, then the displayed $\DyadicRatCoreUp$ tolerance row $D$, $\StreamNameUp$ finite-window row $W$, $\RegSeqRatUp$ readback row $Q$, and $\RealUp$ seal $E$ before it reads the convergence-modulus ledger $M$ and structural rows $H,C,P,N$. The route exports no quotient stream, selected limit, countable-choice schedule, host Real equality, detached Bishop real-line object, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The only rows available before the modulus ledger are the dyadic tolerance row, finite-window row, regular rational readback row, and terminal Real seal.
+
+Read the source through \autoref{ch:concrete-instances-bishop-real-line-interface-namecert}. That interface already exposes dyadic endpoints and tolerances, finite stream windows, regular readback, and a Real seal before a real-line consumer may use later comparison data.
+
+Now apply the local handoff theorems. The NameCert obligations place $D,W,Q,M,E,H,C,P,N$ in order, while the Cauchy-modulus handoff and tail-stability route keep the modulus request behind the displayed finite window and regular readback.
+
+Thus a Bishop-interface-sourced read reaches $M$ only after the same $D,W,Q,E$ route has been consumed. Since the carrier has no coordinate for quotient streams, selected limits, choice schedules, host equality, detached Bishop objects, or ambient completeness, none of those objects can be exported by the forward route.
 \end{proof}
 
 \begin{theorem}[Real modulus of convergence tail dominance]

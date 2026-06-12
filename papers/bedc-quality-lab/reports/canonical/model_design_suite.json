@@ -1,0 +1,106 @@
+{
+  "artifact_id": "bedc-quality-lab:model-design-suite",
+  "canonical_owner": {
+    "owner_pointer": "reports/canonical/model_design_suite.json:$",
+    "rows_pointer": "reports/canonical/model_design_suite.json:$.rows"
+  },
+  "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hardgates": {
+    "SUITE-HG1": {
+      "gate_id": "SUITE-HG1",
+      "reason": "component_id pointers are artifact-qualified and non-empty",
+      "status": "pass"
+    },
+    "SUITE-HG2": {
+      "gate_id": "SUITE-HG2",
+      "reason": "canonical_owner_pointer resolves for every row",
+      "status": "pass"
+    },
+    "SUITE-HG3": {
+      "gate_id": "SUITE-HG3",
+      "reason": "discovery pointers resolve for every row",
+      "status": "pass"
+    },
+    "SUITE-HG4": {
+      "gate_id": "SUITE-HG4",
+      "reason": "verdict and mechanism pointers resolve for every row",
+      "status": "pass"
+    },
+    "SUITE-HG5": {
+      "gate_id": "SUITE-HG5",
+      "reason": "row hardgate statuses propagate to the suite status",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "The suite records design ownership pointers only.",
+    "The suite does not claim production model performance.",
+    "The suite does not copy candidate measurement bodies."
+  ],
+  "producer": "scripts/run_canonical_reports.py",
+  "rows": [
+    {
+      "canonical_owner_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+      "component_id": "reports/canonical/ledger-aware-transformer.json:$.artifact_id",
+      "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+      "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG11",
+      "hardgate_reason": "all pointer fields resolve",
+      "hardgate_status": "pass",
+      "mechanism_pointer": "reports/canonical/ledger-aware-transformer.json:$.run_artifacts",
+      "negative_witness_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries[6]",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status"
+    },
+    {
+      "canonical_owner_pointer": "reports/canonical/certificate-gated-attention.json:$",
+      "component_id": "reports/canonical/certificate-gated-attention.json:$.artifact_id",
+      "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+      "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG19",
+      "hardgate_reason": "all pointer fields resolve",
+      "hardgate_status": "pass",
+      "mechanism_pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+      "negative_witness_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries[3]",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status"
+    },
+    {
+      "canonical_owner_pointer": "reports/canonical/discovery-regularized-training.json:$",
+      "component_id": "reports/canonical/discovery-regularized-training.json:$.artifact_id",
+      "debt_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.hardgate",
+      "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG14",
+      "hardgate_reason": "all pointer fields resolve",
+      "hardgate_status": "pass",
+      "mechanism_pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
+      "negative_witness_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status"
+    },
+    {
+      "canonical_owner_pointer": "reports/canonical/mechanism-seeking-network.json:$",
+      "component_id": "reports/canonical/mechanism-seeking-network.json:$.artifact_id",
+      "debt_pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
+      "discovery_pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal",
+      "hardgate_reason": "all pointer fields resolve",
+      "hardgate_status": "pass",
+      "mechanism_pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
+      "negative_witness_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries[7]",
+      "not_claimed_pointer": "reports/canonical/mechanism-seeking-network.json:$.not_claimed",
+      "verdict_pointer": "reports/canonical/mechanism-seeking-network.json:$.hardgate.status"
+    },
+    {
+      "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+      "component_id": "reports/canonical/discovery-gated-transformer.json:$.artifact_id",
+      "debt_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.hardgates",
+      "discovery_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
+      "hardgate_reason": "all pointer fields resolve",
+      "hardgate_status": "pass",
+      "mechanism_pointer": "reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
+      "negative_witness_pointer": "reports/canonical/dgt-l0-controls.json:$.negative_witness_sweep",
+      "not_claimed_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.not_claimed",
+      "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:model-design-suite",
+  "status": "pass"
+}

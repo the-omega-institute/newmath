@@ -207,12 +207,31 @@ A=(R,Q,D,S,G,B,H,C,P,N).
 $$
 Before any Cauchy-tail or $\RealUp$-seal read is exported, the consumer must read the rational bound row $Q$, the dyadic bound row $D$, the finite stream windows $S$, the regular handoff $G$, and the threshold ledger obtained from $B,H,C,P,N$ through the dyadic threshold route. The resulting forward route exports the Archimedean bound surface to Cauchy-facing consumers without importing a supremum, trichotomy, quotient stream equality, selected limit, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCauchyThresholdForwardRoute}
 \begin{proof}
 Begin with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies $Q,D,S,G,B,H,C,P,N$ as the visible bound surface attached to the displayed $\RealUp$ name.
 
 Next apply the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. A precision-sensitive Cauchy read must pass through the finite observation-budget route before it consumes the Archimedean rational and dyadic rows.
 
 Finally use the dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality}. The threshold row is sourced from $Q,D$, read through the same stream windows and regular handoff, and transported by $H,C,P,N$. Thus any $\RegSeqRatUp$, $\StreamNameUp$, Cauchy-tail, or completion-facing export has already consumed the stated Archimedean threshold surface.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal regular-Cauchy induction readback]
+\label{thm:archimedean-real-regular-cauchy-induction-readback}
+Every $\RegSeqRatUp$-facing Archimedean threshold read from an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+is produced by finite induction over the displayed $\StreamNameUp$ window rows $S$ and the $\DyadicArchimedeanUp$ scale rows supplied through $D,B$. The induction starts from the public bound surface $Q,D,S,G,B,H,C,P,N$, advances one displayed window request at a time, records the resulting dyadic threshold row, and then hands the completed regular-Cauchy readback to $\RealUp$ through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no supremum, trichotomy, quotient stream equality, selected limit, countable-choice schedule, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies the only Archimedean bound surface available to the induction as the rows $Q,D,S,G,B,H,C,P,N$.
+
+Next use the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. Each induction step reads a finite observation request through the displayed $\StreamNameUp$ windows before it consumes the Archimedean rational and dyadic rows.
+
+Apply dyadic threshold totality, \autoref{thm:archimedean-real-dyadic-threshold-totality}, at the displayed step. The scale row is sourced from $D,B$, transported componentwise by $H$, and replayed through $C$ without adding a hidden selector or quotient-stream coordinate.
+
+Finally compose the stepwise construction with the Cauchy threshold forward route of \autoref{thm:archimedean-real-cauchy-threshold-forward-route}. The completed finite induction therefore reaches the $\RegSeqRatUp$ readback and the downstream $\RealUp$ seal only through $G,H,C,P,N$.
 \end{proof}
 
 \begin{theorem}[ArchimedeanReal located-threshold handoff]

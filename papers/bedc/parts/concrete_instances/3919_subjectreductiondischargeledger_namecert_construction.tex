@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no unparameterised closed subject-reduction theorem, no host conversion principle, no hidden substitution theorem, no erased derivation semantics, and no quotient equality of MetaCIC terms.
 \end{definition}
+\leandef{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerCarrier}
 
 \begin{theorem}[SubjectReductionDischargeLedger obligations]
 \label{thm:subject-reduction-discharge-ledger-obligations}
@@ -33,6 +34,7 @@ L=(B,A,LD,PD,R,H,C,P,N),
 $$
 four-row obligation exposure for $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, and $\mathrm{PiDomainSubjectReduction}$, the $\SubjectReductionUp$ route row $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerNameCertObligations}
 \begin{proof}
 Project the displayed carrier $L$. The four obligation rows $B,A,LD,PD$ are the only rows that can feed the subject-reduction route.
 
@@ -45,6 +47,7 @@ Finally inspect $P$ and $N$. The package row records provenance for the same dis
 \label{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}
 Every accepted $\SubjectReductionDischargeLedgerUp$ carrier hands its MetaCIC preservation data to $\SubjectReductionUp$ only through the route row $R$ and the four obligation rows $B,A,LD,PD$. The handoff may be transported by $H$, replayed through $C$, and accounted for by $P,N$, but it does not supply a closed subject-reduction theorem or an unrecorded fifth preservation premise.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerSubjectReductionHandoff}
 \begin{proof}
 Begin with \autoref{thm:subject-reduction-discharge-ledger-obligations}. It identifies the accepted carrier with the four obligation rows, the subject-reduction route row, and the structural rows.
 
@@ -61,6 +64,7 @@ B,A,LD,PD,R,H,C,P,N.
 $$
 In particular, the finite ledger cannot be read as an unparameterised closed subject-reduction theorem, host conversion rule, hidden substitution preservation theorem, erased derivation semantics, quotient equality, or semantic MetaCIC interpreter.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerNonescape}
 \begin{proof}
 Project the carrier and apply the obligation theorem. The only public preservation rows are $B,A,LD,PD$, and the only public subject-reduction consumer row is $R$.
 
@@ -87,6 +91,7 @@ The TasteGate-facing projection can therefore read the ledger only as $L$. Split
 \label{thm:subject-reduction-discharge-ledger-field-faithful-surface}
 The field-faithful row for a future $\SubjectReductionDischargeLedgerUp$ TasteGate must separate the displayed fields $B,A,LD,PD,R,H,C,P,N$. A consumer that preserves the ledger must preserve beta-substitution exposure, application-argument stability, lambda-domain subject-reduction exposure, Pi-domain subject-reduction exposure, the $\SubjectReductionUp$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming as distinct public rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerFieldFaithfulSurface}
 \begin{proof}
 Project $L$ and apply the obligation theorem. Each displayed coordinate has a different ledger role: four rows expose preservation obligations, one row is the route consumer, and four rows provide transport, replay, provenance, and naming.
 
@@ -104,6 +109,7 @@ Varying $C$ changes the displayed replay route while leaving the preservation ob
 
 The nontrivial witness row records that the ledger surface can observe those coordinate differences. A collapsed TasteGate would erase the distinction between obligation, route, and replay fields, contradicting the field-faithful surface.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerNontrivialWitnessSurface}
 
 \begin{theorem}[SubjectReductionDischargeLedger carrier exposure]
 \label{thm:subject-reduction-discharge-ledger-carrier-exposure}
@@ -120,6 +126,20 @@ Apply the obligation theorem \autoref{thm:subject-reduction-discharge-ledger-obl
 
 The handoff theorem \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} and non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} leave only $H,C,P,N$ as structural replay, provenance, and naming rows. Hence the accepted carrier exposes exactly the displayed ledger rows.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerCarrierExposure}
+
+\begin{theorem}[SubjectReductionDischargeLedger conditional normalization]
+\label{thm:subject-reduction-discharge-conditional-normalization}
+Any downstream normalization or subject-reduction consumer of an accepted $\SubjectReductionDischargeLedgerUp$ carrier must read the four displayed obligation rows $B,A,LD,PD$ before using the route row $R$. The route may replay through $H,C,P,N$, but it cannot infer closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, quotient equality, or any preservation premise outside the displayed ledger.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:subject-reduction-discharge-ledger-obligations}. It exposes the carrier as the four obligation rows $B,A,LD,PD$, the $\SubjectReductionUp$ route row $R$, and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}. The handoff to $\SubjectReductionUp$ consumes exactly $B,A,LD,PD$ through $R$, so a downstream normalization or subject-reduction read cannot begin from the route row alone.
+
+Finally apply \autoref{thm:subject-reduction-discharge-ledger-carrier-exposure}. Since the accepted carrier exposes no row beyond $B,A,LD,PD,R,H,C,P,N$, replay through $H,C,P,N$ preserves the same conditional route and cannot create closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, quotient equality, or an off-ledger premise.
+\end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerConditionalNormalization}
 
 \begin{theorem}[SubjectReductionDischargeLedger transport replay]
 \label{thm:subject-reduction-discharge-ledger-transport-replay}
@@ -132,11 +152,13 @@ Use \autoref{thm:subject-reduction-discharge-ledger-obligations} to read the con
 
 Finally apply \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} and \autoref{thm:subject-reduction-discharge-ledger-nonescape}. They force every replay to remain inside $B,A,LD,PD,R,H,C,P,N$, so $H$ and $C$ cannot transport or replay an off-ledger preservation premise.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerTransportReplay}
 
 \begin{theorem}[SubjectReductionDischargeLedger provenance exactness]
 \label{thm:subject-reduction-discharge-ledger-provenance-exactness}
 For an accepted $\SubjectReductionDischargeLedgerUp$ carrier, the rows $P$ and $N$ account exactly for the finite MetaCIC, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance of $B,A,LD,PD,R,H,C$. They do not add closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, or quotient equality of MetaCIC terms.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerProvenanceExactness}
 \begin{proof}
 Read $P$ and $N$ from the carrier definition. The package row names the finite provenance dependencies, and the local naming row names the same displayed ledger.
 

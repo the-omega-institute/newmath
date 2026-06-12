@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CauchyMeanValueTheoremUp$}
+\label{ch:concrete-instances-cauchy-mean-value-theorem-namecert}
+\origin{human}
+
+Following Cauchy and the constructive calculus tradition, the $\CauchyMeanValueTheoremUp$ packet records the finite comparison route behind the Cauchy mean value theorem. It sits beside the calculus root of \autoref{ch:concrete-instances-calculus-namecert}, the derivative packet of \autoref{ch:concrete-instances-derivative-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet packages endpoint rows, an interior witness row, derivative comparison data, dyadic tolerance control, regular rational readback, and the terminal Real seal without importing a host Rolle theorem, a quotient function space, or an ambient completeness principle.
+
+\begin{definition}[Cauchy mean value theorem carrier]\label{def:cauchy-mean-value-theorem-carrier}
+A $\CauchyMeanValueTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+M=(E,I,D,Q,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint row, naming the two endpoint evaluations and the finite interval certificate read by the calculus packet.
+\item $I$ is the interior witness row, naming the displayed interior point at which the comparison is read.
+\item $D$ is the $\DerivativeUp$ comparison row for the two derivative-facing reads.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the finite-difference comparison.
+\item $R$ is the $\RegSeqRatUp$ readback row that interprets the endpoint and derivative comparison through regular rational windows.
+\item $S$ is the terminal $\RealUp$ seal row, visible only after $E,I,D,Q,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for endpoints, the interior witness, derivative comparison, tolerance ledger, readback, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from endpoint rows through the interior witness, derivative comparison, tolerance ledger, readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyMeanValueTheoremUp$, $\CalculusUp$, $\DerivativeUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyMeanValueTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,I,D,Q,R,S,H,C,P,N$. It has no coordinate for host differentiability, quotient equality of functions, a selected global extremum, classical choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy mean value theorem NameCert obligations]\label{thm:cauchy-mean-value-theorem-namecert-obligations}
+For every accepted $\CauchyMeanValueTheoremUp$ carrier
+$$
+M=(E,I,D,Q,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyMeanValueTheoremUp}$ surface consists exactly of endpoint exposure, interior witness exposure, derivative comparison exposure, dyadic tolerance exactness, regular rational readback, Real seal nonescape, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-mean-value-theorem-carrier}. The endpoint row $E$, interior witness row $I$, derivative comparison row $D$, tolerance ledger $Q$, regular readback row $R$, and Real seal $S$ are the complete analytic inventory.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. A consumer can therefore move the packet and replay the comparison, but it returns to the displayed endpoint, witness, derivative, tolerance, readback, and seal rows.
+
+Since the packet has no additional coordinate, the local NameCert cannot export a host differentiability theorem, quotient function equality, selected global extremum, classical-choice step, or ambient Real-completeness claim.
+\end{proof}
+
+\begin{theorem}[Cauchy mean value finite-difference route]\label{thm:cauchy-mean-value-theorem-finite-difference-route}
+Every downstream calculus consumer of an accepted $\CauchyMeanValueTheoremUp$ packet reads the comparison route through
+$$
+E,I,D,Q \longmapsto R,S \longmapsto H,C,P,N .
+$$
+Thus the Cauchy mean value conclusion is exposed as finite endpoint data, an interior witness row, derivative comparison data, dyadic tolerance control, regular rational readback, and a Real seal; it is not exposed as a host Rolle theorem, quotient-function equality, selected extremum principle, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the endpoint row $E$ and the interior witness row $I$. These rows name the finite interval endpoints and the displayed interior point before any derivative comparison is visible.
+
+Next read the derivative comparison row $D$ together with the dyadic tolerance ledger $Q$. The regular rational readback $R$ and terminal Real seal $S$ consume those finite rows, so the calculus conclusion is reached through displayed finite-difference data.
+
+Finally use $H,C,P,N$ for transport, replay, provenance, and local naming. Because the carrier contains no row for a host Rolle theorem, quotient-function equality, selected extremum principle, or ambient completeness theorem, every downstream read remains inside the displayed finite route.
+\end{proof}
+
+\closureat{CauchyMeanValueTheoremUp}{seedStr}
+
+\begin{closurestatus}{\CauchyMeanValueTheoremUp}
+  \constructivestory{A $\CauchyMeanValueTheoremUp$ packet is generated from endpoint rows, an interior witness row, a derivative comparison row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-mean-value-theorem-carrier}, \autoref{thm:cauchy-mean-value-theorem-namecert-obligations}, and \autoref{thm:cauchy-mean-value-theorem-finite-difference-route} seed the finite L10 Cauchy mean value route over endpoint, interior-witness, derivative-comparison, dyadic-tolerance, regular-readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Rolle theorem, quotient equality of functions, a selected extremum principle, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, interior witness exposure, derivative comparison exposure, tolerance exactness, readback handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyMeanValueTheoremUp.}
+\end{closurestatus}

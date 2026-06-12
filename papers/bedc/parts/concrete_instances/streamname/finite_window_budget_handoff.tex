@@ -84,6 +84,20 @@ seal. The non-escape sentence in
 applies to the whole sibling chapter route.
 \end{proof}
 
+\begin{theorem}[StreamName budget RegSeq Real route coherence]
+\label{thm:streamname-budget-regseq-real-route-coherence}
+Any accepted finite $\StreamNameUp$ window consumed through $\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$ reaches the $\RegSeqRatUp$ readback and $\RealUp$ seal through the same ordered finite route. The route cannot fork into quotient streams, selected host limits, countable-choice schedules, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It places the accepted finite StreamName window behind the finite observation-budget surface before any $\RegSeqRatUp$ regularity, dyadic tolerance, or $\RealUp$ seal row can be consumed.
+
+Next apply \autoref{thm:streamname-budget-handoff-sibling-chapter-route}. The sibling route first reads the $\ObservationBudgetLimiterUp$ surface and then the $\RegularCauchyTailBudgetUp$ service surface before the regular readback and seal rows are available.
+
+Use \autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization} for the limiter leg and \autoref{thm:regular-cauchy-tail-budget-observation-gate} for the tail-budget leg. Together they identify one ordered finite route through the limiter request-budget-cap service, the tail threshold, the finite StreamName window, the dyadic ledger, the RegSeqRat readback, and the Real seal.
+
+Since each cited route uses the same displayed finite rows and none carries a quotient stream, selected host limit, countable-choice schedule, or host real equality coordinate, no consumer can fork the budget handoff into an alternate readback or seal route.
+\end{proof}
+
 \begin{theorem}[StreamName regular seal sibling route]
 \label{thm:streamname-regular-seal-sibling-route}
 Any finite $\StreamNameUp$ window routed through $\ObservationBudgetLimiterUp$
@@ -116,6 +130,28 @@ finite-window Real seal boundary is exactly the row list displayed above, so
 the sibling handoff cannot export quotient stream equality, selected limits,
 countable-choice selectors, host real equality, metric completeness, or ambient
 $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[StreamName finite-window prefix induction]
+\label{thm:streamname-finite-window-prefix-induction}
+Any accepted finite $\StreamNameUp$ handoff consumed by $\RegSeqRatUp$ or by a $\RealUp$ finite-window seal admits induction on the displayed finite prefix rows
+$$
+\mathsf{ProbeBundle},\quad
+\mathsf{InBundle},\quad
+\mathsf{UnaryHistory},\quad
+\ObservationBudgetLimiterUp,\quad
+\RegularCauchyTailBudgetUp .
+$$
+At each induction step the same $\RegSeqRatUp$ readback row and the same $\RealUp$ seal boundary are preserved by componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. No later tail, quotient stream, selected host limit, countable-choice schedule, or host real equality can enter the induction.
+\end{theorem}
+\begin{proof}
+Project the finite handoff theorem \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It places every regularity read, dyadic tolerance read, and finite-window Real seal behind the displayed finite observation rows.
+
+Use the sibling route of \autoref{thm:streamname-regular-seal-sibling-route}. It identifies the handoff consumed by $\RegSeqRatUp$ or $\RealUp$ with the same finite prefix surface routed through $\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$.
+
+Induct over the displayed prefix rows in the listed order. The base case is the empty displayed prefix, where the readback and seal boundary are only the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The step case appends one visible prefix row and replays the same transport and continuation rows, so the $\RegSeqRatUp$ readback and $\RealUp$ seal boundary remain the inherited ones.
+
+Since the induction variable is the displayed finite prefix, no later tail coordinate, quotient stream, selected host limit, countable-choice schedule, or host real equality coordinate is available to the step.
 \end{proof}
 
 \begin{theorem}[StreamName budget tail regular seal lock]

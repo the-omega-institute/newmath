@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ClosedIntervalFiniteNetUp$}
+\label{ch:concrete-instances-closed-interval-finite-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite epsilon-net data for compact intervals, the $\ClosedIntervalFiniteNetUp$ packet records the finite dyadic mesh surface by which a displayed closed real interval can be consumed by total-bounded and compact-metric routes. It sits after the dyadic arithmetic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the dyadic cell surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the located-real comparison row of \autoref{ch:concrete-instances-locatedreal-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite epsilon-net interface of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, and the total-bounded consumer surface of \autoref{ch:concrete-instances-totallybounded-namecert}. The packet names explicit endpoint, mesh, coverage, transport, replay, provenance, and local NameCert data; it does not assert open-cover compactness or an ambient Heine--Borel theorem.
+
+\begin{definition}[Closed interval finite-net carrier]
+\label{def:closed-interval-finite-net-carrier}
+A $\ClosedIntervalFiniteNetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(E,M,L,F,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint row, carrying lower and upper closed-interval endpoint histories together with the finite comparison ledger that places the lower endpoint before the upper endpoint.
+\item $M$ is the dyadic mesh row, a finite $\DyadicIntervalUp$ subdivision schedule read through $\DyadicRatCoreUp$ arithmetic and a positive tolerance request.
+\item $L$ is the located $\RealUp$ seal row, displaying the located-real endpoint reads and the terminal real-name seals used by interval consumers.
+\item $F$ is the finite-net list row, a closed finite list of mesh centers admitted between the endpoint rows and tagged by the mesh scale.
+\item $W$ is the coverage witness row, recording for each displayed interval point the inspected center row and the dyadic bound showing that the point is covered at the requested tolerance.
+\item $H$ records componentwise $\hsame$ transport for endpoint rows, dyadic mesh rows, located real seals, finite net lists, coverage witnesses, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval finite-net request through $E,M,L,F,W,H$ before any total-bounded or compact-metric consumer reads the packet.
+\item $P$ is the $\Pkg$ provenance over $\ClosedIntervalFiniteNetUp$, $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\LocatedRealUp$, $\RealUp$, $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedIntervalFiniteNetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,M,L,F,W,H,C,P,N$. It has no coordinate for arbitrary open covers, selected finite subcovers, a host Heine--Borel principle, quotient interval equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Closed interval finite-net obligation surface]
+\label{thm:closed-interval-finite-net-obligation-surface}
+For every accepted $\ClosedIntervalFiniteNetUp$ carrier $K=(E,M,L,F,W,H,C,P,N)$, the local $\NameCert_{\ClosedIntervalFiniteNetUp}$ surface consists exactly of carrier admission, endpoint enclosure, finite-net coverage, mesh-refinement stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and ledger non-escape. A consumer may treat the packet as closed-interval finite-net data only after those rows have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-interval-finite-net-carrier}. Carrier admission is the displayed packet $K$, endpoint enclosure is the row $E$, and the dyadic mesh is the row $M$.
+
+The finite-net rows are $F,W$. The list row fixes the admitted mesh centers, while the coverage row records the inspected center and dyadic bound for each displayed interval point. Mesh-refinement stability is read through the same endpoint and mesh rows, so a refined request keeps the coverage ledger inside $E,M,F,W$.
+
+The remaining rows $H,C,P,N$ supply transport, replay, provenance, and local naming for that same finite packet. Since the classifier has no coordinate outside $E,M,L,F,W,H,C,P,N$, no ledger read can escape to arbitrary open covers, selected subcovers, host interval equality, countable choice, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Closed interval finite-net total-bounded handoff]
+\label{thm:closed-interval-finite-net-total-bounded-handoff}
+Every $\TotallyBoundedUp$ or compact-metric consumer that uses interval compactness from an accepted $\ClosedIntervalFiniteNetUp$ packet must first read the finite dyadic net row $F$ and the located endpoint rows $E,L$. The consumer may then inspect coverage witnesses, mesh refinement, transport, replay, provenance, and local naming, but it receives no open-cover compactness theorem, selected cover, countable-choice schedule, host Heine--Borel principle, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Let $K=(E,M,L,F,W,H,C,P,N)$ be accepted. The interval boundary is visible only through the endpoint row $E$ and the located $\RealUp$ seal row $L$, while the finite dyadic net is visible only through $M,F$.
+
+Apply \autoref{thm:closed-interval-finite-net-obligation-surface}. It forces any total-bounded or compact-metric consumer to inspect carrier admission, endpoint enclosure, finite-net coverage, mesh-refinement stability, transport, replay, provenance, and ledger non-escape before treating the packet as interval finite-net data.
+
+Thus the handoff to $\TotallyBoundedUp$ and compact-metric consumers is the displayed finite route $E,M,L,F,W,H,C,P,N$. The excluded open-cover, selected-cover, choice, host Heine--Borel, quotient-interval, and ambient-completeness objects are not carrier fields, so none can be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Removing the endpoint row, dyadic mesh row, located Real seal row, finite-net list, coverage witness, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row makes \autoref{thm:closed-interval-finite-net-total-bounded-handoff} false: a total-bounded consumer could no longer verify the displayed interval-net route.}
+
+\independenceWitness{dyadicratcore, dyadicinterval, locatedreal, real, finite-epsilon-net, totallybounded: $\ClosedIntervalFiniteNetUp$ is not bijective to any listed sibling because it binds endpoint rows, dyadic mesh rows, located Real seals, finite net lists, coverage witnesses, transport, replay, provenance, and local naming into one closed-interval consumer packet.}
+
+\closureat{ClosedIntervalFiniteNetUp}{seedStr}
+
+\begin{closurestatus}{\ClosedIntervalFiniteNetUp}
+  \constructivestory{A $\ClosedIntervalFiniteNetUp$ packet is generated from endpoint rows, a dyadic mesh schedule, located Real seals, a finite net list, coverage witnesses, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-interval-finite-net-carrier}, \autoref{thm:closed-interval-finite-net-obligation-surface}, and \autoref{thm:closed-interval-finite-net-total-bounded-handoff} seed the finite closed-interval net route over endpoint, dyadic mesh, located Real, coverage, transport, replay, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, Heine--Borel as a theorem for general subsets, selected covers, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint enclosure, finite-net coverage, mesh-refinement stability, transport, replay, provenance, and ledger non-escape for BEDC.Derived.ClosedIntervalFiniteNetUp.}
+\end{closurestatus}

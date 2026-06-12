@@ -28,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier is only this finite packet. It has no host truth predicate, no quotient over truth values, no global excluded-middle coordinate, no witness selector for an existential obtained by contradiction, and no completeness certificate for $\RealUp$.
 \end{definition}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Permitted negation is sound inside the packet]
 \label{thm:refutation-boundary-permitted-negation-sound}
@@ -93,15 +94,31 @@ The completion-side exclusions are exactly the absent coordinates of \autoref{de
 \leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryRealUpConsumerScope}
 \leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryCarrier\_realup\_consumer\_scope}
 
-\closureat{RefutationBoundaryUp}{seedStr}
+\begin{theorem}[RefutationBoundary public export]
+\label{thm:refutation-boundary-public-export}
+The public $\RefutationBoundaryUp$ export is exactly the finite packet
+$$
+B=(A,F,D,S,T,H,C,P,N)
+$$
+together with the five named obligations of \autoref{thm:refutation-boundary-namecert-obligations}: carrier admission, classifier stability, permitted-negation soundness, decidability accountability, and truth-branch exclusion. A public consumer may read those rows and obligations, and no further truth predicate, excluded-middle branch, quotient truth object, nonconstructive existential selector, or $\RealUp$ completeness principle is part of the export.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refutation-boundary-carrier}. Its visible rows are exactly $A,F,D,S,T,H,C,P,N$, and the carrier definition excludes every host truth predicate, quotient truth object, global excluded-middle coordinate, existential selector obtained by contradiction, and $\RealUp$ completeness certificate.
+
+Now read the obligation package of \autoref{thm:refutation-boundary-namecert-obligations}. Its five clauses supply precisely carrier admission, classifier stability, permitted-negation soundness, decidability accountability, and truth-branch exclusion for the same finite tuple.
+
+The consumer-scope theorem \autoref{thm:refutation-boundary-realup-consumer-scope} identifies the downstream read as a projection of those rows and obligations. Hence the public export is the displayed packet together with the five obligations, and nothing outside that finite boundary is exported.
+\end{proof}
+
+\closureat{RefutationBoundaryUp}{publicStr}
 
 \begin{closurestatus}{\RefutationBoundaryUp}
   \constructivestory{A $\RefutationBoundaryUp$ packet is generated from a proposition row, a permitted-refutation route, an optional decidability row, a forbidden-schema descriptor, a truth-branch exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:refutation-boundary-carrier}, \autoref{thm:refutation-boundary-permitted-negation-sound}, \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}, \autoref{thm:refutation-boundary-namecert-obligations}, and \autoref{thm:refutation-boundary-realup-consumer-scope} bind the finite carrier, permitted refutation soundness, forbidden truth-branch exclusion, NameCert obligation surface, and consumer scope.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:refutation-boundary-carrier}, \autoref{thm:refutation-boundary-permitted-negation-sound}, \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}, \autoref{thm:refutation-boundary-namecert-obligations}, \autoref{thm:refutation-boundary-realup-consumer-scope}, and \autoref{thm:refutation-boundary-public-export} bind the finite refutation-boundary rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ dependency data as the public packet boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host excluded middle, nonconstructive existence, quotient truth predicates, RealUp completeness, a Lean implementation, or a standard bridge.}
-  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for permitted-negation soundness, forbidden truth-branch exclusion, NameCert obligations, and RealUp consumer scope.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for permitted-negation soundness, forbidden truth-branch exclusion, NameCert obligations, RealUp consumer scope, and public export.}
 \end{closurestatus}

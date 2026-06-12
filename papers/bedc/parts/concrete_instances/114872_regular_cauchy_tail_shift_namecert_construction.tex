@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailShiftUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-shift-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailShiftUp$ packet records the finite tail-window evidence needed to read a regular Cauchy rational sequence after discarding an initial segment. It sits between the regular-rational certificate of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is only a finite means object: it names shifted windows, tolerance rows, transport, replay, provenance, and local naming, and it does not identify quotient real representatives, selected limits, host sequence equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail-shift carrier]
+\label{def:regular-cauchy-tail-shift-carrier}
+A $\RegularCauchyTailShiftUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,Q,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ window row, listing the source stream name, the discarded prefix length, the shifted request window, and the finite overlap witnesses that compare the original and shifted reads.
+\item $Q$ is the $\RegSeqRatUp$ tail row, recording the regular Cauchy rational data visible on both sides of the shift and the tail index from which the two windows are read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the original window, shifted window, overlap comparison, and tail-index budget.
+\item $L$ is the $\RealUp$ seal available only after $W,Q,D$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream window, regular-rational tail data, dyadic tolerance ledger, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a shifted-tail request through $W,Q,D$ and then to $L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailShiftUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailShiftUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,Q,D,L,H,C,P,N$. It has no coordinate for a selected limit, quotient representative equality, a host sequence equality proof, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyTailShiftUp.RegularCauchyTailShiftTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy tail-shift NameCert obligations]
+\label{thm:regular-cauchy-tail-shift-namecert-obligations}
+For every accepted $\RegularCauchyTailShiftUp$ carrier $T=(W,Q,D,L,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailShiftUp}$ surface consists exactly of carrier admission for the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ tail data, $\DyadicRatCoreUp$ tolerance rows, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. It also requires overlap exactness for the original and shifted windows, tail-index stability for the regular rational rows, dyadic tolerance accounting for the finite overlap comparison, and Real seal nonescape for the terminal read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-shift-carrier}. The rows $W,Q,D,L,H,C,P,N$ are the whole accepted inventory, so every local certificate obligation must read from those rows.
+
+The window and tail obligations are finite. The row $W$ displays the original and shifted stream windows, while $Q$ displays the regular Cauchy rational tail data that both windows consume.
+
+The numerical comparison is read through $D$. Its dyadic tolerance rows account for the original window, shifted window, overlap comparison, and tail-index budget before the seal $L$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no carrier row names selected limits, quotient equality, host sequence equality, or ambient completeness, the certificate cannot export any of those claims.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-shift RegSeqRat stability]
+\label{thm:regular-cauchy-tail-shift-regseqrat-stability}
+Every $\RegSeqRatUp$ read that is consumed through an accepted $\RegularCauchyTailShiftUp$ carrier is stable under the displayed tail shift. For a carrier
+$$
+T=(W,Q,D,L,H,C,P,N),
+$$
+the consumer must first expose the $\StreamNameUp$ source and shifted windows in $W$, the regular rational tail row $Q$, and the $\DyadicRatCoreUp$ tolerance ledger $D$. Only then may it read the $\RealUp$ seal $L$ and the structural rows $H,C,P,N$. Thus the shifted read reaches the same finite Real-facing route as the original tail read, without using selected limits, quotient representative equality, host sequence equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The window row $W$ records both the original and shifted StreamName windows, and the tail row $Q$ is the only regular rational data available to either read.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-shift-namecert-obligations}. Overlap exactness and tail-index stability force the two visible reads to share the same finite tail surface before any Real-facing endpoint is inspected.
+
+The dyadic row $D$ supplies the requested tolerance comparison for the shifted window. Once that comparison is displayed, the seal $L$ and the transport, replay, provenance, and naming rows $H,C,P,N$ preserve the same route.
+
+Because the packet contains no coordinate for selected limits, quotient equality, host sequence equality, or ambient Real completeness, the stability conclusion is only the finite $\RegSeqRatUp$ tail-window stability just described.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyTailShiftUp$ read factors through StreamName windows, RegSeqRat tail data, a DyadicRatCore tolerance ledger, a Real seal, hsame transport, Cont replay, Pkg provenance, and local naming before a shifted regular-Cauchy tail can be consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\RegularCauchyTailShiftUp$ is not bijective to any listed sibling because it binds a discarded-prefix window, regular-rational tail data, dyadic overlap tolerances, Real sealing, transport, replay, provenance, and local naming as one finite certificate.}
+
+\closureat{RegularCauchyTailShiftUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailShiftUp}
+  \constructivestory{A $\RegularCauchyTailShiftUp$ packet is generated from StreamName source and shifted windows, RegSeqRat tail data, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-shift-carrier}, \autoref{thm:regular-cauchy-tail-shift-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-shift-regseqrat-stability} seed the finite tail-shift route used by Real and Completion consumers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyTailShiftUp.RegularCauchyTailShiftTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient representative equality, host sequence equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked window overlap exactness, tail-index stability, dyadic tolerance accounting, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailShiftUp.}
+\end{closurestatus}

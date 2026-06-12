@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFilterComparisonUp$}
+\label{ch:concrete-instances-regular-cauchy-filter-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Bourbaki, the $\RegularCauchyFilterComparisonUp$ packet records the finite comparison surface between filter-style Cauchy data and regular-sequence completion data. It sits between the Cauchy-filter source of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Bishop regular Cauchy completion route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet compares displayed finite rows only; it does not quotient filters, select a limit, use countable choice, assert host equality of Real names, or invoke ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy filter comparison carrier]
+\label{def:regular-cauchy-filter-comparison-carrier}
+A $\RegularCauchyFilterComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,B,T,S,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ base row, naming the finite basis requests and displayed refinements offered to the completion consumer.
+\item $B$ is the cofinal-base row, recording which displayed filter base refines the regular common-tail window.
+\item $T$ is the $\RegSeqRatUp$ tail-window row exposed by the refined base.
+\item $S$ is the $\StreamNameUp$ finite-observation row read on that tail window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row shared by the filter request and the regular-sequence readback.
+\item $R$ is the terminal $\RealUp$ seal handoff, available only after $F,B,T,S,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the filter, refinement, tail-window, observation, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a filter-base tolerance request through the refined regular tail route and into the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFilterComparisonUp$, $\CauchyFilterUp$, $\BishopRegularCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFilterComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,B,T,S,D,R,H,C,P,N$. No coordinate stores quotient-filter equality, selected limits, countable-choice schedules, host equality of Real names, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyFilterComparisonUp.RegularCauchyFilterComparisonUp}
+\leandef{BEDC.Derived.RegularCauchyFilterComparisonUp.RegularCauchyFilterComparisonCarrier}
+\leanchecked{BEDC.Derived.RegularCauchyFilterComparisonUp.RegularCauchyFilterComparisonTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy filter sequential handoff]
+\label{thm:regular-cauchy-filter-comparison-sequential-handoff}
+Every accepted $\RegularCauchyFilterComparisonUp$ packet that receives a $\CauchyFilterUp$ basis whose displayed base refines the packet's common-tail window hands the completion read to a $\RegSeqRatUp$ tail window with the same $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ finite observations, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The terminal $\RealUp$ seal is read only after that regular tail route has been displayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyFilterComparisonUp.RegularCauchyFilterComparisonSequentialHandoff}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-filter-comparison-carrier}. The incoming filter row is $F$, and the cofinal-base row $B$ is the only place where a filter refinement may be read.
+
+Use $B$ to expose the finite regular tail window $T$. The stream observations $S$ and dyadic tolerance ledger $D$ are then read on the same displayed window, so the comparison has a sequence-facing route before any Real seal is consumed.
+
+The structural rows preserve that route. Componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$ carry the same finite rows through provenance $P$ and local naming $N$.
+
+Finally read the terminal $\RealUp$ seal $R$. Since the carrier has no quotient-filter, selected-limit, choice, host-equality, or Real-completeness coordinate, the handoff is exactly the displayed finite sequential route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy filter comparison NameCert obligations]
+\label{thm:regular-cauchy-filter-comparison-namecert-obligations}
+For every accepted $\RegularCauchyFilterComparisonUp$ carrier $K=(F,B,T,S,D,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyFilterComparisonUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the CauchyFilter base, cofinal-base refinement, RegSeqRat tail window, StreamName observations, DyadicRatCore tolerance ledger, Real seal, transport, replay, provenance, and local naming rows;
+\item sequential handoff, requiring the refined filter base to expose $T,S,D$ before $R$ is available;
+\item classifier stability, requiring componentwise $\hsame$ transport and displayed $\Cont$ replay to preserve the route $F,B,T,S,D,R$;
+\item ledger non-escape, requiring $P$ and $N$ to export no quotient filters, selected limits, countable choice, host Real equality, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the tuple $K=(F,B,T,S,D,R,H,C,P,N)$. The listed rows exhaust the fields visible to a completion-facing consumer.
+
+Sequential handoff is supplied by \autoref{thm:regular-cauchy-filter-comparison-sequential-handoff}. The filter request is first refined by $B$, then read as the regular tail window $T$ with observations $S$ and tolerance ledger $D$ before the terminal Real seal $R$ is exposed.
+
+Classifier stability is rowwise. The $\hsame$ row transports displayed coordinates, and the $\Cont$ row replays the same finite route without changing the classifier surface.
+
+The ledger boundary follows from absence. Since no excluded object is a coordinate of the carrier, provenance and local naming cannot export quotient filters, selected limits, countable choice, host Real equality, or ambient Real completeness.
+\end{proof}
+
+\closureat{RegularCauchyFilterComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFilterComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-comparison-carrier}, \autoref{thm:regular-cauchy-filter-comparison-sequential-handoff}, and \autoref{thm:regular-cauchy-filter-comparison-namecert-obligations} seed the finite comparison surface between CauchyFilter bases and RegSeqRat tail windows over DyadicRatCore, StreamName, Real, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host Real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, sequential handoff, classifier stability, provenance, and local naming for BEDC.Derived.RegularCauchyFilterComparisonUp.}
+  \constructivestory{A comparison packet is generated from one CauchyFilter base row, one cofinal-base refinement row, one RegSeqRat tail window, StreamName observations, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

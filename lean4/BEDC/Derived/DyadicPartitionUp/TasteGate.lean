@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicPartitionUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -190,5 +192,51 @@ theorem DyadicPartitionTasteGate_single_carrier_alignment :
       ⟨dyadicPartitionNontrivial⟩, dyadicPartitionDecode_encode_bhist,
       dyadicPartition_round_trip, (fun _ _ heq => dyadicPartitionToEventFlow_injective heq),
       rfl⟩
+
+theorem DyadicPartitionNamecertObligationRows (P : DyadicPartitionUp) :
+    ∃ B I A R F H C G N : BHist,
+      P = DyadicPartitionUp.mk B I A R F H C G N ∧
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row B ∨ hsame row I ∨ hsame row A ∨ hsame row R ∨ hsame row F ∨
+              hsame row H ∨ hsame row C ∨ hsame row G ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row I ∨ hsame row A ∨ hsame row R ∨ hsame row F ∨
+              hsame row H ∨ hsame row C ∨ hsame row G ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row I ∨ hsame row A ∨ hsame row R ∨ hsame row F ∨
+              hsame row H ∨ hsame row C ∨ hsame row G ∨ hsame row N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  cases P with
+  | mk B I A R F H C G N =>
+      let rows := fun row : BHist =>
+        hsame row B ∨ hsame row I ∨ hsame row A ∨ hsame row R ∨ hsame row F ∨
+          hsame row H ∨ hsame row C ∨ hsame row G ∨ hsame row N
+      have cert : SemanticNameCert rows rows rows hsame := {
+        core := {
+          carrier_inhabited := Exists.intro B (Or.inl (hsame_refl B))
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            cases sameRows
+            exact source
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
+      exact ⟨B, I, A, R, F, H, C, G, N, rfl, cert⟩
 
 end BEDC.Derived.DyadicPartitionUp.TasteGate

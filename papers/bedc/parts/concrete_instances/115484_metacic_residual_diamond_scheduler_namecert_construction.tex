@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetacicResidualDiamondSchedulerUp$}
+\label{ch:concrete-instances-metacic-residual-diamond-scheduler-namecert}
+\origin{ai}
+
+The $\MetacicResidualDiamondSchedulerUp$ packet realizes the residual-substitution confluence frontier of \autoref{sec:metacic-open-problems-confluence} as finite NameCert data. It sits beside the confluence inventory of \autoref{ch:concrete-instances-metacic-confluence-inventory-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the bounded residual frontier of \autoref{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}, the critical-path ledger of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, and the stream and regular-readback surfaces of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The packet schedules local diamond reads only through displayed residual-frontier and bounded-checker rows; it does not promote those reads to global confluence, arbitrary closed Church--Rosser, or a discharged substitution-compatibility theorem.
+
+\begin{definition}[MetaCIC residual diamond scheduler carrier]
+\label{def:metacic-residual-diamond-scheduler-carrier}
+A $\MetacicResidualDiamondSchedulerUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,R,E,J,L,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, recording the closed source, target type, and finite reduction-window data inspected by the scheduler.
+\item $R$ is the residual-frontier row, recording the residual-substitution boundary retained before any local diamond read is accepted.
+\item $E$ is the candidate-SN evidence row, recording the finite candidate-mediated strong-normalization evidence used only to bound inspected branches.
+\item $J$ is the bounded local-join checker row, recording the finite peak, branch fuel, and accepted common-reduct witness for the inspected window.
+\item $L$ is the L10 source row, recording the source chapter, audit-map, and dependency route from which the scheduler reads its confluence-facing frontier.
+\item $O$ is the obstruction row, retaining the reason a requested global diamond or Church--Rosser endpoint is outside the packet.
+\item $H$ records componentwise $\hsame$ transport for $T,R,E,J,L,O$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay along the route
+$$
+T,R,E,J,L,O \longmapsto H,C,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetacicResidualDiamondSchedulerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$, together with the sibling confluence-inventory, residual-frontier, critical-path, stream, and regular-readback sources named above.
+\item $N$ is the local $\NameCert_{\MetacicResidualDiamondSchedulerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,E,J,L,O,H,C,P,N$. It has no coordinate for full residual-substitution compatibility, an unrestricted parallel diamond, global Church--Rosser, evaluator equality, quotient equality of terms, subject-reduction closure, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual diamond scheduler NameCert obligations]
+\label{thm:metacic-residual-diamond-scheduler-namecert-obligations}
+For every accepted $\MetacicResidualDiamondSchedulerUp$ carrier $D=(T,R,E,J,L,O,H,C,P,N)$, the local $\NameCert_{\MetacicResidualDiamondSchedulerUp}$ surface consists exactly of carrier admission for the typed-window row, residual-frontier row, candidate-SN evidence row, bounded local-join checker row, L10 source row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The Lean-side plan requires $\mathsf{Nontrivial}\ \MetacicResidualDiamondSchedulerUp$ and $\mathsf{FieldFaithful}\ \MetacicResidualDiamondSchedulerUp$ instances in \texttt{TasteGate.lean}, with the field-faithfulness witness preserving $T,R,E,J,L,O,H,C,P,N$ as distinct rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-diamond-scheduler-carrier}. The rows $T,R,E,J,L,O$ expose the typed source window, residual frontier, candidate evidence, bounded checker, source route, and retained obstruction before any local diamond read can be consumed.
+
+The join checker is bounded by construction. Row $J$ records only the inspected peak, finite branch fuel, and displayed common-reduct witness, while $R$ keeps the residual-substitution frontier visible and $O$ records the refused global endpoint.
+
+Finally $H,C,P,N$ transport, replay, source, and name that same route. Nontrivial and FieldFaithful TasteGate instances must read the same row order, so a checked scheduler cannot erase the residual frontier, bounded checker, obstruction, or L10 source when presenting a diamond read.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual diamond scheduler boundary]
+\label{thm:metacic-residual-diamond-scheduler-boundary}
+Every accepted local diamond read exported by a $\MetacicResidualDiamondSchedulerUp$ packet must expose
+$$
+T,R,E,J,L,O,H,C,P,N
+$$
+before the read is consumed by a confluence-facing client. The scheduler may route a bounded residual-frontier peak to a displayed local join, but it exports no full $\mathrm{BetaParallelSubstitutionCompatibility}$ proof, no arbitrary closed parallel diamond, no global closed Church--Rosser theorem, no evaluator equality, and no quotient equality of terms.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:metacic-residual-diamond-scheduler-namecert-obligations}. The accepted packet exposes the typed window, residual frontier, candidate evidence, local checker, L10 source, and obstruction rows as separate fields.
+
+The scheduler route is therefore local. A consumer can read a bounded common-reduct witness from $J$ only after the frontier $R$ and the source row $L$ are displayed, and the obstruction row $O$ remains attached to any stronger confluence request.
+
+The structural rows preserve the same route. Since $H,C,P,N$ do not add substitution compatibility, subject reduction, evaluator equality, or quotient term equality, the local diamond read cannot escape into a global confluence claim.
+\end{proof}
+
+\falsifiablePrediction{Any accepted scheduler that exports a diamond read without residual-frontier, bounded-checker, obstruction, and L10-source rows refutes the $\MetacicResidualDiamondSchedulerUp$ packet.}
+
+\independenceWitness{metaciccriticalpath, metacicclosuretrace, metacicnormalizationcertificaterouter, streamname, regseqrat: no listed sibling is bijective with $\MetacicResidualDiamondSchedulerUp$, because this packet alone binds typed windows, residual-frontier rows, candidate-SN evidence, bounded local-join checks, L10 source routing, obstruction retention, transport, replay, provenance, and local naming into one residual-diamond scheduler.}
+
+The Lean-side plan for \texttt{lean4/BEDC/Derived/MetacicResidualDiamondSchedulerUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \MetacicResidualDiamondSchedulerUp$ and $\mathsf{FieldFaithful}\ \MetacicResidualDiamondSchedulerUp$ instances before any checked carrier-alignment theorem is cited for the packet. The nontrivial witness must separate an accepted bounded scheduler from a packet missing the residual frontier, and the field-faithfulness witness must preserve the typed-window, residual-frontier, candidate-SN, bounded-checker, L10-source, obstruction, transport, replay, provenance, and local-name rows.
+
+\closureat{MetacicResidualDiamondSchedulerUp}{seedStr}
+
+\begin{closurestatus}{\MetacicResidualDiamondSchedulerUp}
+  \constructivestory{A $\MetacicResidualDiamondSchedulerUp$ packet is generated from a typed-window row, residual-frontier row, candidate-SN evidence row, bounded local-join checker row, L10 source row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-diamond-scheduler-carrier}, \autoref{thm:metacic-residual-diamond-scheduler-namecert-obligations}, and \autoref{thm:metacic-residual-diamond-scheduler-boundary} seed the finite residual-diamond scheduler route over typed windows, residual-frontier evidence, candidate-SN bounds, local joins, L10 source routing, obstruction, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, full residual-substitution compatibility, arbitrary closed parallel diamond, global closed Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, kernel consistency, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-frontier retention, candidate-SN evidence exposure, bounded local-join checking, L10 source routing, obstruction non-escape, componentwise transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetacicResidualDiamondSchedulerUp.}
+\end{closurestatus}

@@ -1,0 +1,116 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyNameSealUp$}
+\label{ch:concrete-instances-bishop-cauchy-name-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy reals, the $\BishopCauchyNameSealUp$ packet records the finite seal object that ties the L10 route from dyadic tolerances to StreamName observations, RegSeqRat readback, and the terminal Real seal. It sits over the dyadic endpoint and tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real naming boundary of \autoref{ch:concrete-instances-real-namecert}, and the Bishop regular Cauchy completion surface of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet names the four-object route as a local NameCert seal; it does not assert completeness of $\RealUp$, quotient Cauchy streams, selected limits, countable choice, or host equality of real names.
+
+\begin{definition}[Bishop Cauchy name-seal carrier]
+\label{def:bishop-cauchy-name-seal-carrier}
+A $\BishopCauchyNameSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance ledger, recording the requested precision rows before any stream observation is read.
+\item $W$ is the $\StreamNameUp$ finite observation row whose entries are inspected at the displayed dyadic tolerances.
+\item $R$ is the $\RegSeqRatUp$ regular readback row obtained from $D$ and $W$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the regular readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,R,E$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay of the route from dyadic tolerances through stream observations, regular readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyNameSealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRegularCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyNameSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy name-seal four-input visibility]
+\label{thm:bishop-cauchy-name-seal-four-input-visibility}
+For every accepted $\BishopCauchyNameSealUp$ carrier $S=(D,W,R,E,H,C,P,N)$, a Real or Completion consumer must expose the four L10 rows
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+as $D,W,R,E$ before the local seal can be read. The packet admits no shortcut from dyadic tolerance requests directly to a Real name, and no StreamName or RegSeqRat read is detached from the same displayed dyadic ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:bishop-cauchy-name-seal-carrier}. The only data rows before transport and replay are $D,W,R,E$.
+
+The tuple order records the dependency route. The finite observation row $W$ reads the dyadic ledger $D$, the regular readback row $R$ reads $D$ and $W$, and the terminal seal $E$ is downstream of all three rows.
+
+The structural rows $H,C,P,N$ preserve that route. Since no additional carrier coordinate names a direct Real constructor, a detached stream, or a quotient representative, the four input rows are exactly the visible L10 surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy name-seal regularity handoff]
+\label{thm:bishop-cauchy-name-seal-regularity-handoff}
+Every accepted $\BishopCauchyNameSealUp$ packet hands finite StreamName observations to the regular rational sequence route only through
+$$
+D\longmapsto W\longmapsto R .
+$$
+The handoff consumes the $\DyadicRatCoreUp$ tolerance ledger and the $\StreamNameUp$ finite observation row before any $\RegSeqRatUp$ readback is available.
+\end{theorem}
+\begin{proof}
+Start with four-input visibility. It fixes $D$ and $W$ as the only rows from which a regular readback can be formed.
+
+Read the regular row $R$. By the carrier definition, $R$ is attached to the same dyadic tolerance ledger and finite observation window, so a consumer cannot replace $W$ by a host stream or replace $D$ by an unrecorded tolerance schedule.
+
+Transport and replay through $H$ and $C$ move only the displayed rows. The regularity handoff is therefore the finite route $D\longmapsto W\longmapsto R$.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy name-seal Real nonescape]
+\label{thm:bishop-cauchy-name-seal-real-nonescape}
+Every $\RealUp$ read exported by an accepted $\BishopCauchyNameSealUp$ carrier factors through
+$$
+D\longmapsto W\longmapsto R\longmapsto E .
+$$
+The terminal row $E$ is a seal for the displayed regular Cauchy route, not a proof of $\RealUp$ completeness, host equality, selected limits, quotient streams, or countable choice.
+\end{theorem}
+\begin{proof}
+Use the regularity handoff to expose $D,W,R$ in order. No Real-facing row is visible before the regular rational readback is displayed.
+
+The terminal row $E$ is the only Real seal coordinate in the carrier. It is read after $R$ and is replayed by $C$ with provenance and local naming supplied by $P,N$.
+
+Because the carrier has no coordinate for completeness, quotient stream equality, selected limits, countable choice, or host real equality, any consumer that reaches $\RealUp$ must remain inside the displayed route.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy name-seal classifier transport]
+\label{thm:bishop-cauchy-name-seal-classifier-transport}
+Let $S=(D,W,R,E,H,C,P,N)$ and $S'=(D',W',R',E',H',C',P',N')$ be accepted $\BishopCauchyNameSealUp$ carriers. If $H$ records componentwise $\hsame$ transport from $D,W,R,E$ to $D',W',R',E'$ and $C$ replays the displayed route, then acceptance transports from $S$ to $S'$ only through the rows
+$$
+D,W,R,E,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Inspect the classifier in \autoref{def:bishop-cauchy-name-seal-carrier}. Its admissible inputs are the displayed data rows and the structural certificate rows.
+
+Componentwise $\hsame$ transport compares the dyadic ledger, stream window, regular readback, Real seal, provenance, and local naming rows. Displayed $\Cont$ replay preserves the same dependency order.
+
+No host equality or quotient relation is part of the packet. The transported acceptance therefore uses only the listed rows and cannot be widened to an external equality of real names.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy name-seal provenance exhaustion]
+\label{thm:bishop-cauchy-name-seal-provenance-exhaustion}
+For every accepted $\BishopCauchyNameSealUp$ carrier $S=(D,W,R,E,H,C,P,N)$, the local $\NameCert_{\BishopCauchyNameSealUp}$ obligations are exhausted by carrier admission, four-input visibility, regularity handoff, Real-seal nonescape, classifier transport, displayed replay, package provenance, and local naming for $D,W,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $S=(D,W,R,E,H,C,P,N)$. The preceding obligations account for visibility of $D,W,R,E$, the regularity handoff, Real nonescape, and classifier transport.
+
+The remaining structural rows are $C,P,N$. They replay, source, and name the same finite packet and do not add mathematical data beyond the displayed route.
+
+Thus every NameCert obligation is read from the listed rows. Nothing remains from which a consumer could infer quotient streams, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopCauchyNameSealUp$ Real-facing read factors through one DyadicRatCore endpoint and tolerance ledger, one StreamName finite observation row, one RegSeqRat regular readback row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, bishop-regular-cauchy-completion: $\BishopCauchyNameSealUp$ is not bijective to any listed sibling because it jointly binds the four L10 rows as one local seal with transport, replay, provenance, and naming before any Real or Completion consumer may read the result.}
+
+\closureat{BishopCauchyNameSealUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyNameSealUp}
+  \constructivestory{A $\BishopCauchyNameSealUp$ packet is generated from DyadicRatCore endpoint and tolerance rows, StreamName finite observations, RegSeqRat regular readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-name-seal-carrier}, \autoref{thm:bishop-cauchy-name-seal-four-input-visibility}, \autoref{thm:bishop-cauchy-name-seal-regularity-handoff}, \autoref{thm:bishop-cauchy-name-seal-real-nonescape}, \autoref{thm:bishop-cauchy-name-seal-classifier-transport}, and \autoref{thm:bishop-cauchy-name-seal-provenance-exhaustion} seed the finite four-object L10 name-seal route over dyadic, stream, regular, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy streams, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\BishopCauchyNameSealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-input visibility, regularity handoff, Real-seal nonescape, classifier transport, displayed replay, provenance, and local naming for BEDC.Derived.BishopCauchyNameSealUp.}
+\end{closurestatus}

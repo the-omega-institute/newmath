@@ -1,0 +1,11 @@
+\begin{theorem}[Normalization candidate socket MetaCIC candidate dependency route]
+\label{thm:normalization-candidate-socket-metacic-candidate-dependency-route}
+The $\NormalizationCandidateSocketUp$ packet consumes candidate-mediated strong-normalization evidence and normalization-frontier rows through \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} and \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. Its accepted route therefore reads candidate, closed-candidate, candidate-set, App adequacy, Pi adequacy, no-infinite-reduction, and frontier-refusal rows before any kernel-facing consumer may use the socket. The socket is not a kernel-only packet and cannot export strong normalization or confluence without the displayed MetaCIC candidate dependency edge.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The candidate rows $K,D,E$, adequacy rows $A,B$, no-infinite-reduction row $I$, and frontier refusal row $F$ are all visible in the same finite socket.
+
+Use the boundary theorem \autoref{thm:normalization-candidate-socket-boundary} and the diamond route \autoref{thm:normalization-candidate-socket-metacic-diamond-route}. They keep normalization-facing reads downstream of the candidate evidence rows and attach the socket to the MetaCIC critical-path consumer.
+
+Finally read the normalization frontier and critical path chapters as the candidate-mediated parents. The accepted socket route therefore depends on those MetaCIC rows rather than floating as a closed-term or kernel-only surface.
+\end{proof}

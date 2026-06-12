@@ -1,0 +1,44 @@
+\begin{theorem}[CoveringDimension root cover refinement tree]
+\label{thm:coveringdimension-root-cover-refinement-tree}
+For every accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$, any root read that exports a finite cover-refinement tree must display the $\BHist$ root $K,E,C$ before it displays refinement successors. Each successor row is named by $R$, transported by the componentwise $\hsame$ row $H$, replayed by the displayed $\Cont$ row $T$, and sourced by the same $\NameCert_{\CoveringDimensionUp}$ row $N$. Thus the exported tree is a finite cover-refinement object over the existing compact metric and metric rows, not a selected open-cover subtree or an external refinement theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:covering-dimension-carrier}. The source rows $K,E,C$ are the only compact metric, finite-net, and finite cover rows available before refinement data are read.
+
+The refinement row $R$ can therefore add only named successor rows over the displayed cover $C$. Componentwise $\hsame$ transport through $H$ keeps each successor attached to its parent cover row, while $\Cont$ replay through $T$ fixes the same finite inspection route after transport.
+
+Finally the local $\NameCert$ row $N$ names this finite tree together with the provenance row $P$. Since the carrier has no coordinate for selected subcovers or host refinement theorems, every exported refinement tree remains inside the displayed $\BHist$ cover packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverRefinementTree}
+
+\begin{theorem}[CoveringDimension root finite-order compatibility]
+\label{thm:coveringdimension-root-finite-order-compatibility}
+Let $D=(K,E,C,R,O,L,H,T,P,N)$ be an accepted $\CoveringDimensionUp$ carrier. If a root refinement read exports an order bound, then the order row $O$ is compatible with the refinement tree exactly when every counted overlap is a displayed $\BHist$ row whose cover parent is named by $R$, whose transport is supplied by $H$, and whose replay route is supplied by $T$. The order read cannot inspect a host multiplicity oracle, an arbitrary open-cover family, or quotient equality of real-valued scales.
+\end{theorem}
+\begin{proof}
+Read the finite cover and refinement rows through \autoref{thm:coveringdimension-root-cover-refinement-tree}. The only members that can enter an overlap count are the displayed successor rows already attached to parents in $C$ by $R$.
+
+The order row $O$ counts those displayed overlaps. Transport by $H$ preserves the parent assignments and containment witnesses componentwise, and replay by $T$ reuses the same finite read rather than opening a separate multiplicity source.
+
+The NameCert row $N$ therefore binds finite-order compatibility to the local carrier. No row in $D$ stores a host overlap counter, arbitrary open-cover compactness, or quotient-real equality, so the compatibility check is the finite $C,R,O,H,T,N$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootFiniteOrderCompatibility}
+
+\begin{theorem}[CoveringDimension root Real-separability window]
+\label{thm:coveringdimension-root-real-separability-window}
+Every root $\CoveringDimensionUp$ read that reuses $\RealSeparabilityUp$ evidence must expose a finite window
+$$
+K,E,C,R,O,L,H,T,P,N
+\longmapsto
+\RealSeparabilityUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp
+$$
+before the cover order is consumed by a Real-facing downstream packet. The window records rational dense reads, regular-rational scale rows, dyadic tolerance comparisons, and the terminal real seal only as support for the displayed finite cover-refinement packet; it does not claim Dedekind completeness, quotient equality of real names, or a selected dense sequence.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringDimensionUp.CoveringDimensionRootRealSeparabilityWindow}
+\begin{proof}
+Start with the local cover-refinement tree and finite-order compatibility results above. They fix the finite $K,E,C,R,O,L,H,T,P,N$ packet before any Real-facing route can consume the order bound.
+
+The Real-separability side then supplies only displayed window evidence. The $\RealSeparabilityUp$ row contributes finite dense-window reads, $\RegSeqRatUp$ packages the scale readback, $\DyadicRatCoreUp$ supplies tolerance comparisons, and $\RealUp$ seals the resulting read without adding an ambient completeness principle.
+
+Because the same $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows remain visible across the handoff, the downstream consumer receives a finite cover-order window. It does not receive selected dense points, quotient equality of real names, or an external separability theorem.
+\end{proof}

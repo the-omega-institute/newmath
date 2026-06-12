@@ -1,0 +1,95 @@
+{
+  "artifact_id": "bedc-quality-lab:release-namecert-candidate",
+  "candidate_status": "ready-candidate",
+  "classifier_spec": {
+    "bedc_theory_closure": false,
+    "classifier": "release-ready vs not",
+    "model_quality_proof": false,
+    "publishable_tag_claim": false,
+    "release_closure": "candidate-only",
+    "release_manifest_ready": true,
+    "scientific_claim": false
+  },
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "json_artifact": "reports/release_namecert_candidate.json",
+  "ledger_policy": {
+    "not_bedc_closure": true,
+    "not_model_quality_proof": true,
+    "not_scientific_claim": true,
+    "not_theory_closure": true,
+    "revoke_if": [
+      "Revoke ready status if any required pointer stops resolving, the requested tag becomes stale, or this sidecar is used as report status evidence."
+    ],
+    "tag_absent": {
+      "pointer": "$.source_spec.tag_status",
+      "publishable_tag_claim": false,
+      "status": "active"
+    }
+  },
+  "markdown_artifact": "reports/release_namecert_candidate.md",
+  "pattern_spec": {
+    "name": "ReleaseNameCertCandidate",
+    "projection": "thin sidecar projection",
+    "sidecar_readiness_is_model_quality_evidence": false,
+    "sidecar_readiness_is_scientific_evidence": false,
+    "sidecar_readiness_is_theory_closure_evidence": false,
+    "source": "reports/release_manifest_sidecar.json"
+  },
+  "release_id": {
+    "identity": "bedc-quality-lab:release-manifest-sidecar@0.0.1:non-publishable",
+    "publishable": false,
+    "source_artifact_id": "bedc-quality-lab:release-manifest-sidecar",
+    "source_version": "0.0.1",
+    "tag_absent": true,
+    "tag_claim": "none",
+    "tag_status_pointer": "$.source_spec.tag_status"
+  },
+  "revoke_if": [
+    "Revoke ready status if any required pointer stops resolving, the requested tag becomes stale, or this sidecar is used as report status evidence."
+  ],
+  "schema_id": "bedc-quality-lab:release-namecert-candidate",
+  "source_spec": {
+    "release_bundle_status": "ready",
+    "required_pointer_count": 6,
+    "resolved_pointer_count": 6,
+    "sidecar_artifact_id": "bedc-quality-lab:release-manifest-sidecar",
+    "sidecar_cell_pointers": {
+      "artifact_id": "$.artifact_id",
+      "generated_at": "$.generated_at",
+      "release_bundle_status": "$.release_bundle_status",
+      "required_pointer_rows": "$.required_pointers",
+      "revoke_if": "$.revoke_if",
+      "schema_id": "$.schema_id",
+      "tag_status": "$.tag_status"
+    },
+    "sidecar_digest": "c56da37a8127b8d8b097742bca21f3fa23dbd8c47a1078d2dfea2e2c16e767ff",
+    "sidecar_generated_at": "2026-06-12T15:51:27.413052+00:00",
+    "sidecar_path": "reports/release_manifest_sidecar.json",
+    "sidecar_schema_id": "bedc-quality-lab:release-manifest-sidecar",
+    "tag_status": "absent"
+  },
+  "stab_cert": {
+    "make_check_pass": {
+      "evidence": "explicit canonical runner make-check evidence",
+      "status": "pass"
+    },
+    "no_overclaim": {
+      "evidence": "scientific, model-quality, and theory-closure claims are false",
+      "pointer": "$.classifier_spec",
+      "status": "pass"
+    },
+    "pointer_resolution": {
+      "evidence": {
+        "required_pointer_count": 6,
+        "resolved_pointer_count": 6
+      },
+      "pointer": "$.source_spec.sidecar_cell_pointers.required_pointer_rows",
+      "status": "pass"
+    },
+    "source_sidecar_ready": {
+      "evidence": "ready",
+      "pointer": "$.source_spec.release_bundle_status",
+      "status": "pass"
+    }
+  }
+}

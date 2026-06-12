@@ -72,18 +72,35 @@ The packet composes axiomdependencymap, auditgateboundary, forbidden-axiom-ances
 
 The Lean follow-up is \texttt{lean4/BEDC/Derived/AxiomRequirementLedgerUp/TasteGate.lean} with explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed ledger.
 
+\begin{theorem}[AxiomRequirementLedger bridge route]
+\label{thm:axiom-requirement-ledger-bridge-route}
+Every audit-map or dependency-map bridge consumer of an accepted $\AxiomRequirementLedgerUp$ packet must pass through the displayed rows
+$$
+\Phi,M,W,A,R,T,U,V,H,C,P,N
+$$
+and the TasteGate single-carrier row before reading required axiom supply. In particular, bridge-side reads of $A$ are mediated by the same claim, mode, witness, refusal, transport, route, provenance, replay, package, and local NameCert rows that define the public packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only required-supply row exposed by the packet is $A$, and it is displayed together with $\Phi,M,W,R,T,U,V,H,C,P,N$.
+
+An audit-map consumer reads required supply through the refusal, transport, route, and provenance rows. A dependency-map consumer reads the same supply through the claim, mode, witness, and required-set coordinates. Both routes are transported and replayed by $H$ and $C$, then named by $P$ and $N$.
+
+The TasteGate single-carrier row aligns those two consumer views with the same accepted packet. Thus no bridge consumer can read axiom supply before passing through the displayed rows and the single-carrier alignment.
+\end{proof}
+
 \closureat{AxiomRequirementLedgerUp}{seedStr}
 \closureat{AxiomRequirementLedgerUp}{obligationStr}
 \closureat{AxiomRequirementLedgerUp}{scopedStr}[BEDC.Derived.AxiomRequirementLedgerUp.taste\_gate]
+\closureat{AxiomRequirementLedgerUp}{matureStr}[BEDC.Derived.AxiomRequirementLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\AxiomRequirementLedgerUp}
   \constructivestory{An $\AxiomRequirementLedgerUp$ packet is generated from a claim row, mode row, witness row, required-supply row, refusal ledger, transport row, audit route, provenance row, componentwise transports, displayed consumer routes, package provenance, and local naming.}
   \leanchecked{BEDC.Derived.AxiomRequirementLedgerUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:axiom-requirement-ledger-carrier}, \autoref{thm:axiom-requirement-ledger-namecert-obligations}, \autoref{thm:axiom-requirement-ledger-nonescape}, the falsifiable prediction, and the independence witness bind the required-supply ledger rows $\Phi,M,W,A,R,T,U,V,H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:axiom-requirement-ledger-carrier}, \autoref{thm:axiom-requirement-ledger-namecert-obligations}, \autoref{thm:axiom-requirement-ledger-nonescape}, the falsifiable prediction, and the independence witness export the required-supply ledger over the displayed rows $\Phi,M,W,A,R,T,U,V,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global theorem dependency completeness, host axiom import, selected witnesses, quotient equality, or any conversion of required supply into BEDC theorem content.}
-  \upgradepath{The next grade requires Lean verification of the same finite ledger rows and their non-escape route.}
+  \upgradepath{Only Lean verification and bridge checking remain for the displayed required-supply ledger rows and their non-escape route.}
 \end{closurestatus}

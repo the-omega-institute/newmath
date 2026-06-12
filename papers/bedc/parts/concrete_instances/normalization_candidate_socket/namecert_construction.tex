@@ -4,6 +4,8 @@
 
 The $\NormalizationCandidateSocketUp$ packet realizes the candidate-mediated normalization evidence of \autoref{ch:metacic-normalization-audit-map} as a finite socket object. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet separates candidate rows from closed-candidate rows and candidate-set rows, records the Pi and App adequacy surfaces, and keeps no-infinite-reduction exports downstream of supplied candidate evidence. It is not an unconditional closed-term strong-normalization theorem.
 
+The socket consumes the MetaCIC candidate-normalization handoff through the candidate-set surface of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert} and the closed candidate route of \autoref{ch:concrete-instances-candidate-set-closed-route-namecert}. Its subject-reduction boundary is the four-row discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}; the local packet may hand candidate-mediated normalization data toward that boundary, but it does not replace the beta, application, lambda, or Pi preservation rows.
+
 \begin{definition}[Normalization candidate socket carrier]
 \label{def:normalization-candidate-socket-carrier}
 A $\NormalizationCandidateSocketUp$ carrier is a finite $\BHist$ packet
@@ -79,6 +81,26 @@ Use \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. It s
 
 The adequacy rows $A$ and $B$ remain route data for candidate-mediated App and Pi reads, and $I$ remains downstream of the same candidate evidence. Therefore the sibling route to \autoref{ch:concrete-instances-metacic-diamond-residual-budget-namecert} is available only after $K,D,E,A,B,I,F$ are visible in the socket.
 \end{proof}
+
+\begin{theorem}[Normalization candidate socket forward dependency]
+\label{thm:normalization-candidate-socket-forward-dependency}
+Every forward discharge consumer of an accepted $\NormalizationCandidateSocketUp$ carrier
+$$
+S=(M,K,D,E,A,B,I,F,H,C,P,N)
+$$
+must expose the candidate rows $K,D,E$, the adequacy rows $A,B$, the no-infinite-reduction row $I$, the frontier row $F$, and then the forward-socket ledger of \autoref{ch:concrete-instances-forward-socket-ledger-namecert} before exporting a downstream socket read. The forward ledger is therefore downstream of visible candidate evidence, not a replacement for reducibility, closed-candidate, candidate-set, App adequacy, Pi adequacy, or frontier rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The forward discharge consumer can inspect only the displayed rows $M,K,D,E,A,B,I,F,H,C,P,N$.
+
+Use \autoref{thm:normalization-candidate-socket-boundary}. It places any strong-normalization or no-infinite-reduction export downstream of the candidate rows $K,D,E$ and keeps App and Pi adequacy in the rows $A,B$.
+
+Use \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. If the consumer deletes $K,D,E$ while keeping the closed term window $M$, the route reaches the frontier refusal $F$ and cannot export $I$.
+
+Only after $K,D,E,A,B,I,F$ are visible may the consumer cite \autoref{ch:concrete-instances-forward-socket-ledger-namecert}. The forward-socket ledger records the downstream socket read, while $H,C,P,N$ transport, replay, source, and name the same candidate-mediated packet.
+\end{proof}
+
+The socket is a consumer-side sibling of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert}, \autoref{ch:concrete-instances-candidate-set-closed-route-namecert}, and \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. It may route candidate-mediated normalization toward residual or discharge consumers only while keeping the candidate rows $K,D,E$, the adequacy rows $A,B$, the no-infinite-reduction row $I$, and the frontier row $F$ visible.
 
 \falsifiablePrediction{Any consumer missing candidate, closed-candidate, or candidate-set rows in a $\NormalizationCandidateSocketUp$ packet cannot export closed-term strong normalization from that packet.}
 

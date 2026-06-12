@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\JordanNormalFormUp$}
+\label{ch:concrete-instances-jordan-normal-form-namecert}
+\origin{human}
+
+Following Horn--Johnson and standard finite-dimensional linear algebra, the $\JordanNormalFormUp$ packet records the finite matrix-block normal-form certificate read from a linear endomorphism over a displayed field source. It sits beside the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the scalar field carrier of \autoref{ch:concrete-instances-field-namecert}, and the polynomial rows of \autoref{ch:concrete-instances-polynomial-namecert}. The packet names only the finite block layout, nilpotent-chain ledger, and similarity-transport rows needed by a Jordan-form consumer; it does not import algebraic closure, quotient eigenspace equality, selected eigenvectors from a host theorem, or an ambient spectral theorem.
+
+\begin{definition}[Jordan normal form carrier]
+\label{def:jordan-normal-form-carrier}
+A $\JordanNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+J=(M,L,V,F,Q,B,N,S,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ row, recording the finite matrix entries, row-column index windows, and matrix multiplication requests used by the block read.
+\item $L$ is the $\LinearMapUp$ row, recording the endomorphism surface whose matrix presentation is inspected.
+\item $V$ is the $\VecSpaceUp$ row, recording the displayed finite-dimensional vector-space basis and scalar-action windows.
+\item $F$ is the $\FieldUp$ row, recording the scalar carrier through which the displayed entries and polynomial coefficients are read.
+\item $Q$ is the $\PolynomialUp$ row, recording the characteristic-polynomial and minimal-polynomial ledgers visible to the block scheduler.
+\item $B$ is the Jordan-block ledger, a finite list of block sizes, eigenvalue-name rows, and superdiagonal-one positions.
+\item $N$ is the nilpotent-chain ledger, recording the finite chain-length checks and kernel-power windows attached to each displayed block.
+\item $S$ is the similarity-transport row, recording the source presentation, target block presentation, and matrix-change rows used for the displayed conjugacy read.
+\item $H$ records componentwise $\hsame$ transport for $M,L,V,F,Q,B,N,S$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay along the route
+$$
+M,L,V,F,Q,B,N,S \longmapsto H,C,P,A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\JordanNormalFormUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\FieldUp$, $\PolynomialUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\JordanNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,L,V,F,Q,B,N,S,H,C,P,A$. It has no coordinate for an algebraic-closure theorem, quotient eigenspace equality, a selected host basis, canonical uniqueness of the block order, or an ambient spectral theorem.
+\end{definition}
+
+\begin{theorem}[Jordan normal form NameCert obligations]
+\label{thm:jordan-normal-form-namecert-obligations}
+For every accepted $\JordanNormalFormUp$ carrier $J=(M,L,V,F,Q,B,N,S,H,C,P,A)$, the local $\NameCert_{\JordanNormalFormUp}$ surface consists exactly of carrier admission, matrix exposure through $M$, linear-map exposure through $L$, vector-space basis exposure through $V$, field-scalar exposure through $F$, polynomial-ledger exposure through $Q$, Jordan-block ledger exposure through $B$, nilpotent-chain exposure through $N$, similarity-transport exposure through $S$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jordan-normal-form-carrier}. Its mathematical rows are exactly $M,L,V,F,Q,B,N,S$: the matrix presentation, the linear map, the finite vector-space source, the scalar field source, the polynomial ledgers, the block ledger, the nilpotent-chain ledger, and the similarity-transport row.
+
+The block rows are not independent host algebra. The Jordan-block ledger $B$ is read only through the matrix, field, and polynomial rows $M,F,Q$, while the nilpotent-chain ledger $N$ records finite chain checks rather than quotient eigenspace equality or selected generalized eigenspaces.
+
+Finally attach $H,C,P,A$. Transport and replay preserve the displayed rows componentwise, provenance names the sibling sources, and the local NameCert row adds no algebraic-closure or spectral-theorem coordinate. Thus the listed rows exhaust the NameCert obligations for the finite Jordan-form packet.
+\end{proof}
+
+\begin{theorem}[Jordan block similarity boundary]
+\label{thm:jordan-normal-form-similarity-boundary}
+Every normal-form consumer of an accepted $\JordanNormalFormUp$ packet must read the finite route
+$$
+\MatrixUp,\ \LinearMapUp,\ \VecSpaceUp,\ \FieldUp,\ \PolynomialUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through $M,L,V,F,Q,B,N,S,H,C,P,A$ before treating the displayed block matrix as a Jordan-form certificate. The route exports only finite matrix entries, linear-map presentation data, vector-space basis rows, scalar and polynomial ledgers, block sizes, nilpotent-chain checks, similarity transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:jordan-normal-form-namecert-obligations}. Any accepted read must expose the matrix, linear-map, vector-space, field, polynomial, block, nilpotent-chain, and similarity rows before the local NameCert row can be consumed.
+
+The similarity transport remains finite. Row $S$ records only the displayed source and target matrix presentations and the change-of-presentation rows needed for that read; it does not certify algebraic closure or provide quotient eigenspace equality.
+
+The structural rows $H,C,P,A$ preserve and name the same finite route. Since none of those rows contains a host spectral theorem, a selected eigenbasis outside the packet, or canonical uniqueness of block order, the exported boundary is exactly the displayed finite certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\JordanNormalFormUp$ consumer must display Matrix, LinearMap, VecSpace, Field, Polynomial, Jordan-block, nilpotent-chain, similarity-transport, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before reading a Jordan normal-form certificate.}
+
+\independenceWitness{matrix, linearmap, vecspace, field, polynomial: $\JordanNormalFormUp$ is not bijective to any listed sibling because this packet alone binds matrix entries, linear-map presentation, vector-space basis data, scalar-field rows, polynomial ledgers, finite Jordan-block layout, nilpotent-chain checks, similarity transport, replay, provenance, and local naming into one finite normal-form certificate.}
+
+\closureat{JordanNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\JordanNormalFormUp}
+  \constructivestory{A $\JordanNormalFormUp$ packet is generated from Matrix rows, LinearMap rows, VecSpace basis windows, Field scalar rows, Polynomial ledgers, a finite Jordan-block layout, nilpotent-chain checks, similarity-transport rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-normal-form-carrier}, \autoref{thm:jordan-normal-form-namecert-obligations}, and \autoref{thm:jordan-normal-form-similarity-boundary} seed the finite Jordan normal-form certificate over matrix, linear-map, vector-space, field, polynomial, block, nilpotent-chain, similarity, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim algebraic closure, quotient eigenspace equality, selected host eigenvectors, canonical uniqueness of Jordan-block order, ambient spectral theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, block-ledger exactness, nilpotent-chain projection, similarity-transport non-escape, componentwise transport, provenance, and local NameCert exactness for BEDC.Derived.JordanNormalFormUp.}
+\end{closurestatus}

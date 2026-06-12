@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ResidualSubstitutionCompatibilityWindowUp$}
+\label{ch:concrete-instances-residual-substitution-compatibility-window-namecert}
+\origin{human}
+
+Following the standard residual-substitution compatibility boundary from rewriting theory, the $\ResidualSubstitutionCompatibilityWindowUp$ packet records the finite MetaCIC window on which a residual substitution claim may be checked before any confluence consumer reads it. It realizes the confluence question of \autoref{ch:metacic-open-problems} as concrete NameCert data and sits beside the critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the closed substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, and the bounded checker surface of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}. The packet is a bounded residual frontier; it does not assert full residual-substitution compatibility, subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+
+\begin{definition}[Residual-substitution compatibility window carrier]
+\label{def:residual-substitution-compatibility-window-carrier}
+A $\ResidualSubstitutionCompatibilityWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,R,S,J,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed MetaCIC observation window whose source, reduct, and residual positions are all finite.
+\item $R$ is the residual-frontier row, recording only the residual redexes and branch-local substitution positions visible inside $T$.
+\item $S$ is the closed substitution boundary row read through \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}.
+\item $J$ is the local join row, naming the candidate join data admitted by the displayed residual frontier.
+\item $B$ is the bounded checker-status row inherited from \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}.
+\item $O$ is the obstruction-retention row, recording that the bounded window has not supplied an unrestricted substitution-compatibility theorem.
+\item $H$ records componentwise $\hsame$ transport for the typed window, residual frontier, substitution boundary, local join, checker status, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the same bounded residual route.
+\item $P$ is the $\Pkg$ provenance over $\ResidualSubstitutionCompatibilityWindowUp$, $\MetaCICCriticalPathUp$, $\ClosedSubstitutionBoundaryUp$, $\MetaCICConfluenceResidualCheckerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ResidualSubstitutionCompatibilityWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,R,S,J,B,O,H,C,P,N$. It has no coordinate for an unbounded residual-substitution theorem, global subject reduction, arbitrary closed confluence, host evaluator equality, quotient conversion equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[Residual-substitution compatibility window NameCert obligations]
+\label{thm:residual-substitution-compatibility-window-namecert-obligations}
+For every accepted $\ResidualSubstitutionCompatibilityWindowUp$ carrier $W=(T,R,S,J,B,O,H,C,P,N)$, the local $\NameCert_{\ResidualSubstitutionCompatibilityWindowUp}$ surface consists exactly of typed-window exposure, residual-frontier exposure, closed-substitution-boundary exposure, local-join exposure, bounded-checker status, obstruction retention, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:residual-substitution-compatibility-window-carrier}. The displayed rows are exactly the typed window, residual frontier, closed substitution boundary, local join, bounded checker status, obstruction, transport, replay, provenance, and naming rows.
+
+Read the compatibility boundary in order. The typed window $T$ fixes the finite MetaCIC source window, the residual row $R$ exposes the branch-local residual positions, and the substitution row $S$ keeps the closed substitution boundary visible before any local join is consumed.
+
+The local join row $J$ and checker row $B$ therefore operate only inside the displayed window. The obstruction row $O$ remains part of the same carrier, so the packet cannot be read as a premise-free confluence theorem or as a discharged subject-reduction theorem.
+
+Rows $H,C,P,N$ preserve and name the same finite route. Since no carrier coordinate supplies unbounded compatibility, evaluator equality, quotient conversion equality, or kernel consistency, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Residual-substitution compatibility window critical-path handoff]
+\label{thm:residual-substitution-compatibility-window-critical-path-handoff}
+Every critical-path or confluence consumer of an accepted $\ResidualSubstitutionCompatibilityWindowUp$ carrier must read the finite route
+$$
+\MetaCICCriticalPathUp,\ \ClosedSubstitutionBoundaryUp,\ \MetaCICConfluenceResidualCheckerUp
+$$
+through $T,R,S,J,B,O,H,C,P,N$ before it may use the window as residual-substitution evidence. The handoff preserves the bounded obstruction and exports no full confluence theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer from the critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. That route may inspect residual pressure only after the finite typed window and residual frontier are displayed.
+
+The closed substitution boundary row $S$ is then read as a sibling boundary, not as a subject-reduction theorem. It keeps source closedness, value closedness, shift, substitution, ledger, audit, and local naming data visible before the join row $J$ can be trusted.
+
+Finally the residual checker row $B$ records bounded checker status for that same route, while $O$ keeps the obstruction attached. Transport, replay, provenance, and local naming preserve the window, so the consumer receives bounded residual-substitution evidence and not full closed confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ResidualSubstitutionCompatibilityWindowUp$ read that is consumed as residual-substitution evidence must display a typed MetaCIC window, residual-frontier row, closed substitution boundary row, local-join row, bounded checker-status row, obstruction row, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{metaciccriticalpath, closed-substitution-boundary, metacic-confluence-residual-checker, metacic-residual-substitution-boundary: no listed sibling is bijective to $\ResidualSubstitutionCompatibilityWindowUp$, because this packet jointly binds a typed observation window, residual frontier, closed substitution boundary, local join, bounded checker status, obstruction retention, transport, replay, provenance, and local naming as one bounded compatibility surface.}
+
+\closureat{ResidualSubstitutionCompatibilityWindowUp}{seedStr}
+
+\begin{closurestatus}{\ResidualSubstitutionCompatibilityWindowUp}
+  \constructivestory{A $\ResidualSubstitutionCompatibilityWindowUp$ packet is generated from a typed MetaCIC observation window, residual-frontier row, closed substitution boundary row, local-join row, bounded checker-status row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:residual-substitution-compatibility-window-carrier}, \autoref{thm:residual-substitution-compatibility-window-namecert-obligations}, and \autoref{thm:residual-substitution-compatibility-window-critical-path-handoff} seed the bounded residual-substitution compatibility window consumed by MetaCIC confluence routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full residual-substitution compatibility, global subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient conversion equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, residual-frontier exposure, substitution-boundary retention, local-join exposure, bounded-checker status, obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.ResidualSubstitutionCompatibilityWindowUp.}
+\end{closurestatus}

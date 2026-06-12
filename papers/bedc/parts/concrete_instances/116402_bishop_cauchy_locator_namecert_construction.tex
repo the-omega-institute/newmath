@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyLocatorUp$}
+\label{ch:concrete-instances-bishop-cauchy-locator-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyLocatorUp$ packet records the finite locator surface by which a regular Cauchy rational name is read through explicit windows, dyadic tolerances, and a located tail threshold before any Real or Completion consumer may cite it. It sits beside the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located tail-modulus route of \autoref{ch:concrete-instances-locatedcauchymodulus-namecert}, and the located Cauchy real interface of \autoref{ch:concrete-instances-bishop-located-cauchy-real-namecert}. The packet supplies a constructive locator object for the Real and Completion corridor without quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy locator carrier]
+\label{def:bishop-cauchy-locator-carrier}
+A $\BishopCauchyLocatorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the inspected source windows of the regular Cauchy name.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those same windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested radius, endpoint slack, and comparison budget.
+\item $T$ is the located tail-threshold row, read through the $\LocatedCauchyModulusUp$ route and compatible with the located Cauchy interface of $\BishopLocatedCauchyRealUp$.
+\item $H$ stores componentwise $\hsame$ transport for the window, readback, dyadic tolerance, located threshold, replay, provenance, and local naming rows.
+\item $C$ stores the displayed $\Cont$ replay from a precision request through $S,R,D,T$ to every downstream locator consumer.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyLocatorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedCauchyModulusUp$, $\BishopLocatedCauchyRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyLocatorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a selected limit, a countable-choice selector, trichotomy, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy locator NameCert obligations]
+\label{thm:bishop-cauchy-locator-namecert-obligations}
+For an accepted $\BishopCauchyLocatorUp$ carrier $L=(S,R,D,T,H,C,P,N)$, the local $\NameCert_{\BishopCauchyLocatorUp}$ surface consists exactly of carrier admission, finite-window exposure, regular rational readback, dyadic tolerance exactness, located tail-threshold exposure, componentwise transport, continuation replay, provenance, and local naming for the packet of \autoref{def:bishop-cauchy-locator-carrier}.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The analytic rows are $S,R,D,T$, and the structural rows are $H,C,P,N$.
+
+The stream row $S$ supplies the finite inspection window, while $R$ records the regular rational readback on that same window. The dyadic row $D$ fixes the tolerance under which the readback is tested, and the located threshold row $T$ records the tail boundary available to Real and Completion consumers.
+
+The remaining rows do not add a second locator. Transport, replay, provenance, and naming preserve the same displayed packet, so the local certificate obligations are exhausted by $S,R,D,T,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy locator window stability]
+\label{thm:bishop-cauchy-locator-window-stability}
+Let $L=(S,R,D,T,H,C,P,N)$ and $L'=(S',R',D',T',H',C',P',N')$ be accepted $\BishopCauchyLocatorUp$ carriers. If $H$ and $H'$ record componentwise $\hsame$ transport preserving the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, and located tail-threshold rows, then every located Cauchy consumer reading $L'$ factors through the same ordered window route
+$$
+S',R',D',T',H',C',P',N'.
+$$
+No transported read may replace the displayed window by a quotient stream, replace the threshold by a selected limit, or cite countable choice or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:bishop-cauchy-locator-namecert-obligations}. They require the transported packet to expose a finite window, regular readback, dyadic tolerance, and located threshold before a consumer can read the locator.
+
+Componentwise $\hsame$ transport preserves the row positions named by $H$ and $H'$. Thus the target packet still opens the window row $S'$, then reads $R'$ under the dyadic budget $D'$, and only then consumes the threshold row $T'$.
+
+The continuation row $C'$ replays this route; it cannot create a hidden stream quotient or selected limit. Provenance and local naming record the same route through $P'$ and $N'$, so every accepted transported read remains inside the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BishopCauchyLocatorUp$ packet cannot supply a located tail threshold unless the same packet displays the finite StreamName window, RegSeqRat readback, and DyadicRatCore tolerance used to locate it.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, locatedcauchymodulus, bishoplocatedcauchyreal: none is bijective to $\BishopCauchyLocatorUp$ because the locator carrier binds source windows, regular readback, dyadic tolerance, located threshold, transport, replay, provenance, and local NameCert rows in one finite packet.}
+
+\closureat{BishopCauchyLocatorUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyLocatorUp}
+  \constructivestory{A $\BishopCauchyLocatorUp$ packet is generated from a StreamName finite-window row, a RegSeqRat readback row, a DyadicRatCore tolerance row, a located tail-threshold row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-locator-carrier}, \autoref{thm:bishop-cauchy-locator-namecert-obligations}, and \autoref{thm:bishop-cauchy-locator-window-stability} seed the finite locator route over StreamName, RegSeqRat, DyadicRatCore, located tail threshold, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, RealUp completeness, quotient stream equality, selected limits, countable choice, trichotomy, or host real equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular readback, dyadic tolerance exactness, located threshold exposure, transport stability, continuation replay, provenance, and local naming for BEDC.Derived.BishopCauchyLocatorUp.}
+\end{closurestatus}

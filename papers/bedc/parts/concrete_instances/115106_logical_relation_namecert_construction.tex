@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\LogicalRelationUp$}
+\label{ch:concrete-instances-logical-relation-namecert}
+\origin{human}
+
+Following Tait, Girard, and Reynolds, the $\LogicalRelationUp$ packet records the finite proof-theoretic surface used by reducibility candidates, Kripke logical relations, and parametricity-style typed-term arguments. It sits beside the MetaCIC critical-path ledger of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the readback discipline of \autoref{ch:concrete-instances-normalization-by-evaluation-namecert}, and the lambda-calculus syntax carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}. The packet names typed-term rows, world-extension rows, reducibility evidence, substitution-stability rows, componentwise transport, replay, provenance, and local naming; it does not assert global normalization, subject reduction, full confluence, quotient syntax equality, or a completed semantic model.
+
+\begin{definition}[LogicalRelation carrier]\label{def:logical-relation-carrier}
+A $\LogicalRelationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,W,E,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-term row, carrying the term, type, binder context, and source syntax route read from $\LambdaCalcUp$ or the represented MetaCIC term surface.
+\item $W$ is the world-extension row, recording context growth, environment extension, step-index windows, or Kripke monotonicity data as finite packet entries.
+\item $E$ is the reducibility-evidence row, naming the candidate, logical predicate membership, closed-candidate witness, or parametric relation evidence consumed by the proof route.
+\item $S$ is the substitution-stability row, recording how typed substitution, environment extension, and binder transport preserve the same relation under the world extension.
+\item $H$ records componentwise $\hsame$ transport for $T,W,E,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from typed-term inspection through world extension, reducibility evidence, substitution stability, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LogicalRelationUp$, $\MetaCICCriticalPathUp$, $\NormalizationByEvaluationUp$, $\LambdaCalcUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LogicalRelationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an unbounded semantic universe, proof-irrelevant candidate quotient, host evaluator, global normalization theorem, or external syntax equality.
+\end{definition}
+
+\begin{theorem}[LogicalRelation NameCert obligations]\label{thm:logical-relation-namecert-obligations}
+For an accepted $\LogicalRelationUp$ carrier $R=(T,W,E,S,H,C,P,N)$, the local $\NameCert_{\LogicalRelationUp}$ surface consists exactly of carrier admission for typed-term rows, world-extension rows, reducibility evidence, substitution-stability rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any candidate-mediated strong-normalization, parametricity, or MetaCIC normalization consumer must read the typed term through $T$, extend only through $W$, consume reducibility evidence through $E$, preserve substitution through $S$, and then pass through $H,C,P,N$. The packet exports no global strong normalization theorem, no full subject reduction theorem, no global confluence theorem, no beta-conversion decidability result, and no quotient equality of syntax.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:logical-relation-carrier}. The tuple lists exactly the typed-term, world-extension, reducibility-evidence, substitution-stability, transport, replay, provenance, and local naming rows.
+
+The proof-theoretic route is finite. A consumer may inspect typed terms through $T$, extend contexts through $W$, and use candidate or logical-predicate evidence through $E$ only while the substitution row $S$ remains attached to the same displayed packet.
+
+The structural rows then preserve the route. Componentwise transport $H$ and replay $C$ move the typed-term, world, evidence, and substitution rows together, while $P,N$ record the source chapters and local naming. Since the carrier lacks rows for global normalization, full subject reduction, global confluence, beta-conversion decidability, quotient syntax equality, or completed semantic universes, those conclusions cannot be exported by the local certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LogicalRelationUp$ consumer that claims candidate-mediated normalisation, parametricity, or MetaCIC normalization must expose the typed-term row, world-extension row, reducibility-evidence row, substitution-stability row, componentwise transport, continuation replay, provenance, and local $\NameCert$ before citing the result.}
+
+\independenceWitness{metaciccriticalpath, normalization-by-evaluation, lambdacalc: $\LogicalRelationUp$ is not bijective to any listed sibling because it jointly carries typed-term rows, world-extension rows, reducibility evidence, and substitution stability as one proof-theoretic packet. $\MetaCICCriticalPathUp$ carries residual and candidate budgets without the relation carrier, $\NormalizationByEvaluationUp$ carries evaluation and readback without the candidate relation, and $\LambdaCalcUp$ carries syntax and beta ledgers without world-indexed reducibility evidence.}
+
+\closureat{LogicalRelationUp}{seedStr}
+
+\begin{closurestatus}{\LogicalRelationUp}
+  \constructivestory{A $\LogicalRelationUp$ packet is generated from typed-term rows, world-extension rows, reducibility evidence, substitution-stability rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:logical-relation-carrier} and \autoref{thm:logical-relation-namecert-obligations} seed the finite proof-theoretic packet for candidate-mediated MetaCIC and typed-term arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global normalization, full subject reduction, global confluence, beta-conversion decidability, quotient syntax equality, completed semantic models, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, world extension, reducibility evidence, substitution stability, transport replay, provenance, and local naming for BEDC.Derived.LogicalRelationUp.}
+\end{closurestatus}

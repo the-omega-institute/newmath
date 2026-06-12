@@ -1,0 +1,408 @@
+{
+  "artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
+  "artifact_id": "bedc-quality-lab:gap-head-observed-debt-transfer",
+  "config": {
+    "auroc_positive_threshold": 0.75,
+    "matched_random_auroc_ceiling": 0.6,
+    "surface_count": 1,
+    "transfer_status_pointer": "$.gap_head_on_h_observed_debt_transfer.status"
+  },
+  "gap_head_on_h_observed_debt_transfer": {
+    "discovery_map_pointer": "$.gap_head_on_h_observed_debt_transfer.status",
+    "pass_surface_count": 1,
+    "status": "pass",
+    "total_surface_count": 1
+  },
+  "generated_at": "2026-06-07T13:31:06.549325+00:00",
+  "hardgate_evidence": {
+    "HG-A1": {
+      "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high and learned AUROC mean >= 0.75",
+      "status": "pass",
+      "surface_statuses": [
+        {
+          "status": "pass",
+          "surface_id": "observed-debt-c3-1024"
+        }
+      ]
+    },
+    "HG-A2": {
+      "criterion": "learned UnloggedErrorRate reduction ci95_low > matched-random reduction ci95_high and learned mean reduction > 0",
+      "status": "pass",
+      "surface_statuses": [
+        {
+          "status": "pass",
+          "surface_id": "observed-debt-c3-1024"
+        }
+      ]
+    },
+    "HG-A3": {
+      "criterion": "matched-random positive is false and matched-random AUROC ci95_high <= 0.6",
+      "status": "pass",
+      "surface_statuses": [
+        {
+          "status": "pass",
+          "surface_id": "observed-debt-c3-1024"
+        }
+      ]
+    },
+    "HG-A4": {
+      "criterion": "inference features exclude z, z_pair, gap_label, prediction_error, and eval_gap_labels",
+      "status": "pass",
+      "surface_statuses": [
+        {
+          "status": "pass",
+          "surface_id": "observed-debt-c3-1024"
+        }
+      ]
+    },
+    "HG-A5": {
+      "criterion": "at least one observed-debt surface passes HG-A1 through HG-A4",
+      "pass_surface_ids": [
+        "observed-debt-c3-1024"
+      ],
+      "status": "pass",
+      "surface_count": 1
+    }
+  },
+  "not_claimed": [
+    "no global quality conclusion",
+    "no full LeJEPA conclusion",
+    "no claim outside the listed observed-debt transfer surfaces",
+    "no inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels",
+    "failed status blocks D5 promotion through this boundary ledger"
+  ],
+  "observed_debt_transfer_boundary": {
+    "excluded_observed_debt_axes": [
+      {
+        "axis": "C1",
+        "reason": "encoder dimension is not a real training knob in the reused gap-head-on-h producer"
+      },
+      {
+        "axis": "C2",
+        "reason": "training steps are not a real training knob in the reused gap-head-on-h producer"
+      },
+      {
+        "axis": "C4",
+        "reason": "action transition identification is not available through the reused gap-head-on-h producer"
+      }
+    ],
+    "failed_surfaces": [],
+    "status": "recorded"
+  },
+  "report": "reports/canonical/gap-head-observed-debt-transfer.md",
+  "source_artifacts": {
+    "forbidden_audit": "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
+    "gap_head_surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
+    "gap_head_training": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
+    "generation_script": "scripts/run_gap_head_observed_debt_transfer.py",
+    "matched_random_control": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
+    "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+    "observed_debt_surface_owner": "scripts/run_observed_debt_sweep.py"
+  },
+  "surfaces": [
+    {
+      "axis_label": "sample_count",
+      "axis_value": 1024,
+      "control_verdict": {
+        "arm": "matched_random_gap_head",
+        "checks": {
+          "auroc_at_least_0_75": false,
+          "critical_unlogged_error_reduction_at_least_0_90": true,
+          "unlogged_error_reduction_at_least_0_50": true
+        },
+        "comparison_prefix": "matched_random_minus_vanilla",
+        "metrics": {
+          "arm_critical_unlogged_error_rate": 0.0,
+          "arm_unlogged_error_rate": 0.24885993485342017,
+          "critical_unlogged_error_reduction": 1.0,
+          "failure_detection_auroc": 0.4566156928121076,
+          "unlogged_error_reduction": 0.5176767676767678,
+          "vanilla_critical_unlogged_error_rate": 0.5159609120521174,
+          "vanilla_unlogged_error_rate": 0.5159609120521174
+        },
+        "positive": false
+      },
+      "hardgates": {
+        "HG-A1": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high and learned AUROC mean >= 0.75",
+          "learned_auroc": {
+            "ci95_half_width": 0.010561659991441253,
+            "ci95_high": 0.8370193023421059,
+            "ci95_low": 0.8158959823592234,
+            "mean": 0.8264576423506647,
+            "n": 10,
+            "std": 0.01704025583940247
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.035010860064874756,
+            "ci95_high": 0.49162655287698237,
+            "ci95_low": 0.42160483274723287,
+            "mean": 0.4566156928121076,
+            "n": 10,
+            "std": 0.05648676563593608
+          },
+          "status": "pass"
+        },
+        "HG-A2": {
+          "criterion": "learned UnloggedErrorRate reduction ci95_low > matched-random reduction ci95_high and learned mean reduction > 0",
+          "learned_unlogged_error_reduction": {
+            "ci95_half_width": 0.031163723357786353,
+            "ci95_high": 0.4305122575597407,
+            "ci95_low": 0.36818481084416804,
+            "mean": 0.3993485342019544,
+            "n": 10,
+            "std": 0.050279768460201685
+          },
+          "matched_random_unlogged_error_reduction": {
+            "ci95_half_width": 0.05451481645236055,
+            "ci95_high": 0.32161579365105764,
+            "ci95_low": 0.21258616074633652,
+            "mean": 0.2671009771986971,
+            "n": 10,
+            "std": 0.08795458480381603
+          },
+          "status": "pass"
+        },
+        "HG-A3": {
+          "control_verdict": {
+            "arm": "matched_random_gap_head",
+            "checks": {
+              "auroc_at_least_0_75": false,
+              "critical_unlogged_error_reduction_at_least_0_90": true,
+              "unlogged_error_reduction_at_least_0_50": true
+            },
+            "comparison_prefix": "matched_random_minus_vanilla",
+            "metrics": {
+              "arm_critical_unlogged_error_rate": 0.0,
+              "arm_unlogged_error_rate": 0.24885993485342017,
+              "critical_unlogged_error_reduction": 1.0,
+              "failure_detection_auroc": 0.4566156928121076,
+              "unlogged_error_reduction": 0.5176767676767678,
+              "vanilla_critical_unlogged_error_rate": 0.5159609120521174,
+              "vanilla_unlogged_error_rate": 0.5159609120521174
+            },
+            "positive": false
+          },
+          "criterion": "matched-random positive is false and matched-random AUROC ci95_high <= 0.6",
+          "matched_random_auroc": {
+            "ci95_half_width": 0.035010860064874756,
+            "ci95_high": 0.49162655287698237,
+            "ci95_low": 0.42160483274723287,
+            "mean": 0.4566156928121076,
+            "n": 10,
+            "std": 0.05648676563593608
+          },
+          "status": "pass"
+        },
+        "HG-A4": {
+          "audit": {
+            "forbidden_inference_columns": [
+              "label",
+              "z",
+              "z_pair",
+              "gap_label",
+              "gap_labels",
+              "prediction_error",
+              "eval_label",
+              "eval_labels",
+              "eval_gap_label",
+              "eval_gap_labels",
+              "config_metadata"
+            ],
+            "forbidden_present": [],
+            "producer_forbidden_column_audit": {
+              "feature_columns": [
+                "h:0",
+                "h:1",
+                "score:latent_x_positive",
+                "score:latent_y_positive",
+                "score:high_energy",
+                "margin:latent_x_positive",
+                "margin:latent_y_positive",
+                "margin:high_energy",
+                "transition_delta:latent_x_positive",
+                "transition_delta:latent_y_positive",
+                "transition_delta:high_energy",
+                "quality:quality_q",
+                "quality:quality_margin",
+                "quality:linear_identifiability_r2",
+                "quality:approx_identifiability_proxy"
+              ],
+              "forbidden_inference_columns": [
+                "label",
+                "z",
+                "z_pair",
+                "gap_label",
+                "gap_labels",
+                "prediction_error",
+                "eval_label",
+                "eval_labels",
+                "eval_gap_label",
+                "eval_gap_labels",
+                "config_metadata"
+              ],
+              "forbidden_present": [],
+              "status": "pass",
+              "violations": []
+            },
+            "seed_feature_audit_count": 10,
+            "status": "pass"
+          },
+          "criterion": "inference features exclude z, z_pair, gap_label, prediction_error, and eval_gap_labels",
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "learned_gap_head_on_h": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0013626627041659484,
+            "ci95_high": 0.0023398614012343525,
+            "ci95_low": -0.0003854640070975444,
+            "mean": 0.000977198697068404,
+            "n": 10,
+            "std": 0.002198529503943169
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.010561659991441253,
+            "ci95_high": 0.8370193023421059,
+            "ci95_low": 0.8158959823592234,
+            "mean": 0.8264576423506647,
+            "n": 10,
+            "std": 0.01704025583940247
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.01986804120155332,
+            "ci95_high": 0.1364804190517162,
+            "ci95_low": 0.09674433664860956,
+            "mean": 0.11661237785016287,
+            "n": 10,
+            "std": 0.03205523614437602
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.031163723357786353,
+            "ci95_high": 0.4305122575597407,
+            "ci95_low": 0.36818481084416804,
+            "mean": 0.3993485342019544,
+            "n": 10,
+            "std": 0.050279768460201685
+          }
+        },
+        "matched_random_gap_head": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.035010860064874756,
+            "ci95_high": 0.49162655287698237,
+            "ci95_low": 0.42160483274723287,
+            "mean": 0.4566156928121076,
+            "n": 10,
+            "std": 0.05648676563593608
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.04088209677664939,
+            "ci95_high": 0.28974203163006956,
+            "ci95_low": 0.20797783807677078,
+            "mean": 0.24885993485342017,
+            "n": 10,
+            "std": 0.0659594598661429
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.05451481645236055,
+            "ci95_high": 0.32161579365105764,
+            "ci95_low": 0.21258616074633652,
+            "mean": 0.2671009771986971,
+            "n": 10,
+            "std": 0.08795458480381603
+          }
+        },
+        "vanilla": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 10,
+            "std": 0.0
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          }
+        }
+      },
+      "observed_debt_axis": "C3",
+      "observed_debt_metric": "linear_identifiability_r2",
+      "observed_debt_row": "source/finite-sample-support",
+      "observed_debt_scope": "finite sample observed debt",
+      "rho": 0.82,
+      "sample_count": 1024,
+      "seed_count": 10,
+      "seeds": [
+        3968097252,
+        891475096,
+        52865478,
+        1452268398,
+        794716560,
+        2375177260,
+        1898683202,
+        3660201682,
+        3364765404,
+        1012374368
+      ],
+      "surface_id": "observed-debt-c3-1024",
+      "verdict": {
+        "failed_gates": [],
+        "passed_gates": [
+          "HG-A1",
+          "HG-A2",
+          "HG-A3",
+          "HG-A4"
+        ],
+        "reason": "all transfer hardgates passed",
+        "status": "pass"
+      }
+    }
+  ]
+}

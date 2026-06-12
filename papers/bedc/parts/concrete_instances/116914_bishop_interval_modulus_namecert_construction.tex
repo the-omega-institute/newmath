@@ -1,0 +1,65 @@
+\chapter{Bishop interval modulus NameCert construction}
+\label{ch:concrete-instances-bishop-interval-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopIntervalModulusUp$ packet records the finite modulus data by which a rational interval window controls a regular rational name and its Real-facing readback. It sits after the rational refinement surface of \autoref{ch:concrete-instances-rationalintervalrefinement-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real packet of \autoref{ch:concrete-instances-real-namecert}. The packet names interval-local modulus control as finite NameCert data; it does not choose an infinite refinement branch, select a completed real point, import a host interval subset, or claim ambient completeness of $\RealUp$.
+
+\begin{definition}[BishopIntervalModulus carrier]
+\label{def:bishop-interval-modulus-carrier}
+A $\BishopIntervalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,r,W,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RationalIntervalRefinementUp$ row naming the parent-child rational interval containment and retained interval window.
+\item $r$ is the $\DyadicRatCoreUp$ tolerance row used as the requested interval radius or endpoint precision.
+\item $W$ is the modulus-window row assigning the tolerance $r$ to a displayed retained rational interval window inside $I$.
+\item $S$ is the shared source row reading the relevant $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff data through the same finite window.
+\item $H$ records componentwise $\hsame$ transport for the interval-refinement row, dyadic tolerance, modulus window, source handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $I,r,W,S,H,P,N$ without changing the retained window.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalModulusUp$, $\RationalIntervalRefinementUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalModulusUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $I,r,W,S,H,C,P,N$. It has no coordinate for an infinite interval tree, completed point selection, host subset relation, quotient real equality, countable choice, or standard bridge.
+\end{definition}
+
+\begin{theorem}[BishopIntervalModulus window stability]
+\label{thm:bishop-interval-modulus-window-stability}
+Let $M=(I,r,W,S,H,C,P,N)$ be an accepted $\BishopIntervalModulusUp$ carrier. Replacing $I,r,W,S$ by componentwise $\hsame$ rows and replaying the same tolerance request through $C$ preserves the accepted modulus window: the consumer still reads the retained rational interval from $W$ after the refinement row $I$ and dyadic tolerance row $r$, and the stream, regular-rational, and Real-facing source data remain the row $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-interval-modulus-carrier}. The only interval-refinement coordinate is $I$, the only dyadic tolerance coordinate is $r$, the only modulus-window coordinate is $W$, and the only source handoff coordinate is $S$.
+
+The componentwise transport row $H$ preserves those coordinates without adding a second window source. The displayed replay row $C$ rereads the same tolerance request through $I,r,W,S,H,P,N$, so the retained rational interval window remains the one named by $W$.
+
+Finally $P$ and $N$ only source and name the same finite packet. No row is available for an infinite branch, completed point, host subset, quotient equality, or choice schedule, so the accepted modulus window is stable under the displayed transport and replay.
+\end{proof}
+
+\begin{theorem}[BishopIntervalModulus NameCert obligations]
+\label{thm:bishop-interval-modulus-namecert-obligations}
+For every accepted $\BishopIntervalModulusUp$ carrier $M=(I,r,W,S,H,C,P,N)$, the local $\NameCert_{\BishopIntervalModulusUp}$ surface consists exactly of carrier admission for the rational interval refinement, dyadic tolerance, modulus window, stream-name, regular-rational, and Real-facing source rows; classifier transport through $H$; displayed continuation replay through $C$; provenance through $P$; local naming through $N$; and nonescape from infinite interval trees, completed point selection, host interval subsets, quotient real equality, countable choice, and standard bridges.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from $M=(I,r,W,S,H,C,P,N)$ in \autoref{def:bishop-interval-modulus-carrier}. These are precisely the rows exposed to a local consumer.
+
+The interval and tolerance obligations are finite because $I$ is read from the $\RationalIntervalRefinementUp$ surface and $r$ is read from the $\DyadicRatCoreUp$ surface. The modulus obligation is exactly the retained window row $W$, with $S$ tying the same request to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readback data.
+
+The remaining rows transport, replay, source, and name the same displayed packet. Since the carrier has no additional coordinate, the listed obligations exhaust the local NameCert surface and exclude the named nonlocal objects.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\BishopIntervalModulusUp$ consumer that reads interval-local modulus control must display the rational refinement row, dyadic tolerance row, retained window row, source handoff row, componentwise transport, replay, provenance, and local NameCert row.}
+
+\independenceWitness{rationalintervalrefinement, dyadicratcore, streamname, regseqrat, real: none is bijective with $\BishopIntervalModulusUp$ because this packet alone binds a dyadic tolerance request to a retained rational interval window and the corresponding finite regular-name readback.}
+
+\closureat{BishopIntervalModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalModulusUp}
+  \constructivestory{A $\BishopIntervalModulusUp$ packet is generated from a RationalIntervalRefinement row, a DyadicRatCore tolerance, a modulus-window row, StreamName, RegSeqRat, and Real-facing source data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-modulus-carrier}, \autoref{thm:bishop-interval-modulus-window-stability}, and \autoref{thm:bishop-interval-modulus-namecert-obligations} seed the finite interval-local modulus packet over RationalIntervalRefinement, DyadicRatCore, StreamName, RegSeqRat, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite interval trees, completed real point selection, host interval subsets, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window stability, NameCert obligation coverage, source handoff exactness, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.BishopIntervalModulusUp.}
+\end{closurestatus}

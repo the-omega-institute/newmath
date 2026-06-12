@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\LatinSquareUp$}
+\label{ch:concrete-instances-latin-square-namecert}
+\origin{human}
+
+Following Euler and standard design theory, the $\LatinSquareUp$ packet records the finite carrier for a Latin square by naming the row, column, and symbol incidences rather than by importing a host array object. It sits beside the finite permutation surface of \autoref{ch:concrete-instances-permutation-namecert} and the row-column readback surface of \autoref{ch:concrete-instances-matrix-namecert}: permutations certify the row and column symbol ledgers, while matrix rows supply the finite rectangular inspection window.
+
+\begin{definition}[Latin-square carrier]
+\label{def:latin-square-carrier}
+A $\LatinSquareUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,C,S,A,P_r,P_c,H,T,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $R$ is the finite row-index window.
+  \item $C$ is the finite column-index window.
+  \item $S$ is the finite symbol row, with one displayed symbol entry for each visible row-column coordinate.
+  \item $A$ is the matrix readback row over $\MatrixUp$, recording that the visible entries are read only through the displayed row and column windows.
+  \item $P_r$ is the row-permutation ledger: for each displayed row, the symbols across the visible columns are certified by a $\PermutationUp$ row.
+  \item $P_c$ is the column-permutation ledger: for each displayed column, the symbols across the visible rows are certified by a $\PermutationUp$ row.
+  \item $H$ records componentwise $\hsame$ transport for row indices, column indices, symbol entries, matrix readback, row permutations, column permutations, replay, provenance, and local naming.
+  \item $T$ records displayed $\Cont$ replay from a Latin-square inspection request through $R,C,S,A,P_r,P_c,H,G,N$.
+  \item $G$ is the $\Pkg$ provenance over $\LatinSquareUp$, $\PermutationUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+  \item $N$ is the local $\NameCert_{\LatinSquareUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for an infinite design, an ambient quasigroup law, an arbitrary relabeling choice, or a host matrix equality principle.
+\end{definition}
+
+\begin{theorem}[Latin-square NameCert obligations]
+\label{thm:latin-square-namecert-obligations}
+For every accepted $\LatinSquareUp$ carrier $L=(R,C,S,A,P_r,P_c,H,T,G,N)$, the local $\NameCert_{\LatinSquareUp}$ surface is exhausted by finite row-index admission, finite column-index admission, symbol-entry admission, matrix readback through $\MatrixUp$, row-permutation ledgers, column-permutation ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The packet exports no ambient quasigroup operation, no infinite design axiom, no selected relabeling outside the displayed permutation rows, and no host matrix equality theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:latin-square-carrier}. The rows $R,C,S,A$ provide the finite inspection window and the displayed symbol entries.
+
+Next read the two permutation ledgers. The row ledger $P_r$ certifies that each displayed row sees the symbol row as a permutation, and the column ledger $P_c$ certifies the same condition columnwise. Both ledgers are finite $\PermutationUp$ rows attached to the visible $\MatrixUp$ readback.
+
+Finally use $H,T,G,N$. These rows transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for a host quasigroup law, infinite design principle, arbitrary relabeling, or ambient matrix equality, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Latin-square row-column-symbol route]
+\label{thm:latin-square-row-column-symbol-route}
+Every consumer of an accepted $\LatinSquareUp$ packet must read the finite route
+$$
+R,C,S,A,P_r,P_c,H,T,G,N
+$$
+before using any Latin-square incidence. The row and column windows are inspected through the $\MatrixUp$ row $A$, the symbol uniqueness reads are inspected through the $\PermutationUp$ ledgers $P_r$ and $P_c$, and the exported result is only the finite row-column-symbol route named by the local $\NameCert_{\LatinSquareUp}$ surface.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:latin-square-namecert-obligations}. It makes the row, column, symbol, matrix, and permutation rows the visible surface of every accepted carrier.
+
+The sibling dependencies then fix the two read directions. The $\MatrixUp$ row supplies the finite rectangular address space, while the two $\PermutationUp$ ledgers certify that rows and columns each display the same finite symbol row without repetition.
+
+Transport and replay preserve exactly this route. Thus a downstream design-theory or finite-combinatorics consumer receives the displayed finite packet and cannot replace it by an ambient quasigroup law, a hidden relabeling, or a host matrix equality theorem.
+\end{proof}
+
+\closureat{LatinSquareUp}{seedStr}
+
+\begin{closurestatus}{\LatinSquareUp}
+  \constructivestory{A $\LatinSquareUp$ packet is generated from finite row-index windows, finite column-index windows, symbol-entry rows, MatrixUp readback, row and column PermutationUp ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:latin-square-carrier}, \autoref{thm:latin-square-namecert-obligations}, and \autoref{thm:latin-square-row-column-symbol-route} seed the finite row-column-symbol carrier over displayed $\PermutationUp$ and $\MatrixUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close orthogonal arrays, block designs, quasigroup isotopy, completion of partial Latin squares, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-index and column-index exactness, symbol-entry exactness, row-permutation and column-permutation ledger coverage, matrix readback, transport, replay, provenance, and local naming for BEDC.Derived.LatinSquareUp.}
+\end{closurestatus}

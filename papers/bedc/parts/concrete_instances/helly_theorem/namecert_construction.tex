@@ -6,9 +6,15 @@ Following Helly and the finite-dimensional convexity tradition, the $\HellyTheor
 
 The $\HellyTheoremUp$ packet also consumes $\ConvexSetUp$ carrier rows and the finite-subfamily rows of \autoref{ch:concrete-instances-finite-intersection-property-namecert} before any intersection conclusion is exposed.
 
+The finite convex-geometry route is visible before the Helly certificate is exported: $\HellyTheoremUp$ reads each family member through the $\ConvexSetUp$ carrier of \autoref{ch:concrete-instances-convexset-namecert}, then uses the Caratheodory-style finite convex-hull rows of \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} as the support ledger that keeps the intersection test finite.
+
 The finite subfamily ledger exported by $\HellyTheoremUp$ is consumed by \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} as the boundary that keeps convex-hull support rows finite before Caratheodory support reduction is read. That ledger is not available from the ambient affine row alone: it is read only after the $\ConvexSetUp$ membership rows of \autoref{ch:concrete-instances-convexset-namecert} and the $\PolytopeUp$ finite witness rows of \autoref{ch:concrete-instances-polytope-namecert} expose the subfamily boundary that the Caratheodory packet consumes.
 
 The same finite subfamily ledger is a reusable dependency for convex-hull and Caratheodory consumers: \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} may read the $\HellyTheoremUp$ row only after the $\ConvexSetUp$, $\PolytopeUp$, $\AffineSpaceUp$, $\VecSpaceUp$, and $\CompactMetricUp$ surfaces named above have fixed the displayed finite family boundary.
+
+The finite closed-family indexing boundary is supplied by $\FiniteIntersectionPropertyUp$ through \autoref{ch:concrete-instances-finite-intersection-property-namecert}; $\HellyTheoremUp$ then specializes that boundary by adding affine ambient rows, vector displacement rows, convex-family membership, and polytope witnesses for the Helly subfamily ledger.
+
+The concrete dependency route is horizontal rather than ambient: each finite family member is first read as a $\ConvexSetUp$ row through \autoref{ch:concrete-instances-convexset-namecert}, then the finite subfamily ledger $S$ is checked against the finite-intersection carrier rows of \autoref{ch:concrete-instances-finite-intersection-property-namecert}, and only then may the full-family row $I$ be exposed to a Helly consumer.
 
 \section{Finite Convex Intersection Carrier}
 \label{sec:helly-theorem-carrier}
@@ -33,6 +39,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $A,V,F,W,S,I,T,C,P,N$. It has no coordinate for host convex equality, ambient standard-model convexity, choice-selected points, separation or compactness theorems not displayed by the finite rows, or an infinite family of constraints.
 \end{definition}
+\leanchecked{BEDC.Derived.HellyTheoremUp.HellyTheoremTasteGate\_single\_carrier\_alignment}
 
 \section{Helly NameCert Surface}
 \label{sec:helly-theorem-namecert-surface}

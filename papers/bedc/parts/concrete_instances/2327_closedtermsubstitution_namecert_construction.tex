@@ -113,16 +113,18 @@ The continuation coordinate $C$ records routes that expose the term, boundary, v
 The non-escape clauses stated in the carrier and NameCert rows exclude open-term subject reduction, evaluator correctness, host CIC truth, future binder budgets, and unregistered free variables. Since none of those objects is a coordinate of $Q$, the binder scope and payload reads cannot export them.
 \end{proof}
 
-\closureat{ClosedTermSubstitutionUp}{scopedStr}[BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment]
+The mature package for $\ClosedTermSubstitutionUp$ is the closed-substitution boundary package consumed by the boundary, compiler, closure-preservation, beta-substitution, and subject-reduction rows. Its completeness statement is coordinate exhaustion: every accepted substitution-boundary consumer reads $T,d,V,S,H,C,P,N$, with $S$ carrying the inert substitution and companion shift witnesses, and no consumer receives evaluator correctness, host CIC truth, future binder allocation, or an unregistered variable source.
+
+\closureat{ClosedTermSubstitutionUp}{matureStr}[BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ClosedTermSubstitutionUp}
   \constructivestory{A $\ClosedTermSubstitutionUp$ packet is generated from a MetaCIC term row, a closedness boundary row, a displayed substitution value, substitution and shift witness rows, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:closed-term-substitution-carrier}, \autoref{thm:closed-term-substitution-boundary-inertness}, \autoref{thm:closed-term-substitution-namecert-obligations}, \autoref{thm:closed-substitution-source-boundary}, \autoref{thm:closed-substitution-substitution-ledger-exhaustion}, \autoref{thm:closed-substitution-binder-scope-nonescape}, and \leanchecked{BEDC.Derived.ClosedTermSubstitutionUp.taste\_gate} bind the carrier, boundary inertness, NameCert obligations, source boundary, ledger exhaustion, binder-scope nonescape, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ to the scoped packet surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-carrier}, \autoref{thm:closed-term-substitution-boundary-inertness}, \autoref{thm:closed-term-substitution-namecert-obligations}, \autoref{thm:closed-substitution-source-boundary}, \autoref{thm:closed-substitution-substitution-ledger-exhaustion}, \autoref{thm:closed-substitution-binder-scope-nonescape}, and \leanchecked{BEDC.Derived.ClosedTermSubstitutionUp.taste\_gate} bind the carrier, boundary inertness, NameCert obligations, source boundary, ledger exhaustion, binder-scope nonescape, and closed-substitution consumer completeness surface to the mature package.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close open-term subject reduction, semantic evaluator correctness, host CIC truth, future binder allocation, or a complete self-compilation theorem.}
-  \upgradepath{Public closure next requires a reusable closed-substitution export package.}
+  \upgradepath{Bridge checking remains the verification-axis upgrade for the closed-substitution package.}
 \end{closurestatus}

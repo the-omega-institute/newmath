@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\BrentSalaminPiUp$}
+\label{ch:concrete-instances-brent-salamin-pi-namecert}
+\origin{human}
+
+Following Brent and Salamin, the $\BrentSalaminPiUp$ packet records the finite Brent--Salamin arithmetic-geometric-mean route for a named value of $\pi$ as an L10 Real and Completion computation object. It consumes the iteration discipline of \autoref{ch:concrete-instances-arithmetic-geometric-mean-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic arithmetic and budget carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only displayed AGM iteration rows, Real seals, dyadic error ledgers, finite windows, regular readback, transport, replay, provenance, and local naming; it does not export ambient completeness, quotient stream equality, selected limits, trichotomy, Lean verification, or bridge data.
+
+\begin{definition}[Brent-Salamin pi carrier]
+\label{def:brent-salamin-pi-carrier}
+A $\BrentSalaminPiUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,R,D,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\ArithmeticGeometricMeanUp$ iteration row, recording the finite Brent--Salamin recurrence windows used for the current precision request.
+\item $R$ is the $\RealUp$ seal row, exposing only the Real-name seals for the current approximation, correction term, and exported $\pi$ read.
+\item $D$ is the $\DyadicRatCoreUp$ budget row, storing the dyadic arithmetic cells, error radii, rounding slack, and precision ledger consumed by $A,R,S,Q$.
+\item $S$ is the finite $\StreamNameUp$ window row for the requested AGM iterates, correction rows, and terminal approximation reads.
+\item $Q$ is the $\RegSeqRatUp$ handoff row obtained from the displayed stream windows and dyadic budgets.
+\item $H$ records componentwise $\hsame$ transport for the AGM row, Real seals, dyadic ledger, windows, readback, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of each accepted precision request through
+$$
+A\longmapsto D\longmapsto S\longmapsto Q\longmapsto R\longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BrentSalaminPiUp$, $\ArithmeticGeometricMeanUp$, $\RealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrentSalaminPiUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,R,D,S,Q,H,C,P,N$. It has no coordinate for ambient $\RealUp$ completeness, quotient stream equality, selected limits, trichotomy, unrestricted analytic convergence, Lean evidence, or standard-bridge data.
+\end{definition}
+
+\begin{theorem}[Brent-Salamin pi NameCert obligations]
+\label{thm:brent-salamin-pi-namecert-obligations}
+For every accepted $\BrentSalaminPiUp$ carrier
+$$
+B=(A,R,D,S,Q,H,C,P,N),
+$$
+the visible $\NameCert_{\BrentSalaminPiUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the $\ArithmeticGeometricMeanUp$ iteration row $A$, the $\RealUp$ seal row $R$, the $\DyadicRatCoreUp$ budget row $D$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $Q$, and the structural rows $H,C,P,N$;
+\item recurrence routing, requiring each public Brent--Salamin precision read to pass through the displayed AGM row $A$ before any Real seal is consumed;
+\item dyadic accounting, requiring $D$ to store exactly the dyadic arithmetic cells, error radii, rounding slack, and precision ledger used by $A,R,S,Q$;
+\item finite-window readback, requiring $S$ and $Q$ to mediate every exported approximation before the terminal Real-facing row $R$ is visible;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item non-escape for ambient $\RealUp$ completeness, quotient stream equality, selected limits, trichotomy, unrestricted analytic convergence, Lean verification, and standard-bridge data.
+\end{enumerate}
+No Brent--Salamin pi obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brent-salamin-pi-carrier}. The AGM row, Real seal row, dyadic budget, finite windows, and regular readback are the only computation-facing coordinates, while $H,C,P,N$ are the only structural coordinates.
+
+The recurrence route is forced by the displayed tuple. A public approximation request first reads $A$, then uses the dyadic cells and error radii in $D$ to select the finite windows $S$ and the regular readback $Q$ before reaching $R$.
+
+Transport, replay, provenance, and local naming are confined to $H,C,P,N$. Since none of the excluded completeness, quotient, limit-selection, order-decision, analytic-convergence, verification, or bridge objects appears as a carrier coordinate, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Brent-Salamin pi dyadic error ledger]
+\label{thm:brent-salamin-pi-dyadic-error-ledger}
+For every accepted $\BrentSalaminPiUp$ carrier
+$$
+B=(A,R,D,S,Q,H,C,P,N),
+$$
+every public error claim about the exported $\pi$ approximation factors through the displayed dyadic budget row $D$ and the finite-window rows $S,Q$. Equivalently, a consumer can read an error assertion only along the route
+$$
+A\longmapsto D\longmapsto S\longmapsto Q\longmapsto R\longmapsto H,C,P,N .
+$$
+The packet therefore exports no ambient $\RealUp$ completeness principle, quotient stream equality, selected limit, trichotomy witness, or hidden analytic convergence theorem.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $B=(A,R,D,S,Q,H,C,P,N)$. The AGM row $A$ names the finite recurrence data, but it does not by itself expose an error claim; the dyadic row $D$ is the only coordinate carrying radii, rounding slack, and precision cells.
+
+The public observation rows are $S$ and $Q$. The finite stream windows in $S$ select the visible recurrence and correction entries, and the regular rational readback in $Q$ is the only handoff from those windows to the terminal Real-facing row $R$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Because the carrier has no coordinate for ambient completeness, quotient stream equality, selected limits, trichotomy, or hidden analytic convergence, every public error claim factors through $D,S,Q$ before the Real seal is read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BrentSalaminPiUp$ precision read that exposes an error claim also exposes an ArithmeticGeometricMeanUp iteration row, a DyadicRatCore budget row, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{arithmetic-geometric-mean, real, dyadicratcore, streamname, regseqrat: $\BrentSalaminPiUp$ is not bijective to any listed sibling because it jointly carries Brent--Salamin AGM iteration rows, dyadic error budgets, finite windows, regular readback, Real sealing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{BrentSalaminPiUp}{seedStr}
+
+\begin{closurestatus}{\BrentSalaminPiUp}
+  \constructivestory{A $\BrentSalaminPiUp$ packet is generated from one ArithmeticGeometricMeanUp iteration row, one RealUp seal row, one DyadicRatCore budget row, finite StreamName windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brent-salamin-pi-carrier}, \autoref{thm:brent-salamin-pi-namecert-obligations}, and \autoref{thm:brent-salamin-pi-dyadic-error-ledger} seed the finite Brent--Salamin pi computation certificate surface for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BrentSalaminPiUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient stream equality, selected limits, trichotomy, unrestricted analytic convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, recurrence routing, dyadic accounting, finite-window readback, Real-seal non-escape, transport/replay/provenance coverage, and local naming for BEDC.Derived.BrentSalaminPiUp.}
+\end{closurestatus}

@@ -69,6 +69,24 @@ The finite observation route then passes through $W$ and $D$. The window row is 
 Finally, $R$ reattaches the dyadic bound to the $\RegSeqRatUp$ source and $E$ provides the terminal $\RealUp$ seal. The comparison rows supplied by the BishopRealComparison and ApartnessSpace siblings remain boundary rows on this route; they do not add total comparison, quotient equality, host inequality, selected representatives, or completeness data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy apartness-order located comparison scope]
+\label{thm:regular-cauchy-apartness-order-located-comparison-scope}
+Every accepted $\RegularCauchyApartnessOrderUp$ comparison that is read as located apartness or located order evidence factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto \BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+Equivalently, the packet exports located comparison evidence only after the dyadic tolerance row $D$, the finite observation window $W$, the regular readback row $R$, the Real seal $E$, and the kernel rows $H,C,P,N$ have all been displayed. It does not export trichotomy, quotient real equality, selected representatives, total order decisions, host real inequality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $Q=(X,A,O,M,W,D,R,E,H,C,P,N)$. The carrier and NameCert-obligation rows expose only the displayed comparison direction, budget, modulus, finite window, positive dyadic bound, regular readback, Real seal, transport, replay, provenance, and local naming data.
+
+Apply \autoref{thm:regular-cauchy-apartness-order-positive-boundary}. Any strict comparison or apartness read must first consume the budget row and then pass through the finite window $W$, positive dyadic boundary $D$, regular readback $R$, and Real seal $E$.
+
+The located comparison scope is obtained by replaying that route through the kernel rows. The $\BHist$ packet supplies the finite ledger, $H$ supplies componentwise $\hsame$ transport, $C$ supplies displayed $\Cont$ replay, $P$ records $\Pkg$ provenance, and $N$ records the local $\NameCert$ row.
+
+Finite ledger induction over the displayed observation windows keeps the exported evidence located: each read is tied to an explicit dyadic tolerance and finite stream observation before it reaches the regular source and Real seal. Since no packet coordinate contains trichotomy, quotient equality, selected representatives, total order decisions, host real inequality, or completeness, none of those principles is exported by the located comparison route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy apartness-order refusal boundary]
 \label{thm:regular-cauchy-apartness-order-refusal-boundary}
 An accepted $\RegularCauchyApartnessOrderUp$ packet exports only the finite surface
@@ -89,10 +107,10 @@ The excluded objects are not packet coordinates. A consumer that asks for tricho
 
 \begin{closurestatus}{\RegularCauchyApartnessOrderUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-apartness-order-carrier}, \autoref{thm:regular-cauchy-apartness-order-namecert-obligations}, \autoref{thm:regular-cauchy-apartness-order-positive-boundary}, and \autoref{thm:regular-cauchy-apartness-order-refusal-boundary} seed the constructive comparison boundary for regular Cauchy real names through finite apartness-budget, window, dyadic positive-bound, regular readback, and Real-seal rows.}
+  \scopeclosed{\autoref{def:regular-cauchy-apartness-order-carrier}, \autoref{thm:regular-cauchy-apartness-order-namecert-obligations}, \autoref{thm:regular-cauchy-apartness-order-positive-boundary}, \autoref{thm:regular-cauchy-apartness-order-located-comparison-scope}, and \autoref{thm:regular-cauchy-apartness-order-refusal-boundary} seed the constructive comparison boundary for regular Cauchy real names through finite apartness-budget, window, dyadic positive-bound, regular readback, Real-seal, and kernel replay rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close trichotomy, quotient real equality, host real inequality, selected representatives, total order decisions, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, positive-boundary exactness, Real-seal non-escape, ledger exclusions, and refusal-boundary proofs for BEDC.Derived.RegularCauchyApartnessOrderUp.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, positive-boundary exactness, located-comparison scope, Real-seal non-escape, ledger exclusions, and refusal-boundary proofs for BEDC.Derived.RegularCauchyApartnessOrderUp.}
   \constructivestory{A $\RegularCauchyApartnessOrderUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\RegularCauchyApartnessBudgetUp$ budget row, a displayed comparison-direction row, a modulus row, a $\StreamNameUp$ window, a $\DyadicRatCoreUp$ positive-bound readback, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

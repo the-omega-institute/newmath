@@ -1,0 +1,14 @@
+\begin{theorem}[MetaCIC critical-path subject-reduction socket separation]
+\label{thm:metacic-critical-path-subject-reduction-socket-separation}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the rows $S,N,O,U,H,C,P,L$ preserve the displayed route and keep the obstruction row $O$ visible, but they cannot identify $O$ with the discharge socket $D$. They also cannot promote the normal-form consistency row $N$ to closed subject reduction without a separate subject-reduction certificate row that fills $D$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathSubjectReductionSocketSeparation}
+\begin{proof}
+Project the accepted packet through \autoref{def:metacic-critical-path-packet}. The carrier lists $O$ as the subject-reduction obstruction row and $D$ as the discharge-bundle socket, so the two rows are displayed as separate coordinates of the finite packet.
+
+Use the consistency handoff and obstruction boundary. Theorems~\ref{thm:metacic-critical-path-consistency-handoff} and~\ref{thm:metacic-critical-path-obstruction-boundary} preserve the route from $S$ to $N$ while keeping the obstruction visible under the handoff row $U$ and transport row $H$.
+
+Next apply discharge-socket nonescape and socket-route totality. Theorems~\ref{thm:metacic-critical-path-discharge-socket-nonescape} and~\ref{thm:metacic-critical-path-socket-route-totality} force every socket-facing read to keep $D$ as a socket row unless a separate subject-reduction certificate is displayed.
+
+Finally use discharge-socket coverage. Theorem~\ref{thm:metacic-critical-path-discharge-socket-coverage} says that a consumer without the separate certificate remains bounded by $S,N,O,U,D,H,C,P,L$. Hence preserving the route and obstruction never identifies $O$ with $D$, and the normal-form endpoint cannot be read as closed subject reduction.
+\end{proof}

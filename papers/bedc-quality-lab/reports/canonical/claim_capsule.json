@@ -1,0 +1,113 @@
+{
+  "anti_triviality_status": "scale_leakage_detected",
+  "artifact_id": "bedc-quality-lab:claim-capsule",
+  "base_level": "D4",
+  "claim_id": "claim:dimension-mismatch-debt-transfer",
+  "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+  "effective_level": "DN",
+  "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+  "generated_at": "2026-06-12T15:51:27.413052+00:00",
+  "hypothesis": "h-summary dimension-mismatch debt transfer remains non-trivial after metadata and scale controls",
+  "json_artifact": "reports/canonical/claim_capsule.json",
+  "not_claimed": [
+    "global dimension theory",
+    "representation-geometric debt transfer",
+    "D5 promotion",
+    "global model quality",
+    "full LeJEPA",
+    "full TensorNameCert",
+    "LLM behavior",
+    "mechanism closure unless D5-M"
+  ],
+  "producer": "bedc_quality_lab.discovery_compiler.capsule",
+  "report": "dimension-mismatch-debt-transfer",
+  "run_local": {
+    "artifact_bundle": {
+      "claim_capsule": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+      "raw_metrics": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/raw_metrics.jsonl",
+      "report": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/report.md",
+      "summary": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/summary.json"
+    },
+    "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+    "controlled_geometry_pointer": "$.controlled_geometry",
+    "evidence_refs": [
+      {
+        "artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "evidence_id": "canonical-claim",
+        "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "source_pointer": "$.dimension_mismatch_debt_transfer"
+      },
+      {
+        "artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "evidence_id": "boundary-ledger",
+        "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "source_pointer": "$.boundary_ledger"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
+        "evidence_id": "B2-HG1",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG1"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.pointer_contract",
+        "evidence_id": "B2-HG2",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG2"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.geometry_controls",
+        "evidence_id": "B2-HG3",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG3"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.status_owner_boundary",
+        "evidence_id": "B2-HG4",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG4"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.artifact_boundary",
+        "evidence_id": "B2-HG5",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG5"
+      },
+      {
+        "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "controlled_geometry_pointer": "$.controlled_geometry.control_family_coverage",
+        "evidence_id": "B2-HG6",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.controlled_geometry_hardgates.B2-HG6"
+      }
+    ],
+    "negative_witness": {
+      "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+      "pointer": "$.run_local.negative_witness"
+    },
+    "negative_witness_hardgates": {
+      "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+      "pointer": "$.run_local.negative_witness_hardgates"
+    },
+    "owner": "claim:dimension-mismatch-debt-transfer",
+    "projection_kind": "dimension_mismatch_debt_transfer_run_local",
+    "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+    "source_pointer": "$.dimension_mismatch_debt_transfer",
+    "test_artifact": {
+      "regression_tests": {
+        "scale_leakage_witness": "tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
+      }
+    }
+  },
+  "schema_id": "bedc.quality.claim_capsule",
+  "source": "reports/canonical/dimension-mismatch-debt-transfer.json",
+  "source_pointer": "$.dimension_mismatch_debt_transfer",
+  "status": "complete",
+  "terminal_verdict": "negative_discovery",
+  "what_was_learned": "anti-triviality sidecar recommends DN demotion"
+}

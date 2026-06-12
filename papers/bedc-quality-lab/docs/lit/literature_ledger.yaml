@@ -1,0 +1,99 @@
+{
+  "schema_id": "bedc-quality-lab:literature-ledger",
+  "status": "ready",
+  "ready_when": "The validator can parse this pointer ledger, find at least six records, cover all required local roles, resolve every local used_by pointer, and find no forbidden claim wording or copied BEDC body markers.",
+  "not_claimed": "The ledger records citation pointers and local use boundaries only; it does not turn literature into lab facts, experiment outcomes, BEDC closure, or model behavior claims.",
+  "revoke_if": "Revoke ready status if any citation pointer becomes unusable, any used_by pointer stops resolving, any record is used as an experiment fact, or forbidden positive claim wording appears.",
+  "records": [
+    {
+      "id": "lit-evidence-envelope-reporting",
+      "pointer": "docs/v1_report_outline.md",
+      "role": "evidence-envelope-reporting",
+      "used_by": [
+        "docs/claims_and_nonclaims.md",
+        "reports/canonical/index.json:$.claims_nonclaims",
+        "reports/canonical/mixing-family-sweep.json:$.source_artifacts"
+      ],
+      "claim_boundary": "Citation pointer for the report carrier and boundary vocabulary used by local EvidenceEnvelope reporting surfaces.",
+      "not_claimed": "No cited work is treated as proof that any local envelope row is correct or complete.",
+      "revoke_if": "Revoke if the pointer is used as a substitute for canonical report validation or BEDC-side verification."
+    },
+    {
+      "id": "lit-cost-protocol-quality-q",
+      "pointer": "docs/bedc_quality_lab_v1.md",
+      "role": "cost-protocol-quality-q",
+      "used_by": [
+        "reports/canonical/quality-scorecard.json:$.rows",
+        "reports/canonical/certificate-guided-training.json:$.cost_protocol",
+        "reports/canonical/index.json:$.quality_scorecard"
+      ],
+      "claim_boundary": "Citation pointer for cost and quality projection framing used by the local CostProtocol and quality_q surfaces.",
+      "not_claimed": "No literature pointer asserts that the scorecard metric is externally calibrated or universally comparable.",
+      "revoke_if": "Revoke if prose starts recomputing quality claims from citation text rather than canonical artifacts."
+    },
+    {
+      "id": "lit-gap-head-robustness-controls",
+      "pointer": "reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]",
+      "role": "gap-head-robustness-discovery-controls",
+      "used_by": [
+        "reports/canonical/gap-head-on-h.json:$.applicability_boundary",
+        "reports/canonical/gap-head-discovery.json:$.source_artifacts",
+        "reports/canonical/discovery_map.json:$.rows[report=gap-head-discovery]"
+      ],
+      "claim_boundary": "Citation pointer for robustness and discovery-control framing around gap-head report navigation.",
+      "not_claimed": "No cited work is restated as evidence that the selected local row generalizes beyond its recorded controls.",
+      "revoke_if": "Revoke if the record is used to widen the selected worked-case boundary beyond canonical discovery-map status."
+    },
+    {
+      "id": "lit-certificate-guided-negative-tradeoff",
+      "pointer": "reports/canonical/certificate-guided-training.json:$.claim_gate",
+      "role": "certificate-guided-negative-tradeoff",
+      "used_by": [
+        "reports/canonical/certificate-guided-training.json:$.not_claimed",
+        "reports/canonical/certificate-guided-discovery.json:$.claim_gate",
+        "docs/claims_and_nonclaims.md"
+      ],
+      "claim_boundary": "Citation pointer for negative and tradeoff framing in certificate-guided local reports.",
+      "not_claimed": "No cited work is used to convert a failed or negative local gate into a positive scientific result.",
+      "revoke_if": "Revoke if this record is used to bypass claim_gate, not_claimed, or revocation-ledger status."
+    },
+    {
+      "id": "lit-formal-hardening-pointer-boundary",
+      "pointer": "reports/canonical/formal_hardening.json:$.trust_boundary",
+      "role": "formal-hardening-pointer-boundary",
+      "used_by": [
+        "reports/canonical/formal_hardening.json:$.verification_ledger",
+        "reports/canonical/index.json:$.formal_hardening",
+        "docs/v1_report_outline.md"
+      ],
+      "claim_boundary": "Citation pointer for keeping formal-hardening navigation separate from BEDC proof closure.",
+      "not_claimed": "No literature pointer upgrades a hardening ledger entry into a checked theorem or closure certificate.",
+      "revoke_if": "Revoke if record prose copies BEDC body text or treats pointer-only hardening as formal verification."
+    },
+    {
+      "id": "lit-artifact-release-navigation",
+      "pointer": "docs/artifact_manifest.md",
+      "role": "artifact-release-navigation",
+      "used_by": [
+        "reports/canonical/index.json:$.reports[*].json_artifact",
+        "reports/canonical/index.json:$.paper_outline",
+        "reports/canonical/discovery_negative_witness_summary.json:$.source_artifacts"
+      ],
+      "claim_boundary": "Citation pointer for artifact and release navigation across local canonical reports.",
+      "not_claimed": "The manifest pointer is navigation only and does not duplicate report status, scorecard rows, or discovery levels.",
+      "revoke_if": "Revoke if a navigation pointer becomes an alternate source of canonical status or release readiness."
+    },
+    {
+      "id": "lit-lejepa-theorem-ledger",
+      "pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+      "role": "artifact-release-navigation",
+      "used_by": [
+        "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[theorem=theorem-3]",
+        "reports/canonical/lejepa_theorem_ledger.json:$.hardgates.F-HG4"
+      ],
+      "claim_boundary": "Pointer for LeJEPA theorem-row ledger ownership inside the canonical report bundle.",
+      "not_claimed": "No literature pointer is used to discharge theorem derivation, source reconstruction, or BEDC closure.",
+      "revoke_if": "Revoke if theorem rows stop resolving through the canonical report JSON path."
+    }
+  ]
+}

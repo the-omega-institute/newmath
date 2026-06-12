@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MoscoRecoverySequenceUp$}
+\label{ch:concrete-instances-mosco-recovery-sequence-namecert}
+\origin{human}
+
+Following Mosco and Attouch on variational convergence and recovery sequences, the $\MoscoRecoverySequenceUp$ packet records the finite completion-facing witness object that supplies explicit strong recovery data after a Mosco or Gamma convergence surface has exposed its lower-bound side. It sits beside the Mosco convergence certificate of \autoref{ch:concrete-instances-mosco-convergence-namecert}, the Gamma-convergence recovery-window carrier of \autoref{ch:concrete-instances-gamma-convergence-namecert}, the terminal value readback of \autoref{ch:concrete-instances-real-namecert}, and the completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet is a witness ledger for recovery requests; it is not a selected minimizer, a quotient equality of functionals, a global compactness theorem, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Mosco recovery sequence carrier]
+\label{def:mosco-recovery-sequence-carrier}
+A $\MoscoRecoverySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,F,W,A,G,Q,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric or completion-facing source row on which the recovery witnesses are inspected.
+\item $F$ is the variational functional-window row inherited from a Mosco or Gamma convergence read.
+\item $W$ is the weak-liminf context row that fixes which lower-bound request the recovery witness answers.
+\item $A$ is the finite approximation schedule row, listing the inspected recovery candidates and their convergence windows.
+\item $G$ is the strong recovery goal row, recording the target point, admissible support, and upper-bound comparison demanded by the consumer.
+\item $Q$ is the $\RegSeqRatUp$ value-readback row for the displayed functional values and tolerance budgets.
+\item $E$ is the terminal $\RealUp$ seal reached after the recovery value rows have been exposed.
+\item $M$ is the $\MetricCompletionUp$ handoff row that lets completion-facing consumers read convergence of the displayed approximants without selecting a quotient representative.
+\item $H$ records componentwise $\hsame$ transport for $X,F,W,A,G,Q,E,M$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from recovery requests through approximation windows, value readback, Real sealing, and completion handoff.
+\item $P$ is the $\Pkg$ provenance over $\MoscoRecoverySequenceUp$, $\MoscoConvergenceUp$, $\GammaConvergenceUp$, $\MetricCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MoscoRecoverySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,F,W,A,G,Q,E,M,H,C,P,N$. It has no coordinate for a host-selected recovery sequence, minimizer existence, quotient equality of functionals, compactness by choice, or ambient completeness of the Real or completion carriers.
+\end{definition}
+
+\leanchecked{BEDC.Derived.MoscoRecoverySequenceUp.MoscoRecoverySequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Mosco recovery sequence NameCert obligations]
+\label{thm:mosco-recovery-sequence-namecert-obligations}
+For every accepted $\MoscoRecoverySequenceUp$ carrier
+$$
+R=(X,F,W,A,G,Q,E,M,H,C,P,N),
+$$
+the local $\NameCert_{\MoscoRecoverySequenceUp}$ surface consists exactly of carrier admission, source exposure through $X$, functional-window exposure through $F$, lower-bound context exposure through $W$, finite approximation scheduling through $A$, recovery-goal exposure through $G$, regular rational value readback through $Q$, terminal real sealing through $E$, metric-completion handoff through $M$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $X,F,W,A,G,Q,E,M$ are the only coordinates from which a recovery consumer can read source data, variational windows, the lower-bound context, finite approximants, value budgets, real seals, and completion handoff.
+
+The approximation row $A$ and goal row $G$ provide the explicit witness surface. They are read after the Mosco or Gamma convergence context has been displayed and before completion-facing consumers use $M$.
+
+Finally attach $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, so the local NameCert obligations cannot be widened to a selected host recovery sequence, minimizer, quotient functional equality, choice schedule, or ambient completeness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MoscoRecoverySequenceUp.MoscoRecoverySequenceCarrier\_namecert\_obligations}
+
+\begin{theorem}[Mosco recovery sequence real-metric boundary]
+\label{thm:mosco-recovery-sequence-real-metric-boundary}
+Every completion-facing consumer of an accepted $\MoscoRecoverySequenceUp$ carrier must read the finite route
+$$
+\MoscoConvergenceUp,\ \GammaConvergenceUp,\ \MetricCompletionUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through $X,F,W,A,G,Q,E,M,H,C,P,N$ before it treats the recovery witness as a real-valued metric approximation. The boundary supplies explicit recovery witnesses for the convergence surface; it does not assert selected minimizers, quotient equality of functionals, global compactness, countable choice, host equality of completion points, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They place the finite recovery schedule $A$ and goal row $G$ between the convergence context $F,W$ and the readback rows $Q,E,M$.
+
+The Real-facing side is read through $Q$ and $E$. A consumer sees only regular rational value windows and their terminal seal, not an ambient Real completeness theorem or a selected limiting value.
+
+The metric side is read through $M$ after the displayed approximants have been exposed. Transport, replay, provenance, and local naming keep the same rows attached to the packet, so the recovery witness remains an explicit finite object rather than a host-selected sequence or quotient-completion representative.
+\end{proof}
+\leanchecked{BEDC.Derived.MoscoRecoverySequenceUp.MoscoRecoverySequenceRealMetricBoundary}
+
+\falsifiablePrediction{An accepted $\MoscoRecoverySequenceUp$ consumer that reaches a real-valued completion approximation without reading $A,G,Q,E,M,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{mosco-convergence, gamma-convergence, metriccompletion, regseqrat, real: $\MoscoRecoverySequenceUp$ is not bijective to any listed sibling because it jointly carries a convergence context, explicit finite recovery schedules, recovery goals, rational value readback, Real sealing, metric-completion handoff, transport, replay, provenance, and local naming.}
+
+\closureat{MoscoRecoverySequenceUp}{seedStr}
+
+\begin{closurestatus}{\MoscoRecoverySequenceUp}
+  \constructivestory{A $\MoscoRecoverySequenceUp$ packet is generated from convergence-context rows, finite recovery schedules, recovery-goal rows, RegSeqRat value readback, Real seals, metric-completion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mosco-recovery-sequence-carrier}, \autoref{thm:mosco-recovery-sequence-namecert-obligations}, and \autoref{thm:mosco-recovery-sequence-real-metric-boundary} seed the finite recovery-witness route over convergence context, approximation schedule, value readback, Real seal, completion handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected minimizer existence, quotient equality of functionals, countable choice, global compactness, host equality of completion points, or ambient $\RealUp$ completeness.}
+  \upgradepath{Formalization requires BEDC.Derived.MoscoRecoverySequenceUp carrier admission together with checked recovery scheduling, value readback, completion handoff, transport, replay, provenance, and local naming obligations.}
+\end{closurestatus}

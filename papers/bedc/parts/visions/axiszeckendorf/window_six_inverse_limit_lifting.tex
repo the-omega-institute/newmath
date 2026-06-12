@@ -1,0 +1,470 @@
+\chapter{Window-Six Inverse-Limit Lifting}
+\label{ch:visions-axiszeckendorf-window-six-inverse-limit-lifting}
+\origin{ai}
+
+\autoref{ch:visions-zeckendorf-golden-phase-projection} reads the
+no-adjacent-$11$ grammar as a finite visible surface, with Window six as the
+distinguished twenty-one-state readout.  The present chapter records the
+projection-tower form behind that surface.  It separates the address carrier
+from the flux-operator geometry: the address carrier lifts to the
+Zeckendorf golden-mean inverse limit, while a flux or Jordan-return reading
+requires additional compatibility rows for the operator tower.
+
+\section{Address tower}
+\label{sec:axiszeckendorf-address-tower}
+
+\begin{definition}[No-adjacent address windows]
+\label{def:axiszeckendorf-no-adjacent-address-windows}
+For each $m\geq 0$, let
+$$
+X_m
+:=
+\{w\in\{0,1\}^m:\ w_iw_{i+1}\neq 11\text{ for every admissible }i\}.
+$$
+For $m\geq 0$, the prefix projection is
+$$
+\pi_{m+1,m}:X_{m+1}\to X_m,
+\qquad
+\pi_{m+1,m}(w_1,\ldots,w_{m+1})=(w_1,\ldots,w_m).
+$$
+\end{definition}
+
+\begin{definition}[Zeckendorf address inverse limit]
+\label{def:axiszeckendorf-address-inverse-limit}
+The Zeckendorf address inverse limit is
+$$
+X_\infty^Z
+:=
+\varprojlim_m X_m.
+$$
+Equivalently, it is the carrier of infinite no-adjacent-$11$ address
+streams
+$$
+X_\infty^Z
+\cong
+\{(c_1,c_2,\ldots)\in\{0,1\}^{\mathbb N}:\ c_ic_{i+1}\neq 11
+\text{ for every }i\}.
+$$
+The projection to level $m$ is written
+$$
+P_m:X_\infty^Z\to X_m.
+$$
+\end{definition}
+
+\begin{proposition}[Window six is the sixth address projection]
+\label{prop:axiszeckendorf-window-six-address-projection}
+The Window-six address surface is exactly the sixth projection of the
+Zeckendorf address inverse limit:
+$$
+\mathsf{Window6}_{\mathrm{addr}}
+=
+X_6
+=
+P_6(X_\infty^Z).
+$$
+Moreover,
+$$
+|X_6|=F_8=21.
+$$
+\end{proposition}
+
+\begin{proof}
+Every infinite no-adjacent-$11$ stream has a length-six prefix in $X_6$, so
+$P_6(X_\infty^Z)\subseteq X_6$.  Conversely, every word $w\in X_6$ extends
+to an infinite stream by appending zeros, hence $w\in P_6(X_\infty^Z)$.
+The counting formula for no-adjacent binary words gives
+$|X_m|=F_{m+2}$, so $|X_6|=F_8=21$.
+\end{proof}
+
+\begin{definition}[Window cylinder]
+\label{def:axiszeckendorf-window-cylinder}
+For a visible word $w\in X_6$, its inverse-limit cylinder is
+$$
+\mathsf{Lift}_6(w)
+:=
+P_6^{-1}(w)
+=
+\{x\in X_\infty^Z:P_6(x)=w\}.
+$$
+\end{definition}
+
+\begin{principle}[Finite window is not a unique address stream]
+\label{prin:axiszeckendorf-window-not-unique-stream}
+A Window-six state determines a cylinder in $X_\infty^Z$, not a unique
+inverse-limit address.  A unique stream read requires tail data such as a
+stream name, a projection-compatibility ledger, or a normalization route.
+Without such a row, $X_6$ is only a finite observation surface.
+\end{principle}
+
+\section{Finite support and tower continuation}
+\label{sec:axiszeckendorf-finite-support-and-continuation}
+
+\begin{definition}[Finite-support Zeckendorf layer]
+\label{def:axiszeckendorf-finite-support-layer}
+The finite-support Zeckendorf layer is
+$$
+X_{\mathrm{fin}}^Z
+:=
+\{c\in X_\infty^Z:\ c_i=0\text{ for all sufficiently large }i\}.
+$$
+It carries the usual natural-number Zeckendorf read
+$$
+n=\sum_i c_iF_i.
+$$
+\end{definition}
+
+\begin{proposition}[Address inverse limit is larger than number notation]
+\label{prop:axiszeckendorf-address-larger-than-number-notation}
+The finite-support layer $X_{\mathrm{fin}}^Z$ is a subcarrier of
+$X_\infty^Z$, but it does not exhaust $X_\infty^Z$.
+\end{proposition}
+
+\begin{proof}
+Every finite-support no-adjacent stream is an infinite no-adjacent stream,
+so $X_{\mathrm{fin}}^Z\subseteq X_\infty^Z$.  The periodic stream
+$101010\cdots$ is no-adjacent but not eventually zero, hence it lies in
+$X_\infty^Z$ outside $X_{\mathrm{fin}}^Z$.
+\end{proof}
+
+\begin{definition}[Projection-tower continuation]
+\label{def:axiszeckendorf-projection-tower-continuation}
+A projection-tower continuation from Window six is a compatible family
+$$
+(x_m)_{m\geq 6},
+\qquad
+x_m\in X_m,
+$$
+such that
+$$
+\pi_{m+1,m}(x_{m+1})=x_m
+\qquad
+\text{for every }m\geq 6.
+$$
+Equivalently, it is an inverse-limit lift $x_\infty\in X_\infty^Z$ together
+with the displayed row $P_6(x_\infty)=x_6$.
+\end{definition}
+
+\begin{principle}[Continuation is not analytic continuation]
+\label{prin:axiszeckendorf-continuation-not-analytic}
+Projection-tower continuation is not analytic continuation in the complex
+function-theoretic sense.  It is inverse-limit lifting of compatible finite
+address windows:
+$$
+X_6\leftarrow X_7\leftarrow X_8\leftarrow\cdots\leftarrow X_\infty^Z.
+$$
+Thus Window six is not the Zeckendorf address object itself; it is the
+sixth projection surface of that object.
+\end{principle}
+
+\section{Fixed projection shadow}
+\label{sec:axiszeckendorf-fixed-projection-shadow}
+
+\begin{definition}[Golden-mean self-similar object]
+\label{def:axiszeckendorf-golden-mean-self-similar-object}
+The Zeckendorf address inverse limit carries the self-similar decomposition
+$$
+X_\infty^Z
+\cong
+0X_\infty^Z\sqcup 10X_\infty^Z.
+$$
+Every infinite no-adjacent-$11$ stream either begins with $0$ followed by an
+arbitrary no-adjacent stream, or begins with $10$ followed by an arbitrary
+no-adjacent stream.  The corresponding growth scale $\lambda$ satisfies
+$$
+\lambda^2=\lambda+1,
+$$
+whose positive solution is the golden scale $\varphi$.
+\end{definition}
+
+\begin{principle}[Window six is not the fixed object]
+\label{prin:axiszeckendorf-window-six-not-fixed-object}
+The fixed object is $X_\infty^Z$ with the self-similar decomposition of
+\autoref{def:axiszeckendorf-golden-mean-self-similar-object}.  Window six is
+not that inverse-limit fixed object.  It is the finite projection
+$$
+X_6=P_6(X_\infty^Z)
+$$
+and therefore records only the six visible address coordinates.
+\end{principle}
+
+\begin{definition}[Round-trip fixed projection]
+\label{def:axiszeckendorf-round-trip-fixed-projection}
+A choice of lift on $X_6$ is a map
+$$
+L_6:X_6\to X_\infty^Z
+$$
+such that
+$$
+P_6(L_6(w))=w
+\qquad
+\text{for every }w\in X_6.
+$$
+Equivalently,
+$$
+P_6\circ L_6=\operatorname{id}_{X_6}.
+$$
+\end{definition}
+
+\begin{proposition}[Window six fixes visible information under lift-return]
+\label{prop:axiszeckendorf-window-six-fixed-visible-information}
+For any displayed lift $L_6$, Window six is a fixed information surface for
+the lift-then-project composite:
+$$
+P_6(L_6(w))=w.
+$$
+This fixedness is a statement about visible information, not uniqueness of
+the hidden inverse-limit tail.
+\end{proposition}
+
+\begin{proof}
+The equality is exactly the defining row of
+\autoref{def:axiszeckendorf-round-trip-fixed-projection}.  The hidden tail
+is not unique because \autoref{def:axiszeckendorf-window-cylinder} gives the
+whole cylinder $P_6^{-1}(w)$ above a visible word $w$.
+\end{proof}
+
+\begin{definition}[Window-six fixed-shadow defect]
+\label{def:axiszeckendorf-window-six-fixed-shadow-defect}
+The Window-six fixed-shadow defect is the finite boundary response exposed
+when the self-similar inverse-limit object is read only through the sixth
+projection.  In the notation of
+\autoref{def:zeckendorf-window-six-closed-residual-denominator}, its
+displayed response part is
+$$
+\mathsf{Defect}_6
+:=
+\varphi^{-7}
+\left(
+1-\frac{1}{2}\varphi^{-10}
++\frac{8}{9}\varphi^{-20}
+\right).
+$$
+Thus
+$$
+D_6^\star=47+\mathsf{Defect}_6.
+$$
+\end{definition}
+
+\begin{principle}[Finite shadow, not complete closure]
+\label{prin:axiszeckendorf-finite-shadow-not-complete-closure}
+The terms in $\mathsf{Defect}_6$ are read as boundary-seam, return-echo, and
+flux-escape response rows of the finite projection.  They measure the
+failure of the sixth projection to be the complete inverse-limit object;
+they do not turn $X_6$ into the self-similar fixed object itself.
+\end{principle}
+
+\section{Projection-shadow comparison with recovered zeta}
+\label{sec:axiszeckendorf-zeta-projection-shadow-comparison}
+
+\begin{definition}[Projection-shadow carrier pattern]
+\label{def:axiszeckendorf-projection-shadow-carrier-pattern}
+A projection-shadow carrier pattern consists of a recovered or inverse-limit
+carrier $C$, a visible projection $P:C\to S$, and a displayed lift row
+$L:S\to C$ satisfying
+$$
+P\circ L=\operatorname{id}_S.
+$$
+This row says that the visible information is fixed by lift-then-project.
+It does not say that the visible carrier $S$ is the whole carrier $C$.
+\end{definition}
+
+\begin{proposition}[Window six and the right-half-plane zeta projection]
+\label{prop:axiszeckendorf-window-zeta-projection-shadow-comparison}
+Window six and the right-half-plane zeta projection share the
+projection-shadow carrier pattern:
+$$
+\begin{gathered}
+X_6=P_6(X_\infty^Z),\\
+\zeta_{>1}=P_{>1}(\mathsf{ZETA}).
+\end{gathered}
+$$
+Here $P_{>1}$ denotes the projection of the recovered zeta carrier to the
+Dirichlet-series and Euler-product rows on $\Re(s)>1$, as displayed in
+\autoref{def:rh-zeta-recovery-carrier} and
+\autoref{def:rh-zeta-prime-projection-tower}.  The analogy is a carrier
+syntax analogy, not an identification of Window six with $\zeta$.
+\end{proposition}
+
+\begin{proof}
+The first equality is \autoref{prop:axiszeckendorf-window-six-address-projection}.
+The second equality is the projection reading of the zeta recovery packet:
+\autoref{def:rh-zeta-recovery-carrier} reconstructs $\mathsf{ZETA}$ from its
+compatible local rows, and
+\autoref{def:rh-zeta-prime-projection-tower} displays the Dirichlet and Euler
+rows on $\Re(s)>1$.  In both cases a local slice is recovered from a richer
+carrier and remains stable under the displayed projection row.
+\end{proof}
+
+\begin{principle}[Carrier fixedness is not orbit collapse]
+\label{prin:axiszeckendorf-carrier-fixedness-not-orbit-collapse}
+The completed-zeta row of \autoref{def:rh-completed-zeta-surface} gives a
+mirror-fixed carrier:
+$$
+\xi(s)=\xi(1-s).
+$$
+That carrier fixedness supports zero-set mirror transport in the sense of
+\autoref{thm:rh-functional-equation-gives-mirror-closure}, but it is weaker
+than the pointwise fixedness of zero events:
+$$
+\mathsf{ZeroEventFlow}_{\mathsf{RH}}(s)
+\to
+s=J(s).
+$$
+By \autoref{def:rh-mirror-map}, the latter row is equivalent to
+$\Re(s)=1/2$, and by \autoref{cor:rh-mirror-closure-weaker-than-rh} it is not
+supplied by mirror closure alone.  Thus the zeta side mirrors the
+Window-six warning: a fixed carrier or a fixed projection shadow is not yet a
+proof that every residual event has collapsed to the fixed surface.
+\end{principle}
+
+\section{Operator compatibility}
+\label{sec:axiszeckendorf-operator-compatibility}
+
+\begin{definition}[Compatible operator tower]
+\label{def:axiszeckendorf-compatible-operator-tower}
+Let $\mathcal R_m$ be a residual module whose coordinate rows are indexed by
+$X_m$.  A compatible operator tower over the Zeckendorf address tower is a
+family of operators
+$$
+A_m:\mathcal R_m\to\mathcal R_m
+\qquad
+(m\geq 6)
+$$
+together with residual projections
+$$
+\rho_{m+1,m}:\mathcal R_{m+1}\to\mathcal R_m
+$$
+such that
+$$
+\rho_{m+1,m}\circ A_{m+1}
+=
+A_m\circ\rho_{m+1,m}
+\qquad
+\text{for every }m\geq 6.
+$$
+\end{definition}
+
+\begin{principle}[Address lifting does not lift flux dynamics]
+\label{prin:axiszeckendorf-address-does-not-lift-flux}
+The identity
+$$
+\mathsf{Window6}_{\mathrm{addr}}=P_6(X_\infty^Z)
+$$
+lifts the address carrier only.  It does not lift the Window-six
+flux-operator geometry of
+\autoref{prin:zeckendorf-window-six-flux-operator-geometry}.  A flux,
+edge-operator, phase-gate, or Jordan-return reading reaches the inverse
+limit only through a compatible operator tower in the sense of
+\autoref{def:axiszeckendorf-compatible-operator-tower}.
+\end{principle}
+
+\begin{definition}[Window-six separating certificate]
+\label{def:axiszeckendorf-window-six-separating-certificate}
+A Window-six separating certificate for a class of residual towers is a row
+stating that for every admitted residual tower $\widetilde r$ in the class,
+$$
+P_6^{\mathcal R}(\widetilde r)=0
+\Longrightarrow
+\widetilde r=0.
+$$
+The stronger all-level separation row is
+$$
+\forall m\geq 6,\ P_m^{\mathcal R}(\widetilde r)=0
+\Longrightarrow
+\widetilde r=0.
+$$
+\end{definition}
+
+\section{RH residual bridge target}
+\label{sec:axiszeckendorf-rh-residual-bridge-target}
+
+\begin{definition}[Counter residual bridge target]
+\label{def:axiszeckendorf-counter-residual-bridge-target}
+An RH counter residual bridge target is a displayed map
+$$
+\mathcal B_{\zeta\to Z}
+:
+\mathsf{CounterRH}(n,q)
+\to
+(\widetilde r,\eta),
+$$
+where $\widetilde r$ is a residual tower over $X_\infty^Z$ and $\eta$ is a
+nonzero residual row such as
+$$
+P_6^{\mathcal R}(\widetilde r)\neq 0.
+$$
+This is a bridge target, not a closed bridge supplied by the Window-six
+address carrier.
+\end{definition}
+
+\begin{proposition}[Window-six local residual contradiction]
+\label{prop:axiszeckendorf-window-six-local-residual-contradiction}
+Let $r_6\in\mathcal R_6$ be a residual packet.  If
+$$
+r_6\neq 0,
+$$
+$$
+R_6(r_6)=-\frac{1}{2}r_6,
+$$
+and
+$$
+R_6(r_6)=r_6,
+$$
+then contradiction follows.
+\end{proposition}
+
+\begin{proof}
+The two return equations give
+$$
+r_6=-\frac{1}{2}r_6.
+$$
+Thus
+$$
+\frac{3}{2}r_6=0.
+$$
+Over the rational residual module, $\frac{3}{2}$ is cancellable, so
+$r_6=0$.  This contradicts the displayed row $r_6\neq0$.
+\end{proof}
+
+\begin{theorem}[Global residual contradiction criterion]
+\label{thm:axiszeckendorf-global-residual-contradiction-criterion}
+Assume a residual tower $\widetilde r$ has projections
+$r_m=P_m^{\mathcal R}(\widetilde r)$ for all $m\geq 6$.  Suppose that for
+each $m\geq 6$ there is a scalar $\lambda_m$ with $\lambda_m\neq1$ and
+$$
+R_m(r_m)=\lambda_m r_m,
+$$
+while the zero-event return-invariance row gives
+$$
+R_m(r_m)=r_m.
+$$
+If the all-level separation row of
+\autoref{def:axiszeckendorf-window-six-separating-certificate} is available,
+then no nonzero admitted residual tower satisfies these rows.
+\end{theorem}
+
+\begin{proof}
+For each $m\geq 6$, the two return equations give
+$$
+r_m=\lambda_m r_m.
+$$
+Since $\lambda_m\neq1$, scalar cancellation gives $r_m=0$.  Hence every
+projection of $\widetilde r$ is zero.  The all-level separation row then
+gives $\widetilde r=0$, contradicting nonzero admission of the residual
+tower.
+\end{proof}
+
+\begin{remark}[Missing certificates]
+\label{rem:axiszeckendorf-rh-missing-certificates}
+The Window-six route becomes an RH refutation route only after three rows
+are supplied: a bridge from $\mathsf{CounterRH}(n,q)$ to a Zeckendorf
+skew-residual tower, a zero-event return-invariance row, and a separating
+certificate strong enough to turn vanishing projections into vanishing of
+the residual tower.  Without those rows, Window six supplies a local
+residual geometry and a bridge target, not a proof of $\mathsf{RH}$.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-zeckendorf-normal-namecert}{Zeckendorf normal packets supply finite no-adjacent-word evidence for the address windows consumed by the projection tower.}
+\concretizedIn{ch:concrete-instances-zcarry-namecert}{Local carry packets supply the finite carry-facing rows that separate normal address readout from host equality.}
+\concretizedIn{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}{The Axis-Zeckendorf cannot-claim packet supplies the refusal boundary preventing address lifting from being read as a complete operator or physical bridge.}
+\concretizedIn{ch:concrete-instances-axis-boundary-limit-refusal-namecert}{Boundary-token limit refusal packets supply the finite refusal row separating Window-six boundary data from unlicensed inverse-limit or RealUp closure claims.}

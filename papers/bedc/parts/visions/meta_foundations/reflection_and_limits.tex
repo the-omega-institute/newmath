@@ -216,7 +216,46 @@ The left-to-right direction turns any witness of $\Ext_T(\ulcorner\delta\urcorne
 Thus the reflection boundary is exact: the constructor-level distinction closes at $\Mark$, while structural self-description stops before an internal truth classifier.
 \end{proof}
 
+\begin{definition}[G\"odel boundary surface]
+\label{def:goedel-boundary-surface}
+A \emph{G\"odel boundary surface} for a BEDC fragment $F$ is a finite certificate interface over sentence codes, proof-checker rows, fixed-point rows, and continuation routes satisfying the following visibility clauses.
+\begin{enumerate}
+\item The fragment has a displayed ground distinction inherited from $\Mark$ and $\Hist$.
+\item The fragment has a structural self-description sufficient to code its own sentence and proof rows inside $\mathrm{CIC}^{*}$.
+\item The fragment exposes a proof predicate or runtime predicate only through displayed $\NameCert$, $\Ext$, $\Cont$, $\hsame$, and ledger rows.
+\item The fragment contains no truth-total reflection certificate in the sense of \autoref{def:truth-total-reflection-certificate} and no global halting predicate in the sense of \autoref{def:halting-predicate}.
+\end{enumerate}
+The surface is therefore not an oracle for truth, provability, or termination. It is the finite place where syntax, proof checking, fixed-point coding, and diagonal refusal are all visible at once.
+\end{definition}
+
+\begin{theorem}[G\"odel boundary as truth-total refusal]
+\label{thm:goedel-boundary-as-truth-total-refusal}
+For any BEDC fragment $F$ admitting the self-description clauses used in \autoref{cor:bedc-self-description}, the existence of a universal internal certificate classifying truth for all represented $F$-sentences would produce a truth-total reflection certificate of \autoref{def:truth-total-reflection-certificate}. Hence every such fragment has a G\"odel boundary surface: it may display sentence codes, proof-checker rows, fixed-point rows, and finite obstruction ledgers, but it cannot export a universal internal classifier for truth, provability, certificate validity, or arbitrary halting behavior.
+\end{theorem}
+
+\begin{proof}
+Assume that $F$ has a universal internal truth classifier $U$ over its represented sentence codes. The self-description result \autoref{cor:bedc-self-description} interprets the relevant formal claims of $F$ inside $\mathrm{CIC}^{*}$, and the classifier $U$ supplies the extension predicate that decides each represented sentence. Repacking $U$ as $\NameCert_T$ gives exactly the data required by \autoref{def:truth-total-reflection-certificate}: for every represented sentence $\varphi$,
+$$
+\Ext_T(\ulcorner\varphi\urcorner)\Longleftrightarrow \varphi.
+$$
+But \autoref{thm:reflection-boundary-exact} proves that no such $\NameCert_T$ exists. Therefore the universal internal truth classifier cannot exist.
+
+The same obstruction transfers to provability, certificate validity, and halting whenever they are promoted from displayed finite ledgers to total internal classifiers over the certificate-of-certificates stratum. A total provability-validity classifier would make the fixed-point sentence decide its own proof status inside the same represented fragment. A total halting classifier would decide the $\Cont$-behavior of arbitrary certificate-history pairs and would close the meta loop described in \autoref{thm:halting-meta-loop-closure}. In each case the attempted classifier occupies the same structural role as $\NameCert_T$: it turns self-description plus a diagonal row into a total meta-level decision. Since the reflection boundary refuses that role, the admissible object is only the finite boundary surface of \autoref{def:goedel-boundary-surface}.
+\end{proof}
+
+\begin{corollary}[Finite incompleteness packets are boundary witnesses]
+\label{cor:finite-incompleteness-packets-boundary-witnesses}
+The packet surfaces $\TruthTotalReflectionUp$, $\TarskiTruthRefusalUp$, $\HaltingObstructionUp$, and $\GoedelIncompletenessUp$ are finite boundary witnesses rather than escapes from incompleteness. They record sentence-code rows, attempted classifier rows, fixed-point or diagonal rows, finite trace rows, transport, provenance, and local naming; they do not provide an internal truth predicate, a total halting predicate, a proof-validity oracle, or a proof of the fragment's own global consistency.
+\end{corollary}
+
+\begin{proof}
+The $\TruthTotalReflectionUp$ packet records sentence-code, extension-attempt, diagonal, transport, route, provenance, and naming rows; by \autoref{thm:reflection-boundary-exact} those rows cannot be read as a truth-total classifier. The $\TarskiTruthRefusalUp$ packet records the narrower refusal row for an attempted truth query and its diagonal pressure, so it witnesses the Tarski side of the same boundary. The $\HaltingObstructionUp$ packet records finite traces, self-reference rows, diagonal policies, and provenance; by \autoref{thm:halting-meta-loop-closure}, turning those rows into a total halting decision would close the forbidden meta loop. The $\GoedelIncompletenessUp$ packet records a recursively enumerated axiom row, proof-checker decoder, fixed-point row, and conditional no-proof plus no-refutation ledger; its closurestatus explicitly keeps semantic completeness, second incompleteness, $\omega$-consistency, and set-theoretic foundation bridges outside its claim surface.
+
+Thus all four packets have the same logical shape. They make the obstruction auditable as finite BEDC data, while the total classifier that would erase the obstruction remains unavailable.
+\end{proof}
+
 \concretizedIn{ch:concrete-instances-truthtotalreflection-namecert}{Truth-total reflection is represented by a finite boundary certificate over CIC-star sentence codes and diagonal obstruction rows.}
+\concretizedIn{ch:concrete-instances-goedelincompleteness-namecert}{Goedel incompleteness is realized as a finite boundary packet over arithmetised provability, fixed-point rows, and conditional undecidability ledgers.}
 \concretizedIn{ch:concrete-instances-streamlimitreflection-namecert}{This chapter concretizes the reflection-limit boundary as a countable-name certificate whose runtime and truth rows remain external to the finite stream packet.}
 \concretizedIn{ch:concrete-instances-reflectionlimitboundary-namecert}{Reflection-limit boundaries are realized as finite BHist NameCert packets separating closed ground-loop rows from open meta-loop truth rows.}
 \concretizedIn{ch:concrete-instances-runtimecandidateboundary-namecert}{Runtime candidates over CIC-star are realized as finite NameCert boundary packets separating object-level transition rows from host validation.}
@@ -225,3 +264,4 @@ Thus the reflection boundary is exact: the constructor-level distinction closes 
 \concretizedIn{ch:concrete-instances-groundloopboundary-namecert}{Ground-loop boundary packets realize the closed Mark-level distinction and the open meta-truth refusal as finite BHist, hsame, Cont, Pkg, and NameCert rows.}
 \concretizedIn{ch:concrete-instances-runtime-reflection-boundary-namecert}{Runtime reflection boundaries are realized as finite packets separating structural self-description from external kernel execution.}
 \concretizedIn{ch:concrete-instances-runtime-truth-separation-namecert}{Runtime/truth separation is realized as a finite NameCert packet separating structural CIC-star rows from external runtime and truth-validation rows.}
+\concretizedIn{ch:concrete-instances-arithmetized-provability-namecert}{ArithmetizedProvabilityUp realizes the Godel-numbering and proof-predicate dependency as finite proof-code, formula-code, derivation-check, substitution, transport, replay, provenance, and NameCert rows.}

@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\RegularConditionalDistributionUp$}
+\label{ch:concrete-instances-regular-conditional-distribution-namecert}
+\origin{human}
+
+Following Kallenberg and standard regular conditional probability theory, the $\RegularConditionalDistributionUp$ packet records a source random variable, a target event family, and a state-indexed probability law as finite BEDC data. It sits over the probability-space surface of \autoref{ch:concrete-instances-probspace-namecert}, the measurable-preimage surface of \autoref{ch:concrete-instances-randomvar-namecert}, the pushforward-law surface of \autoref{ch:concrete-instances-distribution-namecert}, the projection surface of \autoref{ch:concrete-instances-condexp-namecert}, the state-to-distribution interface of \autoref{ch:concrete-instances-markovkernel-namecert}, the generated-event surface of \autoref{ch:concrete-instances-standard-borel-space-namecert}, the Polish presentation surface of \autoref{ch:concrete-instances-polishspace-namecert}, and the regular-measure surface of \autoref{ch:concrete-instances-radon-measure-namecert}. The chapter names regular conditional laws without importing a choice-selected disintegration, host kernel equality, quotient event algebra, or ambient measurable-space oracle.
+
+\begin{definition}[Regular conditional distribution carrier]
+\label{def:regular-conditional-distribution-carrier}
+A $\RegularConditionalDistributionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(\Omega,S,T,X,Y,\mathcal{A}_S,\mathcal{A}_T,\kappa,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the source $\ProbSpaceUp$ row carrying the probability measure from which conditioning is read.
+\item $S$ is the conditioning-state row, read through a $\StandardBorelSpaceUp$ presentation and the underlying $\PolishSpaceUp$ event generator.
+\item $T$ is the target-state row, with target events carried by $\mathcal{A}_T$.
+\item $X$ is the conditioning $\RandomVarUp$ row from $\Omega$ into $S$.
+\item $Y$ is the target $\RandomVarUp$ row from $\Omega$ into $T$.
+\item $\mathcal{A}_S$ and $\mathcal{A}_T$ are the displayed source and target measurable-event families.
+\item $\kappa$ is the state-indexed endpoint assignment sending each displayed conditioning state $s$ and target event $B\in\mathcal{A}_T$ to a $\RealUp$ endpoint $\kappa(s,B)$.
+\item $D$ records that each fixed state $s$ reads as a $\DistributionUp$ row over target events and as a $\MarkovKernelUp$ fiber from $S$ to $T$.
+\item $E$ records conditional-expectation exactness: for each displayed target event $B$, the row $s\mapsto\kappa(s,B)$ is the $\CondExpUp$ readback of the indicator of $Y^{-1}(B)$ over the conditioning row $X$.
+\item $H$ records componentwise $\hsame$ transport for source states, target events, endpoints, distribution fibers, conditional-expectation rows, and regular-measure boundaries.
+\item $C$ records displayed $\Cont$ replay from $\Omega,X,Y,S,T,\mathcal{A}_S,\mathcal{A}_T$ through $\kappa,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\CondExpUp$, $\MarkovKernelUp$, $\StandardBorelSpaceUp$, $\PolishSpaceUp$, $\RadonMeasureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularConditionalDistributionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected disintegration, host conditional probability object, quotient event equality, external sigma-algebra completion, or unledgered kernel equality.
+\end{definition}
+
+\begin{theorem}[Regular conditional distribution NameCert obligations]
+\label{thm:regular-conditional-distribution-namecert-obligations}
+For the carrier of \autoref{def:regular-conditional-distribution-carrier}, the local $\NameCert_{\RegularConditionalDistributionUp}$ surface consists exactly of carrier admission for
+$$
+R=(\Omega,S,T,X,Y,\mathcal{A}_S,\mathcal{A}_T,\kappa,D,E,H,C,P,N),
+$$
+source probability exposure through $\Omega$, conditioning and target random-variable exposure through $X,Y$, generated event exposure through $S,T,\mathcal{A}_S,\mathcal{A}_T$, endpoint readback through $\kappa$, distribution-fiber and Markov-kernel exposure through $D$, conditional-expectation exactness through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Consequently an accepted $\RegularConditionalDistributionUp$ packet is a finite state-indexed law whose measurable fibers are read through the displayed $\StandardBorelSpaceUp$, $\PolishSpaceUp$, $\DistributionUp$, $\MarkovKernelUp$, $\CondExpUp$, and $\RadonMeasureUp$ rows. It is not a selected disintegration theorem and not a host conditional-probability object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-conditional-distribution-carrier}. Its rows expose the probability source, conditioning and target random variables, generated measurable-event families, state-indexed endpoint assignment, distribution fiber, conditional-expectation exactness, transport, replay, provenance, and local name.
+
+Read $D$ at a fixed conditioning state. The endpoint assignment $B\mapsto\kappa(s,B)$ is a $\DistributionUp$ row over the target event family and a $\MarkovKernelUp$ fiber from the conditioning state to target events.
+
+Read $E$ at a fixed target event. It identifies the state-indexed endpoint row with the $\CondExpUp$ readback of the target-event indicator along $X$, using only the displayed random-variable and probability-space rows.
+
+The rows $H,C,P,N$ preserve and name the same packet. Since no coordinate carries selected disintegration data, quotient event equality, host kernel equality, or an ambient measurable-space oracle, the listed finite rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular conditional distribution kernel readback]
+\label{thm:regular-conditional-distribution-kernel-readback}
+Every accepted $\RegularConditionalDistributionUp$ readback factors through the displayed route
+$$
+\ProbSpaceUp,\RandomVarUp,\StandardBorelSpaceUp,\PolishSpaceUp
+\longmapsto
+\MarkovKernelUp
+\longmapsto
+\DistributionUp
+\longmapsto
+\CondExpUp.
+$$
+The target-event value $\kappa(s,B)$ is public only after the conditioning-state row $s$, the target event $B$, the distribution fiber, and the conditional-expectation exactness row are displayed on the same finite packet. The readback exports no selected disintegration, host conditional-probability equality, quotient event algebra, or ambient regularity theorem.
+\end{theorem}
+\begin{proof}
+Start with the source rows $\Omega,X,Y,S,T,\mathcal{A}_S,\mathcal{A}_T$ of the carrier. The probability and random-variable rows give the conditioning and target events, while the standard Borel and Polish rows make the event codes available as displayed data.
+
+Use the fiber row $D$. At each displayed conditioning state $s$, the endpoint assignment over target events is read as a $\MarkovKernelUp$ fiber and as a $\DistributionUp$ row, so the consumer receives a state-indexed law rather than a detached host object.
+
+Finally apply the exactness row $E$. For every target event $B$, the endpoint $\kappa(s,B)$ is tied to the $\CondExpUp$ readback of the indicator of $Y^{-1}(B)$ along $X$. The transport and replay rows preserve that same route, so no selected disintegration or host kernel equality can enter the public readback.
+\end{proof}
+
+\begin{theorem}[Regular conditional distribution ledger nonescape]
+\label{thm:regular-conditional-distribution-ledger-nonescape}
+No accepted $\RegularConditionalDistributionUp$ packet exports a conditional law outside the displayed rows
+$$
+\Omega,S,T,X,Y,\mathcal{A}_S,\mathcal{A}_T,\kappa,D,E,H,C,P,N.
+$$
+In particular, the packet does not export a choice-selected disintegration, a host conditional-probability primitive, quotient event equality, a hidden standard Borel completion, or an unledgered Radon regularity claim.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-conditional-distribution-namecert-obligations}. It exhausts the local certificate by the probability source, random-variable rows, generated event rows, endpoint assignment, distribution fiber, conditional-expectation exactness, transport, replay, provenance, and local name.
+
+Use \autoref{thm:regular-conditional-distribution-kernel-readback} to keep every public endpoint on the same finite route from conditioning state and target event to kernel fiber, distribution row, and conditional-expectation readback.
+
+The $\StandardBorelSpaceUp$, $\PolishSpaceUp$, and $\RadonMeasureUp$ dependencies provide displayed event generation and regular-measure boundaries, but the carrier records them through $P,H,C$ rather than as ambient host structure. Thus the listed rows are the only public coordinates, and the stated escape routes are not exports of this packet.
+\end{proof}
+
+\closureat{RegularConditionalDistributionUp}{seedStr}
+
+\begin{closurestatus}{\RegularConditionalDistributionUp}
+  \constructivestory{A $\RegularConditionalDistributionUp$ packet is generated from a probability source, conditioning and target random variables, standard Borel and Polish event rows, state-indexed endpoint fibers, distribution and Markov-kernel readback, conditional-expectation exactness, regular-measure provenance, transport, replay, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-conditional-distribution-carrier}, \autoref{thm:regular-conditional-distribution-namecert-obligations}, \autoref{thm:regular-conditional-distribution-kernel-readback}, and \autoref{thm:regular-conditional-distribution-ledger-nonescape} seed the finite regular-conditional-law packet and its kernel readback boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close existence of regular conditional distributions, selected disintegration, host conditional probability, quotient event equality, Lean checking, or bridge checking for $\RegularConditionalDistributionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, fiber distribution readback, conditional-expectation exactness, transport, provenance, local naming, and nonescape for the same packet.}
+\end{closurestatus}

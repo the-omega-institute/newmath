@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -36,6 +37,13 @@ import candidate_inbox
 import candidate_substance
 import paper_index
 import logic_packet_gate
+
+
+LAB_ROOT = REPO_ROOT / "papers" / "bedc-quality-lab"
+if str(LAB_ROOT) not in sys.path:
+    sys.path.insert(0, str(LAB_ROOT))
+
+from bedc_quality_lab.discovery_compiler import is_architecture_mutation_candidate, require_witness_basis
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -488,6 +496,17 @@ def _substance_rejection(candidate: dict) -> str:
     return candidate_substance.substance_rejection(candidate)
 
 
+def _architecture_mutation_rejection(candidate: dict) -> str:
+    if not is_architecture_mutation_candidate(candidate):
+        return ""
+    gate = require_witness_basis(candidate, LAB_ROOT)
+    if gate.status == "pass":
+        return ""
+    if gate.reason == "missing_witness_basis":
+        return "missing_witness_basis"
+    return f"witness_basis_gate:{gate.reason}"
+
+
 def _deterministic_fallback_rejection(
     candidate: dict,
     *,
@@ -502,6 +521,9 @@ def _deterministic_fallback_rejection(
     anti-parameter-echo shape.  New chapters and external-source packets still
     require the normal judge.
     """
+    architecture_rejection = _architecture_mutation_rejection(candidate)
+    if architecture_rejection:
+        return architecture_rejection
     source = str(candidate.get("source") or "").strip()
     if source not in DETERMINISTIC_FALLBACK_SOURCES:
         return f"deterministic_fallback_source_requires_llm_judge:{source or 'unknown'}"
@@ -578,6 +600,9 @@ def _deterministic_fallback_judge(
 
 def _direct_codex_rejection(candidate: dict) -> str:
     """Local BOARD admission for pre-screened codex-lane packets."""
+    architecture_rejection = _architecture_mutation_rejection(candidate)
+    if architecture_rejection:
+        return architecture_rejection
     source = str(candidate.get("source") or "").strip()
     if source not in DIRECT_CODEX_SOURCES:
         return f"direct_codex_source_requires_judge:{source or 'unknown'}"
@@ -634,6 +659,20 @@ def _direct_codex_admission(candidates: list[dict]) -> tuple[list[dict], list[di
             continue
         held_or_rejected.append({**candidate, "reason": reason})
     return accepted, held_or_rejected, needs_judge
+
+
+def _partition_architecture_mutation_candidates(candidates: list[dict]) -> tuple[list[dict], list[dict]]:
+    passed: list[dict] = []
+    rejected: list[dict] = []
+    for candidate in candidates:
+        if not isinstance(candidate, dict):
+            continue
+        reason = _architecture_mutation_rejection(candidate)
+        if reason:
+            rejected.append({**candidate, "reason": reason})
+            continue
+        passed.append(candidate)
+    return passed, rejected
 
 
 def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
@@ -710,6 +749,9 @@ def spawn_from_candidates(
     oracle_input = len(oracle_candidates)
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
+    codex_candidates, codex_architecture_rejected = _partition_architecture_mutation_candidates(codex_candidates)
+    oracle_candidates, oracle_architecture_rejected = _partition_architecture_mutation_candidates(oracle_candidates)
+    architecture_rejected = codex_architecture_rejected + oracle_architecture_rejected
 
     # Step 1: runtime inbox + deterministic pre-gate. This keeps the active
     # BOARD as an execution queue instead of a proposal/memory sink.
@@ -728,7 +770,7 @@ def spawn_from_candidates(
     codex_alive = codex_screen.accepted
     oracle_alive = oracle_screen.accepted
     cheap_holds = codex_screen.held + oracle_screen.held
-    cheap_drops = codex_screen.rejected + oracle_screen.rejected
+    cheap_drops = architecture_rejected + codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
@@ -859,6 +901,10 @@ def spawn_from_candidates(
     final_accepted: list[dict] = []
     threshold_drops: list[dict] = []
     for c in accepted:
+        architecture_rejection = _architecture_mutation_rejection(c)
+        if architecture_rejection:
+            threshold_drops.append({**c, "reason": architecture_rejection})
+            continue
         landing_rejection = _post_judge_landing_rejection(c)
         if landing_rejection:
             threshold_drops.append({**c, "reason": landing_rejection})

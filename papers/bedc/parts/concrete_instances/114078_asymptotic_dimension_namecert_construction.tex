@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\AsymptoticDimensionUp$}
+\label{ch:concrete-instances-asymptotic-dimension-namecert}
+\origin{human}
+
+Following Gromov and Roe-style coarse geometry, the $\AsymptoticDimensionUp$ packet records asymptotic dimension as finite uniformly bounded cover families indexed by displayed scale rows, rather than as an ambient large-scale invariant over a completed category of metric spaces. It reads metric data from \autoref{ch:concrete-instances-metric-namecert}, proper closed-ball discipline from \autoref{ch:concrete-instances-propermetric-namecert}, entourage-style scale transport from \autoref{ch:concrete-instances-uniformspace-namecert}, and quasi-isometry-facing stability from \autoref{ch:concrete-instances-quasi-isometry-namecert}. The carrier names exactly the finite rows that downstream coarse consumers can replay.
+
+\begin{definition}[AsymptoticDimension carrier]
+\label{def:asymptotic-dimension-carrier}
+An $\AsymptoticDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,S,U,M,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric source row, read through the $\MetricUp$ surface and its proper-metric closed-ball boundary when boundedness is inspected;
+\item $S$ is a finite list of scale requests, each a displayed positive radius row over the same metric source;
+\item $U$ assigns to each scale row a finite uniformly bounded cover family, with every cover member carrying a visible diameter bound and membership readback;
+\item $M$ assigns to each scale row the finite multiplicity ledger proving that every scale ball meets at most the displayed number of cover rows;
+\item $T$ records the componentwise $\hsame$ transport of the metric source, scale rows, cover families, diameter bounds, and multiplicity ledgers;
+\item $R$ records the displayed $\Cont$ replay route for reading the cover and multiplicity rows in downstream coarse consumers;
+\item $P$ is the $\Pkg$ provenance over $\AsymptoticDimensionUp$, $\MetricUp$, $\ProperMetricUp$, $\UniformSpaceUp$, $\QuasiIsometryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AsymptoticDimensionUp}$ row.
+\end{enumerate}
+The carrier is only this finite packet. It does not select an infinite family of covers, construct a quotient coarse category, import choice-selected Lebesgue numbers, or assert host invariance under all quasi-isometries.
+\end{definition}
+
+\begin{theorem}[AsymptoticDimension NameCert obligations]
+\label{thm:asymptotic-dimension-namecert-obligations}
+For every accepted $\AsymptoticDimensionUp$ carrier $A=(X,S,U,M,T,R,P,N)$, the local $\NameCert_{\AsymptoticDimensionUp}$ surface consists of carrier admission, scale-row coverage, uniform boundedness for each displayed cover family, finite multiplicity for each displayed scale row, componentwise transport, replay through the displayed continuation rows, provenance over the metric/proper/uniform/quasi-isometry dependency surface, and the local naming row. No obligation exports a selected global cover sequence, quotient metric-space equality, open-cover compactness principle, or ambient coarse category.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:asymptotic-dimension-carrier}. The accepted packet exposes the metric source, finite scale schedule, uniformly bounded cover rows, multiplicity rows, transport, replay, provenance, and local name.
+
+For each scale row in $S$, use finite induction over the displayed cover family in $U$. The base case reads the empty prefix and its vacuous multiplicity ledger; the successor step adds one bounded cover row, its diameter witness, and the corresponding membership readback.
+
+Multiplicity is checked by a second finite induction over the cover rows meeting a displayed scale ball. The ledger $M$ counts only those visible rows and therefore cannot smuggle in an open-cover compactness theorem or a choice-selected subcover.
+
+Finally transport and replay are row projections. The rows $T$ and $R$ preserve the same metric source, scale request, cover family, and multiplicity ledger, while $P$ and $N$ source and name that finite surface.
+\end{proof}
+
+\begin{theorem}[AsymptoticDimension quasi-isometry handoff]
+\label{thm:asymptotic-dimension-quasi-isometry-handoff}
+Every quasi-isometry-facing consumer of an accepted $\AsymptoticDimensionUp$ carrier must read the source metric row, finite scale schedule, uniformly bounded cover family, and finite multiplicity ledger before it may hand the packet to $\QuasiIsometryUp$. The handoff preserves the displayed cover and multiplicity rows under $\hsame$ transport and $\Cont$ replay, but it exports no host proof that asymptotic dimension is invariant under all quasi-isometries, no selected coarse inverse, and no quotient equality of metric spaces.
+\end{theorem}
+\begin{proof}
+Project $A=(X,S,U,M,T,R,P,N)$. The only coarse data visible to the consumer are the metric source, scale rows, cover families, and multiplicity ledgers.
+
+Read the quasi-isometry dependency through the provenance row $P$. It points to the existing $\QuasiIsometryUp$ surface only after the metric, properness, and uniform-scale rows have already been displayed.
+
+Transport stability is componentwise. The row $T$ moves scale, cover, and multiplicity data together, and $R$ replays that same route for a downstream quasi-isometry consumer.
+
+Thus the handoff is a finite NameCert route. Any full invariance theorem, selected inverse, quotient metric equality, or external coarse category must be supplied elsewhere and is not contained in this packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\AsymptoticDimensionUp$ read is refuted if a consumer obtains a dimension bound without displaying the metric source, finite scale rows, uniformly bounded cover families, finite multiplicity ledgers, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{metric, propermetric, uniformspace, quasi-isometry: none is bijective to $\AsymptoticDimensionUp$ because this packet jointly carries scale-indexed uniformly bounded covers and multiplicity ledgers for a coarse dimension read.}
+
+\closureat{AsymptoticDimensionUp}{seedStr}
+
+\begin{closurestatus}{\AsymptoticDimensionUp}
+  \constructivestory{An $\AsymptoticDimensionUp$ packet is generated from a metric source row, finite scale requests, uniformly bounded cover families, finite multiplicity ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:asymptotic-dimension-carrier}, \autoref{thm:asymptotic-dimension-namecert-obligations}, and \autoref{thm:asymptotic-dimension-quasi-isometry-handoff} seed the finite coarse-dimension certificate over displayed metric, scale, cover, multiplicity, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, quasi-isometry invariance for all metric spaces, quotient coarse categories, selected cover sequences, open-cover compactness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cover boundedness, finite multiplicity exactness, transport replay, provenance, and quasi-isometry handoff for BEDC.Derived.AsymptoticDimensionUp.}
+\end{closurestatus}

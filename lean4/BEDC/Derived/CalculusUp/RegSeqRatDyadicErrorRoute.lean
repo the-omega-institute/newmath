@@ -1,0 +1,93 @@
+import BEDC.Derived.CalculusUp.RootRealSealNonescape
+
+namespace BEDC.Derived.CalculusUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem CalculusRegSeqRatDyadicErrorRoute [AskSetup] [PackageSetup]
+    {E R D L J _H _C P N errorRead derivativeRead integralRead derivativeSeal integralSeal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R ->
+      UnaryHistory D ->
+        UnaryHistory L ->
+          UnaryHistory J ->
+            UnaryHistory E ->
+              Cont R D errorRead ->
+                Cont errorRead L derivativeRead ->
+                  Cont errorRead J integralRead ->
+                    Cont derivativeRead E derivativeSeal ->
+                      Cont integralRead E integralSeal ->
+                        PkgSig bundle P pkg ->
+                          PkgSig bundle N pkg ->
+                            SemanticNameCert
+                                (fun row : BHist =>
+                                  (hsame row derivativeSeal ∨ hsame row integralSeal) ∧
+                                    UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row R ∨ hsame row D ∨ hsame row L ∨
+                                    hsame row J ∨ hsame row E ∨
+                                      hsame row derivativeSeal ∨ hsame row integralSeal)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ PkgSig bundle P pkg ∧
+                                    PkgSig bundle N pkg)
+                                hsame ∧
+                              UnaryHistory derivativeSeal ∧ UnaryHistory integralSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro rUnary dUnary lUnary jUnary eUnary errorRoute derivativeRoute integralRoute
+    derivativeSealRoute integralSealRoute provenancePkg namedPkg
+  have errorUnary : UnaryHistory errorRead :=
+    unary_cont_closed rUnary dUnary errorRoute
+  have derivativeUnary : UnaryHistory derivativeRead :=
+    unary_cont_closed errorUnary lUnary derivativeRoute
+  have integralUnary : UnaryHistory integralRead :=
+    unary_cont_closed errorUnary jUnary integralRoute
+  have derivativeSealUnary : UnaryHistory derivativeSeal :=
+    unary_cont_closed derivativeUnary eUnary derivativeSealRoute
+  have integralSealUnary : UnaryHistory integralSeal :=
+    unary_cont_closed integralUnary eUnary integralSealRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro derivativeSeal
+            ⟨Or.inl (hsame_refl derivativeSeal), derivativeSealUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          constructor
+          · cases source.left with
+            | inl derivativeSame =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) derivativeSame)
+            | inr integralSame =>
+                exact Or.inr (hsame_trans (hsame_symm sameRows) integralSame)
+          · exact unary_transport source.right sameRows
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left with
+        | inl derivativeSame =>
+            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl derivativeSame)))))
+        | inr integralSame =>
+            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr integralSame)))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, provenancePkg, namedPkg⟩
+    }
+  · exact ⟨derivativeSealUnary, integralSealUnary⟩
+
+end BEDC.Derived.CalculusUp

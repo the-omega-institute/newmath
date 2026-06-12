@@ -6,6 +6,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 Here $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ are the term, value, depth, and closedness inputs; $Q$ and $R$ are the closed shift and substitute-closed operation rows; $L$ and $A$ are the ledger and audit rows; and $H,C,P,N$ are the transport, continuation, provenance, and local naming rows. No accountable closed substitution transport is available from a host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or operation row outside this packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootTransportAccountability}
 \begin{proof}
 Read the root consumer through \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. That row makes every audit-visible root read total over the displayed packet and prevents the consumer from starting at a detached host operation.
 
@@ -22,6 +23,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 Such a consumer may read the closed shift, substitute-closed, ledger, audit, transport, continuation, provenance, and naming rows only through that packet, and it receives no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or extra compiler object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootConsumerCoverage}
 \begin{proof}
 Start with self-compilation and proof-erasure consumers. By \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, any root audit consumer factors through the closed-boundary packet before it can inspect the operation rows.
 
@@ -38,6 +40,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
 $$
 and exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or additional compiler-facing route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootUnblockCertificate}
 \begin{proof}
 First build the accountable transport surface. Apply \autoref{thm:closed-term-substitution-boundary-root-transport-accountability} to force every accountable closed substitution transport through the displayed term, closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows.
 
@@ -54,6 +57,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The accepted alternatives are only the closed shift row $Q$, substitute-closed row $R$, ledger row $L$, audit row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$, together with the term, value, depth, and closedness inputs $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$. Host substitution semantics, a subject reduction theorem, a host syntax quotient, a hidden evaluator, hidden compiler state, an extra compiler object, and any operation row outside this packet remain unavailable to the downstream consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootTransportDownstreamCoverage}
 \begin{proof}
 Apply \autoref{thm:closed-term-substitution-boundary-root-consumer-coverage} to the accepted downstream consumer. It covers the consumer-facing cases named in the statement: self-compilation, proof-erasure, and compiler-facing reads. In each case the consumer may read closed shift, substitute-closed, ledger, audit, transport, continuation, provenance, and naming data only through the displayed closed-boundary packet.
 

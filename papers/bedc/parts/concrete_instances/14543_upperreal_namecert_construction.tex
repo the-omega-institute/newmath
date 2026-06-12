@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exports no lower cut, no located cut completion, no quotient real equality, no trichotomy branch, no selected infimum, no countable-choice row, and no host-completeness coordinate.
 \end{definition}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[UpperReal NameCert obligation surface]
 \label{thm:upper-real-obligation-surface}
@@ -49,6 +50,7 @@ Window scope and the regular-rational handoff are the roles of $W$ and $R$. Ever
 
 Real-seal nonescape and ledger exactness follow from the row inventory. The only route to $E$ passes through $U_0,L,W,R,H,C,P,N$, and the provenance row records the lower-real, located-real, and located-cut neighbors only as dependency anchors. The carrier exports no lower cut, no located cut completion, no quotient real equality, no trichotomy branch, no selected infimum, no countable-choice row, and no host-completeness coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealCarrier\_obligation\_surface}
 
 \begin{theorem}[UpperReal lower-upper apartness window]
 \label{thm:upper-real-lower-upper-apartness-window}
@@ -63,6 +65,7 @@ Transport is internal to the packet. Moving along $H$ and replaying $C$ changes 
 
 The carrier exports no lower cut, no located cut completion, no quotient real equality, no trichotomy branch, no selected infimum, no countable-choice row, and no host-completeness coordinate. Therefore the comparison remains a finite lower-upper apartness window over the displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealCarrier\_lower\_upper\_apartness\_window}
 
 \begin{theorem}[UpperReal public certificate]
 \label{thm:upper-real-public-certificate}
@@ -77,13 +80,56 @@ The provenance and local naming rows $P,N$ record the sibling certificates and p
 
 Thus the carrier exports no lower cut, no located cut completion, no quotient real equality, no trichotomy branch, no selected infimum, no countable-choice row, and no host-completeness coordinate. The $\RealUp$ seal can be consumed only as the boundary of the displayed upper-ledger path.
 \end{proof}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealCarrier\_public\_certificate}
+
+\begin{theorem}[UpperReal scoped kernel dependency route]
+\label{thm:upperreal-scoped-kernel-dependency-route}
+Every accepted $\UpperRealUp$ packet reads through the displayed $\LowerRealUp$, $\LocatedRealUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of \autoref{def:upper-real-carrier} before either its upper ledger or its real-seal boundary is exposed. In particular the carrier admission, upper-ledger transport, lower-upper apartness scope, finite-window scope, regular-rational handoff, real-seal nonescape, and ledger exactness obligations are all scoped to the single route
+$$
+U_0,L,W,R,E,H,C,P,N .
+$$
+No accepted packet can expose a second upper ledger, a lower cut, a located cut completion, quotient real equality, trichotomy, selected infimum, countable choice, host completeness, or an unrecorded sibling dependency outside that route.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission of \autoref{def:upper-real-carrier}. It names the upper ledger $U_0$, the lower comparison row $L$, the finite window row $W$, the regular rational handoff $R$, the terminal Real seal $E$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:upper-real-obligation-surface}. Its seven obligations list the displayed carrier admission, upper-ledger transport, lower-upper apartness scope, finite-window scope, regular-rational handoff, real-seal nonescape, and ledger exactness clauses, so each required dependency is already bound to the visible rows.
+
+Use \autoref{thm:upper-real-lower-upper-apartness-window} for the sibling comparison route. It forces every $\LowerRealUp$-, $\LocatedRealUp$-, or $\LocatedCutUp$-facing read through $L,U_0,W,R$ before any comparison boundary can be consumed.
+
+Finally apply \autoref{thm:upper-real-public-certificate}. It exhausts the public certificate through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance and makes $E$ reachable only through the displayed upper-ledger path. Hence both the upper ledger and the real-seal boundary are exposed only after the named dependency rows have been read.
+\end{proof}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealCarrier\_scoped\_kernel\_dependency\_route}
+
+\begin{theorem}[UpperReal located-cut bridge surface]
+\label{thm:upper-real-located-cut-bridge}
+Every accepted $\UpperRealUp$ packet bridges to the located-cut and located-real completion route only through its upper rational or dyadic observation rows, the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal. The bridge preserves the displayed route
+$$
+U_0,L,W,R,E,H,C,P,N
+$$
+from \autoref{def:upper-real-carrier}; it exposes no Dedekind-completion object, quotient-real equality, trichotomy branch, selected infimum, ambient-completeness principle, or off-packet located-cut coordinate.
+\end{theorem}
+\begin{proof}
+Start from the scoped dependency route of \autoref{thm:upperreal-scoped-kernel-dependency-route}. It forces every accepted upper ledger and real-seal boundary through $U_0,L,W,R,E,H,C,P,N$ before the packet is exposed.
+
+The located-cut and located-real consumers can therefore read the upper side only through the displayed observation rows. The row $W$ supplies the finite $\StreamNameUp$ windows, $R$ supplies the $\RegSeqRatUp$ readback, and the dyadic budgets recorded in $U_0$ and the provenance row supply the $\DyadicRatCoreUp$ tolerance ledger before $E$ seals the $\RealUp$ route.
+
+Apply \autoref{thm:upper-real-lower-upper-apartness-window} for the comparison boundary. It permits a visible lower-upper apartness window, but it does not export a lower cut or a completed located-cut object.
+
+Finally, \autoref{thm:upper-real-public-certificate} exhausts the public certificate by the same finite rows. Any Dedekind completion, quotient real, trichotomy branch, selected infimum, or ambient-completeness reading would require a coordinate absent from that packet, so the bridge is exactly the displayed located-cut route and nothing stronger.
+\end{proof}
+\leanchecked{BEDC.Derived.UpperRealUp.UpperRealCarrier\_located\_cut\_bridge}
 
 \begin{closurestatus}{\UpperRealUp}
   \constructivestory{An $\UpperRealUp$ packet is generated from a displayed upper rational or dyadic ledger, a lower comparison window, finite StreamName windows, a RegSeqRat handoff row, a RealUp seal, componentwise transports, continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:upper-real-carrier}, \autoref{thm:upper-real-obligation-surface}, \autoref{thm:upper-real-lower-upper-apartness-window}, and \autoref{thm:upper-real-public-certificate} seed the finite one-sided upper-real surface for located-real, located-cut, interval-bound, and Real-completion consumers.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:upper-real-carrier}, \autoref{thm:upper-real-obligation-surface}, \autoref{thm:upper-real-lower-upper-apartness-window}, \autoref{thm:upper-real-public-certificate}, \autoref{thm:upperreal-scoped-kernel-dependency-route}, and \autoref{thm:upper-real-located-cut-bridge} scope the finite one-sided upper-real surface through the displayed carrier admission, upper-ledger transport, lower-upper apartness window, finite-window scope, RegSeqRat handoff, Real-seal nonescape, ledger exactness rows, and located-cut bridge boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim lower cuts, located cut completion, quotient real equality, trichotomy, selected infima, countable choice, host completeness, Lean verification, or a standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, upper-ledger transport, lower-upper apartness scope, finite-window scope, regular-rational handoff, real-seal nonescape, and ledger exactness for the displayed packet.}
+  \upgradepath{Mature treatment asks for worked examples and a completeness-facing consumer route for the displayed located-cut bridge, while Lean verification and standard bridge checking remain separate formal-axis work.}
 \end{closurestatus}
+\closureat{UpperRealUp}{obligationStr}
+\closureat{UpperRealUp}{scopedStr}
+\closureat{UpperRealUp}{publicStr}
+\closureat{UpperRealUp}{bridgedStr}

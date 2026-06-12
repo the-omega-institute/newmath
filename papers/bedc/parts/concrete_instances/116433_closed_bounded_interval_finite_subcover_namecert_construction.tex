@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedIntervalFiniteSubcoverUp$}
+\label{ch:concrete-instances-closed-bounded-interval-finite-subcover-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive compact intervals, the $\ClosedBoundedIntervalFiniteSubcoverUp$ packet records the finite route by which a displayed closed bounded interval cover request is reduced to inspected located subinterval rows and a finite covering list. It sits after the interval-net surface of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the finite compact-open exhaustion route of \autoref{ch:concrete-instances-compact-open-exhaustion-namecert}, and the located endpoint discipline of \autoref{ch:concrete-instances-locatedinterval-namecert}. The packet names a constructive finite-subcover handoff for closed bounded intervals; it is not a general open-cover compactness principle, not a selected cover from a host powerset, and not an ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Closed bounded interval finite-subcover carrier]
+\label{def:closed-bounded-interval-finite-subcover-carrier}
+A $\ClosedBoundedIntervalFiniteSubcoverUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,N,E,L,S,W,H,C,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded interval source row, including its endpoint reads and boundedness witness.
+\item $N$ is the $\ClosedBoundedIntervalNetUp$ row supplying the finite dyadic interval-net inspection surface.
+\item $E$ is the $\CompactOpenExhaustionUp$ row recording the finite exhaustion stage used by the cover request.
+\item $L$ is the $\LocatedIntervalUp$ row that keeps each inspected subinterval attached to displayed endpoint comparisons.
+\item $S$ is the finite subcover list, whose entries are selected only from rows already displayed by $N,E,L$.
+\item $W$ is the cover-witness row matching every retained net cell to an entry of $S$.
+\item $H$ records componentwise $\hsame$ transport for the interval, net, exhaustion, located subinterval, subcover, and witness rows.
+\item $C$ records displayed $\Cont$ replay through the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\ClosedBoundedIntervalFiniteSubcoverUp$, $\ClosedBoundedIntervalNetUp$, $\CompactOpenExhaustionUp$, $\LocatedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\ClosedBoundedIntervalFiniteSubcoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,N,E,L,S,W,H,C,P,M$. It has no coordinate for arbitrary open covers, host compactness, countable choice, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval finite-subcover NameCert obligations]
+\label{thm:closed-bounded-interval-finite-subcover-namecert-obligations}
+For every accepted $\ClosedBoundedIntervalFiniteSubcoverUp$ carrier $K=(I,N,E,L,S,W,H,C,P,M)$, the local $\NameCert_{\ClosedBoundedIntervalFiniteSubcoverUp}$ surface consists exactly of interval-source admission, finite interval-net exposure, compact-open exhaustion-stage exposure, located subinterval comparison, finite subcover listing, cover-witness matching, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-bounded-interval-finite-subcover-carrier}. The rows $I,N,E,L,S,W,H,C,P,M$ are the full packet, so no accepted read can appeal to a detached open-cover object or a host compactness theorem.
+
+The constructive cover side is finite. The interval-net row $N$ supplies the inspected dyadic cells, the exhaustion row $E$ fixes the displayed cover stage, and the located row $L$ keeps the endpoint comparisons attached to those cells.
+
+The subcover list $S$ is then checked by the witness row $W$. Each entry is matched against a displayed cell before the structural rows $H,C,P,M$ transport, replay, source, and name the same route.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval finite-subcover route]
+\label{thm:closed-bounded-interval-finite-subcover-route}
+Every accepted $\ClosedBoundedIntervalFiniteSubcoverUp$ packet exports a finite-subcover read only through
+$$
+\ClosedBoundedIntervalNetUp,\quad \CompactOpenExhaustionUp,\quad \LocatedIntervalUp .
+$$
+In carrier notation, the consumer-visible route is
+$$
+I,N,E,L,S,W,H,C,P,M .
+$$
+The route supplies a finite list and displayed coverage witnesses for the inspected closed bounded interval request; it exports no general open-cover compactness principle, cover selection from a host powerset, quotient $\RealUp$ equality, countable choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the finite interval-net surface of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}. It gives the inspected cells before any cover witness is read.
+
+Next use the compact-open exhaustion route of \autoref{ch:concrete-instances-compact-open-exhaustion-namecert} and the located interval boundary of \autoref{ch:concrete-instances-locatedinterval-namecert}. These rows attach each cover request to a displayed exhaustion stage and endpoint comparison.
+
+Finally apply the local obligations above. The rows $S,W$ list and verify the finite subcover, while $H,C,P,M$ only preserve and name that displayed route. Since no other carrier coordinate exists, the excluded compactness, choice, quotient, and completeness objects cannot be exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ClosedBoundedIntervalFiniteSubcoverUp$ read is refuted if it consumes an arbitrary open-cover compactness theorem before displaying the interval-net, compact-open exhaustion, located interval, finite subcover, witness, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{closedboundedintervalnet, compact-open-exhaustion, locatedinterval: $\ClosedBoundedIntervalFiniteSubcoverUp$ is not bijective to any listed sibling because it jointly carries an interval source, interval-net cells, exhaustion-stage data, located endpoint comparisons, a finite subcover list, coverage witnesses, transport, replay, provenance, and local naming.}
+
+\closureat{ClosedBoundedIntervalFiniteSubcoverUp}{seedStr}
+
+\begin{closurestatus}{\ClosedBoundedIntervalFiniteSubcoverUp}
+  \constructivestory{A $\ClosedBoundedIntervalFiniteSubcoverUp$ packet is generated from closed bounded interval rows, interval-net cells, compact-open exhaustion stages, located interval comparisons, finite subcover lists, witness rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-interval-finite-subcover-carrier}, \autoref{thm:closed-bounded-interval-finite-subcover-namecert-obligations}, and \autoref{thm:closed-bounded-interval-finite-subcover-route} seed the finite-subcover route for inspected closed bounded interval cover requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general open-cover compactness, host cover selection, quotient Real equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-net coverage, exhaustion-stage compatibility, located interval matching, finite subcover witness coverage, transport, replay, provenance, and local naming for BEDC.Derived.ClosedBoundedIntervalFiniteSubcoverUp.}
+\end{closurestatus}

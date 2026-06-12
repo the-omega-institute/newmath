@@ -13,11 +13,13 @@ The positive consistency route is fixed by the handoff and route inventory. Appl
 
 It remains to exclude public escape routes. Theorem~\ref{thm:metacic-critical-path-obstruction-boundary} keeps the subject-reduction obstruction visible, while Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} restricts downstream consumers to the same displayed rows. Hence every public read is a read of the finite route certificate and not a read of an undisplayed theorem export.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPublicRouteCertificate}
 
 \begin{theorem}[MetaCIC critical-path obstruction scope separation]
 \label{thm:metacic-critical-path-obstruction-scope-separation}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the obstruction row $O$ remains a scoped subject-reduction boundary. The consistency row $N$, the closed-normalization route $S$, the handoff row $U$, route replay through $C$, componentwise transport through $H$, provenance through $P$, and local naming through $L$ cannot convert $O$ or the socket $D$ into closed subject reduction or full closed consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathObstructionScopeSeparation}
 \begin{proof}
 Read the obstruction row from the packet carrier. Theorem~\ref{thm:metacic-critical-path-obstruction-boundary} states that $O$ remains visible under the handoff row and componentwise transport, and that agreement on the other rows cannot erase the obstruction.
 
@@ -30,6 +32,7 @@ Finally use route exhaustion and obligation coverage. Theorem~\ref{thm:metacic-c
 \label{thm:metacic-critical-path-downstream-consumer-readiness}
 Downstream MetaCIC consumers may use an accepted $\MetaCICCriticalPathUp$ packet only as a finite public route certificate over $S,N,O,U,D,H,C,P,L$. They may cite it for carrier admission, closed-normalization readback, normal-form consistency handoff, obstruction visibility, decidability handoff, discharge-socket locality, route replay, transport stability, provenance, and local NameCert naming. They may not cite it as closed subject reduction, full normalization, internal consistency for MetaCIC, or a global decision procedure.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDownstreamConsumerReadiness}
 \begin{proof}
 Begin with the root-unblock surface. Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} already confines downstream consumers to the displayed packet rows and excludes host scheduler state, hidden route closures, closed subject reduction, and full consistency.
 

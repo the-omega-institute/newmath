@@ -52,15 +52,32 @@ Thus universal closure, axiom import, and host induction have no exported row in
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemGapSocketNonescape}
 
+\begin{theorem}[ClosedObservationSystem primitive scope]
+\label{thm:closed-observation-system-primitive-scope}
+For every accepted $\ClosedObservationSystemUp$ carrier
+$$
+Q=(O,R,G,H,C,P,N),
+$$
+the rows visible to a consumer are scoped by the primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together with the observation-conservation sibling of \autoref{ch:concrete-instances-observation-conservation-ledger-namecert}. The observation row $O$, record ledger $R$, information-conservation row $G$, transport row $H$, continuation row $C$, provenance row $P$, and local name row $N$ exhaust the primitive interface; no universal quantifier closure, substrate axiom, host induction rule, infinite observation tail, or future-record selector is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-observation-system-carrier}. Its only data rows are $O,R,G,H,C,P,N$, and the definition assigns these rows to finite $\BHist$ observation data, componentwise $\hsame$ transport, displayed $\Cont$ reads, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The conservation row $G$ is the single nonlocal dependency. It is read through the observation-conservation sibling named in the chapter introduction, so the order information remains an observation-ledger row rather than an ambient temporal law.
+
+Finally apply the GAP socket non-escape theorem, \autoref{thm:closed-observation-system-gap-socket-nonescape}. Any request outside $O,R,G,H,C,P,N$ reaches the boundary socket and is not reclassified as an accepted observation record. Thus the displayed primitive family is the full scope of the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemPrimitiveScope}
+
 \closureat{ClosedObservationSystemUp}{seedStr}
 
 \begin{closurestatus}{\ClosedObservationSystemUp}
   \constructivestory{A $\ClosedObservationSystemUp$ packet is generated from an observation-state row, a finite observation-record ledger, an information-conservation order row, a GAP socket, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closed-observation-system-carrier}, \autoref{thm:closed-observation-system-namecert-obligations}, and \autoref{thm:closed-observation-system-gap-socket-nonescape} name the finite carrier, local NameCert rows, and GAP non-escape boundary for closed observation.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:closed-observation-system-primitive-scope} scopes the finite carrier, local NameCert rows, GAP non-escape boundary, and observation-conservation sibling to BHist, hsame, Cont, Pkg, and NameCert primitives.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close universal quantifier closure, substrate axiom import, host induction, infinite observation tails, future-record selection, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, GAP-socket exactness, package provenance, and local naming for the same finite observation-ledger packet.}
+  \upgradepath{Public closure requires checked carrier admission, classifier stability, GAP-socket exactness, package provenance, and local naming for the same finite observation-ledger packet.}
 \end{closurestatus}

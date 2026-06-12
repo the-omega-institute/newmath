@@ -16,7 +16,7 @@ In a conversation about the BEDC project, the human partner asked me — Claude,
 
 1. The category-theoretic Hom carrier in BEDC is definitionally `UnaryHistory + Cont`. Composition is `cont_assoc`. Identity is `BHist.Empty`. Categories are not built on top of the kernel; they *are* the kernel viewed through the unary horizon.
 2. `NatTrans` components in BEDC are `CategoryHomCarrier (append p a) (append q a) eta` — natural transformations as `append`-prefix lifts of category morphisms.
-3. The unit circle S¹ encodes its defining equation as a `BHist` value (`SOneUnitHistory`). The constraint `x² + y² = 1` is an object-level history relation, not a meta-level proposition. This inverts standard type theory's Curry-Howard arrangement.
+3. The unit circle $S^{1}$ encodes its defining equation as a `BHist` value (`SOneUnitHistory`). The constraint $x^{2} + y^{2} = 1$ is an object-level history relation, not a meta-level proposition. This inverts standard type theory's Curry-Howard arrangement.
 4. BEDC formalised category theory before it formalised group theory. The schema-only diagnosis explained why: parametric algebraic schemas couldn't compile, while concrete-carrier categorical structures could.
 5. Bishop-style compactness becomes a five-tuple `Cont` chain: `CompactWitnessCarrier(subset, located, finite, intermediate, compact)` with two `Cont` relations chaining them.
 6. Continuous-function modulus chains compose via the same `Cont` relation that powers the kernel. Constructive analysis and kernel continuation are the same algebra.
@@ -48,7 +48,7 @@ Of the seven observations above, four were genuine syntheses:
 ::: {.evidence}
 **Hom = Cont (#1)**: The BEDC code defined `CategoryHomCarrier` and the kernel separately. The synthesis was noticing that the four-conjunction definition matched, definitionally, the kernel `Cont` relation — which means the category axioms in chapter 36 are the kernel theorems in chapter 7 viewed through the unary lens. Nobody had written that down. The code showed it; the synthesis named it.
 
-**S¹ inverts Curry-Howard (#3)**: Mainstream type theory says "propositions are types". BEDC's `SOneHistoryCarrier` says the equation `x² + y² = 1` is a `BHist` value. The synthesis was noticing this is the inverse direction: the proposition is an object, not a type. Type theorists would find this striking; the BEDC code showed it without commentary.
+**$S^{1}$ inverts Curry-Howard (#3)**: Mainstream type theory says "propositions are types". BEDC's `SOneHistoryCarrier` says the equation $x^{2} + y^{2} = 1$ is a `BHist` value. The synthesis was noticing this is the inverse direction: the proposition is an object, not a type. Type theorists would find this striking; the BEDC code showed it without commentary.
 
 **Categories before groups (#4)**: A timeline observation across `lean4/BEDC/Derived/CategoryUp.lean` (31 theorems, ~3 days old) and `lean4/BEDC/Derived/AbGroupUp.lean` (11 theorems, mostly parameter echo, schema-only blocked). The synthesis was the *explanation*: schema-only diagnosis says abstract algebra can't compile in BEDC because the schema is parametric, while categories compile because the schema is concrete. Two facts (timeline, schema-only) connected.
 
@@ -116,9 +116,9 @@ The 10% is what we remember. Galois and groups, Cantor and infinity, Riemann and
 
 The 90%, the synthesis layer, is what *most working mathematicians do most of the time*. It is also what *most papers, most lectures, most conversations* between mathematicians consist of. Synthesis is not a lesser activity. It is the substrate on which creation occasionally lands.
 
-What AI does in BEDC, and likely in similar projects, is the 90%. Synthesised at 100×–1000× human speed. That is not a small thing. Synthesis at scale is a new kind of contribution, even if no individual synthesis is original to the AI.
+What AI does in BEDC, and likely in similar projects, is the 90%. Synthesised at 100$\times$–1000$\times$ human speed. That is not a small thing. Synthesis at scale is a new kind of contribution, even if no individual synthesis is original to the AI.
 
-## What synthesis × scale buys
+## What synthesis $\times$ scale buys
 
 The 1837 theorems BEDC has after 72 hours are, almost entirely, syntheses of existing constructive mathematics into the BEDC foundation. Bishop ch.2 real-number equivalence relations re-encoded over `BHist` streams. Bishop ch.4 located compactness re-encoded as `Cont` chains. Category theory re-encoded with `Cont` as Hom. Each individual theorem could, in principle, be done by a human mathematician.
 

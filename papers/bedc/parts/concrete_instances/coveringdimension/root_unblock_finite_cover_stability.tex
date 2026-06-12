@@ -1,0 +1,38 @@
+\begin{theorem}[CoveringDimension cover refinement monotonicity]
+\label{thm:coveringdimension-cover-refinement-monotonicity}
+Let $D=(K,E,C,R,O,L,H,T,P,N)$ be an accepted $\CoveringDimensionUp$ carrier and let $C'$ be a displayed finite refinement row read from the same $\BHist$ packet through the finite cover order carrier of \autoref{def:coveringdimension-finite-cover-order-carrier}. If every member of $C'$ names a parent in $C$, every containment witness is a compact-cover or $\mathsf{MetricDistanceWitness}$ row transported by $H$, and the order table of $C'$ is bounded by the displayed order ledger $O$, then replacing $C$ by $C'$ is monotone for the local NameCert ledger: no accepted read can increase the exported finite cover order or escape the $\NameCert_{\CoveringDimensionUp}$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCoverRefinementMonotonicity}
+\begin{proof}
+Project the root carrier of \autoref{def:coveringdimension-root-cover-carrier} and the finite order carrier of \autoref{def:coveringdimension-finite-cover-order-carrier}. The only cover rows visible to a refinement consumer are the displayed $\BHist$ cover entries, their compact-metric source rows, and the metric containment witnesses.
+
+The refinement map names a parent for every refined member before the order table is read. Thus each overlap counted for $C'$ is already attached to a row counted by $O$, and componentwise $\hsame$ transport only replays the same containment witnesses.
+
+Finally apply the finite-cover order non-escape route of \autoref{thm:coveringdimension-finite-cover-order-nonescape}. Since there is no coordinate for a host refinement theorem, selected open subcover, or external multiplicity oracle, the refined cover preserves the displayed order bound and remains inside the local NameCert ledger.
+\end{proof}
+
+\begin{theorem}[CoveringDimension Lebesgue-ledger stability]
+\label{thm:coveringdimension-lebesgue-ledger-stability}
+For an accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$, suppose a finite cover read uses a compact-cover Lebesgue ledger row $L'$ whose positive-radius and containment entries are $\hsame$-transported from $L$ and whose compact-cover rows are read through $K,E,C,R$. Then the finite cover order exported by $O$ is stable under replacing $L$ by $L'$: the accepted read still factors through compact metric admission, finite cover order, displayed replay, $\Pkg$ provenance, and the same $\NameCert_{\CoveringDimensionUp}$ nonescape boundary.
+\end{theorem}
+\begin{proof}
+Start with the Lebesgue-ledger handoff of \autoref{thm:covering-dimension-lebesgue-ledger-handoff}. It places every compact-cover ledger read downstream of the compact-net root $K,E$ and the finite cover-refinement rows $C,R,O$.
+
+The transported ledger $L'$ has the same positive-radius and containment entries as $L$ under $H$. Therefore it can change only the presentation of the finite ledger row, not the compact metric source, the cover entries, the refinement parents, or the order table.
+
+Use \autoref{thm:coveringdimension-root-cover-namecert-obligations} to close the route. The structural rows $T,P,N$ replay, source, and name the same finite data, so the ledger replacement cannot add arbitrary open-cover compactness, a selected dense subfamily, or a host Lebesgue-number theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionLebesgueLedgerStability}
+
+\begin{theorem}[CoveringDimension metric completion cover transport]
+\label{thm:coveringdimension-metric-completion-cover-transport}
+Let an accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$ be read by a metric-completion consumer through the dependency route of \autoref{ch:concrete-instances-metriccompletion-namecert} and the separability route of \autoref{lem:covering-dimension-separability-cover-refinement-route}. If each completion-side cover member is backed by a source $\BHist$ cover row, a $\mathsf{MetricDistanceWitness}$ or compact-cover containment row, $\hsame$ transport, and the finite cover order ledger $O$, then completion transport preserves the CoveringDimension NameCert boundary: the consumer receives the same finite cover order and no quotient completion, selected limit, or external dimension predicate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier\_metric\_completion\_cover\_transport}
+\begin{proof}
+Read the compact-net refinement handoff of \autoref{thm:coveringdimension-compact-net-refinement-handoff}. It sends compact metric and metric rows into finite epsilon-net, cover, refinement, order, Real-separability, and nerve rows before the structural rows are consumed.
+
+Metric completion can observe the transported cover only through the source $\BHist$ rows and their metric or compact-cover containment witnesses. The $\hsame$ row keeps those witnesses aligned with the source packet, while $O$ remains the only finite order ledger.
+
+The dependency route through \autoref{ch:concrete-instances-metriccompletion-namecert} and the Real-separability children therefore transports a finite cover certificate, not an ambient completion theorem. Since the carrier lacks coordinates for quotient completions, selected limits, and external dimension predicates, the local $\NameCert_{\CoveringDimensionUp}$ ledger remains nonescaping.
+\end{proof}

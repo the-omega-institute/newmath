@@ -19,6 +19,7 @@ Thus exposure is a projection from the finite packet followed by route replay. S
 \label{thm:metacic-critical-path-normalization-consumer-handoff}
 Every normalization-facing consumer of an accepted $\MetaCICCriticalPathUp$ packet must read the closed normalization-frontier rows through $S$, then consume the normal-form row $N$ through the displayed $\Cont$ route $C$, with componentwise $\hsame$ transport $H$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ naming $L$ still attached. The handoff cannot bypass the consistency-facing refusal rows $O,D$ and cannot reinterpret the handoff row $U$ as a closed-consistency theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathNormalizationConsumerHandoff}
 \begin{proof}
 Begin with the consistency handoff and public route certificate. They place the normalization-facing read on the route from the closed normalization-frontier source row $S$ to the normal-form row $N$ and keep the route inside the displayed packet.
 
@@ -35,6 +36,7 @@ S,N,O,U,D,H,C,P,L.
 $$
 The closed normalization-frontier rows may route a consumer to the normal-form endpoint $N$, but the consistency-facing refusal rows $O,D$, together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, prevent the read from exporting closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient data over MetaCIC terms.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathConsistencyRefusalBoundary}
 \begin{proof}
 Read the consistency-facing surface from the packet carrier. The only available rows are the closed normalization-frontier source, normal-form endpoint, obstruction and discharge-socket refusal rows, handoff row, transport, replay, provenance, and local naming.
 
@@ -51,6 +53,7 @@ S,N,O,U,D,H,C,P,L.
 $$
 The frontier is total for the exported public route: closed normalization-frontier source data, the normal-form endpoint, obstruction rows, handoff rows, discharge socket, componentwise transport, displayed replay, provenance, and local naming are all visible, while closed subject reduction, full closed consistency, hidden scheduler state, and host reachability remain outside the exported surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathKernelFrontierTotality}
 \begin{proof}
 First project the carrier rows from \autoref{def:metacic-critical-path-packet}. The packet exposes only $S,N,O,U,D,H,C,P,L$, so every kernel-facing read starts from that finite inventory.
 
@@ -84,6 +87,7 @@ S,N,O,U,D,H,C,P,L.
 $$
 The socket row $D$ names the missing subject-reduction input as an exported frontier boundary, while the surrounding rows preserve and replay that boundary without supplying closed subject reduction, full closed consistency, hidden scheduler state, or host reachability.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDischargeSocketFrontierExhaustion}
 \begin{proof}
 Project the socket row from the carrier. The row $D$ is listed as a discharge-bundle socket in \autoref{def:metacic-critical-path-packet}, and the public route certificate of \autoref{thm:metacic-critical-path-kernel-frontier-exposure} keeps that row inside the same kernel-facing frontier.
 

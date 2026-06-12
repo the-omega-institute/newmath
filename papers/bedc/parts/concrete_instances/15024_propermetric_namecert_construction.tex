@@ -83,11 +83,13 @@ R_P(c,r)=\bigl(X,\ B(c,r),\ K(c,r),\ L(c,r),\ T(c,r),\ H,\ C,\ Q,\ N\bigr)
 $$
 indexed by the displayed center-radius windows of the carrier. A root row is accepted only when $B(c,r)$ is the $\MetricClosedBallUp$ row over the $\MetricUp$ source $X$, $K(c,r)$ is the paired $\CompactMetricUp$ witness, $L(c,r)$ is the paired $\LocatedCompactUp$ handoff, $T(c,r)$ is the paired $\CompleteMetricUp$ handoff, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows certify the componentwise route.
 \end{definition}
+\leandef{BEDC.Derived.ProperMetricUp.ProperMetricRadiusWindowRoot}
 
 \begin{theorem}[ProperMetric radius-window root soundness]
 \label{thm:proper-metric-radius-window-root-soundness}
 For every accepted $\ProperMetricUp$ packet $P=(X,B,K,L,T,H,C,Q,N)$ and every displayed radius-window row $(c,r)$, the root row $R_P(c,r)$ is a valid finite obligation surface for closed-ball properness. Its consumers may read the $\MetricUp$ source, the $\MetricClosedBallUp$ membership row, the $\CompactMetricUp$ witness, the $\LocatedCompactUp$ handoff, the $\CompleteMetricUp$ handoff, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and no other properness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_radius\_window\_root\_soundness}
 \begin{proof}
 Project the accepted carrier of \autoref{def:proper-metric-carrier}. The displayed window $(c,r)$ supplies $B(c,r)$, and the carrier pairs that row with $K(c,r)$, $L(c,r)$, and $T(c,r)$.
 
@@ -107,13 +109,86 @@ Use \autoref{thm:proper-metric-radius-window-root-soundness}. It identifies exac
 
 The carrier of \autoref{def:proper-metric-carrier} explicitly lacks open-cover compactness, host-selected centers, quotient equality, and ambient real-completeness coordinates. Since $Q$ and $N$ name only the same finite rows, none of the excluded principles can escape from the radius-window surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_radius\_window\_nonescape}
+
+\begin{theorem}[ProperMetric obligation carrier]
+\label{thm:propermetric-obligation-carrier}
+An obligation-complete $\ProperMetricUp$ carrier must display concrete rows over $\MetricSpaceUp$, $\MetricClosedBallUp$, $\LocatedCompactUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\RealUp$ and $\RatUp$ tolerance data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. The accepted row is exhausted by
+$$
+X,\quad B(c,r),\quad L(c,r),\quad K(c,r),\quad T(c,r),\quad H,\quad C,\quad Q,\quad N
+$$
+for displayed center-radius windows $(c,r)$, with every radius comparison read through the shown $\RealUp$ or $\RatUp$ tolerance rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proper-metric-carrier}. Its metric source is $X$, its closed-ball windows are $B(c,r)$, and its compact, located, and complete handoff rows are $K(c,r)$, $L(c,r)$, and $T(c,r)$.
+
+The tolerance boundary is finite because each window names its center and radius before the membership row is read. The $\RealUp$ and $\RatUp$ rows are therefore part of the displayed closed-ball request, not ambient scalar data.
+
+Finally read $H,C,Q,N$. These rows transport, replay, source, and name the same packet. No further carrier coordinate remains, so the obligation surface is exhausted by the listed rows.
+\end{proof}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_radius\_tolerance\_obligation\_surface}
+
+\begin{theorem}[ProperMetric obligation closed ball]
+\label{thm:propermetric-obligation-closed-ball}
+For every displayed center-radius window in an accepted $\ProperMetricUp$ packet, closed-ball compactness is an obligation route
+$$
+\MetricSpaceUp,\quad
+\MetricClosedBallUp,\quad
+\RealUp/\RatUp,\quad
+\CompactMetricUp,\quad
+\LocatedCompactUp,\quad
+\CompleteMetricUp,\quad
+\hsame,\quad
+\Cont,\quad
+\Pkg,\quad
+\NameCert .
+$$
+The route first reads the $\MetricClosedBallUp$ membership row over $\MetricSpaceUp$ and the shown $\RealUp$ or $\RatUp$ radius tolerance, then reads the paired $\CompactMetricUp$ witness, $\LocatedCompactUp$ handoff, and $\CompleteMetricUp$ handoff under the same componentwise $\hsame$ and $\Cont$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricObligationClosedBall}
+\begin{proof}
+Fix a displayed window $(c,r)$. The metric row $X$ supplies distance comparisons, while $B(c,r)$ supplies the closed-ball membership comparison tied to the displayed radius row.
+
+Read the compact witness $K(c,r)$ and the located compact row $L(c,r)$ from the same window. The complete-metric handoff $T(c,r)$ is then attached to that compact witness rather than to a separate ambient completion principle.
+
+The structural rows $H,C,Q,N$ keep the read componentwise: transport moves the same rows, replay follows the same closed-ball route, provenance names the same sibling packets, and the local NameCert row closes the route. This proves the closed-ball obligation by finite route exhaustion.
+\end{proof}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_obligation\_closed\_ball}
+
+\begin{theorem}[ProperMetric obligation local compactness]
+\label{thm:propermetric-obligation-local-compactness}
+Every local-compactness consumer of an accepted $\ProperMetricUp$ packet must factor through a displayed closed-ball window and the rows
+$$
+\MetricSpaceUp,\quad
+\MetricClosedBallUp,\quad
+\LocatedCompactUp,\quad
+\CompactMetricUp,\quad
+\CompleteMetricUp,\quad
+\RealUp/\RatUp,\quad
+\hsame,\quad
+\Cont,\quad
+\Pkg,\quad
+\NameCert .
+$$
+Thus local compactness is available only as a finite neighborhood-to-closed-ball handoff over displayed tolerance rows, not as open-cover compactness, arbitrary properness, selected centers, quotient point equality, or ambient real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_obligation\_local\_compactness}
+\begin{proof}
+Start with a local-compactness request. The request must choose one of the displayed center-radius windows already present in the carrier; otherwise there is no closed-ball row to inspect.
+
+For that window, use \autoref{thm:propermetric-obligation-closed-ball}. It supplies the metric source, closed-ball membership row, radius tolerance row, compact witness, located compact handoff, complete-metric handoff, and the structural transport and replay rows.
+
+The provenance and local naming rows $Q,N$ then close the consumer-facing packet. Since the carrier contains no row for arbitrary neighborhoods, open covers, selected centers, quotient equality, or ambient real completeness, the local-compactness obligation is exactly the displayed closed-ball route.
+\end{proof}
+
+\closureat{ProperMetricUp}{scopedStr}
 
 \begin{closurestatus}{\ProperMetricUp}
   \constructivestory{The construction starts from a certified metric carrier, attaches finite center-radius closed-ball rows, pairs each displayed ball with a compact-metric witness, and routes located compactness and complete-metric consumers through the same displayed transport and continuation ledgers.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:proper-metric-carrier}, \autoref{thm:proper-metric-namecert-obligations}, \autoref{thm:proper-metric-closed-ball-compactness}, \autoref{thm:proper-metric-complete-located-handoff}, \autoref{def:proper-metric-radius-window-root}, \autoref{thm:proper-metric-radius-window-root-soundness}, and \autoref{thm:proper-metric-radius-window-nonescape} seed the constructive proper-metric interface as displayed closed-ball compact witnesses with finite radius-window root rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:proper-metric-carrier}, \autoref{thm:proper-metric-namecert-obligations}, \autoref{thm:proper-metric-closed-ball-compactness}, \autoref{thm:proper-metric-complete-located-handoff}, \autoref{def:proper-metric-radius-window-root}, \autoref{thm:proper-metric-radius-window-root-soundness}, \autoref{thm:proper-metric-radius-window-nonescape}, \autoref{thm:propermetric-obligation-carrier}, \autoref{thm:propermetric-obligation-closed-ball}, and \autoref{thm:propermetric-obligation-local-compactness} close the proper-metric scope over $\MetricSpaceUp$, $\MetricClosedBallUp$, $\CompactMetricUp$, $\LocatedCompactUp$, $\CompleteMetricUp$, displayed $\RealUp/\RatUp$ tolerance rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{General Heine--Borel compactness, open-cover compactness, arbitrary properness beyond the displayed closed-ball compact witnesses, host-selected centers, quotient equality, and ambient real completeness are not claimed.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite radius-window indexing, closed-ball compact witness projection, located compact handoff, complete-metric handoff, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.ProperMetricUp.}
+  \upgradepath{Public closure requires a public export surface for closed-ball compactness and local compactness consumers, with checked carrier admission, radius-window indexing, compact witness projection, located and complete handoffs, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.ProperMetricUp.}
 \end{closurestatus}

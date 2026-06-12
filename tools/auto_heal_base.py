@@ -37,6 +37,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -57,11 +58,58 @@ def _mirror_branch_default() -> str:
     return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
 
 
+def _upstream_branch_default() -> str:
+    """Mirror tools/sync_with_auto_dev.py BEDC_ROLLUP_TARGET_BRANCH topology.
+
+    Keep this fallback chain synchronized with sync when the rollup topology
+    changes.
+    """
+    rollup_target = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH")
+    if rollup_target is not None:
+        return rollup_target
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+
+
 BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+UPSTREAM_BRANCH = _upstream_branch_default()
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
+CI_HEAL_CODEX_TIMEOUT = int(os.environ.get("AUTO_HEAL_CODEX_TIMEOUT_SECONDS", "3600"))
+CI_POLL_FALLBACK = os.environ.get("AUTO_HEAL_CI_POLL_FALLBACK", "0") == "1"
+
+
+def _branch_slug(branch: str) -> str:
+    slug = branch.strip().removeprefix("origin/")
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "-", slug)
+    slug = re.sub(r"-+", "-", slug).strip("-._")
+    return slug.lower() or "branch"
+
+
+def _rollup_branch_name(source: str, target: str) -> str:
+    """同构于 tools/sync_with_auto_dev.py 的 _rollup_branch_name；拓扑改变时两处同步。"""
+    return f"rollup-{_branch_slug(source)}-to-{_branch_slug(target)}"
+
+
+def _ci_detection_branches() -> list[str]:
+    """Return ordered branches whose GitHub Actions runs observe BASE health."""
+    family = [
+        _rollup_branch_name(BASE_BRANCH, UPSTREAM_BRANCH),
+        UPSTREAM_BRANCH,
+        BASE_BRANCH,
+        MIRROR_BRANCH,
+    ]
+    out: list[str] = []
+    seen: set[str] = set()
+    for branch in family:
+        if branch and branch not in seen:
+            seen.add(branch)
+            out.append(branch)
+    return out
+
+
+def _ci_heal_target_branch() -> str:
+    return BASE_BRANCH
 
 _HEAL_VERIFY_FOOTER = """
 
@@ -266,11 +314,27 @@ def _seed_heal_lake_cache() -> None:
 
 
 def ensure_heal_worktree() -> bool:
-    """Ensure the dedicated detached heal worktree exists."""
+    """Ensure the dedicated detached heal worktree exists.
+
+    Self-heals a stale orphan HEAL_WT: if the path exists but is not a
+    valid worktree (leftover from an interrupted `worktree add` or a
+    manual `.git` removal), `git worktree add` fails every cycle with
+    `'<path>' already exists` and auto_heal heals nothing (observed
+    2026-06-10: every tick failing for hours). Force-remove the orphan and
+    prune before re-adding."""
     if (HEAL_WT / ".git").exists():
         _seed_heal_lake_cache()
         return True
     try:
+        if HEAL_WT.exists():
+            run(["git", "worktree", "remove", "--force", str(HEAL_WT)],
+                cwd=REPO_ROOT, check=False, capture=True, timeout=60)
+            if HEAL_WT.exists():
+                shutil.rmtree(HEAL_WT, ignore_errors=True)
+            run(["git", "worktree", "prune"],
+                cwd=REPO_ROOT, check=False, capture=True, timeout=60)
+            print(f"[heal] cleared stale orphan heal worktree {HEAL_WT}",
+                  flush=True)
         HEAL_WT.parent.mkdir(parents=True, exist_ok=True)
         fetch = run(["git", "fetch", "origin", BASE_BRANCH],
                     cwd=REPO_ROOT, check=False, capture=True, timeout=120)
@@ -374,6 +438,65 @@ def _tail_text(text: str, limit: int = 500) -> str:
     return text[-limit:] if len(text) > limit else text
 
 
+def _focused_ci_log(log: str, *, tail_limit: int = 16000) -> str:
+    """Keep failure-bearing log windows, not only the physical tail.
+
+    `gh run view --log-failed` often concatenates the real failing step with a
+    final gate-summary job. A plain tail can bias toward the gate summary and
+    drop the root cause. This keeps windows around semantic failure lines and
+    appends the final tail for workflow context.
+    """
+    if len(log) <= tail_limit:
+        return log
+    lines = log.splitlines()
+    needles = (
+        "##[error]",
+        "Fatal error",
+        "Missing $",
+        "Extra }, or forgotten",
+        "Runaway argument",
+        "Undefined control sequence",
+        "LaTeX Error:",
+        "already declared",
+        "duplicate declaration",
+        "unknown identifier",
+        "type mismatch",
+        "axiom-purity FAIL",
+        "propext",
+        "Classical.choice",
+        "Quot.sound",
+        "DUPLICATE",
+        "does not resolve under lean4/BEDC",
+        "STALE MARKER",
+    )
+    selected: list[str] = []
+    seen: set[int] = set()
+    for index, line in enumerate(lines):
+        if not any(needle in line for needle in needles):
+            continue
+        start = max(0, index - 12)
+        end = min(len(lines), index + 20)
+        for j in range(start, end):
+            if j in seen:
+                continue
+            seen.add(j)
+            selected.append(lines[j])
+        selected.append("")
+    tail = "\n".join(lines)[-tail_limit:]
+    if not selected:
+        return tail
+    focused = "\n".join(selected).strip()
+    focused_budget = max(8000, tail_limit)
+    if len(focused) > focused_budget:
+        half = focused_budget // 2
+        focused = (
+            focused[:half]
+            + "\n\n--- focused log middle truncated ---\n\n"
+            + focused[-half:]
+        )
+    return focused + "\n\n--- log tail ---\n" + tail
+
+
 def verify_local_ci() -> tuple[bool, str | None]:
     """Run quick local CI suite before pushing a heal commit.
 
@@ -436,6 +559,47 @@ def verify_local_ci() -> tuple[bool, str | None]:
         ok2, err2 = _run_check(name, cmd, cwd, timeout)
         if not ok2:
             return False, err2
+    return True, None
+
+
+def _run_verification_check(
+    name: str,
+    cmd: list[str],
+    cwd: Path,
+    timeout: int,
+) -> tuple[bool, str | None]:
+    print(f"[heal] verify_ci_heal: running {name}", flush=True)
+    try:
+        res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        stdout = exc.stdout or ""
+        stderr = exc.stderr or ""
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode("utf-8", errors="ignore")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode("utf-8", errors="ignore")
+        return False, f"{name} timed out after {timeout}s\n{_tail_text(stdout + stderr, 2000)}"
+    except Exception as exc:
+        return False, f"{name} failed to run: {exc}"
+    if res.returncode != 0:
+        return False, f"{name} failed rc={res.returncode}\n{_tail_text((res.stdout or '') + (res.stderr or ''), 2000)}"
+    return True, None
+
+
+def verify_ci_heal(log_tail: str) -> tuple[bool, str | None]:
+    """Verify a CI-heal commit against both baseline and log-specific gates."""
+    ok, err = verify_local_ci()
+    if not ok:
+        return ok, err
+    seen: set[tuple[str, tuple[str, ...], Path]] = set()
+    for name, cmd, cwd, timeout in _targeted_verify_for_ci_log(log_tail):
+        key = (name, tuple(cmd), cwd)
+        if key in seen:
+            continue
+        seen.add(key)
+        ok, err = _run_verification_check(name, cmd, cwd, timeout)
+        if not ok:
+            return ok, err
     return True, None
 
 
@@ -504,6 +668,10 @@ def _with_fix_signature(prompt: str, signature: str) -> str:
 def _ci_fix_signature(log_tail: str, failure: dict) -> str:
     patterns = [
         (
+            r"((?:papers/bedc/)?[^:\s]+\.tex):(\d+):\s*(?:Missing \$|Extra \}|Extra }, or forgotten|Runaway argument|LaTeX Error:)",
+            "tex line",
+        ),
+        (
             r"\\leantarget\s+'([^']+)'\s+does not resolve under lean4/BEDC/",
             "closurestatus target",
         ),
@@ -519,6 +687,8 @@ def _ci_fix_signature(log_tail: str, failure: dict) -> str:
         m = re.search(pattern, log_tail, re.IGNORECASE)
         if not m:
             continue
+        if prefix == "tex line" and len(m.groups()) >= 2:
+            return f"CI heal {prefix} {m.group(1)}:{m.group(2)}"
         if prefix == "axiom leak" and len(m.groups()) >= 2:
             return f"CI heal {prefix} {m.group(1)} {m.group(2)}"
         return f"CI heal {prefix} {m.group(1)}"
@@ -526,12 +696,622 @@ def _ci_fix_signature(log_tail: str, failure: dict) -> str:
     return f"CI heal {failure.get('workflow', '?')} {fallback}"
 
 
-def verify_then_push(phase: str, target_branch: str | None = None) -> bool:
+@dataclass(frozen=True)
+class CiLogDefect:
+    kind: str
+    value: str
+    file: str = ""
+    line: int | None = None
+
+
+LEAN_MARKER_MACROS = ("leanchecked", "leanvariant", "leansorryd", "leanstmt", "leandef", "leantarget")
+
+
+def _dedupe_ci_defects(defects: list[CiLogDefect]) -> list[CiLogDefect]:
+    out: list[CiLogDefect] = []
+    seen: set[CiLogDefect] = set()
+    for defect in defects:
+        if defect in seen:
+            continue
+        seen.add(defect)
+        out.append(defect)
+    return out
+
+
+def _extract_noisy_red_defects(log_tail: str) -> list[CiLogDefect]:
+    """Best-effort extraction of log-named defects with cheap tree checks."""
+    defects: list[CiLogDefect] = []
+    tex_path = r"((?:papers/bedc/)?[^:\s]+\.tex)"
+    lean_target = r"([A-Za-z_][A-Za-z0-9_'.]*(?:\\_[A-Za-z0-9_'.]+)*)"
+
+    for m in re.finditer(
+        tex_path + rf":(\d+).*?\\leantarget\s+'([^']+)'\s+does not resolve under lean4/BEDC/",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+    for m in re.finditer(
+        tex_path + rf":(\d+).*?\\(?:{'|'.join(LEAN_MARKER_MACROS)})\{{({lean_target})\}}.*?"
+        r"does not resolve",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+    for m in re.finditer(r"^\s*" + tex_path + rf":(\d+)\s+\\[A-Za-z]+\s+->\s+({lean_target})\s*$",
+                         log_tail, flags=re.MULTILINE):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+
+    for m in re.finditer(r"duplicate paper labels?:\s*(?:\d+)?", log_tail, flags=re.IGNORECASE):
+        tail = log_tail[m.end():m.end() + 4000]
+        for lm in re.finditer(r"^\s*([A-Za-z]+:[A-Za-z0-9_.:-]+)\s+@", tail, flags=re.MULTILINE):
+            defects.append(CiLogDefect("duplicate_label", lm.group(1)))
+    for m in re.finditer(r"duplicate paper label\s+([A-Za-z]+:[A-Za-z0-9_.:-]+)", log_tail, flags=re.IGNORECASE):
+        defects.append(CiLogDefect("duplicate_label", m.group(1)))
+
+    for m in re.finditer(r"Undefined control sequence\.\s*(?:.*\n){0,4}?.*?(\\[A-Za-z@]+)", log_tail):
+        defects.append(CiLogDefect("undefined_macro", m.group(1)))
+
+    for m in re.finditer(
+        tex_path + r":(\d+)\s+\(region [^)]+\):\s+(.+)",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("closurestatus_issue", m.group(3).strip(), m.group(1), int(m.group(2))))
+
+    for m in re.finditer(
+        tex_path + r":(\d+):\s*(?:Missing \$|Extra \}|Extra }, or forgotten|Runaway argument|LaTeX Error:)",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("tex_line_issue", m.group(0).strip(), m.group(1), int(m.group(2))))
+    for m in re.finditer(
+        r"l\.(\d+)\s+(.+?)(?=\n|$).*?(Missing \$|Extra \}|Extra }, or forgotten)",
+        log_tail,
+        flags=re.DOTALL,
+    ):
+        snippet = " ".join(m.group(2).strip().split())
+        defects.append(CiLogDefect("tex_line_issue", snippet, line=int(m.group(1))))
+
+    return _dedupe_ci_defects(defects)
+
+
+def _line_has_unescaped_underscore(line: str) -> bool:
+    escaped = False
+    for char in line:
+        if escaped:
+            escaped = False
+            continue
+        if char == "\\":
+            escaped = True
+            continue
+        if char == "_":
+            return True
+    return False
+
+
+def _ci_log_is_pdf_failure(log_tail: str) -> bool:
+    needles = (
+        "Build main.pdf",
+        "pdflatex",
+        ".tex:",
+        "Missing $ inserted",
+        "Extra }, or forgotten",
+        "Undefined control sequence",
+        "LaTeX Error:",
+        "Fatal error occurred, no output PDF file produced",
+    )
+    return any(needle in log_tail for needle in needles)
+
+
+def _targeted_verify_for_ci_log(log_tail: str) -> list[tuple[str, list[str], Path, int]]:
+    checks: list[tuple[str, list[str], Path, int]] = []
+    if _ci_log_is_pdf_failure(log_tail):
+        checks.append(("papers/bedc make", ["make"], HEAL_WT / "papers" / "bedc", 1800))
+    if any(
+        needle in log_tail
+        for needle in (
+            "lake build",
+            "unknown identifier",
+            "type mismatch",
+            "already declared",
+            "duplicate declaration",
+        )
+    ):
+        checks.append(("lean4 lake build", ["lake", "build"], HEAL_WT / "lean4", 900))
+    if any(
+        needle in log_tail
+        for needle in (
+            "does not resolve under lean4/BEDC",
+            "unresolved Lean marker",
+            "STALE MARKER",
+            "duplicate paper labels",
+            "closurestatus",
+        )
+    ):
+        checks.append(("bedc_ci audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], HEAL_WT, 600))
+    if any(needle in log_tail for needle in ("axiom-purity", "propext", "Classical.choice", "Quot.sound")):
+        checks.append(
+            (
+                "bedc_ci axiom-purity --strict",
+                ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
+                HEAL_WT,
+                900,
+            )
+        )
+    return checks
+
+
+def _rel_tex_path(path: str) -> Path | None:
+    raw = path.strip()
+    if not raw:
+        return None
+    p = Path(raw)
+    if p.is_absolute():
+        try:
+            return p.relative_to(HEAL_WT)
+        except ValueError:
+            return None
+    if raw.startswith("papers/bedc/"):
+        return p
+    if raw.startswith("parts/"):
+        return Path("papers/bedc") / p
+    return p
+
+
+def _read_current_text(rel_path: Path) -> str:
+    try:
+        return (HEAL_WT / rel_path).read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return ""
+
+
+def _iter_current_tex_files() -> list[Path]:
+    root = HEAL_WT / "papers" / "bedc"
+    if not root.exists():
+        return []
+    return [
+        path.relative_to(HEAL_WT)
+        for path in root.rglob("*.tex")
+        if path.is_file()
+    ]
+
+
+def _iter_current_lean_files() -> list[Path]:
+    root = HEAL_WT / "lean4" / "BEDC"
+    if not root.exists():
+        return []
+    return [
+        path.relative_to(HEAL_WT)
+        for path in root.rglob("*.lean")
+        if path.is_file()
+    ]
+
+
+def _lean_target_variants(target: str) -> set[str]:
+    raw = target.strip()
+    return {raw, raw.replace(r"\_", "_")}
+
+
+def _declared_lean_symbols_current() -> set[str]:
+    symbols: set[str] = set()
+    decl_re = re.compile(
+        r"^\s*(?:noncomputable\s+)?(?:private\s+|protected\s+)?"
+        r"(?:theorem|lemma|def|inductive|structure|class|instance)\s+"
+        r"([A-Za-z_][A-Za-z0-9_'.]*)"
+    )
+    namespace_re = re.compile(r"^\s*namespace\s+([A-Za-z_][A-Za-z0-9_'.]*)")
+    end_re = re.compile(r"^\s*end(?:\s+([A-Za-z_][A-Za-z0-9_'.]*))?\s*$")
+    for rel in _iter_current_lean_files():
+        stack: list[str] = []
+        for raw_line in _read_current_text(rel).splitlines():
+            line = raw_line.split("--", 1)[0].strip()
+            if not line:
+                continue
+            ns = namespace_re.match(line)
+            if ns:
+                stack.extend(part for part in ns.group(1).split(".") if part)
+                continue
+            end = end_re.match(line)
+            if end:
+                name = end.group(1)
+                if name:
+                    parts = [part for part in name.split(".") if part]
+                    if parts and stack[-len(parts):] == parts:
+                        del stack[-len(parts):]
+                    elif stack:
+                        stack.pop()
+                elif stack:
+                    stack.pop()
+                continue
+            decl = decl_re.match(line)
+            if not decl:
+                continue
+            name = decl.group(1)
+            symbols.add(name)
+            if "." in name:
+                symbols.add(name)
+            elif stack:
+                symbols.add(".".join([*stack, name]))
+    return symbols
+
+
+def _lean_target_exists_current(target: str) -> bool:
+    names = _lean_target_variants(target)
+    return bool(names & _declared_lean_symbols_current())
+
+
+def _paper_marker_present_current(target: str, rel_path: Path | None = None) -> bool:
+    targets = _lean_target_variants(target)
+    files = [rel_path] if rel_path else _iter_current_tex_files()
+    macro_alt = "|".join(re.escape(m) for m in LEAN_MARKER_MACROS)
+    for rel in files:
+        if rel is None:
+            continue
+        text = _read_current_text(rel)
+        if not text:
+            continue
+        for t in targets:
+            if re.search(rf"\\(?:{macro_alt})\{{{re.escape(t)}\}}", text):
+                return True
+    return False
+
+
+def _duplicate_label_still_present(label: str) -> bool:
+    count = 0
+    pattern = re.compile(rf"\\label\{{{re.escape(label)}\}}")
+    for rel in _iter_current_tex_files():
+        count += len(pattern.findall(_read_current_text(rel)))
+        if count >= 2:
+            return True
+    return False
+
+
+def _macro_defined_current(macro: str) -> bool:
+    name = re.escape(macro.lstrip("\\"))
+    patterns = [
+        rf"\\(?:newcommand|renewcommand|providecommand|DeclareRobustCommand)\s*\{{\\{name}\}}",
+        rf"\\(?:newcommand|renewcommand|providecommand|DeclareRobustCommand)\s*\\{name}\b",
+        rf"\\def\\{name}\b",
+    ]
+    for rel in _preamble_closure_files_current():
+        text = _read_current_text(rel)
+        if any(re.search(pattern, text) for pattern in patterns):
+            return True
+    return False
+
+
+def _preamble_closure_files_current() -> list[Path]:
+    root = Path("papers/bedc")
+    seen: set[Path] = set()
+    out: list[Path] = []
+
+    def visit(rel: Path) -> None:
+        if rel in seen:
+            return
+        seen.add(rel)
+        if not (HEAL_WT / rel).exists():
+            return
+        out.append(rel)
+        text = _read_current_text(rel)
+        for m in re.finditer(r"\\(?:input|include)\s*\{([^}]+)\}", text):
+            raw = m.group(1).strip()
+            if not raw:
+                continue
+            child = Path(raw)
+            if not child.suffix:
+                child = child.with_suffix(".tex")
+            if child.is_absolute():
+                try:
+                    child_rel = child.relative_to(HEAL_WT)
+                except ValueError:
+                    continue
+            elif str(child).startswith("papers/bedc/"):
+                child_rel = child
+            else:
+                child_rel = root / child
+            visit(child_rel)
+
+    visit(root / "preamble.tex")
+    return out
+
+
+def _macro_referenced_current(macro: str) -> bool:
+    pattern = re.compile(re.escape(macro) + r"\b")
+    for rel in _iter_current_tex_files():
+        if pattern.search(_read_current_text(rel)):
+            return True
+    return False
+
+
+def _line_text_current(rel_path: Path | None, line: int | None) -> str:
+    if rel_path is None or line is None:
+        return ""
+    text = _read_current_text(rel_path)
+    if not text:
+        return ""
+    lines = text.splitlines()
+    if line < 1 or line > len(lines):
+        return ""
+    return lines[line - 1].strip()
+
+
+def _defect_still_present(defect: CiLogDefect) -> bool:
+    rel_path = _rel_tex_path(defect.file) if defect.file else None
+    if defect.kind == "unresolved_lean_marker":
+        return (
+            _paper_marker_present_current(defect.value, rel_path)
+            and not _lean_target_exists_current(defect.value)
+        )
+    if defect.kind == "duplicate_label":
+        return _duplicate_label_still_present(defect.value)
+    if defect.kind == "undefined_macro":
+        return _macro_referenced_current(defect.value) and not _macro_defined_current(defect.value)
+    if defect.kind == "closurestatus_issue":
+        line = _line_text_current(rel_path, defect.line)
+        if "\\leantarget" in defect.value:
+            target = re.search(r"\\leantarget '([^']+)'", defect.value)
+            if target:
+                return (
+                    _paper_marker_present_current(target.group(1), rel_path)
+                    and not _lean_target_exists_current(target.group(1))
+                )
+        return bool(line)
+    if defect.kind == "tex_line_issue":
+        if rel_path is None or defect.line is None:
+            # A line-only TeX diagnostic is checkable only when the snippet still
+            # appears somewhere in the current paper tree.
+            snippet = defect.value.strip()
+            if "_" in snippet:
+                return any(
+                    snippet in _read_current_text(rel)
+                    for rel in _iter_current_tex_files()
+                )
+            return bool(snippet and any(snippet in _read_current_text(rel) for rel in _iter_current_tex_files()))
+        line = _line_text_current(rel_path, defect.line)
+        if not line:
+            return False
+        if "\\lean" in line and "{" in line:
+            return _line_has_unescaped_underscore(line)
+        if "_" in defect.value:
+            return _line_has_unescaped_underscore(line)
+        return bool(line)
+    return True
+
+
+def _ci_failure_is_noisy_red(log_tail: str) -> tuple[bool, list[CiLogDefect]]:
+    defects = _extract_noisy_red_defects(log_tail)
+    if not defects:
+        return False, []
+    still_present = [defect for defect in defects if _defect_still_present(defect)]
+    return not still_present, defects
+
+
+def run_noisy_red_self_test() -> int:
+    global HEAL_WT
+    old_heal_wt = HEAL_WT
+    try:
+        with tempfile.TemporaryDirectory(prefix="bedc-noisy-red-test-") as td:
+            HEAL_WT = Path(td)
+            (HEAL_WT / "papers" / "bedc" / "parts").mkdir(parents=True)
+            (HEAL_WT / "lean4" / "BEDC").mkdir(parents=True)
+            tex = HEAL_WT / "papers" / "bedc" / "parts" / "sample.tex"
+            tex.write_text(
+                "\\begin{closurestatus}{FooUp}\n"
+                "\\leantarget{BEDC.Missing.Target}\n"
+                "\\leanchecked{BEDC.Marker.bad_name}\n"
+                "\\end{closurestatus}\n",
+                encoding="utf-8",
+            )
+            (HEAL_WT / "lean4" / "BEDC" / "Sample.lean").write_text(
+                "namespace BEDC\n"
+                "theorem ExistingTarget : True := True.intro\n"
+                "end BEDC\n",
+                encoding="utf-8",
+            )
+
+            gone_log = (
+                "papers/bedc/parts/sample.tex:2 (region FooUp): "
+                "\\leantarget 'BEDC.Gone.Target' does not resolve under lean4/BEDC/\n"
+            )
+            present_log = (
+                "papers/bedc/parts/sample.tex:2 (region FooUp): "
+                "\\leantarget 'BEDC.Missing.Target' does not resolve under lean4/BEDC/\n"
+            )
+            bare_marker_log = (
+                "papers/bedc/parts/sample.tex:3: Missing $ inserted.\n"
+                "l.3 ...\\leanchecked{BEDC.Marker.bad_name}\n"
+            )
+            unknown_log = "fatal: runner exited before writing a structured diagnostic\n"
+
+            cases = [
+                ("gone", True, gone_log),
+                ("present", False, present_log),
+                ("bare-marker-present", False, bare_marker_log),
+                ("unknown", False, unknown_log),
+            ]
+            ok = True
+            for name, expected, log in cases:
+                actual, defects = _ci_failure_is_noisy_red(log)
+                print(
+                    f"[heal] noisy-red self-test {name}: got {actual} "
+                    f"with {len(defects)} defect(s)",
+                    file=sys.stderr,
+                )
+                if actual != expected:
+                    ok = False
+            tex.write_text(
+                "\\begin{closurestatus}{FooUp}\n"
+                "\\leantarget{BEDC.Missing.Target}\n"
+                "\\leanchecked{BEDC.Marker.bad\\_name}\n"
+                "\\end{closurestatus}\n",
+                encoding="utf-8",
+            )
+            actual, defects = _ci_failure_is_noisy_red(bare_marker_log)
+            print(
+                f"[heal] noisy-red self-test bare-marker-fixed: got {actual} "
+                f"with {len(defects)} defect(s)",
+                file=sys.stderr,
+            )
+            if actual is not True:
+                ok = False
+            return 0 if ok else 1
+    finally:
+        HEAL_WT = old_heal_wt
+
+
+def run_ci_log_focus_self_test() -> int:
+    root_cause = (
+        "Build main.pdf\tBuild main.pdf\t"
+        "./parts/concrete_instances/sample.tex:27: Missing $ inserted.\n"
+        "Build main.pdf\tBuild main.pdf\t"
+        "l.27 ...\\leanchecked{BEDC.Marker.bad_name}\n"
+    )
+    gate_tail = "\n".join(
+        f"gate-summary\tline-{i}\tworkflow bookkeeping only"
+        for i in range(3000)
+    )
+    focused = _focused_ci_log(root_cause + gate_tail, tail_limit=4000)
+    checks = _targeted_verify_for_ci_log(focused)
+    has_root_cause = "sample.tex:27: Missing $ inserted" in focused
+    has_pdf_make = any(name == "papers/bedc make" and cmd == ["make"] for name, cmd, _cwd, _timeout in checks)
+    print(
+        f"[heal] CI log focus self-test: root_cause={has_root_cause} "
+        f"pdf_make={has_pdf_make}",
+        file=sys.stderr,
+    )
+    return 0 if has_root_cause and has_pdf_make else 1
+
+
+def run_ci_watch_callback_self_test() -> int:
+    global CI_HEAL_CACHE, CI_WATCH_CACHE, HEAL_WT
+    old_heal_cache = CI_HEAL_CACHE
+    old_cache = CI_WATCH_CACHE
+    old_heal_wt = HEAL_WT
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            CI_HEAL_CACHE = root / "seen.json"
+            CI_WATCH_CACHE = root / "watchers.json"
+            HEAL_WT = root
+            run_id = 123456
+            _write_ci_watchers({
+                str(run_id): {
+                    "run_id": run_id,
+                    "workflow": "BEDC Build",
+                    "name": "BEDC Build",
+                    "branch": _ci_heal_target_branch(),
+                    "head_sha": "abc123",
+                    "url": "https://example.invalid/run",
+                    "pid": 0,
+                }
+            })
+            calls: list[tuple[str, int]] = []
+            old_run_view = globals()["_run_view_failure"]
+            old_heal = globals()["heal_ci_failure"]
+            old_verify = globals()["verify_then_push"]
+
+            def fake_run_view(seen_run_id: int, fallback: dict) -> dict:
+                calls.append(("view", seen_run_id))
+                return {
+                    "run_id": seen_run_id,
+                    "workflow": fallback.get("workflow", ""),
+                    "name": fallback.get("name", ""),
+                    "created_at": "",
+                    "branch": fallback.get("branch", _ci_heal_target_branch()),
+                    "head_sha": fallback.get("head_sha", ""),
+                    "url": fallback.get("url", ""),
+                }
+
+            def fake_heal(failure: dict) -> str:
+                calls.append(("heal", int(failure["run_id"])))
+                return "Build main.pdf\tBuild main.pdf\tMissing $ inserted"
+
+            def fake_verify(_phase: str, *, target_branch: str | None = None, ci_log_tail: str | None = None) -> bool:
+                calls.append(("verify", run_id))
+                return target_branch == _ci_heal_target_branch() and bool(ci_log_tail)
+
+            globals()["_run_view_failure"] = fake_run_view
+            globals()["heal_ci_failure"] = fake_heal
+            globals()["verify_then_push"] = fake_verify
+            try:
+                handled = process_ci_watch_callbacks()
+            finally:
+                globals()["_run_view_failure"] = old_run_view
+                globals()["heal_ci_failure"] = old_heal
+                globals()["verify_then_push"] = old_verify
+            remaining = _read_ci_watchers()
+            ok = handled and not remaining and calls == [
+                ("view", run_id),
+                ("heal", run_id),
+                ("verify", run_id),
+            ]
+            print(
+                f"[heal] CI watch callback self-test: handled={handled} "
+                f"remaining={len(remaining)} calls={calls}",
+                file=sys.stderr,
+            )
+            return 0 if ok else 1
+    finally:
+        CI_HEAL_CACHE = old_heal_cache
+        CI_WATCH_CACHE = old_cache
+        HEAL_WT = old_heal_wt
+
+
+def run_rollup_ci_topology_self_test() -> int:
+    global BASE_BRANCH, UPSTREAM_BRANCH, MIRROR_BRANCH, CI_WATCH_CACHE, CI_WATCH_LOG_DIR
+    old_base = BASE_BRANCH
+    old_upstream = UPSTREAM_BRANCH
+    old_mirror = MIRROR_BRANCH
+    old_watch_cache = CI_WATCH_CACHE
+    old_watch_log_dir = CI_WATCH_LOG_DIR
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            BASE_BRANCH = "codex-auto-dev"
+            UPSTREAM_BRANCH = "release-target"
+            MIRROR_BRANCH = "auto-dev"
+            CI_WATCH_CACHE = root / "watchers.json"
+            CI_WATCH_LOG_DIR = root / "watch-logs"
+
+            branches = _ci_detection_branches()
+            expected_rollup = _rollup_branch_name(BASE_BRANCH, UPSTREAM_BRANCH)
+            branches_ok = (
+                branches[:3] == [expected_rollup, UPSTREAM_BRANCH, BASE_BRANCH]
+                and len(branches) == len(set(branches))
+            )
+
+            _arm_ci_watch_for_head("deadbeef", "topic-ci-branch")
+            watch_side_effect_ok = _read_ci_watchers() == {} and not CI_WATCH_CACHE.exists()
+
+            print(
+                f"[heal] rollup CI topology self-test: branches={branches} "
+                f"watch_side_effect={watch_side_effect_ok}",
+                file=sys.stderr,
+            )
+            return 0 if branches_ok and watch_side_effect_ok else 1
+    finally:
+        BASE_BRANCH = old_base
+        UPSTREAM_BRANCH = old_upstream
+        MIRROR_BRANCH = old_mirror
+        CI_WATCH_CACHE = old_watch_cache
+        CI_WATCH_LOG_DIR = old_watch_log_dir
+
+
+def verify_then_push(
+    phase: str,
+    target_branch: str | None = None,
+    ci_log_tail: str | None = None,
+) -> bool:
     target_branch = target_branch or BASE_BRANCH
-    ok, err = verify_local_ci()
+    try:
+        head_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    except Exception:
+        head_sha = ""
+    ok, err = (
+        verify_ci_heal(ci_log_tail)
+        if ci_log_tail is not None
+        else verify_local_ci()
+    )
     if ok:
         if push_to_origin(target_branch=target_branch):
             print(f"[heal] codex committed + pushed ({phase})", flush=True)
+            _arm_ci_watch_for_head(head_sha, target_branch)
             return True
         print(f"[heal] codex committed but push failed ({phase}; retry next tick)",
               flush=True)
@@ -861,22 +1641,41 @@ Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after a
 """
 
 
-HEAL_CI_PROMPT = """You are healing a failed CI run on the BEDC target branch `auto-dev`.
+HEAL_CI_PROMPT = """You are healing a failed CI run observed in the BEDC rollup topology.
 
-A GitHub Actions workflow run has failed. The failure log tail (last ~8 KB of
-the failing step) is:
+The daemon has already selected the CI run. Treat this run id as fixed
+authority; do not scan for a different run and do not switch to another branch.
+
+- **Workflow**: __WORKFLOW__
+- **Run ID**: __RUN_ID__
+- **Run URL**: __RUN_URL__
+- **Observed failure branch**: __BRANCH__
+- **Failed head SHA**: __HEAD_SHA__
+- **Failing job/step (daemon guess)**: __JOB__
+
+You MAY and SHOULD use GitHub CLI for this specific run only:
+
+```bash
+gh run view __RUN_ID__ --json name,workflowName,conclusion,status,url,event,headBranch,headSha,jobs
+gh run view __RUN_ID__ --log-failed
+```
+
+If `gh run view --log-failed` omits the root cause, inspect the listed job ids
+with `gh api /repos/<owner>/<repo>/actions/jobs/<job_id>/logs`. Do not use
+`gh run list` to choose another failure; the daemon owns run selection.
+
+The daemon's current focused failure excerpt is:
 
 ```
 __LOG__
 ```
 
-- **Workflow**: __WORKFLOW__
-- **Run ID**: __RUN_ID__
-- **Failing job/step (best guess)**: __JOB__
+## Important — repair lands on the current BASE checkout
 
-## Important — the failure may NOT reproduce locally
-
-The daemon has reset this checkout to the target branch `auto-dev`, but some
+The branch above is the observation source only: it may be the managed rollup
+branch, the upstream branch, BASE itself, or a retired read-only mirror. The
+daemon has reset this checkout to the current BASE branch content, and any fix
+you commit here will be validated by the next rollup candidate. Some
 log-named defects can still be legacy / non-blocking under the quick local
 precheck. Do NOT conclude "nothing to fix" just because `make precheck` /
 `audit` already pass here. **Fix the SPECIFIC defect named in the log tail
@@ -886,8 +1685,8 @@ local blocking status — a `legacy` unresolved marker is still a real defect to
 resolve (drop the marker / downgrade `\\formalstatus` to a level that needs no
 resolving target, or add the missing Lean decl). After fixing, the local gates
 must still pass. Only if, after carefully reading the log AND the named files,
-there is genuinely no defect present in the current tree (the run is stale and
-the defect was already fixed) do you make no commit.
+there is genuinely no defect present in the current BASE tree (the observed
+run is stale and the defect was already fixed) do you make no commit.
 
 ## Your task
 
@@ -899,9 +1698,12 @@ the defect was already fixed) do you make no commit.
      reference. Do NOT invent a macro that pretends to be the real thing —
      stub it as `\\providecommand{\\X}{\\textbf{??}}` so the PDF still flags
      "??" visibly.
-   - **pdflatex `Missing $`** / **`Extra }`** — find the offending line in
-     the just-changed `.tex` and fix the math env (use `$$...$$` with
-     `\\begin{aligned}` block per the math-env rule in CLAUDE.md).
+   - **pdflatex `Missing $`** / **`Extra }`** — inspect the exact source
+     line. If it is a Lean marker such as `\\leanchecked{..._...}` /
+     `\\leanvariant{..._...}` / `\\leanstmt{..._...}` / `\\leandef{..._...}` /
+     `\\leantarget{..._...}`, the fix is to escape target underscores as
+     `\\_`. If it is genuine math in text mode, use `$...$` or `$$...$$`
+     with `\\begin{aligned}` per the math-env rule in CLAUDE.md.
    - **lake build `unknown identifier`** / `type mismatch` — find the
      theorem and either fix the proof, or if the upstream `def`/`theorem`
      was renamed, update callers. Do NOT introduce `sorry` or `axiom`.
@@ -929,20 +1731,23 @@ the defect was already fixed) do you make no commit.
 3. Verify the fix locally before committing:
    - For Lean-side: `cd lean4 && lake build` exits 0; `python3
      tools/check-axioms.py` exits 0.
-   - For paper-side: `cd papers/bedc && make precheck` exits 0.
+   - For paper-side static gates: `cd papers/bedc && make precheck` exits 0.
+   - If the failed run was a PDF/LaTeX job, `cd papers/bedc && make` exits 0.
    - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
    Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` AND `python3 lean4/scripts/bedc_ci.py audit`; both must exit 0 before commit.
 
 4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.
 
-Target branch: auto-dev. Do NOT push (the heal daemon handles push). Stop
-after the failing gate passes locally.
+Commit on the current BASE checkout. Do NOT push (the heal daemon handles
+push). Stop after the failing gate passes locally.
 """
 
 
 CI_HEAL_CACHE = Path("/tmp/auto_heal_ci_seen.json")
 CI_HEAL_MAX_ATTEMPTS = 3
+CI_WATCH_CACHE = Path("/tmp/auto_heal_ci_watchers.json")
+CI_WATCH_LOG_DIR = Path("/tmp/auto_heal_ci_watch_logs")
 
 
 def _ci_attempts() -> dict[str, int]:
@@ -1024,6 +1829,227 @@ def _ci_mark_failed_attempt(run_id: int, failure: dict, reason: str) -> int:
     return count
 
 
+def _read_ci_watchers() -> dict[str, dict]:
+    try:
+        data = json.loads(CI_WATCH_CACHE.read_text())
+    except Exception:
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    out: dict[str, dict] = {}
+    for key, value in data.items():
+        try:
+            run_id = str(int(key))
+        except Exception:
+            continue
+        if isinstance(value, dict):
+            out[run_id] = value
+    return out
+
+
+def _write_ci_watchers(watchers: dict[str, dict]) -> None:
+    if len(watchers) > 100:
+        watchers = dict(sorted(watchers.items(), key=lambda kv: int(kv[0]))[-100:])
+    try:
+        CI_WATCH_CACHE.write_text(json.dumps(watchers, sort_keys=True))
+    except Exception:
+        pass
+
+
+def _pid_is_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    try:
+        waited_pid, _status = os.waitpid(pid, os.WNOHANG)
+        if waited_pid == pid:
+            return False
+        if waited_pid == 0:
+            return True
+    except ChildProcessError:
+        pass
+    try:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+
+
+def _failure_from_run_row(row: dict) -> dict:
+    return {
+        "run_id": int(row.get("databaseId", 0)),
+        "workflow": row.get("workflowName", "?"),
+        "name": row.get("name", "?"),
+        "created_at": row.get("createdAt", ""),
+        "branch": row.get("headBranch", "") or _ci_heal_target_branch(),
+        "head_sha": row.get("headSha", ""),
+        "url": row.get("url", ""),
+    }
+
+
+def _watch_log_path(run_id: int) -> Path:
+    return CI_WATCH_LOG_DIR / f"run-{int(run_id)}.log"
+
+
+def _arm_ci_watch_for_head(head_sha: str, target_branch: str) -> None:
+    """Start one blocking `gh run watch` process for the pushed head SHA."""
+    if target_branch != _ci_heal_target_branch():
+        return
+    if not head_sha or not shutil.which("gh"):
+        return
+    try:
+        r = run([
+            "gh", "run", "list",
+            "--branch", target_branch,
+            "--commit", head_sha,
+            "--limit", "20",
+            "--json",
+            "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
+        ], check=False, capture=True, timeout=60)
+    except Exception as exc:
+        print(f"[heal] CI watch lookup failed for {head_sha[:12]}: {exc}",
+              file=sys.stderr)
+        return
+    if r.returncode != 0:
+        out = ((r.stdout or "") + (r.stderr or ""))[-300:]
+        print(f"[heal] CI watch lookup failed for {head_sha[:12]}: {out}",
+              file=sys.stderr)
+        return
+    try:
+        rows = json.loads(r.stdout or "[]")
+    except Exception:
+        rows = []
+    rows = [row for row in rows if row.get("headSha") == head_sha]
+    if not rows:
+        print(f"[heal] no CI run found yet for {target_branch}@{head_sha[:12]}; "
+              "watch not armed", file=sys.stderr)
+        return
+    watchers = _read_ci_watchers()
+    armed = 0
+    CI_WATCH_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    for row in rows:
+        run_id = int(row.get("databaseId", 0) or 0)
+        if run_id <= 0 or str(run_id) in watchers:
+            continue
+        meta = _failure_from_run_row(row)
+        meta.update({
+            "armed_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "pid": 0,
+            "log_path": str(_watch_log_path(run_id)),
+        })
+        if row.get("status") == "completed":
+            watchers[str(run_id)] = meta
+            armed += 1
+            continue
+        try:
+            with _watch_log_path(run_id).open("ab") as log:
+                proc = subprocess.Popen(
+                    [
+                        "gh", "run", "watch", str(run_id),
+                        "--exit-status",
+                        "--compact",
+                        "--interval", "30",
+                    ],
+                    cwd=REPO_ROOT,
+                    stdin=subprocess.DEVNULL,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    start_new_session=True,
+                )
+            meta["pid"] = proc.pid
+            watchers[str(run_id)] = meta
+            armed += 1
+            print(f"[heal] armed CI watch run={run_id} pid={proc.pid} "
+                  f"sha={head_sha[:12]}", flush=True)
+        except Exception as exc:
+            print(f"[heal] failed to arm CI watch run={run_id}: {exc}",
+                  file=sys.stderr)
+    if armed:
+        _write_ci_watchers(watchers)
+
+
+def _run_view_failure(run_id: int, fallback: dict) -> dict | None:
+    try:
+        r = run([
+            "gh", "run", "view", str(run_id),
+            "--json",
+            "name,workflowName,conclusion,status,url,event,headBranch,headSha,databaseId,createdAt",
+        ], check=False, capture=True, timeout=60)
+    except Exception as exc:
+        print(f"[heal] gh run view {run_id} for watcher failed: {exc}",
+              file=sys.stderr)
+        return None
+    if r.returncode != 0:
+        return None
+    try:
+        row = json.loads(r.stdout or "{}")
+    except Exception:
+        return None
+    if row.get("status") != "completed":
+        return None
+    if row.get("conclusion") != "failure":
+        return {}
+    row["databaseId"] = row.get("databaseId") or run_id
+    failure = _failure_from_run_row(row)
+    for key in ("workflow", "name", "created_at", "branch", "head_sha", "url"):
+        if not failure.get(key):
+            failure[key] = fallback.get(key, "")
+    return failure
+
+
+def process_ci_watch_callbacks() -> bool:
+    """Handle completed `gh run watch` children. Returns True after one heal."""
+    watchers = _read_ci_watchers()
+    if not watchers:
+        return False
+    changed = False
+    for run_key, meta in list(watchers.items()):
+        try:
+            run_id = int(run_key)
+        except Exception:
+            watchers.pop(run_key, None)
+            changed = True
+            continue
+        pid = int(meta.get("pid") or 0)
+        if pid > 0 and _pid_is_alive(pid):
+            continue
+        failure = _run_view_failure(run_id, meta)
+        if failure is None:
+            continue
+        watchers.pop(run_key, None)
+        changed = True
+        if not failure:
+            _mark_ci_seen(run_id)
+            print(f"[heal] CI watch completed green/non-failure run={run_id}",
+                  flush=True)
+            continue
+        if run_id in _ci_seen():
+            continue
+        print(f"[heal] CI watch callback failed run={run_id} "
+              f"workflow={failure.get('workflow','?')}; triaging",
+              flush=True)
+        if changed:
+            _write_ci_watchers(watchers)
+            changed = False
+        ci_log_tail = heal_ci_failure(failure)
+        if ci_log_tail is not None:
+            if verify_then_push("CI watch fix", target_branch=_ci_heal_target_branch(), ci_log_tail=ci_log_tail):
+                _mark_ci_seen(run_id)
+            else:
+                _ci_mark_failed_attempt(
+                    run_id,
+                    failure,
+                    "local verify or push failed after CI watch heal commit",
+                )
+            return True
+        _ci_mark_failed_attempt(run_id, failure, "CI watch callback produced no commit")
+        return True
+    if changed:
+        _write_ci_watchers(watchers)
+    return False
+
+
 def _classify_ci_unfixable(log_tail: str) -> str | None:
     if "TeX capacity exceeded" in log_tail:
         return "PDF_CAPACITY"
@@ -1044,68 +2070,80 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
+    """Query GitHub Actions for recent failures across the rollup observation family.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
-    Empty if `gh` CLI is unavailable, no runs in the window failed, or any
-    query error occurred (auto_heal stays passive).
+    Empty if `gh` CLI is unavailable, no runs in the window failed, or all
+    branch queries fail (auto_heal stays passive).
     """
     if not shutil.which("gh"):
         return []
 
-    failures: list[dict] = []
+    failures_by_id: dict[int, dict] = {}
+    detection_branches = _ci_detection_branches()
+    detection_set = set(detection_branches)
     cutoff = time.time() - window_minutes * 60
-    try:
-        r = run([
-            "gh", "run", "list",
-            "--branch", MIRROR_BRANCH,
-            "--limit", "80",
-            "--json",
-            "status,conclusion,name,workflowName,databaseId,createdAt,headBranch",
-        ], check=False, capture=True, timeout=60)
-    except Exception:
-        return failures
-    if r.returncode != 0:
-        return failures
-    try:
-        rows = json.loads(r.stdout or "[]")
-    except Exception:
-        return failures
     import calendar as _calendar
-    for row in rows:
-        if row.get("status") != "completed":
-            continue
-        if row.get("conclusion") != "failure":
-            continue
-        head = row.get("headBranch", "") or ""
-        if head != MIRROR_BRANCH:
-            continue
-        ts = row.get("createdAt", "")
-        # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
-        # time.mktime interprets strptime() output as LOCAL time, so a UTC
-        # timestamp would be read 8h in the past under CST/UTC+8 and dropped
-        # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
+    for branch in detection_branches:
         try:
-            t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            r = run([
+                "gh", "run", "list",
+                "--branch", branch,
+                "--limit", "80",
+                "--json",
+                "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
+            ], check=False, capture=True, timeout=60)
         except Exception:
-            t = time.time()
-        if t < cutoff:
             continue
-        failures.append({
-            "run_id": int(row.get("databaseId", 0)),
-            "workflow": row.get("workflowName", "?"),
-            "name": row.get("name", "?"),
-            "created_at": ts,
-            "branch": head,
-        })
-    return failures
+        if r.returncode != 0:
+            continue
+        try:
+            rows = json.loads(r.stdout or "[]")
+        except Exception:
+            continue
+        for row in rows:
+            if row.get("status") != "completed":
+                continue
+            if row.get("conclusion") != "failure":
+                continue
+            head = row.get("headBranch", "") or ""
+            if head not in detection_set:
+                continue
+            ts = row.get("createdAt", "")
+            # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
+            # time.mktime interprets strptime() output as LOCAL time, so a UTC
+            # timestamp would be read 8h in the past under CST/UTC+8 and dropped
+            # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
+            try:
+                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                t = time.time()
+            if t < cutoff:
+                continue
+            run_id = int(row.get("databaseId", 0) or 0)
+            if run_id <= 0:
+                continue
+            failures_by_id.setdefault(run_id, {
+                "run_id": run_id,
+                "workflow": row.get("workflowName", "?"),
+                "name": row.get("name", "?"),
+                "created_at": ts,
+                "branch": head,
+                "head_sha": row.get("headSha", ""),
+                "url": row.get("url", ""),
+            })
+    return sorted(
+        failures_by_id.values(),
+        key=lambda failure: failure.get("created_at", ""),
+        reverse=True,
+    )
 
 
-def heal_ci_failure(failure: dict) -> bool:
+def heal_ci_failure(failure: dict) -> str | None:
     """Fetch the failing log tail and invoke codex with HEAL_CI_PROMPT."""
     run_id = failure["run_id"]
     if not shutil.which("gh"):
-        return False
+        return None
     try:
         r = run([
             "gh", "run", "view", str(run_id),
@@ -1114,22 +2152,23 @@ def heal_ci_failure(failure: dict) -> bool:
     except Exception as e:
         print(f"[heal] gh run view {run_id} failed: {e}", file=sys.stderr)
         _ci_mark_failed_attempt(run_id, failure, "gh run view failed")
-        return False
-    log_tail = (r.stdout or "")[-8192:]
+        return None
+    log_raw = r.stdout or ""
+    log_tail = _focused_ci_log(log_raw)
     if not log_tail.strip():
         # No failing-step log — try the full run view as fallback.
         try:
             r2 = run([
                 "gh", "run", "view", str(run_id), "--log",
             ], check=False, capture=True, timeout=120)
-            log_tail = (r2.stdout or "")[-8192:]
+            log_tail = _focused_ci_log(r2.stdout or "")
         except Exception:
             pass
     if not log_tail.strip():
         print(f"[heal] CI run {run_id} produced empty log; recording attempt",
               file=sys.stderr)
         _ci_mark_failed_attempt(run_id, failure, "empty CI log")
-        return False
+        return None
     unfixable = _classify_ci_unfixable(log_tail)
     capacity_hint = ""
     if unfixable:
@@ -1161,25 +2200,28 @@ def heal_ci_failure(failure: dict) -> bool:
             "到下一档。仅当日志明显是 runaway argument / 宏无限展开时，才转去定位并修"
             "那个失控宏。不要为绕开容量而删除章节。\n"
         )
-    run(["git", "fetch", "origin", MIRROR_BRANCH], check=False, capture=True, timeout=120)
-    r = run(["git", "reset", "--hard", f"origin/{MIRROR_BRANCH}"],
+    heal_target = _ci_heal_target_branch()
+    run(["git", "fetch", "origin", heal_target], check=False, capture=True, timeout=120)
+    r = run(["git", "reset", "--hard", f"origin/{heal_target}"],
             check=False, capture=True, timeout=60)
     if r.returncode != 0:
-        print(f"[heal] reset to origin/{MIRROR_BRANCH} failed; skip: "
+        print(f"[heal] reset to origin/{heal_target} failed; skip: "
               f"{(r.stderr or '')[-200:]}", file=sys.stderr)
-        return False
+        return None
     run(["git", "clean", "-fd"], check=False, capture=True, timeout=60)
 
-    # Reproduce guard on MIRROR_BRANCH. CI heal intentionally acts on the
-    # branch that runs CI. A clean local suite can still mean the log points at
-    # a legacy / non-blocking defect, so the prompt remains log-driven instead
-    # of treating a clean reproduction check as proof that no fix is needed.
-    if not unfixable:
-        repro_ok, _repro_err = verify_local_ci()
-        if repro_ok:
-            print(f"[heal] CI run {run_id} does not reproduce on current "
-                  f"{MIRROR_BRANCH}; continuing with log-guided heal",
-                  file=sys.stderr, flush=True)
+    # Operator directive 2026-06-05: do NOT judge/skip a real CI failure by the
+    # fragile "noisy-red" log-string match. That heuristic extracted a benign
+    # Reference-undefined fragment as the "defect", found it absent, and skipped
+    # 6+ consecutive RED runs whose real cause (a `\mathsf`-in-text-mode fatal in
+    # a concrete-instance chapter) it never looked at. On any real `failure`
+    # conclusion, always dispatch codex with the log and let it fix toward green
+    # (the `unfixable` TeX-capacity branch above already falls through here with
+    # its capacity_hint). The only backstops against thrashing a genuinely
+    # stuck run are the per-run attempt-cap (_ci_mark_failed_attempt) and the
+    # recurring-fix-loop guard below; verify_then_push still verifies the fix
+    # before pushing, so a no-op heal (defect already fixed on current BASE)
+    # commits nothing and ships nothing.
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:
@@ -1191,22 +2233,25 @@ def heal_ci_failure(failure: dict) -> bool:
               .replace("__LOG__", log_tail)
               .replace("__WORKFLOW__", failure.get("workflow", "?"))
               .replace("__RUN_ID__", str(run_id))
+              .replace("__RUN_URL__", failure.get("url", ""))
+              .replace("__BRANCH__", failure.get("branch", heal_target))
+              .replace("__HEAD_SHA__", failure.get("head_sha", ""))
               .replace("__JOB__", job_guess))
     prompt += capacity_hint
     signature = _ci_fix_signature(log_tail, failure)
     if _recurring_fix_loop(signature, "CI fix", failure):
         _ci_mark_failed_attempt(run_id, failure, "recurring CI fix loop")
-        return False
+        return None
     prompt = _with_fix_signature(prompt, signature)
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
-    rc = call_codex(prompt, timeout=1800)
+    rc = call_codex(prompt, timeout=CI_HEAL_CODEX_TIMEOUT)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
     if head_before == head_after:
         print(f"[heal] codex did not commit on CI run {run_id} (rc={rc})",
               file=sys.stderr)
         _ci_mark_failed_attempt(run_id, failure, "codex did not commit")
-        return False
-    return True
+        return None
+    return log_tail
 
 
 def detect_propext_violations_from_log(
@@ -2162,26 +3207,30 @@ def push_to_origin(target_branch: str | None = None) -> bool:
                     return True
                 run(["git", "fetch", "origin", target_branch],
                     check=False, capture=True, timeout=60)
-                reb = run(["git", "rebase", f"origin/{target_branch}"],
-                          check=False, capture=True, timeout=180)
-                if reb.returncode != 0:
-                    run(["git", "rebase", "--abort"],
+                merge = run(
+                    ["git", "merge", "--no-edit", f"origin/{target_branch}"],
+                    check=False,
+                    capture=True,
+                    timeout=180,
+                )
+                if merge.returncode != 0:
+                    run(["git", "merge", "--abort"],
                         check=False, capture=True, timeout=30)
                     print(
-                        f"[heal] heal commit rebase onto origin/{target_branch} "
+                        f"[heal] heal commit merge with origin/{target_branch} "
                         "conflicted; abandon push this tick: "
-                        f"{(reb.stdout or '')[-200:]}",
+                        f"{((merge.stdout or '') + (merge.stderr or ''))[-200:]}",
                         file=sys.stderr,
                     )
                     return False
                 print(
                     f"[heal] origin/{target_branch} advanced during heal; "
-                    "rebased heal commit, retrying push "
+                    "merged remote tip, retrying push "
                     f"({attempt + 1}/3)",
                     file=sys.stderr,
                 )
             print(
-                "[heal] push still rejected after 3 rebase retries; "
+                "[heal] push still rejected after 3 merge retries; "
                 "retry next tick",
                 file=sys.stderr,
             )
@@ -2198,6 +3247,106 @@ def push_to_origin(target_branch: str | None = None) -> bool:
 
 
 INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
+
+_GIT_MUTATING_RE = re.compile(
+    r"\bgit\b.*\b(commit|merge|add|rm|mv|update-ref|update-index|"
+    r"checkout|reset|rebase|stash|cherry-pick|am|apply|"
+    r"write-tree|read-tree|gc|repack)\b"
+)
+
+
+def _live_git_mutation() -> bool:
+    """True if any git index/ref-mutating process is currently running.
+
+    Read-only git ops (fetch/status/log/diff/rev-parse/ls-tree) are
+    excluded — they don't hold `index.lock` for any meaningful duration.
+    Gates stale-lock removal: never remove a lock a live process may
+    legitimately hold. Fails safe (returns True) if `ps` can't be read."""
+    try:
+        out = subprocess.run(
+            ["ps", "-axo", "command"],
+            capture_output=True, text=True, timeout=15,
+        ).stdout
+    except Exception:
+        return True
+    return any(_GIT_MUTATING_RE.search(line) for line in out.splitlines())
+
+
+def sweep_stale_git_locks(git_root: Path, *, label: str = "main") -> int:
+    """Remove stale git plumbing locks under a checkout's git common dir.
+
+    The keystone failure this heals: an interrupted `git add`/commit on
+    the SHARED main checkout leaves a 0-byte `.git/index.lock`. Every
+    orchestrator `ff update <BASE>` then fails with
+    `Unable to create '.../index.lock': File exists` and retries forever
+    as a phantom "transient diverge" — the pipeline freezes with no actor
+    clearing the lock (observed 2026-06-10: ~24h freeze from a Jun-9
+    18:23 stale lock; codex-auto-dev never advanced, rollup went
+    permanently no-op; taste_curator skipped every cycle on the dirt).
+
+    A lock is swept only when unambiguously abandoned: age has exceeded
+    INDEX_LOCK_STALE_SECONDS (10 min — no real git index/ref op ever holds
+    a lock that long) AND no live git index/ref-mutating process is
+    running. Size is NOT a trigger: git creates a fresh `index.lock` at 0
+    bytes before writing, so under active concurrent merging a 0-byte lock
+    is a NORMAL transient state, not a stale one — keying on size would
+    nuke a live worker's in-flight commit. App-level `*.push.lock` files
+    are NEVER touched — those are self-relieving orchestrator push
+    serialization, not git plumbing."""
+    try:
+        common = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=git_root, capture_output=True, text=True, timeout=15,
+        ).stdout.strip()
+    except Exception:
+        return 0
+    if not common:
+        return 0
+    cdir = Path(common)
+    if not cdir.is_absolute():
+        cdir = (Path(git_root) / cdir).resolve()
+    candidates = [
+        cdir / "index.lock",
+        cdir / "HEAD.lock",
+        cdir / "packed-refs.lock",
+        cdir / "refs" / "heads" / f"{BASE_BRANCH}.lock",
+    ]
+    wt_dir = cdir / "worktrees"
+    if wt_dir.is_dir():
+        for wt in wt_dir.iterdir():
+            candidates.append(wt / "index.lock")
+    stale: list[tuple[Path, int, int]] = []
+    for lock in candidates:
+        try:
+            st = lock.stat()
+        except FileNotFoundError:
+            continue
+        except Exception:
+            continue
+        age = int(time.time() - st.st_mtime)
+        if age >= INDEX_LOCK_STALE_SECONDS:
+            stale.append((lock, age, st.st_size))
+    if not stale:
+        return 0
+    if _live_git_mutation():
+        names = ", ".join(p.name for p, _, _ in stale)
+        print(f"[heal] stale lock candidate(s) under {label} ({names}) but a "
+              f"live git-mutating process is running; deferring sweep",
+              flush=True)
+        return 0
+    removed = 0
+    for lock, age, size in stale:
+        try:
+            lock.unlink()
+            removed += 1
+            print(f"[heal] swept stale git lock: {lock} "
+                  f"(age={age}s size={size}B, root={label})", flush=True)
+        except FileNotFoundError:
+            continue
+        except Exception as exc:
+            print(f"[heal] could not remove stale lock {lock}: {exc}",
+                  file=sys.stderr)
+    return removed
 
 
 def heal_stale_index_lock() -> bool:
@@ -2263,6 +3412,17 @@ def cycle() -> None:
     _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
+    # Self-heal FIRST: clear stale git plumbing locks on the SHARED main
+    # checkout. An abandoned 0-byte index.lock here freezes every
+    # orchestrator ff-update (phantom "transient diverge") with no other
+    # actor clearing it — the single worst silent-freeze mode. Runs before
+    # any heal phase so a frozen pipeline recovers within one 15-min tick.
+    try:
+        sweep_stale_git_locks(REPO_ROOT, label="main-checkout")
+    except Exception as exc:
+        print(f"[heal] sweep_stale_git_locks crashed: {exc}", file=sys.stderr)
+    if process_ci_watch_callbacks():
+        return  # one heal per cycle is enough
     if not _prepare_clean_base_checkout():
         return
     # Cooldown cause analysis runs FIRST, observation-only / alert-only.
@@ -2293,35 +3453,38 @@ def cycle() -> None:
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
 
-    # Detect CI failures on origin/MIRROR_BRANCH within last 60min.
-    ci_failures = detect_ci_failures(window_minutes=60)
-    if ci_failures:
-        attempted = False
-        for failure in ci_failures:
-            if failure["run_id"] in _ci_seen():
-                continue
-            attempted = True
-            print(f"[heal] CI failure detected (run={failure['run_id']} "
-                  f"workflow={failure.get('workflow','?')}); triaging",
-                  flush=True)
-            if heal_ci_failure(failure):
-                if verify_then_push("CI fix", target_branch=MIRROR_BRANCH):
-                    _mark_ci_seen(failure["run_id"])
-                else:
-                    _ci_mark_failed_attempt(
-                        failure["run_id"],
-                        failure,
-                        "local verify or push failed after CI heal commit",
-                    )
-                return  # one heal per cycle is enough
-            if not _prepare_clean_base_checkout():
-                return
-            break
-        if not attempted:
-            print(f"[heal] all {len(ci_failures)} CI failure(s) already attempted; "
-                  f"skipping (operator triage needed)", flush=True)
+    if CI_POLL_FALLBACK:
+        ci_failures = detect_ci_failures(window_minutes=60)
+        if ci_failures:
+            attempted = False
+            for failure in ci_failures:
+                if failure["run_id"] in _ci_seen():
+                    continue
+                attempted = True
+                print(f"[heal] CI failure fallback detected (run={failure['run_id']} "
+                      f"workflow={failure.get('workflow','?')}); triaging",
+                      flush=True)
+                ci_log_tail = heal_ci_failure(failure)
+                if ci_log_tail is not None:
+                    if verify_then_push("CI fix", target_branch=_ci_heal_target_branch(), ci_log_tail=ci_log_tail):
+                        _mark_ci_seen(failure["run_id"])
+                    else:
+                        _ci_mark_failed_attempt(
+                            failure["run_id"],
+                            failure,
+                            "local verify or push failed after CI heal commit",
+                        )
+                    return  # one heal per cycle is enough
+                if not _prepare_clean_base_checkout():
+                    return
+                break
+            if not attempted:
+                print(f"[heal] all {len(ci_failures)} CI failure(s) already attempted; "
+                      f"skipping (operator triage needed)", flush=True)
+        else:
+            print("[heal] CI fallback clean (no failures in last 60min)", flush=True)
     else:
-        print("[heal] CI clean (no failures in last 60min)", flush=True)
+        print("[heal] CI watch callbacks clean", flush=True)
 
     # Detect propext-axiom violations from log tail. Runs independently
     # of the gate-storm threshold (5/30min) because propext violations
@@ -2391,13 +3554,13 @@ def main() -> int:
     p.add_argument("--base-branch", default=None,
                     help="Integration branch name (default: host BEDC_PIPELINE_BRANCH)")
     p.add_argument("--mirror-branch", default=None,
-                    help="Mirror branch checked for CI failures (default: host BEDC_MIRROR_BRANCH)")
+                    help="Read-only compatibility branch included in CI detection (default: host BEDC_MIRROR_BRANCH)")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
                     help="Run cooldown detection/classification only; no codex, no alert writes")
     p.add_argument("--self-test", action="store_true",
-                    help="Run cooldown classifier self-tests and exit")
+                    help="Run cooldown classifier and noisy-red self-tests and exit")
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
@@ -2405,7 +3568,18 @@ def main() -> int:
     MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
 
     if args.self_test:
-        return run_cooldown_self_test()
+        cooldown_rc = run_cooldown_self_test()
+        noisy_red_rc = run_noisy_red_self_test()
+        ci_log_focus_rc = run_ci_log_focus_self_test()
+        ci_watch_rc = run_ci_watch_callback_self_test()
+        rollup_ci_rc = run_rollup_ci_topology_self_test()
+        return 0 if (
+            cooldown_rc == 0
+            and noisy_red_rc == 0
+            and ci_log_focus_rc == 0
+            and ci_watch_rc == 0
+            and rollup_ci_rc == 0
+        ) else 1
 
     if args.verify_only:
         return run_verify_only()

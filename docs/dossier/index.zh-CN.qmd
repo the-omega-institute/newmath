@@ -14,6 +14,10 @@ listing:
       - "where-induction-comes-from.zh-CN.qmd"
       - "metacic-first-main-result.zh-CN.qmd"
       - "goedel-boundary-as-data.zh-CN.qmd"
+      - "zeckendorf-safe-channel.zh-CN.qmd"
+      - "golden-phase-projection.zh-CN.qmd"
+      - "golden-phase-physical-predictions.zh-CN.qmd"
+      - "speakable-model-form.zh-CN.qmd"
       - "total-inside-universal-outside.zh-CN.qmd"
       - "closure-universality-quadrant.zh-CN.qmd"
       - "large-model-as-inscription-point.zh-CN.qmd"
@@ -27,7 +31,16 @@ listing:
       - "apophatic-infinity.zh-CN.qmd"
       - "far-end-diagrammatics.zh-CN.qmd"
       - "local-universe-from-digest.zh-CN.qmd"
+      - "closed-history-universe.zh-CN.qmd"
+      - "projection-geometry-and-the-closed-world.zh-CN.qmd"
       - "universe-consciousness-other-minds-deja-vu.zh-CN.qmd"
+      - "universe-conscious-record.zh-CN.qmd"
+      - "mortality-boundary.zh-CN.qmd"
+      - "love-other-hist-continuation.zh-CN.qmd"
+      - "reality-constrained-meaning.zh-CN.qmd"
+      - "value-and-form.zh-CN.qmd"
+      - "apophatic-t-loop.zh-CN.qmd"
+      - "hofstadter-strange-loop-note.zh-CN.qmd"
       - "halting-as-open-meta-loop.zh-CN.qmd"
       - "rh-route-halting-boundary.zh-CN.qmd"
       - "legitimate-claim-audit.zh-CN.qmd"
@@ -111,14 +124,14 @@ inductive Cont : BHist → BHist → BHist → Prop
 
 这就是 `Cont a f b` — *延续* 关系. 它是内核的"主动词". BEDC 里别的所有东西, 后来都被发现是它的特殊情况.
 
-几个月后, 项目做到范畴论时, morphism 谓词是这样定义的:
+几个月后, 项目做到范畴论时, 态射谓词是这样定义的:
 
 ```lean
 def CategoryHomCarrier (a b f : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
 ```
 
-仔细读: 在 BEDC 里, 范畴的 morphism *就是* unary 的延续. 不是额外结构. 不是上面一层. 复合就是 `cont_assoc`. 单位 morphism 就是 `BHist.Empty`. 范畴公理就是内核定理.
+仔细读: 在 BEDC 里, 范畴的态射 *就是* unary 的延续. 不是额外结构. 不是上面一层. 复合就是 `cont_assoc`. 单位态射就是 `BHist.Empty`. 范畴公理就是内核定理.
 
 ```{=html}
 <span class="elim-mark">✗ 「范畴论是数学之上的另一层」</span>
@@ -141,22 +154,22 @@ def CategoryHomCarrier (a b f : BHist) : Prop :=
 | 用到的公理 | **0** |
 | `sorry` 占位 | **0** |
 | `Classical.choice` / `Quot.sound` / `propext` 传递依赖 | **0** (审计验证) |
-| `import Mathlib.*` | **0** (mathlib-free) |
+| `import Mathlib.*` | **0** (不依赖 mathlib) |
 | 作者提交 | 95% 来自 Codex 自驱流水 |
 
 项目当前已用 Lean 4 形式化:
 
 - 布尔、option、和、积、列表、自然数、整数、有理数 (饱和)
 - 实数 (Bishop 风格等价类 — 已有 16 条定理在涨)
-- 连续函数、度量空间、紧致子集、S¹ (过去 24 小时新启动)
+- 连续函数、度量空间、紧致子集、$S^{1}$ (过去 24 小时新启动)
 - 范畴、函子、自然变换 (过去 24 小时新启动)
-- 构造子、分类器、ledger 复合、命名证书
+- 构造子、分类器、账本复合、命名证书
 
 全部从 `inductive BHist` 开始, 没有公理, 没有商类型, 没有排中律.
 
 ## 实际是怎么跑的
 
-项目由一个人 + 一个 Codex agent loop 运行. agent 选形式化目标, 写 Lean 证明, 提交, 然后继续. 大致每天 500 个 commit. 人类的角色不是写证明 — 是 *引导这个 harness*: 设硬约束, 识别 agent 在产出灌水时, 给 agent 输出里浮现的架构性洞察起名字.
+项目由一个人 + 一个 Codex 智能体回路运行. 智能体选形式化目标, 写 Lean 证明, 提交, 然后继续. 大致每天 500 个 commit. 人类的角色不是写证明 — 是 *引导这个自动流程*: 设硬约束, 识别智能体在产出灌水时, 给智能体输出里浮现的架构性洞察起名字.
 
 工程和方法论我们另文详述: [发现回路](discovery-loop.zh-CN.qmd).
 
@@ -184,44 +197,44 @@ def CategoryHomCarrier (a b f : BHist) : Prop :=
 
 ::: {.evidence}
 **1. 范畴比群先做完.**
-schema-only 的章节 (群、幺半群、环、域、模) 卡住, 因为它们的 paper schema 是参数化的 — `mul : BHist → BHist → BHist` 留作抽象 — AI 只能产出 parameter echo. 范畴没有这个卡口: 它的 carrier 具体是 `BHist + UnaryHistory + Cont`. 第三天 AI 就把范畴论建起来了, 而群论还是空壳.
+纯模式的章节 (群、幺半群、环、域、模) 卡住, 因为它们的 paper 模式是参数化的 — $mul : BHist \to BHist \to BHist$ 留作抽象 — AI 只能产出 parameter echo. 范畴没有这个卡口: 它的载体具体是 `BHist + UnaryHistory + Cont`. 第三天 AI 就把范畴论建起来了, 而群论还是空壳.
 
 **Lean:** [`CategoryHomCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CategoryUp.lean)
 :::
 
 ::: {.evidence}
-**2. S¹ 把方程编码为 `BHist` 值.**
-单位圆是 `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — 其中 `equation` 本身就是一个 `BHist`. 约束 x² + y² = 1 不是元层命题; 它是对象层的历史关系. 这跟标准类型论"命题即类型"是反的.
+**2. $S^{1}$ 把方程编码为 `BHist` 值.**
+单位圆是 `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — 其中 `equation` 本身就是一个 `BHist`. 约束 $x^{2}$ + $y^{2}$ = 1 不是元层命题; 它是对象层的历史关系. 这跟标准类型论"命题即类型"是反的.
 
 **Lean:** [`SOneHistoryCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/S1Up.lean)
 :::
 
 ::: {.evidence}
 **3. 紧致性是 Cont 链的 5 元组.**
-Bishop "located + totally bounded ⇒ compact" 编码为 `CompactWitnessCarrier(subset, located, finite, intermediate, compact)`, 用两个 `Cont` 关系把它们串起来. 紧致性的构造内容变成内核关系的模式.
+Bishop "located + totally bounded $\Rightarrow$ compact" 编码为 `CompactWitnessCarrier(subset, located, finite, intermediate, compact)`, 用两个 `Cont` 关系把它们串起来. 紧致性的构造内容变成内核关系的模式.
 
 **Lean:** [`CompactWitnessCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CompactUp.lean)
 :::
 
 ::: {.evidence}
-**4. 连续函数 modulus 链通过 `Cont` 复合.**
-Bishop "连续函数的复合是连续的, 且 modulus 显式" 变成 `ContinuousModulusChain_composite_closed`: modulus 链复合走的是同一个 `Cont` 关系, 跟内核驱动的是同一种代数. 连续分析与内核延续是同一种代数.
+**4. 连续函数模量链通过 `Cont` 复合.**
+Bishop "连续函数的复合是连续的, 且模量显式" 变成 `ContinuousModulusChain_composite_closed`: 模量链复合走的是同一个 `Cont` 关系, 跟内核驱动的是同一种代数. 连续分析与内核延续是同一种代数.
 
 **Lean:** [`ContinuousModulusChain_composite_closed`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/ContinuousUp.lean)
 :::
 
 ::: {.evidence}
 **5. Cont 是主动词.**
-范畴、紧致、连续 modulus、自然变换的 component — 都是 `Cont` 的特殊情况. 自 Bourbaki 以来的"数学统一"问题, 在 BEDC 里有一个候选答案: 它可能在区分序列延续的代数里, 不在集合, 也不在范畴.
+范畴、紧致、连续模量、自然变换的分量 — 都是 `Cont` 的特殊情况. 自 Bourbaki 以来的"数学统一"问题, 在 BEDC 里有一个候选答案: 它可能在区分序列延续的代数里, 不在集合, 也不在范畴.
 :::
 
 ## 这不是什么
 
 这不是新数学. 这 1837 条定理是已有数学 — Bishop 风格的构造分析, 基础代数, 入门范畴论 — *在不同根基上重新表达*. 我们没有发现 Yoneda 引理. 我们发现的是, 当你从区分开始, Yoneda 引理可能跟 `cont_assoc` 是同一种对象.
 
-这不是 mathlib 的竞争者. mathlib4 有 100 倍多的定理, 有活跃的社区. BEDC 是 *设计上* mathlib-free, 因为设计的问题是"从区分单独出发能走多远?", 不是"我们怎么覆盖现代数学".
+这不是 mathlib 的竞争者. mathlib4 有 100 倍多的定理, 有活跃的社区. BEDC 是 *设计上* 不依赖 mathlib, 因为设计的问题是"从区分单独出发能走多远?", 不是"我们怎么覆盖现代数学".
 
-这不是替代人类数学家. 这个项目里每个有意思的 *方向* 都来自人类: 内核设计, schema-only 诊断, 把 `Hom = Cont` 识别为 unification 而非巧合. AI 是引擎; 人类是方向盘.
+这不是替代人类数学家. 这个项目里每个有意思的 *方向* 都来自人类: 内核设计, 纯模式诊断, 把 `Hom = Cont` 识别为 unification 而非巧合. AI 是引擎; 人类是方向盘.
 
 ## 这是什么
 

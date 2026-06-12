@@ -23,6 +23,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The export is locked by the carrier, local $\NameCert$ obligations, ledger non-escape, consumer boundary, root audit totality, root compiler non-escape, and root $\NameCert$ handoff; it does not expose a host substitution relation, subject reduction proof, evaluator, compiler state, or unregistered source/value convention.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootOperationExportLock}
 \begin{proof}
 Read $Q$ and $R$ from the carrier. The carrier places both operation rows beside $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$, so neither row is available apart from the displayed closedness and depth data.
 
@@ -41,6 +42,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The ready handoff is the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet witnessed by the carrier, local obligations, ledger non-escape, consumer boundary, audit totality, compiler non-escape, and root naming rows, not a host-level substitution or compiler-correctness object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootSelfCompileHandoffReadiness}
 \begin{proof}
 First collect the route side. By \autoref{thm:closed-term-substitution-boundary-root-route-lock}, every downstream self-compilation route is already confined to the displayed carrier, classifier, ledger, audit, transport, continuation, provenance, and naming rows.
 
@@ -57,6 +59,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 In particular, a route use, operation transport, closed-shift readback, substitute-closed readback, audit handoff, compiler-facing handoff, or root $\NameCert$ handoff factors through the carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, root audit totality row, root compiler non-escape row, and root $\NameCert$ handoff cited by \autoref{thm:closed-term-substitution-boundary-root-route-lock}, with $Q$ and $R$ exported only as in \autoref{thm:closed-term-substitution-boundary-root-operation-export-lock}. A bridge request for host substitution semantics, a subject-reduction theorem, a host syntax quotient, a hidden evaluator, hidden compiler state, or an operation coordinate outside the displayed packet is therefore unavailable to the consumer.
 \end{lemma}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootRouteBridgeDeterminacy}
 \begin{proof}
 Start with the route inventory supplied by \autoref{thm:closed-term-substitution-boundary-root-route-lock}. That theorem already lists the complete downstream self-compilation route: the accepted packet may expose the carrier, classifier, local naming obligations, ledger row, consumer boundary, audit row, compiler-facing row, and naming handoff, and all of them live on the single displayed tuple $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$. Thus a bridge use of root route $l$ has only the displayed finite coordinates before any consumer can read it.
 
@@ -86,3 +89,4 @@ Apply \autoref{lem:closed-term-substitution-boundary-root-route-bridge-determina
 
 The fixed-row determinacy follows from those two facts. Once the displayed rows are fixed, the route lock leaves no second packet from which a consumer could source a finite route, and the bridge determinacy lemma leaves no unlisted coordinate through which a consumer-facing use could vary. Thus a finite route must be the displayed route; a transport must be the componentwise row over that packet; a closed-shift or substitute-closed readback must pass through $Q$ or $R$ inside the same ledger and audit surface; and any normal-form handoff or exactness decision named by the chapter must be a handoff or decision read through $L,A,H,C,P,N$ and the local $\NameCert$ row. An alternate finite route, hidden normal-form coordinate, duplicate classifier source, or hidden host-side classifier would require a coordinate outside the accepted $\ClosedTermSubstitutionBoundaryUp$ packet, and the cited rows do not export such a coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootRouteLDeterminacy}

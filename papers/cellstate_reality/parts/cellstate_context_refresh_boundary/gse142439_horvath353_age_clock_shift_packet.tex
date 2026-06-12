@@ -1,0 +1,29 @@
+\subsection{GSE142439 Horvath353 age-clock shift packet}
+\label{sec:bioreality-age-clock-shift-gse142439-horvath353}
+
+\paragraph{Finite record.}
+The record \texttt{age-clock-shift.gse142439.horvath353} packages one paired methylation-array contact into an age-signature claim.  The carrier is
+$$
+\begin{aligned}
+B_A=(M,W,P,S_A,\Delta_A,L,N),
+\end{aligned}
+$$
+where $M$ is the paired methylation beta matrix restricted to Horvath353 CpGs covered by the platform, $W$ is the Horvath353 coefficient table together with its intercept, $P$ is the finite list of person-level normal/treated pairs, $S_A$ is the DNAm-age readback, $\Delta_A$ is the treated-minus-normal paired age difference, $L$ is the layer tag \texttt{age\_signature}, and $N$ is the explicit boundary preventing promotion to identity, function, safety, rejuvenation, renewable maintenance, or immortality claims.  The contact \texttt{k-a.gse142439.horvath353} reports sixteen methylation-array samples organized as eight normal/treated pairs.  The usable clock coordinate list contains $334$ covered Horvath markers out of $353$, so the observed coverage fraction is
+$$
+\begin{aligned}
+\frac{334}{353}=0.946175637\ldots,
+\end{aligned}
+$$
+which exceeds both finite thresholds recorded by the probe, namely $330/353$ covered markers and $0.93$ fractional coverage.
+
+\paragraph{Readback rule.}
+For each sample, the readback applies the Horvath353 coefficient vector to the covered CpG beta values in $M$, includes the clock intercept from $W$, and transforms the resulting clock score into a DNAm-age value.  The paired statistic is then computed person by person: treated DNAm age minus matched normal DNAm age.  The packet is positive only when the frozen pairing is present, the cell-type split is the recorded normal/treated split for all eight pairs, the mean paired delta is negative, and the paired sign/t criterion supports the treated-lower-than-normal direction.  In the verified run \texttt{d79addaacf6d}, the claim \texttt{cellstate.age-clock-shift.gse142439} is marked with \texttt{support = true} and verdict \texttt{Support\_A}; the finite interpretation is therefore that this contact supports an age-signature clock shift in this dataset.
+
+\paragraph{Layer-local meaning.}
+The supported object is $\mathrm{AgeClockShift}^{\uparrow}$ at the \texttt{age\_signature} layer.  This is a statement about a methylation-clock readout, not about a global biological state.  The finite rows say that the covered Horvath353 coordinates are sufficient for this clock computation and that the treated samples have a lower paired DNAm-age readback under the recorded test.  They do not say that cellular identity is preserved, that a differentiated state has been reset, that partial reprogramming has occurred, or that a biological rejuvenation program has been realized.  The packet keeps the clock-signature observation and the biological promotion claims in different compartments: the former is supported by the array contact, while the latter remain unlicensed by this evidence.
+
+\paragraph{Null and break conditions.}
+The same finite object also specifies how the claim fails.  If fewer than $330$ Horvath353 CpGs are covered, if the coverage fraction drops below $0.93$, if the sixteen samples cannot be arranged into the frozen eight normal/treated pairs, if the mean treated-minus-normal DNAm-age delta is nonnegative, or if the paired sign/t criterion does not support the stated direction, the record is not a supported age-signature packet.  It also fails as soon as the methylation-array contact alone is used to assert $\mathrm{IdentityPreservingAgeReset}^{\uparrow}$, $\mathrm{Rejuvenation}^{\uparrow}$, $\mathrm{PartialReprogramming}^{\uparrow}$, $\mathrm{RenewableMaintenance}^{\uparrow}$, or $\mathrm{ImmortalityPotential}^{\uparrow}$.  Those interpretations require their own matched contacts rather than inference from a Horvath clock shift.
+
+\paragraph{Local non-promotion boundary.}
+The source is a CpG-level methylation-array measurement with Horvath353 weights, an intercept, sample annotations, and person-level pairing.  It can test an age-signature coordinate calculation.  It cannot by itself test cell identity, translation, folding, physical admissibility, functional realization, safety, organismal maintenance, renewable maintenance, mechanism, cross-layer relations, immortality, or universality.  No conclusion about protein translation, folded molecular state, admissible physical implementation, biological function, causal mechanism, broad generality, safety, identity preservation, rejuvenation, or long-term maintenance follows unless a separate layer-matched reality contact supplies that evidence.  Thus the ready verdict is narrow: GSE142439, scored through the covered Horvath353 clock coordinates, supports only a local paired DNAm-age-signature decrease under the recorded finite test.

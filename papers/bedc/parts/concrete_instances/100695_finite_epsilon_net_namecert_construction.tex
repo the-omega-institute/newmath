@@ -51,6 +51,34 @@ The refusal clauses follow from absence of coordinates. Since the carrier has no
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteEpsilonNetUp.FiniteEpsilonNetTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Finite epsilon-net coverage obligation]
+\label{thm:finite-epsilon-net-obligation-coverage}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteEpsilonNetUp$ carrier $Q=(X,\varepsilon,P,C,D,H,R,S,N)$ must read the metric source row $X$, the positive tolerance row $\varepsilon$, the center bundle $P$, the center-carrier ledger $C$, and the coverage-distance ledger $D$ before it may use the net as a covering witness. The consumer receives no ambient finite subset, host enumeration, open-cover family, selected compactness proof, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only coverage data are the metric source $X$, positive tolerance $\varepsilon$, center bundle $P$, center-carrier ledger $C$, and coverage-distance ledger $D$.
+
+The center rows are prerequisite data. A consumer cannot use a proposed center before the bundle $P$ displays it and the ledger $C$ admits it as a point of the metric source $X$.
+
+The coverage row is then read through $D$. Each inspected source point is paired with an admitted center and a displayed distance comparison bounded by $\varepsilon$.
+
+Apply \autoref{thm:finite-epsilon-net-totally-bounded-handoff}. That handoff places every total-bounded or compact-metric read downstream of the same finite center and distance rows, so the covering witness cannot be replaced by a host finite subset or open-cover argument.
+\end{proof}
+
+\begin{theorem}[Finite epsilon-net center-transport obligation]
+\label{thm:finite-epsilon-net-obligation-center-transport}
+For every accepted $\FiniteEpsilonNetUp$ carrier $Q=(X,\varepsilon,P,C,D,H,R,S,N)$, componentwise $\hsame$ transport preserves exactly the same center rows of $P$, the same center-carrier admissions of $C$, and the same coverage-distance ledger $D$. A transported finite-net read may replay the route through $H$ and $R$, but it may not introduce a new center, tolerance, coverage comparison, host enumeration, open-cover proof, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the transport row $H$. It acts componentwise on $X,\varepsilon,P,C,D,R,S,N$ and has no coordinate for additional centers or detached coverage witnesses.
+
+The center data are therefore unchanged. Transport can move the displayed bundle row $P$ and the admission ledger $C$, but it cannot add a center outside the bundle or drop the metric-source admission attached to that center.
+
+The coverage-distance ledger is transported in the same way. Each row of $D$ keeps the inspected source point, admitted center, and distance comparison bounded by $\varepsilon$.
+
+Apply \autoref{thm:finite-epsilon-net-totally-bounded-handoff}. Downstream total-bounded and compact-metric consumers still read the same $X,\varepsilon,P,C,D$ route after transport, so no host enumeration, open-cover proof, selected compactness witness, or ambient completeness row is exported.
+\end{proof}
+
 \begin{theorem}[Finite epsilon-net totally-bounded handoff]
 \label{thm:finite-epsilon-net-totally-bounded-handoff}
 Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteEpsilonNetUp$ carrier reads the finite route
@@ -67,6 +95,24 @@ The finite center data are opened next. The closed bundle $P$ names the centers,
 The structural rows then package exactly that finite route. Componentwise transport $H$ preserves the same tolerance and center data, replay $R$ exposes the route to downstream consumers, provenance $S$ records the package lineage, and $N$ names the local certificate.
 
 Therefore the total-bounded handoff factors through the displayed finite-net route before any consumer can use total boundedness. Applying \autoref{thm:finite-epsilon-net-namecert-obligations}, the consumer cannot replace the route by a host finite subset, host enumeration, open-cover argument, selected compactness proof, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Finite epsilon-net Lebesgue-number handoff]
+\label{thm:finite-epsilon-net-lebesgue-number-handoff}
+Every $\LebesgueNumberFiniteNetUp$ consumer of an accepted $\FiniteEpsilonNetUp$ carrier reads the finite route
+$$
+X,\varepsilon,P,C,D \longmapsto H,R,S,N
+$$
+before it may inspect a cover-stability tolerance. Thus the consumer receives center rows, membership rows, dyadic or rational tolerance rows, the $\TotallyBoundedUp$ refinement surface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The handoff exports no selected subcover, open-cover compactness theorem, host $\RealUp$ equality, countable-choice schedule, or ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-epsilon-net-carrier}. The only tolerance-facing rows available to a Lebesgue-number finite-net consumer are the metric source $X$, the positive tolerance row $\varepsilon$, the closed center bundle $P$, the center-carrier ledger $C$, and the coverage-distance ledger $D$.
+
+Use \autoref{thm:finite-epsilon-net-namecert-obligations}. Center visibility and finite coverage force every center and membership read through $P,C,D$, while tolerance transport keeps the same rational or dyadic tolerance row visible under $H$.
+
+Apply \autoref{thm:finite-epsilon-net-totally-bounded-handoff} for the refinement surface consumed by $\TotallyBoundedUp$ and compact-metric routes. The Lebesgue-number finite-net handoff may read that finite refinement surface before a cover-stability tolerance, but it cannot replace the finite route by an open-cover compactness proof.
+
+The nonescape clauses are inherited from the same rows. Since the packet has no coordinate for a selected subcover, host Real equality, countable-choice schedule, or ambient completeness principle, no $\LebesgueNumberFiniteNetUp$ consumer can obtain one from this handoff.
 \end{proof}
 
 \closureat{FiniteEpsilonNetUp}{seedStr}

@@ -144,6 +144,23 @@ Now apply the obligation-closure package. It routes the remaining rows through $
 Therefore a candidate-mediated normalization packet may use this carrier as a closedness-preservation ledger, but the candidate evidence required for strong normalization must arrive from the candidate router or frontier. Since no such evidence is a coordinate of $T$, the route cannot state a strong-normalization conclusion from $\MetaCICClosureTraceUp$ alone.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace residual frontier]
+\label{thm:metacic-closure-trace-residual-frontier}
+Every residual-frontier consumer of an accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$ may read the ClosurePreservation rows
+$$
+S,U,V,B,R,G,K,H,C,P,N
+$$
+only as closedness-preservation evidence. Any confluence, residual, candidate, strong-normalization, subject-reduction, or conversion-soundness conclusion must import the corresponding diamond, residual, and candidate data from a separate MetaCIC frontier packet before it is claimed.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_residual\_frontier}
+\begin{proof}
+Begin with the candidate-mediated SN route. It permits downstream normalization packets to consume the closure trace only through the displayed shift, substitution, beta-step, finite beta-chain, generator, kernel-ledger, transport, replay, provenance, and local-name rows.
+
+Use the kernel-ledger boundary next. The row $K$ records acceptance accounting for ClosurePreservation declarations, not a hidden proof of subject reduction, confluence, normalization, residual determinacy, or conversion soundness.
+
+Thus a residual-frontier consumer may forward $S,U,V,B,R,G,K,H,C,P,N$ as a closedness-preservation ledger. Since the carrier contains no diamond, residual, or candidate evidence row, every stronger MetaCIC conclusion must be supplied by a separate frontier packet before the consumer can claim it.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace obligation-closure forwarder]
 \label{thm:metacicclosuretrace-obligation-closure-forwarder}
 For every accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$, the rows $S,U,V,B,R,G,K,H,C,P,N$ jointly form the obligation-closure surface exported to closure-preservation consumers. The exported surface consists only of shift closedness, variable-substitution closedness, full-substitution closedness, one-step beta closedness, finite beta-chain closedness, generator readback, kernel-trace ledger accounting, componentwise transport, replay, provenance, and local naming. It refuses typing preservation, conversion, confluence, normalization, subject reduction, and hidden kernel soundness.
@@ -330,15 +347,62 @@ Finally apply the decidability readback frontier. It keeps decidability-facing r
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_obligation\_status\_registration}
 
-\closureat{MetaCICClosureTraceUp}{seedStr}
+\begin{theorem}[MetaCIC closure trace public boundary]
+\label{thm:metacic-closure-trace-public-boundary}
+Any public consumer of an accepted $\MetaCICClosureTraceUp$ packet must display the ClosurePreservation row family, the substitution row family, the beta-chain row, the kernel-trace row, the candidate-mediated strong-normalization row, the confluence row, and the decidability row before exporting the trace. Concretely, the consumer must read $S,U,V$ for shift and substitution closedness, $B,R$ for one-step beta and finite beta chains, $G$ for generator accounting, $K$ for the kernel-acceptance trace, the candidate frontier for strong-normalization-facing reads, the confluence handoff boundary, and the decidability readback frontier, then preserve the whole packet through $H,C,P,N$.
+
+The public export is a closure-trace boundary only. It does not prove subject reduction, full normalization, kernel soundness, confluence, decidable conversion, decidable typing, or Lean verification for the whole packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacicclosuretrace-carrier}. The visible rows are the ClosurePreservation theorem rows, generator accounting, kernel ledger, transport, replay, provenance, and local naming; no row stores subject reduction, full normalization, kernel soundness, or a global confluence theorem.
+
+Apply the substitution-shift generator package and beta-star preservation readback. These results expose $S,U,V,G$ and $B,R$ as closedness-preservation data only, so the public route begins with the displayed substitution and beta-chain rows rather than with a typing or conversion theorem.
+
+Use the kernel-ledger boundary, candidate-mediated closedness ledger, confluence handoff boundary, and decidability readback frontier. They force normalization-facing, confluence-facing, and decidability-facing consumers to pass through the same finite row family before asking a downstream packet for stronger evidence.
+
+Finally apply obligation status registration. It assembles the ClosurePreservation, substitution, beta-chain, kernel-trace, candidate-mediated strong-normalization, confluence, and decidability routes into the public paper boundary while preserving the refusal of subject reduction, full normalization, kernel soundness, and Lean verification.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_public\_boundary}
+
+\begin{theorem}[MetaCICClosureTrace candidate-mediated SN source scope]
+\label{thm:metacicclosuretrace-candidate-sn-source-scope}
+Any candidate-mediated strong-normalization source read exported by an accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$ factors through the closed-substitution boundary, the candidate closedness ledger, the confluence handoff boundary, the decidability readback frontier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Concretely, the source read may forward only the displayed closedness-preservation rows for shift, variable substitution, full substitution, one-step beta, finite beta chains, generator accounting, and kernel acceptance. It may then pass those rows to a separate candidate packet through the candidate-mediated closedness ledger of \autoref{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}, the confluence handoff boundary of \autoref{thm:metacicclosuretrace-confluence-handoff-boundary}, and the decidability readback frontier of \autoref{thm:metacicclosuretrace-decidability-readback-frontier}. The export does not claim full subject reduction, global strong normalization, kernel soundness, unrestricted confluence, decidable conversion, decidable typing, or quotient term equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_candidate\_sn\_source\_scope}
+\begin{proof}
+Project the carrier of \autoref{def:metacicclosuretrace-carrier}. Its rows are the substitution and beta closedness-preservation rows $S,U,V,B,R$, the generator and kernel-ledger rows $G,K$, and the structural rows $H,C,P,N$.
+
+Use the closed-substitution route and candidate-mediated closedness ledger. They order the substitution rows, beta rows, generator row, and kernel ledger as closedness evidence only; no row in that sequence stores subject reduction or a normalization theorem.
+
+Next use the confluence handoff boundary and decidability readback frontier. These results allow the same closedness surface to be forwarded into confluence-facing and decidability-facing consumers, while requiring any confluence, conversion, typing, or normalization conclusion to come from a separate packet.
+
+Finally transport and name the export through $H,C,P,N$. The source scope is therefore exactly the displayed closure-trace route available to candidate-mediated consumers, and the excluded subject-reduction, global-normalization, kernel-soundness, confluence, decidability, and quotient-equality claims remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace public bridge obligation]
+\label{thm:metacicclosuretrace-public-bridge-obligation}
+Any standard bridge for the public $\MetaCICClosureTraceUp$ boundary must preserve exactly the displayed public rows of \autoref{thm:metacic-closure-trace-public-boundary}: ClosurePreservation rows, substitution rows, beta-chain rows, kernel-trace accounting, candidate-mediated normalization-facing rows, confluence-facing rows, decidability-facing rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The bridge obligation may not import subject reduction, type preservation, full normalization, kernel soundness, confluence, decidable conversion, decidable typing, quotient term equality, or any stronger MetaCIC theorem as an unrecorded premise.
+\end{theorem}
+\begin{proof}
+Start from the public boundary theorem, \autoref{thm:metacic-closure-trace-public-boundary}. It lists the rows that a public consumer may inspect before exporting the closure trace.
+
+Use obligation status registration, \autoref{thm:metacicclosuretrace-obligation-status-registration}. That theorem registers the paper obligation surface as closedness, generator accounting, kernel acceptance accounting, transport, replay, provenance, and naming, while refusing subject reduction, confluence, normalization, conversion soundness, and kernel soundness.
+
+The bridge obligation is therefore a preservation boundary for those public rows. A future bridge can check that the displayed rows survive the bridge schema, but it cannot strengthen the carrier by importing typing, confluence, normalization, or kernel-soundness evidence from outside the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_public\_bridge\_obligation}
+
+\closureat{MetaCICClosureTraceUp}{matureStr}
 
 \begin{closurestatus}{\MetaCICClosureTraceUp}
   \constructivestory{A $\MetaCICClosureTraceUp$ packet is generated from five MetaCIC ClosurePreservation theorem rows, shift and substitution generator-closure rows, kernel-acceptance trace rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacicclosuretrace-carrier}, \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, and \autoref{thm:metacicclosuretrace-namecert-obligations} bind the finite closure-trace packet over MetaCIC shift, substitution, beta-step, and finite beta-chain closedness preservation.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, \autoref{thm:metacicclosuretrace-namecert-obligations}, and \autoref{thm:metacicclosuretrace-kernel-ledger-boundary} bind the checked substitution-shift, beta-star, NameCert-obligation, and kernel-ledger rows as the paper-side bridge surface for the displayed closure-trace packet.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_obligation\_closure\_package}
   \bridgestatus{none}
-  \origin{human}
-  \notclaimed{This chapter does not prove subject reduction, type preservation, confluence, normalization, kernel soundness, checked Lean carrier obligations, or a public bridge for the closure-trace packet.}
-  \upgradepath{Obligation closure requires checked carrier admission, generator package exactness, beta-chain readback exactness, kernel-trace accounting, route replay, provenance, local naming, and non-escape for the same finite packet.}
+  \notclaimed{This chapter does not prove subject reduction, type preservation, full normalization, kernel soundness, checked Lean carrier obligations, or a public bridge for the closure-trace packet.}
+  \upgradepath{A bridge grade requires a checked standard bridge for the same public closure-trace boundary, while subject reduction, full normalization, and kernel soundness remain separate packets.}
 \end{closurestatus}

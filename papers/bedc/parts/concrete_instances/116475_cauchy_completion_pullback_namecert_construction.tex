@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionPullbackUp$}
+\label{ch:concrete-instances-cauchy-completion-pullback-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion and finite comparison of Cauchy data, the $\CauchyCompletionPullbackUp$ packet records the compatibility surface where two displayed completion routes meet over one target seal. It sits beside the completion functor route of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, the product-strength packet of \autoref{ch:concrete-instances-cauchy-completion-strength-namecert}, the terminal exact-boundary route of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}, and the regular-rational and stream-window sources of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-streamname-namecert}. The packet is a finite L10 compatibility object: it does not import host pullbacks, quotient completions, selected limits, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy completion pullback carrier]
+\label{def:cauchy-completion-pullback-carrier}
+A $\CauchyCompletionPullbackUp$ carrier is a finite $\BHist$ packet
+$$
+P=(A,B,T,f,g,W_A,W_B,R_A,R_B,H,C,P_0,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the left $\CauchyCompletionMonadUp$ source row, exposing only its displayed completion request and local naming surface.
+\item $B$ is the right $\MetricCompletionUp$ source row, exposing only its displayed metric-completion request and local naming surface.
+\item $T$ is the shared terminal $\RealUp$ seal row reached by both completion routes.
+\item $f$ is the left leg, a finite route from $A$ through the relevant $\StreamNameUp$ window and $\RegSeqRatUp$ readback rows to $T$.
+\item $g$ is the right leg, a finite route from $B$ through the relevant $\StreamNameUp$ window and $\RegSeqRatUp$ readback rows to $T$.
+\item $W_A$ and $W_B$ are the synchronized $\StreamNameUp$ window rows inspected by the two legs.
+\item $R_A$ and $R_B$ are the corresponding $\RegSeqRatUp$ readback rows attached to those windows.
+\item $H$ records componentwise $\hsame$ transport for the two sources, two legs, two windows, two readbacks, shared seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the two routes into the same terminal seal.
+\item $P_0$ is the $\Pkg$ provenance over $\CauchyCompletionPullbackUp$, $\CauchyCompletionMonadUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionPullbackUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,B,T,f,g,W_A,W_B,R_A,R_B,H,C,P_0,N$. It has no coordinate for a host pullback object, quotient completion, selected representative, countable-choice schedule, detached limit, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completion pullback NameCert obligations]
+\label{thm:cauchy-completion-pullback-namecert-obligations}
+For every accepted $\CauchyCompletionPullbackUp$ carrier
+$$
+P=(A,B,T,f,g,W_A,W_B,R_A,R_B,H,C,P_0,N),
+$$
+the local $\NameCert_{\CauchyCompletionPullbackUp}$ surface consists exactly of carrier admission, leg compatibility, shared target sealing, synchronized finite windows, transport, replay, provenance, and non-escape. In particular, every public compatibility read must display the left $\CauchyCompletionMonadUp$ row, the right $\MetricCompletionUp$ row, both legs, both $\StreamNameUp$ windows, both $\RegSeqRatUp$ readbacks, the common $\RealUp$ seal, and the structural rows $H,C,P_0,N$ before it may treat the two completion routes as meeting.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-pullback-carrier}. Carrier admission exposes exactly the two source rows, the two leg rows, the two finite windows, the two regular-rational readbacks, the shared seal, and the four structural rows.
+
+Leg compatibility is read from $f$ and $g$ together with $W_A,W_B,R_A,R_B$. The left leg must pass from the $\CauchyCompletionMonadUp$ row through its displayed window and readback; the right leg must pass from the $\MetricCompletionUp$ row through its displayed window and readback.
+
+The shared target seal is the single row $T$. Since both legs name the same terminal $\RealUp$ coordinate only after the windows and readbacks have been displayed, the packet supplies a finite compatibility surface rather than a host pullback or quotient-completion equality.
+
+Finally $H,C,P_0,N$ provide componentwise transport, replay, provenance, and local naming for that same finite route. No remaining coordinate can export selected limits, countable choice, detached representatives, or ambient completeness, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy completion pullback synchronized windows]
+\label{thm:cauchy-completion-pullback-synchronized-windows}
+Every accepted $\CauchyCompletionPullbackUp$ read factors through the synchronized finite-window route
+$$
+\CauchyCompletionMonadUp,\ \MetricCompletionUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+by reading $A,B,W_A,W_B,R_A,R_B,T,H,C,P_0,N$. The two completion legs may meet only at the displayed seal $T$ over those windows and readbacks.
+\end{theorem}
+\begin{proof}
+Start with the two source rows $A$ and $B$. A completion-facing consumer receives no direct comparison between them; it receives only the leg rows $f,g$ and the displayed windows $W_A,W_B$.
+
+The windows determine the regular-rational readbacks $R_A,R_B$. These readbacks are the only data that can be replayed toward the shared seal, so the consumer cannot replace them with quotient Cauchy classes or selected completed representatives.
+
+After the readbacks have been displayed, the terminal row $T$ supplies the shared $\RealUp$ seal. Transport, replay, provenance, and local naming keep both legs on the same finite route, and no other row remains available.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyCompletionPullbackUp$ read that claims two completion routes meet must display a CauchyCompletionMonad source, a MetricCompletion source, two finite StreamName windows, two RegSeqRat readbacks, two leg rows, a shared RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+
+\independenceWitness{cauchycompletionfunctor, metriccompletion, cauchy-completion-strength, real-completion-exact-boundary, regseqrat, streamname: $\CauchyCompletionPullbackUp$ is not bijective to any listed sibling because it jointly binds two distinct completion sources, two leg rows, synchronized windows, paired readbacks, one terminal seal, transport, replay, provenance, and local naming in a single compatibility packet.}
+
+\closureat{CauchyCompletionPullbackUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionPullbackUp}
+  \constructivestory{A $\CauchyCompletionPullbackUp$ packet is generated from a CauchyCompletionMonad row, a MetricCompletion row, a shared RealUp seal, two leg rows, two StreamName windows, two RegSeqRat readbacks, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-pullback-carrier}, \autoref{thm:cauchy-completion-pullback-namecert-obligations}, and \autoref{thm:cauchy-completion-pullback-synchronized-windows} seed the finite compatibility surface for two completion routes over one terminal seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host pullbacks, quotient completions, selected limits, countable choice, detached completed representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, leg compatibility, shared target sealing, synchronized finite windows, transport, replay, provenance, and non-escape for BEDC.Derived.CauchyCompletionPullbackUp.}
+\end{closurestatus}

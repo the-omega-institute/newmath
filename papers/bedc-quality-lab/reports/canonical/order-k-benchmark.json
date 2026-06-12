@@ -1,0 +1,452 @@
+{
+  "artifact_id": "bedc-quality-lab:order-k-benchmark",
+  "discovery_map_signal": {
+    "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary",
+    "failed_gate": null,
+    "failed_gate_pointer": "reports/canonical/order-k-benchmark.json:$.hardgate.failed_gate",
+    "ledger_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
+    "level_candidate": "D5-O",
+    "reason": "finite-order-required-surface-positive",
+    "status": "d5-o-candidate"
+  },
+  "forbidden_claim_term_audit": {
+    "hits": [],
+    "scanned_term_count": 8,
+    "status": "pass"
+  },
+  "generated_at": "1970-01-01T00:00:00+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "OK-HG1-task-spec-single-owner": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.task_spec_owner",
+        "status": "pass"
+      },
+      "OK-HG2-minimal-order-detected": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary",
+        "status": "pass"
+      },
+      "OK-HG3-matched-random-negative": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.matched_random_controls",
+        "status": "pass"
+      },
+      "OK-HG4-ood-stability": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.ood_stability",
+        "status": "pass"
+      },
+      "OK-HG5-proxy-non-explanation": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.margin_entropy_proxy_check",
+        "status": "pass"
+      },
+      "OK-HG6-forbidden-claim-audit": {
+        "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.forbidden_claim_term_audit",
+        "status": "pass"
+      }
+    },
+    "raw_evidence_pointers": {
+      "matched_random_controls": "reports/canonical/order-k-benchmark.json:$.matched_random_controls",
+      "ood_stability": "reports/canonical/order-k-benchmark.json:$.ood_stability.rows",
+      "order_rows": "reports/canonical/order-k-benchmark.json:$.order_rows"
+    },
+    "status": "pass"
+  },
+  "margin_entropy_proxy_check": {
+    "max_abs_entropy_delta": 0.004,
+    "max_abs_margin_delta": 0.01,
+    "rationale": "margin and entropy move monotonically with arm order but do not identify the required interaction.",
+    "rows": [
+      {
+        "entropy_delta_true_vs_lower": -0.004,
+        "explains_required_order": false,
+        "margin_delta_true_vs_lower": 0.01,
+        "required_order": 1,
+        "task_id": "B1"
+      },
+      {
+        "entropy_delta_true_vs_lower": -0.004,
+        "explains_required_order": false,
+        "margin_delta_true_vs_lower": 0.01,
+        "required_order": 2,
+        "task_id": "B2"
+      },
+      {
+        "entropy_delta_true_vs_lower": -0.004,
+        "explains_required_order": false,
+        "margin_delta_true_vs_lower": 0.01,
+        "required_order": 3,
+        "task_id": "B3"
+      },
+      {
+        "entropy_delta_true_vs_lower": -0.004,
+        "explains_required_order": false,
+        "margin_delta_true_vs_lower": 0.01,
+        "required_order": 4,
+        "task_id": "B4"
+      }
+    ],
+    "status": "pass"
+  },
+  "matched_random_controls": [
+    {
+      "accuracy": 0.505,
+      "control": "matched-random",
+      "evidence_pointer": "reports/canonical/order-k-benchmark.json:$.matched_random_controls",
+      "order": 2,
+      "positive": false,
+      "status": "non-positive",
+      "surface_id": "surface-order-two-xor",
+      "task_id": "B2"
+    }
+  ],
+  "minimal_order_summary": {
+    "all_detected": true,
+    "by_task": {
+      "B1": {
+        "lower_orders_fail": true,
+        "minimal_sufficient_order": 1,
+        "required_order": 1,
+        "status": "pass",
+        "surface_id": "surface-order-one-threshold"
+      },
+      "B2": {
+        "lower_orders_fail": true,
+        "minimal_sufficient_order": 2,
+        "required_order": 2,
+        "status": "pass",
+        "surface_id": "surface-order-two-xor"
+      },
+      "B3": {
+        "lower_orders_fail": true,
+        "minimal_sufficient_order": 3,
+        "required_order": 3,
+        "status": "pass",
+        "surface_id": "surface-order-three-classifier-shift"
+      },
+      "B4": {
+        "lower_orders_fail": true,
+        "minimal_sufficient_order": 4,
+        "required_order": 4,
+        "status": "pass",
+        "surface_id": "surface-order-four-certificate-route"
+      }
+    },
+    "max_required_order": 4,
+    "status": "pass"
+  },
+  "not_claimed": [
+    "real model training",
+    "cross-surface model quality",
+    "production architecture ranking",
+    "standalone surface-required-order ledger artifact",
+    "NameCert candidate construction"
+  ],
+  "ood_stability": {
+    "rows": [
+      {
+        "lower_order": 0,
+        "lower_order_accuracy": 0.537,
+        "lower_order_status": "fail",
+        "surface_id": "surface-order-one-threshold",
+        "task_id": "B1",
+        "true_order": 1,
+        "true_order_accuracy": 0.905,
+        "true_order_status": "pass"
+      },
+      {
+        "lower_order": 1,
+        "lower_order_accuracy": 0.475,
+        "lower_order_status": "fail",
+        "surface_id": "surface-order-two-xor",
+        "task_id": "B2",
+        "true_order": 2,
+        "true_order_accuracy": 0.905,
+        "true_order_status": "pass"
+      },
+      {
+        "lower_order": 2,
+        "lower_order_accuracy": 0.537,
+        "lower_order_status": "fail",
+        "surface_id": "surface-order-three-classifier-shift",
+        "task_id": "B3",
+        "true_order": 3,
+        "true_order_accuracy": 0.905,
+        "true_order_status": "pass"
+      },
+      {
+        "lower_order": 3,
+        "lower_order_accuracy": 0.537,
+        "lower_order_status": "fail",
+        "surface_id": "surface-order-four-certificate-route",
+        "task_id": "B4",
+        "true_order": 4,
+        "true_order_accuracy": 0.905,
+        "true_order_status": "pass"
+      }
+    ],
+    "status": "pass"
+  },
+  "order_rows": [
+    {
+      "accuracy": 0.92,
+      "classifier_shift_count": 0,
+      "entropy": 0.686,
+      "lower_order_failure_reason": null,
+      "margin": 0.32,
+      "order": 1,
+      "positive": true,
+      "row_count": 96,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-one-threshold",
+      "task_id": "B1"
+    },
+    {
+      "accuracy": 0.5,
+      "classifier_shift_count": 0,
+      "entropy": 0.686,
+      "lower_order_failure_reason": "single-coordinate arms collapse the parity route to chance",
+      "margin": 0.32,
+      "order": 1,
+      "positive": false,
+      "row_count": 128,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-two-xor",
+      "task_id": "B2"
+    },
+    {
+      "accuracy": 0.926,
+      "classifier_shift_count": 0,
+      "entropy": 0.682,
+      "lower_order_failure_reason": null,
+      "margin": 0.33,
+      "order": 2,
+      "positive": true,
+      "row_count": 128,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-two-xor",
+      "task_id": "B2"
+    },
+    {
+      "accuracy": 0.544,
+      "classifier_shift_count": 1,
+      "entropy": 0.686,
+      "lower_order_failure_reason": "lower-order arms cannot bind the third coordinate",
+      "margin": 0.32,
+      "order": 1,
+      "positive": false,
+      "row_count": 160,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": 0,
+      "split": "train",
+      "surface_id": "surface-order-three-classifier-shift",
+      "task_id": "B3"
+    },
+    {
+      "accuracy": 0.562,
+      "classifier_shift_count": 1,
+      "entropy": 0.682,
+      "lower_order_failure_reason": "lower-order arms cannot bind the third coordinate",
+      "margin": 0.33,
+      "order": 2,
+      "positive": false,
+      "row_count": 160,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": 0,
+      "split": "train",
+      "surface_id": "surface-order-three-classifier-shift",
+      "task_id": "B3"
+    },
+    {
+      "accuracy": 0.932,
+      "classifier_shift_count": 0,
+      "entropy": 0.678,
+      "lower_order_failure_reason": null,
+      "margin": 0.34,
+      "order": 3,
+      "positive": true,
+      "row_count": 160,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": 0,
+      "split": "train",
+      "surface_id": "surface-order-three-classifier-shift",
+      "task_id": "B3"
+    },
+    {
+      "accuracy": 0.526,
+      "classifier_shift_count": 0,
+      "entropy": 0.686,
+      "lower_order_failure_reason": "all lower arms omit at least one certificate coordinate",
+      "margin": 0.32,
+      "order": 1,
+      "positive": false,
+      "row_count": 192,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-four-certificate-route",
+      "task_id": "B4"
+    },
+    {
+      "accuracy": 0.544,
+      "classifier_shift_count": 0,
+      "entropy": 0.682,
+      "lower_order_failure_reason": "all lower arms omit at least one certificate coordinate",
+      "margin": 0.33,
+      "order": 2,
+      "positive": false,
+      "row_count": 192,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-four-certificate-route",
+      "task_id": "B4"
+    },
+    {
+      "accuracy": 0.562,
+      "classifier_shift_count": 0,
+      "entropy": 0.678,
+      "lower_order_failure_reason": "all lower arms omit at least one certificate coordinate",
+      "margin": 0.34,
+      "order": 3,
+      "positive": false,
+      "row_count": 192,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-four-certificate-route",
+      "task_id": "B4"
+    },
+    {
+      "accuracy": 0.938,
+      "classifier_shift_count": 0,
+      "entropy": 0.674,
+      "lower_order_failure_reason": null,
+      "margin": 0.35,
+      "order": 4,
+      "positive": true,
+      "row_count": 192,
+      "seed": 1004,
+      "shuffle_control_classifier_shift_count": null,
+      "split": "train",
+      "surface_id": "surface-order-four-certificate-route",
+      "task_id": "B4"
+    }
+  ],
+  "positive_claim": {
+    "scope": "deterministic B1 through B4 synthetic task surfaces only",
+    "status": "bounded-positive",
+    "text": "Order-k benchmark records finite synthetic evidence that task surfaces require their declared interaction order under matched controls and OOD checks."
+  },
+  "producer": "scripts/run_order_k_benchmark.py",
+  "projector": "bedc_quality_lab.order_k_benchmark.OrderKBenchmarkProjection",
+  "schema_id": "bedc-quality-lab:order-k-benchmark",
+  "seed": 1004,
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "runner": "scripts/run_order_k_benchmark.py",
+    "task_spec_owner": "bedc_quality_lab/order_k_benchmark.py:OrderKBenchmarkProjection.default_specs"
+  },
+  "surface_required_order_ledger": {
+    "artifact_id": null,
+    "owner": "embedded-view",
+    "row_count": 4,
+    "rows": [
+      {
+        "minimal_sufficient_order_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B1.minimal_sufficient_order",
+        "required_order": 1,
+        "status_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B1.status",
+        "surface_id": "surface-order-one-threshold",
+        "task_id": "B1"
+      },
+      {
+        "minimal_sufficient_order_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B2.minimal_sufficient_order",
+        "required_order": 2,
+        "status_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B2.status",
+        "surface_id": "surface-order-two-xor",
+        "task_id": "B2"
+      },
+      {
+        "minimal_sufficient_order_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B3.minimal_sufficient_order",
+        "required_order": 3,
+        "status_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B3.status",
+        "surface_id": "surface-order-three-classifier-shift",
+        "task_id": "B3"
+      },
+      {
+        "minimal_sufficient_order_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B4.minimal_sufficient_order",
+        "required_order": 4,
+        "status_pointer": "reports/canonical/order-k-benchmark.json:$.minimal_order_summary.by_task.B4.status",
+        "surface_id": "surface-order-four-certificate-route",
+        "task_id": "B4"
+      }
+    ],
+    "rows_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
+    "schema_id": "bedc-quality-lab:surface-required-order-ledger-view"
+  },
+  "surface_required_order_ledger_ref": {
+    "artifact": "reports/canonical/order-k-benchmark.json",
+    "artifact_pointer": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
+    "pointer": "$.surface_required_order_ledger.rows",
+    "role": "embedded-ledger-view"
+  },
+  "task_spec_owner": {
+    "owner_module": "bedc_quality_lab.order_k_benchmark",
+    "owner_pointer": "reports/canonical/order-k-benchmark.json:$.task_specs",
+    "status": "single-owner"
+  },
+  "task_specs": [
+    {
+      "formula": "sign(x0)",
+      "lower_order_failure_reason": "order-zero arm has no input-dependent separator",
+      "matched_random_control_order": 0,
+      "ood_rows": 64,
+      "owner": "OrderTaskSpec",
+      "required_order": 1,
+      "shuffle_control": false,
+      "surface_id": "surface-order-one-threshold",
+      "task_id": "B1",
+      "train_rows": 96
+    },
+    {
+      "formula": "xor(x0,x1)",
+      "lower_order_failure_reason": "single-coordinate arms collapse the parity route to chance",
+      "matched_random_control_order": 2,
+      "ood_rows": 96,
+      "owner": "OrderTaskSpec",
+      "required_order": 2,
+      "shuffle_control": false,
+      "surface_id": "surface-order-two-xor",
+      "task_id": "B2",
+      "train_rows": 128
+    },
+    {
+      "formula": "xor(x0,x1,x2)",
+      "lower_order_failure_reason": "lower-order arms cannot bind the third coordinate",
+      "matched_random_control_order": 0,
+      "ood_rows": 112,
+      "owner": "OrderTaskSpec",
+      "required_order": 3,
+      "shuffle_control": true,
+      "surface_id": "surface-order-three-classifier-shift",
+      "task_id": "B3",
+      "train_rows": 160
+    },
+    {
+      "formula": "xor(x0,x1,x2,x3)",
+      "lower_order_failure_reason": "all lower arms omit at least one certificate coordinate",
+      "matched_random_control_order": 0,
+      "ood_rows": 128,
+      "owner": "OrderTaskSpec",
+      "required_order": 4,
+      "shuffle_control": false,
+      "surface_id": "surface-order-four-certificate-route",
+      "task_id": "B4",
+      "train_rows": 192
+    }
+  ]
+}

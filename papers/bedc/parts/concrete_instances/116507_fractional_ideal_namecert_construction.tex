@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FractionalIdealUp$}
+\label{ch:concrete-instances-fractional-ideal-namecert}
+\origin{human}
+
+Following Atiyah--Macdonald and Bourbaki on fractional ideals in number fields and Dedekind domains, the $\FractionalIdealUp$ packet records the standard carrier that sits between the ordinary ideal surface and the ideal-class quotient surface. It reads the ambient ring from \autoref{ch:concrete-instances-ring-namecert}, the ideal rows from \autoref{ch:concrete-instances-ideal-namecert}, the Dedekind-domain source from \autoref{ch:concrete-instances-dedekind-namecert}, the number-field carrier from \autoref{ch:concrete-instances-numfield-namecert}, and the ring-of-integers boundary from \autoref{ch:concrete-instances-ringofintegers-namecert}. It supplies the carried endpoints consumed by \autoref{ch:concrete-instances-idealclass-namecert}.
+
+\begin{definition}[Fractional ideal carrier]\label{def:fractional-ideal-carrier}
+A $\FractionalIdealUp$ carrier over a displayed Dedekind source is a finite $\BHist$ packet
+$$
+F=(R,I,D,K,O,P_0,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $R$ is the ambient $\RingUp$ row and its multiplicative compatibility data.
+\item $I$ is the ordinary $\IdealUp$ row that records additive closure and absorption over $R$.
+\item $D$ is the $\DedekindUp$ source row, including the Noetherian, integrally closed, and nonzero-prime boundary used by the packet.
+\item $K$ is the $\NumFieldUp$ fraction-field row through which denominators are read.
+\item $O$ is the $\RingOfIntegersUp$ row that ties the integral carrier back to the number-field source.
+\item $P_0$ is the principal fractional-ideal row, recording principal generators and the principal-equivalence boundary later consumed by $\IdealClassUp$.
+\item $Q$ is the denominator-clearance ledger, naming a nonzero denominator row whose multiplication carries the fractional endpoint back into the displayed $\IdealUp$ surface.
+\item $H$ stores componentwise $\hsame$ transport for all rows above.
+\item $C$ stores displayed $\Cont$ replay for denominator clearance, principal-row reads, and ordinary ideal reads.
+\item $P$ is the $\Pkg$ provenance over $\FractionalIdealUp$, $\RingUp$, $\IdealUp$, $\DedekindUp$, $\NumFieldUp$, $\RingOfIntegersUp$, principal fractional ideals, denominator-clearance rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FractionalIdealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,I,D,K,O,P_0,Q,H,C,P,N$. It has no coordinate for a detached fraction-field subset, a host localization object, quotient equality of fractional ideals, selected generators for arbitrary ideals, or an ambient algebraic-number-theory oracle.
+\end{definition}
+
+\begin{theorem}[Fractional ideal NameCert obligations]\label{thm:fractional-ideal-namecert-obligations}
+For every accepted $\FractionalIdealUp$ carrier $F=(R,I,D,K,O,P_0,Q,H,C,P,N)$, the local $\NameCert_{\FractionalIdealUp}$ surface consists exactly of carrier admission for the displayed ring, ideal, Dedekind, number-field, ring-of-integers, principal-row, denominator-clearance, transport, replay, provenance, and local naming rows; denominator-clearance exactness through $Q$; principal-row visibility through $P_0$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; and $\Pkg$ provenance through $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fractional-ideal-carrier}. The algebraic source rows $R,I,D,K,O$ display the ambient ring, ordinary ideal, Dedekind, number-field, and ring-of-integers data before any fractional endpoint can be read.
+
+The principal row $P_0$ and the denominator-clearance ledger $Q$ provide the two fractional-ideal specific fields. The first records the principal endpoints used by the later quotient classifier, and the second records the finite denominator operation that returns the endpoint to the ordinary ideal surface.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the carrier has no detached fraction-field subset, host localization object, quotient equality, or generator-choice coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fractional ideal Dedekind handoff]\label{thm:fractional-ideal-dedekind-handoff}
+Every $\IdealClassUp$ read of a fractional endpoint factors first through the $\FractionalIdealUp$ carrier of \autoref{def:fractional-ideal-carrier}: the $\RingUp$ source of \autoref{ch:concrete-instances-ring-namecert}, the $\IdealUp$ surface of \autoref{ch:concrete-instances-ideal-namecert}, the $\DedekindUp$ source of \autoref{ch:concrete-instances-dedekind-namecert}, the $\NumFieldUp$ carrier of \autoref{ch:concrete-instances-numfield-namecert}, the $\RingOfIntegersUp$ boundary of \autoref{ch:concrete-instances-ringofintegers-namecert}, principal fractional-ideal rows, denominator-clearance rows, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus \autoref{ch:concrete-instances-idealclass-namecert} receives carried fractional endpoints and principal-boundary evidence, not a host quotient of detached representatives.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:fractional-ideal-namecert-obligations}. They force every accepted fractional endpoint to expose the Dedekind, number-field, ring-of-integers, ordinary ideal, principal, and denominator-clearance rows before the endpoint can be named.
+
+The IdealClass consumer then reads only the principal-boundary row and the carried endpoint row. Multiplication, inverse, identity, and principal equivalence can be routed through those displayed rows, while the structural rows preserve the same provenance under transport and replay.
+
+Therefore an ideal-class packet cannot bypass $\FractionalIdealUp$ by reading a detached fraction-field subset, a host localization, quotient equality of representatives, or selected generators. The handoff is exactly the finite Dedekind fractional-ideal route named above.
+\end{proof}
+
+\falsifiablePrediction{Every $\IdealClassUp$ endpoint read factors through a $\FractionalIdealUp$ carrier with displayed Ring, Ideal, Dedekind, NumField, RingOfIntegers, principal fractional-ideal, denominator-clearance, hsame, Cont, Pkg, and NameCert rows.}
+
+\independenceWitness{ring, ideal, dedekind, numfield, ring-of-integers, idealclass: $\FractionalIdealUp$ is not bijective to any listed sibling because it jointly carries ordinary ideal data, fraction-field denominator clearance, principal fractional-ideal rows, and the structural handoff consumed by IdealClass.}
+
+\closureat{FractionalIdealUp}{seedStr}
+
+\begin{closurestatus}{\FractionalIdealUp}
+  \constructivestory{A $\FractionalIdealUp$ packet is generated from displayed Ring, Ideal, Dedekind, NumField, RingOfIntegers, principal fractional-ideal, denominator-clearance, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fractional-ideal-carrier}, \autoref{thm:fractional-ideal-namecert-obligations}, and \autoref{thm:fractional-ideal-dedekind-handoff} bind the finite fractional-ideal carrier consumed by IdealClass.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a public standard bridge, Lean verification, quotient equality of fractional ideals, a host localization object, or selected generators for arbitrary ideals.}
+  \upgradepath{Obligation closure requires checked carrier admission, denominator-clearance exactness, principal-row visibility, and the Dedekind-to-IdealClass handoff for BEDC.Derived.FractionalIdealUp.}
+\end{closurestatus}

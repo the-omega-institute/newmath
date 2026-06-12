@@ -48,6 +48,7 @@ The kernel witness sibling \autoref{ch:concrete-instances-kernel-audit-witness-n
 \label{thm:host-primitive-leakage-nonescape}
 Every accepted $\HostPrimitiveLeakageUp$ packet $L=(S,Q,E,D,F,G,H,C,P,N)$ admits public reads only through the displayed diagnostic route $S,Q,D,F,G,H,C,P,N$ and, when present, the replacement route $E,H,C,P,N$. A consumer that reads host equality, host numerals, host lists, host function spaces, quotient soundness, choice, or propositional extensionality as BEDC-internal content has left the accepted packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageNonescape}
 \begin{proof}
 Inspect the carrier. The requested host feature is present only as the request row $Q$, and the diagnostic row $D$ records the public route that tried to expose it.
 
@@ -62,17 +63,29 @@ Finally use the excluded coordinates in \autoref{def:host-primitive-leakage-carr
 
 The Lean follow-up for this chapter must provide \texttt{Derived/HostPrimitiveLeakageUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \HostPrimitiveLeakageUp$ and $\mathsf{FieldFaithful}\ \HostPrimitiveLeakageUp$ instances for the displayed carrier fields.
 
-\closureat{HostPrimitiveLeakageUp}{scopedStr}
+\begin{theorem}[HostPrimitiveLeakage public export]
+\label{thm:host-primitive-leakage-public-export}
+Every public $\HostPrimitiveLeakageUp$ leakage read must expose the public site $S$, requested primitive $Q$, replacement row $E$, diagnostic row $D$, failed-gate row $F$, audit-boundary row $G$, transport row $H$, replay row $C$, provenance row $P$, local naming row $N$, and the displayed \texttt{TasteGate} marker before a consumer can use either the refusal route or the replacement route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:host-primitive-leakage-carrier}. The public leakage surface is exactly $S,Q,E,D,F,G,H,C,P,N$, with $Q$ naming the requested host primitive and $E$ naming only the BEDC replacement route when one is available.
+
+Apply \autoref{thm:host-primitive-leakage-namecert-obligations} and \autoref{thm:host-primitive-leakage-nonescape}. The first theorem lists the local NameCert obligations for every displayed row, and the second prevents a public consumer from using a host primitive as accepted BEDC content.
+
+The falsifiable prediction records the observable failure condition, while the independence witness separates this packet from the audit-gate and boundary siblings. Together with the displayed \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate} marker, these rows expose the refusal or replacement route before any public consumer may use it.
+\end{proof}
+
+\closureat{HostPrimitiveLeakageUp}{matureStr}[BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate]
 
 \begin{closurestatus}{\HostPrimitiveLeakageUp}
   \leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate}
   \constructivestory{A $\HostPrimitiveLeakageUp$ packet is generated from a public-surface site, requested host primitive, BEDC replacement row, diagnostic readback, failed-gate witness, audit-boundary row, componentwise transports, continuation replay, package provenance, and local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:host-primitive-leakage-carrier}, \autoref{thm:host-primitive-leakage-namecert-obligations}, \autoref{thm:host-primitive-leakage-nonescape}, the displayed falsifiable prediction, the displayed independence witness, and the listed audit-boundary sibling chapters bind the refusal packet through $\BHist$, $\msame$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, $\NameCert$, and the \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate} marker.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:host-primitive-leakage-carrier}, \autoref{thm:host-primitive-leakage-namecert-obligations}, \autoref{thm:host-primitive-leakage-nonescape}, \autoref{thm:host-primitive-leakage-public-export}, the displayed falsifiable prediction, the displayed independence witness, the audit-boundary sibling chapters, and the displayed \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate} marker bind the refusal packet through $\BHist$, $\msame$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.hostPrimitiveLeakageDeltaLedger}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, or every host-leakage case.}
-  \upgradepath{Public export requires a checked consumer-facing leakage boundary and a bridge row that preserves the refusal packet across standard BEDC interfaces.}
+  \upgradepath{Machine bridge checking requires a checked standard interface row that preserves the refusal packet across standard BEDC interfaces.}
 \end{closurestatus}

@@ -1,0 +1,99 @@
+---
+title: "发现结构 DNA"
+subtitle: "为 BEDC 发现声明提供 origin-blind 结构指纹、重建阻断与正向溯源证据."
+author: "The Omega Institute"
+date: 2026-06-02
+lang: zh-Hans
+description: "发现结构 DNA 给 BEDC 的发现声明提供 sound 的结构身份层. 它检测结构重建, 暴露正向溯源, 并与启发式发现分级保持分离."
+---
+
+```{=html}
+<div class="lang-switch"><a href="structural-discovery-dna.qmd">English</a></div>
+```
+
+# 发现结构 DNA
+
+## structural-DNA 引擎
+
+发现结构 DNA 从 `lean4/scripts/structural_dna/Main.lean` 里的 `structural_dna` Lean executable 开始。这个 executable 让 Lean 内核把声明 elaborate 成 `Lean.Expr`, 然后在 elaborated expression 形态上计算 origin-blind 指纹。
+
+这个指纹作为结构身份把手是 sound 的, 因为它算在 elaboration 之后, 不是算在表面 text 上。它是 origin-blind 的, 因为它读 expression, 不读章节 lineage 或作者声明。它对 de Bruijn bound variable 保持 alpha 不变, 丢弃 binder 显示名, 保留 `binderInfo`, 保留 canonical constant name 与 universe 载荷, strip metadata, 并把定理证明项视为无关, 只 hash 定理类型。
+
+在 executable 层, JSON 是 per declaration 的。`Main.lean` 输出 `fingerprint`, `type_fp`, `value_fp`, `const_fp`, `eta_value_fp`, `reduced_fingerprint`; 它不输出 survey 字段 `structural_fingerprint`。
+
+| executable 字段 | 作用 |
+|---|---|
+| `fingerprint` | 由类型与非证明 value 指纹得到的 compact declaration handle |
+| `type_fp` | elaborated declaration 类型指纹 |
+| `value_fp` | 非证明 value 指纹; 对 theorem/proof declaration 为空 |
+| `const_fp` | canonical constant-expression 指纹 |
+| `eta_value_fp` | eta-reduced 非证明 value 指纹 |
+| `reduced_fingerprint` | beta、eta、zeta 与 transparent unfolding 归一后的非证明 value 把手 |
+
+hash 本身不是数学内容。真正有意义的是被 hash 的 canonical form。hash 只是紧凑把手, 让审计可以在 JSON 中比较归一后的结构身份, 而不用搬运大型 expression 载荷。
+
+`bedc_ci.py structural-dna` 是 survey 层。它消费 executable 产出的 expression 指纹, 再把 elaborated expression read graph、classifier-shift DNA 片段、factor spectrum 与载体 skeleton 组合起来。更高层的 survey 载荷里才组装字段 `structural_fingerprint`。
+
+这个 executable 也有 relation-analysis 模式。它可以比较候选与 prior 分类器声明, 并通过 `bedc.structural_dna.relations` 模式输出 `conjunctive_refinement` evidence; 当 discovery integrity 需要 relation evidence 时, `bedc_ci.py` 驱动这条路径。
+
+## 负向门: 结构重建完整性
+
+结构重建门是负向的。它只由真诚发现声明触发, 不由主题、章节 origin、文件名或其他启发式触发。blocking 声明表面是:
+
+| 表面 | 认什么 |
+|---|---|
+| paper | 带可解析 ledger/classifier 表面的 `\closureclaimkind{positiveDiscovery}` |
+| Lean | `DiscoveryDeltaLedger.classifier_shift = some ...` |
+
+指向 `DiscoveryDeltaLedger.classifier_shift` 的非显式 paper marker site 也可能作为 informational discovery-integrity site 出现在审计载荷里。blocking 声明故事仍然是显式 claim/ledger 路径。
+
+一旦出现真诚声明, 审计必须解析出可检查的分类器 displacement: before-classifier endpoint 与 declared-new-classifier endpoint。如果声明不能解析成这样的端点对, 就是 blocking。如果 declared new 分类器的 `reduced_fingerprint` 命中已有 prior 分类器 endpoint, 它就是结构重建或 wrapper, 不是新结构, 这个门禁会报告 blocking violation。
+
+这条门有意保持单向:
+
+> negative only; does not certify positive discovery genuineness
+
+通过这条门只表示该声明没有被这个检查分解为 prior structural reconstruction。它不证明这个声明是真发现。
+
+## 正向溯源: 合取精化
+
+relation 层为一个 sound 片段给出正向溯源证据。形如 `fun x => ... ∧ P ∧ ...` 的候选分类器可以通过增加合取条件来 refine prior 分类器 `fun x => P`。语义方向是投影: 从 $A \land B$ 出发, 内核可以用 `And` 消去恢复 `A`。
+
+relation analysis 会归一分类器 value, flatten 合取, 用 set-inclusion 比较非平凡 conjunct 集合, 并记录 matched conjunct 的 path。它在已实现的可判定结构片段中过滤 trivial prior: syntactic triviality、definitional triviality、以及按 operand 载荷判断的 reduced reflexive equality。
+
+这份 evidence 也明确有限:
+
+> positive provenance evidence; not a discovery 证书
+
+系统不声称通用语义涵盖。一般语义蕴含与一般命题平凡性不能由这个 structural pass 判定。这里只声称已实现的 conjunctive 片段是 sound 的, 且不依赖 `Classical`、`propext` 或 quotient principle。
+
+## 在哪里跑
+
+每次 `python3 lean4/scripts/bedc_ci.py audit` 都会计算 `discovery_integrity` 载荷。打印的审计行称它为 `discovery integrity structural-DNA gate`; new violations 是 blocking, 旧项按审计的 split policy 报告。
+
+独立 survey 是:
+
+```bash
+python3 lean4/scripts/bedc_ci.py structural-dna [--json] [--verbose]
+```
+
+这个命令是 informational。它报告 structural-DNA survey 载荷、regression 状态, 并可按需输出 per-target detail。executable 作为 Lean 目标 `structural_dna` 构建, `bedc_ci.py` 调它来计算 expression fingerprint 与 relation analysis。
+
+当前运行态要诚实读成真发现声明的空载: 当 pipeline 没有带 resolved before/after 分类器 pair 的真诚声明时, 系统仍然是活的。它是在等待真实声明表面可供检查, 不是在证明已经有发现存在。
+
+## 跟发现质量筛的关系
+
+发现结构 DNA 和 [发现质量筛](discovery-quality-sieve.zh-CN.qmd) 回答不同问题。
+
+| 系统 | 问题 |
+|---|---|
+| 发现结构 DNA | declared 分类器在归一后是否和 prior 结构相同, 以及是否存在 sound 的合取精化溯源? |
+| 发现质量筛 | 更宽的发现声明应如何由静态负证、对抗见证、support 形态与排序信号来分级? |
+
+发现结构 DNA 是 sound 的结构身份、重建完整性与正向溯源层。发现质量筛是发现质量的启发式 grading 层。两者互补并共存: 一个阻断已知结构重建, 另一个对声明质量排序并解释原因, 但不把 grade 变成真理。
+
+## 边界
+
+发现结构 DNA 不是 novelty 预言机。它不检查人的意图、章节主题、origin metadata 或 prose emphasis。它也不证明一个幸存声明在所有可能语义模型中都不可机械分解。
+
+它的承诺更窄也更硬: 对能解析的声明, 它通过 origin-blind normalization 比较 kernel-elaborated 分类器 structure; 对合取精化, 它在声明的片段内输出 sound provenance relation; 对 unresolved 的真诚发现声明, 它拒绝让歧义伪装成发现。

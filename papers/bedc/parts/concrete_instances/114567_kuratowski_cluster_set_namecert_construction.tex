@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiClusterSetUp$}
+\label{ch:concrete-instances-kuratowski-cluster-set-namecert}
+\origin{human}
+
+From Kuratowski convergence of closed sets and Kelley--Moore--Smith net cluster-set practice, the $\KuratowskiClusterSetUp$ packet records boundary cluster evidence by finite hit--miss windows rather than by a host powerset of possible cluster points. It sits beside $\KuratowskiConvergenceUp$, $\MooreSmithNetUp$, $\FilterBaseUp$, $\CompactMetricUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as the L10 net/filter cluster-set carrier used by completion-facing reads.
+
+The hit--miss rows are read through \autoref{ch:concrete-instances-kuratowski-convergence-namecert}, the net and filter source rows through \autoref{ch:concrete-instances-moore-smith-net-namecert} and \autoref{ch:concrete-instances-filterbase-namecert}, and the compact/metric support rows through \autoref{ch:concrete-instances-compactmetric-namecert} and \autoref{ch:concrete-instances-metric-namecert} before the carrier exposes $K_h,K_m,C,M,S$ to any cluster-set consumer.
+
+\begin{definition}[Kuratowski cluster-set carrier]
+\label{def:kuratowski-cluster-set-carrier}
+A $\KuratowskiClusterSetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,F,K_h,K_m,C,M,B,X,R,E,T,U,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the net or filter source row, naming either a $\MooreSmithNetUp$ index-window read or a $\FilterBaseUp$ base-window read.
+\item $F$ records the finite source-frontier windows consumed by the cluster-set request.
+\item $K_h$ is the Kuratowski hit ledger: each row names a displayed source window, a metric neighborhood, and a later witness whose image meets that neighborhood.
+\item $K_m$ is the Kuratowski miss ledger: each row names a finite exclusion or compact containment window showing that the inspected boundary claim does not escape the displayed metric neighborhood.
+\item $C$ is the $\CompactMetricUp$ support row used when compact subwindows make the hit and miss ledgers finite.
+\item $M$ is the $\MetricUp$ distance-observation row used by the hit, miss, compact-support, and Real-facing reads.
+\item $B$ is the cluster-hit witness row, storing only displayed later-window hits and never a selected cluster point.
+\item $X$ is the $\StreamNameUp$ readback row for source-name and observation-name replay.
+\item $R$ is the $\RegSeqRatUp$ regular rational row used to read metric tolerances and shrinking windows.
+\item $E$ is the terminal $\RealUp$ seal row for completion-facing consumers.
+\item $T,U,P,N$ are respectively componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\KuratowskiClusterSetUp}$ naming row.
+\end{enumerate}
+The carrier has no coordinate for a host powerset of cluster points, a selected cluster point, quotient equality of closed sets, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+\leandef{BEDC.Derived.KuratowskiClusterSetUp.TasteGate.KuratowskiClusterSetUp}
+
+\begin{theorem}[Kuratowski cluster-set NameCert obligations]
+\label{thm:kuratowski-cluster-set-namecert-obligations}
+For every accepted $\KuratowskiClusterSetUp$ carrier
+$$
+K=(S,F,K_h,K_m,C,M,B,X,R,E,T,U,P,N),
+$$
+the local $\NameCert_{\KuratowskiClusterSetUp}$ surface consists exactly of net-or-filter source admission, finite frontier-window admission, Kuratowski hit-window admission, Kuratowski miss-window admission, compact and metric support, displayed cluster-hit witnessing, $\StreamNameUp$ readback, $\RegSeqRatUp$ tolerance readback, $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kuratowski-cluster-set-carrier}. The mathematical rows are precisely $S,F,K_h,K_m,C,M,B,X,R,E$; the structural rows are $T,U,P,N$.
+
+The hit and miss obligations are separated. A hit request must read a later-window witness from $K_h$ and $B$, while a miss request must read the finite exclusion or compact containment evidence from $K_m$ together with the metric row $M$ and compact support row $C$.
+
+The readback rows $X,R,E$ expose only names, rational tolerances, and terminal Real-facing seals downstream of those finite windows. Transport, replay, provenance, and local naming preserve the same route, so no additional NameCert clause can be supplied by a powerset, selected point, quotient, choice principle, or ambient completeness proof.
+\end{proof}
+\leanchecked{BEDC.Derived.KuratowskiClusterSetUp.TasteGate.KuratowskiClusterSetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Kuratowski cluster-set net-filter handoff]
+\label{thm:kuratowski-cluster-set-net-filter-handoff}
+Every net-facing or filter-facing cluster-set read exported by an accepted $\KuratowskiClusterSetUp$ carrier factors through the displayed route
+$$
+\MooreSmithNetUp/\FilterBaseUp,\quad \KuratowskiConvergenceUp,\quad \CompactMetricUp,\quad \MetricUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The handoff exposes the source frontier, Kuratowski hit and miss windows, compact or metric support, cluster-hit witness, stream-name replay, regular rational tolerance row, and terminal Real seal before any completion consumer may use the cluster-set boundary. It exports no host powerset, selected cluster point, quotient closed-set equality, countable-choice functional, or ambient Real completeness argument.
+\end{theorem}
+\leanchecked{BEDC.Derived.KuratowskiClusterSetUp.KuratowskiClusterSetNetFilterHandoff}
+\begin{proof}
+Begin with the source row $S$. A net read uses the displayed $\MooreSmithNetUp$ window and a filter read uses the displayed $\FilterBaseUp$ base-window route; both are recorded as finite frontier data in $F$ before a cluster request is available.
+
+Next read the Kuratowski rows. The hit ledger $K_h$ and miss ledger $K_m$ are the only rows where the boundary condition is tested, and their metric and compact support is supplied by $M$ and $C$. The cluster-hit witness row $B$ records later-window hits rather than a selected cluster point.
+
+Finally pass through $X,R,E,T,U,P,N$. These rows provide stream-name replay, regular rational tolerance readback, Real-facing sealing, transport, continuation replay, provenance, and local naming. Since the carrier contains no powerset, quotient, selected point, choice functional, or ambient completeness coordinate, the net/filter handoff is exhausted by the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Kuratowski cluster-set sequential compact route]
+\label{thm:kuratowski-cluster-set-sequentialcompact-route}
+Every sequential-compact cluster consumer of an accepted $\KuratowskiClusterSetUp$ carrier must read the displayed sibling route through $\SequentialCompactUp$, $\CompactMetricUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, including the chapter routes of \autoref{ch:concrete-instances-sequentialcompact-namecert} and \autoref{ch:concrete-instances-compactmetric-namecert}. The consumer uses $C$ as the compact-metric support row, $M$ as the metric observation row, $X$ as the stream-name replay row, $R$ as the regular rational tolerance row, and $E$ as the terminal Real seal before it may read the hit ledger $K_h$, miss ledger $K_m$, or cluster-hit witness row $B$ as a sequential cluster boundary. It exports no host subsequence selector, countable-choice functional, selected cluster point, quotient closed-set equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.KuratowskiClusterSetUp.KuratowskiClusterSetSequentialCompactRoute}
+\begin{proof}
+Begin with the compact source. The $\SequentialCompactUp$ chapter routes sequential cluster reads through displayed compact-metric and finite-window data, while the $\CompactMetricUp$ route supplies only the compact support row visible here as $C$.
+
+Next expose the metric and readback rows. The carrier rows $M,X,R,E$ provide metric observations, stream-name replay, regular rational tolerance readback, and the terminal Real seal before the Kuratowski hit and miss ledgers can be consumed.
+
+Finally return to $K_h,K_m,B,T,U,P,N$. The hit and miss ledgers remain finite boundary rows transported and replayed through the same packet; they do not become a host subsequence selector, a countable-choice witness, a selected cluster point, quotient closed-set equality, or ambient Real completeness theorem.
+\end{proof}
+
+\closureat{KuratowskiClusterSetUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiClusterSetUp}
+  \constructivestory{A $\KuratowskiClusterSetUp$ packet is generated from net or filter source rows, finite frontier windows, Kuratowski hit and miss ledgers, compact and metric support, cluster-hit witnesses, StreamName readback, RegSeqRat tolerance readback, Real seals, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-cluster-set-carrier}, \autoref{thm:kuratowski-cluster-set-namecert-obligations}, \autoref{thm:kuratowski-cluster-set-net-filter-handoff}, and \autoref{thm:kuratowski-cluster-set-sequentialcompact-route} seed the L10 net/filter and sequential-compact cluster-set boundary by displayed finite rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected cluster points, host powersets, quotient closed-set equality, countable choice, ambient Real completeness, theorem checking, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, hit-window coverage, miss-window coverage, net/filter source handoff, compact and metric support, readback sealing, transport, replay, provenance, and local naming for BEDC.Derived.KuratowskiClusterSetUp.}
+\end{closurestatus}

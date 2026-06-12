@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\AzumaHoeffdingFiniteMartingaleUp$}
+\label{ch:concrete-instances-azuma-hoeffding-finite-martingale-namecert}
+\origin{human}
+
+Following Azuma and Hoeffding, the $\AzumaHoeffdingFiniteMartingaleUp$ packet records the finite bounded-difference martingale route by which a displayed martingale window receives a Hoeffding-style exponential tail bound. It sits after the finite martingale carrier of \autoref{ch:concrete-instances-martingale-namecert}, the bounded independent-sum surface of \autoref{ch:concrete-instances-hoeffding-finite-sum-namecert}, the predictable-variance concentration boundary of \autoref{ch:concrete-instances-freedman-inequality-namecert}, the random-variable readback of \autoref{ch:concrete-instances-randomvar-namecert}, and the terminal value rows of \autoref{ch:concrete-instances-real-namecert}. The chapter names the finite concentration packet; it does not import almost-sure limits, measure completion, quotient event equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Azuma--Hoeffding finite martingale carrier]
+\label{def:azuma-hoeffding-finite-martingale-carrier}
+An $\AzumaHoeffdingFiniteMartingaleUp$ carrier is a finite $\BHist$ packet
+$$
+A=(\Omega,X,M,B,S,H,F,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the probability-space row supplying the finite event and probability surface used by the concentration read.
+\item $X$ is the $\RandomVarUp$ endpoint-family row for the displayed martingale differences and terminal martingale value.
+\item $M$ is the $\MartingaleUp$ finite-window row carrying adaptedness and conditional-expectation reads.
+\item $B$ is the bounded-difference row, recording the finite bound schedule for each inspected martingale difference.
+\item $S$ is the finite stopping-free window row, naming the displayed horizon and the prefix over which the tail estimate is read.
+\item $H$ is the $\HoeffdingFiniteSumUp$ comparison row, used only for the finite bounded-difference exponential estimate inside the displayed window.
+\item $F$ is the $\FreedmanInequalityUp$ sibling boundary row, recording that variance-budget concentration is adjacent but not collapsed into the bounded-difference route.
+\item $R$ is the $\RealUp$ tail-threshold row recording the displayed deviation threshold and exponential upper bound as terminal real-name reads.
+\item $T$ records componentwise $\hsame$ transport for $\Omega,X,M,B,S,H,F,R$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a tail-event consumer through the probability, random-variable, martingale, bounded-difference, finite-window, Hoeffding, Freedman-boundary, and Real rows.
+\item $P$ is the $\Pkg$ provenance over $\AzumaHoeffdingFiniteMartingaleUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, $\HoeffdingFiniteSumUp$, $\FreedmanInequalityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AzumaHoeffdingFiniteMartingaleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $\Omega,X,M,B,S,H,F,R,T,C,P,N$. It has no coordinate for an almost-sure limiting event, completed measure algebra, quotient event equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Azuma--Hoeffding finite martingale NameCert obligations]
+\label{thm:azuma-hoeffding-finite-martingale-namecert-obligations}
+For every accepted $\AzumaHoeffdingFiniteMartingaleUp$ carrier $A=(\Omega,X,M,B,S,H,F,R,T,C,P,N)$, the local $\NameCert_{\AzumaHoeffdingFiniteMartingaleUp}$ surface consists exactly of carrier admission for the probability-space, random-variable, martingale, bounded-difference, finite-window, Hoeffding finite-sum, Freedman boundary, Real tail-threshold, transport, replay, provenance, and local naming rows; bounded-difference exposure through $B$; finite-window accountability through $S$; martingale exposure through $X,M$; finite exponential comparison through $H,R$; sibling separation through $F$; and structural preservation through $T,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $A=(\Omega,X,M,B,S,H,F,R,T,C,P,N)$. The carrier displays exactly the probability, random-variable, martingale, bounded-difference, finite-window, Hoeffding, Freedman-boundary, Real, transport, replay, provenance, and local naming rows.
+
+The martingale-facing part is $X,M,B,S$. The random-variable row supplies the endpoint reads, the martingale row supplies adaptedness and conditional-expectation faces, the bounded-difference row supplies the finite difference bounds, and the window row fixes the inspected horizon.
+
+The concentration-facing part is $H,F,R$. The Hoeffding finite-sum row is read as the bounded-difference exponential comparison inside the same finite window, while the Freedman row remains a sibling boundary rather than a variance-budget replacement for this route.
+
+Finally $T,C,P,N$ transport, replay, source, and name the same rows. Since the carrier contains no limiting event, completed measure algebra, quotient event equality, choice schedule, or ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Azuma--Hoeffding finite-window tail handoff]
+\label{thm:azuma-hoeffding-finite-window-tail-handoff}
+Every downstream tail-probability consumer of an accepted $\AzumaHoeffdingFiniteMartingaleUp$ packet receives the deviation bound only after the route
+$$
+\ProbSpaceUp,\RandomVarUp,\MartingaleUp \longmapsto B,S \longmapsto \HoeffdingFiniteSumUp,\FreedmanInequalityUp \longmapsto \RealUp \longmapsto T,C,P,N
+$$
+has been displayed. The exported tail row is a finite bounded-difference martingale concentration handoff. It is not an almost-sure limit theorem, a measure-completion theorem, a quotient event equality, a countable-choice construction, or an ambient $\RealUp$ completeness consequence.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:azuma-hoeffding-finite-martingale-carrier}. A tail-event consumer can inspect the probability-space, random-variable, and martingale rows only through the same finite packet.
+
+Use the bounded-difference and finite-window rows. They record the horizon and the per-step bound schedule before the concentration comparison row is available, so the consumer cannot ask for an unbounded stopping route or a limiting martingale event.
+
+Read the concentration comparison through $\HoeffdingFiniteSumUp$ and the sibling boundary through $\FreedmanInequalityUp$. The Hoeffding row supplies the bounded-difference exponential estimate, while the Freedman row keeps predictable-variance concentration adjacent but distinct.
+
+Finally the Real tail-threshold row and the structural rows $T,C,P,N$ export the displayed bound. The absent limiting, measure-completion, quotient-event, choice, and completeness coordinates cannot be projected from this finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AzumaHoeffdingFiniteMartingaleUp$ tail read exposes probability-space, RandomVar, Martingale, bounded-difference, finite-window, Hoeffding finite-sum, Freedman boundary, Real threshold, transport, replay, provenance, and local NameCert rows before the tail bound is public.}
+
+\independenceWitness{martingale, hoeffding-finite-sum, freedman-inequality, randomvar, real: no listed sibling supplies the joint bounded-difference martingale concentration packet containing finite martingale, random-variable, bounded-window, Hoeffding comparison, Freedman boundary, Real threshold, transport, replay, provenance, and local NameCert rows while refusing almost-sure limits, measure completion, quotient event equality, countable choice, and ambient Real completeness.}
+
+\closureat{AzumaHoeffdingFiniteMartingaleUp}{seedStr}
+
+\begin{closurestatus}{\AzumaHoeffdingFiniteMartingaleUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:azuma-hoeffding-finite-martingale-carrier}, \autoref{thm:azuma-hoeffding-finite-martingale-namecert-obligations}, and \autoref{thm:azuma-hoeffding-finite-window-tail-handoff} seed the finite bounded-difference martingale concentration route over MartingaleUp, HoeffdingFiniteSumUp, FreedmanInequalityUp, RandomVarUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close almost-sure limits, measure completion, quotient event equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-difference exposure, finite-window accountability, martingale exposure, finite exponential comparison, sibling separation, Real tail-threshold nonescape, and structural preservation for BEDC.Derived.AzumaHoeffdingFiniteMartingaleUp.}
+  \constructivestory{An $\AzumaHoeffdingFiniteMartingaleUp$ packet is generated from probability-space, random-variable, martingale, bounded-difference, finite-window, Hoeffding finite-sum, Freedman boundary, Real tail-threshold, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

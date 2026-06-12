@@ -1,0 +1,42 @@
+\begin{theorem}[DyadicIntervalCover bridge export]
+\label{thm:dyadic-interval-cover-bridge-export}
+Every accepted $\DyadicIntervalCoverUp$ bridge export is the finite route isolated in \autoref{thm:dyadicintervalcover-finite-cover-bridge-scope}: the dyadic endpoint and mesh rows $L,U,M$, radius budget $R$, finite cover-membership rows $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $A$, and structural rows $H,C,P,N$. No bridge consumer receives a selected finite subcover, quotient real equality, open-cover compactness, host compactness, countable choice, or ambient completion coordinate from the export.
+\end{theorem}
+\begin{proof}
+Read the bridge scope theorem \autoref{thm:dyadicintervalcover-finite-cover-bridge-scope}. It names the endpoint rows $L,U$, mesh row $M$, radius budget $R$, finite cover-membership rows $V$, stream window row $W$, regular rational readback row $Q$, Real seal row $A$, and structural rows $H,C,P,N$ before any bridge consumer can inspect the cover export.
+
+The present theorem adds no carrier coordinate beyond that list. Its export is therefore the projection that forgets the internal proof route and keeps exactly the displayed endpoint, mesh, radius, membership, stream, readback, seal, transport, replay, provenance, and local naming rows.
+
+Since the source bridge scope excludes selected finite subcovers, quotient real equality, open-cover compactness, host compactness, countable choice, and ambient completion, the projected export excludes them as well. A consumer can only replay the finite route already isolated by the bridge scope.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverBridgeExport}
+
+\begin{theorem}[DyadicIntervalCover uniform-modulus bridge consumer]
+\label{thm:dyadic-interval-cover-uniform-modulus-bridge-consumer}
+Every $\UniformModulusUp$ or compact-uniform-continuity consumer of an accepted $\DyadicIntervalCoverUp$ bridge reads exactly the finite endpoint rows, mesh row, radius budget, finite cover-membership rows, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, $\RealUp$ seal row, and structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows isolated by \autoref{thm:dyadic-interval-cover-bridge-export}. The consumer receives no selected finite subcover, open-cover compactness, quotient real equality, choice coordinate, or ambient completion coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverUniformModulusBridgeConsumer}
+\begin{proof}
+Start with the bridge export theorem. It projects the accepted bridge to the endpoint rows $L,U$, mesh row $M$, radius budget $R$, cover-membership rows $V$, stream window row $W$, regular rational readback row $Q$, Real seal row $A$, and structural rows $H,C,P,N$.
+
+Apply the finite-cover bridge scope. The scope fixes the same rows before a downstream consumer can inspect the cover data, so a $\UniformModulusUp$ or compact-uniform-continuity reader can only replay that finite route.
+
+Finally use the L10 uniform-modulus handoff narrative. Its consumer-facing input is the exported endpoint, mesh, radius, membership, stream, readback, seal, transport, replay, provenance, and local naming surface, not a selected subcover, an open-cover compactness principle, quotient real equality, choice, or an ambient completion coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover bridge export cofinality]
+\label{thm:dyadic-interval-cover-bridge-export-cofinality}
+Every downstream compact-uniform-continuity or $\UniformModulusUp$ read of a $\DyadicIntervalCoverUp$ bridge export is cofinal in the displayed finite route
+$$
+L,U,M,R,V,W,Q,A,H,C,P,N.
+$$
+Any precision request reaching $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ must first pass through the finite endpoint rows $L,U$, mesh row $M$, radius-budget row $R$, and cover-membership rows $V$ isolated by \autoref{thm:dyadic-interval-cover-bridge-export}.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverBridgeExportCofinality}
+\begin{proof}
+Apply \autoref{thm:dyadic-interval-cover-bridge-export}. The export exposes exactly the endpoint, mesh, radius-budget, membership, stream-window, readback, seal, transport, replay, provenance, and local naming rows, so every downstream read starts from that finite coordinate list.
+
+Use \autoref{thm:dyadic-interval-cover-uniform-modulus-bridge-consumer}. A compact-uniform-continuity or $\UniformModulusUp$ consumer receives the same rows and no further bridge coordinate, hence its precision requests cannot reach $W,Q,A$ before the endpoint, mesh, radius, and membership rows have been displayed.
+
+The cofinality claim follows by coordinate exhaustion. The listed route contains no selected finite subcover, open-cover compactness proof, quotient real equality, choice coordinate, or ambient completion row, so any consumer reaching $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ has already passed through the displayed finite endpoint, mesh, radius-budget, and cover-membership data.
+\end{proof}
