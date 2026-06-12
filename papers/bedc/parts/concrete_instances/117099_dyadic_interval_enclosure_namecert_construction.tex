@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalEnclosureUp$}
+\label{ch:concrete-instances-dyadic-interval-enclosure-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicIntervalEnclosureUp$ packet records the finite enclosure data used to pass from dyadic interval evidence to a regular rational readback and then to a terminal real-name seal. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the dyadic number surface of \autoref{ch:concrete-instances-dyadic-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion consumers a non-quotient interval interface; it does not assert arbitrary Cauchy completeness, selected limits, trichotomy, host real equality, countable choice, or an ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Dyadic interval enclosure carrier]
+\label{def:dyadic-interval-enclosure-carrier}
+A $\DyadicIntervalEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,N,S,R,E,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower $\DyadicRatCoreUp$ endpoint row.
+\item $U$ is the upper $\DyadicRatCoreUp$ endpoint row.
+\item $N$ is the nesting and order ledger, recording $L \leq U$ and the finite refinement relation between successive enclosure rows.
+\item $S$ is the $\StreamNameUp$ window row, exposing exactly the finite interval windows consumed by the readback.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from the displayed dyadic endpoints and stream windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $L,U,N,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all analytic rows and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every accepted enclosure read through
+$$
+L,U,N,S,R,E \longmapsto H,C,P,A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\DyadicUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\DyadicIntervalEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a quotient of Cauchy streams, a selected real representative, trichotomy, host real equality, countable choice, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Dyadic interval enclosure NameCert obligations]
+\label{thm:dyadic-interval-enclosure-namecert-obligations}
+For every accepted $\DyadicIntervalEnclosureUp$ carrier
+$$
+I=(L,U,N,S,R,E,H,C,P,A),
+$$
+the local $\NameCert_{\DyadicIntervalEnclosureUp}$ surface is exhausted by lower endpoint exposure through $L$, upper endpoint exposure through $U$, nesting and order exposure through $N$, finite window exposure through $S$, regular rational readback through $R$, terminal real seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $A$. Every completion-facing read must pass through the displayed $\DyadicRatCoreUp$, $\DyadicUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows before it may consume the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-enclosure-carrier}. The only endpoint data available to a consumer are $L$ and $U$, and both are dyadic-core rows. The only order and refinement evidence is the finite ledger $N$.
+
+The readback path is then fixed. The finite stream window $S$ exposes the displayed enclosure windows, $R$ reads them as regular rational data, and $E$ is downstream of that readback.
+
+Finally $H,C,P,A$ transport, replay, source, and name the same finite rows. Since the carrier has no coordinate for quotient stream equality, selected representatives, trichotomy, host equality, countable choice, or ambient Real completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Dyadic interval enclosure nesting stability]
+\label{thm:dyadic-interval-enclosure-nesting-stability}
+Let $I=(L,U,N,S,R,E,H,C,P,A)$ be an accepted $\DyadicIntervalEnclosureUp$ carrier. Replacing the displayed window row $S$ by a finite subwindow whose endpoint rows are transported by $H$ and whose refinement relation is recorded by $N$ yields an accepted enclosure read with the same readback row $R$, terminal seal $E$, provenance row $P$, and local name $A$.
+\end{theorem}
+\begin{proof}
+Begin with the nesting ledger. A finite subwindow is accepted only when $N$ records its lower and upper endpoints as refinements of the displayed dyadic rows.
+
+The transport row $H$ keeps the endpoint identity visible while the window changes. Thus the refined lower and upper rows still read through the same $\DyadicRatCoreUp$ endpoint surface.
+
+The downstream rows are structural. The $\Cont$ replay $C$ sends the accepted subwindow through the same regular rational readback $R$, and the terminal seal $E$, provenance row $P$, and local name $A$ remain attached to that replay.
+\end{proof}
+
+\begin{theorem}[Dyadic interval enclosure Real seal handoff]
+\label{thm:dyadic-interval-enclosure-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\DyadicIntervalEnclosureUp$ packet reaches the terminal seal only through the route
+$$
+\DyadicRatCoreUp,\ \DyadicUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The handoff exports a finite nested dyadic interval interface and not a quotient stream, a selected limit, host real equality, trichotomy, countable choice, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the carrier in order. The dyadic endpoint rows $L$ and $U$ are exposed before the nesting ledger $N$ can certify the interval relation.
+
+The stream row $S$ and regular rational row $R$ are the only readback bridge to the terminal real seal. They carry finite dyadic window evidence to $E$ without adding quotient or host-side equality data.
+
+Thus any accepted terminal seal read is attached to the displayed route through the dyadic core, dyadic surface, stream window, regular rational readback, and local structural rows. A consumer that omits this route is not reading the accepted $\DyadicIntervalEnclosureUp$ carrier.
+\end{proof}
+
+\begin{theorem}[Dyadic interval enclosure classifier stability]
+\label{thm:dyadic-interval-enclosure-classifier-stability}
+Two accepted $\DyadicIntervalEnclosureUp$ packets are classifier-equivalent whenever their lower endpoint rows, upper endpoint rows, nesting ledgers, stream windows, regular rational readbacks, terminal real seals, transport rows, replay rows, provenance rows, and local NameCert rows are pairwise $\hsame$. No extra classifier coordinate may distinguish them by a host representative, a selected limit, a quotient stream class, trichotomy data, countable choice data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The classifier of \autoref{def:dyadic-interval-enclosure-carrier} reads only the ten displayed rows. Pairwise $\hsame$ therefore identifies the endpoint surface, nesting ledger, finite window, readback, terminal seal, transport, replay, provenance, and local naming data.
+
+There is no hidden coordinate left to inspect. The excluded host representative, selected limit, quotient stream class, trichotomy, countable-choice, and ambient-completeness data are not fields of the carrier.
+
+Consequently the two packets have the same local classifier read precisely when the listed finite rows agree componentwise.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicIntervalEnclosureUp$ consumer that reads a terminal $\RealUp$ seal while omitting a lower endpoint row, upper endpoint row, nesting ledger, StreamName window, RegSeqRat readback, hsame transport, Cont replay, Pkg provenance, or local NameCert row has left the packet.}
+
+\independenceWitness{dyadicratcore, dyadic, streamname, regseqrat, real: $\DyadicIntervalEnclosureUp$ is not bijective with any listed sibling because it joins dyadic endpoint rows, a finite nesting ledger, stream windows, regular rational readback, a terminal real seal, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{DyadicIntervalEnclosureUp}{seedStr}
+\leanstmt{BEDC.Derived.DyadicIntervalEnclosureUp}
+
+\begin{closurestatus}{\DyadicIntervalEnclosureUp}
+  \constructivestory{A $\DyadicIntervalEnclosureUp$ packet is generated from lower and upper DyadicRatCore endpoint rows, a finite nesting and order ledger, a StreamName window row, a RegSeqRat readback row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-enclosure-carrier}, \autoref{thm:dyadic-interval-enclosure-namecert-obligations}, \autoref{thm:dyadic-interval-enclosure-nesting-stability}, \autoref{thm:dyadic-interval-enclosure-real-seal-handoff}, and \autoref{thm:dyadic-interval-enclosure-classifier-stability} seed the finite dyadic interval enclosure surface for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary Cauchy completeness, selected limits, quotient stream equality, trichotomy, host real equality, countable choice, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, nesting stability, regular rational readback, RealUp handoff, classifier stability, structural nonescape, and route replay for BEDC.Derived.DyadicIntervalEnclosureUp.}
+\end{closurestatus}
