@@ -35,13 +35,10 @@ theorem SubjectReductionDischargeLedgerSubjectReductionHandoff [AskSetup] [Packa
               UnaryHistory routeRead ∧ UnaryHistory replayRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
   intro carrier routeReplay routeTransport replayPkg
-  obtain ⟨_betaUnary, _appArgUnary, _lambdaDomainUnary, _piDomainUnary, routeUnary,
-    transportUnary, replayUnary, _provenanceUnary, _nameUnary, betaRoute, lambdaReplay,
-    _carrierTransport, provenancePkg, _namePkg⟩ := carrier
-  have routeReadUnary : UnaryHistory routeRead :=
-    unary_cont_closed routeUnary replayUnary routeReplay
-  have replayReadUnary : UnaryHistory replayRead :=
-    unary_cont_closed routeReadUnary transportUnary routeTransport
+  obtain ⟨_routeUnary, _replayUnary, _transportUnary, routeReadUnary, replayReadUnary,
+    betaRoute, lambdaReplay, routeReplay', routeTransport', provenancePkg, replayPkg'⟩ :=
+      SubjectReductionDischargeLedgerCarrier_route_handoff carrier routeReplay routeTransport
+        replayPkg
   constructor
   · exact {
       core := {
@@ -68,8 +65,8 @@ theorem SubjectReductionDischargeLedgerSubjectReductionHandoff [AskSetup] [Packa
       ledger_sound := by
         intro _row source
         exact
-          ⟨source.right, betaRoute, lambdaReplay, routeReplay, routeTransport,
-            provenancePkg, replayPkg⟩
+          ⟨source.right, betaRoute, lambdaReplay, routeReplay', routeTransport',
+            provenancePkg, replayPkg'⟩
     }
   · exact ⟨routeReadUnary, replayReadUnary⟩
 
