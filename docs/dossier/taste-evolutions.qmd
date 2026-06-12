@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-12T12:11:27Z
+> 最后刷新: 2026-06-12T13:57:59Z
 
-**Daemon 状态**: monitor (monitor cycle 55, adjust_since_research 0, round_counter 8003, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 56, adjust_since_research 0, round_counter 8101, last_adjust none)
 
-**待处理 queue** (189 条 finding):
+**待处理 queue** (200 条 finding):
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 77 条; 代表样本 `derived`, `derived`, `derived`
-- low_entropy_template: 8 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- isolated_theorem: 86 条; 代表样本 `derived`, `derived`, `derived`
+- low_entropy_template: 10 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 - missing_origin: 4 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 14 次
+- TASTE ALERT category=isolated_theorem: 15 次
 - TASTE ALERT category=low_entropy_template: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -247,6 +247,8 @@ to case-by-case judgment.
 - 2026-06-12T10:23:19Z: `resolved` `leave_with_rationale` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_public_projection_certificate` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_public_projection_certificate:47a87ee0`). Rationale: The declaration has real BEDC content: it builds a SemanticNameCert for the public projection read and is the paper primary marker for the MetricProjection public projection certificate. Lean currently has no downstream consumer. The natural consumer is the CatZeroProjectionUp chapter, but a local add_downstream_user implementation failed the lake gate because the temporary consumer supplied endpointRoute : Cont M T endpointRead where MetricProjectionCarrier_public_projection_certificate expected Cont M M endpointRead. The edit was removed, so no file changes remain and the gate failure is recorded here instead of deleting the meaningful certificate. Gate results: lake_build=error: BEDC.Derived.CatZeroProjectionUp: endpointRoute has type Cont M T endpointRead but expected Cont M M endpointRead; build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-12T12:10:39Z: `resolved` `add_downstream_user` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_locatedset_endpoint_separation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_locatedset_endpoint_separation:acf7b076`). Rationale: The target carries real BEDC content: it separates the LocatedSet-facing D-I located endpoint from the projection-facing I-W endpoint while preserving package provenance, and the paper uses it as the MetricProjection endpoint-separation boundary. I added MetricProjectionCarrier_public_projection_separated_certificate as a downstream consumer that invokes this theorem and combines its separated route/provenance facts with the existing public projection SemanticNameCert, so the original theorem is no longer staging-only or isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-12T13:57:37Z: `resolved` `delete_theorem` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_endpoint_separation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_endpoint_separation:acf7b076`). Rationale: The target had no downstream Lean consumers and the only repository reference outside its declaration was a removable paper \leanchecked marker. Its content was a local route/unary/provenance projection, while the neighboring MetricProjectionCarrier_locatedset_endpoint_separation carries the paper's endpoint-separation claim and is the theorem consumed by MetricProjectionCarrier_public_projection_separated_certificate, so deleting the isolated wrapper preserves the meaningful BEDC structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
