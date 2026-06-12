@@ -96,4 +96,31 @@ theorem CoveringDimensionFiniteCoverOrderAdmission [AskSetup] [PackageSetup]
     }
   exact ⟨cert, consumerUnary⟩
 
+theorem CoveringDimensionFiniteCoverOrderRoot [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet metricRead regSeqRead realSeal nerve orderTable transport replay
+      provenance localName consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionFiniteCoverOrderCarrier compactMetric epsilonNet metricRead regSeqRead
+        realSeal nerve orderTable transport replay provenance localName bundle pkg →
+      Cont orderTable localName consumer →
+      PkgSig bundle consumer pkg →
+        UnaryHistory compactMetric ∧ UnaryHistory epsilonNet ∧ UnaryHistory metricRead ∧
+          UnaryHistory regSeqRead ∧ UnaryHistory realSeal ∧ UnaryHistory nerve ∧
+            UnaryHistory orderTable ∧ UnaryHistory consumer ∧
+              Cont compactMetric epsilonNet metricRead ∧ Cont metricRead regSeqRead realSeal ∧
+                Cont epsilonNet nerve orderTable ∧ Cont orderTable localName consumer ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier orderLocalConsumer consumerPkg
+  obtain ⟨compactUnary, epsilonUnary, metricReadUnary, regSeqUnary, realSealUnary,
+    nerveUnary, orderTableUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    localNameUnary, compactMetricRoute, metricRegSeqRoute, epsilonNerveRoute,
+    _transportReplayRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed orderTableUnary localNameUnary orderLocalConsumer
+  exact
+    ⟨compactUnary, epsilonUnary, metricReadUnary, regSeqUnary, realSealUnary, nerveUnary,
+      orderTableUnary, consumerUnary, compactMetricRoute, metricRegSeqRoute,
+      epsilonNerveRoute, orderLocalConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.CoveringdimensionUp
