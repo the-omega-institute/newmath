@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ConditionallyPositiveKernelUp$}
+\label{ch:concrete-instances-conditionally-positive-kernel-namecert}
+\origin{human}
+
+Following Schoenberg on conditionally positive definite kernels, the $\ConditionallyPositiveKernelUp$ packet records the finite centered-Gram route as BEDC NameCert data. It sits next to the positive finite Gram packet of \autoref{ch:concrete-instances-moore-aronszajn-kernel-namecert}, but its classifier is centered: coefficient rows must pass through a zero-sum ledger before a quadratic-form read is admissible. The packet consumes the finite matrix readback of \autoref{ch:concrete-instances-matrix-namecert}, the inner-product row of \autoref{ch:concrete-instances-innerproduct-namecert}, the Hilbert-facing handoff of \autoref{ch:concrete-instances-hilbert-namecert}, and the real scalar seal of \autoref{ch:concrete-instances-real-namecert}; it does not assert a full Schoenberg embedding, a negative-type completion theorem, quotient functions, countable choice, or ambient Hilbert completeness.
+
+\begin{definition}[Conditionally positive kernel carrier]
+\label{def:conditionally-positive-kernel-carrier}
+A $\ConditionallyPositiveKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(V,A,Z,Q,M,I,H,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the kernel-value row. It records the finite source list, displayed pairwise kernel values, diagonal reads, and symmetry requests inspected by the packet.
+\item $A$ is the centered coefficient row. It records the finite coefficient windows whose scalar entries are allowed to test conditional positivity.
+\item $Z$ is the zero-sum ledger. It records that the displayed coefficient row is centered before any Gram quadratic-form read is admitted.
+\item $Q$ is the centered Gram quadratic-form row. It records the finite expression $\sum_{i,j} a_i a_j K(x_i,x_j)$ together with the nonnegative comparison requested only after $Z$ is displayed.
+\item $M$ is the $\MatrixUp$ readback row. It records row-column indexing, entry readbacks, centered submatrix projections, and the finite matrix-vector products used by $Q$.
+\item $I$ is the $\InnerProductUp$ handoff row. It records the inner-product readback surface through which a later Hilbert-facing consumer may interpret a centered Gram form.
+\item $H$ is the $\HilbertUp$ handoff row. It records only the displayed finite route from centered Gram data toward Hilbert rows, without selecting an ambient feature map.
+\item $R$ is the $\RealUp$ scalar seal. It records real scalar values, zero-sum comparisons, nonnegative quadratic-form witnesses, and terminal real-name boundaries.
+\item $T$ records componentwise $\hsame$ transport for $V,A,Z,Q,M,I,H,R$.
+\item $C$ records displayed $\Cont$ replay for the route
+$$
+V,A,Z,Q,M,I,H \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConditionallyPositiveKernelUp$, $\MooreAronszajnKernelUp$, $\MatrixUp$, $\InnerProductUp$, $\HilbertUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConditionallyPositiveKernelUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through $V,A,Z,Q,M,I,H,R,T,C,P,N$ and has no coordinate for uncentered positive-kernel positivity, a selected Hilbert embedding, quotient function equality, negative-type completion, countable choice, or ambient Hilbert completeness.
+\end{definition}
+
+\begin{theorem}[Conditionally positive kernel NameCert obligations]
+\label{thm:conditionally-positive-kernel-namecert-obligations}
+For the carrier of \autoref{def:conditionally-positive-kernel-carrier}, the local $\NameCert_{\ConditionallyPositiveKernelUp}$ surface consists exactly of carrier admission, kernel-value exposure, centered coefficient exposure, zero-sum ledger validation, centered Gram quadratic-form exposure, $\MatrixUp$ readback compatibility, $\InnerProductUp$ handoff, $\HilbertUp$ handoff, $\RealUp$ scalar sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The surface exports no uncentered positive-kernel certificate, selected feature map, quotient function space, countable-choice schedule, negative-type completion, or ambient Hilbert theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:conditionally-positive-kernel-carrier}. The packet displays exactly the finite kernel-value row, centered coefficient row, zero-sum ledger, centered quadratic-form row, matrix readback, inner-product and Hilbert handoff rows, real scalar seal, transport, replay, provenance, and local naming row.
+
+The conditional positivity obligation is centered. The coefficient row $A$ can reach the quadratic-form row $Q$ only through the zero-sum ledger $Z$, and the scalar comparison at $R$ records nonnegativity only for those displayed centered windows.
+
+The analytic handoff remains local to the sibling certificates. The matrix row supplies finite readback, the inner-product row supplies the readout surface, and the Hilbert row records only the handoff boundary rather than a completed host space.
+
+Finally $T$ and $C$ preserve the same route under $\hsame$ transport and $\Cont$ replay. Since $P$ and $N$ name no off-packet coordinate, the listed obligations exhaust the local NameCert surface and none of the excluded Hilbert or negative-type objects can be read from the packet.
+\end{proof}
+
+\begin{theorem}[Conditionally positive kernel centered Gram route]
+\label{thm:conditionally-positive-kernel-centered-gram-route}
+Every centered-Gram read of an accepted $\ConditionallyPositiveKernelUp$ packet factors through the kernel-value row $V$, the centered coefficient row $A$, the zero-sum ledger $Z$, the centered quadratic-form row $Q$, the $\MatrixUp$ readback row $M$, the $\InnerProductUp$ and $\HilbertUp$ handoff rows $I,H$, the $\RealUp$ scalar seal $R$, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The route is distinct from \autoref{ch:concrete-instances-moore-aronszajn-kernel-namecert}: it requires zero-sum centered coefficients before positivity is read, and it does not export full positive finite Gram rows or RKHS completion.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only route from displayed kernel values to a real scalar comparison is
+$$
+V,A,Z,Q,M,I,H \longmapsto R .
+$$
+
+The zero-sum ledger is therefore unavoidable. An uncentered coefficient row has no path to $Q$, and the matrix readback row $M$ exposes only the finite entries and products already attached to the centered window.
+
+The sibling handoff is also finite. Rows $I$ and $H$ point to the inner-product and Hilbert surfaces, while $R$ seals the scalar comparison; none of these rows selects a Hilbert embedding or a completed reproducing-kernel object.
+
+Transport, replay, provenance, and local naming preserve that centered route. Thus every accepted read remains inside the centered finite Gram packet and the Moore--Aronszajn positive-kernel surface remains a sibling rather than a duplicate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ConditionallyPositiveKernelUp$ consumer that reads a centered quadratic-form comparison must first expose the centered coefficient row, zero-sum ledger, Matrix readback, InnerProduct and Hilbert handoff rows, Real scalar seal, componentwise hsame transport, displayed Cont replay, provenance, and local $\NameCert$ row.}
+
+\independenceWitness{moore-aronszajn-kernel, matrix, innerproduct, hilbert, real: $\ConditionallyPositiveKernelUp$ is not bijective to any listed sibling because it jointly carries centered coefficient windows, a zero-sum ledger, a centered Gram quadratic-form row, Matrix readback, InnerProduct and Hilbert handoff rows, a Real scalar seal, transport, replay, provenance, and local naming as one finite conditional-positivity certificate.}
+
+\closureat{ConditionallyPositiveKernelUp}{seedStr}
+
+\begin{closurestatus}{\ConditionallyPositiveKernelUp}
+  \constructivestory{A $\ConditionallyPositiveKernelUp$ packet is generated from finite kernel-value rows, centered coefficient rows, a zero-sum ledger, centered Gram quadratic-form rows, Matrix readback, InnerProduct and Hilbert handoff rows, Real scalar sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:conditionally-positive-kernel-carrier}, \autoref{thm:conditionally-positive-kernel-namecert-obligations}, and \autoref{thm:conditionally-positive-kernel-centered-gram-route} seed the finite centered-Gram certificate for conditionally positive kernels.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Schoenberg embedding, negative-type completion, selected feature maps, quotient function spaces, countable choice, ambient Hilbert completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, centered coefficient exposure, zero-sum ledger validation, centered Gram quadratic-form readback, Matrix readback, InnerProduct and Hilbert handoff, Real scalar sealing, transport, replay, provenance, and local naming for BEDC.Derived.ConditionallyPositiveKernelUp.ConditionallyPositiveKernelNameCertObligations.}
+\end{closurestatus}
