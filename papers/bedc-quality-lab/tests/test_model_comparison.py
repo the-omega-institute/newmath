@@ -24,7 +24,10 @@ def _payload(tmp_path):
     try:
         canonical.ROOT = root
         canonical.CANONICAL_DIR = root / "reports" / "canonical"
-        payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+        payload = canonical._build_model_comparison(
+            generated_at="2030-01-01T00:00:00+00:00",
+            write_owner_artifacts=True,
+        )
         canonical._write_json_atomic(root / canonical.MODEL_COMPARISON_JSON_ARTIFACT, payload)
         (root / canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT).parent.mkdir(parents=True, exist_ok=True)
         (root / canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT).write_text(

@@ -2322,7 +2322,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
 
 def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=generated_at)
+        payload = _build_model_comparison(generated_at=generated_at, write_owner_artifacts=True)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
@@ -2387,7 +2387,7 @@ def _call_run_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -
 
 def _run_spec_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=generated_at)
+        payload = _build_model_comparison(generated_at=generated_at, write_owner_artifacts=True)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
@@ -5804,14 +5804,19 @@ def _model_comparison_ordering(rows: Sequence[Mapping[str, Any]], hardgates: Map
     }
 
 
-def _build_model_comparison(generated_at: str | None = None) -> dict[str, Any]:
+def _build_model_comparison(
+    generated_at: str | None = None,
+    *,
+    write_owner_artifacts: bool = False,
+) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     initial_rows = [
         _model_comparison_owner_row(spec, root=ROOT)
         for spec in MODEL_COMPARISON_OWNER_SPECS
         if spec["model_id"] in MODEL_COMPARISON_CONTROL_MODEL_IDS
     ]
-    _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
+    if write_owner_artifacts:
+        _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
     rows = [_model_comparison_owner_row(spec, root=ROOT) for spec in MODEL_COMPARISON_OWNER_SPECS]
     hardgates = _model_comparison_hardgates(rows)
     readiness = {
@@ -7153,7 +7158,7 @@ def run_reports(
         _render_model_design_suite_markdown(model_design_suite),
     )
     _validate_committed_model_design_suite_round_trip()
-    model_comparison = _build_model_comparison(generated_at=timestamp)
+    model_comparison = _build_model_comparison(generated_at=timestamp, write_owner_artifacts=True)
     _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), model_comparison)
     _write_text_atomic(
         _artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT),
