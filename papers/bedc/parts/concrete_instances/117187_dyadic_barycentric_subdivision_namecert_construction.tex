@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBarycentricSubdivisionUp$}
+\label{ch:concrete-instances-dyadic-barycentric-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicBarycentricSubdivisionUp$ packet records the finite midpoint subdivision route for a displayed dyadic interval before regular-Cauchy, finite-net, and real-completion consumers may inspect a smaller mesh. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the dyadic subdivision ledger of \autoref{ch:concrete-instances-dyadicsubdivision-namecert}, the dyadic interval tree route of \autoref{ch:concrete-instances-dyadicintervaltree-namecert}, the dyadic interval net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite-net mesh refinement of \autoref{ch:concrete-instances-real-interval-total-boundedness-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 mesh-refinement certificate; it is not open-cover compactness, a selected infinite refinement path, quotient real equality, a host barycentric subdivision theorem, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic barycentric subdivision carrier]
+\label{def:dyadic-barycentric-subdivision-carrier}
+A $\DyadicBarycentricSubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,M,L,R,D,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent dyadic interval row, exposing the lower endpoint, upper endpoint, endpoint order, and dyadic denominator budget through $\DyadicRatCoreUp$.
+\item $M$ is the midpoint row, recording the common-denominator normalization and the displayed barycentric midpoint of the two endpoint rows.
+\item $L$ and $R$ are the left-child and right-child interval rows, with $L$ using the lower endpoint and midpoint, and $R$ using the midpoint and upper endpoint.
+\item $D$ is the mesh-decay row, recording that each child mesh bound is at most one half of the parent bound through the same dyadic denominator ledger.
+\item $T$ is the finite-net transport row, exposing the handoff from the two child intervals to $\DyadicIntervalNetUp$, $\DyadicSubdivisionUp$, and $\RealIntervalTotalBoundednessUp$ consumers.
+\item $C$ records displayed $\Cont$ replay from a parent interval request through the midpoint, child intervals, mesh-decay, finite-net transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicBarycentricSubdivisionUp$, $\DyadicRatCoreUp$, $\DyadicSubdivisionUp$, $\DyadicIntervalTreeUp$, $\DyadicIntervalNetUp$, $\RealIntervalTotalBoundednessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicBarycentricSubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,M,L,R,D,T,C,P,N$ and their componentwise $\hsame$ transports. The carrier has no coordinate for an infinite subdivision sequence, selected limiting point, arbitrary open cover, quotient real equality, host interval compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic barycentric subdivision NameCert obligations]
+\label{thm:dyadic-barycentric-subdivision-namecert-obligations}
+For every accepted $\DyadicBarycentricSubdivisionUp$ carrier $B=(I,M,L,R,D,T,C,P,N)$, the local $\NameCert_{\DyadicBarycentricSubdivisionUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the parent dyadic interval, midpoint row, two child intervals, mesh-decay row, finite-net transport, replay, provenance, and local naming;
+\item midpoint closure, requiring $M$ to compute the displayed midpoint by $\DyadicRatCoreUp$ common-denominator arithmetic from the endpoints of $I$;
+\item parent-cover exactness, requiring $L$ and $R$ to share the midpoint boundary and to cover exactly the parent interval row $I$;
+\item mesh shrinkage, requiring $D$ to bind the two child mesh bounds to the parent mesh by the displayed halving comparison;
+\item finite-net handoff, requiring $T$ to expose the two child intervals to the same dyadic subdivision, dyadic interval net, and total-boundedness mesh consumers;
+\item transport, requiring componentwise $\hsame$ to preserve $I,M,L,R,D,T,C,P,N$ and no further interval object;
+\item ledger, requiring $C,P,N$ to replay, source, and name exactly the displayed packet; and
+\item non-escape, requiring every $\RealUp$ or completion-facing consumer to pass through the finite rows before reading any real-name seal.
+\end{enumerate}
+No barycentric-subdivision obligation is stored outside these rows, and the packet refuses open-cover compactness, quotient real equality, selected infinite refinement, host barycentric-subdivision semantics, countable choice, and ambient $\RealUp$ completeness as local data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-barycentric-subdivision-carrier}. The visible analytic rows are the parent interval $I$, midpoint row $M$, child intervals $L,R$, mesh-decay row $D$, and finite-net transport row $T$.
+
+Midpoint closure is read from $M$. The row exposes the common denominator and the dyadic arithmetic ledger inherited from $\DyadicRatCoreUp$, so the midpoint is not a host real midpoint or a selected point of a completed interval.
+
+Parent-cover exactness is then a finite endpoint check. The left child reuses the lower endpoint and midpoint, the right child reuses the midpoint and upper endpoint, and the only shared boundary is the displayed midpoint row.
+
+Mesh shrinkage is the row $D$. It records the halving comparison for the two children against the parent mesh bound, while $T$ hands those children to the existing finite dyadic subdivision and finite-net routes.
+
+Finally replay the structural rows $C,P,N$ and transport componentwise. Since the packet has no additional coordinate for compactness, quotient equality, infinite refinement, countable choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic barycentric subdivision mesh stability]
+\label{thm:dyadic-barycentric-subdivision-mesh-stability}
+Let $B=(I,M,L,R,D,T,C,P,N)$ and $B'=(I',M',L',R',D',T',C',P',N')$ be accepted $\DyadicBarycentricSubdivisionUp$ carriers related componentwise by $\hsame$. If $B$ displays a midpoint choice, parent-cover exactness, and a mesh bound through $M,L,R,D$, then $B'$ displays the transported midpoint choice, transported parent-cover exactness, and transported child mesh bound through $M',L',R',D'$.
+\end{theorem}
+\begin{proof}
+Read the componentwise $\hsame$ transport between the two accepted carriers. The transport relates the parent interval rows, midpoint rows, child interval rows, mesh-decay rows, finite-net transport rows, replay rows, provenance rows, and local naming rows in the same order.
+
+The midpoint choice is preserved first. Since the midpoint is named only by the row $M$, the transported carrier can read it only through $M'$, with the same common-denominator dyadic arithmetic transported from the endpoint rows.
+
+The coverage rows are preserved next. The left and right children of $B$ share the midpoint boundary and cover the parent row; componentwise transport sends these endpoint incidences to $L'$ and $R'$ over the transported parent $I'$.
+
+The mesh comparison is preserved by the transported decay row. Row $D'$ is the image of $D$, so the halving bound attached to the children remains the child mesh bound available to any dyadic subdivision, interval-net, or total-boundedness consumer.
+
+Thus $B'$ exposes exactly the transported midpoint, coverage, and mesh data. It gains no selected limiting point, open-cover compactness, quotient real equality, or ambient completeness row.
+\end{proof}
+
+\closureat{DyadicBarycentricSubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBarycentricSubdivisionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-barycentric-subdivision-carrier}, \autoref{thm:dyadic-barycentric-subdivision-namecert-obligations}, and \autoref{thm:dyadic-barycentric-subdivision-mesh-stability} seed the finite barycentric mesh-refinement route over parent dyadic intervals, midpoint rows, child intervals, mesh-decay rows, finite-net handoff, componentwise transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite refinement paths, quotient real equality, host barycentric-subdivision semantics, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint closure, parent-cover exactness, mesh shrinkage, finite-net handoff, transport, ledger, non-escape, and local naming for BEDC.Derived.DyadicBarycentricSubdivisionUp.}
+  \constructivestory{A $\DyadicBarycentricSubdivisionUp$ packet is generated from a parent dyadic interval row, a DyadicRatCore midpoint row, two child interval rows, a mesh-decay row, finite-net transport toward DyadicSubdivision, DyadicIntervalNet, and RealIntervalTotalBoundedness consumers, displayed Cont replay, Pkg provenance, componentwise hsame transport, and a local NameCert row.}
+\end{closurestatus}
