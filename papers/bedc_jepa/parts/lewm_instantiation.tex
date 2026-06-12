@@ -189,6 +189,27 @@ $\rho\approx 0$, and oracle gives $\rho=1.0$.  The bound is not a theorem about
 all models; it is under the current latent export, finite CPU-readable feature
 family, and fixed $5/1/3$ allocation rule.
 
+\paragraph{Ledger-shaped representation.}
+A GPU re-encoder row tests whether the ledger loss can improve the
+representation itself rather than only read a fixed one.  A learnable
+re-encoder is trained on an RTX 4060 with ledger loss entering the
+representation, and a same-capacity predictor-only model is trained as the
+control.  The primary criterion freezes each re-encoder after training and
+trains a fresh linear probe, separating representation shaping from head
+learning.  The frozen-probe $h=1$ comparison is
+$$
+\Delta\mathrm{AUROC}_{h=1}^{\mathrm{ledger\mbox{-}shaped-pred\mbox{-}only}}
+= +0.0038\ [-0.0115,\ 0.0187],
+$$
+below the predeclared $0.03$ improvement threshold and with the interval
+crossing zero.  A label-permutation control is not positive, and one-step
+latent prediction is not sacrificed (B/A $0.991$).  This is a closed negative
+bound only under this latent export, clean labels, an $8$GB GPU budget, and
+this re-encoder class.  The mechanism reading is that the LeWM latent is
+already a strong fixed representation on this carrier; a small ledger-shaped
+re-encoder does not make the failure signal linearly more readable, consistent
+with the allocation bound's $\rho\approx 0.5$ readable-information ceiling.
+
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
 machine-checked in a mathlib-free Lean~4 package whose theorems depend on
@@ -261,6 +282,7 @@ $$
 \text{allocation bridge study} & \texttt{reports/lewm\_allocation\_bridge.json},\\
 \text{native/post-hoc paired comparison} & \texttt{reports/lewm\_native\_vs\_posthoc\_paired.json},\\
 \text{allocation information bound} & \texttt{reports/lewm\_allocation\_information\_bound.json},\\
+\text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
@@ -274,8 +296,10 @@ The detection-signal claim rests on four public checkpoints
 (\texttt{tworooms}, \texttt{reacher}, \texttt{cube}, and \texttt{pusht}), each
 with a single latent export unless an independent export is explicitly named;
 the strict two-criterion claim and all trained-ledger rows remain scoped to the
-specified records; the confidence intervals still use episode bootstrap rather
-than independent world seeds, and no claim of benchmark superiority is made.
+specified records; the ledger-shaped re-encoder row is scoped to one latent
+export, clean labels, an $8$GB GPU budget, and the tested re-encoder class; the
+confidence intervals still use episode bootstrap rather than independent world
+seeds, and no claim of benchmark superiority is made.
 The pusht $1.000$ row is retained only as a contiguous-block replication record,
 not as a representative population claim.  These rows are an external baseline
 run beyond the fixed-checkpoint MiniGrid row, in gap-ledger form; they do not
