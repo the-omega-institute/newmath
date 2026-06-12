@@ -1622,6 +1622,7 @@ import BEDC.Derived.CauchyEstimateUp
 import BEDC.Derived.CauchyEstimateUp.TasteGate
 import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
+import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.TasteGate
