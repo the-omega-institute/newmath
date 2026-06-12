@@ -45,4 +45,27 @@ theorem CriticalLineWitnessCarrier_strip_modulus_source_exhaustion
       refusalUnary, terminalUnary, sameH, zetaRoute, modulusRoute, routeQ, routeC, routeN,
       refusalRoute, terminalRoute⟩
 
+theorem CriticalLineWitnessStripModulusRouteFactorization
+    {Z S M R Q H C P N stripRead modulusRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S stripRead ->
+        Cont stripRead Q modulusRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+            UnaryHistory Q ∧ UnaryHistory stripRead ∧ UnaryHistory modulusRead ∧
+              hsame H (append Z S) ∧ Cont Z S stripRead ∧ Cont stripRead Q modulusRead ∧
+                Cont M R Q ∧ Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: CriticalLineWitnessCarrier BHist hsame Cont UnaryHistory
+  intro packet stripRoute modulusRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have stripUnary : UnaryHistory stripRead :=
+    unary_cont_closed unaryZ unaryS stripRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed stripUnary unaryQ modulusRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, stripUnary, modulusUnary, sameH, stripRoute,
+      modulusRoute, routeQ, routeC, routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
