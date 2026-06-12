@@ -38,6 +38,20 @@ The non-escape clause follows from \autoref{thm:critical-line-witness-rh-nonesca
 \end{proof}
 \leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_zero\_source\_real\_readback\_factorization}
 
+\begin{theorem}[CriticalLineWitness Real-window nonescape]
+\label{thm:critical-line-witness-real-window-nonescape}
+Every Real-facing consumer of an accepted $\CriticalLineWitnessUp$ packet must expose the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational-comparison row $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any L10 readback. No analytic-continuation row, selected zero, quotient zero set, ambient $\RealUp$ completeness principle, or $\mathsf{RH}$ proof row can be read from that window.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:critical-line-witness-phase-real-dependency-totality}. It says that every Phase Real or Completion read factors through the displayed rows $Z,S,M,R,Q,H,C,P,N$ before any consumer-facing use of the packet.
+
+Apply \autoref{thm:critical-line-witness-zero-source-real-readback-factorization}. The zero-source side $Z,S,H,C,P,N$ and the Real-rational side $M,R,Q,H,C,P,N$ are two faces of the same finite $\BHist$ route, so an L10 readback cannot keep one side while dropping the other.
+
+Use \autoref{thm:critical-line-witness-zeta-link} to place zero-strip and critical-line reads behind the existing zeta dependency lattice. This keeps the visible Real window tied to the supplied source and modulus rows rather than to a host analytic object.
+
+Finally apply \autoref{thm:critical-line-witness-rh-nonescape-package}. Analytic continuation, selected zeros, quotient zero sets, ambient Real completeness, and $\mathsf{RH}$ proof data are classified outside the accepted carrier, so none of them can be read from the Real-facing window.
+\end{proof}
+
 \begin{theorem}[CriticalLineWitness RH refusal phase boundary]
 \label{thm:critical-line-witness-rh-refusal-phase-boundary}
 Every $\mathsf{RH}$-facing Phase Real or Completion request to an accepted $\CriticalLineWitnessUp$ carrier is bounded by the same finite refusal surface

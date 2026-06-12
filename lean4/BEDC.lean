@@ -3526,6 +3526,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
@@ -4232,6 +4233,7 @@ import BEDC.Derived.DyadicMetricTriangleUp.TasteGate
 import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMidpointUp.BranchLedgerTotality
+import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
@@ -4631,6 +4633,7 @@ import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FastConvergentSeriesUp.Classifier
 import BEDC.Derived.FastConvergentSeriesUp.TasteGate
 import BEDC.Derived.FastRegularCauchyEquivalenceUp.NameCertObligations
+import BEDC.Derived.FastRegularCauchyEquivalenceUp.RegularScheduleLock
 import BEDC.Derived.FastRegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.FastRegularCauchyEquivalenceUp.TwoWayRoute
 import BEDC.Derived.FastSeriesProductUp
@@ -5037,6 +5040,7 @@ import BEDC.Derived.FiniteTailDiagonalSealUp.StdBridge
 import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp
 import BEDC.Derived.FiniteTailFilterUp.BridgePremiseSurface
+import BEDC.Derived.FiniteTailFilterUp.ClassifierAlignmentBoundary
 import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
 import BEDC.Derived.FiniteTailFilterUp.ExactBoundarySharedConsumerDeterminacy
 import BEDC.Derived.FiniteTailFilterUp.ExactBoundaryTerminalNormalForm
@@ -8612,6 +8616,7 @@ import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
 import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedOrderUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
