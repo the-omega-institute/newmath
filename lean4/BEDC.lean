@@ -921,6 +921,7 @@ import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
+import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BitVectorUp.TasteGate
@@ -3720,6 +3721,7 @@ import BEDC.Derived.DiagonalLimitBudgetUp.Nonescape
 import BEDC.Derived.DiagonalLimitBudgetUp.ObligationSurface
 import BEDC.Derived.DiagonalLimitBudgetUp.SealHandoff
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
+import BEDC.Derived.DiagonalLimitBudgetUp.TasteGateReadiness
 import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalLimitStabilityUp.TasteGate
@@ -5360,6 +5362,7 @@ import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
+import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
