@@ -196,6 +196,17 @@ Use \autoref{thm:betasubstitutionpreservation-nonescape}. Since $Q$ has no coord
 Thus consuming the beta row removes one displayed obligation from the residual budget or leaves the external budget unchanged when the downstream packet merely records the handoff. The finite packet has no route that increases the discharge inventory.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation discharge progress]\label{thm:betasubstitutionpreservation-discharge-progress}
+Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier consumed by an accepted $\SubjectReductionDischargeUp$ packet. If the consumer records the beta row supplied by $Q$, then the residual discharge surface removes exactly that beta row. The application-argument row, lambda-domain row, and Pi-domain row remain external discharge obligations, and no row of $Q$ supplies host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+First read the four-row boundary through \autoref{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}. The accepted beta packet supplies exactly the beta row of the $\SubjectReductionDischargeUp$ surface, while the application-argument, lambda-domain, and Pi-domain rows are still outside the carrier.
+
+Next apply \autoref{thm:betasubstitutionpreservation-residual-budget-monotonicity}. Consuming the displayed beta row cannot create an additional residual obligation, because the handoff in $K$ and the provenance in $P$ route only the same finite beta packet to the downstream discharge consumer.
+
+Finally use \autoref{thm:betasubstitutionpreservation-nonescape}. The carrier has no coordinate for host substitution semantics, unrestricted conversion, global confluence, or closed subject reduction. The only progress made by consuming $Q$ is therefore the removal of the beta row; the other three discharge rows remain external.
+\end{proof}
+
 \begin{theorem}[BetaSubstitutionPreservation beta-case obligation package]
 \label{thm:betasubstitutionpreservation-beta-case-obligation-package}
 The beta case exposed by an accepted $\BetaSubstitutionPreservationUp$ carrier is the finite BEDC package
