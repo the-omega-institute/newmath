@@ -1630,6 +1630,7 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "order_k_required_order_source": ORDER_K_LEDGER_ROWS_POINTER,
         "order_k_required_order_row": ORDER_K_TASK_LEDGER_POINTER,
         "run_local_claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
+        "run_local_probe_metrics": f"{RUN_ROOT}/probe_metrics.jsonl",
         "run_local_raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
         "run_local_summary": f"{RUN_ROOT}/summary.json",
         "run_local_report": f"{RUN_ROOT}/report.md",

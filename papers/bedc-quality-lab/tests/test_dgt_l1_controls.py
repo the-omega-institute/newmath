@@ -4,6 +4,7 @@ import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from scripts import run_canonical_reports as canonical
 from scripts import run_dgt_l1_controls as runner
 
 
@@ -314,6 +315,7 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
         l1.CANONICAL_JSON_ARTIFACT,
         l1.CANONICAL_MARKDOWN_ARTIFACT,
         run_artifacts["summary"],
+        run_artifacts["probe_metrics"],
         run_artifacts["raw_metrics"],
         run_artifacts["claim_capsule"],
         run_artifacts["report"],
@@ -330,6 +332,27 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
     assert claim_capsule == canonical_payload["claim_capsule_ref"]
     assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
+
+
+def test_dgt_l1_controls_fingerprint_rejects_tampered_probe_metrics(tmp_path, monkeypatch):
+    spec = next(row for row in canonical.CANONICAL_REPORTS if row.name == "dgt-l1-controls")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    payload = _payload()
+    l1.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
+    fingerprint = canonical._write_fingerprint_sidecar(spec, generated_at="fixture-time")
+
+    source_paths = {
+        row["path"]
+        for row in fingerprint["inputs"]["source_artifacts"]
+    }
+    assert l1.run_artifacts_payload()["probe_metrics"] in source_paths
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+    probe_path = tmp_path / l1.run_artifacts_payload()["probe_metrics"]
+    probe_path.write_text('{"tampered":true}\n', encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
 
 
 def test_dgt_l1_controls_regeneration_is_byte_stable(tmp_path, capsys):

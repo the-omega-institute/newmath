@@ -1004,13 +1004,14 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
     assert "hand_engineered_task_aligned_gate" not in serialized
 
 
-def test_dgt_owner_refs_fail_closed_when_missing(tmp_path):
+@pytest.mark.parametrize("missing_key", ("negative_witness_sweep", "l1_ood_mechanism"))
+def test_dgt_owner_refs_fail_closed_when_missing(tmp_path, missing_key):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
     l1_path = tmp_path / "reports/canonical/dgt-l1-controls.json"
     l1_payload = json.loads(l1_path.read_text(encoding="utf-8"))
-    l1_payload.pop("l1_ood_mechanism")
+    l1_payload.pop(missing_key)
     l1_path.write_text(json.dumps(l1_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     with pytest.raises(ValueError, match="owner refs"):
