@@ -3291,6 +3291,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderNonescape
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderScope
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCauchySelection
@@ -3933,6 +3934,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowFusion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.WindowRouteLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSourceExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
@@ -9077,6 +9079,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.TailSourceExhaustion
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailStability
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SequentiallyCompleteMetricUp.WindowLimitExtraction
+import BEDC.Derived.SequentiallyCompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesLimitComparisonUp.TasteGate
