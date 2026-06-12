@@ -289,4 +289,28 @@ theorem BaireOneFunctionCarrier_lowersemicontinuous_handoff [AskSetup] [PackageS
   }
   exact ⟨cert, lscUnary, sourceApproxSchedule, scheduleReadbackReal, provenancePkg⟩
 
+theorem BaireOneFunctionCarrier_public_export [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg →
+      Cont L C publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory X ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory Q ∧
+            UnaryHistory R ∧ UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory C ∧
+              UnaryHistory publicRead ∧ Cont X F S ∧ Cont S Q R ∧ Cont R L H ∧
+                Cont L C publicRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                  PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier publicRoute publicPkg
+  obtain ⟨xUnary, fUnary, sUnary, qUnary, rUnary, lUnary, hUnary, cUnary,
+    _pUnary, _nUnary, sourceApproxSchedule, scheduleReadbackReal,
+    realHandoffTransport, _transportContinuationProvenance, provenancePkg,
+    namePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed lUnary cUnary publicRoute
+  exact
+    ⟨xUnary, fUnary, sUnary, qUnary, rUnary, lUnary, hUnary, cUnary, publicUnary,
+      sourceApproxSchedule, scheduleReadbackReal, realHandoffTransport, publicRoute,
+      provenancePkg, namePkg, publicPkg⟩
+
 end BEDC.Derived.BaireOneFunctionUp
