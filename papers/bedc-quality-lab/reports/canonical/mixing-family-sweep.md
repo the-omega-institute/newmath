@@ -1,6 +1,6 @@
 # Canonical nonlinear mixing-family sweep
 
-- Generated at: `2026-06-12T08:29:24.995823+00:00`
+- Generated at: `2026-06-12T09:34:43.601526+00:00`
 - Seed count: `6`
 - Seed floor: `6`
 - Sample count: `384`

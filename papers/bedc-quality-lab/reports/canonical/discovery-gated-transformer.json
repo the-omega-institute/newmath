@@ -1072,7 +1072,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "2026-06-12T06:36:23.020151+00:00",
+  "generated_at": "2026-06-12T09:34:43.560066+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",
@@ -1693,30 +1693,35 @@
       },
       {
         "claim_capsule": {
-          "boundary_ledger": [],
+          "boundary_ledger": [
+            {
+              "level_id": "L1_tiny_sequence",
+              "reason": "fair L1 decision is not scaling-evidence-eligible",
+              "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+              "status": "blocked"
+            }
+          ],
           "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
           "l1_ood_mechanism_l2_implication_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.l2_implication",
           "l1_ood_mechanism_verdict_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
           "level_id": "L1_tiny_sequence",
-          "level_state": "ready",
+          "level_state": "blocked",
           "not_claimed": [
-            "Bounded tiny-sequence order-k training only.",
-            "No production deployment claim.",
-            "No global superiority claim.",
-            "No LLM replacement claim.",
-            "No universal training recipe claim.",
-            "No full BEDC closure claim.",
+            "Bounded L1 tiny-sequence decision only.",
             "No L2 or higher scaling claim.",
-            "No natural-language capability claim.",
-            "No component-causal stability beyond the #1168 measured owner."
+            "No production deployment claim.",
+            "No global model superiority claim.",
+            "No LLM replacement claim.",
+            "No OOD generalization claim.",
+            "No architecture advantage claim."
           ],
-          "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+          "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
-          "promotion_readiness_alias": "ready-pass",
-          "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
-          "promotion_status": "level-local-evidence-ready",
-          "review_status_alias": "pass",
-          "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status"
+          "promotion_readiness_alias": "l1-bounded-negative",
+          "promotion_readiness_alias_source": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+          "promotion_status": "l1-bounded-negative",
+          "review_status_alias": "bounded-negative",
+          "review_status_alias_source": "reports/canonical/fair-l1-decision.json:$.decision.status"
         },
         "level_id": "L1_tiny_sequence"
       },
@@ -1881,9 +1886,7 @@
       "L4_tool_use_toy",
       "L5_small_world_model"
     ],
-    "opened_levels": [
-      "L1_tiny_sequence"
-    ],
+    "opened_levels": [],
     "overall_status": "blocked",
     "promotion_status": "blocked",
     "review_status": "review-line-blocked",
@@ -1916,8 +1919,8 @@
       "pointer": "$.honest_metric_review"
     },
     "interpretation_boundary_ref": {
-      "artifact": "reports/canonical/dgt-l1-controls.json",
-      "pointer": "$.l1_tiny_sequence_projection"
+      "artifact": "reports/canonical/fair-l1-decision.json",
+      "pointer": "$.ladder_state_projection"
     },
     "l1_ood_mechanism_ref": {
       "artifact": "reports/canonical/dgt-l1-controls.json",

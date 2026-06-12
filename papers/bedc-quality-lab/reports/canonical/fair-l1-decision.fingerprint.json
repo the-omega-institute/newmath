@@ -3,7 +3,7 @@
     "generated_at": "2026-06-12T09:34:43.560066+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "b474c7ad5a74f7709a9e6af474657ce6af0cd0c15ba639817e202197504766a8",
+  "input_fingerprint": "57cb4b14a8956f7c858a100a647ff98da1283bc6105e20e131077b23d7e3fa0c",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -19,20 +19,20 @@
         "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
       },
       {
-        "path": "bedc_quality_lab/structural_generalization_splits.py",
-        "sha256": "526d1a2425fe8d41e239762b7635a051542939b6224851c3fb2f0e0f7b494c5b"
+        "path": "bedc_quality_lab/fair_l1_decision.py",
+        "sha256": "7db1793d20d865c69407baea571425711660962ddbd39e0d5b5c1c98a9ed179c"
       },
       {
-        "path": "scripts/run_structural_generalization_splits.py",
-        "sha256": "09898edc2f517b1005a9722a752bad8de3267c1c13ecfe9e73561b2aa9761552"
+        "path": "scripts/run_fair_l1_decision.py",
+        "sha256": "f7d6e00b5b59f19b7c61d73e75089e0b6ba274695edeb3479fd4ee56a8e8e3bc"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:structural-generalization-splits",
+    "report_output_schema_id": "bedc-quality-lab:fair-l1-decision",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_structural_generalization_splits.py"
+        "scripts/run_fair_l1_decision.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -40,22 +40,26 @@
     },
     "source_artifacts": [
       {
-        "path": "reports/canonical/input-accessibility.json",
-        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb"
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "aee4eb2d8b4344842f25f294938da449de0d1d1853650d991bcf1e731f09f6e4"
       },
       {
-        "path": "reports/canonical/winnability-certificates.json",
-        "sha256": "51df44b36ada7bc5ee0e7a7714bead25fc54ed8b55a9f44ceb0ed16dfce53c04"
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+      },
+      {
+        "path": "reports/canonical/input-accessibility.json",
+        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_structural_generalization_splits.py"
+        "scripts/run_fair_l1_decision.py"
       ],
-      "construct_validity_pointer": null,
-      "control_pointer": "$.classifier_rows",
+      "construct_validity_pointer": "reports/canonical/fair-l1-decision.json:$.construct_validity_projection",
+      "control_pointer": "$.fair_alignment.comparison_rows",
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
@@ -64,37 +68,36 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/structural-generalization-splits.json",
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
-      "name": "structural-generalization-splits",
+      "markdown_artifact": "reports/canonical/fair-l1-decision.md",
+      "name": "fair-l1-decision",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.split_rows",
+      "positive_claim_pointer": "$.decision.status",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
         "producer",
         "source_artifacts",
-        "split_registry",
-        "split_rows",
-        "classifier_rows",
+        "fair_alignment",
         "hardgates",
+        "decision",
+        "ladder_state_projection",
         "boundary_ledger",
-        "consumer_pointers",
         "not_claimed"
       ],
-      "scope_pointer": "$.split_registry"
+      "scope_pointer": "$.not_claimed"
     }
   },
-  "json_artifact": "reports/canonical/structural-generalization-splits.json",
-  "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
-  "output_digest": "dbbc69400e1a77f9ee5ea370accb527be83b01b1f3e556251859435c8045c2b2",
+  "json_artifact": "reports/canonical/fair-l1-decision.json",
+  "markdown_artifact": "reports/canonical/fair-l1-decision.md",
+  "output_digest": "e650aee3c4d5153c8259b33c493c84a580c161ee0c07fdfe708a1b88aea02219",
   "producer_command": [
     "python3",
-    "scripts/run_structural_generalization_splits.py"
+    "scripts/run_fair_l1_decision.py"
   ],
-  "report_name": "structural-generalization-splits",
+  "report_name": "fair-l1-decision",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
