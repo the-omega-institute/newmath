@@ -92,6 +92,18 @@ Now use \autoref{thm:located-compact-net-obligation-package}. The finite-net row
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedCompactUp.LocatedCompactCarrier\_real\_window\_handoff}
 
+\begin{theorem}[LocatedCompact public finite-net boundary]
+\label{thm:located-compact-public-finite-net-boundary}
+The public $\LocatedCompactUp$ interface exports exactly the finite $\mathsf{ProbeBundle}$ net data, locatedness comparison rows, apartness and separatedness support, $\StreamNameUp$ windows, $\RealUp$ seal handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ surface carried by \autoref{def:located-compact-carrier}. It exports no open-cover compactness theorem, selected finite subcover, quotient compactum, host choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(X,L,F,A,H,C,P,N)$. The row $F$ is the finite-net surface, $L$ is the locatedness comparison surface, $A$ is the apartness and separatedness support, and $C$ routes the stream windows to the terminal Real seal.
+
+Use \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-net-obligation-package}, and \autoref{thm:located-compact-real-window-handoff}. These identify the finite $\mathsf{ProbeBundle}$ centers, $\mathsf{InBundle}$ memberships, locatedness comparisons, stream-window route, and Real handoff as checked local rows.
+
+The remaining rows $H,P,N$ transport, source, and name the same packet, while $\Cont$ replay is already stored in $C$. Since the carrier has no row for open covers, selected subcovers, quotient compacta, host choice, or ambient completeness, the public boundary is exactly the displayed finite interface.
+\end{proof}
+
 \begin{theorem}[LocatedCompact public export surface]
 \label{thm:locatedcompact-public-export-surface}
 The public $\LocatedCompactUp$ export is exactly the displayed finite-net, locatedness, apartness and separatedness, Real-window, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface of \autoref{def:located-compact-carrier}, \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-totally-bounded-handoff}, \autoref{thm:located-compact-net-obligation-package}, and \autoref{thm:located-compact-real-window-handoff}. A consumer may read the finite $\mathsf{ProbeBundle}$ centers and $\mathsf{InBundle}$ membership rows in $F$, the locatedness comparisons in $L$, the apartness and separatedness row $A$, the terminal $\RealUp$ window route in $C$, and the structural rows $H,P,N$. It may not read an open-cover compactness theorem, selected finite subcover, quotient compactum, host choice, or ambient completeness coordinate.
@@ -103,12 +115,12 @@ Project the accepted carrier $K=(X,L,F,A,H,C,P,N)$. The carrier definition lists
 Use the obligation and handoff theorems cited above. They identify the finite-net, locatedness, Real-window, and structural support read by compact and Real-facing consumers. Since no additional row occurs in the carrier, the public export surface is exhausted by those displayed rows and none of the excluded compactness or completeness principles is exported.
 \end{proof}
 
-\closureat{LocatedCompactUp}{publicStr}
+\closureat{LocatedCompactUp}{publicStr}[BEDC.Derived.LocatedCompactUp.LocatedCompactNameCertObligations]
 
 \begin{closurestatus}{\LocatedCompactUp}
   \constructivestory{A $\LocatedCompactUp$ packet is generated from a compact carrier row, a locatedness test row, a finite $\mathsf{ProbeBundle}$ net witness, an apartness and separatedness row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:located-compact-carrier}, \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-totally-bounded-handoff}, \autoref{thm:located-compact-net-obligation-package}, \autoref{thm:located-compact-real-window-handoff}, and \autoref{thm:locatedcompact-public-export-surface} give the public paper-side export surface for the finite located-compact boundary over total boundedness, separated completion, apartness-real data, real-name seals, stream windows, finite-net obligations, and Real-window handoff.}
+  \scopeclosed{\autoref{def:located-compact-carrier}, \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-totally-bounded-handoff}, \autoref{thm:located-compact-net-obligation-package}, \autoref{thm:located-compact-real-window-handoff}, \autoref{thm:located-compact-public-finite-net-boundary}, and \autoref{thm:locatedcompact-public-export-surface} give the public paper-side export surface for the finite located-compact boundary over total boundedness, separated completion, apartness-real data, real-name seals, stream windows, finite-net obligations, and Real-window handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel as a general theorem, quotient compacta, host choice, ambient completeness, Lean verification, or bridge checking.}
