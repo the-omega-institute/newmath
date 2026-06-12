@@ -1248,6 +1248,15 @@ def _write_release_pointer_fixture(root):
                         {"witness": "hand_engineered_task_aligned_gate"},
                     ],
                 },
+                "l1_ood_mechanism": {
+                    "owner": "dgt-l1-controls",
+                    "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                    "verdict": "memorization",
+                    "l2_implication": {
+                        "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                        "status": "pointer-only",
+                    },
+                },
             }
         )
         + "\n",
@@ -1857,6 +1866,23 @@ def test_dgt_controls_require_construct_validity_without_replacing_protocol_hard
         assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
         assert "reporting_hardgate" in discipline
         assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
+
+
+def test_dgt_l1_controls_owns_l1_ood_mechanism_without_standalone_report(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["dgt-l1-controls"]
+    names = {item.name for item in canonical.CANONICAL_REPORTS}
+    artifacts = {item.json_artifact for item in canonical.CANONICAL_REPORTS}
+    payload = _payload_for_spec(spec)
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+
+    assert "l1_ood_mechanism" in spec.required_json_keys
+    assert payload["l1_ood_mechanism"]["verdict"] in {"memorization", "brittle-rule", "partial-rule"}
+    assert payload["l1_ood_mechanism"]["owner"] == "dgt-l1-controls"
+    assert "dgt-l1-ood-mechanism" not in names
+    assert "reports/canonical/dgt-l1-ood-mechanism.json" not in artifacts
 
 
 def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
@@ -4717,6 +4743,31 @@ def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_pa
 
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
+
+
+def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["model-comparison"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(("producer", called.name))
+
+    def fake_write_fingerprint(called, *, generated_at=None):
+        calls.append(("fingerprint", called.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == []
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+    assert payload["reports"][0]["producer_status"] == "skipped"
 
 
 def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):

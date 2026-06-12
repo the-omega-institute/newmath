@@ -1099,6 +1099,439 @@
     },
     "task_spec_digest": "e139cc8a90fe7ac1f83d0f237a087fc467c7392e49ef78ceb888ca4cdddb2747"
   },
+  "l1_ood_mechanism": {
+    "control_rows": {
+      "controls_present": true,
+      "information_starved_baseline_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.information_starved_l1_baseline",
+      "matched_random_control_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.matched_random_structural_l1"
+    },
+    "decision_table": {
+      "branch": "high_frequency_seen_only",
+      "diagnostic_confidence": "medium",
+      "failed_hardgates": [],
+      "thresholds": {
+        "collapse_margin": 0.05,
+        "frequency_ratio": 2.0,
+        "logit_margin_min": 0.0,
+        "positive_margin": 0.05
+      },
+      "verdict": "memorization"
+    },
+    "diagnostic_confidence": "medium",
+    "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+    "hardgates": {
+      "L1OOD-HG1": {
+        "criterion": "all required pair-frequency and dependency-shift strata are present for every arm",
+        "evidence_pointer": "$.l1_ood_mechanism.strata",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG1",
+        "status": "pass"
+      },
+      "L1OOD-HG2": {
+        "criterion": "read-only mechanism probe rows are canonical CPU forward passes",
+        "evidence_pointer": "$.l1_ood_mechanism.strata",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG2",
+        "status": "pass"
+      },
+      "L1OOD-HG3": {
+        "criterion": "probe contains aggregate true-class logits and margins without parameter mutation",
+        "evidence_pointer": "$.l1_ood_mechanism.strata",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG3",
+        "status": "pass"
+      },
+      "L1OOD-HG4": {
+        "criterion": "matched-random control rows are present and remain diagnostic controls rather than verdict owners",
+        "evidence_pointer": "$.l1_ood_mechanism.control_rows",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG4",
+        "status": "pass"
+      },
+      "L1OOD-HG5": {
+        "criterion": "mechanism diagnosis uses the existing pointer-backed order-two task source",
+        "evidence_pointer": "$.task_spec.required_order_source",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG5",
+        "status": "pass"
+      },
+      "L1OOD-HG6": {
+        "criterion": "mechanism verdict is mechanically selected from the registered verdict set",
+        "evidence_pointer": "$.l1_ood_mechanism.decision_table",
+        "fail_closed_reason": null,
+        "gate_id": "L1OOD-HG6",
+        "status": "pass"
+      }
+    },
+    "l2_implication": {
+      "recommendation": "future L2 work must treat this verdict as a bounded diagnostic, not as scaling evidence",
+      "status": "diagnostic-pointer-only",
+      "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict"
+    },
+    "mechanism_scores": {
+      "brittle_rule_score": 1.297817,
+      "memorization_score": 1.084373,
+      "partial_rule_score": 0.00708
+    },
+    "not_claimed": [
+      "No OOD generalization claim.",
+      "No L2 or higher scaling claim.",
+      "No component-causal stability claim.",
+      "No standalone mechanism owner claim."
+    ],
+    "owner": "dgt-l1-controls",
+    "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
+    "regen_idempotence": {
+      "checked_paths": [
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-l1-controls.fingerprint.json",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl"
+      ],
+      "status": "runner-checked"
+    },
+    "source_pointers": {
+      "compute_ledger": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
+      "independent_replay": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+      "probe_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+      "raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+      "task_required_order": 2,
+      "task_required_order_source": "reports/canonical/dgt-l1-controls.json:$.task_spec.required_order_source",
+      "task_required_order_status": "pointer-backed",
+      "training_arms": "reports/canonical/dgt-l1-controls.json:$.training_arms"
+    },
+    "strata": {
+      "ood_dependency_shift_pair": {
+        "compute_matched_l1": {
+          "accuracy": 0.063965,
+          "accuracy_minus_chance": 0.001465,
+          "arm_id": "compute_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.174827,
+          "device_resolved": "cpu",
+          "example_count": 4096,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 4096,
+          "stratum": "ood_dependency_shift_pair",
+          "true_class_logit_mean": 0.031762,
+          "true_class_margin_mean": -1.17991
+        },
+        "dgt_l1": {
+          "accuracy": 0.06958,
+          "accuracy_minus_chance": 0.00708,
+          "arm_id": "dgt_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.244045,
+          "device_resolved": "cpu",
+          "example_count": 4096,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 4096,
+          "stratum": "ood_dependency_shift_pair",
+          "true_class_logit_mean": 0.03315,
+          "true_class_margin_mean": -2.056503
+        },
+        "information_starved_l1_baseline": {
+          "accuracy": 0.06958,
+          "accuracy_minus_chance": 0.00708,
+          "arm_id": "information_starved_l1_baseline",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.117877,
+          "device_resolved": "cpu",
+          "example_count": 4096,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 4096,
+          "stratum": "ood_dependency_shift_pair",
+          "true_class_logit_mean": -0.011719,
+          "true_class_margin_mean": -0.699114
+        },
+        "matched_random_structural_l1": {
+          "accuracy": 0.062012,
+          "accuracy_minus_chance": -0.000488,
+          "arm_id": "matched_random_structural_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.152314,
+          "device_resolved": "cpu",
+          "example_count": 4096,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 4096,
+          "stratum": "ood_dependency_shift_pair",
+          "true_class_logit_mean": -0.013324,
+          "true_class_margin_mean": -1.025785
+        },
+        "parameter_matched_l1": {
+          "accuracy": 0.06543,
+          "accuracy_minus_chance": 0.00293,
+          "arm_id": "parameter_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.178516,
+          "device_resolved": "cpu",
+          "example_count": 4096,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 4096,
+          "stratum": "ood_dependency_shift_pair",
+          "true_class_logit_mean": 0.016169,
+          "true_class_margin_mean": -1.203065
+        }
+      },
+      "train_seen_high_frequency_pair": {
+        "compute_matched_l1": {
+          "accuracy": 0.944444,
+          "accuracy_minus_chance": 0.881944,
+          "arm_id": "compute_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.276622,
+          "device_resolved": "cpu",
+          "example_count": 234,
+          "pair_count": 109,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 234,
+          "stratum": "train_seen_high_frequency_pair",
+          "true_class_logit_mean": 1.783591,
+          "true_class_margin_mean": 0.82847
+        },
+        "dgt_l1": {
+          "accuracy": 0.991453,
+          "accuracy_minus_chance": 0.928953,
+          "arm_id": "dgt_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.360463,
+          "device_resolved": "cpu",
+          "example_count": 234,
+          "pair_count": 109,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 234,
+          "stratum": "train_seen_high_frequency_pair",
+          "true_class_logit_mean": 2.679587,
+          "true_class_margin_mean": 0.857049
+        },
+        "information_starved_l1_baseline": {
+          "accuracy": 0.636752,
+          "accuracy_minus_chance": 0.574252,
+          "arm_id": "information_starved_l1_baseline",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.127807,
+          "device_resolved": "cpu",
+          "example_count": 234,
+          "pair_count": 109,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 234,
+          "stratum": "train_seen_high_frequency_pair",
+          "true_class_logit_mean": 0.721042,
+          "true_class_margin_mean": 0.074361
+        },
+        "matched_random_structural_l1": {
+          "accuracy": 0.055556,
+          "accuracy_minus_chance": -0.006944,
+          "arm_id": "matched_random_structural_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.148262,
+          "device_resolved": "cpu",
+          "example_count": 234,
+          "pair_count": 109,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 234,
+          "stratum": "train_seen_high_frequency_pair",
+          "true_class_logit_mean": 0.105116,
+          "true_class_margin_mean": -0.872549
+        },
+        "parameter_matched_l1": {
+          "accuracy": 0.991453,
+          "accuracy_minus_chance": 0.928953,
+          "arm_id": "parameter_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.300947,
+          "device_resolved": "cpu",
+          "example_count": 234,
+          "pair_count": 109,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 234,
+          "stratum": "train_seen_high_frequency_pair",
+          "true_class_logit_mean": 1.91288,
+          "true_class_margin_mean": 0.938876
+        }
+      },
+      "train_seen_low_frequency_pair": {
+        "compute_matched_l1": {
+          "accuracy": 0.201743,
+          "accuracy_minus_chance": 0.139243,
+          "arm_id": "compute_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.168566,
+          "device_resolved": "cpu",
+          "example_count": 3787,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 3787,
+          "stratum": "train_seen_low_frequency_pair",
+          "true_class_logit_mean": 0.277629,
+          "true_class_margin_mean": -0.83159
+        },
+        "dgt_l1": {
+          "accuracy": 0.275944,
+          "accuracy_minus_chance": 0.213444,
+          "arm_id": "dgt_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.238914,
+          "device_resolved": "cpu",
+          "example_count": 3787,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 3787,
+          "stratum": "train_seen_low_frequency_pair",
+          "true_class_logit_mean": 1.416475,
+          "true_class_margin_mean": -0.548865
+        },
+        "information_starved_l1_baseline": {
+          "accuracy": 0.031423,
+          "accuracy_minus_chance": -0.031077,
+          "arm_id": "information_starved_l1_baseline",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.117643,
+          "device_resolved": "cpu",
+          "example_count": 3787,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 3787,
+          "stratum": "train_seen_low_frequency_pair",
+          "true_class_logit_mean": -0.035395,
+          "true_class_margin_mean": -0.728697
+        },
+        "matched_random_structural_l1": {
+          "accuracy": 0.059414,
+          "accuracy_minus_chance": -0.003086,
+          "arm_id": "matched_random_structural_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.151618,
+          "device_resolved": "cpu",
+          "example_count": 3787,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 3787,
+          "stratum": "train_seen_low_frequency_pair",
+          "true_class_logit_mean": 0.00079,
+          "true_class_margin_mean": -1.005901
+        },
+        "parameter_matched_l1": {
+          "accuracy": 0.224452,
+          "accuracy_minus_chance": 0.161952,
+          "arm_id": "parameter_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.171137,
+          "device_resolved": "cpu",
+          "example_count": 3787,
+          "pair_count": 256,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 3787,
+          "stratum": "train_seen_low_frequency_pair",
+          "true_class_logit_mean": 0.301413,
+          "true_class_margin_mean": -0.798161
+        }
+      },
+      "train_unseen_pair": {
+        "compute_matched_l1": {
+          "accuracy": 0.0,
+          "accuracy_minus_chance": -0.0625,
+          "arm_id": "compute_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.16903,
+          "device_resolved": "cpu",
+          "example_count": 76,
+          "pair_count": 41,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 76,
+          "stratum": "train_unseen_pair",
+          "true_class_logit_mean": -1.735019,
+          "true_class_margin_mean": -2.989509
+        },
+        "dgt_l1": {
+          "accuracy": 0.0,
+          "accuracy_minus_chance": -0.0625,
+          "arm_id": "dgt_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.248748,
+          "device_resolved": "cpu",
+          "example_count": 76,
+          "pair_count": 41,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 76,
+          "stratum": "train_unseen_pair",
+          "true_class_logit_mean": -0.413889,
+          "true_class_margin_mean": -2.461352
+        },
+        "information_starved_l1_baseline": {
+          "accuracy": 0.0,
+          "accuracy_minus_chance": -0.0625,
+          "arm_id": "information_starved_l1_baseline",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.122473,
+          "device_resolved": "cpu",
+          "example_count": 76,
+          "pair_count": 41,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 76,
+          "stratum": "train_unseen_pair",
+          "true_class_logit_mean": -1.102946,
+          "true_class_margin_mean": -1.856584
+        },
+        "matched_random_structural_l1": {
+          "accuracy": 0.0,
+          "accuracy_minus_chance": -0.0625,
+          "arm_id": "matched_random_structural_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.150425,
+          "device_resolved": "cpu",
+          "example_count": 76,
+          "pair_count": 41,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 76,
+          "stratum": "train_unseen_pair",
+          "true_class_logit_mean": -0.206,
+          "true_class_margin_mean": -1.197934
+        },
+        "parameter_matched_l1": {
+          "accuracy": 0.0,
+          "accuracy_minus_chance": -0.0625,
+          "arm_id": "parameter_matched_l1",
+          "chance_accuracy": 0.0625,
+          "confidence_mean": 0.162756,
+          "device_resolved": "cpu",
+          "example_count": 76,
+          "pair_count": 41,
+          "parameter_mutation_detected": false,
+          "seed_count": 16,
+          "source_probe_row_count": 76,
+          "stratum": "train_unseen_pair",
+          "true_class_logit_mean": -1.669461,
+          "true_class_margin_mean": -2.84958
+        }
+      }
+    },
+    "verdict": "memorization"
+  },
   "l1_step_ladder": {
     "arms": [
       "information_starved_l1_baseline",
@@ -5740,6 +6173,7 @@
       "classifier_shift_count": "reports/canonical/dgt-neural-ablation.json:$.paired_delta_matrix.DGT_without_mechanism_probe.metrics.classifier_shift_count"
     },
     "run_local_claim_capsule": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/claim_capsule.json",
+    "run_local_probe_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
     "run_local_raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
     "run_local_report": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/report.md",
     "run_local_summary": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",

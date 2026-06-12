@@ -1223,6 +1223,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_sweep",
             "independent_replay",
             "l1_step_ladder",
+            "l1_ood_mechanism",
             "construct_validity_hardgates",
             "review_status",
             "promotion_readiness",
