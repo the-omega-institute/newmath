@@ -50,18 +50,30 @@ Finally inspect the failure surface. The row $L$ records exactly the continuatio
 \end{proof}
 \leanchecked{BEDC.Derived.PhysicalInductionStabilitySealUp.PhysicalInductionStabilitySealNameCert\_obligations}
 
+\begin{theorem}[PhysicalInductionStabilitySeal scoped route]
+\label{thm:physical-induction-stability-seal-scoped-route}
+Every scoped $\PhysicalInductionStabilitySealUp$ consumer must read the finite observation prefix, fit row, continuation class, stability basis, failure surface, predictive-reuse route, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ row through the carrier of \autoref{def:physical-induction-stability-seal-carrier}. The scoped route exports no unbounded oracle, hidden future history, final physical law, or predictive read outside the displayed continuation class.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(H,F,C,S,L,R,T,P,N)$. Its displayed rows are the only rows available to a scoped consumer, so the observation prefix, finite fit, continuation class, stability basis, failure surface, predictive route, transport, provenance, and local name must be read by projection from this tuple.
+
+Apply \autoref{thm:physical-induction-stability-seal-namecert-obligations}. It makes stability transport, failure-surface exactness, and predictive-reuse non-escape obligations of the same local NameCert surface.
+
+The TasteGate-aligned carrier marker fixes the consumer-facing packet to this row inventory. Since no coordinate supplies an unbounded oracle, hidden future history, final physical law, or extra continuation source, the scoped route is exhausted by the displayed carrier.
+\end{proof}
+
 \falsifiablePrediction{Removing the failure-surface row or the continuation-class row makes predictive reuse indistinguishable from an unbounded oracle claim and invalidates the seal.}
 
 \independenceWitness{Nearest siblings: realityconstrainedopenfit, physicalmodelaudit, realityconstrainedobjectivity, observationreflectionhandoff, inscriptiongapledger. The seal has a continuation-class plus failure-surface pair none of those siblings has as a single carrier, while each sibling has audit, objectivity, handoff, or residue rows absent from this seal; no row-preserving bijection exists.}
 
 The Lean target family \texttt{BEDC.Derived.PhysicalInductionStabilitySealUp} must provide explicit $\mathsf{Nontrivial}\ \PhysicalInductionStabilitySealUp$ and $\mathsf{FieldFaithful}\ \PhysicalInductionStabilitySealUp$ instances in \texttt{Derived/PhysicalInductionStabilitySealUp/TasteGate.lean}.
 
-\closureat{PhysicalInductionStabilitySealUp}{obligationStr}
+\closureat{PhysicalInductionStabilitySealUp}{scopedStr}
 
 \begin{closurestatus}{\PhysicalInductionStabilitySealUp}
   \constructivestory{A $\PhysicalInductionStabilitySealUp$ packet is generated from a finite observation prefix, finite fit, continuation class, stability basis, failure surface, predictive-reuse route, componentwise transport, provenance, and local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:physical-induction-stability-seal-carrier} and \autoref{thm:physical-induction-stability-seal-namecert-obligations} bind the finite certificate-relative physical induction packet and its local NameCert surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:physical-induction-stability-seal-carrier}, \autoref{thm:physical-induction-stability-seal-namecert-obligations}, and \autoref{thm:physical-induction-stability-seal-scoped-route} bind the finite certificate-relative physical induction packet, its local NameCert surface, and its scoped consumer route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
