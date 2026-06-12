@@ -275,15 +275,30 @@ Apply \autoref{thm:cauchyspace-regseqrat-uniform-obligation}. The regular ration
 Finally apply \autoref{thm:cauchyspace-completion-handoff-obligation} and \autoref{thm:cauchyspace-obligation-coverage-route}. The handoff row $T_0$ exposes the $\CauchyPrecompletionUp$ boundary before the $\RealUp$ consumer boundary, while $H_0,C_0,P_0,N_0$ transport, replay, source, and name the same finite route. Hence quotient completion, selected representatives, countable choice, host equality, ambient completeness, and bridge credentials remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[CauchySpace public consumer boundary]
+\label{thm:cauchyspace-public-consumer-boundary}
+For every accepted $\CauchySpaceUp$ local filter carrier $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$, the public CauchySpace boundary exposed to completion-facing consumers is exactly the route that combines the local filter carrier, the precompletion nonescape obligation, the regular-name handoff obligation, and the completion handoff obligation. A consumer must read $F_0,F_1,U_0$, then the $\RegSeqRatUp$ row $R_0$, then the $\CauchyPrecompletionUp$, $\RealUp$, or $\UniformCompletionUp$ handoff recorded in $T_0$, and finally the $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The public boundary exports no quotient completion, selected representative, host real equality, countable choice, ambient $\RealUp$ completeness, open-cover compactness, Lean credential, or bridge claim.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cauchyspace-local-filter-carrier}. It lists the only local filter, uniform-entourage, regular-name, completion-consumer, transport, replay, provenance, and naming rows available to a public consumer.
+
+Use \autoref{thm:cauchyspace-precompletion-nonescape-obligation} to keep the precompletion row from becoming a quotient completion or selected representative. Use \autoref{thm:cauchyspace-regular-name-handoff-obligation} and \autoref{thm:cauchyspace-regseqrat-uniform-obligation} to force every regular-name read through the displayed filter and uniform rows before $R_0$ is consumed.
+
+Use \autoref{thm:cauchyspace-completion-handoff-obligation} and \autoref{thm:cauchyspace-precompletion-factorization} for the completion-facing handoff. These theorems place $T_0$ downstream of $R_0$ and keep the $\RealUp$ or $\UniformCompletionUp$ consumer inside the displayed route.
+
+The structural rows $H_0,C_0,P_0,N_0$ transport, replay, source, and name the same carrier. Since the excluded principles have no row in the local carrier or in the cited obligations, the public consumer boundary is exactly the finite route stated above.
+\end{proof}
+
 \closureat{CauchySpaceUp}{seedStr}
 \closureat{CauchySpaceUp}{obligationStr}
+\closureat{CauchySpaceUp}{scopedStr}
 
 \begin{closurestatus}{\CauchySpaceUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchyspace-carrier}, \autoref{def:cauchyspace-classifier}, \autoref{thm:cauchyspace-filter-stability}, \autoref{thm:cauchyspace-uniform-regseq-interface}, \autoref{thm:cauchyspace-real-completion-consumer}, \autoref{thm:cauchyspace-obligation-coverage-route}, and \autoref{thm:cauchyspace-precompletion-factorization} close the displayed carrier and classifier, filter stability, uniform RegSeqRat interface, Real completion consumer boundary, obligation coverage, and precompletion factorization surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchyspace-carrier}, \autoref{def:cauchyspace-classifier}, \autoref{thm:cauchyspace-obligation-coverage-route}, \autoref{thm:cauchyspace-precompletion-factorization}, and \autoref{thm:cauchyspace-public-consumer-boundary} close the displayed carrier, classifier, obligation coverage, precompletion factorization, and public consumer boundary surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires a complete public consumer theorem tying the local filter carrier, precompletion factorization, nonescape route, and local NameCert ledger into one binding CauchySpace boundary.}
+  \upgradepath{Public closure requires a downstream consumer that imports the scoped CauchySpace boundary as a named public interface without adding quotient completion, selected representatives, countable choice, or ambient completeness.}
   \constructivestory{A $\CauchySpaceUp$ packet is generated from a CauchyFilter row, UniformSpace entourage row, RegSeqRat regular-name row, CauchyPrecompletion handoff row, RealUp completion-consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}
