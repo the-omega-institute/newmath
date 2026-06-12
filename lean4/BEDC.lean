@@ -3655,6 +3655,7 @@ import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
+import BEDC.Derived.DarbouxOscillationCriterionUp
 import BEDC.Derived.DarbouxOscillationUp
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
