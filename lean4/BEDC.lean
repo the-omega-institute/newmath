@@ -3492,6 +3492,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
+import BEDC.Derived.CriticalLineWitnessUp.RootRefusalDownstreamGate
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
@@ -4131,6 +4132,7 @@ import BEDC.Derived.DyadicCompactnessUp.TasteGate
 import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
 import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
+import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -6472,6 +6474,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankReplayClosure
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
@@ -7947,6 +7950,7 @@ import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp
+import BEDC.Derived.RealApartnessCompletionUp.ApartnessCauchyWindow
 import BEDC.Derived.RealApartnessCompletionUp.LocatedRealSealNonescape
 import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
