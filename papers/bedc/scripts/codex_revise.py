@@ -1763,6 +1763,22 @@ def merge_worktree_to_base(
                 cwd=wt.path, timeout=180,
             )
             if merge.returncode != 0:
+                unmerged = run_cmd(
+                    ["git", "diff", "--name-only", "--diff-filter=U"],
+                    cwd=wt.path,
+                )
+                if not unmerged.stdout.strip():
+                    logger.warning(
+                        f"[P{wt.round_number}] retry merge blocked before start "
+                        f"(no unmerged paths): {(merge.stderr or merge.stdout or '').strip()[:200]}; "
+                        "stashing uncommitted state and retrying merge"
+                    )
+                    run_cmd(["git", "stash", "--include-untracked"], cwd=wt.path)
+                    merge = run_cmd(
+                        ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                        cwd=wt.path, timeout=180,
+                    )
+            if merge.returncode != 0:
                 logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
                 resolved = _codex_resolve_conflicts(wt.path, model=model)
                 if not resolved:
