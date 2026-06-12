@@ -78,10 +78,22 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditWritingDisciplineUp/Tast
 \closureat{AuditWritingDisciplineUp}{obligationStr}
 \closureat{AuditWritingDisciplineUp}{scopedStr}[BEDC.Derived.AuditWritingDisciplineUp.AuditWritingDisciplineTasteGate\_single\_carrier\_alignment]
 
+\begin{theorem}[Audit writing discipline public export]
+\label{thm:audit-writing-discipline-public-export}
+Every accepted $\AuditWritingDisciplineUp$ read exports only the visible writing-item, closure-axis, formal-axis, registry, proof-trace, machine-interface, transport, replay, provenance, and local $\NameCert_{\AuditWritingDisciplineUp}$ rows before any audit consumer may cite the packet.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:audit-writing-discipline-carrier}. Its displayed rows expose the writing item, theory-axis, formal-axis, registry, transport, provenance, and local name, while the transport row records the machine-interface, standard-bridge audit, and proof-trace routes.
+
+The obligation surface of \autoref{thm:audit-writing-discipline-obligation-surface} then makes those rows the public certificate surface. The nonescape theorem of \autoref{thm:audit-writing-discipline-nonescape} blocks prose emphasis, host equality, hidden bridge evidence, private registry state, and collapsed status coordinates from replacing the displayed rows.
+
+Finally, the registry handoff of \autoref{thm:audit-writing-discipline-registry-handoff} requires any cited public claim to pass through the registry row before machine-facing and proof-trace consumers read it. Thus the exported audit surface is exactly the visible rows listed in the statement.
+\end{proof}
+
 \begin{closurestatus}{\AuditWritingDisciplineUp}
   \constructivestory{An $\AuditWritingDisciplineUp$ packet is generated from writing item, carrier, classifier, ledger, theory-axis, formal-axis, gap/refusal, registry, transport, provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:audit-writing-discipline-carrier}, \autoref{thm:audit-writing-discipline-obligation-surface}, \autoref{thm:audit-writing-discipline-nonescape}, and \autoref{thm:audit-writing-discipline-registry-handoff} bind the writing item, carrier, classifier, ledger, theory-axis, formal-axis, gap/refusal, registry, transport, provenance, and local NameCert rows while keeping the theory and verification axes independent.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:audit-writing-discipline-carrier}, \autoref{thm:audit-writing-discipline-obligation-surface}, \autoref{thm:audit-writing-discipline-nonescape}, \autoref{thm:audit-writing-discipline-registry-handoff}, and \autoref{thm:audit-writing-discipline-public-export} bind the writing item, carrier, classifier, ledger, theory-axis, formal-axis, gap/refusal, registry, transport, provenance, local NameCert, and public export rows while keeping the theory and verification axes independent.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.AuditWritingDisciplineUp.AuditWritingDisciplineTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
