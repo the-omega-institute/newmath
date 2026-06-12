@@ -3227,6 +3227,39 @@ def test_discovery_map_row_requires_owner_backed_evidence_type(tmp_path):
     assert payload["rows"][0]["evidence_provenance_pointer"] == evidence_provenance_pointer_for_report("provenance-fixture")
 
 
+@pytest.mark.parametrize(
+    ("field_name", "replacement", "message"),
+    [
+        ("evidence_type", None, "requires owner evidence_type"),
+        ("evidence_type", "", "requires owner evidence_type"),
+        ("evidence_provenance_pointer", None, "requires owner evidence provenance pointer"),
+        ("evidence_provenance_pointer", "", "requires owner evidence provenance pointer"),
+        (
+            "evidence_provenance_pointer",
+            "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing",
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_discovery_map_schema_rejects_provenance_field_mutations(tmp_path, field_name, replacement, message):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture")
+    row = _provenance_discovery_row()
+    row[field_name] = replacement
+
+    with pytest.raises(ValueError, match=message):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
+@pytest.mark.parametrize("field_name", ["evidence_type", "evidence_provenance_pointer"])
+def test_discovery_map_schema_rejects_missing_provenance_fields(tmp_path, field_name):
+    _write_provenance_owner_index(tmp_path, "provenance-fixture")
+    row = _provenance_discovery_row()
+    row.pop(field_name)
+
+    with pytest.raises(ValueError):
+        discovery_map.build_discovery_map_payload(rows=[row], generated_at="fixture-time", root=tmp_path)
+
+
 def test_discovery_map_rejects_owner_evidence_type_drift(tmp_path):
     _write_provenance_owner_index(tmp_path, "provenance-fixture", "deterministic_projection")
     row = _provenance_discovery_row(evidence_type="empirical_training_clean")

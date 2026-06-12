@@ -32,6 +32,7 @@ from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from bedc_quality_lab.order_k_benchmark import OrderKBenchmarkProjection
 
 
@@ -2518,6 +2519,57 @@ def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_tr
     assert {gate["status"] for gate in payload["coverage_matrix"]["hardgates"].values()} == {"pass"}
     assert "models" not in payload["coverage_matrix"]
     assert "surfaces" not in payload["coverage_matrix"]
+
+
+def _committed_discovery_map_row(report: str = "fixture") -> dict[str, object]:
+    return {
+        "report": report,
+        "json_artifact": "reports/canonical/fixture.json",
+        "markdown_artifact": "reports/canonical/fixture.md",
+        "discovery_level": "D1",
+        "projection_status": "projected",
+        "evidence_pointer": "$.positive",
+        "audit_status": "valid",
+        "audit_reason": "",
+        "evidence_type": "deterministic_projection",
+        "evidence_provenance_pointer": evidence_provenance_pointer_for_report(report),
+    }
+
+
+@pytest.mark.parametrize(
+    ("field_name", "replacement", "message"),
+    [
+        ("evidence_type", "__missing__", "requires owner evidence_type"),
+        ("evidence_type", None, "requires owner evidence_type"),
+        ("evidence_provenance_pointer", "__missing__", "requires owner evidence provenance pointer"),
+        ("evidence_provenance_pointer", None, "requires owner evidence provenance pointer"),
+        (
+            "evidence_provenance_pointer",
+            "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing",
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_committed_discovery_map_round_trip_rejects_provenance_field_mutations(
+    tmp_path,
+    monkeypatch,
+    field_name,
+    replacement,
+    message,
+):
+    canonical_dir = tmp_path / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True)
+    row = _committed_discovery_map_row()
+    if replacement == "__missing__":
+        row.pop(field_name)
+    else:
+        row[field_name] = replacement
+    (canonical_dir / "discovery_map.json").write_text(json.dumps({"rows": [row]}), encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", canonical_dir)
+
+    with pytest.raises(ValueError, match=message):
+        canonical._validate_committed_discovery_map_round_trip()
 
 
 def test_coverage_matrix_pointers_resolve_and_dn_cells_point_to_negative_witness():

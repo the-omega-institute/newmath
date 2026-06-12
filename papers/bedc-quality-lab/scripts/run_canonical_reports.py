@@ -6920,16 +6920,6 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 def _validate_committed_discovery_map_round_trip() -> None:
     path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
     payload = json.loads(path.read_text(encoding="utf-8"))
-    rows = payload.get("rows") if isinstance(payload, Mapping) else None
-    if isinstance(rows, list) and any(
-        isinstance(row, Mapping)
-        and (
-            row.get("evidence_type") is None
-            or row.get("evidence_provenance_pointer") is None
-        )
-        for row in rows
-    ):
-        return
     validate_discovery_map_payload(payload, root=ROOT)
 
 

@@ -44,6 +44,11 @@ def _write_source(root: Path, relative: str, body: str = "def main():\n    retur
     path.write_text(body, encoding="utf-8")
 
 
+def _sync_discovery_row_by_report(payload: dict, index: int = 0) -> None:
+    row = payload["discovery_rows"][index]
+    payload["discovery_rows_by_report"][row["report"]] = row
+
+
 def test_owner_vocabularies_are_maintainer_sets():
     assert METRIC_SOURCE_TYPES == (
         "measured_training",
@@ -206,6 +211,31 @@ def test_validation_rejects_non_owner_vocabularies(tmp_path):
         validate_evidence_provenance_payload(payload)
 
 
+@pytest.mark.parametrize("replacement", [None, ""])
+def test_validation_rejects_null_or_empty_discovery_evidence_type(tmp_path, replacement):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0]["evidence_type"] = replacement
+    _sync_discovery_row_by_report(payload)
+
+    with pytest.raises(ValueError, match="evidence_type is unsupported"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_rejects_missing_discovery_evidence_type(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0].pop("evidence_type")
+    _sync_discovery_row_by_report(payload)
+
+    with pytest.raises(ValueError, match="evidence_type is unsupported"):
+        validate_evidence_provenance_payload(payload)
+
+
 def test_evidence_provenance_pointer_is_report_owner_pointer():
     assert evidence_provenance_pointer_for_report("dgt-l0-controls") == (
         "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.dgt-l0-controls"
@@ -254,6 +284,62 @@ def test_validation_rejects_empty_training_audit_pointer(tmp_path):
     payload["discovery_rows_by_report"]["fixture"] = payload["discovery_rows"][0]
 
     with pytest.raises(ValueError, match="pointer field must not be empty"):
+        validate_evidence_provenance_payload(payload)
+
+
+@pytest.mark.parametrize(
+    ("replacement", "message"),
+    [
+        (None, "producer_training_audit_pointer must be a non-empty owner pointer or null"),
+        (
+            "reports/canonical/index.json:$.evidence_provenance.producer_audits[99]",
+            "producer_training_audit_pointer does not resolve",
+        ),
+    ],
+)
+def test_validation_rejects_metric_training_audit_pointer_mutations(tmp_path, replacement, message):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["metric_rows"][0]["producer_training_audit_pointer"] = replacement
+
+    with pytest.raises(ValueError, match=message):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_rejects_missing_metric_training_audit_pointer(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["metric_rows"][0].pop("producer_training_audit_pointer")
+
+    with pytest.raises(ValueError, match="producer_training_audit_pointer must be a non-empty owner pointer or null"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_rejects_null_training_audit_pointer_for_producer_report(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0]["producer_training_audit_pointer"] = None
+    _sync_discovery_row_by_report(payload)
+
+    with pytest.raises(ValueError, match="producer_training_audit_pointer is required"):
+        validate_evidence_provenance_payload(payload)
+
+
+def test_validation_rejects_missing_training_audit_pointer_for_producer_report(tmp_path):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload["discovery_rows"][0].pop("producer_training_audit_pointer")
+    _sync_discovery_row_by_report(payload)
+
+    with pytest.raises(ValueError, match="producer_training_audit_pointer must be present"):
         validate_evidence_provenance_payload(payload)
 
 
