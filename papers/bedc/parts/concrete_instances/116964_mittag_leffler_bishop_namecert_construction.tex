@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MittagLefflerBishopUp$}
+\label{ch:concrete-instances-mittag-leffler-bishop-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley on inverse-limit compactness, the $\MittagLefflerBishopUp$ packet records the finite-window surface of a Mittag--Leffler stabilization argument without quotient completions or selected limit representatives. It sits beside the nested interval carrier of \autoref{ch:concrete-instances-nestedinterval-namecert}, the closed bounded interval carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the displayed finite stabilization rows consumed by L10 completion readers.
+
+\begin{definition}[Mittag--Leffler Bishop carrier]
+\label{def:mittag-leffler-bishop-carrier}
+A $\MittagLefflerBishopUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,W,M,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested closed-window row, read through $\NestedIntervalUp$ or $\ClosedBoundedIntervalUp$, naming the finite prefix of closed nonempty windows under inspection.
+\item $W$ is the finite cofinal-window ledger recording which later windows are required to meet each displayed earlier window.
+\item $M$ is the mesh-budget row, with dyadic radii read through $\DyadicRatCoreUp$ and ordered by the local decrease ledger.
+\item $S$ is the $\StreamNameUp$ window row that lists the finite observations exposed by the stabilization request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S$ through the dyadic mesh budget.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $I,W,M,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $I,W,M,S,R,E,C,P,N$.
+\item $C$ records the displayed $\Cont$ replay route from nested windows through mesh budgets, StreamName windows, RegSeqRat readback, the Real seal, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MittagLefflerBishopUp$, $\NestedIntervalUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MittagLefflerBishopUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of completions, a countable-choice schedule, a selected point in the inverse limit, host equality of completed reals, or an ambient compactness theorem.
+\end{definition}
+\leanstmt{BEDC.Derived.MittagLefflerBishopUp}
+
+\begin{theorem}[Mittag--Leffler Bishop NameCert obligations]
+\label{thm:mittag-leffler-bishop-namecert-obligations}
+For every accepted $\MittagLefflerBishopUp$ carrier
+$$
+K=(I,W,M,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\MittagLefflerBishopUp}$ surface consists exactly of carrier admission for the nested closed windows, stability of the displayed cofinal-window ledger, preservation of nonempty windows along the displayed prefix, dyadic mesh decrease, $\StreamNameUp$ exposure, $\RegSeqRatUp$ readback, $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation may replace these rows by countable choice, quotient equality, host completion equality, or selected limit representatives.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mittag-leffler-bishop-carrier}. The accepted packet exposes exactly $I,W,M,S,R,E,H,C,P,N$.
+
+The finite-window obligations are the rows that can be read from that projection. The row $I$ supplies the nested closed-window prefix, $W$ supplies the stabilization ledger, and $M$ supplies the decreasing dyadic mesh budget. Nonempty-window preservation is read only along the displayed prefix.
+
+The rows $S$ and $R$ then provide the finite observation and regular rational readback used by the completion-facing consumer. The row $E$ is a Real seal reached after those rows, so it cannot detach from the displayed route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no coordinate for countable choice, quotient equality, host completion equality, or a selected limit representative, none of those objects is part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Mittag--Leffler Bishop L10 handoff]
+\label{thm:mittag-leffler-bishop-l10-handoff}
+Every L10 completion consumer of an accepted $\MittagLefflerBishopUp$ packet must read the route
+$$
+\NestedIntervalUp\ \hbox{or}\ \ClosedBoundedIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+through the displayed rows $I,W,M,S,R,E,H,C,P,N$ before any terminal seal is used. The handoff exports no quotient completion, no selected inverse-limit point, no countable-choice schedule, and no host equality of completed reals.
+\end{theorem}
+\begin{proof}
+Let a completion consumer request the terminal seal from an accepted packet $K$. The only interval source is the displayed row $I$, and the only mesh source is the dyadic row $M$.
+
+The finite observations are therefore obtained through $S$, and their regular rational readback is the row $R$. The seal row $E$ occurs after those rows in the carrier definition, so a terminal Real read cannot bypass the nested-window, dyadic, stream, and regular-rational route.
+
+Transport, replay, provenance, and local naming preserve that same route without adding a selected endpoint. Thus every L10 completion consumer receives only the displayed finite handoff and none of the excluded quotient, choice, selected-representative, or host-equality data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MittagLefflerBishopUp$ read exposes nested closed-window data, a cofinal-window ledger, a dyadic mesh budget, StreamName windows, RegSeqRat readback, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any completion-facing terminal seal is consumed.}
+
+\independenceWitness{nestedinterval, closedboundedinterval, dyadicratcore, streamname, regseqrat, real: $\MittagLefflerBishopUp$ is not bijective to any listed sibling because it jointly binds nested closed windows, cofinal-window stabilization, mesh decrease, finite observations, regular rational readback, Real seal nonescape, transport, replay, provenance, and local naming while refusing countable choice, quotient equality, host completion equality, and selected limit representatives.}
+
+\closureat{MittagLefflerBishopUp}{seedStr}
+
+\begin{closurestatus}{\MittagLefflerBishopUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mittag-leffler-bishop-carrier}, \autoref{thm:mittag-leffler-bishop-namecert-obligations}, and \autoref{thm:mittag-leffler-bishop-l10-handoff} seed the finite Mittag--Leffler stabilization surface over nested windows, dyadic mesh budgets, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MittagLefflerBishopUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected inverse-limit points, countable choice, host equality of completed reals, standard bridges, checked NameCert obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-window stability, nonempty-window preservation, dyadic mesh decrease, StreamName exposure, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, local naming, and L10 route exhaustion for BEDC.Derived.MittagLefflerBishopUp.}
+  \constructivestory{A $\MittagLefflerBishopUp$ packet is generated from nested closed windows, a cofinal-window ledger, dyadic mesh budgets, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
