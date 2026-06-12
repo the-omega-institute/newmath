@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CantorNormalFormUp$}
+\label{ch:concrete-instances-cantor-normal-form-namecert}
+\origin{human}
+
+Following Cantor on ordinal normal forms and Bishop--Bridges constructive ordinal scheduling, this packet records finite descending normal-form rows used by Real and Completion proof schedules. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy schedule surfaces of \autoref{ch:concrete-instances-cauchymodulus-namecert}, \autoref{ch:concrete-instances-cauchy-modulus-normal-form-namecert}, \autoref{ch:concrete-instances-real-cauchy-modulus-refinement-namecert}, and \autoref{ch:concrete-instances-bishop-modulus-completion-namecert}. The packet names a finite descent schedule only; it does not import quotient ordinals, transfinite choice, ordinal comparison as a host primitive, or a completed Real construction.
+
+\begin{definition}[Cantor normal form carrier]
+\label{def:cantor-normal-form-carrier}
+A $\CantorNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+O=(E,K,D,W,Q,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the exponent-descent row, listing a finite strictly descending sequence of ordinal-style exponent tags used only as schedule indices.
+\item $K$ is the finite coefficient-window row, attaching a positive finite coefficient budget to each exponent tag.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-budget row consumed by Real and Completion estimates at each displayed descent stage.
+\item $W$ is the $\StreamNameUp$ window row, exposing the finite stream observations opened by the same descent and coefficient windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to $D$ and $W$.
+\item $R$ is the $\RealUp$ seal row reached only after the regular-rational readback has been displayed.
+\item $S$ is the schedule handoff row for $\CauchyModulusUp$, $\RealCauchyModulusRefinementUp$, and $\BishopModulusCompletionUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for descent, coefficient, dyadic-budget, stream-window, regular-readback, real-seal, schedule, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay for Real-facing and Completion-facing schedule consumers.
+\item $P$ is the $\Pkg$ provenance over $\CantorNormalFormUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\RealCauchyModulusRefinementUp$, $\BishopModulusCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CantorNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,K,D,W,Q,R,S,H,C,P,N$. It contains no coordinate for quotient ordinal equality, infinite ordinal induction, selected limit ordinals, trichotomy over all ordinals, or a host completion operator.
+\end{definition}
+
+\begin{theorem}[Cantor normal form obligation surface]
+\label{thm:cantor-normal-form-obligation-surface}
+For every accepted $\CantorNormalFormUp$ carrier
+$$
+O=(E,K,D,W,Q,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CantorNormalFormUp}$ surface consists exactly of exponent-descent exposure through $E$, coefficient-window exposure through $K$, dyadic tolerance exposure through $D$, stream-window exposure through $W$, regular rational readback through $Q$, terminal Real sealing through $R$, schedule handoff through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cantor-normal-form-carrier}. The rows $E,K,D,W,Q,R,S,H,C,P,N$ are exactly the displayed schedule inventory.
+
+Read the descent rows first. The exponent tags in $E$ and coefficient windows in $K$ are finite schedule data, so each later budget request is attached to a named position in the normal-form row.
+
+Next read the analytic rows. The dyadic tolerance ledger $D$ and stream windows $W$ feed the $\RegSeqRatUp$ readback $Q$, and only then can the terminal $\RealUp$ seal $R$ be consumed by a Real or Completion schedule.
+
+Finally use $S,H,C,P,N$ to transport, replay, source, and name the same packet. Since the carrier has no quotient ordinal, infinite induction, selected-limit, trichotomy, or host-completion coordinate, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Cantor normal form Real completion route]
+\label{thm:cantor-normal-form-real-completion-route}
+Every Real-facing or Completion-facing consumer of an accepted $\CantorNormalFormUp$ packet must factor through the finite route
+$$
+E,K \longmapsto D,W \longmapsto Q \longmapsto R \longmapsto S,H,C,P,N .
+$$
+The route provides ordinal-style descent as displayed schedule data for Real and Completion proofs; it does not provide quotient ordinal equality, transfinite choice, a selected limit ordinal, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite normal-form prefix. Rows $E$ and $K$ expose the descending exponent tags and coefficient windows before any tolerance or stream request can be opened.
+
+The dyadic and stream rows then determine the analytic read. A consumer reads $D$ and $W$ together, obtains the regular rational readback $Q$, and reaches the Real seal $R$ only after that readback is visible.
+
+The schedule handoff $S$ is therefore downstream of the finite descent and analytic rows. Its Completion-facing use may cite the Cauchy-modulus siblings named in the provenance row, but only through the same displayed packet.
+
+Transport, replay, provenance, and local naming preserve the route. The exclusions follow from carrier inspection: no coordinate names quotient ordinals, transfinite choice, selected limit ordinals, or host completion.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CantorNormalFormUp$ schedule read displays finite exponent descent, coefficient windows, dyadic tolerance budgets, StreamName windows, RegSeqRat readback, and the Real seal before any Completion-facing handoff is consumed.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchymodulus, bishop-modulus-completion: none is bijective to $\CantorNormalFormUp$ because this packet jointly binds finite normal-form descent to dyadic budgets, stream windows, regular readback, Real sealing, schedule handoff, transport, replay, provenance, and local naming rows.}
+
+\closureat{CantorNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\CantorNormalFormUp}
+  \constructivestory{A $\CantorNormalFormUp$ packet is generated from finite exponent-descent rows, coefficient windows, dyadic tolerance budgets, StreamName windows, RegSeqRat readback, Real sealing, schedule handoff rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-normal-form-carrier}, \autoref{thm:cantor-normal-form-obligation-surface}, and \autoref{thm:cantor-normal-form-real-completion-route} seed the finite normal-form descent route consumed by Real and Completion schedules.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ordinal equality, infinite ordinal induction, transfinite choice, selected limit ordinals, host completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, descent and coefficient exposure, dyadic and stream readback exactness, Real seal nonescape, schedule handoff, transport, replay, provenance, and local naming for BEDC.Derived.CantorNormalFormUp.}
+\end{closurestatus}
