@@ -108,6 +108,7 @@ class PushGateTipVerifyTests(unittest.TestCase):
         base_sequence: list[str] | None = None,
         origin_base_sequence: list[str] | None = None,
         merge_returncodes: list[int] | None = None,
+        unmerged_outputs: list[str] | None = None,
     ):
         calls: list[list[str]] = []
         tip_values = list(tips or ["c" * 40])
@@ -116,6 +117,7 @@ class PushGateTipVerifyTests(unittest.TestCase):
         base_values = list(base_sequence or ["b" * 40])
         origin_base_values = list(origin_base_sequence or base_values)
         merge_results = list(merge_returncodes or [])
+        unmerged_values = list(unmerged_outputs or ["BEDC/Conflict.lean\n"])
 
         def fake_run_cmd(cmd, *, cwd=None, timeout=120, check=False):
             calls.append(list(cmd))
@@ -123,6 +125,15 @@ class PushGateTipVerifyTests(unittest.TestCase):
                 if merge_results:
                     rc = merge_results.pop(0)
                     return _cp(cmd, returncode=rc, stderr="conflict" if rc else "")
+                return _cp(cmd)
+            if cmd == ["git", "diff", "--name-only", "--diff-filter=U"]:
+                value = (
+                    unmerged_values.pop(0)
+                    if len(unmerged_values) > 1
+                    else unmerged_values[0]
+                )
+                return _cp(cmd, stdout=value)
+            if cmd == ["git", "stash", "--include-untracked"]:
                 return _cp(cmd)
             if cmd[:3] == ["git", "log", "--oneline"]:
                 return _cp(cmd, stdout="abc123 R7: worker commit\n")
@@ -289,6 +300,77 @@ class PushGateTipVerifyTests(unittest.TestCase):
         merge_count = sum(cmd == ["git", "merge", "--no-ff", "--no-edit", cf.BASE_BRANCH] for cmd in calls)
         self.assertEqual(merge_count, 3)
         self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_retry_merge_dirty_blocked_stashes_and_retries_without_codex_taint(self):
+        gate_calls: list[str] = []
+        ff_calls: list[str] = []
+        codex_calls: list[str] = []
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+
+        def fake_ff(tip: str):
+            ff_calls.append(tip)
+            if len(ff_calls) == 1:
+                return False, "skipped-not-ancestor"
+            return True, ""
+
+        cf._ff_local_branch_to = fake_ff
+        cf._codex_resolve_conflicts = lambda _path, **_kwargs: codex_calls.append("codex") or True
+        calls = self._install_run_cmd(
+            ["c" * 40, "c" * 40, "c" * 40, "c" * 40, "d" * 40, "d" * 40],
+            base_sequence=["b" * 40],
+            origin_base_sequence=["b" * 40],
+            merge_returncodes=[0, 1, 0],
+            unmerged_outputs=[""],
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(codex_calls, [])
+        self.assertEqual(gate_calls, ["gate"])
+        merge_indexes = [
+            i for i, cmd in enumerate(calls)
+            if cmd == ["git", "merge", "--no-ff", "--no-edit", cf.BASE_BRANCH]
+        ]
+        stash_indexes = [
+            i for i, cmd in enumerate(calls)
+            if cmd == ["git", "stash", "--include-untracked"]
+        ]
+        self.assertEqual(len(merge_indexes), 3)
+        self.assertEqual(len(stash_indexes), 1)
+        self.assertLess(merge_indexes[1], stash_indexes[0])
+        self.assertLess(stash_indexes[0], merge_indexes[2])
+        self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_retry_merge_true_conflict_invokes_codex_without_stash(self):
+        gate_calls: list[str] = []
+        ff_calls: list[str] = []
+        codex_calls: list[str] = []
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+
+        def fake_ff(tip: str):
+            ff_calls.append(tip)
+            if len(ff_calls) == 1:
+                return False, "skipped-not-ancestor"
+            return True, ""
+
+        cf._ff_local_branch_to = fake_ff
+        cf._codex_resolve_conflicts = lambda _path, **_kwargs: codex_calls.append("codex") or True
+        calls = self._install_run_cmd(
+            ["c" * 40, "c" * 40, "d" * 40, "d" * 40, "e" * 40, "e" * 40],
+            base_sequence=["b" * 40],
+            origin_base_sequence=["b" * 40],
+            merge_returncodes=[0, 1],
+            unmerged_outputs=["BEDC/Conflict.lean\n"],
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(codex_calls, ["codex"])
+        self.assertFalse(any(cmd == ["git", "stash", "--include-untracked"] for cmd in calls))
+        merge_count = sum(cmd == ["git", "merge", "--no-ff", "--no-edit", cf.BASE_BRANCH] for cmd in calls)
+        self.assertEqual(merge_count, 2)
 
     def test_recovery_verify_before_push_requires_first_reverify_only(self):
         gate_calls: list[str] = []
