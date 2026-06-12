@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRoundingProjectionUp$}
+\label{ch:concrete-instances-dyadic-rounding-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicRoundingProjectionUp$ packet records the finite floor-and-ceiling projection surface by which a dyadic approximation request is bracketed before any $\RegSeqRatUp$ readback or terminal $\RealUp$ seal is consumed. It sits over the arithmetic carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interval endpoint ledger of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the finite window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite rounding projection route; it does not assert quotient real equality, selected limits, omniscient rounding, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Dyadic rounding projection carrier]
+\label{def:dyadic-rounding-projection-carrier}
+A $\DyadicRoundingProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,I,S,R,E,F,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic and comparison row for the inspected dyadic precision.
+\item $I$ is the $\DyadicIntervalUp$ endpoint row containing the lower and upper dyadic cells visible at that precision.
+\item $S$ is the $\StreamNameUp$ finite-window row whose inspected values are rounded.
+\item $R$ is the $\RegSeqRatUp$ readback row that receives the rounded dyadic bracket.
+\item $E$ is the terminal $\RealUp$ seal row read only after $D,I,S,R$ have been displayed.
+\item $F$ is the floor projection row selecting the greatest displayed dyadic cell not above the inspected window value.
+\item $G$ is the ceiling projection row selecting the least displayed dyadic cell not below the inspected window value.
+\item $H$ is the componentwise $\hsame$ transport row for $D,I,S,R,E,F,G,C,P,N$.
+\item $C$ is the displayed $\Cont$ replay row forcing every downstream consumer through the same floor, ceiling, interval, stream, readback, seal, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRoundingProjectionUp$, $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRoundingProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for an exact host real value, a selected limit, a quotient real representative, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic rounding projection NameCert obligations]
+\label{thm:dyadic-rounding-projection-namecert-obligations}
+For every accepted $\DyadicRoundingProjectionUp$ carrier $Q=(D,I,S,R,E,F,G,H,C,P,N)$, the local $\NameCert_{\DyadicRoundingProjectionUp}$ surface consists exactly of these five obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic arithmetic row, dyadic interval row, stream window row, regular rational readback row, real seal row, floor row, ceiling row, transport row, replay row, provenance row, and local name;
+\item floor exactness, requiring $F$ to expose a displayed dyadic endpoint from $I$ whose comparison is certified by $D$ and whose inspected value is read from $S$;
+\item ceiling exactness, requiring $G$ to expose a displayed dyadic endpoint from $I$ whose comparison is certified by $D$ and whose inspected value is read from $S$;
+\item bracket replay, requiring the ordered pair $(F,G)$ to be consumed by $\RegSeqRatUp$ through $R$ before the $\RealUp$ seal row $E$ is visible;
+\item classifier transport and non-escape, requiring componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming while excluding host real values, selected limits, quotient representatives, countable choice, and ambient completeness.
+\end{enumerate}
+No rounding obligation is stored outside this finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-rounding-projection-carrier}. The arithmetic, interval, stream, readback, seal, floor, ceiling, transport, replay, provenance, and local naming rows are exactly $D,I,S,R,E,F,G,H,C,P,N$.
+
+The floor and ceiling rows are read through the same dyadic interval row $I$ and the same arithmetic comparison row $D$. The finite window row $S$ supplies the inspected values, while $F$ and $G$ choose only displayed dyadic cells.
+
+The bracket replay row then routes $(F,G)$ into the regular rational readback $R$ and only afterward into the real seal $E$. Transport through $H$ and replay through $C$ keep the classifier attached to the same displayed rows.
+
+Since the packet has no coordinate for exact host real values, selected limits, quotient representatives, countable choice, or ambient completeness, the five listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic rounding projection floor-ceiling bracket]
+\label{thm:dyadic-rounding-projection-floor-ceiling-bracket}
+Every accepted $\DyadicRoundingProjectionUp$ carrier exposes a finite bracket in which the floor row $F$ and ceiling row $G$ are dyadic endpoints from the displayed $\DyadicIntervalUp$ row $I$, both comparisons are witnessed by the $\DyadicRatCoreUp$ row $D$, and both endpoints are tied to the same $\StreamNameUp$ window row $S$. A downstream consumer cannot replace the bracket by a host real comparison, selected representative, quotient equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:dyadic-rounding-projection-namecert-obligations}. The floor row and ceiling row are admitted only as cells in the same displayed interval row $I$.
+
+The comparison evidence is supplied by $D$, and the inspected source value is supplied by $S$. Thus the two endpoints form one finite bracket over the same dyadic precision and the same stream window.
+
+The non-escape row of the certificate rules out a second bracket supplied by host real comparison, selected representatives, quotient equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Dyadic rounding projection RegSeqRat readback]
+\label{thm:dyadic-rounding-projection-regseqrat-readback}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicRoundingProjectionUp$ packet reads the rounded approximation through the ordered route
+$$
+(D,I,S)\longmapsto (F,G)\longmapsto R\longmapsto E
+$$
+with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row attached. The route exports a finite dyadic bracket for regular rational readback and does not export a selected completed real, quotient equality of real names, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from a $\RegSeqRatUp$ or $\RealUp$ consumer read. By \autoref{thm:dyadic-rounding-projection-namecert-obligations}, the read must first expose the dyadic arithmetic row, interval row, and stream window row.
+
+Next apply the floor-ceiling bracket theorem. It identifies $F$ and $G$ as the only rounded endpoints available to the consumer.
+
+Finally replay the bracket through $R$ and then through $E$. The transport, replay, provenance, and local naming rows $H,C,P,N$ keep the route finite, and the carrier has no coordinate for selected completed reals, quotient equality, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{DyadicRoundingProjectionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRoundingProjectionUp}
+  \constructivestory{A $\DyadicRoundingProjectionUp$ packet is generated from dyadic arithmetic rows, dyadic interval endpoints, stream windows, floor and ceiling projection rows, regular rational readback, a terminal real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-rounding-projection-carrier}, \autoref{thm:dyadic-rounding-projection-namecert-obligations}, \autoref{thm:dyadic-rounding-projection-floor-ceiling-bracket}, and \autoref{thm:dyadic-rounding-projection-regseqrat-readback} seed the finite floor-ceiling rounding projection surface for $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, selected real limits, quotient equality of real names, countable choice, omniscient rounding, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, floor exactness, ceiling exactness, bracket replay, classifier transport, and non-escape for BEDC.Derived.DyadicRoundingProjectionUp.}
+\end{closurestatus}
