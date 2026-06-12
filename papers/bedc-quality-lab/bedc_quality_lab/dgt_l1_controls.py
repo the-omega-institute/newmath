@@ -23,6 +23,7 @@ from bedc_quality_lab.construct_validity import (
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.model import choose_device
 from bedc_quality_lab.order_k_benchmark import LEDGER_ROWS_POINTER as ORDER_K_LEDGER_ROWS_POINTER
 from bedc_quality_lab.order_k_benchmark import REPORT_ARTIFACT as ORDER_K_REPORT_ARTIFACT
 
@@ -212,17 +213,6 @@ def default_task_spec(config: L1TrainingConfig | None = None) -> L1TinySequenceT
         },
         not_claimed=NOT_CLAIMED,
     )
-
-
-def _device_name(torch: Any, requested_device: str) -> str:
-    if requested_device == "auto":
-        return "cpu"
-    if requested_device == "mps":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        return "mps" if mps is not None and mps.is_available() else "cpu"
-    if requested_device != "cpu":
-        raise ValueError(f"unsupported requested device: {requested_device}")
-    return "cpu"
 
 
 def _seed_all_rngs(torch: Any, seed: int) -> None:
@@ -1662,7 +1652,7 @@ def _owner_local_measurement_boundary() -> dict[str, Any]:
     }
 
 
-def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
+def source_artifacts_payload(*, device_policy: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "owner_module": OWNER_MODULE,
         "runner": PRODUCER,
@@ -1677,7 +1667,7 @@ def source_artifacts_payload(*, requested_device: str) -> dict[str, Any]:
         "run_local_summary": f"{RUN_ROOT}/summary.json",
         "run_local_report": f"{RUN_ROOT}/report.md",
         "seed_policy": {"base_seed": BASE_SEED, "deterministic_seeds": list(DEFAULT_SEEDS), "minimum_seed_count": 16},
-        "device_policy": {"requested_device": requested_device, "canonical_default": "cpu", "mps_allowed_when_explicit": True},
+        "device_policy": dict(device_policy),
         "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
         "owner_required_metric_owners": _owner_local_measurement_boundary()["metric_owners"],
     }
@@ -2410,7 +2400,12 @@ def build_payload(
         torch = importlib.import_module("torch")
     except Exception as exc:
         raise RuntimeError(f"torch unavailable for DGT L1 controls: {exc}") from exc
-    device_name = _device_name(torch, requested_device)
+    try:
+        device_resolution = choose_device(requested_device)
+    except Exception as exc:
+        raise RuntimeError(f"device unavailable for DGT L1 controls: {exc}") from exc
+    device_policy = device_resolution.to_dict()
+    device_name = device_resolution.resolved_device
     task_spec = default_task_spec(cfg)
     _resolve_order_k_source(task_spec.as_payload(), root=root)
     records = _training_records(
@@ -2453,7 +2448,7 @@ def build_payload(
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": source_artifacts_payload(requested_device=requested_device),
+        "source_artifacts": source_artifacts_payload(device_policy=device_policy),
         "task_spec": task_spec.as_payload(),
         "training_arms": summaries,
         "compute_ledger": compute,

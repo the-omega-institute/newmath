@@ -27,9 +27,13 @@ from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
 from scripts import run_certificate_gated_attention as cga_runner
+from scripts import run_certificate_guided_constraint_training as cgt_runner
 from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
+from scripts import run_mechanism_seeking_network as msn_runner
+from scripts import run_sigreg_mini_grid as sigreg_grid_runner
+from scripts import run_sigreg_training_proxy as sigreg_proxy_runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
@@ -300,6 +304,16 @@ def _payload_for_spec(spec):
         from scripts import run_discovery_gated_transformer as dgt_runner
 
         return dgt_runner.build_payload(generated_at="fixture")
+    if spec.name == "certificate-guided-training":
+        payload = cgt_runner._payload(run_id="fixture", generated_at="fixture")
+        return cgt_runner._public_payload(payload)
+    if spec.name == "sigreg-training-proxy":
+        payload = sigreg_proxy_runner.build_payload(generated_at="fixture", use_torch=False)
+        return sigreg_proxy_runner.canonical_summary_payload(payload)
+    if spec.name == "sigreg-mini-grid":
+        return sigreg_grid_runner.build_projection(generated_at="fixture")["summary_payload"]
+    if spec.name == "mechanism-seeking-network":
+        return msn_runner.build_projection(generated_at="fixture")["summary_payload"]
     if spec.name == "model-comparison":
         return {
             "schema_id": canonical.MODEL_COMPARISON_SCHEMA_ID,
@@ -4485,6 +4499,7 @@ def test_dgt_neural_ablation_canonical_spec_is_single_auxiliary_owner():
         "not_claimed",
         "forbidden_claim_term_audit",
         "negative_witness_sweep",
+        "reproducibility_contract",
     )
     assert spec.positive_claim_pointer == "$.component_causal_claims"
     assert spec.claim_capsule_pointer == "$.claim_capsule_ref"
@@ -5303,41 +5318,80 @@ def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch
     result = canonical._run_spec(spec, mode="cold", generated_at="fixture")
     sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
     assert result["producer_status"] == "completed"
-    assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
+    assert "output_digest" not in sidecar
+    assert sidecar["reproducibility_mode"] == "exact_fixture"
+    assert len(sidecar["reproducibility_contract_digest"]) == 64
 
 
-@pytest.mark.parametrize(
-    ("report_name", "sidecar_artifact", "replacement"),
-    [
-        (
-            "lejepa-theorem-ledger",
-            canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
-            '{"sidecar":"changed-lejepa-derivative-bridge"}\n',
-        ),
-        (
-            "lejepa-theorem-ledger",
-            canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
-            "# Hermite changed fixture\n",
-        ),
-        (
-            "spectral-ablation-hinge",
-            canonical.SPECTRAL_JET_JSON_ARTIFACT,
-            '{"sidecar":"changed-spectral-jet-report"}\n',
-        ),
-    ],
-)
-def test_derivative_bridge_sidecar_edits_cause_owner_output_fingerprint_miss(
-    tmp_path, monkeypatch, report_name, sidecar_artifact, replacement
-):
+def test_output_byte_change_inside_contract_still_matches_fingerprint(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    _write_derivative_bridge_sidecar_fixtures(canonical, tmp_path)
-    spec = canonical._specs_by_name()[report_name]
+    spec = canonical._specs_by_name()["lejepa-theorem-ledger"]
     _write_fingerprint_fixture(canonical, tmp_path, spec)
 
-    (tmp_path / sidecar_artifact).write_text(replacement, encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text("# changed fixture bytes\n", encoding="utf-8")
 
-    assert canonical._fingerprint_matches(spec) == (False, "output-digest")
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+
+def test_true_training_fingerprint_uses_owner_pointer_contract_not_embedded_contract(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["dgt-neural-ablation"]
+    script = tmp_path / spec.command[1]
+    script.parent.mkdir(parents=True, exist_ok=True)
+    script.write_text("SEED = 7\n\ndef main(argv=None):\n    return None\n", encoding="utf-8")
+    run_policy = {
+        "requested_device": "auto",
+        "resolved_device": "cpu",
+        "resolution_status": "fallback",
+        "resolution_reason": "auto-cpu-fallback-no-accelerator",
+        "backend_details": {"torch": "fixture", "cuda_available": False, "mps_available": False},
+    }
+    payload = {
+        "schema_id": "fixture:dgt-neural-ablation",
+        "artifact_id": "fixture:dgt-neural-ablation",
+        "source_artifacts": {},
+        "run_spec": {"seed_list": [1, 2], "device_policy": run_policy},
+        "nabl_hardgates": {"status": "pass"},
+        "paired_delta_matrix": {"status": "fixture"},
+    }
+    stale_contract = canonical._training_reproducibility_contract_payload(spec, payload)
+    stale_contract["device_policy"] = {
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "resolution_status": "available",
+        "resolution_reason": "recorded-device-policy",
+        "backend_details": {},
+    }
+    payload["reproducibility_contract"] = stale_contract
+    stale_digest = canonical.contract_from_payload(payload).digest()
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+    input_fingerprint, inputs = canonical._input_fingerprint(spec)
+    canonical._fingerprint_path(spec).write_text(
+        json.dumps(
+            {
+                "schema_id": canonical.FINGERPRINT_SCHEMA_ID,
+                "report_name": spec.name,
+                "json_artifact": spec.json_artifact,
+                "markdown_artifact": spec.markdown_artifact,
+                "producer_command": list(spec.command),
+                "input_fingerprint": input_fingerprint,
+                "reproducibility_mode": "true_training",
+                "reproducibility_contract_digest": stale_digest,
+                "reproducibility_contract": canonical.contract_from_payload(payload).to_payload(),
+                "inputs": inputs,
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    assert canonical._fingerprint_matches(spec) == (False, "reproducibility-contract-digest")
 
 
 def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeypatch):
@@ -5676,6 +5730,27 @@ def test_verify_fingerprints_allows_fail_closed_report_status(tmp_path, monkeypa
     assert payload["reports"][0]["fingerprint_status"] == "match"
 
 
+def test_changed_run_allows_fail_closed_report_status(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+
+    def fake_run_spec(called, mode="changed", generated_at=None):
+        row = _index_row_for_spec(called)
+        row["status"] = "fail"
+        row["fingerprint_status"] = "match"
+        row["fingerprint_reason"] = "match"
+        return row
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["reports"][0]["status"] == "fail"
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+
+
 def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -5780,7 +5855,20 @@ def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
 
     assert calls == ["mixing-family-sweep"]
     assert payload["reports"][0]["fingerprint_status"] == "written"
-    assert json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))["output_digest"] == canonical._canonical_output_digest(spec)
+    sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
+    assert "output_digest" not in sidecar
+    assert len(sidecar["reproducibility_contract_digest"]) == 64
+
+
+def test_configure_producer_does_not_disable_true_training_torch():
+    spec = canonical._specs_by_name()["certificate-guided-training"]
+
+    class StubTrainingProducer:
+        USE_TORCH = True
+
+    canonical._configure_producer(StubTrainingProducer, spec)
+
+    assert StubTrainingProducer.USE_TORCH is True
 
 
 def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):

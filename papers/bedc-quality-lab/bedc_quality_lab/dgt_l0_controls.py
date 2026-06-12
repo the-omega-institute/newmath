@@ -20,6 +20,7 @@ from bedc_quality_lab.construct_validity import (
     evaluate_construct_validity,
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.model import choose_device
 
 
 SCHEMA_ID = "bedc-quality-lab:dgt-l0-controls"
@@ -178,16 +179,14 @@ def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return round(max(low, min(high, float(value))), 6)
 
 
-def _device_name(torch: Any, requested_device: str) -> str:
-    if requested_device == "auto":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        return "mps" if mps is not None and mps.is_available() else "cpu"
-    if requested_device == "mps":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        return "mps" if mps is not None and mps.is_available() else "cpu"
-    if requested_device != "cpu":
-        raise ValueError(f"unsupported requested device: {requested_device}")
-    return "cpu"
+def _unavailable_device_policy(requested_device: str, reason: str) -> dict[str, Any]:
+    return {
+        "requested_device": requested_device,
+        "resolved_device": "not-available",
+        "resolution_status": "unavailable",
+        "resolution_reason": reason,
+        "backend_details": {"torch": "unavailable"},
+    }
 
 
 def _surface_suite(torch: Any, seed: int, *, device_name: str) -> tuple[Any, Any, Any]:
@@ -999,7 +998,13 @@ def construct_validity_payload(records: Sequence[Mapping[str, Any]] | None = Non
     )
 
 
-def unavailable_payload(*, generated_at: str, requested_device: str, reason: str) -> dict[str, Any]:
+def unavailable_payload(
+    *,
+    generated_at: str,
+    requested_device: str,
+    reason: str,
+    device_policy: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
     run_artifacts = run_artifacts_payload()
     honest_review = {
         "status": "blocked",
@@ -1141,7 +1146,10 @@ def unavailable_payload(*, generated_at: str, requested_device: str, reason: str
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": source_artifacts_payload(run_artifacts, requested_device=requested_device),
+        "source_artifacts": source_artifacts_payload(
+            run_artifacts,
+            device_policy=device_policy or _unavailable_device_policy(requested_device, reason),
+        ),
         "controls": controls,
         "compute_param_ledger": ledger,
         "negative_witness_sweep": witness,
@@ -1167,7 +1175,7 @@ def run_artifacts_payload() -> dict[str, str]:
     }
 
 
-def source_artifacts_payload(run_artifacts: Mapping[str, str], *, requested_device: str) -> dict[str, Any]:
+def source_artifacts_payload(run_artifacts: Mapping[str, str], *, device_policy: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "owner_module": OWNER_MODULE,
         "runner": PRODUCER,
@@ -1178,7 +1186,7 @@ def source_artifacts_payload(run_artifacts: Mapping[str, str], *, requested_devi
         "dgt_neural_ablation_helper": "bedc_quality_lab/dgt_neural_ablation.py",
         "command": ["python3", PRODUCER],
         "seed_policy": {"base_seed": BASE_SEED, "fixed_replay_seeds": list(REPLAY_SEEDS)},
-        "device_policy": {"requested_device": requested_device, "fallback": "mps-or-cpu"},
+        "device_policy": dict(device_policy),
         "canonical_input_hashes": {},
     }
 
@@ -1331,13 +1339,23 @@ def build_payload(*, generated_at: str = GENERATED_AT, requested_device: str = "
         torch = importlib.import_module("torch")
     except Exception as exc:
         return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch unavailable: {exc}")
-    device_name = _device_name(torch, requested_device)
+    try:
+        device_resolution = choose_device(requested_device)
+    except Exception as exc:
+        return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"device unavailable: {exc}")
+    device_policy = device_resolution.to_dict()
+    device_name = device_resolution.resolved_device
     run_artifacts = run_artifacts_payload()
-    source_artifacts = source_artifacts_payload(run_artifacts, requested_device=requested_device)
+    source_artifacts = source_artifacts_payload(run_artifacts, device_policy=device_policy)
     try:
         records = _training_records(torch, requested_device=requested_device, device_name=device_name)
     except Exception as exc:
-        return unavailable_payload(generated_at=generated_at, requested_device=requested_device, reason=f"torch training failed: {exc}")
+        return unavailable_payload(
+            generated_at=generated_at,
+            requested_device=requested_device,
+            reason=f"torch training failed: {exc}",
+            device_policy=device_policy,
+        )
     measured_outcomes = [row["measured_outcome"] for row in records]
     honest_review = L0HonestMetric().evaluate(measured_outcomes, thresholds={})
     feature_audit = honest_review["feature_audit"]

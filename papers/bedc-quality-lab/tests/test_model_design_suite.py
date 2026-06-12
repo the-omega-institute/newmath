@@ -137,10 +137,18 @@ def _write_dgt_owner_ref_inputs(root):
     canonical._write_json_atomic(
         root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
         {
+            "review_status": "pass",
+            "promotion_readiness": "ready-pass",
             "negative_witness_sweep": {"status": "fixture"},
             "l1_ood_mechanism": {
                 "verdict": "fixture",
                 "l2_implication": "blocked",
+            },
+            "l1_tiny_sequence_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "promotion_readiness": "ready-pass",
+                "not_claimed": ["fixture"],
             },
             "l1_step_ladder": {
                 "convergence_crossover": {"status": "fixture"},

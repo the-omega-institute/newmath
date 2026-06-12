@@ -77,6 +77,10 @@ from bedc_quality_lab.reproduction_package import (
     PACKAGE_SCHEMA_ID as REPRODUCTION_PACKAGE_SCHEMA_ID,
 )
 from bedc_quality_lab.metric_purity import run_metric_purity_audit
+from bedc_quality_lab.reproducibility import (
+    CanonicalReproducibilityContract,
+    contract_from_payload,
+)
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
     JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
@@ -548,6 +552,7 @@ class CanonicalReportSpec:
     construct_validity_pointer: str | None = None
     forbidden_claim_terms: tuple[str, ...] = FORBIDDEN_POSITIVE_CLAIM_TERMS
     literature_ref_ids: tuple[str, ...] = ()
+    reproducibility_mode: Literal["exact_fixture", "true_training"] = "exact_fixture"
 
 
 CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
@@ -807,6 +812,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            "reproducibility_contract",
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -817,6 +823,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer="$.route_patch_protocol",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="gap-head-threshold-frontier",
@@ -981,6 +988,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "not_claimed",
             "claim_capsule",
             "result",
+            "reproducibility_contract",
         ),
         estimated_seconds=20,
         bundle_role="hg_p_core",
@@ -990,6 +998,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         positive_claim_pointer="$.claim_gate",
         control_pointer="$.paired_seed_protocol",
         no_control_rationale_pointer=None,
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="certificate-guided-discovery",
@@ -1048,6 +1057,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "claim_capsule_ref",
             "result_snapshot_ref",
             "forbidden_claim_term_audit",
+            "reproducibility_contract",
         ),
         estimated_seconds=30,
         bundle_role="hg_p_core",
@@ -1057,6 +1067,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         positive_claim_pointer="$.positive_claim",
         control_pointer=None,
         no_control_rationale_pointer="$.full_lejepa_boundary",
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="sigreg-mini-grid",
@@ -1094,6 +1105,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "revocation_rows",
             "forbidden_claim_term_audit",
             *ANTI_TRIVIALITY_REQUIRED_KEYS,
+            "reproducibility_contract",
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -1104,6 +1116,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer=None,
         no_control_rationale_pointer="$.not_claimed",
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="discovery-regularized-training",
@@ -1160,6 +1173,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "revocation_rows",
             "forbidden_claim_term_audit",
             *ANTI_TRIVIALITY_REQUIRED_KEYS,
+            "reproducibility_contract",
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -1170,6 +1184,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer="$.matched_random_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="mechanism-seeking-network",
@@ -1205,6 +1220,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            "reproducibility_contract",
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -1215,6 +1231,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer="$.matched_random_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="mechanism-dna",
@@ -1266,6 +1283,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "construct_validity_hardgates",
             "l0_toy_projection",
             "not_claimed",
+            "reproducibility_contract",
         ),
         estimated_seconds=10,
         bundle_role="auxiliary",
@@ -1283,6 +1301,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         negative_witness_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.l0_toy_projection.status",
         construct_validity_pointer=f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="dgt-l1-controls",
@@ -1312,6 +1331,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "l1_tiny_sequence_projection",
             "boundary_ledger",
             "not_claimed",
+            "reproducibility_contract",
         ),
         estimated_seconds=10,
         bundle_role="auxiliary",
@@ -1329,6 +1349,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
         construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="reproduction-package",
@@ -1681,6 +1702,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "not_claimed",
             "forbidden_claim_term_audit",
             "negative_witness_sweep",
+            "reproducibility_contract",
         ),
         estimated_seconds=10,
         bundle_role="auxiliary",
@@ -1697,6 +1719,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[94]",
         negative_witness_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="dgt-ablation-null-decomposition",
@@ -2187,21 +2210,250 @@ def _fingerprint_path(spec: CanonicalReportSpec) -> Path:
     return _artifact_path(spec.json_artifact).with_suffix(".fingerprint.json")
 
 
-def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
-    parts = {
-        spec.json_artifact: _path_digest(_artifact_path(spec.json_artifact)),
-        spec.markdown_artifact: _path_digest(_artifact_path(spec.markdown_artifact)),
+def _exact_fixture_reproducibility_contract(spec: CanonicalReportSpec) -> CanonicalReproducibilityContract:
+    return CanonicalReproducibilityContract(
+        mode="exact_fixture",
+        seed_list=(0,),
+        metric_bands=(
+            {
+                "pointer": "$",
+                "reference_value": "fixture-schema-present",
+                "tolerance": 0,
+                "comparison": "status_equal",
+                "owner": spec.name,
+                "calibration_source": "exact-fixture-input-contract",
+                "seed_basis": {"seed_count": 1, "source": "fixture"},
+            },
+        ),
+        device_policy={
+            "requested_device": "cpu",
+            "resolved_device": "cpu",
+            "resolution_status": "available",
+            "resolution_reason": "exact-fixture-cpu-only",
+            "backend_details": {"torch": "not-requested"},
+        },
+        framework_provenance={
+            "python": sys.version.split()[0],
+            "dependency_abi": {"torch": "not-requested", "numpy": _dependency_abi().get("numpy", "unknown")},
+        },
+        calibration={
+            "calibration_source": "exact-fixture-input-contract",
+            "owner": spec.name,
+            "basis": "input-fingerprint-only fixture contract",
+        },
+    )
+
+
+def _reproducibility_contract(spec: CanonicalReportSpec) -> CanonicalReproducibilityContract:
+    if spec.reproducibility_mode == "exact_fixture":
+        return _exact_fixture_reproducibility_contract(spec)
+    payload = _load_artifact_payload(spec.json_artifact)
+    contract_payload = _training_reproducibility_contract_payload(spec, payload)
+    validation_payload = dict(payload)
+    validation_payload["reproducibility_contract"] = contract_payload
+    return contract_from_payload(validation_payload)
+
+
+def _true_training_contract_config(spec: CanonicalReportSpec) -> dict[str, Any]:
+    configs: dict[str, dict[str, Any]] = {
+        "certificate-gated-attention": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": "$.device_protocol",
+            "metric_pointer": "$.certificate_gate_summary.gated_vs_plain_valid.leak_reduction_mean",
+            "calibration_pointer": "$.route_patch_protocol",
+            "tolerance": 1.0e-6,
+            "comparison": "absolute",
+        },
+        "certificate-guided-training": {
+            "seed_pointer": "$.paired_seed_protocol.seeds",
+            "device_pointer": None,
+            "metric_pointer": "$.metrics.delta_quality_q",
+            "calibration_pointer": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+            "tolerance": 0.002,
+            "comparison": "absolute",
+        },
+        "sigreg-training-proxy": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": None,
+            "metric_pointer": "$.d1_evidence.debt_delta",
+            "calibration_pointer": "$.arm_summaries",
+            "tolerance": 1.0e-6,
+            "comparison": "absolute",
+        },
+        "sigreg-mini-grid": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": None,
+            "metric_pointer": "$.metric_separation.mean_delta_sigreg_minus_covariance_proxy",
+            "calibration_pointer": "$.metric_separation",
+            "tolerance": 1.0e-6,
+            "comparison": "absolute",
+        },
+        "discovery-regularized-training": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": "$.device_protocol",
+            "metric_pointer": "$.torch_training_evidence.row_count",
+            "calibration_pointer": "$.torch_training_evidence",
+            "tolerance": 0.0,
+            "comparison": "absolute",
+        },
+        "mechanism-seeking-network": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": "$.device_protocol",
+            "metric_pointer": "$.mechanism_gate_summary.accepted_surface_count",
+            "calibration_pointer": "$.mechanism_gate_summary",
+            "tolerance": 0.0,
+            "comparison": "absolute",
+        },
+        "dgt-l0-controls": {
+            "seed_pointer": "$.independent_replay.fixed_seeds",
+            "device_pointer": "$.source_artifacts.device_policy",
+            "metric_pointer": "$.l0_toy_projection.status",
+            "calibration_pointer": "$.independent_replay",
+            "tolerance": 0,
+            "comparison": "status_equal",
+        },
+        "dgt-l1-controls": {
+            "seed_pointer": "$.independent_replay.fixed_seeds",
+            "device_pointer": "$.source_artifacts.device_policy",
+            "metric_pointer": "$.l1_tiny_sequence_projection.status",
+            "calibration_pointer": "$.independent_replay",
+            "tolerance": 0,
+            "comparison": "status_equal",
+        },
+        "dgt-neural-ablation": {
+            "seed_pointer": "$.run_spec.seed_list",
+            "device_pointer": "$.run_spec.device_policy",
+            "metric_pointer": "$.nabl_hardgates.status",
+            "calibration_pointer": "$.paired_delta_matrix",
+            "tolerance": 0,
+            "comparison": "status_equal",
+        },
     }
-    if spec.name == "transformer-derivative-atlas":
-        parts[TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT] = _path_digest(_artifact_path(TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT))
-    if spec.name == "irreducibility-report":
-        parts[IRREDUCIBILITY_CMI_JSON_ARTIFACT] = _path_digest(_artifact_path(IRREDUCIBILITY_CMI_JSON_ARTIFACT))
-    if spec.name == "lejepa-theorem-ledger":
-        parts[LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT] = _path_digest(_artifact_path(LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT))
-        parts[HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT] = _path_digest(_artifact_path(HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT))
-    if spec.name == "spectral-ablation-hinge":
-        parts[SPECTRAL_JET_JSON_ARTIFACT] = _path_digest(_artifact_path(SPECTRAL_JET_JSON_ARTIFACT))
-    return _json_digest(parts)
+    if spec.name not in configs:
+        raise ValueError(f"missing true-training reproducibility config for {spec.name}")
+    return configs[spec.name]
+
+
+def _normal_device_policy(raw: Any, *, exact_cpu: bool = False) -> dict[str, Any]:
+    if exact_cpu:
+        return {
+            "requested_device": "cpu",
+            "resolved_device": "cpu",
+            "resolution_status": "available",
+            "resolution_reason": "exact-fixture-cpu-only",
+            "backend_details": {"torch": "not-requested"},
+        }
+    if not isinstance(raw, Mapping):
+        raise ValueError("device policy source must be an object")
+    if {"requested_device", "resolved_device", "resolution_status", "resolution_reason", "backend_details"}.issubset(raw):
+        return {
+            "requested_device": raw["requested_device"],
+            "resolved_device": raw["resolved_device"],
+            "resolution_status": raw["resolution_status"],
+            "resolution_reason": raw["resolution_reason"],
+            "backend_details": dict(raw["backend_details"]),
+        }
+    dependency_abi = raw.get("dependency_abi")
+    backend_details = dict(dependency_abi) if isinstance(dependency_abi, Mapping) else {}
+    requested = str(raw.get("requested_device", raw.get("device_policy", "auto")))
+    resolved = str(raw.get("resolved_device", raw.get("device", "cpu")))
+    status = str(raw.get("status", backend_details.get("resolution_status", "available")))
+    if status == "not-requested":
+        resolved = "not-requested"
+    elif resolved == "not-requested":
+        status = "not-requested"
+    elif status == "unavailable":
+        resolved = raw.get("resolved_device", "not-available")
+    elif status not in {"available", "fallback", "unavailable", "not-requested"}:
+        status = "available" if resolved in {"cpu", "mps", "cuda"} else "unavailable"
+    if "resolution_status" in backend_details:
+        status = str(backend_details["resolution_status"])
+    reason = str(raw.get("resolution_reason", backend_details.get("resolution_reason", "")))
+    if not reason:
+        if requested == "auto" and resolved == "cpu":
+            reason = "recorded-auto-cpu-fallback"
+            status = "fallback" if status == "available" else status
+        elif requested == resolved:
+            reason = f"recorded-explicit-{resolved}"
+        else:
+            reason = "recorded-device-policy"
+    return {
+        "requested_device": requested,
+        "resolved_device": resolved,
+        "resolution_status": status,
+        "resolution_reason": reason,
+        "backend_details": backend_details,
+    }
+
+
+def _framework_provenance(payload: Mapping[str, Any], config: Mapping[str, Any]) -> dict[str, Any]:
+    device_pointer = config.get("device_pointer")
+    device_payload = _pointer_value(dict(payload), str(device_pointer)) if isinstance(device_pointer, str) else None
+    dependency_abi = device_payload.get("dependency_abi") if isinstance(device_payload, Mapping) else None
+    if not isinstance(dependency_abi, Mapping) and isinstance(device_payload, Mapping):
+        dependency_abi = device_payload.get("backend_details")
+    if not isinstance(dependency_abi, Mapping):
+        config_payload = payload.get("config")
+        dependency_abi = config_payload.get("dependency_abi") if isinstance(config_payload, Mapping) else None
+    if not isinstance(dependency_abi, Mapping):
+        dependency_abi = {"torch": "not-requested"}
+    return {"python": sys.version.split()[0], "dependency_abi": dict(dependency_abi)}
+
+
+def _training_reproducibility_contract_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
+    config = _true_training_contract_config(spec)
+    seed_pointer = str(config["seed_pointer"])
+    metric_pointer = str(config["metric_pointer"])
+    calibration_pointer = str(config["calibration_pointer"])
+    seed_list = _pointer_value(dict(payload), seed_pointer)
+    metric_value = _pointer_value(dict(payload), metric_pointer)
+    calibration_value = _pointer_value(dict(payload), calibration_pointer)
+    if seed_list is None or metric_value is None or calibration_value is None:
+        raise ValueError(f"missing reproducibility source for {spec.name}")
+    if config.get("device_pointer") is None:
+        device_policy = _normal_device_policy({}, exact_cpu=True)
+    else:
+        device_policy = _normal_device_policy(_pointer_value(dict(payload), str(config["device_pointer"])))
+    return {
+        "mode": "true_training",
+        "seed_list": [int(seed) for seed in seed_list],
+        "metric_bands": [
+            {
+                "pointer": metric_pointer,
+                "reference_value": metric_value,
+                "tolerance": config["tolerance"],
+                "comparison": config["comparison"],
+                "owner": spec.name,
+                "calibration_source": calibration_pointer,
+                "seed_basis": {"seed_count": len(seed_list), "source": seed_pointer},
+            }
+        ],
+        "device_policy": device_policy,
+        "framework_provenance": _framework_provenance(payload, config),
+        "calibration": {
+            "calibration_source": calibration_pointer,
+            "owner": spec.name,
+            "basis": {
+                "seed_pointer": seed_pointer,
+                "metric_pointer": metric_pointer,
+                "calibration_pointer": calibration_pointer,
+            },
+        },
+    }
+
+
+def _ensure_reproducibility_contract(spec: CanonicalReportSpec) -> None:
+    if spec.reproducibility_mode != "true_training":
+        return
+    path = _artifact_path(spec.json_artifact)
+    payload = _load_artifact_payload(spec.json_artifact)
+    contract_payload = _training_reproducibility_contract_payload(spec, payload)
+    if payload.get("reproducibility_contract") == contract_payload:
+        contract_from_payload(payload)
+        return
+    payload["reproducibility_contract"] = contract_payload
+    contract_from_payload(payload)
+    _write_json_atomic(path, payload)
 
 
 def _local_module_path(module_name: str) -> Path | None:
@@ -2473,6 +2725,7 @@ def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "construct_validity_pointer": spec.construct_validity_pointer,
         "forbidden_claim_terms": list(spec.forbidden_claim_terms),
         "literature_ref_ids": list(spec.literature_ref_ids),
+        "reproducibility_mode": spec.reproducibility_mode,
     }
 
 
@@ -2515,7 +2768,9 @@ def _load_fingerprint_sidecar(spec: CanonicalReportSpec) -> dict[str, Any]:
 
 
 def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> dict[str, Any]:
+    _ensure_reproducibility_contract(spec)
     input_fingerprint, inputs = _input_fingerprint(spec)
+    reproducibility_contract = _reproducibility_contract(spec)
     payload = {
         "schema_id": FINGERPRINT_SCHEMA_ID,
         "report_name": spec.name,
@@ -2523,7 +2778,9 @@ def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str |
         "markdown_artifact": spec.markdown_artifact,
         "producer_command": list(spec.command),
         "input_fingerprint": input_fingerprint,
-        "output_digest": _canonical_output_digest(spec),
+        "reproducibility_mode": reproducibility_contract.mode,
+        "reproducibility_contract_digest": reproducibility_contract.digest(),
+        "reproducibility_contract": reproducibility_contract.to_payload(),
         "inputs": inputs,
         "generated_by": {
             "runner": "scripts/run_canonical_reports.py",
@@ -2537,13 +2794,15 @@ def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str |
 def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
     sidecar = _load_fingerprint_sidecar(spec)
     input_fingerprint, inputs = _input_fingerprint(spec)
+    reproducibility_contract = _reproducibility_contract(spec)
     expected = {
         "report_name": spec.name,
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
         "producer_command": list(spec.command),
         "input_fingerprint": input_fingerprint,
-        "output_digest": _canonical_output_digest(spec),
+        "reproducibility_mode": reproducibility_contract.mode,
+        "reproducibility_contract_digest": reproducibility_contract.digest(),
     }
     for key, value in expected.items():
         if sidecar.get(key) != value:
@@ -2587,7 +2846,8 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
     _set_existing_attr(module, "MARKDOWN_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
-    _set_existing_attr(module, "USE_TORCH", False)
+    if spec.reproducibility_mode == "exact_fixture":
+        _set_existing_attr(module, "USE_TORCH", False)
     _configure_metric_aliases(module)
     if spec.name == "gap-head-discovery":
         _set_existing_attr(module, "SOURCE_JSON_ARTIFACT", "reports/canonical/gap-head-on-h.json")
@@ -6915,7 +7175,26 @@ def _run_spec(
     return result
 
 
+def _result_has_runner_failure(result: Mapping[str, Any]) -> bool:
+    if result.get("status") == "error":
+        return True
+    if result.get("fingerprint_status") == "miss":
+        return True
+    validation = result.get("validation")
+    if isinstance(validation, Mapping) and validation.get("status") == "fail":
+        return True
+    discipline = result.get("discipline")
+    if isinstance(discipline, Mapping):
+        if discipline.get("forbidden_claim_terms_status") == "fail":
+            return True
+        reporting = discipline.get("reporting_hardgate")
+        if isinstance(reporting, Mapping) and reporting.get("status") == "fail":
+            return True
+    return False
+
 def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
+    if _result_has_runner_failure(result):
+        return True
     if result.get("status") == "pass":
         return False
     if result.get("name") == "fair-l1-decision":
@@ -7943,6 +8222,18 @@ def run_reports(
                 _run_metric_purity_post_generation((late_fingerprint_spec.json_artifact,))
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
                 refreshed_late_results.append(_run_spec(late_fingerprint_spec, mode="verify", generated_at=timestamp))
+        dgt_spec = _specs_by_name().get("discovery-gated-transformer")
+        if dgt_spec is not None and (only is None or dgt_full_selected):
+            _run_metric_purity_post_generation((dgt_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_spec, generated_at=timestamp)
+            refreshed_late_results.append(_run_spec(dgt_spec, mode="verify", generated_at=timestamp))
+            scaling_ladder_spec = _specs_by_name().get("scaling-ladder")
+            if scaling_ladder_spec is not None and any(spec.name == "scaling-ladder" for spec in selected_specs):
+                scaling_ladder_mode: Literal["changed", "verify", "cold"] = "cold" if mode == "cold" else "verify"
+                _run_spec(scaling_ladder_spec, mode=scaling_ladder_mode, generated_at=timestamp)
+                _run_metric_purity_post_generation((scaling_ladder_spec.json_artifact,))
+                _write_fingerprint_sidecar(scaling_ladder_spec, generated_at=timestamp)
+                refreshed_late_results.append(_run_spec(scaling_ladder_spec, mode="verify", generated_at=timestamp))
         if refreshed_late_results:
             results = _replace_result_rows(results, refreshed_late_results, append_missing=False)
             scorecard = _build_quality_scorecard(results, generated_at=timestamp)
@@ -8073,7 +8364,10 @@ def run_reports(
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:
-        if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
+        if any(_result_has_runner_failure(result) for result in results):
+            raise SystemExit(1)
+    elif mode == "changed":
+        if any(_result_has_runner_failure(result) for result in results):
             raise SystemExit(1)
     elif any(_result_blocks_changed_run(result) for result in results):
         raise SystemExit(1)

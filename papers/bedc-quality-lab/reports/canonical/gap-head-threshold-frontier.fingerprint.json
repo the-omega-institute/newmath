@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T09:34:43.560066+00:00",
+    "generated_at": "2026-06-12T15:06:59.389679+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "24810a2cc17ad7334bbb267345e63f499f11a69c323c8f256bca0427e297bb02",
+  "input_fingerprint": "15d179f82c539934ff96c6cd973fa26b4703183e2941c0e16b4d90d12c8fc2e1",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -58,6 +58,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.main_claim_status",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "config",
@@ -77,11 +78,54 @@
   },
   "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
   "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
-  "output_digest": "f71d188b50256070ad3babda10c7fc797a747ffff051ca51bb887c0b69f6ed33",
   "producer_command": [
     "python3",
     "scripts/run_gap_head_threshold_sweep.py"
   ],
   "report_name": "gap-head-threshold-frontier",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "gap-head-threshold-frontier"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "gap-head-threshold-frontier",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "6437bc26373525af83b2f9c0f373fe06b1bb8a9be98d640f3e9b1e67cea23225",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

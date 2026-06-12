@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict, dataclass
 import random
 from typing import Any
 
@@ -31,11 +32,89 @@ def set_deterministic_seed(seed: int) -> None:
             torch.use_deterministic_algorithms(True)
 
 
-def choose_device() -> str:
+@dataclass(frozen=True)
+class DeviceResolution:
+    requested_device: str
+    resolved_device: str
+    resolution_status: str
+    resolution_reason: str
+    backend_details: dict[str, Any]
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def __str__(self) -> str:
+        return self.resolved_device
+
+
+def _torch_backend_details(torch: Any) -> dict[str, Any]:
+    cuda_available = bool(hasattr(torch, "cuda") and torch.cuda.is_available())
+    mps_backend = getattr(getattr(torch, "backends", None), "mps", None)
+    mps_available = bool(mps_backend is not None and mps_backend.is_available())
+    return {
+        "torch": str(getattr(torch, "__version__", "unknown")),
+        "cuda_available": cuda_available,
+        "mps_available": mps_available,
+    }
+
+
+def choose_device(requested: str = "auto") -> DeviceResolution:
+    requested_device = str(requested)
+    if requested_device not in {"auto", "cpu", "mps", "cuda"}:
+        raise ValueError(f"unsupported requested device: {requested_device}")
     torch = require_torch()
-    if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
-        return "mps"
-    return "cpu"
+    backend_details = _torch_backend_details(torch)
+    if requested_device == "cpu":
+        return DeviceResolution(
+            requested_device="cpu",
+            resolved_device="cpu",
+            resolution_status="available",
+            resolution_reason="explicit-cpu",
+            backend_details=backend_details,
+        )
+    if requested_device == "cuda":
+        if backend_details["cuda_available"]:
+            return DeviceResolution(
+                requested_device="cuda",
+                resolved_device="cuda",
+                resolution_status="available",
+                resolution_reason="explicit-cuda-available",
+                backend_details=backend_details,
+            )
+        raise RuntimeError("requested cuda device is not available")
+    if requested_device == "mps":
+        if backend_details["mps_available"]:
+            return DeviceResolution(
+                requested_device="mps",
+                resolved_device="mps",
+                resolution_status="available",
+                resolution_reason="explicit-mps-available",
+                backend_details=backend_details,
+            )
+        raise RuntimeError("requested mps device is not available")
+    if backend_details["cuda_available"]:
+        return DeviceResolution(
+            requested_device="auto",
+            resolved_device="cuda",
+            resolution_status="available",
+            resolution_reason="auto-cuda-available",
+            backend_details=backend_details,
+        )
+    if backend_details["mps_available"]:
+        return DeviceResolution(
+            requested_device="auto",
+            resolved_device="mps",
+            resolution_status="available",
+            resolution_reason="auto-mps-available",
+            backend_details=backend_details,
+        )
+    return DeviceResolution(
+        requested_device="auto",
+        resolved_device="cpu",
+        resolution_status="fallback",
+        resolution_reason="auto-cpu-fallback-no-accelerator",
+        backend_details=backend_details,
+    )
 
 
 def build_tiny_encoder(output_dim: int = 2) -> Any:

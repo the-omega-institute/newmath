@@ -229,6 +229,52 @@
     },
     "torch_evidence_rows": 0
   },
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.route_patch_protocol",
+        "metric_pointer": "$.certificate_gate_summary.gated_vs_plain_valid.leak_reduction_mean",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.route_patch_protocol",
+      "owner": "certificate-gated-attention"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "recorded-device-policy",
+      "resolution_status": "not-requested",
+      "resolved_device": "not-requested"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.route_patch_protocol",
+        "comparison": "absolute",
+        "owner": "certificate-gated-attention",
+        "pointer": "$.certificate_gate_summary.gated_vs_plain_valid.leak_reduction_mean",
+        "reference_value": 0.161186,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 1e-06
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      13,
+      29,
+      43
+    ]
+  },
   "revocation_rows": [
     {
       "active": true,

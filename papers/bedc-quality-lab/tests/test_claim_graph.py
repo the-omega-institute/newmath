@@ -167,6 +167,52 @@ def _write_dgt_high_impact_review_pass(root: Path) -> None:
     )
 
 
+def _write_dgt_owner_ref_fixtures(root: Path) -> None:
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {"status": "pass"},
+            "honest_metric_review": {"status": "pass"},
+            "negative_witness_sweep": {"status": "pass"},
+            "compute_param_ledger": {"status": "pass"},
+            "l0_toy_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "not_claimed": ["bounded L0 fixture"],
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "negative_witness_sweep": {"status": "pass"},
+            "l1_tiny_sequence_projection": {
+                "review_status": "pass",
+                "promotion_readiness": "ready-pass",
+                "not_claimed": ["bounded L1 fixture"],
+            },
+            "l1_ood_mechanism": {
+                "verdict": "fixture",
+                "l2_implication": "not-claimed",
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-neural-ablation.json",
+        {
+            "nabl_hardgates": {
+                "status": "pass",
+                "failed_gate": None,
+            },
+            "component_causal_claims": [],
+        },
+    )
+
+
 def _row(claim_id, verdict):
     return {
         "claim_id": claim_id,
@@ -307,6 +353,7 @@ def _errors(payload, root):
 
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
+    _write_dgt_owner_ref_fixtures(root)
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
     dgt_payload = {
         "schema_id": "bedc-quality-lab:discovery-gated-transformer",
