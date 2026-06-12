@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailSpaceUp$}
+\label{ch:concrete-instances-cauchy-tail-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on Cauchy sequences and Kelley on filters, the $\CauchyTailSpaceUp$ packet records the finite tail-stability carrier that sits between the stream-name schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational-name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-seal boundary of \autoref{ch:concrete-instances-real-namecert}. It is the local object read by the Cauchy-name map surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert} when a consumer needs tail truncation, not selected limits or host equality of reals.
+
+\begin{definition}[CauchyTailSpace carrier]
+\label{def:cauchy-tail-space-carrier}
+A $\CauchyTailSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,K,D,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the base regular Cauchy name row, read through $\RegSeqRatUp$ and its underlying $\StreamNameUp$ window schedule;
+\item $K$ is the tail cutoff schedule, listing the finite windows after which the carrier permits a tail read;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the displayed tail windows;
+\item $Q$ is the tail-equivalence classifier, comparing two accepted packets only by the regular-name windows and dyadic tolerances visible past the displayed cutoffs;
+\item $H$ records componentwise $\hsame$ transport for $R,K,D,Q$ and for the local naming row;
+\item $C$ records the displayed $\Cont$ replay routes by which a consumer reopens the same regular-name, cutoff, tolerance, and classifier rows;
+\item $P$ is the $\Pkg$ provenance over the stream-name, regular-rational, dyadic-tolerance, real-seal boundary, transport, replay, and local naming rows;
+\item $N$ is the local $\NameCert_{\CauchyTailSpaceUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for quotient streams, selected limits, host real equality, completeness, countable choice, or a hidden real-valued representative.
+\end{definition}
+
+\begin{theorem}[Tail truncation stability]
+\label{thm:cauchy-tail-space-tail-truncation-stability}
+For every accepted $\CauchyTailSpaceUp$ carrier $T=(R,K,D,Q,H,C,P,N)$, any consumer that discards an initial finite prefix must still expose the base regular Cauchy name row $R$, the cutoff schedule $K$, and the dyadic tolerance ledger $D$ before it may read the tail-equivalence classifier $Q$. The truncation therefore preserves the finite $\StreamNameUp$ and $\RegSeqRatUp$ tail surface, without choosing a limit or quotient-stream representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-space-carrier}. The only rows that can witness a tail read are the base regular name $R$, the cutoff schedule $K$, and the tolerance ledger $D$.
+
+After a finite prefix is ignored, the displayed continuation route $C$ still reopens $R,K,D$ before $Q$ is visible. The prefix removal changes which finite windows are inspected, but it does not add a new carrier coordinate.
+
+Transport through $H$ preserves the same rows componentwise. Hence the accepted tail read remains a finite regular-Cauchy read and cannot export a selected limit, quotient stream, or host real value.
+\end{proof}
+
+\begin{theorem}[Tail classifier transport]
+\label{thm:cauchy-tail-space-tail-classifier-transport}
+If two accepted $\CauchyTailSpaceUp$ carriers are related by the displayed $\hsame$ rows of their packets, then every tail-equivalence read through $Q$ transports along the same $R,K,D$ rows. A transported classifier cannot replace those rows by host real equality, ambient completeness, or an unrecorded filter equality.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$. It stores componentwise transport for the base regular name, cutoff schedule, dyadic ledger, classifier, and local naming row.
+
+Replay the classifier through $C$. The classifier row $Q$ is available only after the transported $R,K,D$ rows are displayed, so its comparison remains tied to the finite packet.
+
+Since the carrier has no coordinate for host real equality, filter equality, quotient streams, completeness, or choice, the transported classifier cannot use any of those objects as a substitute for the displayed tail rows.
+\end{proof}
+
+\begin{theorem}[Real seal nonescape]
+\label{thm:cauchy-tail-space-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\CauchyTailSpaceUp$ packet must factor its read through the $\RegSeqRatUp$ row $R$, the tail cutoff schedule $K$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the classifier row $Q$, displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The read does not create a selected limit, a host real equality proof, a completeness theorem, a quotient-stream function, or a choice principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The only route from a tail packet toward $\RealUp$ is the displayed regular-rational and dyadic-tolerance route through $R,K,D,Q$.
+
+The replay row $C$ forces a consumer to reopen that route before any real-seal boundary can be cited. The transport row $H$ and provenance row $P$ keep the same finite data attached to the local naming row $N$.
+
+The refused objects are absent from the carrier. Therefore a $\RealUp$-facing read may consume the finite tail-stability packet, but it cannot manufacture selected limits, host real equality, completeness, quotient-stream functions, or choice.
+\end{proof}
+
+\begin{closurestatus}{\CauchyTailSpaceUp}
+  \constructivestory{A $\CauchyTailSpaceUp$ packet is generated from a base regular Cauchy name, a finite tail cutoff schedule, a dyadic tolerance ledger, a tail-equivalence classifier, displayed transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-space-carrier}, \autoref{thm:cauchy-tail-space-tail-truncation-stability}, \autoref{thm:cauchy-tail-space-tail-classifier-transport}, and \autoref{thm:cauchy-tail-space-real-seal-nonescape} bind the finite Cauchy-tail carrier and its nonescape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, completeness, or choice.}
+  \upgradepath{A later verification route can encode BEDC.Derived.CauchyTailSpaceUp and prove the carrier, classifier transport, truncation stability, and Real-seal nonescape rows.}
+\end{closurestatus}
