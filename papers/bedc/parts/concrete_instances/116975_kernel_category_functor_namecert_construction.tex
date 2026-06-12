@@ -54,6 +54,18 @@ The continuation handoff is then $C$ together with provenance and naming through
 Thus a $\FunctorUp$ consumer receives functorial transport only as a finite BEDC packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no additional host categorical coordinate.
 \end{proof}
 
+\begin{theorem}[KernelCategoryFunctor sibling route]
+\label{thm:kernel-category-functor-sibling-route}
+Every accepted $\KernelCategoryFunctorUp$ read factors through the source and target $\KernelCategoryUp$ packets of \autoref{ch:concrete-instances-kernelcategory-namecert}, the $\CategoryUp$ object and hom discipline of \autoref{ch:concrete-instances-category-namecert}, and the $\FunctorUp$ transport surface of \autoref{ch:concrete-instances-functor-namecert} before $H,C,P,N$ can expose local naming. The route is a finite sibling dependency over $S,T,O,M,I,Q,H,C,P,N$, not a host categorical semantics principle.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ from the carrier of \autoref{def:kernel-category-functor-carrier}. These are the only rows that expose the source and target kernel-category packets, so the read begins with the sibling surface named by \autoref{ch:concrete-instances-kernelcategory-namecert}.
+
+Next project $O,M,I,Q$. The object and hom transport rows use the category object and hom discipline, while the identity and composition rows keep the transported data inside the displayed functor surface named by \autoref{ch:concrete-instances-category-namecert} and \autoref{ch:concrete-instances-functor-namecert}.
+
+Finally project $H,C,P,N$. These rows transport, replay, source, and name the already displayed sibling route. Since the carrier has no coordinate for ambient categories, quotient morphisms, host functions, or external functor laws, the dependency is finite BEDC sibling routing rather than imported categorical semantics.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\KernelCategoryFunctorUp$ read is refuted if a functor-facing consumer obtains object transport, morphism transport, identity preservation, or composition preservation without first displaying the source and target KernelCategory packets, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
 
 \independenceWitness{kernelcategory, category, functor, continuationmonad: $\KernelCategoryFunctorUp$ is not bijective to any listed sibling because it binds two kernel-category packets together with object-row transport, morphism-row transport, identity preservation, composition preservation, hsame transport, Cont replay, Pkg provenance, and local naming as one finite certificate.}
