@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\LocatedDedekindCutUp$}
+\label{ch:concrete-instances-located-dedekind-cut-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers and Troelstra--van Dalen on located cuts, the $\LocatedDedekindCutUp$ packet records the traditional two-sided located Dedekind cut as finite NameCert data before any real-seal consumer reads it. It sits between the located supremum surface of \autoref{ch:concrete-instances-locatedsupremum-namecert}, the located real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a narrow L10 carrier for Real and Completion consumers: it exposes cut location and readback rows without identifying cuts by quotient equality or asserting completeness of the ambient real surface.
+
+\begin{definition}[Located Dedekind cut carrier]
+\label{def:located-dedekind-cut-carrier}
+A $\LocatedDedekindCutUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,U,G,W,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower-cut row, carrying inhabited lower observations, downward closure witnesses, rounded lower-side requests, and the finite rational or dyadic cells actually inspected.
+\item $U$ is the upper-cut row, carrying inhabited upper observations, upward closure witnesses, rounded upper-side requests, and the matching finite comparison cells.
+\item $G$ is the located comparison row. For each displayed interval request $a<b$, it records either a lower-side observation below $b$ or an upper-side observation above $a$ inside the same finite packet.
+\item $W$ is the $\StreamNameUp$ finite-window row used by Real and Completion consumers that inspect the cut at a requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed lower, upper, locatedness, and window rows.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger for endpoint comparison, gap narrowing, radius accounting, and lower-bound folds used by the readback route.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $L,U,G,W,R,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for lower-cut rows, upper-cut rows, located comparisons, windows, readbacks, dyadic ledgers, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a cut request through the same ordered tuple $L,U,G,W,R,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedDedekindCutUp$, $\LocatedSupremumUp$, $\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedDedekindCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,G,W,R,Q,E,H,C,P,N$. It has no coordinate for quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located Dedekind cut NameCert obligations]
+\label{thm:located-dedekind-cut-namecert-obligations}
+For every accepted $\LocatedDedekindCutUp$ carrier $D=(L,U,G,W,R,Q,E,H,C,P,N)$, the local $\NameCert_{\LocatedDedekindCutUp}$ surface consists exactly of carrier admission for the lower-cut row, upper-cut row, located comparison row, StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance ledger, terminal Real seal, componentwise transport, displayed replay, package provenance, and local naming. Every Real, Completion, or $\LocatedSupremumUp$ consumer must read those rows before using the packet as located cut evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The lower and upper cut rows are the only cut data present, and the located comparison row $G$ is the only answer to interval requests $a<b$.
+
+The observation and readback rows are downstream of those cut rows. A consumer first opens finite windows through $W$, then reads regular rational data through $R$, and then checks dyadic tolerance and lower-bound accounting through $Q$.
+
+The terminal Real seal $E$ is reached only after this displayed route. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet, so they do not add quotient cuts, selected suprema, trichotomy, host equality, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located Dedekind cut Real seal route]
+\label{thm:located-dedekind-cut-real-seal-route}
+Every $\RealUp$-facing read of an accepted $\LocatedDedekindCutUp$ packet factors through
+$$
+L,U,G \longmapsto W \longmapsto R \longmapsto Q \longmapsto E .
+$$
+The route exposes lower-cut observations, upper-cut observations, located comparison, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, and the terminal Real seal before any consumer may read real-name evidence.
+\end{theorem}
+\begin{proof}
+Read the cut rows $L,U,G$ from \autoref{def:located-dedekind-cut-carrier}. They supply the lower side, upper side, and located comparison surface available to a Real-facing request.
+
+Next pass through the finite observation rows. The window row $W$ lists exactly the finite observations opened by the request, while $R$ repacks those observations as regular rational readback and $Q$ records the dyadic tolerance ledger used to compare them.
+
+The seal row $E$ is terminal for this route. Componentwise transport and continuation replay preserve only the displayed rows, so the seal cannot export quotient cut equality, selected suprema, host Real equality, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located Dedekind cut supremum handoff]
+\label{thm:located-dedekind-cut-supremum-handoff}
+Every $\LocatedSupremumUp$ consumer of an accepted $\LocatedDedekindCutUp$ packet receives only the displayed lower row $L$, upper row $U$, located comparison row $G$, finite windows $W$, readback row $R$, tolerance ledger $Q$, Real seal $E$, and structural rows $H,C,P,N$. The handoff may use the packet as finite located-cut evidence, but it does not select a supremum, prove trichotomy, identify host Real equality, invoke countable choice, or assert ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:located-dedekind-cut-namecert-obligations}. They force every consumer, including the located-supremum consumer, to read the lower, upper, locatedness, window, readback, tolerance, seal, and structural rows.
+
+The handoff is therefore finite. The rows $L,U,G$ provide the cut evidence, $W,R,Q$ provide precision-facing readback, and $E$ gives the terminal real-seal boundary.
+
+Since no row contains a selected least upper bound, a quotient cut representative, a trichotomy branch, a choice schedule, or a host completeness proof, the $\LocatedSupremumUp$ consumer receives only the displayed finite located-cut packet.
+\end{proof}
+
+\falsifiablePrediction{A $\LocatedDedekindCutUp$ consumer that reaches a $\RealUp$ seal or $\LocatedSupremumUp$ handoff while bypassing the lower-cut row, upper-cut row, located comparison row, finite windows, regular readback, or dyadic tolerance ledger refutes the carrier of \autoref{def:located-dedekind-cut-carrier}.}
+
+\independenceWitness{locatedsupremum, locatedreal, streamname, regseqrat, dyadicratcore, real: $\LocatedDedekindCutUp$ is not bijective to any listed sibling because it jointly carries lower and upper cut rows, located comparison, finite windows, regular rational readback, dyadic tolerance accounting, Real sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{LocatedDedekindCutUp}{seedStr}
+
+\begin{closurestatus}{\LocatedDedekindCutUp}
+  \constructivestory{A $\LocatedDedekindCutUp$ packet is generated from lower-cut rows, upper-cut rows, located comparison rows, StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-dedekind-cut-carrier}, \autoref{thm:located-dedekind-cut-namecert-obligations}, and \autoref{thm:located-dedekind-cut-real-seal-route} seed the narrow L10 located-Dedekind-cut carrier between located cut evidence and Real seal consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly refuses quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, ambient Real completeness, Lean verification, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-cut and upper-cut row exposure, located comparison exactness, StreamName window replay, RegSeqRat readback, DyadicRatCore tolerance accounting, Real-seal ordering, hsame transport, Cont replay, provenance, and local naming for BEDC.Derived.LocatedDedekindCutUp.}
+\end{closurestatus}
