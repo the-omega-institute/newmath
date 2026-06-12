@@ -1,0 +1,46 @@
+\subsection{Four-way translation--protein discriminant for $B^*_{Q6}$ residual coordinates}
+\label{sec:q6-four-case-translation-protein-discriminant-cross-layer}
+\origin{ai}
+
+\paragraph{Finite object.}
+The object of this record is the finite tensor obtained by pairing nine $B^*_{Q6}$ synonymous residual coordinates with organism-matched translation and protein-abundance readouts. The coordinate list is
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. In each organism row, the residualization design includes an intercept, $\log(\mathrm{CDS\ length})$, twenty amino-acid composition proportions, GC3, and the $M$-density baseline. The observed control column count is $24$, with $\operatorname{rank}(Z)=23$ in the powered rows, so the reported statistics are not read as raw codon-composition correlations.
+
+\paragraph{Discriminant coordinates.}
+For each residual coordinate block $Q$, translation readout $T$, and protein readout $P$, the table records a translation score, a protein score, and the loss of the direct $Q$--$P$ score after conditioning on $T$. The local classification is
+$$
+\begin{aligned}
+S^{QT} &= R^2(T_e \sim Q_e),\\
+S^{QP} &= R^2(P_e \sim Q_e),\\
+\Delta^{QTP} &= R^2(P_e \sim Q_e)-R^2(P_e \sim Q_e\mid T_e).
+\end{aligned}
+$$
+The four labels are assigned by signs and by the conditional drop. Class A means that neither the translation readout nor the protein readout preserves the residual coordinate. Class B means that the residual coordinate survives at the translation layer but does not survive in the chosen protein-abundance surface. Class C means that the protein readout preserves residual predictive information while the measured translation readout does not, so the row is not evidence for translation mediation. Class D means that $S^{QT}>0$, $S^{QP}>0$, and the direct $Q$--$P$ term is reduced after conditioning on $T$; only this class is a bounded translation-mediated protein-readout row.
+
+\paragraph{Measured translation rows.}
+The measured-ribosome-profiling table gives four organism rows with positive $S^{QT}_{\mathrm{meas}}$ and positive $S^{QP}$. In danio, $S^{QT}_{\mathrm{meas}}=0.0403421761$ and $S^{QP}=0.0492657845$, but the raw mediated fraction is $-0.0480148605$ and is clipped to $0$, so the row is translation-positive and protein-positive without a positive measured mediation drop. In $E.\ coli$, $S^{QT}_{\mathrm{meas}}=0.00939426675$, $S^{QP}=0.1094153595$, and the measured mediated fraction is $0.0409115834$. In human, $S^{QT}_{\mathrm{meas}}=0.0188379113$, $S^{QP}=0.0428846500$, and the measured mediated fraction is $0.00279664850$. In yeast, $S^{QT}_{\mathrm{meas}}=0.1368193134$, $S^{QP}=0.3146818503$, and the measured mediated fraction is $0.4793069656$. The joined row counts are $13140$ for danio, $3415$ for $E.\ coli$, $11554$ for human, and $5128$ for yeast. These rows support the four-way discriminant itself: yeast is the strongest measured class-D row, $E.\ coli$ and human are weaker class-D rows, and danio is a measured translation/protein survival row with no positive mediation fraction.
+
+\paragraph{Modeled translation rows.}
+The modeled per-protein tAI panel supplies a broader finite comparison. The $Q$--$P$ total and direct conditional values are explicitly available as $c=R^2_{QP}$ and $c'=R^2_{QP\mid T}$. The largest modeled mediation fraction occurs in yeast, with $c=0.2983762499$, $c'=0.0151709094$, and $M^{QTP}=0.9491551041$ over $5815$ joined proteins. Strong modeled drops also occur in $E.\ coli$ with $c=0.1076752668$, $c'=0.0416786997$, and $M^{QTP}=0.6129222528$ over $3739$ joined proteins; in drosophila with $M^{QTP}=0.6165167749$ over $13295$ joined proteins; and in bacillus with $M^{QTP}=0.6084594553$ over $4042$ joined proteins. Weaker modeled mediation rows include sulfolobus with $M^{QTP}=0.0185066856$ over $1656$ joined proteins, mycobacterium with $M^{QTP}=0.0839760292$ over $4129$ joined proteins, rat with $M^{QTP}=0.1748968180$ over $13322$ joined proteins, mouse with $M^{QTP}=0.1548879991$ over $19395$ joined proteins, and human with $M^{QTP}=0.2720628916$ over $19053$ joined proteins. These modeled rows are useful for discriminant placement but do not replace measured ribosome-profiling rows.
+
+\paragraph{Joint measured-TE and mRNA-stability conditioning.}
+A stricter three-readout audit conditions the protein-abundance residual on measured translation efficiency $T$, mRNA stability $M$, and both together. The reported $R^2$ lists are
+$$
+\begin{aligned}
+E.\ coli:\quad &R^2_{QP}=0.1181743523,\ R^2_{QP\mid T}=0.1158397928,\ R^2_{QP\mid M}=0.0909327341,\ R^2_{QP\mid T,M}=0.0897573252,\\
+Human:\quad &R^2_{QP}=0.0427417849,\ R^2_{QP\mid T}=0.0425069227,\ R^2_{QP\mid M}=0.0361960174,\ R^2_{QP\mid T,M}=0.0355223931,\\
+Yeast:\quad &R^2_{QP}=0.2715520808,\ R^2_{QP\mid T}=0.1439989546,\ R^2_{QP\mid M}=0.2545361225,\ R^2_{QP\mid T,M}=0.1304758265.
+\end{aligned}
+$$
+The corresponding measured-TE-only fractions are $0.0197552134$ for $E.\ coli$, $0.00549490864$ for human, and $0.4697188320$ for yeast, while the joint $T,M$ fractions are $0.2404669587$, $0.1689071210$, and $0.5195182226$. Each right-tail permutation value is $0.000999000999000999$. The row counts after the four-way join are $2517$ for $E.\ coli$, $11322$ for human, and $4759$ for yeast, with join hit rates $0.9133458144$, $0.6064136881$, and $0.8818572657$, respectively. The yeast row is therefore the cleanest measured class-D example in this finite table; $E.\ coli$ and human show protein-residual survival dominated more by the mRNA-stability component than by measured TE.
+
+\paragraph{Other mediators and negative controls.}
+The mRNA-stability-only yeast audit reports $R^2_{QP}=0.2761140374$, $R^2_{QP\mid M}=0.2485179953$, an absorbed component $0.0275960421$, mediation fraction $0.0999443648$, and right-tail permutation value $0.000999000999000999$ over $5085$ joined rows. The cross-domain stability audit gives $E.\ coli$ mediation fraction $0.2469720273$ with $R^2_{QP}=0.1163231185$ and human mediation fraction $0.1411299863$ with $R^2_{QP}=0.0409521556$, again with right-tail value $0.000999000999000999$. The yeast structure proxy is much smaller: $R^2_{QP}=0.2715520808$, $R^2_{QP\mid S}=0.2706601505$, structure-only fraction $0.00328456445$, incremental structure fraction beyond $T,M$ equal to $0.000550777882$, and right-tail value $0.1258741259$ for the incremental structure term. This separates the translation-protein discriminant from a folding or structure claim.
+
+\paragraph{Dictionary increment.}
+The yeast dictionary increment gives an additional finite cross-check. With $3290$ joined proteins, the measured dictionary columns $\log_{10}(\mathrm{TE})$, $\log_{10}(\mathrm{mRNA\ stability})$, and turnover have held-out $R^2=0.4579960005$. Adding the residualized standardized per-gene tAI geometric mean gives held-out $R^2=0.5186044342$, hence $\Delta R^2=0.0606084337$. The permutation null has mean $-0.0004019511$, $95$th percentile $0.0007222486$, and maximum $0.0010291561$ over $120$ permutations. This supports an incremental translation-supply readout in yeast, but it remains a readout increment rather than a molecular mechanism.
+
+\paragraph{Local boundary.}
+The table is a controlled cross-layer readout table, not a biological completion theorem. A positive $S^{QP}$ row does not by itself assert translation realization, and a positive mediation fraction does not assert causation. No statement about folding, physical admissibility, protein function, localization, PTM state, phenotype, mechanism, or universality follows from the $B^*_{Q6}$ residual coordinate unless a separate layer-matched contact supplies that specific information. Rank-degenerate outputs, including tiny all-perfect survival tables from too few rows, are null-boundary outputs rather than support. The present finite data justify the four-case discriminant and identify measured yeast as the strongest translation-mediated protein-abundance row, while keeping protein state and mechanism outside the asserted content.
+
+\origin{ai}
