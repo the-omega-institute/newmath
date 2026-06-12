@@ -346,6 +346,56 @@ class RollupPrTests(unittest.TestCase):
             ],
         )
 
+    def test_merge_conflict_aborts_when_canonical_stage_fails_after_verify(self) -> None:
+        module = load_sync_module()
+        cwd = Path(tempfile.mkdtemp(prefix="bedc-sync-test-"))
+        self.addCleanup(lambda: shutil.rmtree(cwd, ignore_errors=True))
+        (cwd / "papers" / "bedc-quality-lab").mkdir(parents=True)
+        commands: list[list[str]] = []
+
+        def fake_run(cmd, **kwargs):
+            commands.append(cmd)
+            if cmd[:3] == ["git", "merge", "--no-ff"]:
+                if cmd == ["git", "merge", "--no-ff", "--no-commit", "origin/source"]:
+                    return Result(returncode=1, stdout="CONFLICT\n")
+            if cmd == ["git", "merge", "--abort"]:
+                return Result()
+            if cmd == ["python3", "scripts/run_canonical_reports.py", "--cold"]:
+                return Result()
+            if cmd == ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]:
+                return Result()
+            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"]:
+                return Result(returncode=1, stderr="index locked\n")
+            raise AssertionError(f"unexpected command: {cmd}")
+
+        with mock.patch.object(module, "install_canonical_generated_merge_driver", return_value=True):
+            with mock.patch.object(module, "run", side_effect=fake_run):
+                with mock.patch.object(module, "conflicted_files", side_effect=[
+                    ["papers/bedc-quality-lab/reports/canonical/index.json"],
+                    [],
+                ]):
+                    with mock.patch.object(module, "collapse_canonical_generated_conflicts", return_value=True):
+                        with mock.patch.object(module, "call_codex_to_resolve") as codex:
+                            with mock.patch.object(module, "acquire_main_checkout_lock", _null_context):
+                                with mock.patch.object(module, "canonical_generated_driver_paths", return_value=[]):
+                                    with mock.patch.object(module, "clear_canonical_generated_driver_paths"):
+                                        with mock.patch.object(module, "_has_merge_head", return_value=True):
+                                            ok = module.merge_with_codex_fallback("origin/source", "target <- source", cwd=cwd)
+
+        self.assertFalse(ok)
+        codex.assert_not_called()
+        self.assertNotIn(["git", "commit", "--no-edit"], commands)
+        self.assertEqual(
+            commands,
+            [
+                ["git", "merge", "--no-ff", "--no-commit", "origin/source"],
+                ["python3", "scripts/run_canonical_reports.py", "--cold"],
+                ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"],
+                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+                ["git", "merge", "--abort"],
+            ],
+        )
+
     def test_merge_conflict_calls_codex_after_canonical_collapse_leaves_source(self) -> None:
         module = load_sync_module()
         cwd = Path(tempfile.mkdtemp(prefix="bedc-sync-test-"))

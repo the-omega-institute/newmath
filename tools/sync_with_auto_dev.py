@@ -274,8 +274,18 @@ def _canonical_generated_gate(cwd: Path = REPO_ROOT) -> bool:
               f"rc={verify.returncode}: {msg[:240]}", file=sys.stderr)
         return False
 
-    run(["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
-        cwd=cwd, check=False, capture=True)
+    staged = run(
+        ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+        cwd=cwd,
+        check=False,
+        capture=True,
+    )
+    if staged.returncode != 0:
+        out = ((staged.stdout or "") + (staged.stderr or "")).strip().splitlines()
+        msg = out[-1] if out else "no output"
+        print(f"[sync] canonical generated artifact staging failed "
+              f"rc={staged.returncode}: {msg[:240]}", file=sys.stderr)
+        return False
     print("[sync] canonical generated artifacts regenerated and verified")
     return True
 
