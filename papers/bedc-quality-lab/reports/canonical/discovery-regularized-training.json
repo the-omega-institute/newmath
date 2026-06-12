@@ -266,6 +266,10 @@
       "DGT_without_jet_loss"
     ],
     "dependency_abi": {
+      "cuda_available": false,
+      "mps_available": true,
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
       "torch": "2.7.0"
     },
     "discovery_lambdas": [
@@ -307,6 +311,10 @@
   },
   "device_protocol": {
     "dependency_abi": {
+      "cuda_available": false,
+      "mps_available": true,
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
       "torch": "2.7.0"
     },
     "drift_tolerance": 0.0001,
@@ -1378,6 +1386,60 @@
     "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.replay_arm_catalog",
     "public_arm_summary_policy": "formal-arms-only",
     "schema_id": "bedc-quality-lab:discovery-regularized-training:replay-arm-catalog"
+  },
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.torch_training_evidence",
+        "metric_pointer": "$.torch_training_evidence.row_count",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.torch_training_evidence",
+      "owner": "discovery-regularized-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.torch_training_evidence",
+        "comparison": "absolute",
+        "owner": "discovery-regularized-training",
+        "pointer": "$.torch_training_evidence.row_count",
+        "reference_value": 16,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0.0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
   },
   "revocation_rows": [
     {

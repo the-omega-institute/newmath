@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "4556d3d17e24fc76c7cf8696bfa02bc696ab062fe2a49d4855b44b0c860d845d",
+  "input_fingerprint": "6ce61acd999a75ab27ac86960d04fada9e42917f309b956545d4e2987a95ee52",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -118,6 +118,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.scaling_ladder.not_claimed",
       "positive_claim_pointer": "$.scaling_ladder",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -155,11 +156,54 @@
   },
   "json_artifact": "reports/canonical/discovery-gated-transformer.json",
   "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
-  "output_digest": "e07ea85aa6cf069672d28a25687fbef950f40f52331bc3813ee9efaecb769380",
   "producer_command": [
     "python3",
     "scripts/run_discovery_gated_transformer.py"
   ],
   "report_name": "discovery-gated-transformer",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "discovery-gated-transformer"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "discovery-gated-transformer",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "678126a9a91800076bb5c0614be4823f35c7004e593d3ec1687c8850f851909b",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

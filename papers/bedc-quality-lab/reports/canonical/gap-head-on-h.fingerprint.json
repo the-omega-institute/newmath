@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "954a96a48a007b8b8ee7d0d603c389cf17c3bee5020df2dc97b9f0da34939e2a",
+  "input_fingerprint": "ce140ad9d53db9535cd5d606a0080ee764f866f5478be4fd9d3dfe7fb59f6596",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -66,7 +66,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -110,7 +110,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       }
     ],
     "report_output_schema_id": "schema-unspecified",
@@ -148,6 +148,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.applicability_boundary.forbidden_inference_columns",
       "positive_claim_pointer": "$.main_claim_status",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "representation_boundary",
@@ -191,11 +192,54 @@
   },
   "json_artifact": "reports/canonical/gap-head-on-h.json",
   "markdown_artifact": "reports/canonical/gap-head-on-h.md",
-  "output_digest": "4fd98954285504c465f52f3711cdff51043b4998d0d7cb5a8c9c3766a4f51b92",
   "producer_command": [
     "python3",
     "scripts/run_gap_ledger_head_on_h.py"
   ],
   "report_name": "gap-head-on-h",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "gap-head-on-h"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "gap-head-on-h",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "1f7500e7b976a60a5fdde60969b9bf5ed6d014a486e59d886c9ddbcda9e0d4f7",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

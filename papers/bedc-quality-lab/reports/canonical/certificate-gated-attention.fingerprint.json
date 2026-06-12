@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "d6c1805caa95ed4ea2408ed031be559440e88083c1eb30ac035ba6249eebad66",
+  "input_fingerprint": "4b93d10d705dfc7a1b6e37b7f38f767c13bc2a24fb619c129b0fbb856eb3e5f4",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -77,6 +77,10 @@
         "sha256": "49ae896ad5c7d1a7c1c41baf7ce569ce7ebe180f91788dfe4f472d7f52517747"
       },
       {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
+      },
+      {
         "path": "bedc_quality_lab/scope.py",
         "sha256": "c31e7e403bca8dc453bdb42704271c356447fe5dc7265f1acbb2ce19c78a9ea0"
       },
@@ -86,7 +90,7 @@
       },
       {
         "path": "scripts/run_certificate_gated_attention.py",
-        "sha256": "f1715b6c886abe0db17df90dc43347d526bbfc104ff693f4e07c50a39d716a78"
+        "sha256": "839b7e7fb8eacd4f97f9bccd53a40f6f41b8e525f591e5c71ba448644b8a8a46"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:certificate-gated-attention",
@@ -135,6 +139,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -163,18 +168,67 @@
         "not_claimed",
         "what_was_learned",
         "revocation_rows",
-        "forbidden_claim_term_audit"
+        "forbidden_claim_term_audit",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.grid"
     }
   },
   "json_artifact": "reports/canonical/certificate-gated-attention.json",
   "markdown_artifact": "reports/canonical/certificate-gated-attention.md",
-  "output_digest": "5b660289712891af9f9931912a539602669033937f09120080b395f8fafd54af",
   "producer_command": [
     "python3",
     "scripts/run_certificate_gated_attention.py"
   ],
   "report_name": "certificate-gated-attention",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.route_patch_protocol",
+        "metric_pointer": "$.certificate_gate_summary.gated_vs_plain_valid.leak_reduction_mean",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.route_patch_protocol",
+      "owner": "certificate-gated-attention"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "recorded-device-policy",
+      "resolution_status": "not-requested",
+      "resolved_device": "not-requested"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.route_patch_protocol",
+        "comparison": "absolute",
+        "owner": "certificate-gated-attention",
+        "pointer": "$.certificate_gate_summary.gated_vs_plain_valid.leak_reduction_mean",
+        "reference_value": 0.161186,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 1e-06
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      13,
+      29,
+      43
+    ]
+  },
+  "reproducibility_contract_digest": "04c7bc4f92f2affeab1359a2b27dd73073ec2afd7c2071d43d79b7e8b75e4270",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

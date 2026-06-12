@@ -6149,6 +6149,69 @@
   },
   "producer": "scripts/run_dgt_l1_controls.py",
   "promotion_readiness": "ready-pass",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.independent_replay",
+        "metric_pointer": "$.l1_tiny_sequence_projection.status",
+        "seed_pointer": "$.independent_replay.fixed_seeds"
+      },
+      "calibration_source": "$.independent_replay",
+      "owner": "dgt-l1-controls"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "explicit-cpu",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.independent_replay",
+        "comparison": "status_equal",
+        "owner": "dgt-l1-controls",
+        "pointer": "$.l1_tiny_sequence_projection.status",
+        "reference_value": "pass",
+        "seed_basis": {
+          "seed_count": 16,
+          "source": "$.independent_replay.fixed_seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      1174,
+      1175,
+      1176,
+      1177,
+      1178,
+      1179,
+      1180,
+      1181,
+      1182,
+      1183,
+      1184,
+      1185,
+      1186,
+      1187,
+      1188,
+      1189
+    ]
+  },
   "review_status": "pass",
   "schema_id": "bedc-quality-lab:dgt-l1-controls",
   "source_artifacts": {
@@ -6158,9 +6221,15 @@
     ],
     "component_ablation_owner": "reports/canonical/dgt-neural-ablation.json:$.pure_hardgates",
     "device_policy": {
-      "canonical_default": "cpu",
-      "mps_allowed_when_explicit": true,
-      "requested_device": "cpu"
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "explicit-cpu",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
     },
     "input_accessibility_consumer_pointers": "reports/canonical/input-accessibility.json:$.consumer_pointers",
     "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",

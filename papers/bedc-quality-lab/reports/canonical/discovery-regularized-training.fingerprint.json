@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "66eb873a9253524276b58585257d4b87feada4bf1a67dc204cf2a0005dd80bb2",
+  "input_fingerprint": "e0c3b8b5a9d820ecbe205ad874b75d7a8ab0f38d7b919097beb29a8f831fca2b",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -81,6 +81,10 @@
         "sha256": "49ae896ad5c7d1a7c1c41baf7ce569ce7ebe180f91788dfe4f472d7f52517747"
       },
       {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
+      },
+      {
         "path": "bedc_quality_lab/scope.py",
         "sha256": "c31e7e403bca8dc453bdb42704271c356447fe5dc7265f1acbb2ce19c78a9ea0"
       },
@@ -90,7 +94,7 @@
       },
       {
         "path": "scripts/run_discovery_regularized_training.py",
-        "sha256": "8497ef15a0ead25b7a7858d204e9fa9c8ee68b93c3ad945d5fdffe29c6614924"
+        "sha256": "5fe0a0b8aca7f89aa816aff6d41c71f9b62dff9630255fb0638d39061cd2fd21"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:discovery-regularized-training",
@@ -139,6 +143,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -192,18 +197,75 @@
         "anti_triviality_gate_evidence",
         "anti_triviality_failed_gate",
         "anti_triviality_recommended_level",
-        "anti_triviality_policy"
+        "anti_triviality_policy",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.grid"
     }
   },
   "json_artifact": "reports/canonical/discovery-regularized-training.json",
   "markdown_artifact": "reports/canonical/discovery-regularized-training.md",
-  "output_digest": "b2c6d1e151eb273083500dd468c903108d97b5a25d652da6ec379445156afa76",
   "producer_command": [
     "python3",
     "scripts/run_discovery_regularized_training.py"
   ],
   "report_name": "discovery-regularized-training",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.torch_training_evidence",
+        "metric_pointer": "$.torch_training_evidence.row_count",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.torch_training_evidence",
+      "owner": "discovery-regularized-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.torch_training_evidence",
+        "comparison": "absolute",
+        "owner": "discovery-regularized-training",
+        "pointer": "$.torch_training_evidence.row_count",
+        "reference_value": 16.0,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0.0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
+  },
+  "reproducibility_contract_digest": "7c71f8254d2ea7f49b2e762d32dbc6f0810eeb31c313d11b8430658bbe7116af",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

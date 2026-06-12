@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "425cedbc57e3902e2a4237d2e0cba279d8712c44c4068eba0f76422692e2f96a",
+  "input_fingerprint": "543c1f2abd08a52c39aafe5c67f5fe00c5dd87a362c898df30954258fd103085",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -77,6 +77,10 @@
         "sha256": "49ae896ad5c7d1a7c1c41baf7ce569ce7ebe180f91788dfe4f472d7f52517747"
       },
       {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
+      },
+      {
         "path": "bedc_quality_lab/scope.py",
         "sha256": "c31e7e403bca8dc453bdb42704271c356447fe5dc7265f1acbb2ce19c78a9ea0"
       },
@@ -86,7 +90,7 @@
       },
       {
         "path": "scripts/run_mechanism_seeking_network.py",
-        "sha256": "9e65a9d655e2989099342194bd6c9e1a719309fdb639bb0fd5c19d0ac8436cb0"
+        "sha256": "24eb67c150ce8120b414e7b23c484f04019c9ffc889d04ef3fd00f0d6531d39d"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:mechanism-seeking-network",
@@ -135,6 +139,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -163,18 +168,67 @@
         "not_claimed",
         "what_was_learned",
         "revocation_rows",
-        "forbidden_claim_term_audit"
+        "forbidden_claim_term_audit",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.grid"
     }
   },
   "json_artifact": "reports/canonical/mechanism-seeking-network.json",
   "markdown_artifact": "reports/canonical/mechanism-seeking-network.md",
-  "output_digest": "d341266f5052299be7bb70ddf4449c8c32129d4a34edbf3aa4250a8770a52247",
   "producer_command": [
     "python3",
     "scripts/run_mechanism_seeking_network.py"
   ],
   "report_name": "mechanism-seeking-network",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.mechanism_gate_summary",
+        "metric_pointer": "$.mechanism_gate_summary.accepted_surface_count",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.mechanism_gate_summary",
+      "owner": "mechanism-seeking-network"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "recorded-device-policy",
+      "resolution_status": "not-requested",
+      "resolved_device": "not-requested"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.mechanism_gate_summary",
+        "comparison": "absolute",
+        "owner": "mechanism-seeking-network",
+        "pointer": "$.mechanism_gate_summary.accepted_surface_count",
+        "reference_value": 5.0,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0.0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      17,
+      29,
+      43
+    ]
+  },
+  "reproducibility_contract_digest": "284daac510a72fc1cd3e0a767269886b988e7aaea33ea66ad3ba03bed904bad4",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "35ec8afeab9efc7fe6827075e8b5ef202fa1329c793d5c3d5a3a462656503f57",
+  "input_fingerprint": "2035dd84b0884cf2ee371fdb971c0acc9887a477c897d776bf47723ac7ff92fa",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -89,6 +89,7 @@
       "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.rows",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -103,11 +104,54 @@
   },
   "json_artifact": "reports/canonical/claim_complexity.json",
   "markdown_artifact": "reports/canonical/claim_complexity.md",
-  "output_digest": "c522047e514f3448d8280d56cf6f4ea38377d240436289f04d191fb00253a898",
   "producer_command": [
     "python3",
     "scripts/run_claim_complexity_score.py"
   ],
   "report_name": "claim-complexity",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "claim-complexity"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "claim-complexity",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "8746495964a1de9ac6a18f82fd688fc09fcc50caa19eb8b869a208ce1a1c7ceb",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

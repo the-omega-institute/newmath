@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "832617604a4b9d88cce70b5e92a07e6b17838a12dd21a4caff6033c7d2e38430",
+  "input_fingerprint": "185e59d5df90eb41e112ab4a6d2e092a2804056549c51a1b660cce101a8da011",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -128,6 +128,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -171,11 +172,54 @@
   },
   "json_artifact": "reports/canonical/ledger-aware-transformer.json",
   "markdown_artifact": "reports/canonical/ledger-aware-transformer.md",
-  "output_digest": "893082725fae73bda9584cc4b70cec1aac0b02f03452fa0006c20dbfca566dba",
   "producer_command": [
     "python3",
     "scripts/run_ledger_aware_transformer.py"
   ],
   "report_name": "ledger-aware-transformer",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "ledger-aware-transformer"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "ledger-aware-transformer",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "7cd9955242b6fa038476742c3242edbb5d7b055a7b6ff4aeda269e298c25b036",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "5cc4aa328b2e57dc97a5876efee514708ee60a032fb3ae6bb5a563f32a309679",
+  "input_fingerprint": "4210e0942a7d5b22a2663aa2b0b7daf04b0c41052fb473203c67f8d9a6f97b29",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -124,6 +124,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.multi_surface_d5_o",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "producer",
@@ -149,11 +150,54 @@
   },
   "json_artifact": "reports/canonical/gap_head_transfer_atlas.json",
   "markdown_artifact": "reports/canonical/gap_head_transfer_atlas.md",
-  "output_digest": "49f5c12d2558a0bac3e264ad301cc7c2e177fcf88a6ea7abbc96a27d5709a935",
   "producer_command": [
     "python3",
     "scripts/run_gap_head_transfer_atlas.py"
   ],
   "report_name": "gap-head-transfer-atlas",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "gap-head-transfer-atlas"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "gap-head-transfer-atlas",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "308ef6c30250288911e0841b2d06711850b570343e7ab090a8a92ef426edd2c3",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

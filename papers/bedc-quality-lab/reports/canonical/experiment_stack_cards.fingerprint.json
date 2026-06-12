@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "13ba8397839a66f17b3cfba0edf06644e4b88d5950cd7a29bb41f9e3353c84fb",
+  "input_fingerprint": "239ddf38bf086f98dc3c47d74f08d608cc9aceb1d0c0166d323473953272ed28",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -59,7 +59,7 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/dgt-l1-controls.json",
-        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+        "sha256": "c3fbe577487639b92245b4abbf5fc888d47fd0739240131276a754f14a7bc7c0"
       },
       {
         "path": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json",
@@ -133,6 +133,7 @@
       "no_control_rationale_pointer": "$.claim_first_gate",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.cards",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -154,11 +155,54 @@
   },
   "json_artifact": "reports/canonical/experiment_stack_cards.json",
   "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
-  "output_digest": "20269a493ba3fcfc0a46c0a612ddf1837875edec8c5b2de5468b20328c62ec30",
   "producer_command": [
     "python3",
     "scripts/run_experiment_stack_cards.py"
   ],
   "report_name": "experiment-stack-cards",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "experiment-stack-cards"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "experiment-stack-cards",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "309338166455b1fbd1580887a5820a774e62ad147b7d85ee73c0e34a53ff580e",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

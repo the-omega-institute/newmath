@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "c2871cb8b593acfda7d1fb8bd1b489949ac491470e6ef16743c3c53466c5a6a1",
+  "input_fingerprint": "921ec00a7d5980e5dc2102e1ba19fa9a387887e048fe6bb2763189e4ab9660ae",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -55,6 +55,10 @@
       {
         "path": "bedc_quality_lab/backends/current_lab/projection.py",
         "sha256": "648fe049ce345bae693f34f8ea9af403fbbd826827e5d4ddda69b70dd86a5aec"
+      },
+      {
+        "path": "bedc_quality_lab/canonical_digest.py",
+        "sha256": "8eed097f6a5996ef2484eff9e7d2975292d1dc47eaeb28e06b1f86399ec6c5d5"
       },
       {
         "path": "bedc_quality_lab/causal_patch_suite.py",
@@ -221,6 +225,10 @@
         "sha256": "74c2a2b400918b8b55e61df1bdba6bf21b420f3578b134019e31cd0c9cc2260c"
       },
       {
+        "path": "bedc_quality_lab/reproducibility.py",
+        "sha256": "b3a88717202d5c8c8f6a3ca9fb0c3fd27a33a97a723878905e76db880683a266"
+      },
+      {
         "path": "bedc_quality_lab/research_discovery.py",
         "sha256": "cc3fbdba46b4f6d095e2a4de565c840a491c6caf6d03c9f3e2d6b88879a2bf71"
       },
@@ -270,7 +278,7 @@
       },
       {
         "path": "scripts/run_canonical_reports.py",
-        "sha256": "08ca08d36dad0972dbeb743c7cd426682ca1c473e674116d83f3fb02792c1973"
+        "sha256": "7966eac480681fe013878dcbdf00fbcbb6977a05050135457dca7c6748fd866a"
       },
       {
         "path": "scripts/run_causal_patch_suite.py",
@@ -413,6 +421,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.hardgates.MC-HG7",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -429,11 +438,54 @@
   },
   "json_artifact": "reports/canonical/model-comparison.json",
   "markdown_artifact": "reports/canonical/model-comparison.md",
-  "output_digest": "72cf5037b8e8b44c4d72552fafeafcc303946ddb48cbc3988164c75aa1f136af",
   "producer_command": [
     "python3",
     "scripts/run_canonical_reports.py"
   ],
   "report_name": "model-comparison",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "model-comparison"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "model-comparison",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "083d2c40872f5100d173696a68ef479cfc39953e09a6b1ab73ea9fa26a0732d2",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

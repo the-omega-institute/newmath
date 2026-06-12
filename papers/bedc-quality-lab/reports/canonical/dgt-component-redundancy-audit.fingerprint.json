@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "887ec186c019d905c5128daf26652a2680bdce84ef40635bd1a4f3b5ff406282",
+  "input_fingerprint": "0600ccf9ec9ddcadaf7aba120253dc1332b03429b3a119212777983434c102ba",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -55,11 +55,11 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/dgt-ablation-null-decomposition.json",
-        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+        "sha256": "755ff342caec3edf8e61b800d020dfd5bc9e35f1cbe7caf34e7eef1dfacd35ef"
       },
       {
         "path": "reports/canonical/dgt-neural-ablation.json",
-        "sha256": "2c9195505c0c3f032560174ba6ca59d6887ab358d675e68e51ed5d515ff48481"
+        "sha256": "e458525ebd7e0f6936bb945cc0f6fd667f48a8dc9fd3ca1ff735358c7c71af6c"
       }
     ],
     "spec": {
@@ -85,6 +85,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.component_redundancy_audit.not_claimed",
       "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "component_redundancy_audit"
       ],
@@ -93,11 +94,54 @@
   },
   "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
   "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
-  "output_digest": "04bfc335bd2b0dc549a7b36acc0c7a35035a46ff095b083e5ab1379a8cbc3ccf",
   "producer_command": [
     "python3",
     "scripts/run_dgt_component_redundancy_audit.py"
   ],
   "report_name": "dgt-component-redundancy-audit",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "dgt-component-redundancy-audit"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "dgt-component-redundancy-audit",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "83f4d4cd41017234d6bd55c06ef9a86a99508a35b8aee4752a03447f3efa1df6",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

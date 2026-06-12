@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "e2a448c2af7f5d30ff90a2953f5d2332d9c2574747f9c65d427a27112a9d36b9",
+  "input_fingerprint": "f201c283fe380f9f53674c2c0d68100ace539d4f45b6c9403f9cbb19f736eef8",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -51,7 +51,7 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/conditional_information_table.json",
-        "sha256": "00820e44a9871497f9cfae21b3bb970173d26f314af23fc877904a2a19b4c9d7"
+        "sha256": "0eb488f04fef175fc811995a50f6eb841cad26bf8b000d71162b1410ba41b6c1"
       }
     ],
     "spec": {
@@ -77,6 +77,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -98,11 +99,54 @@
   },
   "json_artifact": "reports/canonical/irreducibility_report.json",
   "markdown_artifact": "reports/canonical/order_residual_analysis.md",
-  "output_digest": "adb11be4c67beff607503658a0d97a1b27914f11047f4617af04fdcfabc9eb12",
   "producer_command": [
     "python3",
     "scripts/run_irreducibility_report.py"
   ],
   "report_name": "irreducibility-report",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "irreducibility-report"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "irreducibility-report",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "1407e613c5b7d6e89ca52e3553f16988c5754551dab8d86e31b00c7a014c02cf",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

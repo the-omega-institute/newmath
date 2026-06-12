@@ -298,11 +298,155 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
     }
 
 
+def _construct_validity_payload(artifact: str) -> dict[str, object]:
+    from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
+
+    return construct_validity_projection(
+        ConstructValidityEvidence(
+            task_variables={"variables": ["x", "surface"]},
+            label_variables={"variables": ["y"]},
+            arm_input_access={
+                "label_invisibility_certificate": True,
+                "arms": {
+                    "candidate": {"variables": ["x", "surface"]},
+                    "control": {"variables": ["x", "surface"]},
+                },
+            },
+            arm_roles={"candidate": "candidate", "controls": ["control"]},
+            finite_table={"support_count": 16, "rule_abstraction_claim": False, "coverage_status": "bounded-control"},
+            hand_feature_ledger={"mode": "shared-gate", "shared_across_arms": True, "features": ["surface"]},
+            metric_source={"source_kind": "training-evaluation", "metric_keys": ["accuracy"]},
+        ),
+        artifact=artifact,
+        pointer="$.construct_validity_hardgates",
+    )
+
+
+def _dgt_l1_controls_payload() -> dict[str, object]:
+    device_policy = {
+        "requested_device": "cpu",
+        "resolved_device": "cpu",
+        "resolution_status": "available",
+        "resolution_reason": "fixture-cpu",
+        "backend_details": {"torch": "fixture", "cuda_available": False, "mps_available": False},
+    }
+    return {
+        "schema_id": canonical.DGT_L1_CONTROLS_SCHEMA_ID,
+        "artifact_id": canonical.DGT_L1_CONTROLS_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "producer": "fixture",
+        "source_artifacts": {"device_policy": device_policy},
+        "task_spec": {"task": "tiny-sequence", "required_order_source": "fixture"},
+        "training_arms": {"dgt_l1": {"status": "present"}},
+        "compute_ledger": {"status": "pass"},
+        "parameter_ledger": {"status": "pass"},
+        "negative_witness_sweep": {"status": "pass"},
+        "independent_replay": {"fixed_seeds": [1174, 1175], "status": "pass"},
+        "l1_step_ladder": {"verdict": "blocked", "convergence_crossover": {"status": "blocked"}},
+        "l1_ood_mechanism": {"verdict": "fixture", "l2_implication": "not-claimed"},
+        "construct_validity_hardgates": _construct_validity_payload(canonical.DGT_L1_CONTROLS_JSON_ARTIFACT),
+        "review_status": "pass",
+        "promotion_readiness": "ready-pass",
+        "component_ablation_boundary": {"status": "blocked"},
+        "hardgates": {"status": "pass"},
+        "claim_capsule_ref": {"artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT, "pointer": "$.l1_tiny_sequence_projection"},
+        "l1_tiny_sequence_projection": {
+            "status": "pass",
+            "review_status": "pass",
+            "promotion_readiness": "ready-pass",
+            "evidence_scope": "bounded tiny sequence fixture",
+            "ood_generalization_claim": "not-claimed",
+            "ood_boundary": {
+                "chance_accuracy": 0.0625,
+                "dgt_ood_accuracy_ci95_low": 0.06309,
+            },
+            "boundary_ledger": [{"status": "scoped-boundary"}],
+            "not_claimed": ["bounded L1 fixture"],
+        },
+        "boundary_ledger": [],
+        "not_claimed": ["bounded L1 fixture"],
+        "reproducibility_contract": {},
+    }
+
+
+def _dgt_base_undertraining_payload() -> dict[str, object]:
+    return {
+        "base_undertraining_audit": {
+            "schema_id": canonical.DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID,
+            "artifact_id": canonical.DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID,
+            "source_contract": {"status": "fixture"},
+            "construct_validity": {
+                "status": "construct-boundary",
+                "bayes_upper_bound_accuracy": 0.0625,
+                "source_pointers": {"fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"},
+            },
+            "comparison_rows": [],
+            "hardgates": {"status": "blocked"},
+            "mechanical_decision_table": [],
+            "verdict": "construct-boundary",
+            "claim_action": "defer-to-fair-reconstruction",
+            "boundary_ledger": [],
+            "evidence_ledger": [],
+            "not_claimed": ["bounded fixture"],
+            "revoke_if": [],
+        }
+    }
+
+
+def _dgt_ablation_null_payload() -> dict[str, object]:
+    return {
+        "schema_id": canonical.DGT_ABLATION_NULL_DECOMPOSITION_SCHEMA_ID,
+        "artifact_id": canonical.DGT_ABLATION_NULL_DECOMPOSITION_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "producer": "fixture",
+        "source_artifact": canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        "threshold_schema": {},
+        "decision_table": {},
+        "null_decomposition": {"analysis_status": "pass", "verdict": "mixed"},
+        "hardgates": {"status": "pass"},
+        "not_claimed": ["bounded fixture"],
+    }
+
+
+def _winnability_payload(root: Path) -> dict[str, object]:
+    from bedc_quality_lab import winnability
+
+    split = {
+        "experiment_id": "fixture",
+        "task_id": "fixture-task",
+        "task_family": "analytic-visibility",
+        "resolver_family": "analytic-visibility",
+        "split_id": "fixture-split",
+        "split_kind": "held-out",
+        "split_fingerprint": "fixture-fingerprint",
+        "source_evidence_ref": "reports/canonical/fixture.json:$.row",
+        "label_function_ref": "fixture.label",
+        "visible_variables_ref": "reports/canonical/input-accessibility.json:$.visible",
+        "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
+        "visible_variables": ["x_left"],
+        "required_variables": ["x_left"],
+        "allow_inline_input_fixture": True,
+        "chance_accuracy": 0.5,
+        "observed_accuracy": 0.75,
+    }
+    return winnability.build_payload(root=root, generated_at="fixture-time", registered_splits=[split])
+
+
 def _minimal_payload(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name == "dgt-l0-controls":
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload["construct_validity_hardgates"] = _construct_validity_payload(canonical.DGT_L0_CONTROLS_JSON_ARTIFACT)
+        return public_payload
+    if spec.name == "dgt-l1-controls":
+        return _dgt_l1_controls_payload()
+    if spec.name == "dgt-base-undertraining-audit":
+        return _dgt_base_undertraining_payload()
+    if spec.name == "dgt-ablation-null-decomposition":
+        return _dgt_ablation_null_payload()
+    if spec.name == "winnability-certificates":
+        return _winnability_payload(canonical.ROOT)
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -348,6 +492,7 @@ def _minimal_payload(spec):
         return canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     if spec.name == "mechanism-seeking-network":
         payload.update({
+            "config": {"seeds": [1701, 1702], "dependency_abi": {"torch": "fixture"}},
             "records": {
                 "tensor_slice_registry": {
                     "copy_route": {"tensor_slice_ids": ["tensor-copy"]},
@@ -404,6 +549,13 @@ def _minimal_payload(spec):
                     "parity_gate": {"accepted": True},
                     "sparse_recall": {"accepted": True},
                 },
+            },
+            "device_protocol": {
+                "requested_device": "cpu",
+                "resolved_device": "cpu",
+                "resolution_status": "available",
+                "resolution_reason": "fixture-cpu",
+                "backend_details": {"torch": "fixture", "cuda_available": False, "mps_available": False},
             },
             "matched_random_control": {"control_positive_discovery": False},
             "distinction_module_evidence": {
@@ -469,6 +621,7 @@ def _minimal_payload(spec):
             },
             "source_artifacts": {"d5_o_source": None},
             "forbidden_claim_term_audit": {"status": "pass"},
+            "reproducibility_contract": {},
         })
         return payload
     if spec.name == "gap-head-transfer-atlas":
@@ -497,6 +650,9 @@ def _minimal_payload(spec):
         return payload
     if spec.name == "certificate-guided-training":
         payload.update({
+            "paired_seed_protocol": {"seeds": [3101, 3102]},
+            "metrics": {"delta_quality_q": -0.25},
+            "paired_delta_ci": {"after_minus_before": {"quality_q_delta": {"mean": -0.25, "ci95_low": -0.26}}},
             "result": {"status": "negative"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "arm_protocol": {"compat_roles": {"after": "constraint_lagrangian"}},
@@ -513,6 +669,19 @@ def _minimal_payload(spec):
                 },
                 "terminal_verdict": "DN(audit-improvement-tradeoff)",
             },
+            "reproducibility_contract": {},
+        })
+        return payload
+    if spec.name == "sigreg-training-proxy":
+        payload.update({
+            "config": {"seeds": [5101, 5102], "dependency_abi": {"torch": "fixture"}},
+            "arm_summaries": {"sigreg": {"status": "fixture"}},
+            "d1_evidence": {
+                "debt_delta": -0.1,
+                "d1_hardgates": {"SIGREG-HG1": {"status": "fail"}},
+            },
+            "claim_capsule_ref": {"artifact": "reports/runs/sigreg-training-proxy/claim_capsule.json", "pointer": "$"},
+            "reproducibility_contract": {},
         })
         return payload
     if spec.name == "certificate-guided-discovery":
@@ -587,6 +756,7 @@ def _minimal_payload(spec):
         return payload
     if spec.name == "sigreg-mini-grid":
         payload.update({
+            "config": {"seeds": [4101, 4102], "dependency_abi": {"torch": "fixture"}},
             "c3_hardgates": {
                 "C3-HG1": {"status": "pass"},
                 "C3-HG2": {"status": "pass"},
@@ -602,7 +772,9 @@ def _minimal_payload(spec):
                 "status": "d2-candidate",
             },
             "hardgate": {"failed_gate": None, "status": "pass"},
+            "metric_separation": {"mean_delta_sigreg_minus_covariance_proxy": 0.1},
             "trend_summary": {"expected_trend": True},
+            "reproducibility_contract": {},
         })
         return payload
     if spec.name == "lejepa-theorem-ledger":
@@ -616,7 +788,7 @@ def _minimal_payload(spec):
 
 
 def _write_all_payloads(root: Path):
-    for spec in canonical.CANONICAL_REPORTS:
+    for spec in canonical._discovery_map_reports():
         if spec.name == "dgt-neural-ablation":
             _write_dgt_neural_ablation_payload(root)
         elif spec.name == "dgt-l0-controls":
@@ -628,8 +800,14 @@ def _write_all_payloads(root: Path):
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
 
 
+def _write_dgt_owner_ref_payloads(root: Path):
+    _write_dgt_l0_controls_payload(root)
+    _write_json_artifact(root, canonical.DGT_L1_CONTROLS_JSON_ARTIFACT, _dgt_l1_controls_payload())
+
+
 def _write_coverage_payloads(root: Path):
     _write_all_payloads(root)
+    _write_dgt_owner_ref_payloads(root)
     _write_gap_head_d5_context(root, transfer_metric=True)
     _pass_gap_head_ablation(root)
     _write_json_artifact(
@@ -1534,9 +1712,10 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    expected_reports = [spec.name for spec in canonical._discovery_map_reports()]
 
-    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in canonical.CANONICAL_REPORTS]
-    assert payload["row_count"] == len(canonical.CANONICAL_REPORTS)
+    assert [row["report"] for row in payload["rows"]] == expected_reports
+    assert payload["row_count"] == len(expected_reports)
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "8ea604d0ca15a39e611d25b95a007a056dc391dde1487e103e79866b2fc70795",
+  "input_fingerprint": "7b47a4bbb439961df0e4dbe5a9484f8a5d9cabad3d5a93295c148ef99c33850c",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -62,7 +62,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -94,7 +94,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       }
     ],
     "report_output_schema_id": "schema-unspecified",
@@ -132,6 +132,7 @@
       "no_control_rationale_pointer": "$.config.arm",
       "not_claimed_pointer": "$.applicability_boundary.not_claimed",
       "positive_claim_pointer": "$.transition_debt_by_grid",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "config",
@@ -147,11 +148,54 @@
   },
   "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
   "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
-  "output_digest": "be2c633f151fea514b13e61db941a8d80a4f7272cd7f8cadac33349702e0f061",
   "producer_command": [
     "python3",
     "scripts/run_anisotropic_ou_sweep.py"
   ],
   "report_name": "anisotropic-ou-sweep",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "anisotropic-ou-sweep"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "anisotropic-ou-sweep",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "a8afcb389dc802016c1c0b6653d1c68d942d3efb51dad9e0962b23245b47e50a",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

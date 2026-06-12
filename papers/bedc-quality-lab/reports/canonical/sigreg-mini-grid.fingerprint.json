@@ -3,7 +3,7 @@
     "generated_at": "2026-06-11T08:40:12.594518+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "6723a6f61c9f9330c7478207acf71e47786ea18baba891414d1e8219b070d131",
+  "input_fingerprint": "09c2aa66b79336ef811e5f4863797b1a30edc0ea6360be70e6e21182a4a77c78",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -111,6 +111,7 @@
       "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -145,18 +146,67 @@
         "anti_triviality_gate_evidence",
         "anti_triviality_failed_gate",
         "anti_triviality_recommended_level",
-        "anti_triviality_policy"
+        "anti_triviality_policy",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.grid"
     }
   },
   "json_artifact": "reports/canonical/sigreg-mini-grid.json",
   "markdown_artifact": "reports/canonical/sigreg-mini-grid.md",
-  "output_digest": "13088f44f844e46be0a79d6ce1c911bc4f0694ba63280976f8b782cc112278f3",
   "producer_command": [
     "python3",
     "scripts/run_sigreg_mini_grid.py"
   ],
   "report_name": "sigreg-mini-grid",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.metric_separation",
+        "metric_pointer": "$.metric_separation.mean_delta_sigreg_minus_covariance_proxy",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.metric_separation",
+      "owner": "sigreg-mini-grid"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.metric_separation",
+        "comparison": "absolute",
+        "owner": "sigreg-mini-grid",
+        "pointer": "$.metric_separation.mean_delta_sigreg_minus_covariance_proxy",
+        "reference_value": 0.211,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 1e-06
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
+  },
+  "reproducibility_contract_digest": "4e48b0e78ce605816bb7772b924295627e4a7fc0216553d6d1c3d66c93f3aeaa",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
