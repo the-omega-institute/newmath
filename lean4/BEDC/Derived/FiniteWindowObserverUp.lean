@@ -93,4 +93,27 @@ theorem FiniteWindowObserverNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact ⟨checkerReadUnary, acceptedReadUnary, consumerReadUnary⟩
 
+theorem FiniteWindowObserverCarrierTransport [AskSetup] [PackageSetup]
+    {O F I K D H C P N O' F' I' K' D' H' C' P' N' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowObserverCarrier O F I K D H C P N bundle pkg ->
+      FiniteWindowObserverCarrier O' F' I' K' D' H' C' P' N' bundle pkg ->
+        hsame O O' -> hsame F F' -> hsame I I' -> hsame K K' ->
+          hsame D D' -> hsame P P' -> hsame N N' ->
+            UnaryHistory O' ∧ UnaryHistory F' ∧ UnaryHistory I' ∧ UnaryHistory K' ∧
+              UnaryHistory D' ∧ PkgSig bundle P' pkg ∧ PkgSig bundle N' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory PkgSig
+  intro carrier _carrierTarget sameO sameF sameI sameK sameD _sameP _sameN
+  obtain ⟨observerUnary, windowUnary, inscriptionUnary, checkerUnary, downstreamUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localNameUnary, _windowRoute,
+    _provenanceRoute, _provenancePkg, _localNamePkg⟩ := carrier
+  obtain ⟨_observerTargetUnary, _windowTargetUnary, _inscriptionTargetUnary,
+    _checkerTargetUnary, _downstreamTargetUnary, _transportTargetUnary, _routeTargetUnary,
+    _provenanceTargetUnary, _localNameTargetUnary, _windowTargetRoute,
+    _provenanceTargetRoute, provenanceTargetPkg, localNameTargetPkg⟩ := _carrierTarget
+  exact
+    ⟨unary_transport observerUnary sameO, unary_transport windowUnary sameF,
+      unary_transport inscriptionUnary sameI, unary_transport checkerUnary sameK,
+      unary_transport downstreamUnary sameD, provenanceTargetPkg, localNameTargetPkg⟩
+
 end BEDC.Derived.FiniteWindowObserverUp
