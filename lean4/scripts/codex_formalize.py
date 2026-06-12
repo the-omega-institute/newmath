@@ -495,6 +495,19 @@ class WorktreeInfo:
         return self.lease.log_tag if self.lease else f"legacy_formalize_{self.round_number}"
 
 
+@dataclass
+class PushTipVerificationState:
+    codex_tainted: bool = False
+
+
+_base_codex_resolution_count: int = 0
+
+
+def _record_base_codex_resolution() -> None:
+    global _base_codex_resolution_count
+    _base_codex_resolution_count += 1
+
+
 # ---------------------------------------------------------------------------
 # Shell helpers
 # ---------------------------------------------------------------------------
@@ -1327,11 +1340,19 @@ def _ensure_push_tip_verified(
     wt: WorktreeInfo,
     verified_push_tips: set[str],
     verified_gate_keys: set[str],
+    verification_state: PushTipVerificationState,
 ) -> bool:
-    """Run hard gates outside push locks unless the current tip already passed."""
+    """Run gates for codex-tainted tips; clean base merges inherit proof."""
     for _attempt in range(2):
         wt_tip = _worktree_head(wt)
         if wt_tip in verified_push_tips:
+            return True
+        if not verification_state.codex_tainted:
+            logger.info(
+                f"[R{wt.round_number}] clean re-merge of verified base content; "
+                f"push without re-verify for tip {wt_tip[:8]}"
+            )
+            verified_push_tips.add(wt_tip)
             return True
         gate_key = _worktree_gate_key(wt, wt_tip)
         gate_key_already_verified = gate_key is not None and gate_key in verified_gate_keys
@@ -1352,6 +1373,7 @@ def _ensure_push_tip_verified(
             verified_push_tips.add(wt_tip)
             if gate_key is not None:
                 verified_gate_keys.add(gate_key)
+            verification_state.codex_tainted = False
             return True
         logger.warning(
             f"[R{wt.round_number}] worktree tip changed during pre-push verification "
@@ -1539,7 +1561,9 @@ def _sync_base_via_worktree(*, model: Optional[str] = None) -> bool:
                 f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
                 "invoking codex to resolve"
             )
-            if not _codex_resolve_conflicts(wt_path, model=model):
+            resolved = _codex_resolve_conflicts(wt_path, model=model)
+            _record_base_codex_resolution()
+            if not resolved:
                 logger.error(
                     f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
                     "codex could not resolve"
@@ -1596,7 +1620,12 @@ def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
     return _sync_base_via_worktree(model=model)
 
 
-def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
+def merge_worktree_to_base(
+    wt: WorktreeInfo,
+    *,
+    model: Optional[str] = None,
+    verify_before_push: bool = False,
+) -> bool:
     """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
 
     Strategy:
@@ -1642,6 +1671,19 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     import random
     import time
     MAX_PUSH_ATTEMPTS = 8
+    verification_state = PushTipVerificationState(
+        codex_tainted=bool(verify_before_push or getattr(wt, "verify_before_push", False))
+    )
+    base_codex_resolution_seen = _base_codex_resolution_count
+
+    def refresh_base_codex_taint() -> bool:
+        nonlocal base_codex_resolution_seen
+        current = _base_codex_resolution_count
+        if current > base_codex_resolution_seen:
+            verification_state.codex_tainted = True
+            base_codex_resolution_seen = current
+            return True
+        return False
 
     logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
@@ -1669,6 +1711,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             logger.error(f"Codex could not resolve conflicts for {wt.branch}")
             run_cmd(["git", "merge", "--abort"], cwd=wt.path)
             return False
+        verification_state.codex_tainted = True
 
     merged_new = run_cmd(
         ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
@@ -1711,7 +1754,9 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         post_gate_tip = _worktree_head(wt)
         if post_gate_tip == gate_tip:
             verified_gate_tip = gate_tip
+            verification_state.codex_tainted = False
         else:
+            verification_state.codex_tainted = True
             logger.warning(
                 f"[R{wt.round_number}] worktree tip changed during pre-merge hard gates "
                 f"{gate_tip[:8]} -> {post_gate_tip[:8]}; deferring push-tip proof"
@@ -1729,14 +1774,17 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             commit_prefix=wt.commit_prefix,
             model=model,
         )
+        verification_state.codex_tainted = True
         gate_tip = _worktree_head(wt)
         gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
         if gates_ok:
             post_gate_tip = _worktree_head(wt)
             if post_gate_tip == gate_tip:
                 verified_gate_tip = gate_tip
+                verification_state.codex_tainted = False
             else:
                 verified_gate_tip = None
+                verification_state.codex_tainted = True
                 logger.warning(
                     f"[R{wt.round_number}] worktree tip changed during pre-merge hard gates "
                     f"{gate_tip[:8]} -> {post_gate_tip[:8]}; deferring push-tip proof"
@@ -1758,7 +1806,14 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     captured_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
 
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
-        if not _ensure_push_tip_verified(wt, verified_push_tips, verified_gate_keys):
+        if refresh_base_codex_taint():
+            verified_push_tips.clear()
+        if not _ensure_push_tip_verified(
+            wt,
+            verified_push_tips,
+            verified_gate_keys,
+            verification_state,
+        ):
             return False
 
         try:
@@ -1780,11 +1835,17 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 else:
                     wt_tip = _worktree_head(wt)
                     if wt_tip not in verified_push_tips:
-                        logger.warning(
-                            f"[R{wt.round_number}] worktree tip {wt_tip[:8]} "
-                            "lacks pre-push hard-gate proof; retrying"
+                        if verification_state.codex_tainted:
+                            logger.warning(
+                                f"[R{wt.round_number}] worktree tip {wt_tip[:8]} "
+                                "lacks pre-push hard-gate proof after codex tree change; retrying"
+                            )
+                            continue
+                        logger.info(
+                            f"[R{wt.round_number}] clean re-merge of verified base content "
+                            f"inside push lock; push without re-verify for tip {wt_tip[:8]}"
                         )
-                        continue
+                        verified_push_tips.add(wt_tip)
                     ok, msg = _ff_local_branch_to(wt_tip)
                     if ok:
                         local_contains = run_cmd(
@@ -1841,6 +1902,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 if not resolved:
                     run_cmd(["git", "merge", "--abort"], cwd=wt.path)
                     return False
+                verification_state.codex_tainted = True
             captured_base_sha = new_base_sha
 
     return False
@@ -3849,7 +3911,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         if codex_ok:
             logger.info(f"[recovery] {wt.branch} codex done; retrying merge_worktree_to_base")
             try:
-                merged = merge_worktree_to_base(wt, model=model)
+                merged = merge_worktree_to_base(wt, model=model, verify_before_push=True)
             except Exception as exc:
                 logger.error(f"[recovery] {wt.branch} retry merge crashed: {exc}")
         if merged:
