@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-11T08:40:12.594518+00:00`
-- Rows: `38`
+- Rows: `39`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -40,6 +40,7 @@
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `experiment-stack-cards` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |

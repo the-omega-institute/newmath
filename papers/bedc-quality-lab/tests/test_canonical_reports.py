@@ -1667,6 +1667,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "winnability-certificates",
             "structural-generalization-splits",
             "dgt-base-undertraining-audit",
+            "input-accessibility",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
@@ -1681,6 +1682,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "high-impact-review",
         "causal-patch-suite",
         "claim-complexity",
+        "experiment-stack-cards",
     ]
     assert "certificate-guided-arms" not in names
     assert "certificate-guided-training" in names
@@ -3152,6 +3154,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
             continue
         if spec.name == "dgt-base-undertraining-audit":
             assert keys == {"base_undertraining_audit"}
+            continue
+        if spec.name == "input-accessibility":
+            assert {"source_registry", "consumer_pointers", "access_hardgates"}.issubset(keys)
             continue
         assert "generated_at" in keys
         if spec.name == "model-comparison":
@@ -4743,6 +4748,90 @@ def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_pa
 
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
+
+
+def test_verify_fingerprints_allows_fail_closed_report_status(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    def fake_run_spec(called, mode="changed", generated_at=None):
+        row = _index_row_for_spec(called)
+        row["status"] = "fail"
+        row["fingerprint_status"] = "match"
+        row["fingerprint_reason"] = "match"
+        return row
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["reports"][0]["status"] == "fail"
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+
+
+def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    reports = canonical._specs_by_name()
+    pre_spec = reports["mixing-family-sweep"]
+    stack_spec = reports["experiment-stack-cards"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (pre_spec, stack_spec))
+    calls = []
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name))
+        return _index_row_for_spec(spec)
+
+    def fake_release(*, root, generated_at=None):
+        calls.append(("write-release", None))
+        path = root / canonical.RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "schema_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                    "artifact_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                    "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                    "generated_at": generated_at,
+                    "version": "0.0.1",
+                    "tag_ref": None,
+                    "release_bundle_status": "ready",
+                    "tag_status": "absent",
+                    "source_pointers": {},
+                    "required_pointers": [
+                        {
+                            "id": "fixture-pointer",
+                            "path": "reports/canonical/index.json",
+                            "pointer": "$.schema_id",
+                            "status": "resolved",
+                            "failure": None,
+                        }
+                    ],
+                    "not_claimed": ["fixture boundary"],
+                    "revoke_if": "Revoke if fixture pointer stops resolving.",
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.release_manifest_sidecar",
+        types.SimpleNamespace(write_release_manifest_sidecar=fake_release),
+    )
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert "experiment-stack-cards" in canonical.RELEASE_INPUT_REPORTS
+    assert calls.index(("write-release", None)) < calls.index(("run-spec", "experiment-stack-cards"))
+    assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "experiment-stack-cards"]
 
 
 def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):

@@ -71,6 +71,12 @@ from bedc_quality_lab.high_impact_review import (
     MARKDOWN_ARTIFACT as HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
     SCHEMA_ID as HIGH_IMPACT_REVIEW_SCHEMA_ID,
 )
+from bedc_quality_lab.experiment_stack import (
+    ARTIFACT_ID as EXPERIMENT_STACK_CARDS_ARTIFACT_ID,
+    JSON_ARTIFACT as EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+    SCHEMA_ID as EXPERIMENT_STACK_CARDS_SCHEMA_ID,
+)
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
 from bedc_quality_lab.schema import SCHEMA_ID as EVIDENCE_ENVELOPE_SCHEMA_ID
 from scripts.literature_ledger import validate_literature_ledger
@@ -1538,6 +1544,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         required_json_keys=(
             "schema_id",
             "card_id",
+            "generated_at",
             "source_artifacts",
             "intended_use",
             "not_intended_use",
@@ -1829,9 +1836,40 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer=None,
         no_control_rationale_pointer="$.not_claimed",
     ),
+    CanonicalReportSpec(
+        name="experiment-stack-cards",
+        command=("python3", "scripts/run_experiment_stack_cards.py"),
+        json_artifact=EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+        markdown_artifact=EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "card_count",
+            "card_ids",
+            "hardgate_ids",
+            "status",
+            "blocked_card_ids",
+            "cards",
+            "claim_first_gate",
+            "industry_standard_alignment",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.cards",
+        control_pointer=None,
+        no_control_rationale_pointer="$.claim_first_gate",
+    ),
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
+RELEASE_INPUT_REPORTS = frozenset({"experiment-stack-cards"})
 CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
 
 
@@ -2306,6 +2344,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_mechanism_dna import write_mechanism_dna
 
         write_mechanism_dna(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "experiment-stack-cards":
+        from bedc_quality_lab.experiment_stack import write_experiment_stack_cards
+
+        write_experiment_stack_cards(root=ROOT, generated_at=generated_at or datetime.now(timezone.utc).isoformat())
         return
     if spec.name == "winnability-certificates":
         from scripts.run_winnability_certificates import write_winnability_certificates
@@ -6030,6 +6073,27 @@ def _mechanism_dna_index_section() -> dict[str, Any]:
     }
 
 
+def _experiment_stack_cards_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(EXPERIMENT_STACK_CARDS_JSON_ARTIFACT)
+    cards = payload.get("cards") if isinstance(payload, Mapping) else None
+    blocked = payload.get("blocked_card_ids") if isinstance(payload, Mapping) else None
+    return {
+        "status": "pointer-only" if payload else "missing-owner-artifact",
+        "schema_id": EXPERIMENT_STACK_CARDS_SCHEMA_ID,
+        "artifact_id": payload.get("artifact_id", EXPERIMENT_STACK_CARDS_ARTIFACT_ID),
+        "json_artifact": EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
+        "markdown_artifact": EXPERIMENT_STACK_CARDS_MARKDOWN_ARTIFACT,
+        "cards_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.cards",
+        "claim_first_gate_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.claim_first_gate",
+        "industry_standard_alignment_pointer": (
+            f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.industry_standard_alignment"
+        ),
+        "blocked_card_ids_pointer": f"{EXPERIMENT_STACK_CARDS_JSON_ARTIFACT}:$.blocked_card_ids",
+        "card_count": len(cards) if isinstance(cards, list) else 0,
+        "blocked_card_count": len(blocked) if isinstance(blocked, list) else 0,
+    }
+
+
 def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
     return {
@@ -6336,6 +6400,7 @@ def _index(
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "mechanism_dna": _mechanism_dna_index_section(),
+        "experiment_stack_cards": _experiment_stack_cards_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
@@ -6585,6 +6650,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Hardgates: `{payload['model_comparison']['hardgates_pointer']}`",
             f"- Ranking key: `{payload['model_comparison']['ranking_key_pointer']}`",
             f"- Source reports: `{payload['model_comparison']['source_reports_pointer']}`",
+            "",
+            "## Experiment Stack Cards",
+            "",
+            f"- Status: `{payload['experiment_stack_cards']['status']}`",
+            f"- JSON: `{payload['experiment_stack_cards']['json_artifact']}`",
+            f"- Markdown: `{payload['experiment_stack_cards']['markdown_artifact']}`",
+            f"- Cards: `{payload['experiment_stack_cards']['cards_pointer']}`",
+            f"- Claim-first gate: `{payload['experiment_stack_cards']['claim_first_gate_pointer']}`",
+            f"- Blocked card ids: `{payload['experiment_stack_cards']['blocked_card_ids_pointer']}`",
+            f"- Blocked card count: `{payload['experiment_stack_cards']['blocked_card_count']}`",
             "",
             "## Issue 1012 sidecars",
             "",
@@ -6886,11 +6961,13 @@ def run_reports(
         for spec in selected_specs
         if spec.name not in POST_VERDICT_REPORTS
         and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+        and spec.name not in RELEASE_INPUT_REPORTS
         and spec.name != "high-impact-review"
     ]
     claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     high_impact_review_specs = [spec for spec in selected_specs if spec.name == "high-impact-review"]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
+    release_input_specs = [spec for spec in selected_specs if spec.name in RELEASE_INPUT_REPORTS]
     results = []
     run_spec_names: set[str] = set()
     for spec in pre_verdict_specs:
@@ -6901,10 +6978,18 @@ def run_reports(
         results.append(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in results):
+        verify_tail_results = [
+            _run_spec(spec, mode="verify", generated_at=timestamp)
+            for spec in (*high_impact_review_specs, *post_verdict_specs, *release_input_specs)
+        ]
+        verify_results = [*results, *verify_tail_results]
+    else:
+        verify_results = results
+    if mode == "verify" and all(result["fingerprint_status"] == "match" for result in verify_results):
         consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
         if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
             raise SystemExit(1)
-        payload = _index(results, generated_at=timestamp)
+        payload = _index(verify_results, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         return payload
@@ -7002,6 +7087,14 @@ def run_reports(
             if late_fingerprint_spec is not None:
                 _run_metric_purity_post_generation((late_fingerprint_spec.json_artifact,))
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+    from scripts.release_manifest_sidecar import write_release_manifest_sidecar
+
+    write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
+    post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    for spec in release_input_specs:
+        if spec.name not in run_spec_names:
+            results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
+            run_spec_names.add(spec.name)
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)
@@ -7035,7 +7128,6 @@ def run_reports(
     consistency_payload = write_claim_artifact_consistency(root=ROOT, generated_at=timestamp)
     if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
         raise SystemExit(1)
-    post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
     for spec in post_verdict_specs:
         results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
@@ -7047,7 +7139,6 @@ def run_reports(
     )
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
-    from scripts.release_manifest_sidecar import write_release_manifest_sidecar
     from scripts.run_release_namecert_candidate import write_release_namecert_candidate
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
@@ -7055,6 +7146,10 @@ def run_reports(
     from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
 
     write_toy_safety_boundary([])
+    for spec in release_input_specs:
+        if spec.name not in run_spec_names:
+            results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
+            run_spec_names.add(spec.name)
     dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         write_dgt_model_card(root=ROOT, generated_at=timestamp)
@@ -7083,7 +7178,10 @@ def run_reports(
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
-    if any(result["status"] != "pass" for result in results):
+    if mode == "verify":
+        if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
+            raise SystemExit(1)
+    elif any(result["status"] != "pass" for result in results):
         raise SystemExit(1)
     return payload
 
