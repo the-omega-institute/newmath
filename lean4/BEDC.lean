@@ -3925,6 +3925,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowFusion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.WindowRouteLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSourceExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
@@ -8508,6 +8509,7 @@ import BEDC.Derived.RegularCauchyLimitUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedCutUp
+import BEDC.Derived.RegularCauchyLocatedCutUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
