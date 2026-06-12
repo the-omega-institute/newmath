@@ -123,12 +123,43 @@ theorem UnaryZeroSpineStandardIsoCarrier_namecert_obligations [AskSetup] [Packag
       exact And.intro (hsame_trans sourceRow.right provenanceSame) endpointPkg
   }
   exact And.intro certSurface
-    (And.intro unaryRow
-      (And.intro axisRow
-        (And.intro lengthRow
-          (And.intro endpointUnary
-            (And.intro forwardRow
-              (And.intro backwardRow routesCert))))))
+      (And.intro unaryRow
+        (And.intro axisRow
+          (And.intro lengthRow
+            (And.intro endpointUnary
+              (And.intro forwardRow
+                (And.intro backwardRow routesCert))))))
+
+theorem UnaryZeroSpineStandardIsoRoute_unary_closure [AskSetup] [PackageSetup]
+    {unary axis length forward backward transport routes provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryZeroSpineStandardIsoCarrier unary axis length forward backward transport routes
+        provenance cert bundle pkg ->
+      UnaryHistory forward ∧ UnaryHistory backward ∧ UnaryHistory routes := by
+  intro carrier
+  cases carrier with
+  | intro unaryRow rest =>
+  cases rest with
+  | intro axisRow rest =>
+  cases rest with
+  | intro lengthRow rest =>
+  cases rest with
+  | intro _provenanceUnary rest =>
+  cases rest with
+  | intro _certUnary rest =>
+  cases rest with
+  | intro forwardRow rest =>
+  cases rest with
+  | intro backwardRow rest =>
+  cases rest with
+  | intro routesRow _rest =>
+  have forwardUnary : UnaryHistory forward :=
+    unary_cont_closed unaryRow lengthRow forwardRow
+  have backwardUnary : UnaryHistory backward :=
+    unary_cont_closed axisRow lengthRow backwardRow
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed forwardUnary backwardUnary routesRow
+  exact And.intro forwardUnary (And.intro backwardUnary routesUnary)
 
 theorem UnaryZeroSpineStandardIsoCarrier_nonidentification_boundary [AskSetup] [PackageSetup]
     {unary axis length forward backward transport routes provenance cert : BHist}
