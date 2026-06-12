@@ -1,0 +1,779 @@
+{
+  "artifact_id": "bedc-quality-lab:experiment-stack-cards",
+  "blocked_card_ids": [
+    "claim-card",
+    "task-target-card",
+    "data-card",
+    "baseline-validity-card",
+    "training-authenticity-card",
+    "statistical-evidence-card",
+    "ablation-causal-evidence-card",
+    "risk-scope-review-card",
+    "release-readiness-board"
+  ],
+  "card_count": 14,
+  "card_ids": [
+    "claim-card",
+    "task-target-card",
+    "data-card",
+    "feature-access-card",
+    "baseline-validity-card",
+    "ood-solvability-card",
+    "metric-provenance-card",
+    "training-authenticity-card",
+    "statistical-evidence-card",
+    "ablation-causal-evidence-card",
+    "artifact-reproducibility-card",
+    "model-card",
+    "risk-scope-review-card",
+    "release-readiness-board"
+  ],
+  "cards": [
+    {
+      "canonical_owner_issue": "child-of-1219:claim-card",
+      "card_id": "claim-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[0]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_claim_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "CLAIM-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_claim_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_claim_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_claim_card.json:$.claim_surface",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_claim_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_claim_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:experiment-stack-claim-card",
+      "source_pointer": "reports/canonical/experiment_stack_claim_card.json:$.claim_surface",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_claim_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:task-target-card",
+      "card_id": "task-target-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[1]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "claim-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "TARGET-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_task_target_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.label_function",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_task_target_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:experiment-stack-task-target-card",
+      "source_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.label_function",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_task_target_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:data-card",
+      "card_id": "data-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[2]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_data_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "task-target-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "DATA-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_data_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_data_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_data_card.json:$.data_boundary",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_data_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_data_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:experiment-stack-data-card",
+      "source_pointer": "reports/canonical/experiment_stack_data_card.json:$.data_boundary",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_data_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "1209",
+      "card_id": "feature-access-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[3]",
+      "demotion_rule_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "demotion_rule_pointer_status": "resolved",
+      "depends_on_cards": [
+        "data-card"
+      ],
+      "failure_reasons": [],
+      "hardgate_prefixes": [
+        "L1-REVIEW-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$",
+          "reason": "owner artifact and schema resolve",
+          "status": "pass"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+          "reason": "source, summary, and demotion pointers resolve",
+          "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms",
+          "status": "pass",
+          "summary_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status"
+        }
+      },
+      "owner_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_artifact_status": "resolved",
+      "owner_schema_status": "matched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:dgt-l1-controls",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms",
+      "source_pointer_status": "resolved",
+      "status": "pass",
+      "summary_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
+      "summary_pointer_status": "resolved"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:baseline-validity-card",
+      "card_id": "baseline-validity-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[4]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "task-target-card",
+        "feature-access-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "BASE-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.baseline_contract",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_baseline_validity_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:experiment-stack-baseline-validity-card",
+      "source_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.baseline_contract",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_baseline_validity_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "1209,1203",
+      "card_id": "ood-solvability-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[5]",
+      "demotion_rule_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
+      "demotion_rule_pointer_status": "resolved",
+      "depends_on_cards": [
+        "task-target-card",
+        "data-card"
+      ],
+      "failure_reasons": [],
+      "hardgate_prefixes": [
+        "MC-HG",
+        "L1-REVIEW-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/model-comparison.json:$",
+          "reason": "owner artifact and schema resolve",
+          "status": "pass"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
+          "reason": "source, summary, and demotion pointers resolve",
+          "source_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics.ood_accuracy",
+          "status": "pass",
+          "summary_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics_by_surface.out_of_distribution"
+        }
+      },
+      "owner_artifact": "reports/canonical/model-comparison.json",
+      "owner_artifact_status": "resolved",
+      "owner_schema_status": "matched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:model-comparison",
+      "source_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics.ood_accuracy",
+      "source_pointer_status": "resolved",
+      "status": "pass",
+      "summary_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics_by_surface.out_of_distribution",
+      "summary_pointer_status": "resolved"
+    },
+    {
+      "canonical_owner_issue": "1201",
+      "card_id": "metric-provenance-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[6]",
+      "demotion_rule_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG3",
+      "demotion_rule_pointer_status": "resolved",
+      "depends_on_cards": [
+        "claim-card",
+        "task-target-card"
+      ],
+      "failure_reasons": [],
+      "hardgate_prefixes": [
+        "MC-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/model-comparison.json:$",
+          "reason": "owner artifact and schema resolve",
+          "status": "pass"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG3",
+          "reason": "source, summary, and demotion pointers resolve",
+          "source_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics",
+          "status": "pass",
+          "summary_pointer": "reports/canonical/model-comparison.json:$.ranking_key"
+        }
+      },
+      "owner_artifact": "reports/canonical/model-comparison.json",
+      "owner_artifact_status": "resolved",
+      "owner_schema_status": "matched",
+      "phase": "preflight",
+      "schema_id": "bedc-quality-lab:model-comparison",
+      "source_pointer": "reports/canonical/model-comparison.json:$.models[0].metrics",
+      "source_pointer_status": "resolved",
+      "status": "pass",
+      "summary_pointer": "reports/canonical/model-comparison.json:$.ranking_key",
+      "summary_pointer_status": "resolved"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:training-authenticity-card",
+      "card_id": "training-authenticity-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[7]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "baseline-validity-card",
+        "metric-provenance-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "TRAIN-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.training_trace",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_training_authenticity_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "evidence",
+      "schema_id": "bedc-quality-lab:experiment-stack-training-authenticity-card",
+      "source_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.training_trace",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_training_authenticity_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:statistical-evidence-card",
+      "card_id": "statistical-evidence-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[8]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "training-authenticity-card",
+        "metric-provenance-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "STAT-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.statistical_protocol",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_statistical_evidence_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "evidence",
+      "schema_id": "bedc-quality-lab:experiment-stack-statistical-evidence-card",
+      "source_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.statistical_protocol",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_statistical_evidence_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:ablation-causal-evidence-card",
+      "card_id": "ablation-causal-evidence-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[9]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "training-authenticity-card",
+        "metric-provenance-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "CAUSE-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.causal_evidence",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "evidence",
+      "schema_id": "bedc-quality-lab:experiment-stack-ablation-causal-evidence-card",
+      "source_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.causal_evidence",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "1213",
+      "card_id": "artifact-reproducibility-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[10]",
+      "demotion_rule_pointer": "reports/release_manifest_sidecar.json:$.revoke_if",
+      "demotion_rule_pointer_status": "resolved",
+      "depends_on_cards": [
+        "training-authenticity-card"
+      ],
+      "failure_reasons": [],
+      "hardgate_prefixes": [
+        "REL-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/release_manifest_sidecar.json:$",
+          "reason": "owner artifact and schema resolve",
+          "status": "pass"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/release_manifest_sidecar.json:$.revoke_if",
+          "reason": "source, summary, and demotion pointers resolve",
+          "source_pointer": "reports/release_manifest_sidecar.json:$.required_pointers",
+          "status": "pass",
+          "summary_pointer": "reports/release_manifest_sidecar.json:$.release_bundle_status"
+        }
+      },
+      "owner_artifact": "reports/release_manifest_sidecar.json",
+      "owner_artifact_status": "resolved",
+      "owner_schema_status": "matched",
+      "phase": "release",
+      "schema_id": "bedc-quality-lab:release-manifest-sidecar",
+      "source_pointer": "reports/release_manifest_sidecar.json:$.required_pointers",
+      "source_pointer_status": "resolved",
+      "status": "pass",
+      "summary_pointer": "reports/release_manifest_sidecar.json:$.release_bundle_status",
+      "summary_pointer_status": "resolved"
+    },
+    {
+      "canonical_owner_issue": "1220",
+      "card_id": "model-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[11]",
+      "demotion_rule_pointer": "reports/canonical/model_design_suite.json:$.not_claimed",
+      "demotion_rule_pointer_status": "resolved",
+      "depends_on_cards": [
+        "claim-card",
+        "metric-provenance-card"
+      ],
+      "failure_reasons": [],
+      "hardgate_prefixes": [
+        "SUITE-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/model_design_suite.json:$",
+          "reason": "owner artifact and schema resolve",
+          "status": "pass"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/model_design_suite.json:$.not_claimed",
+          "reason": "source, summary, and demotion pointers resolve",
+          "source_pointer": "reports/canonical/model_design_suite.json:$.rows",
+          "status": "pass",
+          "summary_pointer": "reports/canonical/model_design_suite.json:$.status"
+        }
+      },
+      "owner_artifact": "reports/canonical/model_design_suite.json",
+      "owner_artifact_status": "resolved",
+      "owner_schema_status": "matched",
+      "phase": "release",
+      "schema_id": "bedc-quality-lab:model-design-suite",
+      "source_pointer": "reports/canonical/model_design_suite.json:$.rows",
+      "source_pointer_status": "resolved",
+      "status": "pass",
+      "summary_pointer": "reports/canonical/model_design_suite.json:$.status",
+      "summary_pointer_status": "resolved"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:risk-scope-review-card",
+      "card_id": "risk-scope-review-card",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[12]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "claim-card",
+        "data-card",
+        "metric-provenance-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "RISK-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.scope_review",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_risk_scope_review_card.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "release",
+      "schema_id": "bedc-quality-lab:experiment-stack-risk-scope-review-card",
+      "source_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.scope_review",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_risk_scope_review_card.json:$.summary",
+      "summary_pointer_status": "missing"
+    },
+    {
+      "canonical_owner_issue": "child-of-1219:release-readiness-board",
+      "card_id": "release-readiness-board",
+      "card_pointer": "reports/canonical/experiment_stack_cards.json:$.cards[13]",
+      "demotion_rule_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.demotion_rule",
+      "demotion_rule_pointer_status": "missing",
+      "depends_on_cards": [
+        "claim-card",
+        "task-target-card",
+        "data-card",
+        "feature-access-card",
+        "baseline-validity-card",
+        "ood-solvability-card",
+        "metric-provenance-card",
+        "training-authenticity-card",
+        "statistical-evidence-card",
+        "ablation-causal-evidence-card",
+        "artifact-reproducibility-card",
+        "model-card",
+        "risk-scope-review-card"
+      ],
+      "failure_reasons": [
+        "owner-artifact-missing",
+        "source-pointer-unresolved",
+        "summary-pointer-unresolved",
+        "demotion-rule-pointer-unresolved"
+      ],
+      "hardgate_prefixes": [
+        "READY-HG"
+      ],
+      "hardgates": {
+        "STACK-HG1": {
+          "evidence_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$",
+          "reason": "owner artifact or schema is not resolved",
+          "status": "fail"
+        },
+        "STACK-HG2": {
+          "demotion_rule_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.demotion_rule",
+          "reason": "one or more required card pointers do not resolve",
+          "source_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.release_board",
+          "status": "fail",
+          "summary_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.summary"
+        }
+      },
+      "owner_artifact": "reports/canonical/experiment_stack_release_readiness_board.json",
+      "owner_artifact_status": "missing",
+      "owner_schema_status": "unmatched",
+      "phase": "release",
+      "schema_id": "bedc-quality-lab:experiment-stack-release-readiness-board",
+      "source_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.release_board",
+      "source_pointer_status": "missing",
+      "status": "blocked",
+      "summary_pointer": "reports/canonical/experiment_stack_release_readiness_board.json:$.summary",
+      "summary_pointer_status": "missing"
+    }
+  ],
+  "claim_first_gate": {
+    "cards_pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+    "decision_function": "bedc_quality_lab.experiment_stack.evaluate_claim_first_gate",
+    "required_preflight_cards": [
+      "claim-card",
+      "task-target-card",
+      "feature-access-card",
+      "baseline-validity-card",
+      "ood-solvability-card",
+      "metric-provenance-card"
+    ],
+    "status": "active",
+    "training_result_refs_pointer": "$.training_result_refs"
+  },
+  "coverage_mapping": [
+    {
+      "mapping_id": "ladder-fair-decision-consumers",
+      "owner_issues": [
+        "1205",
+        "1212"
+      ],
+      "owner_pointers": [
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
+      ]
+    },
+    {
+      "mapping_id": "aggregate-zero-drift",
+      "owner_issues": [
+        "1206"
+      ],
+      "owner_pointers": [
+        "reports/canonical/model-comparison.json:$.ordering"
+      ]
+    },
+    {
+      "mapping_id": "construct-validity-gate-family",
+      "owner_issues": [
+        "1197"
+      ],
+      "owner_pointers": [
+        "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity"
+      ]
+    }
+  ],
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "hardgate_ids": [
+    "STACK-HG1",
+    "STACK-HG2"
+  ],
+  "industry_standard_alignment": [
+    {
+      "external_pointer": "https://neurips.cc/public/guides/PaperChecklist",
+      "local_card_ids": [
+        "claim-card",
+        "data-card",
+        "statistical-evidence-card",
+        "risk-scope-review-card"
+      ],
+      "local_card_pointers": [
+        "reports/canonical/experiment_stack_cards.json:$.cards[0]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[2]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[8]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[12]"
+      ],
+      "standard_id": "neurips-checklist"
+    },
+    {
+      "external_pointer": "https://paperswithcode.com/about",
+      "local_card_ids": [
+        "artifact-reproducibility-card",
+        "training-authenticity-card"
+      ],
+      "local_card_pointers": [
+        "reports/canonical/experiment_stack_cards.json:$.cards[10]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[7]"
+      ],
+      "standard_id": "papers-with-code-code-completeness"
+    },
+    {
+      "external_pointer": "https://www.acm.org/publications/policies/artifact-review-badging",
+      "local_card_ids": [
+        "artifact-reproducibility-card",
+        "release-readiness-board"
+      ],
+      "local_card_pointers": [
+        "reports/canonical/experiment_stack_cards.json:$.cards[10]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[13]"
+      ],
+      "standard_id": "acm-artifact-badging"
+    },
+    {
+      "external_pointer": "https://modelcards.withgoogle.com/about",
+      "local_card_ids": [
+        "model-card",
+        "risk-scope-review-card"
+      ],
+      "local_card_pointers": [
+        "reports/canonical/experiment_stack_cards.json:$.cards[11]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[12]"
+      ],
+      "standard_id": "model-cards"
+    },
+    {
+      "external_pointer": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "local_card_ids": [
+        "risk-scope-review-card",
+        "release-readiness-board"
+      ],
+      "local_card_pointers": [
+        "reports/canonical/experiment_stack_cards.json:$.cards[12]",
+        "reports/canonical/experiment_stack_cards.json:$.cards[13]"
+      ],
+      "standard_id": "nist-ai-rmf"
+    }
+  ],
+  "not_claimed": [
+    "The card report is an auxiliary contract and does not promote model quality.",
+    "Blocked card rows are owner gaps, not negative empirical evidence.",
+    "Claim-first gating only controls training-result promotion ordering.",
+    "External standard alignment is pointer-only and carries no independent certification."
+  ],
+  "owner_backed_card_ids": [
+    "feature-access-card",
+    "ood-solvability-card",
+    "metric-provenance-card",
+    "artifact-reproducibility-card",
+    "model-card"
+  ],
+  "producer": "scripts/run_experiment_stack_cards.py",
+  "schema_id": "bedc-quality-lab:experiment-stack-cards",
+  "source_artifacts": {
+    "ablation-causal-evidence-card": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json",
+    "artifact-reproducibility-card": "reports/release_manifest_sidecar.json",
+    "baseline-validity-card": "reports/canonical/experiment_stack_baseline_validity_card.json",
+    "claim-card": "reports/canonical/experiment_stack_claim_card.json",
+    "data-card": "reports/canonical/experiment_stack_data_card.json",
+    "feature-access-card": "reports/canonical/dgt-l1-controls.json",
+    "metric-provenance-card": "reports/canonical/model-comparison.json",
+    "model-card": "reports/canonical/model_design_suite.json",
+    "ood-solvability-card": "reports/canonical/model-comparison.json",
+    "release-readiness-board": "reports/canonical/experiment_stack_release_readiness_board.json",
+    "risk-scope-review-card": "reports/canonical/experiment_stack_risk_scope_review_card.json",
+    "statistical-evidence-card": "reports/canonical/experiment_stack_statistical_evidence_card.json",
+    "task-target-card": "reports/canonical/experiment_stack_task_target_card.json",
+    "training-authenticity-card": "reports/canonical/experiment_stack_training_authenticity_card.json"
+  },
+  "standard_alignment_doc": "docs/experiment_stack_standard_alignment.md",
+  "status": "blocked"
+}
