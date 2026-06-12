@@ -4798,6 +4798,15 @@ def _sanitize_textmode_underscores(text: str) -> str:
         转义会破坏 \\ref 匹配 / 路径).
     已转义的 `\\_` 不重复处理.
     """
+    # 先修 JSON 单转义残留: `\f` / `\b` 是合法 JSON 转义, 某轮 decode 后会变成真控制字节
+    # (form-feed 0x0C / backspace 0x08), 把 `\f…` / `\b…` 开头的 LaTeX 命令吃掉:
+    # `\frac`→<FF>rac, `\forall`→<FF>orall, `\beta`→<BS>eta, `\binom`→<BS>inom →
+    # text mode "Missing $ inserted" 致命断, 无 PDF (flaky: 取决于该轮 decode 路径).
+    # LaTeX 正文无合法 form-feed/backspace, 故一律还原为反斜线命令前缀; CR 规整为换行;
+    # 其余非空白控制字节 (保留 \t \n) 直接 strip.
+    text = text.replace("\x0c", "\\f").replace("\x08", "\\b")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"[\x00-\x07\x0b\x0e-\x1f]", "", text)
     # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
     # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
     # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
