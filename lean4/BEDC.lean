@@ -1627,6 +1627,7 @@ import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
+import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -5029,6 +5030,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteWindowObserverUp
 import BEDC.Derived.FiniteWindowObserverUp.InscriptionHandoff
+import BEDC.Derived.FiniteWindowObserverUp.LedgerNonescape
 import BEDC.Derived.FiniteWindowObserverUp.TasteGate
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
@@ -9510,6 +9512,7 @@ import BEDC.Derived.TailBudgetCoherenceUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp.ThresholdBudgetExposure
 import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
+import BEDC.Derived.TailCofinalityBudgetUp.FilteredTailScope
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.ThresholdMonotonicity
