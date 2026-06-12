@@ -3504,6 +3504,29 @@ def test_dgt_base_undertraining_audit_canonical_spec_follows_l1_controls():
     )
 
 
+def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["dgt-base-undertraining-audit"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    input_accessibility = tmp_path / canonical.INPUT_ACCESSIBILITY_JSON_ARTIFACT
+    input_accessibility.write_text('{"rows":[{"missing_variables":["changed"]}]}\n', encoding="utf-8")
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        _write_fingerprint_fixture(canonical, tmp_path, called)
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    result = canonical._run_spec(spec, mode="changed", generated_at="fixture")
+
+    assert calls == ["dgt-base-undertraining-audit"]
+    assert result["producer_status"] == "completed"
+    assert result["fingerprint_status"] == "written"
+    assert result["fingerprint_reason"] == "input-fingerprint"
+
+
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
     payload = canonical._build_discovery_gated_transformer_payload(
         generated_at="2030-01-01T00:00:00+00:00"

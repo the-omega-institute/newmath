@@ -1959,7 +1959,7 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     if spec.name == "dgt-component-redundancy-audit":
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
     if spec.name == "dgt-base-undertraining-audit":
-        paths.add(DGT_L1_CONTROLS_JSON_ARTIFACT)
+        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
