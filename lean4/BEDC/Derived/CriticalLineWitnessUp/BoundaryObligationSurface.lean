@@ -74,4 +74,32 @@ theorem CriticalLineWitnessCarrier_boundary_obligation_surface
     ⟨cert, zeroUnary, comparisonUnary, boundaryUnary, sameH, zeroRoute, comparisonRoute,
       boundaryRoute, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_source_modulus_readback_surface
+    {Z S M R Q H C P N sourceRead modulusRead readbackRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S sourceRead ->
+        Cont M R modulusRead ->
+          Cont sourceRead modulusRead readbackRead ->
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory sourceRead ∧ UnaryHistory modulusRead ∧
+                UnaryHistory readbackRead ∧ hsame H (append Z S) ∧
+                  Cont Z S sourceRead ∧ Cont M R modulusRead ∧
+                    Cont sourceRead modulusRead readbackRead ∧ Cont M R Q ∧
+                      Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet sourceRoute modulusRoute readbackRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed unaryZ unaryS sourceRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed unaryM unaryR modulusRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed sourceUnary modulusUnary readbackRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, sourceUnary, modulusUnary, readbackUnary,
+      sameH, sourceRoute, modulusRoute, readbackRoute, routeQ, routeC, routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
