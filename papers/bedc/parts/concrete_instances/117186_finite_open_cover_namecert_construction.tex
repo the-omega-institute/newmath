@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOpenCoverUp$}
+\label{ch:concrete-instances-finite-open-cover-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on finite open covers, the $\FiniteOpenCoverUp$ packet records a cover whose indexing family is already finite before any compactness or subcover-selection consumer inspects it. It sits between the general open-cover surface of \autoref{ch:concrete-instances-open-cover-namecert}, the open-set rows of \autoref{ch:concrete-instances-topology-namecert}, the compact-metric source rows of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}, and the dyadic interval cover carrier of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}. The packet is not a selected subcover and not an open-cover compactness theorem; it is the finite carrier row through which already finite cover data is named.
+
+\begin{definition}[Finite open-cover carrier]
+\label{def:finite-open-cover-carrier}
+A $\FiniteOpenCoverUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,U,M,R,K,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row, listing exactly the cover indices available to the current consumer.
+\item $U$ is the $\TopologyUp$ open-set row, assigning an open certificate to each displayed index of $I$.
+\item $M$ is the membership and coverage row, tying each covered point read to one displayed index and one open row.
+\item $R$ is the finite refinement row, comparing finite cover windows by finite index maps and inclusion witnesses.
+\item $K$ is the compact-source compatibility row, read only when a $\CompactMetricUp$ consumer supplies a compact metric source.
+\item $D$ is the dyadic-interval handoff row, present only when the finite cover is displayed through a $\DyadicIntervalCoverUp$ endpoint, mesh, or membership ledger.
+\item $H$ records componentwise $\hsame$ transport for index, open-set, membership, refinement, compact-source, dyadic-handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite cover request through $I,U,M,R,K,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOpenCoverUp$, $\OpenCoverUp$, $\TopologyUp$, $\CompactMetricUp$, $\FiniteSubcoverCriterionUp$, $\DyadicIntervalCoverUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteOpenCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,U,M,R,K,D,H,C,P,N$. It has no coordinate for an arbitrary open-cover compactness theorem, a selected finite subcover, a host powerset of opens, quotient cover equality, countable choice, or ambient compactness outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[Finite open-cover NameCert obligations]
+\label{thm:finite-open-cover-namecert-obligations}
+For every accepted $\FiniteOpenCoverUp$ carrier $F=(I,U,M,R,K,D,H,C,P,N)$, the local $\NameCert_{\FiniteOpenCoverUp}$ surface consists exactly of carrier admission for the finite index, topology open-set, membership, refinement, compact-source, dyadic-handoff, transport, replay, provenance, and local naming rows; finite-index exactness through $I$; open-set exactness through $U$; coverage and refinement exactness through $M$ and $R$; compact-metric compatibility through $K$; dyadic-interval handoff through $D$; and non-escape through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-open-cover-carrier}. The rows $I,U,M,R$ expose the only finite cover window, open predicates, coverage witnesses, and refinement data available to the packet.
+
+The compatibility rows are downstream. A compact-metric consumer reads $K$ only after the finite cover rows are displayed, while a dyadic-interval consumer reads $D$ only as the finite endpoint, mesh, or membership handoff already named by $\DyadicIntervalCoverUp$.
+
+Finally $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier has no coordinate for arbitrary open-cover compactness, selected subcovers, host powersets, quotient cover equality, countable choice, or ambient compactness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite open-cover dyadic interval handoff]
+\label{thm:finite-open-cover-dyadic-interval-handoff}
+Every $\DyadicIntervalCoverUp$ consumer that reads a $\FiniteOpenCoverUp$ packet must display the finite index row $I$, the $\TopologyUp$ open row $U$, the membership row $M$, the refinement row $R$, and the dyadic handoff row $D$ before any interval-cover endpoint, mesh, or membership read is exported. The handoff factors through the finite route
+$$
+\FiniteOpenCoverUp
+\longrightarrow
+\DyadicIntervalCoverUp
+\longrightarrow
+\FiniteSubcoverCriterionUp
+$$
+only as displayed cover data. It exports no selected finite subcover, open-cover compactness theorem, host compactness principle, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite cover rows of \autoref{def:finite-open-cover-carrier}. The interval consumer first sees $I,U,M,R$, so the cover window is finite before any dyadic endpoint or mesh information is consulted.
+
+Read the dyadic handoff through $D$. This row may point to the $\DyadicIntervalCoverUp$ endpoint, mesh, or membership ledger, but it does so only after the finite open-cover rows have been displayed and transported by $H$.
+
+The finite-subcover criterion can then consume the displayed cover data as a finite route. The packet contains no selector row and no compactness theorem row, so the handoff cannot export selected subcovers, host compactness, quotient real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{FiniteOpenCoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOpenCoverUp}
+  \constructivestory{A $\FiniteOpenCoverUp$ packet is generated from finite index rows, Topology open-set rows, membership and refinement rows, compact-source compatibility, dyadic interval handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-open-cover-carrier}, \autoref{thm:finite-open-cover-namecert-obligations}, and \autoref{thm:finite-open-cover-dyadic-interval-handoff} seed the finite open-cover carrier and its dyadic interval handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected subcovers, host compactness, quotient cover equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-index exactness, open-set exactness, coverage and refinement exactness, compact-metric compatibility, dyadic-interval handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteOpenCoverUp.}
+\end{closurestatus}

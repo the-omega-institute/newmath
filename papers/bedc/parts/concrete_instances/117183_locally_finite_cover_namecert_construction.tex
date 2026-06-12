@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\LocallyFiniteCoverUp$}
+\label{ch:concrete-instances-locally-finite-cover-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\LocallyFiniteCoverUp$ packet records the finite BEDC ledger by which a displayed open-cover family is read through local finite windows. It sits over the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the open-cover request surface of \autoref{ch:concrete-instances-open-cover-namecert}, the finite refinement comparison of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, the paracompact refinement carrier of \autoref{ch:concrete-instances-paracompact-namecert}, and the partition-of-unity consumer of \autoref{ch:concrete-instances-partition-of-unity-namecert}. The packet names only displayed cover cells, local neighbourhood windows, finite incidence reads, refinement assignments, transport, replay, provenance, and local naming; it does not choose an arbitrary cover, infer paracompactness, assert compactness of open covers, or export partition-of-unity weights.
+
+\begin{definition}[Locally finite cover carrier]
+\label{def:locally-finite-cover-carrier}
+A $\LocallyFiniteCoverUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,A,U,W,I,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, exposing the open-row operations and finite neighbourhood reads on which the cover ledger is interpreted.
+\item $A$ is the $\OpenCoverUp$ request row, listing the displayed cover cells and the source region they are meant to cover.
+\item $U$ is the neighbourhood-window row. For each displayed point or source window it records an open neighbourhood row over $T$ before any local incidence check is read.
+\item $W$ is the finite-window row, listing the finitely many cover cells from $A$ allowed to meet the neighbourhood row in $U$.
+\item $I$ is the incidence ledger, recording the displayed nonempty-meet checks between the neighbourhood windows and the cover cells named by $W$.
+\item $R$ is the refinement-assignment row, tying the local finite ledger either to the original cover request $A$ or to a displayed refinement route read through $\ParacompactUp$.
+\item $F$ is the finite-refinement handoff row consumed by $\FiniteCoverRefinementUp$ when a compact or completion-facing argument needs a finite comparison window.
+\item $H$ records componentwise $\hsame$ transport for the topology source, open-cover request, neighbourhood windows, finite windows, incidence ledger, refinement assignments, finite-refinement handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cover request through $T,A,U,W,I,R,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocallyFiniteCoverUp$, $\TopologyUp$, $\OpenCoverUp$, $\FiniteCoverRefinementUp$, $\ParacompactUp$, $\PartitionOfUnityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocallyFiniteCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host-indexed cover family, a selected infinite refinement, arbitrary subcover choice, open-cover compactness, partition-of-unity weights, quotient open equality, or ambient point-set topology.
+\end{definition}
+\leanstmt{BEDC.Derived.LocallyFiniteCoverUp}
+
+\begin{theorem}[Locally finite cover NameCert obligations]
+\label{thm:locally-finite-cover-namecert-obligations}
+For every accepted $\LocallyFiniteCoverUp$ carrier
+$$
+L=(T,A,U,W,I,R,F,H,C,P,N),
+$$
+the local $\NameCert_{\LocallyFiniteCoverUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, open-cover request, neighbourhood windows, finite windows, incidence ledger, refinement assignment, finite-refinement handoff, transport, replay, provenance, and local naming;
+\item open-cover exposure, requiring every local finiteness read to start with the displayed cover request $A$ over the topology row $T$;
+\item neighbourhood-window exactness, requiring every finite incidence claim to be read through a displayed open neighbourhood row $U$;
+\item finite-window locality, requiring $W$ to list all and only the cover cells inspected by the local incidence ledger $I$ for the corresponding neighbourhood window;
+\item refinement handoff exactness, requiring $R$ and $F$ to expose only assignments back to $A$, paracompact refinement rows, or finite refinement comparison rows already displayed in the packet;
+\item $\hsame$, $\Cont$, and $\Pkg$ stability, requiring componentwise transport, displayed replay, and provenance to preserve exactly the listed rows.
+\end{enumerate}
+No local locally-finite-cover obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:locally-finite-cover-carrier}. The accepted tuple displays exactly the topology source, open-cover request, neighbourhood windows, finite windows, incidence ledger, refinement assignment, finite-refinement handoff, transport, replay, provenance, and local naming.
+
+Open-cover exposure is forced by row order. A local finiteness request first reads $T$ and then the displayed cover row $A$, so the packet never begins from an unlogged host-indexed family.
+
+Neighbourhood-window exactness is the projection to $U$. The finite incidence row cannot be inspected until the corresponding open neighbourhood has been displayed over the same topology source.
+
+Finite-window locality is the projection to $W$ and $I$. The row $W$ lists the finite cells allowed to meet the displayed neighbourhood, and $I$ records only the incidence checks for that finite list.
+
+The handoff rows $R$ and $F$ keep the ledger usable by the neighbouring refinement packets. They expose assignments back to $A$, paracompact refinement rows when present, and finite comparison windows for compact or completion-facing consumers.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate stores host-indexed covers, selected infinite refinements, arbitrary subcover choice, open-cover compactness, partition-of-unity weights, quotient open equality, or ambient point-set topology, no such obligation can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Locally finite cover finite-window locality]
+\label{thm:locally-finite-cover-finite-window-locality}
+Every accepted $\LocallyFiniteCoverUp$ carrier exports each local incidence read through the finite route
+$$
+\TopologyUp \longrightarrow \OpenCoverUp \longrightarrow U \longrightarrow W \longrightarrow I .
+$$
+Thus a point-neighbourhood consumer sees only the displayed neighbourhood row, the finite list of cover cells meeting that neighbourhood, and the recorded incidence checks for those cells. It does not receive an arbitrary host-indexed cover, a selected infinite subfamily, or an open-cover compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-finite-cover-carrier}. The rows $T$ and $A$ expose the topology and cover request before any local window is available.
+
+The local window is $U$, and the finite list attached to it is $W$. The incidence ledger $I$ is meaningful only after both rows have been displayed.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this same route. The excluded host data are absent from the carrier, so every point-neighbourhood consumer receives exactly the finite route above.
+\end{proof}
+
+\begin{theorem}[Locally finite cover refinement handoff]
+\label{thm:locally-finite-cover-refinement-handoff}
+Every refinement-facing consumer of an accepted $\LocallyFiniteCoverUp$ packet must read the assignment rows
+$$
+A,\ U,\ W,\ I,\ R,\ F
+$$
+before citing the ledger as a paracompact refinement source, a finite cover comparison source, or a partition-of-unity support source. The handoff records displayed local finite windows and assignments only; it does not create paracompactness, finite subcover extraction, or partition-of-unity weights.
+\end{theorem}
+\begin{proof}
+Begin with the local route from \autoref{thm:locally-finite-cover-finite-window-locality}. It exposes the source cover, neighbourhood windows, finite visible cells, and incidence checks.
+
+The assignment row $R$ ties those local windows back to the cover request or to a paracompact refinement row already present in the packet. The finite-refinement row $F$ exports only the finite comparison surface needed by compact or completion-facing consumers.
+
+A partition-of-unity consumer may therefore cite the locally finite ledger as support data, but only after the finite windows and assignments have been displayed. Since no row stores paracompactness as an external theorem, finite subcover extraction, or weights, the handoff cannot export those objects.
+\end{proof}
+
+\closureat{LocallyFiniteCoverUp}{seedStr}
+
+\begin{closurestatus}{\LocallyFiniteCoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locally-finite-cover-carrier}, \autoref{thm:locally-finite-cover-namecert-obligations}, \autoref{thm:locally-finite-cover-finite-window-locality}, and \autoref{thm:locally-finite-cover-refinement-handoff} seed the finite topology, open-cover, neighbourhood-window, incidence, refinement-assignment, finite-handoff, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-indexed covers, selected infinite refinements, arbitrary subcover choice, open-cover compactness, partition-of-unity weights, quotient open equality, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-cover exposure, neighbourhood-window exactness, finite-window locality, refinement handoff exactness, transport stability, replay stability, and non-escape proofs for BEDC.Derived.LocallyFiniteCoverUp.}
+  \constructivestory{A $\LocallyFiniteCoverUp$ packet is generated from a $\TopologyUp$ source row, an $\OpenCoverUp$ request row, displayed neighbourhood windows, finite visible-cell windows, an incidence ledger, refinement-assignment rows, a $\FiniteCoverRefinementUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
