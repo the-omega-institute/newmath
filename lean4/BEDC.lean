@@ -7814,6 +7814,7 @@ import BEDC.Derived.RationalEmbeddingUp.TasteGate
 import BEDC.Derived.RationalIntervalCoverUp.TasteGate
 import BEDC.Derived.RationalIntervalEnclosureUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp
+import BEDC.Derived.RationalIntervalRefinementUp.ChainExactness
 import BEDC.Derived.RationalIntervalRefinementUp.RetainedWindowInduction
 import BEDC.Derived.RationalIntervalRefinementUp.TasteGate
 import BEDC.Derived.RationalIntervalSubdivisionUp.TasteGate
