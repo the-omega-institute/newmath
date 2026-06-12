@@ -30,6 +30,16 @@ TRAINING_TAINTED_STATUS = "empirical_training_tainted"
 TRAINING_ABSENT_STATUS = "training_evidence_absent"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_ROWS_BY_REPORT_KEY = "discovery_rows_by_report"
+TRAINING_ROLE_TOKENS = (
+    "backprop",
+    "fit",
+    "grad",
+    "gradient",
+    "optim",
+    "optimizer",
+    "train",
+    "training",
+)
 
 
 @dataclass(frozen=True)
@@ -286,7 +296,11 @@ def _producer_source_files(root: Path, command: tuple[str, ...]) -> tuple[Path, 
     if not command_source.exists():
         return ()
     source_files = [command_source]
-    source_files.extend(_direct_local_import_files(root, command_source))
+    source_files.extend(
+        source_file
+        for source_file in _direct_local_import_files(root, command_source)
+        if _is_training_role_source(root, source_file)
+    )
     unique: list[Path] = []
     seen: set[Path] = set()
     for source_file in source_files:
@@ -295,6 +309,15 @@ def _producer_source_files(root: Path, command: tuple[str, ...]) -> tuple[Path, 
             unique.append(source_file)
             seen.add(resolved)
     return tuple(unique)
+
+
+def _is_training_role_source(root: Path, source_file: Path) -> bool:
+    try:
+        relative = source_file.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    path_text = relative.as_posix().lower()
+    return any(token in path_text for token in TRAINING_ROLE_TOKENS)
 
 
 def _direct_local_import_files(root: Path, source_file: Path) -> tuple[Path, ...]:

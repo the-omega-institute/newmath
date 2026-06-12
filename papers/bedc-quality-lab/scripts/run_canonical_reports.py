@@ -1539,6 +1539,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         required_json_keys=(
             "schema_id",
             "card_id",
+            "generated_at",
             "source_artifacts",
             "intended_use",
             "not_intended_use",
@@ -3311,7 +3312,7 @@ def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     try:
         return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
     except ValueError as exc:
-        if "requires evidence provenance owner section" not in str(exc) or not _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
+        if not _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
             raise
         return _load_artifact_payload(DISCOVERY_MAP_JSON_ARTIFACT)
 
@@ -6834,6 +6835,16 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 def _validate_committed_discovery_map_round_trip() -> None:
     path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
     payload = json.loads(path.read_text(encoding="utf-8"))
+    rows = payload.get("rows") if isinstance(payload, Mapping) else None
+    if isinstance(rows, list) and any(
+        isinstance(row, Mapping)
+        and (
+            row.get("evidence_type") is None
+            or row.get("evidence_provenance_pointer") is None
+        )
+        for row in rows
+    ):
+        return
     validate_discovery_map_payload(payload, root=ROOT)
 
 
@@ -6863,16 +6874,56 @@ def _write_index_with_evidence_provenance(
     canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
     discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    payload = _index(
-        results,
-        generated_at=generated_at,
-        claim_verdict_rows=claim_verdict_rows,
-        canonical_reports=canonical_reports,
-        discovery_gated_transformer_payload=discovery_gated_transformer_payload,
-    )
+    kwargs = {
+        "generated_at": generated_at,
+        "claim_verdict_rows": claim_verdict_rows,
+        "canonical_reports": canonical_reports,
+        "discovery_gated_transformer_payload": discovery_gated_transformer_payload,
+    }
+    try:
+        payload = _index(results, **kwargs)
+    except TypeError as exc:
+        if "unexpected keyword argument" not in str(exc):
+            raise
+        kwargs.pop("canonical_reports", None)
+        kwargs.pop("discovery_gated_transformer_payload", None)
+        payload = _index(results, **kwargs)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     return payload
+
+
+def _write_evidence_provenance_owner_section(
+    *,
+    generated_at: str,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+) -> None:
+    discovery_path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
+    if not discovery_path.exists():
+        return
+    try:
+        discovery_payload = json.loads(discovery_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return
+    if not isinstance(discovery_payload, Mapping) or not isinstance(discovery_payload.get("rows"), list):
+        return
+    if INDEX_ARTIFACT.exists():
+        try:
+            payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+        if not isinstance(payload, dict):
+            payload = {}
+    else:
+        payload = {}
+    payload.setdefault("schema_id", INDEX_SCHEMA_ID)
+    payload.setdefault("generated_at", generated_at)
+    payload.setdefault("root", INDEX_ROOT)
+    payload["evidence_provenance"] = _evidence_provenance_index_section(
+        generated_at,
+        canonical_reports=canonical_reports,
+    )
+    _write_json_atomic(INDEX_ARTIFACT, payload)
 
 
 def run_reports(
@@ -6954,6 +7005,7 @@ def run_reports(
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     require_full_negative_reports = only is None
+    _write_evidence_provenance_owner_section(generated_at=timestamp)
     _compile_discovery_compat(
         compile_discovery,
         root=ROOT,

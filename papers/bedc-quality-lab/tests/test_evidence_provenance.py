@@ -114,6 +114,73 @@ def test_clean_training_requires_backward_and_optimizer_step(tmp_path):
     assert payload["discovery_rows"][0]["evidence_type"] == "empirical_training_clean"
 
 
+def test_imported_non_training_scanner_code_does_not_certify_training(tmp_path):
+    spec = _spec("imported-scanner", "reports/canonical/imported-scanner.json")
+    _write_source(
+        tmp_path,
+        "scripts/run_fixture.py",
+        "from bedc_quality_lab.evidence_provenance import build_evidence_provenance\n\n"
+        "def main():\n"
+        "    return build_evidence_provenance\n",
+    )
+    _write_source(
+        tmp_path,
+        "bedc_quality_lab/evidence_provenance.py",
+        "def scan(line):\n"
+        "    if '.backward(' in line:\n"
+        "        return 'backward'\n"
+        "    if '.step(' in line and 'optimizer' in line:\n"
+        "        return 'step'\n"
+        "    return None\n",
+    )
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery_map.json",
+        {"rows": [{"report": spec.name, "discovery_level": "D4", "audit_status": "valid"}]},
+    )
+
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    audit = payload["producer_audits"][0]
+
+    assert audit["training_evidence_status"] == "training_evidence_absent"
+    assert audit["backward_pointers"] == []
+    assert audit["optimizer_step_pointers"] == []
+    assert payload["metric_rows"][0]["source_type"] == "deterministic_projection"
+    assert payload["discovery_rows"][0]["evidence_type"] == "deterministic_projection"
+
+
+def test_imported_training_role_source_can_certify_training(tmp_path):
+    spec = _spec("delegated-training", "reports/canonical/delegated-training.json")
+    _write_source(
+        tmp_path,
+        "scripts/run_fixture.py",
+        "from bedc_quality_lab.training_loop import train_model\n\n"
+        "def main(loss, optimizer):\n"
+        "    return train_model(loss, optimizer)\n",
+    )
+    _write_source(
+        tmp_path,
+        "bedc_quality_lab/training_loop.py",
+        "def train_model(loss, optimizer):\n"
+        "    loss.backward()\n"
+        "    optimizer.step()\n",
+    )
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_json(
+        tmp_path,
+        "reports/canonical/discovery_map.json",
+        {"rows": [{"report": spec.name, "discovery_level": "D4", "audit_status": "valid"}]},
+    )
+
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    audit = payload["producer_audits"][0]
+
+    assert audit["training_evidence_status"] == "empirical_training_clean"
+    assert audit["backward_pointers"] == ["bedc_quality_lab/training_loop.py:L2"]
+    assert audit["optimizer_step_pointers"] == ["bedc_quality_lab/training_loop.py:L3"]
+
+
 def test_missing_measurement_is_null_with_reason_not_new_enum(tmp_path):
     spec = _spec("missing-metric", "reports/canonical/missing-metric.json")
     _write_source(tmp_path, "scripts/run_fixture.py")

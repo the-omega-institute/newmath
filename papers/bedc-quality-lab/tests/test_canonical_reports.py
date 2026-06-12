@@ -1660,19 +1660,20 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
-            "mechanism-seeking-network",
-            "mechanism-dna",
-            "dgt-l0-controls",
-            "dgt-l1-controls",
-            "winnability-certificates",
-            "structural-generalization-splits",
-            "dgt-base-undertraining-audit",
-            "discovery-gated-transformer",
-            "dgt-neural-ablation",
-            "dgt-ablation-null-decomposition",
-            "dgt-component-redundancy-audit",
-            "dgt-model-card",
-            "order-k-benchmark",
+        "mechanism-seeking-network",
+        "mechanism-dna",
+        "dgt-l0-controls",
+        "dgt-l1-controls",
+        "winnability-certificates",
+        "structural-generalization-splits",
+        "dgt-base-undertraining-audit",
+        "input-accessibility",
+        "discovery-gated-transformer",
+        "dgt-neural-ablation",
+        "dgt-ablation-null-decomposition",
+        "dgt-component-redundancy-audit",
+        "dgt-model-card",
+        "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
@@ -3162,6 +3163,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
             continue
         if spec.name == "dgt-component-redundancy-audit":
             assert "component_redundancy_audit" in keys
+            continue
+        if spec.name == "input-accessibility":
+            assert "source_registry" in keys
             continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
