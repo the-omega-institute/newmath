@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CantorSeriesExpansionUp$}
+\label{ch:concrete-instances-cantor-series-expansion-namecert}
+\origin{human}
+
+Following Cantor and Hardy--Wright, the $\CantorSeriesExpansionUp$ packet records a variable-base digit expansion as finite denominator-product windows before the expansion can enter the regular rational and Real seal pipeline. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the sibling Engel denominator route of \autoref{ch:concrete-instances-engel-expansion-namecert}. The packet names only finite base, digit, partial-sum, and tail-bound data; it does not quotient digit streams, select an infinite sum, invoke trichotomy, assume countable choice, or use ambient $\RealUp$ completeness.
+
+\begin{definition}[Cantor series expansion carrier]
+\label{def:cantor-series-expansion-carrier}
+A $\CantorSeriesExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,D,S,T,W,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the variable-base row, listing the accepted finite base prefix and the denominator products generated from it.
+\item $D$ is the digit-bound row, recording for each displayed base entry the corresponding finite digit and its admissible bound.
+\item $S$ is the finite partial-sum row, displaying the rational sums obtained from the visible base and digit windows.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance-ledger row, bounding the unread tail of the denominator-product expansion for each precision request.
+\item $W$ is the $\StreamNameUp$ finite-window row, selecting exactly the base, digit, partial-sum, and tail-ledger prefixes inspected by a read.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $B,D,S,T,W$ and no other numeric coordinate.
+\item $L$ is the terminal $\RealUp$ seal row, available only after the regular rational readback row is displayed.
+\item $H$ records componentwise $\hsame$ transport for the base, digit, partial-sum, tolerance-ledger, stream-window, readback, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through
+$$
+B,D,W \longmapsto S \longmapsto T \longmapsto R \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CantorSeriesExpansionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\EngelExpansionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorSeriesExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient digit-stream equality, selected infinite sums, arbitrary base-choice functions, trichotomy, countable-choice selection, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CantorSeriesExpansion NameCert obligations]
+\label{thm:cantor-series-expansion-namecert-obligations}
+For every accepted $\CantorSeriesExpansionUp$ carrier $Q=(B,D,S,T,W,R,L,H,C,P,N)$, the local $\NameCert_{\CantorSeriesExpansionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the variable-base row, digit-bound row, finite partial-sum row, dyadic tolerance ledger, stream windows, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item base-prefix visibility, requiring each denominator product consumed by a partial sum or tail bound to be generated from the displayed row $B$;
+\item digit-bound exactness, requiring every displayed digit in $D$ to be checked against the corresponding displayed base entry before $S$ is read;
+\item finite partial-sum exactness, requiring $S$ to expose only $\RatUp$ sums generated from the base and digit windows selected by $W$;
+\item dyadic tail control, requiring every unread-tail claim consumed by $R$ or $L$ to pass through the $\DyadicRatCoreUp$ ledger $T$;
+\item readback order, requiring the finite route $B,D,W \longmapsto S \longmapsto T \longmapsto R \longmapsto L$ before any Real-facing consumer receives the packet;
+\item transport, continuation replay, provenance, and local naming for exactly the rows recorded in $H,C,P,N$.
+\end{enumerate}
+No CantorSeriesExpansion NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Q=(B,D,S,T,W,R,L,H,C,P,N)$. The projection exposes the base prefix, digit bounds, partial sums, tolerance ledgers, stream windows, readback rows, and structural rows as finite BEDC coordinates.
+
+The base and digit data are read before the analytic handoff. The row $B$ supplies denominator products, while $D$ supplies only digits whose bounds have been displayed against those bases. The row $W$ fixes the finite window in which both rows may be inspected.
+
+The summation and tail steps are separate. The row $S$ records rational partial sums generated from the displayed base and digit windows, and the row $T$ records dyadic bounds for every unread tail before a regular rational or Real-facing consumer can use the expansion.
+
+Finally $R$ and $L$ are downstream of $T$. Componentwise transport in $H$ and replay in $C$ preserve the same displayed route, while $P$ and $N$ only source and name it. Since the excluded host and choice data are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CantorSeriesExpansion Real handoff]
+\label{thm:cantor-series-expansion-real-handoff}
+Let $Q=(B,D,S,T,W,R,L,H,C,P,N)$ be an accepted $\CantorSeriesExpansionUp$ carrier. Every Real-facing read of the Cantor series expansion factors through
+$$
+B,D,W \longmapsto S \longmapsto T \longmapsto R \longmapsto L
+$$
+with structural support $H,C,P,N$. Thus the consumer receives variable-base rows, digit-bound rows, finite rational partial sums, $\DyadicRatCoreUp$ tolerance ledgers, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and a terminal $\RealUp$ seal, all as finite BEDC data.
+
+The handoff supplies no quotient stream, no selected infinite sum, no arbitrary base-choice function, no trichotomy branch, no countable-choice selector, and no ambient $\RealUp$ completeness principle. It is therefore a traditional Cantor-series representation route in the L10 Real and Completion neighborhood, parallel to the Engel route but not identified with it as a host real theorem.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer of $R$ or $L$. By \autoref{def:cantor-series-expansion-carrier}, neither row is an independent real object; both are downstream of the displayed base, digit, partial-sum, stream-window, and dyadic tail-ledger rows.
+
+The consumer first reads $B$, $D$, and $W$. These rows expose the accepted denominator-product prefix, the digit bounds, and the finite window in which the expansion is being inspected.
+
+Next the consumer reads $S$ and $T$. The partial-sum row records finite rational sums, while the dyadic tolerance ledger records the unread-tail control needed before regular rational readback is public.
+
+The row $R$ then repacks the displayed sums and bounds as a $\RegSeqRatUp$ readback, and the terminal row $L$ seals only that regular rational route as a $\RealUp$ presentation. The structural rows transport, replay, package, and name the same route, so none of the excluded principles can be recovered from the packet.
+\end{proof}
+
+\closureat{CantorSeriesExpansionUp}{seedStr}
+
+\begin{closurestatus}{\CantorSeriesExpansionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-series-expansion-carrier}, \autoref{thm:cantor-series-expansion-namecert-obligations}, and \autoref{thm:cantor-series-expansion-real-handoff} seed the finite variable-base digit-expansion route through dyadic tail ledgers, stream windows, regular rational readback, and terminal Real seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient digit streams, selected infinite sums, arbitrary base-choice functions, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, bridge checking, or equivalence with sibling representations as host real objects.}
+  \upgradepath{Obligation closure requires checked carrier admission, base-prefix visibility, digit-bound exactness, finite partial-sum exactness, dyadic tail control, readback order, and Real handoff proofs for BEDC.Derived.CantorSeriesExpansionUp.}
+  \constructivestory{A $\CantorSeriesExpansionUp$ packet is generated from variable-base rows, digit-bound rows, finite partial-sum windows, DyadicRatCore tolerance ledgers, StreamName windows, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
