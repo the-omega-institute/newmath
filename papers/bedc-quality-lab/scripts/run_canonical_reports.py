@@ -1224,7 +1224,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "independent_replay",
             "l1_step_ladder",
             "l1_ood_mechanism",
-            "construct_validity_hardgates",
+            "construct_validity_ledger",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -1249,7 +1249,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[96]",
         negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
-        construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
     ),
     CanonicalReportSpec(
         name="winnability-certificates",
@@ -1352,6 +1352,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "generated_at",
             "producer",
             "owner",
+            "source_artifacts",
             "source_registry",
             "registry_digest",
             "visible_variables",
@@ -1367,13 +1368,13 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         estimated_seconds=1,
         bundle_role="auxiliary",
         scope_pointer="$.not_claimed",
-        cost_pointer="$.source_registry",
+        cost_pointer="$.source_artifacts",
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.access_hardgates.status",
         control_pointer="$.source_registry",
         no_control_rationale_pointer=None,
         evidence_envelope_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates",
-        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_registry",
+        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_artifacts",
         discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
         negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
@@ -1538,6 +1539,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         required_json_keys=(
             "schema_id",
             "card_id",
+            "generated_at",
+            "producer",
             "source_artifacts",
             "intended_use",
             "not_intended_use",
@@ -4864,7 +4867,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
     ladder = payload.get("l1_step_ladder") if isinstance(payload, Mapping) else {}
-    construct_validity = payload.get("construct_validity_hardgates") if isinstance(payload, Mapping) else {}
+    construct_validity = payload.get("construct_validity_ledger") if isinstance(payload, Mapping) else {}
     crossover = ladder.get("convergence_crossover") if isinstance(ladder, Mapping) else {}
     return {
         "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
@@ -4887,7 +4890,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
         "hardgate_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.hardgates",
         "task_spec_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.task_spec",
         "negative_witness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
-        "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
         "construct_validity_status": (
             construct_validity.get("status", "missing") if isinstance(construct_validity, Mapping) else "missing"
         ),

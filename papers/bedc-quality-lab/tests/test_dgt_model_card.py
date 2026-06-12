@@ -41,6 +41,17 @@ def _construct_validity_payload(artifact: str, updates: dict | None = None) -> d
     )
 
 
+def _l1_construct_validity_ledger(updates: dict | None = None) -> dict:
+    payload = {
+        "status": "pass",
+        "failed_gates": [],
+        "coverage_bound": {"rule_abstraction_claim": False},
+    }
+    if updates:
+        payload.update(updates)
+    return payload
+
+
 def _source_fixture(root: Path) -> None:
     _write_json(
         root,
@@ -58,7 +69,7 @@ def _source_fixture(root: Path) -> None:
         root,
         "reports/canonical/dgt-l1-controls.json",
         {
-            "construct_validity_hardgates": _construct_validity_payload("reports/canonical/dgt-l1-controls.json"),
+            "construct_validity_ledger": _l1_construct_validity_ledger(),
             "task_spec": {"task": "tiny-sequence"},
             "training_arms": {"dgt_l1": {"status": "present"}},
             "l1_tiny_sequence_projection": {
@@ -346,17 +357,8 @@ def test_l1_construct_validity_ood_label_visibility_boundary_is_card_level(tmp_p
         "reports/canonical/dgt-l1-controls.json",
         lambda source: source.update(
             {
-                "construct_validity_hardgates": _construct_validity_payload(
-                    "reports/canonical/dgt-l1-controls.json",
-                    updates={
-                        "arm_input_access": {
-                            "label_invisibility_certificate": False,
-                            "arms": {
-                                "candidate": {"variables": ["x", "y"]},
-                                "control": {"variables": ["x"]},
-                            },
-                        }
-                    },
+                "construct_validity_ledger": _l1_construct_validity_ledger(
+                    {"status": "blocked", "failed_gates": ["L1-CV-LEDGER"]}
                 )
             }
         ),
@@ -364,8 +366,8 @@ def test_l1_construct_validity_ood_label_visibility_boundary_is_card_level(tmp_p
     payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
     boundary = _construct_boundary(payload, "dgt-l1-controls")
 
-    assert boundary["status"] == "fail"
-    assert boundary["failed_gates"] == ["CV-HG2"]
+    assert boundary["status"] == "blocked"
+    assert boundary["failed_gates"] == ["L1-CV-LEDGER"]
 
     boundary["status"] = "pass"
     assert "CARD-HG5" in _errors(payload, tmp_path)
@@ -378,16 +380,12 @@ def test_l1_plateau_rule_abstraction_boundary_is_card_level(tmp_path):
         "reports/canonical/dgt-l1-controls.json",
         lambda source: source.update(
             {
-                "construct_validity_hardgates": _construct_validity_payload(
-                    "reports/canonical/dgt-l1-controls.json",
-                    updates={
-                        "finite_table": {
-                            "support_count": 64,
-                            "coverage_status": "bounded-control",
-                            "finite_pair_accuracy": 0.982,
-                            "rule_abstraction_claim": True,
-                        }
-                    },
+                "construct_validity_ledger": _l1_construct_validity_ledger(
+                    {
+                        "status": "blocked",
+                        "failed_gates": ["L1-CV-LEDGER"],
+                        "coverage_bound": {"rule_abstraction_claim": True},
+                    }
                 )
             }
         ),
@@ -395,12 +393,12 @@ def test_l1_plateau_rule_abstraction_boundary_is_card_level(tmp_path):
     payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
     boundary = _construct_boundary(payload, "dgt-l1-controls")
 
-    assert boundary["status"] == "fail"
-    assert boundary["failed_gates"] == ["CV-HG3"]
+    assert boundary["status"] == "blocked"
+    assert boundary["failed_gates"] == ["L1-CV-LEDGER"]
     assert boundary["rule_abstraction_claim"] is True
-    assert boundary["rule_abstraction_status"] == "blocked"
+    assert boundary["rule_abstraction_status"] == "not-claimed"
 
-    boundary["rule_abstraction_status"] = "not-claimed"
+    boundary["rule_abstraction_claim"] = False
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
 

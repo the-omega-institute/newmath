@@ -422,7 +422,7 @@
   "dgt_l1_controls": {
     "artifact_id": "bedc-quality-lab:dgt-l1-controls",
     "claim_capsule_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref",
-    "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+    "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
     "construct_validity_status": "pass",
     "fingerprint_artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
     "hardgate_pointer": "reports/canonical/dgt-l1-controls.json:$.hardgates",
@@ -436,10 +436,10 @@
     "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
     "schema_id": "bedc-quality-lab:dgt-l1-controls",
     "status": "pass",
-    "step_ladder_crossover": "no-information-starved-crossover-observed",
+    "step_ladder_crossover": "no-diagnostic-crossover-observed",
     "step_ladder_crossover_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
     "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-    "step_ladder_verdict": "scoped-review-signal",
+    "step_ladder_verdict": "diagnostic-only",
     "step_ladder_verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict",
     "task_spec_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
   },
@@ -711,7 +711,7 @@
   "input_accessibility": {
     "access_gate_status": "fail",
     "artifact_id": "bedc-quality-lab:input-accessibility",
-    "boundary_ledger_count": 3,
+    "boundary_ledger_count": 2,
     "boundary_ledger_pointer": "reports/canonical/input-accessibility.json:$.boundary_ledger",
     "fingerprint_artifact": "reports/canonical/input-accessibility.fingerprint.json",
     "information_starved_arms_pointer": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
@@ -719,8 +719,8 @@
     "json_artifact": "reports/canonical/input-accessibility.json",
     "markdown_artifact": "reports/canonical/input-accessibility.md",
     "ood_gate_status": "fail",
-    "registry_digest": "65b6ade09e466cb7e27780441c143cd2b87bde0020a97d3394351d754512d7c0",
-    "row_count": 5,
+    "registry_digest": "096af276a1b4bca2bf71cce367aa283e3c48741705e4c08c8821800cd2fc7af1",
+    "row_count": 8,
     "schema_id": "bedc-quality-lab:input-accessibility",
     "status": "fail",
     "unanswerable_ood_splits_pointer": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
@@ -3801,12 +3801,12 @@
       "bundle_role": "auxiliary",
       "construct_validity": {
         "failed_gates": [],
-        "pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
         "status": "pass"
       },
       "discipline": {
         "bundle_role": "auxiliary",
-        "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+        "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
         "construct_validity_status": "present",
         "control_pointer": "$.training_arms",
         "control_status": "present",
@@ -3919,7 +3919,7 @@
           "independent_replay",
           "l1_step_ladder",
           "l1_ood_mechanism",
-          "construct_validity_hardgates",
+          "construct_validity_ledger",
           "review_status",
           "promotion_readiness",
           "component_ablation_boundary",
@@ -4309,7 +4309,7 @@
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.source_registry",
         "control_status": "present",
-        "cost_pointer": "$.source_registry",
+        "cost_pointer": "$.source_artifacts",
         "cost_status": "present",
         "forbidden_claim_term_hits": [],
         "forbidden_claim_terms_status": "not-applicable",
@@ -4324,7 +4324,7 @@
           "applicability": "not-applicable",
           "cells": {
             "backend": {
-              "pointer": "reports/canonical/input-accessibility.json:$.source_registry",
+              "pointer": "reports/canonical/input-accessibility.json:$.source_artifacts",
               "source_artifact": "reports/canonical/input-accessibility.json",
               "status": "present"
             },
@@ -4339,7 +4339,7 @@
               "status": "missing"
             },
             "cost_protocol": {
-              "pointer": "$.source_registry",
+              "pointer": "$.source_artifacts",
               "source_artifact": "reports/canonical/input-accessibility.json",
               "status": "present"
             },
@@ -4410,6 +4410,7 @@
           "generated_at",
           "producer",
           "owner",
+          "source_artifacts",
           "source_registry",
           "registry_digest",
           "visible_variables",
@@ -5057,6 +5058,8 @@
         "required_json_keys": [
           "schema_id",
           "card_id",
+          "generated_at",
+          "producer",
           "source_artifacts",
           "intended_use",
           "not_intended_use",
@@ -5950,9 +5953,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -5960,7 +5963,7 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -6396,15 +6399,15 @@
     "artifact_id": "bedc-quality-lab:winnability-certificates",
     "audit_pointer": "reports/canonical/winnability-certificates.json:$.audit",
     "certificate_count": 3,
-    "fail_closed_count": 2,
+    "fail_closed_count": 0,
     "failed_count": 0,
     "hardgates_pointer": "reports/canonical/winnability-certificates.json:$.hardgates",
     "json_artifact": "reports/canonical/winnability-certificates.json",
     "markdown_artifact": "reports/canonical/winnability-certificates.md",
     "registry_digest": "44aeab0d1feef85ceaada1774158cc8adc5c9e877178e599b322ba187b3510e1",
     "status": "pass",
-    "table_coverage_count": 1,
-    "unwinnable_count": 1,
+    "table_coverage_count": 0,
+    "unwinnable_count": 0,
     "winnability_certificates": "reports/canonical/winnability-certificates.json:$.certificates"
   }
 }

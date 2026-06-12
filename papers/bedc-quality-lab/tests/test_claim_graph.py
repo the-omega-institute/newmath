@@ -159,6 +159,35 @@ def _errors(payload, root):
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {"status": "fixture"},
+            "l0_toy_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "not_claimed": ["bounded fixture only"],
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "l1_tiny_sequence_projection": {
+                "review_status": "review-line-ready",
+                "promotion_readiness": "independent-review-ready",
+                "not_claimed": ["bounded fixture only"],
+            },
+            "negative_witness_sweep": {"status": "pass"},
+            "l1_ood_mechanism": {
+                "verdict": "fixture",
+                "l2_implication": "not-claimed",
+            },
+        },
+    )
     dgt_payload = dgt_runner.build_payload(
         generated_at="2030-01-01T00:00:00+00:00",
         high_impact_review_rows=[

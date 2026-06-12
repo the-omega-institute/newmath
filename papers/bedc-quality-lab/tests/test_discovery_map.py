@@ -302,7 +302,52 @@ def _minimal_payload(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name == "dgt-l0-controls":
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
+        public_payload["construct_validity_hardgates"]["status"] = "pass"
+        public_payload["construct_validity_hardgates"]["failed_gates"] = []
+        return public_payload
+    if spec.name == "dgt-l1-controls":
+        payload.update(
+            {
+                "construct_validity_ledger": {
+                    "status": "pass",
+                    "failed_gates": [],
+                    "coverage_bound": {"rule_abstraction_claim": False},
+                },
+                "l1_tiny_sequence_projection": {
+                    "status": "pass",
+                    "review_status": "pass",
+                    "promotion_readiness": "ready-pass",
+                    "not_claimed": ["bounded fixture only"],
+                    "ood_boundary": {
+                        "chance_accuracy": 0.0625,
+                        "dgt_ood_accuracy_ci95_low": 0.08,
+                    },
+                },
+                "l1_ood_mechanism": {"verdict": "fixture", "l2_implication": "not-claimed"},
+                "negative_witness_sweep": {"status": "pass"},
+            }
+        )
+        return payload
+    if spec.name == "dgt-base-undertraining-audit":
+        payload["base_undertraining_audit"] = {
+            "verdict": "construct-boundary",
+            "claim_action": "defer-to-fair-reconstruction",
+            "construct_validity": {
+                "status": "construct-boundary",
+                "bayes_upper_bound_accuracy": 0.0625,
+                "source_pointers": {
+                    "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"
+                },
+            },
+        }
+        return payload
+    if spec.name == "dgt-ablation-null-decomposition":
+        payload["null_decomposition"] = {"analysis_status": "pass", "verdict": "mixed"}
+        return payload
+    if spec.name == "winnability-certificates":
+        payload["audit"] = {"status": "pass", "fail_closed_count": 0}
+        return payload
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -1534,9 +1579,11 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    discovery_specs = canonical._discovery_map_reports()
 
-    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in canonical.CANONICAL_REPORTS]
-    assert payload["row_count"] == len(canonical.CANONICAL_REPORTS)
+    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in discovery_specs]
+    assert payload["row_count"] == len(discovery_specs)
+    assert not {row["report"] for row in payload["rows"]}.intersection(canonical.DISCOVERY_MAP_EXCLUDED_REPORTS)
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 

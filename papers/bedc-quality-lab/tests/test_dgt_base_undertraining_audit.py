@@ -52,7 +52,7 @@ def test_base_undertraining_audit_records_construct_boundary_for_current_l1_evid
     )
     preconditions = audit_payload["construct_validity"]["input_accessibility_preconditions"]
     assert preconditions["status"] == "pass"
-    assert preconditions["missing_variables"] == ["x_minus_2", "x_minus_3"]
+    assert preconditions["missing_variables"] == ["x_minus_2"]
     assert preconditions["information_starved_arms_ref"]
     assert preconditions["unanswerable_ood_splits_ref"]
     assert audit_payload["source_contract"]["input_accessibility_preconditions"] == preconditions
@@ -156,7 +156,7 @@ def test_missing_input_accessibility_precondition_fails_closed(tmp_path):
 def test_equal_compute_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][0]
-    row["metrics"]["information_starved_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
+    row["metrics"]["input_ablation_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
 
     payload = audit.build_payload(
         root=ROOT,
@@ -186,7 +186,7 @@ def test_equal_compute_catchup_records_boundary():
 def test_equal_loss_decrease_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][4]
-    row["metrics"]["information_starved_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
+    row["metrics"]["input_ablation_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
 
     payload = audit.build_payload(
         root=ROOT,

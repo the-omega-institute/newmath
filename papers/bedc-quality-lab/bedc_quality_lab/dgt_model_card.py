@@ -68,7 +68,7 @@ SOURCE_POINTERS = {
 
 CONSTRUCT_VALIDITY_POINTERS = {
     "dgt-l0-controls": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
-    "dgt-l1-controls": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+    "dgt-l1-controls": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
 }
 
 
@@ -530,9 +530,7 @@ def _construct_validity_boundary_rows(root: Path) -> list[dict[str, Any]]:
             source_failed = source.get("failed_gates")
             if isinstance(source_failed, list):
                 failed_gates = [str(gate_id) for gate_id in source_failed]
-            finite_table = _dig(source, ("evidence", "finite_table"), {})
-            if isinstance(finite_table, Mapping):
-                rule_abstraction_claim = _boolish(finite_table.get("rule_abstraction_claim"))
+            rule_abstraction_claim = _construct_validity_rule_abstraction_claim(source)
         rows.append(
             {
                 "boundary": f"{owner} construct validity",
@@ -545,6 +543,16 @@ def _construct_validity_boundary_rows(root: Path) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def _construct_validity_rule_abstraction_claim(source: Mapping[str, Any]) -> bool:
+    finite_table = _dig(source, ("evidence", "finite_table"), {})
+    if isinstance(finite_table, Mapping) and "rule_abstraction_claim" in finite_table:
+        return _boolish(finite_table.get("rule_abstraction_claim"))
+    coverage_bound = source.get("coverage_bound")
+    if isinstance(coverage_bound, Mapping):
+        return _boolish(coverage_bound.get("rule_abstraction_claim"))
+    return False
 
 
 def _not_claimed() -> list[str]:
@@ -797,8 +805,7 @@ def _validate_construct_validity_boundaries(card: Mapping[str, Any], root: Path)
                 gate = gates.get(gate_id)
                 if not isinstance(gate, Mapping) or gate.get("status") == "pass":
                     errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} construct-validity gate state is not blocked"))
-        finite_table = _dig(source, ("evidence", "finite_table"), {})
-        rule_abstraction_claim = _boolish(finite_table.get("rule_abstraction_claim")) if isinstance(finite_table, Mapping) else False
+        rule_abstraction_claim = _construct_validity_rule_abstraction_claim(source)
         if row.get("rule_abstraction_claim") != rule_abstraction_claim:
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", f"{owner} rule-abstraction claim state differs from owner"))
         if "CV-HG3" in expected_failed and row.get("rule_abstraction_status") != "blocked":

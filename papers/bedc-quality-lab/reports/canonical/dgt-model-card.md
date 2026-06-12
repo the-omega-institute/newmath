@@ -1,4 +1,4 @@
-<!-- payload-sha256: 1ce070212af1a3ae5584215f84aa998dfa7de93e9d4ef22e16ee24724bae2d99 -->
+<!-- payload-sha256: 53d9be488de2413503c82b6ef04bff0336eba535f54b80d4b873b3ec7b24edab -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
@@ -26,7 +26,7 @@
 - fair architecture comparison: `defer-to-fair-reconstruction` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit`)
 - ablation null interpretation: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
 - dgt-l0-controls construct validity: `fail` (`reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates`)
-- dgt-l1-controls construct validity: `pass` (`reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates`)
+- dgt-l1-controls construct validity: `pass` (`reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger`)
 
 ## Known Failure Modes
 

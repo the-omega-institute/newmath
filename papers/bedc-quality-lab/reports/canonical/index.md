@@ -38,7 +38,7 @@
 | `winnability-certificates` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/winnability-certificates.json` | `reports/canonical/winnability-certificates.md` | `reports/canonical/winnability-certificates.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.audit.fail_closed_count` | `$.hardgates` |
 | `structural-generalization-splits` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/structural-generalization-splits.json` | `reports/canonical/structural-generalization-splits.md` | `reports/canonical/structural-generalization-splits.fingerprint.json` | `$.split_registry` | `$.source_artifacts` | `$.not_claimed` | `$.split_rows` | `$.classifier_rows` |
 | `dgt-base-undertraining-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-base-undertraining-audit.json` | `reports/canonical/dgt-base-undertraining-audit.md` | `reports/canonical/dgt-base-undertraining-audit.fingerprint.json` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.source_contract` | `$.base_undertraining_audit.not_claimed` | `$.base_undertraining_audit.verdict` | `$.base_undertraining_audit.comparison_rows` |
-| `input-accessibility` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/input-accessibility.json` | `reports/canonical/input-accessibility.md` | `reports/canonical/input-accessibility.fingerprint.json` | `$.not_claimed` | `$.source_registry` | `$.not_claimed` | `$.access_hardgates.status` | `$.source_registry` |
+| `input-accessibility` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/input-accessibility.json` | `reports/canonical/input-accessibility.md` | `reports/canonical/input-accessibility.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.access_hardgates.status` | `$.source_registry` |
 | `dgt-neural-ablation` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-neural-ablation.json` | `reports/canonical/dgt-neural-ablation.md` | `reports/canonical/dgt-neural-ablation.fingerprint.json` | `$.not_claimed` | `$.training_protocol` | `$.not_claimed` | `$.component_causal_claims` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-ablation-null-decomposition.json` | `reports/canonical/dgt-ablation-null-decomposition.md` | `reports/canonical/dgt-ablation-null-decomposition.fingerprint.json` | `$.not_claimed` | `$.source_artifact` | `$.not_claimed` | `$.null_decomposition.verdict` | `$.source_artifact` |
 | `dgt-component-redundancy-audit` | `pass` | `not-applicable` | `not-applicable` | `` | `reports/canonical/dgt-component-redundancy-audit.json` | `reports/canonical/dgt-component-redundancy-audit.md` | `reports/canonical/dgt-component-redundancy-audit.fingerprint.json` | `$.component_redundancy_audit.scope` | `$.component_redundancy_audit.source_artifacts` | `$.component_redundancy_audit.not_claimed` | `$.component_redundancy_audit.global_recommendation` | `$.component_redundancy_audit.source_artifacts` |
@@ -242,7 +242,7 @@
 - JSON: `reports/canonical/winnability-certificates.json`
 - Markdown: `reports/canonical/winnability-certificates.md`
 - Certificates: `3`
-- Fail-closed: `2`
+- Fail-closed: `0`
 - Audit: `reports/canonical/winnability-certificates.json:$.audit`
 - Hardgates: `reports/canonical/winnability-certificates.json:$.hardgates`
 
