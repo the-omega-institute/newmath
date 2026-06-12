@@ -2680,6 +2680,7 @@ import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.ClusterFilterUp.CauchyCompletionHandoff
 import BEDC.Derived.ClusterFilterUp.TasteGate
+import BEDC.Derived.CodonLiftOrbitClassifierUp.TasteGate
 import BEDC.Derived.CodonSixBitWindowUp.TasteGate
 import BEDC.Derived.CodonTransitionMatrixUp.TasteGate
 import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
@@ -5826,6 +5827,7 @@ import BEDC.Derived.LawlessSequenceUp.StreamNameWindowObligation
 import BEDC.Derived.LawlessSequenceUp.TasteGate
 import BEDC.Derived.LawlikeSequenceUp.NameCertObligations
 import BEDC.Derived.LawlikeSequenceUp.TasteGate
+import BEDC.Derived.LawvereMetricUp
 import BEDC.Derived.LaxMilgramUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
