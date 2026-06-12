@@ -64,6 +64,16 @@ from bedc_quality_lab.mechanism_dna import (
     MARKDOWN_ARTIFACT as MECHANISM_DNA_MARKDOWN_ARTIFACT,
     REQUIRED_REF_FIELDS as MECHANISM_DNA_REQUIRED_REF_FIELDS,
 )
+from bedc_quality_lab.reproduction_package import (
+    CHECK_RESULT_ARTIFACT_ID as REPRODUCTION_CHECK_RESULT_ARTIFACT_ID,
+    CHECK_RESULT_JSON_ARTIFACT as REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT,
+    CHECK_RESULT_MARKDOWN_ARTIFACT as REPRODUCTION_CHECK_RESULT_MARKDOWN_ARTIFACT,
+    CHECK_RESULT_SCHEMA_ID as REPRODUCTION_CHECK_RESULT_SCHEMA_ID,
+    PACKAGE_ARTIFACT_ID as REPRODUCTION_PACKAGE_ARTIFACT_ID,
+    PACKAGE_JSON_ARTIFACT as REPRODUCTION_PACKAGE_JSON_ARTIFACT,
+    PACKAGE_MARKDOWN_ARTIFACT as REPRODUCTION_PACKAGE_MARKDOWN_ARTIFACT,
+    PACKAGE_SCHEMA_ID as REPRODUCTION_PACKAGE_SCHEMA_ID,
+)
 from bedc_quality_lab.metric_purity import run_metric_purity_audit
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
@@ -175,6 +185,10 @@ SCALING_LADDER_JSON_ARTIFACT = "reports/canonical/scaling-ladder.json"
 SCALING_LADDER_MARKDOWN_ARTIFACT = "reports/canonical/scaling-ladder.md"
 SCALING_LADDER_ARTIFACT_ID = "bedc-quality-lab:scaling-ladder"
 SCALING_LADDER_SCHEMA_ID = "bedc-quality-lab:scaling-ladder"
+FAIR_L1_DECISION_JSON_ARTIFACT = "reports/canonical/fair-l1-decision.json"
+FAIR_L1_DECISION_MARKDOWN_ARTIFACT = "reports/canonical/fair-l1-decision.md"
+FAIR_L1_DECISION_ARTIFACT_ID = "bedc-quality-lab:fair-l1-decision"
+FAIR_L1_DECISION_SCHEMA_ID = "bedc-quality-lab:fair-l1-decision"
 INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
 INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT = "reports/canonical/input-accessibility.md"
 INPUT_ACCESSIBILITY_ARTIFACT_ID = "bedc-quality-lab:input-accessibility"
@@ -194,6 +208,8 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "high-impact-review",
         "dgt-l1-controls",
         "scaling-ladder",
+        "reproduction-package",
+        "reproduction-check-result",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -1276,6 +1292,71 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
     ),
     CanonicalReportSpec(
+        name="reproduction-package",
+        command=("python3", "scripts/run_reproduction_package.py"),
+        json_artifact=REPRODUCTION_PACKAGE_JSON_ARTIFACT,
+        markdown_artifact=REPRODUCTION_PACKAGE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "owner_module",
+            "source_artifacts",
+            "reproduction_targets",
+            "projection_regen_refs",
+            "hardgates",
+            "claim_capsule_ref",
+            "cost_protocol",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.reproduction_targets",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.hardgates",
+        control_pointer="$.projection_regen_refs",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.claim_capsule_ref",
+        evidence_envelope_pointer=f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$.reproduction_targets",
+        backend_pointer=f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$.hardgates",
+        negative_witness_pointer=f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$.not_claimed",
+        formal_status_pointer=f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
+        name="reproduction-check-result",
+        command=("python3", "scripts/run_reproduction_package.py"),
+        json_artifact=REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT,
+        markdown_artifact=REPRODUCTION_CHECK_RESULT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "source_artifacts",
+            "package_ref",
+            "profile",
+            "target_results",
+            "blocked_targets",
+            "failed_targets",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.target_results",
+        cost_pointer="$.package_ref",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.target_results",
+        control_pointer=None,
+        no_control_rationale_pointer="$.not_claimed",
+        evidence_envelope_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+        backend_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.package_ref",
+        discovery_level_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.profile",
+        negative_witness_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.blocked_targets",
+        formal_status_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+    ),
+    CanonicalReportSpec(
         name="winnability-certificates",
         command=("python3", "scripts/run_winnability_certificates.py"),
         json_artifact=WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
@@ -1442,6 +1523,40 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
         negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
+    ),
+    CanonicalReportSpec(
+        name="fair-l1-decision",
+        command=("python3", "scripts/run_fair_l1_decision.py"),
+        json_artifact=FAIR_L1_DECISION_JSON_ARTIFACT,
+        markdown_artifact=FAIR_L1_DECISION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "fair_alignment",
+            "hardgates",
+            "decision",
+            "ladder_state_projection",
+            "boundary_ledger",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.decision.status",
+        control_pointer="$.fair_alignment.comparison_rows",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.decision.claim_capsule",
+        evidence_envelope_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        backend_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        negative_witness_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.boundary_ledger",
+        formal_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
+        construct_validity_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.construct_validity_projection",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -2238,11 +2353,14 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
                 ),
             }
         )
+    if spec.name == "fair-l1-decision":
+        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     if spec.name == "dgt-model-card":
         paths.update(
             (
                 DGT_L0_CONTROLS_JSON_ARTIFACT,
                 DGT_L1_CONTROLS_JSON_ARTIFACT,
+                FAIR_L1_DECISION_JSON_ARTIFACT,
                 DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
                 DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
                 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
@@ -2254,6 +2372,21 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         input_accessibility = ROOT / "reports/canonical/input-accessibility.json"
         if input_accessibility.exists():
             paths.add("reports/canonical/input-accessibility.json")
+    if spec.name == "reproduction-package":
+        paths.update(
+            (
+                DGT_L0_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+                DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                "reports/canonical/claim_capsule.json",
+                "reports/canonical/claim_graph.json",
+                "reports/canonical/index.json",
+            )
+        )
+    if spec.name == "reproduction-check-result":
+        paths.update((REPRODUCTION_PACKAGE_JSON_ARTIFACT, REPRODUCTION_PACKAGE_JSON_ARTIFACT.replace(".json", ".fingerprint.json")))
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     return [
@@ -2447,6 +2580,21 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_winnability_certificates import write_winnability_certificates
 
         write_winnability_certificates(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "reproduction-package":
+        from scripts.run_reproduction_package import write_check_result, write_package
+
+        timestamp = generated_at or datetime.now(timezone.utc).isoformat()
+        write_package(ROOT, timestamp)
+        write_check_result(ROOT, profile="structural", target_ids=(), generated_at=timestamp)
+        return
+    if spec.name == "reproduction-check-result":
+        from scripts.run_reproduction_package import write_check_result, write_package
+
+        timestamp = generated_at or datetime.now(timezone.utc).isoformat()
+        if not (ROOT / REPRODUCTION_PACKAGE_JSON_ARTIFACT).exists():
+            write_package(ROOT, timestamp)
+        write_check_result(ROOT, profile="structural", target_ids=(), generated_at=timestamp)
         return
     if spec.name == "structural-generalization-splits":
         from bedc_quality_lab.structural_generalization_splits import (
@@ -4702,8 +4850,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     }:
         raise ValueError("DGT construct suspension owner ref mismatch")
     if source_artifacts.get("interpretation_boundary_ref") != {
-        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
-        "pointer": "$.l1_tiny_sequence_projection",
+        "artifact": FAIR_L1_DECISION_JSON_ARTIFACT,
+        "pointer": "$.ladder_state_projection",
     }:
         raise ValueError("DGT interpretation boundary owner ref mismatch")
     if source_artifacts.get("negative_witness_sweep_ref") != {
@@ -4887,6 +5035,8 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
         "interpretation_boundary_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -4982,6 +5132,8 @@ def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
+        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
+        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
         "interpretation_boundary_ref_pointer": f"{artifact}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{artifact}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -6202,6 +6354,39 @@ def _experiment_stack_cards_index_section() -> dict[str, Any]:
     }
 
 
+def _reproduction_package_index_section() -> dict[str, Any]:
+    package = _load_artifact_payload(REPRODUCTION_PACKAGE_JSON_ARTIFACT)
+    check = _load_artifact_payload(REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT)
+    targets = package.get("reproduction_targets") if isinstance(package.get("reproduction_targets"), list) else []
+    full_count = sum(1 for row in targets if isinstance(row, Mapping) and row.get("target_kind") == "full-repro-ci")
+    projection_count = sum(1 for row in targets if isinstance(row, Mapping) and row.get("target_kind") == "projection-only")
+    hardgates = package.get("hardgates") if isinstance(package.get("hardgates"), Mapping) else {}
+    return {
+        "status": "pointer-only" if package else "missing-owner-artifact",
+        "artifact_id": package.get("artifact_id", REPRODUCTION_PACKAGE_ARTIFACT_ID),
+        "schema_id": package.get("schema_id", REPRODUCTION_PACKAGE_SCHEMA_ID),
+        "json_artifact": REPRODUCTION_PACKAGE_JSON_ARTIFACT,
+        "markdown_artifact": REPRODUCTION_PACKAGE_MARKDOWN_ARTIFACT,
+        "fingerprint": "reports/canonical/reproduction-package.fingerprint.json",
+        "check_result_json": REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT,
+        "check_result_markdown": REPRODUCTION_CHECK_RESULT_MARKDOWN_ARTIFACT,
+        "check_result_artifact_id": check.get("artifact_id", REPRODUCTION_CHECK_RESULT_ARTIFACT_ID),
+        "check_result_schema_id": check.get("schema_id", REPRODUCTION_CHECK_RESULT_SCHEMA_ID),
+        "package_pointer": f"{REPRODUCTION_PACKAGE_JSON_ARTIFACT}:$",
+        "check_result_pointer": f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$",
+        "full_repro_target_count": full_count,
+        "projection_only_target_count": projection_count,
+        "hardgate_statuses": {
+            gate_id: row.get("status", "missing")
+            for gate_id, row in hardgates.items()
+            if isinstance(row, Mapping)
+        },
+        "check_profile": check.get("profile", "missing"),
+        "blocked_target_count": len(check.get("blocked_targets", [])) if isinstance(check.get("blocked_targets"), list) else 0,
+        "failed_target_count": len(check.get("failed_targets", [])) if isinstance(check.get("failed_targets"), list) else 0,
+    }
+
+
 def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
     return {
@@ -6343,12 +6528,35 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     model_card_errors: list[dict[str, str]] = []
     if spec.name == "dgt-model-card" and key_validation["status"] == "pass" and not missing_artifacts:
         model_card_errors = [error.as_dict() for error in validate_dgt_model_card(_load_report_payload(spec), ROOT)]
+    reproduction_errors: list[dict[str, str]] = []
+    if spec.name == "reproduction-package" and key_validation["status"] == "pass" and not missing_artifacts:
+        from bedc_quality_lab.reproduction_package import validate_package
+
+        try:
+            validate_package(_load_report_payload(spec), ROOT)
+        except ValueError as exc:
+            reproduction_errors.append({"path": spec.json_artifact, "message": str(exc)})
+    if spec.name == "reproduction-check-result" and key_validation["status"] == "pass" and not missing_artifacts:
+        payload = _load_report_payload(spec)
+        rows = payload.get("target_results")
+        if payload.get("schema_id") != REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
+            reproduction_errors.append({"path": "$.schema_id", "message": "invalid reproduction check-result schema"})
+        if not isinstance(rows, list):
+            reproduction_errors.append({"path": "$.target_results", "message": "target_results must be a list"})
+        elif any(
+            not isinstance(row, Mapping)
+            or row.get("status") not in {"pass", "blocked", "fail"}
+            or row.get("target_kind") not in {"full-repro-ci", "projection-only"}
+            for row in rows
+        ):
+            reproduction_errors.append({"path": "$.target_results", "message": "invalid target result row"})
     status = (
         "pass"
         if key_validation["status"] == "pass"
         and not missing_artifacts
         and not semantic_errors
         and not model_card_errors
+        and not reproduction_errors
         else "fail"
     )
     return {
@@ -6358,6 +6566,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "required_key_validation": key_validation,
         "semantic_errors": semantic_errors,
         "model_card_errors": model_card_errors,
+        "reproduction_errors": reproduction_errors,
     }
 
 
@@ -6463,6 +6672,39 @@ def _run_spec(
     return result
 
 
+def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
+    if result.get("status") == "pass":
+        return False
+    if result.get("name") == "fair-l1-decision":
+        decision_status = _resolve_committed_artifact_pointer(
+            ROOT,
+            f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        )
+        return decision_status != "bounded-negative"
+    return True
+
+
+def _replace_result_rows(
+    results: Sequence[dict[str, Any]],
+    replacements: Sequence[dict[str, Any]],
+    *,
+    append_missing: bool = True,
+) -> list[dict[str, Any]]:
+    replacement_by_name = {row["name"]: row for row in replacements}
+    seen: set[str] = set()
+    updated: list[dict[str, Any]] = []
+    for result in results:
+        name = result["name"]
+        if name in replacement_by_name:
+            updated.append(replacement_by_name[name])
+            seen.add(name)
+        else:
+            updated.append(result)
+    if append_missing:
+        updated.extend(row for row in replacements if row["name"] not in seen)
+    return updated
+
+
 def _index(
     results: Sequence[dict[str, Any]],
     *,
@@ -6522,6 +6764,7 @@ def _index(
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "mechanism_dna": _mechanism_dna_index_section(),
         "experiment_stack_cards": _experiment_stack_cards_index_section(),
+        "reproduction_package": _reproduction_package_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
@@ -6793,6 +7036,18 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Claim-first gate: `{payload['experiment_stack_cards']['claim_first_gate_pointer']}`",
             f"- Blocked card ids: `{payload['experiment_stack_cards']['blocked_card_ids_pointer']}`",
             f"- Blocked card count: `{payload['experiment_stack_cards']['blocked_card_count']}`",
+            "",
+            "## Reproduction Package",
+            "",
+            f"- Status: `{payload['reproduction_package']['status']}`",
+            f"- Package JSON: `{payload['reproduction_package']['json_artifact']}`",
+            f"- Package Markdown: `{payload['reproduction_package']['markdown_artifact']}`",
+            f"- Fingerprint: `{payload['reproduction_package']['fingerprint']}`",
+            f"- Check result JSON: `{payload['reproduction_package']['check_result_json']}`",
+            f"- Check result Markdown: `{payload['reproduction_package']['check_result_markdown']}`",
+            f"- Full-repro targets: `{payload['reproduction_package']['full_repro_target_count']}`",
+            f"- Projection-only targets: `{payload['reproduction_package']['projection_only_target_count']}`",
+            f"- Check profile: `{payload['reproduction_package']['check_profile']}`",
             "",
             "## Issue 1012 sidecars",
             "",
@@ -7280,6 +7535,14 @@ def run_reports(
             run_spec_names.add(dgt_l0_spec.name)
             _run_metric_purity_post_generation((dgt_l0_spec.json_artifact,))
             _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
+    fair_l1_spec = _specs_by_name().get("fair-l1-decision")
+    if fair_l1_spec is not None:
+        fair_l1_selected = any(spec.name in {"fair-l1-decision", "discovery-gated-transformer", "dgt-model-card"} for spec in selected_specs)
+        if (only is None or fair_l1_selected) and fair_l1_spec.name not in run_spec_names:
+            results.append(_run_spec(fair_l1_spec, mode=mode, generated_at=timestamp))
+            run_spec_names.add(fair_l1_spec.name)
+            _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
+            _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
     discovery_gated_transformer: Mapping[str, Any] | None = None
     if only is None or dgt_full_selected:
         from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
@@ -7308,13 +7571,22 @@ def run_reports(
         _artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT),
         _render_model_comparison_markdown(model_comparison),
     )
-    model_comparison_spec = _specs_by_name().get("model-comparison")
     if mode in {"verify", "cold"}:
+        refreshed_late_results: list[dict[str, Any]] = []
         for late_fingerprint_name in ("model-comparison", "causal-patch-suite", "mechanism-dna"):
             late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
             if late_fingerprint_spec is not None:
                 _run_metric_purity_post_generation((late_fingerprint_spec.json_artifact,))
                 _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+                refreshed_late_results.append(_run_spec(late_fingerprint_spec, mode="verify", generated_at=timestamp))
+        if refreshed_late_results:
+            results = _replace_result_rows(results, refreshed_late_results, append_missing=False)
+            scorecard = _build_quality_scorecard(results, generated_at=timestamp)
+            _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
+            _write_text_atomic(
+                _artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT),
+                _render_quality_scorecard_markdown(scorecard),
+            )
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
@@ -7404,12 +7676,36 @@ def run_reports(
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
+    reproduction_package_spec = _specs_by_name().get("reproduction-package")
+    reproduction_check_spec = _specs_by_name().get("reproduction-check-result")
+    if (
+        reproduction_package_spec is not None
+        and reproduction_check_spec is not None
+        and any(spec.name in {"reproduction-package", "reproduction-check-result"} for spec in selected_specs)
+    ):
+        _write_fingerprint_sidecar(reproduction_package_spec, generated_at=timestamp)
+        from scripts.run_reproduction_package import write_check_result
+
+        write_check_result(ROOT, profile="structural", target_ids=(), generated_at=timestamp)
+        _write_fingerprint_sidecar(reproduction_check_spec, generated_at=timestamp)
+        check_result = _run_spec(reproduction_check_spec, mode="verify", generated_at=timestamp)
+        results = _replace_result_rows(results, (check_result,))
+        payload = _index(
+            results,
+            generated_at=timestamp,
+            claim_verdict_rows=claim_verdict_rows,
+            discovery_gated_transformer_payload=discovery_gated_transformer,
+        )
+        _write_json_atomic(INDEX_ARTIFACT, payload)
+        _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+        _write_fingerprint_sidecar(reproduction_package_spec, generated_at=timestamp)
+        _write_fingerprint_sidecar(reproduction_check_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:
         if any(result["status"] == "error" or result["fingerprint_status"] == "miss" for result in results):
             raise SystemExit(1)
-    elif any(result["status"] != "pass" for result in results):
+    elif any(_result_blocks_changed_run(result) for result in results):
         raise SystemExit(1)
     return payload
 

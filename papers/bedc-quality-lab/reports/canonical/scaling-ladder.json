@@ -1,22 +1,12 @@
 {
   "artifact_id": "bedc-quality-lab:scaling-ladder",
-  "boundary_ledger": [
-    {
-      "failed_contract_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
-      "level_id": "L1_tiny_sequence",
-      "new_state": "boundary",
-      "owner_pointer": "reports/canonical/scaling-ladder.json:$.levels",
-      "prior_state": "open",
-      "reason": "stale-or-injected",
-      "recorded_at": "2026-06-12T09:33:41.573506+00:00"
-    }
-  ],
+  "boundary_ledger": [],
   "consumer_pointers": {
     "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
     "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
     "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels"
   },
-  "generated_at": "2026-06-12T09:33:41.573506+00:00",
+  "generated_at": "2026-06-12T06:36:23.020151+00:00",
   "hardgates": {
     "SL-HG1-evidence-provenance": {
       "pointer": "reports/canonical/index.json:$.evidence_provenance",
@@ -36,7 +26,7 @@
     },
     "SL-HG5-no-injected-opening": {
       "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
-      "status": "fail"
+      "status": "pass"
     }
   },
   "levels": [
@@ -110,11 +100,11 @@
         }
       },
       "owner_decision_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision",
-      "reason": "stale-or-injected",
+      "reason": "unresolved-pointer",
       "separation_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation",
       "source_report_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
       "split_winnability_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability",
-      "state": "boundary"
+      "state": "closed"
     }
   ],
   "not_claimed": [

@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-12T09:33:41.573506+00:00",
+  "generated_at": "2026-06-12T06:36:23.020151+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -103,6 +103,16 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/reproduction-package.json",
+      "name": "reproduction-package",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/reproduction-check-result.json",
+      "name": "reproduction-check-result",
+      "status": "pass"
+    },
+    {
       "json_artifact": "reports/canonical/winnability-certificates.json",
       "name": "winnability-certificates",
       "status": "pass"
@@ -126,6 +136,11 @@
       "json_artifact": "reports/canonical/input-accessibility.json",
       "name": "input-accessibility",
       "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "name": "fair-l1-decision",
+      "status": "fail"
     },
     {
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -299,9 +314,9 @@
       "value": 10
     },
     {
-      "denominator": 38,
+      "denominator": 41,
       "metric": "ScopeCompleteness",
-      "numerator": 38,
+      "numerator": 41,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -409,6 +424,16 @@
           "report": "dgt-l1-controls"
         },
         {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.reproduction_targets",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.target_results",
+          "report": "reproduction-check-result"
+        },
+        {
           "artifact": "reports/canonical/winnability-certificates.json",
           "pointer": "$.not_claimed",
           "report": "winnability-certificates"
@@ -432,6 +457,11 @@
           "artifact": "reports/canonical/input-accessibility.json",
           "pointer": "$.not_claimed",
           "report": "input-accessibility"
+        },
+        {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.not_claimed",
+          "report": "fair-l1-decision"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -498,9 +528,9 @@
       "value": 1.0
     },
     {
-      "denominator": 38,
+      "denominator": 41,
       "metric": "CostProtocolCompleteness",
-      "numerator": 38,
+      "numerator": 41,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -608,6 +638,16 @@
           "report": "dgt-l1-controls"
         },
         {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.cost_protocol",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.package_ref",
+          "report": "reproduction-check-result"
+        },
+        {
           "artifact": "reports/canonical/winnability-certificates.json",
           "pointer": "$.source_artifacts",
           "report": "winnability-certificates"
@@ -631,6 +671,11 @@
           "artifact": "reports/canonical/input-accessibility.json",
           "pointer": "$.source_registry",
           "report": "input-accessibility"
+        },
+        {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.source_artifacts",
+          "report": "fair-l1-decision"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
