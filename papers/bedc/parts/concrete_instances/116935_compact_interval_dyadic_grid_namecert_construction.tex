@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalDyadicGridUp$}
+\label{ch:concrete-instances-compact-interval-dyadic-grid-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive interval compactness, the $\CompactIntervalDyadicGridUp$ packet records a finite dyadic endpoint grid over a displayed closed Real interval. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the closed interval boundary of \autoref{ch:concrete-instances-closedboundedinterval-namecert}. The packet names a constructive finite grid object for Real and Completion consumers; it is not Heine--Borel compactness, not open-cover compactness, not a selected limit principle, not trichotomy, not quotient real equality, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[CompactIntervalDyadicGrid carrier]
+\label{def:compact-interval-dyadic-grid-carrier}
+A $\CompactIntervalDyadicGridUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,\delta,E,M,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row naming the lower and upper $\RealUp$ endpoint seals, endpoint order data, and interval-containment boundary.
+\item $\delta$ is the positive $\DyadicRatCoreUp$ mesh row used as the displayed grid precision.
+\item $E$ is the endpoint-containment row recording dyadic lower and upper endpoint brackets for $I$ at mesh $\delta$.
+\item $M$ is the finite mesh row listing the dyadic grid cells between the endpoint brackets.
+\item $W$ is the finite window row exposing the $\StreamNameUp$ observations used to read the endpoint brackets and each grid cell.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ handoff row sealing the endpoint and cell reads as regular rational names and terminal Real-facing rows.
+\item $H$ records componentwise $\hsame$ transport for the interval source, dyadic mesh, endpoint containment, finite mesh, finite windows, regular handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-and-mesh request through $I,\delta,E,M,W,R,H,P,N$ without adding an off-grid point.
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalDyadicGridUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactIntervalDyadicGridUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $I,\delta,E,M,W,R,H,C,P,N$. It has no coordinate for an arbitrary open cover, a choice-selected finite subcover, a selected limit point, trichotomy for Real endpoints, quotient real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[CompactIntervalDyadicGrid NameCert obligations]
+\label{thm:compact-interval-dyadic-grid-namecert-obligations}
+For every accepted $\CompactIntervalDyadicGridUp$ carrier $G=(I,\delta,E,M,W,R,H,C,P,N)$, the local $\NameCert_{\CompactIntervalDyadicGridUp}$ surface consists exactly of carrier admission for the closed interval source, dyadic mesh, endpoint-containment, finite mesh, finite window, regular-rational handoff, and Real-facing seal rows; componentwise classifier transport through $H$; displayed continuation replay through $C$; provenance through $P$; local naming through $N$; and nonescape from arbitrary open covers, selected finite subcovers, selected limits, trichotomy, quotient real equality, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-interval-dyadic-grid-carrier}. The only interval source is $I$, the only mesh source is $\delta$, the only endpoint-containment source is $E$, and the only finite grid source is $M$.
+
+The finite observation and completion-facing reads are carried by $W$ and $R$. Thus every endpoint bracket and cell row is consumed through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ after the dyadic mesh has already been displayed.
+
+The transport row $H$ preserves these rows componentwise, and $C$ replays the same interval-and-mesh request without adding an off-grid point. The provenance and local naming rows only source and name the same finite packet, so the listed obligations exhaust the NameCert surface and exclude the nonlocal objects named in the statement.
+\end{proof}
+
+\begin{theorem}[CompactIntervalDyadicGrid Real handoff]
+\label{thm:compact-interval-dyadic-grid-real-handoff}
+Every accepted $\CompactIntervalDyadicGridUp$ read is consumed through the route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto \ClosedBoundedIntervalUp .
+$$
+In this route the dyadic mesh row $\delta$ and endpoint-containment row $E$ are read before finite stream windows $W$, the regular-rational and Real handoff row $R$, and the closed interval source row $I$ are consumed by a Real or Completion-facing client. The route exports a finite endpoint grid and nonescape certificate, not Heine--Borel compactness, open-cover compactness, selected limits, trichotomy, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the dyadic mesh row $\delta$ and endpoint-containment row $E$. They are the only rows that determine the grid precision and endpoint brackets, so the finite mesh row $M$ can only be read after the $\DyadicRatCoreUp$ source has been exposed.
+
+Next read the finite observation row $W$. It binds the endpoint brackets and each grid cell to displayed $\StreamNameUp$ windows rather than to an ambient subset of a host real line.
+
+Finally pass through $R$ and $I$. The row $R$ gives the $\RegSeqRatUp$ and $\RealUp$ handoff for the endpoint and cell reads, while $I$ supplies the $\ClosedBoundedIntervalUp$ boundary consumed by the downstream interval client.
+
+No carrier coordinate remains for an open cover, selected subcover, selected limit, trichotomy, quotient equality, or ambient completeness theorem. The handoff is therefore the displayed finite L10 route and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompactIntervalDyadicGridUp$ consumer that reads a finite endpoint grid over a closed Real interval must display the closed interval source, dyadic mesh, endpoint-containment row, finite mesh row, finite stream windows, RegSeqRat/Real handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{closedboundedinterval, dyadicratcore, streamname, regseqrat, real: none is bijective with $\CompactIntervalDyadicGridUp$ because this packet alone binds a displayed closed Real interval to a finite dyadic endpoint grid, finite observation windows, regular-rational handoff, nonescape replay, provenance, and local naming.}
+
+\closureat{CompactIntervalDyadicGridUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalDyadicGridUp}
+  \constructivestory{A $\CompactIntervalDyadicGridUp$ packet is generated from a closed bounded interval source, a DyadicRatCore mesh, endpoint-containment rows, finite mesh rows, StreamName observations, RegSeqRat and Real handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-dyadic-grid-carrier}, \autoref{thm:compact-interval-dyadic-grid-namecert-obligations}, and \autoref{thm:compact-interval-dyadic-grid-real-handoff} seed the finite dyadic endpoint-grid packet over ClosedBoundedInterval, DyadicRatCore, StreamName, RegSeqRat, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, selected limits, trichotomy, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic mesh exactness, endpoint containment, RegSeqRat and Real handoff, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.CompactIntervalDyadicGridUp.}
+\end{closurestatus}
