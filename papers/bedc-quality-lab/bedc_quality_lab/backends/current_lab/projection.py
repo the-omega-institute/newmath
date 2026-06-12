@@ -145,6 +145,11 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
+DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
+DGT_L0_LADDER_CONSUMPTION_REF = {
+    "artifact": DGT_L0_CONTROLS_ARTIFACT,
+    "pointer": "$.l0_toy_projection.ladder_consumption",
+}
 DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
@@ -1154,6 +1159,18 @@ def _dgt_scaling_ladder_projection_status(payload: Mapping[str, Any]) -> tuple[b
     ladder = pointer_value(payload, "$.scaling_ladder")
     if not isinstance(ladder, Mapping):
         return False, "missing-dgt_scaling_ladder_owner", "$.scaling_ladder"
+    if ladder.get("ladder_consumption_ref") != DGT_L0_LADDER_CONSUMPTION_REF:
+        return False, "dgt_scaling_ladder_owner-l0-ladder-consumption-pointer-mismatch", "$.scaling_ladder.ladder_consumption_ref"
+    levels = ladder.get("levels")
+    if not isinstance(levels, list) or not levels:
+        return False, "dgt_scaling_ladder_owner-l0-level-missing", "$.scaling_ladder.levels"
+    l0_capsule = levels[0].get("claim_capsule") if isinstance(levels[0], Mapping) else None
+    if not isinstance(l0_capsule, Mapping):
+        return False, "dgt_scaling_ladder_owner-l0-capsule-missing", "$.scaling_ladder.levels[0].claim_capsule"
+    if l0_capsule.get("ladder_consumption_ref") != DGT_L0_LADDER_CONSUMPTION_REF:
+        return False, "dgt_scaling_ladder_owner-l0-capsule-pointer-mismatch", "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_ref"
+    if l0_capsule.get("ladder_consumption_status") != "open":
+        return False, "dgt_scaling_ladder_owner-l0-ladder-consumption-not-open", "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_status"
     hardgate = ladder.get("hardgate")
     if not isinstance(hardgate, Mapping):
         return False, "dgt_scaling_ladder_owner-hardgate-missing", "$.scaling_ladder.hardgate"
