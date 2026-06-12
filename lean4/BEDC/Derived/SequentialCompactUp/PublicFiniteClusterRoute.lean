@@ -110,4 +110,74 @@ theorem SequentialCompactPublicFiniteClusterRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem SequentialCompactPublicClusterExport [AskSetup] [PackageSetup]
+    {K B S W R E H C P N clusterRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg ->
+      Cont W R clusterRead -> Cont clusterRead E publicRead -> PkgSig bundle publicRead pkg ->
+        SemanticNameCert (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row B ∨ hsame row S ∨ hsame row W ∨ hsame row R ∨
+              hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row clusterRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W R clusterRead ∧ Cont clusterRead E publicRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+          hsame ∧ UnaryHistory clusterRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: SequentialCompactCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier clusterRoute publicRoute publicPkg
+  obtain ⟨_kUnary, _bUnary, _sUnary, unaryW, unaryR, unaryE, _hUnary, _cUnary,
+    _pUnary, _nUnary, _compactBaireStream, _streamWindowRegular, _regularSealTransport,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have clusterUnary : UnaryHistory clusterRead :=
+    unary_cont_closed unaryW unaryR clusterRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed clusterUnary unaryE publicRoute
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row K ∨ hsame row B ∨ hsame row S ∨ hsame row W ∨ hsame row R ∨
+            hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+              hsame row clusterRead ∨ hsame row publicRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont W R clusterRead ∧ Cont clusterRead E publicRead ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, clusterRoute, publicRoute, provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, clusterUnary, publicUnary⟩
+
 end BEDC.Derived.SequentialCompactUp
