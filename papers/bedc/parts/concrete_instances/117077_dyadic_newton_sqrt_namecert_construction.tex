@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\DyadicNewtonSqrtUp$}
+\label{ch:concrete-instances-dyadic-newton-sqrt-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the classical Newton method for square roots, the $\DyadicNewtonSqrtUp$ packet records the finite dyadic data needed to run a guarded Newton square-root computation before any completed real quotient, selected limit, or host square-root function is available. It sits between the dyadic arithmetic surfaces of \autoref{ch:concrete-instances-dyadic-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the Heron square-root consumer of \autoref{ch:concrete-instances-heron-square-root-namecert}. The carrier exposes a Newton-specific square-residual and quadratic-window ledger as named rows; it does not assert a total square-root operation on arbitrary $\RealUp$ data.
+
+\begin{definition}[Dyadic Newton square-root carrier]
+\label{def:dyadic-newton-sqrt-carrier}
+A $\DyadicNewtonSqrtUp$ carrier is a finite $\BHist$ packet
+$$
+N=(A,G,W,R,Q,M,S,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the radicand $\DyadicRatCoreUp$ row, carrying the dyadic rational value, denominator witness, square ledger, and comparison data used by every Newton step.
+\item $G$ is the positive-window ledger, recording the lower bound, upper guard, and nonzero denominator witnesses that keep each displayed iterate inside the positive dyadic window.
+\item $W$ is the Newton iterate window, a finite row of dyadic iterates computed by the visible step $x\mapsto (x+A/x)/2$ from $A$ and $G$.
+\item $R$ is the residual-square tolerance row, storing the finite comparisons between $x_i^2$ and $A$ together with the requested dyadic error budget.
+\item $Q$ is the quadratic contraction budget, recording the local guard under which the next residual is bounded by the displayed square of the previous residual.
+\item $M$ is the $\CauchyModulusUp$ handoff row, translating a requested output precision into the displayed iterate threshold and residual tolerance.
+\item $S$ is the $\RegSeqRatUp$ readback row produced by replaying $A,G,W,R,Q,M$ as a regular rational name.
+\item $E$ is the $\RealUp$ seal row, available only after the dyadic Newton ledger and regular readback row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the radicand, positive-window ledger, iterate window, residual tolerance, contraction budget, modulus handoff, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of each square-root precision request through $A,G,W,R,Q,M,S,E,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicNewtonSqrtUp$, $\DyadicUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\HeronSquareRootUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\DyadicNewtonSqrtUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,G,W,R,Q,M,S,E,H,C,P,L$. It has no coordinate for quotient real equality, selected completed limits, arbitrary trichotomy, total square root on all $\RealUp$ names, ambient completeness, or a host square-root theorem.
+\end{definition}
+
+\begin{theorem}[Dyadic Newton square-root NameCert obligations]
+\label{thm:dyadic-newton-sqrt-namecert-obligations}
+For every accepted $\DyadicNewtonSqrtUp$ carrier
+$$
+N=(A,G,W,R,Q,M,S,E,H,C,P,L),
+$$
+the local $\NameCert_{\DyadicNewtonSqrtUp}$ surface consists exactly of the displayed carrier admission row, radicand $\DyadicRatCoreUp$ exactness, positive-window exactness, Newton iterate-window stability, residual-square tolerance accounting, quadratic contraction budget visibility, $\CauchyModulusUp$ handoff exactness, $\RegSeqRatUp$ readback, $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The radicand row $A$ and positive-window row $G$ supply the dyadic arithmetic and positivity witnesses before any iterate is visible.
+
+The numerical work is finite. The window row $W$ lists the displayed Newton iterates, the residual row $R$ stores the square-error comparisons, and the contraction row $Q$ records the guarded quadratic estimate for the next residual.
+
+The output rows are downstream of that ledger. The modulus row $M$ selects a finite threshold for the requested precision, the $\RegSeqRatUp$ row $S$ is obtained by replaying the displayed dyadic rows, and the $\RealUp$ seal $E$ is available only after $S$ has been displayed.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same finite packet. Since the carrier contains no host square-root coordinate, selected limit, quotient equality, trichotomy classifier, or ambient completeness row, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Dyadic Newton square-root quadratic window route]
+\label{thm:dyadic-newton-sqrt-quadratic-window-route}
+Every $\RegSeqRatUp$, $\RealUp$, or $\HeronSquareRootUp$ consumer that reads a square-root approximation from an accepted $\DyadicNewtonSqrtUp$ carrier must factor through the finite route
+$$
+A,G \longmapsto W,R,Q \longmapsto M \longmapsto S \longmapsto E .
+$$
+Thus the consumer first reads the $\DyadicUp$ and $\DyadicRatCoreUp$ arithmetic surface, then the positive Newton window, residual-square tolerance, quadratic contraction budget, $\CauchyModulusUp$ precision handoff, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal. The route exports no host square-root function, quotient real equality, selected completed limit, arbitrary trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory of \autoref{def:dyadic-newton-sqrt-carrier}. The rows $A,G$ are the only source of radicand, positivity, and denominator data, so every Newton iterate must read them before any residual comparison can be formed.
+
+The finite window is then inspected through $W,R,Q$. The row $W$ stores the displayed Newton iterates, $R$ stores the square-residual tolerance checks, and $Q$ stores the guarded quadratic contraction estimate that makes the window a Cauchy-facing ledger.
+
+The precision handoff uses $M$. It turns the requested output tolerance into a finite iterate threshold, after which $S$ supplies the regular rational readback and $E$ supplies the terminal Real seal.
+
+The structural rows $H,C,P,L$ preserve the same dependency order under transport, replay, provenance, and naming. Therefore a downstream $\HeronSquareRootUp$ or Real-facing consumer receives only the displayed DyadicRatCore-to-RegSeqRat-to-Real route, not an external square-root value or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted DyadicNewtonSqrtUp read factors through a DyadicRatCore radicand row, a positive-window ledger, a finite Newton iterate window, residual-square tolerance checks, a quadratic contraction budget, a CauchyModulus handoff, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadic, dyadicratcore, cauchymodulus, regseqrat, real, heronsquareroot: $\DyadicNewtonSqrtUp$ is not bijective to any listed sibling because it binds a positive dyadic radicand, Newton iterate windows, residual-square tolerances, a quadratic contraction budget, CauchyModulus handoff, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming as one finite square-root certificate.}
+
+\closureat{DyadicNewtonSqrtUp}{seedStr}
+
+\begin{closurestatus}{\DyadicNewtonSqrtUp}
+  \constructivestory{A $\DyadicNewtonSqrtUp$ packet is generated from a DyadicRatCore radicand row, a positive-window ledger, finite Newton iterate windows, residual-square tolerance checks, a quadratic contraction budget, CauchyModulus handoff, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-newton-sqrt-carrier}, \autoref{thm:dyadic-newton-sqrt-namecert-obligations}, and \autoref{thm:dyadic-newton-sqrt-quadratic-window-route} seed the finite Newton square-root packet over $\DyadicUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\HeronSquareRootUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total square root on arbitrary $\RealUp$ names, quotient real equality, selected completed limits, arbitrary trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radicand exactness, positive-window exactness, Newton iterate stability, residual-square tolerance accounting, quadratic contraction visibility, CauchyModulus handoff, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicNewtonSqrtUp.}
+\end{closurestatus}
