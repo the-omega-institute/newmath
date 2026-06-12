@@ -250,6 +250,11 @@ to case-by-case judgment.
 
 - 2026-06-12T13:57:37Z: `resolved` `delete_theorem` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_endpoint_separation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_endpoint_separation:acf7b076`). Rationale: The target had no downstream Lean consumers and the only repository reference outside its declaration was a removable paper \leanchecked marker. Its content was a local route/unary/provenance projection, while the neighboring MetricProjectionCarrier_locatedset_endpoint_separation carries the paper's endpoint-separation claim and is the theorem consumed by MetricProjectionCarrier_public_projection_separated_certificate, so deleting the isolated wrapper preserves the meaningful BEDC structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-12T15:23:10Z: `resolved` `leave_with_rationale` for `BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_closest_point_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier_closest_point_nonescape:acf7b076`). Rationale: The theorem has meaningful MetricProjection nonescape content and is used in the paper chapter as the closest-point boundary supporting later carrier-stability, endpoint-admission, and public-projection arguments, though exact full-qualified grep found no Lean downstream refs. I attempted add_downstream_user by adding a same-file public projection certificate that explicitly consumed the theorem, but the required lake build failed on BEDC.Derived.MetricProjectionUp with `Unknown identifier carrier`; per instruction I reverted the change and leave the theorem unchanged. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.MetricProjectionUp
+error: build failed
+BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unknown identifier `carrier`, audit=skipped, phase_d_lint=skipped.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
