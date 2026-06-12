@@ -6485,6 +6485,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceCandidateFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceOwnerBlocker
+import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObjectwiseObligation
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
@@ -7670,6 +7671,7 @@ import BEDC.Derived.PrecompactCompletionUp.TasteGate
 import BEDC.Derived.PrecompactMetricUp
 import BEDC.Derived.PrecompactMetricUp.CauchyFilterHandoff
 import BEDC.Derived.PrecompactMetricUp.FilterNetModulusHandoff
+import BEDC.Derived.PrecompactUniformUp.TasteGate
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
@@ -9535,6 +9537,7 @@ import BEDC.Derived.TailBudgetCoherenceUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp.ThresholdBudgetExposure
 import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
+import BEDC.Derived.TailCofinalityBudgetUp.CarrierObligation
 import BEDC.Derived.TailCofinalityBudgetUp.FilteredTailScope
 import BEDC.Derived.TailCofinalityBudgetUp.LedgerObligation
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
@@ -10077,6 +10080,7 @@ import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
