@@ -4976,57 +4976,41 @@ def _is_stub_namecert(text: str) -> bool:
     return False
 
 
-def _subsection_slug(title_line: str, ordinal: int) -> str:
-    """Stable, number-free filename slug for one \\subsection block. Conjecture
-    ids (q6.x.y / h3.x.y) and human titles both reduce to lowercase underscore
-    tokens; the conjecture id is unique so slugs do not collide in practice."""
-    body = title_line
-    body = re.sub(r"^\\subsection\*?\{", "", body)
-    body = re.sub(r"\}\s*(\\label\{.*)?$", "", body)
-    body = re.sub(r"\\label\{[^}]*\}", "", body)
-    body = re.sub(r"\$[^$]*\$", " ", body)          # drop inline math
-    body = re.sub(r"\\[A-Za-z]+", " ", body)         # drop latex commands
-    body = body.replace("{", " ").replace("}", " ")
-    body = body.lower()
-    body = re.sub(r"[^a-z0-9]+", "_", body).strip("_")
-    if not body:
-        body = f"section_{ordinal}"
-    return body[:90]
+def _forced_window_conjecture_slug(conjecture_id: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", _ascii_text(conjecture_id).lower()).strip("-") or "conjecture"
 
 
-def _write_part_hub_and_siblings(paper_part: Path, part_text: str) -> list[str]:
-    """Write the assembled part as a structural hub (section header + \\input
-    routing) plus one sibling file per \\subsection under a same-stem subdir.
-    Each conjecture is an independent subtopic, so every sibling stays far below
-    the 800-line file cap and a changed conjecture only rewrites its own file.
-    The subdir is regenerated wholesale each cycle (stale siblings are removed)
-    to mirror the daemon's whole-part regeneration. Returns the sibling slugs."""
-    lines = part_text.split("\n")
-    sub_idx = [i for i, l in enumerate(lines) if l.startswith("\\subsection{") or l.startswith("\\subsection*{")]
-    if not sub_idx:
-        paper_part.write_text(part_text, encoding="utf-8")
-        return []
+def _write_part_hub_and_siblings(
+    paper_part: Path,
+    preamble_text: str,
+    chapter_entries: list[tuple[str, str]],
+    *,
+    empty_text: str = "",
+) -> list[str]:
+    """Write one sibling file per gate-passed conjecture and route the hub to
+    exactly that live sibling set."""
     subdir = paper_part.parent / paper_part.stem
-    if subdir.exists():
-        for old in subdir.glob("*.tex"):
-            old.unlink()
     subdir.mkdir(parents=True, exist_ok=True)
-    preamble = "\n".join(lines[: sub_idx[0]]).rstrip()
-    bounds = sub_idx + [len(lines)]
-    slugs: list[str] = []
-    used: set[str] = set()
-    for k, start in enumerate(sub_idx):
-        block = "\n".join(lines[start : bounds[k + 1]]).rstrip()
-        slug = _subsection_slug(lines[start], k)
-        base, n = slug, 1
-        while slug in used:
-            n += 1
-            slug = f"{base}_{n}"
-        used.add(slug)
-        slugs.append(slug)
-        (subdir / f"{slug}.tex").write_text(block + "\n", encoding="utf-8")
-    hub = [preamble, ""]
-    hub.extend(f"\\input{{parts/{paper_part.stem}/{slug}}}" for slug in slugs)
+    normalized_entries: dict[str, str] = {}
+    for raw_slug, raw_text in chapter_entries:
+        slug = re.sub(r"[^a-z0-9-]+", "-", _ascii_text(raw_slug).lower()).strip("-") or "conjecture"
+        if slug in normalized_entries:
+            suffix = hashlib.sha256(str(raw_slug).encode("utf-8")).hexdigest()[:10]
+            slug = f"{slug}-{suffix}"
+        normalized_entries[slug] = str(raw_text or "").rstrip()
+    slugs = sorted(normalized_entries)
+    expected_names = {f"{slug}.tex" for slug in slugs}
+    for existing in subdir.glob("*.tex"):
+        if existing.name not in expected_names:
+            existing.unlink()
+    for slug in slugs:
+        (subdir / f"{slug}.tex").write_text(normalized_entries[slug] + "\n", encoding="utf-8")
+
+    hub = [preamble_text.rstrip(), ""]
+    if slugs:
+        hub.extend(f"\\input{{parts/{paper_part.stem}/{slug}}}" for slug in slugs)
+    elif empty_text.strip():
+        hub.append(empty_text.strip())
     hub.append("")
     paper_part.write_text("\n".join(hub), encoding="utf-8")
     return slugs
@@ -5055,6 +5039,7 @@ def run_writeback_lane(store: FibonacciRealityStore) -> dict[str, Any]:
         "Until the orchestrator lands the first packets, it states no scientific claims.",
         "",
     ]
+    chapter_entries: list[tuple[str, str]] = []
     seen_mismatch_ids: set[str] = set()
     for conjecture in conjectures:
         linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
@@ -5087,16 +5072,15 @@ def run_writeback_lane(store: FibonacciRealityStore) -> dict[str, Any]:
             writer_config,
         )
         if codex_text:
-            part_lines.extend([codex_text.rstrip(), ""])
+            chapter_text = codex_text.rstrip()
         else:
             # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
             cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
             if cached_rich:
-                part_lines.extend([cached_rich.rstrip(), ""])
+                chapter_text = cached_rich.rstrip()
             else:
-                part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
-    if not conjectures:
-        part_lines.extend(["No conjecture has passed the FibonacciReality gates.", ""])
+                chapter_text = "\n".join(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)).rstrip()
+        chapter_entries.append((_forced_window_conjecture_slug(conjecture_id), chapter_text))
 
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
@@ -5104,6 +5088,11 @@ def run_writeback_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     _write_part_hub_and_siblings(
         paths.paper_part,
         _sanitize_textmode_underscores("\n".join(part_lines)),
+        [
+            (slug, _sanitize_textmode_underscores(text))
+            for slug, text in chapter_entries
+        ],
+        empty_text="No conjecture has passed the FibonacciReality gates.",
     )
     namecert_slugs = _write_namecert_proposals(
         paths,
@@ -6672,10 +6661,14 @@ def self_test() -> int:
         finally:
             globals()["_run_bio_w_codex"] = original_run_bio_w_codex
             globals()["PIPELINE_CONFIG"] = original_pipeline_config
-        bio_w_part = bio_w_codex_paths.paper_part.read_text(encoding="utf-8")
+        bio_w_part = (bio_w_codex_paths.paper_part.parent / "forced_window_structure" / "test-codon-codex.tex").read_text(encoding="utf-8")
+        bio_w_hub = bio_w_codex_paths.paper_part.read_text(encoding="utf-8")
         bio_w_namecert = bio_w_codex_paths.paper_part.parent / "namecerts" / "h0_codex.tex"
         if bio_w_codex_summary["namecerts_written"] != 1 or not bio_w_namecert.exists():
             print(json.dumps(bio_w_codex_summary, indent=2), file=sys.stderr)
+            return 1
+        if r"\input{parts/forced_window_structure/test-codon-codex}" not in bio_w_hub:
+            print(bio_w_hub, file=sys.stderr)
             return 1
         if "authored FibonacciReality record defines a carrier, partition, relation, exact count, and factorization" not in bio_w_part:
             print(bio_w_part, file=sys.stderr)
@@ -7055,7 +7048,7 @@ def self_test() -> int:
             writeback_empty_fact_summary = run_writeback_lane(writeback_empty_fact_store)
         finally:
             globals()["PIPELINE_CONFIG"] = original_pipeline_config
-        writeback_empty_fact_part = writeback_empty_fact_paths.paper_part.read_text(encoding="utf-8")
+        writeback_empty_fact_part = (writeback_empty_fact_paths.paper_part.parent / "forced_window_structure" / "test-empty-facts.tex").read_text(encoding="utf-8")
         if writeback_empty_fact_summary["written_conjectures"] != 1:
             print(json.dumps(writeback_empty_fact_summary, indent=2), file=sys.stderr)
             return 1
@@ -7162,14 +7155,18 @@ def self_test() -> int:
             writeback_fact_summary = run_writeback_lane(writeback_fact_store)
         finally:
             globals()["PIPELINE_CONFIG"] = original_pipeline_config
-        writeback_fact_part = writeback_fact_paths.paper_part.read_text(encoding="utf-8")
+        writeback_fact_part = (writeback_fact_paths.paper_part.parent / "forced_window_structure" / "test-codon.tex").read_text(encoding="utf-8")
         writeback_fact_main = writeback_fact_paths.paper_main.read_text(encoding="utf-8")
+        writeback_fact_hub = writeback_fact_paths.paper_part.read_text(encoding="utf-8")
         writeback_fact_namecert = writeback_fact_paths.paper_part.parent / "namecerts" / "h0_test.tex"
         if writeback_fact_summary["namecerts_written"] != 1:
             print(json.dumps(writeback_fact_summary, indent=2), file=sys.stderr)
             return 1
         if "Verified facts" not in writeback_fact_part or "size=13" not in writeback_fact_part or "lambda\\_M=0.675248" not in writeback_fact_part:
             print(writeback_fact_part, file=sys.stderr)
+            return 1
+        if r"\input{parts/forced_window_structure/test-codon}" not in writeback_fact_hub:
+            print(writeback_fact_hub, file=sys.stderr)
             return 1
         if not writeback_fact_namecert.exists():
             print(str(writeback_fact_namecert), file=sys.stderr)
