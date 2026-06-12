@@ -42,6 +42,20 @@ Read the sibling surfaces in the displayed order. The finite tail filter supplie
 The remaining rows are structural. The $\FinitePrefixLimitStabilityUp$ and $\SelectedTailSeedUp$ siblings identify the prefix-stability and selected-seed routes that may consume the same threshold, while $H,C,P,N$ only transport, replay, source, and name the rows already displayed. These rows exhaust the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Tail cofinality budget threshold monotonicity]
+\label{thm:tail-cofinality-budget-threshold-monotonicity}
+Let $T=(R,W,D,Q,E,H,C,P,N)$ be an accepted $\TailCofinalityBudgetUp$ packet. If $T$ serves a displayed threshold and a later unary threshold refines $R$ through the same finite tail request route, then the refined packet preserves the same $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+The refined read exports no selected limit, quotient stream equality, host real equality, countable-choice row, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-cofinality-budget-carrier}. The row $R$ is the only finite tail request coordinate, so a later unary threshold can refine the packet only by traveling through that same request route.
+
+Compare the thresholds inside $R$. Once the refined request is accepted, the observation side of the carrier is still the displayed route $W,D,Q,E$: the $\StreamNameUp$ window is read at the refined tail, the $\DyadicRatCoreUp$ tolerance ledger remains attached to that window, the $\RegSeqRatUp$ readback is replayed from the same finite data, and the $\RealUp$ seal is reached only after those rows are visible.
+
+Finally replay the structural rows. Transport through $H$, continuation through $C$, provenance through $P$, and local naming through $N$ preserve the accepted packet rather than adding a new completion object. Since the carrier has no coordinate for a selected limit, quotient stream equality, host real equality, countable choice, or ambient completeness, the threshold refinement stays inside the displayed finite rows.
+\end{proof}
+
 \begin{theorem}[Tail cofinality budget nonescape]
 \label{thm:tail-cofinality-budget-nonescape}
 Every Real-completion consumer of an accepted $\TailCofinalityBudgetUp$ packet factors through the finite route
