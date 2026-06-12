@@ -1161,6 +1161,86 @@ def test_order_k_benchmark_host_env_not_fingerprint_input(tmp_path, monkeypatch)
     assert ".refactor-loop/host.env" not in serialized
 
 
+def test_unreferenced_config_file_does_not_dirty_unrelated_fingerprint(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    unreferenced = tmp_path / "configs" / "unreferenced_knob.yaml"
+    unreferenced.parent.mkdir(parents=True, exist_ok=True)
+    unreferenced.write_text("knob: 1\n", encoding="utf-8")
+
+    sidecar = canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+    serialized = json.dumps(sidecar["inputs"], sort_keys=True)
+
+    assert "config_inputs" not in sidecar["inputs"]
+    assert "configs/unreferenced_knob.yaml" not in serialized
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+
+def test_source_artifact_config_file_dirties_declared_report(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    cost_config = tmp_path / "configs" / "default_cost_protocol.yaml"
+    cost_config.parent.mkdir(parents=True, exist_ok=True)
+    cost_config.write_text("unit_cost: 1\n", encoding="utf-8")
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    cost_config.write_text("unit_cost: 2\n", encoding="utf-8")
+
+    assert "configs/default_cost_protocol.yaml" in {
+        row["path"] for row in sidecar["inputs"]["source_artifacts"]
+    }
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+
+
+def test_literature_ledger_dirties_only_literature_reports(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    ledger = tmp_path / "docs" / "lit" / "literature_ledger.yaml"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    ledger.write_text(json.dumps({"records": [{"id": "lit-lejepa-theorem-ledger"}]}) + "\n", encoding="utf-8")
+    unrelated = canonical._specs_by_name()["mixing-family-sweep"]
+    literature = canonical._specs_by_name()["certificate-gated-attention"]
+    unrelated_sidecar = _write_fingerprint_fixture(canonical, tmp_path, unrelated)
+    literature_sidecar = _write_fingerprint_fixture(canonical, tmp_path, literature)
+
+    ledger.write_text(
+        json.dumps({"records": [{"id": "lit-lejepa-theorem-ledger"}, {"id": "lit-fixture"}]}) + "\n",
+        encoding="utf-8",
+    )
+
+    assert "docs/lit/literature_ledger.yaml" not in {
+        row["path"] for row in unrelated_sidecar["inputs"]["source_artifacts"]
+    }
+    assert "docs/lit/literature_ledger.yaml" in {
+        row["path"] for row in literature_sidecar["inputs"]["source_artifacts"]
+    }
+    assert canonical._fingerprint_matches(unrelated) == (True, "match")
+    assert canonical._fingerprint_matches(literature) == (False, "input-fingerprint")
+
+
+def test_metric_purity_registry_files_are_not_per_report_inputs(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    targets = tmp_path / "configs" / "metric_purity_targets.json"
+    allowlist = tmp_path / "configs" / "metric_purity_allowlist.json"
+    targets.parent.mkdir(parents=True, exist_ok=True)
+    targets.write_text('{"schema_id":"fixture-targets"}\n', encoding="utf-8")
+    allowlist.write_text('{"schema_id":"fixture-allowlist"}\n', encoding="utf-8")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    targets.write_text('{"schema_id":"fixture-targets","rows":[]}\n', encoding="utf-8")
+    allowlist.write_text('{"schema_id":"fixture-allowlist","rows":[]}\n', encoding="utf-8")
+    serialized = json.dumps(sidecar["inputs"], sort_keys=True)
+
+    assert "configs/metric_purity_targets.json" not in serialized
+    assert "configs/metric_purity_allowlist.json" not in serialized
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+
 def test_order_k_benchmark_has_no_standalone_ledger_spec_or_artifact_path():
     names = [spec.name for spec in canonical.CANONICAL_REPORTS]
     artifact_paths = [
@@ -4478,7 +4558,6 @@ def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeyp
     ("label", "mutate"),
     [
         ("producer-source", lambda root, spec: (root / spec.command[1]).write_text("SEED = 8\n", encoding="utf-8")),
-        ("config", lambda root, spec: (root / "configs" / "default_cost_protocol.yaml").write_text("unit_cost: 2\n", encoding="utf-8")),
         ("seed-cell", lambda root, spec: (root / spec.command[1]).write_text("SEED = 9\n", encoding="utf-8")),
         ("source-artifact", lambda root, spec: (root / "reports" / "canonical" / "upstream.json").write_text('{"cell": 2}\n', encoding="utf-8")),
     ],
