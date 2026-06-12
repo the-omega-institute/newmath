@@ -64,3 +64,17 @@ Next apply the TasteGate route in \autoref{thm:metacic-normalization-frontier-ta
 
 Finally use the discharge route of \autoref{thm:metacic-normalization-frontier-discharge-route}. The discharge theorem joins candidate evidence, endpoint evidence, obstruction retention, and ground-compiler rows into the same packet, so the formal target of \autoref{def:metacic-normalization-frontier-ground-compiler-formal-target} has exactly the stated scope.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier candidate-discharge stability]
+\label{thm:metacic-normalization-frontier-candidate-discharge-stability}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ carrier whose ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route} and TasteGate route of \autoref{thm:metacic-normalization-frontier-tastegate-route} are displayed. If $F'$ is obtained from $F$ by componentwise $\hsame$ transport of $C,K,E,N,S,H,R,P,L$ and by displayed $\Cont$ replay of the same ground-compiler recognition and discharge rows, then $F'$ preserves the same candidate-mediated discharge boundary. In particular, the transported packet may export only the local candidate evidence, endpoint evidence, obstruction-retention, route, replay, provenance, and ledger rows already visible in $F$; it does not acquire strong normalization, confluence, erased subject-reduction transport, quotient-level term equality, or a hidden normalizer.
+\end{theorem}
+\begin{proof}
+Start with the ground-compiler route. It makes the carrier surface, candidate-evidence boundary, and root normal-form boundary visible before any normalization boundary is exported.
+
+Next use the TasteGate route. It requires the same rows $C,K,E,N,S,H,R,P,L$ for any promotion beyond the seed and scaffold boundary, so componentwise $\hsame$ transport can only rename displayed rows and cannot introduce a hidden normalizer or a global normalization assertion.
+
+Now apply the discharge route and the target-scope theorem. The discharge route joins candidate evidence, endpoint evidence, obstruction retention, and ground-compiler rows inside the packet, while the target-scope theorem excludes targets that export a boundary without those rows.
+
+Finally replay the displayed $\Cont$ route for $F'$. Since the replay reads exactly the transported recognition and discharge rows, the candidate-mediated boundary is preserved, and none of the excluded strong-normalization, confluence, subject-reduction, quotient-equality, or hidden-normalizer claims is added.
+\end{proof}
