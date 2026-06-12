@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -143,5 +145,139 @@ theorem RationalIntervalRefinementCarrier_endpoint_exactness [AskSetup] [Package
                                                         ⟨unaryI, unaryJ, unaryE, unaryW,
                                                           unaryPublic, contIJE, contEWK,
                                                           publicRow, pkgN, publicPkg⟩
+
+theorem RationalIntervalRefinementLedgerExhaustion [AskSetup] [PackageSetup]
+    {I J E W K H C P N finalRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalRefinementCarrier I J E W K H C P N bundle pkg ->
+      Cont E W finalRead -> Cont finalRead K publicRead ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row I ∨ hsame row J ∨ hsame row E ∨ hsame row W ∨
+                  hsame row K ∨ hsame row finalRead ∨ hsame row publicRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont I J E ∧ Cont E W finalRead ∧
+                  Cont finalRead K publicRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle N pkg ∧ PkgSig bundle publicRead pkg)
+              hsame ∧ UnaryHistory finalRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier finalRoute publicRoute publicPkg
+  cases carrier with
+  | intro _unaryI rest =>
+      cases rest with
+      | intro _unaryJ rest =>
+          cases rest with
+          | intro unaryE rest =>
+              cases rest with
+              | intro unaryW rest =>
+                  cases rest with
+                  | intro unaryK rest =>
+                      cases rest with
+                      | intro _unaryH rest =>
+                          cases rest with
+                          | intro _unaryC rest =>
+                              cases rest with
+                              | intro _unaryP rest =>
+                                  cases rest with
+                                  | intro _unaryN rest =>
+                                      cases rest with
+                                      | intro contIJE rest =>
+                                          cases rest with
+                                          | intro _contEWK rest =>
+                                              cases rest with
+                                              | intro _contKHC rest =>
+                                                  cases rest with
+                                                  | intro pkgP pkgN =>
+                                                      have finalUnary :
+                                                          UnaryHistory finalRead :=
+                                                        unary_cont_closed unaryE unaryW
+                                                          finalRoute
+                                                      have publicUnary :
+                                                          UnaryHistory publicRead :=
+                                                        unary_cont_closed finalUnary unaryK
+                                                          publicRoute
+                                                      have sourcePublic :
+                                                          (fun row : BHist =>
+                                                            hsame row publicRead ∧
+                                                              UnaryHistory row)
+                                                              publicRead :=
+                                                        ⟨hsame_refl publicRead,
+                                                          publicUnary⟩
+                                                      have cert :
+                                                          SemanticNameCert
+                                                              (fun row : BHist =>
+                                                                hsame row publicRead ∧
+                                                                  UnaryHistory row)
+                                                              (fun row : BHist =>
+                                                                hsame row I ∨
+                                                                  hsame row J ∨
+                                                                    hsame row E ∨
+                                                                      hsame row W ∨
+                                                                        hsame row K ∨
+                                                                          hsame row
+                                                                            finalRead ∨
+                                                                            hsame row
+                                                                              publicRead)
+                                                              (fun row : BHist =>
+                                                                UnaryHistory row ∧
+                                                                  Cont I J E ∧
+                                                                    Cont E W finalRead ∧
+                                                                      Cont finalRead K
+                                                                        publicRead ∧
+                                                                        PkgSig bundle P
+                                                                          pkg ∧
+                                                                          PkgSig bundle N
+                                                                            pkg ∧
+                                                                            PkgSig bundle
+                                                                              publicRead
+                                                                              pkg)
+                                                              hsame := {
+                                                        core := {
+                                                          carrier_inhabited :=
+                                                            Exists.intro publicRead
+                                                              sourcePublic
+                                                          equiv_refl := by
+                                                            intro row _source
+                                                            exact hsame_refl row
+                                                          equiv_symm := by
+                                                            intro _row _other sameRows
+                                                            exact hsame_symm sameRows
+                                                          equiv_trans := by
+                                                            intro _row _middle _other
+                                                              sameLeft sameRight
+                                                            exact
+                                                              hsame_trans sameLeft
+                                                                sameRight
+                                                          carrier_respects_equiv := by
+                                                            intro _row other sameRows
+                                                              source
+                                                            exact
+                                                              ⟨hsame_trans
+                                                                  (hsame_symm sameRows)
+                                                                  source.left,
+                                                                unary_transport
+                                                                  source.right
+                                                                  sameRows⟩
+                                                        }
+                                                        pattern_sound := by
+                                                          intro _row source
+                                                          exact
+                                                            Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inr
+                                                                      (Or.inr
+                                                                        source.left)))))
+                                                        ledger_sound := by
+                                                          intro _row source
+                                                          exact
+                                                            ⟨source.right, contIJE,
+                                                              finalRoute, publicRoute,
+                                                              pkgP, pkgN, publicPkg⟩
+                                                      }
+                                                      exact ⟨cert, finalUnary, publicUnary⟩
 
 end BEDC.Derived.RationalIntervalRefinementUp
