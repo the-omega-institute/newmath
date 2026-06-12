@@ -5,6 +5,9 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
+from bedc_quality_lab import dgt_l0_controls
+from bedc_quality_lab import dgt_l1_boundary_report
+from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
 from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID

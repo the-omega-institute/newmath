@@ -3,6 +3,9 @@ from copy import deepcopy
 
 import pytest
 
+from bedc_quality_lab import dgt_l0_controls
+from bedc_quality_lab import dgt_l1_boundary_report
+from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     CLAIM_CAPSULE_SCHEMA_ID,
@@ -162,6 +165,8 @@ def _write_dgt_owner_ref_inputs(root):
 
 def _write_suite_dependencies(root):
     _write_dgt_owner_ref_inputs(root)
+    boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="fixture-time")
+    dgt_l1_boundary_report.write_artifacts(boundary_payload, root=root, generated_at="fixture-time")
     dgt = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     canonical._write_json_atomic(root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT, dgt)
     canonical._write_json_atomic(

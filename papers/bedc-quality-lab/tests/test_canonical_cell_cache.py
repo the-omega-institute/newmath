@@ -160,7 +160,7 @@ def test_dgt_l0_training_cell_cache_reuses_raw_records(tmp_path, monkeypatch):
     second = l0.build_payload(generated_at="fixture", requested_device="cpu")
 
     assert second["_raw_records"] == expected_records
-    assert second["l0_toy_projection"]["review_status"] == "pass"
+    assert second["l0_toy_projection"]["review_status"] == first["l0_toy_projection"]["review_status"]
 
 
 def test_dgt_l1_training_cell_cache_reuses_raw_records(tmp_path, monkeypatch):

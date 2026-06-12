@@ -59,6 +59,7 @@ from bedc_quality_lab.dgt_model_card import (
     validate_dgt_model_card,
     write_dgt_model_card,
 )
+from bedc_quality_lab.dgt_l1_boundary_report import validate_l1_boundary_report
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
     JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
@@ -178,6 +179,10 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
 DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
+DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT = "reports/canonical/dgt-l1-boundary-report.json"
+DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-boundary-report.md"
+DGT_L1_BOUNDARY_REPORT_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-boundary-report"
+DGT_L1_BOUNDARY_REPORT_SCHEMA_ID = "bedc-quality-lab:dgt-l1-boundary-report"
 WINNABILITY_CERTIFICATES_JSON_ARTIFACT = "reports/canonical/winnability-certificates.json"
 WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT = "reports/canonical/winnability-certificates.md"
 WINNABILITY_CERTIFICATES_ARTIFACT_ID = "bedc-quality-lab:winnability-certificates"
@@ -219,6 +224,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "scaling-ladder",
         "reproduction-package",
         "reproduction-check-result",
+        "dgt-l1-boundary-report",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -542,6 +548,7 @@ class CanonicalReportSpec:
     positive_claim_pointer: str
     control_pointer: str | None
     no_control_rationale_pointer: str | None
+    claim_promotion_eligible: bool = True
     claim_capsule_pointer: str | None = None
     evidence_envelope_pointer: str | None = None
     backend_pointer: str | None = None
@@ -1417,6 +1424,47 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
     ),
     CanonicalReportSpec(
+        name="dgt-l1-boundary-report",
+        command=("python3", "scripts/run_dgt_l1_boundary_report.py"),
+        json_artifact=DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT,
+        markdown_artifact=DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "artifact_role",
+            "source_artifacts",
+            "cost_protocol",
+            "task_formula",
+            "feature_reachability",
+            "base_bayes_ceiling",
+            "ood_solvability",
+            "table_coverage_ceiling",
+            "negative_witness_refs",
+            "boundary_decision",
+            "required_redesign",
+            "claim_promotion_eligible",
+            "claim_promotion_exclusion",
+            "scaling_claim_block",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.boundary_decision",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.claim_promotion_exclusion",
+        control_pointer=None,
+        no_control_rationale_pointer="$.claim_promotion_exclusion",
+        claim_promotion_eligible=False,
+        claim_capsule_pointer="$.claim_promotion_exclusion",
+        evidence_envelope_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block",
+        backend_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block.status",
+        formal_status_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="winnability-certificates",
         command=("python3", "scripts/run_winnability_certificates.py"),
         json_artifact=WINNABILITY_CERTIFICATES_JSON_ARTIFACT,
@@ -2123,7 +2171,11 @@ def _specs_by_name() -> dict[str, CanonicalReportSpec]:
 
 
 def _discovery_map_reports() -> tuple[CanonicalReportSpec, ...]:
-    return tuple(spec for spec in CANONICAL_REPORTS if spec.name not in DISCOVERY_MAP_EXCLUDED_REPORTS)
+    return tuple(
+        spec
+        for spec in CANONICAL_REPORTS
+        if spec.name not in DISCOVERY_MAP_EXCLUDED_REPORTS and spec.claim_promotion_eligible is True
+    )
 
 
 def _select_specs(only: str | None) -> tuple[CanonicalReportSpec, ...]:
@@ -2718,6 +2770,7 @@ def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "required_json_keys": list(spec.required_json_keys),
         "estimated_seconds": spec.estimated_seconds,
         "bundle_role": spec.bundle_role,
+        "claim_promotion_eligible": spec.claim_promotion_eligible,
         "scope_pointer": spec.scope_pointer,
         "cost_pointer": spec.cost_pointer,
         "not_claimed_pointer": spec.not_claimed_pointer,
@@ -3607,7 +3660,11 @@ def _reporting_hardgate_status(gate: Mapping[str, Any]) -> Literal["pass", "fail
 
 
 def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
-    applicability = "positive-promotion" if spec.bundle_role == "hg_p_core" else "not-applicable"
+    applicability = (
+        "positive-promotion"
+        if spec.bundle_role == "hg_p_core" and spec.claim_promotion_eligible is True
+        else "not-applicable"
+    )
     cell_specs = {
         "scope_seal": spec.scope_pointer,
         "claim_capsule": _reporting_pointer_for(spec, "claim_capsule_pointer"),
@@ -3680,7 +3737,7 @@ def _text_for_term_scan(value: Any) -> str:
 
 
 def _forbidden_claim_term_check(spec: CanonicalReportSpec, payload: dict[str, Any]) -> dict[str, Any]:
-    if spec.bundle_role != "hg_p_core":
+    if spec.bundle_role != "hg_p_core" or spec.claim_promotion_eligible is not True:
         return {
             "status": "not-applicable",
             "hits": [],
@@ -3708,6 +3765,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
     reporting_hardgate = _reporting_hardgate(spec, payload)
     discipline = {
         "bundle_role": spec.bundle_role,
+        "claim_promotion_eligible": spec.claim_promotion_eligible,
         "scope_pointer": spec.scope_pointer,
         "scope_status": _pointer_status(payload, spec.scope_pointer),
         "cost_pointer": spec.cost_pointer,
@@ -3792,6 +3850,23 @@ def _paper_outline(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _claims_nonclaims(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    promotion_exclusion_cells = []
+    for report in reports:
+        discipline = report["discipline"]
+        if discipline.get("claim_promotion_eligible", True) is True:
+            continue
+        spec = _specs_by_name()[report["name"]]
+        payload = _load_report_payload(spec)
+        promotion_exclusion_cells.append(
+            {
+                "report": report["name"],
+                "bundle_role": report["bundle_role"],
+                "artifact_role": _pointer_value(payload, "$.artifact_role"),
+                "claim_promotion_eligible": discipline.get("claim_promotion_eligible"),
+                "exclusion_pointer": discipline["positive_claim_pointer"],
+                "block_pointer": _pointer_value(payload, f"{discipline['positive_claim_pointer']}.blocking_pointer"),
+            }
+        )
     return {
         "status": "pointer-only",
         "positive_claim_cells": [
@@ -3803,7 +3878,9 @@ def _claims_nonclaims(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
                 "no_control_rationale_pointer": report["discipline"]["no_control_rationale_pointer"],
             }
             for report in reports
+            if report["discipline"].get("claim_promotion_eligible", True) is True
         ],
+        "promotion_exclusion_cells": promotion_exclusion_cells,
         "nonclaims": [
             "not a solved model-quality claim",
             "not full LeJEPA",
@@ -7021,6 +7098,12 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     if spec.name == "reproduction-check-result" and key_validation["status"] == "pass" and not missing_artifacts:
         payload = _load_report_payload(spec)
         reproduction_errors.extend(_validate_reproduction_check_result_payload(payload))
+    boundary_report_errors: list[str] = []
+    if spec.name == "dgt-l1-boundary-report" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            validate_l1_boundary_report(_load_report_payload(spec))
+        except ValueError as exc:
+            boundary_report_errors = [str(exc)]
     status = (
         "pass"
         if key_validation["status"] == "pass"
@@ -7028,6 +7111,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         and not semantic_errors
         and not model_card_errors
         and not reproduction_errors
+        and not boundary_report_errors
         else "fail"
     )
     return {
@@ -7038,6 +7122,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "semantic_errors": semantic_errors,
         "model_card_errors": model_card_errors,
         "reproduction_errors": reproduction_errors,
+        "boundary_report_errors": boundary_report_errors,
     }
 
 
@@ -7346,8 +7431,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | hardgate | CV | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | status | hardgate | CV | claim promotion eligible | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
@@ -7368,6 +7453,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
                 f"`{report['status']}` | "
                 f"`{hardgate['status']}` | "
                 f"`{cv_status}` | "
+                f"`{discipline['claim_promotion_eligible']}` | "
                 f"`{missing_cells}` | "
                 f"`{report['json_artifact']}` | "
                 f"`{report['markdown_artifact']}` | "
@@ -7817,6 +7903,24 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"`{claim['control_pointer']}` | "
             f"`{claim['no_control_rationale_pointer']}` |"
         )
+    if payload["claims_nonclaims"].get("promotion_exclusion_cells"):
+        lines.extend(
+            [
+                "",
+                "| report | role | artifact role | eligible | exclusion pointer | block pointer |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for cell in payload["claims_nonclaims"]["promotion_exclusion_cells"]:
+            lines.append(
+                "| "
+                f"`{cell['report']}` | "
+                f"`{cell['bundle_role']}` | "
+                f"`{cell['artifact_role']}` | "
+                f"`{cell['claim_promotion_eligible']}` | "
+                f"`{cell['exclusion_pointer']}` | "
+                f"`{cell['block_pointer']}` |"
+            )
     lines.extend(
         [
             "",
@@ -8182,6 +8286,28 @@ def run_reports(
             run_spec_names.add(fair_l1_spec.name)
             _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
             _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
+    dgt_l1_spec = _specs_by_name().get("dgt-l1-controls")
+    if dgt_l1_spec is not None:
+        dgt_l1_selected = any(
+            spec.name in {"dgt-l1-controls", "dgt-l1-boundary-report", "discovery-gated-transformer"}
+            for spec in selected_specs
+        )
+        if (only is None or dgt_l1_selected) and dgt_l1_spec.name not in run_spec_names:
+            _run_spec(dgt_l1_spec, mode=mode, generated_at=timestamp)
+            run_spec_names.add(dgt_l1_spec.name)
+            _run_metric_purity_post_generation((dgt_l1_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_l1_spec, generated_at=timestamp)
+    dgt_l1_boundary_spec = _specs_by_name().get("dgt-l1-boundary-report")
+    if dgt_l1_boundary_spec is not None:
+        dgt_l1_boundary_selected = any(
+            spec.name in {"dgt-l1-boundary-report", "discovery-gated-transformer"}
+            for spec in selected_specs
+        )
+        if (only is None or dgt_l1_boundary_selected) and dgt_l1_boundary_spec.name not in run_spec_names:
+            _run_spec(dgt_l1_boundary_spec, mode=mode, generated_at=timestamp)
+            run_spec_names.add(dgt_l1_boundary_spec.name)
+            _run_metric_purity_post_generation((dgt_l1_boundary_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_l1_boundary_spec, generated_at=timestamp)
     discovery_gated_transformer: Mapping[str, Any] | None = None
     dgt_spec = _specs_by_name().get("discovery-gated-transformer")
     if only is None or dgt_full_selected:
