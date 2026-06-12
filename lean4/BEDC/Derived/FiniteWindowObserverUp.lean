@@ -118,4 +118,80 @@ theorem FiniteWindowObserverCarrierTransport [AskSetup] [PackageSetup]
     ⟨observerUnary, windowUnary, inscriptionUnary, checkerUnary, downstreamUnary,
       provenancePkg, localNamePkg⟩
 
+theorem FiniteWindowObserverBundleExhaustion [AskSetup] [PackageSetup]
+    {O F I K D H C P N inscriptionRead checkerRead acceptedRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowObserverCarrier O F I K D H C P N bundle pkg ->
+      Cont O F inscriptionRead ->
+        Cont inscriptionRead I checkerRead ->
+          Cont checkerRead K acceptedRead ->
+            Cont acceptedRead D consumerRead ->
+              PkgSig bundle consumerRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row F ∨ hsame row I ∨ hsame row K ∨ hsame row D ∨
+                        hsame row inscriptionRead ∨ hsame row checkerRead ∨
+                          hsame row acceptedRead ∨ hsame row consumerRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont O F inscriptionRead ∧
+                        Cont inscriptionRead I checkerRead ∧
+                          Cont checkerRead K acceptedRead ∧
+                            Cont acceptedRead D consumerRead ∧ PkgSig bundle P pkg ∧
+                              PkgSig bundle consumerRead pkg)
+                    hsame ∧
+                  UnaryHistory inscriptionRead ∧ UnaryHistory checkerRead ∧
+                    UnaryHistory acceptedRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: FiniteWindowObserverCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier inscriptionRoute checkerRoute acceptedRoute consumerRoute consumerPkg
+  obtain ⟨observerUnary, windowUnary, inscriptionUnary, checkerUnary, downstreamUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localNameUnary, _windowRoute,
+    _provenanceRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have inscriptionReadUnary : UnaryHistory inscriptionRead :=
+    unary_cont_closed observerUnary windowUnary inscriptionRoute
+  have checkerReadUnary : UnaryHistory checkerRead :=
+    unary_cont_closed inscriptionReadUnary inscriptionUnary checkerRoute
+  have acceptedReadUnary : UnaryHistory acceptedRead :=
+    unary_cont_closed checkerReadUnary checkerUnary acceptedRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed acceptedReadUnary downstreamUnary consumerRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left))))))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, inscriptionRoute, checkerRoute, acceptedRoute, consumerRoute,
+            provenancePkg, consumerPkg⟩
+    }
+  · exact
+      ⟨inscriptionReadUnary, checkerReadUnary, acceptedReadUnary, consumerReadUnary⟩
+
 end BEDC.Derived.FiniteWindowObserverUp
