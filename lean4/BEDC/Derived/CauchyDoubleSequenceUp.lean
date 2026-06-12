@@ -258,4 +258,31 @@ theorem CauchyDoubleSequenceCarrier_completion_consumer_scope [AskSetup] [Packag
     ⟨consumerUnary, sameSealRow, arrayScheduleRoute, scheduleToleranceRoute,
       diagonalCompletionRoute, pkgSig⟩
 
+theorem CauchyDoubleSequenceCarrier_window_diagonal_exhaustion [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance localCert
+      arrayWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg →
+      Cont array schedule arrayWindow →
+        Cont arrayWindow tolerance diagonal →
+          PkgSig bundle diagonal pkg →
+            hsame diagonal (append (append array schedule) tolerance) ∧
+              UnaryHistory diagonal ∧ UnaryHistory arrayWindow ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle diagonal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append UnaryHistory PkgSig
+  intro carrier arrayWindowRoute diagonalRoute diagonalPkg
+  have arrayUnary : UnaryHistory array := carrier.left
+  have scheduleUnary : UnaryHistory schedule := carrier.right.left
+  have toleranceUnary : UnaryHistory tolerance := carrier.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have arrayWindowUnary : UnaryHistory arrayWindow :=
+    unary_cont_closed arrayUnary scheduleUnary arrayWindowRoute
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed arrayWindowUnary toleranceUnary diagonalRoute
+  have diagonalExact : hsame diagonal (append (append array schedule) tolerance) :=
+    diagonalRoute.trans (congrArg (fun row => append row tolerance) arrayWindowRoute)
+  exact ⟨diagonalExact, diagonalUnary, arrayWindowUnary, provenancePkg, diagonalPkg⟩
+
 end BEDC.Derived.CauchyDoubleSequenceUp
