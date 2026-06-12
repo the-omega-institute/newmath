@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteDifferenceTableUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -177,5 +189,74 @@ theorem FiniteDifferenceTableTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         FiniteDifferenceTableTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def FiniteDifferenceTableCarrier [AskSetup] [PackageSetup]
+    (source windows readback dyadic table realSeal transport replay provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory source ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+    UnaryHistory dyadic ∧ UnaryHistory table ∧ UnaryHistory realSeal ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg
+
+theorem FiniteDifferenceTableCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source windows readback dyadic table realSeal transport replay provenance localName
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteDifferenceTableCarrier source windows readback dyadic table realSeal transport
+      replay provenance localName bundle pkg ->
+      Cont source windows readback ->
+        Cont readback dyadic table ->
+          Cont table realSeal endpoint ->
+            PkgSig bundle endpoint pkg ->
+              SemanticNameCert
+                    (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+                    (fun row : BHist => hsame row endpoint ∧ Cont readback dyadic table)
+                    (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+                    hsame ∧
+                UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier sourceWindowRoute tableRoute endpointRoute endpointPkg
+  obtain ⟨sourceUnary, windowsUnary, readbackUnary, dyadicUnary, tableUnary, realSealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _provenancePkg,
+    _localNamePkg⟩ := carrier
+  have _readbackUnaryFromRoute : UnaryHistory readback :=
+    unary_cont_closed sourceUnary windowsUnary sourceWindowRoute
+  have _tableUnaryFromRoute : UnaryHistory table :=
+    unary_cont_closed readbackUnary dyadicUnary tableRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed tableUnary realSealUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist => hsame row endpoint ∧ Cont readback dyadic table)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint ⟨hsame_refl endpoint, endpointUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, tableRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, endpointPkg⟩
+  }
+  exact ⟨cert, endpointUnary⟩
 
 end BEDC.Derived.FiniteDifferenceTableUp
