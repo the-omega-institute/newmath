@@ -1174,6 +1174,86 @@ def test_order_k_benchmark_host_env_not_fingerprint_input(tmp_path, monkeypatch)
     assert ".refactor-loop/host.env" not in serialized
 
 
+def test_unreferenced_config_file_does_not_dirty_unrelated_fingerprint(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    unreferenced = tmp_path / "configs" / "unreferenced_knob.yaml"
+    unreferenced.parent.mkdir(parents=True, exist_ok=True)
+    unreferenced.write_text("knob: 1\n", encoding="utf-8")
+
+    sidecar = canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+    serialized = json.dumps(sidecar["inputs"], sort_keys=True)
+
+    assert "config_inputs" not in sidecar["inputs"]
+    assert "configs/unreferenced_knob.yaml" not in serialized
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+
+def test_source_artifact_config_file_dirties_declared_report(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    cost_config = tmp_path / "configs" / "default_cost_protocol.yaml"
+    cost_config.parent.mkdir(parents=True, exist_ok=True)
+    cost_config.write_text("unit_cost: 1\n", encoding="utf-8")
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    cost_config.write_text("unit_cost: 2\n", encoding="utf-8")
+
+    assert "configs/default_cost_protocol.yaml" in {
+        row["path"] for row in sidecar["inputs"]["source_artifacts"]
+    }
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+
+
+def test_literature_ledger_dirties_only_literature_reports(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    ledger = tmp_path / "docs" / "lit" / "literature_ledger.yaml"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    ledger.write_text(json.dumps({"records": [{"id": "lit-lejepa-theorem-ledger"}]}) + "\n", encoding="utf-8")
+    unrelated = canonical._specs_by_name()["mixing-family-sweep"]
+    literature = canonical._specs_by_name()["certificate-gated-attention"]
+    unrelated_sidecar = _write_fingerprint_fixture(canonical, tmp_path, unrelated)
+    literature_sidecar = _write_fingerprint_fixture(canonical, tmp_path, literature)
+
+    ledger.write_text(
+        json.dumps({"records": [{"id": "lit-lejepa-theorem-ledger"}, {"id": "lit-fixture"}]}) + "\n",
+        encoding="utf-8",
+    )
+
+    assert "docs/lit/literature_ledger.yaml" not in {
+        row["path"] for row in unrelated_sidecar["inputs"]["source_artifacts"]
+    }
+    assert "docs/lit/literature_ledger.yaml" in {
+        row["path"] for row in literature_sidecar["inputs"]["source_artifacts"]
+    }
+    assert canonical._fingerprint_matches(unrelated) == (True, "match")
+    assert canonical._fingerprint_matches(literature) == (False, "input-fingerprint")
+
+
+def test_metric_purity_registry_files_are_not_per_report_inputs(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    targets = tmp_path / "configs" / "metric_purity_targets.json"
+    allowlist = tmp_path / "configs" / "metric_purity_allowlist.json"
+    targets.parent.mkdir(parents=True, exist_ok=True)
+    targets.write_text('{"schema_id":"fixture-targets"}\n', encoding="utf-8")
+    allowlist.write_text('{"schema_id":"fixture-allowlist"}\n', encoding="utf-8")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    sidecar = _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    targets.write_text('{"schema_id":"fixture-targets","rows":[]}\n', encoding="utf-8")
+    allowlist.write_text('{"schema_id":"fixture-allowlist","rows":[]}\n', encoding="utf-8")
+    serialized = json.dumps(sidecar["inputs"], sort_keys=True)
+
+    assert "configs/metric_purity_targets.json" not in serialized
+    assert "configs/metric_purity_allowlist.json" not in serialized
+    assert canonical._fingerprint_matches(spec) == (True, "match")
+
+
 def test_order_k_benchmark_has_no_standalone_ledger_spec_or_artifact_path():
     names = [spec.name for spec in canonical.CANONICAL_REPORTS]
     artifact_paths = [
@@ -2053,6 +2133,38 @@ def test_reproduction_package_producer_is_byte_stable_for_fixed_timestamp(tmp_pa
     assert second == first
     assert (tmp_path / "reports/canonical/reproduction-package.json").read_text(encoding="utf-8") == first_json
     assert (tmp_path / "reports/canonical/reproduction-package.md").read_text(encoding="utf-8") == first_md
+
+
+def test_run_reports_replaces_reproduction_package_result_after_regen(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    reports = canonical._specs_by_name()
+    package = reports["reproduction-package"]
+    check = reports["reproduction-check-result"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (package, check))
+    calls = []
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name, mode))
+        if mode == "verify":
+            return _index_row_for_spec(spec) | {"fingerprint_status": "match", "fingerprint_reason": "match"}
+        return _index_row_for_spec(spec) | {
+            "status": "error",
+            "fingerprint_status": "miss",
+            "fingerprint_reason": "input-fingerprint",
+        }
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", lambda spec, *, generated_at=None: calls.append(("fingerprint", spec.name)))
+    monkeypatch.setattr(canonical, "_run_spec_producer", lambda spec, generated_at=None: calls.append(("producer", spec.name)))
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    by_name = {row["name"]: row for row in payload["reports"]}
+    assert by_name["reproduction-package"]["fingerprint_status"] == "match"
+    assert by_name["reproduction-check-result"]["fingerprint_status"] == "match"
+    assert ("run-spec", "reproduction-package", "verify") in calls
+    assert ("run-spec", "reproduction-check-result", "verify") in calls
 
 
 def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
@@ -4766,7 +4878,6 @@ def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeyp
     ("label", "mutate"),
     [
         ("producer-source", lambda root, spec: (root / spec.command[1]).write_text("SEED = 8\n", encoding="utf-8")),
-        ("config", lambda root, spec: (root / "configs" / "default_cost_protocol.yaml").write_text("unit_cost: 2\n", encoding="utf-8")),
         ("seed-cell", lambda root, spec: (root / spec.command[1]).write_text("SEED = 9\n", encoding="utf-8")),
         ("source-artifact", lambda root, spec: (root / "reports" / "canonical" / "upstream.json").write_text('{"cell": 2}\n', encoding="utf-8")),
     ],
@@ -5218,6 +5329,34 @@ def test_run_reports_runs_dgt_l0_controls_before_dgt_owner_generation(tmp_path, 
     assert calls.index(("run-spec", "discovery-gated-transformer")) < calls.index(("build-dgt", "discovery-gated-transformer"))
     assert calls.index(("run-spec", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
     assert calls.index(("fingerprint", "dgt-l0-controls")) < calls.index(("build-dgt", "discovery-gated-transformer"))
+
+
+def test_run_reports_refreshes_dgt_l1_controls_after_dgt_owner_generation(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = canonical._specs_by_name()
+    l1_spec = reports["dgt-l1-controls"]
+    dgt_spec = reports["discovery-gated-transformer"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (l1_spec, dgt_spec))
+    _patch_dgt_owner_fixture(monkeypatch, calls)
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name, mode))
+        return _index_row_for_spec(spec) | {"fingerprint_status": "match", "fingerprint_reason": "match"}
+
+    def fake_write_fingerprint(spec, *, generated_at=None):
+        calls.append(("fingerprint", spec.name))
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", fake_write_fingerprint)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls.index(("fingerprint", "dgt-l1-controls")) > calls.index(("build-dgt", "discovery-gated-transformer"))
+    assert ("run-spec", "dgt-l1-controls", "verify") in calls
+    assert [row for row in payload["reports"] if row["name"] == "dgt-l1-controls"][0]["fingerprint_status"] == "match"
 
 
 def test_run_reports_does_not_run_dgt_l0_controls_twice_when_selected(tmp_path, monkeypatch):

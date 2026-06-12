@@ -220,7 +220,8 @@ def _canonical_targets() -> tuple[ReproductionTargetRef, ...]:
             owner_artifact_ref=_artifact_exists_ref("reports/canonical/dgt-l0-controls.json"),
             config_refs=(
                 _pointer("reports/canonical/dgt-l0-controls.json", "$.source_artifacts"),
-                _pointer("reports/canonical/dgt-l0-controls.fingerprint.json", "$.inputs.config_inputs"),
+                _pointer("reports/canonical/dgt-l0-controls.json", "$.source_artifacts.command"),
+                _pointer("reports/canonical/dgt-l0-controls.json", "$.source_artifacts.device_policy"),
             ),
             seed_refs=(
                 _pointer("reports/canonical/dgt-l0-controls.json", "$.source_artifacts.seed_policy"),
@@ -250,7 +251,7 @@ def _canonical_targets() -> tuple[ReproductionTargetRef, ...]:
             owner_artifact_ref=_artifact_exists_ref("reports/canonical/dgt-l1-controls.json"),
             config_refs=(
                 _pointer("reports/canonical/dgt-l1-controls.json", "$.task_spec"),
-                _pointer("reports/canonical/dgt-l1-controls.fingerprint.json", "$.inputs.config_inputs"),
+                _pointer("reports/canonical/dgt-l1-controls.json", "$.source_artifacts.device_policy"),
             ),
             seed_refs=(
                 _pointer("reports/canonical/dgt-l1-controls.json", "$.source_artifacts.seed_policy"),

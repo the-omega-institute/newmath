@@ -2196,17 +2196,6 @@ def _import_closure(command: Sequence[str]) -> list[str]:
     return [_relative(path) for path in sorted(paths)]
 
 
-def _config_inputs() -> list[dict[str, str]]:
-    paths = sorted(
-        path
-        for base in (ROOT / "configs", ROOT / "docs" / "lit")
-        if base.exists()
-        for path in base.rglob("*")
-        if path.is_file()
-    )
-    return [{"path": _relative(path), "sha256": _path_digest(path)} for path in paths]
-
-
 def _dependency_abi() -> dict[str, str]:
     abi = {"python": sys.version.split()[0], "executable": sys.executable}
     for package in ("numpy", "torch"):
@@ -2219,19 +2208,31 @@ def _dependency_abi() -> dict[str, str]:
     return abi
 
 
-def _source_artifact_paths(value: Any) -> set[str]:
+def _fingerprint_input_path(value: str) -> str | None:
+    split = _split_artifact_pointer(value)
+    path = split[0] if split is not None else value
+    if path.startswith("/") or ".." in Path(path).parts:
+        return None
+    suffix = Path(path).suffix
+    if path.startswith("reports/") and suffix in {".json", ".jsonl", ".md"}:
+        return path
+    if path.startswith(("configs/", "docs/lit/")) and suffix in {".json", ".yaml", ".yml", ".md"}:
+        return path
+    return None
+
+
+def _local_fingerprint_paths(value: Any) -> set[str]:
     paths: set[str] = set()
     if isinstance(value, str):
-        split = _split_artifact_pointer(value)
-        path = split[0] if split is not None else value
-        if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
+        path = _fingerprint_input_path(value)
+        if path is not None:
             paths.add(path)
     elif isinstance(value, Mapping):
         for nested in value.values():
-            paths.update(_source_artifact_paths(nested))
+            paths.update(_local_fingerprint_paths(nested))
     elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
         for nested in value:
-            paths.update(_source_artifact_paths(nested))
+            paths.update(_local_fingerprint_paths(nested))
     return paths
 
 
@@ -2241,11 +2242,9 @@ def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
     if isinstance(payload, Mapping):
         for key, value in payload.items():
             if key in pointer_fields and isinstance(value, str):
-                split = _split_artifact_pointer(value)
-                if split is not None:
-                    path, _pointer = split
-                    if path.startswith("reports/") and Path(path).suffix in {".json", ".jsonl", ".md"}:
-                        paths.add(path)
+                path = _fingerprint_input_path(value)
+                if path is not None:
+                    paths.add(path)
             else:
                 paths.update(_structural_generalization_gate_artifact_paths(value))
     elif isinstance(payload, Sequence) and not isinstance(payload, (str, bytes, bytearray)):
@@ -2254,17 +2253,36 @@ def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
     return paths
 
 
+def _discipline_pointer_inputs(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> set[str]:
+    paths: set[str] = set()
+    for pointer in (
+        spec.scope_pointer,
+        spec.cost_pointer,
+        spec.not_claimed_pointer,
+        spec.positive_claim_pointer,
+        spec.control_pointer,
+        spec.no_control_rationale_pointer,
+        spec.claim_capsule_pointer,
+        spec.evidence_envelope_pointer,
+        spec.backend_pointer,
+        spec.discovery_level_pointer,
+        spec.claim_graph_path_pointer,
+        spec.negative_witness_pointer,
+        spec.formal_status_pointer,
+        spec.construct_validity_pointer,
+    ):
+        paths.update(_local_fingerprint_paths(_bracket_pointer_value(payload, pointer)))
+    return paths
+
+
 def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
     paths: set[str] = set()
     if isinstance(source_artifacts, Mapping):
-        if spec.name == "structural-generalization-splits":
-            paths.update(_source_artifact_paths(source_artifacts))
-        else:
-            for value in source_artifacts.values():
-                if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
-                    paths.add(value)
+        paths.update(_local_fingerprint_paths(source_artifacts))
+    if isinstance(payload, Mapping):
+        paths.update(_discipline_pointer_inputs(spec, payload))
     if spec.name == "structural-generalization-splits":
         paths.update(_structural_generalization_gate_artifact_paths(payload))
     if spec.name == "gap-head-discovery":
@@ -2304,6 +2322,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         input_accessibility = ROOT / "reports/canonical/input-accessibility.json"
         if input_accessibility.exists():
             paths.add("reports/canonical/input-accessibility.json")
+    if spec.literature_ref_ids:
+        paths.add("docs/lit/literature_ledger.yaml")
     if spec.name == "reproduction-package":
         paths.update(
             (
@@ -2321,6 +2341,7 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update((REPRODUCTION_PACKAGE_JSON_ARTIFACT, REPRODUCTION_PACKAGE_JSON_ARTIFACT.replace(".json", ".fingerprint.json")))
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
+    paths.discard(_relative(_fingerprint_path(spec)))
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
 
 
@@ -2355,7 +2376,6 @@ def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "report_output_schema_id": str(schema_id or "schema-unspecified"),
         "spec": _json_normalized(_producer_spec_record(spec)),
         "producer_sources": [{"path": path, "sha256": _path_digest(ROOT / path)} for path in import_paths],
-        "config_inputs": _config_inputs(),
         "source_artifacts": _source_artifact_inputs(spec),
         "seed_constants": {
             "environment": {"PYTHONHASHSEED": "unset"},
@@ -7341,6 +7361,13 @@ def run_reports(
             _artifact_path(DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT),
             _render_discovery_gated_transformer_markdown(discovery_gated_transformer),
         )
+        dgt_l1_spec = _specs_by_name().get("dgt-l1-controls")
+        if dgt_l1_spec is not None:
+            _run_metric_purity_post_generation((dgt_l1_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_l1_spec, generated_at=timestamp)
+            if any(result["name"] == dgt_l1_spec.name for result in results):
+                l1_result = _run_spec(dgt_l1_spec, mode="verify", generated_at=timestamp)
+                results = _replace_result_rows(results, (l1_result,), append_missing=False)
         dgt_spec = _specs_by_name().get("discovery-gated-transformer")
         if dgt_spec is not None:
             _run_metric_purity_post_generation((dgt_spec.json_artifact,))
@@ -7470,13 +7497,15 @@ def run_reports(
         and reproduction_check_spec is not None
         and any(spec.name in {"reproduction-package", "reproduction-check-result"} for spec in selected_specs)
     ):
-        _write_fingerprint_sidecar(reproduction_package_spec, generated_at=timestamp)
         from scripts.run_reproduction_package import write_check_result
 
+        _run_spec(reproduction_package_spec, mode=post_verdict_mode, generated_at=timestamp)
         write_check_result(ROOT, profile="structural", target_ids=(), generated_at=timestamp)
+        _write_fingerprint_sidecar(reproduction_package_spec, generated_at=timestamp)
         _write_fingerprint_sidecar(reproduction_check_spec, generated_at=timestamp)
+        package_result = _run_spec(reproduction_package_spec, mode="verify", generated_at=timestamp)
         check_result = _run_spec(reproduction_check_spec, mode="verify", generated_at=timestamp)
-        results = _replace_result_rows(results, (check_result,))
+        results = _replace_result_rows(results, (package_result, check_result))
         payload = _index(
             results,
             generated_at=timestamp,
@@ -7485,8 +7514,6 @@ def run_reports(
         )
         _write_json_atomic(INDEX_ARTIFACT, payload)
         _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
-        _write_fingerprint_sidecar(reproduction_package_spec, generated_at=timestamp)
-        _write_fingerprint_sidecar(reproduction_check_spec, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if mode == "verify":
