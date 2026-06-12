@@ -109,9 +109,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         payload = write_package(args.root, generated_at)
     if args.json_summary:
         print(json.dumps(payload, sort_keys=True))
+    failed_targets = payload.get("failed_targets")
+    if isinstance(failed_targets, list) and failed_targets:
+        return 1
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

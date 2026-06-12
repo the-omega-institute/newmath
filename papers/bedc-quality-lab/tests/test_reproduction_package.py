@@ -133,6 +133,41 @@ def test_reproduction_package_cli_writes_selected_projection_check_result(tmp_pa
     assert "| `canonical-index-view` | `projection-only` |" in markdown
 
 
+def test_reproduction_package_cli_returns_nonzero_for_failed_targets(tmp_path):
+    _copy_reproduction_fixture(tmp_path)
+    package = repro.build_package(tmp_path, generated_at="fixture")
+    package_path = tmp_path / repro.PACKAGE_JSON_ARTIFACT
+    package_path.parent.mkdir(parents=True, exist_ok=True)
+    package_path.write_text(json.dumps(package, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_reproduction_package.py",
+            "--root",
+            str(tmp_path),
+            "--verify",
+            "--target",
+            "definitely-not-a-target",
+            "--generated-at",
+            "fixture-check",
+            "--json-summary",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+
+    assert completed.returncode == 1
+    summary = json.loads(completed.stdout)
+    persisted = json.loads((tmp_path / repro.CHECK_RESULT_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert persisted == summary
+    assert persisted["failed_targets"] == ["definitely-not-a-target"]
+    assert persisted["blocked_targets"] == []
+    assert persisted["target_results"][0]["status"] == "fail"
+
+
 def test_reproduction_package_missing_seed_refs_fails_closed():
     package = repro.build_package(ROOT, generated_at="fixture")
     mutated = json.loads(json.dumps(package))
