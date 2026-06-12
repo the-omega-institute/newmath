@@ -5323,6 +5323,7 @@ import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
+import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
