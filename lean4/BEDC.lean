@@ -4225,6 +4225,7 @@ import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMidpointUp.BranchLedgerTotality
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
+import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.TasteGate
 import BEDC.Derived.DyadicOrderTopologyUp
