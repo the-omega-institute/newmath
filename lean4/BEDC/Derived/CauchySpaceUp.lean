@@ -293,4 +293,37 @@ theorem CauchySpaceLocalFilterCarrier_precompletion_factorization
     ⟨fUnary, uUnary, rUnary, tUnary, hUnary, completionUnary, namedUnary, transportRow,
       filterRoute, localPrecompletionRoute, completionRoute, namedRoute⟩
 
+theorem CauchySpaceCarrier_public_consumer_boundary
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 completion named publicRead : BHist} :
+    CauchySpaceLocalFilterCarrier F0 F1 U0 R0 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 T0 completion ->
+          Cont completion P0 named ->
+            Cont named N0 publicRead ->
+              UnaryHistory F0 ∧ UnaryHistory F1 ∧ UnaryHistory U0 ∧
+                UnaryHistory R0 ∧ UnaryHistory T0 ∧ UnaryHistory H0 ∧
+                  UnaryHistory completion ∧ UnaryHistory named ∧ UnaryHistory publicRead ∧
+                    hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧ Cont R0 T0 H0 ∧
+                      Cont R0 T0 completion ∧ Cont completion P0 named ∧
+                        Cont named N0 publicRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro localCarrier filterRoute completionRoute namedRoute publicReadRoute
+  have factorization :=
+    CauchySpaceLocalFilterCarrier_precompletion_factorization
+      (F0 := F0) (F1 := F1) (U0 := U0) (R0 := R0) (T0 := T0) (H0 := H0)
+      (C0 := C0) (P0 := P0) (N0 := N0) (completion := completion) (named := named)
+      localCarrier filterRoute completionRoute namedRoute
+  obtain ⟨fUnary, uUnary, rUnary, tUnary, hUnary, completionUnary, namedUnary,
+    transportRow, filterRouteOut, localPrecompletionRoute, completionRouteOut,
+    namedRouteOut⟩ := factorization
+  obtain ⟨carrier, _localPrecompletionRoute⟩ := localCarrier
+  obtain ⟨_fUnary, _uUnary, _rUnary, f1Unary, _tUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, _transportRow, _carrierFilterRoute, _nameRoute⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed namedUnary nUnary publicReadRoute
+  exact
+    ⟨fUnary, f1Unary, uUnary, rUnary, tUnary, hUnary, completionUnary, namedUnary,
+      publicReadUnary, transportRow, filterRouteOut, localPrecompletionRoute,
+      completionRouteOut, namedRouteOut, publicReadRoute⟩
+
 end BEDC.Derived.CauchySpaceUp
