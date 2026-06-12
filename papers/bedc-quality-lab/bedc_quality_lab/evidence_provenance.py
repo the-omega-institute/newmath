@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -30,17 +30,6 @@ TRAINING_TAINTED_STATUS = "empirical_training_tainted"
 TRAINING_ABSENT_STATUS = "training_evidence_absent"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_ROWS_BY_REPORT_KEY = "discovery_rows_by_report"
-TRAINING_ROLE_TOKENS = (
-    "backprop",
-    "fit",
-    "grad",
-    "gradient",
-    "optim",
-    "optimizer",
-    "train",
-    "training",
-)
-
 
 @dataclass(frozen=True)
 class ProducerTrainingAudit:
@@ -165,6 +154,9 @@ def validate_evidence_provenance_payload(payload: Mapping[str, Any]) -> dict[str
     producer_rows = _require_object_rows(payload, "producer_audits")
     metric_rows = _require_object_rows(payload, "metric_rows")
     discovery_rows = _require_object_rows(payload, "discovery_rows")
+    _require_dataclass_fields(producer_rows, "producer_audits", ProducerTrainingAudit)
+    _require_dataclass_fields(metric_rows, "metric_rows", MetricProvenanceRow)
+    _require_dataclass_fields(discovery_rows, "discovery_rows", DiscoveryEvidenceRow)
     _reject_empty_pointer_stubs(payload)
     producer_reports = [str(row.get("report")) for row in producer_rows if isinstance(row.get("report"), str)]
     if len(producer_reports) != len(producer_rows):
@@ -302,6 +294,14 @@ def _require_object_rows(payload: Mapping[str, Any], key: str) -> list[Mapping[s
     return rows
 
 
+def _require_dataclass_fields(rows: Sequence[Mapping[str, Any]], key: str, row_type: type[Any]) -> None:
+    required = {field.name for field in fields(row_type)}
+    for index, row in enumerate(rows):
+        missing = sorted(required.difference(row.keys()))
+        if missing:
+            raise ValueError(f"evidence provenance {key}[{index}] requires fields: {', '.join(missing)}")
+
+
 def _reject_empty_pointer_stubs(value: Any, path: str = "$") -> None:
     if isinstance(value, Mapping):
         for key, nested in value.items():
@@ -425,11 +425,7 @@ def _producer_source_files(root: Path, command: tuple[str, ...]) -> tuple[Path, 
     if not command_source.exists():
         return ()
     source_files = [command_source]
-    source_files.extend(
-        source_file
-        for source_file in _direct_local_import_files(root, command_source)
-        if _is_training_role_source(root, source_file)
-    )
+    source_files.extend(_direct_local_import_files(root, command_source))
     unique: list[Path] = []
     seen: set[Path] = set()
     for source_file in source_files:
@@ -438,15 +434,6 @@ def _producer_source_files(root: Path, command: tuple[str, ...]) -> tuple[Path, 
             unique.append(source_file)
             seen.add(resolved)
     return tuple(unique)
-
-
-def _is_training_role_source(root: Path, source_file: Path) -> bool:
-    try:
-        relative = source_file.resolve().relative_to(root.resolve())
-    except ValueError:
-        return False
-    path_text = relative.as_posix().lower()
-    return any(token in path_text for token in TRAINING_ROLE_TOKENS)
 
 
 def _direct_local_import_files(root: Path, source_file: Path) -> tuple[Path, ...]:
@@ -485,21 +472,85 @@ def _scan_training_lines(root: Path, source_file: Path) -> tuple[list[str], list
     optimizer_steps: list[str] = []
     parameter_updates: list[str] = []
     try:
-        lines = source_file.read_text(encoding="utf-8").splitlines()
-    except OSError:
+        source_text = source_file.read_text(encoding="utf-8")
+        tree = ast.parse(source_text)
+    except (OSError, SyntaxError):
         return backward, optimizer_steps, parameter_updates
-    for number, line in enumerate(lines, start=1):
-        compact = line.replace(" ", "")
-        pointer = _source_pointer(root, source_file, number)
-        if ".backward(" in compact:
-            backward.append(pointer)
-        if ".step(" in compact and ("optim" in line or "optimizer" in line or "opt." in line):
-            optimizer_steps.append(pointer)
-        if any(token in compact for token in ("torch.optim", "optim.Adam", "optim.SGD", "Optimizer(")):
-            optimizer_steps.append(pointer)
-        if any(token in compact for token in (".data-=", ".data+=", ".grad", "parameter_update", "param_update", "requires_grad")):
-            parameter_updates.append(pointer)
-    return backward, sorted(set(optimizer_steps)), parameter_updates
+    nodes = sorted(ast.walk(tree), key=lambda node: (getattr(node, "lineno", 10**9), getattr(node, "col_offset", 0)))
+    for node in nodes:
+        line_number = getattr(node, "lineno", None)
+        if not isinstance(line_number, int):
+            continue
+        pointer = _source_pointer(root, source_file, line_number)
+        if isinstance(node, ast.Call) and _is_backward_call(node):
+            _append_unique(backward, pointer)
+        if isinstance(node, ast.Call) and (_is_optimizer_step_call(node) or _is_optimizer_constructor_call(node)):
+            _append_unique(optimizer_steps, pointer)
+        if _is_parameter_update_node(node):
+            _append_unique(parameter_updates, pointer)
+    return backward, optimizer_steps, parameter_updates
+
+
+def _append_unique(items: list[str], value: str) -> None:
+    if value not in items:
+        items.append(value)
+
+
+def _is_backward_call(node: ast.Call) -> bool:
+    return isinstance(node.func, ast.Attribute) and node.func.attr == "backward"
+
+
+def _is_optimizer_step_call(node: ast.Call) -> bool:
+    return (
+        isinstance(node.func, ast.Attribute)
+        and node.func.attr == "step"
+        and _expr_mentions_token(node.func.value, ("optim", "optimizer", "opt"))
+    )
+
+
+def _is_optimizer_constructor_call(node: ast.Call) -> bool:
+    call_path = _expr_path(node.func).lower()
+    return (
+        call_path == "optimizer"
+        or call_path.endswith(".optimizer")
+        or call_path.startswith("optim.")
+        or call_path.startswith("torch.optim.")
+    )
+
+
+def _is_parameter_update_node(node: ast.AST) -> bool:
+    if isinstance(node, ast.AugAssign):
+        return _expr_mentions_token(node.target, ("data", "grad", "parameter_update", "param_update"))
+    if isinstance(node, ast.Attribute):
+        return node.attr in {"grad", "requires_grad"}
+    if isinstance(node, ast.Name):
+        lowered = node.id.lower()
+        return "parameter_update" in lowered or "param_update" in lowered
+    if isinstance(node, ast.Call):
+        call_path = _expr_path(node.func).lower()
+        return "parameter_update" in call_path or "param_update" in call_path
+    return False
+
+
+def _expr_mentions_token(node: ast.AST, tokens: Sequence[str]) -> bool:
+    lowered_tokens = tuple(token.lower() for token in tokens)
+    return any(any(token in part for token in lowered_tokens) for part in _expr_parts(node))
+
+
+def _expr_path(node: ast.AST) -> str:
+    return ".".join(reversed(_expr_parts(node)))
+
+
+def _expr_parts(node: ast.AST) -> tuple[str, ...]:
+    if isinstance(node, ast.Name):
+        return (node.id.lower(),)
+    if isinstance(node, ast.Attribute):
+        return (node.attr.lower(), *_expr_parts(node.value))
+    if isinstance(node, ast.Call):
+        return _expr_parts(node.func)
+    if isinstance(node, ast.Subscript):
+        return _expr_parts(node.value)
+    return ()
 
 
 def _source_pointer(root: Path, source_file: Path, line: int | None = None) -> str:

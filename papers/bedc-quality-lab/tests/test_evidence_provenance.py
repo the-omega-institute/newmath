@@ -157,18 +157,41 @@ def test_imported_non_training_scanner_code_does_not_certify_training(tmp_path):
     assert payload["discovery_rows"][0]["evidence_type"] == "deterministic_projection"
 
 
-def test_imported_training_role_source_can_certify_training(tmp_path):
+@pytest.mark.parametrize(
+    ("module_path", "import_line", "expected_backward", "expected_step"),
+    [
+        (
+            "bedc_quality_lab/training_loop.py",
+            "from bedc_quality_lab.training_loop import train_model",
+            "bedc_quality_lab/training_loop.py:L2",
+            "bedc_quality_lab/training_loop.py:L3",
+        ),
+        (
+            "bedc_quality_lab/runner.py",
+            "from bedc_quality_lab.runner import train_model",
+            "bedc_quality_lab/runner.py:L2",
+            "bedc_quality_lab/runner.py:L3",
+        ),
+    ],
+)
+def test_directly_imported_local_source_can_certify_training(
+    tmp_path,
+    module_path,
+    import_line,
+    expected_backward,
+    expected_step,
+):
     spec = _spec("delegated-training", "reports/canonical/delegated-training.json")
     _write_source(
         tmp_path,
         "scripts/run_fixture.py",
-        "from bedc_quality_lab.training_loop import train_model\n\n"
+        f"{import_line}\n\n"
         "def main(loss, optimizer):\n"
         "    return train_model(loss, optimizer)\n",
     )
     _write_source(
         tmp_path,
-        "bedc_quality_lab/training_loop.py",
+        module_path,
         "def train_model(loss, optimizer):\n"
         "    loss.backward()\n"
         "    optimizer.step()\n",
@@ -180,8 +203,10 @@ def test_imported_training_role_source_can_certify_training(tmp_path):
     audit = payload["producer_audits"][0]
 
     assert audit["training_evidence_status"] == "empirical_training_clean"
-    assert audit["backward_pointers"] == ["bedc_quality_lab/training_loop.py:L2"]
-    assert audit["optimizer_step_pointers"] == ["bedc_quality_lab/training_loop.py:L3"]
+    assert audit["backward_pointers"] == [expected_backward]
+    assert audit["optimizer_step_pointers"] == [expected_step]
+    assert payload["metric_rows"][0]["source_type"] == "measured_training"
+    assert payload["discovery_rows"][0]["evidence_type"] == "empirical_training_clean"
 
 
 def test_missing_measurement_is_null_with_reason_not_new_enum(tmp_path):
@@ -209,6 +234,32 @@ def test_validation_rejects_non_owner_vocabularies(tmp_path):
         validate_evidence_provenance_payload(payload)
 
 
+@pytest.mark.parametrize(
+    ("collection", "field"),
+    [
+        ("metric_rows", "source_artifact_pointer"),
+        ("metric_rows", "not_claimed"),
+        ("producer_audits", "producer_command"),
+        ("producer_audits", "backward_pointers"),
+        ("producer_audits", "not_claimed"),
+        ("discovery_rows", "allowed_claim_kinds"),
+        ("discovery_rows", "not_claimed"),
+        ("discovery_rows", "discovery_map_pointer"),
+    ],
+)
+def test_validation_rejects_missing_dataclass_row_fields(tmp_path, collection, field):
+    spec = _spec("fixture", "reports/canonical/fixture.json")
+    _write_source(tmp_path, "scripts/run_fixture.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+    payload[collection][0].pop(field)
+    if collection == "discovery_rows":
+        _sync_discovery_row_by_report(payload)
+
+    with pytest.raises(ValueError, match=f"{collection}\\[0\\] requires fields: {field}"):
+        validate_evidence_provenance_payload(payload)
+
+
 @pytest.mark.parametrize("replacement", [None, ""])
 def test_validation_rejects_null_or_empty_discovery_evidence_type(tmp_path, replacement):
     spec = _spec("fixture", "reports/canonical/fixture.json")
@@ -230,7 +281,7 @@ def test_validation_rejects_missing_discovery_evidence_type(tmp_path):
     payload["discovery_rows"][0].pop("evidence_type")
     _sync_discovery_row_by_report(payload)
 
-    with pytest.raises(ValueError, match="evidence_type is unsupported"):
+    with pytest.raises(ValueError, match="discovery_rows\\[0\\] requires fields: evidence_type"):
         validate_evidence_provenance_payload(payload)
 
 
@@ -339,7 +390,7 @@ def test_validation_rejects_missing_metric_training_audit_pointer(tmp_path):
     payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
     payload["metric_rows"][0].pop("producer_training_audit_pointer")
 
-    with pytest.raises(ValueError, match="producer_training_audit_pointer must be a non-empty owner pointer or null"):
+    with pytest.raises(ValueError, match="metric_rows\\[0\\] requires fields: producer_training_audit_pointer"):
         validate_evidence_provenance_payload(payload)
 
 
@@ -363,7 +414,7 @@ def test_validation_rejects_missing_training_audit_pointer_for_producer_report(t
     payload["discovery_rows"][0].pop("producer_training_audit_pointer")
     _sync_discovery_row_by_report(payload)
 
-    with pytest.raises(ValueError, match="producer_training_audit_pointer must be present"):
+    with pytest.raises(ValueError, match="discovery_rows\\[0\\] requires fields: producer_training_audit_pointer"):
         validate_evidence_provenance_payload(payload)
 
 
@@ -403,7 +454,7 @@ def test_validation_requires_explicit_null_sidecar_training_audit_pointer(tmp_pa
     payload["discovery_rows"][1] = malformed
     payload["discovery_rows_by_report"]["sidecar-boundary"] = malformed
 
-    with pytest.raises(ValueError, match="producer_training_audit_pointer must be present"):
+    with pytest.raises(ValueError, match="discovery_rows\\[1\\] requires fields: producer_training_audit_pointer"):
         validate_evidence_provenance_payload(payload)
 
 
