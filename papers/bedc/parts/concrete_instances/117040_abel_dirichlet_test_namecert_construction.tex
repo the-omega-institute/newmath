@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\AbelDirichletTestUp$}
+\label{ch:concrete-instances-abel-dirichlet-test-namecert}
+\origin{human}
+
+Following Abel, Dirichlet, and Hardy-style summation tests, the $\AbelDirichletTestUp$ packet records the combined convergence-test surface in which an Abel summation row, an Abel-test face, and a Dirichlet-test face share one completion-facing tail route. It sits beside the summation-by-parts certificate of \autoref{ch:concrete-instances-abel-summation-namecert}, the Abel-test certificate of \autoref{ch:concrete-instances-abel-test-namecert}, the Dirichlet-test certificate of \autoref{ch:concrete-instances-dirichlet-test-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the comparison packet of \autoref{ch:concrete-instances-abel-dirichlet-comparison-namecert}. The packet is a finite naming certificate for the shared Abel--Dirichlet convergence route; it is not a selected infinite sum, a quotient equality of series streams, a countable-choice selector, an order-trichotomy principle, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Abel--Dirichlet test carrier]
+\label{def:abel-dirichlet-test-carrier}
+An $\AbelDirichletTestUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,A,B,D,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source series row, exposing only the finite term and partial-sum windows read by the test.
+\item $A$ is the $\AbelSummationUp$ row, carrying the finite summation-by-parts window and boundary-term data.
+\item $B$ is the $\AbelTestUp$ face row, exposing the bounded partial-sum, monotone null coefficient, and Abel tail ledger visible to the combined packet.
+\item $D$ is the $\DirichletTestUp$ face row, exposing the bounded partial-sum, coefficient-window, null-tail, and Dirichlet tail-schedule rows visible to the combined packet.
+\item $Q$ is the $\AbelDirichletComparisonUp$ row, forcing the two test faces to meet at one displayed comparison and shared-tail request before readback.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed source, summation, test-face, and comparison windows.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $S,A,B,D,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, summation, Abel face, Dirichlet face, comparison, readback, endpoint, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+S \longmapsto A \longmapsto B,D \longmapsto Q \longmapsto R \longmapsto E.
+$$
+\item $P$ is the $\Pkg$ provenance over $\AbelDirichletTestUp$, $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\AbelDirichletComparisonUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AbelDirichletTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven displayed rows. It has no coordinate for a selected infinite sum, quotient series equality, countable choice, trichotomy, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Abel--Dirichlet test NameCert obligations]
+\label{thm:abel-dirichlet-test-namecert-obligations}
+For every accepted $\AbelDirichletTestUp$ carrier $T=(S,A,B,D,Q,R,E,H,C,P,N)$, the local $\NameCert_{\AbelDirichletTestUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed eleven-row packet;
+\item source-window exposure through $S$;
+\item Abel summation exposure through $A$, preserving the finite summation-by-parts and boundary-term rows;
+\item Abel-test face exposure through $B$, preserving the bounded partial-sum, monotone null coefficient, and tail ledger rows;
+\item Dirichlet-test face exposure through $D$, preserving the bounded partial-sum, coefficient-window, null-tail, and tail-schedule rows;
+\item comparison exactness through $Q$, requiring the two test faces to meet at the displayed $\AbelDirichletComparisonUp$ row before completion-facing readback;
+\item $\RegSeqRatUp$ readback and $\RealUp$ endpoint exposure through $R$ and $E$;
+\item componentwise transport, displayed replay, provenance, and local naming through exactly $H,C,P,N$.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:abel-dirichlet-test-carrier}. The source, summation, test-face, comparison, readback, endpoint, transport, replay, provenance, and local naming rows are exactly the coordinates of $T$.
+
+Read the analytic rows in order. The Abel summation row $A$ supplies the finite summation-by-parts window. The Abel face $B$ and Dirichlet face $D$ then contribute their displayed bounded-partial-sum and tail-control data.
+
+The common convergence-test obligation is the row $Q$. It forces the two faces to pass through the existing Abel--Dirichlet comparison surface before $R$ and $E$ can be read by a completion-facing consumer.
+
+Finally read $H,C,P,N$. These structural rows transport, replay, source, and name the same finite route, so the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Abel--Dirichlet test tail handoff]
+\label{thm:abel-dirichlet-test-tail-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\AbelDirichletTestUp$ carrier must factor through
+$$
+S \longmapsto A \longmapsto B,D \longmapsto Q \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$. Thus the combined Abel--Dirichlet test exports one finite tail handoff to Real-and-Completion consumers, not two independent informal convergence claims.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing read. The source row $S$ is the only source entry point, so the consumer first sees only the displayed finite term and partial-sum windows.
+
+The summation row $A$ supplies the shared Abel summation-by-parts data. The Abel-test face $B$ and Dirichlet-test face $D$ may then be read, but neither face can export a real endpoint directly from this carrier.
+
+The comparison row $Q$ is the unique handoff from the two test faces to later regular readback. Therefore $R$ and $E$ are public only after the displayed Abel--Dirichlet comparison route has been read.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that same route. Since the carrier has no excluded host-side coordinate, no consumer can bypass the finite tail handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\AbelDirichletTestUp$ consumer that reaches a $\RegSeqRatUp$ readback, $\RealUp$ seal, or downstream summability handoff without first reading the source row, $\AbelSummationUp$ row, $\AbelTestUp$ face, $\DirichletTestUp$ face, and $\AbelDirichletComparisonUp$ row refutes the carrier surface.}
+
+\independenceWitness{abel-summation, abel-test, dirichlet-test, abel-dirichlet-comparison, regseqrat, real: no listed sibling supplies the whole combined packet $T=(S,A,B,D,Q,R,E,H,C,P,N)$, because each sibling contributes only a summation row, a test face, a comparison handoff, a readback, or a seal while this chapter binds them as one finite convergence-test certificate.}
+
+\closureat{AbelDirichletTestUp}{seedStr}
+
+\begin{closurestatus}{\AbelDirichletTestUp}
+  \constructivestory{An $\AbelDirichletTestUp$ packet is generated from source windows, an $\AbelSummationUp$ summation-by-parts row, $\AbelTestUp$ and $\DirichletTestUp$ face rows, an $\AbelDirichletComparisonUp$ shared-tail row, a $\RegSeqRatUp$ readback, a $\RealUp$ endpoint seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-dirichlet-test-carrier}, \autoref{thm:abel-dirichlet-test-namecert-obligations}, and \autoref{thm:abel-dirichlet-test-tail-handoff} seed the finite combined convergence-test surface over $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\AbelDirichletComparisonUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite sums, quotient series equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Abel summation exposure, Abel and Dirichlet face exposure, comparison exactness, regular readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.AbelDirichletTestUp.}
+\end{closurestatus}
