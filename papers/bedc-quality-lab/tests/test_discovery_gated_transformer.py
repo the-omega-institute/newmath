@@ -72,6 +72,8 @@ from bedc_quality_lab.discovery_gated_transformer import (
 )
 from bedc_quality_lab import dgt_l0_controls
 from bedc_quality_lab import dgt_l1_controls
+from bedc_quality_lab import dgt_base_undertraining_audit
+from bedc_quality_lab import fair_l1_decision
 from scripts import run_discovery_gated_transformer as dgt
 
 
@@ -119,9 +121,48 @@ def _write_passed_dgt_l0_controls_artifact(root):
 
 
 def _write_ready_dgt_l1_controls_artifact(root):
+    input_path = root / fair_l1_decision.INPUT_ACCESSIBILITY_ARTIFACT
+    input_path.parent.mkdir(parents=True, exist_ok=True)
+    input_path.write_bytes((fair_l1_decision.LAB_ROOT / fair_l1_decision.INPUT_ACCESSIBILITY_ARTIFACT).read_bytes())
     payload = dgt_l1_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
     dgt_l1_controls.write_artifacts(payload, root=root, generated_at="fixture-time")
+    base_payload = dgt_base_undertraining_audit.build_payload(root=root, generated_at="fixture-time")
+    dgt_base_undertraining_audit.write_artifacts(base_payload, root=root, generated_at="fixture-time")
+    fair_payload = fair_l1_decision.build_payload(root=root, generated_at="fixture-time")
+    fair_l1_decision.write_artifacts(fair_payload, root=root, generated_at="fixture-time")
     return payload
+
+
+def _write_eligible_fair_l1_decision_artifact(root):
+    path = root / fair_l1_decision.CANONICAL_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "decision": {"status": "scaling-evidence-eligible"},
+                "ladder_state_projection": {
+                    "state": "l1-scaling-evidence-eligible",
+                    "decision_status": "scaling-evidence-eligible",
+                    "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                    "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                    "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                    "not_claimed": [
+                        "Bounded tiny-sequence L1 decision only.",
+                        "No L2 or higher scaling claim.",
+                        "No production deployment claim.",
+                        "No global superiority claim.",
+                        "No LLM replacement claim.",
+                        "No OOD generalization claim.",
+                        "No architecture advantage claim.",
+                    ],
+                },
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _write_dgt_owner_refs(root):
@@ -772,6 +813,7 @@ def _owner_with_ready_scaling_ladder(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     _write_ready_dgt_l1_controls_artifact(tmp_path)
+    _write_eligible_fair_l1_decision_artifact(tmp_path)
     owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
@@ -864,7 +906,7 @@ def test_dgt_scaling_ladder_l0_projects_from_canonical_controls_without_inheriti
     assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
     assert l0_capsule["review_status_alias_source"] == f"{DGT_L0_CONTROLS_ARTIFACT}:$.l0_toy_projection.review_status"
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
-    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
+    assert ladder["opened_levels"] == []
     assert ladder["overall_status"] == "blocked"
     assert ladder["not_inherited_from_l0"] == list(SCALING_LADDER_LEVEL_IDS[1:])
     assert ladder["status"] == "blocked"
@@ -896,7 +938,7 @@ def test_dgt_scaling_ladder_does_not_recompute_l0_hardgates_or_read_downstream_v
 
     assert l0_capsule["level_state"] == "scoped-boundary"
     assert l0_capsule["ladder_consumption_status"] == "scoped-boundary"
-    assert ladder["opened_levels"] == ["L1_tiny_sequence"]
+    assert ladder["opened_levels"] == []
     assert not any(key in l0_capsule for key in L0_FORBIDDEN_LADDER_KEYS)
     serialized = json.dumps(ladder, sort_keys=True)
     assert "L0-PASS-HG" not in serialized
@@ -983,16 +1025,18 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
     owner = _owner_with_l1_open_scaling_ladder(tmp_path)
     l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
 
-    assert l1_capsule["pointer"] == "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
-    assert l1_capsule["review_status_alias"] == "pass"
-    assert l1_capsule["promotion_readiness_alias"] == "ready-pass"
+    assert l1_capsule["pointer"] == "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
+    assert l1_capsule["review_status_alias"] == "bounded-negative"
+    assert l1_capsule["promotion_readiness_alias"] == "l1-bounded-negative"
+    assert l1_capsule["level_state"] == "blocked"
+    assert l1_capsule["promotion_status"] == "l1-bounded-negative"
     assert owner["source_artifacts"]["construct_suspension_ref"] == {
         "artifact": "reports/canonical/dgt-l0-controls.json",
         "pointer": "$.construct_suspension",
     }
     assert owner["source_artifacts"]["interpretation_boundary_ref"] == {
-        "artifact": "reports/canonical/dgt-l1-controls.json",
-        "pointer": "$.l1_tiny_sequence_projection",
+        "artifact": "reports/canonical/fair-l1-decision.json",
+        "pointer": "$.ladder_state_projection",
     }
     assert owner["source_artifacts"]["negative_witness_sweep_ref"] == {
         "artifact": "reports/canonical/dgt-l1-controls.json",
@@ -1040,7 +1084,7 @@ def test_dgt_owner_refs_fail_closed_when_all_owner_artifacts_are_absent(tmp_path
         )
 
 
-def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
+def test_dgt_promotion_reads_only_fair_l1_decision_projection(tmp_path):
     _write_passed_dgt_neural_ablation_artifact(tmp_path)
     _write_passed_dgt_l0_controls_artifact(tmp_path)
     l1_payload = _write_ready_dgt_l1_controls_artifact(tmp_path)
@@ -1057,17 +1101,29 @@ def test_dgt_promotion_reads_only_l1_review_status(tmp_path):
     )
 
     l1_capsule = owner["scaling_ladder"]["levels"][1]["claim_capsule"]
-    assert l1_capsule["level_state"] == "ready"
-    assert l1_capsule["promotion_status"] == "level-local-evidence-ready"
+    assert l1_capsule["level_state"] == "blocked"
+    assert l1_capsule["promotion_status"] == "l1-bounded-negative"
 
-    mutated_l1["l1_tiny_sequence_projection"]["review_status"] = "blocked"
-    l1_path.write_text(json.dumps(mutated_l1, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_eligible_fair_l1_decision_artifact(tmp_path)
+    eligible_owner = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    eligible_capsule = eligible_owner["scaling_ladder"]["levels"][1]["claim_capsule"]
+    assert eligible_capsule["level_state"] == "ready"
+    assert eligible_capsule["promotion_status"] == "l1-scaling-evidence-eligible"
+
+    fair_path = tmp_path / fair_l1_decision.CANONICAL_JSON_ARTIFACT
+    fair_payload = json.loads(fair_path.read_text(encoding="utf-8"))
+    fair_payload["ladder_state_projection"]["state"] = "l1-scaling-blocked"
+    fair_payload["ladder_state_projection"]["decision_status"] = "blocked"
+    fair_path.write_text(json.dumps(fair_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     blocked_owner = dgt.build_payload(
         generated_at="fixture-time",
         high_impact_review_rows=_accepted_dgt_review_rows(),
         root=tmp_path,
     )
-
     blocked_capsule = blocked_owner["scaling_ladder"]["levels"][1]["claim_capsule"]
     assert blocked_capsule["level_state"] == "blocked"
     assert any(row["level_id"] == "L1_tiny_sequence" for row in blocked_owner["scaling_ladder"]["boundary_ledger"])

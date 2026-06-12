@@ -219,6 +219,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_base_undertraining_audit
 
         return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
+    if spec.name == "fair-l1-decision":
+        from bedc_quality_lab import fair_l1_decision
+
+        return fair_l1_decision.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "dgt-model-card":
         return {
             "schema_id": canonical.DGT_MODEL_CARD_SCHEMA_ID,
@@ -1255,6 +1259,31 @@ def _write_release_pointer_fixture(root):
         + "\n",
         encoding="utf-8",
     )
+    (canonical_dir / "fair-l1-decision.json").write_text(
+        json.dumps(
+            {
+                "decision": {"status": "bounded-negative"},
+                "ladder_state_projection": {
+                    "state": "l1-bounded-negative",
+                    "decision_status": "bounded-negative",
+                    "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                    "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                    "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                    "not_claimed": [
+                        "Bounded tiny-sequence L1 decision only.",
+                        "No L2 or higher scaling claim.",
+                        "No production deployment claim.",
+                        "No global superiority claim.",
+                        "No LLM replacement claim.",
+                        "No OOD generalization claim.",
+                        "No architecture advantage claim.",
+                    ],
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     (root / "docs" / "artifact_manifest.md").write_text(
         "# Artifact Manifest\n\n"
         "## Quality Baseline Surfaces\n\n"
@@ -1714,6 +1743,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
             "structural-generalization-splits",
             "dgt-base-undertraining-audit",
             "input-accessibility",
+            "fair-l1-decision",
             "discovery-gated-transformer",
             "dgt-neural-ablation",
             "dgt-ablation-null-decomposition",
@@ -1961,8 +1991,13 @@ def test_dgt_model_card_report_row_consumes_card_hardgates():
     assert payload["card_hardgates"]["status"] == "pass"
     assert payload["missing_source_refs"] == []
     assert payload["training_facts"]["evidence_provenance"]["status"] == "resolved"
-    assert payload["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
-    assert payload["source_artifacts"][5]["status"] == "resolved"
+    provenance = next(
+        row
+        for row in payload["source_artifacts"]
+        if row["source_owner"] == "canonical-index-evidence-provenance"
+    )
+    assert provenance["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert provenance["status"] == "resolved"
 
 
 def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
@@ -1970,6 +2005,7 @@ def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
     source_artifacts = (
         "reports/canonical/dgt-l0-controls.json",
         "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/fair-l1-decision.json",
         "reports/canonical/dgt-base-undertraining-audit.json",
         "reports/canonical/dgt-ablation-null-decomposition.json",
         "reports/canonical/discovery-gated-transformer.json",
@@ -1992,12 +2028,18 @@ def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
     assert card["card_hardgates"]["status"] == "blocked"
     assert card["missing_source_refs"] == ["reports/canonical/index.json:$.evidence_provenance"]
     assert card["training_facts"]["evidence_provenance"]["status"] == "blocked"
-    assert card["source_artifacts"][5]["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
-    assert card["source_artifacts"][5]["status"] == "pointer-missing"
+    provenance = next(
+        row
+        for row in card["source_artifacts"]
+        if row["source_owner"] == "canonical-index-evidence-provenance"
+    )
+    provenance_index = card["source_artifacts"].index(provenance)
+    assert provenance["source_pointer"] == "reports/canonical/index.json:$.evidence_provenance"
+    assert provenance["status"] == "pointer-missing"
     assert errors == [
         {
             "gate_id": "CARD-HG9",
-            "path": "$.source_artifacts[5].status",
+            "path": f"$.source_artifacts[{provenance_index}].status",
             "message": "source pointer is not resolved",
         }
     ]
@@ -3617,8 +3659,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "pointer": "$.construct_suspension",
     }
     assert payload["source_artifacts"]["interpretation_boundary_ref"] == {
-        "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
-        "pointer": "$.l1_tiny_sequence_projection",
+        "artifact": canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
+        "pointer": "$.ladder_state_projection",
     }
     assert payload["source_artifacts"]["negative_witness_sweep_ref"] == {
         "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
@@ -3827,6 +3869,32 @@ def test_dgt_base_undertraining_audit_canonical_spec_follows_l1_controls():
     )
 
 
+def test_fair_l1_decision_canonical_spec_projects_ladder_state():
+    spec = canonical._specs_by_name()["fair-l1-decision"]
+    names = [item.name for item in canonical.CANONICAL_REPORTS]
+    payload = _payload_for_spec(spec)
+
+    assert names.index("dgt-l1-controls") < names.index("fair-l1-decision")
+    assert names.index("dgt-base-undertraining-audit") < names.index("fair-l1-decision")
+    assert names.index("input-accessibility") < names.index("fair-l1-decision")
+    assert names.index("fair-l1-decision") < names.index("discovery-gated-transformer")
+    assert spec.bundle_role == "auxiliary"
+    assert spec.command == ("python3", "scripts/run_fair_l1_decision.py")
+    assert spec.json_artifact == canonical.FAIR_L1_DECISION_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.FAIR_L1_DECISION_MARKDOWN_ARTIFACT
+    assert spec.positive_claim_pointer == "$.decision.status"
+    assert spec.claim_capsule_pointer == "$.decision.claim_capsule"
+    assert spec.construct_validity_pointer == (
+        "reports/canonical/fair-l1-decision.json:$.construct_validity_projection"
+    )
+    assert payload["decision"]["status"] in {"blocked", "bounded-negative", "scaling-evidence-eligible"}
+    assert payload["ladder_state_projection"]["state"] in {
+        "l1-scaling-blocked",
+        "l1-bounded-negative",
+        "l1-scaling-evidence-eligible",
+    }
+
+
 def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
@@ -3923,6 +3991,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "l0_control_ledger_pointer",
         "l0_control_negative_witness_pointer",
         "l1_control_projection_pointer",
+        "fair_l1_decision_projection_pointer",
+        "fair_l1_decision_status_pointer",
         "interpretation_boundary_ref_pointer",
         "negative_witness_sweep_ref_pointer",
         "l1_control_step_ladder_pointer",
@@ -4003,6 +4073,12 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["scaling_ladder_discovery_level_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.discovery_level"
+    )
+    assert section["fair_l1_decision_projection_pointer"] == (
+        "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
+    )
+    assert section["fair_l1_decision_status_pointer"] == (
+        "reports/canonical/fair-l1-decision.json:$.decision.status"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (

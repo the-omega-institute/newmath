@@ -123,6 +123,11 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "name": "fair-l1-decision",
+      "status": "fail"
+    },
+    {
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "name": "discovery-gated-transformer",
       "status": "pass"
@@ -175,7 +180,7 @@
     {
       "json_artifact": "reports/canonical/model-comparison.json",
       "name": "model-comparison",
-      "status": "pass"
+      "status": "error"
     },
     {
       "json_artifact": "reports/canonical/causal_patch_suite.json",
@@ -294,9 +299,9 @@
       "value": 10
     },
     {
-      "denominator": 37,
+      "denominator": 38,
       "metric": "ScopeCompleteness",
-      "numerator": 37,
+      "numerator": 38,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -424,6 +429,11 @@
           "report": "input-accessibility"
         },
         {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.not_claimed",
+          "report": "fair-l1-decision"
+        },
+        {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
           "pointer": "$.scaling_ladder",
           "report": "discovery-gated-transformer"
@@ -488,9 +498,9 @@
       "value": 1.0
     },
     {
-      "denominator": 37,
+      "denominator": 38,
       "metric": "CostProtocolCompleteness",
-      "numerator": 37,
+      "numerator": 38,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -616,6 +626,11 @@
           "artifact": "reports/canonical/input-accessibility.json",
           "pointer": "$.source_registry",
           "report": "input-accessibility"
+        },
+        {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.source_artifacts",
+          "report": "fair-l1-decision"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
