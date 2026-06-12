@@ -274,6 +274,7 @@ import BEDC.Derived.ArchimedeanRealUp.BudgetedCauchyBound
 import BEDC.Derived.ArchimedeanRealUp.CauchyThresholdForwardRoute
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArchimedeanRealUp.TasteGate
+import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteWindowDiagonalBridgeUp.TasteGate
@@ -2432,6 +2433,7 @@ import BEDC.Derived.ClassifyingSpaceUp.TasteGate
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
+import BEDC.Derived.ClopenAlgebraUp
 import BEDC.Derived.ClosedBallCompactnessUp.TasteGate
 import BEDC.Derived.ClosedBetaPathUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
@@ -3730,6 +3732,7 @@ import BEDC.Derived.DiagonalLimitBudgetUp.IndependenceWitness
 import BEDC.Derived.DiagonalLimitBudgetUp.Nonescape
 import BEDC.Derived.DiagonalLimitBudgetUp.ObligationSurface
 import BEDC.Derived.DiagonalLimitBudgetUp.RealSealHandoff
+import BEDC.Derived.DiagonalLimitBudgetUp.ScopedL10Grounding
 import BEDC.Derived.DiagonalLimitBudgetUp.SealHandoff
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGateReadiness
@@ -9536,6 +9539,7 @@ import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.CarrierObligation
 import BEDC.Derived.TailCofinalityBudgetUp.FilteredTailScope
+import BEDC.Derived.TailCofinalityBudgetUp.LedgerObligation
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.ThresholdMonotonicity
