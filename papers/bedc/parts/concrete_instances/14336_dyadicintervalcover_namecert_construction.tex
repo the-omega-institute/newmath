@@ -705,45 +705,7 @@ Apply \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. It places a
 Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readback rows $W,Q$ and the seal row $A$ remain downstream of the displayed cover chain, so $\RegSeqRatUp$ and $\RealUp$ consumers receive only the finite route. The structural rows preserve that route and add no selected subcover or ambient compactness coordinate.
 \end{proof}
 
-\begin{theorem}[DyadicIntervalCover public finite-cover export]
-\label{thm:dyadicintervalcover-public-finite-cover-export}
-Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. The public export surface of $I$ is the single finite-cover NameCert route that displays the finite mesh $M$, dyadic endpoint rows $L,U$, cover-membership ledger $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $A$, and $\BishopIntervalCompactUp$ handoff through $H,C,P,N$. This route exports finite-cover data only; it still refuses selected finite subcovers, quotient real equality, countable choice, open-cover compactness, host compactness, and ambient completion.
-\end{theorem}
-\begin{proof}
-Start from \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain}. It already factors every scoped finite-cover chain through $L,U,M,R,V,W,Q,A,H,C,P,N$ and excludes open-cover compactness, selected subcovers, quotient equality, countable choice, and ambient completeness.
-
-Use \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. The $\BishopIntervalCompactUp$ consumer is reached only after the dyadic endpoint, mesh, radius, membership, window, readback, Real-seal, transport, replay, provenance, and naming rows are displayed.
-
-Finally apply \autoref{thm:dyadicintervalcover-mesh-refinement-obligation} and \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The first keeps the finite mesh and refinement data inside the displayed dyadic route, while the second keeps the Real seal downstream of the same finite projection. Hence the public export is the named finite-cover NameCert route itself, with no extra selector, quotient, choice, compactness, or completion coordinate.
-\end{proof}
-\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverPublicFiniteCoverExport}
-
-\begin{theorem}[DyadicIntervalCover bridge budget]
-\label{thm:dyadic-interval-cover-bridge-budget}
-Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. The displayed dyadic interval-cover rows provide exactly the bridge budget consumed by $\BishopIntervalCompactUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\UniformModulusUp$ routes: dyadic endpoints and mesh data, finite cover-membership rows, stream windows, regular-rational readbacks, the visible Real seal, transport, replay, provenance, and local naming. The budget exports no open-cover compactness, selected limit, selected finite subcover, quotient real equality, countable choice, or ambient Real completeness.
-\end{theorem}
-\begin{proof}
-Start with the local obligation surface of \autoref{thm:dyadic-interval-cover-namecert-obligations}. It exhausts every endpoint, mesh, radius, membership, window, readback, seal, transport, replay, provenance, and naming obligation by finite projection from $I$.
-
-Use the public export theorem, \autoref{thm:dyadicintervalcover-public-finite-cover-export}. It identifies the public surface as the finite-cover NameCert route through $L,U,M,R,V,W,Q,A,H,C,P,N$ and the $\BishopIntervalCompactUp$ handoff.
-
-The same rows are the only data visible to the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\UniformModulusUp$ consumers. Since the accepted carrier has no coordinate for open-cover compactness, selected limits, selected subcovers, quotient equality, choice, or ambient completeness, the bridge budget is exactly the displayed finite route.
-\end{proof}
-\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverBridgeBudget}
-
-\begin{theorem}[DyadicIntervalCover finite-cover bridge scope]
-\label{thm:dyadicintervalcover-finite-cover-bridge-scope}
-Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any bridge consumer of $I$ must expose the dyadic endpoint rows $L,U$, the mesh row $M$, the radius ledger $R$, the finite cover-membership row $V$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $A$, the $\BishopIntervalCompactUp$ handoff, the $\UniformModulusUp$-facing lower-bound route, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$ before the bridge budget can be read. The bridge scope exports finite-cover data only; it does not claim open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient Real completeness.
-\end{theorem}
-\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverFiniteCoverBridgeScope}
-\begin{proof}
-Start from the public finite-cover export, \autoref{thm:dyadicintervalcover-public-finite-cover-export}. It identifies the public surface as the finite route through $L,U,M,R,V,W,Q,A,H,C,P,N$ and the $\BishopIntervalCompactUp$ handoff.
-
-Use the bridge budget theorem, \autoref{thm:dyadic-interval-cover-bridge-budget}. The budget is read only by the displayed dyadic, stream, regular-rational, Real, interval-compact, and uniform-modulus-facing consumers.
-
-Combining the two statements gives the bridge scope. Every bridge consumer must first expose the finite endpoint, mesh, radius, membership, window, readback, seal, handoff, transport, replay, provenance, and naming rows, while the refused compactness, selector, quotient, choice, and completion endpoints remain outside the packet.
-\end{proof}
-
+\input{parts/concrete_instances/dyadicintervalcover/public_bridge_scope.tex}
 \input{parts/concrete_instances/dyadicintervalcover/bridge_export.tex}
 \input{parts/concrete_instances/dyadicintervalcover/bridge_finite_route.tex}
 
