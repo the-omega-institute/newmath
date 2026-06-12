@@ -93,15 +93,35 @@ class PushNotAncestorRetryTests(unittest.TestCase):
         tips: list[str] | None = None,
         base_sequence: list[str] | None = None,
         origin_base_sequence: list[str] | None = None,
+        merge_returncodes: list[int] | None = None,
+        unmerged_outputs: list[str] | None = None,
     ):
         calls: list[list[str]] = []
         tip_values = list(tips or ["c" * 40])
         base_values = list(base_sequence or ["b" * 40])
         origin_base_values = list(origin_base_sequence or ["b" * 40])
+        merge_results = list(merge_returncodes or [])
+        unmerged_values = list(unmerged_outputs or ["conflicted.tex\n"])
 
         def fake_run_cmd(cmd, *, cwd=None, timeout=120, check=False):
             calls.append(list(cmd))
             if cmd == ["git", "merge", "--no-ff", "--no-edit", cr.BASE_BRANCH]:
+                if merge_results:
+                    rc = merge_results.pop(0)
+                    return _cp(
+                        cmd,
+                        returncode=rc,
+                        stderr="Your local changes would be overwritten by merge." if rc else "",
+                    )
+                return _cp(cmd)
+            if cmd == ["git", "diff", "--name-only", "--diff-filter=U"]:
+                value = (
+                    unmerged_values.pop(0)
+                    if len(unmerged_values) > 1
+                    else unmerged_values[0]
+                )
+                return _cp(cmd, stdout=value)
+            if cmd == ["git", "stash", "--include-untracked"]:
                 return _cp(cmd)
             if cmd[:3] == ["git", "log", "--oneline"]:
                 return _cp(cmd, stdout="abc123 P71: worker commit\n")
@@ -204,6 +224,75 @@ class PushNotAncestorRetryTests(unittest.TestCase):
         )
         self.assertEqual(merge_count, 2)
         self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_retry_merge_dirty_blocked_stashes_and_retries_without_codex(self):
+        ff_calls: list[str] = []
+        codex_calls: list[str] = []
+
+        def fake_ff(tip: str):
+            ff_calls.append(tip)
+            if len(ff_calls) == 1:
+                return False, "skipped-not-ancestor"
+            return True, ""
+
+        cr._ff_local_branch_to = fake_ff
+        cr._codex_resolve_conflicts = lambda *_a, **_k: codex_calls.append("codex") or True
+        calls = self._install_run_cmd(
+            tips=["c" * 40, "d" * 40],
+            base_sequence=["b" * 40],
+            origin_base_sequence=["b" * 40],
+            merge_returncodes=[0, 1, 0],
+            unmerged_outputs=[""],
+        )
+
+        merged = cr.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(codex_calls, [])
+        merge_indexes = [
+            i for i, cmd in enumerate(calls)
+            if cmd == ["git", "merge", "--no-ff", "--no-edit", cr.BASE_BRANCH]
+        ]
+        stash_indexes = [
+            i for i, cmd in enumerate(calls)
+            if cmd == ["git", "stash", "--include-untracked"]
+        ]
+        self.assertEqual(len(merge_indexes), 3)
+        self.assertEqual(len(stash_indexes), 1)
+        self.assertLess(merge_indexes[1], stash_indexes[0])
+        self.assertLess(stash_indexes[0], merge_indexes[2])
+        self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_retry_merge_true_conflict_invokes_codex_without_stash(self):
+        ff_calls: list[str] = []
+        codex_calls: list[str] = []
+
+        def fake_ff(tip: str):
+            ff_calls.append(tip)
+            if len(ff_calls) == 1:
+                return False, "skipped-not-ancestor"
+            return True, ""
+
+        cr._ff_local_branch_to = fake_ff
+        cr._codex_resolve_conflicts = lambda *_a, **_k: codex_calls.append("codex") or True
+        calls = self._install_run_cmd(
+            tips=["c" * 40, "d" * 40],
+            base_sequence=["b" * 40],
+            origin_base_sequence=["b" * 40],
+            merge_returncodes=[0, 1],
+            unmerged_outputs=["parts/conflicted.tex\n"],
+        )
+
+        merged = cr.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(codex_calls, ["codex"])
+        self.assertFalse(any(cmd == ["git", "stash", "--include-untracked"] for cmd in calls))
+        merge_count = sum(
+            cmd == ["git", "merge", "--no-ff", "--no-edit", cr.BASE_BRANCH]
+            for cmd in calls
+        )
+        self.assertEqual(merge_count, 2)
 
 
 if __name__ == "__main__":
