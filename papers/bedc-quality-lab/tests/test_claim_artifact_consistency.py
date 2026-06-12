@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from bedc_quality_lab.artifact_freshness import canonical_artifact_hash
 from bedc_quality_lab.claim_artifact_consistency import (
     CLAIM_GRAPH_ARTIFACT,
@@ -13,6 +15,9 @@ from bedc_quality_lab.claim_artifact_consistency import (
     QUALITY_SCORECARD_ARTIFACT,
     audit_claim_artifact_consistency,
 )
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
+from scripts import run_discovery_map as discovery_map
 from bedc_quality_lab.verdict import QUALITY_SCORECARD_METRICS
 from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
 
@@ -39,6 +44,24 @@ def _scorecard():
     }
 
 
+def _anti_triviality_contract():
+    return {
+        "anti_triviality_status": "pass",
+        "owner_contract": {
+            "scale_only": {"status": "present"},
+            "metadata_only": {"status": "present"},
+            "matched_random": {"status": "present"},
+            "forbidden_column": {"status": "present"},
+        },
+    } | owner_local_anti_triviality_contract(
+        recommended_level="D4",
+        scale_only_pointer="$.d4_projection.owner_contract.scale_only",
+        metadata_only_pointer="$.d4_projection.owner_contract.metadata_only",
+        matched_random_pointer="$.d4_projection.owner_contract.matched_random",
+        forbidden_column_pointer="$.d4_projection.owner_contract.forbidden_column",
+    )
+
+
 def _fixture_root(tmp_path: Path) -> Path:
     root = tmp_path
     _write_json(root, QUALITY_SCORECARD_ARTIFACT, _scorecard())
@@ -57,6 +80,7 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "discovery_map_level_pointer": f"{DGT_ARTIFACT}:$.d4_projection.discovery_level",
                 },
                 "not_claimed": ["bounded toy projection only"],
+                **_anti_triviality_contract(),
             },
             "hardgate": {"status": "pass"},
             "not_claimed": ["bounded deterministic toy evidence only"],
@@ -92,14 +116,17 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
                     "discovery_level": "D4",
                     "evidence_pointer": "$.d4_projection",
+                    "evidence_type": "deterministic_projection",
+                    "evidence_provenance_pointer": evidence_provenance_pointer_for_report("discovery-gated-transformer"),
                     "scorecard_pointer": f"{QUALITY_SCORECARD_ARTIFACT}:$.rows",
                     "projection_status": "projected",
-                    "terminal_verdict": "",
+                    "audit_status": "valid",
+                    "audit_reason": "",
                 }
             ],
             "coverage_matrix": {
                 "status": "pointer-only",
-                "hardgates": {},
+                "hardgates": {gate: {"status": "pass", "reason": "pass"} for gate in discovery_map.COVERAGE_HARDGATE_IDS},
                 "cells": [
                     {
                         "component_id": "DGT",
@@ -269,9 +296,36 @@ def test_cons_hg5_coverage_matrix_dgt_cell_points_to_owner(tmp_path):
     payload["coverage_matrix"]["cells"][0]["canonical_owner_pointer"] = "reports/canonical/missing.json:$"
     _write_json(root, DISCOVERY_MAP_ARTIFACT, payload)
 
-    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+    with pytest.raises(ValueError, match="coverage_matrix COV-HG1-owner status mismatch"):
+        audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
 
-    assert _gate(report, "CONS-HG5").status == "fail"
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_claim_artifact_consistency_validates_committed_discovery_map_before_audit(tmp_path, mutate, message):
+    root = _fixture_root(tmp_path)
+    path = root / DISCOVERY_MAP_ARTIFACT
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutate(payload["rows"][0])
+    _write_json(root, DISCOVERY_MAP_ARTIFACT, payload)
+
+    with pytest.raises(ValueError, match=message):
+        audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
 
 
 def test_cons_hg6_stale_artifact_hash_fails_closed(tmp_path):

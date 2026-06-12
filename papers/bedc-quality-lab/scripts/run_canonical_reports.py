@@ -32,7 +32,8 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _brack
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
 from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
-from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload, validate_discovery_map_payload
+from bedc_quality_lab.evidence_provenance import build_evidence_provenance
 from bedc_quality_lab.discovery_compiler.experiment_proposals import (
     ARTIFACT_ID as EXPERIMENT_PROPOSALS_ARTIFACT_ID,
     CANONICAL_ROLE as EXPERIMENT_PROPOSALS_CANONICAL_ROLE,
@@ -2559,7 +2560,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
 
 def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=generated_at)
+        payload = _build_model_comparison(generated_at=generated_at, write_owner_artifacts=True)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
@@ -2647,7 +2648,7 @@ def _call_run_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -
 
 def _run_spec_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=generated_at)
+        payload = _build_model_comparison(generated_at=generated_at, write_owner_artifacts=True)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
@@ -2777,6 +2778,10 @@ def _load_artifact_payload(relative_path: str) -> dict[str, Any]:
     except json.JSONDecodeError:
         return {}
     return payload if isinstance(payload, dict) else {}
+
+
+def _load_committed_discovery_map_payload() -> dict[str, Any]:
+    return load_validated_discovery_map_payload(ROOT, artifact=DISCOVERY_MAP_JSON_ARTIFACT)
 
 
 def _load_sidecar_payload(relative_path: str) -> dict[str, Any]:
@@ -3600,9 +3605,7 @@ def _experiment_proposals_index_section() -> dict[str, Any]:
 
 
 def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, Any]:
-    from scripts.run_discovery_map import build_discovery_map
-
-    payload = build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    payload = _discovery_map_payload(generated_at=generated_at)
     return {
         "status": "pointer-only",
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
@@ -3616,7 +3619,12 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
 def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
-    return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    try:
+        return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
+    except ValueError as exc:
+        if not _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
+            raise
+        return _load_committed_discovery_map_payload()
 
 
 def _all_gates_pass(value: Any) -> bool:
@@ -3796,16 +3804,53 @@ def _claim_graph_index_section(generated_at: str | None = None) -> dict[str, Any
     }
 
 
+def _evidence_provenance_index_section(
+    generated_at: str,
+    canonical_reports: Sequence[CanonicalReportSpec] | None = None,
+) -> dict[str, Any]:
+    return build_evidence_provenance(
+        root=ROOT,
+        canonical_reports=CANONICAL_REPORTS if canonical_reports is None else canonical_reports,
+        generated_at=generated_at,
+    )
+
+
 def _claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
     from bedc_quality_lab.claim_artifact_consistency import DGT_CLAIM_ID, audit_claim_artifact_consistency
 
     return audit_claim_artifact_consistency(ROOT, claim_id=DGT_CLAIM_ID, generated_at=generated_at).to_json()
 
 
+def _missing_claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
+    from bedc_quality_lab.claim_artifact_consistency import DGT_CLAIM_ID
+
+    return {
+        "schema_id": CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": generated_at if generated_at is not None else "missing",
+        "claim_id": DGT_CLAIM_ID,
+        "status": "fail",
+        "json_artifact": CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "gates": [
+            {
+                "gate_id": "CONS-HG0",
+                "status": "fail",
+                "reason": "discovery map artifact is missing",
+                "pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$",
+                "expected": "committed validated discovery map",
+                "actual": "missing",
+            }
+        ],
+    }
+
+
 def _claim_artifact_consistency_index_section(generated_at: str | None = None) -> dict[str, Any]:
     path = ROOT / CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
     if path.exists():
         payload = _load_artifact_payload(CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT)
+    elif not _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
+        payload = _missing_claim_artifact_consistency_payload(generated_at)
     else:
         payload = _claim_artifact_consistency_payload(generated_at)
     gates = payload.get("gates") if isinstance(payload.get("gates"), list) else []
@@ -5255,15 +5300,6 @@ def _dgt_model_card_index_section() -> dict[str, Any]:
     }
 
 
-def _evidence_provenance_index_section() -> dict[str, Any]:
-    return {
-        "status": "resolved",
-        "source_type": "canonical-quality-index",
-        "evidence_type": "pointer-owner-provenance",
-        "canonical_role": "index-owned evidence provenance cell",
-    }
-
-
 def _structural_generalization_splits_index_section() -> dict[str, Any]:
     return {
         "status": "pointer-only",
@@ -6078,14 +6114,19 @@ def _model_comparison_ordering(rows: Sequence[Mapping[str, Any]], hardgates: Map
     }
 
 
-def _build_model_comparison(generated_at: str | None = None) -> dict[str, Any]:
+def _build_model_comparison(
+    generated_at: str | None = None,
+    *,
+    write_owner_artifacts: bool = False,
+) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     initial_rows = [
         _model_comparison_owner_row(spec, root=ROOT)
         for spec in MODEL_COMPARISON_OWNER_SPECS
         if spec["model_id"] in MODEL_COMPARISON_CONTROL_MODEL_IDS
     ]
-    _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
+    if write_owner_artifacts:
+        _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
     rows = [_model_comparison_owner_row(spec, root=ROOT) for spec in MODEL_COMPARISON_OWNER_SPECS]
     hardgates = _model_comparison_hardgates(rows)
     readiness = {
@@ -6608,6 +6649,50 @@ def _construct_validity_result(spec: CanonicalReportSpec) -> dict[str, Any] | No
     }
 
 
+def _result_status_from_validation(
+    validation: Mapping[str, Any],
+    discipline: Mapping[str, Any],
+    construct_validity: Mapping[str, Any] | None,
+    *,
+    error: str | None = None,
+) -> str:
+    if error is not None:
+        return "error"
+    if (
+        validation["status"] == "fail"
+        or discipline["forbidden_claim_terms_status"] == "fail"
+        or discipline.get("reporting_hardgate", {}).get("status") == "fail"
+        or (construct_validity is not None and construct_validity["status"] != "pass")
+    ):
+        return "fail"
+    return "pass"
+
+
+def _result_row_for_current_artifact(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> dict[str, Any]:
+    validation = _artifact_validation(spec)
+    discipline = _discipline(spec)
+    construct_validity = _construct_validity_result(spec)
+    result = {
+        "name": spec.name,
+        "producer_command": list(spec.command),
+        "json_artifact": spec.json_artifact,
+        "markdown_artifact": spec.markdown_artifact,
+        "bundle_role": spec.bundle_role,
+        "discipline": discipline,
+        "status": _result_status_from_validation(validation, discipline, construct_validity),
+        "duration_seconds": 0.0,
+        "estimated_seconds": spec.estimated_seconds,
+        "producer_status": "completed",
+        "fingerprint_sidecar": _relative(_fingerprint_path(spec)),
+        "fingerprint_status": "written",
+        "fingerprint_reason": "producer-artifact-refresh",
+        "validation": validation,
+    }
+    if construct_validity is not None:
+        result["construct_validity"] = construct_validity
+    return result
+
+
 def _run_spec(
     spec: CanonicalReportSpec,
     *,
@@ -6658,17 +6743,7 @@ def _run_spec(
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
     construct_validity = _construct_validity_result(spec)
-    if error is not None:
-        status = "error"
-    elif (
-        validation["status"] == "fail"
-        or discipline["forbidden_claim_terms_status"] == "fail"
-        or discipline.get("reporting_hardgate", {}).get("status") == "fail"
-        or (construct_validity is not None and construct_validity["status"] != "pass")
-    ):
-        status = "fail"
-    else:
-        status = "pass"
+    status = _result_status_from_validation(validation, discipline, construct_validity, error=error)
     result = {
         "name": spec.name,
         "producer_command": list(spec.command),
@@ -6725,16 +6800,41 @@ def _replace_result_rows(
     return updated
 
 
+def _refresh_final_index_dependent_fingerprints(
+    *,
+    selected_specs: Sequence[CanonicalReportSpec],
+    generated_at: str,
+) -> None:
+    selected_names = {spec.name for spec in selected_specs}
+    for name in (
+        "dgt-model-card",
+        "claim-complexity",
+        "reproduction-package",
+        "reproduction-check-result",
+    ):
+        if name not in selected_names:
+            continue
+        spec = _specs_by_name().get(name)
+        if spec is not None:
+            _write_fingerprint_sidecar(spec, generated_at=generated_at)
+
+
 def _index(
     results: Sequence[dict[str, Any]],
     *,
     generated_at: str | None = None,
     claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
     discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    del canonical_reports
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
+    if not _artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT).exists():
+        scorecard = _build_quality_scorecard(reports, generated_at=timestamp)
+        _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
+        _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     model_design_suite_payload = _build_model_design_suite_payload(generated_at=timestamp)
     model_comparison_payload = _build_model_comparison(generated_at=timestamp)
     return {
@@ -6767,7 +6867,6 @@ def _index(
         "dgt_l1_controls": _dgt_l1_controls_index_section(),
         "input_accessibility": _input_accessibility_index_section(),
         "dgt_model_card": _dgt_model_card_index_section(),
-        "evidence_provenance": _evidence_provenance_index_section(),
         "structural_generalization_splits": _structural_generalization_splits_index_section(),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
@@ -6776,6 +6875,7 @@ def _index(
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
+        "evidence_provenance": _evidence_provenance_index_section(timestamp),
         "claim_artifact_consistency": _claim_artifact_consistency_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
@@ -7307,9 +7407,7 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 
 
 def _validate_committed_discovery_map_round_trip() -> None:
-    path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    validate_discovery_map_payload(payload, root=ROOT)
+    _load_committed_discovery_map_payload()
 
 
 def _write_text_atomic(path: Path, text: str) -> None:
@@ -7419,6 +7517,81 @@ def _reusable_generated_at() -> str | None:
     return generated_at if isinstance(generated_at, str) and generated_at else None
 
 
+def _write_index_with_evidence_provenance(
+    results: Sequence[dict[str, Any]],
+    *,
+    generated_at: str,
+    claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+    discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    kwargs = {
+        "generated_at": generated_at,
+        "claim_verdict_rows": claim_verdict_rows,
+        "canonical_reports": canonical_reports,
+        "discovery_gated_transformer_payload": discovery_gated_transformer_payload,
+    }
+    try:
+        payload = _index(results, **kwargs)
+    except TypeError as exc:
+        if "unexpected keyword argument" not in str(exc):
+            raise
+        kwargs.pop("canonical_reports", None)
+        kwargs.pop("discovery_gated_transformer_payload", None)
+        payload = _index(results, **kwargs)
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    return payload
+
+
+def _write_evidence_provenance_owner_section(
+    *,
+    generated_at: str,
+    canonical_reports: Sequence[CanonicalReportSpec] = CANONICAL_REPORTS,
+) -> None:
+    discovery_path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
+    if not discovery_path.exists():
+        return
+    discovery_payload = load_validated_discovery_map_payload(
+        ROOT,
+        artifact=DISCOVERY_MAP_JSON_ARTIFACT,
+        validate_owner_projection=False,
+    )
+    if not isinstance(discovery_payload.get("rows"), list):
+        return
+    if INDEX_ARTIFACT.exists():
+        try:
+            payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+        if not isinstance(payload, dict):
+            payload = {}
+    else:
+        payload = {}
+    payload.setdefault("schema_id", INDEX_SCHEMA_ID)
+    payload.setdefault("generated_at", generated_at)
+    payload.setdefault("root", INDEX_ROOT)
+    payload["evidence_provenance"] = _evidence_provenance_index_section(
+        generated_at,
+        canonical_reports=canonical_reports,
+    )
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+
+
+def _validate_discovery_map_and_refresh_owner_section(
+    *,
+    generated_at: str,
+    canonical_reports: Sequence[CanonicalReportSpec],
+) -> None:
+    load_validated_discovery_map_payload(
+        ROOT,
+        artifact=DISCOVERY_MAP_JSON_ARTIFACT,
+        validate_owner_projection=False,
+    )
+    _write_evidence_provenance_owner_section(generated_at=generated_at, canonical_reports=canonical_reports)
+    _validate_committed_discovery_map_round_trip()
+
+
 def run_reports(
     *,
     only: str | None = None,
@@ -7489,9 +7662,10 @@ def run_reports(
     else:
         verify_results = results
     if mode == "verify" and all(result["fingerprint_status"] == "match" for result in verify_results):
-        consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
-        if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
-            raise SystemExit(1)
+        if _claim_artifact_consistency_required(selected_specs):
+            consistency_payload = _claim_artifact_consistency_payload(generated_at=timestamp)
+            if consistency_payload["status"] != "pass":
+                raise SystemExit(1)
         payload = _index(verify_results, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
@@ -7521,7 +7695,10 @@ def run_reports(
         adapter=_canonical_discovery_adapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
-    _validate_committed_discovery_map_round_trip()
+    _validate_discovery_map_and_refresh_owner_section(
+        generated_at=timestamp,
+        canonical_reports=_discovery_map_reports(),
+    )
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
@@ -7534,7 +7711,10 @@ def run_reports(
         adapter=_canonical_discovery_adapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
-    _validate_committed_discovery_map_round_trip()
+    _validate_discovery_map_and_refresh_owner_section(
+        generated_at=timestamp,
+        canonical_reports=_discovery_map_reports(),
+    )
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     write_experiment_proposals(ROOT, generated_at=timestamp)
     from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
@@ -7564,6 +7744,7 @@ def run_reports(
             _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
             _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
     discovery_gated_transformer: Mapping[str, Any] | None = None
+    dgt_spec = _specs_by_name().get("discovery-gated-transformer")
     if only is None or dgt_full_selected:
         from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
 
@@ -7581,10 +7762,8 @@ def run_reports(
             if any(result["name"] == dgt_l1_spec.name for result in results):
                 l1_result = _run_spec(dgt_l1_spec, mode="verify", generated_at=timestamp)
                 results = _replace_result_rows(results, (l1_result,), append_missing=False)
-        dgt_spec = _specs_by_name().get("discovery-gated-transformer")
         if dgt_spec is not None:
             _run_metric_purity_post_generation((dgt_spec.json_artifact,))
-            _write_fingerprint_sidecar(dgt_spec, generated_at=timestamp)
     model_design_suite = _build_model_design_suite_payload(generated_at=timestamp)
     _write_json_atomic(_artifact_path(MODEL_DESIGN_SUITE_JSON_ARTIFACT), model_design_suite)
     _write_text_atomic(
@@ -7592,7 +7771,7 @@ def run_reports(
         _render_model_design_suite_markdown(model_design_suite),
     )
     _validate_committed_model_design_suite_round_trip()
-    model_comparison = _build_model_comparison(generated_at=timestamp)
+    model_comparison = _build_model_comparison(generated_at=timestamp, write_owner_artifacts=True)
     _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), model_comparison)
     _write_text_atomic(
         _artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT),
@@ -7614,6 +7793,12 @@ def run_reports(
                 _artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT),
                 _render_quality_scorecard_markdown(scorecard),
             )
+        if dgt_spec is not None:
+            _write_fingerprint_sidecar(dgt_spec, generated_at=timestamp)
+            if mode in {"verify", "cold"} and any(result["name"] == dgt_spec.name for result in results):
+                dgt_result = _run_spec(dgt_spec, mode="verify", generated_at=timestamp)
+                results = _replace_result_rows(results, (dgt_result,), append_missing=False)
+    _write_index_with_evidence_provenance(results, generated_at=timestamp, canonical_reports=selected_specs)
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
@@ -7643,7 +7828,10 @@ def run_reports(
                 adapter=_canonical_discovery_adapter(),
                 require_required_negative_reports=require_full_negative_reports,
             )
-            _validate_committed_discovery_map_round_trip()
+            _validate_discovery_map_and_refresh_owner_section(
+                generated_at=timestamp,
+                canonical_reports=_discovery_map_reports(),
+            )
         claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
         if only is None:
             write_claim_graph(root=ROOT, generated_at=timestamp)
@@ -7658,14 +7846,13 @@ def run_reports(
     for spec in post_verdict_specs:
         results.append(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp))
         run_spec_names.add(spec.name)
-    draft_payload = _index(
+    draft_payload = _write_index_with_evidence_provenance(
         results,
         generated_at=timestamp,
         claim_verdict_rows=claim_verdict_rows,
+        canonical_reports=selected_specs,
         discovery_gated_transformer_payload=discovery_gated_transformer,
     )
-    _write_json_atomic(INDEX_ARTIFACT, draft_payload)
-    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
     from scripts.run_release_namecert_candidate import write_release_namecert_candidate
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
@@ -7680,29 +7867,27 @@ def run_reports(
     dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         write_dgt_model_card(root=ROOT, generated_at=timestamp)
-        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
-        card_result = _run_spec(dgt_model_card_spec, mode="verify", generated_at=timestamp)
-        replaced_card_result = False
-        updated_results = []
-        for result in results:
-            if result["name"] == "dgt-model-card":
-                updated_results.append(card_result)
-                replaced_card_result = True
-            else:
-                updated_results.append(result)
-        if not replaced_card_result:
-            updated_results.append(card_result)
-        results = updated_results
-    payload = _index(
+        card_result = _result_row_for_current_artifact(dgt_model_card_spec, generated_at=timestamp)
+        results = _replace_result_rows(results, (card_result,))
+    payload = _write_index_with_evidence_provenance(
         results,
         generated_at=timestamp,
         claim_verdict_rows=claim_verdict_rows,
+        canonical_reports=selected_specs,
         discovery_gated_transformer_payload=discovery_gated_transformer,
     )
-    _write_json_atomic(INDEX_ARTIFACT, payload)
-    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
+        if mode in {"verify", "cold"}:
+            card_result = _run_spec(dgt_model_card_spec, mode="verify", generated_at=timestamp)
+            results = _replace_result_rows(results, (card_result,))
+            payload = _write_index_with_evidence_provenance(
+                results,
+                generated_at=timestamp,
+                claim_verdict_rows=claim_verdict_rows,
+                canonical_reports=selected_specs,
+                discovery_gated_transformer_payload=discovery_gated_transformer,
+            )
     reproduction_package_spec = _specs_by_name().get("reproduction-package")
     reproduction_check_spec = _specs_by_name().get("reproduction-check-result")
     if (
@@ -7719,14 +7904,14 @@ def run_reports(
         package_result = _run_spec(reproduction_package_spec, mode="verify", generated_at=timestamp)
         check_result = _run_spec(reproduction_check_spec, mode="verify", generated_at=timestamp)
         results = _replace_result_rows(results, (package_result, check_result))
-        payload = _index(
+        payload = _write_index_with_evidence_provenance(
             results,
             generated_at=timestamp,
             claim_verdict_rows=claim_verdict_rows,
+            canonical_reports=selected_specs,
             discovery_gated_transformer_payload=discovery_gated_transformer,
         )
-        _write_json_atomic(INDEX_ARTIFACT, payload)
-        _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    _refresh_final_index_dependent_fingerprints(selected_specs=selected_specs, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:

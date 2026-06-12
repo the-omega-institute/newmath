@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .map import load_validated_discovery_map_payload
 from .pointers import resolve_artifact_pointer, split_artifact_pointer
 
 
@@ -392,7 +393,7 @@ def _d5m_rows(root: Path, discovery_map: Mapping[str, Any]) -> list[dict[str, An
 
 def build_experiment_proposals(root: Path, generated_at: str | None = None) -> dict[str, Any]:
     timestamp = _timestamp(generated_at)
-    discovery_map = _load_json(root, DISCOVERY_MAP_ARTIFACT)
+    discovery_map = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
     negative_reports = _load_json(root, NEGATIVE_DISCOVERY_REPORTS_ARTIFACT)
     rows = [
         *_d5m_rows(root, discovery_map),
