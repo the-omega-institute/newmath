@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RationalNullSequenceUp$}
+\label{ch:concrete-instances-rational-null-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real sequences, the $\RationalNullSequenceUp$ packet records a rational sequence whose tail is certified to converge to zero by finite tolerance windows rather than by a selected limit or quotient stream. It sits between the rational source of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a finite null-tail interface without importing countable choice, quotient sequences, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Rational null sequence carrier]
+\label{def:rational-null-sequence-carrier}
+A $\RationalNullSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(A,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RatUp$ value row, naming the rational source values used by the sequence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the positive dyadic precision requests used to test the tail.
+\item $W$ is the $\StreamNameUp$ finite-window row, displaying the inspected indices and the tail bound witness for each requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same rational values, dyadic tolerances, and finite windows.
+\item $E$ is the downstream $\RealUp$ seal boundary, exposed only after $A,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational values, tolerance ledger, finite windows, readback, seal boundary, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from the rational source and dyadic request through the finite tail window, regular rational readback, and terminal seal.
+\item $P$ records $\Pkg$ provenance over $\RationalNullSequenceUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RationalNullSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,D,W,R,E,H,C,P,N$. It has no coordinate for quotient sequence equality, a chosen limiting index function, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rational null sequence NameCert obligations]
+\label{thm:rational-null-sequence-namecert-obligations}
+For every accepted $\RationalNullSequenceUp$ carrier $Z=(A,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RationalNullSequenceUp}$ surface consists exactly of five displayed obligations:
+\begin{enumerate}
+\item rational-source admission through $A$;
+\item dyadic tolerance admission through $D$;
+\item finite tail-window exposure through $W$;
+\item regular rational readback through $R$ before the $\RealUp$ seal $E$ is visible;
+\item componentwise transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+Every public read of the rational null sequence must pass through these obligations in this order.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rational-null-sequence-carrier}. The rational values appear only in $A$, and the requested tail precisions appear only in the dyadic ledger $D$.
+
+The finite tail evidence is then forced through $W$. A consumer sees the inspected indices and the displayed tail bound witness before any regular rational readback is available.
+
+Rows $R$ and $E$ remain downstream. The regular rational readback is attached to the same $A,D,W$ route, and the Real seal is exposed only after that readback has been named.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same packet. Since the carrier has no row for quotient sequence equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, the five obligations exhaust the public NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rational null sequence RegSeqRat handoff]
+\label{thm:rational-null-sequence-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\RationalNullSequenceUp$ packet must read the rational source row $A$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\StreamNameUp$ finite tail windows $W$ before it receives the readback row $R$. The handoff exports no quotient sequence equality, chosen tail selector, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:rational-null-sequence-namecert-obligations}. It places $R$ after the rational source, dyadic tolerance ledger, and finite tail-window rows.
+
+The handoff is therefore finite at each request. The consumer reads the specific rational values and the displayed dyadic precision rows used by the tail window; it cannot replace them by a quotient stream or by a selected global limiting witness.
+
+The transport and provenance rows keep the same order. Thus the $\RegSeqRatUp$ readback is a finite rational-tail interface and not an import of countable choice or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Rational null sequence Real seal nonescape]
+\label{thm:rational-null-sequence-real-seal-nonescape}
+An accepted $\RationalNullSequenceUp$ packet exposes its $\RealUp$ seal boundary only after the rational source row, dyadic tolerance ledger, finite StreamName tail windows, and RegSeqRat readback have been displayed. Any consumer route that tries to read the Real seal while omitting one of $A,D,W,R$ leaves the accepted NameCert surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{def:rational-null-sequence-carrier}. The Real-facing row is $E$, and the carrier definition places it downstream of the rational, dyadic, StreamName, and RegSeqRat rows.
+
+The NameCert obligations of \autoref{thm:rational-null-sequence-namecert-obligations} make that order public: $A,D,W$ are exposed before $R$, and $R$ is exposed before $E$.
+
+If a consumer omits any of $A,D,W,R$, the structural rows $H,C,P,N$ have no displayed packet to transport, replay, source, or name. The route therefore cannot export a valid Real seal, and it cannot smuggle host real equality, selected limits, or ambient completeness through the seal boundary.
+\end{proof}
+
+\falsifiablePrediction{A route that reads a Real seal for a rational null sequence while omitting the finite StreamName tail window or the RegSeqRat readback is rejected by the RationalNullSequenceUp NameCert surface.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: $\RationalNullSequenceUp$ is not bijective to any listed sibling because it jointly binds rational values, dyadic tolerances, finite tail windows, regular rational readback, a terminal Real seal, transport, replay, provenance, and local naming as one null-tail packet.}
+
+\closureat{RationalNullSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RationalNullSequenceUp}
+  \constructivestory{A $\RationalNullSequenceUp$ packet is generated from rational source values, DyadicRatCore tolerance requests, StreamName finite tail windows, RegSeqRat readback, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-null-sequence-carrier}, \autoref{thm:rational-null-sequence-namecert-obligations}, \autoref{thm:rational-null-sequence-regseqrat-handoff}, and \autoref{thm:rational-null-sequence-real-seal-nonescape} seed the rational null-tail route over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked rational-source admission, dyadic tolerance admission, finite tail-window exposure, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RationalNullSequenceUp.}
+\end{closurestatus}
