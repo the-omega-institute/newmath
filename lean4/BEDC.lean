@@ -669,6 +669,7 @@ import BEDC.Derived.BaireCategoryUp.ProbeBundleRefinementInduction
 import BEDC.Derived.BaireCategoryUp.RefinementChoiceFree
 import BEDC.Derived.BaireCategoryUp.SourceRouteNonescape
 import BEDC.Derived.BaireCategoryUp.TasteGate
+import BEDC.Derived.BaireGenericResidualUp.TasteGate
 import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.BaireSpacePrefixDensityRoute
 import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
@@ -1232,6 +1233,7 @@ import BEDC.Derived.BurnsideOrbitCountUp.TasteGate
 import BEDC.Derived.BusemannBoundaryUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
+import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
 import BEDC.Derived.CalculusUp
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelope
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelopeObligations
@@ -2063,7 +2065,6 @@ import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyQuotientCriterionUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
-import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
 import BEDC.Derived.CauchyRateLatticeUp.NameCertObligations
@@ -3331,6 +3332,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
+import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
@@ -4246,7 +4248,6 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
-import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.ExponentShiftComposition
 import BEDC.Derived.DyadicUp.RealSealFactorization
 import BEDC.Derived.DyadicUp.TasteGate
