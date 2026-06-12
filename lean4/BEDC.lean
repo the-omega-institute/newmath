@@ -770,6 +770,7 @@ import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaSubstitutionPreservationUp.RedexClosure
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
 import BEDC.Derived.BilinFormUp.EmptyInversion
@@ -2877,6 +2878,7 @@ import BEDC.Derived.CompletionFunctorUp.NonEscape
 import BEDC.Derived.CompletionFunctorUp.TasteGate
 import BEDC.Derived.CompletionIdempotenceUp.TasteGate
 import BEDC.Derived.CompletionModulusCategoryUp.ModulusFunctoriality
+import BEDC.Derived.CompletionModulusCategoryUp.NameCertObligations
 import BEDC.Derived.CompletionModulusCategoryUp.TasteGate
 import BEDC.Derived.CompletionPreservesSeparableUp.TasteGate
 import BEDC.Derived.CompletionReflectionUp
@@ -2978,6 +2980,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
 import BEDC.Derived.ConstantRealStreamUp
+import BEDC.Derived.ConstantRealStreamUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -3260,6 +3263,7 @@ import BEDC.Derived.CoveringdimensionUp.CompactNetRealSeparabilityHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetRefinementHandoff
 import BEDC.Derived.CoveringdimensionUp.CompactNetSimplicialNerve
 import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverCarrierObligation
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
@@ -5530,6 +5534,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntegralUp
+import BEDC.Derived.IntegralUp.TasteGate
 import BEDC.Derived.InterHist
 import BEDC.Derived.InterHistInvariantUp.StdBridge
 import BEDC.Derived.InterHistInvariantUp.TasteGate
