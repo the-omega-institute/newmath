@@ -127,6 +127,16 @@ $0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
 detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
 logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
 horizon detection is label-driven rather than architecture-specific.
+With the same horizon-ledger configuration trained separately on three
+additional carriers, every test horizon is detectable (all confidence-interval
+lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
+at $h=1/3/5/10$, cube has $0.602$/$0.672$/$0.667$/$0.631$, and pusht has
+$1.000$/$0.999$/$1.000$/$1.000$.  On reacher, horizon supervision exceeds the
+probe row ($0.734$ $[0.698,\ 0.772]$ against $0.662$) while lowering unlogged
+error $0.230 \rightarrow 0.149$; on pusht, the failure surface remains perfectly
+readable even at $h=10$.  The per-environment $h=1$ rollout anchors have maximum
+absolute deviations $1.96\times10^{-8}$, $1.42\times10^{-8}$, and
+$2.68\times10^{-7}$.
 
 Teacher distillation by logit matching to the post-hoc scores is harmful:
 distillation alone gives $0.661$, and distillation with the full loss gives
@@ -144,7 +154,17 @@ one-step scores give $+0.0128$, the full loss gives $+0.011$, pure horizon
 supervision gives $+0.0072$, and horizon supervision with ranking loss gives
 $+0.0075$ $[-0.003,\ +0.020]$, against a label-permutation control at
 $+0.031$ and an oracle at $-0.016$.  Detection-level scores therefore do not
-yet supply allocation-level ranking.
+yet supply allocation-level ranking.  Under the same budget protocol, three
+dedicated allocation heads all remain below the decision criterion: error
+regression gives $+0.009$ $[-0.002,\ +0.023]$, pure pairwise ranking gives
+$+0.006$ $[-0.003,\ +0.018]$, and a two-stage ranker on fixed ledger logits
+gives $+0.010$ $[-0.002,\ +0.024]$.  Each nevertheless learns the true
+within-episode error ordering, with Spearman $0.460$/$0.508$/$0.432$, against a
+target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.  The
+learnable ordering saturates near $\rho \approx 0.5$, which is insufficient for
+tail-sensitive budget splitting; the detected allocation gap is therefore an
+information limit of these latent features at horizon five, not a target or
+architecture artifact.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
@@ -219,6 +239,8 @@ $$
 \text{reader capacity sweep} & \texttt{reports/lewm\_reader\_capacity\_frontier.json},\\
 \text{horizon-indexed ledger} & \texttt{reports/g2n\_native\_ledger.json},\\
 \text{horizon ledger completion} & \texttt{reports/g2n\_matrix\_completion.json},\\
+\text{cross-environment horizon ledger} & \texttt{reports/lewm\_crossenv\_horizon\_ledger.json},\\
+\text{allocation bridge study} & \texttt{reports/lewm\_allocation\_bridge.json},\\
 \text{coverage formalization} & \texttt{formal/bedc-conformal-lean/}.
 \end{array}
 $$
