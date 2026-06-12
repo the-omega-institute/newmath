@@ -52,4 +52,39 @@ theorem LawlessSequenceStreamNameHandoff [AskSetup] [PackageSetup]
     ⟨windowUnary, boolUnary, indexUnary, streamUnary, namedUnary, indexWindow,
       windowDigit, provenancePkg, namedPkg⟩
 
+theorem LawlessSequenceFinitePrefixInduction [AskSetup] [PackageSetup]
+    {window boolDigits natIndex transport replay provenance localName prefixRead digitRead
+      replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    lawless_sequence_stream_name_handoff_carrier
+        window boolDigits natIndex transport replay provenance localName bundle pkg →
+      Cont natIndex window prefixRead →
+        Cont prefixRead boolDigits digitRead →
+          Cont digitRead replay replayRead →
+            PkgSig bundle replayRead pkg →
+              UnaryHistory natIndex ∧
+                UnaryHistory window ∧
+                  UnaryHistory boolDigits ∧
+                    UnaryHistory prefixRead ∧
+                      UnaryHistory digitRead ∧
+                        UnaryHistory replayRead ∧
+                          Cont natIndex window prefixRead ∧
+                            Cont prefixRead boolDigits digitRead ∧
+                              Cont digitRead replay replayRead ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier indexWindow prefixDigit digitReplay replayPkg
+  obtain ⟨windowUnary, boolUnary, indexUnary, _transportUnary, replayUnary,
+    _provenanceUnary, _localNameUnary, provenancePkg, _localNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed indexUnary windowUnary indexWindow
+  have digitUnary : UnaryHistory digitRead :=
+    unary_cont_closed prefixUnary boolUnary prefixDigit
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed digitUnary replayUnary digitReplay
+  exact
+    ⟨indexUnary, windowUnary, boolUnary, prefixUnary, digitUnary, replayReadUnary,
+      indexWindow, prefixDigit, digitReplay, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.LawlessSequenceUp
