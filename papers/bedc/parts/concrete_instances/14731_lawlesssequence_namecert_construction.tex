@@ -178,6 +178,20 @@ Induct over the finite row $I$. The base case reads the empty displayed prefix a
 Finally replay through $H,C,P,N$. These structural rows transport and name the same finite read, and none contains a coordinate for unseen future values or a choice schedule.
 \end{proof}
 
+\begin{theorem}[Lawless sequence prefix-window determinacy]
+\label{thm:lawless-sequence-prefix-window-determinacy}
+Let $L=(W,B,I,H,C,P,N)$ and $L'=(W',B',I',H',C',P',N')$ be accepted $\LawlessSequenceUp$ carriers. If the rows $I,W,B,H,C,P,N$ and $I',W',B',H',C',P',N'$ are transported componentwise by $\hsame$ and replayed through the displayed $\Cont$ routes, then every $\StreamNameUp$, $\BaireSpaceUp$, or real-boundary consumer sees the same finite observed prefix window and the same visible $\BoolUp$ digit rows. The determined surface is exactly the transported finite window; it exposes no future values, no host infinite sequence, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:lawless-sequence-carrier}. The only rows capable of affecting a prefix-window read are the $\NatUp$ ledgers $I,I'$, the displayed StreamName windows $W,W'$, the Bool digit rows $B,B'$, and the structural rows that transport and replay them.
+
+Apply the prefix-induction obligation, \autoref{thm:lawless-sequence-prefix-induction-obligation}. It forces each accepted prefix read to proceed by finite induction over the transported Nat ledger, so both reads inspect the same finite sequence of displayed prefix requests.
+
+Use Baire-window stability, \autoref{thm:lawless-sequence-baire-window-stability}. Since the prefix windows and Bool rows are transported componentwise by $H,H'$ and replayed through $C,C'$, each Baire-facing consumer receives the same finite window and the same visible digit rows.
+
+Finally apply the countable-name boundary, \autoref{thm:lawless-sequence-countable-name-boundary}. Real-boundary and countable-name consumers remain inside $W,B,I,H,C,P,N$, so determinacy of the displayed window does not determine any future value, host infinite sequence, or countable-choice schedule.
+\end{proof}
+
 \begin{theorem}[Lawless sequence Baire-window stability]
 \label{thm:lawless-sequence-baire-window-stability}
 For accepted $\LawlessSequenceUp$ carriers, every $\BaireSpaceUp$ prefix window read from $W$ remains stable under componentwise $\hsame$ transport and displayed $\Cont$ replay. If two accepted reads agree on $I,W,B$ by the transport row $H$, then the replay row $C$ returns the same finite Baire window and the same visible Bool digit rows, with no appeal to quotient stream equality or an ambient total sequence.
