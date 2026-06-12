@@ -59,6 +59,7 @@ BIOLOGICAL_LAYER_ORDER = [
     "cross_layer_relation",
 ]
 BIOLOGICAL_LAYER_INDEX = {layer: idx for idx, layer in enumerate(BIOLOGICAL_LAYER_ORDER)}
+_CUSTOM_MACRO_RE = re.compile(r"\\([A-Z][A-Za-z]{2,})")
 
 
 def now_iso() -> str:
@@ -3466,7 +3467,30 @@ def _temp_paths(base: Path) -> FibonacciRealityPaths:
     )
 
 
+def _chapter_macro_stub_lines(paper_dir: Path) -> list[str]:
+    """Scan rendered chapters for capitalized macros and provide standalone paper fallbacks."""
+    names: set[str] = set()
+    for sub in ("parts/forced_window_structure", "parts/namecerts"):
+        directory = paper_dir / sub
+        if not directory.is_dir():
+            continue
+        for tex in sorted(directory.glob("*.tex")):
+            try:
+                names.update(_CUSTOM_MACRO_RE.findall(tex.read_text(encoding="utf-8")))
+            except OSError:
+                continue
+    hub = paper_dir / "parts" / "forced_window_structure.tex"
+    if hub.is_file():
+        try:
+            names.update(_CUSTOM_MACRO_RE.findall(hub.read_text(encoding="utf-8")))
+        except OSError:
+            pass
+    return [r"\providecommand{\%s}{\mathsf{%s}}" % (name, name) for name in sorted(names)]
+
+
 def _render_paper_main(paths: FibonacciRealityPaths, namecert_slugs: list[str]) -> str:
+    paper_dir = paths.paper_main.parent
+    chapter_macro_stubs = _chapter_macro_stub_lines(paper_dir)
     lines = [
         r"\documentclass[11pt]{article}",
         r"\usepackage[margin=1in]{geometry}",
@@ -3484,6 +3508,7 @@ def _render_paper_main(paths: FibonacciRealityPaths, namecert_slugs: list[str]) 
         r"\providecommand{\hsame}{\equiv_h}",
         r"\providecommand{\Cont}{\mathrm{Cont}}",
         r"\providecommand{\Pkg}{\mathrm{Pkg}}",
+        *chapter_macro_stubs,
         r"% article class has no \chapter; degrade generated chapter commands to sections.",
         r"\providecommand{\chapter}[1]{\section{#1}}",
         r"\newtheorem{definition}{Definition}[section]",
@@ -3891,6 +3916,7 @@ def _bio_w_author_prompt(
         "- Automath/source/oracle/provenance records are selection metadata only. Do not cite or name them in chapter prose.",
         "- Use only the sanitized mathematical facts above. Do not mention run ids, timestamps, JSON paths, source repository, external theorem names, ChatGPT, Codex, Claude, or claim ids.",
         "- State all objects from first principles: carrier, predicates, finite relations, partitions, matrices or kernels, exact counts, exact identities, witness extraction, and not-claimed boundary.",
+        r"- Do not invent or use undefined LaTeX macros. Write every set and operator explicitly, e.g. $\{0,1\}^6$ rather than a coined macro like \WindowSixWord.",
         "- For numerical coincidences such as alpha, separate a proved finite spectral construction from any physical identification. Put physical matching under needs_certificate or numerical_tuning_risk in risk_notes, not in theorem prose.",
         "- Do not write placeholders or generic template prose.",
         r"- Do not use cross-paper or cross-chapter \autoref references; keep the chapter self-contained.",
