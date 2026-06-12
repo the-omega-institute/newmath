@@ -3325,6 +3325,7 @@ import BEDC.Derived.CoveringdimensionUp.RefinementOrder
 import BEDC.Derived.CoveringdimensionUp.RefinementOrderRootRoute
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
+import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
@@ -8629,6 +8630,7 @@ import BEDC.Derived.RegularCauchySumUp.ZeroSourceConsumerRoute
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyTailAgreementUp
+import BEDC.Derived.RegularCauchyTailAgreementUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBallUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
