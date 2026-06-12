@@ -95,6 +95,43 @@ Apply the frontier handoff theorem and critical-pair exhaustion, \autoref{thm:me
 Finally use the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. Transport, replay, provenance, and local naming preserve the same rows rather than discharging $P$, deriving subject reduction from $S,C$, or turning the obstruction row into Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-pair obstruction budget]
+\label{thm:metacic-parallel-diamond-frontier-critical-pair-obstruction-budget}
+Every critical-pair read consumed by a $\MetaCICParallelDiamondFrontierUp$
+parallel-diamond frontier must preserve the residual-substitution premise row
+$P$ and the obstruction row $O$ through the displayed route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+In particular, a consumer may not retype the handoff as premise-free
+confluence, subject reduction, evaluator equality, quotient term equality, or
+kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of
+\autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes
+$P,K,J,R,S,C,B,O,H,T,G,N$ the carrier rows of the accepted frontier packet,
+with $P$ and $O$ displayed as ordinary rows rather than external commentary.
+
+Apply the route theorem
+\autoref{thm:metacic-parallel-diamond-frontier-route}. Any confluence-audit
+consumer must expose the critical-pair row $K$, candidate row $J$,
+residual-frontier row $R$, checker rows $S,C,B$, obstruction row $O$, and
+structural rows $H,T,G,N$ before using the conditional handoff.
+
+Use premise retention,
+\autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The
+residual-substitution premise row $P$ remains visible through the critical
+pair, residual frontier, closed checker, and closed-normal rows whenever the
+local-diamond handoff is consumed.
+
+Finally apply discharge obstruction,
+\autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. Since
+no separate residual-substitution compatibility certificate is supplied by
+this packet, the obstruction row $O$ keeps the refused confluence, typing,
+evaluator, quotient, and kernel endpoints outside the critical-pair budget.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual peak scope]
 \label{thm:metacic-parallel-diamond-frontier-residual-peak-scope}
 Every candidate-mediated residual peak read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the MetaCIC critical-pair envelope, residual substitution dependency, normalization candidate scope, and closure-trace rows before a diamond frontier read is public. For a carrier
