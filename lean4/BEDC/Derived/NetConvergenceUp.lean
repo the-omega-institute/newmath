@@ -330,4 +330,68 @@ theorem NetConvergenceCarrier_ledger_nonescape {D T E A F S R L H C P M
     ⟨sameD, sameT, sameE, sameA, sameF, sameS, sameR, sameL, sameH, sameC, sameP,
       sameM, tailRoute, filterRoute, realRoute, consumerSame, fields⟩
 
+theorem NetConvergenceCarrier_sequentialcompact_dependency
+    {D T E A F S R L H C P M clusterRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F S ->
+          Cont S R L ->
+            Cont L H clusterRead ->
+              hsame clusterRead D ->
+                SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row clusterRead ∧
+                        NetConvergenceCarrier D T E A F S R L H C P M)
+                    (fun row : BHist =>
+                      hsame row D ∨ hsame row T ∨ hsame row E ∨ hsame row F ∨
+                        hsame row S ∨ hsame row R ∨ hsame row L ∨
+                          hsame row clusterRead)
+                    (fun row : BHist =>
+                      Cont D T E ∧ Cont E F S ∧ Cont S R L ∧ Cont L H clusterRead ∧
+                        hsame row D)
+                    hsame ∧
+                  hsame D D ∧ hsame T T ∧ hsame E E ∧ hsame F F ∧ hsame S S ∧
+                    hsame R R ∧ hsame L L := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro carrier directedTail filterRoute streamRoute clusterRoute clusterSame
+  have carrierWitness : NetConvergenceCarrier D T E A F S R L H C P M := carrier
+  obtain ⟨sameD, sameT, sameE, _sameA, sameF, sameS, sameR, sameL, _sameH,
+    _sameC, _sameP, _sameM, _fields⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row clusterRead ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row T ∨ hsame row E ∨ hsame row F ∨ hsame row S ∨
+              hsame row R ∨ hsame row L ∨ hsame row clusterRead)
+          (fun row : BHist =>
+            Cont D T E ∧ Cont E F S ∧ Cont S R L ∧ Cont L H clusterRead ∧
+              hsame row D)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro clusterRead ⟨hsame_refl clusterRead, carrierWitness⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨directedTail, filterRoute, streamRoute, clusterRoute,
+          hsame_trans source.left clusterSame⟩
+  }
+  exact ⟨cert, sameD, sameT, sameE, sameF, sameS, sameR, sameL⟩
+
 end BEDC.Derived.NetConvergenceUp
