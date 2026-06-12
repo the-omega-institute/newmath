@@ -6476,6 +6476,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankReplayClosure
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
@@ -7951,6 +7952,7 @@ import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp
+import BEDC.Derived.RealApartnessCompletionUp.ApartnessCauchyWindow
 import BEDC.Derived.RealApartnessCompletionUp.LocatedRealSealNonescape
 import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
