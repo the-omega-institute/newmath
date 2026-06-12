@@ -54,7 +54,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 38,
+    "row_count": 39,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -77,13 +77,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 137,
+    "node_count": 140,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 47,
+    "row_count": 48,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -355,6 +355,13 @@
         "report": "causal-patch-suite"
       },
       {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "positive_claim_pointer": "$.cards",
+        "report": "experiment-stack-cards"
+      },
+      {
         "bundle_role": "hg_p_core",
         "control_pointer": "$.hardgates",
         "no_control_rationale_pointer": null,
@@ -560,7 +567,7 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 18,
+      "D0": 19,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -571,7 +578,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 38,
+    "row_count": 39,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -5259,6 +5266,19 @@
     "source_artifacts_pointer": "reports/canonical/experiment_proposals.json:$.source_artifacts",
     "status": "pointer-only"
   },
+  "experiment_stack_cards": {
+    "artifact_id": "bedc-quality-lab:experiment-stack-cards",
+    "blocked_card_count": 9,
+    "blocked_card_ids_pointer": "reports/canonical/experiment_stack_cards.json:$.blocked_card_ids",
+    "card_count": 14,
+    "cards_pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+    "claim_first_gate_pointer": "reports/canonical/experiment_stack_cards.json:$.claim_first_gate",
+    "industry_standard_alignment_pointer": "reports/canonical/experiment_stack_cards.json:$.industry_standard_alignment",
+    "json_artifact": "reports/canonical/experiment_stack_cards.json",
+    "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+    "schema_id": "bedc-quality-lab:experiment-stack-cards",
+    "status": "pointer-only"
+  },
   "formal_hardening": {
     "artifact_id": "bedc-quality-lab:formal-hardening",
     "gap_count": 0,
@@ -5714,6 +5734,7 @@
       "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
+      "experiment-stack-cards",
       "claim-complexity"
     ],
     "core_reports": [
@@ -9682,6 +9703,7 @@
         "required_json_keys": [
           "schema_id",
           "card_id",
+          "generated_at",
           "source_artifacts",
           "intended_use",
           "not_intended_use",
@@ -10575,9 +10597,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -10585,7 +10607,7 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -10734,6 +10756,132 @@
       }
     },
     {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.cards",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:experiment-stack-cards]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=experiment-stack-cards].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=experiment-stack-cards]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
+      "fingerprint_status": "written",
+      "json_artifact": "reports/canonical/experiment_stack_cards.json",
+      "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+      "name": "experiment-stack-cards",
+      "producer_command": [
+        "python3",
+        "scripts/run_experiment_stack_cards.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "card_count",
+          "card_ids",
+          "hardgate_ids",
+          "status",
+          "blocked_card_ids",
+          "cards",
+          "claim_first_gate",
+          "industry_standard_alignment",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
@@ -10821,9 +10969,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -10831,7 +10979,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -10940,9 +11088,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -10950,7 +11098,7 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
