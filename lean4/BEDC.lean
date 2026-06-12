@@ -3298,6 +3298,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootLebesgueLedgerRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootMetricCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootRealSeparabilityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverScopeGrounding
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverSimplicialNerveHandoff
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
@@ -3933,6 +3934,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowFusion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.WindowRouteLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSourceExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
