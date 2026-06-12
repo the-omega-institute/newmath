@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWindowExtractionUp$}
+\label{ch:concrete-instances-regular-cauchy-window-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyWindowExtractionUp$ packet records the finite extraction surface by which a regular Cauchy rational name answers a bounded precision request through displayed windows. It sits after the finite stream rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the choice-free completion route of \autoref{ch:concrete-instances-regular-cauchy-choice-free-completion-namecert}. The packet is a finite interface for Real and Completion consumers; it is not quotient completion, representative selection, countable choice, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular-Cauchy window extraction carrier]
+\label{def:regular-cauchy-window-extraction-carrier}
+A $\RegularCauchyWindowExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+X=(R,W,D,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row carrying the regular rational name, its modulus surface, and the readback rows available to a completion-facing consumer.
+\item $W$ is the $\StreamNameUp$ inspected-window row listing the finite windows and indices opened for the requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic bound, comparison rows, and arithmetic checks attached to the inspected windows.
+\item $Q$ is the finite query/request row that binds the consumer request to the displayed source, window, and tolerance rows.
+\item $H$ records componentwise $\hsame$ transport for $R,W,D,Q,C,P,N$.
+\item $C$ records the displayed $\Cont$ replay route from the query row through the regular source, inspected windows, dyadic tolerance checks, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyWindowExtractionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyWindowExtractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,D,Q,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable-choice schedules, host equality of completed objects, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy window extraction NameCert obligations]
+\label{thm:regular-cauchy-window-extraction-namecert-obligations}
+For every accepted $\RegularCauchyWindowExtractionUp$ carrier
+$$
+X=(R,W,D,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyWindowExtractionUp}$ surface consists exactly of carrier admission for the displayed packet, classifier transport through $H$, finite-window extraction of the inspected $\StreamNameUp$ rows, dyadic tolerance exactness through $D$, regular-rational readback stability through $R$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Every completion-facing read is routed through the finite query row $Q$ before it can consume a downstream $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-window-extraction-carrier}. The rows $R,W,D,Q,H,C,P,N$ are exactly the displayed inventory exposed by an accepted packet.
+
+Carrier admission and classifier transport are componentwise. The row $H$ transports the source, inspected windows, dyadic tolerance ledger, query row, replay row, provenance, and local name without adding a second completion coordinate.
+
+The extraction step is finite. The query row $Q$ names the requested precision, $W$ lists the inspected windows answering that request, and $D$ records the dyadic tolerance comparisons used to certify the answer.
+
+Readback stability is then the regular rational row $R$ reread through the same windows and tolerances. Replay through $C$ follows the displayed route, while $P$ and $N$ bind provenance and local naming.
+
+Since the carrier contains no quotient stream equality, selected representative, countable-choice schedule, host equality, open-cover compactness datum, or ambient $\RealUp$ completeness principle, none of those objects can replace the finite extraction surface.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy extraction nonescape]
+\label{thm:regular-cauchy-window-extraction-nonescape}
+Every consumer-facing route out of an accepted $\RegularCauchyWindowExtractionUp$ packet factors through the finite rows $R,W,D,Q,H,C,P,N$. In particular, a completion consumer receives the RegSeqRat source, inspected StreamName windows, DyadicRatCore tolerance ledger, finite request row, componentwise transport, replay, provenance, and local NameCert rows, and receives no quotient stream equality, selected limit, countable-choice schedule, host equality, open-cover compactness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:regular-cauchy-window-extraction-namecert-obligations}. It identifies each admissible consumer read with the displayed carrier rows.
+
+The source, window, tolerance, and request rows $R,W,D,Q$ form the public extraction surface. The structural rows $H,C,P,N$ preserve, replay, source, and name that same surface.
+
+Any route exporting quotient streams, selected limits, countable choice, host equality, compactness, or ambient completeness would require an additional carrier coordinate. The carrier has none, so every consumer-facing route remains inside the finite extraction packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyWindowExtractionUp$ read exposes a RegSeqRat source row, StreamName inspected windows, a DyadicRatCore tolerance ledger, a finite query row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row before any completion-facing seal is consumed.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regular-cauchy-choice-free-completion: $\RegularCauchyWindowExtractionUp$ is not bijective to any listed sibling because it jointly binds a regular source, inspected windows, dyadic tolerances, finite precision requests, transport, replay, provenance, and local naming while refusing quotient completion, selected representatives, countable choice, host equality, compactness, and ambient $\RealUp$ completeness.}
+
+\closureat{RegularCauchyWindowExtractionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWindowExtractionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-window-extraction-carrier}, \autoref{thm:regular-cauchy-window-extraction-namecert-obligations}, and \autoref{thm:regular-cauchy-window-extraction-nonescape} seed the finite regular-Cauchy window-extraction surface over RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, finite-window extraction, tolerance exactness, readback stability, replay, provenance, local naming, and nonescape for BEDC.Derived.RegularCauchyWindowExtractionUp.}
+  \constructivestory{A $\RegularCauchyWindowExtractionUp$ packet is generated from a RegSeqRat source row, StreamName inspected windows, a DyadicRatCore tolerance ledger, a finite query row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
