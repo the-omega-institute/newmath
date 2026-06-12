@@ -54,7 +54,7 @@
     "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
     "json_artifact": "reports/canonical/claim_complexity.json",
     "markdown_artifact": "reports/canonical/claim_complexity.md",
-    "row_count": 36,
+    "row_count": 38,
     "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
     "schema_id": "bedc-quality-lab:claim-complexity",
     "status": "pass",
@@ -77,13 +77,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 131,
+    "node_count": 137,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 45,
+    "row_count": 47,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -244,6 +244,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.classifier_rows",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.split_rows",
+        "report": "structural-generalization-splits"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.base_undertraining_audit.comparison_rows",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.base_undertraining_audit.verdict",
@@ -276,6 +283,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
         "report": "dgt-component-redundancy-audit"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.evaluation_boundaries",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.card_hardgates.status",
+        "report": "dgt-model-card"
       },
       {
         "bundle_role": "hg_p_core",
@@ -334,6 +348,13 @@
         "report": "causal-patch-suite"
       },
       {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "positive_claim_pointer": "$.cards",
+        "report": "experiment-stack-cards"
+      },
+      {
         "bundle_role": "hg_p_core",
         "control_pointer": "$.hardgates",
         "no_control_rationale_pointer": null,
@@ -346,13 +367,6 @@
         "no_control_rationale_pointer": "$.not_claimed",
         "positive_claim_pointer": "$.rows",
         "report": "claim-complexity"
-      },
-      {
-        "bundle_role": "auxiliary",
-        "control_pointer": null,
-        "no_control_rationale_pointer": "$.claim_first_gate",
-        "positive_claim_pointer": "$.cards",
-        "report": "experiment-stack-cards"
       }
     ],
     "status": "pointer-only"
@@ -428,6 +442,16 @@
     "step_ladder_verdict": "scoped-review-signal",
     "step_ladder_verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict",
     "task_spec_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
+  },
+  "dgt_model_card": {
+    "artifact_id": "bedc-quality-lab:dgt-model-card",
+    "canonical_role": "auxiliary_pointer_projection",
+    "card_pointer": "reports/canonical/dgt-model-card.json:$",
+    "fingerprint_artifact": "reports/canonical/dgt-model-card.fingerprint.json",
+    "json_artifact": "reports/canonical/dgt-model-card.json",
+    "markdown_artifact": "reports/canonical/dgt-model-card.md",
+    "not_claimed": "This index section does not copy model-card verdicts or status rows; read the card pointer.",
+    "schema_id": "bedc-quality-lab:dgt-model-card"
   },
   "dimension_mismatch_debt_transfer": {
     "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
@@ -536,7 +560,7 @@
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 16,
+      "D0": 18,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -547,7 +571,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 36,
+    "row_count": 38,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -592,6 +616,12 @@
       "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
     },
     "status": "present-but-fail-closed"
+  },
+  "evidence_provenance": {
+    "canonical_role": "index-owned evidence provenance cell",
+    "evidence_type": "pointer-owner-provenance",
+    "source_type": "canonical-quality-index",
+    "status": "resolved"
   },
   "experiment_proposals": {
     "artifact_id": "bedc-quality-lab:experiment-proposals",
@@ -679,7 +709,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-11T23:46:56.810476+00:00",
+  "generated_at": "2026-06-11T08:40:12.594518+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -1041,10 +1071,12 @@
       "dgt-l0-controls",
       "dgt-l1-controls",
       "winnability-certificates",
+      "structural-generalization-splits",
       "dgt-base-undertraining-audit",
       "dgt-neural-ablation",
       "dgt-ablation-null-decomposition",
       "dgt-component-redundancy-audit",
+      "dgt-model-card",
       "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
@@ -1052,8 +1084,8 @@
       "mechanism-dna",
       "model-comparison",
       "causal-patch-suite",
-      "claim-complexity",
-      "experiment-stack-cards"
+      "experiment-stack-cards",
+      "claim-complexity"
     ],
     "core_reports": [
       "mixing-family-sweep",
@@ -1125,7 +1157,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "5dfc2e45208e4cad05dc3c1601551b9efff94ea71df1d4dabafcdd5d47276c42",
+    "source_sidecar_digest": "9608754035956822c13286fc0eea763a14ff5e0a8eb366a1e23c9fc9a371e567",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -1297,6 +1329,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -1416,6 +1449,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -1535,6 +1569,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "representation_boundary",
@@ -1682,6 +1717,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -1815,6 +1851,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -1936,6 +1973,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -2061,6 +2099,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -2210,6 +2249,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -2349,6 +2389,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -2472,6 +2513,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "producer",
@@ -2601,6 +2643,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "generated_at",
@@ -2743,6 +2786,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -2866,6 +2910,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "run_id",
@@ -3003,6 +3048,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "source_artifacts",
@@ -3129,6 +3175,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "run_id",
@@ -3262,6 +3309,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3409,6 +3457,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3575,6 +3624,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3721,6 +3771,7 @@
       "status": "fail",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3849,6 +3900,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3981,6 +4033,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -3998,6 +4051,130 @@
           "consumer_pointers",
           "not_claimed",
           "$.audit.fail_closed_count"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": "$.classifier_rows",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.split_rows",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.split_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:structural-generalization-splits]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.classifier_rows",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.hardgates",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/structural-generalization-splits.json:$.boundary_ledger",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.split_registry",
+              "source_artifact": "reports/canonical/structural-generalization-splits.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.split_registry",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/structural-generalization-splits.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/structural-generalization-splits.json",
+      "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+      "name": "structural-generalization-splits",
+      "producer_command": [
+        "python3",
+        "scripts/run_structural_generalization_splits.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "split_registry",
+          "split_rows",
+          "classifier_rows",
+          "hardgates",
+          "boundary_ledger",
+          "consumer_pointers",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -4108,6 +4285,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "base_undertraining_audit"
         ],
@@ -4222,6 +4400,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4363,6 +4542,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4505,6 +4685,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4626,8 +4807,133 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "component_redundancy_audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": "$.evaluation_boundaries",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.card_hardgates.status",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/dgt-model-card.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.card_hardgates.status",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:dgt-model-card]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/dgt-model-card.json:$.status",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/dgt-model-card.json:$.upstream_status",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/dgt-model-card.json:$.card_hardgates",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": "reports/canonical/dgt-model-card.json:$.known_failure_modes",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.intended_use",
+              "source_artifact": "reports/canonical/dgt-model-card.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.intended_use",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/dgt-model-card.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/dgt-model-card.json",
+      "markdown_artifact": "reports/canonical/dgt-model-card.md",
+      "name": "dgt-model-card",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_model_card.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "card_id",
+          "generated_at",
+          "source_artifacts",
+          "intended_use",
+          "not_intended_use",
+          "known_failure_modes",
+          "evaluation_boundaries",
+          "training_facts",
+          "upstream_status",
+          "card_hardgates",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -4738,6 +5044,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -4867,6 +5174,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5019,6 +5327,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "generated_at",
@@ -5147,6 +5456,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "artifact_id",
           "generated_at",
@@ -5279,6 +5589,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "generated_at",
           "config",
@@ -5386,9 +5697,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/mechanism_dna.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/mechanism_dna.json",
       "markdown_artifact": "reports/canonical/mechanism_dna.md",
       "name": "mechanism-dna",
@@ -5396,10 +5707,11 @@
         "python3",
         "scripts/run_mechanism_dna.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5506,7 +5818,7 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
       "fingerprint_status": "written",
       "json_artifact": "reports/canonical/model-comparison.json",
@@ -5520,6 +5832,7 @@
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5626,9 +5939,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 2,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/causal_patch_suite.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/causal_patch_suite.json",
       "markdown_artifact": "reports/canonical/patch_effect_summary.md",
       "name": "causal-patch-suite",
@@ -5636,10 +5949,11 @@
         "python3",
         "scripts/run_causal_patch_suite.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5654,6 +5968,132 @@
           "dgt_mechanism_cert",
           "not_claimed",
           "audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_first_gate",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.cards",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:experiment-stack-cards]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=experiment-stack-cards].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=experiment-stack-cards]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/experiment_stack_cards.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/experiment_stack_cards.json",
+      "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
+      "name": "experiment-stack-cards",
+      "producer_command": [
+        "python3",
+        "scripts/run_experiment_stack_cards.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "card_count",
+          "card_ids",
+          "hardgate_ids",
+          "status",
+          "blocked_card_ids",
+          "cards",
+          "claim_first_gate",
+          "industry_standard_alignment",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -5750,9 +6190,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -5760,10 +6200,11 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5868,9 +6309,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -5878,10 +6319,11 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
+        "model_card_errors": [],
         "required_json_keys": [
           "schema_id",
           "artifact_id",
@@ -5897,135 +6339,22 @@
         },
         "status": "pass"
       }
-    },
-    {
-      "bundle_role": "auxiliary",
-      "discipline": {
-        "bundle_role": "auxiliary",
-        "construct_validity_pointer": null,
-        "construct_validity_status": "not-applicable",
-        "control_pointer": null,
-        "control_status": "not-applicable",
-        "cost_pointer": "$.source_artifacts",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "not-applicable",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": "$.claim_first_gate",
-        "no_control_rationale_status": "present",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.cards",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "not-applicable",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/experiment_stack_cards.json:$",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.cards",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:experiment-stack-cards]",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "missing"
-            },
-            "cost_protocol": {
-              "pointer": "$.source_artifacts",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=experiment-stack-cards].discovery_level",
-              "source_artifact": "reports/canonical/discovery_map.json",
-              "status": "missing"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=experiment-stack-cards]",
-              "source_artifact": "reports/canonical/formal_hardening.json",
-              "status": "missing"
-            },
-            "negative_witness": {
-              "pointer": null,
-              "source_artifact": null,
-              "status": "not-applicable"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/experiment_stack_cards.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": false,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "not-applicable"
-        },
-        "scope_pointer": "$.not_claimed",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 1,
-      "fingerprint_reason": "cold",
-      "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
-      "fingerprint_status": "written",
-      "json_artifact": "reports/canonical/experiment_stack_cards.json",
-      "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
-      "name": "experiment-stack-cards",
-      "producer_command": [
-        "python3",
-        "scripts/run_experiment_stack_cards.py"
-      ],
-      "producer_status": "completed",
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "producer",
-          "source_artifacts",
-          "card_count",
-          "card_ids",
-          "hardgate_ids",
-          "status",
-          "blocked_card_ids",
-          "cards",
-          "claim_first_gate",
-          "industry_standard_alignment",
-          "not_claimed"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
     }
   ],
   "root": "papers/bedc-quality-lab",
   "schema_id": "bedc-quality-lab:canonical-report-index",
+  "structural_generalization_splits": {
+    "artifact_id": "bedc-quality-lab:structural-generalization-splits",
+    "boundary_pointer": "reports/canonical/structural-generalization-splits.json:$.boundary_ledger",
+    "classifier_pointer": "reports/canonical/structural-generalization-splits.json:$.classifier_rows",
+    "consumer": "bounded structural generalization readers",
+    "hardgates_pointer": "reports/canonical/structural-generalization-splits.json:$.hardgates",
+    "json_artifact": "reports/canonical/structural-generalization-splits.json",
+    "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
+    "schema_id": "bedc-quality-lab:structural-generalization-splits",
+    "splits_pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows",
+    "status": "pointer-only"
+  },
   "toy_latent_planning_bedc": {
     "artifact_id": "bedc-quality-lab:toy-latent-planning-bedc",
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
