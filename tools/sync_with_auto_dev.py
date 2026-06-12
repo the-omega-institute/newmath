@@ -34,6 +34,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from bedc_quality_canonical_generated_merge import (
+    CANONICAL_PREFIX,
     CanonicalGeneratedMergePolicy,
     PolicyError,
 )
@@ -183,6 +184,10 @@ def conflicted_files(cwd: Path = REPO_ROOT) -> list[str]:
     return [line for line in out.splitlines() if line]
 
 
+def _canonical_paths(paths: list[str]) -> list[str]:
+    return [path for path in paths if path.startswith(CANONICAL_PREFIX)]
+
+
 def has_unmerged_index(cwd: Path = REPO_ROOT) -> bool:
     out = run(["git", "ls-files", "-u"], cwd=cwd,
               check=False, capture=True).stdout
@@ -221,9 +226,91 @@ def collapse_canonical_generated_conflicts(cwd: Path = REPO_ROOT) -> bool:
     return True
 
 
-def finish_canonical_generated_only_merge(cwd: Path = REPO_ROOT) -> bool:
+def canonical_generated_driver_paths(cwd: Path = REPO_ROOT) -> list[str]:
+    try:
+        return CanonicalGeneratedMergePolicy(cwd).driver_marked_paths()
+    except PolicyError as exc:
+        print(f"[sync] canonical generated driver marker read failed: {exc}",
+              file=sys.stderr)
+        return []
+
+
+def clear_canonical_generated_driver_paths(cwd: Path = REPO_ROOT) -> None:
+    try:
+        CanonicalGeneratedMergePolicy(cwd).clear_driver_marker()
+    except PolicyError as exc:
+        print(f"[sync] canonical generated driver marker clear failed: {exc}",
+              file=sys.stderr)
+
+
+def _has_merge_head(cwd: Path = REPO_ROOT) -> bool:
+    return run(["git", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"],
+               cwd=cwd, check=False, capture=True).returncode == 0
+
+
+def _canonical_generated_gate(cwd: Path = REPO_ROOT) -> bool:
+    lab = cwd / "papers" / "bedc-quality-lab"
+    if not lab.exists():
+        print(f"[sync] canonical generated gate missing lab directory: {lab}",
+              file=sys.stderr)
+        return False
+
+    verify_cmd = ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]
+    regen_cmd = ["python3", "scripts/run_canonical_reports.py", "--cold"]
+
+    verify = run(verify_cmd, cwd=lab, check=False, capture=True)
+    if verify.returncode == 0:
+        print("[sync] canonical generated fingerprints verified")
+        return True
+
+    tail = ((verify.stdout or "") + (verify.stderr or "")).strip().splitlines()
+    msg = tail[-1] if tail else "no output"
+    print(f"[sync] canonical generated fingerprint verify failed rc={verify.returncode}: "
+          f"{msg[:240]}")
+
+    regen = run(regen_cmd, cwd=lab, check=False, capture=True)
+    if regen.returncode != 0:
+        out = ((regen.stdout or "") + (regen.stderr or "")).strip().splitlines()
+        msg = out[-1] if out else "no output"
+        print(f"[sync] canonical generated producer regen failed rc={regen.returncode}: "
+              f"{msg[:240]}", file=sys.stderr)
+        return False
+
+    verify = run(verify_cmd, cwd=lab, check=False, capture=True)
+    if verify.returncode != 0:
+        out = ((verify.stdout or "") + (verify.stderr or "")).strip().splitlines()
+        msg = out[-1] if out else "no output"
+        print(f"[sync] canonical generated fingerprint verify failed after regen "
+              f"rc={verify.returncode}: {msg[:240]}", file=sys.stderr)
+        return False
+
+    run(["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+        cwd=cwd, check=False, capture=True)
+    print("[sync] canonical generated artifacts regenerated and verified")
+    return True
+
+
+def _commit_pending_merge(
+    cwd: Path = REPO_ROOT,
+    *,
+    canonical_gate: bool,
+    locked: bool = False,
+) -> bool:
+    if canonical_gate and not _canonical_generated_gate(cwd):
+        return False
+    if locked:
+        run(["git", "commit", "--no-edit"], cwd=cwd)
+        return True
     with acquire_main_checkout_lock(timeout=120):
         run(["git", "commit", "--no-edit"], cwd=cwd)
+    return True
+
+
+def finish_canonical_generated_only_merge(cwd: Path = REPO_ROOT) -> bool:
+    if not _commit_pending_merge(cwd, canonical_gate=True):
+        return False
+    with acquire_main_checkout_lock(timeout=120):
+        clear_canonical_generated_driver_paths(cwd)
     return True
 
 
@@ -293,7 +380,12 @@ def write_locked_git_wrapper(wrapper_dir: Path) -> dict[str, str]:
     return env
 
 
-def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
+def call_codex_to_resolve(
+    work_dir: Path,
+    timeout: int = 1800,
+    *,
+    canonical_gate: bool = False,
+) -> bool:
     """Invoke codex inside `work_dir` to resolve current merge conflicts.
 
     Returns True if codex completed and the merge has no remaining conflicts;
@@ -350,7 +442,13 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
             if remaining:
                 print(f"[sync] codex left unresolved index conflicts: {remaining}", file=sys.stderr)
                 return False
-            run(["git", "commit", "--no-edit"], cwd=work_dir)
+            if not _commit_pending_merge(
+                work_dir,
+                canonical_gate=canonical_gate or bool(canonical_generated_driver_paths(work_dir)),
+                locked=True,
+            ):
+                return False
+            clear_canonical_generated_driver_paths(work_dir)
     return True
 
 
@@ -376,23 +474,37 @@ def merge_with_codex_fallback(target: str, label: str,
     print(f"[sync] {label}: merging {target}...")
     if not install_canonical_generated_merge_driver(cwd):
         return False
+    clear_canonical_generated_driver_paths(cwd)
     with acquire_main_checkout_lock(timeout=120):
-        res = run(["git", "merge", "--no-ff", "--no-edit", target],
+        res = run(["git", "merge", "--no-ff", "--no-commit", target],
                   cwd=cwd, check=False, capture=True)
     if res.returncode == 0:
-        print(f"[sync] {label}: merge clean")
+        canonical_gate = bool(canonical_generated_driver_paths(cwd))
+        if _has_merge_head(cwd):
+            if not _commit_pending_merge(cwd, canonical_gate=canonical_gate):
+                with acquire_main_checkout_lock(timeout=120):
+                    run(["git", "merge", "--abort"], cwd=cwd, check=False)
+                return False
+            clear_canonical_generated_driver_paths(cwd)
+        if canonical_gate:
+            print(f"[sync] {label}: canonical generated merge verified")
+        else:
+            print(f"[sync] {label}: merge clean")
         return True
 
     # Non-zero: either no-op (already up to date) or conflict.
     out = (res.stdout or "") + (res.stderr or "")
     if "Already up to date" in out or "already up to date" in out:
         print(f"[sync] {label}: already up to date")
+        clear_canonical_generated_driver_paths(cwd)
         return True
 
-    if not conflicted_files(cwd):
+    initial_conflicts = conflicted_files(cwd)
+    if not initial_conflicts:
         # Some other failure (e.g. dirty WT). Surface it.
         print(f"[sync] {label}: merge failed without conflicts:\n{out}", file=sys.stderr)
         return False
+    canonical_conflicts = _canonical_paths(initial_conflicts)
 
     if not collapse_canonical_generated_conflicts(cwd):
         with acquire_main_checkout_lock(timeout=120):
@@ -400,12 +512,20 @@ def merge_with_codex_fallback(target: str, label: str,
         return False
 
     remaining_conflicts = conflicted_files(cwd)
+    canonical_gate = bool(canonical_generated_driver_paths(cwd)) or bool(canonical_conflicts)
     if not remaining_conflicts:
-        finish_canonical_generated_only_merge(cwd)
+        if canonical_gate:
+            committed = finish_canonical_generated_only_merge(cwd)
+        else:
+            committed = _commit_pending_merge(cwd, canonical_gate=False)
+        if not committed:
+            with acquire_main_checkout_lock(timeout=120):
+                run(["git", "merge", "--abort"], cwd=cwd, check=False)
+            return False
         print(f"[sync] {label}: canonical generated conflicts collapsed")
         return True
 
-    if not call_codex_to_resolve(cwd):
+    if not call_codex_to_resolve(cwd, canonical_gate=canonical_gate):
         print(f"[sync] {label}: codex could not resolve; aborting merge", file=sys.stderr)
         with acquire_main_checkout_lock(timeout=120):
             run(["git", "merge", "--abort"], cwd=cwd, check=False)
@@ -479,18 +599,13 @@ def push_branch(branch: str, *, set_upstream: bool = False,
         with acquire_main_checkout_lock(timeout=120):
             fetch = git("fetch", "origin", branch,
                         check=False, capture=True)
-            if fetch.returncode != 0:
-                print(f"[sync] push retry refetch failed: {fetch.stderr.strip()[:200]}",
-                      file=sys.stderr)
-                continue
-            merge = git("merge", "--no-ff", "--no-edit", f"origin/{branch}",
-                        check=False, capture=True)
-        if merge.returncode != 0:
-            # Merge conflict or other error — abort and let outer loop
-            # handle (codex conflict resolver path).
-            with acquire_main_checkout_lock(timeout=120):
-                git("merge", "--abort", check=False, capture=True)
-            print(f"[sync] push retry remerge had conflict; aborting retry",
+        if fetch.returncode != 0:
+            print(f"[sync] push retry refetch failed: {fetch.stderr.strip()[:200]}",
+                  file=sys.stderr)
+            continue
+        if not merge_with_codex_fallback(f"origin/{branch}",
+                                         label=f"{branch} <- origin/{branch}"):
+            print("[sync] push retry remerge could not incorporate remote tip",
                   file=sys.stderr)
             return last_rc
     return last_rc
@@ -887,11 +1002,25 @@ def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
 
     if not install_canonical_generated_merge_driver(VALIDATION_WORKTREE):
         return False, dev_sha, mirror_sha
+    clear_canonical_generated_driver_paths(VALIDATION_WORKTREE)
 
-    merge = run(["git", "merge", "--no-ff", "--no-edit", dev_sha],
+    merge = run(["git", "merge", "--no-ff", "--no-commit", dev_sha],
                 cwd=VALIDATION_WORKTREE, check=False, capture=True)
+    if merge.returncode == 0:
+        canonical_gate = bool(canonical_generated_driver_paths(VALIDATION_WORKTREE))
+        if _has_merge_head(VALIDATION_WORKTREE):
+            if not _commit_pending_merge(
+                VALIDATION_WORKTREE,
+                canonical_gate=canonical_gate,
+            ):
+                run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+                    check=False, capture=True)
+                return False, dev_sha, mirror_sha
+            clear_canonical_generated_driver_paths(VALIDATION_WORKTREE)
     if merge.returncode != 0:
-        if conflicted_files(VALIDATION_WORKTREE):
+        initial_conflicts = conflicted_files(VALIDATION_WORKTREE)
+        if initial_conflicts:
+            canonical_conflicts = _canonical_paths(initial_conflicts)
             if not collapse_canonical_generated_conflicts(VALIDATION_WORKTREE):
                 run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
                     check=False, capture=True)
@@ -899,7 +1028,18 @@ def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
                 return False, dev_sha, mirror_sha
             remaining_conflicts = conflicted_files(VALIDATION_WORKTREE)
             if not remaining_conflicts:
-                run(["git", "commit", "--no-edit"], cwd=VALIDATION_WORKTREE)
+                canonical_gate = (
+                    bool(canonical_generated_driver_paths(VALIDATION_WORKTREE))
+                    or bool(canonical_conflicts)
+                )
+                if not _commit_pending_merge(
+                    VALIDATION_WORKTREE,
+                    canonical_gate=canonical_gate,
+                ):
+                    run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+                        check=False, capture=True)
+                    return False, dev_sha, mirror_sha
+                clear_canonical_generated_driver_paths(VALIDATION_WORKTREE)
                 print("[sync] dev->auto-dev validation: canonical generated conflicts collapsed")
             else:
                 run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
@@ -964,16 +1104,41 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
                 git("checkout", "-b", MIRROR_BRANCH, mirror_sha)
             if not install_canonical_generated_merge_driver(REPO_ROOT):
                 return False
-            merge = git("merge", "--no-ff", "--no-edit", dev_sha,
+            clear_canonical_generated_driver_paths(REPO_ROOT)
+            merge = git("merge", "--no-ff", "--no-commit", dev_sha,
                         check=False, capture=True)
+            if merge.returncode == 0:
+                canonical_gate = bool(canonical_generated_driver_paths(REPO_ROOT))
+                if _has_merge_head(REPO_ROOT):
+                    if not _commit_pending_merge(
+                        REPO_ROOT,
+                        canonical_gate=canonical_gate,
+                        locked=True,
+                    ):
+                        git("merge", "--abort", check=False, capture=True)
+                        return False
+                    clear_canonical_generated_driver_paths(REPO_ROOT)
             if merge.returncode != 0:
-                if not conflicted_files(REPO_ROOT):
+                initial_conflicts = conflicted_files(REPO_ROOT)
+                if not initial_conflicts:
                     git("merge", "--abort", check=False, capture=True)
                     print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
                     return False
+                canonical_conflicts = _canonical_paths(initial_conflicts)
                 if collapse_canonical_generated_conflicts(REPO_ROOT):
                     if not conflicted_files(REPO_ROOT):
-                        git("commit", "--no-edit", check=False, capture=True)
+                        canonical_gate = (
+                            bool(canonical_generated_driver_paths(REPO_ROOT))
+                            or bool(canonical_conflicts)
+                        )
+                        if not _commit_pending_merge(
+                            REPO_ROOT,
+                            canonical_gate=canonical_gate,
+                            locked=True,
+                        ):
+                            git("merge", "--abort", check=False, capture=True)
+                            return False
+                        clear_canonical_generated_driver_paths(REPO_ROOT)
                         print("[sync] dev->auto-dev: canonical generated conflicts collapsed")
                     else:
                         git("merge", "--abort", check=False, capture=True)
@@ -1174,11 +1339,23 @@ def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCan
         if not install_canonical_generated_merge_driver(worktree):
             _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
             return None
-        merge = run(["git", "merge", "--no-ff", "--no-edit", f"origin/{source_branch}"],
+        clear_canonical_generated_driver_paths(worktree)
+        merge = run(["git", "merge", "--no-ff", "--no-commit", f"origin/{source_branch}"],
                     cwd=worktree, check=False, capture=True)
+        if merge.returncode == 0:
+            canonical_gate = bool(canonical_generated_driver_paths(worktree))
+            if _has_merge_head(worktree):
+                if not _commit_pending_merge(worktree, canonical_gate=canonical_gate):
+                    run(["git", "merge", "--abort"], cwd=worktree,
+                        check=False, capture=True)
+                    _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+                    return None
+                clear_canonical_generated_driver_paths(worktree)
         if merge.returncode != 0:
             out = (merge.stdout or "") + (merge.stderr or "")
-            if conflicted_files(worktree):
+            initial_conflicts = conflicted_files(worktree)
+            if initial_conflicts:
+                canonical_conflicts = _canonical_paths(initial_conflicts)
                 print("[sync] rollup: merge conflicted; collapsing canonical generated paths")
                 if not collapse_canonical_generated_conflicts(worktree):
                     print("[sync] rollup: canonical collapse failed",
@@ -1188,9 +1365,13 @@ def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCan
                     _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
                     return None
                 remaining_conflicts = conflicted_files(worktree)
+                canonical_gate = (
+                    bool(canonical_generated_driver_paths(worktree))
+                    or bool(canonical_conflicts)
+                )
                 if remaining_conflicts:
                     print("[sync] rollup: source conflicts remain; invoking codex resolver")
-                    if not call_codex_to_resolve(worktree):
+                    if not call_codex_to_resolve(worktree, canonical_gate=canonical_gate):
                         print("[sync] rollup: codex could not resolve merge",
                               file=sys.stderr)
                         run(["git", "merge", "--abort"], cwd=worktree,
@@ -1198,8 +1379,12 @@ def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCan
                         _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
                         return None
                 else:
-                    run(["git", "commit", "--no-edit"], cwd=worktree,
-                        check=False, capture=True)
+                    if not _commit_pending_merge(worktree, canonical_gate=canonical_gate):
+                        run(["git", "merge", "--abort"], cwd=worktree,
+                            check=False, capture=True)
+                        _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+                        return None
+                    clear_canonical_generated_driver_paths(worktree)
                     print("[sync] rollup: canonical generated conflicts collapsed")
             elif "Already up to date" in out or "already up to date" in out:
                 print("[sync] rollup: source already included in target")

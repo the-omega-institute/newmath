@@ -170,6 +170,10 @@ def test_content_conflict_uses_configured_driver_without_unmerged_path(tmp_path:
     assert merge.returncode == 0
     assert canonical not in _unmerged_paths(repo)
     assert _read(repo, canonical) == "left\n"
+    policy = policy_module.CanonicalGeneratedMergePolicy(repo)
+    assert policy.driver_marked_paths() == [canonical]
+    policy.clear_driver_marker()
+    assert policy.driver_marked_paths() == []
 
 
 def test_add_add_canonical_conflict_collapses_to_stage_two(tmp_path: Path) -> None:

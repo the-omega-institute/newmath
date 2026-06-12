@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import shlex
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -12,7 +13,10 @@ from pathlib import Path
 
 DRIVER = "bedc-quality-canonical-generated"
 DRIVER_NAME = "BEDC quality-lab canonical generated artifacts"
-DRIVER_COMMAND = "true"
+DRIVER_MARKER = "bedc-quality-canonical-generated-merge.paths"
+DRIVER_COMMAND = (
+    f"python3 {shlex.quote(str(Path(__file__).resolve()))} driver --repo . %P"
+)
 CANONICAL_PREFIX = "papers/bedc-quality-lab/reports/canonical/"
 CANONICAL_PROBE = f"{CANONICAL_PREFIX}index.json"
 UNSCOPED_ATTRIBUTE_PROBES = (
@@ -74,6 +78,16 @@ def _repo_root(repo: Path) -> Path:
     if res.returncode != 0:
         raise PolicyError(f"not a Git repository: {candidate}")
     return Path(res.stdout.strip()).resolve()
+
+
+def _git_dir(repo: Path) -> Path:
+    res = _run(["git", "rev-parse", "--git-dir"], repo=repo, check=False)
+    if res.returncode != 0 or not res.stdout.strip():
+        raise PolicyError(f"not a Git repository: {repo}")
+    path = Path(res.stdout.strip())
+    if not path.is_absolute():
+        path = (repo / path).resolve()
+    return path
 
 
 def _parse_unmerged(stdout: str) -> dict[str, list[UnmergedEntry]]:
@@ -158,6 +172,33 @@ class CanonicalGeneratedMergePolicy:
         if errors:
             raise PolicyError("Git attribute policy drift: " + "; ".join(errors))
 
+    def driver_marker_path(self) -> Path:
+        return _git_dir(self.repo) / DRIVER_MARKER
+
+    def clear_driver_marker(self) -> None:
+        path = self.driver_marker_path()
+        try:
+            path.unlink()
+        except FileNotFoundError:
+            return
+
+    def driver_marked_paths(self) -> list[str]:
+        path = self.driver_marker_path()
+        try:
+            rows = path.read_text(encoding="utf-8").splitlines()
+        except FileNotFoundError:
+            return []
+        return [
+            row for row in dict.fromkeys(line.strip() for line in rows)
+            if row.startswith(CANONICAL_PREFIX)
+        ]
+
+    def mark_driver_path(self, path: str) -> None:
+        marker = self.driver_marker_path()
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        with marker.open("a", encoding="utf-8") as fh:
+            fh.write(f"{path}\n")
+
     def unmerged_paths(self) -> dict[str, list[UnmergedEntry]]:
         res = _run(["git", "ls-files", "-u"], repo=self.repo)
         return _parse_unmerged(res.stdout)
@@ -207,6 +248,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
     collapse = sub.add_parser("collapse-unmerged", help="Collapse unmerged canonical generated paths")
     collapse.add_argument("--repo", default=".", help="Git repository path")
+
+    driver = sub.add_parser("driver", help="Record a custom-driver placeholder path")
+    driver.add_argument("--repo", default=".", help="Git repository path")
+    driver.add_argument("path", nargs="?", default="")
     return parser
 
 
@@ -220,6 +265,11 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "collapse-unmerged":
             policy.collapse_unmerged()
+            return 0
+        if args.command == "driver":
+            path = args.path
+            if path.startswith(CANONICAL_PREFIX):
+                policy.mark_driver_path(path)
             return 0
     except PolicyError as exc:
         print(f"[canonical-generated-merge] {exc}", file=sys.stderr)
