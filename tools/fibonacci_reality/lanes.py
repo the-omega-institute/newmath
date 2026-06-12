@@ -3381,10 +3381,29 @@ def _tex_escape(value: Any) -> str:
     return "".join(replacements.get(char, char) for char in text)
 
 
+def _ascii_text(value: Any) -> str:
+    text = str(value or "")
+    text = text.replace("\u03a3", "Sigma").replace("\u03a6", "Phi").replace("\u03c6", "phi").replace("\u03c8", "psi")
+    text = text.replace("\u03c7", "chi").replace("\u03c0", "pi").replace("\u03ba", "kappa").replace("\u03c1", "rho")
+    text = text.replace("\u2212", "-").replace("\u2192", "->").replace("\u2260", "!=").replace("\u2264", "<=").replace("\u2265", ">=")
+    text = text.replace("\u223c", "~").replace("\u2208", " in ").replace("\u2115", "N").replace("\u2124", "Z")
+    text = text.replace("\u2080", "_0").replace("\u2081", "_1").replace("\u2082", "_2").replace("\u2083", "_3")
+    text = text.replace("\u2084", "_4").replace("\u2085", "_5").replace("\u2086", "_6").replace("\u2087", "_7")
+    text = text.replace("\u2088", "_8").replace("\u2089", "_9").replace("\u00b2", "^2").replace("\u00b3", "^3")
+    text = text.replace("\u00b7", "*").replace("\u2013", "-").replace("\u2014", "-").replace("\u2018", "'").replace("\u2019", "'")
+    text = text.replace("\u201c", '"').replace("\u201d", '"')
+    text = "".join(char if 32 <= ord(char) <= 126 or char in "\n\t" else " " for char in text)
+    return re.sub(r"[ \t]+", " ", text).strip()
+
+
+def _tex_escape_ascii(value: Any) -> str:
+    return _tex_escape(_ascii_text(value))
+
+
 def _sentence_list(items: Any) -> str:
     if not isinstance(items, list) or not items:
         return "none recorded"
-    return "; ".join(_tex_escape(item) for item in items if isinstance(item, str) and item.strip()) or "none recorded"
+    return "; ".join(_tex_escape_ascii(item) for item in items if isinstance(item, str) and item.strip()) or "none recorded"
 
 
 def _by_id(records: list[dict[str, Any]], key: str) -> dict[str, dict[str, Any]]:
@@ -3528,6 +3547,7 @@ _AUTHOR_MATH_FACT_KEYS = {
     "polynomial",
     "exact_counts",
     "exact_equalities",
+    "exact_inequalities",
     "factorization",
     "factorisation",
     "witnesses",
@@ -4136,6 +4156,116 @@ def _namecert_claim_id(markdown_path: Path) -> str:
     return markdown_path.stem
 
 
+def _read_conjectures_for_fallback() -> list[dict[str, Any]]:
+    try:
+        return read_jsonl(FibonacciRealityPaths.conjectures)
+    except (OSError, ValueError):
+        return []
+
+
+def _linked_conjecture_for_claim_id(claim_id: str) -> dict[str, Any]:
+    return _linked_conjecture_for_claim(_read_conjectures_for_fallback(), claim_id) or {}
+
+
+def _title_from_slug(slug: str, *, prefix: str = "NameCert") -> str:
+    tokens = [token for token in re.split(r"[^A-Za-z0-9]+", _ascii_text(slug)) if token]
+    stop = {"f", "a0", "a1", "a2", "certificate", "namecert"}
+    words: list[str] = []
+    for token in tokens:
+        lowered = token.lower()
+        if lowered in stop:
+            continue
+        if lowered == "modpstar":
+            words.append("Mod 571")
+        elif lowered == "mod3":
+            words.append("Mod 3")
+        elif lowered == "window6":
+            words.append("Window Six")
+        elif lowered == "sixframe":
+            words.append("Six-Frame")
+        elif lowered == "binet":
+            words.append("Binet")
+        elif lowered == "phi":
+            words.append("Phi")
+        else:
+            words.append(token[:1].upper() + token[1:].lower())
+    title = " ".join(words).strip()
+    return f"{prefix}: {title or 'Forced Window Construction'}"
+
+
+def _first_math_fact_record(verified_facts: dict[str, Any]) -> dict[str, Any]:
+    sanitized = _sanitize_math_facts_for_author(verified_facts)
+    if not sanitized:
+        return {}
+    if any(key in sanitized for key in _AUTHOR_MATH_FACT_KEYS):
+        return sanitized
+    for value in sanitized.values():
+        if isinstance(value, dict):
+            nested = _first_math_fact_record(value)
+            if nested:
+                return nested
+    return sanitized
+
+
+def _format_math_fact_items(value: Any, *, max_items: int = 8) -> str:
+    if isinstance(value, dict):
+        parts: list[str] = []
+        for key, child in value.items():
+            if len(parts) >= max_items:
+                break
+            if isinstance(child, (dict, list)):
+                child_text = _format_math_fact_items(child, max_items=3)
+                if child_text:
+                    parts.append(f"{_ascii_text(key)}: {child_text}")
+            else:
+                child_text = _ascii_text(child)
+                if child_text:
+                    parts.append(f"{_ascii_text(key)}: {child_text}")
+        return "; ".join(part for part in parts if part)
+    if isinstance(value, list):
+        parts = [_format_math_fact_items(item, max_items=3) for item in value[:max_items]]
+        return "; ".join(part for part in parts if part)
+    return _ascii_text(value)
+
+
+def _math_fact_paragraph(label: str, value: Any, fallback: str) -> list[str]:
+    text = _format_math_fact_items(value) or fallback
+    return [rf"\paragraph{{{label}.}} {_tex_escape_ascii(text)}", ""]
+
+
+def _render_math_fallback_section(
+    *,
+    title: str,
+    label: str,
+    verified_facts: dict[str, Any],
+    conjecture: dict[str, Any] | None = None,
+) -> str:
+    conjecture = conjecture or {}
+    facts = _first_math_fact_record(verified_facts)
+    form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
+    carrier = facts.get("carrier") or facts.get("finite_set") or form.get("carrier") or "A finite forced-window carrier is required before a stronger chapter can be authored."
+    relations = facts.get("relations") or facts.get("relation") or facts.get("predicate") or facts.get("matrix") or form.get("distinctions") or "No relation beyond the local finite construction is asserted."
+    counts = facts.get("exact_counts") or facts.get("exact_equalities") or facts.get("finite_rows") or facts.get("factorization") or "No exact count has been certified in the author-facing facts."
+    witnesses = facts.get("witnesses") or facts.get("kernel") or facts.get("polynomial") or "The fallback records only the finite construction data already present in the sanitized packet."
+    not_claimed = facts.get("not_claimed") or facts.get("notclaimed") or conjecture.get("forbidden_claims") or [
+        "No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed."
+    ]
+    statement = facts.get("statement") or facts.get("mathematical_statement") or conjecture.get("informal_statement") or "The packet records a finite forced-window mathematical construction."
+    lines = [
+        rf"\subsection{{{_tex_escape_ascii(title)}}}",
+        rf"\label{{sec:{_ascii_text(label)}}}",
+        r"\origin{ai}",
+        "",
+    ]
+    lines.extend(_math_fact_paragraph("Statement", statement, "The packet records a finite forced-window mathematical construction."))
+    lines.extend(_math_fact_paragraph("Carrier", carrier, "A finite forced-window carrier is recorded."))
+    lines.extend(_math_fact_paragraph("Relations", relations, "Only the local finite relation data is recorded."))
+    lines.extend(_math_fact_paragraph("Counts and identities", counts, "No exact count has been certified in the author-facing facts."))
+    lines.extend(_math_fact_paragraph("Witness extraction", witnesses, "The finite witnesses are limited to the sanitized mathematical facts."))
+    lines.extend(_math_fact_paragraph("Not claimed", not_claimed, "No physical identification, global flow law, external dependency, or external interpretation is claimed."))
+    return "\n".join(lines).rstrip() + "\n"
+
+
 _NAMECERT_TITLE_REMAP = {
     "loning-format chapter slug": "NameCert chapter slug",
     "internal newmath/bedc derivation": "Derivation from coordinate, closure, spectrum, and relation",
@@ -4157,42 +4287,25 @@ def _namecert_paragraph_title(title: str) -> str:
     return cleaned or "Section"
 
 
-def _render_namecert_proposal(markdown_path: Path, slug: str) -> str:
-    lines = [
-        rf"\subsection{{NameCert: {_tex_escape(_namecert_claim_id(markdown_path))}}}",
-        rf"\label{{sec:namecert-{slug}}}",
-        r"\origin{ai}",
-        r"\noindent\textit{Proposed by bio-namer; review status: draft.}",
-        "",
-    ]
-    current_title: str | None = None
-    current_body: list[str] = []
-
-    def flush_section() -> None:
-        nonlocal current_title, current_body
-        if current_title is None:
-            current_body = []
-            return
-        body = "\n".join(line for line in current_body).strip()
-        lines.extend([rf"\paragraph{{{_tex_escape(_namecert_paragraph_title(current_title))}.}}"])
-        if body:
-            paragraphs = [part.strip() for part in re.split(r"\n\s*\n", body) if part.strip()]
-            for paragraph in paragraphs:
-                lines.extend([_tex_escape(" ".join(paragraph.splitlines())), ""])
-        else:
-            lines.extend(["No proposal text recorded.", ""])
-        current_title = None
-        current_body = []
-
-    for raw_line in markdown_path.read_text(encoding="utf-8").splitlines():
-        if raw_line.startswith("## "):
-            flush_section()
-            current_title = raw_line[3:].strip()
-            current_body = []
-        elif current_title is not None:
-            current_body.append(raw_line)
-    flush_section()
-    return "\n".join(lines) + "\n"
+def _render_namecert_proposal(
+    markdown_path: Path,
+    slug: str,
+    conjecture: dict[str, Any] | None = None,
+    verified_facts: dict[str, Any] | None = None,
+) -> str:
+    claim_id = _namecert_claim_id(markdown_path)
+    conjecture = conjecture if isinstance(conjecture, dict) else _linked_conjecture_for_claim_id(claim_id)
+    verified_facts = verified_facts if isinstance(verified_facts, dict) else {}
+    if not verified_facts:
+        verified_facts = _verified_facts_for_claim(conjecture, claim_id) if conjecture else {}
+    if not verified_facts and conjecture:
+        verified_facts = _all_verified_facts(conjecture)
+    return _render_math_fallback_section(
+        title=_title_from_slug(slug),
+        label=f"namecert-{slug}",
+        verified_facts=verified_facts,
+        conjecture=conjecture,
+    )
 
 
 def _render_conjecture_section(
@@ -4202,76 +4315,16 @@ def _render_conjecture_section(
     mismatches_by_probe: dict[str, list[dict[str, Any]]],
 ) -> list[str]:
     conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
-    form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
-    contact_refs = [str(item) for item in conjecture.get("reality_contact_refs", []) if isinstance(item, str)]
-    probe_refs = [str(item) for item in conjecture.get("probe_refs", []) if isinstance(item, str)]
-    lines = [
-        rf"\subsection{{{_tex_escape(conjecture_id)}}}",
-        "",
-        rf"\paragraph{{Biological object.}} {_tex_escape(conjecture.get('biological_object', ''))}",
-        "",
-        rf"\paragraph{{Current claim.}} {_tex_escape(conjecture.get('informal_statement', ''))}",
-        "",
-        rf"\paragraph{{External reality input.}}",
-    ]
-    if contact_refs:
-        for contact_ref in contact_refs:
-            contact = contacts_by_id.get(contact_ref, {})
-            lines.extend(
-                [
-                    rf"\textbf{{{_tex_escape(contact_ref)}}}. {_tex_escape(contact.get('observed_fact', 'missing contact record'))}",
-                    "",
-                    rf"Can test: {_sentence_list(contact.get('can_test'))}. Cannot test: {_sentence_list(contact.get('cannot_test'))}.",
-                    "",
-                ]
-            )
-    else:
-        lines.extend(["No external contact is attached.", ""])
-    lines.extend(
-        [
-            rf"\paragraph{{Internal newmath/BEDC derivation.}} Carrier: {_tex_escape(form.get('carrier', ''))}. "
-            rf"Distinctions: {_sentence_list(form.get('distinctions'))}. "
-            rf"Readback: {_tex_escape(form.get('readback', ''))}. "
-            rf"Internal structure: {_sentence_list(form.get('internal_structure'))}.",
-            "",
-            rf"\paragraph{{Falsifiable probes.}}",
-        ]
-    )
-    if probe_refs:
-        for probe_ref in probe_refs:
-            probe = probes_by_id.get(probe_ref, {})
-            lines.extend(
-                [
-                    rf"\textbf{{{_tex_escape(probe_ref)}}}. {_tex_escape(probe.get('test_statement', 'missing probe record'))}",
-                    "",
-                    rf"Support condition: {_tex_escape(probe.get('support_condition', ''))}",
-                    "",
-                    rf"Break condition: {_tex_escape(probe.get('break_condition', ''))}",
-                    "",
-                ]
-            )
-    else:
-        lines.extend(["No derived probe is attached.", ""])
-    lines.append(r"\paragraph{Mismatch ledger.}")
-    for probe_ref in probe_refs:
-        for mismatch in mismatches_by_probe.get(probe_ref, []):
-            lines.extend(
-                [
-                    rf"\textbf{{{_tex_escape(mismatch.get('mismatch_id', ''))}}}. Status: {_tex_escape(mismatch.get('status', ''))}. "
-                    rf"Delta: {_tex_escape(mismatch.get('observed_delta', ''))}",
-                    "",
-                    rf"Refinement pressure: {_tex_escape(mismatch.get('refinement_pressure', ''))}",
-                    "",
-                ]
-            )
-    lines.extend(
-        [
-            rf"\paragraph{{Cannot-claim boundary.}} {_sentence_list(conjecture.get('forbidden_claims'))}",
-            "",
-        ]
-    )
-    lines.extend(_render_verified_facts(conjecture))
-    return lines
+    _ = (contacts_by_id, probes_by_id, mismatches_by_probe)
+    verified_facts = _all_verified_facts(conjecture)
+    title = _title_from_slug(conjecture_id, prefix="Forced Window")
+    slug = re.sub(r"[^a-z0-9]+", "-", _ascii_text(conjecture_id).lower()).strip("-") or "forced-window"
+    return _render_math_fallback_section(
+        title=title,
+        label=slug,
+        verified_facts=verified_facts,
+        conjecture=conjecture,
+    ).splitlines()
 
 
 def _codex_chapter_gate_issues(
@@ -4818,7 +4871,7 @@ def _write_namecert_proposals(
             writer_config,
         )
         codex_ok = bool(codex_text)
-        text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
+        text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug, conjecture, verified_facts)
         hygiene_issues = bedc_writeback_gates.check_chapter_hygiene(text, require_origin_ai=True)
         # 本 cycle codex 失败 / hygiene 不过 → 本应退回 stub. 但**绝不用 stub 覆盖已部署的好
         # rich 章节** (否则 namecert 在 stub↔rich 间每 cycle 抖动 = 质量退化 + churn 主因).
@@ -5818,7 +5871,7 @@ def render_lane_dashboard(paths: FibonacciRealityPaths, targets: list[dict[str, 
             "R lane plans Codex agent tasks from events. W lane writes only the",
             "standalone FibonacciReality paper. Q lane converts review outcomes into",
             "hardening targets. A lane summarizes failures and scheduling pressure.",
-            "No lane writes BEDC paper, Lean, remote refs, or un-gated biological conclusions.",
+            "No lane writes BEDC paper, Lean, remote refs, or un-gated external interpretations.",
             "",
             "## Packet targets",
             "",
