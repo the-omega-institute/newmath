@@ -27,7 +27,9 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     reason_for_claim_verdict,
     validate_claim_verdict_reason,
 )
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_supports_empirical_claim
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
@@ -125,10 +127,11 @@ def _load_payload(root: Path, artifact: str) -> dict[str, Any]:
 def _load_discovery_rows(root: Path, generated_at: str | None) -> list[dict[str, Any]]:
     path = _artifact_path(root, "reports/canonical/discovery_map.json")
     if path.exists():
-        payload = _load_json(path)
-        rows = payload.get("rows") if isinstance(payload, Mapping) else None
-        if isinstance(rows, list) and all(isinstance(row, dict) for row in rows):
-            return rows
+        payload = load_validated_discovery_map_payload(root)
+        rows = payload["rows"]
+        if not all(isinstance(row, dict) for row in rows):
+            raise ValueError("discovery map must contain object rows")
+        return rows
     return list(build_discovery_map(generated_at=generated_at, root=root, canonical_reports=_discovery_map_reports())["rows"])
 
 
@@ -138,6 +141,13 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
         return None
     payload = _load_json(path)
     return payload if isinstance(payload, dict) else None
+
+
+def _empirical_claim_support(root: Path, report: str) -> tuple[bool, str]:
+    section = load_evidence_provenance(root, require=False)
+    if section is None:
+        return False, "evidence-provenance-owner-missing"
+    return owner_supports_empirical_claim(section, report)
 
 
 def _load_winnability_certificates(root: Path) -> dict[str, Any]:
@@ -647,6 +657,7 @@ def _mapped_discovery_row(
         return None
     payload = _load_payload(root, str(row["json_artifact"]))
     scorecard = _load_scorecard(root)
+    empirical_owner_ok, empirical_owner_reason = _empirical_claim_support(root, report)
 
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
     if positive_forbidden is not None:
@@ -837,6 +848,15 @@ def _mapped_discovery_row(
                     reason="high-impact-review-required",
                     source=_claim_source(row, high_impact_failure),
                     ledger_pointer=f"{row['json_artifact']}:{high_impact_failure}",
+                    scorecard_snapshot=scorecard_snapshot,
+                )
+            if not empirical_owner_ok:
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason=empirical_owner_reason,
+                    source=source,
+                    ledger_pointer=str(row.get("evidence_provenance_pointer") or "reports/canonical/index.json:$.evidence_provenance"),
                     scorecard_snapshot=scorecard_snapshot,
                 )
             return _row(
