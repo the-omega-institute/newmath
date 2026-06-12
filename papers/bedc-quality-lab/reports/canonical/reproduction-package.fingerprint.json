@@ -3,7 +3,7 @@
     "generated_at": "2026-06-12T06:36:23.020151+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "f5029bd269880b8340f4829306a583720730c893a1afacb2f43fac38c8b47c54",
+  "input_fingerprint": "f582ddb3645246c47c5e65a44595ee609ca8a0e09ef994b39ab94e00895fe1b6",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -33,28 +33,24 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "bedc_quality_lab/discovery_compiler/claim_verdict_reason.py",
-        "sha256": "24ce7be2c15950776d320ef59cc563d16bd69f25b4948908d09a90cc3b94876e"
-      },
-      {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
         "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
       },
       {
-        "path": "bedc_quality_lab/high_impact_review.py",
-        "sha256": "0d6257af97c3aee631968a47037f2b3d59c9a244c4ff71f42a6ba55d120d0d50"
+        "path": "bedc_quality_lab/reproduction_package.py",
+        "sha256": "31f56f77664baf548ab8689c6f0a4dc0bcbdf26f1c2945adfa353bd27393cc48"
       },
       {
-        "path": "scripts/run_high_impact_review.py",
-        "sha256": "090546756812c13c757efdc15fdae8e6da22e95fd062417ff24dfd49eec3b6fa"
+        "path": "scripts/run_reproduction_package.py",
+        "sha256": "f24bd45bbda483fb6229e310e0e6930a96d31349665a4344a9a575affba05861"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:high-impact-review",
+    "report_output_schema_id": "bedc-quality-lab:reproduction-package",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_high_impact_review.py"
+        "scripts/run_reproduction_package.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -62,27 +58,51 @@
     },
     "source_artifacts": [
       {
+        "path": "reports/canonical/claim_capsule.json",
+        "sha256": "dbd7ee9f0790903215679d986fdc2bee32c73516b88bf7729472d26eb32cb069"
+      },
+      {
         "path": "reports/canonical/claim_graph.json",
         "sha256": "daad451feb4d71a456d42063c02be1bdd513f1a9d4bffe339a263d8ec3264d9a"
+      },
+      {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "cc06db683faefe3de0aaa60f59d5391b3e44dd947179f586dc0017626f1f67fd"
+      },
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+      },
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+      },
+      {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "2c9195505c0c3f032560174ba6ca59d6887ab358d675e68e51ed5d515ff48481"
       },
       {
         "path": "reports/canonical/discovery-gated-transformer.json",
         "sha256": "e36d6a8e1f788470f65e91bd7ffe696563f05106af0054595acd3c6f8fa97c1f"
       },
       {
-        "path": "reports/canonical/model-comparison.json",
-        "sha256": "ea49a486a0648dad6d7eebaf3ea78090000a2984cd2d62f6f1cd991b7272e2b2"
+        "path": "reports/canonical/index.json",
+        "sha256": "a3cfd59370978047bd198b6315116d1ac9280a255f02236f2f86cf65ea6dfc78"
+      },
+      {
+        "path": "reports/canonical/reproduction-check-result.json",
+        "sha256": "7b39d7afcc6d8a1a81bf02ca5abf2854145aa9129cbca270f0f508162f54f23d"
       }
     ],
     "spec": {
-      "bundle_role": "hg_p_core",
+      "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_high_impact_review.py"
+        "scripts/run_reproduction_package.py"
       ],
       "construct_validity_pointer": null,
-      "control_pointer": "$.hardgates",
-      "cost_pointer": "$.hardgates",
+      "control_pointer": "$.projection_regen_refs",
+      "cost_pointer": "$.cost_protocol",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
@@ -90,32 +110,37 @@
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/high-impact-review.json",
+      "json_artifact": "reports/canonical/reproduction-package.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/high-impact-review.md",
-      "name": "high-impact-review",
+      "markdown_artifact": "reports/canonical/reproduction-package.md",
+      "name": "reproduction-package",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.review_rows",
+      "positive_claim_pointer": "$.hardgates",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
         "generated_at",
+        "producer",
+        "owner_module",
         "source_artifacts",
-        "review_rows",
+        "reproduction_targets",
+        "projection_regen_refs",
         "hardgates",
+        "claim_capsule_ref",
+        "cost_protocol",
         "not_claimed"
       ],
-      "scope_pointer": "$.review_rows"
+      "scope_pointer": "$.reproduction_targets"
     }
   },
-  "json_artifact": "reports/canonical/high-impact-review.json",
-  "markdown_artifact": "reports/canonical/high-impact-review.md",
-  "output_digest": "8595a0a22346a5bdc12dd3cc5c5a189fede9d49e3f4840e0548eef95694c86df",
+  "json_artifact": "reports/canonical/reproduction-package.json",
+  "markdown_artifact": "reports/canonical/reproduction-package.md",
+  "output_digest": "3d8bf3085f6aa2cb92da563d2aed8c2b55107e7a470ba1a024dfa2946eafc5a2",
   "producer_command": [
     "python3",
-    "scripts/run_high_impact_review.py"
+    "scripts/run_reproduction_package.py"
   ],
-  "report_name": "high-impact-review",
+  "report_name": "reproduction-package",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

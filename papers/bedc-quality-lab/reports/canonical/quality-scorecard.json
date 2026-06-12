@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-11T08:40:12.594518+00:00",
+  "generated_at": "2026-06-12T06:36:23.020151+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -103,6 +103,16 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/reproduction-package.json",
+      "name": "reproduction-package",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/reproduction-check-result.json",
+      "name": "reproduction-check-result",
+      "status": "pass"
+    },
+    {
       "json_artifact": "reports/canonical/winnability-certificates.json",
       "name": "winnability-certificates",
       "status": "pass"
@@ -180,7 +190,7 @@
     {
       "json_artifact": "reports/canonical/model-comparison.json",
       "name": "model-comparison",
-      "status": "error"
+      "status": "pass"
     },
     {
       "json_artifact": "reports/canonical/causal_patch_suite.json",
@@ -299,9 +309,9 @@
       "value": 10
     },
     {
-      "denominator": 38,
+      "denominator": 40,
       "metric": "ScopeCompleteness",
-      "numerator": 38,
+      "numerator": 40,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -409,6 +419,16 @@
           "report": "dgt-l1-controls"
         },
         {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.reproduction_targets",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.target_results",
+          "report": "reproduction-check-result"
+        },
+        {
           "artifact": "reports/canonical/winnability-certificates.json",
           "pointer": "$.not_claimed",
           "report": "winnability-certificates"
@@ -498,9 +518,9 @@
       "value": 1.0
     },
     {
-      "denominator": 38,
+      "denominator": 40,
       "metric": "CostProtocolCompleteness",
-      "numerator": 38,
+      "numerator": 40,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -606,6 +626,16 @@
           "artifact": "reports/canonical/dgt-l1-controls.json",
           "pointer": "$.compute_ledger",
           "report": "dgt-l1-controls"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.cost_protocol",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.package_ref",
+          "report": "reproduction-check-result"
         },
         {
           "artifact": "reports/canonical/winnability-certificates.json",
