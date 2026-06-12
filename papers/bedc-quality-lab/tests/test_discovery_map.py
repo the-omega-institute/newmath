@@ -334,6 +334,28 @@ def _minimal_payload(spec, *, root: Path | None = None):
             root=root or discovery_map.ROOT,
             generated_at="fixture-time",
         )
+    if spec.name == "dgt-base-undertraining-audit":
+        from bedc_quality_lab import dgt_base_undertraining_audit
+
+        return dgt_base_undertraining_audit.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
+    if spec.name == "fair-l1-decision":
+        from bedc_quality_lab import fair_l1_decision
+
+        return fair_l1_decision.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
+    if spec.name == "reproduction-package":
+        from bedc_quality_lab import reproduction_package
+
+        return reproduction_package.build_package(root or canonical.ROOT, generated_at="fixture-time")
+    if spec.name == "reproduction-check-result":
+        from bedc_quality_lab import reproduction_package
+
+        package = reproduction_package.build_package(root or canonical.ROOT, generated_at="fixture-time")
+        return reproduction_package.verify_package(
+            package,
+            root or canonical.ROOT,
+            "structural",
+            generated_at="fixture-time",
+        )
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
