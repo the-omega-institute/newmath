@@ -1629,6 +1629,7 @@ import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
+import BEDC.Derived.CauchyDoubleSequenceUp.DiagonalTailEnvelope
 import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
@@ -5857,6 +5858,7 @@ import BEDC.Derived.LimitUp.BishopHandoff
 import BEDC.Derived.LimitUp.ConsumerHandoffExactness
 import BEDC.Derived.LimitUp.FiniteWindowExactness
 import BEDC.Derived.LimitUp.RealCompletionHandoff
+import BEDC.Derived.LimitUp.ScopedKernelRoute
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimitUp.ToleranceLedgerExactness
 import BEDC.Derived.LimsupUp.TasteGate
