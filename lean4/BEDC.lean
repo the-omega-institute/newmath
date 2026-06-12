@@ -771,7 +771,6 @@ import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
-import BEDC.Derived.BetaSubstitutionPreservationUp.ContextTransport
 import BEDC.Derived.BetaSubstitutionPreservationUp.NameCertObligations
 import BEDC.Derived.BetaSubstitutionPreservationUp.Nonescape
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexClosure
@@ -5329,6 +5328,7 @@ import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
+import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
@@ -7361,7 +7361,6 @@ import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.L2EnergyIdentityRoute
 import BEDC.Derived.ParsevalUp.NameCertObligations
 import BEDC.Derived.ParsevalUp.RealL2BoundaryRefusal
-import BEDC.Derived.ParsevalUp.RealSealNonescape
 import BEDC.Derived.ParsevalUp.RootCoefficientIntegralBudget
 import BEDC.Derived.ParsevalUp.RootCoefficientStability
 import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
