@@ -1606,6 +1606,23 @@
             "failed": 0
           },
           "script_sha": "6b86697a07fad42b"
+        },
+        {
+          "ts": "2026-06-12T18:14:49+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-12T18:14:49+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0989d61dafdc",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "6b86697a07fad42b"
         }
       ]
     },
@@ -2801,6 +2818,23 @@
             "failed": 1
           },
           "script_sha": "2600b84f09e011de"
+        },
+        {
+          "ts": "2026-06-12T18:14:49+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-12T18:14:49+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f23e9dac2618",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "2600b84f09e011de"
         }
       ]
     },
@@ -3667,7 +3701,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The B*_Q6 synonymous-codon residual association with yeast protein abundance is real (held-out 5-fold R^2 ~0.19 vs permutation null ~0) and partially reducible: a <=3-readout measured dictionary {measured_te, mrna_stability, turnover} captures ~24.5% of the Z-residualized abundance residual, surviving a selection-aware permutation null (null95 ~0.029, ~5x the naive fixed-subset null ~0.006); ~75% remains unexplained, and local codon-pair Q^(2) context adds no held-out signal. Certifies the residual as a real, partially-mediated (not irreducible) primitive over the tested readout family.",
       "depends_on": [],
-      "status": "error",
+      "status": "passed",
       "experiment_id": "b_star_q6_partial_mediation_certificate_powered",
       "history": [
         {
@@ -3681,6 +3715,47 @@
             "failed": 0
           },
           "script_sha": "4391a0243c2e5652"
+        },
+        {
+          "ts": "2026-06-12T18:13:46+00:00",
+          "status": "open",
+          "reason": "reset after landing missing import helper (irreducibility script); re-run"
+        },
+        {
+          "ts": "2026-06-12T18:17:01+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a4dc9b09533a",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          },
+          "script_sha": "4391a0243c2e5652"
+        }
+      ],
+      "linked_conjecture_id": "q6.rank-powered.translation-conditioned.protein-mediation.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.irreducibility_certificate.b_star_q6_residual_primitive_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Hypothesis (tested, falsified): the B*_Q6 synonymous-codon residual on yeast protein abundance is an irreducible primitive -- a real held-out signal that NEITHER single-codon readout-dictionary compression NOR local codon-pair Q^(2) context captures. Result: source is real, but the {measured_te, mrna_stability, turnover} dictionary captures ~24.5% (selection-aware significant), so the residual is partially reducible, not irreducible. Explicit negative complementing the partial_mediation certificate.",
+      "depends_on": [],
+      "status": "failed",
+      "experiment_id": "b_star_q6_irreducibility_certificate_powered",
+      "history": [
+        {
+          "ts": "2026-06-12T18:20:59+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "233f4d677439",
+          "checks": {
+            "total": 4,
+            "passed": 1,
+            "failed": 3
+          },
+          "script_sha": "33248080c95880a6"
         }
       ]
     }
