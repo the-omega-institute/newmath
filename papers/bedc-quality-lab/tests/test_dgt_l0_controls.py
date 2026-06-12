@@ -275,6 +275,11 @@ def test_dgt_l0_controls_writes_run_local_artifacts_without_report_fingerprint_a
     assert canonical_payload["l0_toy_projection"]["review_status"] == "scoped-boundary"
     assert claim_capsule["owner_artifact"] == CANONICAL_JSON_ARTIFACT
     assert claim_capsule["owner_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection"
+    assert claim_capsule["ladder_consumption"] == {
+        "status": "scoped-boundary",
+        "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.ladder_consumption",
+    }
+    assert claim_capsule["ladder_consumption"] != canonical_payload["l0_toy_projection"]["ladder_consumption"]
     assert not (tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").exists()
 
 

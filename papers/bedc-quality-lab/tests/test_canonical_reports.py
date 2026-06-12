@@ -1202,6 +1202,11 @@ def _write_release_pointer_fixture(root):
                 },
                 "honest_metric_review": {"status": "scoped-boundary"},
                 "ladder_consumption": {"status": "scoped-boundary"},
+                "construct_validity_hardgates": {
+                    "status": "fail",
+                    "failed_gates": ["CV-HG4"],
+                    "evidence": {"finite_table": {"rule_abstraction_claim": False}},
+                },
                 "l0_toy_projection": {
                     "review_status": "scoped-boundary",
                     "status": "scoped-boundary",
@@ -1644,6 +1649,7 @@ def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_time
 
 
 def _without_discovery_rows(payload, excluded_reports):
+    assert "discovery-gated-transformer" not in set(excluded_reports)
     return {
         **{key: value for key, value in payload.items() if key != "rows"},
         "rows": [
@@ -2298,12 +2304,9 @@ def test_committed_canonical_bundle_matches_generation_chain():
     )
 
     assert index_payload == generated_index
-    assert _without_discovery_rows(discovery_payload, {"discovery-gated-transformer"}) == _without_discovery_rows(
-        generated_discovery,
-        {"discovery-gated-transformer"},
-    )
+    assert discovery_payload == generated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
-        next(row for row in generated_discovery["rows"] if row["report"] == "discovery-gated-transformer")
+        next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == generated_claims
 
@@ -5485,12 +5488,9 @@ def test_committed_canonical_bundle_matches_registered_reports():
         claim_verdict_rows=regenerated_claim_rows,
     )
 
-    assert _without_discovery_rows(discovery_payload, {"discovery-gated-transformer"}) == _without_discovery_rows(
-        regenerated_discovery,
-        {"discovery-gated-transformer"},
-    )
+    assert discovery_payload == regenerated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
-        next(row for row in regenerated_discovery["rows"] if row["report"] == "discovery-gated-transformer")
+        next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == regenerated_claim_rows
     assert index_payload == regenerated_index

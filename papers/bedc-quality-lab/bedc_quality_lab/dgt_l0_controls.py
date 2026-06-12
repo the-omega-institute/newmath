@@ -1614,6 +1614,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
 
 def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
     projection = payload["l0_toy_projection"]
+    ladder_consumption = projection["ladder_consumption"]
     construct_validity = evaluate_construct_validity(
         ConstructValidityEvidence.from_payload(payload["construct_validity_hardgates"]["evidence"])
     )
@@ -1625,7 +1626,10 @@ def claim_capsule_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
         "review_status": projection["review_status"],
         "ref_pointers": projection["ref_pointers"],
         "honest_metric_review_ref": projection["honest_metric_review_ref"],
-        "ladder_consumption": projection["ladder_consumption"],
+        "ladder_consumption": {
+            "status": ladder_consumption["status"],
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.ladder_consumption",
+        },
         "construct_validity": construct_validity.claim_capsule_projection_for(
             artifact=CANONICAL_JSON_ARTIFACT,
             pointer="$.construct_validity_hardgates",
