@@ -224,6 +224,31 @@ def main() -> None:
     stationary_ok = stationary_pi == data["pi"]
     delta_r_equal = sp.simplify(data["Delta_R"] - expected_delta_r) == 0
     charpoly_equal = sp.simplify(data["charpoly"] - expected_charpoly) == 0
+    delta_r_derivative = sp.factor(sp.diff(data["Delta_R"], z))
+    delta_r_derivative_numerator, delta_r_derivative_denominator = sp.fraction(sp.together(delta_r_derivative))
+    delta_r_derivative_numerator = sp.factor(delta_r_derivative_numerator)
+    delta_r_derivative_denominator = sp.factor(delta_r_derivative_denominator)
+    delta_r_denominator_base = 55 * z**3 + 506 * z**2 - 7263 * z - 48114
+    delta_r_numerator_poly = sp.Poly(delta_r_derivative_numerator, z)
+    delta_r_denominator_base_poly = sp.Poly(delta_r_denominator_base, z)
+    delta_r_numerator_roots_01 = int(delta_r_numerator_poly.count_roots(0, 1))
+    delta_r_denominator_base_roots_01 = int(delta_r_denominator_base_poly.count_roots(0, 1))
+    delta_r_numerator_no_roots_01 = delta_r_numerator_roots_01 == 0
+    delta_r_denominator_no_roots_01 = delta_r_denominator_base_roots_01 == 0
+    delta_r_numerator_positive_samples = [
+        delta_r_derivative_numerator.subs(z, point) > 0
+        for point in (sp.Integer(0), sp.Rational(1, 2), sp.Integer(1))
+    ]
+    delta_r_denominator_positive_samples = [
+        delta_r_derivative_denominator.subs(z, point) > 0
+        for point in (sp.Integer(0), sp.Integer(1))
+    ]
+    delta_r_monotonic_on_01 = (
+        delta_r_numerator_no_roots_01
+        and all(delta_r_numerator_positive_samples)
+        and delta_r_denominator_no_roots_01
+        and all(delta_r_denominator_positive_samples)
+    )
     fib_le_63 = [(index, fib(index)) for index in range(0, 12) if fib(index) <= 63]
     rho6 = max(index for index, value in fib_le_63 if value <= 63)
 
@@ -282,6 +307,11 @@ def main() -> None:
             "delta_R_1_571",
             data["Delta_R_1"] == sp.Rational(26401, 2**13 * 571),
             "Delta_R(1)=26401/(2^13*571)",
+        ),
+        check(
+            "delta_R_monotonic_on_01",
+            delta_r_monotonic_on_01,
+            "Delta_R'(z)>0 on [0,1]: the derivative numerator has no root in [0,1] and is positive at 0,1/2,1, while the squared denominator has no pole in [0,1]",
         ),
         check(
             "charpoly_markov",
@@ -359,6 +389,23 @@ def main() -> None:
             "Delta_R_0": str(data["Delta_R_0"]),
             "Delta_R_1": str(data["Delta_R_1"]),
             "Delta_R_1_denominator_factor": "2^13*571",
+            "Delta_R_derivative": str(delta_r_derivative),
+            "Delta_R_derivative_numerator": str(delta_r_derivative_numerator),
+            "Delta_R_derivative_denominator": str(delta_r_derivative_denominator),
+            "Delta_R_derivative_certificate": {
+                "numerator_roots_in_0_1": delta_r_numerator_roots_01,
+                "denominator_base_roots_in_0_1": delta_r_denominator_base_roots_01,
+                "numerator_values": {
+                    "0": str(delta_r_derivative_numerator.subs(z, 0)),
+                    "1/2": str(delta_r_derivative_numerator.subs(z, sp.Rational(1, 2))),
+                    "1": str(delta_r_derivative_numerator.subs(z, 1)),
+                },
+                "denominator_values": {
+                    "0": str(delta_r_derivative_denominator.subs(z, 0)),
+                    "1": str(delta_r_derivative_denominator.subs(z, 1)),
+                },
+                "conclusion": "Delta_R'(z)>0 for every z in [0,1]",
+            },
             "charpoly_markov": str(data["charpoly"]),
             "coarse_residual_ledger": {
                 "D_0": 47,
@@ -401,7 +448,6 @@ def main() -> None:
                 "GoldenLocalResponseFunctor forcedness (seam/local-return/forced mapping)",
                 "s_6=7 residual-seam forcedness",
                 "rho_6=10 local-return forcedness",
-                "Delta_R'(z)>0 monotonicity",
                 "physical representation bridge R_6(D*)=alpha^-1",
             ],
             "not_claimed": [
