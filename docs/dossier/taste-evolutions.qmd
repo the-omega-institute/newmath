@@ -238,6 +238,8 @@ to case-by-case judgment.
 
 - 2026-06-11T05:37:02Z: `resolved` `add_downstream_user` for `BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityCarrier_namecert_obligations:a9f7a9b0`). Rationale: The target is not a disposable wrapper: it is the Lean certificate for the local SchurOrthogonality NameCert surface described in the chapter. Its isolation was real at Lean-use level, so I added a sibling downstream theorem that consumes it together with the character-pairing route, returning both the local NameCert certificate and the exported route certificate for a downstream read. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-12T03:56:08Z: `resolved` `add_downstream_user` for `BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_compact_net_radius_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EquicontinuityUp.EquicontinuityCarrier_compact_net_radius_exactness:6137c810`). Rationale: The target is not just a trivial wrapper: it packages the compact-net handoff with unary closure, the original radius route, the handoff route, and compact-net package provenance. Repo search showed no Lean downstream consumer before this change, while the paper marker was the only project-level reference. I added a finite-net boundary consumer theorem that calls the target directly, then replays the compact-net read into a consumer boundary and packages that route as a SemanticNameCert. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
