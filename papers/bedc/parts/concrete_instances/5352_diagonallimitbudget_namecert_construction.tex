@@ -136,6 +136,22 @@ Apply \autoref{thm:diagonal-limit-budget-nonescape}. The packet has no route to 
 The obligation surface records why this is stable under reading. The rows $H$ and $C$ transport and replay the displayed packet, while $P$ and $N$ source and name the same local carrier. Therefore the Real seal handoff is the displayed budgeted route, not a parameter-transported or host-selected Real completion claim.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitBudget scoped L10 grounding]
+\label{thm:diagonal-limit-budget-scoped-l10-grounding}
+Every accepted $\DiagonalLimitBudgetUp$ packet grounds the diagonal request, modulus budget, selected window, dyadic ledger, and Real seal through the ordered scoped route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+In particular, the same carrier $B=(D,M,W,Q,E,H,C,P,N)$ displays the request $D$, budget $M$, selected $\StreamNameUp$ and $\RegSeqRatUp$ window $W$, $\DyadicRatCoreUp$ ledger $Q$, terminal $\RealUp$ seal $E$, and structural rows $H,C,P,N$ before any Real-facing consumer can read the seal.
+\end{theorem}
+\begin{proof}
+Start with the non-escape theorem. It forces every accepted seal read to expose $D,M,W,Q,H,C,P,N$, so the request and budget cannot be separated from the selected window and dyadic ledger.
+
+Use the obligation surface to identify the rows. The selected-window side is exactly the $\StreamNameUp$ and $\RegSeqRatUp$ part of $W$, and the readback side is exactly the $\DyadicRatCoreUp$ tolerance ledger $Q$ attached to the same displayed $D,M$ request.
+
+Finally apply the two seal handoff theorems. The seal handoff keeps $E$ attached to $M,W,Q,H,C,P,N$, and the Real seal handoff states that $E$ is readable only after those rows have been displayed. Thus the scoped grounding route is the displayed packet route, not an external Real-completion or quotient-stream route.
+\end{proof}
+
 \closureat{DiagonalLimitBudgetUp}{seedStr}
 \closureat{DiagonalLimitBudgetUp}{obligationStr}
 
