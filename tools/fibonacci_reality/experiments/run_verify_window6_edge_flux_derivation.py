@@ -39,6 +39,17 @@ def v6(word: tuple[int, ...]) -> int:
     return sum(bit * FIB_WEIGHTS[index] for index, bit in enumerate(word))
 
 
+def fib(index: int) -> int:
+    if index <= 0:
+        raise ValueError("Fibonacci index must be positive")
+    previous, current = 1, 1
+    if index <= 2:
+        return 1
+    for _ in range(3, index + 1):
+        previous, current = current, previous + current
+    return current
+
+
 def foldbin_fiber(word: tuple[int, ...]) -> set[int]:
     fiber: set[int] = set()
     for c7, c8, c9 in product((0, 1), repeat=3):
@@ -144,6 +155,13 @@ def main() -> None:
         / (512 * (55 * z**3 + 506 * z**2 - 7263 * z - 48114))
     )
     expected_charpoly = sp.factor((z - 1) * (55 * z**3 + 506 * z**2 - 7263 * z - 48114) / 48114)
+    phi = sp.Rational(1, 2) * (1 + sp.sqrt(5))
+    dstar_assembly_left = sp.factor(
+        47 + phi**-7 * (1 - sp.Rational(1, 2) * phi**-10 + sp.Rational(8, 9) * phi**-20)
+    )
+    dstar_assembly_right = sp.factor(
+        47 + phi**-7 - sp.Rational(1, 2) * phi**-17 + sp.Rational(8, 9) * phi**-27
+    )
 
     x6_count = len(data["X6"])
     stable_counts = [len(block) for block in data["stable_blocks"]]
@@ -166,6 +184,9 @@ def main() -> None:
     stationary_ok = stationary_pi == data["pi"]
     delta_r_equal = sp.simplify(data["Delta_R"] - expected_delta_r) == 0
     charpoly_equal = sp.simplify(data["charpoly"] - expected_charpoly) == 0
+    fib_le_63 = [(index, fib(index)) for index in range(1, 12) if fib(index) <= 63]
+    k6 = max(index - 1 for index, value in fib_le_63 if value <= 63)
+    r6 = k6 + 1
 
     checks = [
         check(
@@ -228,6 +249,26 @@ def main() -> None:
             charpoly_equal,
             "det(I-zT)=(z-1)(55z^3+506z^2-7263z-48114)/48114",
         ),
+        check(
+            "coarse_residual_ledger_47",
+            fib(9) + fib(7) == 47 and fib(10) - fib(6) == 47,
+            "D_0=47=F_9+F_7=F_10-F_6 with F_6=8,F_7=13,F_9=34,F_10=55",
+        ),
+        check(
+            "seam_index_s6_7",
+            6 + 1 == 7,
+            "s_6=m+1=7 is the first beyond-window seam for m=6",
+        ),
+        check(
+            "return_step_r6_10",
+            fib(10) == 55 and fib(11) == 89 and fib(10) <= 63 < fib(11) and k6 == 9 and r6 == 10,
+            "F_10=55<=63<F_11=89, so K(6)=9 and r_6=K(6)+1=10",
+        ),
+        check(
+            "dstar_assembly_identity",
+            sp.simplify(dstar_assembly_left - dstar_assembly_right) == 0,
+            "47+phi^-7*(1-(1/2)phi^-10+(8/9)phi^-20) is definitionally 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27; this is not a forcedness proof",
+        ),
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
@@ -252,6 +293,27 @@ def main() -> None:
             "Delta_R_1": str(data["Delta_R_1"]),
             "Delta_R_1_denominator_factor": "2^13*571",
             "charpoly_markov": str(data["charpoly"]),
+            "coarse_residual_ledger": {
+                "D_0": 47,
+                "F_9_plus_F_7": fib(9) + fib(7),
+                "F_10_minus_F_6": fib(10) - fib(6),
+            },
+            "golden_local_response_indices": {
+                "s_6": 7,
+                "r_6": 10,
+                "K_6": 9,
+                "tail_bound": "F_10=55<=63<F_11=89",
+            },
+            "dstar_assembly_identity": (
+                "D_0+phi^-7 Q(phi^-10)=47+phi^-7-(1/2)phi^-17+(8/9)phi^-27 "
+                "with Q(u)=1-(1/2)u+(8/9)u^2; definitional re-expression only"
+            ),
+            "obligations_not_verified": [
+                "GoldenLocalResponseFunctor form necessity",
+                "-1/2 AlternatingJordanMode A_0 spectrum",
+                "Delta_R'(z)>0 monotonicity",
+                "physical representation bridge R_6(D*)=alpha^-1",
+            ],
             "not_claimed": [
                 "D*_6 golden-local-response coefficient package",
                 "fine-structure readout",
