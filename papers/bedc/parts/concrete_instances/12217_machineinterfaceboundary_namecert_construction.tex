@@ -81,17 +81,34 @@ Thus the named Lean file is the correct follow-up site for the same displayed ca
 
 \independenceWitness{registryexportsurface, machineinterfacesocket, kernelauditwitness, apophaticname: none is bijective because MachineInterfaceBoundaryUp simultaneously carries registry export rows, refused rows, formalization-target routing, socket exposure, audit readback, transport, continuation, provenance, and local NameCert.}
 
+\begin{theorem}[Machine-interface boundary paper bridge]
+\label{thm:machine-interface-boundary-paper-bridge}
+Every accepted $\MachineInterfaceBoundaryUp$ packet realizes the paper-side bridge from machine-interface registry rows to the abstract machine-boundary schema by the displayed rows
+$$
+R,E,F,A,S,H,C,P,N .
+$$
+The registry row $R$, export row $E$, refused-row ledger $F$, formalization-target row $A$, and socket row $S$ supply the schema fields for registry admission, export control, refusal retention, target routing, and machine-facing exposure. The audit rows $H,C,P,N$ supply transport, replay, provenance, and local naming. Thus a registry/export/socket/audit read reaches the abstract boundary only through the same finite packet, and no route bypasses refused rows, host-side certification, unchecked machine claims, or hidden registry overrides.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:machine-interface-boundary-carrier}. The rows $R,E,F,A,S$ already separate the public registry entry, export decision, refused content, formalization target, and socket exposure.
+
+The structural rows $H,C,P,N$ make that separation stable under transport, replay, provenance, and local naming. Combining these rows gives exactly the abstract machine-boundary schema: registry admission is supplied by $R$, export control by $E,F$, target and socket routing by $A,S$, and audit accountability by $H,C,P,N$.
+
+Because the carrier has no coordinate for host-side certification, unchecked claims, hidden overrides, or routes that bypass $F$, every bridge read remains inside the displayed packet.
+\end{proof}
+
 \closureat{MachineInterfaceBoundaryUp}{seedStr}
 \closureat{MachineInterfaceBoundaryUp}{obligationStr}
 \closureat{MachineInterfaceBoundaryUp}{publicStr}
+\closureat{MachineInterfaceBoundaryUp}{bridgedStr}
 
 \begin{closurestatus}{\MachineInterfaceBoundaryUp}
   \constructivestory{A $\MachineInterfaceBoundaryUp$ packet is generated from registry-row, export-decision, refused-claim, formalization-target, socket, componentwise transport, continuation, provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:machine-interface-boundary-carrier}, \autoref{thm:machine-interface-boundary-obligation-surface}, \autoref{thm:machine-interface-boundary-export-control}, and \autoref{thm:machine-interface-boundary-tastegate-handoff} bind the public export-control, refused-row, formalization-target, socket, audit, nontriviality, and field-faithfulness handoff rows over the $\BHist$ packet $R,E,F,A,S,H,C,P,N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:machine-interface-boundary-carrier}, \autoref{thm:machine-interface-boundary-obligation-surface}, \autoref{thm:machine-interface-boundary-export-control}, \autoref{thm:machine-interface-boundary-tastegate-handoff}, and \autoref{thm:machine-interface-boundary-paper-bridge} bind the public export-control, refused-row, formalization-target, socket, audit, nontriviality, field-faithfulness, and paper-side bridge rows over the $\BHist$ packet $R,E,F,A,S,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close host-side certification, unchecked machine claims, hidden registry overrides, Lean verification, bridge checking, or export routes that bypass refused registry rows.}
-  \upgradepath{A higher closure grade requires Lean verification and bridge checking for the public export-control, refusal, socket, audit, nontriviality, and field-faithfulness rows of the same $\MachineInterfaceBoundaryUp$ packet.}
+  \notclaimed{This chapter does not close host-side certification, unchecked machine claims, hidden registry overrides, Lean verification, checked standard-bridge evidence, or export routes that bypass refused registry rows.}
+  \upgradepath{A higher closure grade requires Lean verification and checked standard-bridge evidence for the public export-control, refusal, socket, audit, nontriviality, field-faithfulness, and paper-side bridge rows of the same $\MachineInterfaceBoundaryUp$ packet.}
 \end{closurestatus}
