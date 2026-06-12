@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicShadowBoundaryUp$}
+\label{ch:concrete-instances-hyperbolic-shadow-boundary-namecert}
+\origin{human}
+
+Following Gromov boundary and visual shadow constructions in hyperbolic geometry, the $\HyperbolicShadowBoundaryUp$ packet records the observer-facing boundary window as finite shadow and visual-boundary NameCert data. It sits between the boundary-shadow packet of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the visual-boundary readback of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, the visual-shadow metric surface of \autoref{ch:concrete-instances-hyperbolic-visual-shadow-metric-namecert}, and the observer-expansion route of \autoref{ch:concrete-instances-hyperbolic-observer-expansion-namecert}. This realizes the observer-shadow portion of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} without adding a completed ideal boundary or a host hyperbolic space.
+
+\begin{definition}[Hyperbolic shadow boundary carrier]
+\label{def:hyperbolic-shadow-boundary-carrier}
+A $\HyperbolicShadowBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,O,W,V,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the hyperbolic metric source row, naming the finite metric comparison data used by every shadow read.
+\item $O$ is the observer window row, recording the displayed basepoint, aperture, and finite visible-shadow request.
+\item $W$ is the $\HyperbolicBoundaryShadowUp$ row that supplies the boundary-shadow window.
+\item $V$ is the $\HyperbolicVisualBoundaryUp$ row that reads the same shadow window as visible boundary data.
+\item $S$ is the $\HyperbolicVisualShadowMetricUp$ row that records visual-shadow metric comparison before observer expansion consumes the boundary read.
+\item $R$ is the $\HyperbolicObserverExpansionUp$ handoff row, read only after $M,O,W,V,S$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for metric source, observer window, boundary shadow, visual boundary, visual-shadow metric, observer handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from observer-window reads to boundary-shadow windows, visual-boundary reads, visual-shadow metric comparisons, and observer-expansion handoffs.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicShadowBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicVisualBoundaryUp$, $\HyperbolicVisualShadowMetricUp$, $\HyperbolicObserverExpansionUp$, $\HyperbolicMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicShadowBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these rows. It has no coordinate for a completed ideal boundary, quotient geodesic-end equality, selected geodesic ray, global compactification, or physical observer trajectory.
+\end{definition}
+
+\begin{theorem}[Hyperbolic shadow boundary NameCert obligations]
+\label{thm:hyperbolic-shadow-boundary-namecert-obligations}
+For every accepted $\HyperbolicShadowBoundaryUp$ carrier $B=(M,O,W,V,S,R,H,C,P,N)$, the local $\NameCert_{\HyperbolicShadowBoundaryUp}$ surface consists exactly of metric source admission, observer-window exposure, $\HyperbolicBoundaryShadowUp$ window admission, $\HyperbolicVisualBoundaryUp$ readback, $\HyperbolicVisualShadowMetricUp$ comparison, $\HyperbolicObserverExpansionUp$ handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-shadow-boundary-carrier}. The rows $M,O,W,V,S,R$ are the only analytic rows, and $H,C,P,N$ are the only structural rows.
+
+The boundary side is finite. The observer row $O$ exposes the window request, the boundary-shadow row $W$ supplies the visible shadow, and the visual-boundary row $V$ reads that same window as boundary data.
+
+The observer side is downstream. The visual-shadow metric row $S$ compares the visible shadow before the observer-expansion handoff $R$ is available. Transport, replay, provenance, and local naming preserve this route without adding a completed ideal boundary, quotient ray equality, selected geodesic, compactification theorem, or physical observer path.
+\end{proof}
+
+\begin{theorem}[Hyperbolic shadow boundary observer handoff]
+\label{thm:hyperbolic-shadow-boundary-observer-handoff}
+Every observer-expansion consumer of an accepted $\HyperbolicShadowBoundaryUp$ packet must read the route
+$$
+\HyperbolicBoundaryShadowUp \longmapsto \HyperbolicVisualBoundaryUp \longmapsto \HyperbolicVisualShadowMetricUp \longmapsto \HyperbolicObserverExpansionUp
+$$
+through the displayed observer window and structural rows of \autoref{def:hyperbolic-shadow-boundary-carrier}. The handoff exports finite shadow-window and visual-boundary data for \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion}; it exports no completed ideal boundary, quotient geodesic equality, selected ray, global compactification, or physical observer trajectory.
+\end{theorem}
+\begin{proof}
+Begin with the boundary-shadow row. It records the finite visible window, and the visual-boundary row reads the same window as boundary data rather than as a completed ideal boundary.
+
+Next read the visual-shadow metric row. It compares only the displayed shadow and visible-boundary rows, so the observer-expansion handoff receives finite metric readback data rather than a global compactification.
+
+Finally consume the structural rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay carry the same window through provenance and local naming. Since the carrier has no coordinate for quotient ray equality, selected geodesics, completed boundary objects, or physical observer paths, the observer handoff remains exactly the displayed finite route.
+\end{proof}
+
+\closureat{HyperbolicShadowBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicShadowBoundaryUp}
+  \constructivestory{A $\HyperbolicShadowBoundaryUp$ packet is generated from hyperbolic metric source rows, observer-window rows, HyperbolicBoundaryShadow rows, HyperbolicVisualBoundary rows, HyperbolicVisualShadowMetric rows, HyperbolicObserverExpansion rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-shadow-boundary-carrier}, \autoref{thm:hyperbolic-shadow-boundary-namecert-obligations}, and \autoref{thm:hyperbolic-shadow-boundary-observer-handoff} seed the finite observer-shadow boundary packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed ideal-boundary construction, quotient geodesic equality, selected geodesic rays, global compactification, physical observer dynamics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked metric source admission, observer-window exposure, boundary-shadow admission, visual-boundary readback, visual-shadow metric comparison, observer-expansion handoff, and structural transport for BEDC.Derived.HyperbolicShadowBoundaryUp.}
+\end{closurestatus}
