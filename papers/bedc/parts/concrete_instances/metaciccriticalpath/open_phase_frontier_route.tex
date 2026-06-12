@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC critical-path open-phase frontier]
+\label{thm:metacic-critical-path-open-phase-frontier}
+Every MetaCIC candidate-discharge read used by the current open Phase Real and Completion route must pass through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source ledger before it can be consumed as an L10 readiness row. Thus candidate-mediated normalization, confluence, bounded conversion, and discharge-socket evidence remain downstream of the open-phase source ledger and cannot replace any one of the four L10 source faces.
+\end{theorem}
+\begin{proof}
+First read the source ledger. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} displays the packet rows together with exactly the four Phase Real source rows, and Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} says that every admitted source read factors through that ledger.
+
+Next apply the Phase Real source obligations. Theorem~\ref{thm:metacic-critical-path-phase-real-source-obligations} requires $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ to be exposed before any discharge socket, confluence-decidability handoff, obstruction boundary, or downstream readiness boundary is consumed.
+
+Now route candidate evidence through the existing candidate frontier. Theorems~\ref{thm:metacic-critical-path-candidate-discharge-frontier}, \ref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}, and \ref{thm:metacic-critical-path-candidate-discharge-budget-route} keep candidate-mediated normalization, confluence, bounded-conversion, and L10 readiness reads inside the same finite packet while the obstruction row and discharge socket remain visible.
+
+Finally use the L10 ordering row. Theorem~\ref{thm:metacic-critical-path-l10-candidate-discharge-order} places the Real-and-Completion route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the normal-form endpoint or discharge socket can be consumed. Therefore candidate-discharge reads may serve the current open phase only after the displayed source ledger has been read, and no candidate row becomes a substitute for the four source faces.
+\end{proof}
