@@ -620,48 +620,103 @@
     "evidence": {
       "arm_input_access": {
         "arms": {
-          "compute_matched_l1": {
+          "dgt_l1:in_distribution": {
+            "canonical_row": "reports/canonical/input-accessibility.json#row_id=815dc7a2b911856d",
+            "coverage_status": "pass",
+            "information_starved": false,
+            "missing_variables": [],
+            "required_variables": [
+              "x_minus_1",
+              "x_minus_2"
+            ],
+            "unanswerable_ood": false,
             "variables": [
-              "token_sequence",
-              "x_prev_1",
-              "x_prev_2",
-              "surface_id"
+              "x_minus_1",
+              "x_minus_2",
+              "gates"
             ]
           },
-          "dgt_l1": {
+          "dgt_l1:ood": {
+            "canonical_row": "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9",
+            "coverage_status": "fail",
+            "information_starved": true,
+            "missing_variables": [
+              "x_minus_3"
+            ],
+            "required_variables": [
+              "x_minus_1",
+              "x_minus_3"
+            ],
+            "unanswerable_ood": true,
             "variables": [
-              "token_sequence",
-              "x_prev_1",
-              "x_prev_2",
-              "surface_id"
+              "x_minus_1",
+              "x_minus_2",
+              "gates"
             ]
           },
-          "information_starved_l1_baseline": {
+          "information_starved_l1_baseline:in_distribution": {
+            "canonical_row": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+            "coverage_status": "fail",
+            "information_starved": true,
+            "missing_variables": [
+              "x_minus_2"
+            ],
+            "required_variables": [
+              "x_minus_1",
+              "x_minus_2"
+            ],
+            "unanswerable_ood": false,
             "variables": [
-              "token_sequence",
-              "x_prev_1",
-              "x_prev_2",
-              "surface_id"
+              "x_minus_1"
             ]
           },
-          "matched_random_structural_l1": {
+          "information_starved_l1_baseline:ood": {
+            "canonical_row": "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+            "coverage_status": "fail",
+            "information_starved": true,
+            "missing_variables": [
+              "x_minus_3"
+            ],
+            "required_variables": [
+              "x_minus_1",
+              "x_minus_3"
+            ],
+            "unanswerable_ood": true,
             "variables": [
-              "token_sequence",
-              "x_prev_1",
-              "x_prev_2",
-              "surface_id"
+              "x_minus_1"
             ]
           },
-          "parameter_matched_l1": {
+          "matched_random_structural_l1:in_distribution": {
+            "canonical_row": "reports/canonical/input-accessibility.json#row_id=2501a86ca1e1740b",
+            "coverage_status": "pass",
+            "information_starved": false,
+            "missing_variables": [],
+            "required_variables": [
+              "x_minus_1",
+              "x_minus_2"
+            ],
+            "unanswerable_ood": false,
             "variables": [
-              "token_sequence",
-              "x_prev_1",
-              "x_prev_2",
-              "surface_id"
+              "x_minus_1",
+              "x_minus_2",
+              "batch_shifted_tokens"
             ]
           }
         },
-        "label_invisibility_certificate": true
+        "boundary_ledger_count": 3,
+        "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+        "certificate_pointer": "reports/canonical/input-accessibility.json:$",
+        "information_starved_arms_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ],
+        "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
+        "label_invisibility_certificate": true,
+        "unanswerable_ood_splits_ref": [
+          "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
+          "reports/canonical/input-accessibility.json#row_id=919ac19434f330f9"
+        ]
       },
       "arm_roles": {
         "candidate": "dgt_l1",
@@ -6107,6 +6162,8 @@
       "mps_allowed_when_explicit": true,
       "requested_device": "cpu"
     },
+    "input_accessibility_consumer_pointers": "reports/canonical/input-accessibility.json:$.consumer_pointers",
+    "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
     "order_k_required_order_row": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows[1]",
     "order_k_required_order_source": "reports/canonical/order-k-benchmark.json:$.surface_required_order_ledger.rows",
     "owner_module": "bedc_quality_lab/dgt_l1_controls.py",
