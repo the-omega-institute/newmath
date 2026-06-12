@@ -17,7 +17,11 @@ from bedc_quality_lab.discovery_regularized_training import (
     _training_mechanism_cert,
 )
 from bedc_quality_lab import dgt_l0_controls as dgt_l0_controls_owner
+from bedc_quality_lab import dgt_l1_controls as dgt_l1_controls_owner
 from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
+from bedc_quality_lab import input_accessibility as input_accessibility_owner
+from bedc_quality_lab import winnability as winnability_owner
+from bedc_quality_lab import structural_generalization_splits as structural_splits_owner
 from bedc_quality_lab.discovery_gated_transformer import (
     DGT_L0_CONTROLS_ARTIFACT,
     L0_HARDGATE_SUMMARY_REF,
@@ -299,11 +303,34 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
     }
 
 
-def _minimal_payload(spec):
+def _minimal_payload(spec, *, root: Path | None = None):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name == "dgt-l0-controls":
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
         return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "input-accessibility":
+        return input_accessibility_owner.build_payload(generated_at="fixture-time")
+    if spec.name == "dgt-l1-controls":
+        payload = dgt_l1_controls_owner.build_payload(
+            generated_at="fixture-time",
+            requested_device="cpu",
+            config=dgt_l1_controls_owner.L1TrainingConfig(
+                seeds=tuple(range(16)),
+                training_steps=36,
+                step_grid=(36,),
+                train_examples=64,
+                eval_examples=32,
+                batch_size=32,
+            ),
+        )
+        return {key: value for key, value in payload.items() if key != "_raw_records"}
+    if spec.name == "winnability-certificates":
+        return winnability_owner.build_payload(root=root or discovery_map.ROOT, generated_at="fixture-time")
+    if spec.name == "structural-generalization-splits":
+        return structural_splits_owner.build_structural_generalization_payload(
+            root=root or discovery_map.ROOT,
+            generated_at="fixture-time",
+        )
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -618,12 +645,16 @@ def _minimal_payload(spec):
 
 def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
+        if spec.name == "structural-generalization-splits":
+            continue
         if spec.name == "dgt-neural-ablation":
             _write_dgt_neural_ablation_payload(root)
         elif spec.name == "dgt-l0-controls":
             _write_dgt_l0_controls_payload(root)
         else:
-            _write_payload(root, spec, _minimal_payload(spec))
+            _write_payload(root, spec, _minimal_payload(spec, root=root))
+    structural_spec = canonical._specs_by_name()["structural-generalization-splits"]
+    _write_payload(root, structural_spec, _minimal_payload(structural_spec, root=root))
     _write_dimension_mismatch_gap_witness_fixture(root)
     _write_lejepa_mini_grid_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
@@ -1246,8 +1277,8 @@ def test_discovery_map_dgt_blocked_projection_exposes_resolvable_failed_gate(tmp
 
     assert row["projection_status"] == "source-insufficient"
     assert row["failed_gate"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
-    assert row["audit_status"] == "invalid"
-    assert row["audit_reason"].startswith("scaling-ladder-owner-")
+    assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == ""
     assert _artifact_pointer_value(tmp_path, row["failed_gate"]) is not None
 
 
@@ -1577,9 +1608,10 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    expected_reports = canonical._discovery_map_reports()
 
-    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in canonical.CANONICAL_REPORTS]
-    assert payload["row_count"] == len(canonical.CANONICAL_REPORTS)
+    assert [row["report"] for row in payload["rows"]] == [spec.name for spec in expected_reports]
+    assert payload["row_count"] == len(expected_reports)
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 
@@ -2962,11 +2994,62 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
-        _write_payload(tmp_path, spec, _minimal_payload(spec))
+        _write_payload(tmp_path, spec, _minimal_payload(spec, root=tmp_path))
         markdown = tmp_path / spec.markdown_artifact
         markdown.write_text("# fixture\n", encoding="utf-8")
 
+    def fake_compile_discovery(*args, **kwargs):
+        del args, kwargs
+        payload = {
+            "schema_id": "bedc-quality-lab:discovery-map",
+            "generated_at": "2026-01-02T03:04:05+00:00",
+            "root": "papers/bedc-quality-lab",
+            "row_count": 0,
+            "level_counts": {},
+            "rows": [],
+        }
+        _write_json_artifact(tmp_path, discovery_map.DISCOVERY_MAP_JSON_ARTIFACT, payload)
+        _write_json_artifact(
+            tmp_path,
+            canonical.NEGATIVE_DISCOVERY_REPORTS_JSON_ARTIFACT,
+            {
+                "schema_id": "bedc-quality-lab:negative-discovery-reports",
+                "artifact_id": canonical.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT_ID,
+                "generated_at": "2026-01-02T03:04:05+00:00",
+                "rows": [],
+            },
+        )
+        (tmp_path / discovery_map.DISCOVERY_MAP_MARKDOWN_ARTIFACT).write_text("# discovery\n", encoding="utf-8")
+        return payload
+
+    def fake_dgt_payload(generated_at=None):
+        payload = json.loads((canonical.SOURCE_ROOT / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text())
+        payload["generated_at"] = generated_at or "2026-01-02T03:04:05+00:00"
+        return payload
+
+    real_run_spec = canonical._run_spec
+
+    def fake_run_spec(spec, *args, **kwargs):
+        if spec.name in {"dgt-l0-controls", "scaling-ladder", "dgt-model-card"}:
+            return {
+                "name": spec.name,
+                "status": "pass",
+                "bundle_role": spec.bundle_role,
+                "json_artifact": spec.json_artifact,
+                "markdown_artifact": spec.markdown_artifact,
+                "fingerprint_sidecar": canonical._fingerprint_path(spec).relative_to(canonical.ROOT).as_posix(),
+                "discipline": canonical._discipline(spec),
+                "fingerprint_status": "match",
+                "producer_status": "skipped",
+                "artifact_validation": {"status": "pass"},
+            }
+        return real_run_spec(spec, *args, **kwargs)
+
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_compile_discovery_compat", fake_compile_discovery)
+    monkeypatch.setattr(canonical, "_validate_committed_discovery_map_round_trip", lambda: None)
+    monkeypatch.setattr(canonical, "_build_discovery_gated_transformer_payload", fake_dgt_payload)
 
     payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
 
@@ -3003,9 +3086,19 @@ def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
-    assert payload["manifest_audit"]["unregistered_json_artifacts"] == [
-        "reports/canonical/unregistered-extra.json",
-    ]
+    pointer_allowed_excluded = {
+        "claim-complexity",
+        "transformer-derivative-atlas",
+    }
+    assert payload["manifest_audit"]["unregistered_json_artifacts"] == sorted(
+        [
+            spec.json_artifact
+            for spec in canonical.CANONICAL_REPORTS
+            if spec.name in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+            and spec.name not in pointer_allowed_excluded
+        ]
+        + ["reports/canonical/unregistered-extra.json"]
+    )
 
     old_root = discovery_map.ROOT
     try:

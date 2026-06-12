@@ -1,9 +1,12 @@
-.PHONY: check test canonical-consistency canonical-reports canonical-reports-cold claim-artifact-consistency cold-check run-example clean-reports
+.PHONY: check test metric-purity canonical-consistency canonical-reports canonical-reports-cold claim-artifact-consistency cold-check run-example clean-reports
 
-check: canonical-consistency test
+check: metric-purity canonical-consistency test
 
 test:
 	python3 -m pytest -q
+
+metric-purity:
+	python3 scripts/check_metric_purity.py
 
 canonical-consistency:
 	python3 scripts/run_canonical_reports.py --verify-fingerprints
