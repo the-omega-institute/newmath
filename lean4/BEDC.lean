@@ -2504,6 +2504,7 @@ import BEDC.Derived.ClosedIntervalNestingUp.TasteGate
 import BEDC.Derived.ClosedIntervalTotalBoundedUp.TasteGate
 import BEDC.Derived.ClosedLamDomainSubjectReductionUp.TasteGate
 import BEDC.Derived.ClosedMetricBallUp.TasteGate
+import BEDC.Derived.ClosedMetricGraphUp
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
@@ -5963,6 +5964,7 @@ import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
 import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
+import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
