@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSubcoverExtractionUp$}
+\label{ch:concrete-instances-finite-subcover-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteSubcoverExtractionUp$ packet records the finite subcover extraction step only after the cover has already been presented as displayed compact-metric, interval, dyadic, stream, regular-rational, and real-seal data. It sits beside the finite Lebesgue-number route of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, the compact source certificate of \autoref{ch:concrete-instances-compactmetric-namecert}, the closed interval carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an extraction certificate for a displayed finite cover candidate; it does not assert general open-cover compactness, choose from an arbitrary cover family, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite subcover extraction carrier]
+\label{def:finite-subcover-extraction-carrier}
+A $\FiniteSubcoverExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,I,L,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, read only through finite-net and coverage data already admitted by the compact-metric packet.
+\item $I$ is the $\ClosedBoundedIntervalUp$ interval row when the cover is interval-facing; otherwise it records the absence of an interval specialization.
+\item $L$ is the $\FiniteLebesgueNumberUp$ positive-radius ledger tying the displayed cover candidates to a finite lower-bound row.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and radius-comparison ledger used to compare cover radii with requested windows.
+\item $W$ is the $\StreamNameUp$ finite-window row naming exactly which cover candidates are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for every rational endpoint, center, or radius consumed by the extraction.
+\item $E$ is the terminal $\RealUp$ seal, downstream of $W,R,D$ and never a source of cover selection.
+\item $H$ records componentwise $\hsame$ transport for the compact, interval, radius, dyadic, stream, readback, and seal rows.
+\item $C$ records displayed $\Cont$ replay from a finite cover request through the extracted subcover rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSubcoverExtractionUp$, $\FiniteLebesgueNumberUp$, $\CompactMetricUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteSubcoverExtractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $S$. The carrier has no coordinate for an arbitrary open cover, selected infinite family, countable choice, host compactness theorem, quotient real equality, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite subcover extraction NameCert obligations]
+\label{thm:finite-subcover-extraction-namecert-obligations}
+For every accepted $\FiniteSubcoverExtractionUp$ carrier $S=(K,I,L,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\FiniteSubcoverExtractionUp}$ surface consists exactly of carrier admission, compact-metric source exposure through $K$, interval specialization through $I$ when present, finite Lebesgue-number ledger exposure through $L$, dyadic tolerance comparison through $D$, finite-window inspection through $W$, regular rational readback through $R$, terminal Real-seal discipline through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-subcover-extraction-carrier}. The accepted packet exposes exactly the rows $K,I,L,D,W,R,E,H,C,P,N$.
+
+The extraction rows are finite before any consumer reads the result. The compact-metric row supplies the source coverage data, the interval row supplies the optional closed-bounded specialization, the finite Lebesgue-number row supplies a positive-radius ledger, and the dyadic row compares those radii with the requested windows.
+
+The stream and readback rows then name the inspected cover candidates and rational observations. The terminal Real seal and structural rows preserve the same finite route, so no arbitrary open cover, countable-choice selector, host compactness theorem, quotient real equality, or ambient completeness coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[Finite subcover extraction finite-cover route]
+\label{thm:finite-subcover-extraction-finite-cover-route}
+Every finite-cover consumer of an accepted $\FiniteSubcoverExtractionUp$ packet must first read
+$$
+\CompactMetricUp,\quad \ClosedBoundedIntervalUp,\quad \FiniteLebesgueNumberUp,\quad \DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+through the displayed rows $K,I,L,D,W,R,E,H,C,P,N$. The resulting subcover is therefore an extraction from already displayed finite rows, not a general open-cover compactness principle or a selected family outside the packet.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:finite-subcover-extraction-namecert-obligations}. They force every accepted read through the compact source, optional interval, finite-radius, dyadic comparison, finite-window, readback, and real-seal rows.
+
+The finite-cover consumer can use only the rows named by the carrier. Thus the extracted list of cover candidates is read from $W$ and checked against $K,L,D,R$ before the seal row $E$ is available.
+
+Transport, replay, provenance, and local naming preserve that route for downstream compact-metric and interval consumers. Since no excluded compactness or choice object is a carrier coordinate, the route cannot be read as arbitrary open-cover compactness.
+\end{proof}
+
+\closureat{FiniteSubcoverExtractionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSubcoverExtractionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-subcover-extraction-carrier}, \autoref{thm:finite-subcover-extraction-namecert-obligations}, and \autoref{thm:finite-subcover-extraction-finite-cover-route} seed the finite subcover extraction certificate over compact-metric, closed-interval, finite-radius, dyadic, stream, regular-rational, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general open-cover compactness, arbitrary cover selection, countable choice, quotient Real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-metric source exposure, interval specialization, finite-radius ledger exposure, dyadic tolerance comparison, finite-window inspection, regular rational readback, Real-seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSubcoverExtractionUp.}
+  \constructivestory{A $\FiniteSubcoverExtractionUp$ packet is generated from compact-metric coverage data, an optional closed-bounded interval row, a finite Lebesgue-number radius ledger, dyadic tolerance comparisons, StreamName windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

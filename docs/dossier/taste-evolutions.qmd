@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-12T17:13:08Z
+> 最后刷新: 2026-06-12T19:31:25Z
 
-**Daemon 状态**: monitor (monitor cycle 58, adjust_since_research 0, round_counter 8284, last_adjust none)
+**Daemon 状态**: adjust (monitor cycle 60, adjust_since_research 0, round_counter 8452, last_adjust none)
 
-**待处理 queue** (206 条 finding):
+**待处理 queue** (209 条 finding):
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 92 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 94 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 10 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
-- missing_origin: 4 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
+- missing_origin: 5 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 30 次
-- TASTE ALERT category=low_entropy_template: 2 次
+- TASTE ALERT category=isolated_theorem: 28 次
+- TASTE ALERT category=low_entropy_template: 3 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -256,6 +256,8 @@ error: build failed
 BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unknown identifier `carrier`, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-12T17:12:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteEpsilonNetCarrier` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteEpsilonNetCarrier:acf7b076`). Rationale: The target has real BEDC content: it derives a finite epsilon-net/cover/sample SemanticNameCert and UnaryHistory sample from the covering-dimension carrier plus the epsilonNet-cover Cont route. Full-name grep found no existing downstream Lean or paper references, while the surrounding paper has a root-cover theorem for the same finite epsilon-net carrier theme. I added a sibling consumer theorem that calls the target and then pushes the sample through a refinement Cont route to a refinedSample NameCert, so the original theorem now supports a downstream refinement-facing handoff rather than standing as an isolated staging theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-12T18:29:06Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CoveringdimensionUp.CoveringDimensionCarrier_namecert_obligations:acf7b076`). Rationale: The target is not a vacuous wrapper: it builds the carrier-level SemanticNameCert for the CoveringDimensionCarrier local-name row, is the primary paper marker in the coveringdimension NameCert chapter, and sits before many sibling carrier consumers in the same row family. Grep found only the paper marker and no Lean downstream use, so I attempted an add_downstream_user in RootScopeLedger tying this certificate to the root-scope ledger route; lake build rejected that added theorem with a Lean type/proof mismatch and exited 1. Per instruction, I reverted the attempted edit and leave the theorem as legitimate staging-only content rather than deleting a real carrier certificate. Gate results: lake_build=failed after attempted downstream user: CoveringDimensionCarrierNameCertRootScopeLedger elaboration/type mismatch in RootScopeLedger; error: Lean exited with code 1, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
