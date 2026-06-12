@@ -1856,6 +1856,7 @@ import BEDC.Derived.CauchyModulusSpaceUp.TasteGate
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNameUniformityUp
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowCofinalRestriction
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowTerminality
@@ -2064,6 +2065,7 @@ import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyQuotientCriterionUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
+import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
 import BEDC.Derived.CauchyRateLatticeUp.NameCertObligations
@@ -3927,6 +3929,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowFusion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.WindowRouteLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSourceExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
@@ -4247,6 +4250,7 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
+import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.ExponentShiftComposition
 import BEDC.Derived.DyadicUp.RealSealFactorization
 import BEDC.Derived.DyadicUp.TasteGate
@@ -8511,6 +8515,7 @@ import BEDC.Derived.RegularCauchyLimitUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedCutUp
+import BEDC.Derived.RegularCauchyLocatedCutUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
