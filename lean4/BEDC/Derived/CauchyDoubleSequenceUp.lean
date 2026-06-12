@@ -484,4 +484,46 @@ theorem CauchyDoubleSequenceScopedDiagonalRoute [AskSetup] [PackageSetup]
       ⟨consumerUnary, arrayScheduleRoute, scheduleToleranceRoute, diagonalCompletionRoute,
         pkgSig⟩
 
+theorem CauchyDoubleSequenceSealRouteDeterminacy [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance localCert
+      consumerLeft consumerRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow transport route
+        provenance localCert bundle pkg →
+      Cont sealRow localCert consumerLeft →
+        Cont sealRow localCert consumerRight →
+          hsame consumerLeft consumerRight ∧ UnaryHistory consumerLeft ∧
+            UnaryHistory consumerRight ∧ Cont array schedule diagonal ∧
+              Cont schedule tolerance diagonal ∧ Cont diagonal completion sealRow ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: CauchyDoubleSequenceCarrier BHist ProbeBundle Pkg Cont hsame
+  intro carrier leftConsumer rightConsumer
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.left
+  have transportLocalCertRoute : Cont transport localCert route :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeProvenanceSeal : Cont route provenance sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    unary_append_left_factor (routeProvenanceSeal ▸ sealUnary)
+  have localCertUnary : UnaryHistory localCert :=
+    unary_append_right_factor (transportLocalCertRoute ▸ routeUnary)
+  have consumerLeftUnary : UnaryHistory consumerLeft :=
+    unary_cont_closed sealUnary localCertUnary leftConsumer
+  have consumerRightUnary : UnaryHistory consumerRight :=
+    unary_cont_closed sealUnary localCertUnary rightConsumer
+  have sameConsumers : hsame consumerLeft consumerRight :=
+    cont_respects_hsame (hsame_refl sealRow) (hsame_refl localCert) leftConsumer
+      rightConsumer
+  have arrayScheduleRoute : Cont array schedule diagonal :=
+    carrier.right.right.right.right.right.right.right.left
+  have scheduleToleranceRoute : Cont schedule tolerance diagonal :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have diagonalCompletionRoute : Cont diagonal completion sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨sameConsumers, consumerLeftUnary, consumerRightUnary, arrayScheduleRoute,
+      scheduleToleranceRoute, diagonalCompletionRoute, provenancePkg⟩
+
 end BEDC.Derived.CauchyDoubleSequenceUp

@@ -87,6 +87,24 @@ Read the window and dyadic ledger next. The row $W$ is the finite $\StreamNameUp
 The structural rows preserve coherence only componentwise. The rows $H,C,P,N$ transport, replay, source, and name the displayed threshold route, and no row in the carrier supplies a selected completed limit or an ambient completeness theorem.
 \end{proof}
 
+\begin{theorem}[Bishop completion modulus finite threshold induction]
+\label{thm:bishop-completion-modulus-finite-threshold-induction}
+For every accepted $\BishopCompletionModulusUp$ carrier $Q=(M,S,n,k,W,D,R,E,H,C,P,N)$, every finite precision descent from $n$ through the displayed monotone modulus row $M$ preserves a single threshold route
+$$
+M,n \longmapsto k \longmapsto W,D \longmapsto R \longmapsto E .
+$$
+Induction on the unary precision history may refine the requested threshold only through the displayed $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. It cannot introduce a second threshold source, quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-completion-modulus-carrier}. The only rows capable of answering a precision request are the displayed modulus row $M$, the unary request $n$, the threshold $k$, the finite window $W$, the dyadic ledger $D$, the regular readback $R$, and the Real seal $E$.
+
+Induct on the unary precision history. In the base case, the request is the displayed $n$, and \autoref{thm:bishop-completion-modulus-threshold-coherence} identifies the threshold route through $M,n,k,W,D$ before any readback or seal is consumed.
+
+For the successor step, the monotone modulus row may refine the requested threshold, but the refinement remains inside the same carrier route. Apply \autoref{thm:bishop-completion-modulus-threshold-coherence} again to keep the successor request attached to the displayed StreamName window and DyadicRatCore ledger rather than to a second threshold oracle.
+
+Finally close the non-escape part by \autoref{thm:bishop-completion-modulus-real-seal-ordering}. Since every Real-facing read reaches $E$ only after $R$, and $R$ is downstream from $W,D$, the induction cannot export quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Bishop completion modulus Real seal ordering]
 \label{thm:bishop-completion-modulus-real-seal-ordering}
 For every accepted $\BishopCompletionModulusUp$ carrier $Q=(M,S,n,k,W,D,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is ordered strictly after the $\RegSeqRatUp$ handoff row $R$. A consumer may reach $E$ only through the displayed sequence from $\CauchyModulusUp$ threshold selection to $\StreamNameUp$ window readback, $\DyadicRatCoreUp$ threshold ledger, and $\RegSeqRatUp$ handoff; the seal does not supply selected limits, quotient stream equality, host real equality, countable choice, or $\RealUp$ completeness.
