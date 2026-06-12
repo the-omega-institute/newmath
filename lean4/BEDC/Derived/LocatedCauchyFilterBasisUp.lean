@@ -281,4 +281,25 @@ theorem LocatedCauchyFilterBasisTasteGate_single_carrier_alignment :
       ⟨locatedCauchyFilterBasisChapterTasteGate⟩,
       rfl⟩
 
+theorem LocatedCauchyFilterBasisCarrier_tail_refinement [AskSetup] [PackageSetup]
+    {B L S R D W T E H C P N tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyFilterBasisCarrier B L S R D W T E H C P N bundle pkg →
+      Cont W T tailRead →
+        PkgSig bundle tailRead pkg →
+          UnaryHistory B ∧ UnaryHistory L ∧ UnaryHistory S ∧ UnaryHistory R ∧
+            UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory T ∧ UnaryHistory tailRead ∧
+              Cont B L S ∧ Cont S R D ∧ Cont D W T ∧ Cont W T tailRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier tailRoute tailPkg
+  obtain ⟨bUnary, lUnary, sUnary, rUnary, dUnary, wUnary, tUnary, _eUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, basisLocated, windowReadback,
+    toleranceWitness, _tailSeal, provenancePkg, _namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed wUnary tUnary tailRoute
+  exact
+    ⟨bUnary, lUnary, sUnary, rUnary, dUnary, wUnary, tUnary, tailUnary,
+      basisLocated, windowReadback, toleranceWitness, tailRoute, provenancePkg, tailPkg⟩
+
 end BEDC.Derived.LocatedCauchyFilterBasisUp

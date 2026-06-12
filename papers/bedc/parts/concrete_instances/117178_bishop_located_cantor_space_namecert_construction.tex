@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedCantorSpaceUp$}
+\label{ch:concrete-instances-bishop-located-cantor-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive compact spaces and located subsets, the $\BishopLocatedCantorSpaceUp$ packet records Cantor space as a prefix-located binary stream object whose finite cylinders can be inspected before any compactness consumer reads a cover. It sits beside the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the binary prefix carrier of \autoref{ch:concrete-instances-cantorspace-namecert}, the Baire prefix route of \autoref{ch:concrete-instances-bairespace-namecert}, and the Cantor compactness surface of \autoref{ch:concrete-instances-cantor-diagonal-compactness-namecert}. The packet names a traditional constructive Cantor-space object; it is not an ambient powerset, a selected infinite branch, a quotient stream equality, an open-cover compactness theorem outside displayed cylinders, or a countable-choice principle.
+
+\begin{definition}[Bishop located Cantor space carrier]
+\label{def:bishop-located-cantor-space-carrier}
+A $\BishopLocatedCantorSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,S,C,L,V,R,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the binary-prefix row, naming the finite words in $\mathsf{Bool}^{<\omega}$ inspected by the packet.
+\item $S$ is the $\StreamNameUp$ row, recording the finite stream windows whose prefixes are being compared.
+\item $C$ is the $\CantorSpaceUp$ cylinder row, recording the basic clopen cylinder determined by each displayed prefix.
+\item $L$ is the located-decision row, exposing finite evidence that a queried prefix cylinder is inside, outside, or still separated from the displayed located subobject.
+\item $V$ is the prefix-stability row, requiring the located answer to be preserved by every displayed extension of the queried prefix.
+\item $R$ is the located cylinder-coverage row, listing the finite cylinder cover visible at the current precision request.
+\item $H$ records componentwise $\hsame$ transport for binary prefixes, stream windows, cylinder rows, located decisions, prefix stability, coverage, replay, provenance, and local naming.
+\item $Q$ records displayed $\Cont$ replay of the route
+$$
+B,S,C,L,V \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedCantorSpaceUp$, $\CantorSpaceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedCantorSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,S,C,L,V,R,H,Q,P,N$. It has no coordinate for host stream equality, selected branches, open-cover compactness, powerset membership, quotient cylinders, or countable choice.
+\end{definition}
+
+\begin{theorem}[Bishop located Cantor space NameCert obligations]
+\label{thm:bishop-located-cantor-space-namecert-obligations}
+For every accepted $\BishopLocatedCantorSpaceUp$ carrier $K=(B,S,C,L,V,R,H,Q,P,N)$, the local $\NameCert_{\BishopLocatedCantorSpaceUp}$ surface consists exactly of binary-prefix admission, finite stream-window exposure, Cantor cylinder exposure, located-decision display, prefix-stability display, located cylinder coverage, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-cantor-space-carrier}. The rows $B,S,C,L,V,R,H,Q,P,N$ are the complete local inventory.
+
+The located decision is prefix-local. The binary row $B$, stream row $S$, and cylinder row $C$ fix the finite prefix window before $L$ is read, and $V$ keeps the answer stable under displayed prefix extensions.
+
+The coverage row $R$ is downstream of the same finite route. The structural rows $H,Q,P,N$ transport, replay, source, and name that route, and none supplies selected branches, quotient stream equality, powerset membership, open-cover compactness outside the displayed cylinders, or countable choice.
+\end{proof}
+
+\begin{theorem}[Bishop located Cantor space prefix stability]
+\label{thm:bishop-located-cantor-space-prefix-stability}
+Every located-cylinder read of an accepted $\BishopLocatedCantorSpaceUp$ packet factors through
+$$
+B,S,C,L,V .
+$$
+If two displayed stream windows have the same queried prefix, then the located answer is transported only by the prefix-stability row $V$ and the componentwise row $H$. The read cannot appeal to host stream equality, a selected infinite branch, or quotient equality of cylinders.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier. The queried prefix is named in $B$, the finite stream window is named in $S$, and the corresponding cylinder is named in $C$ before any located answer is available.
+
+The row $L$ supplies the located decision for that displayed cylinder. Prefix stability $V$ then records the permitted transport along displayed extensions of the same prefix.
+
+Finally $H$ preserves the same rows componentwise. Since the carrier has no coordinate for host stream equality, selected branches, or quotient cylinder equality, the located-cylinder read remains prefix-local.
+\end{proof}
+
+\begin{theorem}[Bishop located Cantor space located cylinder coverage]
+\label{thm:bishop-located-cantor-space-cylinder-coverage}
+Every compactness-facing consumer of an accepted $\BishopLocatedCantorSpaceUp$ packet receives only the finite located cylinder route
+$$
+B,S,C,L,V \longmapsto R \longmapsto H,Q,P,N .
+$$
+The consumer may read the displayed CantorSpace and StreamName rows, the located decision, the prefix-stability row, and the finite coverage row. It receives no arbitrary open cover, selected subcover outside the displayed prefixes, host powerset, quotient stream equality, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bishop-located-cantor-space-prefix-stability}. It places every located-cylinder read through the displayed binary prefix, stream window, Cantor cylinder, located decision, and stability rows.
+
+The coverage row $R$ is formed only after those rows are visible. Thus a compactness-facing consumer can inspect a finite cylinder list at the current precision request, but cannot replace it by an arbitrary open cover or a selected subcover supplied externally.
+
+The replay, provenance, and local naming rows preserve the same finite packet. Therefore the public read remains a located cylinder coverage route over $\CantorSpaceUp$ and $\StreamNameUp$, with no hidden branch selector or quotient stream equality.
+\end{proof}
+
+\begin{theorem}[Bishop located Cantor space ledger refusal]
+\label{thm:bishop-located-cantor-space-ledger-refusal}
+No accepted $\BishopLocatedCantorSpaceUp$ packet exports host stream equality, arbitrary powerset membership, selected infinite branches, open-cover compactness detached from displayed cylinders, quotient equality of cylinders, or countable choice. Every exported read is confined to the rows $B,S,C,L,V,R,H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its rows are the binary prefix, stream window, Cantor cylinder, located decision, prefix-stability, located coverage, transport, replay, provenance, and local naming rows.
+
+Apply the located cylinder coverage theorem. It exhausts compactness-facing reads by the displayed finite cylinder route, so none of the refused host principles has an export coordinate.
+\end{proof}
+
+\closureat{BishopLocatedCantorSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedCantorSpaceUp}
+  \constructivestory{A $\BishopLocatedCantorSpaceUp$ packet is generated from binary prefixes, StreamName windows, CantorSpace cylinders, located-decision rows, prefix-stability rows, finite located cylinder coverage, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-cantor-space-carrier}, \autoref{thm:bishop-located-cantor-space-namecert-obligations}, \autoref{thm:bishop-located-cantor-space-prefix-stability}, \autoref{thm:bishop-located-cantor-space-cylinder-coverage}, and \autoref{thm:bishop-located-cantor-space-ledger-refusal} seed the finite located Cantor-space cylinder route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host stream equality, arbitrary powerset membership, selected branches, open-cover compactness outside displayed cylinders, quotient stream equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, prefix stability, located cylinder coverage, refusal exactness, replay, provenance, and local naming for BEDC.Derived.BishopLocatedCantorSpaceUp.}
+\end{closurestatus}
