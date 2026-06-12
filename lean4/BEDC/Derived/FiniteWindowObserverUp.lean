@@ -93,4 +93,29 @@ theorem FiniteWindowObserverNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact ⟨checkerReadUnary, acceptedReadUnary, consumerReadUnary⟩
 
+theorem FiniteWindowObserverCarrierTransport [AskSetup] [PackageSetup]
+    {O F I K D H C P N O' F' I' K' D' H' C' P' N' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowObserverCarrier O F I K D H C P N bundle pkg →
+      FiniteWindowObserverCarrier O' F' I' K' D' H' C' P' N' bundle pkg →
+        hsame O O' →
+          hsame F F' →
+            hsame I I' →
+              hsame K K' →
+                hsame D D' →
+                  hsame P P' →
+                    hsame N N' →
+                      UnaryHistory O' ∧ UnaryHistory F' ∧ UnaryHistory I' ∧
+                        UnaryHistory K' ∧ UnaryHistory D' ∧ PkgSig bundle P' pkg ∧
+                          PkgSig bundle N' pkg := by
+  -- BEDC touchpoint anchor: FiniteWindowObserverCarrier BHist ProbeBundle Pkg hsame UnaryHistory PkgSig
+  intro _sourceCarrier targetCarrier _sameObserver _sameWindow _sameInscription
+    _sameChecker _sameDownstream _sameProvenance _sameName
+  obtain ⟨observerUnary, windowUnary, inscriptionUnary, checkerUnary, downstreamUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localNameUnary, _windowRoute,
+    _provenanceRoute, provenancePkg, localNamePkg⟩ := targetCarrier
+  exact
+    ⟨observerUnary, windowUnary, inscriptionUnary, checkerUnary, downstreamUnary,
+      provenancePkg, localNamePkg⟩
+
 end BEDC.Derived.FiniteWindowObserverUp
