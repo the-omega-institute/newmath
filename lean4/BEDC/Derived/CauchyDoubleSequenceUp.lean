@@ -180,6 +180,78 @@ theorem CauchyDoubleSequenceCarrier_real_consumer_boundary [AskSetup] [PackageSe
     ⟨consumerUnary, arrayScheduleRoute, scheduleToleranceRoute, diagonalCompletionRoute,
       transportLocalCertRoute, routeProvenanceSeal, pkgSig⟩
 
+theorem CauchyDoubleSequenceWindowDiagonalExhaustion [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance
+      localCert diagonalRead boundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg →
+      Cont array schedule diagonalRead →
+        Cont diagonalRead tolerance boundedRead →
+          PkgSig bundle boundedRead pkg →
+            UnaryHistory array ∧ UnaryHistory schedule ∧ UnaryHistory tolerance ∧
+              UnaryHistory diagonalRead ∧ UnaryHistory boundedRead ∧
+                Cont array schedule diagonalRead ∧
+                  Cont diagonalRead tolerance boundedRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle boundedRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig
+  intro carrier arrayScheduleRead diagonalToleranceRead boundedPkg
+  have arrayUnary : UnaryHistory array := carrier.left
+  have scheduleUnary : UnaryHistory schedule := carrier.right.left
+  have toleranceUnary : UnaryHistory tolerance := carrier.right.right.left
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed arrayUnary scheduleUnary arrayScheduleRead
+  have boundedReadUnary : UnaryHistory boundedRead :=
+    unary_cont_closed diagonalReadUnary toleranceUnary diagonalToleranceRead
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨arrayUnary, scheduleUnary, toleranceUnary, diagonalReadUnary, boundedReadUnary,
+      arrayScheduleRead, diagonalToleranceRead, provenancePkg, boundedPkg⟩
+
+theorem CauchyDoubleSequenceTwoAxisSealFactorization [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance
+      localCert diagonalRead sealRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg →
+      Cont array schedule diagonalRead →
+        Cont diagonalRead completion sealRead →
+          Cont sealRead localCert consumer →
+            PkgSig bundle consumer pkg →
+              UnaryHistory array ∧ UnaryHistory schedule ∧ UnaryHistory completion ∧
+                UnaryHistory diagonalRead ∧ UnaryHistory sealRead ∧
+                  UnaryHistory consumer ∧ Cont array schedule diagonalRead ∧
+                    Cont diagonalRead completion sealRead ∧
+                      Cont sealRead localCert consumer ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig
+  intro carrier arrayScheduleRead diagonalCompletionRead sealConsumer consumerPkg
+  have arrayUnary : UnaryHistory array := carrier.left
+  have scheduleUnary : UnaryHistory schedule := carrier.right.left
+  have completionUnary : UnaryHistory completion := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.left
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed arrayUnary scheduleUnary arrayScheduleRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed diagonalReadUnary completionUnary diagonalCompletionRead
+  have transportLocalCertRoute : Cont transport localCert route :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeProvenanceSeal : Cont route provenance sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    unary_append_left_factor (routeProvenanceSeal ▸ sealUnary)
+  have localCertUnary : UnaryHistory localCert :=
+    unary_append_right_factor (transportLocalCertRoute ▸ routeUnary)
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary localCertUnary sealConsumer
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨arrayUnary, scheduleUnary, completionUnary, diagonalReadUnary, sealReadUnary,
+      consumerUnary, arrayScheduleRead, diagonalCompletionRead, sealConsumer, provenancePkg,
+      consumerPkg⟩
+
 theorem CauchyDoubleSequenceCarrier_schedule_tail_exactness [AskSetup] [PackageSetup]
     {array schedule tolerance diagonal completion sealRow transport route provenance localCert
       diagonal' sealRow' : BHist}
