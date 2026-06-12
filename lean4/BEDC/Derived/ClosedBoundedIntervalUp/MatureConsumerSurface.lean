@@ -1,3 +1,4 @@
+import BEDC.Derived.ClosedboundedintervalUp
 import BEDC.Derived.ClosedBoundedIntervalUp.PublicBridgeBoundary
 import BEDC.Derived.ClosedBoundedIntervalUp.PublicConsumerSurface
 
