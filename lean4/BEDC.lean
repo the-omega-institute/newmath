@@ -2436,6 +2436,7 @@ import BEDC.Derived.ClassifyingSpaceUp.TasteGate
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
+import BEDC.Derived.ClopenAlgebraUp
 import BEDC.Derived.ClosedBallCompactnessUp.TasteGate
 import BEDC.Derived.ClosedBetaPathUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
@@ -4217,6 +4218,7 @@ import BEDC.Derived.DyadicMetricTriangleUp
 import BEDC.Derived.DyadicMetricTriangleUp.TasteGate
 import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
+import BEDC.Derived.DyadicMidpointUp.BranchLedgerTotality
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.TasteGate
