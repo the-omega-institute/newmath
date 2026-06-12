@@ -3410,6 +3410,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamSourcePackage
+import BEDC.Derived.CriticalLineWitnessUp.DownstreamZeroStripExactness
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FiniteSourceLatticeBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FiniteStripCarrierAdmission
@@ -3432,6 +3433,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
+import BEDC.Derived.CriticalLineWitnessUp.LocalRHBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ModulusBudgetTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonNameCertRoute
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
@@ -3443,6 +3445,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusRow
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
+import BEDC.Derived.CriticalLineWitnessUp.ObligationClosurePackage
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.ObligationLedgerExactnessRow
 import BEDC.Derived.CriticalLineWitnessUp.ObligationModulusDisciplineRow
@@ -3487,6 +3490,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertConsumerTotality
@@ -8674,6 +8678,7 @@ import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
+import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
