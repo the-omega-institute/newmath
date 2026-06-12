@@ -47,6 +47,7 @@ R_i=(I_i,J_i,E_i,W_i,K_i,H_i,C_i,P_i,N_i)
 $$
 in a chain where each child interval $J_i$ is the parent interval $I_{i+1}$ read by the next packet. Then the chain preserves a retained-window row from the first parent interval to the final child interval. The final child is read only through the successive endpoint-inclusion ledgers $E_i$, optional dyadic support rows $K_i$, componentwise $\hsame$ transports $H_i$, displayed $\Cont$ replays $C_i$, $\Pkg$ provenance rows $P_i$, and local $\NameCert_{\RationalIntervalRefinementUp}$ rows $N_i$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalRefinementUp.RationalIntervalRefinementRetainedWindowInduction}
 \begin{proof}
 Induct on the displayed finite $\NatUp$ ledger. In the base case, the chain has one accepted packet, so \autoref{thm:rational-interval-refinement-nested-window} supplies the retained row $W_0$ from $I_0$ to $J_0$.
 
@@ -102,6 +103,7 @@ Use \autoref{thm:rational-interval-refinement-nested-window}. The accepted refin
 
 The componentwise $\hsame$ rows and displayed $\Cont$ replays preserve those same coordinates. Since $P$ and $N$ source and name no additional coordinate, replacing the packet by $R'$ with the same displayed rows preserves acceptedness.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalIntervalRefinementUp.RationalIntervalRefinementCarrier\_classifier\_stability}
 
 \begin{theorem}[RationalIntervalRefinement endpoint exactness]
 \label{thm:rational-interval-refinement-endpoint-exactness}
@@ -114,6 +116,7 @@ Apply \autoref{thm:rational-interval-refinement-nested-window}. It identifies th
 
 The remaining rows do not create a second containment source. The optional support row $K$ only records a dyadic route for the same refinement, while $H,C,P,N$ transport, replay, source, and name the displayed rows. Thus every public containment read factors through $E$ and $W$.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalIntervalRefinementUp.RationalIntervalRefinementCarrier\_endpoint\_exactness}
 
 \begin{theorem}[RationalIntervalRefinement ledger exhaustion]
 \label{thm:rational-interval-refinement-ledger-exhaustion}
