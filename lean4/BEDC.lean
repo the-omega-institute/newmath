@@ -3492,6 +3492,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
+import BEDC.Derived.CriticalLineWitnessUp.RootRefusalDownstreamGate
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
@@ -3524,6 +3525,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
@@ -4131,6 +4133,7 @@ import BEDC.Derived.DyadicCompactnessUp.TasteGate
 import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
 import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
+import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -8606,6 +8609,7 @@ import BEDC.Derived.RegularCauchyLocatedLimitUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedLimitUp.RealHandoff
 import BEDC.Derived.RegularCauchyLocatedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedOrderUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
