@@ -224,12 +224,12 @@ def run_once() -> dict[str, Any] | None:
     try:
         previous_counts = load_previous_counts()
         build_failure = ensure_structural_dna_build()
+        payload: dict[str, Any] = {}
         try:
             payload = discovery_radar_payload()
         except Exception:
             if build_failure is None:
                 raise
-            payload = {}
         summary = summarize(payload)
         summary = mark_degraded(summary, degraded_reason(summary, build_failure))
         write_ledger(summary)
@@ -244,6 +244,7 @@ def run_once() -> dict[str, Any] | None:
                 f" conjectured={summary['conjectured']}",
                 flush=True,
             )
+        summary["_radar_payload"] = payload
         return summary
     except Exception as exc:
         append_log(f"[radar] ERROR {type(exc).__name__}: {exc}")
