@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualJoinGridUp$}
+\label{ch:concrete-instances-metacic-residual-join-grid-namecert}
+\origin{ai}
+
+The $\MetaCICResidualJoinGridUp$ packet realizes the confluence audit route of \autoref{ch:metacic-confluence-audit-map} as a finite residual-join-grid NameCert carrier. It sits beside the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the closed parallel-diamond premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}, and the residual handoff of \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. The packet records residual vertices, candidate joins, premise rows, and obstruction rows before any confluence handoff can be consumed; it does not assert global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+
+\begin{definition}[MetaCIC residual join grid carrier]
+\label{def:metacic-residual-join-grid-carrier}
+A $\MetaCICResidualJoinGridUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,L,R,V,J,D,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\MetaCICParallelDiamondFrontierUp$ row retaining the conditional residual-substitution frontier.
+\item $L$ is the $\ClosedParallelDiamondPremiseLedgerUp$ row recording the closed premise ledger a confluence route must cite.
+\item $R$ is the $\ParallelDiamondResidualUp$ row exposing the residual local-join packet.
+\item $V$ is the finite residual-vertex row, listing the bounded residual endpoints inspected by the grid.
+\item $J$ is the candidate-join row, pairing residual vertices with displayed local joins.
+\item $D$ is the diamond-cell row, recording which adjacent residual vertices share a displayed join cell.
+\item $O$ is the obstruction row retaining missing residual-substitution, subject-reduction, evaluator-equality, quotient-equality, and kernel-consistency endpoints.
+\item $H$ records componentwise $\hsame$ transport for frontier, ledger, residual, vertex, join, diamond-cell, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a frontier read through premise ledger and residual rows before any join cell is consumed.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualJoinGridUp$, $\MetaCICParallelDiamondFrontierUp$, $\ClosedParallelDiamondPremiseLedgerUp$, $\ParallelDiamondResidualUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualJoinGridUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for premise-free confluence, global normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual join grid NameCert obligations]
+\label{thm:metacic-residual-join-grid-namecert-obligations}
+For every accepted $\MetaCICResidualJoinGridUp$ carrier $G=(F,L,R,V,J,D,O,H,C,P,N)$, the local $\NameCert_{\MetaCICResidualJoinGridUp}$ surface consists exactly of frontier retention, premise-ledger exposure, residual-handoff exposure, finite residual-vertex exposure, candidate-join exposure, diamond-cell exactness, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming through the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-join-grid-carrier}. The rows $F,L,R$ expose the conditional frontier, closed premise ledger, and residual handoff before any grid cell is visible.
+
+The vertex row $V$, join row $J$, and diamond-cell row $D$ record only finite residual endpoints and displayed local joins. The obstruction row $O$ remains part of the same packet, so the grid cannot be read as premise-free confluence.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same finite row surface. Since no coordinate stores the refused global endpoints, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual join grid confluence handoff]
+\label{thm:metacic-residual-join-grid-confluence-handoff}
+Every confluence-audit consumer of an accepted $\MetaCICResidualJoinGridUp$ packet receives a finite residual join grid only after the parallel-diamond frontier, closed premise ledger, residual handoff, residual vertices, candidate joins, diamond cells, obstruction row, transport, replay, provenance, and local naming have been displayed. The handoff can feed the audit route of \autoref{ch:metacic-confluence-audit-map}, but it does not discharge residual-substitution compatibility, subject reduction, global confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with $F,L,R$. These rows retain the conditional frontier, premise ledger, and residual packet named by the sibling chapters.
+
+The grid rows $V,J,D$ then expose only bounded vertices, local joins, and finite diamond cells. The obstruction row $O$ remains visible at the same handoff.
+
+The structural rows $H,C,P,N$ replay the route without adding any refused endpoint. Thus the consumer receives a finite residual join grid, not a completed confluence theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual join grid nonescape]
+\label{thm:metacic-residual-join-grid-nonescape}
+An accepted $\MetaCICResidualJoinGridUp$ carrier exports no premise-free parallel diamond, full Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, global normalization theorem, or kernel-consistency certificate. Any accepted residual-grid read must remain inside $F,L,R,V,J,D,O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The grid carrier contains frontier, premise-ledger, residual, vertex, join, diamond-cell, and obstruction rows only. Each row is finite and replayed through the same structural route.
+
+No coordinate removes $O$ or supplies a global endpoint. Therefore a consumer that reads one of the refused endpoints has left the displayed $\NameCert_{\MetaCICResidualJoinGridUp}$ surface.
+\end{proof}
+
+\falsifiablePrediction{Every closed $\MetaCICResidualJoinGridUp$ residual join grid forces a finite confluence handoff row through the displayed frontier, premise ledger, residual, vertex, join, diamond-cell, obstruction, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, closed-parallel-diamond-premise-ledger, parallel-diamond-residual, metacic-residual-join-determinacy: none is bijective with $\MetaCICResidualJoinGridUp$ because this packet simultaneously carries the frontier row, closed premise ledger, residual handoff, finite grid vertices, candidate joins, diamond cells, retained obstructions, transport, replay, provenance, and local naming.}
+
+The expected Lean TasteGate surface is that $\mathsf{lean4/BEDC/Derived/MetaCICResidualJoinGridUp/TasteGate.lean}$ supplies $\Nontrivial\ \MetaCICResidualJoinGridUp$ and $\FieldFaithful\ \MetaCICResidualJoinGridUp$ witnesses for the displayed rows $F,L,R,V,J,D,O,H,C,P,N$.
+
+\closureat{MetaCICResidualJoinGridUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualJoinGridUp}
+  \constructivestory{A $\MetaCICResidualJoinGridUp$ packet is generated from parallel-diamond frontier, closed premise ledger, residual handoff, residual-vertex, candidate-join, diamond-cell, obstruction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-join-grid-carrier}, \autoref{thm:metacic-residual-join-grid-namecert-obligations}, \autoref{thm:metacic-residual-join-grid-confluence-handoff}, and \autoref{thm:metacic-residual-join-grid-nonescape} seed the finite residual-join-grid route for the MetaCIC confluence audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close premise-free parallel diamond, full Church--Rosser, subject reduction, evaluator equality, quotient term equality, global normalization, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the eleven-row carrier and prove the residual-grid obligation, confluence handoff, nonescape, nontriviality, and field-faithfulness rows.}
+\end{closurestatus}
