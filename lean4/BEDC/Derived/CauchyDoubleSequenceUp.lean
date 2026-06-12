@@ -258,4 +258,73 @@ theorem CauchyDoubleSequenceCarrier_completion_consumer_scope [AskSetup] [Packag
     ⟨consumerUnary, sameSealRow, arrayScheduleRoute, scheduleToleranceRoute,
       diagonalCompletionRoute, pkgSig⟩
 
+theorem CauchyDoubleSequenceCarrier_two_axis_seal_certificate [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance
+      localCert diagonalPrime sealPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg ->
+      hsame diagonal diagonalPrime ->
+        Cont diagonalPrime completion sealPrime ->
+          PkgSig bundle sealPrime pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row sealPrime ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row array ∨ hsame row schedule ∨ hsame row tolerance ∨
+                    hsame row diagonalPrime ∨ hsame row completion ∨ hsame row sealPrime)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealPrime pkg)
+                hsame ∧
+              UnaryHistory diagonalPrime ∧ UnaryHistory sealPrime ∧
+                hsame sealRow sealPrime := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier sameDiagonal diagonalCompletionRoute' sealPrimePkg
+  have scheduleTail :
+      UnaryHistory array ∧ UnaryHistory schedule ∧ UnaryHistory tolerance ∧
+        UnaryHistory diagonal ∧ UnaryHistory diagonalPrime ∧ UnaryHistory completion ∧
+          UnaryHistory sealPrime ∧ Cont array schedule diagonal ∧
+            Cont schedule tolerance diagonal ∧ Cont diagonalPrime completion sealPrime ∧
+              hsame sealRow sealPrime ∧ PkgSig bundle provenance pkg :=
+    CauchyDoubleSequenceCarrier_schedule_tail_exactness carrier sameDiagonal
+      diagonalCompletionRoute'
+  obtain ⟨_arrayUnary, _scheduleUnary, _toleranceUnary, _diagonalUnary,
+    diagonalPrimeUnary, _completionUnary, sealPrimeUnary, _arrayScheduleRoute,
+    _scheduleToleranceRoute, _diagonalCompletionRoute, sameSeal, _provenancePkg⟩ :=
+      scheduleTail
+  have sourceSeal :
+      (fun row : BHist => hsame row sealPrime ∧ UnaryHistory row) sealPrime := by
+    exact ⟨hsame_refl sealPrime, sealPrimeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealPrime ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row array ∨ hsame row schedule ∨ hsame row tolerance ∨
+              hsame row diagonalPrime ∨ hsame row completion ∨ hsame row sealPrime)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealPrime pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealPrime sourceSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sealPrimePkg⟩
+  }
+  exact ⟨cert, diagonalPrimeUnary, sealPrimeUnary, sameSeal⟩
+
 end BEDC.Derived.CauchyDoubleSequenceUp
