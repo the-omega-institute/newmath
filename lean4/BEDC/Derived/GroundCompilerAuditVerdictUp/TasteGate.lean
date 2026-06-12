@@ -354,4 +354,42 @@ theorem GroundCompilerAuditVerdictTasteGate_single_carrier_alignment :
         exact groundCompilerAuditVerdictToEventFlow_injective heq
       · rfl
 
+theorem GroundCompilerAuditVerdictNonEscape
+    {moduleRow queryOutput forbidden verdict alignment recognizer certificateGate boundary
+      transport replay provenance nameCert : BHist} :
+    groundCompilerAuditVerdictToEventFlow
+        (GroundCompilerAuditVerdictUp.mk moduleRow queryOutput forbidden verdict alignment
+          recognizer certificateGate boundary transport replay provenance nameCert) =
+      [[BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist moduleRow,
+        [BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist queryOutput,
+        [BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist forbidden,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist verdict,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist alignment,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist recognizer,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist certificateGate,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist boundary,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        groundCompilerAuditVerdictEncodeBHist nameCert] := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow
+  rfl
+
 end BEDC.Derived.GroundCompilerAuditVerdictUp
