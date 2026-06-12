@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\ClosedMetricGraphUp$}
+\label{ch:concrete-instances-closed-metric-graph-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, the $\ClosedMetricGraphUp$ packet reconstructs sequential graph closure as finite BEDC NameCert data. It sits between the metric-graph source of \autoref{ch:concrete-instances-metric-graph-namecert}, the closed-ball boundary of \autoref{ch:concrete-instances-metricclosedball-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names one displayed graph row together with source and target convergence windows; it does not import the closed graph theorem, a Banach-space argument, quotient graph equality, or a choice-selected subsequence.
+
+\begin{definition}[Closed metric graph carrier]
+\label{def:closed-metric-graph-carrier}
+A $\ClosedMetricGraphUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Y,F,S,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric carrier, read through the $\MetricGraphUp$ or sibling $\MetricSpaceUp$ source surface.
+\item $Y$ is the target metric carrier whose endpoint comparisons are read through displayed $\MetricClosedBallUp$ rows.
+\item $F$ is the graph row, naming the finite membership relation between source rows of $X$ and target rows of $Y$.
+\item $S$ is the source convergent-window ledger, recording the displayed source approximation windows before any limit packet is read.
+\item $T$ is the target convergent-window ledger, recording the displayed target approximation windows paired with $S$.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the target window ledger into regular rational comparison data.
+\item $E$ is the terminal $\RealUp$ seal for the target limit comparison exposed by $R$.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,F,S,T,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from paired graph rows through the source and target windows to the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\ClosedMetricGraphUp$, $\MetricGraphUp$, $\MetricClosedBallUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedMetricGraphUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient closed subset of a product, quotient equality of graph points, a selected subsequence, a Banach-space closed graph theorem, or a host completeness principle.
+\end{definition}
+
+\begin{theorem}[Closed metric graph sequential closure]
+\label{thm:closed-metric-graph-sequential-closure}
+Let $G=(X,Y,F,S,T,R,E,H,C,P,N)$ be an accepted $\ClosedMetricGraphUp$ packet. If the displayed source graph rows converge through $S$ and the displayed target graph rows converge through $T,R,E$, then the graph membership row $F$ transports through $H$ and replays through $C$ to the limit packet named by the same local $\NameCert$ row $N$. The transport uses only the metric source rows, closed-ball target comparisons, regular rational readback, real seal, replay, provenance, and local naming rows already present in $G$; it does not use host quotient equality, external sequence choice, or ambient closed-subset semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-metric-graph-carrier}. The only graph membership source is $F$, and the only convergence ledgers are the source window $S$ and target window $T$.
+
+Read the target limit route next. The regular rational readback $R$ and terminal real seal $E$ keep every target comparison inside the displayed $\RegSeqRatUp$ and $\RealUp$ surfaces, while the closed-ball boundary keeps the comparison non-strict and packet-local.
+
+Transport is then componentwise. The row $H$ moves the source carrier, target carrier, graph row, source window, target window, readback row, and real seal together, and $C$ replays the same route before the provenance row $P$ and local name $N$ expose the limit packet.
+
+The exclusions follow from the finite inventory. No row of $G$ stores a host product closed subset, a quotient equality test for graph points, a subsequence selector, a Banach-space theorem, or an ambient completeness principle, so the sequential closure read remains the displayed NameCert transport.
+\end{proof}
+
+\closureat{ClosedMetricGraphUp}{seedStr}
+
+\begin{closurestatus}{\ClosedMetricGraphUp}
+  \constructivestory{A $\ClosedMetricGraphUp$ packet is generated from source and target metric carriers, a graph membership row, source and target convergent windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-metric-graph-carrier} and \autoref{thm:closed-metric-graph-sequential-closure} seed the finite graph-closure source packet over $\MetricGraphUp$, $\MetricClosedBallUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ClosedMetricGraphUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full closed graph theorem, any Banach-space theorem, quotient graph equality, choice-selected subsequences, ambient closed-subset semantics, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window convergence, target-window readback, Real seal transport, graph-membership replay, provenance, refusal, and local naming for BEDC.Derived.ClosedMetricGraphUp.}
+\end{closurestatus}
