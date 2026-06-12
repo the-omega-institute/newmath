@@ -1,3 +1,4 @@
+import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
@@ -16,7 +17,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem TailCofinalityBudget_namecert_obligations [AskSetup] [PackageSetup]
+theorem TailCofinalityBudgetCarrierObligation [AskSetup] [PackageSetup]
     {x : TailCofinalityBudgetUp}
     {R W D Q E H C P N windowRead sealRead consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -34,15 +35,15 @@ theorem TailCofinalityBudget_namecert_obligations [AskSetup] [PackageSetup]
                           SemanticNameCert
                               (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
                               (fun row : BHist =>
-                                hsame row consumer ∧ Cont R W D ∧
-                                  Cont D Q windowRead ∧ Cont windowRead E sealRead ∧
-                                    Cont sealRead N consumer)
-                              (fun row : BHist => hsame row consumer ∧ PkgSig bundle N pkg)
+                                hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row Q ∨
+                                  hsame row E ∨ hsame row consumer)
+                              (fun row : BHist =>
+                                hsame row consumer ∧ PkgSig bundle N pkg)
                               hsame ∧
                             UnaryHistory D ∧ UnaryHistory windowRead ∧
                               UnaryHistory sealRead ∧ UnaryHistory consumer := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
-  intro _fields routeD routeWindow routeSeal routeConsumer unaryR unaryW unaryQ unaryE
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro fields routeD routeWindow routeSeal routeConsumer unaryR unaryW unaryQ unaryE
     unaryN namePkg
   have unaryD : UnaryHistory D :=
     unary_cont_closed unaryR unaryW routeD
@@ -56,8 +57,8 @@ theorem TailCofinalityBudget_namecert_obligations [AskSetup] [PackageSetup]
       SemanticNameCert
         (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
         (fun row : BHist =>
-          hsame row consumer ∧ Cont R W D ∧ Cont D Q windowRead ∧
-            Cont windowRead E sealRead ∧ Cont sealRead N consumer)
+          hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row Q ∨ hsame row E ∨
+            hsame row consumer)
         (fun row : BHist => hsame row consumer ∧ PkgSig bundle N pkg)
         hsame := {
     core := {
@@ -79,62 +80,63 @@ theorem TailCofinalityBudget_namecert_obligations [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact ⟨source.left, routeD, routeWindow, routeSeal, routeConsumer⟩
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
     ledger_sound := by
       intro _row source
       exact ⟨source.left, namePkg⟩
   }
+  have _fieldsUsed :
+      tailCofinalityBudgetFields x = [R, W, D, Q, E, H, C, P, N] :=
+    fields
   exact ⟨cert, unaryD, unaryWindow, unarySeal, unaryConsumer⟩
 
-theorem TailCofinalityBudgetClassifierObligation [AskSetup] [PackageSetup]
-    {x y : TailCofinalityBudgetUp}
-    {R W D Q E H C P N R' W' D' Q' E' H' C' P' N' windowRead sealRead
-      consumer : BHist}
+theorem TailCofinalityBudgetObligationCarrier [AskSetup] [PackageSetup]
+    {x : TailCofinalityBudgetUp}
+    {R W D Q E H C P N windowRead sealRead namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    tailCofinalityBudgetFields x = [R, W, D, Q, E, H, C, P, N] →
-      tailCofinalityBudgetFields y = [R', W', D', Q', E', H', C', P', N'] →
-        hsame R R' →
-          hsame W W' →
-            hsame D D' →
-              hsame Q Q' →
-                hsame E E' →
-                  UnaryHistory R →
-                    UnaryHistory W →
-                      UnaryHistory D →
-                        UnaryHistory Q →
-                          UnaryHistory E →
-                            UnaryHistory N →
-                              Cont R W D →
-                                Cont D Q windowRead →
-                                  Cont windowRead E sealRead →
-                                    Cont sealRead N consumer →
-                                      PkgSig bundle N pkg →
-                                        SemanticNameCert
-                                            (fun row : BHist =>
-                                              hsame row consumer ∧ UnaryHistory row)
-                                            (fun row : BHist =>
-                                              hsame row consumer ∧ hsame R R' ∧
-                                                hsame W W' ∧ hsame D D' ∧
-                                                  hsame Q Q' ∧ hsame E E' ∧
-                                                    Cont R W D ∧
-                                                      Cont D Q windowRead ∧
-                                                        Cont windowRead E sealRead ∧
-                                                          Cont sealRead N consumer)
-                                            (fun row : BHist =>
-                                              hsame row consumer ∧ PkgSig bundle N pkg)
-                                            hsame := by
+    tailCofinalityBudgetFields x = [R, W, D, Q, E, H, C, P, N] ->
+      Cont R W D ->
+        Cont D Q windowRead ->
+          Cont windowRead E sealRead ->
+            Cont sealRead N namedRead ->
+              UnaryHistory R ->
+                UnaryHistory W ->
+                  UnaryHistory Q ->
+                    UnaryHistory E ->
+                      UnaryHistory N ->
+                        PkgSig bundle N pkg ->
+                          PkgSig bundle namedRead pkg ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row R ∨ hsame row W ∨ hsame row D ∨
+                                    hsame row Q ∨ hsame row E ∨ hsame row namedRead)
+                                (fun row : BHist =>
+                                  hsame row namedRead ∧ PkgSig bundle namedRead pkg)
+                                hsame ∧
+                              UnaryHistory D ∧ UnaryHistory windowRead ∧
+                                UnaryHistory sealRead ∧ UnaryHistory namedRead := by
   -- BEDC touchpoint anchor: TailCofinalityBudgetUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
-  intro _fieldsX _fieldsY sameR sameW sameD sameQ sameE _unaryR _unaryW unaryD
-    unaryQ unaryE unaryN routeD routeWindow routeSeal routeConsumer namePkg
-  have windowUnary : UnaryHistory windowRead :=
+  intro _fields routeD routeWindow routeSeal routeNamed unaryR unaryW unaryQ unaryE
+    unaryN _namePkg namedPkg
+  have unaryD : UnaryHistory D :=
+    unary_cont_closed unaryR unaryW routeD
+  have unaryWindow : UnaryHistory windowRead :=
     unary_cont_closed unaryD unaryQ routeWindow
-  have sealUnary : UnaryHistory sealRead :=
-    unary_cont_closed windowUnary unaryE routeSeal
-  have consumerUnary : UnaryHistory consumer :=
-    unary_cont_closed sealUnary unaryN routeConsumer
-  exact {
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryWindow unaryE routeSeal
+  have unaryNamed : UnaryHistory namedRead :=
+    unary_cont_closed unarySeal unaryN routeNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row Q ∨ hsame row E ∨
+              hsame row namedRead)
+          (fun row : BHist => hsame row namedRead ∧ PkgSig bundle namedRead pkg)
+          hsame := {
     core := {
-      carrier_inhabited := Exists.intro consumer ⟨hsame_refl consumer, consumerUnary⟩
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, unaryNamed⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -142,7 +144,7 @@ theorem TailCofinalityBudgetClassifierObligation [AskSetup] [PackageSetup]
         intro _row _other sameRows
         exact hsame_symm sameRows
       equiv_trans := by
-        intro _row _middle _other sameLeft sameRight
+        intro _left _middle _right sameLeft sameRight
         exact hsame_trans sameLeft sameRight
       carrier_respects_equiv := by
         intro _row _other sameRows source
@@ -152,12 +154,11 @@ theorem TailCofinalityBudgetClassifierObligation [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact
-        ⟨source.left, sameR, sameW, sameD, sameQ, sameE, routeD, routeWindow,
-          routeSeal, routeConsumer⟩
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.left, namePkg⟩
+      exact ⟨source.left, namedPkg⟩
   }
+  exact ⟨cert, unaryD, unaryWindow, unarySeal, unaryNamed⟩
 
 end BEDC.Derived.TailCofinalityBudgetUp
