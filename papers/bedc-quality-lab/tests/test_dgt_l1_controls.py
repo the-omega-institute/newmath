@@ -157,10 +157,43 @@ def test_l1_construct_validity_ledger_records_input_and_split_protocol():
     assert set(bandwidth) == set(l1.ARM_IDS)
     assert all(row["input_positions"] == list(range(l1.SEQUENCE_LENGTH)) for row in bandwidth.values())
     assert bandwidth["input_ablation_masked_tail"]["masked_positions"] == [l1.SEQUENCE_LENGTH - 2]
+    assert bandwidth["input_ablation_masked_tail"]["role"] == "ablation"
 
     mutated = json.loads(json.dumps(payload))
     mutated["construct_validity_ledger"]["split_protocol"]["heldout_pair_count"] = 63
     _expect_invalid(mutated, "construct validity ledger")
+
+
+@pytest.mark.parametrize("masked_positions", ([], [0], [l1.SEQUENCE_LENGTH - 1]))
+def test_l1_construct_validity_rejects_wrong_masked_tail_positions(masked_positions):
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["construct_validity_ledger"]["input_bandwidth_by_arm"]["input_ablation_masked_tail"]["masked_positions"] = masked_positions
+
+    _expect_invalid(mutated, "construct validity ledger")
+
+
+def test_l1_construct_validity_rejects_masked_tail_role_drift():
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["construct_validity_ledger"]["input_bandwidth_by_arm"]["input_ablation_masked_tail"]["role"] = "candidate"
+
+    _expect_invalid(mutated, "construct validity ledger")
+
+
+def test_l1_construct_validity_owner_projection_failure_is_rejected():
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    projection = mutated["construct_validity_ledger"]["construct_validity_projection"]
+    projection["status"] = "fail"
+    projection["failed_gates"] = ["CV-HG3"]
+    projection["gates"]["CV-HG3"]["status"] = "fail"
+    projection["gates"]["CV-HG3"]["reason"] = "synthetic owner failure"
+
+    _expect_invalid(mutated, "owner projection")
 
 
 def test_ablation_canonical_id_is_masked_tail_only():
@@ -174,7 +207,7 @@ def test_ablation_canonical_id_is_masked_tail_only():
     ]
 
 
-def test_legacy_baseline_names_absent_from_canonical_payload():
+def test_retired_baseline_names_absent_from_canonical_payload():
     payload = _payload()
     text = json.dumps(payload, sort_keys=True)
 
@@ -312,6 +345,21 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
     assert capsule["capsule_subtype"] == "bedc.model.dgt_l1_tiny_sequence_claim_capsule"
     assert capsule["evidence_scope"] == "bounded-tiny-sequence"
     assert "terminal_verdict" not in json.dumps(capsule, sort_keys=True)
+    assert {"model_claim", "allowed_claim", "forbidden_claims", "not_claimed"}.isdisjoint(capsule)
+    assert {"allowed_claim", "forbidden_claims", "not_claimed"}.isdisjoint(capsule["claim_projection"])
+    owner_projection = payload["construct_validity_ledger"]["construct_validity_projection"]
+    owner_claim_projection = owner_projection["claim_capsule_projection"]
+    assert capsule["construct_validity"] == {
+        "artifact": owner_claim_projection["artifact"],
+        "pointer": owner_claim_projection["pointer"],
+        "status": owner_projection["status"],
+        "failed_gates": owner_projection["failed_gates"],
+        "owner_pointer": owner_projection["owner_pointer"],
+    }
+    assert capsule["claim_projection"]["allowed_claim_pointer"] == (
+        l1.CANONICAL_JSON_ARTIFACT + ":$.l1_tiny_sequence_projection.review_status"
+    )
+    assert capsule["claim_projection"]["claim_boundary_pointer"] == l1.CANONICAL_JSON_ARTIFACT + ":$.not_claimed"
     assert all(pointer.startswith(l1.CANONICAL_JSON_ARTIFACT + ":$") for pointer in capsule["evidence_pointers"])
 
     mutated = json.loads(json.dumps(payload))
@@ -320,6 +368,10 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
 
     mutated = json.loads(json.dumps(payload))
     mutated["claim_capsule_ref"]["evidence_pointers"][0] = "reports/canonical/missing.json:$.x"
+    _expect_invalid(mutated, "ClaimCapsule")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["claim_capsule_ref"]["allowed_claim"] = l1.ALLOWED_CLAIM
     _expect_invalid(mutated, "ClaimCapsule")
 
 

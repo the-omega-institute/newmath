@@ -1,11 +1,31 @@
 {
   "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
   "claim_id": "claim:dgt-l1-tiny-sequence",
+  "claim_projection": {
+    "allowed_claim_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+    "candidate_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
+    "claim_boundary_pointer": "reports/canonical/dgt-l1-controls.json:$.not_claimed",
+    "claim_comparison_policy_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger.claim_comparison_policy",
+    "compute_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
+    "compute_matched_attention_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_attention",
+    "independent_replay_pointer": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
+    "input_ablation_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.input_ablation_masked_tail",
+    "model_id": "discovery-gated-transformer",
+    "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
+    "owner_local_measurement_boundary_pointer": "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
+    "paired_accuracy_pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy",
+    "parameter_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
+    "parameter_matched_attention_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_attention",
+    "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+    "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+    "task_family": "bounded_tiny_sequence_order_k",
+    "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
+  },
   "construct_validity": {
     "artifact": "reports/canonical/dgt-l1-controls.json",
     "failed_gates": [],
     "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
-    "pointer": "$.construct_validity_ledger",
+    "pointer": "$.construct_validity_ledger.construct_validity_projection",
     "status": "pass"
   },
   "evidence_pointers": [
@@ -35,48 +55,9 @@
     "L1-REVIEW-HG6": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-REVIEW-HG6",
     "L1-REVIEW-HG7": "reports/canonical/dgt-l1-controls.json:$.hardgates.L1-REVIEW-HG7"
   },
-  "model_claim": {
-    "allowed_claim": "DGT L1 controls are ready for independent review on bounded tiny-sequence order-k training.",
-    "candidate_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
-    "claim_comparison_policy_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger.claim_comparison_policy",
-    "compute_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.compute_ledger",
-    "compute_matched_attention_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_attention",
-    "forbidden_claims": [
-      "production deployment",
-      "global superiority",
-      "LLM replacement",
-      "universal training recipe",
-      "full BEDC closure",
-      "L2+ scaling",
-      "natural-language capability",
-      "component-causal stability beyond the #1168 measured owner"
-    ],
-    "independent_replay_pointer": "reports/canonical/dgt-l1-controls.json:$.independent_replay",
-    "input_ablation_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.input_ablation_masked_tail",
-    "model_id": "discovery-gated-transformer",
-    "negative_witness_pointer": "reports/canonical/dgt-l1-controls.json:$.negative_witness_sweep",
-    "owner_local_measurement_boundary_pointer": "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
-    "paired_accuracy_pointer": "reports/canonical/dgt-l1-controls.json:$.paired_accuracy",
-    "parameter_ledger_pointer": "reports/canonical/dgt-l1-controls.json:$.parameter_ledger",
-    "parameter_matched_attention_pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_attention",
-    "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
-    "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-    "task_family": "bounded_tiny_sequence_order_k",
-    "task_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
-  },
-  "not_claimed": [
-    "Bounded tiny-sequence order-k training only.",
-    "No production deployment claim.",
-    "No global superiority claim.",
-    "No LLM replacement claim.",
-    "No universal training recipe claim.",
-    "No full BEDC closure claim.",
-    "No L2 or higher scaling claim.",
-    "No natural-language capability claim.",
-    "No component-causal stability beyond the #1168 measured owner."
-  ],
   "report": "dgt-l1-controls",
   "schema_id": "bedc.quality.claim_capsule",
+  "scope_pointer": "reports/canonical/dgt-l1-controls.json:$.not_claimed",
   "source": "reports/canonical/dgt-l1-controls.json",
   "source_pointer": "$.l1_tiny_sequence_projection",
   "status": "pass"

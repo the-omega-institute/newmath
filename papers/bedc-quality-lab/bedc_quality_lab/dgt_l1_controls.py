@@ -17,7 +17,10 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.canonical_cell_cache import CellInputRecord, load_cell_entry, store_cell_entry
 from bedc_quality_lab.construct_validity import (
+    CLAIM_CAPSULE_PROJECTION_KEYS as CONSTRUCT_VALIDITY_PROJECTION_KEYS,
     ConstructValidityEvidence,
+    GATE_IDS as CONSTRUCT_VALIDITY_GATE_IDS,
+    OWNER_POINTER as CONSTRUCT_VALIDITY_OWNER_POINTER,
     construct_validity_projection,
     evaluate_construct_validity,
 )
@@ -350,9 +353,26 @@ def _construct_validity_ledger_passes(payload: Mapping[str, Any]) -> bool:
         and row.get("sequence_length") == SEQUENCE_LENGTH
         for arm_id, row in bandwidth.items()
     )
+    expected_roles = {
+        "input_ablation_masked_tail": "ablation",
+        "dgt_l1": "candidate",
+        "parameter_matched_attention": "attention_control",
+        "compute_matched_attention": "attention_control",
+    }
+    expected_masks = {
+        arm_id: ([SEQUENCE_LENGTH - 2] if arm_id == "input_ablation_masked_tail" else [])
+        for arm_id in ARM_IDS
+    }
+    arms_have_declared_roles = all(
+        isinstance(row, Mapping)
+        and row.get("role") == expected_roles.get(arm_id)
+        and row.get("masked_positions") == expected_masks.get(arm_id)
+        for arm_id, row in bandwidth.items()
+    )
     return (
         set(bandwidth) == set(ARM_IDS)
         and learning_arms_full_sequence
+        and arms_have_declared_roles
         and bandwidth.get("input_ablation_masked_tail", {}).get("eligible_for_advantage_claims") is False
         and split.get("heldout_pair_rule") == HELDOUT_PAIR_RULE
         and split.get("seed") == HELDOUT_PAIR_SPLIT_SEED
@@ -369,6 +389,44 @@ def _construct_validity_ledger_passes(payload: Mapping[str, Any]) -> bool:
         and policy.get("eligible_positive_claim_controls") == list(CLAIM_ELIGIBLE_ATTENTION_ARMS)
         and all(arm not in policy.get("eligible_positive_claim_controls", []) for arm in DIAGNOSTIC_EXCLUDED_ARMS)
     )
+
+
+def _construct_validity_owner_projection_passes(projection: Any) -> bool:
+    if not isinstance(projection, Mapping):
+        return False
+    gates = projection.get("gates")
+    claim_projection = projection.get("claim_capsule_projection")
+    return (
+        projection.get("owner_pointer") == CONSTRUCT_VALIDITY_OWNER_POINTER
+        and projection.get("status") == "pass"
+        and projection.get("failed_gates") == []
+        and isinstance(gates, Mapping)
+        and set(gates) == set(CONSTRUCT_VALIDITY_GATE_IDS)
+        and all(isinstance(row, Mapping) and row.get("status") == "pass" for row in gates.values())
+        and isinstance(claim_projection, Mapping)
+        and set(claim_projection) == set(CONSTRUCT_VALIDITY_PROJECTION_KEYS)
+        and claim_projection.get("status") == projection.get("status")
+        and claim_projection.get("failed_gates") == projection.get("failed_gates")
+        and claim_projection.get("owner_pointer") == projection.get("owner_pointer")
+    )
+
+
+def _construct_validity_claim_projection(ledger: Any) -> dict[str, Any] | None:
+    if not isinstance(ledger, Mapping):
+        return None
+    projection = ledger.get("construct_validity_projection")
+    if not isinstance(projection, Mapping):
+        return None
+    claim_projection = projection.get("claim_capsule_projection")
+    if not isinstance(claim_projection, Mapping):
+        return None
+    return {
+        "artifact": claim_projection.get("artifact", CANONICAL_JSON_ARTIFACT),
+        "pointer": claim_projection.get("pointer", "$.construct_validity_ledger.construct_validity_projection"),
+        "status": projection.get("status", "missing"),
+        "failed_gates": list(projection.get("failed_gates", [])),
+        "owner_pointer": projection.get("owner_pointer", CONSTRUCT_VALIDITY_OWNER_POINTER),
+    }
 
 
 def _pairs_for_split(*, vocab_size: int, split: str) -> list[tuple[int, int]]:
@@ -1987,7 +2045,7 @@ def build_construct_validity_ledger(
             "candidate_arm": "dgt_l1",
             "eligible_positive_claim_controls": list(CLAIM_ELIGIBLE_ATTENTION_ARMS),
             "excluded_from_positive_claims": list(DIAGNOSTIC_EXCLUDED_ARMS),
-            "legacy_public_aliases_forbidden": True,
+            "public_alias_reuse_forbidden": True,
             "policy": "positive DGT architecture claims may only compare against parameter- and compute-matched attention controls",
         },
     ).as_payload()
@@ -2412,21 +2470,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
     gate_rows = gates if gates is not None else evaluate_hardgates(payload)
     gate_status, failures = _hardgate_status(gate_rows)
     construct_validity = payload.get("construct_validity_ledger")
-    cv_projection = None
-    if isinstance(construct_validity, Mapping):
-        projection = construct_validity.get("construct_validity_projection")
-        owner_pointer = (
-            projection.get("owner_pointer", "bedc_quality_lab.construct_validity:evaluate_construct_validity")
-            if isinstance(projection, Mapping)
-            else "bedc_quality_lab.construct_validity:evaluate_construct_validity"
-        )
-        cv_projection = {
-            "artifact": CANONICAL_JSON_ARTIFACT,
-            "pointer": "$.construct_validity_ledger",
-            "status": construct_validity.get("status", "missing"),
-            "failed_gates": list(construct_validity.get("failed_gates", [])),
-            "owner_pointer": owner_pointer,
-        }
+    cv_projection = _construct_validity_claim_projection(construct_validity)
     capsule = {
         "schema_id": "bedc.quality.claim_capsule",
         "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
@@ -2436,9 +2480,11 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "source_pointer": "$.l1_tiny_sequence_projection",
         "status": "pass" if gate_status == "pass" else "blocked",
         "evidence_scope": "bounded-tiny-sequence",
-        "model_claim": {
+        "claim_projection": {
             "model_id": "discovery-gated-transformer",
             "task_family": "bounded_tiny_sequence_order_k",
+            "allowed_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+            "claim_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
             "task_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
             "candidate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1",
             "input_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.input_ablation_masked_tail",
@@ -2453,8 +2499,6 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "owner_local_measurement_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
-            "allowed_claim": ALLOWED_CLAIM,
-            "forbidden_claims": list(FORBIDDEN_CLAIMS),
         },
         "hardgate_pointers": {
             gate_id: f"{CANONICAL_JSON_ARTIFACT}:$.hardgates.{gate_id}"
@@ -2476,7 +2520,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         ],
-        "not_claimed": list(NOT_CLAIMED),
+        "scope_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
         "failed_gate": failures[0] if failures else None,
     }
     if cv_projection is not None:
@@ -2860,6 +2904,8 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     projection = construct_validity.get("construct_validity_projection")
     if not isinstance(projection, Mapping) or projection.get("owner_pointer") != "bedc_quality_lab.construct_validity:evaluate_construct_validity":
         raise ValueError("DGT L1 construct validity projection missing")
+    if not _construct_validity_owner_projection_passes(projection):
+        raise ValueError("DGT L1 construct validity owner projection failed")
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
@@ -2912,16 +2958,22 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     capsule_text = json.dumps(payload["claim_capsule_ref"], sort_keys=True)
     if "terminal_verdict" in capsule_text:
         raise ValueError("DGT L1 ClaimCapsule must not contain terminal verdict")
-    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != {
-        "artifact",
-        "pointer",
-        "status",
-        "failed_gates",
-        "owner_pointer",
-    }:
+    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != set(CONSTRUCT_VALIDITY_PROJECTION_KEYS):
         raise ValueError("DGT L1 ClaimCapsule construct validity projection mismatch")
-    if payload["claim_capsule_ref"]["model_claim"]["allowed_claim"] != ALLOWED_CLAIM:
-        raise ValueError("DGT L1 allowed claim mismatch")
+    if payload["claim_capsule_ref"].get("construct_validity") != _construct_validity_claim_projection(construct_validity):
+        raise ValueError("DGT L1 ClaimCapsule construct validity must use owner projection")
+    capsule_forbidden_fields = {"model_claim", "allowed_claim", "forbidden_claims", "not_claimed"}
+    if capsule_forbidden_fields.intersection(payload["claim_capsule_ref"]):
+        raise ValueError("DGT L1 ClaimCapsule must use pointers for claim prose")
+    claim_projection = payload["claim_capsule_ref"].get("claim_projection")
+    if not isinstance(claim_projection, Mapping):
+        raise ValueError("DGT L1 ClaimCapsule claim projection missing")
+    if {"allowed_claim", "forbidden_claims", "not_claimed"}.intersection(claim_projection):
+        raise ValueError("DGT L1 ClaimCapsule claim projection must use pointers")
+    if claim_projection.get("allowed_claim_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status":
+        raise ValueError("DGT L1 ClaimCapsule allowed-claim pointer mismatch")
+    if claim_projection.get("claim_boundary_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed":
+        raise ValueError("DGT L1 ClaimCapsule boundary pointer mismatch")
     expected_projection = _projection(payload, expected_gates)
     if payload["l1_tiny_sequence_projection"] != expected_projection:
         raise ValueError("DGT L1 projection mismatch")
