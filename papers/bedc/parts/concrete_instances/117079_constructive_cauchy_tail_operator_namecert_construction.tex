@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveCauchyTailOperatorUp$}
+\label{ch:concrete-instances-constructive-cauchy-tail-operator-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveCauchyTailOperatorUp$ packet names the finite tail-shift operation needed by constructive Cauchy completion without selecting a hidden quotient representative. It sits over $\StreamNameUp$ of \autoref{ch:concrete-instances-streamname-namecert}, $\RegSeqRatUp$ of \autoref{ch:concrete-instances-regseqrat-namecert}, $\RealUp$ of \autoref{ch:concrete-instances-real-namecert}, $\DyadicRatCoreUp$ of \autoref{ch:concrete-instances-dyadicratcore-namecert}, $\FiniteTailFilterUp$ of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, $\SelectedTailSeedUp$ of \autoref{ch:concrete-instances-selected-tail-seed-namecert}, and $\TailCofinalityBudgetUp$ of \autoref{ch:concrete-instances-tail-cofinality-budget-namecert}. Those siblings expose streams, regular rational readback, dyadic tolerances, finite tail admission, selected seeds, and cofinal threshold budgets; this chapter packages the operator that transports a displayed Cauchy tail across those rows before the terminal Real seal consumes it.
+
+\begin{definition}[Constructive Cauchy tail-operator carrier]
+\label{def:constructive-cauchy-tail-operator-carrier}
+A $\ConstructiveCauchyTailOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,k,W,B,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row naming the rational stream whose tail is being read;
+\item $k$ is the unary tail threshold row, exposed as finite data rather than as a hidden natural-number choice;
+\item $W$ is the shifted stream-window row, recording the finite read of $S$ after threshold $k$;
+\item $B$ is the $\TailCofinalityBudgetUp$ row certifying that the requested tail is cofinal for the displayed Cauchy use;
+\item $R$ is the $\RegSeqRatUp$ readback row over the shifted window;
+\item $E$ is the $\DyadicRatCoreUp$ error ledger used by the regularity estimate;
+\item $H$ is the componentwise $\hsame$ transport row for replacing $S$ by an extensionally same stream window;
+\item $C$ is the displayed $\Cont$ replay route through $S,k,W,B,R,E,H$;
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCauchyTailOperatorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\FiniteTailFilterUp$, $\SelectedTailSeedUp$, $\TailCofinalityBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ConstructiveCauchyTailOperatorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, countable choice, an ambient completeness theorem, a selected limit outside the packet, or host-side equality of real numbers.
+\end{definition}
+
+\begin{theorem}[Constructive Cauchy tail-operator NameCert obligations]
+\label{thm:constructive-cauchy-tail-operator-namecert-obligations}
+For the carrier of \autoref{def:constructive-cauchy-tail-operator-carrier}, the local $\NameCert_{\ConstructiveCauchyTailOperatorUp}$ surface consists of carrier admission for $T=(S,k,W,B,R,E,H,C,P,N)$, source stream exposure through $S$, finite threshold exposure through $k$, shifted window exposure through $W$, cofinal budget exposure through $B$, regular-rational readback through $R$, dyadic error exposure through $E$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:constructive-cauchy-tail-operator-carrier}. The admitted object is exactly the ten-row packet $T=(S,k,W,B,R,E,H,C,P,N)$.
+
+The source and shift rows expose the operator input. The stream row $S$, threshold row $k$, and shifted window row $W$ are the only data from which a consumer may read the tail.
+
+The Cauchy rows expose the constructive estimate. The cofinal budget $B$, regular-rational readback $R$, and dyadic error ledger $E$ are displayed before any Real-facing handoff can be made.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier admits no other coordinates, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Constructive Cauchy tail-operator shift stability]
+\label{thm:constructive-cauchy-tail-operator-shift-stability}
+Let $T=(S,k,W,B,R,E,H,C,P,N)$ be an accepted $\ConstructiveCauchyTailOperatorUp$ packet. If a later finite threshold $k'$ refines $k$ through the same $\TailCofinalityBudgetUp$ route, then the shifted-window readback can be repacked as another accepted $\ConstructiveCauchyTailOperatorUp$ packet with the same source stream, dyadic ledger discipline, componentwise transport surface, replay route, provenance, and local naming format.
+\end{theorem}
+\begin{proof}
+Begin with the finite threshold rows. A refinement of $k$ through the same cofinal budget row $B$ gives a later finite tail read of the same source stream $S$.
+
+The shifted window is then rebuilt by reading $S$ after $k'$. The regular-rational readback row $R$ and dyadic error ledger $E$ are reused at the later threshold because the budget row records cofinality rather than a single isolated prefix.
+
+The remaining rows are structural. Componentwise $\hsame$ transport still acts on the displayed stream window, the $\Cont$ route replays the same operator shape, and the $\Pkg$ and local $\NameCert$ rows name the repacked packet. Therefore the tail operator is stable under displayed tail refinement.
+\end{proof}
+
+\begin{theorem}[Constructive Cauchy tail-operator Real seal handoff]
+\label{thm:constructive-cauchy-tail-operator-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\ConstructiveCauchyTailOperatorUp$ packet factors through the displayed finite route
+$$
+\StreamNameUp \longrightarrow \FiniteTailFilterUp \longrightarrow \TailCofinalityBudgetUp \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RealUp .
+$$
+The handoff exports only the shifted window, cofinal budget, regular-rational readback, dyadic error ledger, componentwise transport, replay, provenance, and local NameCert rows; it does not export quotient streams, host real equality, countable choice, detached limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the operator packet through its displayed rows. The only route from the source stream to a Real-facing seal passes through the finite threshold row, shifted window row, cofinal budget row, regular-rational readback row, and dyadic error ledger.
+
+The terminal consumer sees the Real seal through those rows, not through an external equality principle. The componentwise transport and replay rows show how the same displayed data is carried along the handoff.
+
+Because the carrier has no quotient, choice, detached-limit, host-equality, or ambient-completeness coordinate, no such datum can be exported by the handoff. The Real-facing read is therefore exactly the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{No accepted ConstructiveCauchyTailOperatorUp packet exports quotient stream equality, host real equality, countable choice, a detached limit, or ambient completeness outside the displayed finite tail-operator rows.}
+
+\independenceWitness{streamname, regseqrat, real, dyadicratcore, finite-tail-filter, selected-tail-seed, tail-cofinality-budget: none is bijective to ConstructiveCauchyTailOperatorUp because the operator packet combines a source stream, finite threshold, shifted window, cofinal budget, regular-rational readback, dyadic error ledger, componentwise transport, replay, provenance, and local NameCert row in one finite carrier.}
+
+\closureat{ConstructiveCauchyTailOperatorUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCauchyTailOperatorUp}
+  \constructivestory{A $\ConstructiveCauchyTailOperatorUp$ packet is generated from a source stream, unary tail threshold, shifted stream window, cofinal budget, regular-rational readback, dyadic error ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-cauchy-tail-operator-carrier}, \autoref{thm:constructive-cauchy-tail-operator-namecert-obligations}, \autoref{thm:constructive-cauchy-tail-operator-shift-stability}, and \autoref{thm:constructive-cauchy-tail-operator-real-seal-handoff} give the seed finite tail-operator carrier and its displayed Real-seal handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, host real equality, countable choice, detached limits, or ambient completeness.}
+  \upgradepath{Scoped closure requires Lean-backed NameCert obligations, shift stability, and Real-seal handoff evidence for the displayed tail-operator rows.}
+\end{closurestatus}
