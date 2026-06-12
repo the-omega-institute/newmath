@@ -2134,7 +2134,14 @@ def run_namecert_lane(store: FibonacciRealityStore) -> dict[str, Any]:
             "experiment_run_id": latest_run.get("experiment_run_id"),
             "values": values,
         }
-        verified_facts[claim_id] = verified_record
+        existing = verified_facts.get(claim_id)
+        has_structured_math = isinstance(existing, dict) and any(
+            key in _AUTHOR_MATH_FACT_KEYS for key in existing
+        )
+        if has_structured_math:
+            verified_facts[f"{claim_id}.certificate"] = verified_record
+        else:
+            verified_facts[claim_id] = verified_record
         conjecture["last_verified_at"] = verified_record["verified_at"]
         linked_claim_ids = conjecture.setdefault("linked_claim_ids", [])
         if not isinstance(linked_claim_ids, list):
