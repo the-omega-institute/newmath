@@ -2186,6 +2186,7 @@ import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
 import BEDC.Derived.CauchyUp.PublicL10Export
+import BEDC.Derived.CauchyWindowComparisonPrincipleUp.TasteGate
 import BEDC.Derived.CauchyWindowStabilityBridgeUp.TasteGate
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
 import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
@@ -2775,6 +2776,7 @@ import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
+import BEDC.Derived.CompactSubspaceModulusRestrictionUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
 import BEDC.Derived.CompactUniformContinuitySchemeUp.TasteGate
@@ -5961,6 +5963,7 @@ import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
 import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
+import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
@@ -7361,6 +7364,7 @@ import BEDC.Derived.ParsevalUp.FinitePartialSumInduction
 import BEDC.Derived.ParsevalUp.FourierCoefficientEnergyRow
 import BEDC.Derived.ParsevalUp.FourierEnergyWindow
 import BEDC.Derived.ParsevalUp.FourierRealReadbackBoundary
+import BEDC.Derived.ParsevalUp.InnerProductCarrierRoute
 import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.InnerProductNormScope
