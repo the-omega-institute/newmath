@@ -1463,6 +1463,7 @@ import BEDC.Derived.CauchyCompleteApartnessSpaceUp.TasteGate
 import BEDC.Derived.CauchyCompleteOrderedFieldUniquenessUp.TasteGate
 import BEDC.Derived.CauchyCompletenessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
+import BEDC.Derived.CauchyCompletenessTheoremUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessObligationUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionTriangleUp
@@ -3412,6 +3413,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamSourcePackage
+import BEDC.Derived.CriticalLineWitnessUp.DownstreamZeroStripExactness
 import BEDC.Derived.CriticalLineWitnessUp.EndpointHandoff
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FiniteSourceLatticeBoundary
@@ -3470,6 +3472,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
+import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
@@ -3493,6 +3496,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertConsumerTotality
@@ -3500,6 +3504,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBoundaryTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalDownstreamGate
@@ -3576,6 +3581,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaContinuationReadbackNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRealStripRootHandoff
+import BEDC.Derived.CriticalLineWitnessUp.ZetaRefusalConsumerScope
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
@@ -4686,6 +4692,7 @@ import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.AssembledCertificateBoundary
 import BEDC.Derived.FieldUp.CanonicalExitActionInversePackage
 import BEDC.Derived.FieldUp.ConcreteExitObject
+import BEDC.Derived.FieldUp.ConcreteOperationTableLaws
 import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.ContextualAction
@@ -5803,6 +5810,7 @@ import BEDC.Derived.KuratowskiCompletionUp.TasteGate
 import BEDC.Derived.KuratowskiConvergenceUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.KuratowskiHyperspaceUp.TasteGate
+import BEDC.Derived.KuratowskiMeasureNoncompactnessUp.TasteGate
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LLPOBoundaryUp.TasteGate
 import BEDC.Derived.LPDualityUp
@@ -6347,6 +6355,8 @@ import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp
 import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp
+import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
@@ -6526,6 +6536,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceCandidateFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceOwnerBlocker
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObjectwiseObligation
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -7975,6 +7986,7 @@ import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.ObligationPartition
 import BEDC.Derived.RealApartnessCompletionUp.ObligationRouting
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedCompletionHandoff
+import BEDC.Derived.RealApartnessCompletionUp.SeparatedSealDeterminacy
 import BEDC.Derived.RealApartnessCompletionUp.SeparatedSourceExactness
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
