@@ -398,4 +398,95 @@ theorem BishopCompletionModulusCarrier_finite_threshold_induction [AskSetup] [Pa
     ⟨requestUnary, refinedKUnary, refinedWUnary, refinedRUnary, sealReadUnary,
       sameRefinedK, sameRefinedR, sameSealRead, provenancePkg⟩
 
+theorem BishopCompletionModulusCarrier_scope_closure [AskSetup] [PackageSetup]
+    {M S n k W D R E H C P N request refinedK refinedW refinedR sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopCompletionModulusCarrier M S n k W D R E H C P N bundle pkg →
+      UnaryHistory request →
+        hsame request n →
+          Cont M request refinedK →
+            Cont S refinedK refinedW →
+              Cont refinedW D refinedR →
+                Cont refinedR E sealRead →
+                  SemanticNameCert
+                    (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row S ∨ hsame row request ∨
+                        hsame row refinedK ∨ hsame row refinedW ∨ hsame row D ∨
+                          hsame row refinedR ∨ hsame row E ∨ hsame row H ∨
+                            hsame row C ∨ hsame row P ∨ hsame row N ∨
+                              hsame row sealRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont M request refinedK ∧
+                        Cont S refinedK refinedW ∧ Cont refinedW D refinedR ∧
+                          Cont refinedR E sealRead ∧ PkgSig bundle P pkg)
+                    hsame ∧ UnaryHistory sealRead ∧ hsame sealRead H := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier requestUnary sameRequest refinedModulusRoute refinedWindowRoute
+    refinedRegularRoute refinedSealRoute
+  have routeFacts :=
+    BishopCompletionModulusCarrier_finite_threshold_induction
+      (M := M) (S := S) (n := n) (k := k) (W := W) (D := D) (R := R)
+      (E := E) (H := H) (C := C) (P := P) (N := N) (request := request)
+      (refinedK := refinedK) (refinedW := refinedW) (refinedR := refinedR)
+      (sealRead := sealRead) (bundle := bundle) (pkg := pkg)
+      carrier requestUnary sameRequest refinedModulusRoute refinedWindowRoute
+      refinedRegularRoute refinedSealRoute
+  obtain ⟨_requestUnary, _refinedKUnary, _refinedWUnary, _refinedRUnary,
+    sealReadUnary, _sameRefinedK, _sameRefinedR, sameSealRead, provenancePkg⟩ :=
+      routeFacts
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row S ∨ hsame row request ∨
+            hsame row refinedK ∨ hsame row refinedW ∨ hsame row D ∨
+              hsame row refinedR ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row sealRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont M request refinedK ∧ Cont S refinedK refinedW ∧
+            Cont refinedW D refinedR ∧ Cont refinedR E sealRead ∧
+              PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead ⟨hsame_refl sealRead, sealReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, refinedModulusRoute, refinedWindowRoute, refinedRegularRoute,
+          refinedSealRoute, provenancePkg⟩
+  }
+  exact ⟨cert, sealReadUnary, sameSealRead⟩
+
 end BEDC.Derived.BishopCompletionModulusUp
