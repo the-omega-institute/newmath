@@ -837,7 +837,9 @@ import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
+import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusUp.ThresholdHeredity
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
