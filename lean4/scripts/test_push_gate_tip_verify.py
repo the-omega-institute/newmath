@@ -61,6 +61,8 @@ class PushGateTipVerifyTests(unittest.TestCase):
         self.old_sync = cf._sync_local_with_origin
         self.old_detect_dup = cf.detect_duplicate_symbols
         self.old_gates = cf.run_pre_merge_hard_gates
+        self.old_audit_gate = cf.run_pre_merge_audit_gate
+        self.old_phase_d = cf.run_phase_d_lints
         self.old_run_cmd = cf.run_cmd
         self.old_ff = cf._ff_local_branch_to
         self.old_sleep = cf.time.sleep
@@ -80,6 +82,8 @@ class PushGateTipVerifyTests(unittest.TestCase):
         cf._sync_local_with_origin = self.old_sync
         cf.detect_duplicate_symbols = self.old_detect_dup
         cf.run_pre_merge_hard_gates = self.old_gates
+        cf.run_pre_merge_audit_gate = self.old_audit_gate
+        cf.run_phase_d_lints = self.old_phase_d
         cf.run_cmd = self.old_run_cmd
         cf._ff_local_branch_to = self.old_ff
         cf.time.sleep = self.old_sleep
@@ -88,9 +92,17 @@ class PushGateTipVerifyTests(unittest.TestCase):
         else:
             sys.modules["repo_push_lock"] = self.old_lock_module
 
-    def _install_run_cmd(self, tips: list[str] | None = None):
+    def _install_run_cmd(
+        self,
+        tips: list[str] | None = None,
+        lean_trees: dict[str, str] | None = None,
+        check_axioms_blobs: dict[str, str] | None = None,
+        base_lean_tree: str = "b" * 40,
+    ):
         calls: list[list[str]] = []
         tip_values = list(tips or ["c" * 40])
+        tree_values = lean_trees or {}
+        check_axioms_values = check_axioms_blobs or {}
 
         def fake_run_cmd(cmd, *, cwd=None, timeout=120, check=False):
             calls.append(list(cmd))
@@ -105,6 +117,18 @@ class PushGateTipVerifyTests(unittest.TestCase):
             if cmd == ["git", "rev-parse", "HEAD"]:
                 tip = tip_values.pop(0) if len(tip_values) > 1 else tip_values[0]
                 return _cp(cmd, stdout=tip + "\n")
+            if cmd[:2] == ["git", "rev-parse"] and len(cmd) == 3 and cmd[2].endswith(":lean4"):
+                ref = cmd[2][:-len(":lean4")]
+                tree = base_lean_tree if ref == cf.BASE_BRANCH else tree_values.get(ref, ref if len(ref) == 40 else "t" * 40)
+                return _cp(cmd, stdout=tree + "\n")
+            if (
+                cmd[:2] == ["git", "rev-parse"]
+                and len(cmd) == 3
+                and cmd[2].endswith(":tools/check-axioms.py")
+            ):
+                ref = cmd[2][:-len(":tools/check-axioms.py")]
+                blob = check_axioms_values.get(ref, "a" * 40)
+                return _cp(cmd, stdout=blob + "\n")
             if cmd[:2] == ["git", "fetch"]:
                 return _cp(cmd)
             if cmd[:3] == ["git", "merge-base", "--is-ancestor"]:
@@ -172,8 +196,9 @@ class PushGateTipVerifyTests(unittest.TestCase):
         cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
         self._install_run_cmd([old_tip, new_tip, new_tip])
         verified: set[str] = set()
+        verified_gate_keys: set[str] = set()
 
-        self.assertTrue(cf._ensure_push_tip_verified(self.wt, verified))
+        self.assertTrue(cf._ensure_push_tip_verified(self.wt, verified, verified_gate_keys))
 
         self.assertEqual(gate_calls, ["gate", "gate"])
         self.assertNotIn(old_tip, verified)
@@ -198,6 +223,112 @@ class PushGateTipVerifyTests(unittest.TestCase):
         self.assertTrue(merged)
         self.assertEqual(gate_calls, [False, False])
         self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_changed_tip_same_lean_tree_runs_cheap_gates_before_push(self):
+        gate_calls: list[str] = []
+        audit_calls: list[str] = []
+        phase_d_calls: list[str] = []
+        initial_tip = "c" * 40
+        changed_tip = "d" * 40
+        lean_tree = "1" * 40
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+        cf.run_pre_merge_audit_gate = lambda _wt: audit_calls.append("audit") or (True, None, None)
+        cf.run_phase_d_lints = lambda _wt: phase_d_calls.append("phase_d") or (True, None, None)
+        calls = self._install_run_cmd(
+            [initial_tip, initial_tip, changed_tip, changed_tip],
+            {initial_tip: lean_tree, changed_tip: lean_tree},
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(gate_calls, ["gate"])
+        self.assertEqual(audit_calls, ["audit"])
+        self.assertEqual(phase_d_calls, ["phase_d"])
+        self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_changed_tip_changed_lean_tree_runs_full_gates_before_push(self):
+        gate_calls: list[str] = []
+        audit_calls: list[str] = []
+        initial_tip = "c" * 40
+        changed_tip = "d" * 40
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+        cf.run_pre_merge_audit_gate = lambda _wt: audit_calls.append("audit") or (True, None, None)
+        calls = self._install_run_cmd(
+            [initial_tip, initial_tip, changed_tip, changed_tip],
+            {initial_tip: "1" * 40, changed_tip: "2" * 40},
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertTrue(merged)
+        self.assertEqual(gate_calls, ["gate", "gate"])
+        self.assertEqual(audit_calls, [])
+        self.assertTrue(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
+
+    def test_changed_tip_changed_base_lean_tree_runs_full_gates_before_push(self):
+        gate_calls: list[str] = []
+        audit_calls: list[str] = []
+        initial_tip = "c" * 40
+        changed_tip = "d" * 40
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+        cf.run_pre_merge_audit_gate = lambda _wt: audit_calls.append("audit") or (True, None, None)
+        self._install_run_cmd(
+            [initial_tip, initial_tip],
+            {initial_tip: "1" * 40},
+            base_lean_tree="2" * 40,
+        )
+        verified = {changed_tip}
+        verified_gate_keys = {"1" * 40 + ":" + "a" * 40 + ":" + "3" * 40}
+
+        self.assertTrue(cf._ensure_push_tip_verified(self.wt, verified, verified_gate_keys))
+
+        self.assertEqual(gate_calls, ["gate"])
+        self.assertEqual(audit_calls, [])
+        self.assertEqual(verified, {initial_tip, changed_tip})
+
+    def test_changed_tip_changed_check_axioms_blob_runs_full_gates_before_push(self):
+        gate_calls: list[str] = []
+        audit_calls: list[str] = []
+        initial_tip = "c" * 40
+        changed_tip = "d" * 40
+        lean_tree = "1" * 40
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+        cf.run_pre_merge_audit_gate = lambda _wt: audit_calls.append("audit") or (True, None, None)
+        self._install_run_cmd(
+            [initial_tip, initial_tip],
+            {initial_tip: lean_tree},
+            {initial_tip: "2" * 40},
+            base_lean_tree="3" * 40,
+        )
+        verified = {changed_tip}
+        verified_gate_keys = {lean_tree + ":" + "a" * 40 + ":" + "3" * 40}
+
+        self.assertTrue(cf._ensure_push_tip_verified(self.wt, verified, verified_gate_keys))
+
+        self.assertEqual(gate_calls, ["gate"])
+        self.assertEqual(audit_calls, [])
+        self.assertEqual(verified, {initial_tip, changed_tip})
+
+    def test_changed_tip_same_lean_tree_audit_failure_blocks_push(self):
+        gate_calls: list[str] = []
+        audit_calls: list[str] = []
+        initial_tip = "c" * 40
+        changed_tip = "d" * 40
+        lean_tree = "1" * 40
+        cf.run_pre_merge_hard_gates = lambda _wt: gate_calls.append("gate") or (True, None, None)
+        cf.run_pre_merge_audit_gate = lambda _wt: audit_calls.append("audit") or (False, "audit", "bad")
+        calls = self._install_run_cmd(
+            [initial_tip, initial_tip, changed_tip],
+            {initial_tip: lean_tree, changed_tip: lean_tree},
+        )
+
+        merged = cf.merge_worktree_to_base(self.wt)
+
+        self.assertFalse(merged)
+        self.assertEqual(gate_calls, ["gate"])
+        self.assertEqual(audit_calls, ["audit"])
+        self.assertFalse(any(cmd[:3] == ["git", "push", "origin"] for cmd in calls))
 
 
 if __name__ == "__main__":

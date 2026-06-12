@@ -1238,6 +1238,48 @@ def run_phase_d_lints(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[s
     return False, "phase_d_lint", tail
 
 
+def _pre_merge_hard_gate_specs(wt: WorktreeInfo) -> list[tuple[str, list[str], Path, int]]:
+    return [
+        ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
+        ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
+        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
+    ]
+
+
+def _run_pre_merge_gate(
+    wt: WorktreeInfo,
+    name: str,
+    cmd: list[str],
+    cwd: Path,
+    timeout: int,
+) -> tuple[bool, Optional[str], Optional[str]]:
+    result = run_cmd(cmd, cwd=cwd, timeout=timeout)
+    if result.returncode == 0:
+        return True, None, None
+
+    def head_tail(s: str, head: int = 2000, tail: int = 2000) -> str:
+        if not s:
+            return ""
+        if len(s) <= head + tail:
+            return s
+        return s[:head] + "\n...[truncated middle]...\n" + s[-tail:]
+
+    tail = head_tail(result.stdout or "") + head_tail(result.stderr or "")
+    logger.error(
+        f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
+    )
+    return False, name, tail
+
+
+def run_pre_merge_audit_gate(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
+    """Run only the paper-Lean drift audit from the hard-gate sequence."""
+    for name, cmd, cwd, timeout in _pre_merge_hard_gate_specs(wt):
+        if name == "audit":
+            return _run_pre_merge_gate(wt, name, cmd, cwd, timeout)
+    return False, "audit", "audit gate is not configured"
+
+
 def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
     """Run the pre-merge gate sequence.
 
@@ -1247,26 +1289,10 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
     output_tail is the last ~4000 chars of combined stdout+stderr for the
     failing gate, suitable for passing to a codex recovery prompt.
     """
-    gates = [
-        ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
-        ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
-        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
-        ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
-    ]
-    for name, cmd, cwd, timeout in gates:
-        result = run_cmd(cmd, cwd=cwd, timeout=timeout)
-        if result.returncode != 0:
-            def head_tail(s: str, head: int = 2000, tail: int = 2000) -> str:
-                if not s:
-                    return ""
-                if len(s) <= head + tail:
-                    return s
-                return s[:head] + "\n...[truncated middle]...\n" + s[-tail:]
-            tail = head_tail(result.stdout or "") + head_tail(result.stderr or "")
-            logger.error(
-                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
-            )
-            return False, name, tail
+    for name, cmd, cwd, timeout in _pre_merge_hard_gate_specs(wt):
+        ok, failed_gate, tail = _run_pre_merge_gate(wt, name, cmd, cwd, timeout)
+        if not ok:
+            return ok, failed_gate, tail
     return run_phase_d_lints(wt)
 
 
@@ -1274,25 +1300,61 @@ def _worktree_head(wt: WorktreeInfo) -> str:
     return run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path, timeout=30).stdout.strip()
 
 
+def _worktree_gate_key(wt: WorktreeInfo, tip: str) -> Optional[str]:
+    specs = [
+        (f"{tip}:lean4", f"tip lean4 tree for {tip[:8]}"),
+        (f"{tip}:tools/check-axioms.py", f"check-axioms blob for {tip[:8]}"),
+        (f"{BASE_BRANCH}:lean4", f"{BASE_BRANCH} lean4 tree"),
+    ]
+    values: list[str] = []
+    for rev, label in specs:
+        result = run_cmd(["git", "rev-parse", rev], cwd=wt.path, timeout=30)
+        if result.returncode != 0:
+            logger.error(
+                f"[R{wt.round_number}] could not read {label}: "
+                f"{(result.stderr or result.stdout).strip()[:200]}"
+            )
+            return None
+        value = result.stdout.strip()
+        if not value:
+            logger.error(f"[R{wt.round_number}] empty git object for {label}")
+            return None
+        values.append(value)
+    return ":".join(values)
+
+
 def _ensure_push_tip_verified(
     wt: WorktreeInfo,
     verified_push_tips: set[str],
+    verified_gate_keys: set[str],
 ) -> bool:
     """Run hard gates outside push locks unless the current tip already passed."""
     for _attempt in range(2):
         wt_tip = _worktree_head(wt)
         if wt_tip in verified_push_tips:
             return True
-        logger.info(f"[R{wt.round_number}] pre-push hard gates for tip {wt_tip[:8]}")
-        gates_ok, _failed_gate, _gate_tail = run_pre_merge_hard_gates(wt)
+        gate_key = _worktree_gate_key(wt, wt_tip)
+        gate_key_already_verified = gate_key is not None and gate_key in verified_gate_keys
+        if gate_key_already_verified:
+            # Only lake/check-axioms/axiom-purity are tree-key determined;
+            # audit and Phase D read commit context, so they still run per tip.
+            logger.info(f"[R{wt.round_number}] pre-push cheap gates for tip {wt_tip[:8]}")
+            gates_ok, _failed_gate, _gate_tail = run_pre_merge_audit_gate(wt)
+            if gates_ok:
+                gates_ok, _failed_gate, _gate_tail = run_phase_d_lints(wt)
+        else:
+            logger.info(f"[R{wt.round_number}] pre-push hard gates for tip {wt_tip[:8]}")
+            gates_ok, _failed_gate, _gate_tail = run_pre_merge_hard_gates(wt)
         if not gates_ok:
             return False
         post_gate_tip = _worktree_head(wt)
         if post_gate_tip == wt_tip:
             verified_push_tips.add(wt_tip)
+            if gate_key is not None:
+                verified_gate_keys.add(gate_key)
             return True
         logger.warning(
-            f"[R{wt.round_number}] worktree tip changed during pre-push hard gates "
+            f"[R{wt.round_number}] worktree tip changed during pre-push verification "
             f"{wt_tip[:8]} -> {post_gate_tip[:8]}; verifying new tip"
         )
     return False
@@ -1686,13 +1748,17 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     if not gates_ok:
         return False
     verified_push_tips: set[str] = set()
+    verified_gate_keys: set[str] = set()
     if verified_gate_tip is not None:
         verified_push_tips.add(verified_gate_tip)
+        verified_gate_key = _worktree_gate_key(wt, verified_gate_tip)
+        if verified_gate_key is not None:
+            verified_gate_keys.add(verified_gate_key)
 
     captured_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
 
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
-        if not _ensure_push_tip_verified(wt, verified_push_tips):
+        if not _ensure_push_tip_verified(wt, verified_push_tips, verified_gate_keys):
             return False
 
         try:
