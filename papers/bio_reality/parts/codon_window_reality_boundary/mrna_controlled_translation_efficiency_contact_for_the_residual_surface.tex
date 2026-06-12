@@ -1,0 +1,70 @@
+\subsection{mRNA-controlled translation-efficiency contact for the $B^{*}_{Q6}$ residual surface}
+\label{subsec:q6-mrna-controlled-translation-efficiency-survival-cross-layer}
+
+\paragraph{Finite readout surface.}
+The object tested here is a finite CDS-by-organism table whose internal coordinates are the nine $B^{*}_{Q6}$ residual directions
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+The readout is ribosome-profiling translation efficiency with matched mRNA abundance, interpreted only as a controlled transcript-to-ribosome measurement on the joined CDS rows.  The control matrix contains an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions, GC3, and the M-density baseline on the union support of the nine projected $B^{*}_{Q6}$ vectors.  In each measured-TE organism the reported control-column count is $24$ and the realized rank is $23$, so the contact is not a raw codon-frequency correlation: it is a residual comparison after amino-acid quotienting, length, GC3, M-density, organism-specific joining, and matched mRNA control.
+
+\paragraph{Matched TE rows.}
+The measured-TE contact has four powered organism panels.  The zebrafish panel has $n=13140$ joined TE rows, compared with $14410$ CDS-abundance rows; the valid abundance and TE counts are $14410$ and $13140$.  The \emph{E. coli} K-12 MG1655 panel has $n=3415$ joined TE rows, $3739$ reported CDS-abundance rows, $3747$ valid abundance records, and $3415$ valid TE records.  The human panel has $n=11554$ joined TE rows, $19053$ reported CDS-abundance rows, $19483$ valid abundance records, and $11554$ valid TE records.  The budding-yeast panel has $n=5128$ joined TE rows, $5815$ reported CDS-abundance rows, $6351$ valid abundance records, and $5128$ valid TE records.  These row counts are part of the claim: the contact is evaluated only on the finite intersection where CDS coordinates, abundance, mRNA, and ribosome-footprint-derived TE are all available.
+
+\paragraph{Measured-TE absorption values.}
+The finite projection test reports the modeled-complement fraction $d_{\mathrm{modeled}}$ and the additional fraction absorbed by measured TE.  For zebrafish,
+$$
+\begin{aligned}
+\|P\_Q\|^2 &= 1092.0114815505467,\\
+\|P\_{Q\perp Tmod}\|^2 &= 919.9445878158525,\\
+d_{\mathrm{modeled}} &= 0.8424312412078521,\\
+\mathrm{absorbed\_by\_measTE} &= 0.01759429001506974,\\
+d_{\mathrm{combined}} &= 0.8276090159036916.
+\end{aligned}
+$$
+For \emph{E. coli},
+$$
+\begin{aligned}
+\|P\_Q\|^2 &= 393.78692095732885,\\
+\|P\_{Q\perp Tmod}\|^2 &= 261.0102870984463,\\
+d_{\mathrm{modeled}} &= 0.6628211177352172,\\
+\mathrm{absorbed\_by\_measTE} &= 0.0010982956489726373,\\
+d_{\mathrm{combined}} &= 0.6620871850159149.
+\end{aligned}
+$$
+For human,
+$$
+\begin{aligned}
+\|P\_Q\|^2 &= 565.3850201235074,\\
+\|P\_{Q\perp Tmod}\|^2 &= 484.31956581711796,\\
+d_{\mathrm{modeled}} &= 0.8566190269974241,\\
+\mathrm{absorbed\_by\_measTE} &= 0.0028947149257963897,\\
+d_{\mathrm{combined}} &= 0.854133502300174.
+\end{aligned}
+$$
+For budding yeast,
+$$
+\begin{aligned}
+\|P\_Q\|^2 &= 675.3275479192903,\\
+\|P\_{Q\perp Tmod}\|^2 &= 151.18264752811882,\\
+d_{\mathrm{modeled}} &= 0.22386566043976477,\\
+\mathrm{absorbed\_by\_measTE} &= 0.0002762783754375593,\\
+d_{\mathrm{combined}} &= 0.2237928123367028.
+\end{aligned}
+$$
+The largest measured-TE absorption among these four panels is therefore the zebrafish value $0.01759429001506974$; the other three measured-TE absorptions are near zero on this scale.  This supports a bounded descriptive contact with TE, not a broad translation-layer closure.
+
+\paragraph{Join-sensitivity self-check.}
+The measured-TE table also records whether the modeled-complement fraction is stable when the readout join is restricted to rows with measured TE.  The self-check passes within $0.02$ for \emph{E. coli}, where the absolute difference is $0.00017488612263594217$, and for budding yeast, where the absolute difference is $0.012133464712697745$.  It fails that tolerance for zebrafish, where the difference is $0.03219747984141397$, and for human, where the difference is $0.06427590857052146$.  Thus the contact has enough rows to compute the projection, but it is not yet a stable organism-general survival result for the full abundance-CDS universe.  The TE-available slice changes the target residual in two of the four organisms.
+
+\paragraph{Neighboring readout contacts.}
+The measured tRNA-gene-copy tAI contact provides a comparison point on the same $B^{*}_{Q6}$ residual surface.  In the full CDS joins, the tRNA panels use $14410$ zebrafish rows, $19053$ human rows, and $5815$ budding-yeast rows, each again with $24$ control columns and rank $23$.  The parsed anticodon gene-copy tables have $57$, $47$, and $41$ anticodon entries, with $8846$, $431$, and $273$ tRNA genes respectively.  The corresponding absorbed fractions are $0.020817102845637092$ for zebrafish, $0.00005426229300865148$ for human, and $0.001530747712165342$ for budding yeast.  These numbers show that a translation-proxy contact can be computed on the same coordinate system, but they do not convert the measured-TE result into a causal account of ribosome dynamics.
+
+\paragraph{Downstream non-promotion checks.}
+The protein-turnover contact is available only for budding yeast in the present finite table.  It joins $3640$ turnover-abundance-CDS rows, with a reported CDS join hit rate of $0.9156038419146592$ and a turnover join hit rate of $0.8818572656921754$.  Its modeled-complement fraction on the turnover join is $0.2232704509412724$, differing from the full abundance-CDS complement reference by $0.011538255214205373$, and the turnover absorption is $0.0009086031889966327$.  The protein-feature contact has wider organism coverage but unstable join behavior: zebrafish has only $2242$ feature-joined rows from $14410$ reported CDS rows and a modeled-complement difference of $0.1384608720516286$, while human has $18335$ joined rows from $19053$ and budding yeast has $5682$ joined rows from $5815$.  Feature absorptions can exceed a degree-of-freedom null in some organism-candidate cells, for example zebrafish PTM density has absorbed fraction $0.014211240113472575$ and exceeds its Bonferroni threshold, while human complex membership, PTM density, and transmembrane count also exceed their listed thresholds.  Those feature contacts are sparse annotation projections and do not stabilize the TE contact into a protein-function or mechanism claim.
+
+\paragraph{Cross-organism descriptive context.}
+The organism-specific summary table contains $16$ rows, of which $12$ have complete feature entries for the M-QTP comparison.  The complete-feature organisms are budding yeast, \emph{Mycobacterium smegmatis}, \emph{E. coli}, human, zebrafish, chicken, \emph{Bacillus subtilis}, mouse, \emph{Caenorhabditis elegans}, \emph{Drosophila melanogaster}, \emph{Sulfolobus solfataricus}, and rat.  Four organisms still need data for that comparison: \emph{Pseudomonas aeruginosa}, \emph{Halobacterium salinarum}, \emph{Dictyostelium discoideum}, and \emph{Arabidopsis thaliana}.  The reported domain test for $M\_{QTP}$ has $n=12$, a variance ratio of $0.8889980452277374$, and right-tail permutation $p=0.4155844155844156$.  The continuous tests have $p=0.35264735264735264$ for $M\_{QTP}$ versus GC3 with $r=-0.3062616500469447$, $p=0.913086913086913$ for $M\_{QTP}$ versus log proteome size with $r=-0.033628115789504955$, and $p=0.8621378621378621$ for $M\_{QTP}$ versus log tRNA gene count with $r=0.06029405206037823$.  The dominant-coordinate contingency has $n=12$, Pearson chi-square $9.399999999999999$, Cramer's $V=0.6258327785172862$, and right-tail permutation $p=0.5814185814185814$.  These descriptive values do not provide a resolved domain-level or phylogenetically corrected explanation for the measured-TE contact.
+
+\paragraph{Local boundary.}
+The present record licenses only a finite controlled association table for $B^{*}_{Q6}$ residual coordinates against matched ribosome-profiling TE rows.  It does not, by itself, establish translation as a mechanistic process, protein folding, physical admissibility, mature protein abundance, molecular function, phenotype, causality, universality, or a population-level biological law.  Any such stronger assertion would require an additional layer-specific contact with its own rows, controls, and failure conditions.  The current finite evidence is therefore best read as follows: measured TE can be projected against the residual basis after mRNA control, but the observed absorption is small, and the join-sensitivity failures in zebrafish and human prevent a ready organism-general survival claim.
+
+\origin{ai}
