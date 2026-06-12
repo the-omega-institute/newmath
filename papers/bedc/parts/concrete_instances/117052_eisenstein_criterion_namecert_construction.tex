@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\EisensteinCriterionUp$}
+\label{ch:concrete-instances-eisenstein-criterion-namecert}
+\origin{human}
+
+Following Eisenstein's irreducibility criterion, the $\EisensteinCriterionUp$ packet records a finite prime-divisibility route for a displayed polynomial before any irreducibility-facing consumer may use it. It sits over the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the ring carrier of \autoref{ch:concrete-instances-ring-namecert}, the integer row of \autoref{ch:concrete-instances-int-namecert}, and the prime row of \autoref{ch:concrete-instances-prime-namecert}. The packet names coefficient inspection, prime divisibility, primitive-content control, and irreducibility handoff as displayed $\BHist$ and $\NameCert$ data; it is not a host factorization oracle, a quotient polynomial equality, a selected algebraic root, or an ambient unique-factorization theorem.
+
+\begin{definition}[Eisenstein criterion carrier]
+\label{def:eisenstein-criterion-carrier}
+An $\EisensteinCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(F,p,V,L,Q,G,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the polynomial coefficient window, listing the finitely many inspected coefficients of the displayed $\PolynomialUp$ row over the $\RingUp$ and $\IntUp$ interfaces.
+\item $p$ is the displayed $\PrimeUp$ row naming the prime used by the divisibility test.
+\item $V$ is the divisibility ledger requiring every non-leading coefficient inspected by $F$ to be divisible by $p$.
+\item $L$ is the leading-coefficient nondivisibility row, recording that the leading coefficient is not divisible by $p$.
+\item $Q$ is the constant-coefficient square-nondivisibility row, recording that $p^2$ does not divide the constant coefficient.
+\item $G$ is the primitive-content boundary, exposing the displayed content data needed before irreducibility may be read.
+\item $I$ is the irreducibility handoff row, available only after $F,p,V,L,Q,G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the coefficient, prime, divisibility, nondivisibility, content, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the coefficient window through the prime-divisibility route and the irreducibility handoff.
+\item $P$ is the $\Pkg$ provenance over $\EisensteinCriterionUp$, $\PolynomialUp$, $\RingUp$, $\IntUp$, $\PrimeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EisensteinCriterionUp}$ row.
+\end{enumerate}
+The carrier exposes only the polynomial coefficient window, displayed prime, divisibility ledger, leading nondivisibility, constant square-nondivisibility, primitive-content boundary, irreducibility handoff, transport, replay, provenance, and local naming. It has no coordinate for host factorization, quotient polynomial equality, selected roots, ambient unique factorization, or algebraic-closure reasoning.
+\end{definition}
+
+\begin{theorem}[Eisenstein criterion NameCert obligations]
+\label{thm:eisenstein-criterion-namecert-obligations}
+For every accepted $\EisensteinCriterionUp$ carrier
+$$
+E=(F,p,V,L,Q,G,I,H,C,P,N),
+$$
+the local $\NameCert_{\EisensteinCriterionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the coefficient window, prime row, divisibility ledger, nondivisibility rows, primitive-content boundary, irreducibility handoff, transport, replay, provenance, and local name;
+\item coefficient-window exactness, requiring $F$ to expose the inspected polynomial coefficients through the $\PolynomialUp$, $\RingUp$, and $\IntUp$ rows;
+\item prime-row exactness, requiring the divisibility ledger to read the displayed $\PrimeUp$ row $p$;
+\item divisibility exactness, requiring $V$ to cover every non-leading coefficient and no coefficient outside the displayed window;
+\item leading and constant boundary checks, requiring $L$ and $Q$ to record respectively leading nondivisibility and constant square-nondivisibility;
+\item primitive-content routing, requiring $G$ to be displayed before the irreducibility handoff $I$ is consumed;
+\item structural stability through $H,C,P,N$ for the same finite rows;
+\item refusal of host factorization, quotient polynomial equality, selected roots, ambient unique factorization, and algebraic-closure reasoning as local certificate data.
+\end{enumerate}
+No Eisenstein criterion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eisenstein-criterion-carrier}. The visible rows are exactly $F,p,V,L,Q,G,I,H,C,P,N$, so carrier admission and local naming can mention no further algebraic data.
+
+The coefficient and prime obligations are read first. The row $F$ supplies the displayed polynomial coefficients through the polynomial, ring, and integer interfaces, while $p$ supplies the displayed prime row used by all divisibility checks.
+
+The local divisibility surface is then exhausted by $V,L,Q$. The row $V$ covers the non-leading coefficients, $L$ covers the leading coefficient, and $Q$ covers the constant coefficient against $p^2$.
+
+Finally $G$ must be displayed before $I$, and $H,C,P,N$ only transport, replay, source, and name the same route. Since the excluded host principles do not occur as carrier coordinates, they cannot discharge a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Eisenstein criterion prime-divisibility route]
+\label{thm:eisenstein-criterion-prime-divisibility-route}
+Every irreducibility-facing consumer of an accepted $\EisensteinCriterionUp$ carrier
+$$
+E=(F,p,V,L,Q,G,I,H,C,P,N)
+$$
+must read the finite route
+$$
+F,p \longmapsto V,L,Q \longmapsto G \longmapsto I \longmapsto H,C,P,N
+$$
+before any irreducibility handoff is exported. Thus the consumer receives the coefficient window, displayed prime, non-leading divisibility ledger, leading nondivisibility row, constant square-nondivisibility row, and primitive-content boundary before it can inspect the handoff row.
+\end{theorem}
+\begin{proof}
+Start with an irreducibility-facing read of the row $I$. By \autoref{def:eisenstein-criterion-carrier}, the row $I$ has no independent source of polynomial or prime data; it is downstream of $F,p,V,L,Q,G$.
+
+Apply \autoref{thm:eisenstein-criterion-namecert-obligations}. The certificate obligations force the coefficient window and prime row to be exposed before the divisibility ledger, force the leading and constant boundary rows to be exposed beside that ledger, and force the primitive-content row before the handoff.
+
+The structural rows do not insert a second handoff. The rows $H,C,P,N$ preserve and name the same finite route, so any irreducibility-facing consumer reads only the displayed coefficient, prime, divisibility, nondivisibility, content, and handoff rows.
+
+Because the carrier contains no host factorization oracle, quotient polynomial equality, selected root, ambient unique-factorization theorem, or algebraic-closure coordinate, none of those principles can be exported with the handoff.
+\end{proof}
+
+\closureat{EisensteinCriterionUp}{seedStr}
+
+\begin{closurestatus}{\EisensteinCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eisenstein-criterion-carrier}, \autoref{thm:eisenstein-criterion-namecert-obligations}, and \autoref{thm:eisenstein-criterion-prime-divisibility-route} seed the finite prime-divisibility certificate over polynomial coefficients, a displayed prime, divisibility and nondivisibility ledgers, primitive-content routing, irreducibility handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host factorization, quotient polynomial equality, selected roots, ambient unique factorization, algebraic-closure reasoning, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window exactness, prime-row exactness, divisibility exactness, primitive-content routing, structural stability, and local naming for BEDC.Derived.EisensteinCriterionUp.}
+  \constructivestory{An $\EisensteinCriterionUp$ packet is generated from a polynomial coefficient window, displayed prime row, non-leading divisibility ledger, leading nondivisibility row, constant square-nondivisibility row, primitive-content boundary, irreducibility handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
