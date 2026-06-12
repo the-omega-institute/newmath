@@ -3291,6 +3291,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverLedger
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverObligations
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderNonescape
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverOrderScope
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootCauchySelection
@@ -3298,6 +3299,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootLebesgueLedgerRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootMetricCompletionRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootRealSeparabilityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverScopeGrounding
+import BEDC.Derived.CoveringdimensionUp.FiniteCoverSimplicialNerveHandoff
 import BEDC.Derived.CoveringdimensionUp.FiniteDensityRoute
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
