@@ -3406,6 +3406,7 @@ import BEDC.Derived.CritStripUp.TasteGate
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.BoundaryObligationSurface
 import BEDC.Derived.CriticalLineWitnessUp.CandidateClosedRoute
+import BEDC.Derived.CriticalLineWitnessUp.ComparisonLedgerAdmission
 import BEDC.Derived.CriticalLineWitnessUp.ComparisonWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.ComponentwiseStdbridgeTransport
 import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
@@ -3474,6 +3475,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
@@ -4274,6 +4276,7 @@ import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
+import BEDC.Derived.DyadicNestedIntervalSelectorUp.NestedChainDependency
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.TasteGate
@@ -4364,6 +4367,7 @@ import BEDC.Derived.EffectiveMetricCompletionUp.TasteGate
 import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
+import BEDC.Derived.EffectiveModulusUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -7506,6 +7510,8 @@ import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
+import BEDC.Derived.ParacompactUp.NameCertObligations
+import BEDC.Derived.ParacompactUp.RefinementConsumerRoute
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp
