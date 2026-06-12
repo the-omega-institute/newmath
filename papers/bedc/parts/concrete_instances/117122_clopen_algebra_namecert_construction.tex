@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ClopenAlgebraUp$}
+\label{ch:concrete-instances-clopen-algebra-namecert}
+\origin{human}
+
+Following Stone and Birkhoff on Boolean algebras of clopen sets, the $\ClopenAlgebraUp$ packet records the finite BEDC surface by which a displayed topology row supplies clopen rows together with Boolean operations on those rows. It sits beside the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the Boolean algebra carrier of \autoref{ch:concrete-instances-booleanalgebra-namecert}, the Stone-duality clopen ledger of \autoref{ch:concrete-instances-stoneduality-namecert}, the connectedness refusal surface of \autoref{ch:concrete-instances-connected-space-namecert}, and the total-disconnectedness separation surface of \autoref{ch:concrete-instances-totally-disconnected-space-namecert}. The packet names a local finite clopen algebra ledger; it does not assert a global powerset algebra, selected clopen basis, ultrafilter representation, host subset extensionality, or excluded-middle separation.
+
+\begin{definition}[Clopen algebra carrier]
+\label{def:clopen-algebra-carrier}
+A $\ClopenAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,O,\bar O,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row. It records the open-set classifier, displayed empty and whole opens, and finite inclusion requests inspected by the packet.
+\item $O$ is the displayed open row for each clopen candidate under inspection.
+\item $\bar O$ is the displayed complement-open row attached to the same candidate. A row is admitted as clopen only when both $O$ and $\bar O$ are present over the same $T$.
+\item $B$ is the $\BooleanAlgebraUp$ operation row. It records finite union, intersection, complement, zero, one, and order reads on the admitted clopen rows.
+\item $L$ is the $\StoneDualityUp$ clopen ledger row. It records the same clopen observations as the Stone-duality surface of \autoref{ch:concrete-instances-stoneduality-namecert} without adding ultrafilter points or a completed Stone space.
+\item $H$ records componentwise $\hsame$ transport for the topology row, open row, complement-open row, Boolean operation row, Stone ledger row, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay for the route
+$$
+T,O,\bar O \longmapsto B,L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ClopenAlgebraUp$, $\TopologyUp$, $\BooleanAlgebraUp$, $\StoneDualityUp$, $\ConnectedSpaceUp$, $\TotallyDisconnectedSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClopenAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,O,\bar O,B,L,H,C,P,N$. It has no coordinate for arbitrary subsets, a selected clopen basis, ultrafilter choice, quotient topology equality, or host powerset Boolean operations.
+\end{definition}
+
+\begin{theorem}[Clopen algebra NameCert obligations]
+\label{thm:clopen-algebra-namecert-obligations}
+For the carrier of \autoref{def:clopen-algebra-carrier}, the local $\NameCert_{\ClopenAlgebraUp}$ surface consists exactly of topology-source exposure through $T$, displayed open-row exposure through $O$, displayed complement-open exposure through $\bar O$, Boolean operation exposure through $B$, Stone-duality clopen-ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every connectedness or total-disconnectedness consumer reads the clopen algebra only through those rows and receives no excluded-middle split, selected clopen basis, host subset equality, arbitrary powerset algebra, or ultrafilter representation.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:clopen-algebra-carrier}. The packet displays exactly the topology source, open row, complement-open row, Boolean operation row, Stone clopen ledger, transport, replay, provenance, and local naming row.
+
+The clopen condition is local to $T,O,\bar O$. A consumer may call a row clopen only after both the open row and its complement-open row have been displayed over the same topology classifier.
+
+The Boolean operations are then read through $B$. Union, intersection, complement, zero, one, and order requests are operations on the displayed clopen rows, not on an ambient powerset.
+
+Finally $L,H,C,P,N$ preserve and name the same route. The Stone-duality ledger records the clopen observations already visible in the packet, while transport and replay cannot create a selected basis, ultrafilter point, host subset equality, or external Boolean algebra.
+\end{proof}
+
+\begin{theorem}[Clopen algebra Boolean-topology handoff]
+\label{thm:clopen-algebra-boolean-topology-handoff}
+Every Boolean-topology consumer of an accepted $\ClopenAlgebraUp$ packet factors through the finite route
+$$
+\TopologyUp
+\longrightarrow
+O,\bar O
+\longrightarrow
+\BooleanAlgebraUp
+\longrightarrow
+\StoneDualityUp
+\longrightarrow
+H,C,P,N .
+$$
+The handoff gives connectedness consumers the displayed clopen-refusal boundary used by $\ConnectedSpaceUp$ and gives total-disconnectedness consumers the displayed clopen-separation ledger used by $\TotallyDisconnectedSpaceUp$. It gives neither open-cover compactness, nor host subset extensionality, nor an ultrafilter representation, nor a selected global clopen basis.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:clopen-algebra-namecert-obligations}. They require every clopen read to expose the topology source together with both the open row and the complement-open row before the Boolean operation row is consumed.
+
+The Boolean handoff is finite. The row $B$ supplies only the displayed operations on admitted clopen rows, and $L$ identifies those rows with the Stone-duality clopen ledger rather than with a completed point space.
+
+Connectedness and total-disconnectedness consume different faces of the same packet. The connectedness side reads clopen attempts as refusal rows, while the total-disconnectedness side reads clopen separations as displayed separation rows.
+
+Since $H,C,P,N$ only transport, replay, source, and name the displayed rows, every Boolean-topology consumer remains inside the route shown above. The excluded powerset, basis-selection, ultrafilter, and host-extensionality objects are absent from the carrier.
+\end{proof}
+
+\leanstmt{BEDC.Derived.ClopenAlgebraUp}
+
+\closureat{ClopenAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\ClopenAlgebraUp}
+  \constructivestory{A $\ClopenAlgebraUp$ packet is generated from a Topology source row, displayed open and complement-open rows, BooleanAlgebra operation rows, a StoneDuality clopen ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:clopen-algebra-carrier}, \autoref{thm:clopen-algebra-namecert-obligations}, and \autoref{thm:clopen-algebra-boolean-topology-handoff} seed the finite Boolean-topology clopen algebra ledger over displayed topology rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ClopenAlgebraUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary powerset Boolean algebras, selected clopen bases, ultrafilter representations, host subset extensionality, open-cover compactness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open and complement-open exposure, Boolean operation exactness, Stone clopen-ledger compatibility, transport, replay, provenance, and local naming for BEDC.Derived.ClopenAlgebraUp.}
+\end{closurestatus}
