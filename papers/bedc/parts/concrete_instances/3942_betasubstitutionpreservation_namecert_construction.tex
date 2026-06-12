@@ -298,16 +298,31 @@ Finally read provenance and naming through $P$ and $N$. These rows keep the pack
 The exclusions are inspection of the same finite inventory. No coordinate of $Q$ is a host substitution function, a quotient equality of terms, unrestricted conversion, or closed subject reduction, so no accepted read of the obligation surface can export one.
 \end{proof}
 
+\begin{theorem}[Beta substitution preservation obligation rows]
+\label{thm:beta-substitution-preservation-obligation-rows}
+Every accepted $\BetaSubstitutionPreservationUp$ packet exposes, in order, the binder-context row, substituted body row, codomain readback row, subject-reduction handoff, closed-term substitution boundary, nonescape ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any MetaCIC consumer may read beta preservation. The row order is part of the finite NameCert route: a consumer cannot read $\SubjectReductionUp$ through this packet before the $\ClosedTermSubstitutionBoundaryUp$, $\BinderContextSubstitutionSealUp$, and $\TypedReductionNormalFormUp$ rows have been displayed inside the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The rows $C_0,R,C_1$ give the binder-context boundary, substituted body readback, and codomain readback after the source rows $B,A,V$ have fixed the beta site.
+
+Next read the sibling boundaries. The $\BinderContextSubstitutionSealUp$ row keeps the binder-context surface attached to $C_0$, the $\ClosedTermSubstitutionBoundaryUp$ row keeps the substituted body route attached to $R$, and the $\TypedReductionNormalFormUp$ row keeps the endpoint readback attached to $C_1$ and $L$.
+
+The subject-reduction handoff is then available only through $K$ and $P$. The existing handoff theorem \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} presents the beta case to $\SubjectReductionUp$ as the same finite packet, while \autoref{thm:betasubstitutionpreservation-nonescape} blocks host substitution semantics, unrestricted conversion, and closed subject reduction from replacing the displayed rows.
+
+Finally transport, replay, provenance, and local naming are componentwise. The rows $H,K,P,N$ carry the same ordered packet to the MetaCIC consumer, so any accepted read of beta preservation first passes through the listed obligation rows and never through an off-packet preservation theorem.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
+\closureat{BetaSubstitutionPreservationUp}{obligationStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
   \constructivestory{A $\BetaSubstitutionPreservationUp$ packet is generated from body typing, argument typing, beta-redex, codomain readback, substituted body, substituted codomain, finite ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:betasubstitutionpreservation-carrier}, \autoref{thm:betasubstitutionpreservation-namecert-obligations}, \autoref{thm:betasubstitutionpreservation-redex-closure}, \autoref{thm:betasubstitutionpreservation-nonescape}, and \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} bind beta-substitution preservation as a finite NameCert packet for the MetaCIC subject-reduction beta case.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:betasubstitutionpreservation-carrier}, \autoref{thm:betasubstitutionpreservation-namecert-obligations}, \autoref{thm:betasubstitutionpreservation-redex-closure}, \autoref{thm:betasubstitutionpreservation-nonescape}, \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}, \autoref{thm:beta-substitution-preservation-obligation-surface}, and \autoref{thm:beta-substitution-preservation-obligation-rows} bind beta-substitution preservation as a finite obligation packet for the MetaCIC subject-reduction beta case.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.BetaSubstitutionPreservationUp.BetaSubstitutionPreservationNonescape}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host substitution semantics, semantic term equality, unrestricted conversion, the other three MetaCIC subject-reduction discharge obligations, global normalization, Lean verification, or closed subject reduction.}
-  \upgradepath{Obligation closure requires checked carrier admission, beta-redex replay, substituted body and codomain readback, ledger exactness, non-escape, and the subject-reduction handoff for the same finite packet.}
+  \upgradepath{Scoped closure asks for consumer coverage, socket factorization, and downstream MetaCIC consolidation for the same finite packet.}
 \end{closurestatus}
