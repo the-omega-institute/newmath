@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyCompletenessTheoremUp.TasteGate
+namespace BEDC.Derived.CauchyCompletenessTheoremUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -45,26 +45,43 @@ def cauchyCompletenessTheoremFields :
 def cauchyCompletenessTheoremToEventFlow :
     CauchyCompletenessTheoremUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyCompletenessTheoremFields x).map cauchyCompletenessTheoremEncodeBHist
+  | x => (cauchyCompletenessTheoremFields x).map
+      cauchyCompletenessTheoremEncodeBHist
 
-def cauchyCompletenessTheoremFromEventFlow :
-    EventFlow → Option CauchyCompletenessTheoremUp
+private def cauchyCompletenessTheoremEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | D :: S :: Q :: L :: U :: A :: R :: H :: C :: P :: N :: [] =>
-      some
-        (CauchyCompletenessTheoremUp.mk
-          (cauchyCompletenessTheoremDecodeBHist D)
-          (cauchyCompletenessTheoremDecodeBHist S)
-          (cauchyCompletenessTheoremDecodeBHist Q)
-          (cauchyCompletenessTheoremDecodeBHist L)
-          (cauchyCompletenessTheoremDecodeBHist U)
-          (cauchyCompletenessTheoremDecodeBHist A)
-          (cauchyCompletenessTheoremDecodeBHist R)
-          (cauchyCompletenessTheoremDecodeBHist H)
-          (cauchyCompletenessTheoremDecodeBHist C)
-          (cauchyCompletenessTheoremDecodeBHist P)
-          (cauchyCompletenessTheoremDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => cauchyCompletenessTheoremEventAt index rest
+
+def cauchyCompletenessTheoremFromEventFlow
+    (ef : EventFlow) : Option CauchyCompletenessTheoremUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (CauchyCompletenessTheoremUp.mk
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 0 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 1 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 2 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 3 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 4 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 5 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 6 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 7 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 8 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 9 ef))
+      (cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEventAt 10 ef)))
 
 private theorem CauchyCompletenessTheoremTasteGate_single_carrier_alignment_round_trip
     (x : CauchyCompletenessTheoremUp) :
@@ -140,9 +157,8 @@ instance cauchyCompletenessTheoremChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      cauchyCompletenessTheoremFromEventFlow
-        (cauchyCompletenessTheoremToEventFlow x) = some x
+    change cauchyCompletenessTheoremFromEventFlow
+      (cauchyCompletenessTheoremToEventFlow x) = some x
     exact CauchyCompletenessTheoremTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -157,14 +173,31 @@ theorem CauchyCompletenessTheoremTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cauchyCompletenessTheoremDecodeBHist
         (cauchyCompletenessTheoremEncodeBHist h) = h) ∧
-      (∀ D S Q L U A R H C P N : BHist,
-        cauchyCompletenessTheoremFields
-          (CauchyCompletenessTheoremUp.mk D S Q L U A R H C P N) =
-            [D, S, Q, L, U, A, R, H, C, P, N]) ∧
-        cauchyCompletenessTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      Nonempty (BHistCarrier CauchyCompletenessTheoremUp) ∧
+        Nonempty (ChapterTasteGate CauchyCompletenessTheoremUp) ∧
+          cauchyCompletenessTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨CauchyCompletenessTheoremTasteGate_single_carrier_alignment_decode_encode,
-      (fun _ _ _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
+      ⟨cauchyCompletenessTheoremBHistCarrier⟩,
+      ⟨cauchyCompletenessTheoremChapterTasteGate⟩,
+      rfl⟩
 
-end BEDC.Derived.CauchyCompletenessTheoremUp.TasteGate
+namespace TasteGate
+
+theorem CauchyCompletenessTheoremTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      cauchyCompletenessTheoremDecodeBHist
+        (cauchyCompletenessTheoremEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier CauchyCompletenessTheoremUp) ∧
+        Nonempty (ChapterTasteGate CauchyCompletenessTheoremUp) ∧
+          cauchyCompletenessTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact
+    ⟨CauchyCompletenessTheoremTasteGate_single_carrier_alignment_decode_encode,
+      ⟨cauchyCompletenessTheoremBHistCarrier⟩,
+      ⟨cauchyCompletenessTheoremChapterTasteGate⟩,
+      rfl⟩
+
+end TasteGate
+
+end BEDC.Derived.CauchyCompletenessTheoremUp
