@@ -22,6 +22,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent           # tools/window_codon_brid
 REPO_ROOT = SCRIPT_DIR.parents[1]                       # bridge worktree root
 CLAIMS = SCRIPT_DIR / "registries" / "claims.json"
 EXPS = SCRIPT_DIR / "registries" / "experiments.json"
+SYNC_MANIFEST = SCRIPT_DIR / "registries" / "sync_manifest.json"
+SYNCED_DIR = SCRIPT_DIR / "synced"
 LEDGER = REPO_ROOT / "papers" / "window_codon_bridge" / "bridge_ledger.jsonl"
 STOP = SCRIPT_DIR / ".stop"
 DEFAULT_INTERVAL = 600.0
@@ -54,6 +56,86 @@ def append_ledger(entry: dict):
 
 def git(*args) -> subprocess.CompletedProcess:
     return subprocess.run(["git", "-C", str(REPO_ROOT), *args], capture_output=True, text=True)
+
+
+def git_busy() -> bool:
+    return subprocess.run(["pgrep", "-x", "git"], capture_output=True).returncode == 0
+
+
+def sync_lane() -> dict:
+    if git_busy():
+        print("[sync] skipped (git busy)", flush=True)
+        return {"skipped": "git_busy"}
+
+    manifest = load(SYNC_MANIFEST)
+    fetch_branches = [str(b) for b in manifest.get("fetch_branches", [])]
+    summary = {"fetched": False, "materialized": [], "pending": [], "fetch_error": False}
+
+    if fetch_branches:
+        r = git("fetch", "origin", *fetch_branches)
+        summary["fetched"] = r.returncode == 0
+        if r.returncode != 0:
+            summary["fetch_error"] = True
+            print(f"[sync] fetch failed: {((r.stderr or r.stdout) or '').strip()[-300:]}", flush=True)
+
+    for item in manifest.get("materialize", []):
+        branch = str(item.get("branch") or "")
+        src = str(item.get("src") or "")
+        dest = str(item.get("dest") or "")
+        if not branch or not src or not dest:
+            continue
+        r = git("show", f"origin/{branch}:{src}")
+        if r.returncode != 0:
+            summary["pending"].append(dest)
+            print(f"[sync] pending: {branch}:{src}", flush=True)
+            continue
+        out = r.stdout or ""
+        target = SYNCED_DIR / dest
+        old = target.read_text(encoding="utf-8") if target.exists() else None
+        if old != out:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(out, encoding="utf-8")
+            summary["materialized"].append(dest)
+            print(f"[sync] materialized {dest}", flush=True)
+    return summary
+
+
+def publish_lane() -> dict:
+    if git_busy():
+        print("[publish] skipped (git busy)", flush=True)
+        return {"skipped": "git_busy"}
+
+    manifest = load(SYNC_MANIFEST)
+    publish_branch = str(manifest.get("publish_branch") or "")
+    if not publish_branch:
+        return {"pushed": False, "reason": "no_publish_branch"}
+
+    rev = git("rev-parse", "--verify", f"origin/{publish_branch}")
+    if rev.returncode != 0:
+        count = git("rev-list", "--count", "HEAD")
+        ahead = int((count.stdout or "1").strip() or "1") if count.returncode == 0 else 1
+    else:
+        count = git("rev-list", "--count", f"origin/{publish_branch}..HEAD")
+        if count.returncode != 0:
+            return {"pushed": False, "error": (count.stderr or count.stdout)[-200:]}
+        ahead = int((count.stdout or "0").strip() or "0")
+    if ahead <= 0:
+        return {"pushed": False, "ahead": 0}
+
+    r = git("push", "origin", f"HEAD:{publish_branch}")
+    if r.returncode != 0:
+        print(f"[publish] push failed, merging origin/{publish_branch}: {((r.stderr or r.stdout) or '').strip()[-300:]}", flush=True)
+        git("fetch", "origin", publish_branch)
+        merge = git("merge", "--no-edit", f"origin/{publish_branch}")
+        if merge.returncode != 0:
+            print(f"[publish] merge failed: {((merge.stderr or merge.stdout) or '').strip()[-300:]}", flush=True)
+            return {"pushed": False, "ahead": ahead, "merge_error": True}
+        r = git("push", "origin", f"HEAD:{publish_branch}")
+    if r.returncode != 0:
+        print(f"[publish] push failed: {((r.stderr or r.stdout) or '').strip()[-300:]}", flush=True)
+        return {"pushed": False, "ahead": ahead, "push_error": True}
+    print(f"[publish] pushed {ahead} commits to origin/{publish_branch}", flush=True)
+    return {"pushed": True, "ahead": ahead}
 
 
 def run_cycle() -> dict:
@@ -111,9 +193,11 @@ def main():
     ap.add_argument("--no-commit", action="store_true")
     args = ap.parse_args()
     while not should_stop():
+        sync = sync_lane()
         summary = run_cycle()
         keep = {} if args.no_commit else keep_lane()
-        print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} keep={keep}", flush=True)
+        publish = {} if args.no_commit else publish_lane()
+        print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} keep={keep} publish={publish}", flush=True)
         if args.once:
             break
         time.sleep(max(1.0, float(args.interval_seconds)))
