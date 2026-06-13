@@ -38,6 +38,7 @@ the endpoint rows are read first as $L$ and $R$ through \autoref{ch:concrete-ins
 
 Thus a $\DyadicBisectionUp$ consumer cannot read a midpoint branch without first inheriting the dyadic endpoint data named by the source endpoint rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointEndpointSourceRoute}
 \begin{proof}
 Project the accepted carrier as
 $$
@@ -102,6 +103,7 @@ It remains to compare consumer-visible branching and readback. The branch rows $
 \label{thm:dyadic-midpoint-branch-comparison-handoff}
 For every accepted $\DyadicMidpointUp$ carrier $M=(L,R,S,\mu,B,W,H,C,P,N)$, any $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, or $\LocatedIntervalUp$ consumer that branches at the midpoint consumes exactly the displayed branch-comparison row $B$ together with the endpoint rows $L,R$, the common-denominator row $S$, the midpoint row $\mu$, the finite readback row $W$, and the provenance rows $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointBranchComparisonHandoff}
 \begin{proof}
 Project the carrier. The only row that records a left/right comparison at the midpoint is $B$, and the only midpoint value available to that row is $\mu$.
 
@@ -129,6 +131,7 @@ The package row $P$ records which surrounding certificates may consume the route
 \label{thm:dyadic-midpoint-nested-interval-non-escape}
 Suppose a $\NestedIntervalUp$ or $\DyadicBisectionUp$ packet consumes a $\DyadicMidpointUp$ carrier during a finite refinement step. The retained subinterval endpoint rows, the selected midpoint row, and the branch comparison remain inside the displayed $\mathsf{BHist}$ packet of \autoref{def:dyadic-midpoint-carrier}; the handoff exports no host real equality, no quotient endpoints, no completed interval intersection, and no ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointNestedIntervalNonEscape}
 \begin{proof}
 Apply \autoref{thm:dyadic-midpoint-branch-comparison-handoff}. A refinement step can choose a retained subinterval only through the displayed branch row $B$ and the midpoint row $\mu$.
 
@@ -153,6 +156,7 @@ The package and naming rows then bind the consumer side. The $\Pkg$ row $P$ name
 
 Finally, \autoref{def:dyadic-midpoint-carrier} lists no host real equality, quotient endpoint, completed interval intersection, or ambient completeness coordinate. Hence the six obligations form one finite obligation surface over exactly the stated rows.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCarrier\_obligation\_surface}
 
 \begin{theorem}[DyadicMidpoint bisection ledger exactness]\label{thm:dyadicmidpoint-bisection-ledger-exactness}
 Every bisection or subdivision read that retains an endpoint and compares against the displayed midpoint of an accepted $\DyadicMidpointUp$ carrier is exhausted by the rows
@@ -168,6 +172,7 @@ The comparison used to choose the branch is the row $B$. Its prerequisites are t
 
 It remains to account for transport and consumer routing. The $\hsame$ row $H$ and $\Cont$ row $C$ move the same finite rows componentwise, and $P,N$ record the package and local naming provenance. No other row is present in the carrier, so the bisection or subdivision ledger is exact.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointBisectionLedgerExactness}
 
 \begin{theorem}[DyadicMidpoint branch-ledger totality]
 \label{thm:dyadic-midpoint-branch-ledger-totality}
@@ -179,6 +184,7 @@ every bisection branch read is accounted for by the displayed branch row $B$ tog
 
 The branch surface exports no host real equality, quotient endpoints, completed interval intersection, or completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointBranchLedgerTotality}
 \begin{proof}
 Project the carrier rows of \autoref{def:dyadic-midpoint-carrier}. The only branch-bearing coordinate is $B$, and its displayed prerequisites are the endpoint rows $L,R$, the common-denominator row $S$, and the midpoint row $\mu$.
 
@@ -197,6 +203,7 @@ any consumer that reads the midpoint row $\mu$ must first consume the displayed 
 
 Thus midpoint exactness is the exactness of the displayed common-denominator calculation, not equality of host real endpoints, quotient endpoint representatives, completed interval intersections, or any completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCommonDenominatorConsumerExactness}
 \begin{proof}
 Start from the carrier definition. The midpoint row $\mu$ is not a primitive endpoint; it is obtained from the endpoint rows $L,R$ after the common-denominator scaling row $S$ has been read.
 
@@ -215,6 +222,7 @@ M=(L,R,S,\mu,B,W,H,C,P,N),
 $$
 every branch read consumed by $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, $\LocatedIntervalUp$, or $\RealUp$ first reads the common-denominator row $S$ and then the midpoint row $\mu$ and branch row $B$ through $W,H,C,P,N$. No host real equality, quotient endpoint, completed interval intersection, or completeness principle is available to that consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCommonDenominatorBranchExhaustion}
 \begin{proof}
 Project the accepted carrier. The endpoint rows $L,R$, common-denominator row $S$, midpoint row $\mu$, branch row $B$, finite-window row $W$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$ are the whole displayed packet.
 
@@ -231,6 +239,7 @@ M=(L,R,S,\mu,B,W,H,C,P,N),
 $$
 any $\RealUp$ or $\StreamNameUp$ consumer that reads the selected midpoint window must consume the common-denominator row $S$, midpoint row $\mu$, branch row $B$, finite-window row $W$, and provenance rows $H,C,P,N$ before any seal-facing read. No quotient endpoint, completed interval intersection, host real equality, or ambient completeness row can mediate that handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointSelectedWindowDenominatorSeal}
 \begin{proof}
 Begin with \autoref{thm:dyadic-midpoint-common-denominator-consumer-exactness}. It forces every midpoint read through the displayed common-denominator row $S$ before the midpoint row $\mu$ can be consumed.
 
@@ -239,6 +248,27 @@ Apply \autoref{thm:dyadic-midpoint-common-denominator-branch-exhaustion}. The se
 Finally use \autoref{thm:dyadic-midpoint-real-handoff-noncompletion}. The $\RealUp$ seal route receives only the finite dyadic-name packet for the current window, and the same finite-window boundary is the one a $\StreamNameUp$ consumer can observe.
 
 The carrier contains no quotient endpoint, completed interval intersection, host real equality, or ambient completeness row. Therefore the selected-window denominator route is the only seal-facing handoff for midpoint consumers.
+\end{proof}
+
+\begin{theorem}[DyadicMidpoint radius-halving window]
+\label{thm:dyadic-midpoint-radius-halving-window}
+Let a $\DyadicIntervalUp$ row display endpoints $L,R$ through $\DyadicRatCoreUp$ and let a positive dyadic radius budget $\rho$ be attached to that interval row. An accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N)
+$$
+splits the displayed interval into two child interval rows with endpoints $(L,\mu)$ and $(\mu,R)$. Each child radius budget is bounded by the parent half-radius $\rho/2$, and the endpoint, midpoint, branch, and readback rows remain transported through the same $\StreamNameUp$- and $\RegSeqRatUp$-compatible ledger $W,H,C,P,N$.
+
+The split exports no ambient $\RealUp$ completeness, no quotient equality of endpoints, and no completed interval intersection.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointRadiusHalvingWindow}
+\begin{proof}
+Read the interval endpoint data through the displayed $\DyadicRatCoreUp$ rows. The common-denominator row $S$ transports $L$ and $R$ to one dyadic denominator, and the midpoint row $\mu$ is computed from that scaled ledger by the dyadic midpoint calculation.
+
+The branch row $B$ then displays the two possible retained child rows. The left child uses endpoints $(L,\mu)$ and the right child uses $(\mu,R)$; both inherit endpoint admission from $L,R,S,\mu$ and do not introduce a third endpoint source.
+
+The radius estimate is the finite denominator calculation already visible in the midpoint ledger. Since $\mu$ is the displayed midpoint of the scaled endpoint row, each child interval has dyadic width bounded by one half of the parent width, so its radius budget is bounded by $\rho/2$.
+
+Finally apply the finite-window route $W,H,C,P,N$. Those rows are the only consumer-facing readback, transport, continuation, package, and naming rows in the carrier, so the same $\StreamNameUp$ and $\RegSeqRatUp$ ledger carries the child endpoint reads. The carrier has no coordinate for $\RealUp$ completeness, quotient endpoint equality, or completed interval intersections, so none is exported.
 \end{proof}
 
 \begin{theorem}[DyadicMidpoint RealUp handoff without completion]
@@ -251,6 +281,7 @@ any $\RealUp$ read of the midpoint ledger factors through the finite-window cons
 
 The same non-completion boundary is inherited by $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, and $\StreamNameUp$ consumers that route through the midpoint ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointRealHandoffNoncompletion}
 \begin{proof}
 Read the consumer route through \autoref{thm:dyadic-midpoint-finite-window-consumer-route}. It sends $\RealUp$ and the interval consumers through the finite readback row $W$, the transport row $H$, the continuation row $C$, the package row $P$, and the local naming row $N$.
 
@@ -264,6 +295,7 @@ Combining these rows gives $\RealUp$ only the finite dyadic-name packet for the 
 \begin{theorem}[DyadicMidpoint downstream DyadicRatCore package]\label{thm:dyadicmidpoint-downstream-dyadicratcore-package}
 For every accepted $\DyadicMidpointUp$ carrier, endpoint classifier stability, branch-comparison handoff, finite-window consumer routing, and nested-interval non-escape assemble the downstream $\DyadicRatCoreUp$ package consumed by $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, and $\RealUp$ readers. The assembled package consists only of the rows $L,R,S,\mu,B,W,H,C,P,N$ and exports no host real equality, quotient endpoint, completed interval intersection, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointDownstreamDyadicRatCorePackage}
 \begin{proof}
 First use endpoint classifier stability to keep accepted midpoint packets over the same transported endpoint window. This fixes the endpoint rows, the common-denominator row, and the midpoint row seen by a downstream $\DyadicRatCoreUp$ reader.
 

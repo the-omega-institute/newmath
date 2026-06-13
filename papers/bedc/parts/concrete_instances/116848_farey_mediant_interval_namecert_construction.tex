@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\FareyMediantIntervalUp$}
+\label{ch:concrete-instances-farey-mediant-interval-namecert}
+\origin{human}
+
+Following Hardy and Wright's treatment of Farey sequences and mediants, the $\FareyMediantIntervalUp$ packet records the finite interval-refinement surface where two determinant-neighbor rational endpoints generate a displayed mediant and a dyadic subinterval before any Real or Completion consumer reads the result. It sits over the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, the Stern--Brocot branch row of \autoref{ch:concrete-instances-stern-brocot-namecert}, and the Farey adjacency ledger of \autoref{ch:concrete-instances-farey-sequence-namecert}. The packet is finite interval data for rational refinement; it is not a quotient-real equality theorem, a selected representative, a trichotomy principle, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Farey mediant interval carrier]
+\label{def:farey-mediant-interval-carrier}
+A $\FareyMediantIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,R,M,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left rational endpoint row, read through $\RatUp$ and $\DyadicRatCoreUp$ numerator, denominator, sign, and scale data.
+\item $R$ is the right rational endpoint row, read through the same rational and dyadic arithmetic surface.
+\item $M$ is the mediant row. It records the rational
+$$
+\frac{p_L+p_R}{q_L+q_R}
+$$
+formed from the displayed endpoint numerators and denominators, together with the determinant-neighbor and Farey adjacency checks for $L$ and $R$.
+\item $D$ is the dyadic-refinement row. It records the chosen child interval, the finite dyadic tolerance budget, and the gap comparison used by downstream Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for endpoint, determinant-neighbor, Farey, mediant, dyadic-refinement, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+L,R \longmapsto M \longmapsto D \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FareyMediantIntervalUp$, $\RatUp$, $\DyadicRatCoreUp$, $\SternBrocotUp$, $\FareySequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FareyMediantIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,M,D,H,C,P,N$. It has no coordinate for quotient real equality, selected endpoint representatives, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Farey mediant interval NameCert obligations]
+\label{thm:farey-mediant-interval-namecert-obligations}
+For every accepted $\FareyMediantIntervalUp$ carrier
+$$
+I=(L,R,M,D,H,C,P,N),
+$$
+the local $\NameCert_{\FareyMediantIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two rational endpoint rows, determinant-neighbor evidence, Farey adjacency row, mediant row, dyadic-refinement row, transport, replay, provenance, and local naming;
+\item endpoint exactness, requiring $L$ and $R$ to be displayed $\RatUp$ rows with dyadic arithmetic support before a mediant is formed;
+\item determinant-neighbor exactness, requiring the endpoint rows to expose the finite determinant-one check used by the Farey and Stern--Brocot sibling routes;
+\item mediant exactness, requiring $M$ to use only the displayed endpoint numerators and denominators;
+\item dyadic-refinement exactness, requiring $D$ to choose a displayed child interval and a finite dyadic tolerance budget downstream of $M$;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows above.
+\end{enumerate}
+No obligation is stored in a quotient real equality proof, selected representative, host real order, countable-choice functional, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint data are exactly $L$ and $R$, and the arithmetic information available to the packet is the rational and dyadic data displayed in those rows.
+
+The determinant-neighbor and Farey checks are finite rows attached to the endpoint pair. They identify the pair as an adjacent rational bracket for the sibling Stern--Brocot and Farey routes without adding a host order, trichotomy branch, or selected Real representative.
+
+The mediant row is then forced by the endpoint numerators and denominators. Since $M$ contains no other arithmetic coordinate, the inserted rational is read only from the displayed endpoint rows.
+
+Finally $D$ records the child interval and dyadic budget, while $H,C,P,N$ preserve the same packet by componentwise transport, replay, provenance, and naming. These rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Farey mediant dyadic refinement]
+\label{thm:farey-mediant-interval-dyadic-refinement}
+Let
+$$
+I=(L,R,M,D,H,C,P,N)
+$$
+be an accepted $\FareyMediantIntervalUp$ carrier. Every dyadic refinement read factors through the finite chain
+$$
+L,R \longmapsto M \longmapsto D .
+$$
+Thus the child interval used by a Real or Completion consumer is selected only after the determinant-neighbor endpoint rows, the Farey mediant row, and the dyadic tolerance budget have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint rows $L$ and $R$. Their determinant-neighbor evidence gives the finite rational bracket that may be refined.
+
+Read the mediant row $M$. The inserted rational is computed from the displayed endpoint numerators and denominators, so the refinement has no independent representative or host-order coordinate.
+
+The dyadic row $D$ then compares the resulting child interval with the finite tolerance budget. A downstream Real or Completion request can read only this displayed child interval, not a quotient real equality, a selected endpoint representative, or an ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[Farey mediant interval Real handoff]
+\label{thm:farey-mediant-interval-real-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\FareyMediantIntervalUp$ carrier reads the displayed route
+$$
+\RatUp,\ \DyadicRatCoreUp,\ \SternBrocotUp,\ \FareySequenceUp \longmapsto \FareyMediantIntervalUp \longmapsto \RealUp .
+$$
+The route exposes rational endpoint rows, determinant-neighbor and Farey rows, a mediant row, a dyadic-refinement row, componentwise transport, replay, provenance, and local naming before any Real-facing handoff is visible.
+\end{theorem}
+\begin{proof}
+The rational and dyadic sources supply the two endpoint rows. The Stern--Brocot and Farey sibling rows then witness that the endpoints form the finite determinant-neighbor bracket consumed by this packet.
+
+Apply \autoref{thm:farey-mediant-interval-dyadic-refinement}. The mediant and dyadic rows are displayed before the child interval can be handed to a Real-facing consumer.
+
+The structural rows $H,C,P,N$ keep the handoff inside the same finite packet. Therefore the route exports finite rational interval refinement only, with no quotient real equality, selected representative, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{FareyMediantIntervalUp}{seedStr}
+
+\begin{closurestatus}{\FareyMediantIntervalUp}
+  \constructivestory{A $\FareyMediantIntervalUp$ packet is generated from left and right rational endpoint rows, determinant-neighbor and Farey adjacency evidence, a mediant row, a dyadic-refinement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:farey-mediant-interval-carrier}, \autoref{thm:farey-mediant-interval-namecert-obligations}, \autoref{thm:farey-mediant-interval-dyadic-refinement}, and \autoref{thm:farey-mediant-interval-real-handoff} seed the finite rational interval-refinement packet over Rat, DyadicRatCore, SternBrocot, FareySequence, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Real equality, selected rational or Real representatives, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, determinant-neighbor exactness, Farey route compatibility, mediant exactness, dyadic-refinement exactness, Real handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FareyMediantIntervalUp.}
+\end{closurestatus}

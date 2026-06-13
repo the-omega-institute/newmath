@@ -10,6 +10,7 @@ D_{\mathrm{root}}=(K,E,C,R,O,S,V,H,T,P,N)
 $$
 where $K$ exposes the $\CompactMetricUp$ source and its $\MetricUp$ distance observations, $E$ exposes the $\FiniteEpsilonNetUp$ refinement witnesses, $C$ exposes finite open-cover rows, $R$ exposes containment rows for the refinement of $C$, $O$ exposes the order-count ledger, $S$ exposes the $\RealSeparabilityUp$ density rows used when covers are sampled through rational or dyadic windows, and $V$ exposes the $\SimplicialComplexUp$ nerve rows attached to the finite refined cover. The structural rows $H,T,P,N$ transport, replay, source, and name exactly these finite rows.
 \end{definition}
+\leandef{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverCarrierPacket}
 
 \begin{theorem}[CoveringDimension root cover NameCert obligations]
 \label{thm:coveringdimension-root-cover-namecert-obligations}
@@ -52,3 +53,133 @@ The downstream consumers then inspect only attached finite rows. $\RealSeparabil
 
 The rows $H,T,P,N$ transport, replay, source, and name the route. Thus the compact-net refinement handoff is exhausted by the displayed chain and cannot export arbitrary open-cover compactness, selected dense sequences, external refinement oracles, or host nerve constructions.
 \end{proof}
+
+\begin{theorem}[CoveringDimension root cover density-nerve lock]
+\label{thm:coveringdimension-root-cover-density-nerve-lock}
+For every accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$, every accepted root cover-dimension read must expose $K,E,C,R,O$ before either the $\RealSeparabilityUp$ density row $S$ or the $\SimplicialComplexUp$ nerve row $V$ is consumed. Both rows must refer to the same finite refined cover displayed by $C,R,O$, so density windows and nerve data cannot be read as detached external witnesses.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverDensityNerveLock}
+\begin{proof}
+Project the root cover carrier of \autoref{def:coveringdimension-root-cover-carrier}. The rows $K,E,C,R,O$ display the compact metric source, finite epsilon-net refinements, finite open-cover entries, containment rows, and order ledger before the downstream rows $S$ and $V$ appear.
+
+Apply the root cover NameCert obligations, \autoref{thm:coveringdimension-root-cover-namecert-obligations}. They make density-window compatibility and nerve-row compatibility part of the same local root cover surface rather than separate external certificates.
+
+Use the compact-net refinement handoff, \autoref{thm:coveringdimension-compact-net-refinement-handoff}. It routes both $\RealSeparabilityUp$ and $\SimplicialComplexUp$ through the same chain
+$$
+K,E,C,R,O,H,T,P,N .
+$$
+
+Thus any accepted density row $S$ and nerve row $V$ are attached to the same finite refined cover already exposed by $C,R,O$. Since no carrier coordinate supplies a second cover, selected dense subfamily, or host nerve construction, the two downstream rows remain locked to that displayed route.
+\end{proof}
+
+\begin{theorem}[CoveringDimension root cover RealSeparability simplicial lock]
+\label{thm:coveringdimension-root-cover-real-separability-simplicial-lock}
+For every accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$, every accepted root-cover read that consumes a $\RealSeparabilityUp$ density window and a $\SimplicialComplexUp$ nerve row must expose the same refined-cover route
+$$
+K,E,C,R,O
+$$
+first. The density and nerve rows are then transported only by the shared structural rows $H,T,P,N$, so neither row can be replaced by a selected dense subfamily, a detached sampling schedule, or an external nerve construction.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverRealSeparabilitySimplicialLock}
+\begin{proof}
+Project the carrier through \autoref{def:coveringdimension-root-cover-carrier}. The only root-cover route available before downstream sampling is the displayed compact metric source $K$, finite epsilon-net refinement $E$, finite cover row $C$, containment row $R$, and order ledger $O$.
+
+Apply \autoref{thm:coveringdimension-root-cover-namecert-obligations}. Its density-window and nerve-row clauses attach $\RealSeparabilityUp$ and $\SimplicialComplexUp$ to that local root surface rather than to independent witnesses.
+
+Use \autoref{thm:coveringdimension-compact-net-refinement-handoff}. The handoff orders both downstream rows after the same finite refined cover and before the same structural rows $H,T,P,N$ perform transport, replay, provenance, and local naming.
+
+Thus the two consumers are locked to one refined-cover route. Since the carrier contains no coordinate for selected dense subfamilies or external nerves, no such object can be introduced after the shared route has been exposed.
+\end{proof}
+
+\begin{theorem}[CoveringDimension root cover public scope]
+\label{thm:coveringdimension-root-cover-public-scope}
+Every public $\CoveringDimensionUp$ root-cover consumer factors through the same finite chain
+$$
+\CompactMetricUp/\MetricUp
+\longrightarrow
+\FiniteEpsilonNetUp
+\longrightarrow
+C,R,O
+\longrightarrow
+\RealSeparabilityUp/\SimplicialComplexUp
+\longrightarrow
+H,T,P,N .
+$$
+The public route gives compact metric source rows, metric observations, finite epsilon-net refinements, finite cover rows, containment rows, order counting, density-window rows, nerve rows, transport, replay, provenance, and local naming. It gives no arbitrary open-cover compactness theorem, selected dense subfamily, host refinement theorem, or external nerve construction.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverPublicScope}
+\begin{proof}
+First project the public consumer through the root carrier of \autoref{def:coveringdimension-root-cover-carrier}. The only visible rows are the compact metric source $K$, finite epsilon-net row $E$, cover row $C$, containment row $R$, order ledger $O$, density row $S$, nerve row $V$, and the structural rows $H,T,P,N$.
+
+Apply \autoref{thm:coveringdimension-root-cover-namecert-obligations}. It makes compact metric admission, metric observation, finite cover admission, finite-net refinement, density compatibility, nerve compatibility, order counting, and structural transport part of one local NameCert surface.
+
+Use \autoref{thm:coveringdimension-compact-net-refinement-handoff} to order the route from $\CompactMetricUp/\MetricUp$ through $\FiniteEpsilonNetUp$ and $C,R,O$ before the downstream $\RealSeparabilityUp/\SimplicialComplexUp$ rows are read.
+
+Finally apply \autoref{thm:coveringdimension-root-cover-density-nerve-lock}. The density and nerve rows are locked to the same finite refined cover, so projection from the root carrier exhausts the public route and leaves no coordinate for arbitrary open-cover compactness, selected dense subfamilies, host refinements, or external nerve constructions.
+\end{proof}
+
+\begin{theorem}[CoveringDimension root cover scope lock]
+\label{thm:covering-dimension-root-cover-scope-lock}
+Every accepted $\CoveringDimensionUp$ root cover packet is scoped exactly by the compact finite-net rows, the $\RealSeparabilityUp$ density witnesses, and the $\SimplicialComplexUp$ nerve rows displayed in
+$$
+K,E,C,R,O,S,V,H,T,P,N .
+$$
+The compact side is read through $\CompactMetricUp$ and $\FiniteEpsilonNetUp$; the sampling side is read through $\RealSeparabilityUp$; and the combinatorial side is read through $\SimplicialComplexUp$. No arbitrary open-cover compactness theorem, selected subcover, host dimension primitive, detached dense family, or external nerve construction enters the root-cover scope.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverScopeLock}
+\leanvariant{BEDC.Derived.CoveringDimensionUp.CoveringDimensionRootCoverScopePackage}
+\begin{proof}
+Use the compact-net refinement handoff. It orders the compact metric source, metric observations, finite epsilon-net rows, finite cover rows, containment rows, and order ledger before any downstream density or nerve consumer can read the packet.
+
+Apply the density-nerve lock. The rows $S$ and $V$ are attached to the same displayed refined cover, so the $\RealSeparabilityUp$ witnesses and $\SimplicialComplexUp$ nerve rows cannot be replaced by detached sampling or external combinatorial data.
+
+Finally use the RealSeparability simplicial lock and the public-scope theorem. Together they route every public root-cover consumer through $K,E,C,R,O,S,V,H,T,P,N$, with $H,T,P,N$ transporting, replaying, sourcing, and naming only those rows. The excluded compactness, selected-subcover, host-dimension, dense-family, and external-nerve primitives are absent from the carrier and therefore outside the scope.
+\end{proof}
+
+\begin{theorem}[CoveringDimension simplicial star-refinement scope]
+\label{thm:covering-dimension-simplicial-star-refinement-scope}
+Every simplicial star-refinement read exported by $\CoveringDimensionUp$ must expose the same finite root-cover route
+$$
+K,E,C,R,O
+\longrightarrow
+\RealSeparabilityUp
+\longrightarrow
+\SimplicialComplexUp
+\longrightarrow
+H,T,P,N
+$$
+before any structural row is consumed. Thus the star-refinement read first displays the compact metric source row $K$, the finite epsilon-net row $E$, the finite cover row $C$, the containment row $R$, and the order ledger $O$; then it displays the $\RealSeparabilityUp$ density window and the $\SimplicialComplexUp$ nerve row; only after those rows are visible may transport, replay, provenance, and local naming be read.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionSimplicialStarRefinementScope}
+\begin{proof}
+Start with the root cover carrier of \autoref{def:coveringdimension-root-cover-carrier}. The carrier makes $K,E,C,R,O,S,V,H,T,P,N$ the only rows available to a root-cover consumer, with $S$ serving the density window and $V$ serving the nerve row.
+
+Apply the root cover NameCert obligations of \autoref{thm:coveringdimension-root-cover-namecert-obligations}. They require compact metric admission, finite epsilon-net refinement, finite cover admission, containment, order counting, density compatibility, nerve compatibility, and structural transport to remain part of one local surface.
+
+Use the compact-net refinement handoff and the root cover scope lock, \autoref{thm:coveringdimension-compact-net-refinement-handoff} and \autoref{thm:covering-dimension-root-cover-scope-lock}. These force every downstream read to pass through $K,E,C,R,O$ before the $\RealSeparabilityUp$ density window and $\SimplicialComplexUp$ nerve row are used.
+
+Therefore a simplicial star-refinement read cannot skip directly to structural transport or to an external nerve construction. It exports only the displayed finite root-cover route followed by $H,T,P,N$, and no arbitrary open-cover compactness, selected dense subfamily, host star-refinement theorem, or detached simplicial primitive enters the scope.
+\end{proof}
+
+\begin{theorem}[CoveringDimension root scope ledger]
+\label{thm:coveringdimension-root-scope-ledger}
+Every accepted root-cover read of a $\CoveringDimensionUp$ packet that can be consumed by a covering-dimension boundary theorem factors through the compact-net refinement row, the $\RealSeparabilityUp$ row, the $\SimplicialComplexUp$ nerve row, the $\FiniteEpsilonNetUp$ row, the $\MetricUp/\CompactMetricUp$ source rows, and the L10 tolerance route
+$$
+\DyadicRatCoreUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\RealUp .
+$$
+The read is therefore scoped by displayed tolerance, readback, finite-cover, density, nerve, transport, replay, provenance, and local naming rows. It does not import ambient open-cover compactness, quotient real equality, selected dense subfamilies, host dimension primitives, or external nerve construction.
+\end{theorem}
+\begin{proof}
+Project the root cover carrier of \autoref{def:coveringdimension-root-cover-carrier}. The accepted read begins with $K,E,C,R,O,S,V,H,T,P,N$, so compact metric, finite epsilon-net, finite cover, containment, order, density, nerve, transport, replay, provenance, and naming data are all visible before a boundary theorem can consume the packet.
+
+Use the compact-net refinement handoff, \autoref{thm:coveringdimension-compact-net-refinement-handoff}. It places the $\MetricUp/\CompactMetricUp$ source and $\FiniteEpsilonNetUp$ refinement before $C,R,O$, and it keeps the downstream $\RealSeparabilityUp$ and $\SimplicialComplexUp$ rows attached to the same finite refined cover.
+
+Apply the density-nerve lock, RealSeparability simplicial lock, public scope, and scope lock theorems, \autoref{thm:coveringdimension-root-cover-density-nerve-lock}, \autoref{thm:coveringdimension-root-cover-real-separability-simplicial-lock}, \autoref{thm:coveringdimension-root-cover-public-scope}, and \autoref{thm:covering-dimension-root-cover-scope-lock}. These force every public root-cover consumer to stay inside the displayed finite route.
+
+Finally read the L10 tolerance rows through the dyadic tolerance ledger, regular rational sequence readback, and terminal real-name seal. Since those rows are displayed as tolerance and readback data rather than quotient real equality or ambient completeness, the resulting scope is exactly the finite boundary route and no stronger compactness or real-equality principle is exported.
+\end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootScopeLedger}

@@ -91,4 +91,49 @@ theorem RegularCauchyMidpointNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, midpointUnary, toleranceUnary, sealUnary⟩
 
+theorem RegularCauchyMidpointRealSealHandoff [AskSetup] [PackageSetup]
+    {R0 R1 S0 S1 D Q E _H _C P N leftRead rightRead midpointRead toleranceRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R0 →
+      UnaryHistory R1 →
+        UnaryHistory S0 →
+          UnaryHistory S1 →
+            (SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row R0 ∨ hsame row R1 ∨ hsame row S0 ∨ hsame row S1 ∨
+                    hsame row D ∨ hsame row Q ∨ hsame row E ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                    PkgSig bundle sealRead pkg)
+                hsame ∧
+              UnaryHistory midpointRead ∧ UnaryHistory toleranceRead ∧
+                UnaryHistory sealRead) →
+              Cont R0 S0 leftRead →
+                Cont R1 S1 rightRead →
+                  Cont leftRead rightRead midpointRead →
+                    Cont midpointRead Q toleranceRead →
+                      Cont toleranceRead E sealRead →
+                        PkgSig bundle sealRead pkg →
+                          UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                            UnaryHistory midpointRead ∧ UnaryHistory toleranceRead ∧
+                              UnaryHistory sealRead ∧ Cont R0 S0 leftRead ∧
+                                Cont R1 S1 rightRead ∧
+                                  Cont leftRead rightRead midpointRead ∧
+                                    Cont midpointRead Q toleranceRead ∧
+                                      Cont toleranceRead E sealRead ∧
+                                        PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro r0Unary r1Unary s0Unary s1Unary accepted leftRoute rightRoute midpointRoute
+    toleranceRoute sealRoute sealPkg
+  obtain ⟨_cert, midpointUnary, toleranceUnary, sealUnary⟩ := accepted
+  have leftUnary : UnaryHistory leftRead :=
+    unary_cont_closed r0Unary s0Unary leftRoute
+  have rightUnary : UnaryHistory rightRead :=
+    unary_cont_closed r1Unary s1Unary rightRoute
+  exact
+    ⟨leftUnary, rightUnary, midpointUnary, toleranceUnary, sealUnary, leftRoute,
+      rightRoute, midpointRoute, toleranceRoute, sealRoute, sealPkg⟩
+
 end BEDC.Derived.RegularCauchyMidpointUp

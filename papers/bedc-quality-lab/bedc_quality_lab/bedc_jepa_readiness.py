@@ -1,0 +1,236 @@
+"""Machine-readable contact readiness gate for BEDC-JEPA evidence."""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+REPORTS = ROOT / "reports"
+
+
+def _load_optional_json(name: str) -> dict[str, Any] | None:
+    path = REPORTS / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _dependency_present(name: str) -> bool:
+    return importlib.util.find_spec(name) is not None
+
+
+def _gate(status: str, evidence: str, requirement: str) -> dict[str, str]:
+    return {
+        "status": status,
+        "evidence": evidence,
+        "requirement": requirement,
+    }
+
+
+def _torch_objective_gate(torch_objective: dict[str, Any] | None) -> dict[str, str]:
+    if torch_objective is None or "sweep" not in torch_objective:
+        return _gate("missing", "reports/bedc_jepa_torch_objective.json", "three-seed torch objective sweep")
+    sweep = torch_objective["sweep"]
+    passes = (
+        float(sweep["gap_auc_gain_mean"]) > 0.20
+        and float(sweep["debt_reduction_mean"]) > 0.05
+        and float(sweep["latent_r2_delta_abs_max"]) < 1e-8
+        and float(sweep["gap_auc_win_rate"]) >= 0.75
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        "reports/bedc_jepa_torch_objective.json",
+        "stable BEDC objective gain without latent R2 change",
+    )
+
+
+def _local_visual_gate(summary: dict[str, Any] | None) -> dict[str, str]:
+    if summary is None:
+        return _gate("missing", "reports/bedc_jepa_four_system_experiment.json", "local visual planning benchmark")
+    planning = summary["minigrid_visual_planning"]["planning"]
+    gain = float(planning["vanilla_minus_gap_aware_risk_adjusted_cost"])
+    transition = float(summary["minigrid_visual_planning"]["transition"]["one_step_accuracy"])
+    return _gate(
+        "pass" if gain > 0.0 and transition > 0.94 else "missing",
+        "reports/bedc_jepa_four_system_experiment.json",
+        "local visual planning with learned transition and risk-adjusted gain",
+    )
+
+
+def _clutter_gate(summary: dict[str, Any] | None) -> dict[str, str]:
+    if summary is None:
+        return _gate("missing", "reports/bedc_jepa_four_system_experiment.json", "object counterfactual clutter sweep")
+    clutter = summary["cluttered_object_sweep"]
+    passes = (
+        float(clutter["counterfactual_accuracy_mean"]) > 0.86
+        and float(clutter["s3_minus_s2_gap_auc_mean"]) > 0.40
+        and float(clutter["s2_minus_s3_unlogged_error_mean"]) > 0.20
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        "reports/bedc_jepa_four_system_experiment.json",
+        "object-level counterfactual readback under clutter",
+    )
+
+
+def _public_minigrid_gate(benchmark_packet: dict[str, Any] | None) -> dict[str, str]:
+    if benchmark_packet is None:
+        return _gate("missing", "reports/bedc_jepa_public_minigrid_benchmark_packet.json", "executed public MiniGrid benchmark")
+    executed = benchmark_packet.get("status") == "available" and float(benchmark_packet["sample_count_collected"]) > 0.0
+    dependency_status = benchmark_packet.get("dependency_status", {})
+    external_executed = (
+        dependency_status.get("gymnasium") == "external-executed"
+        and dependency_status.get("minigrid") == "external-executed"
+    )
+    deps = external_executed or (_dependency_present("gymnasium") and _dependency_present("minigrid"))
+    return _gate(
+        "pass" if executed and deps else "missing",
+        "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+        "executed public MiniGrid DoorKey readback/gap benchmark",
+    )
+
+
+def _native_public_benchmark_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_native_minigrid_benchmark.json"
+    if packet is None:
+        return _gate("missing", evidence, "native public MiniGrid S0/S1/S2/S3 benchmark")
+    systems = packet.get("systems", {})
+    deltas = packet.get("deltas", {})
+    baseline = packet.get("jepa_family_baseline_boundary", {})
+    passes = (
+        packet.get("status") == "executed"
+        and set(systems) == {"S0", "S1", "S2", "S3"}
+        and baseline.get("status") == "executed"
+        and float(packet.get("sample_count_collected", 0.0)) >= 128.0
+        and float(packet.get("planning_state_count_collected", 0.0)) >= 16.0
+        and len(packet.get("planning_lambda_sweep", [])) >= 5
+        and float(deltas.get("s0_minus_s3_unlogged_error", 0.0)) > 0.05
+        and float(deltas.get("s0_minus_s3_debt", 0.0)) > 0.0
+        and float(deltas.get("s3_minus_s0_gap_auc", 0.0)) > 0.05
+        and float(deltas.get("lambda_0_minus_best_high_gap_rate", 0.0)) > 0.05
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "native public MiniGrid S0/S1/S2/S3 benchmark",
+    )
+
+
+def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
+    evidence = (
+        "reports/bedc_jepa_public_baseline_comparison.json"
+        if comparison is not None
+        else "no public JEPA baseline comparison artifact recorded"
+    )
+    if comparison is not None and comparison.get("status") == "executed":
+        return _gate(
+            "pass",
+            evidence,
+            "public JEPA or JEPA-style baseline comparison",
+        )
+    return _gate(
+        "missing",
+        evidence,
+        "public JEPA or JEPA-style baseline comparison",
+    )
+
+
+def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    if cuda_comparison is None:
+        return _gate(
+            "missing",
+            evidence,
+            "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+        )
+    adapter = cuda_comparison.get("public_adapters", {}).get("ac_giant", {})
+    model = adapter.get("model", {})
+    cuda = adapter.get("cuda_environment", {})
+    loaded = (
+        cuda_comparison.get("status") == "executed"
+        and adapter.get("status") == "available"
+        and model.get("checkpoint_status") == "loaded"
+        and cuda.get("cuda_available") is True
+    )
+    return _gate(
+        "pass" if loaded else "missing",
+        evidence,
+        "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+    )
+
+
+def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_review_bundle.json"
+    if run_kit is not None and run_kit.get("status") == "review_ready":
+        return _gate("pass", evidence, "clean external review artifact bundle")
+    return _gate("missing", evidence, "clean external review artifact bundle")
+
+
+def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
+    if not blocking:
+        return "external_bundle_ready"
+    if (
+        gates["public_jepa_checkpoint_contact"]["status"] == "pass"
+        and gates["native_public_jepa_benchmark"]["status"] == "pass"
+        and gates["artifact_review_bundle"]["status"] != "pass"
+    ):
+        return "native_public_benchmark_closed_artifact_bundle_open"
+    local_contact = [
+        "torch_objective_seed_sweep",
+        "local_visual_planning",
+        "object_counterfactual_clutter",
+        "public_minigrid_execution",
+        "public_jepa_checkpoint_contact",
+    ]
+    if all(gates[name]["status"] == "pass" for name in local_contact):
+        return "checkpoint_contact_closed_native_public_benchmark_open"
+    return "contact_boundary_open"
+
+
+def build_bedc_jepa_readiness() -> dict[str, Any]:
+    summary = _load_optional_json("bedc_jepa_four_system_experiment.json")
+    torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
+    public_minigrid = _load_optional_json("bedc_jepa_public_minigrid_benchmark_packet.json")
+    native_public_minigrid = _load_optional_json("bedc_jepa_public_native_minigrid_benchmark.json")
+    public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
+    public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
+    run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
+    gates = {
+        "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
+        "local_visual_planning": _local_visual_gate(summary),
+        "object_counterfactual_clutter": _clutter_gate(summary),
+        "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
+        "public_jepa_checkpoint_contact": _public_checkpoint_contact_gate(public_cuda_comparison),
+        "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
+        "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
+    }
+    blocking = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        "schema_id": "bedc-jepa-readiness",
+        "decision": _decision(gates, blocking),
+        "evidence_boundary": {
+            "checkpoint_contact": "closed" if gates["public_jepa_checkpoint_contact"]["status"] == "pass" else "open",
+            "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
+            "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
+        },
+        "gates": gates,
+        "blocking_gates": blocking,
+        "next_actions": [
+            "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
+            "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+            "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+            "run a public object-interaction benchmark with natural clutter or control",
+        ],
+    }
+
+
+def write_bedc_jepa_readiness(path: str | Path) -> dict[str, Any]:
+    readiness = build_bedc_jepa_readiness()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(readiness, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return readiness

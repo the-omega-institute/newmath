@@ -1,0 +1,58 @@
+{
+  "cannot_claim": [
+    "public benchmark superiority",
+    "native V-JEPA2-AC checkpoint reproduction",
+    "robotics benchmark result",
+    "large-scale real-world conclusion",
+    "formal neural-network proof"
+  ],
+  "checks": {
+    "ac_giant_checkpoint_status": "loaded",
+    "checkpoint_contact": "closed",
+    "native_planning_high_gap_reduction": 0.6875,
+    "native_public_benchmark": "closed",
+    "native_unlogged_error_reduction": 0.125,
+    "public_ablation_unlogged_penalty_effect": 0.0859375,
+    "public_conformal_predicate_count": 5.0,
+    "public_coverage_debt_change": -0.065625,
+    "public_debt_diagnosis": "silent debt falls while coverage debt rises",
+    "public_silent_debt_reduction": 0.05,
+    "seed_sweep_count": 5.0,
+    "seed_sweep_unlogged_error_win_rate": 0.6
+  },
+  "failures": [],
+  "reproduction_commands": [
+    "python scripts/run_public_minigrid_native_benchmark.py",
+    "python scripts/run_public_minigrid_native_seed_sweep.py",
+    "python scripts/build_public_minigrid_debt_closure.py",
+    "python scripts/build_public_jepa_cuda_comparison.py",
+    "python scripts/build_bedc_jepa_artifact_manifest.py",
+    "python scripts/build_bedc_jepa_readiness.py",
+    "python scripts/build_bedc_jepa_review_bundle.py",
+    "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+    "python scripts/run_bedc_latent_claim_certificate.py",
+    "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
+  ],
+  "required_artifacts": {
+    "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "certified_coverage_curve": "reports/bedc_jepa_certified_coverage_curve.json",
+    "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+    "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
+    "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
+    "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+    "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
+    "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
+    "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
+    "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "public_debt_closure_report": "reports/bedc_jepa_public_debt_closure_report.md",
+    "public_debt_decomposition": "reports/bedc_jepa_public_debt_decomposition.json",
+    "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+    "readiness": "reports/bedc_jepa_readiness.json",
+    "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
+    "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json"
+  },
+  "schema_id": "bedc-jepa-review-bundle",
+  "source_commit_at_build": "69315616398e3236af6b7ad96dfea12a2232e382",
+  "status": "review_ready"
+}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\DistinctionCertificateUp$}
+\label{ch:concrete-instances-distinction-certificate-namecert}
+\origin{ai}
+
+The $\DistinctionCertificateUp$ packet realizes the distinction-to-NameCert certification layer as a finite boundary object: a candidate distinction is accepted only when source, pattern, classifier, stability, ledger, transport, replay, provenance, and local naming rows are displayed together. It sits beside the primitive mark distinction ledger of \autoref{ch:concrete-instances-primitive-distinction-ledger-namecert}, the observer distinction trace of \autoref{ch:concrete-instances-observer-distinction-trace-namecert}, the halting distinction trace of \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, the certified event-flow packet of \autoref{ch:concrete-instances-certified-event-flow-namecert}, and the supply taxonomy of \autoref{ch:concrete-instances-supply-taxonomy-namecert}. Those siblings supply concrete distinction sources or audit routes; this packet certifies the boundary at which a distinction becomes a NameCert object.
+
+\begin{definition}[DistinctionCertificate carrier]
+\label{def:distinction-certificate-carrier}
+A $\DistinctionCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,P_0,K,\Sigma,L,H,C,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row naming the generated marks, histories, traces, event flows, or supply records whose distinction is being inspected.
+\item $P_0$ is the pattern row, recording the finite feature, trace, boundary, or certificate pattern proposed as evidence for the distinction.
+\item $K$ is the candidate classifier row that compares source records through the displayed pattern.
+\item $\Sigma$ is the stability row, recording transport of the classifier under the admitted $\hsame$ movements.
+\item $L$ is the ledger row, naming hidden material, refusal cases, and not-claimed readings.
+\item $H$ records componentwise $\hsame$ transport for source, pattern, classifier, stability, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for distinction-certification consumers.
+\item $R$ is the $\Pkg$ provenance over $\DistinctionCertificateUp$, $\PrimitiveDistinctionLedgerUp$, $\ObserverDistinctionTraceUp$, $\HaltingDistinctionTraceUp$, $\CertifiedEventFlowUp$, $\SupplyTaxonomyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DistinctionCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for raw distinction objecthood, uncertified semantic assignment, hidden classifier shift, global explanation, or verifier acceptance detached from the five displayed certificate rows.
+\end{definition}
+
+\begin{theorem}[DistinctionCertificate NameCert boundary]
+\label{thm:distinction-certificate-namecert-boundary}
+Every accepted $\DistinctionCertificateUp$ packet certifies a candidate distinction as a NameCert boundary only through
+$$
+S,P_0,K,\Sigma,L,H,C,R,N .
+$$
+The source, pattern, classifier, stability, and ledger rows must all be present before the local naming row can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:distinction-certificate-carrier}. Rows $S,P_0,K,\Sigma,L$ are the five certificate rows, and $H,C,R,N$ only transport, replay, source, and name that same surface.
+
+The candidate classifier row $K$ is not read by itself. It is tied to the source row $S$ and pattern row $P_0$, then stabilized through $\Sigma$ and audited through $L$.
+
+Only after those rows are visible can the local $\NameCert$ row $N$ be consumed. Thus the accepted packet is a certificate boundary, not a raw distinction or a bare classifier.
+\end{proof}
+
+\begin{theorem}[DistinctionCertificate sibling separation]
+\label{thm:distinction-certificate-sibling-separation}
+The $\DistinctionCertificateUp$ packet is not bijective to $\PrimitiveDistinctionLedgerUp$, $\ObserverDistinctionTraceUp$, $\HaltingDistinctionTraceUp$, $\CertifiedEventFlowUp$, or $\SupplyTaxonomyUp$. Each listed sibling supplies a distinction source, trace, event-flow, or audit route, while $\DistinctionCertificateUp$ additionally binds the candidate classifier to the five-field NameCert boundary $S,P_0,K,\Sigma,L$ with transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. Primitive distinction, observer trace, halting trace, certified event flow, and supply taxonomy each provide a concrete source surface or audit path for distinctions.
+
+The present packet has a different role. It requires the source row, pattern row, classifier row, stability row, and ledger row to be visible together before certification is licensed.
+
+Therefore none of the listed siblings can replace $\DistinctionCertificateUp$ while preserving all fields of \autoref{def:distinction-certificate-carrier}. A consumer that needs certification must read the full packet.
+\end{proof}
+
+\begin{theorem}[DistinctionCertificate TasteGate requirements]
+\label{thm:distinction-certificate-tastegate-requirements}
+The Lean TasteGate surface for $\DistinctionCertificateUp$ must provide explicit $\mathsf{Nontrivial}\ \DistinctionCertificateUp$ and $\mathsf{FieldFaithful}\ \DistinctionCertificateUp$ instances. The nontriviality witness must separate a certified classifier packet from a bare candidate distinction, and the field-faithfulness witness must keep $S,P_0,K,\Sigma,L,H,C,R,N$ as distinct rows under transport and replay.
+\end{theorem}
+\begin{proof}
+Nontriviality follows from the intended separation between raw distinction material and a certified NameCert boundary. A bare candidate distinction lacks at least one of $S,P_0,K,\Sigma,L$ and therefore cannot be the same accepted packet as the full carrier.
+
+Field faithfulness is the preservation requirement for the displayed coordinates. If source, pattern, classifier, stability, ledger, transport, replay, provenance, or naming were collapsed, the packet would no longer expose the certificate boundary of \autoref{thm:distinction-certificate-namecert-boundary}.
+
+Thus the TasteGate must preserve both the distinction between bare and certified objects and the componentwise rows of the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reads $\DistinctionCertificateUp$ without displaying source, pattern, classifier, stability, and ledger rows is reading a bare candidate distinction rather than a certified NameCert boundary.}
+
+\independenceWitness{primitive-distinction-ledger, observerdistinctiontrace, haltingdistinctiontrace, certified-event-flow, supply-taxonomy: none is bijective to $\DistinctionCertificateUp$ because this packet binds candidate classifier certification through source, pattern, classifier, stability, ledger, transport, replay, provenance, and local naming rows.}
+
+\closureat{DistinctionCertificateUp}{seedStr}
+
+\begin{closurestatus}{\DistinctionCertificateUp}
+  \constructivestory{A $\DistinctionCertificateUp$ packet is generated from source rows, pattern rows, candidate classifier rows, stability rows, ledger rows, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:distinction-certificate-carrier}, \autoref{thm:distinction-certificate-namecert-boundary}, \autoref{thm:distinction-certificate-sibling-separation}, and \autoref{thm:distinction-certificate-tastegate-requirements} seed the finite NameCert boundary for certified distinctions.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close raw distinction objecthood, uncertified semantic assignment, hidden classifier shift, global explanation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, five-field certificate exposure, sibling separation, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.DistinctionCertificateUp.}
+\end{closurestatus}

@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\BishopCompletionModulusSelectionUp$}
+\label{ch:concrete-instances-bishop-completion-modulus-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCompletionModulusSelectionUp$ packet names the finite threshold-selection surface that sits between a displayed completion modulus and the terminal Real-facing seal. It refines the finite completion route of \autoref{ch:concrete-instances-bishopcompletionmodulus-namecert}, reads monotone thresholds from \autoref{ch:concrete-instances-cauchymodulus-namecert}, opens finite windows through \autoref{ch:concrete-instances-streamname-namecert}, accounts for dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, repacks the selected window through \autoref{ch:concrete-instances-regseqrat-namecert}, and hands the result to the terminal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed finite threshold selection; it does not select a completed limit, quotient stream representative, host real equality witness, countable-choice schedule, or ambient completeness principle.
+
+\begin{definition}[Bishop completion modulus selection carrier]
+\label{def:bishop-completion-modulus-selection-carrier}
+A $\BishopCompletionModulusSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,n,k,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\BishopCompletionModulusUp$ row whose visible modulus route is being queried.
+\item $n$ is the displayed precision request.
+\item $k$ is the finite threshold row selected from $M$ at request $n$.
+\item $W$ is the $\StreamNameUp$ finite window read at the selected threshold.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same threshold and window.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window and dyadic ledger.
+\item $E$ is the terminal $\RealUp$ seal row available only after $M,n,k,W,D,R$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, request, threshold, window, dyadic ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the precision request through the selected threshold to the window, dyadic ledger, readback, and seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopCompletionModulusSelectionUp$, $\BishopCompletionModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCompletionModulusSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient stream equality, a selected completed limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.BishopCompletionModulusSelectionUp.BishopCompletionModulusSelectionUp}
+\leanchecked{BEDC.Derived.BishopCompletionModulusSelectionUp.BishopCompletionModulusSelectionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop completion modulus selection NameCert obligations]
+\label{thm:bishop-completion-modulus-selection-namecert-obligations}
+For every accepted $\BishopCompletionModulusSelectionUp$ carrier $S=(M,n,k,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\BishopCompletionModulusSelectionUp}$ surface consists exactly of carrier admission, completion-modulus row exposure, precision request exposure, finite threshold selection, $\StreamNameUp$ window readback, $\DyadicRatCoreUp$ tolerance accounting, $\RegSeqRatUp$ handoff, $\RealUp$ seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No local obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopCompletionModulusSelectionUp.BishopCompletionModulusSelectionNameCertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-completion-modulus-selection-carrier}. The analytic route rows are $M,n,k,W,D,R,E$, and the structural rows are $H,C,P,N$.
+
+The threshold obligation is local. The row $k$ is read from the displayed completion-modulus row $M$ at the request $n$, and the window row $W$ is read only after that threshold is visible.
+
+The dyadic and regular rows are downstream from the same threshold. The ledger $D$ records the tolerance data for $W$, while $R$ repacks $W,D$ as the regular rational handoff before the seal $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly that route. Since no other carrier coordinate exists, quotient stream equality, selected limits, countable choice, host real equality, and ambient completeness cannot be local obligations of the packet.
+\end{proof}
+
+\begin{theorem}[Bishop completion modulus selection threshold choice]
+\label{thm:bishop-completion-modulus-selection-threshold-choice}
+Every accepted $\BishopCompletionModulusSelectionUp$ carrier selects its finite threshold through the displayed route
+$$
+M,n\longmapsto k\longmapsto W,D .
+$$
+The selected threshold is therefore a row of the packet rather than a hidden choice function: downstream $\RegSeqRatUp$ and $\RealUp$ consumers may inspect only the displayed threshold, the finite window opened at that threshold, and the dyadic tolerance ledger attached to the same window.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The request $n$ and threshold $k$ are displayed before the stream window and dyadic ledger rows.
+
+Apply the obligation surface of \autoref{thm:bishop-completion-modulus-selection-namecert-obligations}. It forces the threshold read to pass through $M,n,k$ before $W$ or $D$ can be consumed.
+
+The structural rows preserve the same finite route. Thus a downstream consumer cannot replace $k$ by an external choice function or by a selected limit without leaving the accepted carrier surface.
+\end{proof}
+
+\begin{theorem}[Bishop completion modulus selection Real-seal nonescape]
+\label{thm:bishop-completion-modulus-selection-real-seal-nonescape}
+Every Real-facing read of an accepted $\BishopCompletionModulusSelectionUp$ carrier factors through
+$$
+M,n \longmapsto k \longmapsto W,D \longmapsto R \longmapsto E .
+$$
+Consequently the terminal $\RealUp$ seal receives only the displayed completion-modulus threshold, finite stream window, dyadic tolerance ledger, and regular rational handoff. It does not export quotient stream equality, selected completed limits, countable-choice schedules, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bishop-completion-modulus-selection-threshold-choice}. It places the selected threshold and finite window before the dyadic ledger is read.
+
+The regular handoff is then forced by the carrier order. The row $R$ is downstream from $W,D$, and the seal row $E$ is downstream from $R$.
+
+Finally apply the non-escape part of \autoref{thm:bishop-completion-modulus-selection-namecert-obligations}. The excluded quotient, selection, choice, host-equality, and completeness data have no carrier projection, so the terminal seal cannot export them.
+\end{proof}
+
+\closureat{BishopCompletionModulusSelectionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCompletionModulusSelectionUp}
+  \constructivestory{A $\BishopCompletionModulusSelectionUp$ packet is generated from a displayed BishopCompletionModulus row, a precision request, a selected finite threshold, a StreamName window, a DyadicRatCore tolerance ledger, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-modulus-selection-carrier}, \autoref{thm:bishop-completion-modulus-selection-namecert-obligations}, \autoref{thm:bishop-completion-modulus-selection-threshold-choice}, and \autoref{thm:bishop-completion-modulus-selection-real-seal-nonescape} seed the finite threshold-selection surface between completion-modulus data and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, quotient stream equality, selected completed limits, countable choice, host real equality, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite threshold selection, StreamName window readback, DyadicRatCore tolerance routing, RegSeqRat handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopCompletionModulusSelectionUp.}
+\end{closurestatus}

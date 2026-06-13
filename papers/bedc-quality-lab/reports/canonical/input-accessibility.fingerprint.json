@@ -1,0 +1,137 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "ef6ae25bd2b4d32fba3c082a4300b65af075d4707c05345907a4062810a2a25f",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/input_accessibility.py",
+        "sha256": "1e76f94545e81fa38ebf772835da0e2c9a1b9cb05c7dba8352c11f72e9ccefe2"
+      },
+      {
+        "path": "scripts/run_input_accessibility_audit.py",
+        "sha256": "e498d7c6d13416fec2b0c721fac599e3a7254e8271029d021712ec51758e0280"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:input-accessibility",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_input_accessibility_audit.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
+      "command": [
+        "python3",
+        "scripts/run_input_accessibility_audit.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.source_registry",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/input-accessibility.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/input-accessibility.md",
+      "name": "input-accessibility",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.access_hardgates.status",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "owner",
+        "source_artifacts",
+        "source_registry",
+        "registry_digest",
+        "visible_variables",
+        "required_variables",
+        "rows",
+        "row_count",
+        "access_hardgates",
+        "ood_hardgates",
+        "boundary_ledger",
+        "consumer_pointers",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/input-accessibility.json",
+  "markdown_artifact": "reports/canonical/input-accessibility.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_input_accessibility_audit.py"
+  ],
+  "report_name": "input-accessibility",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "input-accessibility"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "input-accessibility",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "2a35fe388857000259da78b71d52a02d4f5fafe0750c924744d74e6e1f59e7e1",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

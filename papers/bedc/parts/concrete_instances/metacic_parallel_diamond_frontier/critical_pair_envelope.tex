@@ -33,3 +33,19 @@ Next read the finite observation confluence rows $S,C,B$ and the normalization-f
 
 Finally replay through $H,T,G,N$. Since transport, replay, provenance, and local naming preserve the same finite packet, the accepted critical-pair request cannot be replaced by unrestricted confluence, host reduction equality, unbounded search, or global normalization.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel diamond frontier visible overlap]
+\label{thm:metacic-parallel-diamond-frontier-visible-overlap}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ packet exposes local overlap only through
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+Any consumer that reads the candidate join $J$ must first keep the residual-substitution premise row $P$, the critical-pair row $K$, the residual-frontier row $R$, and the bounded checker rows $S,C,B$ visible. The read is therefore a bounded overlap frontier, not subject reduction, full Church--Rosser, unrestricted confluence, host reduction equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the critical-pair envelope theorem \autoref{thm:metacic-parallel-diamond-critical-pair-envelope}. It exposes the same finite route $P,K,J,R,S,C,B,O,H,T,G,N$ and keeps the residual-substitution and confluence audit-map rows visible.
+
+Apply the frontier envelope theorem \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}. It orders critical-pair requests so that $K,J$ are read with $P,R,S,C,B,O$ still attached.
+
+Finally use the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. Replay, provenance, transport, and local naming through $H,T,G,N$ preserve the visible premise and bounded checker rows before the candidate join can be consumed. Since the route theorem does not discharge residual substitution or subject reduction, the visible-overlap read remains a frontier certificate rather than a completed confluence result.
+\end{proof}

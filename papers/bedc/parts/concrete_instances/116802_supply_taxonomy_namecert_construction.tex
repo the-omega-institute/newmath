@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\SupplyTaxonomyUp$}
+\label{ch:concrete-instances-supply-taxonomy-namecert}
+\origin{ai}
+
+The $\SupplyTaxonomyUp$ packet realizes the source, audit, and refusal surface of \autoref{ch:visions-transcendental-supply-taxonomy} as finite NameCert data. It sits beside the wider socket-kind classifier of \autoref{ch:concrete-instances-transcendentalsupplytaxonomy-namecert}, the socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the audit route of \autoref{ch:concrete-instances-externalsupplyauditroute-namecert}, and the legitimate-claim ledger of \autoref{ch:concrete-instances-legitimate-claim-audit-ledger-namecert}. Those siblings classify socket kinds, record socket use, audit external routes, or police claim status; this packet binds the source taxonomy row that a classifier must inspect before it decides whether a supplied item is internal, external, auditable, or refused.
+
+\begin{definition}[Supply taxonomy carrier]
+\label{def:supply-taxonomy-carrier}
+A $\SupplyTaxonomyUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,E,A,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the internal-source row, naming the displayed constructor, definition, setup field, certificate row, or generated carrier that supplies the item.
+\item $E$ is the external-supply row, naming the socket, boundary, corpus, observer, or apophatic source position from which a non-internal item is requested.
+\item $A$ is the audit-gate row, recording the local gate that decides whether $I$ is sufficient, whether $E$ is only named, and which refusal is active.
+\item $R$ is the refusal row, recording the exact missing witness, unrestricted induction step, quotient equality, empirical persistence, inter-history recognition, inscription source, or self-reference closure that is not supplied.
+\item $K$ is the classifier-decision row, read only after $I,E,A,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for source, external supply, audit gate, refusal, and classifier rows.
+\item $C$ records displayed $\Cont$ replay of the same finite source-audit-refusal route.
+\item $P$ is the $\Pkg$ provenance over $\SupplyTaxonomyUp$, $\TranscendentalSupplyTaxonomyUp$, $\SupplySocketLedgerUp$, $\ExternalSupplyAuditRouteUp$, $\LegitimateClaimAuditLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SupplyTaxonomyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,E,A,R,K,H,C,P,N$. It has no coordinate for hidden theorem supply, unledgered external import, global truth validation, quotient collapse, or a silent conversion from named supply to internal evidence.
+\end{definition}
+
+\begin{theorem}[Supply taxonomy decision obligations]
+\label{thm:supply-taxonomy-decision-obligations}
+Every accepted $\SupplyTaxonomyUp$ classifier decision must expose the internal-source row $I$, external-supply row $E$, audit-gate row $A$, and refusal row $R$ before the decision row $K$ is read. A decision that sees only a socket kind, only a claim marker, or only a boundary name is not an accepted supply-taxonomy read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:supply-taxonomy-carrier}. The rows $I,E,A,R,K,H,C,P,N$ are the entire accepted packet, so the classifier decision $K$ has no route outside the displayed source, audit, and refusal rows.
+
+The source split is visible before the decision. The internal row $I$ records what is supplied by a displayed substrate route, while the external row $E$ records the requested non-internal position without consuming it.
+
+The audit and refusal rows then govern the decision. Row $A$ names the local gate and row $R$ names the missing or refused content; only after those rows are present may $K$ classify the read.
+
+Transport, replay, provenance, and local naming preserve the same finite route. They cannot turn a socket kind, marker, or boundary name into supplied content.
+\end{proof}
+
+\begin{theorem}[Supply taxonomy audit refusal nonescape]
+\label{thm:supply-taxonomy-audit-refusal-nonescape}
+For an accepted $\SupplyTaxonomyUp$ packet $S=(I,E,A,R,K,H,C,P,N)$, any downstream consumer that reads $K$ must retain the audit gate $A$ and refusal row $R$ in the same carrier. Thus an external supply request can be classified, transported, replayed, and named, but it cannot escape as internal evidence unless a separate displayed internal-source row is present.
+\end{theorem}
+\begin{proof}
+Start from the decision obligations of \autoref{thm:supply-taxonomy-decision-obligations}. They require $I,E,A,R$ before $K$, so the decision is never detached from the audit gate or refusal row.
+
+If the item is internal, the row $I$ names the substrate route that supplies it. If the item is external, the row $E$ names the supply position and $R$ records the content that remains refused.
+
+The structural rows do not change that split. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the rows already present, while provenance and local naming record the same packet for later consumers.
+\end{proof}
+
+\begin{theorem}[Supply taxonomy sibling separation]
+\label{thm:supply-taxonomy-sibling-separation}
+The $\SupplyTaxonomyUp$ packet is not reducible to $\TranscendentalSupplyTaxonomyUp$, $\SupplySocketLedgerUp$, $\ExternalSupplyAuditRouteUp$, or $\LegitimateClaimAuditLedgerUp$. It jointly carries internal source, external supply, audit gate, refusal, classifier decision, transport, replay, provenance, and local naming rows, whereas each listed sibling omits at least one of the internal-source or classifier-decision coordinates required by \autoref{def:supply-taxonomy-carrier}.
+\end{theorem}
+\begin{proof}
+Compare the carrier rows. The wider transcendental taxonomy classifies socket kinds, and the socket ledger records socket use, but neither one by itself binds the internal-source row $I$ to a classifier decision $K$.
+
+The external-supply audit route records an audit path for a boundary request, while the legitimate-claim audit ledger records claim status. Those siblings supply important gates, but they do not jointly carry $I,E,A,R,K$ as one source/audit/refusal classifier surface.
+
+Therefore no listed sibling can be a bijective replacement for the present packet. A consumer that needs the supply decision must read the full $\SupplyTaxonomyUp$ carrier.
+\end{proof}
+
+The Lean follow-up for $\SupplyTaxonomyUp$ must provide explicit $\Nontrivial\ \SupplyTaxonomyUp$ and $\FieldFaithful\ \SupplyTaxonomyUp$ instances. The field-faithfulness witness must keep $I,E,A,R,K,H,C,P,N$ as distinct rows so internal source, external supply, audit gate, refusal, and classifier decision cannot collapse.
+
+\falsifiablePrediction{Every accepted $\SupplyTaxonomyUp$ read exposes internal source, external supply, audit gate, and refusal rows before a classifier decision.}
+
+\independenceWitness{theorem-dna-complexity-scoring, trigger-blocker-duality, legitimate-claim-audit-ledger, external-supply-boundary: $\SupplyTaxonomyUp$ is not bijective to any listed sibling because it jointly carries internal source, external supply, audit gate, refusal, classifier decision, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\closureat{SupplyTaxonomyUp}{seedStr}
+
+\begin{closurestatus}{\SupplyTaxonomyUp}
+  \constructivestory{A $\SupplyTaxonomyUp$ packet is generated from internal-source rows, external-supply rows, audit gates, refusal rows, classifier decisions, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:supply-taxonomy-carrier}, \autoref{thm:supply-taxonomy-decision-obligations}, \autoref{thm:supply-taxonomy-audit-refusal-nonescape}, and \autoref{thm:supply-taxonomy-sibling-separation} seed the finite source/audit/refusal classifier surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, hidden theorem supply, unledgered external import, global truth validation, quotient collapse, or apophatic discharge.}
+  \upgradepath{Obligation closure requires checked carrier admission, decision obligations, audit-refusal retention, sibling separation, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.SupplyTaxonomyUp.}
+\end{closurestatus}

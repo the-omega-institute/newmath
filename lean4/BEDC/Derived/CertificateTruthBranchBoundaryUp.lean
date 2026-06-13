@@ -86,4 +86,44 @@ theorem CertificateTruthBranchBoundaryNameCertObligations [AskSetup] [PackageSet
       transportContinuationProvenance, decisionRefusalRead, transportContinuationRead,
       localNamePkg, decisionReadPkg, transportReadPkg⟩
 
+theorem CertificateTruthBranchBoundaryPublicInterface [AskSetup] [PackageSetup]
+    {query assumption refutation decision refusal ledger transport continuation provenance
+      localName publicRead decisionRead transportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateTruthBranchBoundaryCarrier query assumption refutation decision refusal ledger
+        transport continuation provenance localName bundle pkg ->
+      Cont refusal ledger publicRead ->
+        Cont decision refusal decisionRead ->
+          Cont transport continuation transportRead ->
+            PkgSig bundle publicRead pkg ->
+              PkgSig bundle decisionRead pkg ->
+                PkgSig bundle transportRead pkg ->
+                  UnaryHistory query ∧ UnaryHistory assumption ∧ UnaryHistory refutation ∧
+                    UnaryHistory decision ∧ UnaryHistory refusal ∧ UnaryHistory ledger ∧
+                      UnaryHistory publicRead ∧ UnaryHistory decisionRead ∧
+                        UnaryHistory transportRead ∧ Cont query assumption refutation ∧
+                          Cont refusal ledger publicRead ∧ Cont decision refusal decisionRead ∧
+                            Cont transport continuation transportRead ∧
+                              PkgSig bundle localName pkg ∧ PkgSig bundle publicRead pkg ∧
+                                PkgSig bundle decisionRead pkg ∧
+                                  PkgSig bundle transportRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier refusalLedgerPublic decisionRefusalRead transportContinuationRead publicReadPkg
+    decisionReadPkg transportReadPkg
+  obtain ⟨queryUnary, assumptionUnary, refutationUnary, decisionUnary, refusalUnary,
+    ledgerUnary, transportUnary, continuationUnary, _provenanceUnary, _localNameUnary,
+    queryAssumptionRefutation, _decisionRefusalLedger, _transportContinuationProvenance,
+    localNamePkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed refusalUnary ledgerUnary refusalLedgerPublic
+  have decisionReadUnary : UnaryHistory decisionRead :=
+    unary_cont_closed decisionUnary refusalUnary decisionRefusalRead
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_cont_closed transportUnary continuationUnary transportContinuationRead
+  exact
+    ⟨queryUnary, assumptionUnary, refutationUnary, decisionUnary, refusalUnary, ledgerUnary,
+      publicReadUnary, decisionReadUnary, transportReadUnary, queryAssumptionRefutation,
+      refusalLedgerPublic, decisionRefusalRead, transportContinuationRead, localNamePkg,
+      publicReadPkg, decisionReadPkg, transportReadPkg⟩
+
 end BEDC.Derived.CertificateTruthBranchBoundaryUp

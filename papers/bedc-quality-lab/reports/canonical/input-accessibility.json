@@ -1,0 +1,734 @@
+{
+  "access_hardgates": {
+    "ACCESS-HG1": {
+      "criterion": "registered callables import and source extraction succeeds",
+      "failing_row_ids": [],
+      "status": "pass"
+    },
+    "ACCESS-HG2": {
+      "criterion": "visible variables cover required label variables",
+      "failing_row_ids": [
+        "39f940c7504e9416",
+        "6001d70d815f574b"
+      ],
+      "status": "fail"
+    },
+    "ACCESS-HG3": {
+      "boundary_ledger_count": 2,
+      "criterion": "boundary ledger rows point to canonical row ids",
+      "status": "pass"
+    },
+    "status": "fail"
+  },
+  "artifact_id": "bedc-quality-lab:input-accessibility",
+  "boundary_ledger": [
+    {
+      "arm": "input_ablation_masked_tail",
+      "claim_exclusion": "boundary-ledger-only",
+      "ledger_id": "input-accessibility-39f940c7504e9416",
+      "missing_variables": [
+        "x_minus_2"
+      ],
+      "row_id": "39f940c7504e9416",
+      "source_pointer": "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
+      "split": "ood",
+      "status": "boundary-ledger-only"
+    },
+    {
+      "arm": "input_ablation_masked_tail",
+      "claim_exclusion": "demote-from-fair-baseline",
+      "ledger_id": "input-accessibility-6001d70d815f574b",
+      "missing_variables": [
+        "x_minus_2"
+      ],
+      "row_id": "6001d70d815f574b",
+      "source_pointer": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
+      "split": "in_distribution",
+      "status": "information-starved"
+    }
+  ],
+  "consumer_pointers": {
+    "information_starved_arms_ref": [
+      "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
+      "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b"
+    ],
+    "input_accessibility_ref": "reports/canonical/input-accessibility.json:$",
+    "unanswerable_ood_splits_ref": [
+      "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416"
+    ]
+  },
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "not_claimed": [
+    "Input-accessibility rows audit callable source only.",
+    "No training result is produced by this audit.",
+    "No architecture claim is supported when required label variables are invisible to the feature callable.",
+    "No out-of-distribution claim is supported by a row marked unanswerable."
+  ],
+  "ood_hardgates": {
+    "OOD-HG1": {
+      "criterion": "OOD label dependencies are visible before architecture claims can use the row",
+      "failing_row_ids": [
+        "39f940c7504e9416"
+      ],
+      "status": "fail"
+    },
+    "status": "fail"
+  },
+  "owner": "bedc_quality_lab/input_accessibility.py",
+  "producer": "scripts/run_input_accessibility_audit.py",
+  "registry_digest": "096af276a1b4bca2bf71cce367aa283e3c48741705e4c08c8821800cd2fc7af1",
+  "required_variables": {
+    "204ec8632f4351bb": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "39f940c7504e9416": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "6001d70d815f574b": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "67dd876765f7cbbd": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "72e156330c8aeb12": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "9c45ac4c2f3c1d32": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "d3c1cb0042d46cd5": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "d4aef293c17f980d": [
+      "x_minus_1",
+      "x_minus_2"
+    ]
+  },
+  "row_count": 8,
+  "rows": [
+    {
+      "arm": "parameter_matched_attention",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "attention-control",
+      "row_id": "204ec8632f4351bb",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "in_distribution",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "input_ablation_masked_tail",
+      "claim_exclusion": "boundary-ledger-only",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "coverage_status": "fail",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_masked_tail_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "a6a4963c00aadfea9b33f3ca3f659ae3c21656c0e67d25befc41764102e3d67b",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": true,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [
+        "x_minus_2"
+      ],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "ablation",
+      "row_id": "39f940c7504e9416",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "ood",
+      "supports_architecture_claim": false,
+      "unanswerable_ood": true,
+      "visible_variables": [
+        "x_minus_1",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "input_ablation_masked_tail",
+      "claim_exclusion": "demote-from-fair-baseline",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "coverage_status": "fail",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_masked_tail_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "a6a4963c00aadfea9b33f3ca3f659ae3c21656c0e67d25befc41764102e3d67b",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": true,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [
+        "x_minus_2"
+      ],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "ablation",
+      "row_id": "6001d70d815f574b",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "in_distribution",
+      "supports_architecture_claim": false,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "compute_matched_attention",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "attention-control",
+      "row_id": "67dd876765f7cbbd",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=67dd876765f7cbbd",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "ood",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "dgt_l1",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "candidate",
+      "row_id": "72e156330c8aeb12",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=72e156330c8aeb12",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "ood",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "dgt_l1",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "candidate",
+      "row_id": "9c45ac4c2f3c1d32",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=9c45ac4c2f3c1d32",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "in_distribution",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "compute_matched_attention",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "attention-control",
+      "row_id": "d3c1cb0042d46cd5",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=d3c1cb0042d46cd5",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "in_distribution",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    },
+    {
+      "arm": "parameter_matched_attention",
+      "claim_exclusion": "none",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "coverage_status": "pass",
+      "experiment": "dgt_l1_tiny_sequence",
+      "extractor_digest": "9958541e09fd96b1d99a2a6b24bf05929dad652a48fbabdd9aaad44f60d8dc63",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_extraction": {
+        "failures": [],
+        "source_digest": "dcf54fa51cf1519883d7c2d3fdbe2588b3c5eee5b9c90c55eb826e3ba330cf49",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "information_starved": false,
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_extraction": {
+        "failures": [],
+        "source_digest": "9514e4f3c20f11f2bcd9bbfe95949dc99b2de1439132632248a14dd36a98eab9",
+        "source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+        "status": "pass",
+        "variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ]
+      },
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "missing_variables": [],
+      "required_variables": [
+        "x_minus_1",
+        "x_minus_2"
+      ],
+      "role": "attention-control",
+      "row_id": "d4aef293c17f980d",
+      "source_pointers": {
+        "canonical_row": "reports/canonical/input-accessibility.json#row_id=d4aef293c17f980d",
+        "feature": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+        "label": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility"
+      },
+      "split": "ood",
+      "supports_architecture_claim": true,
+      "unanswerable_ood": false,
+      "visible_variables": [
+        "x_minus_1",
+        "x_minus_2",
+        "full_sequence"
+      ]
+    }
+  ],
+  "schema_id": "bedc-quality-lab:input-accessibility",
+  "source_artifacts": {
+    "owner_module": "bedc_quality_lab/input_accessibility.py",
+    "producer": "scripts/run_input_accessibility_audit.py",
+    "registry_pointer": "reports/canonical/input-accessibility.json:$.source_registry",
+    "row_pointer": "reports/canonical/input-accessibility.json:$.rows"
+  },
+  "source_registry": [
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "input_ablation_masked_tail",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_masked_tail_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "ablation",
+      "shape_helper_allowlist": [],
+      "split": "in_distribution",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "input_ablation_masked_tail",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_masked_tail_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_masked_tail_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "ablation",
+      "shape_helper_allowlist": [],
+      "split": "ood",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "dgt_l1",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "candidate",
+      "shape_helper_allowlist": [],
+      "split": "in_distribution",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "dgt_l1",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "candidate",
+      "shape_helper_allowlist": [],
+      "split": "ood",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "parameter_matched_attention",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "attention-control",
+      "shape_helper_allowlist": [],
+      "split": "in_distribution",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "parameter_matched_attention",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "attention-control",
+      "shape_helper_allowlist": [],
+      "split": "ood",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "compute_matched_attention",
+      "claim_scope": "bounded-tiny-sequence-in_distribution",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "attention-control",
+      "shape_helper_allowlist": [],
+      "split": "in_distribution",
+      "value_helper_allowlist": []
+    },
+    {
+      "alias_allowlist_pointers": [],
+      "arm": "compute_matched_attention",
+      "claim_scope": "bounded-tiny-sequence-ood",
+      "experiment": "dgt_l1_tiny_sequence",
+      "feature_callable": "_full_sequence_pair_features_for_accessibility",
+      "feature_module": "bedc_quality_lab.dgt_l1_controls",
+      "feature_source_pointer": "bedc_quality_lab.dgt_l1_controls:_full_sequence_pair_features_for_accessibility",
+      "helper_allowlist_pointers": [],
+      "label_callable": "_same_rule_label_for_accessibility",
+      "label_module": "bedc_quality_lab.dgt_l1_controls",
+      "label_source_pointer": "bedc_quality_lab.dgt_l1_controls:_same_rule_label_for_accessibility",
+      "role": "attention-control",
+      "shape_helper_allowlist": [],
+      "split": "ood",
+      "value_helper_allowlist": []
+    }
+  ],
+  "visible_variables": {
+    "204ec8632f4351bb": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ],
+    "39f940c7504e9416": [
+      "x_minus_1",
+      "full_sequence"
+    ],
+    "6001d70d815f574b": [
+      "x_minus_1",
+      "full_sequence"
+    ],
+    "67dd876765f7cbbd": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ],
+    "72e156330c8aeb12": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ],
+    "9c45ac4c2f3c1d32": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ],
+    "d3c1cb0042d46cd5": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ],
+    "d4aef293c17f980d": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ]
+  }
+}

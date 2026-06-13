@@ -223,12 +223,24 @@ Apply \autoref{thm:netconvergence-tail-window-admission} and \autoref{thm:netcon
 The structural rows cannot add analytic content. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve only the listed coordinates, while $P$ and $M$ source and name only the same packet. Hence quotient nets, selected limits, cofinal choice, host filter equality, ambient convergence, and completeness remain outside the certificate.
 \end{proof}
 
+\begin{theorem}[Net convergence to sequential compact dependency]\label{thm:netconvergence-sequentialcompact-dependency}
+When an accepted $\NetConvergenceUp$ carrier $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ is consumed by the sequential-compact cluster route of \autoref{ch:concrete-instances-sequentialcompact-namecert}, the directed-tail rows $D,T,E,F,S,R,L$ must be displayed before any $\SequentialCompactUp$ finite-window cluster row is read. The consumer therefore sees the directed window, tail-neighbourhood ledger, entourage interpretation, CauchyFilter handoff, StreamName schedule, RegSeqRat readback, and Real seal as the dependency surface for the sequential-compact finite-window packet. It does not receive a selected subnet, quotient net, countable-choice operator, host convergence predicate, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_sequentialcompact\_dependency}
+\begin{proof}
+Project the accepted carrier. The directed-tail rows $D,T,E$ are the only rows that expose the Moore--Smith window and entourage request, while $F,S,R,L$ are the only rows that hand the same route to CauchyFilter, StreamName, RegSeqRat, and Real-facing consumers.
+
+Apply \autoref{thm:net-convergence-directed-window-admission}, \autoref{thm:net-convergence-cauchy-filter-handoff}, and \autoref{thm:net-convergence-stream-readback-route}. These place every downstream read behind the displayed directed-tail route and then behind the filter and stream-readback handoff.
+
+The $\SequentialCompactUp$ finite-window cluster rows can therefore read $N$ only through $D,T,E,F,S,R,L$ and the structural rows $H,C,P,M$. Since no carrier coordinate stores a selected subnet, quotient-net representative, countable-choice operator, host convergence predicate, or ambient completeness witness, none of those objects is exported to the sequential-compact route.
+\end{proof}
+
 \begin{closurestatus}{\NetConvergenceUp}
   \constructivestory{A $\NetConvergenceUp$ packet is generated from a directed-index window, a tail-neighbourhood ledger, a UniformSpace entourage row, an optional CauchyNet source row, a CauchyFilter handoff row, StreamName windows, RegSeqRat readback, a Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:net-convergence-carrier}, \autoref{thm:net-convergence-namecert-obligations}, \autoref{thm:net-convergence-cauchy-filter-handoff}, \autoref{thm:netconvergence-tail-window-admission}, \autoref{thm:netconvergence-boundary-readback}, and \autoref{thm:netconvergence-ledger-nonescape} bind the displayed obligations to Moore--Smith directed windows, CauchyFilter handoff, UniformSpace entourage rows, StreamName schedules, RegSeqRat readback, RealUp seals, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:net-convergence-carrier}, \autoref{thm:net-convergence-namecert-obligations}, \autoref{thm:net-convergence-cauchy-filter-handoff}, \autoref{thm:netconvergence-tail-window-admission}, \autoref{thm:netconvergence-boundary-readback}, \autoref{thm:netconvergence-ledger-nonescape}, and \autoref{thm:netconvergence-sequentialcompact-dependency} bind the displayed obligations and the public downstream route from $\NetConvergenceUp$ to $\SequentialCompactUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim selected limits, quotient nets, countable choice, ambient completeness, Lean verification, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the displayed obligations to Moore--Smith directed windows, CauchyFilter handoff, UniformSpace entourage rows, StreamName schedules, RegSeqRat readback, RealUp seals, hsame transport, Cont replay, Pkg provenance, and NameCert rows.}
+  \upgradepath{Bridged closure requires a standard bridge for the displayed NetConvergence to SequentialCompact dependency route.}
 \end{closurestatus}

@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-09T08:21:49.156738+00:00`
-- Rows: `34`
+- Generated at: `2026-06-12T22:50:28.746960+00:00`
+- Rows: `40`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -25,17 +25,23 @@
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-dna` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-l0-controls` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `winnability-certificates` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `structural-generalization-splits` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-base-undertraining-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `discovery-gated-transformer` | `D5-M` | `` | `` | `scaling-ladder-blocked` | `valid` | `$.d4_projection.matched_control` |
+| `input-accessibility` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `fair-l1-decision` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `reports/canonical/scaling-ladder.json:$.levels[0]` |
 | `dgt-neural-ablation` | `D0` | `` | `` | `dgt-neural-ablation-pointer-only` | `valid` | `$.training_protocol` |
 | `dgt-ablation-null-decomposition` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-component-redundancy-audit` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `dgt-model-card` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `experiment-stack-cards` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |

@@ -1,0 +1,593 @@
+\chapter{Prime-Local Balance and the RH Critical Surface}
+\label{ch:visions-rh-prime-unitary-balance-surface}
+\origin{human}
+
+\autoref{ch:visions-riemann-hypothesis} states $\mathsf{RH}$ as the
+constructive implication from a critical-strip zeta-zero witness to an
+$\mathsf{OnCritLine}$ witness, and
+\autoref{ch:visions-rh-zero-skew-eventflow-target} rewrites the same
+obligation as a zero--skew transformer.  The present chapter isolates a
+compatible prime-local reading of the critical line.  It does not prove
+$\mathsf{RH}$.  It identifies $\Re(s)=1/2$ as the common unit-modulus
+surface of the normalized prime channels that appear in the Euler-product
+projection of $\zeta$.
+
+\section{Zeta as a recovered carrier}
+\label{sec:rh-zeta-recovered-carrier}
+
+\begin{definition}[Zeta prime-projection tower]
+\label{def:rh-zeta-prime-projection-tower}
+Let $D_{>1}$ denote the half-plane $\Re(s)>1$.  The zeta
+prime-projection tower is the displayed packet
+$$
+\Pi_{\zeta}^{\mathrm{prime}}
+=
+\bigl(
+\zeta_D,\,
+(\mathsf{PrimeChan}_p)_{p\in\PrimeUp},\,
+\mathsf{EulerProj},\,
+\mathsf{EtaRow},\,
+\AnalyticContUp,\,
+\Gamma_{\infty},\,
+\mathsf{FunctionalEquation},\,
+\mathsf{Pole}_{s=1}
+\bigr),
+$$
+where
+$$
+\zeta_D(s)=\sum_{n\geq 1}n^{-s},
+\qquad
+\mathsf{PrimeChan}_p(s)=p^{-s},
+\qquad
+\mathsf{EulerProj}(s)=\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}
+$$
+on $D_{>1}$.  The row $\Gamma_{\infty}$ denotes the archimedean completion
+channel, and $\mathsf{Pole}_{s=1}$ denotes the simple-pole ledger consumed by
+the continuation packet.
+\end{definition}
+
+\begin{definition}[Zeta recovery carrier]
+\label{def:rh-zeta-recovery-carrier}
+The BEDC-facing $\mathsf{ZETA}$ carrier is the analytic object recovered from
+the compatible projection rows
+$$
+\begin{gathered}
+\mathsf{DirichletSeries}_{\zeta}(s)=\sum_{n\geq 1} n^{-s}
+\quad\text{on}\quad \Re(s)>1,\\
+\mathsf{Euler}_{\zeta}(s)=\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}
+\quad\text{on}\quad \Re(s)>1,\\
+\ZetaContUp,\quad
+\GammaUp\text{-completion rows},\quad
+\text{functional-equation mirror rows},\\
+\text{pole ledgers},\quad
+\text{zero ledgers},\quad
+\text{branch and transport ledgers}.
+\end{gathered}
+$$
+The Dirichlet series is therefore a readable projection of the carrier on its
+half-plane of absolute convergence, not the carrier by itself.
+Equivalently,
+$$
+\mathsf{ZETA}
+=
+\operatorname{Rec}_{\mathsf{AnaCont}}
+\bigl(\Pi_{\zeta}^{\mathrm{prime}}\bigr),
+$$
+where the recovery symbol records the compatible analytic-continuation,
+completion, pole, and transport rows rather than a primitive ambient
+function.
+\end{definition}
+
+\begin{principle}[No projection exhausts zeta]
+\label{prin:rh-no-projection-exhausts-zeta}
+No single projection row exhausts $\mathsf{ZETA}$.  A series expression, an
+Euler product, a completed functional-equation expression, and a zero ledger
+are compatible readings of the same recovered carrier only when their domains,
+overlaps, exceptional loci, and transport rows are displayed in the same
+certificate surface.
+\end{principle}
+
+\begin{proposition}[Euler product as prime-local gluing]
+\label{prop:rh-euler-product-prime-local-gluing}
+On the half-plane $\Re(s)>1$, the Dirichlet projection and the Euler
+prime-local projection agree:
+$$
+\zeta_D(s)=\mathsf{EulerProj}(s)
+=\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}.
+$$
+Thus the right-half-plane zeta projection is the multiplicative gluing of the
+prime-local channels $\mathsf{PrimeChan}_p(s)=p^{-s}$.
+\end{proposition}
+
+\begin{proof}
+The absolute convergence of $\sum_{n\geq 1}n^{-s}$ on $\Re(s)>1$ permits
+term grouping.  The finite prime-factorization row supplied by $\PrimeUp$
+writes each positive index uniquely as a finite product
+$$
+n=\prod_p p^{k_p}.
+$$
+Hence
+$$
+n^{-s}=\prod_p p^{-k_ps}.
+$$
+Summing over positive indices is therefore equivalent, under the displayed
+absolute-convergence modulus, to multiplying the local geometric sums
+$$
+\sum_{k\geq 0}p^{-ks}=(1-p^{-s})^{-1}.
+$$
+This is precisely the Euler-product theorem consumed by
+\autoref{thm:zeta-euler-product}.
+\end{proof}
+
+This principle is the analytic counterpart of
+\autoref{prin:rh-projection-recovery}.  The Euler product displays the
+finite-prime channels.  The $\GammaUp$ row displays the archimedean channel.
+The functional-equation ledger displays the mirror symmetry.  The critical
+line appears only after these rows have been assembled into the completed
+self-dual carrier.
+
+\section{Prime-local channel normalization}
+\label{sec:rh-prime-local-channel-normalization}
+
+\begin{definition}[Prime-local channels]
+\label{def:rh-prime-local-channels}
+For a displayed prime row $p\in\PrimeUp$ and a complex history
+$s=\sigma+it$, the prime-local channel and its critical normalization are
+written
+$$
+\mathsf{PrimeChan}_p(s)=p^{-s},
+\qquad
+\mathsf{UnitPrimeChan}_p(s)=p^{1/2}p^{-s}.
+$$
+The centered amplitude row is
+$$
+\mathsf{Amp}_p(s)=
+\left|\mathsf{UnitPrimeChan}_p(s)\right|.
+$$
+Equivalently,
+$$
+\mathsf{UnitPrimeChan}_p(s)
+=p^{1/2-\sigma}e^{-it\log p}.
+$$
+\end{definition}
+
+\begin{definition}[Prime-unitary balance]
+\label{def:rh-prime-unitary-balance}
+The predicate $\mathsf{PrimeUnitaryBalance}_{\zeta}(s)$ holds when every
+displayed prime row has unit normalized amplitude:
+$$
+\mathsf{PrimeUnitaryBalance}_{\zeta}(s)
+:\Longleftrightarrow
+\forall p\in\PrimeUp,
+\left|p^{1/2}p^{-s}\right|\hsame 1.
+$$
+This is a predicate on the prime-channel projection of the zeta carrier.  It
+does not assert that a zero has been found, counted, or located.
+\end{definition}
+
+\begin{theorem}[Prime-unitary balance is the critical line]
+\label{thm:rh-prime-unitary-balance-critical-line}
+For a complex history $s=\sigma+it$ and any displayed prime row $p>1$,
+$$
+\left|p^{1/2}p^{-s}\right|=1
+\quad\Longleftrightarrow\quad
+\sigma=1/2.
+$$
+Consequently, on the $\PrimeUp$ packet, $\mathsf{PrimeUnitaryBalance}_{\zeta}(s)$
+is equivalent to $\mathsf{OnCritLine}(s)$.
+\end{theorem}
+
+\begin{proof}
+By the channel definition,
+$$
+p^{1/2}p^{-s}
+=p^{1/2}p^{-(\sigma+it)}
+=p^{1/2-\sigma}p^{-it}
+=p^{1/2-\sigma}e^{-it\log p}.
+$$
+The factor $e^{-it\log p}$ has modulus one, so
+$$
+\left|p^{1/2}p^{-s}\right|=p^{1/2-\sigma}.
+$$
+If $\sigma=1/2$, this modulus is $p^0=1$ for every displayed prime.  Conversely,
+if the modulus is one for a displayed prime $p>1$, then
+$p^{1/2-\sigma}=1$.  Positivity and separation of the displayed prime row force
+$1/2-\sigma=0$, hence $\sigma=1/2$.  The BEDC predicate
+$\mathsf{OnCritLine}(s)$ is precisely the constructive read of
+$\Re(s)\hsame 1/2$ from \autoref{def:rh-predicate}.
+\end{proof}
+
+\begin{corollary}[Prime-channel amplitude tilt]
+\label{cor:rh-prime-channel-amplitude-tilt}
+Let
+$$
+\delta(s)=\Re(s)-1/2.
+$$
+Then for every displayed prime row $p$,
+$$
+\left|\mathsf{UnitPrimeChan}_p(s)\right|=p^{-\delta(s)}.
+$$
+Thus an off-line skew is read in the Euler-product projection as a coherent
+amplitude tilt across all prime-local channels.
+\end{corollary}
+
+\begin{proof}
+Substitute $\sigma=\Re(s)$ into
+$\left|p^{1/2}p^{-s}\right|=p^{1/2-\sigma}$ and rewrite
+$1/2-\sigma$ as $-\delta(s)$.
+\end{proof}
+
+\begin{corollary}[Prime-channel tilt detects off-line reads]
+\label{cor:rh-prime-channel-tilt-detects-offline}
+For any displayed prime row $p>1$,
+$$
+\left|\mathsf{UnitPrimeChan}_p(s)\right|\neq 1
+\quad\Longleftrightarrow\quad
+\Re(s)\neq 1/2.
+$$
+Equivalently, a critical-strip zero off the critical line is exactly a
+zero record carrying prime-local amplitude tilt.
+\end{corollary}
+
+\begin{proof}
+This is the contrapositive reading of
+\autoref{thm:rh-prime-unitary-balance-critical-line} at the displayed prime
+row $p>1$, together with the amplitude formula of
+\autoref{cor:rh-prime-channel-amplitude-tilt}.
+\end{proof}
+
+\section{Prime-balanced form of RH}
+\label{sec:rh-prime-balanced-form}
+
+\begin{definition}[Prime-balanced RH]
+\label{def:rh-prime-balanced-rh}
+The prime-balanced form of the Riemann Hypothesis is the proposition
+$$
+\mathsf{PrimeBalancedRH}_{\zeta}
+:\Longleftrightarrow
+\forall s,
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{PrimeUnitaryBalance}_{\zeta}(s).
+$$
+Equivalently, in the event-flow notation of
+\autoref{def:rh-zero-code}, it asks for a total transformer
+$$
+\mathsf{ZeroCode}_{\mathsf{RH}}(s)
+\to
+\mathsf{PrimeUnitaryBalance}_{\zeta}(s).
+$$
+\end{definition}
+
+\begin{proposition}[Prime-balanced RH is equivalent to BEDC-RH]
+\label{prop:rh-prime-balanced-equivalent}
+The proposition $\mathsf{PrimeBalancedRH}_{\zeta}$ is equivalent to the BEDC
+statement $\mathsf{RH}$ of \autoref{def:rh-predicate}.
+\end{proposition}
+
+\begin{proof}
+The premise
+$\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)$ is exactly the premise of
+\autoref{def:rh-predicate} and the premise packet of
+\autoref{def:rh-zero-code}.  By
+\autoref{thm:rh-prime-unitary-balance-critical-line}, the conclusion
+$\mathsf{PrimeUnitaryBalance}_{\zeta}(s)$ is equivalent to
+$\mathsf{OnCritLine}(s)$.  Substitution of equivalent conclusions in the same
+dependent implication gives the equivalence with $\mathsf{RH}$.  Under
+\autoref{prop:rh-zero-skew-form}, the same conclusion is the skew-zero output
+row written through prime-channel amplitudes instead of through the real
+offset $\delta(s)$ alone.
+\end{proof}
+
+\begin{corollary}[No prime-amplitude tilt form]
+\label{cor:rh-no-prime-amplitude-tilt-form}
+The BEDC statement $\mathsf{RH}$ is equivalent to the assertion that no
+displayed critical-strip zero packet carries a displayed prime-channel
+amplitude tilt:
+$$
+\neg\exists s,\,
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)\wedge
+\exists p\in\PrimeUp,\,
+\left|p^{1/2}p^{-s}\right|\neq 1.
+$$
+\end{corollary}
+
+\begin{proof}
+By \autoref{prop:rh-prime-balanced-equivalent}, $\mathsf{RH}$ is equivalent to
+the implication from a critical-strip zero packet to
+$\mathsf{PrimeUnitaryBalance}_{\zeta}(s)$.  Expanding
+\autoref{def:rh-prime-unitary-balance} gives unit amplitude for every
+displayed prime row.  A counter-witness to that universal row is exactly a
+displayed prime-channel amplitude tilt on a displayed critical-strip zero
+packet.
+\end{proof}
+
+\begin{definition}[Prime-channel RH witness]
+\label{def:rh-prime-channel-witness}
+The prime-channel RH witness type is
+$$
+\mathsf{PrimeRHWitness}_{\zeta}
+=
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\bigr)
+\to
+\prod_{p\in\PrimeUp}
+\mathsf{hsame}
+\left(
+\left|p^{1/2}p^{-s}\right|,
+1
+\right).
+$$
+The ordinary RH witness type is
+$$
+\mathsf{RHWitness}_{\zeta}
+=
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\bigr)
+\to
+\mathsf{OnCritLine}(s).
+$$
+\end{definition}
+
+\begin{proposition}[Prime and ordinary RH witnesses are equivalent]
+\label{prop:rh-prime-witness-equivalent}
+There is a canonical equivalence
+$$
+\mathsf{PrimeRHWitness}_{\zeta}
+\simeq
+\mathsf{RHWitness}_{\zeta}.
+$$
+\end{proposition}
+
+\begin{proof}
+For each $s$, \autoref{thm:rh-prime-unitary-balance-critical-line} identifies
+the prime-unitary output row with $\mathsf{OnCritLine}(s)$.  Applying this
+pointwise to the common input packet
+$\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)$ converts a
+prime-channel witness into an ordinary witness and conversely.  The two
+conversions are inverse because both read the same equality
+$\Re(s)\hsame 1/2$ through different projection rows.
+\end{proof}
+
+\begin{remark}[Prime balance is not an Euler-factor proof]
+\label{rem:rh-prime-balance-not-euler-factor-proof}
+The implication in \autoref{def:rh-prime-balanced-rh} is not a claim that a
+single Euler factor proves $\mathsf{RH}$.  A factor
+$(1-p^{-s})^{-1}$ is only one local prime projection.  It does not carry the
+non-trivial zero locus of $\zeta$, and it does not supply analytic
+continuation, a pole ledger, a $\GammaUp$ boundary, or the
+functional-equation mirror row.  The critical axis is a feature of the
+completed recovered carrier, while a single normalized prime channel only
+exhibits the amplitude test that any point on that axis must pass.
+\end{remark}
+
+\section{Archimedean completion and the central surface}
+\label{sec:rh-archimedean-completion-central-surface}
+
+\begin{definition}[Completed zeta surface]
+\label{def:rh-completed-zeta-surface}
+The completed zeta surface is the recovery packet whose displayed analytic
+core has the classical shape
+$$
+\xi(s)=\frac{1}{2}s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s)
+$$
+together with the functional-equation row
+$$
+\xi(s)=\xi(1-s).
+$$
+The finite-prime rows enter through the Euler-product projection of $\zeta$.
+The archimedean row enters through the $\pi^{-s/2}\Gamma(s/2)$ factor.  The
+factor $s(s-1)$ records the pole-cancellation ledger at $s=1$ and $s=0$.
+\end{definition}
+
+\begin{proposition}[The critical surface is self-dual]
+\label{prop:rh-critical-surface-self-dual}
+Inside the completed zeta surface, the line $\Re(s)=1/2$ is the fixed surface
+of the mirror $s\mapsto 1-s$ on the real component.  The prime-unitary
+balance predicate of \autoref{def:rh-prime-unitary-balance} is the
+finite-prime amplitude read of the same central normalization.
+\end{proposition}
+
+\begin{proof}
+The functional-equation row identifies the completed carrier at $s$ with the
+completed carrier at $1-s$.  The real components of $s$ and $1-s$ agree
+exactly when $\Re(s)=1/2$.  By
+\autoref{thm:rh-prime-unitary-balance-critical-line}, this equality is also
+equivalent to unit normalized amplitude for every displayed prime-local
+channel.  Therefore the same central surface has two compatible reads: a
+mirror fixed-surface read through the completed carrier and a unit-amplitude
+read through the Euler-product projection.
+\end{proof}
+
+\begin{proposition}[Prime mirror inversion]
+\label{prop:rh-prime-mirror-inversion}
+Let $J(s)=1-\overline{s}$ be the mirror map of
+\autoref{def:rh-mirror-map}, and write
+$$
+U_p(s)=p^{1/2-s}.
+$$
+For every displayed prime row $p$,
+$$
+U_p(J(s))=\frac{1}{\overline{U_p(s)}}.
+$$
+Consequently,
+$$
+\left|U_p(J(s))\right|=
+\left|U_p(s)\right|^{-1}.
+$$
+\end{proposition}
+
+\begin{proof}
+Write $s=\sigma+it$.  Then
+$$
+U_p(s)=p^{1/2-\sigma}e^{-it\log p},
+\qquad
+\overline{U_p(s)}=p^{1/2-\sigma}e^{it\log p},
+$$
+so
+$$
+\frac{1}{\overline{U_p(s)}}=
+p^{\sigma-1/2}e^{-it\log p}.
+$$
+Since
+$$
+J(s)=1-\overline{s}=1-\sigma+it,
+$$
+one also has
+$$
+U_p(J(s))=p^{1/2-(1-\sigma+it)}
+=p^{\sigma-1/2}e^{-it\log p}.
+$$
+The displayed equality follows, and taking moduli gives the amplitude
+inversion row.
+\end{proof}
+
+\begin{corollary}[Fixed mirror amplitude surface]
+\label{cor:rh-fixed-mirror-amplitude-surface}
+The critical line is the unique surface on which every displayed normalized
+prime channel is fixed in amplitude by the mirror $J$:
+$$
+s=J(s)
+\quad\Longleftrightarrow\quad
+\forall p\in\PrimeUp,\ \left|U_p(s)\right|=1.
+$$
+\end{corollary}
+
+\begin{proof}
+If $s=J(s)$, \autoref{prop:rh-prime-mirror-inversion} gives
+$|U_p(s)|=|U_p(s)|^{-1}$ for every displayed prime row.  Since the channel
+amplitude is positive, $|U_p(s)|=1$.  Conversely, if every normalized
+prime-channel amplitude is one, then
+\autoref{thm:rh-prime-unitary-balance-critical-line} gives
+$\Re(s)=1/2$, which is equivalent to $s=J(s)$ by
+\autoref{def:rh-mirror-map}.
+\end{proof}
+
+\begin{remark}[Role of the archimedean row]
+\label{rem:rh-archimedean-row-role}
+The finite-prime channels explain the local amplitude test, but they do not
+by themselves determine the completed self-dual carrier.  The
+$\pi^{-s/2}\Gamma(s/2)$ row supplies the archimedean channel that normalizes
+the functional equation into the $s\leftrightarrow 1-s$ mirror form.  Without
+that row, the expression still has prime-local projections, but the central
+self-dual surface is not a closed recovery certificate.
+\end{remark}
+
+\section{Projection tower reading}
+\label{sec:rh-projection-tower-reading}
+
+\begin{principle}[Projection tower lifting]
+\label{prin:rh-projection-tower-lifting}
+After $\zeta$ has been recovered as a meromorphic carrier on
+$\ComplexUp\setminus\{1\}$, further structural work is not a larger
+complex-domain continuation.  It is a lifting through projection towers:
+$$
+\zeta(s)
+\to
+\xi(s)
+\to
+\text{prime-local channel packets}
+\to
+\text{explicit-formula ledgers}
+\to
+\text{adelic zeta-integral packets}
+\to
+\LFunctionUp\text{-family carriers}.
+$$
+Each arrow adds rows that explain how a displayed projection is recovered from
+or compared with a richer carrier.  It does not license an unstated branch,
+zero oracle, or ambient analytic primitive.
+\end{principle}
+
+\begin{remark}[Schematic L-function generalization]
+\label{rem:rh-lfunction-generalization}
+The same surface reading has a schematic counterpart for any displayed
+$\LFunctionUp$ carrier whose packet contains a Dirichlet-series row, an Euler
+product row, prime-local factors, archimedean completion rows, analytic
+continuation, a functional equation, and pole or branch ledgers.  Its central
+line is the fixed surface of its completed functional-equation mirror, and
+the analogue of prime-unitary balance is the assertion that all normalized
+finite-prime channels have unit amplitude on that surface.  This is a
+schema-level reading of the generalized RH shape, not a closed theorem about
+all $L$-carriers.
+\end{remark}
+
+\begin{proposition}[Norm-local central unit surface]
+\label{prop:rh-norm-local-central-unit-surface}
+Let $v$ be a displayed finite local channel of an $\LFunctionUp$ carrier, and
+let $N(v)>1$ be its local norm.  For
+$$
+U_v(s)=N(v)^{1/2-s},
+$$
+one has
+$$
+\left|U_v(s)\right|=1
+\quad\Longleftrightarrow\quad
+\Re(s)=1/2.
+$$
+\end{proposition}
+
+\begin{proof}
+Writing $s=\sigma+it$ gives
+$$
+U_v(s)=N(v)^{1/2-\sigma}e^{-it\log N(v)}.
+$$
+The phase factor has modulus one, hence
+$$
+\left|U_v(s)\right|=N(v)^{1/2-\sigma}.
+$$
+Since $N(v)>1$, this modulus is one exactly when $1/2-\sigma=0$.
+\end{proof}
+
+\begin{theorem}[Prime-local projection normal form]
+\label{thm:rh-prime-local-projection-normal-form}
+The RH projection reading is the conjunction of the following equivalent
+normal forms:
+$$
+\mathsf{ZETA}
+=
+\operatorname{Rec}_{\mathsf{AnaCont}}
+\bigl(
+\text{Dirichlet projection},
+\text{prime-local projection},
+\text{archimedean completion},
+\text{functional equation},
+\text{pole ledger}
+\bigr),
+$$
+$$
+\mathsf{PrimeUnitaryBalance}_{\zeta}(s)
+\Longleftrightarrow
+\Re(s)=1/2
+\Longleftrightarrow
+s=J(s),
+$$
+and
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\forall s,\,
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{PrimeUnitaryBalance}_{\zeta}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The recovery line is \autoref{def:rh-zeta-recovery-carrier} read through the
+prime-projection tower of \autoref{def:rh-zeta-prime-projection-tower}.  The
+second line combines \autoref{thm:rh-prime-unitary-balance-critical-line} with
+the fixed-point characterization of \autoref{def:rh-mirror-map}.  The third
+line is exactly \autoref{prop:rh-prime-balanced-equivalent}.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-prime-namecert}{The prime-local channel rows are indexed by the finite $\PrimeUp$ NameCert surface.}
+\concretizedIn{ch:concrete-instances-zeta-basic-namecert}{The Euler-product projection supplying $p^{-s}$ channels is read through the $\ZetaBasicUp$ half-plane certificate.}
+\concretizedIn{ch:concrete-instances-zeta-continuation-witness-namecert}{The zeta-continuation witness packet supplies the continuation, pole, trivial-zero, and Gamma-boundary rows consumed before a zero-facing carrier can be read.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{The zeta functional-equation ledger supplies the completed-carrier mirror row whose fixed surface is the critical line.}
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Critical-line witness packets provide the finite $\mathsf{OnCritLine}$ output surface equivalent to prime-unitary balance.}
+\concretizedIn{ch:concrete-instances-lfunction-namecert}{The $\LFunctionUp$ interface provides the schematic family carrier for the corresponding central-line balance reading.}

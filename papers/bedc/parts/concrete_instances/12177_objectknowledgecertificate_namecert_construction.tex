@@ -76,6 +76,38 @@ The sibling morphism routes preserve the displayed certificate and classifier da
 \end{proof}
 \leanchecked{BEDC.Derived.ObjectKnowledgeCertificateUp.ObjectKnowledgeCertificate\_nonescape}
 
+\begin{theorem}[Object-knowledge public export]
+\label{thm:object-knowledge-certificate-public-export}
+The carrier, NameCert obligations, witness exactness, and nonescape theorems jointly export exactly the public $\ObjectKnowledgeCertificateUp$ packet
+$$
+N,W,S,P,K,T,L,A,C,Q.
+$$
+Every consumer receives object-name licensing through $N$, witness exposure through $W$, source, pattern, classifier, stability, and ledger rows through $S,P,K,T,L$, audit routing through $A$, componentwise transport through $C$, and local naming through $Q$, and receives no additional object, witness-free knowledge read, anonymous classifier, hidden ledger, or detached local name.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:object-knowledge-certificate-carrier} to identify the public packet as the finite row family $N,W,S,P,K,T,L,A,C,Q$.
+
+Apply \autoref{thm:object-knowledge-certificate-namecert-obligations}. It makes those rows the full local NameCert surface, with source, pattern, classifier, stability, ledger, audit route, transport, and local naming all visible to the consumer.
+
+Apply \autoref{thm:object-knowledge-certificate-witness-exactness} and \autoref{thm:object-knowledge-certificate-nonescape}. The witness cannot be replaced by a certificate field, and no object-knowledge read escapes the displayed rows. Hence the exported public object-knowledge packet is exactly the stated row family.
+\end{proof}
+
+\begin{theorem}[Object-knowledge bridge obligation surface]
+\label{thm:object-knowledge-certificate-bridge-obligation-surface}
+Any standard bridge for $\ObjectKnowledgeCertificateUp$ must preserve the displayed rows
+$$
+N,W,S,P,K,T,L,A,C,Q.
+$$
+In particular, it preserves object-name licensing through $N$, witness exposure through $W$, audit routing through $A$, ledger exposure through $L$, classifier transport through $C$, and the local $\NameCert_{\ObjectKnowledgeCertificateUp}$ row $Q$. It must not collapse the packet to an unlicensed object, a witness-free knowledge predicate, or a detached truth classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:object-knowledge-certificate-carrier}. The displayed bridge domain is exactly the finite row family $N,W,S,P,K,T,L,A,C,Q$, so a bridge can preserve only those rows and cannot introduce an unlicensed object coordinate, anonymous truth predicate, or detached classifier.
+
+Apply \autoref{thm:object-knowledge-certificate-namecert-obligations} and \autoref{thm:object-knowledge-certificate-witness-exactness}. These keep object-name licensing on $N$, witness exposure on $W$, audit checking on $A$, and the local certificate row on $Q$.
+
+Finally use \autoref{thm:object-knowledge-certificate-nonescape} together with \autoref{thm:object-knowledge-certificate-public-export}. The public export is exhausted by the displayed rows, while nonescape rules out witness-free knowledge, unlicensed objects, hidden ledgers, and classifier-free identity. Hence every standard bridge obligation is over the stated surface.
+\end{proof}
+
 \falsifiablePrediction{If an object-knowledge export bypasses either the displayed five-field NameCert row or the displayed witness row, the packet is refuted.}
 
 \independenceWitness{namecertmorphism, classifiermorphism, semanticnamecert, namecert: none is bijective because this carrier binds object license, auditable witness, five-field certificate, classifier transport, ledger, and local naming as one packet.}
@@ -87,11 +119,11 @@ The Lean follow-up must provide $\mathsf{Nontrivial}\ \ObjectKnowledgeCertificat
 
 \begin{closurestatus}{\ObjectKnowledgeCertificateUp}
   \constructivestory{An $\ObjectKnowledgeCertificateUp$ packet is generated from object-name, witness, source, pattern, classifier, stability, ledger, audit-route, componentwise transport, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:object-knowledge-certificate-carrier}, \autoref{thm:object-knowledge-certificate-namecert-obligations}, \autoref{thm:object-knowledge-certificate-witness-exactness}, and \autoref{thm:object-knowledge-certificate-nonescape} are the finite scope for object-name licensing, witness exactness, audit routing, componentwise transport, local NameCert obligations, and nonescape for object-knowledge packets.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:object-knowledge-certificate-carrier}, \autoref{thm:object-knowledge-certificate-namecert-obligations}, \autoref{thm:object-knowledge-certificate-witness-exactness}, \autoref{thm:object-knowledge-certificate-nonescape}, and \autoref{thm:object-knowledge-certificate-public-export} are the finite public scope for object-name licensing, witness exactness, audit routing, componentwise transport, local NameCert obligations, nonescape, and public packet export for object-knowledge packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close witness-free knowledge, unlicensed objects, classifier-free identity, unledgered residue, Lean verification, or bridge checking for $\ObjectKnowledgeCertificateUp$.}
-  \upgradepath{Scoped closure requires the same object-knowledge obligation rows to be used as a consumer-facing nonescape and transport theorem surface.}
+  \upgradepath{Bridge checking requires a Lean target for the public object-knowledge packet export and a standard bridge over the same rows.}
 \end{closurestatus}

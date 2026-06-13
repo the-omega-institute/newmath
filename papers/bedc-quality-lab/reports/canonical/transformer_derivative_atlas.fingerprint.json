@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "1630aeedc19a252e80b7c43e44608f0769d1d2b724e880f57fcc489180b7e571",
+  "input_fingerprint": "d3a6d00499d3845c18a04a800bda6cb622cdf9bd0902e753752b9bf10e5c5192",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -46,16 +36,30 @@
     },
     "source_artifacts": [
       {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      },
+      {
         "path": "reports/canonical/attention_route_derivative_report.json",
         "sha256": "4b860ff58da1f0ddd2c79d92ca3588af94e3b9052d5137177d55ee132c4ccd3a"
+      },
+      {
+        "path": "reports/canonical/discovery_gated_transformer.json",
+        "sha256": "missing"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_transformer_derivative_atlas.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.margin_proxy_controls",
       "cost_pointer": "$.source_artifacts.cost_protocol",
       "estimated_seconds": 2,
@@ -74,6 +78,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.mechanism_claim_allowed",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -104,11 +109,54 @@
   },
   "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
   "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
-  "output_digest": "80d2383c1e15f83b0c4e40e483faa8706d5696dc48aa3965d0b66fb3224f5af7",
   "producer_command": [
     "python3",
     "scripts/run_transformer_derivative_atlas.py"
   ],
   "report_name": "transformer-derivative-atlas",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "transformer-derivative-atlas"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "transformer-derivative-atlas",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "d7c360cdfbdb71202e939174f9895766dccaa489ad4cba5811791c66d343964f",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

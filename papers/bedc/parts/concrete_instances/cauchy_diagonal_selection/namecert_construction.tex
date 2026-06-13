@@ -48,12 +48,46 @@ The tolerance ledger $T$ checks the requested dyadic scale against the extracted
 Finally, $H,C,P,N$ preserve and name the same coordinates. Since none of the refused objects appears in the carrier, the five displayed obligations exhaust the local certificate surface.
 \end{proof}
 
+\begin{theorem}[Cauchy diagonal selection Real-seal handoff]
+\label{thm:cauchy-diagonal-selection-real-seal-handoff}
+For every accepted $\CauchyDiagonalSelectionUp$ carrier $D=(S,R,M,W,T,E,H,C,P,N)$, the terminal $\RealUp$ seal $E$ is reachable only after the $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $R$, $\BishopCauchyModulusExtractionUp$ row $M$, diagonal window $W$, and $\DyadicRatCoreUp$ tolerance ledger $T$ are displayed. The handoff exports no external diagonal selector, quotient stream equality, hidden subsequence choice, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-diagonal-selection-carrier}. The Real-facing row $E$ appears only downstream of the displayed schedule, regular readback, modulus extraction, diagonal window, and dyadic tolerance ledger.
+
+Use the five obligations in \autoref{thm:cauchy-diagonal-selection-namecert-obligations}. They require diagonal-window selection through $S,R,W$, regular-Cauchy preservation through $R,M$, dyadic tolerance control through $T$, and Real-seal handoff through $E$ after those rows are visible.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier has no coordinate for an external diagonal selector, quotient stream equality, hidden subsequence choice, countable choice, trichotomy, host real equality, or ambient completeness, none can be exported at the seal.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal selection RegSeqRat threshold stability]
+\label{thm:cauchy-diagonal-selection-regseqrat-threshold-stability}
+Let $D=(S,R,M,W,T,E,H,C,P,N)$ be an accepted $\CauchyDiagonalSelectionUp$ carrier. Suppose another accepted carrier
+$$
+D'=(S,R,M',W,T,E,H,C,P,N)
+$$
+has the same $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $R$, diagonal window $W$, tolerance ledger $T$, Real seal $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$, and suppose the displayed threshold row $M'$ is a stronger Cauchy-modulus threshold compatible with the same $S,R,W,T$ rows. Then the $\RegSeqRatUp$ readback and terminal $\RealUp$ seal of $D'$ remain on the same finite route as those of $D$:
+$$
+S,R,M',W,T \longmapsto E \longmapsto H,C,P,N .
+$$
+In particular, strengthening the modulus threshold does not introduce an external diagonal selector, quotient stream equality, hidden subsequence choice, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:cauchy-diagonal-selection-carrier}. The two packets differ only in the modulus row, while $S,R,W,T,E,H,C,P,N$ are displayed as the same rows in both packets.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-diagonal-selection-namecert-obligations}. The regular-Cauchy preservation obligation reads the modulus row only as the finite threshold discipline attached to $R$, and the dyadic tolerance obligation reads $T$ against the chosen diagonal window $W$.
+
+Since $M'$ is a displayed stronger threshold compatible with the same $S,R,W,T$ rows, the replay through $C$ transports the regular readback along the same finite request route. No new selector or quotient comparison is needed to read the strengthened threshold.
+
+Finally apply the Real-seal handoff of \autoref{thm:cauchy-diagonal-selection-real-seal-handoff}. The terminal seal $E$ can still be consumed only after $S,R,M',W,T$ are displayed, and the structural rows $H,C,P,N$ keep the route inside the listed coordinates.
+\end{proof}
+
 \closureat{CauchyDiagonalSelectionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyDiagonalSelectionUp}
   \constructivestory{A $\CauchyDiagonalSelectionUp$ packet is generated from StreamName source windows, RegSeqRat regular readback, a BishopCauchyModulusExtraction threshold row, a selected diagonal window, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-diagonal-selection-carrier} and \autoref{thm:cauchy-diagonal-selection-namecert-obligations} seed the finite diagonal-selection route over StreamName, RegSeqRat, Cauchy-modulus extraction, DyadicRatCore, and RealUp rows.}
+  \scopeclosed{\autoref{def:cauchy-diagonal-selection-carrier}, \autoref{thm:cauchy-diagonal-selection-namecert-obligations}, and \autoref{thm:cauchy-diagonal-selection-real-seal-handoff} seed the finite diagonal-selection route over StreamName, RegSeqRat, Cauchy-modulus extraction, DyadicRatCore, and RealUp rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected subsequences, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

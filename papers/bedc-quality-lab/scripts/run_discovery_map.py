@@ -12,9 +12,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.backends.current_lab import projection as _projection
+from scripts.run_canonical_reports import _discovery_map_reports
 
 
 _projection.ROOT = ROOT
+_projection.CANONICAL_REPORTS = _discovery_map_reports()
 
 
 if __name__ == "__main__":

@@ -1,55 +1,43 @@
-\subsection{Start--Stop Window Eligibility as a Boundary-Level ORF Record}\label{subsec:h2-orf-start-stop-window-eligibility}
 \origin{ai}
+\subsection{Localization as a non-translation residual candidate for the powered $B^{*}_{Q6}$ protein-abundance surface}
+\label{sec:bioreality-q6-localization-nontranslation-residual}
 
-\paragraph{Object of the finite record.}
-This chapter records a boundary-level claim about open-reading-frame eligibility under direct start/stop codon enumeration. The biological object is not a translated protein, not a transcript, and not a molecular mechanism. It is the weaker finite question of whether a supplied nucleotide window can be classified by a start/stop-window rule once the relevant biological interval has been supplied outside the BEDC coordinate system. In the finite run with identifier \texttt{c26a0d6656f7}, the window manifest was loaded successfully, with \texttt{external\_window\_dataset\_loaded} equal to $1$. The run had $1$ input window and classified $1$ window, so the observed classification count was
+\paragraph{Finite surface.}
+The finite object in this chapter is the rank-powered matrix surface obtained from nine $B^{*}_{Q6}$ synonymous residual coordinates, a controlled protein-abundance readout, a modeled translation readout used only to define the remaining abundance component, and a multi-label localization readout.  The nine coordinates are $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  Each row is residualized against the same covariate family: an intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$, and the $M$-density baseline defined by the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors.  The recorded control rank is $23$ with $24$ control columns in each of the three localization organisms.
+
+\paragraph{Localization contact and joins.}
+The localization readout is a reviewed UniProtKB subcellular-location annotation collapsed to a $K=12$ multi-label one-hot surface.  The three finite joins are not interchangeable: human supplies $16008$ joined CDS/protein rows from $19053$ reported CDS-joined rows and $16406$ localization records; budding yeast supplies $4656$ joined rows from $5815$ reported CDS-joined rows and $4831$ localization records; zebrafish supplies $1984$ joined rows from $14410$ reported CDS-joined rows and $2821$ localization records.  The smaller zebrafish join is therefore read as a localization-availability restriction, not as a contradiction of the protein-abundance surface.  The parsed category counts also show that the readout is broad and coarse: for human the dominant categories include Cytoplasm $6305$, Membrane $7119$, Nucleus $5837$, Cell membrane $3570$, and Secreted $1876$; for yeast they include Membrane $1863$, Cytoplasm $1736$, Nucleus $1733$, and Mitochondrion $811$; for zebrafish they include Cytoplasm $883$, Nucleus $845$, Membrane $708$, and Mitochondrion $247$.
+
+\paragraph{Modeled-complement target.}
+The tested quantity is not the whole protein-abundance association.  It is the residual abundance component left after the modeled translation readout has been used to remove the modeled $Q \to T_{\mathrm{mod}}$ part.  In the notation of this chapter, $P_{Q\perp T_{\mathrm{mod}}}$ denotes the controlled $B^{*}_{Q6}$ protein-abundance component not accounted for by the modeled translation score.  The finite diagnostic values are
 $$
 \begin{aligned}
-\text{classified windows} &= 1,\\
-\text{input windows} &= 1.
+ d_{\mathrm{mod}}(\mathrm{human}) &= 0.9020707321191324,\\
+ d_{\mathrm{mod}}(\mathrm{yeast}) &= 0.1997853864617063,\\
+ d_{\mathrm{mod}}(\mathrm{zebrafish}) &= 0.7608723943210729.
 \end{aligned}
 $$
-The source description for this run is a curated finite nucleotide-window manifest for ORF start/stop enumeration, with snapshot date $2026$-$05$-$25$. The scope is explicitly \texttt{external\_window\_start\_stop\_enumeration\_only}. Thus the chapter treats the row as a finite annotation-mediated eligibility record, not as a discovery of biological realization from coordinate geometry alone.
+Human and yeast match the full-abundance complement reference within $0.02$: human differs by $0.018824203448813193$ from the full-join reference $0.9208949355679455$, and yeast differs by $0.011946809265360736$ from the full-join reference $0.21173219572706703$.  Zebrafish differs by $0.11375632672819314$ from its full-join reference $0.874628721049266$, which is reported as a join-change effect because the localization table reduces the joined row set from $14410$ to $1984$.
 
-\paragraph{Finite codon background used by the packet.}
-The codon-level background contains a checked finite set $M$ of size $20$. The run \texttt{a53ef0f36703} records
+\paragraph{Absorption test.}
+The localization statistic projects $P_{Q\perp T_{\mathrm{mod}}}$ onto the residualized $12$-column localization space and compares the absorbed fraction with a degree-of-freedom matched Gaussian baseline.  The recorded absorptions are
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+ A_{L}(\mathrm{human}) &= 0.009254913329269913,\\
+ A_{L}(\mathrm{yeast}) &= 0.011225105608516642,\\
+ A_{L}(\mathrm{zebrafish}) &= 0.009508864544725801.
 \end{aligned}
 $$
-with cardinality $20$. A separate compression row, run \texttt{338799579a87}, records the motif union
-$$
-\begin{aligned}
-R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
-\end{aligned}
-$$
-with no missing and no extra codons in that motif comparison. The saturation run \texttt{f4eee68dd2c3} gives
-$$
-\begin{aligned}
-\mathrm{Sat}_{f3}(R) = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
-\end{aligned}
-$$
-and reports an empty $f3$ boundary obstruction. The same run records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$ together with the listed $20$ elements of $M$. These finite codon rows are useful because they delimit the alphabetic and motif-side information available to the classifier; they do not themselves make an ORF biologically present.
+The matched null baselines from $200$ trials have $95\%$ cutoffs $0.0013758521256775384$ in human, $0.004958116973149795$ in yeast, and $0.011321328712802819$ in zebrafish.  Thus human and yeast exceed their degree-of-freedom matched null cutoffs, while zebrafish remains below its cutoff.  The finite readback is therefore a two-organism localization-carrying residual signal with a zebrafish null-boundary outcome under the available localization join.
 
-\paragraph{Geometry retained below biological promotion.}
-The quotient-geometry run \texttt{fd0a506a0881} gives the $M$ face vector $(20,38,26,8,1)$ and a quotient face vector $(10,14,6,1)$. It also records $\pi_M$ with size $10$, represented by the ten binary rows
-$$
-\begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
-&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,1,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
-\end{aligned}
-$$
-This geometry is admissible as finite coordinate information for enumeration, but the ORF chapter deliberately keeps it below biological promotion. The local gate is: start/stop-window geometry may classify a supplied finite window, but it may not be reinterpreted as translation, protein folding, physical admissibility, function, mechanism, or a universal biological law unless a separate contact supplies evidence at that layer.
+\paragraph{Relation to the protein-abundance and translation readouts.}
+The localization result sits downstream of an already nonzero direct protein-omics association.  Across the broader powered protein-abundance panel, the controlled $Q \to P$ partial $R^{2}$ values include $0.04454565118019448$ in human, $0.29837624994140827$ in yeast, $0.04613529807085213$ in zebrafish, $0.10767526677985896$ in \textit{E. coli}, and $0.061906245886660105$ in \textit{B. subtilis}; every listed organism has all nine coordinates surviving this positive-threshold direct protein-abundance screen.  The measured translation-efficiency contact is also nonzero where available: measured $Q \to T$ values are $0.018837911344127926$ in human, $0.13681931343730436$ in yeast, $0.04034217614654355$ in zebrafish, and $0.009394266754822262$ in \textit{E. coli}, again with nine surviving coordinates in each computed organism.
 
-\paragraph{Boundary condition for the start/stop claim.}
-The verified start/stop run states \texttt{no\_geometry\_to\_translation\_promotion} as \texttt{orf\_eligibility\_only}. This is the decisive local reading of the row. The packet can say that the one supplied window was classified under start/stop enumeration. It cannot say that the window was translated, that a protein product exists, that the product folds, that the resulting structure is physically admissible, that it has biological function, or that the rule generalizes beyond the supplied finite manifest. The self-check row \texttt{0f47d2f0cf41} records the same discipline at the BioReality level: no codon geometry is promoted across biological layers, and the checked gate count is $3$.
+\paragraph{Mediation comparison.}
+The measured translation-mediated abundance decomposition shows that only part of the direct $Q \to P$ surface is absorbed by measured ribosome-derived translation efficiency.  The measured mediated fractions are $0.0027966485036786744$ in human, $0.4793069656345167$ in yeast, $0$ in zebrafish after truncating the suppressive raw value $-0.04801486048721136$ to the unit interval, and $0.04091158340950673$ in \textit{E. coli}.  The joint measured-TE and mRNA-stability decomposition sharpens the same point: the joint mediation fractions are $0.16890712099923358$ in human, $0.5195182225621592$ in yeast, and $0.2404669586626661$ in \textit{E. coli}, with right-tail permutation values $0.000999000999000999$ in all three organisms.  The yeast dictionary certificate gives an additional finite summary: with $n=1800$, five folds, $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, and $120$ permutations, the selection-aware coverage is $C^{*}=0.24538211439730545$ against a selection-aware null $95\%$ cutoff of $0.029149007242956115$, leaving an unexplained fraction $0.7546178856026946$.  These numbers agree with the localization chapter's role: localization is being tested as one candidate carrier of the remaining non-translation abundance residual, not as a replacement for the measured translation step.
 
-\paragraph{Separate curated interval contact.}
-A stronger but still layer-limited contact is available in the linked curated interval run \texttt{7c9b30b02d46}. That dataset loaded $168$ rows from \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json}, with snapshot date $2026$-$05$-$30$ and source given as NCBI RefSeq GenBank XML CDS intervals from \emph{Escherichia coli} K-12 MG1655 complete genome accession \texttt{NC\_000913.3}. The required input classes were present: boundary cases, matched non-ORF decoys, and positive curated ORFs. The positive interval statistic accepted $72$ of $72$ positives, giving accept rate $1.0$ and exact one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoy statistic rejected $72$ of $72$ decoys, with reject rate $1.0$ and the same upper-tail value $2.117582368135751\times 10^{-22}$. The predeclared paired baseline comparison also had $72$ wins in $72$ pairs, win rate $1.0$, and upper-tail value $2.117582368135751\times 10^{-22}$. Boundary cases had $n=24$, promoted count $0$, and promoted fraction $0.0$.
+\paragraph{Four-case readback.}
+The chapter-specific classification is local.  A positive $Q \to P$ entry alone is not promoted to a translation mechanism.  A positive $Q \to T$ entry alone is not promoted to protein-abundance mediation.  A localization absorption above the degree-of-freedom matched null says only that the coarse localization annotation carries some of the modeled-translation-complement abundance residual on the joined rows.  Human and yeast therefore support the case in which a non-translation H-candidate readout carries part of the remaining abundance component; zebrafish is kept at the null boundary for this localization readout because its absorption $0.009508864544725801$ is below the $0.011321328712802819$ cutoff and because its localization join is much smaller than the full abundance join.
 
-\paragraph{Held-out stability and final reading.}
-The curated interval row also records three held-out splits. The left-locus, middle-locus, and right-locus folds each had $24$ positives and $24$ decoys; each split passed, with positive accept rate $1.0$ and decoy reject rate $1.0$. The protocol was frozen before the external observation: classifier rules, baselines, held-out splits, and input classes were frozen, with protocol timestamp $2026$-$05$-$29\,19{:}11{:}13{+}00{:}00$ and external evidence timestamp $2026$-$05$-$30\,10{:}29{:}31{+}00{:}00$. These values support a finite interval-contact reading when that contact is explicitly invoked. They do not alter the narrower start/stop-window chapter: the immediate verdict remains an ORF-eligibility classification for the supplied finite window, bounded to the enumeration layer and barred from claims about translation, folding, physical admissibility, function, mechanism, or universality.
+\paragraph{Local boundary.}
+No statement in this chapter identifies a causal pathway.  The localization columns are coarse, multi-label annotations; a projection onto them is descriptive and can absorb variance mechanically.  The reported signal is therefore restricted to the finite joined rows and to the stated residualization design.  It does not by itself establish translation realization, folding, physical admissibility, molecular function, compartmental trafficking mechanism, phenotype, evolutionary direction, or a universal biological law.  Any such stronger claim would require a separate layer-matched measurement and its own controlled statistic on the same units.

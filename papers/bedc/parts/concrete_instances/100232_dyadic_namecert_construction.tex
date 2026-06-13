@@ -104,6 +104,7 @@ Let $D_0=(Q_0,S_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $D_1=(Q_1,S_1,R_1,E_1,H_1,C_1,P_
 
 Concretely, the consumer first projects the dyadic core rows $Q_0,Q_1$, refines the displayed stream windows $S_0,S_1$ to one finite precision request, transports the regular rational readbacks $R_0,R_1$ across the componentwise $\hsame$ rows, and only then exposes $E_0,E_1$ to the terminal $\RealUp$ handoff. The normalization exports the shared finite exponent window; it does not add a selected binary expansion, quotient stream, host equality, trichotomy, countable choice, or ambient Real-completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUpCommonExponentNormalization}
 \begin{proof}
 Project the two carriers of \autoref{def:dyadic-up-carrier}. Each accepted read exposes its dyadic core row, finite stream window, regular rational readback, terminal real seal, and the structural rows that transport and replay that route.
 
@@ -161,3 +162,16 @@ seal of \autoref{ch:concrete-instances-real-namecert}.
 \input{parts/concrete_instances/dyadic/cauchy_tail_envelope_namecert_construction}
 \input{parts/concrete_instances/dyadic/dyadic_core_sibling_route}
 \input{parts/concrete_instances/dyadic/real_route_sibling_dependency}
+
+\closureat{DyadicUp}{seedStr}
+
+\begin{closurestatus}{\DyadicUp}
+  \constructivestory{A $\DyadicUp$ packet is generated from a DyadicRatCore ledger, a finite StreamName window, a RegSeqRat readback row, a RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-up-carrier}, \autoref{thm:dyadic-up-namecert-obligations}, and \autoref{thm:dyadic-up-real-seal-factorization} seed the finite dyadic carrier, NameCert surface, and Real-seal factorization route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected binary expansions, trichotomy, host real equality, ambient Real completeness, or a completed bridge.}
+  \upgradepath{Obligation closure requires checked sibling routes for the dyadic Cauchy tail envelope, DyadicRatCore dependency, and Real-facing handoff surface.}
+\end{closurestatus}

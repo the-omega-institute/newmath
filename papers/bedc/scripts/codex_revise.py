@@ -1504,7 +1504,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         if codex_ok:
             logger.info(f"[recovery] {wt.branch} codex done; retrying merge_worktree_to_base")
             try:
-                merged = merge_worktree_to_base(wt, model=model)
+                merged = merge_worktree_to_base(wt, model=model, verify_before_push=True)
             except Exception as exc:
                 logger.error(f"[recovery] {wt.branch} retry merge crashed: {exc}")
         if merged:
@@ -1531,7 +1531,12 @@ def _recovery_loop(poll_seconds: float = 30.0,
     logger.info("[recovery] stopped")
 
 
-def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
+def merge_worktree_to_base(
+    wt: WorktreeInfo,
+    *,
+    model: Optional[str] = None,
+    verify_before_push: bool = False,
+) -> bool:
     """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
 
     Round commits are preserved verbatim under a merge commit; conflict
@@ -1627,9 +1632,26 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     captured_base_sha = run_cmd(
         ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
     ).stdout.strip()
+    verified_push_tips: set[str] = set()
 
     # Phase 2: Push retry loop (short push lock per attempt)
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
+        retry_merge_reason: str | None = None
+        if verify_before_push:
+            wt_tip_pre = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+            if wt_tip_pre not in verified_push_tips:
+                logger.info(
+                    f"[P{wt.round_number}] recovery pre-push verify for {wt_tip_pre[:8]}"
+                )
+                verified, _verified_commits = verify_worktree_commits(wt, [])
+                if not verified:
+                    logger.error(
+                        f"[P{wt.round_number}] recovery pre-push verify failed; "
+                        "refusing to push"
+                    )
+                    return False
+                verified_push_tips.add(wt_tip_pre)
+
         if _pl is not None:
             try:
                 push_lock_cm = _pl(BASE_BRANCH, timeout=600)
@@ -1654,8 +1676,15 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                         f"{captured_base_sha[:8]} -> {current_base_sha[:8]}, "
                         f"retry needed (attempt {attempt})"
                     )
+                    retry_merge_reason = "origin-moved"
                 else:
                     wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+                    if verify_before_push and wt_tip not in verified_push_tips:
+                        logger.warning(
+                            f"[P{wt.round_number}] worktree tip changed after recovery "
+                            f"pre-push verify ({wt_tip[:8]}); retrying"
+                        )
+                        continue
                     ok, msg = _ff_local_branch_to(wt_tip)
                     if ok:
                         local_contains = run_cmd(
@@ -1700,6 +1729,8 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                             f"[P{wt.round_number}] ff update failed attempt {attempt} "
                             f"(transient diverge, will retry): {msg.strip()[:200]}"
                         )
+                        if msg.strip() == "skipped-not-ancestor":
+                            retry_merge_reason = "local-not-ancestor"
         except TimeoutError as exc:
             logger.warning(f"[P{wt.round_number}] push lock timeout attempt {attempt}: {exc}")
 
@@ -1721,11 +1752,32 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             return False
         with _git_lock:
             new_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
-        if new_base_sha != captured_base_sha:
+        if new_base_sha != captured_base_sha or retry_merge_reason == "local-not-ancestor":
+            if retry_merge_reason == "local-not-ancestor":
+                logger.info(
+                    f"[P{wt.round_number}] retry merging current local "
+                    f"{BASE_BRANCH} after skipped-not-ancestor"
+                )
             merge = run_cmd(
                 ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
                 cwd=wt.path, timeout=180,
             )
+            if merge.returncode != 0:
+                unmerged = run_cmd(
+                    ["git", "diff", "--name-only", "--diff-filter=U"],
+                    cwd=wt.path,
+                )
+                if not unmerged.stdout.strip():
+                    logger.warning(
+                        f"[P{wt.round_number}] retry merge blocked before start "
+                        f"(no unmerged paths): {(merge.stderr or merge.stdout or '').strip()[:200]}; "
+                        "stashing uncommitted state and retrying merge"
+                    )
+                    run_cmd(["git", "stash", "--include-untracked"], cwd=wt.path)
+                    merge = run_cmd(
+                        ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                        cwd=wt.path, timeout=180,
+                    )
             if merge.returncode != 0:
                 logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
                 resolved = _codex_resolve_conflicts(wt.path, model=model)

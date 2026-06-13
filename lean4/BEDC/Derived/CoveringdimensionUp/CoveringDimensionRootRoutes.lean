@@ -405,4 +405,183 @@ theorem CoveringDimensionRealSeparabilityRefinementRoute [AskSetup] [PackageSetu
   }
   exact ⟨cert, completionUnary, densityUnary, regseqUnary, realSealUnary⟩
 
+theorem CoveringDimensionCompactNetOrderRoute [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName compactRead supportRead radiusRead completionRead densityRead orderRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont compactMetric epsilonNet compactRead →
+        Cont compactRead cover supportRead →
+          Cont supportRead refinement radiusRead →
+            Cont radiusRead lebesgue completionRead →
+              Cont completionRead transport densityRead →
+                Cont densityRead orderBound orderRead →
+                  PkgSig bundle orderRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row compactMetric ∨ hsame row epsilonNet ∨
+                            hsame row cover ∨ hsame row refinement ∨
+                              hsame row lebesgue ∨ hsame row transport ∨
+                                hsame row densityRead ∨ hsame row orderRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont compactMetric epsilonNet compactRead ∧
+                            Cont compactRead cover supportRead ∧
+                              Cont supportRead refinement radiusRead ∧
+                                Cont radiusRead lebesgue completionRead ∧
+                                  Cont completionRead transport densityRead ∧
+                                    Cont densityRead orderBound orderRead ∧
+                                      PkgSig bundle provenance pkg ∧
+                                        PkgSig bundle orderRead pkg)
+                        hsame ∧
+                      UnaryHistory compactRead ∧ UnaryHistory supportRead ∧
+                        UnaryHistory radiusRead ∧ UnaryHistory completionRead ∧
+                          UnaryHistory densityRead ∧ UnaryHistory orderRead := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier compactEpsilonRead compactReadCover supportRefinement radiusLebesgue
+    completionTransport densityOrder orderReadPkg
+  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    lebesgueUnary, transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed compactUnary epsilonUnary compactEpsilonRead
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed compactReadUnary coverUnary compactReadCover
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed supportReadUnary refinementUnary supportRefinement
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed radiusReadUnary lebesgueUnary radiusLebesgue
+  have densityReadUnary : UnaryHistory densityRead :=
+    unary_cont_closed completionReadUnary transportUnary completionTransport
+  have orderReadUnary : UnaryHistory orderRead :=
+    unary_cont_closed densityReadUnary orderUnary densityOrder
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row compactMetric ∨ hsame row epsilonNet ∨ hsame row cover ∨
+              hsame row refinement ∨ hsame row lebesgue ∨ hsame row transport ∨
+                hsame row densityRead ∨ hsame row orderRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont compactMetric epsilonNet compactRead ∧
+              Cont compactRead cover supportRead ∧
+                Cont supportRead refinement radiusRead ∧
+                  Cont radiusRead lebesgue completionRead ∧
+                    Cont completionRead transport densityRead ∧
+                      Cont densityRead orderBound orderRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle orderRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro orderRead ⟨hsame_refl orderRead, orderReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, compactEpsilonRead, compactReadCover, supportRefinement,
+          radiusLebesgue, completionTransport, densityOrder, provenancePkg, orderReadPkg⟩
+  }
+  exact
+    ⟨cert, compactReadUnary, supportReadUnary, radiusReadUnary, completionReadUnary,
+      densityReadUnary, orderReadUnary⟩
+
+theorem CoveringDimensionRootCoverScopeRoute [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName compactRead supportRead radiusRead orderRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont compactMetric epsilonNet compactRead →
+        Cont compactRead cover supportRead →
+          Cont supportRead refinement radiusRead →
+            Cont radiusRead orderBound orderRead →
+              Cont orderRead replay consumer →
+                PkgSig bundle orderRead pkg →
+                  PkgSig bundle consumer pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row compactMetric ∨ hsame row epsilonNet ∨
+                            hsame row cover ∨ hsame row refinement ∨
+                              hsame row orderBound ∨ hsame row orderRead ∨
+                                hsame row consumer)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont compactMetric epsilonNet compactRead ∧
+                            Cont compactRead cover supportRead ∧
+                              Cont supportRead refinement radiusRead ∧
+                                Cont radiusRead orderBound orderRead ∧
+                                  Cont orderRead replay consumer ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle consumer pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier compactEpsilonRead compactReadCover supportRefinement radiusOrder
+    orderReplay orderReadPkg consumerPkg
+  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    _lebesgueUnary, _transportUnary, replayUnary, _provenanceUnary, _localNameUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed compactUnary epsilonUnary compactEpsilonRead
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed compactReadUnary coverUnary compactReadCover
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed supportReadUnary refinementUnary supportRefinement
+  have orderReadUnary : UnaryHistory orderRead :=
+    unary_cont_closed radiusReadUnary orderUnary radiusOrder
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed orderReadUnary replayUnary orderReplay
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro consumer ⟨hsame_refl consumer, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, compactEpsilonRead, compactReadCover, supportRefinement,
+          radiusOrder, orderReplay, provenancePkg, consumerPkg⟩
+  }
+
 end BEDC.Derived.CoveringdimensionUp

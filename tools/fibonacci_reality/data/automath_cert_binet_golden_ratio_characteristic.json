@@ -1,0 +1,12 @@
+{
+  "schema": "fibonacci-reality:automath-certificate-snapshot",
+  "repo": "automath",
+  "repo_url": "https://github.com/the-omega-institute/automath",
+  "commit": "caa043a7733205c0152ec685d9e1870697077b70",
+  "lean_path": "lean4/Omega/POM/MultiplicityBinetTwoParameterNormalForm.lean",
+  "object": "paper_pom_multiplicity_binet_two_parameter_normal_form",
+  "kind": "characteristic_recurrence_proof",
+  "captured_excerpt": "theorem paper_pom_multiplicity_binet_two_parameter_normal_form\n    (ls : List Nat) (hpos : ∀ l ∈ ls, 1 ≤ l) :\n    multiplicityBinetTwoParameterNormalFormStatement ls := by\n  constructor\n  · induction ls with\n    | nil =>\n        simp [pomMultiplicityReal]\n    | cons l tl _ =>\n        simp [pomMultiplicityReal, Omega.Entropy.binet_formula]\n  · intro l hl\n    simpa using Omega.Entropy.abs_psi_pow_div_sqrt5_lt_half (l + 2)",
+  "sorry_free": true,
+  "notes": "presence of a sorry-free Lean theorem (Binet golden-ratio closed form, roots of x^2=x+1) in pinned automath source; does not re-run automath lake build (Mathlib-based, not 0-axiom)."
+}

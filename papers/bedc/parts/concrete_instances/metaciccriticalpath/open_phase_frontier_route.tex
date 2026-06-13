@@ -1,0 +1,55 @@
+\begin{theorem}[MetaCIC critical-path open-phase frontier]
+\label{thm:metacic-critical-path-open-phase-frontier}
+Every MetaCIC candidate-discharge read used by the current open Phase Real and Completion route must pass through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source ledger before it can be consumed as an L10 readiness row. Thus candidate-mediated normalization, confluence, bounded conversion, and discharge-socket evidence remain downstream of the open-phase source ledger and cannot replace any one of the four L10 source faces.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathOpenPhaseFrontier}
+\begin{proof}
+First read the source ledger. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} displays the packet rows together with exactly the four Phase Real source rows, and Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} says that every admitted source read factors through that ledger.
+
+Next apply the Phase Real source obligations. Theorem~\ref{thm:metacic-critical-path-phase-real-source-obligations} requires $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ to be exposed before any discharge socket, confluence-decidability handoff, obstruction boundary, or downstream readiness boundary is consumed.
+
+Now route candidate evidence through the existing candidate frontier. Theorems~\ref{thm:metacic-critical-path-candidate-discharge-frontier}, \ref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}, and \ref{thm:metacic-critical-path-candidate-discharge-budget-route} keep candidate-mediated normalization, confluence, bounded-conversion, and L10 readiness reads inside the same finite packet while the obstruction row and discharge socket remain visible.
+
+Finally use the L10 ordering row. Theorem~\ref{thm:metacic-critical-path-l10-candidate-discharge-order} places the Real-and-Completion route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the normal-form endpoint or discharge socket can be consumed. Therefore candidate-discharge reads may serve the current open phase only after the displayed source ledger has been read, and no candidate row becomes a substitute for the four source faces.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 source-ledger nonescape]
+\label{thm:metacic-critical-path-l10-source-ledger-nonescape}
+Any MetaCIC candidate-discharge read consumed by the current Phase Real and Completion route must retain the four source rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as source-ledger rows. Candidate-mediated normalization, confluence, bounded-conversion, and discharge-socket evidence may be routed only as downstream readiness data; it cannot discharge, replace, or identify any one of the four source rows with a candidate row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-critical-path-open-phase-frontier}. It already orders every candidate-discharge read after the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source faces.
+
+Now read the source obligations and L10 ordering rows named in that proof. Theorem~\ref{thm:metacic-critical-path-phase-real-source-obligations} exposes the four source faces before discharge-socket or confluence-readiness evidence is consumed, and Theorem~\ref{thm:metacic-critical-path-l10-candidate-discharge-order} keeps the same four rows before the normal-form endpoint.
+
+The finite ledger has no remaining source coordinate. Candidate rows can therefore occupy only the downstream readiness slots already named by the open-frontier theorem, so none of them can discharge or replace $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10SourceLedgerNonescape}
+
+\begin{theorem}[MetaCIC open-frontier source exhaustion]
+\label{thm:metacic-critical-path-frontier-source-exhaustion}
+Any candidate-mediated strong-normalization, confluence, bounded-conversion, or discharge-socket read serving the open Phase Real and Completion route is exhausted by the displayed source ledger over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, the obstruction row, and the finite candidate budget. No normal-form endpoint or discharge socket may replace one of those four L10 source faces.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierSourceExhaustion}
+\begin{proof}
+First apply the open-phase frontier theorem, \autoref{thm:metacic-critical-path-open-phase-frontier}. It already forces candidate-mediated evidence to remain downstream of the four displayed L10 source faces.
+
+Next read the source ledger and closure rows. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} displays the four source faces together with the packet rows, and Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} says that admitted source reads factor through that ledger.
+
+Now use the Phase Real source obligations and candidate-discharge coverage. Theorems~\ref{thm:metacic-critical-path-phase-real-source-obligations}, \ref{thm:metacic-critical-path-candidate-discharge-frontier}, and \ref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage} keep the obstruction row, discharge socket, and finite candidate budget visible while the candidate-mediated evidence is consumed.
+
+Finally apply the L10 ordering row, \autoref{thm:metacic-critical-path-l10-candidate-discharge-order}. Since the normal-form endpoint and discharge socket are read only after the displayed source faces, neither can serve as a replacement source for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier seed]
+\label{thm:metacic-parallel-diamond-frontier-seed}
+Any parallel-diamond, residual-diamond, confluence, or bounded-conversion read consumed by the current Phase Real and Completion route is a downstream readiness row only after the packet displays $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, the obstruction row, and the finite candidate budget. Such a read cannot identify any diamond row with one of the four L10 source faces.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathParallelDiamondFrontierSeed}
+\begin{proof}
+First apply the open-phase frontier and source-ledger nonescape, \autoref{thm:metacic-critical-path-open-phase-frontier} and \autoref{thm:metacic-critical-path-l10-source-ledger-nonescape}. These results force every candidate-mediated read to remain downstream of $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next use source exhaustion, \autoref{thm:metacic-critical-path-frontier-source-exhaustion}. It keeps the obstruction row and finite candidate budget visible while the Phase Real and Completion route consumes normalization, confluence, bounded-conversion, or discharge-socket evidence.
+
+Finally route the diamond-facing data through the local candidate-discharge coverage theorems. Theorems~\ref{thm:metacic-critical-path-candidate-discharge-frontier}, \ref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}, and \ref{thm:metacic-critical-path-candidate-discharge-budget-route}, together with the L10 ordering row \autoref{thm:metacic-critical-path-l10-candidate-discharge-order}, keep parallel-diamond and residual-diamond evidence in the downstream readiness slot. Therefore no diamond row can be read as, or identified with, one of the four L10 source faces.
+\end{proof}
