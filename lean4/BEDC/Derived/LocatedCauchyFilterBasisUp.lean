@@ -302,4 +302,83 @@ theorem LocatedCauchyFilterBasisCarrier_tail_refinement [AskSetup] [PackageSetup
     ⟨bUnary, lUnary, sUnary, rUnary, dUnary, wUnary, tUnary, tailUnary,
       basisLocated, windowReadback, toleranceWitness, tailRoute, provenancePkg, tailPkg⟩
 
+theorem LocatedCauchyFilterBasisCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {B L S R D W T E H C P N tailRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyFilterBasisCarrier B L S R D W T E H C P N bundle pkg ->
+      Cont W T tailRead ->
+        Cont tailRead E sealRead ->
+          PkgSig bundle sealRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row R ∨
+                    hsame row D ∨ hsame row W ∨ hsame row T ∨ hsame row E ∨
+                      hsame row sealRead)
+                (fun row : BHist =>
+                  hsame row sealRead ∧ Cont W T tailRead ∧
+                    Cont tailRead E sealRead ∧ PkgSig bundle sealRead pkg)
+                hsame ∧
+              UnaryHistory B ∧ UnaryHistory L ∧ UnaryHistory S ∧ UnaryHistory R ∧
+                UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory T ∧ UnaryHistory E ∧
+                  UnaryHistory tailRead ∧ UnaryHistory sealRead ∧ Cont B L S ∧
+                    Cont S R D ∧ Cont D W T ∧ Cont W T tailRead ∧
+                      Cont tailRead E sealRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier tailRoute sealRoute sealPkg
+  obtain ⟨bUnary, lUnary, sUnary, rUnary, dUnary, wUnary, tUnary, eUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, basisLocated, windowReadback,
+    toleranceWitness, _tailSeal, provenancePkg, _namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed wUnary tUnary tailRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary eUnary sealRoute
+  have sourceAtSeal : hsame sealRead sealRead ∧ UnaryHistory sealRead :=
+    ⟨hsame_refl sealRead, sealUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row R ∨
+              hsame row D ∨ hsame row W ∨ hsame row T ∨ hsame row E ∨
+                hsame row sealRead)
+          (fun row : BHist =>
+            hsame row sealRead ∧ Cont W T tailRead ∧ Cont tailRead E sealRead ∧
+              PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead sourceAtSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, tailRoute, sealRoute, sealPkg⟩
+  }
+  exact
+    ⟨cert, bUnary, lUnary, sUnary, rUnary, dUnary, wUnary, tUnary, eUnary, tailUnary,
+      sealUnary, basisLocated, windowReadback, toleranceWitness, tailRoute, sealRoute,
+      provenancePkg, sealPkg⟩
+
 end BEDC.Derived.LocatedCauchyFilterBasisUp
