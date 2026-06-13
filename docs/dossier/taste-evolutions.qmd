@@ -20,19 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-13T01:07:01Z
+> 最后刷新: 2026-06-13T02:38:58Z
 
-**Daemon 状态**: adjust (monitor cycle 2, adjust_since_research 1, round_counter 8826, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 0, adjust_since_research 2, round_counter 8911, last_adjust rule_evolution_completed)
 
-**待处理 queue** (212 条 finding):
+**待处理 queue** (209 条 finding):
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 94 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 96 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 13 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
-- missing_origin: 5 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`, `bioreality_q_six_direct_protein_omics_survival`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 30 次
-- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=low_entropy_template: 5 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
 
@@ -113,6 +112,16 @@ daemon queue 给出 3 个 `missing_origin` finding, 代表样本是 `banach` / `
 Codex 随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 找到 137 个当前 `\chapter{...}` 文件没有顶层 `\origin{...}`, 代表证据包括 `papers/bedc/parts/acceptance/01_derivation_acceptance_gate.tex:1`, `papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex:1`, `papers/bedc/parts/acceptance/03_cannot_claim_registry.tex:1`。negative criterion 是: paper parts 下任何实际 chapter 文件如果缺少唯一顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝; hub-only `\input` 文件不在这个规则内。改动落在 `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_paper_chapter_origin_tags()` 现在在 audit 中输出 new/legacy split, Review/Revise prompt 要求新 chapter 自带唯一合法 lineage。
 
 Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded by daemon after merge.
+
+**2026-06-13 01:07 — Phase Verify 执行面**
+
+daemon queue 给出 5 个 `missing_origin` finding, 代表样本是 `bioreality_q_six_modeled_tai_bounded_coupling` / `bioreality_q_six_powered_modeled_tai_survival` / `bioreality_q_six_direct_protein_omics_survival`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `ff9f1995405c18bc109ec0370d2262b112a0dfb9` 约束。Codex 先查 current HEAD: cluster 中 `14125_bioreality_q_six_four_case_discriminant_ledger_namecert_construction.tex` 已有 `\origin{ai}`, 其余几个代表样本是 hub routing surface, 不持有 `\chapter{...}`; concrete-instance 顶层 chapter 缺 origin 数量为 0。随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 得到 1103 个当前 `\chapter{...}` 文件缺唯一顶层 `\origin{human|ai}`, 证据包括 `papers/bedc/parts/concrete_instances/100037_upcrossing_namecert_construction.tex:1`, `papers/bedc/parts/concrete_instances/10017_finitetailfilter_namecert_construction.tex:1`, `papers/bedc/parts/concrete_instances/100487_regular_cauchy_zero_distance_namecert_construction.tex:1`。
+
+negative criterion 维持纯负向: touched paper chapter file 若含 `\chapter{...}` 但没有且仅有一个顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝。改动落在 `papers/bedc/scripts/phase_paper_gates.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; Phase Verify 的 `chapter-origin` gate 现在执行该规则, `bedc_ci.py` 的 `detect_paper_chapter_origin_tags()` 继续在 audit payload 暴露全库 drift。
+
+### 2026-06-13 — missing origin
+
+Ship: commit `c185d7a4a53ebf057d710b696eedfd7edf9d9df7`. Detector/gate: recorded by daemon after merge.
 
 ## RESEARCH 探索历史
 
@@ -264,6 +273,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-12T22:21:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_source_lattice_determinacy` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_source_lattice_determinacy:059e3300`). Rationale: The theorem is real Booleanalgebra content rather than a removable wrapper: it packages the Stone-source/lattice determinacy route with a Stone-read package signature, distinct from the local-name handoff surface. I added a downstream Booleanalgebra sibling consumer that uses this determinacy theorem together with the existing Stone-duality forward route, tying the source/lattice certificate to the outgoing Stone consumer surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-13T00:04:16Z: `resolved` `add_downstream_user` for `BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_duality_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_duality_handoff:059e3300`). Rationale: The target is not a trivial wrapper: it packages the extra Stone-to-provenance handoff row and proves both the Stone read and concrete handoff read are unary, which is distinct from the existing forward route. I added `BooleanAlgebraStoneHandoffForwardConsumer`, a sibling consumer that uses the target together with the existing forward-route theorem, so the handoff certificate and Stone-source certificate are consumed by one downstream Booleanalgebra route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-13T02:38:52Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_duality_forward_route` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_stone_duality_forward_route:059e3300`). Rationale: The finding is stale rather than a true isolated-theorem case. The exact fully-qualified grep has no hits because Lean consumers refer to the theorem unqualified inside `BEDC.Derived.BooleanalgebraUp`, while the paper marker escapes underscores. Reading the surrounding Lean file shows two substantive downstream consumers: `BooleanAlgebraStoneSourceLatticeForwardConsumer` and `BooleanAlgebraStoneHandoffForwardConsumer` both call `BooleanAlgebraCarrier_stone_duality_forward_route` and combine its Stone-read certificate with separate source-determinacy or handoff certificates. The theorem also matches the BooleanAlgebra paper route into the StoneDuality chapter, so deleting or staging it would remove active BEDC structure. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
