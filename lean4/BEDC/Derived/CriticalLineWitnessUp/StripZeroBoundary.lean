@@ -6,7 +6,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem CriticalLineWitnessCarrier_strip_zero_boundary {Z S M R Q H C P N stripRead : BHist} :
+theorem CriticalLineWitnessCarrier_basic_strip_zero_boundary {Z S M R Q H C P N stripRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont Z S stripRead ->
         UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory stripRead ∧ hsame H (append Z S) ∧
