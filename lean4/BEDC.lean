@@ -3480,6 +3480,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalScope
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRow
+import BEDC.Derived.CriticalLineWitnessUp.ModulusSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
@@ -3583,6 +3584,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusRows
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusTotality
@@ -3669,6 +3671,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.PacketScopeBinding
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RhInputLedger
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ScopedPackage
@@ -5128,6 +5131,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
+import BEDC.Derived.FinitePrefixStreamUp.Nonescape
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
@@ -5172,6 +5176,7 @@ import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetSelectorBridge
 import BEDC.Derived.FiniteTailFilterUp.RefinementSealWitnessLedgerPullback
 import BEDC.Derived.FiniteTailFilterUp.StdBridge
+import BEDC.Derived.FiniteTailFilterUp.SubstrateBisimulationBoundary
 import BEDC.Derived.FiniteTailFilterUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp.TerminalLeanTargetSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.BoundedTraceCoverage
