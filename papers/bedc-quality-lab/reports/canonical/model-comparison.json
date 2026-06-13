@@ -1,5 +1,36 @@
 {
   "artifact_id": "bedc-quality-lab:model-comparison",
+  "comparisons": [
+    {
+      "baseline_model_ids": [
+        "base_transformer",
+        "matched_random_structural_control"
+      ],
+      "candidate_model_id": "dgt",
+      "comparison_id": "dgt_control_projection",
+      "model_pointers": {
+        "baselines": [
+          "reports/canonical/model-comparison.json:$.models[1]",
+          "reports/canonical/model-comparison.json:$.models[2]"
+        ],
+        "candidate": "reports/canonical/model-comparison.json:$.models[0]"
+      },
+      "semantic": {
+        "allowed_evidence_chain": false,
+        "baseline_validity": true,
+        "boundary_reason": "deterministic projection cannot support trained-model empirical superiority",
+        "comparison_type": "deterministic_projection",
+        "construct_validity_pointer": null,
+        "evidence_type": "deterministic_projection",
+        "evidence_type_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.model-comparison",
+        "fair_input_access": false,
+        "metric_provenance": "deterministic_projection",
+        "metric_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.metric_rows[34]",
+        "ood_solvability": null,
+        "training_status": "not_trained"
+      }
+    }
+  ],
   "cost_protocol": {
     "pointer": "configs/default_cost_protocol.yaml",
     "status": "resolved"
@@ -18,6 +49,26 @@
     "MC-HG10": {
       "gate_id": "MC-HG10",
       "reason": "non-claim boundary excludes production and global-superiority",
+      "status": "pass"
+    },
+    "MC-HG11": {
+      "gate_id": "MC-HG11",
+      "reason": "comparison rows carry exactly one validated semantic object",
+      "status": "pass"
+    },
+    "MC-HG12": {
+      "gate_id": "MC-HG12",
+      "reason": "comparison semantics point to the evidence provenance owner row",
+      "status": "pass"
+    },
+    "MC-HG13": {
+      "gate_id": "MC-HG13",
+      "reason": "deterministic projection rows cannot enter measured-training evidence chains",
+      "status": "pass"
+    },
+    "MC-HG14": {
+      "gate_id": "MC-HG14",
+      "reason": "projection rows carry trained-model claim boundaries",
       "status": "pass"
     },
     "MC-HG2": {
@@ -278,7 +329,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$",
@@ -516,7 +568,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$",
@@ -754,7 +807,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$",
@@ -992,7 +1046,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/ledger-aware-transformer/evidence_envelope.json:$",
@@ -1230,7 +1285,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/certificate-gated-attention/evidence_envelope.json:$",
@@ -1468,7 +1524,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/discovery-regularized-training/evidence_envelope.json:$",
@@ -1706,7 +1763,8 @@
         "No production deployment readiness is claimed.",
         "No global model superiority claim is made.",
         "No terminal verdict or winner is emitted.",
-        "The comparison is a deterministic toy owner-projection lane only."
+        "The comparison is a deterministic toy owner-projection lane only.",
+        "No trained-model evidence claim from projection artifacts."
       ],
       "owner": {
         "pointer": "reports/runs/model-comparison/mechanism-seeking-network/evidence_envelope.json:$",
@@ -1737,7 +1795,8 @@
     "No production deployment readiness is claimed.",
     "No global model superiority claim is made.",
     "No terminal verdict or winner is emitted.",
-    "The comparison is a deterministic toy owner-projection lane only."
+    "The comparison is a deterministic toy owner-projection lane only.",
+    "No trained-model evidence claim from projection artifacts."
   ],
   "ordering": {
     "key": [

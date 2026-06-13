@@ -518,6 +518,9 @@
     "d5_m_projection_discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level",
     "d5_m_projection_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.hardgates",
     "d5_m_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+    "d5_m_scope_basis_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis",
+    "d5_m_scope_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.hardgates",
+    "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
     "d5_o_projection_discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.discovery_level",
     "d5_o_projection_hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection.gates",
     "d5_o_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_o_projection",
@@ -1233,15 +1236,15 @@
       },
       {
         "allowed_claim_kinds": [
-          "protocol_audit"
+          "projection_only"
         ],
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[34]",
-        "evidence_type": "protocol_artifact",
+        "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
           "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
         ],
         "not_claimed": [
-          "protocol_artifact evidence does not certify empirical superiority."
+          "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "model-comparison"
@@ -1819,15 +1822,15 @@
       },
       "model-comparison": {
         "allowed_claim_kinds": [
-          "protocol_audit"
+          "projection_only"
         ],
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[34]",
-        "evidence_type": "protocol_artifact",
+        "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
           "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
         ],
         "not_claimed": [
-          "protocol_artifact evidence does not certify empirical superiority."
+          "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "model-comparison"
@@ -3687,14 +3690,14 @@
         "allowed_for_empirical_claim": false,
         "metric_name": "headline",
         "not_claimed": [
-          "protocol_field metric rows do not certify empirical superiority."
+          "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "model-comparison",
         "source_artifact_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
-        "source_code_pointer": "scripts/run_canonical_reports.py",
-        "source_type": "protocol_field",
+        "source_code_pointer": "scripts/run_model_comparison.py",
+        "source_type": "deterministic_projection",
         "value": {
           "gate_id": "MC-HG7",
           "reason": "DGT quality_q exceeds the base-transformer CI-low proxy",
@@ -6542,26 +6545,14 @@
           "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
         ],
         "optimizer_step_pointers": [],
-        "parameter_update_pointers": [
-          "bedc_quality_lab/evidence_provenance.py:L41",
-          "bedc_quality_lab/evidence_provenance.py:L399",
-          "bedc_quality_lab/evidence_provenance.py:L404",
-          "bedc_quality_lab/evidence_provenance.py:L405",
-          "bedc_quality_lab/evidence_provenance.py:L415",
-          "bedc_quality_lab/evidence_provenance.py:L473",
-          "bedc_quality_lab/evidence_provenance.py:L478",
-          "bedc_quality_lab/evidence_provenance.py:L489",
-          "bedc_quality_lab/evidence_provenance.py:L490",
-          "bedc_quality_lab/evidence_provenance.py:L491",
-          "bedc_quality_lab/evidence_provenance.py:L558"
-        ],
+        "parameter_update_pointers": [],
         "producer_command": [
           "python3",
-          "scripts/run_canonical_reports.py"
+          "scripts/run_model_comparison.py"
         ],
-        "producer_source_pointer": "scripts/run_canonical_reports.py",
+        "producer_source_pointer": "scripts/run_model_comparison.py",
         "report": "model-comparison",
-        "training_evidence_status": "empirical_training_tainted"
+        "training_evidence_status": "training_evidence_absent"
       },
       {
         "backward_pointers": [],
@@ -6843,6 +6834,8 @@
   },
   "model_comparison": {
     "artifact_id": "bedc-quality-lab:model-comparison",
+    "comparison_count": 1,
+    "dgt_control_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
     "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
     "json_artifact": "reports/canonical/model-comparison.json",
     "markdown_artifact": "reports/canonical/model-comparison.md",
@@ -6850,6 +6843,7 @@
     "models_pointer": "reports/canonical/model-comparison.json:$.models",
     "ranking_key_pointer": "reports/canonical/model-comparison.json:$.ranking_key",
     "schema_id": "bedc-quality-lab:model-comparison",
+    "semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[*].semantic",
     "sidecar_status": "ready",
     "source_reports_pointer": "reports/canonical/model-comparison.json:$.source_reports",
     "status": "pointer-only"
@@ -10712,9 +10706,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/scaling-ladder.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/scaling-ladder.json",
       "markdown_artifact": "reports/canonical/scaling-ladder.md",
       "name": "scaling-ladder",
@@ -10722,7 +10716,7 @@
         "python3",
         "scripts/run_scaling_ladder.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -11635,9 +11629,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "producer-artifact-refresh",
+      "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/dgt-model-card.fingerprint.json",
-      "fingerprint_status": "written",
+      "fingerprint_status": "match",
       "json_artifact": "reports/canonical/dgt-model-card.json",
       "markdown_artifact": "reports/canonical/dgt-model-card.md",
       "name": "dgt-model-card",
@@ -11645,7 +11639,7 @@
         "python3",
         "scripts/run_dgt_model_card.py"
       ],
-      "producer_status": "completed",
+      "producer_status": "skipped",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -12569,7 +12563,7 @@
       "name": "model-comparison",
       "producer_command": [
         "python3",
-        "scripts/run_canonical_reports.py"
+        "scripts/run_model_comparison.py"
       ],
       "producer_status": "skipped",
       "status": "pass",
@@ -12584,6 +12578,7 @@
           "status",
           "ranking_key",
           "models",
+          "comparisons",
           "hardgates",
           "not_claimed",
           "source_reports"
@@ -12811,9 +12806,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/experiment_stack_cards.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/experiment_stack_cards.json",
       "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
       "name": "experiment-stack-cards",
@@ -12821,7 +12816,7 @@
         "python3",
         "scripts/run_experiment_stack_cards.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -12939,9 +12934,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/high-impact-review.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/high-impact-review.json",
       "markdown_artifact": "reports/canonical/high-impact-review.md",
       "name": "high-impact-review",
@@ -12949,7 +12944,7 @@
         "python3",
         "scripts/run_high_impact_review.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -13060,7 +13055,7 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "input-fingerprint",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
       "fingerprint_status": "written",
       "json_artifact": "reports/canonical/claim_complexity.json",

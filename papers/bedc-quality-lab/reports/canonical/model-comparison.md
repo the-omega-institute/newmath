@@ -18,6 +18,12 @@
 | `discovery-regularized-training` | discovery-regularized training canonical owner row | `ready` | 0.441845 | 0.312076 | 0.005171 |
 | `mechanism-seeking-network` | mechanism-seeking network canonical owner row | `ready` | 0.436793 | 0.316682 | 0.005120 |
 
+## Comparison Semantics
+
+| comparison | type | metric provenance | evidence chain |
+| --- | --- | --- | --- |
+| `dgt_control_projection` | `deterministic_projection` | `deterministic_projection` | `False` |
+
 ## Hardgates
 
 | gate | status | reason |
@@ -32,6 +38,10 @@
 | `MC-HG8` | `pass` | DGT UER reduction exceeds matched-random structural control |
 | `MC-HG9` | `pass` | matched-random structural control has classifier_shift_count zero |
 | `MC-HG10` | `pass` | non-claim boundary excludes production and global-superiority |
+| `MC-HG11` | `pass` | comparison rows carry exactly one validated semantic object |
+| `MC-HG12` | `pass` | comparison semantics point to the evidence provenance owner row |
+| `MC-HG13` | `pass` | deterministic projection rows cannot enter measured-training evidence chains |
+| `MC-HG14` | `pass` | projection rows carry trained-model claim boundaries |
 
 ## Not Claimed
 
@@ -39,3 +49,4 @@
 - No global model superiority claim is made.
 - No terminal verdict or winner is emitted.
 - The comparison is a deterministic toy owner-projection lane only.
+- No trained-model evidence claim from projection artifacts.

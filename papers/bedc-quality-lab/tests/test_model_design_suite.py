@@ -95,6 +95,50 @@ def test_architecture_claim_capsule_rejects_missing_model_claim_cells():
 
 
 def _write_suite_dependencies(root):
+    canonical._write_json_atomic(
+        root / canonical.MODEL_COMPARISON_JSON_ARTIFACT,
+        canonical._build_model_comparison(generated_at="fixture-time"),
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
+        {
+            "construct_suspension": {"status": "fixture"},
+            "honest_metric_review": {"status": "fixture"},
+            "negative_witness_sweep": {"status": "fixture"},
+            "l0_toy_projection": {
+                "status": "fixture",
+                "review_status": "fixture",
+                "failure_reasons": ["fixture"],
+                "not_claimed": ["fixture"],
+            },
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
+        {
+            "ladder_state_projection": {
+                "state": "l1-bounded-negative",
+                "decision_status": "bounded-negative",
+                "not_claimed": ["fixture"],
+            }
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "negative_witness_sweep": {"status": "fixture"},
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "verdict": "construct-boundary",
+                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
+                "not_claimed": ["fixture"],
+            },
+            "l1_ood_mechanism": {
+                "verdict": "diagnostic",
+                "l2_implication": "not-claimed",
+            },
+        },
+    )
     dgt = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     canonical._write_json_atomic(root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT, dgt)
     canonical._write_json_atomic(
@@ -113,43 +157,13 @@ def _write_suite_dependencies(root):
         {"coverage_matrix": {"status": "pointer-only"}, "level_counts": {"D0": 0}},
     )
     canonical._write_json_atomic(
-        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
-        {
-            "l1_step_ladder": {
-                "convergence_crossover": {"status": "fixture"},
-                "hardgates": {"L1STEP-HG1": {"status": "pass"}},
-                "not_claimed": ["fixture"],
-                "verdict": "scoped-review-signal",
-            }
-        },
-    )
-    canonical._write_json_atomic(
         root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
         {"nabl_hardgates": {"status": "pass"}},
-    )
-    canonical._write_json_atomic(
-        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
-        {"negative_witness_sweep": {"status": "pass"}},
     )
     canonical._write_json_atomic(root / canonical.NEGATIVE_WITNESSES_JSON_ARTIFACT, {"witnesses": [{"kind": "fixture"}]})
     canonical._write_json_atomic(
         root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
         {"entries": [{"mutation_id": f"m{index}"} for index in range(8)]},
-    )
-    canonical._write_json_atomic(
-        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
-        {
-            "l1_step_ladder": {
-                "convergence_crossover": {"status": "fixture"},
-                "verdict": "construct-boundary",
-                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
-                "not_claimed": ["fixture"],
-            }
-        },
-    )
-    canonical._write_json_atomic(
-        root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
-        {"negative_witness_sweep": {"status": "fixture"}},
     )
     canonical._write_json_atomic(
         root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,

@@ -195,6 +195,8 @@
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
 - D5-M projection: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection`
 - D5-M discovery level: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level`
+- D5-M scope: `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope`
+- D5-M scope basis: `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis`
 - Scaling ladder: `reports/canonical/scaling-ladder.json:$.levels`
 - Scaling ladder discovery level: `reports/canonical/scaling-ladder.json:$.levels`
 - Scaling ladder status: `reports/canonical/scaling-ladder.json:$.levels`
@@ -238,6 +240,7 @@
 - Markdown: `reports/canonical/model-comparison.md`
 - Schema: `bedc-quality-lab:model-comparison`
 - Models: `reports/canonical/model-comparison.json:$.models`
+- Semantics: `reports/canonical/model-comparison.json:$.comparisons[*].semantic`
 - Hardgates: `reports/canonical/model-comparison.json:$.hardgates`
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`

@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import pytest
 
@@ -66,6 +67,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_dgt_tool_route_evidence,
     validate_d4_projection,
     validate_d5_m_projection,
+    validate_d5_m_scope,
     validate_d5_o_projection,
     validate_scaling_ladder_projection,
     validate_operational_robustness,
@@ -622,6 +624,50 @@ def test_dgt_d5_m_projection_passes_with_closed_bounded_mechanism(tmp_path):
     assert projection["causal_patch_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness"
     assert projection["component_ablation_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.neural_ablation_ref"
     assert validate_d5_m_projection(payload) == []
+
+
+def test_dgt_d5_m_scope_marks_projection_as_bounded_synthetic(tmp_path):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    _write_dgt_owner_refs(tmp_path)
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    scope = payload["d5_m_scope"]
+
+    assert scope["basis"] == "bounded_synthetic"
+    assert scope["synthetic_bounded"] is True
+    assert scope["aliases"] == ["discovery-gated-transformer"]
+    assert scope["model_comparison_pointer"] == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
+    assert scope["model_comparison_semantic_pointer"] == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$.comparisons[0].semantic"
+    assert scope["allowed_claim_kinds"] == ["synthetic_boundary", "protocol_projection"]
+    assert "No trained-model evidence claim from projection artifacts." in scope["not_claimed"]
+    assert validate_d5_m_scope(payload) == []
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda scope: scope.update({"model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[99].semantic"}), "semantic pointer"),
+        (lambda scope: scope.update({"basis": "training_evidence_clean", "synthetic_bounded": False}), "allowed claim kinds"),
+        (lambda scope: scope.update({"not_claimed": ["No production or deployment authority claim."]}), "not_claimed missing boundary"),
+    ],
+)
+def test_dgt_d5_m_scope_mutations_fail_closed(tmp_path, mutate, message):
+    _write_passed_dgt_neural_ablation_artifact(tmp_path)
+    _write_dgt_owner_refs(tmp_path)
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        high_impact_review_rows=_accepted_dgt_review_rows(),
+        root=tmp_path,
+    )
+    mutated = deepcopy(payload)
+    mutate(mutated["d5_m_scope"])
+
+    errors = validate_d5_m_scope(mutated)
+
+    assert any(message in error for error in errors)
 
 
 def _assert_d5_m_fail_closed(owner_payload, gate_name):

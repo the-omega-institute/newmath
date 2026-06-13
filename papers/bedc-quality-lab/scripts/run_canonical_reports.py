@@ -34,6 +34,14 @@ from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer 
 from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload, validate_discovery_map_payload
 from bedc_quality_lab.evidence_provenance import build_evidence_provenance
+from bedc_quality_lab.model_comparison import (
+    DGT_CONTROL_SEMANTIC_POINTER as MODEL_COMPARISON_DGT_CONTROL_SEMANTIC_POINTER,
+    MC_SEMANTIC_HARDGATE_IDS as MODEL_COMPARISON_SEMANTIC_HARDGATE_IDS,
+    SEMANTIC_POINTER as MODEL_COMPARISON_SEMANTIC_POINTER,
+    build_comparisons as build_model_comparison_semantic_rows,
+    semantic_hardgates as model_comparison_semantic_hardgates,
+    validate_model_comparison_payload,
+)
 from bedc_quality_lab.discovery_compiler.experiment_proposals import (
     ARTIFACT_ID as EXPERIMENT_PROPOSALS_ARTIFACT_ID,
     CANONICAL_ROLE as EXPERIMENT_PROPOSALS_CANONICAL_ROLE,
@@ -1906,7 +1914,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
     ),
     CanonicalReportSpec(
         name="model-comparison",
-        command=("python3", "scripts/run_canonical_reports.py"),
+        command=("python3", "scripts/run_model_comparison.py"),
         json_artifact=MODEL_COMPARISON_JSON_ARTIFACT,
         markdown_artifact=MODEL_COMPARISON_MARKDOWN_ARTIFACT,
         required_json_keys=(
@@ -1916,6 +1924,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "status",
             "ranking_key",
             "models",
+            "comparisons",
             "hardgates",
             "not_claimed",
             "source_reports",
@@ -4862,6 +4871,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "operational_robustness",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "discovery_map_signal",
         "discovery_map_signal_ref",
@@ -4951,9 +4961,46 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     if d5_m_projection["terminal_verdict_scope"] != "Core":
         raise ValueError("DGT D5-M terminal scope mismatch")
     d5_m_not_claimed = " ".join(d5_m_projection["not_claimed"]).lower()
-    for phrase in ("bounded d5-m", "production authority", "global superiority", "llm replacement", "unbounded"):
+    for phrase in (
+        "bounded d5-m",
+        "production authority",
+        "global superiority",
+        "llm replacement",
+        "unbounded",
+        "no trained-model evidence claim from projection artifacts",
+    ):
         if phrase not in d5_m_not_claimed:
             raise ValueError("DGT D5-M projection not_claimed boundary mismatch")
+    d5_m_scope = payload["d5_m_scope"]
+    if set(d5_m_scope["hardgates"]) != {f"D5M-SCOPE-HG{index}" for index in range(1, 5)}:
+        raise ValueError("DGT D5-M scope hardgates must contain D5M-SCOPE-HG1..4")
+    d5_m_scope_all_pass = all(row["status"] == "pass" for row in d5_m_scope["hardgates"].values())
+    if d5_m_scope["status"] != ("ready" if d5_m_scope_all_pass else "blocked"):
+        raise ValueError("DGT D5-M scope status mismatch")
+    if d5_m_scope["basis"] not in {
+        "protocol_projection",
+        "bounded_synthetic",
+        "training_evidence_clean",
+        "training_evidence_tainted",
+        "boundary",
+    }:
+        raise ValueError("DGT D5-M scope basis mismatch")
+    if d5_m_scope["basis"] != "training_evidence_clean" and d5_m_scope["synthetic_bounded"] is not True:
+        raise ValueError("DGT D5-M scope synthetic boundary mismatch")
+    if d5_m_scope["model_comparison_semantic_pointer"] != (
+        f"{MODEL_COMPARISON_JSON_ARTIFACT}:$.comparisons[0].semantic"
+    ):
+        raise ValueError("DGT D5-M scope model-comparison semantic pointer mismatch")
+    d5_m_scope_not_claimed = " ".join(d5_m_scope["not_claimed"]).lower()
+    for phrase in (
+        "no trained-model evidence claim from projection artifacts",
+        "no production",
+        "global superiority",
+        "ood superiority",
+        "llm replacement",
+    ):
+        if phrase not in d5_m_scope_not_claimed:
+            raise ValueError("DGT D5-M scope not_claimed boundary mismatch")
     scaling_ladder = payload["scaling_ladder"]
     if [row["level_id"] for row in scaling_ladder["levels"]] != [
         "L0_toy",
@@ -5090,6 +5137,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.discovery_level"
         ),
         "d5_m_projection_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_projection.hardgates",
+        "d5_m_scope_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_scope",
+        "d5_m_scope_basis_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_scope.basis",
+        "d5_m_scope_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d5_m_scope.hardgates",
         "scaling_ladder_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
         "scaling_ladder_discovery_level_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
         "scaling_ladder_status_pointer": f"{SCALING_LADDER_JSON_ARTIFACT}:$.levels",
@@ -5187,6 +5237,9 @@ def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
         "d5_m_projection_pointer": f"{artifact}:$.d5_m_projection",
         "d5_m_projection_discovery_level_pointer": f"{artifact}:$.d5_m_projection.discovery_level",
         "d5_m_projection_hardgate_pointer": f"{artifact}:$.d5_m_projection.hardgates",
+        "d5_m_scope_pointer": f"{artifact}:$.d5_m_scope",
+        "d5_m_scope_basis_pointer": f"{artifact}:$.d5_m_scope.basis",
+        "d5_m_scope_hardgate_pointer": f"{artifact}:$.d5_m_scope.hardgates",
         "scaling_ladder_pointer": f"{artifact}:$.scaling_ladder",
         "scaling_ladder_discovery_level_pointer": f"{artifact}:$.scaling_ladder.discovery_level",
         "scaling_ladder_status_pointer": f"{artifact}:$.scaling_ladder.status",
@@ -5701,7 +5754,8 @@ MODEL_COMPARISON_MODEL_IDS = (
     "matched_random_structural_control",
 )
 MODEL_COMPARISON_CONTROL_MODEL_IDS = ("dgt", "base_transformer", "matched_random_structural_control")
-MODEL_COMPARISON_HARDGATE_IDS = tuple(f"MC-HG{index}" for index in range(1, 11))
+MODEL_COMPARISON_PROTOCOL_HARDGATE_IDS = tuple(f"MC-HG{index}" for index in range(1, 11))
+MODEL_COMPARISON_HARDGATE_IDS = (*MODEL_COMPARISON_PROTOCOL_HARDGATE_IDS, *MODEL_COMPARISON_SEMANTIC_HARDGATE_IDS)
 MODEL_COMPARISON_SURFACES = (
     "safety_boundary",
     "ledger_gap",
@@ -5732,6 +5786,7 @@ MODEL_COMPARISON_NOT_CLAIMED = (
     "No global model superiority claim is made.",
     "No terminal verdict or winner is emitted.",
     "The comparison is a deterministic toy owner-projection lane only.",
+    "No trained-model evidence claim from projection artifacts.",
 )
 MODEL_COMPARISON_OWNER_SPECS: tuple[dict[str, Any], ...] = (
     {
@@ -6095,6 +6150,21 @@ def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]], *, root: Path
     }
 
 
+def _model_comparison_owner_section(root: Path | None = None) -> Mapping[str, Any] | None:
+    owner_root = ROOT if root is None else root
+    path = owner_root / "reports/canonical/index.json"
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(payload, Mapping):
+        return None
+    section = payload.get("evidence_provenance")
+    return section if isinstance(section, Mapping) else None
+
+
 def _model_comparison_ordering(rows: Sequence[Mapping[str, Any]], hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
     if any(gate.get("status") != "pass" for gate in hardgates.values()):
         return {"status": "not_ready"}
@@ -6128,7 +6198,14 @@ def _build_model_comparison(
     if write_owner_artifacts:
         _write_model_comparison_owner_artifacts(initial_rows, generated_at=timestamp)
     rows = [_model_comparison_owner_row(spec, root=ROOT) for spec in MODEL_COMPARISON_OWNER_SPECS]
-    hardgates = _model_comparison_hardgates(rows)
+    comparisons = build_model_comparison_semantic_rows(
+        rows,
+        evidence_owner_section=_model_comparison_owner_section(ROOT),
+    )
+    hardgates = {
+        **_model_comparison_hardgates(rows),
+        **model_comparison_semantic_hardgates({"comparisons": comparisons}, root=ROOT),
+    }
     readiness = {
         "status": "ready" if all(gate["status"] == "pass" for gate in hardgates.values()) else "not_ready",
         "failed_gates": [gate_id for gate_id, gate in hardgates.items() if gate["status"] != "pass"],
@@ -6141,6 +6218,7 @@ def _build_model_comparison(
         "readiness": readiness,
         "ranking_key": list(MODEL_COMPARISON_RANKING_KEY),
         "models": rows,
+        "comparisons": comparisons,
         "hardgates": hardgates,
         "cost_protocol": {
             "pointer": MODEL_COMPARISON_COST_PROTOCOL_POINTER,
@@ -6165,6 +6243,9 @@ def _build_model_comparison(
         ],
     }
     payload["ordering"] = _model_comparison_ordering(rows, hardgates)
+    errors = validate_model_comparison_payload(payload)
+    if errors:
+        raise ValueError("; ".join(errors))
     return payload
 
 
@@ -6194,6 +6275,16 @@ def _render_model_comparison_markdown(payload: Mapping[str, Any]) -> str:
             f"{metrics['JetCoverage']['value']:.6f} | "
             f"{metrics['UER_reduction']['value']:.6f} |"
         )
+    lines.extend(["", "## Comparison Semantics", "", "| comparison | type | metric provenance | evidence chain |", "| --- | --- | --- | --- |"])
+    for row in payload.get("comparisons", []):
+        semantic = row["semantic"]
+        lines.append(
+            "| "
+            f"`{row['comparison_id']}` | "
+            f"`{semantic['comparison_type']}` | "
+            f"`{semantic['metric_provenance']}` | "
+            f"`{semantic['allowed_evidence_chain']}` |"
+        )
     lines.extend(["", "## Hardgates", "", "| gate | status | reason |", "| --- | --- | --- |"])
     for gate_id in MODEL_COMPARISON_HARDGATE_IDS:
         gate = payload["hardgates"][gate_id]
@@ -6214,8 +6305,11 @@ def _model_comparison_index_section(payload: Mapping[str, Any]) -> dict[str, Any
         "markdown_artifact": MODEL_COMPARISON_MARKDOWN_ARTIFACT,
         "models_pointer": _model_comparison_pointer("$.models"),
         "hardgates_pointer": _model_comparison_pointer("$.hardgates"),
+        "semantic_pointer": MODEL_COMPARISON_SEMANTIC_POINTER,
+        "dgt_control_semantic_pointer": MODEL_COMPARISON_DGT_CONTROL_SEMANTIC_POINTER,
         "ranking_key_pointer": _model_comparison_pointer("$.ranking_key"),
         "source_reports_pointer": _model_comparison_pointer("$.source_reports"),
+        "comparison_count": len(payload.get("comparisons", [])) if isinstance(payload.get("comparisons"), list) else 0,
         "model_count": len(payload.get("models", [])) if isinstance(payload.get("models"), list) else 0,
         "sidecar_status": payload.get("status", "missing"),
     }
@@ -6807,6 +6901,7 @@ def _refresh_final_index_dependent_fingerprints(
 ) -> None:
     selected_names = {spec.name for spec in selected_specs}
     for name in (
+        "scaling-ladder",
         "dgt-model-card",
         "claim-complexity",
         "reproduction-package",
@@ -7100,6 +7195,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Robustness hardgate: `{payload['discovery-gated-transformer']['robustness_hardgate_pointer']}`",
             f"- D5-M projection: `{payload['discovery-gated-transformer']['d5_m_projection_pointer']}`",
             f"- D5-M discovery level: `{payload['discovery-gated-transformer']['d5_m_projection_discovery_level_pointer']}`",
+            f"- D5-M scope: `{payload['discovery-gated-transformer']['d5_m_scope_pointer']}`",
+            f"- D5-M scope basis: `{payload['discovery-gated-transformer']['d5_m_scope_basis_pointer']}`",
             f"- Scaling ladder: `{payload['discovery-gated-transformer']['scaling_ladder_pointer']}`",
             f"- Scaling ladder discovery level: `{payload['discovery-gated-transformer']['scaling_ladder_discovery_level_pointer']}`",
             f"- Scaling ladder status: `{payload['discovery-gated-transformer']['scaling_ladder_status_pointer']}`",
@@ -7143,6 +7240,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['model_comparison']['markdown_artifact']}`",
             f"- Schema: `{payload['model_comparison']['schema_id']}`",
             f"- Models: `{payload['model_comparison']['models_pointer']}`",
+            f"- Semantics: `{payload['model_comparison']['semantic_pointer']}`",
             f"- Hardgates: `{payload['model_comparison']['hardgates_pointer']}`",
             f"- Ranking key: `{payload['model_comparison']['ranking_key_pointer']}`",
             f"- Source reports: `{payload['model_comparison']['source_reports_pointer']}`",
@@ -7748,6 +7846,12 @@ def run_reports(
     if only is None or dgt_full_selected:
         from scripts.run_discovery_gated_transformer import write_artifacts as write_dgt_run_artifacts
 
+        model_comparison = _build_model_comparison(generated_at=timestamp, write_owner_artifacts=True)
+        _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), model_comparison)
+        _write_text_atomic(
+            _artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT),
+            _render_model_comparison_markdown(model_comparison),
+        )
         discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)
         write_dgt_run_artifacts(discovery_gated_transformer, root=ROOT)
         _write_json_atomic(_artifact_path(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT), dict(discovery_gated_transformer))
@@ -7912,6 +8016,21 @@ def run_reports(
             discovery_gated_transformer_payload=discovery_gated_transformer,
         )
     _refresh_final_index_dependent_fingerprints(selected_specs=selected_specs, generated_at=timestamp)
+    if mode == "verify":
+        refreshed_final_results = [
+            _run_spec(spec, mode="verify", generated_at=timestamp)
+            for spec in selected_specs
+            if spec.name == "scaling-ladder" and any(result["name"] == spec.name for result in results)
+        ]
+        if refreshed_final_results:
+            results = _replace_result_rows(results, refreshed_final_results, append_missing=False)
+            payload = _write_index_with_evidence_provenance(
+                results,
+                generated_at=timestamp,
+                claim_verdict_rows=claim_verdict_rows,
+                canonical_reports=selected_specs,
+                discovery_gated_transformer_payload=discovery_gated_transformer,
+            )
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:

@@ -306,8 +306,22 @@ def _errors(payload, root):
     return claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
 
 
-def _add_dgt_accepted_positive_fixture(root: Path) -> None:
+def _add_dgt_accepted_positive_fixture(root: Path, *, projection_blocked: bool = False) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    semantic = {
+        "comparison_type": "deterministic_projection" if projection_blocked else "trained_vs_trained",
+        "evidence_type_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.model-comparison",
+        "evidence_type": "deterministic_projection" if projection_blocked else "empirical_training_clean",
+        "metric_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.metric_rows[2]",
+        "construct_validity_pointer": None,
+        "training_status": "not_trained" if projection_blocked else "trained",
+        "metric_provenance": "deterministic_projection" if projection_blocked else "measured_training",
+        "fair_input_access": False if projection_blocked else True,
+        "ood_solvability": None,
+        "baseline_validity": True,
+        "allowed_evidence_chain": False if projection_blocked else True,
+        "boundary_reason": "deterministic projection cannot support trained-model empirical superiority",
+    }
     dgt_payload = {
         "schema_id": "bedc-quality-lab:discovery-gated-transformer",
         "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
@@ -336,7 +350,27 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
                 "No global superiority claim.",
                 "No LLM replacement claim.",
                 "No unbounded mechanism closure claim.",
+                "No trained-model evidence claim from projection artifacts.",
             ],
+        },
+        "d5_m_scope": {
+            "status": "ready",
+            "basis": "bounded_synthetic",
+            "synthetic_bounded": True,
+            "aliases": ["discovery-gated-transformer"],
+            "scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+            "d5_m_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+            "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+            "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+            "allowed_claim_kinds": ["synthetic_boundary", "protocol_projection"],
+            "not_claimed": [
+                "No trained-model evidence claim from projection artifacts.",
+                "No production or deployment authority claim.",
+                "No global superiority claim.",
+                "No OOD superiority claim without measured OOD evidence.",
+                "No LLM replacement claim.",
+            ],
+            "hardgates": {f"D5M-SCOPE-HG{index}": {"status": "pass", "evidence": {"artifact": dgt_artifact, "pointer": "$.d5_m_scope"}} for index in range(1, 5)},
         },
         "scaling_ladder": {
             "status": "ready",
@@ -409,8 +443,16 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             ],
             "hardgates": {
                 f"MC-HG{index}": {"status": "pass", "reason": "fixture"}
-                for index in range(1, 11)
+                for index in range(1, 15)
             },
+            "comparisons": [
+                {
+                    "comparison_id": "dgt_control_projection",
+                    "candidate_model_id": "dgt",
+                    "baseline_model_ids": ["base_transformer", "matched_random_structural_control"],
+                    "semantic": semantic,
+                }
+            ],
         },
     )
     discovery_payload = json.loads((root / claim_graph.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
@@ -428,12 +470,17 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "audit_status": "valid",
             "audit_reason": "",
             "not_claimed": list(dgt_payload["d5_m_projection"]["not_claimed"]),
+            "projection_metadata": {
+                "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+                "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+                "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+            },
         }
     )
     _write_evidence_provenance_index(
         root,
         discovery_payload["rows"],
-        empirical_reports=("gap-head-discovery", "discovery-gated-transformer"),
+        empirical_reports=("gap-head-discovery",) if projection_blocked else ("gap-head-discovery", "discovery-gated-transformer"),
     )
     _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
     rows = claim_graph.load_claim_verdict_rows(root)
@@ -464,8 +511,9 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         },
     )
     _write_dgt_high_impact_review_pass(root)
-    provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
-    _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
+    if not projection_blocked:
+        provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+        _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
 
 
 def test_claim_verdict_rows_have_terminal_graph_foreign_keys(tmp_path):
@@ -687,9 +735,23 @@ def test_dgt_accepted_positive_claim_graph_path_passes(tmp_path):
         "theorem-backed",
         "production-forbidden",
     )
+    assert by_id["projected:discovery-gated-transformer"]["model_comparison_semantic_pointer"] == (
+        "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
+    )
+    assert by_id["projected:discovery-gated-transformer"]["d5_m_scope_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope"
+    )
     assert by_id["raw:discovery-gated-transformer"]["terminal_verdict"] is None
     assert by_id["projected:discovery-gated-transformer"]["terminal_verdict"] is None
     assert _errors(payload, root) == []
+
+
+def test_dgt_accepted_positive_claim_graph_fails_closed_for_projection_semantics(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root, projection_blocked=True)
+
+    with pytest.raises(ValueError, match="deterministic projection cannot support trained empirical evidence chain"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
 
 
 def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
@@ -704,6 +766,27 @@ def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
     errors = _errors(broken, root)
 
     assert any("component-causal claim lacks evidence_scope" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("field", "message"),
+    [
+        ("model_comparison_semantic_pointer", "lacks model-comparison semantic pointer"),
+        ("d5_m_scope_pointer", "lacks D5-M scope pointer"),
+    ],
+)
+def test_dgt_accepted_positive_requires_scope_pointers(tmp_path, field, message):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:discovery-gated-transformer":
+            node[field] = None
+
+    errors = _errors(broken, root)
+
+    assert any(message in error for error in errors)
 
 
 @pytest.mark.parametrize(

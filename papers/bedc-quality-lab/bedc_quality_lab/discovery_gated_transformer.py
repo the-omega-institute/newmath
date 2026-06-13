@@ -189,15 +189,29 @@ D5O_REQUIRED_KEYS = (
 )
 D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
 HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
+MODEL_COMPARISON_CANONICAL_ARTIFACT = "reports/canonical/model-comparison.json"
 D5M_NOT_CLAIMED = (
     "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
     "No production authority claim.",
     "No global superiority claim.",
     "No LLM replacement claim.",
     "No unbounded mechanism closure claim.",
+    "No trained-model evidence claim from projection artifacts.",
 )
 D5M_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection"
+D5M_SCOPE_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_scope"
+MODEL_COMPARISON_SEMANTIC_POINTER = f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$.comparisons[0].semantic"
 D5M_DEFAULT_EVIDENCE_SCOPE = ("bounded-design", "toy-model", "theorem-backed", "production-forbidden")
+D5M_SCOPE_BASIS_VALUES = frozenset(
+    {
+        "protocol_projection",
+        "bounded_synthetic",
+        "training_evidence_clean",
+        "training_evidence_tainted",
+        "boundary",
+    }
+)
+D5M_SCOPE_GATE_NAMES = tuple(f"D5M-SCOPE-HG{index}" for index in range(1, 5))
 EVIDENCE_SCOPE_VALUES = frozenset(
     {
         "bounded-design",
@@ -233,6 +247,19 @@ D5M_REQUIRED_KEYS = (
     "anti_triviality_recommended_level",
     "anti_triviality_failed_gate",
     "anti_triviality_gate_evidence",
+)
+D5M_SCOPE_REQUIRED_KEYS = (
+    "status",
+    "basis",
+    "synthetic_bounded",
+    "aliases",
+    "scope_pointer",
+    "d5_m_projection_pointer",
+    "model_comparison_pointer",
+    "model_comparison_semantic_pointer",
+    "allowed_claim_kinds",
+    "not_claimed",
+    "hardgates",
 )
 SCALING_LADDER_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"
 SCALING_LADDER_LEVEL_IDS = (
@@ -426,8 +453,6 @@ ROBUSTNESS_FORBIDDEN_TERM_LABELS = (
     "host-private env path",
 )
 LAT_CANONICAL_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
-MODEL_COMPARISON_CANONICAL_ARTIFACT = "reports/canonical/model-comparison.json"
-
 
 @dataclass(frozen=True)
 class EvidenceCell:
@@ -2710,6 +2735,157 @@ def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def _load_model_comparison_semantic(root: Path) -> Mapping[str, Any] | None:
+    target = resolve_artifact_pointer(root, MODEL_COMPARISON_SEMANTIC_POINTER)
+    return target if isinstance(target, Mapping) else None
+
+
+def _d5_m_scope_basis(semantic: Mapping[str, Any] | None) -> str:
+    if not isinstance(semantic, Mapping):
+        semantic = {}
+    comparison_type = semantic.get("comparison_type")
+    evidence_type = semantic.get("evidence_type")
+    if comparison_type == "trained_vs_trained" and evidence_type == "empirical_training_clean":
+        return "training_evidence_clean"
+    if comparison_type == "trained_vs_trained":
+        return "training_evidence_tainted"
+    if comparison_type == "spec":
+        return "protocol_projection"
+    return "bounded_synthetic"
+
+
+def d5_m_scope_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    scope = owner_payload.get("d5_m_scope")
+    scope = scope if isinstance(scope, Mapping) else {}
+    d5_m = owner_payload.get("d5_m_projection")
+    d5_m = d5_m if isinstance(d5_m, Mapping) else {}
+    basis = scope.get("basis")
+    not_claimed_text = " ".join(str(item).lower() for item in scope.get("not_claimed", []))
+    synthetic_closed = basis in {"bounded_synthetic", "protocol_projection", "boundary"}
+    semantic_pointer = scope.get("model_comparison_semantic_pointer")
+    failed_conditions = {
+        "D5M-SCOPE-HG1": scope.get("scope_pointer") != D5M_SCOPE_POINTER,
+        "D5M-SCOPE-HG2": (
+            basis not in D5M_SCOPE_BASIS_VALUES
+            or (synthetic_closed and scope.get("synthetic_bounded") is not True)
+            or (synthetic_closed and scope.get("allowed_claim_kinds") != ["synthetic_boundary", "protocol_projection"])
+            or (
+                basis == "training_evidence_clean"
+                and (
+                    scope.get("synthetic_bounded") is not False
+                    or scope.get("allowed_claim_kinds") != ["training_evidence"]
+                )
+            )
+        ),
+        "D5M-SCOPE-HG3": not (
+            "no trained-model evidence claim from projection artifacts" in not_claimed_text
+            and "no production" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "ood" in not_claimed_text
+        ),
+        "D5M-SCOPE-HG4": not (
+            semantic_pointer == MODEL_COMPARISON_SEMANTIC_POINTER
+            and scope.get("model_comparison_pointer") == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
+            and scope.get("d5_m_projection_pointer") == D5M_PROJECTION_POINTER
+            and d5_m.get("evidence_scope") == list(D5M_DEFAULT_EVIDENCE_SCOPE)
+        ),
+    }
+    evidence = {
+        "D5M-SCOPE-HG1": "$.d5_m_scope.scope_pointer",
+        "D5M-SCOPE-HG2": "$.d5_m_scope.basis",
+        "D5M-SCOPE-HG3": "$.d5_m_scope.not_claimed",
+        "D5M-SCOPE-HG4": "$.d5_m_scope.model_comparison_semantic_pointer",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in D5M_SCOPE_GATE_NAMES
+    }
+
+
+def build_d5_m_scope(owner_payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Any]:
+    basis = _d5_m_scope_basis(_load_model_comparison_semantic(root or Path(".")))
+    synthetic_bounded = basis in {"bounded_synthetic", "protocol_projection", "boundary"}
+    draft: dict[str, Any] = {
+        "status": "ready",
+        "basis": basis,
+        "synthetic_bounded": synthetic_bounded,
+        "aliases": ["discovery-gated-transformer"],
+        "scope_pointer": D5M_SCOPE_POINTER,
+        "d5_m_projection_pointer": D5M_PROJECTION_POINTER,
+        "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
+        "model_comparison_semantic_pointer": MODEL_COMPARISON_SEMANTIC_POINTER,
+        "allowed_claim_kinds": ["synthetic_boundary", "protocol_projection"] if synthetic_bounded else ["training_evidence"],
+        "not_claimed": [
+            "No trained-model evidence claim from projection artifacts.",
+            "No production or deployment authority claim.",
+            "No global superiority claim.",
+            "No OOD superiority claim without measured OOD evidence.",
+            "No LLM replacement claim.",
+        ],
+        "hardgates": {},
+    }
+    draft["hardgates"] = d5_m_scope_hardgate_rows({**owner_payload, "d5_m_scope": draft})
+    if any(row["status"] != "pass" for row in draft["hardgates"].values()):
+        draft["status"] = "blocked"
+    errors = validate_d5_m_scope({**owner_payload, "d5_m_scope": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return draft
+
+
+def validate_d5_m_scope(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("d5_m_scope")
+    if not isinstance(payload, Mapping):
+        return ["DGT D5-M scope missing"]
+    if set(payload) != set(D5M_SCOPE_REQUIRED_KEYS):
+        errors.append("DGT D5-M scope fields mismatch")
+    gates = payload.get("hardgates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D5M_SCOPE_GATE_NAMES):
+        errors.append("DGT D5-M scope hardgate names mismatch")
+        return errors
+    expected_gates = d5_m_scope_hardgate_rows(owner_payload)
+    if gates != expected_gates:
+        errors.append("DGT D5-M scope hardgate evaluation mismatch")
+    if payload.get("basis") not in D5M_SCOPE_BASIS_VALUES:
+        errors.append("DGT D5-M scope basis mismatch")
+    if payload.get("aliases") != ["discovery-gated-transformer"]:
+        errors.append("DGT D5-M scope alias mismatch")
+    if payload.get("scope_pointer") != D5M_SCOPE_POINTER:
+        errors.append("DGT D5-M scope pointer mismatch")
+    if payload.get("d5_m_projection_pointer") != D5M_PROJECTION_POINTER:
+        errors.append("DGT D5-M scope projection pointer mismatch")
+    if payload.get("model_comparison_pointer") != f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$":
+        errors.append("DGT D5-M scope model-comparison pointer mismatch")
+    if payload.get("model_comparison_semantic_pointer") != MODEL_COMPARISON_SEMANTIC_POINTER:
+        errors.append("DGT D5-M scope semantic pointer mismatch")
+    failed = [gate_name for gate_name in D5M_SCOPE_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    if payload.get("status") != ("ready" if not failed else "blocked"):
+        errors.append("DGT D5-M scope status mismatch")
+    not_claimed = payload.get("not_claimed")
+    text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    for phrase in (
+        "no trained-model evidence claim from projection artifacts",
+        "no production",
+        "global superiority",
+        "ood superiority",
+        "llm replacement",
+    ):
+        if phrase not in text:
+            errors.append(f"DGT D5-M scope not_claimed missing boundary: {phrase}")
+    if payload.get("basis") != "training_evidence_clean" and payload.get("allowed_claim_kinds") != [
+        "synthetic_boundary",
+        "protocol_projection",
+    ]:
+        errors.append("DGT D5-M scope allowed claim kinds mismatch")
+    if payload.get("basis") == "training_evidence_clean" and payload.get("allowed_claim_kinds") != ["training_evidence"]:
+        errors.append("DGT D5-M scope allowed claim kinds mismatch")
+    return errors
+
+
 def _scaling_level_input_by_id(owner_payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     source = owner_payload.get("scaling_ladder")
     levels = source.get("levels") if isinstance(source, Mapping) else None
@@ -3641,6 +3817,7 @@ class DiscoveryGatedTransformerProjector:
             surface_summary=self.d5_o_surface_summary,
         )
         payload["d5_m_projection"] = build_d5_m_projection(payload)
+        payload["d5_m_scope"] = build_d5_m_scope(payload, root=self.root)
         payload["scaling_ladder"] = {
             "levels": [
                 {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(l0_projection)},
@@ -3681,6 +3858,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3766,6 +3944,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d5_m_errors = validate_d5_m_projection(payload)
     if d5_m_errors:
         raise ValueError("; ".join(d5_m_errors))
+    d5_m_scope_errors = validate_d5_m_scope(payload)
+    if d5_m_scope_errors:
+        raise ValueError("; ".join(d5_m_scope_errors))
     scaling_errors = validate_scaling_ladder_projection(payload)
     if scaling_errors:
         raise ValueError("; ".join(scaling_errors))
@@ -3928,6 +4109,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         ]
     )
     for gate_name, row in d5_m_projection["hardgates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    d5_m_scope = payload["d5_m_scope"]
+    lines.extend(
+        [
+            "",
+            "## D5-M Scope",
+            "",
+            f"- Status: `{d5_m_scope['status']}`",
+            f"- Basis: `{d5_m_scope['basis']}`",
+            f"- Synthetic bounded: `{d5_m_scope['synthetic_bounded']}`",
+            f"- Model comparison semantic: `{d5_m_scope['model_comparison_semantic_pointer']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d5_m_scope["hardgates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     scaling_ladder = payload["scaling_ladder"]
     lines.extend(

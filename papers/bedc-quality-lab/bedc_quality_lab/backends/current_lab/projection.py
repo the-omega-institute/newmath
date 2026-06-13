@@ -1259,10 +1259,16 @@ def _discovery_gated_transformer_projection(
     projection = projection if isinstance(projection, Mapping) else {}
     level = projection.get("discovery_level")
     owner_open, owner_reason, owner_pointer, owner_row = _dgt_scaling_owner_status(context)
+    projection_metadata = {
+        "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+        "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+        "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+    }
     if owner_row is None:
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
+            "projection_metadata": projection_metadata,
             "main_verdict": {
                 "surface_delta_count": 0,
                 "shift_information": 0,
@@ -1281,6 +1287,7 @@ def _discovery_gated_transformer_projection(
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
+            "projection_metadata": projection_metadata,
             "main_verdict": {
                 "surface_delta_count": 0,
                 "shift_information": 0,
@@ -1325,6 +1332,7 @@ def _discovery_gated_transformer_projection(
                 "audit_status": "pass",
             },
             "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
+            "projection_metadata": projection_metadata,
         }, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=evidence_pointer,
@@ -1334,6 +1342,7 @@ def _discovery_gated_transformer_projection(
         )
     return {
         "verdict": "rejected",
+        "projection_metadata": projection_metadata,
         "main_verdict": {
             "discovery_gated_transformer": {
                 "level_candidate": "D0",
@@ -2704,9 +2713,6 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
-    elif audit_status == "invalid" and discovery_level in {"D4", "D5-O", "D5-M"}:
-        discovery_level = "D0"
-        terminal_verdict = ""
     scope_claim = _scope_claim_payload(spec, payload)
     scope_gate = _scope_expansion_gate_for_payload(spec, payload)
     if scope_gate is not None and scope_gate.status == "fail" and (
@@ -2764,6 +2770,17 @@ def discovery_row(
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
     if spec.name == "discovery-gated-transformer":
         row["scaling_ladder_pointer"] = f"{SCALING_LADDER_ARTIFACT}:$.levels[0]"
+        metadata = projected.get("projection_metadata")
+        if isinstance(metadata, Mapping):
+            row["projection_metadata"] = {
+                key: metadata[key]
+                for key in (
+                    "model_comparison_pointer",
+                    "model_comparison_semantic_pointer",
+                    "d5_m_scope_pointer",
+                )
+                if isinstance(metadata.get(key), str)
+            }
     if scope_claim is not None:
         row["scope_claim"] = dict(scope_claim)
     if scope_gate is not None:

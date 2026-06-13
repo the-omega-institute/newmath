@@ -2823,11 +2823,17 @@ def test_model_comparison_sidecar_is_indexed_pointer_only():
     assert section["json_artifact"] == canonical.MODEL_COMPARISON_JSON_ARTIFACT
     assert section["markdown_artifact"] == canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT
     assert section["models_pointer"] == "reports/canonical/model-comparison.json:$.models"
+    assert section["semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[*].semantic"
+    assert section["dgt_control_semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
     assert "models" not in section
     assert "rows" not in section
     assert index_payload["model_comparison"]["models_pointer"] == section["models_pointer"]
+    assert index_payload["model_comparison"]["semantic_pointer"] == section["semantic_pointer"]
     assert "## Model Comparison" in markdown
     assert "| `base_transformer` |" not in markdown
+    serialized = json.dumps(index_payload, sort_keys=True)
+    assert "model_comparison_semantics.json" not in serialized
+    assert "d5m_scope.json" not in serialized
 
 
 def test_model_comparison_rows_cover_issue_model_set_fail_closed():
@@ -2855,6 +2861,14 @@ def test_model_comparison_rejects_accuracy_only_ranking():
 
     assert keys.isdisjoint({"rank", "total_score", "accuracy_rank", "winner", "global_winner"})
     assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+
+
+def test_dgt_index_exposes_d5_m_scope_pointer():
+    payload = canonical._build_discovery_gated_transformer_payload(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._discovery_gated_transformer_index_section(payload)
+
+    assert section["d5_m_scope_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope"
+    assert section["d5_m_scope_basis_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis"
 
 
 def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
@@ -4115,6 +4129,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -4476,6 +4491,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "d5_m_projection_pointer",
         "d5_m_projection_discovery_level_pointer",
         "d5_m_projection_hardgate_pointer",
+        "d5_m_scope_pointer",
+        "d5_m_scope_basis_pointer",
+        "d5_m_scope_hardgate_pointer",
         "scaling_ladder_pointer",
         "scaling_ladder_discovery_level_pointer",
         "scaling_ladder_status_pointer",
