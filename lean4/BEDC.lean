@@ -10249,6 +10249,7 @@ import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6TransferMatrix
+import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
