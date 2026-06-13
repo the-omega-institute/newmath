@@ -1,0 +1,34 @@
+\subsection{A wobble-broken translation readout for the $B^{*}_{Q6}$ $f_3$-stress coordinate}
+\label{sec:q6-f3-stress-wobble-broken-translation-readout-cross-layer}
+
+\paragraph{Finite carrier.}
+This record concerns the finite coding-sequence residual surface obtained after amino-acid projection, restricted to the $B^{*}_{Q6}$ third-position $f_3$-stress coordinate and to organism-matched translation readout rows.  The biological object is not a raw codon table alone: it is the paired object consisting of synonymous codon imbalance, organism-specific tRNA or wobble weights, and a bounded translation-layer response such as tAI, stAI, ribosome occupancy, or translation efficiency.  The intended row is therefore a cross-layer relation only after the readout survives the amino-acid composition, organism, GC3, length, $M$-density, and mRNA controls.
+
+\paragraph{Closed codon row.}
+The finite $f_3$ saturation computation gives a concrete boundary for the coordinate.  The median row together with the $R$ row and the two added codons is
+$$
+\begin{aligned}
+M = \{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+     &UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The $f_3$-saturated $R$ row removes exactly $ACA$ and $ACG$ from this displayed twenty-codon carrier:
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The reported $f_3$ boundary set is empty.  Thus the coordinate is not being introduced by an unbounded codon search; it is a finite residual coordinate whose relevant stress row has eighteen codons inside a twenty-codon ambient row, with $ACA$ and $ACG$ marking the omitted pair.
+
+\paragraph{Translation-contact condition.}
+The conjectural survival entry is $S_{f3\text{-}stress,T_j}$, where $T_j$ is a translation readout row.  The row is allowed to become biologically active only when context tRNA abundance or wobble weights distinguish a codon $c$ from its $f_3$ partner $c^{f_3}$, written $w_c \ne w_{c^{f_3}}$.  Without that asymmetry, the coordinate remains a residual codon geometry and does not by itself say anything about translation dynamics.  With that asymmetry, the finite test is whether the controlled readout improves the translation model after the listed baseline covariates have already been paid for.
+
+\paragraph{Available mechanism-side rows.}
+Several finite rows support using tRNA or wobble asymmetry as the right place to test the conjecture, while not yet closing the conjecture itself.  In the tRNA-poverty computation, $40$ organisms were computed out of $46$ requested organisms, with $6$ skipped, using $1000$ permutations at $\alpha=0.05$.  The reported call was that $R$ sense codons are systematically tRNA-poor under GtRNAdb tGCN plus dos Reis wobble weights.  In the residual-axis computations, $11$ organisms were computed out of $16$ requested organisms, using $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns.  The third-axis identity row aligned $d_{\perp}$ with within-family usage frequency, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  The residual optimality row identified the dominant non-tRNA residual axis as $f3\_translation\_selection$, and the two-axis closure row reported a third-axis-present outcome because $d_{\perp}$ had positive held-out $R^2$ and same-signed directions across organisms.
+
+\paragraph{Support and failure criteria.}
+The support condition is deliberately narrow.  At least one matched pair $(q_i,T_j)$ must have $S_{ij}>0$ after amino-acid composition, organism, GC3, length, $M$-density, and mRNA controls, and after ablation against simpler codon baselines.  Equivalently, the $f_3$-stress coordinate must add positive controlled explanatory power for a translation readout rather than merely re-expressing codon composition.  The failure condition is equally finite: if every controlled survival entry satisfies $S_{ij}\leq 0$, or if the translation matrix is rank-degenerate under the organism panel, then this cross-layer conjecture is broken for the tested panel.  A three-organism all-$1.0$ rank-degenerate matrix is therefore a null boundary, not a positive survival result.
+
+\paragraph{Local interpretation boundary.}
+This chapter does not infer protein abundance, folding, localization, stability, molecular function, organismal phenotype, physical admissibility, mechanism, or universality from the codon coordinate.  It also does not infer observed ribosome dynamics from modeled tAI or stAI weights alone.  Translation-layer realization requires a matched translation contact, and stronger biological conclusions require separate contacts at those stronger layers.  The present claim is only that the $B^{*}_{Q6}$ $f_3$-stress coordinate has a falsifiable translation-readout test in wobble-broken contexts.  If the controlled survival row is non-positive or rank-degenerate across a powered organism panel, the conjecture is rejected at the translation interface even though the underlying finite codon geometry and the already computed tRNA-associated rows remain intact.
