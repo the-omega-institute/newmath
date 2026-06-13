@@ -37,6 +37,8 @@ ARTICLE_REL_SUMMARY = f"{ARTICLE_REL_AUTORESEARCH_ROOT}/findings/canonical_adapt
 CLAIM_VERDICTS = {
     "positive": ("projected_positive_discovery", "projected-discovery-required"),
     "fail-closed": ("negative_discovery", "negative-discovery-failed-gate:autoresearch-fail-closed"),
+    "negative": ("negative_discovery", "negative-discovery-ci-bounded"),
+    "unidentifiable": ("negative_discovery", "unidentifiable-ci-crosses-threshold"),
 }
 
 
