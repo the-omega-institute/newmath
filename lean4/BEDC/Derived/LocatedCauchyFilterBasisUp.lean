@@ -381,4 +381,97 @@ theorem LocatedCauchyFilterBasisCarrier_real_seal_handoff [AskSetup] [PackageSet
       sealUnary, basisLocated, windowReadback, toleranceWitness, tailRoute, sealRoute,
       provenancePkg, sealPkg⟩
 
+theorem LocatedCauchyFilterBasisRealNonescape [AskSetup] [PackageSetup]
+    {B L S R D W T E H C P N tailRead sealRead transported replayed namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyFilterBasisCarrier B L S R D W T E H C P N bundle pkg ->
+      Cont W T tailRead ->
+        Cont tailRead E sealRead ->
+          Cont sealRead H transported ->
+            Cont transported C replayed ->
+              Cont replayed N namedRead ->
+                PkgSig bundle namedRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row R ∨
+                          hsame row D ∨ hsame row W ∨ hsame row T ∨ hsame row E ∨
+                            hsame row H ∨ hsame row C ∨ hsame row N ∨
+                              hsame row namedRead)
+                      (fun row : BHist =>
+                        hsame row namedRead ∧ Cont W T tailRead ∧
+                          Cont tailRead E sealRead ∧ Cont sealRead H transported ∧
+                            Cont transported C replayed ∧ Cont replayed N namedRead ∧
+                              PkgSig bundle namedRead pkg)
+                      hsame ∧
+                    UnaryHistory tailRead ∧ UnaryHistory sealRead ∧
+                      UnaryHistory transported ∧ UnaryHistory replayed ∧
+                        UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier tailRoute sealRoute transportRoute replayRoute nameRoute namedPkg
+  obtain ⟨_bUnary, _lUnary, _sUnary, _rUnary, _dUnary, wUnary, tUnary, eUnary,
+    hUnary, cUnary, _pUnary, nUnary, _basisLocated, _windowReadback, _toleranceWitness,
+    _tailSeal, _provenancePkg, _namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed wUnary tUnary tailRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary eUnary sealRoute
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed sealUnary hUnary transportRoute
+  have replayedUnary : UnaryHistory replayed :=
+    unary_cont_closed transportedUnary cUnary replayRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed replayedUnary nUnary nameRoute
+  have sourceAtNamed : hsame namedRead namedRead ∧ UnaryHistory namedRead :=
+    ⟨hsame_refl namedRead, namedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row R ∨
+              hsame row D ∨ hsame row W ∨ hsame row T ∨ hsame row E ∨ hsame row H ∨
+                hsame row C ∨ hsame row N ∨ hsame row namedRead)
+          (fun row : BHist =>
+            hsame row namedRead ∧ Cont W T tailRead ∧ Cont tailRead E sealRead ∧
+              Cont sealRead H transported ∧ Cont transported C replayed ∧
+                Cont replayed N namedRead ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead sourceAtNamed
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.left, tailRoute, sealRoute, transportRoute, replayRoute, nameRoute,
+          namedPkg⟩
+  }
+  exact ⟨cert, tailUnary, sealUnary, transportedUnary, replayedUnary, namedUnary⟩
+
 end BEDC.Derived.LocatedCauchyFilterBasisUp
