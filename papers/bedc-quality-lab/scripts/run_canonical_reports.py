@@ -4023,6 +4023,8 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
 def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
+    if _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT).exists():
+        return _load_committed_discovery_map_payload()
     try:
         return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
     except ValueError as exc:
