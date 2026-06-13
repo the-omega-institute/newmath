@@ -10246,8 +10246,9 @@ import BEDC.Derived.WeylGroupUp.TasteGate
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.NameCertObligations
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
-import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6Doubling
+import BEDC.Derived.Window6FibonacciCount
+import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
