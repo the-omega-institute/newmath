@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BarrelledSpaceUp$}
+\label{ch:concrete-instances-barrelled-space-namecert}
+\origin{human}
+
+Following Schaefer and Bourbaki on locally convex spaces, the $\BarrelledSpaceUp$ packet records the traditional barrel condition as finite BEDC NameCert data. It sits after the locally convex carrier of \autoref{ch:concrete-instances-locally-convex-space-namecert}, the finite seminorm-family surface of \autoref{ch:concrete-instances-seminormed-space-namecert}, the Banach-space boundary of \autoref{ch:concrete-instances-banachspace-namecert}, and the theorem-level uniform boundedness route of \autoref{ch:concrete-instances-banach-steinhaus-namecert}. The packet gives Banach--Steinhaus and locally convex consumers a named barrelledness certificate without importing full Banach--Steinhaus, countable choice, Hahn--Banach separation, quotient dual equality, or bridge checking.
+
+\begin{definition}[BarrelledSpace carrier]
+\label{def:barrelled-space-carrier}
+A $\BarrelledSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,S,A,D,V,C,K,F,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocallyConvexSpaceUp$ source row supplying the topological-vector, convex-neighbourhood, and local-convexity surface.
+\item $S$ is the $\SeminormedSpaceUp$ finite seminorm-family row through which boundedness probes and neighbourhood reads are inspected.
+\item $A$ is the absorbing test row for candidate barrels in the displayed locally convex source.
+\item $D$ is the balanced test row.
+\item $V$ is the convex test row.
+\item $C$ is the closed test row.
+\item $K$ is the barrel predicate row, admitting a candidate precisely when $A,D,V,C$ are displayed for the same neighbourhood carrier.
+\item $F$ is the bounded-family test row, reading pointwise bounded operator-family windows through the same locally convex and seminorm rows.
+\item $U$ is the $\BanachSteinhausUp$ consumer row that may receive a uniform-boundedness handoff only after the barrel predicate and bounded-family rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for $L,S,A,D,V,C,K,F,U$.
+\item $T$ records displayed $\Cont$ replay from barrel reads and bounded-family requests through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\BarrelledSpaceUp$, $\LocallyConvexSpaceUp$, $\SeminormedSpaceUp$, $\BanachSpaceUp$, $\BanachSteinhausUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BarrelledSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host topological-vector-space equality, a selected dual, a quotient completion, a full Banach--Steinhaus theorem, a Hahn--Banach separator, or a choice-selected family of barrels.
+\end{definition}
+
+\begin{theorem}[BarrelledSpace NameCert obligations]
+\label{thm:barrelled-space-obligation-surface}
+For every accepted $\BarrelledSpaceUp$ carrier $B=(L,S,A,D,V,C,K,F,U,H,T,P,N)$, the local $\NameCert_{\BarrelledSpaceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the locally convex source row $L$ and finite seminorm-family row $S$;
+\item barrel recognition through the absorbing, balanced, convex, and closed tests $A,D,V,C$ and the predicate row $K$;
+\item bounded-family compatibility through $F$, with all pointwise bounded windows read over the same $L,S$ surface;
+\item Banach--Steinhaus consumer routing through $U$, available only after $K$ and $F$ have been displayed;
+\item nonescape through $H,T,P,N$, excluding host Banach--Steinhaus, countable choice, Hahn--Banach strong forms, selected duals, quotient completions, and bridge checking.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:barrelled-space-carrier}. The tuple $L,S,A,D,V,C,K,F,U,H,T,P,N$ is the whole accepted packet, so carrier admission and local naming are finite row reads.
+
+The barrel predicate is not primitive. It is assembled from the absorbing, balanced, convex, and closed tests $A,D,V,C$ over the locally convex source $L$ and seminorm-family row $S$, so a consumer cannot detach barrelledness from the displayed locally convex carrier.
+
+The bounded-family test $F$ uses the same $L,S$ surface. The $\BanachSteinhausUp$ row $U$ is therefore a downstream consumer of the barrel and bounded-family rows rather than a proof of the full Banach--Steinhaus theorem.
+
+Finally the rows $H,T,P,N$ transport, replay, source, and name the same packet. Since no row names choice, Hahn--Banach separation, quotient completion, selected dual data, or bridge checking, the five listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BarrelledSpaceUp$ packet must expose the locally convex source, finite seminorm-family row, absorbing, balanced, convex, and closed tests, barrel predicate, bounded-family test, and Banach--Steinhaus consumer row before any barrelledness read is public.}
+
+\independenceWitness{locally-convex-space, seminormed-space, banachspace, banach-steinhaus: $\BarrelledSpaceUp$ is not bijective to any listed sibling because it jointly binds the locally convex source, finite seminorm family, four barrel tests, barrel predicate, bounded-family test, Banach--Steinhaus consumer row, transport, replay, provenance, and local naming rows.}
+
+\closureat{BarrelledSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BarrelledSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:barrelled-space-carrier} and \autoref{thm:barrelled-space-obligation-surface} seed the finite barrelled-space route over locally convex, seminormed-space, Banach-space, Banach--Steinhaus, barrel-test, bounded-family, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Banach--Steinhaus, countable choice, Hahn--Banach strong forms, selected duals, quotient completions, Lean verification, or bridge checking for $\BarrelledSpaceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, barrel-test compatibility, bounded-family exactness, Banach--Steinhaus consumer routing, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.BarrelledSpaceUp.}
+  \constructivestory{A $\BarrelledSpaceUp$ packet is generated from locally convex source rows, finite seminorm-family rows, absorbing, balanced, convex, closed, barrel-predicate, bounded-family, Banach--Steinhaus consumer, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}
