@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetricRetractionUp$}
+\label{ch:concrete-instances-metric-retraction-namecert}
+\origin{human}
+
+Following Borsuk and Dugundji on retractions and constructive metric topology, the $\MetricRetractionUp$ packet records the finite BEDC surface for an idempotent retraction on a displayed metric carrier. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map route of \autoref{ch:concrete-instances-continuousmap-namecert}, the complete-service surface of \autoref{ch:concrete-instances-completemetric-namecert}, the terminal real comparison seal of \autoref{ch:concrete-instances-real-namecert}, and the stronger Lipschitz retraction packet of \autoref{ch:concrete-instances-lipschitz-retraction-namecert}. The packet names the general idempotent continuous metric retraction route; it does not assert a Lipschitz constant, selected nearest point, quotient subspace equality, ambient completeness of the source, or host fixed-point theorem.
+
+\begin{definition}[Metric retraction carrier]
+\label{def:metric-retraction-carrier}
+A $\MetricRetractionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,A,G,I,T,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\MetricUp$ source row supplying the finite distance witnesses used by the retraction request.
+\item $A$ is the displayed subcarrier row, recording membership, inclusion into $X$, and the inherited distance reads inspected by the packet.
+\item $G$ is the retraction graph row, whose source observations lie in $X$ and whose values are admitted by $A$.
+\item $I$ is the identity-on-subcarrier row, requiring every displayed point already admitted by $A$ to replay through $G$ as the same subcarrier point.
+\item $T$ is the idempotence row, recording that a second read through the same graph contributes no new value row after the first retraction read.
+\item $M$ is the $\CompleteMetricUp$ service row available only as a downstream consumer service for the displayed subcarrier route.
+\item $E$ is the $\ContinuousMapUp$ replay row tying the graph $G$ to the finite continuity route used by metric consumers.
+\item $H$ records componentwise $\hsame$ transport for the metric source, subcarrier, graph, identity, idempotence, complete-service, continuous-map replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a retraction request through $X,A,G,I,T,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetricRetractionUp$, $\MetricUp$, $\ContinuousMapUp$, $\CompleteMetricUp$, $\RealUp$, $\LipschitzRetractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricRetractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for a Lipschitz constant, selected best approximation, quotient subspace equality, ambient source completeness theorem, host real equality, or global fixed-point theorem.
+\end{definition}
+
+\begin{theorem}[Metric retraction NameCert obligations]
+\label{thm:metric-retraction-namecert-obligations}
+For every accepted $\MetricRetractionUp$ carrier $R=(X,A,G,I,T,M,E,H,C,P,N)$, the local $\NameCert_{\MetricRetractionUp}$ surface consists exactly of carrier admission for the displayed tuple, metric-source visibility through $X$, subcarrier admission and inherited-distance visibility through $A$, graph admission through $G$, identity-on-subcarrier replay through $I$, idempotent replay through $T$, complete-metric service access through $M$, continuous-map replay through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-retraction-carrier}. The displayed tuple lists exactly the metric source, subcarrier, graph, identity, idempotence, complete-service, continuous-map, transport, replay, provenance, and naming rows.
+
+The source-facing obligations are exhausted by $X,A,G,I,T$. The metric row supplies distance witnesses, the subcarrier row supplies admissible values, the graph row supplies finite retraction observations, the identity row fixes points already in the subcarrier, and the idempotence row prevents a repeated graph read from adding a second value.
+
+The consumer-facing obligations are exhausted by $M,E$. A complete-space consumer can inspect only the displayed $\CompleteMetricUp$ service row, and a continuity consumer can inspect only the $\ContinuousMapUp$ replay attached to the same graph.
+
+Finally $H,C,P,N$ transport, replay, package, and name this same finite route. Since the carrier has no Lipschitz constant, selected nearest point, quotient equality, ambient source-completeness theorem, host real equality, or global fixed-point coordinate, no such obligation is present in the local certificate.
+\end{proof}
+
+\begin{theorem}[Metric retraction idempotent handoff]
+\label{thm:metric-retraction-idempotent-handoff}
+Every $\MetricUp$, $\ContinuousMapUp$, $\CompleteMetricUp$, or $\RealUp$-facing consumer of an accepted $\MetricRetractionUp$ carrier factors through the finite route
+$$
+X,A \longmapsto G,I,T \longmapsto E,M \longmapsto H,C,P,N .
+$$
+Thus source distances are read in the metric row $X$, subcarrier values are admitted through $A$, the retraction graph and identity rows are checked before any continuous-map or complete-service handoff, and idempotence is recorded by the displayed row $T$. The handoff is the general metric retraction surface; the stronger $\LipschitzRetractionUp$ packet may consume it, but this packet exports no Lipschitz constant, selected projection, quotient subspace equality, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metric-retraction-namecert-obligations}. Any consumer first receives the metric source row $X$ and the subcarrier row $A$, since these are the only rows that can supply source distances and admitted retraction values.
+
+The retraction data then pass through $G,I,T$. The graph row records finite observations, the identity row verifies that subcarrier points replay as themselves, and the idempotence row records that replaying the graph again stays on the same displayed subcarrier value.
+
+Only after those rows are displayed can a consumer read $E,M$. The continuous-map row is induced by the same graph route, and the complete-metric service row is a displayed downstream service rather than an ambient completeness theorem for the source.
+
+Transport, replay, provenance, and local naming are then carried by $H,C,P,N$. These rows preserve the factorization but add no Lipschitz constant, selected projection, quotient equality, host equality, or classical branch.
+\end{proof}
+
+\closureat{MetricRetractionUp}{seedStr}
+
+\begin{closurestatus}{\MetricRetractionUp}
+  \constructivestory{A $\MetricRetractionUp$ packet is generated from a Metric source row, a displayed subcarrier row, a retraction graph, an identity-on-subcarrier row, an idempotence row, a CompleteMetric service row, a ContinuousMap replay row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-retraction-carrier}, \autoref{thm:metric-retraction-namecert-obligations}, and \autoref{thm:metric-retraction-idempotent-handoff} seed the finite metric retraction route over source, subcarrier, graph, identity, idempotence, continuous-map replay, and complete-service rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lipschitz constants, selected nearest points, quotient subspace equality, ambient source completeness, global fixed-point existence, Lean verification, bridge checking, or host real equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source visibility, subcarrier admission, graph admission, identity replay, idempotent replay, continuous-map replay, complete-metric service access, transport, replay, provenance, and local naming for BEDC.Derived.MetricRetractionUp.}
+\end{closurestatus}
