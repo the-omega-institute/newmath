@@ -2997,6 +2997,30 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
+        if spec.name == "fair-l1-decision":
+            from bedc_quality_lab.fair_l1_decision import build_payload, write_artifacts
+
+            write_artifacts(
+                build_payload(root=tmp_path, generated_at="2026-01-02T03:04:05+00:00"),
+                root=tmp_path,
+                generated_at="2026-01-02T03:04:05+00:00",
+            )
+            return
+        if spec.name == "reproduction-package":
+            from scripts.run_reproduction_package import write_package
+
+            write_package(tmp_path, "2026-01-02T03:04:05+00:00")
+            return
+        if spec.name == "reproduction-check-result":
+            from scripts.run_reproduction_package import write_check_result
+
+            write_check_result(
+                tmp_path,
+                profile="structural",
+                target_ids=(),
+                generated_at="2026-01-02T03:04:05+00:00",
+            )
+            return
         _write_payload(tmp_path, spec, _minimal_payload(spec, root=tmp_path))
         markdown = tmp_path / spec.markdown_artifact
         markdown.write_text("# fixture\n", encoding="utf-8")
@@ -3034,7 +3058,7 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
 
     def fake_run_spec(spec, *args, **kwargs):
         if spec.name in {"dgt-l0-controls", "scaling-ladder", "dgt-model-card"}:
-            return {
+            return canonical._ensure_status_axes({
                 "name": spec.name,
                 "status": "pass",
                 "bundle_role": spec.bundle_role,
@@ -3045,7 +3069,7 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
                 "fingerprint_status": "match",
                 "producer_status": "skipped",
                 "artifact_validation": {"status": "pass"},
-            }
+            })
         return real_run_spec(spec, *args, **kwargs)
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)

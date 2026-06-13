@@ -159,6 +159,62 @@ def _errors(payload, root):
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {"status": "reviewed"},
+            "honest_metric_review": {"status": "reviewed"},
+            "l0_toy_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "ladder_consumption": {"status": "open"},
+                "not_claimed": [
+                    "Bounded L0 toy training controls only.",
+                    "No production scale claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No universal recipe claim.",
+                    "No verdict inheritance to L1 or higher scaling levels.",
+                ],
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "negative_witness_sweep": {"status": "pass"},
+            "l1_ood_mechanism": {
+                "verdict": "bounded-in-distribution-only",
+                "l2_implication": "not-established",
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/fair-l1-decision.json",
+        {
+            "decision": {"status": "scaling-evidence-eligible"},
+            "ladder_state_projection": {
+                "state": "l1-scaling-evidence-eligible",
+                "decision_status": "scaling-evidence-eligible",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": [
+                    "Bounded tiny-sequence L1 decision only.",
+                    "No L2 or higher scaling claim.",
+                    "No production deployment claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No OOD generalization claim.",
+                    "No architecture advantage claim.",
+                ],
+            },
+        },
+    )
     dgt_payload = dgt_runner.build_payload(
         generated_at="2030-01-01T00:00:00+00:00",
         high_impact_review_rows=[
