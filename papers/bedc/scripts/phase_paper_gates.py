@@ -539,9 +539,43 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
 
 
 _ORIGIN_AI_RE = re.compile(r"\\origin\{ai\}")
+_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
+_CLOSURESTATUS_BLOCK_RE = re.compile(
+    r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
+    re.DOTALL,
+)
+_TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]+)\}", re.MULTILINE)
+_VALID_ORIGINS = {"human", "ai"}
 _FIELD_FAITHFUL_INSTANCE_RE = re.compile(
     r"\binstance\s+\w+FieldFaithful\s*:?\s*FieldFaithful\s+\w+Up\b"
 )
+
+
+def detect_chapter_origin_tag(*, worktree: Path, base_sha: str) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
+        if not rel.startswith("papers/bedc/parts/"):
+            continue
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if not _CHAPTER_RE.search(text):
+            continue
+        surface_text = _CLOSURESTATUS_BLOCK_RE.sub("", text)
+        origins = [
+            match.group(1).strip()
+            for match in _TOP_LEVEL_ORIGIN_RE.finditer(surface_text)
+        ]
+        if len(origins) != 1 or origins[0] not in _VALID_ORIGINS:
+            violations.append(
+                f"{rel}: CHAPTER ORIGIN - chapter file must contain exactly "
+                f"one top-level `\\origin{{human}}` or `\\origin{{ai}}` line."
+            )
+    return violations
 
 
 def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -> list[str]:
@@ -799,6 +833,7 @@ GATE_DISPATCH = {
     "oversized": detect_oversized,
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
+    "chapter-origin": detect_chapter_origin_tag,
     "orphan-new-chapter": detect_orphan_new_chapter,
     # FieldFaithful is a Lean-side instance; checking it from P is a layer
     # violation. R phase_c.txt enforces the FF HARD GATE on its own side
