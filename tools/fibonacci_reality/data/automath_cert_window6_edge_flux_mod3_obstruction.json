@@ -1,0 +1,12 @@
+{
+  "schema": "fibonacci-reality:automath-certificate-snapshot",
+  "repo": "automath",
+  "repo_url": "https://github.com/the-omega-institute/automath",
+  "commit": "caa043a7733205c0152ec685d9e1870697077b70",
+  "lean_path": "lean4/Omega/GroupUnification/EdgeFluxMod3Obstruction.lean",
+  "object": "paper_window6_edge_flux_mod3_obstruction",
+  "kind": "edge_flux_count_certificate",
+  "captured_excerpt": "theorem paper_window6_edge_flux_mod3_obstruction {n : ℕ} (_hn : 0 < n)\n    (E : Matrix (Fin n) (Fin n) ℤ) (h : (3 : ℤ) ∣ E.det) :\n    ∃ χ : (Fin n → ZMod 3) →ₗ[ZMod 3] ZMod 3,\n      χ ≠ 0 ∧ ∀ v : Fin n → ℤ, χ (fun i => ((E.mulVec v i : ℤ) : ZMod 3)) = 0 := by\n  let A : Matrix (Fin n) (Fin n) (ZMod 3) := reduceMod3 E\n  have hdet : A.det = 0 := reduceMod3_det_zero_of_three_dvd E h\n  obtain ⟨w, hwne, hw⟩ := Matrix.exists_vecMul_eq_zero_iff.mpr hdet\n  refine ⟨dotProductEquiv (ZMod 3) (Fin n) w, ?_, ?_⟩\n  · intro hχ\n    have hw0 : (dotProductEquiv (ZMod 3) (Fin n)) w = (dotProductEquiv (ZMod 3) (Fin n)) 0 := by\n      simpa using hχ\n    exact hwne ((dotProductEquiv (ZMod 3) (Fin n)).injective hw0)\n  · intro v\n    have hmul :\n        (fun i => ((E.mulVec v i : ℤ) : ZMod 3)) = A *ᵥ fun i => ((v i : ℤ) : ZMod 3) := by\n      funext i\n      simpa [A, reduceMod3, Function.comp_def] using\n        (RingHom.map_mulVec (Int.castRingHom (ZMod 3)) E v i)\n    change w ⬝ᵥ (fun i => ((E.mulVec v i : ℤ) : ZMod 3)) = 0\n    rw [hmul, Matrix.dotProduct_mulVec, hw, zero_dotProduct]",
+  "sorry_free": true,
+  "notes": "presence of a sorry-free Lean theorem in pinned automath source; does not re-run automath lake build (Mathlib-based, not 0-axiom)."
+}

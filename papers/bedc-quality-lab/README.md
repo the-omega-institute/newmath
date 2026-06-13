@@ -16,6 +16,36 @@ python3 scripts/run_canonical_reports.py --help
 - `reports/example_envelope.json`
 - `reports/quality_report.md`
 
+`make run-bedc-jepa` calls `scripts/run_bedc_jepa_boundary_world.py` and writes:
+
+- `reports/bedc_jepa_boundary_envelope.json`
+- `reports/bedc_jepa_boundary_report.md`
+
+BEDC-JEPA evidence commands are exposed as Make targets:
+
+```bash
+make run-bedc-jepa-experiment
+make run-torch-bedc-jepa
+make build-bedc-jepa-manifest
+make build-bedc-jepa-quality-backend
+make build-public-minigrid-debt-closure
+```
+
+`make build-public-minigrid-debt-closure` writes the public MiniGrid debt
+decomposition, certified-coverage curve, risk-constrained planning artifact,
+and short closure report. It is a local debt-analysis artifact, not a native
+V-JEPA2-AC benchmark reproduction.
+
+## BEDC-JEPA Direction
+
+`BEDC_JEPA_DIRECTIVE.md` records the next research boundary. The lab does not treat JEPA as a post-hoc report object. It studies a BEDC-native world-model principle in which state contains:
+
+```text
+continuous latent state + operational distinctions + gap ledger
+```
+
+The current boundary-gated OU world is the first executable protocol for that direction. It remains a protocol sketch, not a claim that full gradient-trained BEDC-JEPA has already been completed.
+
 `make check` 是本目录的一键验证入口：运行 lab-local pytest，并通过
 `scripts/run_canonical_reports.py --verify-fingerprints` 检查 committed canonical
 报告与 fingerprint sidecar 的一致性。canonical runner 的 changed-only、cold path

@@ -55,6 +55,39 @@ The modulus row $M$ then supplies the finite index bound. The ledger $T$ binds t
 Finally $H,C,P,N$ transport, replay, source, and name the packet. Since no carrier coordinate stores a selected limit, quotient stream class, host real equality, choice schedule, or ambient completeness principle, the displayed tail ledger is the complete stability surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniform modulus tail-budget exactness]
+\label{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}
+Let $U=(S,D,M,T,H,C,P,N)$ be an accepted
+$\RegularCauchyUniformModulusUp$ carrier. Before any tail-stability or completion-facing consumer reads the modulus row, the packet exposes the same finite dyadic budget in $D$, the same $\StreamNameUp$ window in $S$, the same $\RegSeqRatUp$ readback boundary carried by $T$, and the same $\RealUp$ seal route recorded by $H,C,P,N$. Thus the tail budget is exact as a displayed BEDC row: no later consumer may widen it into a quotient stream, selected limit, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-uniform-modulus-carrier}. The rows $S,D,M,T$ expose the stream window, dyadic tolerance ledger, displayed modulus, and finite tail ledger before the structural rows are consulted.
+
+Use \autoref{thm:regular-cauchy-uniform-modulus-namecert-obligations}. Its obligation list requires every $\RegSeqRatUp$ or $\RealUp$ consumer to read the stream-window exposure, dyadic tolerance accounting, modulus-row admission, and tail-ledger exactness before the terminal real-name seal is consumed.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-stability}. The tail-stability route factors through the same $S,D,M,T$ rows, so a completion-facing read cannot replace the displayed budget by a different modulus surface.
+
+Finally inspect the carrier inventory. There is no quotient stream row, selected limit row, host real equality row, countable-choice row, or ambient completeness row, and $H,C,P,N$ only transport, replay, source, and name the already displayed packet. Hence the exposed tail budget is exact for every downstream read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy uniform modulus lattice crosslink]
+\label{thm:regular-cauchy-uniform-modulus-lattice-crosslink}
+Every accepted $\RegularCauchyUniformModulusUp$ carrier presents the same
+$$
+S,D,M,T,H,C,P,N
+$$
+route needed by downstream $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchySequenceSpaceUp$ completion-facing reads. The crosslink keeps stream windows, dyadic budgets, regular readback, uniform tail ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming visible as one L10 lattice route; it exports no quotient stream equality, selected limit, host real equality, countable-choice schedule, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-uniform-modulus-carrier}. The rows $S,D,M,T$ expose the stream window, dyadic tolerance ledger, displayed modulus, and finite tail ledger, while $H,C,P,N$ transport, replay, source, and name that same packet.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-namecert-obligations}. Its obligation surface requires every $\RegSeqRatUp$ or $\RealUp$ consumer to pass through the displayed stream-window, dyadic tolerance, modulus, and tail-ledger rows before the terminal seal is consumed.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}. The tail budget exposed to a completion-facing read is the same displayed BEDC row throughout the route, so it cannot be replaced by a quotient stream, selected Cauchy limit, host real equality, choice schedule, or ambient completeness theorem.
+
+The sibling completion-facing window route is the one named in \autoref{ch:concrete-instances-cauchysequencespace-namecert}. Therefore the accepted carrier supplies exactly the $S,D,M,T,H,C,P,N$ lattice crosslink used by $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchySequenceSpaceUp$ consumers.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RegularCauchyUniformModulusUp$ consumer displays a $\StreamNameUp$ row, a $\DyadicRatCoreUp$ observation row, a regular modulus row, a finite tail ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any $\RegSeqRatUp$ readback or terminal $\RealUp$ seal is consumed.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real: $\RegularCauchyUniformModulusUp$ is not bijective to any listed sibling because it packages the displayed uniform tail budget and finite tail ledger as one NameCert surface between stream observations, dyadic tolerances, regular rational readback, and the terminal real-name seal.}

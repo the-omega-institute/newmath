@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\TailWindowFilterUp$}
+\label{ch:concrete-instances-tail-window-filter-namecert}
+\origin{human}
+
+Following Bishop's filter language and the Real completeness route of \autoref{ch:visions-real-completeness}, the $\TailWindowFilterUp$ packet records cofinal finite tail windows for completion-facing Cauchy data. It sits over the finite stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite tail-filter carrier; it does not quotient filters, choose a limiting representative, invoke countable choice, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Tail-window filter carrier]
+\label{def:tail-window-filter-carrier}
+A $\TailWindowFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,W,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite tail-index row naming the inspected lower bounds for the filter.
+\item $W$ is the cofinal finite-window row assigning each requested tail bound a displayed window beyond it.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the requested bounds and window estimates.
+\item $R$ is the $\RegSeqRatUp$ readback row consumed after the tail window has been displayed.
+\item $S$ is the $\StreamNameUp$ source row naming the observation schedule for the window.
+\item $H$ records componentwise $\hsame$ transport for $T,W,D,R,S$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T,W,D,S \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\TailWindowFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TailWindowFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by $T,W,D,R,S,H,C,P,N$. It has no coordinate for a completed filter quotient, selected limit, countable-choice schedule, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Tail-window filter NameCert obligations]
+\label{thm:tail-window-filter-namecert-obligations}
+For every accepted $\TailWindowFilterUp$ carrier
+$$
+F=(T,W,D,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\TailWindowFilterUp}$ surface consists exactly of carrier admission for the finite tail-index row, cofinal finite-window row, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, $\StreamNameUp$ source row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; classifier stability under those same rows; cofinality exactness for $W$ over $T$; Real-completion handoff through $S,D,R$; and ledger nonescape for completed filter quotients, selected limits, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-window-filter-carrier}. The finite tail-index, cofinal window, dyadic tolerance, regular rational readback, stream source, and structural rows are all displayed coordinates.
+
+Classifier stability is componentwise on those coordinates. Cofinality exactness is read from $W$: each tail request named in $T$ receives a displayed finite window beyond the request, with the dyadic ledger $D$ recording the relevant comparison.
+
+The handoff rows $S,D,R,H,C,P,N$ preserve and replay the same finite route. Since no completed filter quotient, selected limit, choice schedule, or ambient completeness row occurs in the carrier, the NameCert surface has exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[Tail-window filter cofinality]
+\label{thm:tail-window-filter-cofinality}
+Let $F=(T,W,D,R,S,H,C,P,N)$ be an accepted $\TailWindowFilterUp$ carrier. For every tail request displayed in $T$, the row $W$ supplies a finite window beyond that request, and the dyadic ledger $D$ records the comparison that makes the window cofinal. This cofinality is stable under the componentwise $\hsame$ transport row $H$ and replay through the displayed $\Cont$ row $C$.
+\end{theorem}
+\begin{proof}
+Read a tail request from $T$. The cofinality row $W$ is part of the carrier, so it supplies the finite window assigned to that request before any regular rational readback is opened.
+
+The comparison that the window lies beyond the request is recorded in $D$. The stream source $S$ names the finite observations used by that comparison, and $R$ is read only after those rows have been displayed.
+
+Transport through $H$ moves the request, window, dyadic comparison, stream row, and readback row componentwise. Replay through $C$ follows the same displayed route, so cofinality remains a finite tail-window property.
+\end{proof}
+
+\begin{theorem}[Tail-window filter Real completion handoff]
+\label{thm:tail-window-filter-real-completion-handoff}
+Every Real-completion consumer admitted by an accepted $\TailWindowFilterUp$ packet receives only the displayed finite tail row $T$, cofinal window row $W$, $\StreamNameUp$ source row $S$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ tolerance row $D$, and seal rows $H,C,P,N$. It receives no completed filter quotient, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:tail-window-filter-namecert-obligations}. A completion-facing consumer can inspect exactly the carrier rows listed there, and those rows expose a finite tail request, a cofinal finite window, a stream schedule, a dyadic comparison ledger, and regular rational readback.
+
+The transport and replay rows do not add analytic content. They preserve the same displayed route from tail request and window through stream and dyadic data to the regular rational readback.
+
+Thus the Real-completion handoff is the finite row package $T,W,S,R,D,H,C,P,N$. The carrier inventory excludes completed filter quotients, selected limits, countable choice, and ambient real completeness, so none of them is exported.
+\end{proof}
+
+\closureat{TailWindowFilterUp}{seedStr}
+
+\begin{closurestatus}{\TailWindowFilterUp}
+  \constructivestory{A $\TailWindowFilterUp$ packet is generated from a finite tail-index row, a cofinal finite-window row, a DyadicRatCore tolerance row, RegSeqRat readback, a StreamName source row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-window-filter-carrier}, \autoref{thm:tail-window-filter-namecert-obligations}, \autoref{thm:tail-window-filter-cofinality}, and \autoref{thm:tail-window-filter-real-completion-handoff} seed the finite cofinal tail-window route for Real completeness through StreamName, RegSeqRat, DyadicRatCore, and Real sealing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed filter quotients, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, cofinality exactness, Real-completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.TailWindowFilterUp.}
+\end{closurestatus}

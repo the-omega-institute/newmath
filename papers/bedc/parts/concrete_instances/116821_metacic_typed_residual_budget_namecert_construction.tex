@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedResidualBudgetUp$}
+\label{ch:concrete-instances-metacic-typed-residual-budget-namecert}
+\origin{ai}
+
+The $\MetaCICTypedResidualBudgetUp$ packet realizes the MetaCIC residual-checker frontier as finite typed residual-budget data. It sits beside the MetaCIC residual-substitution boundary, confluence residual-checker, confluence residual envelope, local diamond witness, and substitution-diamond packets, but its own carrier is the typed budget ledger that a bounded residual checker consumes before it may report a local join or retain an obstruction. The packet does not claim subject reduction, a full parallel diamond, arbitrary Church--Rosser, or unrestricted residual-substitution compatibility.
+
+The dependency route is row-sensitive. The typed-window row $T$ is read with the residual-substitution premise visible through \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}; the residual-frontier row $R$ is checked against the bounded redex and checker inventory of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}; the checker-route row $Q$ consumes the residual envelope of \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}; the local-join row $J$ is compared with the finite peak geometry of \autoref{ch:concrete-instances-metacic-parallel-diamond-witness-namecert}; and the obstruction row $O$ retains the substitution boundary of \autoref{ch:concrete-instances-metacic-substitution-diamond-namecert} together with the frontier budget of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Thus the carrier records the typed windows, bounded checker routes, local joins, and obstruction rows that those sibling packets must read before any residual-diamond handoff is visible to a downstream confluence consumer.
+
+\begin{definition}[MetaCIC typed residual-budget carrier]
+\label{def:metacic-typed-residual-budget-carrier}
+A $\MetaCICTypedResidualBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,R,Q,J,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, naming the finite source term, target type annotation, context fragment, and closedness boundary visible to the residual checker.
+\item $R$ is the residual-frontier row, listing the redex and residual pairs that the bounded checker is allowed to inspect inside $T$.
+\item $Q$ is the checker-route row, recording the finite fuel, residual scheduling order, and local substitution-boundary reads used by the checker.
+\item $J$ is the local-join row, storing each displayed join candidate accepted by the bounded checker for the inspected residual pairs.
+\item $O$ is the obstruction row, retaining the exact typed residual pair, substitution-boundary failure, or fuel boundary when the checker does not close a local join.
+\item $H$ records componentwise $\hsame$ transport for typed windows, residual frontiers, checker routes, local joins, obstruction rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a residual-checker request through
+$$
+T \longmapsto R \longmapsto Q \longmapsto J,O .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICTypedResidualBudgetUp$, the surrounding MetaCIC confluence and substitution-boundary packets, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICTypedResidualBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,Q,J,O,H,C,P,N$. It has no coordinate for a subject-reduction theorem, full parallel diamond, arbitrary Church--Rosser theorem, unrestricted substitution compatibility, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed residual-budget NameCert obligations]
+\label{thm:metacic-typed-residual-budget-namecert-obligations}
+For every accepted $\MetaCICTypedResidualBudgetUp$ carrier
+$$
+B=(T,R,Q,J,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICTypedResidualBudgetUp}$ surface consists exactly of carrier admission for the typed window, residual frontier, checker route, local join row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; typed-window exactness for the source and type boundary; residual-frontier coverage for the inspected pairs; checker-route boundedness; local-join or obstruction retention for each inspected pair; and nonescape from the named residual-budget rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-typed-residual-budget-carrier}. The accepted packet exposes exactly $T,R,Q,J,O,H,C,P,N$.
+
+Typed-window exactness is read from $T$. The checker has no access to a larger context, unrecorded closedness proof, or hidden subject-reduction theorem.
+
+Residual-frontier coverage and checker-route boundedness are local. The row $R$ lists the residual pairs under inspection, and $Q$ records the finite route and fuel used to inspect them.
+
+Each inspected pair then lands in either $J$ or $O$. A successful local check is stored as a displayed join candidate in $J$, while an unclosed pair, substitution-boundary failure, or fuel boundary remains visible in $O$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the stronger confluence and substitution principles are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed residual-budget residual-checker route]
+\label{thm:metacic-typed-residual-budget-residual-checker-route}
+Every MetaCIC residual-checker consumer of an accepted $\MetaCICTypedResidualBudgetUp$ carrier
+$$
+B=(T,R,Q,J,O,H,C,P,N)
+$$
+must factor its read through the finite typed-budget route
+$$
+T \longmapsto R \longmapsto Q \longmapsto J,O \longmapsto H,C,P,N .
+$$
+The consumer may export the displayed typed window, inspected residual frontier, bounded checker route, local join rows, retained obstruction rows, componentwise transport, replay, provenance, and local naming. It may not export subject reduction, a full parallel diamond, arbitrary Church--Rosser, unrestricted residual-substitution compatibility, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with a residual-checker consumer. The typed window $T$ is the only source of term, type, context, and closedness-boundary data available to the packet.
+
+The residual frontier is then fixed by $R$. The checker cannot inspect a pair outside that displayed frontier, and the route row $Q$ records the finite schedule and fuel used for the inspected pairs.
+
+For each inspected pair, the packet records the outcome locally. A successful bounded local join is placed in $J$, while a residual pair that is blocked by substitution, typing, or fuel remains visible in $O$.
+
+The structural rows add transport and replay without adding a stronger theorem. Thus every consumer export remains inside $T,R,Q,J,O,H,C,P,N$, and the excluded MetaCIC endpoints are not obtained from the typed residual-budget packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICTypedResidualBudgetUp$ residual-checker read factors through a typed-window row, residual-frontier row, bounded checker-route row, local-join row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{metacic-residual-substitution-boundary, metacic-confluence-residual-checker, metacic-confluence-residual-envelope, metacic-parallel-diamond-witness, metacic-substitution-diamond: $\MetaCICTypedResidualBudgetUp$ is not bijective to any listed sibling because it jointly carries typed-window data, residual-frontier data, checker-route budget, local joins, retained obstructions, transport, replay, provenance, and local naming while refusing subject reduction, full parallel diamond, arbitrary Church--Rosser, and unrestricted residual-substitution compatibility.}
+
+Later Lean TasteGate work for $\MetaCICTypedResidualBudgetUp$ must include explicit Nontrivial and FieldFaithful instances for the typed-window, residual-frontier, checker-route, local-join, obstruction, transport, replay, provenance, and NameCert rows before any discovery or public closure claim is made.
+
+\closureat{MetaCICTypedResidualBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedResidualBudgetUp}
+  \constructivestory{A $\MetaCICTypedResidualBudgetUp$ packet is generated from a typed-window row, residual-frontier row, bounded checker-route row, local-join row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-residual-budget-carrier}, \autoref{thm:metacic-typed-residual-budget-namecert-obligations}, and \autoref{thm:metacic-typed-residual-budget-residual-checker-route} seed the finite typed residual-budget surface for the MetaCIC residual-checker frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, full parallel diamond, arbitrary Church--Rosser, unrestricted residual-substitution compatibility, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exactness, residual-frontier coverage, bounded checker-route exactness, local-join or obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICTypedResidualBudgetUp.}
+\end{closurestatus}

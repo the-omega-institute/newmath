@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\TheoremDnaComplexityScoringUp$}
+\label{ch:concrete-instances-theorem-dna-complexity-scoring-namecert}
+\origin{ai}
+
+The $\TheoremDnaComplexityScoringUp$ packet realizes the theorem-DNA complexity-scoring vision of \autoref{ch:theorem-dna-complexity-scoring} as finite NameCert data. It packages role-locus completeness, mass-vector extraction, weighted-score rows, refusal boundaries, transport, replay, provenance, and local naming so downstream discovery classifiers can inspect score reads without treating theorem text or proof length as a complete theorem object.
+
+The score packet is consumed beside \autoref{ch:concrete-instances-theorem-genome-evolution-namecert} and \autoref{ch:concrete-instances-discovery-pipeline-calculus-namecert}: theorem-genome supplies the lineage rows, while discovery-pipeline supplies the classifier-shift consumer route.
+
+\begin{definition}[TheoremDnaComplexityScoring carrier]
+\label{def:theorem-dna-complexity-scoring-carrier}
+A $\TheoremDnaComplexityScoringUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,R,D,M,W,Q,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theorem-candidate event-flow row.
+\item $R$ is the recognizer row that assigns theorem roles to subflows.
+\item $D$ is the eight-locus theorem-DNA row, displaying statement, dependencies, proof, certificates, ledger, status, canonical-site, and closing-seal loci.
+\item $M$ is the mass-vector row, recording the nine coordinates for the eight role masses and recognizer overhead.
+\item $W$ is the public weight row, listing the nine nonnegative weights used to turn $M$ into a scalar score.
+\item $Q$ is the weighted-score comparison row, computing the accepted scalar score only from $M$ and $W$.
+\item $B$ is the refusal-boundary row, rejecting score reads that omit any role locus, mass coordinate, weight coordinate, recognizer row, transport row, replay row, provenance row, or local name row.
+\item $H$ records componentwise $\hsame$ transport for theorem flow, recognizer, theorem-DNA loci, mass vector, weight profile, score comparison, refusal boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a scoring request through $T,R,D,M,W,Q,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TheoremDnaComplexityScoringUp$, \autoref{ch:theorem-dna-complexity-scoring}, theorem-flow recognition, theorem-genome evolution, classifier-level information, theorem-DNA taste gates, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TheoremDnaComplexityScoringUp}$ row.
+\end{enumerate}
+The classifier compares accepted scoring packets only through these rows. It has no coordinate for statement-only theorem identity, proof-length-only scoring, hidden weights, unanchored recognizer overhead, prose novelty, or a score read outside the displayed finite packet.
+\end{definition}
+
+\begin{theorem}[TheoremDnaComplexityScoring obligation surface]
+\label{thm:theorem-dna-complexity-scoring-obligation-surface}
+For every accepted $\TheoremDnaComplexityScoringUp$ carrier $S=(T,R,D,M,W,Q,B,H,C,P,N)$, the local $\NameCert_{\TheoremDnaComplexityScoringUp}$ surface consists exactly of theorem-flow exposure, role-locus completeness, mass-vector extraction, public weight exposure, weighted-score computation, refusal-boundary exactness, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A score read is accepted only after all eight role loci and all nine mass and weight coordinates are visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:theorem-dna-complexity-scoring-carrier}. The theorem object is not read from a sentence alone; it is read through the candidate row $T$, recognizer row $R$, and eight-locus DNA row $D$.
+
+The vector part is supplied by $M$, and the scalarization is supplied by $W$ and $Q$. Since $Q$ is defined only from the displayed vector and weight rows, no hidden score coordinate is available.
+
+The refusal boundary $B$ records exactly the missing-row cases. Transport through $H$ preserves the role, vector, weight, and score coordinates together, while $C,P,N$ replay, source, and name the same finite packet.
+
+Thus the NameCert obligation surface is exhausted by the listed finite rows.
+\end{proof}
+
+\begin{theorem}[TheoremDnaComplexityScoring refusal boundary]
+\label{thm:theorem-dna-complexity-scoring-refusal-boundary}
+Any attempted $\TheoremDnaComplexityScoringUp$ score read that omits one of the eight theorem-DNA role loci, one of the nine mass coordinates, one of the nine public weight coordinates, the recognizer row, the refusal-boundary row, componentwise transport, replay, provenance, or local naming is rejected by the carrier of \autoref{def:theorem-dna-complexity-scoring-carrier}. In particular, proof shortening, statement length, recognizer overhead, or score comparison alone is not an accepted theorem-DNA complexity score.
+\end{theorem}
+\begin{proof}
+Read a scoring request through $C$. The replay route reaches $T,R,D,M,W,Q,B,H,P,N$ before any scalar score can be exported.
+
+If a role locus is missing, then $D$ is not the eight-locus theorem-DNA row required by the carrier. If a mass or weight coordinate is missing, then $Q$ has no displayed input from which to compute the scalar score.
+
+If the recognizer, boundary, transport, replay, provenance, or local naming row is missing, then the score is detached from the finite NameCert packet. Each case is listed by $B$ as a refusal case.
+
+Therefore the accepted score read requires the full displayed route and cannot be obtained from any single theorem-locus or scalar comparison alone.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\TheoremDnaComplexityScoringUp$ score read without all eight role loci, all nine mass coordinates, all nine weight coordinates, the refusal boundary, transport, replay, provenance, and local naming rows refutes the carrier of \autoref{def:theorem-dna-complexity-scoring-carrier}.}
+
+\independenceWitness{theorem-genome-evolution, discovery-pipeline-calculus, theorem-dna-scoring-taste-gate, classifier-level-information: $\TheoremDnaComplexityScoringUp$ is not bijective to these siblings because it jointly binds role-locus completeness, mass-vector extraction, public weight rows, weighted-score comparison, refusal exactness, transport, replay, provenance, and local naming in one scoring packet.}
+
+The Lean follow-up for $\TheoremDnaComplexityScoringUp$ must provide explicit $\Nontrivial\ \TheoremDnaComplexityScoringUp$ and $\FieldFaithful\ \TheoremDnaComplexityScoringUp$ TasteGate instances, keeping role loci, mass vectors, weights, score comparisons, and refusal rows as separate displayed fields.
+
+\closureat{TheoremDnaComplexityScoringUp}{seedStr}
+
+\begin{closurestatus}{\TheoremDnaComplexityScoringUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:theorem-dna-complexity-scoring-carrier}, \autoref{thm:theorem-dna-complexity-scoring-obligation-surface}, and \autoref{thm:theorem-dna-complexity-scoring-refusal-boundary} seed the theorem-DNA complexity-scoring packet as finite role-locus, mass-vector, weight, score, refusal, transport, provenance, and NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim positive discovery, theorem-generation power, score optimality, hidden weighting, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked role-locus completeness, mass-vector extraction, public weight exposure, weighted-score computation, refusal exactness, replay, provenance, local NameCert registration, and TasteGate compatibility for BEDC.Derived.TheoremDnaComplexityScoringUp.}
+  \constructivestory{A $\TheoremDnaComplexityScoringUp$ packet is generated from theorem-candidate flow, recognizer flow, eight theorem-DNA role loci, a nine-coordinate mass vector, a public nine-coordinate weight profile, a weighted-score comparison, refusal boundaries, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

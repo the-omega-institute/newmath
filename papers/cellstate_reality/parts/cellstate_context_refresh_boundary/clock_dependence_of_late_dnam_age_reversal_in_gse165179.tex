@@ -1,0 +1,34 @@
+\subsection{Clock Dependence of Late DNAm-Age Reversal in GSE165179}\label{sec:bioreality-age-clock-shift-clock-dependence-gse165180}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+This record fixes a finite methylation-clock comparison rather than a promoted biological-age claim.  The carrier is
+$$
+\begin{aligned}
+B_{CD}=(M,W_{H1},W_{H2},T,S_A,\Delta_A,D,V,L,N),
+\end{aligned}
+$$
+where $M$ is the curated GSE165179 EPIC beta matrix reached through the GSE165180 SuperSeries, restricted to CpGs covered by the pan-tissue Horvath1 and skin-and-blood Horvath2 clocks.  The coefficient data $W_{H1}$ and $W_{H2}$ are the two fixed clock tables, each with its offset.  The timecourse component $T$ consists of same-donor fibroblast baselines at day $0$ and transiently reprogrammed MPTR fibroblast observations at days $10$, $13$, $15$, and $17$.  The readback $S_A$ is the DNAm-age score produced under each clock, and $\Delta_A$ is the paired treated-minus-baseline DNAm-age difference, interpreted only inside the clock that produced it.  The trend component $D$ collapses donor-day pairs into the phase-length direction for each clock.  The verdict component $V$ compares late-timepoint signs and trend directions, $L$ records that the layer is only \texttt{age\_signature}, and $N$ records that the comparison cannot by itself promote identity, function, safety, rejuvenation, maintenance, or immortality.
+
+\paragraph{Reality contact.}
+The contact used here is \texttt{k-a.gse165180.horvath353}.  It identifies GSE165180 as a SuperSeries containing GSE165179 and records that GSE165179 supplies a processed EPIC methylation beta matrix with donor-labelled baseline fibroblast and MPTR fibroblast samples.  The curated Horvath353 contact covers $334$ of the $353$ CpGs in the classical pan-tissue clock slice.  The explicitly observed baseline-versus-MPTR day-$10$ contrast contains three same-donor pairs, namely donors O1, O2, and O3, and the contact notes that one donor has a positive treated-minus-baseline DNAm-age delta.  This finite donor count is part of the object being certified: the row set is strong enough to run a deterministic clock-comparison readback, but it is not a population-level biological aging study.
+
+\paragraph{Clock-dependence test.}
+The experiment identified by \texttt{cellstate.age-clock-shift.clock-dependence.gse165180} and run id \texttt{af27789adc49} asks whether the late positive pan-tissue Horvath353/Horvath1 reversal remains present when the same donor-paired GSE165179 MPTR timecourse is rescored with the Horvath2 skin-and-blood clock.  The comparison is deliberately within-row: the same methylation matrix, same donors, same day-$0$ baselines, and same day-$10$, day-$13$, day-$15$, and day-$17$ treated observations are read through two different clock coefficient systems.  Formally, for each clock $c\in\{H1,H2\}$ and each donor-day pair $(o,t)$ in the finite table, the paired age displacement is
+$$
+\begin{aligned}
+\Delta_A(c,o,t)=S_A(c,o,t)-S_A(c,o,0).
+\end{aligned}
+$$
+The classification does not require a shared absolute scale between $H1$ and $H2$; it only compares signs at the late timepoints and the direction of the phase-length trend inside each clock.  Thus the relevant observable is not ``how old the cell really is'', but whether a claimed late positive reversal is stable under the choice of methylation-age scoring rule.
+
+\paragraph{Verified finite verdict.}
+The verified fact \texttt{cellstate.age-clock-shift.clock-dependence.gse165180} reports experiment \texttt{gse165179\_clock\_dependence} with verdict \texttt{clock\_dependent\_reversal}, verified at \texttt{2026-06-11T07:21:59+00:00}.  In this chapter, that verdict means the late reversal is not treated as a clock-independent property of the donor-paired MPTR rows.  It is a method-comparison certificate: when the same GSE165179 timecourse is evaluated under the pan-tissue Horvath1/Horvath353 family and under the skin-and-blood Horvath2 family, the late-timepoint sign and phase-length trend comparison resolves as clock-dependent rather than universally stable across the two scoring systems.
+
+\paragraph{Layer assignment.}
+The layer of the claim is \texttt{age\_signature}.  The rows support a statement about DNAm-age readback under specified methylation clocks, not a statement about cell identity or tissue function.  The source material is an EPIC methylation array contact with CpG beta values, clock coefficients, offsets, sample titles, GSM accessions, phase labels, and same-donor pairing information.  Those ingredients are sufficient for finite clock scoring and paired sign comparison.  They are not sufficient for translation into protein output, folding state, physical admissibility of a molecular mechanism, causal mechanism, functional competence, organismal safety, renewable maintenance, or universality across cell types and datasets unless another contact supplies those measurements directly.
+
+\paragraph{Null boundary.}
+The passed certificate has a narrow reading.  It says that, on this finite GSE165179 slice reached through GSE165180, the late positive DNAm-age reversal is dependent on the clock choice used for readback.  It does not say that transient reprogramming truly rejuvenates the cells, truly ages them, preserves identity, restores function, improves safety, creates maintenance capacity, or implies immortality.  It also does not merge GSE165179/GSE165180 with any other cohort as a single homogeneous experiment.  The strongest allowed conclusion is that clock selection is an active variable in the observed age-signature direction for this donor-paired methylation timecourse.
+
+\origin{ai}

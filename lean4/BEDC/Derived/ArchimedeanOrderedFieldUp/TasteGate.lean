@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ArchimedeanOrderedFieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -282,5 +292,67 @@ theorem ArchimedeanOrderedFieldTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem ArchimedeanOrderedFieldRealAlgOrderHandoff [AskSetup] [PackageSetup]
+    {R A Q O B H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (hAlg : Cont R A C)
+    (hArch : Cont R O C)
+    (hRat : Cont Q B H)
+    (hprov : PkgSig bundle P pkg)
+    (hname : PkgSig bundle N pkg) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧ Cont R A C ∧ Cont R O C ∧ Cont Q B H ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+        (fun row : BHist => hsame row N ∧ Cont R A C ∧ Cont R O C)
+        (fun row : BHist =>
+          hsame row N ∧ Cont Q B H ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle N pkg)
+        hsame ∧
+      archimedeanOrderedFieldFields (ArchimedeanOrderedFieldUp.mk R A Q O B H C P N) =
+        [R, A, Q, O, B, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧ Cont R A C ∧ Cont R O C ∧ Cont Q B H ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+        (fun row : BHist => hsame row N ∧ Cont R A C ∧ Cont R O C)
+        (fun row : BHist =>
+          hsame row N ∧ Cont Q B H ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle N pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N ⟨hsame_refl N, hAlg, hArch, hRat, hprov, hname⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            source.right.left, source.right.right.left, source.right.right.right.left,
+            source.right.right.right.right.left,
+            source.right.right.right.right.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, source.right.left, source.right.right.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.left, source.right.right.right.left,
+          source.right.right.right.right.left,
+          source.right.right.right.right.right⟩
+  }
+  exact And.intro cert rfl
 
 end BEDC.Derived.ArchimedeanOrderedFieldUp

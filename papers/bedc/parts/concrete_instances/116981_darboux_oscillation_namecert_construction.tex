@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxOscillationUp$}
+\label{ch:concrete-instances-darboux-oscillation-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\DarbouxOscillationUp$ packet records the finite upper-minus-lower ledger read by partition-refinement arguments before Darboux and regulated integration consume a gap bound. It sits after the Darboux integral route of \autoref{ch:concrete-instances-darbouxintegral-namecert}, the finite Darboux sums of \autoref{ch:concrete-instances-darboux-sums-namecert}, the finite partition mesh of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, the bounded-variation source rows of \autoref{ch:concrete-instances-boundedvariation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite oscillation data; it does not select partitions by choice, complete a real function space, or quotient functions by external equality.
+
+\begin{definition}[Darboux oscillation carrier]\label{def:darboux-oscillation-carrier}
+A $\DarbouxOscillationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(P,M,U,L,G,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, recording the ordered cell list, endpoint coverage, and adjacency route used by the Darboux read.
+\item $M$ is the $\FinitePartitionMeshUp$ row, recording mesh width, refinement comparison, and the finite cell-width budget.
+\item $U$ and $L$ are the upper and lower Darboux rows over the cells of $P$, read through the same bounded-function and partition source.
+\item $G$ is the oscillation-difference row displaying the bound $U-L$ after $P,M,U,L$ have been projected.
+\item $E$ is the terminal $\RealUp$ seal for the displayed upper-minus-lower comparison.
+\item $H$ records componentwise $\hsame$ transport for the partition, mesh, upper row, lower row, oscillation difference, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through finite refinement, Darboux row projection, oscillation comparison, regular readback, and Real sealing.
+\item $Q$ is the $\Pkg$ provenance over $\DarbouxOscillationUp$, $\DarbouxIntegralUp$, $\DarbouxSumsUp$, $\FinitePartitionMeshUp$, $\BoundedVariationUp$, $\RegulatedIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DarbouxOscillationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,M,U,L,G,E,H,C,Q,N$. It has no coordinate for host completeness, quotient equality of functions, choice-selected partitions, selected tags, or a detached supremum principle.
+\end{definition}
+\leanstmt{BEDC.Derived.DarbouxOscillationUp}
+
+\begin{theorem}[Darboux oscillation refinement bound]\label{thm:darboux-oscillation-refinement-bound}
+Let $O=(P,M,U,L,G,E,H,C,Q,N)$ be an accepted $\DarbouxOscillationUp$ carrier. Every accepted refinement read preserves the displayed upper-minus-lower oscillation bound by first transporting the finite partition row $P$ and mesh row $M$, then replaying the upper and lower Darboux rows $U,L$, and only then reading the difference row $G$ and terminal $\RealUp$ seal $E$. The exported surface is the finite oscillation ledger over the displayed mesh route; it exports no host completeness, quotient equality, choice-selected partition, selected tag family, or detached supremum.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only analytic data available before the oscillation comparison are the partition row $P$, mesh row $M$, and Darboux rows $U,L$.
+
+Transport through $H$ preserves these rows component by component. A refinement therefore changes only the displayed finite mesh route and keeps the upper and lower Darboux ledgers attached to the same cell history.
+
+Replay through $C$ exposes the comparison row $G$ only after the transported partition, mesh, upper, and lower rows are visible. The Real seal $E$ is downstream of that comparison, and provenance $Q$ names only the Darboux, finite-mesh, bounded-variation, regulated-integral, and Real rows already displayed.
+
+Since the packet has no coordinate for host completeness, quotient equality, selected partitions, tags, or detached suprema, a refinement consumer can export only the finite oscillation bound carried by $G$ and sealed by $E$.
+\end{proof}
+
+\closureat{DarbouxOscillationUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxOscillationUp}
+  \constructivestory{A $\DarbouxOscillationUp$ packet is generated from finite partition, mesh, upper Darboux row, lower Darboux row, oscillation difference, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-oscillation-carrier} and \autoref{thm:darboux-oscillation-refinement-bound} seed the finite upper-minus-lower oscillation ledger over DarbouxIntegralUp, DarbouxSumsUp, FinitePartitionMeshUp, BoundedVariationUp, RegulatedIntegralUp, and RealUp rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, quotient function equality, choice-selected partitions, selected tags, detached suprema, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, refinement transport, mesh exactness, oscillation-difference nonescape, Real-seal nonescape, replay, provenance, and local naming for BEDC.Derived.DarbouxOscillationUp.}
+\end{closurestatus}

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ContourReparameterizationLedgerUp$}
+\label{ch:concrete-instances-contour-reparameterization-ledger-namecert}
+\origin{human}
+
+Following the constructive contour-integration operation law of \autoref{ch:concrete-instances-contour-integral}, the $\ContourReparameterizationLedgerUp$ packet records the finite ledger by which a piecewise-linear contour refinement or monotone piecewise-linear reparameterization is read without changing the contour-integral output. It sits beside the operation packet of \autoref{ch:concrete-instances-contourintegraloperation-namecert}, the contour socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, the reversal ledger of \autoref{ch:concrete-instances-contour-reversal-ledger-namecert}, the holomorphic input surface of \autoref{ch:concrete-instances-holomorphic-namecert}, and the complex output seal of \autoref{ch:concrete-instances-complex-namecert}. The packet names only finite contour, refinement, Riemann-sum, transport, replay, provenance, and local naming rows; it is not a host path quotient or an ambient smooth-change-of-variables theorem.
+
+\begin{definition}[Contour reparameterization ledger carrier]
+\label{def:contour-reparameterization-ledger-carrier}
+A $\ContourReparameterizationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,G',U,F,S,M,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source $\mathsf{PLContour}$ row with finite $\ComplexUp$ endpoints and segment rows.
+\item $G'$ is the reparameterized $\mathsf{PLContour}$ row, obtained by a finite refinement or monotone piecewise-linear parameter change.
+\item $U$ is the reparameterization ledger row recording the segment subdivision map, endpoint preservation, orientation preservation, and refinement budget.
+\item $F$ is the $\HolomorphicUp$ input row on a neighbourhood containing the images of both contour rows.
+\item $S$ is the Riemann-sum comparison ledger matching source and reparameterized sums.
+\item $M$ is the modulus row witnessing that the comparison remains within the displayed tolerance budget.
+\item $I$ is the shared $\ComplexUp$ output row for the contour-integral operation.
+\item $H$ records componentwise $\hsame$ transport for $G,G',U,F,S,M,I$.
+\item $C$ records displayed $\Cont$ replay for contour reads, reparameterization reads, Riemann-sum reads, modulus reads, output reads, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ContourReparameterizationLedgerUp$, $\ContourIntegralOperationUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContourReparameterizationLedgerUp}$ row.
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.ContourReparameterizationLedgerUp.ContourReparameterizationLedgerTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Contour reparameterization ledger NameCert obligations]
+\label{thm:contour-reparameterization-ledger-namecert-obligations}
+For every accepted $\ContourReparameterizationLedgerUp$ carrier $R=(G,G',U,F,S,M,I,H,C,P,N)$, the local $\NameCert_{\ContourReparameterizationLedgerUp}$ surface consists exactly of source-contour exposure through $G$, reparameterized-contour exposure through $G'$, finite reparameterization-ledger exposure through $U$, holomorphic input exposure through $F$, Riemann-sum comparison through $S$, modulus control through $M$, shared $\ComplexUp$ output sealing through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:contour-reparameterization-ledger-carrier}. The source contour, reparameterized contour, ledger, holomorphic input, comparison sums, modulus, output, transport, replay, provenance, and naming rows are all displayed coordinates.
+
+The operation law is read through the finite rows $U,S,M,I$. The ledger records the refinement map and endpoint preservation, while the Riemann-sum comparison and modulus rows witness that both contour presentations reach the same $\ComplexUp$ output row.
+
+Transport and replay do not add a host path quotient or a smooth reparameterization theorem. Since provenance and local naming are also displayed, the NameCert surface is exhausted by the rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[Contour reparameterization ledger contour-integral handoff]
+\label{thm:contour-reparameterization-ledger-contourintegral-handoff}
+Every contour-integral consumer that reads reparameterization invariance from an accepted $\ContourReparameterizationLedgerUp$ packet must first expose the source contour row $G$, reparameterized contour row $G'$, reparameterization ledger $U$, holomorphic input row $F$, Riemann-sum comparison ledger $S$, modulus row $M$, shared $\ComplexUp$ output row $I$, and structural rows $H,C,P,N$. The handoff realizes the operation law as finite ledger data and exports no host path quotient, unregistered smooth parameter change, ambient analytic integral operator, or global branch selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contour-reparameterization-ledger-namecert-obligations}. It forces every public reparameterization read through the displayed source contour, target contour, ledger, input, comparison, modulus, output, transport, replay, provenance, and naming rows.
+
+The contour-integral operation packet supplies the downstream operation surface, but this chapter supplies the particular law ledger. The consumer therefore sees reparameterization invariance as a finite comparison between two PL-contour rows and their Riemann-sum ledgers.
+
+No excluded ambient object has a carrier coordinate. The handoff can be consumed by contour, residue, and RH scaffold chapters only through the displayed rows of this packet and the existing contour-integral operation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted contour-integral reparameterization read exposes source contour, reparameterized contour, finite ledger, holomorphic input, Riemann-sum comparison, modulus, shared Complex output, transport, replay, provenance, and local $\NameCert$ rows before the operation law is public.}
+
+\independenceWitness{contourintegraloperation, contourintegralsocket, contour-reversal-ledger, holomorphic, complex: none is bijective with $\ContourReparameterizationLedgerUp$ because this carrier alone binds a finite reparameterization ledger and Riemann-sum comparison to the contour operation, holomorphic input, Complex output, transport, replay, provenance, and local naming rows.}
+
+\closureat{ContourReparameterizationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ContourReparameterizationLedgerUp}
+  \constructivestory{A $\ContourReparameterizationLedgerUp$ packet is generated from source PL-contour rows, reparameterized PL-contour rows, finite reparameterization ledgers, holomorphic input rows, Riemann-sum comparison rows, modulus rows, shared Complex output rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contour-reparameterization-ledger-carrier}, \autoref{thm:contour-reparameterization-ledger-namecert-obligations}, and \autoref{thm:contour-reparameterization-ledger-contourintegral-handoff} seed the finite ledger for the contour-integral reparameterization operation law.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host path quotient, smooth change-of-variables theorem, ambient contour-integral operator, global branch selector, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source and target PL-contour exactness, reparameterization-ledger exactness, holomorphic-input locality, Riemann-sum comparison, modulus control, Complex output sealing, transport, replay, provenance, and local naming for BEDC.Derived.ContourReparameterizationLedgerUp.}
+\end{closurestatus}

@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNameUniformityUp$}
+\label{ch:concrete-instances-cauchy-name-uniformity-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces, the $\CauchyNameUniformityUp$ packet records the finite BEDC surface at which two Cauchy names are compared by common observation windows. It sits after the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion witness route of \autoref{ch:concrete-instances-cauchy-completeness-witness-namecert}. The packet names the common-window uniformity surface for Cauchy names; it does not quotient streams, choose limits, use countable choice, assert ambient completeness, or identify names by host real equality.
+
+\begin{definition}[Cauchy name uniformity carrier]
+\label{def:cauchy-name-uniformity-carrier}
+A $\CauchyNameUniformityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S_0,S_1,W,R_0,R_1,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite-window rows whose observed prefixes are compared.
+\item $W$ is the common-window row specifying the shared finite inspection bound used by both stream names.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows attached to those same windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for every entourage and precision request.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the common windows, readback rows, and dyadic tolerance row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for stream windows, common-window bounds, regular readback, dyadic tolerances, Real sealing, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a uniformity request through
+$$
+S_0,S_1,W,D \longmapsto R_0,R_1 \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyNameUniformityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletenessWitnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyNameUniformityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,W,R_0,R_1,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, a selected completion representative, countable choice, host real equality, or an ambient completeness theorem.
+\end{definition}
+\leandef{BEDC.Derived.CauchyNameUniformityUp.CauchyNameUniformityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy name uniformity NameCert obligations]
+\label{thm:cauchy-name-uniformity-namecert-obligations}
+For every accepted $\CauchyNameUniformityUp$ carrier
+$$
+U=(S_0,S_1,W,R_0,R_1,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyNameUniformityUp}$ surface consists exactly of carrier admission for \autoref{def:cauchy-name-uniformity-carrier}; common-window exposure through $S_0,S_1,W$; regular rational readback through $R_0,R_1$; dyadic tolerance exposure through $D$; Real-seal nonescape through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and local naming through $N$. Every uniformity read passes through the common $\StreamNameUp$ windows, $\RegSeqRatUp$ readback rows, dyadic tolerance rows, the $\RealUp$ seal, transport, replay, provenance, and local $\NameCert$ rows before any completion-facing consumer may cite $\CauchyCompletenessWitnessUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyNameUniformityUp.CauchyNameUniformityNameCertObligations}
+\begin{proof}
+Project the accepted finite $\BHist$ tuple. Its visible coordinates are $S_0,S_1,W,R_0,R_1,D,E,H,C,P,N$, so carrier admission and local naming are finite row projections.
+
+The uniformity read first exposes the common-window surface. The rows $S_0,S_1,W$ give the two inspected stream prefixes and the shared finite bound, while $D$ fixes the dyadic tolerance used by the comparison.
+
+The readback rows $R_0,R_1$ consume those same windows as regular rational data. Only after the window, readback, and tolerance rows are displayed may the terminal row $E$ be consumed as the $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness, every completion-facing use of $\CauchyCompletenessWitnessUp$ remains a provenance-bound consumer of the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyNameUniformityUp$ uniformity read exposes two $\StreamNameUp$ finite-window rows, one common-window bound, two $\RegSeqRatUp$ readback rows, one $\DyadicRatCoreUp$ tolerance row, and the terminal $\RealUp$ seal before it may be consumed by a $\CauchyCompletenessWitnessUp$ route.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchy-completeness-witness: no listed sibling supplies the whole packet $U=(S_0,S_1,W,R_0,R_1,D,E,H,C,P,N)$, because each sibling contributes only finite windows, regular rational readback, dyadic tolerances, a Real seal, or a completion witness while this chapter binds the common-window uniformity route with transport, replay, provenance, and local naming.}
+
+\closureat{CauchyNameUniformityUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNameUniformityUp}
+  \constructivestory{A $\CauchyNameUniformityUp$ packet is generated from two StreamName finite-window rows, a common-window bound, two RegSeqRat readback rows, one DyadicRatCore tolerance row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-name-uniformity-carrier} and \autoref{thm:cauchy-name-uniformity-namecert-obligations} seed the common-window uniformity surface for Cauchy names over finite streams, regular rational readback, dyadic tolerances, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, selected completion representatives, countable choice, host real equality, Lean verification, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-window exactness, regular readback, dyadic tolerance replay, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyNameUniformityUp.}
+\end{closurestatus}

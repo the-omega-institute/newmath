@@ -84,33 +84,99 @@ theorem MetricProjectionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, pkgSig⟩
   }
 
-theorem MetricProjectionCarrier_endpoint_separation [AskSetup] [PackageSetup]
-    {H C D I W E T R P N locatedMetric locatedWindow endpoint : BHist}
+theorem MetricProjectionCarrierEndpointAdmissionCertificate [AskSetup] [PackageSetup]
+    {H C D I W E T R P N transportRead replayRead consumerRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    MetricProjectionCarrier H C D I W E T R P N bundle pkg →
-      Cont D I locatedMetric →
-        Cont locatedMetric W locatedWindow →
-          Cont locatedWindow E endpoint →
-            PkgSig bundle endpoint pkg →
-              UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧ UnaryHistory E ∧
-                UnaryHistory locatedMetric ∧ UnaryHistory locatedWindow ∧
-                  UnaryHistory endpoint ∧ Cont D I locatedMetric ∧
-                    Cont locatedMetric W locatedWindow ∧ Cont locatedWindow E endpoint ∧
-                      PkgSig bundle P pkg ∧ PkgSig bundle endpoint pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
-  intro carrier locatedMetricRoute locatedWindowRoute endpointRoute endpointPkg
-  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
-    _PUnary, _NUnary, _windowRoute, _replayRoute, provenancePkg⟩ := carrier
-  have locatedMetricUnary : UnaryHistory locatedMetric :=
-    unary_cont_closed DUnary IUnary locatedMetricRoute
-  have locatedWindowUnary : UnaryHistory locatedWindow :=
-    unary_cont_closed locatedMetricUnary WUnary locatedWindowRoute
-  have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed locatedWindowUnary EUnary endpointRoute
-  exact
-    ⟨DUnary, IUnary, WUnary, EUnary, locatedMetricUnary, locatedWindowUnary,
-      endpointUnary, locatedMetricRoute, locatedWindowRoute, endpointRoute,
-      provenancePkg, endpointPkg⟩
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont E T transportRead ->
+        Cont transportRead R replayRead ->
+          Cont replayRead N consumerRead ->
+            PkgSig bundle consumerRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    MetricProjectionCarrier H C D I W E T R P N bundle pkg ∧
+                      hsame row N)
+                  (fun row : BHist => hsame row N ∧ Cont I W E ∧ Cont D I R)
+                  (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg)
+                  hsame ∧
+                SemanticNameCert
+                    (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨
+                        hsame row W ∨ hsame row E ∨ hsame row T ∨ hsame row R ∨
+                          hsame row P ∨ hsame row N ∨ hsame row consumerRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont I W E ∧ Cont E T transportRead ∧
+                        Cont transportRead R replayRead ∧
+                          Cont replayRead N consumerRead ∧ Cont D I R ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle consumerRead pkg)
+                    hsame ∧
+                  UnaryHistory transportRead ∧ UnaryHistory replayRead ∧
+                    UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier endpointTransport transportReplay replayConsumer consumerPkg
+  have rootCert :=
+    MetricProjectionCarrier_namecert_obligations
+      (H := H) (C := C) (D := D) (I := I) (W := W) (E := E) (T := T)
+      (R := R) (P := P) (N := N) (bundle := bundle) (pkg := pkg) carrier
+  obtain ⟨_HUnary, _CUnary, _DUnary, IUnary, WUnary, EUnary, TUnary, RUnary,
+    _PUnary, NUnary, locatedWindow, distanceReplay, pkgSig⟩ := carrier
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed EUnary TUnary endpointTransport
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary RUnary transportReplay
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed replayUnary NUnary replayConsumer
+  have consumerCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨
+              hsame row W ∨ hsame row E ∨ hsame row T ∨ hsame row R ∨
+                hsame row P ∨ hsame row N ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont I W E ∧ Cont E T transportRead ∧
+              Cont transportRead R replayRead ∧ Cont replayRead N consumerRead ∧
+                Cont D I R ∧ PkgSig bundle P pkg ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, locatedWindow, endpointTransport, transportReplay,
+          replayConsumer, distanceReplay, pkgSig, consumerPkg⟩
+  }
+  exact ⟨rootCert, consumerCert, transportUnary, replayUnary, consumerUnary⟩
 
 theorem MetricProjectionCarrier_locatedset_endpoint_separation [AskSetup] [PackageSetup]
     {H C D I W E T R P N locatedEndpoint projectionEndpoint : BHist}
@@ -304,5 +370,62 @@ theorem MetricProjectionCarrier_public_projection_certificate [AskSetup] [Packag
           publicPkg⟩
   }
   exact ⟨cert, locatedUnary, projectionUnary, endpointUnary, publicUnary⟩
+
+theorem MetricProjectionCarrier_public_projection_separated_certificate
+    [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedEndpoint projectionEndpoint endpointRead publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont D I locatedEndpoint ->
+        Cont I W projectionEndpoint ->
+          Cont projectionEndpoint E endpointRead ->
+            Cont endpointRead N publicRead ->
+              PkgSig bundle projectionEndpoint pkg ->
+                PkgSig bundle publicRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨
+                          hsame row W ∨ hsame row E ∨ hsame row T ∨ hsame row R ∨
+                            hsame row P ∨ hsame row N ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont D I locatedEndpoint ∧
+                          Cont I W projectionEndpoint ∧
+                            Cont projectionEndpoint E endpointRead ∧
+                              Cont endpointRead N publicRead ∧
+                                PkgSig bundle publicRead pkg)
+                      hsame ∧
+                    UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧
+                      UnaryHistory locatedEndpoint ∧ UnaryHistory projectionEndpoint ∧
+                        UnaryHistory endpointRead ∧ UnaryHistory publicRead ∧
+                          Cont D I locatedEndpoint ∧ Cont I W projectionEndpoint ∧
+                            Cont projectionEndpoint E endpointRead ∧
+                              Cont endpointRead N publicRead ∧
+                                PkgSig bundle P pkg ∧
+                                  PkgSig bundle projectionEndpoint pkg ∧
+                                    PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier locatedRoute projectionRoute endpointRoute publicRoute projectionPkg
+    publicPkg
+  have separated :=
+    MetricProjectionCarrier_locatedset_endpoint_separation
+      (H := H) (C := C) (D := D) (I := I) (W := W) (E := E) (T := T)
+      (R := R) (P := P) (N := N) (bundle := bundle) (pkg := pkg)
+      carrier locatedRoute projectionRoute projectionPkg
+  have publicCert :=
+    MetricProjectionCarrier_public_projection_certificate
+      (H := H) (C := C) (D := D) (I := I) (W := W) (E := E) (T := T)
+      (R := R) (P := P) (N := N) (bundle := bundle) (pkg := pkg)
+      carrier locatedRoute projectionRoute endpointRoute publicRoute publicPkg
+  obtain
+    ⟨DUnary, IUnary, WUnary, locatedUnary, projectionUnary, locatedRoute',
+      projectionRoute', provenancePkg, projectionPkg'⟩ := separated
+  obtain ⟨cert, _locatedUnaryPublic, _projectionUnaryPublic, endpointUnary, publicUnary⟩ :=
+    publicCert
+  exact
+    ⟨cert, DUnary, IUnary, WUnary, locatedUnary, projectionUnary, endpointUnary,
+      publicUnary, locatedRoute', projectionRoute', endpointRoute, publicRoute,
+      provenancePkg, projectionPkg', publicPkg⟩
 
 end BEDC.Derived.MetricProjectionUp

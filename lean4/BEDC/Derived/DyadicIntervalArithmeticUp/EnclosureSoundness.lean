@@ -106,4 +106,29 @@ theorem DyadicIntervalArithmeticCarrier_refinement_monotonicity [AskSetup] [Pack
     ⟨operationUnary, handoffUnary, refinedUnary, operationCont, handoffCont, refinedCont,
       refinedPkg⟩
 
+theorem DyadicIntervalArithmeticCarrier_endpoint_order_transport [AskSetup] [PackageSetup]
+    {lower upper order addDelta mulDelta refinement enclosure transport replay provenance
+      localCert transportedOrder : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalArithmeticCarrier lower upper order addDelta mulDelta refinement enclosure
+      transport replay provenance localCert bundle pkg →
+      Cont order replay transportedOrder →
+        PkgSig bundle transportedOrder pkg →
+          UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+            UnaryHistory replay ∧ UnaryHistory transportedOrder ∧
+              Cont lower upper order ∧ Cont order replay transportedOrder ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle transportedOrder pkg := by
+  -- BEDC touchpoint anchor: DyadicIntervalArithmeticCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier orderReplayTransport transportedPkg
+  obtain
+    ⟨lowerUnary, upperUnary, _addDeltaUnary, _mulDeltaUnary, _refinementUnary, replayUnary,
+      orderCont, _enclosureCont, _refinementCont, provenancePkg, _localCertPkg⟩ := carrier
+  have orderUnary : UnaryHistory order :=
+    unary_cont_closed lowerUnary upperUnary orderCont
+  have transportedUnary : UnaryHistory transportedOrder :=
+    unary_cont_closed orderUnary replayUnary orderReplayTransport
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, replayUnary, transportedUnary, orderCont,
+      orderReplayTransport, provenancePkg, transportedPkg⟩
+
 end BEDC.Derived.DyadicIntervalArithmeticUp

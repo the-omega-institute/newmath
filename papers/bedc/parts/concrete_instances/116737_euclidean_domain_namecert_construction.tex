@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\EuclideanDomainUp$}
+\label{ch:concrete-instances-euclidean-domain-namecert}
+\origin{human}
+
+Following Bourbaki and Lang, the $\EuclideanDomainUp$ packet records the traditional division-with-remainder interface as finite BEDC NameCert data over a displayed ring carrier. It sits after the algebraic operation rows of \autoref{ch:concrete-instances-ring-namecert}, the ideal membership and absorption surface of \autoref{ch:concrete-instances-ideal-namecert}, and the Euclidean backtracking witness of \autoref{ch:concrete-instances-bezout-identity-namecert}. The packet names the carrier, the divisor admissibility row, the Euclidean measure row, the quotient and remainder rows, the strict descent check, transport, replay, provenance, and local naming; it does not import a principal-ideal theorem, a selected gcd normalization, host quotient equality, Noetherian induction, or a classical field-of-fractions argument.
+
+\begin{definition}[Euclidean domain carrier]
+\label{def:euclidean-domain-carrier}
+A $\EuclideanDomainUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,D,\nu,Q,M,I,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the consumed $\RingUp$ row, naming the carrier, zero, one, addition, additive inverse, multiplication, and classifier used by the division read.
+\item $D$ is the nonzero-divisor admissibility row, recording that division requests are made only for displayed divisors outside the zero row.
+\item $\nu$ is the Euclidean measure row, read as a value in a displayed well-founded comparison ledger.
+\item $Q$ is the quotient row for a requested pair $(a,b)$ with $b$ admitted by $D$.
+\item $M$ is the remainder row for the same request.
+\item $I$ is the $\IdealUp$ dependency row, exposing the ring-indexed membership and absorption surface consumed by ideal-facing consequences.
+\item $B$ is the $\BezoutIdentityUp$ backtracking row reached by iterating the displayed descent trace.
+\item $H$ records componentwise $\hsame$ transport for $R,D,\nu,Q,M,I,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a division request through the quotient, remainder, descent, ideal, and Bezout rows.
+\item $P$ is the $\Pkg$ provenance over $\EuclideanDomainUp$, $\RingUp$, $\IdealUp$, $\BezoutIdentityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EuclideanDomainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host quotient equality, selected gcd normalization, a principal-ideal theorem, Noetherian induction, field-of-fractions construction, or ambient classical Euclidean-domain schema.
+\end{definition}
+
+\begin{theorem}[Euclidean domain NameCert obligations]
+\label{thm:euclidean-domain-namecert-obligations}
+For every accepted $\EuclideanDomainUp$ carrier
+$$
+E=(R,D,\nu,Q,M,I,B,H,C,P,N),
+$$
+the local $\NameCert_{\EuclideanDomainUp}$ surface consists exactly of ring-source admission, nonzero-divisor admission, Euclidean-measure exposure, quotient-row exposure, remainder-row exposure, strict descent for nonzero remainders, ideal dependency exposure, Bezout backtracking exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every division read must expose $R,D,\nu,Q,M,I,B,H,C,P,N$ before any ideal-facing or Bezout-facing consumer can use the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:euclidean-domain-carrier}. The rows $R,D,\nu,Q,M,I,B,H,C,P,N$ are the complete visible inventory, so the ring operations and classifier are read through the consumed $\RingUp$ surface before any division request is admitted.
+
+For a request with divisor admitted by $D$, the quotient row $Q$ and remainder row $M$ are displayed together. The Euclidean measure row $\nu$ supplies the comparison ledger used to state that a nonzero remainder descends below the divisor.
+
+The ideal and Bezout rows are dependency surfaces, not consequences imported from outside the packet. The $\IdealUp$ row $I$ exposes membership and absorption data over the same ring source, while the $\BezoutIdentityUp$ row $B$ records the finite backtracking route reached by iterating the displayed descent.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no row names host quotient equality, selected gcd normalization, a principal-ideal theorem, Noetherian induction, a field of fractions, or an ambient classical schema, none of those objects belongs to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Euclidean domain division descent]
+\label{thm:euclidean-domain-division-descent}
+Every accepted $\EuclideanDomainUp$ carrier exposes division with remainder as the finite route
+$$
+R,D,\nu,Q,M \longmapsto I,B,H,C,P,N .
+$$
+For each admitted divisor request, the quotient and remainder rows are read under the ring classifier from $R$; if the remainder is not the displayed zero row, the measure row $\nu$ records a strict descent comparison for that remainder. Iterating only these displayed descent rows may feed the Bezout backtracking row $B$ and the ideal dependency row $I$.
+\end{theorem}
+\begin{proof}
+Start with a division request admitted by $D$. The ring row $R$ supplies the operations and classifier used to read the requested dividend, divisor, quotient, and remainder.
+
+The quotient and remainder are the rows $Q$ and $M$. The measure row $\nu$ is the only row that compares a nonzero remainder with its divisor, so descent cannot be replaced by a host termination argument or by an external Euclidean algorithm.
+
+The iteration route is then confined to the displayed packet. The Bezout-facing row $B$ may be read only after the descent trace is visible, and the ideal-facing row $I$ may be read only as an $\IdealUp$ dependency over the same ring row.
+
+Transport and replay through $H$ and $C$, with provenance and naming from $P$ and $N$, preserve this finite route. Therefore the division-descent surface exports division data and its finite downstream dependencies without exporting host quotient equality, selected gcd normalization, a principal-ideal theorem, Noetherian induction, or field-of-fractions reasoning.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EuclideanDomainUp$ read is refuted if it reaches a division, ideal-facing, or Bezout-facing consumer without displaying the ring row, nonzero-divisor admission row, Euclidean measure row, quotient row, remainder row, ideal dependency row, Bezout backtracking row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+
+\independenceWitness{ring, ideal, bezout-identity: $\EuclideanDomainUp$ is not bijective to any listed sibling because it jointly carries a ring source, a nonzero-divisor admission row, a Euclidean measure, quotient and remainder rows, ideal dependency rows, Bezout backtracking, transport, replay, provenance, and local naming as one finite division-with-remainder packet.}
+
+\closureat{EuclideanDomainUp}{seedStr}
+
+\begin{closurestatus}{\EuclideanDomainUp}
+  \constructivestory{A $\EuclideanDomainUp$ packet is generated from a ring row, nonzero-divisor admission row, Euclidean measure row, quotient row, remainder row, ideal dependency row, Bezout backtracking row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euclidean-domain-carrier}, \autoref{thm:euclidean-domain-namecert-obligations}, and \autoref{thm:euclidean-domain-division-descent} seed the finite division-with-remainder route over RingUp, IdealUp, and BezoutIdentityUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close principal ideal generation, unique gcd normalization, host quotient equality, Noetherian induction, field-of-fractions construction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked division admission, quotient and remainder exactness, strict descent, ideal dependency exposure, Bezout backtracking, transport, replay, provenance, and local naming for BEDC.Derived.EuclideanDomainUp.}
+\end{closurestatus}

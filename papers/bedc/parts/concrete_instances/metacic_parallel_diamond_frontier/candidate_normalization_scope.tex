@@ -15,3 +15,21 @@ Use residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-pa
 
 Finally apply the normalization-frontier handoff of \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. The handoff exports only the conditional spine $P,K,J,R,S,C,B,O,H,T,G,N$ to normalization consumers, so $P$ and $O$ cannot be hidden when $J$ is consumed.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier obstruction retention under candidate normalization]
+\label{thm:metacic-parallel-diamond-frontier-obstruction-retention-under-candidate-normalization}
+Every candidate-normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ carrier that reads the candidate row $J$ must keep both the residual-substitution premise row $P$ and obstruction row $O$ visible through the full spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The read can use $J$ only as a candidate-normalization row inside that conditional spine. It cannot retype candidate normalization as premise-free confluence, residual-substitution compatibility, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-normalization scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. It already requires the consumer to expose $P,K,J,R,S,C,B,O,H,T,G,N$ before the candidate row is read, with $P$ and $O$ still visible.
+
+Next use substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. The substitution premise remains confined to the displayed residual route, so reading $J$ cannot discharge $P$ or replace it by an unconditional compatibility theorem.
+
+Apply residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-pasting}. Pasting two typed-window residual reads through $J$ preserves the same finite residual packet and keeps the obstruction row $O$ in the exported spine.
+
+Finally hand the read to \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. That handoff exports only the conditional normalization-facing route, so the consumer cannot obtain premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency from candidate normalization alone.
+\end{proof}

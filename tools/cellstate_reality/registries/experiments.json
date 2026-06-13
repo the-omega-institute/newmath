@@ -222,6 +222,63 @@
           "function-signature-only.boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "gse165179_clock_dependence",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165179_clock_dependence.py",
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "dual-clock.coverage",
+          "timecourse.sample.structure",
+          "pan-tissue.sanity",
+          "clock-dependence.verdict",
+          "age-signature-only.boundary",
+          "cohort.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165179_clock_dependence_coverage_control",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165179_clock_dependence_coverage_control.py",
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "clock.cpg.partition",
+          "skinblood.full.coverage",
+          "coverage.not.explanatory",
+          "intersection.day17.control",
+          "age-signature-only.boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "gse165180_reversal_leave_top20_out",
+      "script_path": "tools/cellstate_reality/experiments/run_gse165180_reversal_leave_top20_out.py",
+      "claim_id": "cellstate.age-clock-shift.reversal-leave-top20-out.gse165180",
+      "required_data": [
+        "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "input.available",
+          "top20.selected",
+          "leaveout.coverage",
+          "reversal.leaveout.response",
+          "age-signature-only.boundary"
+        ]
+      }
     }
   ]
 }

@@ -150,6 +150,40 @@ Apply \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accountin
 The downstream rows $E,L,D,H,P,N$ are sibling handoffs and structural rows on the same route. They do not discharge $S$ or add an endpoint proof, so the accepted read remains a finite residual-budget boundary rather than a promoted confluence theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget obligation rows]
+\label{thm:metacic-diamond-residual-budget-obligations}
+Every accepted $\MetaCICDiamondResidualBudgetUp$ consumer must display the typed-window row $T$, redex-frontier row $F$, residual-budget row $R$, and substitution-boundary row $S$ before the candidate-join row $J$ is read. After $J$ is read, the same consumer must retain the residual-envelope row $E$, closed-premise-ledger row $L$, and local-diamond row $D$ before any confluence handoff is exposed. The route remains
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N
+$$
+and does not claim $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, evaluator equality, subject reduction, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with frontier accounting, \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}. It forces $T,F,R,S$ to be visible before the candidate-join row $J$ is a valid read.
+
+Next use substitution visibility, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility}. The substitution boundary $S$ stays attached along the displayed route, so $J$ cannot be detached into a substitution-compatibility theorem.
+
+Apply endpoint boundary, \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. It keeps the downstream confluence-facing handoff inside $E,L,D,H,P,N$, while candidate-join visibility supplies the same sibling rows after $J$.
+
+Thus the accepted consumer must expose $T,F,R,S$ before $J$ and $E,L,D$ before the confluence handoff. The refused endpoint claims are outside the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget critical-pair route]
+\label{thm:metacic-diamond-residual-budget-critical-pair-route}
+Every candidate join exposed by the row $J$ of an accepted $\MetaCICDiamondResidualBudgetUp$ carrier is indexed by the displayed redex-frontier and critical-pair row $F$, is budgeted by $R$, and remains conditional on the substitution-boundary row $S$. A consumer may therefore inspect a candidate join only through the finite route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N ,
+$$
+not as a standalone parallel-diamond, subject-reduction, evaluator-equality, or kernel-consistency result.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:metacic-diamond-residual-budget-carrier}. The row $J$ is listed only after the typed window $T$, the redex-frontier row $F$, the residual-budget row $R$, and the substitution-boundary row $S$.
+
+Use the obligation rows of \autoref{thm:metacic-diamond-residual-budget-obligations}. They require every accepted consumer to expose $T,F,R,S$ before $J$, so the candidate join inherits its index from the displayed redex frontier and critical-pair row rather than from an ambient evaluator.
+
+Finally apply substitution visibility and endpoint boundary, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility} and \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. These keep $S$ attached and route the downstream read through $E,L,D,H,C,P,N$, excluding any standalone endpoint theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget substitution preservation]
 \label{thm:metacic-diamond-residual-budget-substitution-preservation}
 Suppose an accepted $\MetaCICDiamondResidualBudgetUp$ packet is extended only in the residual-budget row $R$, while preserving the typed window $T$, redex frontier $F$, substitution boundary $S$, candidate joins $J$, residual envelope $E$, premise ledger $L$, local diamond row $D$, and structural rows $H,C,P,N$. Then every accepted candidate-join read still keeps $S$ visible along the route
@@ -284,6 +318,105 @@ Start with candidate-join visibility, \autoref{thm:metacic-diamond-residual-budg
 Next apply the local-join theorem, \autoref{thm:metacic-diamond-residual-budget-local-join}. The local join remains under the residual fuel and visible substitution boundary while routing through the residual envelope $E$, premise ledger $L$, and local diamond row $D$.
 
 Finally use the candidate-mediated SN handoff, \autoref{thm:metacic-diamond-residual-budget-candidate-sn-handoff}. It requires $E,L,D$ before the structural transport, replay, provenance, and naming rows are consumed by the SN reader. If any one of $E,L,D$ is absent, the reader has only the frontier and candidate route, so the packet has not yet supplied the confluence-facing residual-budget premise.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget premise-candidate coverage]
+\label{thm:metacic-diamond-residual-budget-premise-candidate-coverage}
+Every accepted candidate join consumed by a candidate-mediated strong-normalization or confluence reader of a $\MetaCICDiamondResidualBudgetUp$ packet is covered exactly by the displayed route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N .
+$$
+The typed window $T$, redex frontier $F$, residual budget $R$, and substitution boundary $S$ are displayed before $J$; the residual envelope $E$, closed premise ledger $L$, and local diamond row $D$ are displayed after $J$; and the structural rows $H,C,P,N$ preserve the same finite packet. The coverage claim refuses $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, and global Church--Rosser.
+\end{theorem}
+\begin{proof}
+Begin with frontier accounting and substitution visibility, \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting} and \autoref{thm:metacic-diamond-residual-budget-substitution-visibility}. Together they place $T,F,R,S$ before any accepted candidate join $J$ and keep the substitution boundary visible while the join is read.
+
+Use candidate-join visibility and the local-join theorem, \autoref{thm:metacic-diamond-residual-budget-obligation-candidate-join-visibility} and \autoref{thm:metacic-diamond-residual-budget-local-join}. These force the residual envelope $E$, closed premise ledger $L$, and local diamond row $D$ to remain attached after $J$, and they keep the local join under the displayed residual fuel.
+
+Apply the candidate-mediated SN handoff and premise alignment, \autoref{thm:metacic-diamond-residual-budget-candidate-sn-handoff} and \autoref{thm:metacic-diamond-residual-budget-premise-alignment}. A strong-normalization or confluence reader therefore consumes exactly the same finite route before the structural rows are consulted.
+
+Finally use endpoint non-escape, \autoref{thm:metacic-diamond-residual-budget-obligation-endpoint-nonescape}. The rows $H,C,P,N$ transport, replay, source, and name the displayed packet, but they do not add endpoint proof data; hence the candidate coverage cannot be read as substitution compatibility, full parallel diamond, or global Church--Rosser.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-pair residual normalization]
+\label{thm:metacic-diamond-residual-budget-critical-pair-residual-normalization}
+Any accepted $\MetaCICDiamondResidualBudgetUp$ packet whose premise-candidate coverage row exposes a local critical pair normalizes that pair only through the same residual envelope, candidate window, substitution boundary, fuel envelope, and closed parallel-diamond premise ledger before it can hand off to the candidate-mediated strong-normalization route. The normalization read is concrete to the carrier rows
+$$
+T,F,R,S,J,E,L,D,H,C,P,N
+$$
+and introduces no abstract source-equivalence transport, global strong normalization, full parallel diamond, or substitution-compatibility theorem.
+\end{theorem}
+\begin{proof}
+Start with the critical-pair route, \autoref{thm:metacic-diamond-residual-budget-critical-pair-route}. It places the local critical pair inside the typed window, redex frontier, residual budget, and local diamond rows rather than in an external source-equivalence relation.
+
+Apply substitution preservation and candidate-window exhaustion, \autoref{thm:metacic-diamond-residual-budget-substitution-preservation} and \autoref{thm:metacic-diamond-residual-budget-candidate-window-exhaustion}. These keep the visible substitution boundary $S$ and the finite candidate window $T,F,R,S,J$ attached while the critical pair is normalized.
+
+Use premise-candidate coverage, \autoref{thm:metacic-diamond-residual-budget-premise-candidate-coverage}. The residual envelope $E$, closed premise ledger $L$, and local diamond row $D$ are displayed after $J$ and before the structural rows, so the critical-pair read remains inside the same residual-budget packet.
+
+Finally apply the candidate-mediated SN handoff, \autoref{thm:metacic-diamond-residual-budget-candidate-sn-handoff}. The rows $H,C,P,N$ transport, replay, source, and name the normalized critical-pair route, but no row supplies global strong normalization, a full parallel diamond endpoint, or an abstract source-equivalence transport.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget obstruction ledger]
+\label{thm:metacic-diamond-residual-budget-obstruction-ledger}
+Every accepted $\MetaCICDiamondResidualBudgetUp$ packet retains the obstruction ledger carried by the substitution-boundary row $S$ and the endpoint-boundary rows $E,L,D$ along the full route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N .
+$$
+The retained ledger refuses full parallel diamond, arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-diamond-residual-budget-carrier}. The rows $T,F,R,J,S,E,L,D,H,C,P,N$ are all displayed, and the substitution boundary $S$ is not absorbed by the candidate join row.
+
+Apply substitution visibility and endpoint non-escape, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility} and \autoref{thm:metacic-diamond-residual-budget-obligation-endpoint-nonescape}. These keep $S$ visible and keep $E,L,D$ as sibling handoffs rather than endpoint proofs.
+
+Finally use premise-candidate coverage, \autoref{thm:metacic-diamond-residual-budget-premise-candidate-coverage}. The structural rows $H,C,P,N$ preserve the same finite route, so the refused endpoint claims remain recorded as obstructions rather than exported conclusions.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget normalization handoff]
+\label{thm:metacic-diamond-residual-budget-normalization-handoff}
+Any normalization-facing consumer of an accepted $\MetaCICDiamondResidualBudgetUp$ packet may consume the residual-normalization read only after the displayed rows
+$$
+T,F,R,S,J,E,L,D,H,C,P,N
+$$
+are visible. The handoff is a bounded candidate route through the substitution-boundary and obstruction rows; it does not assert full parallel diamond, arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with critical-pair residual normalization, \autoref{thm:metacic-diamond-residual-budget-critical-pair-residual-normalization}. It places the normalization read inside the residual envelope, candidate window, substitution boundary, fuel envelope, and closed premise ledger.
+
+Use the obstruction ledger theorem. The rows $S,E,L,D$ remain visible when the normalization-facing consumer reads $J$, so the handoff cannot hide the substitution boundary or erase the retained endpoint obstructions.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite packet. Since no refused endpoint is a carrier coordinate, the normalization handoff remains bounded and conditional.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget confluence refusal]
+\label{thm:metacic-diamond-residual-budget-confluence-refusal}
+No accepted $\MetaCICDiamondResidualBudgetUp$ packet promotes its candidate join row $J$, residual envelope $E$, premise ledger $L$, or local diamond row $D$ into full parallel diamond, arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency. Every confluence-facing read remains confined to
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Begin with the endpoint boundary, \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. It already prevents a confluence consumer from promoting candidate joins or residual envelopes into endpoint theorems.
+
+Apply the obstruction ledger theorem. The substitution-boundary row and obstruction rows are retained with the confluence-facing read, so $J,E,L,D$ remain bounded handoffs.
+
+Finally use normalization handoff. Even when a normalization-facing consumer is present, the read still passes through $T,F,R,S,J,E,L,D,H,C,P,N$ and no carrier coordinate supplies subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget seed registration]
+\label{thm:metacic-diamond-residual-budget-seed-registration}
+The seed registration surface for $\MetaCICDiamondResidualBudgetUp$ is exactly the finite row family
+$$
+T,F,R,J,S,E,L,D,H,C,P,N .
+$$
+It registers typed windows, redex frontiers, residual budgets, candidate joins, the substitution-boundary row, obstruction handoffs, transport, replay, provenance, and local naming, while refusing full parallel diamond, arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations, \autoref{def:metacic-diamond-residual-budget-carrier} and \autoref{thm:metacic-diamond-residual-budget-namecert-obligations}. Together they list precisely the rows $T,F,R,J,S,E,L,D,H,C,P,N$.
+
+Use obstruction ledger and confluence refusal. The registered rows retain the substitution-boundary and obstruction data while preventing any endpoint theorem from being read out of the seed packet.
+
+Thus the seed registration is the displayed residual-budget family itself. It is suitable for downstream confluence and normalization packets only as a bounded route with explicit refusals.
 \end{proof}
 
 \falsifiablePrediction{A confluence packet that omits either the residual-budget row $R$ or the candidate-join row $J$ is rejected as a $\MetaCICDiamondResidualBudgetUp$ packet, even when it carries local diamond, residual-envelope, or closed-premise-ledger rows.}
