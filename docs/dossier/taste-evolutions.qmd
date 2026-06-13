@@ -120,6 +120,10 @@ daemon queue 给出 5 个 `missing_origin` finding, 代表样本是 `bioreality_
 
 negative criterion 维持纯负向: touched paper chapter file 若含 `\chapter{...}` 但没有且仅有一个顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝。改动落在 `papers/bedc/scripts/phase_paper_gates.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; Phase Verify 的 `chapter-origin` gate 现在执行该规则, `bedc_ci.py` 的 `detect_paper_chapter_origin_tags()` 继续在 audit payload 暴露全库 drift。
 
+### 2026-06-13 — missing origin
+
+Ship: commit `c185d7a4a53ebf057d710b696eedfd7edf9d9df7`. Detector/gate: recorded by daemon after merge.
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
