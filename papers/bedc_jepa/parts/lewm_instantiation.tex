@@ -1,0 +1,330 @@
+\section{Fixed-Checkpoint Gap-Ledger Instantiation: LeWorldModel}
+\label{sec:lewm-instantiation}
+
+The public-baseline registry of \autoref{sec:relation-to-jepa} names two
+JEPA-family targets.  The V-JEPA2-AC rows ask adapter and latent-prediction
+questions on a fixed checkpoint.  The LeWorldModel rows recorded here ask the
+gap-ledger question on a fixed checkpoint: can a head trained only on the
+checkpoint's own latent stream predict where that checkpoint's world model is
+about to be wrong, and can the ledger semantics survive contact with the
+checkpoint's real failure surface?
+
+These rows are empirical instrumentation records on fixed public
+LeWorldModel checkpoints.  They are external evidence records for the
+gap-ledger reading of the carrier, not a BEDC NameCert result, not a BEDC
+closure result, not a BEDC canonical quality-lab result, and not Lean
+verification of the LeWorldModel implementation.
+
+The carrier is the public LeWorldModel \texttt{tworooms} release
+\cite{leworldmodel}, loaded without the stable-worldmodel stack (plain
+\texttt{torch} plus the public ViT encoder weights), with real
+\texttt{tworooms} frames streamed from the public dataset: $4991$ valid
+transitions over $278$ episodes, latent dimension $192$.  All rows use an
+episode-level $60/20/20$ split, episode-level bootstrap confidence intervals,
+and a world-model-native failure truth: a transition counts as a failure when
+the checkpoint predictor's own autoregressive latent rollout error exceeds
+the clean train-split $75$th percentile.  The protocol is fail-closed:
+evaluation slices that become single-class are reported as unidentifiable
+rather than as detection results.
+
+\paragraph{Post-hoc gap head on the fixed checkpoint.}
+The first row is the post-hoc construction that the four-system comparison
+uses as its report baseline, evaluated on the real checkpoint: a logistic gap
+head reading only the learned representation, with a matched-random control
+of equal capacity trained on permuted labels.  The gap head predicts the
+checkpoint's own failures well above its control,
+$$
+\begin{array}{lll}
+\text{gap head AUROC} & 0.731 & [0.692,\ 0.774],\\
+\text{matched-random AUROC} & 0.472 & [0.427,\ 0.518],\\
+\text{unlogged error} & 0.231 \rightarrow 0.168 & [0.142,\ 0.191],
+\end{array}
+$$
+with both interval separations holding under the episode bootstrap.  The gap
+features include an embedding-to-state linear-recovery score, so the
+instantiation stays in contact with the identifiability question of
+\cite{lejepa-world-model}.
+
+\paragraph{Trained ledger head on the same carrier.}
+The second row transports the paper's central contrast --- trained ledger
+output versus post-hoc report --- onto the same fixed checkpoint.  A small
+causal transformer ($2$ layers, width $64$, about $9.3\times 10^{4}$
+parameters) reads windows of six (latent, action) tokens and is trained
+jointly on a ledger head and a next-latent head.  Under the same dual
+criteria the trained head is positive,
+$$
+\begin{array}{lll}
+\text{trained ledger AUROC} & 0.675 & [0.636,\ 0.711],\\
+\text{matched-random AUROC} & 0.543 & [0.499,\ 0.588],\\
+\text{unlogged error} & 0.231 \rightarrow 0.132 & [0.110,\ 0.156],
+\end{array}
+$$
+and a component ablation shows the joint next-latent loss has no measurable
+effect on this carrier ($0.671$ AUROC without it).  The honest reading cuts
+both ways.  The trained head transfers to a real checkpoint, but it does not
+beat the post-hoc logistic head on detection AUROC ($0.675$ versus $0.731$,
+intervals overlapping), while reaching a lower operating-point unlogged error
+($0.132$ versus $0.168$, intervals overlapping).  On this carrier the
+trained-versus-post-hoc contrast is not settled by victory; what the executed
+records show is transfer, a live matched-random capacity artifact ($0.543$
+slightly above chance from temporal windows alone), and a measured
+operating-point trade.
+
+\paragraph{Perturbation boundary.}
+Under visual perturbation of the evaluation stream (color shift, occlusion,
+brightness, background tint, Gaussian noise; the brittleness setting of the
+stable-worldmodel line), the clean-only post-hoc head keeps working under
+mild background tint (AUROC $0.72$) and collapses under strong shifts, where
+almost every transition fails and the slice becomes single-class.  Gap-head
+training on perturbed latents generalizes across families in a leave-one-out
+test: held-out occlusion $0.72$, brightness $0.67$, background tint $0.67$,
+Gaussian noise $0.63$, with color shift remaining unidentifiable.  At the
+strongest perturbations the OOD-aware heads declare gap on nearly everything,
+which is the conservative failure mode the ledger semantics ask for.  The
+trained ledger transformer's own clean-trained perturbation arm reproduces
+the same boundary shape rather than escaping it: detection persists under
+background tint at every tested strength (AUROC $0.62$--$0.65$) and at mild
+occlusion, brightness, and Gaussian-noise strengths ($0.62$--$0.71$), while
+the strongest slices drive the failure rate to one, become single-class, and
+are reported fail-closed.  An OOD-aware variant of the trained head, trained
+on clean plus perturbed train-split windows under the same protocol,
+reproduces the OOD-aware pattern of the post-hoc line at the architecture
+level: leave-one-out transfer to held-out families is positive on four of
+five (pooled AUROC: occlusion $0.75$, background tint $0.70$, brightness
+$0.66$, Gaussian noise $0.59$; color shift stays single-class), the
+final-strength record is positive on background tint (AUROC $0.77$), at the
+strongest slices the head conservatively declares gap on nearly everything
+(unlogged error $\rightarrow 0$), and clean evaluation is not degraded
+(AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).  A four-level
+purely discriminative readout scan (linear, one-hidden-layer, two-hidden-layer,
+and transformer readers on the same flattened-window input) shows that, without
+the joint next-latent loss, all levels pay a clean detection cost for robustness
+($\Delta$clean $=-0.076/-0.088/-0.084/-0.047$, non-monotone), while the matched
+transformer contrast with and without the joint loss is $0.721$ versus $0.624$;
+clean awareness is therefore preserved by the joint world-prediction objective,
+not by readout capacity.
+
+\paragraph{Probing what the ledger reads.}
+Three probes bound the nature of the failure signal.  First, the trained
+head's own next-latent prediction is far weaker than the checkpoint predictor
+on the same transitions and metric (mean squared error $0.879$ versus
+$0.067$; the small head wins on $0.1\%$ of transitions), so the ledger's
+detection ability does not ride on superior dynamics.  Second, the signal is
+not a state-recovery deficit: per-transition linear and local ($k=20$
+nearest-neighbour) state-recovery residuals do not predict failure (AUROC
+$0.455$ $[0.407,\ 0.503]$ and $0.466$ $[0.418,\ 0.515]$, against $0.731$ for
+the gap head), so the naive operationalization of the identifiability
+question --- the model fails where its latent encodes state poorly --- is
+rejected on this carrier.  Third, one-step awareness does not transfer to
+multi-step budget allocation: distributing rollout depth by ledger score at
+matched compute \emph{raises} per-step rollout error against a uniform
+allocation ($+0.013$ $[+0.005,\ +0.021]$), while an oracle ranked by true
+future error lowers it ($-0.016$), so the allocation lever exists but the
+one-step ledger score selects the wrong direction for it.
+
+\paragraph{Horizon-indexed ledger.}
+The horizon-indexed label family is
+$y_{t,h,q} = 1[e_{t,h} > \tau_{h,q}]$, with
+$h \in \{1,3,5,10\}$ and $q \in \{50,75,90\}$.  Here $e_{t,h}$ is the
+endpoint error of the checkpoint predictor's $h$-step rollout, and
+$\tau_{h,q}$ is the corresponding clean train-split quantile.  Under this
+horizon-conditioned supervision, the trained ledger reaches clean $h=1$
+$0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
+detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
+logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
+horizon detection is label-driven rather than architecture-specific.  With
+within-episode pairwise ranking, the native horizon ledger separates from the
+post-hoc scorer on the clean $h=1$ evaluation.  The paired episode bootstrap on
+the same evaluation episodes gives
+$$
+\Delta\mathrm{AUROC}_{h=1}^{\mathrm{native-posthoc}}
+= +0.050\ [0.0043,\ 0.100],
+$$
+with native AUROC $0.788$ versus post-hoc AUROC $0.737$.  Independent
+confidence intervals are a conservative parity check because they overlap; the
+paired comparison is the appropriate test for two scorers on the same episode
+sample and gives interval-separated gain.
+With the same horizon-ledger configuration trained separately on three
+additional carriers, every test horizon is detectable (all confidence-interval
+lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
+at $h=1/3/5/10$, cube has $0.602$/$0.672$/$0.667$/$0.631$, and pusht has
+$1.000$/$0.999$/$1.000$/$1.000$ on the contiguous episode block.  On reacher,
+horizon supervision exceeds the probe row ($0.734$ $[0.698,\ 0.772]$ against
+$0.662$) while lowering unlogged error $0.230 \rightarrow 0.149$.  For pusht,
+the contiguous block is not the population claim; an independent
+stratified-random $150$-episode export puts representative $h=1$ detection at
+post-hoc AUROC $0.744$ and native AUROC $0.800$, with CI95\_high $<0.95$ and
+UER $>0.02$.  Thus pusht is not perfectly readable on the representative
+population; its detection lies in the same readability range as
+tworooms/reacher/cube.
+
+Teacher distillation by logit matching to the post-hoc scores is harmful:
+distillation alone gives $0.661$, and distillation with the full loss gives
+$0.692$, both below the pure horizon-supervised value $0.739$.  The failure
+surface is directly learnable from horizon-indexed labels.  The strongest
+configuration is a perturbation- and horizon-aware trained ledger, trained
+with true perturbation rollout trajectories from perturbation train slices: it
+keeps clean $h=1$ at $0.720$ $[0.681,\ 0.757]$, lifts perturbation detection
+at $h=1$ to background tint $0.752$, occlusion $0.771$, and Gaussian noise
+$0.745$, and repairs the score-anticorrelated brightness slice from $0.069$ to
+$0.991$ $[0.982,\ 0.998]$.
+
+Budget allocation remains on the wrong side but converges monotonically:
+one-step scores give $+0.0128$, the full loss gives $+0.011$, pure horizon
+supervision gives $+0.0072$, and horizon supervision with ranking loss gives
+$+0.0075$ $[-0.003,\ +0.020]$, against a label-permutation control at
+$+0.031$ and an oracle at $-0.016$.  Detection-level scores therefore do not
+yet supply allocation-level ranking.  Under the same budget protocol, three
+dedicated allocation heads all remain below the decision criterion: error
+regression gives $+0.009$ $[-0.002,\ +0.023]$, pure pairwise ranking gives
+$+0.006$ $[-0.003,\ +0.018]$, and a two-stage ranker on fixed ledger logits
+gives $+0.010$ $[-0.002,\ +0.024]$.  Each nevertheless learns the true
+within-episode error ordering, with Spearman $0.460$/$0.508$/$0.432$, against a
+target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.
+The allocation records give a scoped information bound.  Across $7$
+cross-fit readers, the strongest reader is pairwise RankNet with
+within-episode Spearman
+$$
+\rho = 0.41\ [0.32,\ 0.49],
+$$
+and the CI upper endpoint $0.49$ remains below the required
+$\rho^\star \approx 0.50$ from the $150$-seed oracle-blend distribution
+(p05 $0.501$).  No reader beats uniform allocation
+($\Delta$ CI\_high $\ge 0$), and the MI upper bound gives
+$\rho_{\max}\approx 0$.  The sanity checks are aligned: permutation gives
+$\rho\approx 0$, and oracle gives $\rho=1.0$.  The bound is not a theorem about
+all models; it is under the current latent export, finite CPU-readable feature
+family, and fixed $5/1/3$ allocation rule.
+
+\paragraph{Ledger-shaped representation.}
+A GPU re-encoder row tests whether the ledger loss can improve the
+representation itself rather than only read a fixed one.  A learnable
+re-encoder is trained on an RTX 4060 with ledger loss entering the
+representation, and a same-capacity predictor-only model is trained as the
+control.  The primary criterion freezes each re-encoder after training and
+trains a fresh linear probe, separating representation shaping from head
+learning.  The fixed-probe $h=1$ comparison is
+$$
+\Delta\mathrm{AUROC}_{h=1}^{\mathrm{ledger\mbox{-}shaped-pred\mbox{-}only}}
+= +0.0038\ [-0.0115,\ 0.0187],
+$$
+below the predeclared $0.03$ improvement threshold and with the interval
+crossing zero.  A label-permutation control is not positive, and one-step
+latent prediction is not sacrificed (B/A $0.991$).  This is a closed negative
+bound only under this latent export, clean labels, an $8$GB GPU budget, and
+this re-encoder class.  The mechanism reading is that the LeWM latent is
+already a strong fixed representation on this carrier; a small ledger-shaped
+re-encoder does not make the failure signal linearly more readable, consistent
+with the allocation bound's $\rho\approx 0.5$ readable-information ceiling.
+
+\paragraph{Coverage formalization status.}
+The deterministic counting core of the split-conformal selective rule is
+machine-checked in a mathlib-free Lean~4 package
+(\path{formal/bedc-conformal-lean/}) whose theorems depend on zero axioms, as
+reported by \texttt{\#print axioms} (no \texttt{propext}, no
+\texttt{Classical.choice}, no \texttt{Quot.sound}).  On a calibration list
+sorted by score the package proves four facts: the fail-closed branch admits
+the empty set, so no sample is declared OK when no threshold is feasible; the
+selected prefix satisfies the conservative Laplace-smoothed calibration bound
+$(1 + \mathrm{cumFail})\,\alpha_{\mathrm{den}} \le
+\alpha_{\mathrm{num}}\,(1 + (i+1))$ by construction; the admitted count of the
+selected index equals the selected prefix length; and the cumulative failure
+count is monotone in the threshold.  The formalized object is the deterministic
+counting core over a failure-indicator list \emph{already ordered by score}: the
+score sort itself, the numeric threshold readout $\tau = s_{\mathrm{sorted}}[i]$,
+and the evaluation-side $\mathrm{score} \le \tau$ comparison are the trusted
+numerical harness around the verified core, not themselves formalized.  The
+$\alpha$-statistical miscoverage bound (rank quantile plus exchangeability) is
+likewise not formalized and is recorded as open rather than claimed.
+
+\paragraph{Calibrated selection.}
+Replacing the declared-OK rule by conservative thresholds chosen on a
+calibration split over an $\alpha$ grid makes the clean-evaluation guarantee
+observable but narrow.  At $\alpha = 0.10$, three of the four monitors satisfy
+the target on clean evaluation: the post-hoc monitor has clean risk $0.103$,
+the perturbation-aware trained ledger has risk $0.115$ and the highest usable
+coverage $0.422$, while the OOD-aware logistic monitor violates the clean case
+itself with risk $0.176$.  Under distribution shift, the guarantee fails in
+two modes.  Clean-only monitors fail dangerously, declaring OK for samples in
+the $0.92$--$0.98$ score range under strong color shift while the actual risk
+is $1.0$.  Perturbation-aware monitors fail safely, with usable coverage
+shrinking to zero through abstention.  At $\alpha = 0.05$, the calibration
+split has no feasible threshold, and the record fails closed.
+
+\paragraph{Cross-environment replication.}
+The predeclared simplified cross-environment protocol uses only the latent
+itself as the gap-head feature, with no \texttt{tworooms}-specific probe
+features, the same split seed, the same $\tau$ definition, the same
+$500$-replicate episode bootstrap, and the same two criteria.  On
+\texttt{quentinll/lewm-reacher}, with $150$ episodes, $6000$ transitions, and
+a rollout-error identity self-check at maximum $0.0$, the learned head has
+AUROC $0.662$ $[0.620,\ 0.701]$, while the matched-random control has $0.550$
+$[0.498,\ 0.597]$; the detection criterion is interval-separated.  Its UER
+moves from $0.265$ to $0.230$ $[0.203,\ 0.258]$, overlapping the vanilla lower
+bound $0.224$, so the strict two-criterion rule does not grant the row.  On
+\texttt{quentinll/lewm-cube}, with $150$ episodes, $6000$ transitions, and the
+same self-check at $0.0$, the learned head has AUROC $0.610$
+$[0.568,\ 0.652]$, while the matched-random control has $0.507$
+$[0.458,\ 0.554]$; the detection criterion is interval-separated.  Its UER
+moves from $0.248$ to $0.210$ $[0.183,\ 0.233]$, overlapping its vanilla
+baseline, so the strict two-criterion rule does not grant the row.  For
+\texttt{quentinll/lewm-pusht}, the earlier contiguous episode block with
+$150$ episodes and $3092$ transitions gives AUROC $1.000$ $[1.000,\ 1.000]$,
+but that perfect result is a contiguous-block artifact rather than a
+representative population claim.  The independent stratified-random
+$150$-episode export gives post-hoc $h=1$ AUROC $0.744$ and native AUROC
+$0.800$, with CI95\_high $<0.95$ and UER $>0.02$.  The corrected conclusion is
+that representative pusht failure detection is about $0.74$--$0.80$, in the
+same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  The
+native $0.800 > 0.744$ comparison is consistent with the paired native-over-
+post-hoc result above.
+
+\paragraph{Record pointers.}
+The executed records live in the public repository
+\path{the-omega-institute/bedc-jepa-gap-ledger}:
+
+\noindent{\small
+\begin{tabular}{@{}p{0.34\linewidth}@{}p{0.58\linewidth}@{}}
+gap head & \path{experiments/lewm_gap_ledger/reports/lewm_gap_ledger_head_large.json}\\
+perturbation boundary & \path{experiments/lewm_gap_ledger/reports/lewm_brittleness_gap.json}\\
+OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ood_aware_gap.json}\\
+trained ledger head & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer.json}\\
+trained-head perturbation arm & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood.json}\\
+trained-head OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood_aware.json}\\
+dynamics comparison & \path{experiments/lewm_gap_ledger/reports/lewm_lat_dynamics_comparison.json}\\
+state-recovery probe & \path{experiments/lewm_gap_ledger/reports/lewm_identifiability_link.json}\\
+rollout budget allocation & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_gated_rollout.json}\\
+calibrated selection & \path{experiments/lewm_gap_ledger/reports/lewm_conformal_selective_guarantee.json}\\
+cross-environment replication & \path{experiments/lewm_gap_ledger/reports/lewm_cross_env_replication.json}\\
+reader capacity sweep & \path{experiments/lewm_gap_ledger/reports/lewm_reader_capacity_frontier.json}\\
+horizon-indexed ledger & \path{experiments/lewm_gap_ledger/reports/g2n_native_ledger.json}\\
+horizon ledger completion & \path{experiments/lewm_gap_ledger/reports/g2n_matrix_completion.json}\\
+cross-environment horizon ledger & \path{experiments/lewm_gap_ledger/reports/lewm_crossenv_horizon_ledger.json}\\
+allocation bridge study & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_bridge.json}\\
+native/post-hoc paired comparison & \path{experiments/lewm_gap_ledger/reports/lewm_native_vs_posthoc_paired.json}\\
+allocation information bound & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_information_bound.json}\\
+ledger-shaped re-encoder & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json}\\
+pusht independent export & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_independent_export.json}\\
+pusht contiguous-block replication & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_replication.json}\\
+coverage formalization & \path{formal/bedc-conformal-lean/}\\
+not\_claimed boundary & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json:$.not_claimed}
+\end{tabular}
+}
+An interactive demonstration of the failure-versus-declared-gap readout is
+published from the same repository.
+
+\paragraph{Boundary of this instantiation.}
+The detection-signal record summary is scoped to four public checkpoints
+(\texttt{tworooms}, \texttt{reacher}, \texttt{cube}, and \texttt{pusht}), each
+with a single latent export unless an independent export is explicitly named;
+the strict two-criterion record and all trained-ledger rows remain scoped to the
+specified records; the ledger-shaped re-encoder row is scoped to one latent
+export, clean labels, an $8$GB GPU budget, and the tested re-encoder class; the
+confidence intervals use episode bootstrap rather than independent world
+seeds, and no benchmark superiority record is asserted.
+The pusht $1.000$ row is retained only as a contiguous-block replication record,
+not as a representative population claim.  These rows are an external baseline
+run beyond the fixed-checkpoint MiniGrid row, in gap-ledger form; they do not
+execute LeWorldModel's official benchmark setting and do not produce the
+latent-prediction and rollout-or-planning fields of the public-baseline
+comparison record, so the comparison record carries no LeWorldModel score row.

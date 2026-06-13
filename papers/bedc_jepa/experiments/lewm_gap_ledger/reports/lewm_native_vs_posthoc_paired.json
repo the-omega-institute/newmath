@@ -1,0 +1,571 @@
+{
+  "status": "ok",
+  "schema_id": "lewm.native_vs_posthoc_paired",
+  "protocol": {
+    "comparison": "paired episode bootstrap over identical clean eval episodes and anchors",
+    "delta": "AUROC(native scalar ledger score) - AUROC(post-hoc horizon reader score)",
+    "bootstrap_resamples": 500,
+    "bootstrap_seed": 314159,
+    "seeds": {
+      "numpy": 20260611,
+      "torch": 20260611,
+      "split": 1701
+    },
+    "primary_quantile": 75,
+    "target_horizons": [
+      1,
+      5
+    ],
+    "native_source": "_native_residual_detection.py residual arms, same seed and hyperparameters",
+    "posthoc_source": "_g2n_matrix_completion.py B_posthoc_horizon reader rebuilt for per-anchor scores",
+    "posthoc_head": "_phase1c_gap_ledger.fit_logistic_head steps=500, lr=0.14, l2=0.0001"
+  },
+  "precursors": {
+    "clean_npz": "reports/g2n_labels_clean.npz",
+    "latent_npz": "tworooms_latent_large.npz",
+    "native_residual_detection_json": "reports/lewm_native_residual_detection.json",
+    "matrix_completion_json": "reports/g2n_matrix_completion.json"
+  },
+  "anchors": {
+    "skeleton_E_h1_q75_auroc": {
+      "observed": 0.7385152058598745,
+      "expected": 0.7385152058598745,
+      "abs_delta": 0.0,
+      "tolerance": 1e-09,
+      "train_info": {
+        "status": "trained",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "wall_time_seconds": 15.39,
+        "parameter_count": 94028,
+        "train_rows": 2711,
+        "include_future": true,
+        "action_only": false,
+        "use_teacher": false,
+        "use_unlogged": false,
+        "use_budget": false,
+        "label_permutation_seed": null
+      },
+      "h1_q75": {
+        "observed": 0.7385152058598745,
+        "bootstrap_mean": 0.7382764079840404,
+        "ci95_low": 0.6962381170315705,
+        "ci95_high": 0.7811178120443019
+      },
+      "h5_q75": {
+        "observed": 0.7101599223380339,
+        "bootstrap_mean": 0.7082712639779369,
+        "ci95_low": 0.6573334955821668,
+        "ci95_high": 0.7607597996404419
+      }
+    },
+    "R-rank_h1_q75_auroc": {
+      "observed": 0.7876022489084622,
+      "expected": 0.7876022489084622,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06
+    },
+    "posthoc": {
+      "phase2c_clean_only_t1_auroc": {
+        "observed": 0.7313653225855256,
+        "target": 0.7313653225855256,
+        "abs_delta": 0.0,
+        "tolerance": 1e-09,
+        "fit": {
+          "status": "fit",
+          "label_rate": 0.24991789819376026,
+          "train_loss": 0.47081486799977845,
+          "train_rows": 3045,
+          "train_episodes": 167,
+          "train_failure_rate": 0.24991789819376026
+        }
+      }
+    }
+  },
+  "arms": {
+    "R-reg": {
+      "info": {
+        "status": "trained",
+        "objective": "regression",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 14.87,
+        "parameter_count": 93378,
+        "train_rows": 2711,
+        "lambda_reg": null,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "Huber(log mean_err_to_h[h]) dual-head",
+        "paired_script_wall_time_seconds": 15.06
+      },
+      "paired": {
+        "h1_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.0027922181108260835,
+            "bootstrap_mean": 0.0031952232405039844,
+            "ci95_low": -0.05062960971608673,
+            "ci95_high": 0.05550310565248232
+          },
+          "native_auroc": {
+            "observed": 0.7402783137726726,
+            "bootstrap_mean": 0.7405594611384331,
+            "ci95_low": 0.6973973676922527,
+            "ci95_high": 0.7820917243432375
+          },
+          "posthoc_auroc": {
+            "observed": 0.7374860956618465,
+            "bootstrap_mean": 0.7373642378979292,
+            "ci95_low": 0.6940275568181818,
+            "ci95_high": 0.7764580158222454
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "positive_count": 203,
+          "negative_count": 651,
+          "decision": "not_separated"
+        },
+        "h5_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.006923155528305691,
+            "bootstrap_mean": 0.005558387914803486,
+            "ci95_low": -0.04374862737334538,
+            "ci95_high": 0.05981348791804869
+          },
+          "native_auroc": {
+            "observed": 0.7172874514612712,
+            "bootstrap_mean": 0.7152589201347902,
+            "ci95_low": 0.6637457391674901,
+            "ci95_high": 0.7612917328717891
+          },
+          "posthoc_auroc": {
+            "observed": 0.7103642959329655,
+            "bootstrap_mean": 0.7097005322199867,
+            "ci95_low": 0.6636096858846677,
+            "ci95_high": 0.7537474012474012
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "positive_count": 168,
+          "negative_count": 466,
+          "decision": "not_separated"
+        }
+      },
+      "prior_independent_ci": {
+        "h1_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7402783137726726,
+            "bootstrap_mean": 0.7405594611384331,
+            "ci95_low": 0.6973973676922527,
+            "ci95_high": 0.7820917243432375
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7172874514612712,
+            "bootstrap_mean": 0.7152589201347902,
+            "ci95_low": 0.6637457391674901,
+            "ci95_high": 0.7612917328717891
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        }
+      }
+    },
+    "R-rank": {
+      "info": {
+        "status": "trained",
+        "objective": "rank",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 16.21,
+        "parameter_count": 93378,
+        "train_rows": 2711,
+        "lambda_reg": null,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "within-episode pairwise logistic ranking over mean_err_to_h[h] dual-head",
+        "paired_script_wall_time_seconds": 16.39
+      },
+      "paired": {
+        "h1_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.05011615324661567,
+            "bootstrap_mean": 0.05075084426068325,
+            "ci95_low": 0.0042739912057281945,
+            "ci95_high": 0.10008664273416742
+          },
+          "native_auroc": {
+            "observed": 0.7876022489084622,
+            "bootstrap_mean": 0.7881150821586125,
+            "ci95_low": 0.7466518838941957,
+            "ci95_high": 0.8269375286536116
+          },
+          "posthoc_auroc": {
+            "observed": 0.7374860956618465,
+            "bootstrap_mean": 0.7373642378979292,
+            "ci95_low": 0.6940275568181818,
+            "ci95_high": 0.7764580158222454
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "positive_count": 203,
+          "negative_count": 651,
+          "decision": "positive"
+        },
+        "h5_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.0221873083997548,
+            "bootstrap_mean": 0.021755485224966713,
+            "ci95_low": -0.041996423881865794,
+            "ci95_high": 0.09160783761437333
+          },
+          "native_auroc": {
+            "observed": 0.7325516043327203,
+            "bootstrap_mean": 0.7314560174449535,
+            "ci95_low": 0.6615591072986067,
+            "ci95_high": 0.7949933339526912
+          },
+          "posthoc_auroc": {
+            "observed": 0.7103642959329655,
+            "bootstrap_mean": 0.7097005322199867,
+            "ci95_low": 0.6636096858846677,
+            "ci95_high": 0.7537474012474012
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "positive_count": 168,
+          "negative_count": 466,
+          "decision": "not_separated"
+        }
+      },
+      "prior_independent_ci": {
+        "h1_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7876022489084622,
+            "bootstrap_mean": 0.7881150821586125,
+            "ci95_low": 0.7466518838941957,
+            "ci95_high": 0.8269375286536116
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7325516043327203,
+            "bootstrap_mean": 0.7314560174449535,
+            "ci95_low": 0.6615591072986067,
+            "ci95_high": 0.7949933339526912
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        }
+      }
+    },
+    "R-multitask-lambda0p25": {
+      "info": {
+        "status": "trained",
+        "objective": "multitask",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 17.17,
+        "parameter_count": 94158,
+        "train_rows": 2711,
+        "lambda_reg": 0.25,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "BCE horizon + 0.25*Huber(log mean_err) + pairwise rank",
+        "paired_script_wall_time_seconds": 17.36
+      },
+      "paired": {
+        "h1_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.03790303663178285,
+            "bootstrap_mean": 0.03803683309839282,
+            "ci95_low": -0.012381752470925284,
+            "ci95_high": 0.09317595173433281
+          },
+          "native_auroc": {
+            "observed": 0.7753891322936294,
+            "bootstrap_mean": 0.775401070996322,
+            "ci95_low": 0.732495845983479,
+            "ci95_high": 0.8188748025467182
+          },
+          "posthoc_auroc": {
+            "observed": 0.7374860956618465,
+            "bootstrap_mean": 0.7373642378979292,
+            "ci95_low": 0.6940275568181818,
+            "ci95_high": 0.7764580158222454
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "positive_count": 203,
+          "negative_count": 651,
+          "decision": "not_separated"
+        },
+        "h5_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": -0.01421673819742486,
+            "bootstrap_mean": -0.013733660874217592,
+            "ci95_low": -0.07721265469962871,
+            "ci95_high": 0.050104235108003665
+          },
+          "native_auroc": {
+            "observed": 0.6961475577355406,
+            "bootstrap_mean": 0.6959668713457692,
+            "ci95_low": 0.6303293601572587,
+            "ci95_high": 0.7496001984755819
+          },
+          "posthoc_auroc": {
+            "observed": 0.7103642959329655,
+            "bootstrap_mean": 0.7097005322199867,
+            "ci95_low": 0.6636096858846677,
+            "ci95_high": 0.7537474012474012
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "positive_count": 168,
+          "negative_count": 466,
+          "decision": "not_separated"
+        }
+      },
+      "prior_independent_ci": {
+        "h1_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7753891322936294,
+            "bootstrap_mean": 0.775401070996322,
+            "ci95_low": 0.732495845983479,
+            "ci95_high": 0.8188748025467182
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.6961475577355406,
+            "bootstrap_mean": 0.6959668713457692,
+            "ci95_low": 0.6303293601572587,
+            "ci95_high": 0.7496001984755819
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": false
+        }
+      }
+    },
+    "R-multitask-lambda1p0": {
+      "info": {
+        "status": "trained",
+        "objective": "multitask",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 17.9,
+        "parameter_count": 94158,
+        "train_rows": 2711,
+        "lambda_reg": 1.0,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "BCE horizon + 1.0*Huber(log mean_err) + pairwise rank",
+        "paired_script_wall_time_seconds": 18.11
+      },
+      "paired": {
+        "h1_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": 0.041800034808138986,
+            "bootstrap_mean": 0.042331823796191236,
+            "ci95_low": -0.0037399808282646903,
+            "ci95_high": 0.09280877051466556
+          },
+          "native_auroc": {
+            "observed": 0.7792861304699855,
+            "bootstrap_mean": 0.7796960616941204,
+            "ci95_low": 0.7407122730103596,
+            "ci95_high": 0.8186808637230454
+          },
+          "posthoc_auroc": {
+            "observed": 0.7374860956618465,
+            "bootstrap_mean": 0.7373642378979292,
+            "ci95_low": 0.6940275568181818,
+            "ci95_high": 0.7764580158222454
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "positive_count": 203,
+          "negative_count": 651,
+          "decision": "not_separated"
+        },
+        "h5_q75": {
+          "delta_native_minus_posthoc": {
+            "observed": -0.017435622317596544,
+            "bootstrap_mean": -0.01719819635355751,
+            "ci95_low": -0.07558439682858585,
+            "ci95_high": 0.044428312705036124
+          },
+          "native_auroc": {
+            "observed": 0.6929286736153689,
+            "bootstrap_mean": 0.6925023358664292,
+            "ci95_low": 0.6277094451503156,
+            "ci95_high": 0.7478792157126617
+          },
+          "posthoc_auroc": {
+            "observed": 0.7103642959329655,
+            "bootstrap_mean": 0.7097005322199867,
+            "ci95_low": 0.6636096858846677,
+            "ci95_high": 0.7537474012474012
+          },
+          "bootstrap_seed": 314159,
+          "bootstrap_resamples": 500,
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "positive_count": 168,
+          "negative_count": 466,
+          "decision": "not_separated"
+        }
+      },
+      "prior_independent_ci": {
+        "h1_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.7792861304699855,
+            "bootstrap_mean": 0.7796960616941204,
+            "ci95_low": 0.7407122730103596,
+            "ci95_high": 0.8186808637230454
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "native_failure_detection_auroc": {
+            "observed": 0.6929286736153689,
+            "bootstrap_mean": 0.6925023358664292,
+            "ci95_low": 0.6277094451503156,
+            "ci95_high": 0.7478792157126617
+          },
+          "posthoc_failure_detection_auroc": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": false
+        }
+      }
+    }
+  },
+  "decision": {
+    "verdict": "B_positive",
+    "positive": true,
+    "primary_arm": "R-rank",
+    "primary_horizon": 1,
+    "primary_delta_native_minus_posthoc": {
+      "observed": 0.05011615324661567,
+      "bootstrap_mean": 0.05075084426068325,
+      "ci95_low": 0.0042739912057281945,
+      "ci95_high": 0.10008664273416742
+    },
+    "rule": "B positive iff R-rank paired delta AUROC(h=1) CI95_low > 0; otherwise B parity-bound."
+  },
+  "not_claimed": [
+    "Round2-B independent-CI not_positive result is retained and cited as prior context.",
+    "This report only changes the comparison statistic to the paired AUROC delta on the same eval episodes.",
+    "single checkpoint and single latent export; no world-seed replication is claimed.",
+    "R-rank was reproduced from the Round2-B seed and hyperparameters, not retrained to a better seed.",
+    "post-hoc horizon reader uses the same split and frozen protocol; it is rebuilt only to expose per-anchor scores.",
+    "No planning or control benefit is claimed."
+  ],
+  "outputs": {
+    "json": "reports/lewm_native_vs_posthoc_paired.json",
+    "md": "reports/lewm_native_vs_posthoc_paired.md"
+  }
+}

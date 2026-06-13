@@ -1,0 +1,2925 @@
+{
+  "schema_id": "lewm.ledger_aware_transformer_port.ood_aware_training",
+  "protocol": {
+    "mirrors": "phase2c ood-aware protocol at the LAT level",
+    "tau_err_train_p75": 0.07670211046934128,
+    "training_mix": "clean train windows + perturbed train windows (all strengths of the listed families)",
+    "perturbation_grid": {
+      "color_shift": [
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "occlusion": [
+        0.12,
+        0.2,
+        0.28,
+        0.36
+      ],
+      "brightness": [
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "background_tint": [
+        0.15,
+        0.3,
+        0.45,
+        0.6
+      ],
+      "gaussian_noise": [
+        5.0,
+        10.0,
+        15.0,
+        25.0
+      ]
+    },
+    "bootstraps": 300,
+    "bootstrap_unit": "eval episodes",
+    "claim_criteria": [
+      "AUROC ci95_low > 0.5",
+      "bedc UER ci95_high < vanilla UER ci95_low"
+    ],
+    "single_class_policy": "AUROC unidentifiable; slice flagged fail-closed",
+    "clean_anchor_reproduces_port": true
+  },
+  "arms": {
+    "lat_clean_only": {
+      "info": {
+        "status": "trained",
+        "parameter_count": 92865,
+        "train_rows": 3045,
+        "optimizer_steps": 360,
+        "epochs": 30,
+        "wall_time_seconds": 8.23,
+        "dynamics_weight": 1.0,
+        "label_permutation_seed": null,
+        "device": "cpu",
+        "torch_seed": 20260611
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.6745762301580097,
+            "ci95_low": 0.6382468211349169,
+            "ci95_high": 0.7118117343121891
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.13174273858921162,
+            "ci95_low": 0.10806621258456121,
+            "ci95_high": 0.15575648406253786
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.2050299472358226,
+            "ci95_high": 0.2601150146339571
+          },
+          "declared_gap_rate": {
+            "observed": 0.24273858921161826,
+            "ci95_low": 0.21676667681170447,
+            "ci95_high": 0.2719232757810296
+          }
+        }
+      },
+      "families": {
+        "color_shift": {
+          "points": [
+            {
+              "strength": 0.1,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.7634854771784232,
+                  "ci95_low": 0.7255102564102565,
+                  "ci95_high": 0.7947166053921568
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.23651452282157676,
+                  "ci95_low": 0.20528339460784312,
+                  "ci95_high": 0.27448974358974354
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.8931535269709544,
+                  "ci95_low": 0.8704693093334918,
+                  "ci95_high": 0.9151287871254501
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.10684647302904564,
+                  "ci95_low": 0.08487121287454992,
+                  "ci95_high": 0.12953069066650824
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.9875518672199171,
+                  "ci95_low": 0.9801412964069868,
+                  "ci95_high": 0.9939274266167969
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.012448132780082987,
+                  "ci95_low": 0.0060725733832030756,
+                  "ci95_high": 0.019858703593013217
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.4,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": false,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.9110477178423236,
+                "ci95_low": 0.8989155949842095,
+                "ci95_high": 0.9224200358239508
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.08895228215767635,
+                "ci95_low": 0.07757996417604913,
+                "ci95_high": 0.10108440501579051
+              }
+            },
+            "single_class_truth": true,
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": false,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "occlusion": {
+          "points": [
+            {
+              "strength": 0.12,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6237000912518724,
+                  "ci95_low": 0.592874148117737,
+                  "ci95_high": 0.6598167561253265
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.33713692946058094,
+                  "ci95_low": 0.30767962302945767,
+                  "ci95_high": 0.3701031472722913
+                },
+                "vanilla_uer": {
+                  "observed": 0.5,
+                  "ci95_low": 0.4676419411182616,
+                  "ci95_high": 0.5374418142496007
+                },
+                "declared_gap_rate": {
+                  "observed": 0.23858921161825727,
+                  "ci95_low": 0.20955842744029077,
+                  "ci95_high": 0.2658173201271928
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.61734375,
+                  "ci95_low": 0.5427898945961345,
+                  "ci95_high": 0.6872144405047358
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.6981327800829875,
+                  "ci95_low": 0.6641127238349461,
+                  "ci95_high": 0.7310525261629363
+                },
+                "vanilla_uer": {
+                  "observed": 0.9336099585062241,
+                  "ci95_low": 0.9120095695595423,
+                  "ci95_high": 0.9556080493018135
+                },
+                "declared_gap_rate": {
+                  "observed": 0.241701244813278,
+                  "ci95_low": 0.21460003521424056,
+                  "ci95_high": 0.2690808714180018
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.28,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.8215767634854771,
+                  "ci95_low": 0.7973144334578539,
+                  "ci95_high": 0.8514745274975131
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.17842323651452283,
+                  "ci95_low": 0.14852547250248685,
+                  "ci95_high": 0.20268556654214612
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.36,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.8423236514522822,
+                  "ci95_low": 0.8137620515531406,
+                  "ci95_high": 0.8722803251735477
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.15767634854771784,
+                  "ci95_low": 0.1277196748264523,
+                  "ci95_high": 0.18623794844685945
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5598873432710291,
+                "ci95_low": 0.539445495231776,
+                "ci95_high": 0.5835566607580739
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.674792531120332,
+                "ci95_low": 0.6515165065015801,
+                "ci95_high": 0.6977625636197415
+              },
+              "vanilla_uer": {
+                "observed": 0.858402489626556,
+                "ci95_low": 0.8462686514606594,
+                "ci95_high": 0.8721354824912315
+              },
+              "declared_gap_rate": {
+                "observed": 0.20409751037344398,
+                "ci95_low": 0.1795276617954071,
+                "ci95_high": 0.22653506028918796
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "brightness": {
+          "points": [
+            {
+              "strength": 0.1,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6424233348308624,
+                  "ci95_low": 0.5694274231207446,
+                  "ci95_high": 0.7197513497591892
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.7136929460580913,
+                  "ci95_low": 0.6830425973304607,
+                  "ci95_high": 0.7397033316009476
+                },
+                "vanilla_uer": {
+                  "observed": 0.9304979253112033,
+                  "ci95_low": 0.912895628339004,
+                  "ci95_high": 0.9468475302430526
+                },
+                "declared_gap_rate": {
+                  "observed": 0.22510373443983403,
+                  "ci95_low": 0.20215750328663062,
+                  "ci95_high": 0.25013743455497384
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5114345114345115,
+                  "ci95_low": 0.4057965647445354,
+                  "ci95_high": 0.6161078739912129
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.7811203319502075,
+                  "ci95_low": 0.7492085100994111,
+                  "ci95_high": 0.807471257165772
+                },
+                "vanilla_uer": {
+                  "observed": 0.9979253112033195,
+                  "ci95_low": 0.994574245311875,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.21680497925311204,
+                  "ci95_low": 0.19095942593905033,
+                  "ci95_high": 0.24870273881095523
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.7780082987551867,
+                  "ci95_low": 0.7474940485046868,
+                  "ci95_high": 0.8094193012055447
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.22199170124481327,
+                  "ci95_low": 0.19058069879445524,
+                  "ci95_high": 0.2525059514953132
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.4,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.779045643153527,
+                  "ci95_low": 0.7413680582002286,
+                  "ci95_high": 0.810027808676307
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.22095435684647302,
+                  "ci95_low": 0.18997219132369297,
+                  "ci95_high": 0.25863194179977145
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6366631841195853,
+                "ci95_low": 0.5600358006418611,
+                "ci95_high": 0.7087254877455058
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.7629668049792531,
+                "ci95_low": 0.7353059895833334,
+                "ci95_high": 0.788425542165115
+              },
+              "vanilla_uer": {
+                "observed": 0.9821058091286307,
+                "ci95_low": 0.9767871930175723,
+                "ci95_high": 0.9860542828685259
+              },
+              "declared_gap_rate": {
+                "observed": 0.22121369294605808,
+                "ci95_low": 0.19574697456048112,
+                "ci95_high": 0.2469327104271357
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "background_tint": {
+          "points": [
+            {
+              "strength": 0.15,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6495733537045081,
+                  "ci95_low": 0.6193738347956704,
+                  "ci95_high": 0.6850826582293018
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.19294605809128632,
+                  "ci95_low": 0.16501177365673983,
+                  "ci95_high": 0.22251481044584492
+                },
+                "vanilla_uer": {
+                  "observed": 0.31431535269709543,
+                  "ci95_low": 0.2811765554669723,
+                  "ci95_high": 0.3463596718041037
+                },
+                "declared_gap_rate": {
+                  "observed": 0.24481327800829875,
+                  "ci95_low": 0.2206912103351096,
+                  "ci95_high": 0.273021001322869
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6406469276108783,
+                  "ci95_low": 0.6104269718632411,
+                  "ci95_high": 0.6758780771579245
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.20020746887966806,
+                  "ci95_low": 0.17269141462252918,
+                  "ci95_high": 0.2253204704148995
+                },
+                "vanilla_uer": {
+                  "observed": 0.32261410788381745,
+                  "ci95_low": 0.28538061765332573,
+                  "ci95_high": 0.3514866542686991
+                },
+                "declared_gap_rate": {
+                  "observed": 0.24481327800829875,
+                  "ci95_low": 0.22136797064097405,
+                  "ci95_high": 0.2732055468784488
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.45,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6244838367154318,
+                  "ci95_low": 0.5838439195674273,
+                  "ci95_high": 0.6582921200205233
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.2095435684647303,
+                  "ci95_low": 0.18221034767452526,
+                  "ci95_high": 0.2356819489414956
+                },
+                "vanilla_uer": {
+                  "observed": 0.3236514522821577,
+                  "ci95_low": 0.28769990253678895,
+                  "ci95_high": 0.35731196840793233
+                },
+                "declared_gap_rate": {
+                  "observed": 0.24066390041493776,
+                  "ci95_low": 0.2170084006276551,
+                  "ci95_high": 0.26381186829324316
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.6,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6225986117665565,
+                  "ci95_low": 0.5834688774012469,
+                  "ci95_high": 0.6563188645313237
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.21161825726141079,
+                  "ci95_low": 0.1861158475426279,
+                  "ci95_high": 0.2414828738512949
+                },
+                "vanilla_uer": {
+                  "observed": 0.3236514522821577,
+                  "ci95_low": 0.29144596339488843,
+                  "ci95_high": 0.3574766372651681
+                },
+                "declared_gap_rate": {
+                  "observed": 0.23962655601659752,
+                  "ci95_low": 0.21401792711598744,
+                  "ci95_high": 0.2648423330400273
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6342174408315243,
+                "ci95_low": 0.6013388497720626,
+                "ci95_high": 0.6684708604052795
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.20357883817427386,
+                "ci95_low": 0.17312577399380805,
+                "ci95_high": 0.23015268548468748
+              },
+              "vanilla_uer": {
+                "observed": 0.3210580912863071,
+                "ci95_low": 0.28301230885935147,
+                "ci95_high": 0.3576401510441079
+              },
+              "declared_gap_rate": {
+                "observed": 0.2424792531120332,
+                "ci95_low": 0.21417633428242563,
+                "ci95_high": 0.2661184362332997
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "gaussian_noise": {
+          "points": [
+            {
+              "strength": 5.0,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6270381119374407,
+                  "ci95_low": 0.5952937275592669,
+                  "ci95_high": 0.6581232244036118
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.4823651452282158,
+                  "ci95_low": 0.4501685625646329,
+                  "ci95_high": 0.5134492107289528
+                },
+                "vanilla_uer": {
+                  "observed": 0.6908713692946058,
+                  "ci95_low": 0.6619213353045168,
+                  "ci95_high": 0.7177337749652443
+                },
+                "declared_gap_rate": {
+                  "observed": 0.266597510373444,
+                  "ci95_low": 0.23851329649868272,
+                  "ci95_high": 0.2936725568041899
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 10.0,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7061844863731657,
+                  "ci95_low": 0.5283457841478374,
+                  "ci95_high": 0.8691848663893852
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.7095435684647303,
+                  "ci95_low": 0.6774413239719157,
+                  "ci95_high": 0.7360045551463461
+                },
+                "vanilla_uer": {
+                  "observed": 0.9896265560165975,
+                  "ci95_low": 0.9816944296309599,
+                  "ci95_high": 0.9958029438190371
+                },
+                "declared_gap_rate": {
+                  "observed": 0.28112033195020747,
+                  "ci95_low": 0.2551942786715101,
+                  "ci95_high": 0.3117930965669518
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 15.0,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.6846473029045643,
+                  "ci95_low": 0.6477252051291013,
+                  "ci95_high": 0.7149542780168576
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.3153526970954357,
+                  "ci95_low": 0.28504572198314243,
+                  "ci95_high": 0.3522747948708987
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 25.0,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.5549792531120332,
+                  "ci95_low": 0.5275677617086486,
+                  "ci95_high": 0.5878160105730199
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.4450207468879668,
+                  "ci95_low": 0.4121839894269801,
+                  "ci95_high": 0.4724322382913514
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.649143838123545,
+                "ci95_low": 0.6261723768123661,
+                "ci95_high": 0.6714108383245816
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.6078838174273858,
+                "ci95_low": 0.5856875905291865,
+                "ci95_high": 0.6305290481294367
+              },
+              "vanilla_uer": {
+                "observed": 0.9201244813278008,
+                "ci95_low": 0.911991177498253,
+                "ci95_high": 0.9276043918626772
+              },
+              "declared_gap_rate": {
+                "observed": 0.3270228215767635,
+                "ci95_low": 0.3058083249155461,
+                "ci95_high": 0.3522930662370429
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        }
+      }
+    },
+    "lat_ood_aware": {
+      "info": {
+        "train_rows": 63945,
+        "train_failure_rate": 0.7925561029009305,
+        "optimizer_steps": 7500,
+        "epochs": 30,
+        "wall_time_seconds": 178.8,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.7207990656185134,
+            "ci95_low": 0.6781290314621233,
+            "ci95_high": 0.758668182107298
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.0912863070539419,
+            "ci95_low": 0.07589233434935716,
+            "ci95_high": 0.10855329153605014
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.20264521630580906,
+            "ci95_high": 0.26052989812935756
+          },
+          "declared_gap_rate": {
+            "observed": 0.3475103734439834,
+            "ci95_low": 0.29909568122166547,
+            "ci95_high": 0.39362716220138994
+          }
+        }
+      },
+      "families": {
+        "color_shift": {
+          "points": [
+            {
+              "strength": 0.1,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.002074688796680498,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.005233000722907402
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9979253112033195,
+                  "ci95_low": 0.9947669992770926,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.4,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.0005186721991701245,
+                "ci95_low": 0.0,
+                "ci95_high": 0.0012955506563461108
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.9994813278008299,
+                "ci95_low": 0.9987044493436539,
+                "ci95_high": 1.0
+              }
+            },
+            "single_class_truth": true,
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "occlusion": {
+          "points": [
+            {
+              "strength": 0.12,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7076238356777603,
+                  "ci95_low": 0.6677502908657478,
+                  "ci95_high": 0.7462860468745404
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.11825726141078838,
+                  "ci95_low": 0.09409703504043126,
+                  "ci95_high": 0.1413646224500152
+                },
+                "vanilla_uer": {
+                  "observed": 0.5,
+                  "ci95_low": 0.4621843177189409,
+                  "ci95_high": 0.5371364448935178
+                },
+                "declared_gap_rate": {
+                  "observed": 0.6151452282157677,
+                  "ci95_low": 0.5681771894093686,
+                  "ci95_high": 0.6579171999903398
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7071701388888889,
+                  "ci95_low": 0.6342224577283041,
+                  "ci95_high": 0.7694472916682411
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.028008298755186723,
+                  "ci95_low": 0.014124040710121539,
+                  "ci95_high": 0.04200397880324834
+                },
+                "vanilla_uer": {
+                  "observed": 0.9336099585062241,
+                  "ci95_low": 0.9120269050887093,
+                  "ci95_high": 0.9537991498405951
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9647302904564315,
+                  "ci95_low": 0.9479237803490014,
+                  "ci95_high": 0.9800555293377379
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.28,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.36,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.9161725484988325,
+                "ci95_low": 0.9049021083883895,
+                "ci95_high": 0.9280652353073433
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.03656639004149378,
+                "ci95_low": 0.029843858960948398,
+                "ci95_high": 0.043934507729353804
+              },
+              "vanilla_uer": {
+                "observed": 0.858402489626556,
+                "ci95_low": 0.8470465356773527,
+                "ci95_high": 0.8727363158613158
+              },
+              "declared_gap_rate": {
+                "observed": 0.8949688796680498,
+                "ci95_low": 0.8832043939236095,
+                "ci95_high": 0.9056189195283809
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "brightness": {
+          "points": [
+            {
+              "strength": 0.1,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6065991114660809,
+                  "ci95_low": 0.5032073651555892,
+                  "ci95_high": 0.684884783338851
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.07261410788381743,
+                  "ci95_low": 0.047418577776330996,
+                  "ci95_high": 0.09999642648437528
+                },
+                "vanilla_uer": {
+                  "observed": 0.9304979253112033,
+                  "ci95_low": 0.9159606576629478,
+                  "ci95_high": 0.9459530839895013
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9149377593360996,
+                  "ci95_low": 0.8840775880843489,
+                  "ci95_high": 0.9436418246718148
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.2,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.606029106029106,
+                  "ci95_low": 0.45666253101736975,
+                  "ci95_high": 0.7645426528703924
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.014522821576763486,
+                  "ci95_low": 0.004622422267336254,
+                  "ci95_high": 0.025686321501442337
+                },
+                "vanilla_uer": {
+                  "observed": 0.9979253112033195,
+                  "ci95_low": 0.9947297618413105,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9854771784232366,
+                  "ci95_low": 0.9743136784985577,
+                  "ci95_high": 0.9953775777326638
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.002074688796680498,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0074594155844155425
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9979253112033195,
+                  "ci95_low": 0.9925405844155845,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 0.4,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.001037344398340249,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.004116653329776829
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9989626556016598,
+                  "ci95_low": 0.9958833466702232,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.8366340991109937,
+                "ci95_low": 0.8017181268130488,
+                "ci95_high": 0.8705647608861098
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.022562240663900415,
+                "ci95_low": 0.014044325082139233,
+                "ci95_high": 0.031153912417077673
+              },
+              "vanilla_uer": {
+                "observed": 0.9821058091286307,
+                "ci95_low": 0.9774510564542753,
+                "ci95_high": 0.9863620899072184
+              },
+              "declared_gap_rate": {
+                "observed": 0.9743257261410788,
+                "ci95_low": 0.9652361138190964,
+                "ci95_high": 0.9838321993550675
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "background_tint": {
+          "points": [
+            {
+              "strength": 0.15,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7354743038600381,
+                  "ci95_low": 0.7015355107181304,
+                  "ci95_high": 0.7695916556836876
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.12033195020746888,
+                  "ci95_low": 0.09860136614470635,
+                  "ci95_high": 0.14601708989859857
+                },
+                "vanilla_uer": {
+                  "observed": 0.31431535269709543,
+                  "ci95_low": 0.28121739059210904,
+                  "ci95_high": 0.35147110641296686
+                },
+                "declared_gap_rate": {
+                  "observed": 0.3703319502074689,
+                  "ci95_low": 0.32815602139668276,
+                  "ci95_high": 0.4145743557366699
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.3,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7606249661468464,
+                  "ci95_low": 0.7228756912667096,
+                  "ci95_high": 0.7916442664806934
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.11307053941908714,
+                  "ci95_low": 0.09336465131970795,
+                  "ci95_high": 0.1330581862999481
+                },
+                "vanilla_uer": {
+                  "observed": 0.32261410788381745,
+                  "ci95_low": 0.2906187444623109,
+                  "ci95_high": 0.35434871423859726
+                },
+                "declared_gap_rate": {
+                  "observed": 0.3796680497925311,
+                  "ci95_low": 0.33295127958347537,
+                  "ci95_high": 0.41917740147750593
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.45,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7701401997797703,
+                  "ci95_low": 0.7383901546981797,
+                  "ci95_high": 0.8016429610577414
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.10892116182572614,
+                  "ci95_low": 0.0900044801716275,
+                  "ci95_high": 0.127609888768445
+                },
+                "vanilla_uer": {
+                  "observed": 0.3236514522821577,
+                  "ci95_low": 0.2925656364240612,
+                  "ci95_high": 0.3563374493016783
+                },
+                "declared_gap_rate": {
+                  "observed": 0.3796680497925311,
+                  "ci95_low": 0.3363716289637459,
+                  "ci95_high": 0.41866884618230243
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 0.6,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.7694618137486235,
+                  "ci95_low": 0.7301665751264402,
+                  "ci95_high": 0.8009225551497258
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.11203319502074689,
+                  "ci95_low": 0.09303378807106599,
+                  "ci95_high": 0.13474869025262262
+                },
+                "vanilla_uer": {
+                  "observed": 0.3236514522821577,
+                  "ci95_low": 0.2902521345570064,
+                  "ci95_high": 0.35755547124391646
+                },
+                "declared_gap_rate": {
+                  "observed": 0.3775933609958506,
+                  "ci95_low": 0.3371608095473794,
+                  "ci95_high": 0.42163080988991786
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.7592364159645353,
+                "ci95_low": 0.7261833400731184,
+                "ci95_high": 0.793290842899862
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.11358921161825726,
+                "ci95_low": 0.09522066080769676,
+                "ci95_high": 0.13609005111153397
+              },
+              "vanilla_uer": {
+                "observed": 0.3210580912863071,
+                "ci95_low": 0.2910175624456716,
+                "ci95_high": 0.3515436448586184
+              },
+              "declared_gap_rate": {
+                "observed": 0.37681535269709543,
+                "ci95_low": 0.33668126323908637,
+                "ci95_high": 0.41601867418248945
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "gaussian_noise": {
+          "points": [
+            {
+              "strength": 5.0,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.6376141241913054,
+                  "ci95_low": 0.6006467801426033,
+                  "ci95_high": 0.6679504887432371
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.15145228215767634,
+                  "ci95_low": 0.11797612533791288,
+                  "ci95_high": 0.1815839715194641
+                },
+                "vanilla_uer": {
+                  "observed": 0.6908713692946058,
+                  "ci95_low": 0.6553108075724898,
+                  "ci95_high": 0.7231443143454669
+                },
+                "declared_gap_rate": {
+                  "observed": 0.7282157676348547,
+                  "ci95_low": 0.6840917183466366,
+                  "ci95_high": 0.7765167569858618
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 10.0,
+              "sample_count": 964,
+              "single_class_truth": false,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.8427148846960167,
+                  "ci95_low": 0.6710895091345751,
+                  "ci95_high": 0.9564464507067194
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.01867219917012448,
+                  "ci95_low": 0.010028672032193158,
+                  "ci95_high": 0.028476747376363253
+                },
+                "vanilla_uer": {
+                  "observed": 0.9896265560165975,
+                  "ci95_low": 0.9816213683223992,
+                  "ci95_high": 0.9953062694880208
+                },
+                "declared_gap_rate": {
+                  "observed": 0.9802904564315352,
+                  "ci95_low": 0.9692733095722793,
+                  "ci95_high": 0.9899149390726381
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": true,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "positive",
+                "single_class_truth": false
+              }
+            },
+            {
+              "strength": 15.0,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            },
+            {
+              "strength": 25.0,
+              "sample_count": 964,
+              "single_class_truth": true,
+              "metrics": {
+                "failure_detection_auroc": {
+                  "observed": 0.5,
+                  "ci95_low": 0.5,
+                  "ci95_high": 0.5
+                },
+                "bedc_gap_head_uer": {
+                  "observed": 0.0,
+                  "ci95_low": 0.0,
+                  "ci95_high": 0.0
+                },
+                "vanilla_uer": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                },
+                "declared_gap_rate": {
+                  "observed": 1.0,
+                  "ci95_low": 1.0,
+                  "ci95_high": 1.0
+                }
+              },
+              "claim": {
+                "auroc_ci_low_gt_0_5": false,
+                "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+                "claim": "negative_or_inconclusive",
+                "single_class_truth": true
+              }
+            }
+          ],
+          "nonzero_pooled": {
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.9012810399859441,
+                "ci95_low": 0.8898158313431732,
+                "ci95_high": 0.911927076906096
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.04253112033195021,
+                "ci95_low": 0.03469591509030249,
+                "ci95_high": 0.050054681525797305
+              },
+              "vanilla_uer": {
+                "observed": 0.9201244813278008,
+                "ci95_low": 0.9119638252700532,
+                "ci95_high": 0.9280688061461337
+              },
+              "declared_gap_rate": {
+                "observed": 0.9271265560165975,
+                "ci95_low": 0.9166221600542557,
+                "ci95_high": 0.9375335849539407
+              }
+            },
+            "single_class_truth": false,
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          "final_claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        }
+      }
+    }
+  },
+  "leave_one_out": {
+    "color_shift": {
+      "info": {
+        "train_rows": 51765,
+        "train_failure_rate": 0.7437457741717377,
+        "optimizer_steps": 6090,
+        "epochs": 30,
+        "wall_time_seconds": 151.13,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "heldout_family": {
+        "points": [
+          {
+            "strength": 0.1,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.10892116182572614,
+                "ci95_low": 0.07171717171717172,
+                "ci95_high": 0.1573438434736212
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.8910788381742739,
+                "ci95_low": 0.8426561565263787,
+                "ci95_high": 0.9282828282828283
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 0.2,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.00933609958506224,
+                "ci95_low": 0.001026090719929911,
+                "ci95_high": 0.0200098400329774
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.9906639004149378,
+                "ci95_low": 0.9799901599670227,
+                "ci95_high": 0.9989739092800701
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 0.3,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.0,
+                "ci95_low": 0.0,
+                "ci95_high": 0.0
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 0.4,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.0,
+                "ci95_low": 0.0,
+                "ci95_high": 0.0
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          }
+        ],
+        "nonzero_pooled": {
+          "metrics": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "bedc_gap_head_uer": {
+              "observed": 0.029564315352697094,
+              "ci95_low": 0.017846541216111903,
+              "ci95_high": 0.04130009993688196
+            },
+            "vanilla_uer": {
+              "observed": 1.0,
+              "ci95_low": 1.0,
+              "ci95_high": 1.0
+            },
+            "declared_gap_rate": {
+              "observed": 0.9704356846473029,
+              "ci95_low": 0.958699900063118,
+              "ci95_high": 0.982153458783888
+            }
+          },
+          "single_class_truth": true,
+          "claim": {
+            "auroc_ci_low_gt_0_5": false,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "negative_or_inconclusive",
+            "single_class_truth": true
+          }
+        },
+        "final_claim": {
+          "auroc_ci_low_gt_0_5": false,
+          "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+          "claim": "negative_or_inconclusive",
+          "single_class_truth": true
+        }
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.7223967127200547,
+            "ci95_low": 0.6733734897891963,
+            "ci95_high": 0.7623892316276104
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.0912863070539419,
+            "ci95_low": 0.07513227513227513,
+            "ci95_high": 0.10977973516750889
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.20808751845204593,
+            "ci95_high": 0.25925581243469165
+          },
+          "declared_gap_rate": {
+            "observed": 0.34024896265560167,
+            "ci95_low": 0.30045153531509805,
+            "ci95_high": 0.38106155697190425
+          }
+        }
+      }
+    },
+    "occlusion": {
+      "info": {
+        "train_rows": 51765,
+        "train_failure_rate": 0.7758137737853762,
+        "optimizer_steps": 6090,
+        "epochs": 30,
+        "wall_time_seconds": 151.12,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "heldout_family": {
+        "points": [
+          {
+            "strength": 0.12,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6569015684991649,
+                "ci95_low": 0.6228045545116306,
+                "ci95_high": 0.6924396073550322
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.28526970954356845,
+                "ci95_low": 0.25079462487411885,
+                "ci95_high": 0.32487018020267594
+              },
+              "vanilla_uer": {
+                "observed": 0.5,
+                "ci95_low": 0.46506114910723606,
+                "ci95_high": 0.5347249262110075
+              },
+              "declared_gap_rate": {
+                "observed": 0.32261410788381745,
+                "ci95_low": 0.2732331771888734,
+                "ci95_high": 0.3704404819020203
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.2,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6397222222222222,
+                "ci95_low": 0.5541278466954075,
+                "ci95_high": 0.7213057794434847
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.5051867219917012,
+                "ci95_low": 0.4463965605028443,
+                "ci95_high": 0.5586130744057088
+              },
+              "vanilla_uer": {
+                "observed": 0.9336099585062241,
+                "ci95_low": 0.9110625042893798,
+                "ci95_high": 0.9549473221182732
+              },
+              "declared_gap_rate": {
+                "observed": 0.44813278008298757,
+                "ci95_low": 0.3950877713521212,
+                "ci95_high": 0.5078069460222067
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.28,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.3132780082987552,
+                "ci95_low": 0.262531977459737,
+                "ci95_high": 0.36319039509795714
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.6867219917012448,
+                "ci95_low": 0.6368096049020427,
+                "ci95_high": 0.737468022540263
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 0.36,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.2800829875518672,
+                "ci95_low": 0.228378361213784,
+                "ci95_high": 0.3248038252565721
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.7199170124481328,
+                "ci95_low": 0.6751961747434279,
+                "ci95_high": 0.7716216387862159
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          }
+        ],
+        "nonzero_pooled": {
+          "metrics": {
+            "failure_detection_auroc": {
+              "observed": 0.7512090125383176,
+              "ci95_low": 0.7194076268287987,
+              "ci95_high": 0.7774314468126968
+            },
+            "bedc_gap_head_uer": {
+              "observed": 0.345954356846473,
+              "ci95_low": 0.30393723693238583,
+              "ci95_high": 0.39045832994515656
+            },
+            "vanilla_uer": {
+              "observed": 0.858402489626556,
+              "ci95_low": 0.8470806741703412,
+              "ci95_high": 0.8701581727312195
+            },
+            "declared_gap_rate": {
+              "observed": 0.5443464730290456,
+              "ci95_low": 0.49817327488478963,
+              "ci95_high": 0.5929218177655677
+            }
+          },
+          "single_class_truth": false,
+          "claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "final_claim": {
+          "auroc_ci_low_gt_0_5": false,
+          "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+          "claim": "negative_or_inconclusive",
+          "single_class_truth": true
+        }
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.6746125403194084,
+            "ci95_low": 0.6307034802253424,
+            "ci95_high": 0.7191554424492851
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.09439834024896265,
+            "ci95_low": 0.07558720858390312,
+            "ci95_high": 0.1159050045482972
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.2059026128883093,
+            "ci95_high": 0.26478136202181884
+          },
+          "declared_gap_rate": {
+            "observed": 0.3796680497925311,
+            "ci95_low": 0.3294078572784209,
+            "ci95_high": 0.4234313250574908
+          }
+        }
+      }
+    },
+    "brightness": {
+      "info": {
+        "train_rows": 51765,
+        "train_failure_rate": 0.7489036994107988,
+        "optimizer_steps": 6090,
+        "epochs": 30,
+        "wall_time_seconds": 152.3,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "heldout_family": {
+        "points": [
+          {
+            "strength": 0.1,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6213248140568063,
+                "ci95_low": 0.5499157154000487,
+                "ci95_high": 0.6940741005340451
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.6431535269709544,
+                "ci95_low": 0.5972842504985362,
+                "ci95_high": 0.689136612847747
+              },
+              "vanilla_uer": {
+                "observed": 0.9304979253112033,
+                "ci95_low": 0.9142797547386399,
+                "ci95_high": 0.9473292648976541
+              },
+              "declared_gap_rate": {
+                "observed": 0.29771784232365145,
+                "ci95_low": 0.25793022837619134,
+                "ci95_high": 0.3384758091953016
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.2,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6081081081081081,
+                "ci95_low": 0.20928253119429588,
+                "ci95_high": 0.9858430437853107
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.6618257261410788,
+                "ci95_low": 0.6114218587771054,
+                "ci95_high": 0.7011161733702997
+              },
+              "vanilla_uer": {
+                "observed": 0.9979253112033195,
+                "ci95_low": 0.994836676666816,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.33713692946058094,
+                "ci95_low": 0.2978081333929964,
+                "ci95_high": 0.38655170441546555
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.3,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.5892116182572614,
+                "ci95_low": 0.5425990496346732,
+                "ci95_high": 0.6343905846301748
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.4107883817427386,
+                "ci95_low": 0.36560941536982516,
+                "ci95_high": 0.4574009503653268
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 0.4,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.5114107883817427,
+                "ci95_low": 0.4574027402281996,
+                "ci95_high": 0.5619724151357025
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.48858921161825725,
+                "ci95_low": 0.43802758486429755,
+                "ci95_high": 0.5425972597718003
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          }
+        ],
+        "nonzero_pooled": {
+          "metrics": {
+            "failure_detection_auroc": {
+              "observed": 0.663624221688997,
+              "ci95_low": 0.6045268674290056,
+              "ci95_high": 0.723773408291956
+            },
+            "bedc_gap_head_uer": {
+              "observed": 0.6014004149377593,
+              "ci95_low": 0.5637771690090009,
+              "ci95_high": 0.638325053847931
+            },
+            "vanilla_uer": {
+              "observed": 0.9821058091286307,
+              "ci95_low": 0.9772806236008197,
+              "ci95_high": 0.9861186051159073
+            },
+            "declared_gap_rate": {
+              "observed": 0.3835580912863071,
+              "ci95_low": 0.3469734758151135,
+              "ci95_high": 0.420734648875454
+            }
+          },
+          "single_class_truth": false,
+          "claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "final_claim": {
+          "auroc_ci_low_gt_0_5": false,
+          "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+          "claim": "negative_or_inconclusive",
+          "single_class_truth": true
+        }
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.704731819199603,
+            "ci95_low": 0.6603374653262146,
+            "ci95_high": 0.7513585497133582
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.10684647302904564,
+            "ci95_low": 0.085785257088074,
+            "ci95_high": 0.12710193816045412
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.20341591591591593,
+            "ci95_high": 0.25665280983560224
+          },
+          "declared_gap_rate": {
+            "observed": 0.3163900414937759,
+            "ci95_low": 0.28005080213903744,
+            "ci95_high": 0.3512875344581265
+          }
+        }
+      }
+    },
+    "background_tint": {
+      "info": {
+        "train_rows": 51765,
+        "train_failure_rate": 0.8992562542258282,
+        "optimizer_steps": 6090,
+        "epochs": 30,
+        "wall_time_seconds": 151.23,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "heldout_family": {
+        "points": [
+          {
+            "strength": 0.15,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6912918220717684,
+                "ci95_low": 0.6556250000888217,
+                "ci95_high": 0.7224298900243511
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.15352697095435686,
+                "ci95_low": 0.13179730888496705,
+                "ci95_high": 0.18014865229978932
+              },
+              "vanilla_uer": {
+                "observed": 0.31431535269709543,
+                "ci95_low": 0.28659000126755485,
+                "ci95_high": 0.3440018342126776
+              },
+              "declared_gap_rate": {
+                "observed": 0.3163900414937759,
+                "ci95_low": 0.2718798895683174,
+                "ci95_high": 0.36517989335679335
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.3,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.7067258214621608,
+                "ci95_low": 0.6765953892167653,
+                "ci95_high": 0.7396785451948827
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.14730290456431536,
+                "ci95_low": 0.1251099347831713,
+                "ci95_high": 0.16887346003564194
+              },
+              "vanilla_uer": {
+                "observed": 0.32261410788381745,
+                "ci95_low": 0.28845083204176525,
+                "ci95_high": 0.3522092144185167
+              },
+              "declared_gap_rate": {
+                "observed": 0.33195020746887965,
+                "ci95_low": 0.2812212942468908,
+                "ci95_high": 0.3779555344279079
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.45,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.704970898222432,
+                "ci95_low": 0.6747364341085271,
+                "ci95_high": 0.7342615219481333
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.1524896265560166,
+                "ci95_low": 0.1271899449269837,
+                "ci95_high": 0.17801435604498653
+              },
+              "vanilla_uer": {
+                "observed": 0.3236514522821577,
+                "ci95_low": 0.2893967887928377,
+                "ci95_high": 0.3573506542228983
+              },
+              "declared_gap_rate": {
+                "observed": 0.3257261410788382,
+                "ci95_low": 0.2829894054395952,
+                "ci95_high": 0.36447139048400323
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 0.6,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6933596822400503,
+                "ci95_low": 0.6618639167159565,
+                "ci95_high": 0.7248803581556958
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.17116182572614108,
+                "ci95_low": 0.1488540433668492,
+                "ci95_high": 0.2008716025435012
+              },
+              "vanilla_uer": {
+                "observed": 0.3236514522821577,
+                "ci95_low": 0.29450158621077155,
+                "ci95_high": 0.3545292878715625
+              },
+              "declared_gap_rate": {
+                "observed": 0.3008298755186722,
+                "ci95_low": 0.26253882955870284,
+                "ci95_high": 0.3405416163207541
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          }
+        ],
+        "nonzero_pooled": {
+          "metrics": {
+            "failure_detection_auroc": {
+              "observed": 0.6990124291749303,
+              "ci95_low": 0.671701329645533,
+              "ci95_high": 0.7311000865621775
+            },
+            "bedc_gap_head_uer": {
+              "observed": 0.15612033195020747,
+              "ci95_low": 0.1306155456713488,
+              "ci95_high": 0.18126519507783198
+            },
+            "vanilla_uer": {
+              "observed": 0.3210580912863071,
+              "ci95_low": 0.2908737765196914,
+              "ci95_high": 0.3520698481180613
+            },
+            "declared_gap_rate": {
+              "observed": 0.31872406639004147,
+              "ci95_low": 0.2813574567444719,
+              "ci95_high": 0.36317457625733474
+            }
+          },
+          "single_class_truth": false,
+          "claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "final_claim": {
+          "auroc_ci_low_gt_0_5": true,
+          "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+          "claim": "positive",
+          "single_class_truth": false
+        }
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.7468334513413579,
+            "ci95_low": 0.7062525544054429,
+            "ci95_high": 0.7861198114638851
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.0975103734439834,
+            "ci95_low": 0.0793797166029954,
+            "ci95_high": 0.12152694610778439
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.20659679464448813,
+            "ci95_high": 0.2574181482266711
+          },
+          "declared_gap_rate": {
+            "observed": 0.29979253112033194,
+            "ci95_low": 0.25691051136363635,
+            "ci95_high": 0.3406693628260152
+          }
+        }
+      }
+    },
+    "gaussian_noise": {
+      "info": {
+        "train_rows": 51765,
+        "train_failure_rate": 0.7631411185163721,
+        "optimizer_steps": 6090,
+        "epochs": 30,
+        "wall_time_seconds": 151.62,
+        "torch_seed": 20260611,
+        "device": "cpu"
+      },
+      "heldout_family": {
+        "points": [
+          {
+            "strength": 5.0,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6569572928633332,
+                "ci95_low": 0.6166081874186117,
+                "ci95_high": 0.70115681361486
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.49377593360995853,
+                "ci95_low": 0.46008524414244756,
+                "ci95_high": 0.5289227023450309
+              },
+              "vanilla_uer": {
+                "observed": 0.6908713692946058,
+                "ci95_low": 0.659261163831327,
+                "ci95_high": 0.7230644510961675
+              },
+              "declared_gap_rate": {
+                "observed": 0.245850622406639,
+                "ci95_low": 0.21335293130959496,
+                "ci95_high": 0.27854883802201635
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": true,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "positive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 10.0,
+            "sample_count": 964,
+            "single_class_truth": false,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.6585953878406708,
+                "ci95_low": 0.4176994206773619,
+                "ci95_high": 0.823208564767807
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.7489626556016598,
+                "ci95_low": 0.7114193404634581,
+                "ci95_high": 0.7829700377747252
+              },
+              "vanilla_uer": {
+                "observed": 0.9896265560165975,
+                "ci95_low": 0.9833518312985572,
+                "ci95_high": 0.9957808085652324
+              },
+              "declared_gap_rate": {
+                "observed": 0.241701244813278,
+                "ci95_low": 0.20689405705877542,
+                "ci95_high": 0.2814838665658983
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": false
+            }
+          },
+          {
+            "strength": 15.0,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.8931535269709544,
+                "ci95_low": 0.8741519031244946,
+                "ci95_high": 0.9148760708755512
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.10684647302904564,
+                "ci95_low": 0.08512392912444879,
+                "ci95_high": 0.12584809687550536
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          },
+          {
+            "strength": 25.0,
+            "sample_count": 964,
+            "single_class_truth": true,
+            "metrics": {
+              "failure_detection_auroc": {
+                "observed": 0.5,
+                "ci95_low": 0.5,
+                "ci95_high": 0.5
+              },
+              "bedc_gap_head_uer": {
+                "observed": 0.7759336099585062,
+                "ci95_low": 0.7429555258487048,
+                "ci95_high": 0.8033649940417316
+              },
+              "vanilla_uer": {
+                "observed": 1.0,
+                "ci95_low": 1.0,
+                "ci95_high": 1.0
+              },
+              "declared_gap_rate": {
+                "observed": 0.22406639004149378,
+                "ci95_low": 0.1966350059582684,
+                "ci95_high": 0.2570444741512952
+              }
+            },
+            "claim": {
+              "auroc_ci_low_gt_0_5": false,
+              "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+              "claim": "negative_or_inconclusive",
+              "single_class_truth": true
+            }
+          }
+        ],
+        "nonzero_pooled": {
+          "metrics": {
+            "failure_detection_auroc": {
+              "observed": 0.5918552980277896,
+              "ci95_low": 0.556748138179253,
+              "ci95_high": 0.6238451546644753
+            },
+            "bedc_gap_head_uer": {
+              "observed": 0.7279564315352697,
+              "ci95_low": 0.7050559782181332,
+              "ci95_high": 0.7510295348590803
+            },
+            "vanilla_uer": {
+              "observed": 0.9201244813278008,
+              "ci95_low": 0.912500107280943,
+              "ci95_high": 0.927676613733763
+            },
+            "declared_gap_rate": {
+              "observed": 0.2046161825726141,
+              "ci95_low": 0.18123590753169738,
+              "ci95_high": 0.22798719654925056
+            }
+          },
+          "single_class_truth": false,
+          "claim": {
+            "auroc_ci_low_gt_0_5": true,
+            "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+            "claim": "positive",
+            "single_class_truth": false
+          }
+        },
+        "final_claim": {
+          "auroc_ci_low_gt_0_5": false,
+          "bedc_uer_ci_high_lt_vanilla_ci_low": true,
+          "claim": "negative_or_inconclusive",
+          "single_class_truth": true
+        }
+      },
+      "clean_eval": {
+        "metrics": {
+          "failure_detection_auroc": {
+            "observed": 0.701354974189527,
+            "ci95_low": 0.6571304278968164,
+            "ci95_high": 0.7376459747074878
+          },
+          "bedc_gap_head_uer": {
+            "observed": 0.1275933609958506,
+            "ci95_low": 0.10557806638827942,
+            "ci95_high": 0.14882518438049003
+          },
+          "vanilla_uer": {
+            "observed": 0.23132780082987553,
+            "ci95_low": 0.2028871186481725,
+            "ci95_high": 0.25429614485981306
+          },
+          "declared_gap_rate": {
+            "observed": 0.237551867219917,
+            "ci95_low": 0.2032124223950931,
+            "ci95_high": 0.26629466807449315
+          }
+        }
+      }
+    }
+  },
+  "conclusion": {
+    "strict_final_positive_families": [
+      "background_tint"
+    ],
+    "strict_final_negative_or_inconclusive_families": [
+      "color_shift",
+      "occlusion",
+      "brightness",
+      "gaussian_noise"
+    ],
+    "leave_one_out_positive_families": [
+      "occlusion",
+      "brightness",
+      "background_tint",
+      "gaussian_noise"
+    ],
+    "leave_one_out_negative_or_inconclusive_families": [
+      "color_shift"
+    ]
+  },
+  "not_claimed": [
+    "global architecture superiority",
+    "replacement of the phase2c logistic ood-aware head",
+    "benchmark reproduction or public-benchmark superiority",
+    "transfer beyond the tworooms checkpoint or this perturbation grid"
+  ]
+}
