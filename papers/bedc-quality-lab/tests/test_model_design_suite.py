@@ -129,11 +129,22 @@ def _write_dgt_owner_ref_inputs(root):
     canonical._write_json_atomic(
         root / canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
         {
-            "decision": {"status": "fixture"},
+            "decision": {"status": "scaling-evidence-eligible"},
             "ladder_state_projection": {
-                "state": "fixture",
-                "decision_status": "fixture",
-                "not_claimed": ["fixture"],
+                "state": "l1-scaling-evidence-eligible",
+                "decision_status": "scaling-evidence-eligible",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": [
+                    "Bounded tiny-sequence L1 decision only.",
+                    "No L2 or higher scaling claim.",
+                    "No production deployment claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No OOD generalization claim.",
+                    "No architecture advantage claim.",
+                ],
             },
         },
     )

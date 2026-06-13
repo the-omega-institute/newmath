@@ -15,6 +15,7 @@ from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for
 from bedc_quality_lab import high_impact_review
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
+from scripts import run_discovery_gated_transformer as dgt_runner
 
 
 def _write_json(root: Path, artifact: str, payload):
@@ -358,58 +359,75 @@ def _errors(payload, root):
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     _write_dgt_owner_ref_fixtures(root)
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
-    dgt_payload = {
-        "schema_id": "bedc-quality-lab:discovery-gated-transformer",
-        "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
-        "generated_at": "2030-01-01T00:00:00+00:00",
-        "producer": "scripts/run_discovery_gated_transformer.py",
-        "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
-        "source_artifacts": {},
-        "model_id": "discovery-gated-transformer",
-        "architecture_spec": {"status": "present"},
-        "claim_capsule_ref": "reports/runs/discovery-gated-transformer/claim_capsule.json",
-        "d4_projection": {
-            "discovery_level": "D4",
-            "readiness": "ready",
-            "matched_control": {"status": "present", "control_positive": False},
-            "claim_basis": "bounded deterministic toy projection",
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {"status": "reviewed"},
+            "honest_metric_review": {"status": "reviewed"},
+            "l0_toy_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "ladder_consumption": {"status": "open"},
+                "not_claimed": [
+                    "Bounded L0 toy training controls only.",
+                    "No production scale claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No universal recipe claim.",
+                    "No verdict inheritance to L1 or higher scaling levels.",
+                ],
+            },
         },
-        "d5_m_projection": {
-            "status": "ready",
-            "readiness": "ready",
-            "discovery_level": "D5-M",
-            "evidence_scope": ["bounded-design", "toy-model", "theorem-backed", "production-forbidden"],
-            "terminal_verdict_scope": "Core",
-            "not_claimed": [
-                "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
-                "No production authority claim.",
-                "No global superiority claim.",
-                "No LLM replacement claim.",
-                "No unbounded mechanism closure claim.",
-            ],
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "negative_witness_sweep": {"status": "pass"},
+            "l1_ood_mechanism": {
+                "verdict": "bounded-in-distribution-only",
+                "l2_implication": "not-established",
+            },
         },
-        "scaling_ladder": {
-            "status": "ready",
-            "review_status": "review-line-ready",
-            "discovery_level": "D5-M",
-            "not_claimed": [
-                "Bounded model prototype scaling only.",
-                "No production scale claim.",
-                "No GPT or Llama claim.",
-                "No global superiority claim.",
-                "No LLM replacement claim.",
-                "No universal recipe claim.",
-                "No unbounded scaling law claim.",
-            ],
+    )
+    _write_json(
+        root,
+        "reports/canonical/fair-l1-decision.json",
+        {
+            "decision": {"status": "scaling-evidence-eligible"},
+            "ladder_state_projection": {
+                "state": "l1-scaling-evidence-eligible",
+                "decision_status": "scaling-evidence-eligible",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": [
+                    "Bounded tiny-sequence L1 decision only.",
+                    "No L2 or higher scaling claim.",
+                    "No production deployment claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No OOD generalization claim.",
+                    "No architecture advantage claim.",
+                ],
+            },
         },
-        "not_claimed": [
-            "Bounded deterministic toy evidence only.",
-            "No external operation authority.",
-            "No universal training recipe claim.",
-            "No external verdict ownership.",
+    )
+    dgt_payload = dgt_runner.build_payload(
+        generated_at="2030-01-01T00:00:00+00:00",
+        high_impact_review_rows=[
+            {
+                "claim_id": "claim:discovery-gated-transformer",
+                "status": "pass",
+                "reason": "positive-discovery-gates-pass",
+                "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
+                "claim_pointer": f"{dgt_artifact}:$.d4_projection",
+            }
         ],
         **_positive_owner_contract("D5-M"),
-    }
+    )
     _write_json(
         root,
         dgt_artifact,

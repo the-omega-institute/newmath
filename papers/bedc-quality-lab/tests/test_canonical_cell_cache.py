@@ -161,6 +161,7 @@ def test_dgt_l0_training_cell_cache_reuses_raw_records(tmp_path, monkeypatch):
 
     assert second["_raw_records"] == expected_records
     assert second["l0_toy_projection"]["review_status"] == first["l0_toy_projection"]["review_status"]
+    assert second["l0_toy_projection"]["review_status"] == "scoped-boundary"
 
 
 def test_dgt_l1_training_cell_cache_reuses_raw_records(tmp_path, monkeypatch):
