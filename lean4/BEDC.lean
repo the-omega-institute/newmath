@@ -3503,11 +3503,13 @@ import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
+import BEDC.Derived.CriticalLineWitnessUp.RealWindowNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
@@ -3577,6 +3579,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusRows
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusTotality
@@ -5165,6 +5168,7 @@ import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetSelectorBridge
 import BEDC.Derived.FiniteTailFilterUp.RefinementSealWitnessLedgerPullback
 import BEDC.Derived.FiniteTailFilterUp.StdBridge
+import BEDC.Derived.FiniteTailFilterUp.SubstrateBisimulationBoundary
 import BEDC.Derived.FiniteTailFilterUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp.TerminalLeanTargetSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.BoundedTraceCoverage
@@ -8512,6 +8516,7 @@ import BEDC.Derived.RealityConstrainedSynthesisSealUp.NonEscape
 import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
+import BEDC.Derived.RealityConstrainedTowerPacketUp.CarrierRouteClosure
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp
 import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierAdmission
