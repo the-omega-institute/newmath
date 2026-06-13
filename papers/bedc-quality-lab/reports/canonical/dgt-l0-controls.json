@@ -2297,6 +2297,56 @@
     "No verdict inheritance to L1 or higher scaling levels."
   ],
   "producer": "scripts/run_dgt_l0_controls.py",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.independent_replay",
+        "metric_pointer": "$.l0_toy_projection.status",
+        "seed_pointer": "$.independent_replay.fixed_seeds"
+      },
+      "calibration_source": "$.independent_replay",
+      "owner": "dgt-l0-controls"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.independent_replay",
+        "comparison": "status_equal",
+        "owner": "dgt-l0-controls",
+        "pointer": "$.l0_toy_projection.status",
+        "reference_value": "scoped-boundary",
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.independent_replay.fixed_seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      1158,
+      1160,
+      1162
+    ]
+  },
   "schema_id": "bedc-quality-lab:dgt-l0-controls",
   "source_artifacts": {
     "canonical_input_hashes": {
@@ -2308,8 +2358,15 @@
       "scripts/run_dgt_l0_controls.py"
     ],
     "device_policy": {
-      "fallback": "mps-or-cpu",
-      "requested_device": "auto"
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
     },
     "dgt_neural_ablation_helper": "bedc_quality_lab/dgt_neural_ablation.py",
     "owner_module": "bedc_quality_lab/dgt_l0_controls.py",

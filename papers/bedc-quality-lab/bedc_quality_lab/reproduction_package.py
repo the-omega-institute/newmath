@@ -23,6 +23,13 @@ PRODUCER = "scripts/run_reproduction_package.py"
 Status = Literal["pass", "blocked", "fail"]
 TargetKind = Literal["full-repro-ci", "projection-only"]
 Profile = Literal["structural", "projection", "full-repro-ci"]
+BlockedReasonCategory = Literal[
+    "source-blocked",
+    "missing-validation-loss-cell",
+    "tolerance-blocked",
+    "ci-rehearsal-missing",
+    "full-replay-not-invoked",
+]
 
 FORBIDDEN_COPIED_FACT_KEYS = frozenset(
     {
@@ -73,6 +80,14 @@ FULL_REPRO_TARGET_IDS = frozenset(
         "honest-ablation-null-training",
     }
 )
+FAIR_L1_BLOCKED_REASON = {
+    "category": "missing-validation-loss-cell",
+    "detail": "validation-loss-cell-missing",
+    "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
+    "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+    "dependency_ref": "github:issue:1196",
+    "planning_context_ref": "github:issue:1329#plan-4",
+}
 
 
 @dataclass(frozen=True)
@@ -117,6 +132,7 @@ class ReproductionCheckResult:
     target_id: str
     target_kind: TargetKind
     status: Status
+    blocked_reason: Mapping[str, str | None] | None
     resolved_owner_pointers: tuple[str, ...]
     fingerprint_status: Status
     tolerance_status: Status
@@ -618,6 +634,56 @@ def _status_for_failures(failures: Sequence[str]) -> Status:
     return "pass" if not failures else "blocked"
 
 
+def _blocked_reason_for_failures(target_id: str, failures: Sequence[str]) -> dict[str, str | None] | None:
+    if not failures:
+        return None
+    if target_id == "fair-l1-training" and "fair-l1-training waits for seven-arm owner artifact" in failures:
+        return dict(FAIR_L1_BLOCKED_REASON)
+    if any("CI rehearsal evidence is missing" == failure for failure in failures):
+        return {
+            "category": "ci-rehearsal-missing",
+            "detail": "ci-rehearsal-evidence-missing",
+            "evidence_ref": f"{CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+            "owner_gate_ref": None,
+            "dependency_ref": None,
+            "planning_context_ref": None,
+        }
+    if any("training replay execution is not invoked by the pointer verifier" == failure for failure in failures):
+        return {
+            "category": "full-replay-not-invoked",
+            "detail": "training-replay-not-invoked",
+            "evidence_ref": f"{CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+            "owner_gate_ref": None,
+            "dependency_ref": None,
+            "planning_context_ref": None,
+        }
+    if any("fingerprint" in failure for failure in failures):
+        return {
+            "category": "tolerance-blocked",
+            "detail": "fingerprint-pointer-blocked",
+            "evidence_ref": f"{CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+            "owner_gate_ref": None,
+            "dependency_ref": None,
+            "planning_context_ref": None,
+        }
+    return {
+        "category": "source-blocked",
+        "detail": "source-pointer-blocked",
+        "evidence_ref": f"{CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
+        "owner_gate_ref": None,
+        "dependency_ref": None,
+        "planning_context_ref": None,
+    }
+
+
+def _tolerance_status_for(target_id: str, status: Status, fingerprint_status: Status) -> Status:
+    if status == "pass":
+        return "pass"
+    if target_id == "fair-l1-training" and fingerprint_status == "pass":
+        return "pass"
+    return "blocked" if status == "blocked" else "fail"
+
+
 def _fingerprint_status(root: Path, refs: Sequence[str]) -> tuple[Status, list[str]]:
     failures: list[str] = []
     for ref in refs:
@@ -723,9 +789,10 @@ def verify_package(
                 target_id=target_id,
                 target_kind=kind,  # type: ignore[arg-type]
                 status=status,
+                blocked_reason=_blocked_reason_for_failures(target_id, failures),
                 resolved_owner_pointers=resolved,
                 fingerprint_status=fingerprint_status,
-                tolerance_status="pass" if status == "pass" else "blocked",
+                tolerance_status=_tolerance_status_for(target_id, status, fingerprint_status),
                 rerun_artifact_refs=tuple(str(ref) for ref in row.get("expected_artifact_refs", []) if isinstance(ref, str)),
                 failure_reasons=tuple(failures),
                 ci_rehearsal_ref=row.get("ci_rehearsal_ref") if isinstance(row.get("ci_rehearsal_ref"), str) else None,
@@ -738,6 +805,7 @@ def verify_package(
                 target_id=target_id,
                 target_kind="full-repro-ci",
                 status="fail",
+                blocked_reason=None,
                 resolved_owner_pointers=(),
                 fingerprint_status="fail",
                 tolerance_status="fail",

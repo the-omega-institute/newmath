@@ -236,6 +236,52 @@
   },
   "producer": "scripts/run_sigreg_mini_grid.py",
   "projector": "bedc_quality_lab.sigreg_mini_grid.SIGRegMiniGridProjection",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.metric_separation",
+        "metric_pointer": "$.metric_separation.mean_delta_sigreg_minus_covariance_proxy",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.metric_separation",
+      "owner": "sigreg-mini-grid"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.metric_separation",
+        "comparison": "absolute",
+        "owner": "sigreg-mini-grid",
+        "pointer": "$.metric_separation.mean_delta_sigreg_minus_covariance_proxy",
+        "reference_value": 0.211,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 1e-06
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
+  },
   "revocation_rows": [
     {
       "active": true,

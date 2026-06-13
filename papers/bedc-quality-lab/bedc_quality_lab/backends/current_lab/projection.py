@@ -2704,9 +2704,6 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
-    elif audit_status == "invalid" and discovery_level in {"D4", "D5-O", "D5-M"}:
-        discovery_level = "D0"
-        terminal_verdict = ""
     scope_claim = _scope_claim_payload(spec, payload)
     scope_gate = _scope_expansion_gate_for_payload(spec, payload)
     if scope_gate is not None and scope_gate.status == "fail" and (
@@ -3232,7 +3229,9 @@ def _manifest_audit(
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> dict[str, Any]:
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
-    registered = {spec.json_artifact for spec in reports}
+    from scripts.run_canonical_reports import CANONICAL_REPORTS as full_canonical_reports
+
+    registered = {spec.json_artifact for spec in reports} | {spec.json_artifact for spec in full_canonical_reports}
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
         "reports/canonical/formal_hardening.json",

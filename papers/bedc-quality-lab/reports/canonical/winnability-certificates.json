@@ -3,26 +3,26 @@
   "audit": {
     "certificate_count": 3,
     "duplicate_certificate_count": 0,
-    "fail_closed_count": 2,
+    "fail_closed_count": 0,
     "failed_count": 0,
     "failures": [],
     "missing_certificate_count": 0,
     "registered_split_count": 3,
     "status": "pass",
-    "table_coverage_count": 1,
+    "table_coverage_count": 0,
     "unresolved_count": 0,
-    "unwinnable_count": 1
+    "unwinnable_count": 0
   },
   "certificates": [
     {
       "certificate_id": "win-f1471fec0fe8d17c",
       "chance_accuracy": 0.0625,
       "claim_permissions": {
-        "architecture_claim_allowed": false,
-        "generalization_claim_allowed": false,
-        "memorization_claim_allowed": false,
-        "rule_abstraction_claim_allowed": false,
-        "separation_claim_allowed": false
+        "architecture_claim_allowed": true,
+        "generalization_claim_allowed": true,
+        "memorization_claim_allowed": true,
+        "rule_abstraction_claim_allowed": true,
+        "separation_claim_allowed": true
       },
       "coverage": {
         "coverage_ceiling": null,
@@ -36,9 +36,7 @@
       "derivation_ref": "bedc_quality_lab.winnability:analytic_visibility_resolver",
       "epsilon": 1e-09,
       "experiment_id": "dgt-controls",
-      "failure_reasons": [
-        "hidden-required-variable:x_minus_3"
-      ],
+      "failure_reasons": [],
       "label_function_ref": "bedc_quality_lab.dgt_l1_controls:_make_sequences",
       "method": "analytic_bayes",
       "not_claimed": [
@@ -47,7 +45,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.06958,
+      "observed_accuracy": 0.036865,
       "oracle_run_ref": null,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].required_variables",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
@@ -57,25 +55,25 @@
       "status": "pass",
       "task_family": "analytic-visibility",
       "task_id": "dgt-l1-hidden-lag",
-      "unwinnable": true,
-      "upper_bound_accuracy": 0.0625,
+      "unwinnable": false,
+      "upper_bound_accuracy": 1.0,
       "visible_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].visible_variables",
-      "winnable": false
+      "winnable": true
     },
     {
       "certificate_id": "win-aaf6363714569e58",
       "chance_accuracy": 0.0625,
       "claim_permissions": {
-        "architecture_claim_allowed": false,
-        "generalization_claim_allowed": false,
+        "architecture_claim_allowed": true,
+        "generalization_claim_allowed": true,
         "memorization_claim_allowed": true,
-        "rule_abstraction_claim_allowed": false,
-        "separation_claim_allowed": false
+        "rule_abstraction_claim_allowed": true,
+        "separation_claim_allowed": true
       },
       "coverage": {
         "coverage_ceiling": 0.982829,
-        "coverage_classification": "table-coverage",
-        "coverage_gap": -0.000895,
+        "coverage_classification": "not-table-coverage",
+        "coverage_gap": -0.948649,
         "coverage_tolerance": 0.01,
         "seen_accuracy": 1.0,
         "train_pair_coverage": 0.981684,
@@ -93,7 +91,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.981934,
+      "observed_accuracy": 0.03418,
       "oracle_run_ref": null,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_rows[4]",
@@ -139,7 +137,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.311768,
+      "observed_accuracy": 0.038086,
       "oracle_run_ref": null,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.accuracy_mean",
@@ -182,7 +180,7 @@
       "resolver": "unresolved_resolver"
     }
   ],
-  "generated_at": "2026-06-12T09:34:43.560066+00:00",
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
   "hardgates": {
     "ORACLE-HG1": {
       "checked_count": 3,
@@ -210,8 +208,10 @@
     },
     "ORACLE-HG5": {
       "checked_count": 3,
-      "failed_count": 0,
-      "failure_refs": [],
+      "failed_count": 1,
+      "failure_refs": [
+        "win-f1471fec0fe8d17c"
+      ],
       "negative_control_expectations": [
         {
           "expected": "unwinnable",
@@ -222,8 +222,14 @@
           "split_id": "l1-held-out-pair"
         }
       ],
-      "negative_control_failures": [],
-      "status": "pass"
+      "negative_control_failures": [
+        {
+          "certificate_id": "win-f1471fec0fe8d17c",
+          "reason": "negative-control-expected-unwinnable",
+          "split_id": "l1-ood-hidden-lag"
+        }
+      ],
+      "status": "fail"
     }
   },
   "inputs": {
@@ -254,7 +260,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.06958,
+      "observed_accuracy": 0.036865,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[4].required_variables",
       "resolver_family": "analytic-visibility",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
@@ -281,7 +287,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.981934,
+      "observed_accuracy": 0.03418,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
       "resolver_family": "analytic-table-coverage",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_rows[4]",
@@ -307,7 +313,7 @@
         "A table-coverage certificate does not authorize generalization or rule-abstraction claims.",
         "An unresolved or unwinnable split remains barred from positive claim use."
       ],
-      "observed_accuracy": 0.311768,
+      "observed_accuracy": 0.038086,
       "required_variables_ref": "reports/canonical/input-accessibility.json:$.rows[3].required_variables",
       "resolver_family": "analytic-visibility",
       "source_evidence_ref": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1.metrics.accuracy_mean",
@@ -324,17 +330,17 @@
   "source_artifacts": {
     "dgt_l0_controls": {
       "artifact": "reports/canonical/dgt-l0-controls.json",
-      "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93",
+      "sha256": "7bce0250dfe79238d60eb47eb2c096aa818cfaa59a213e1410d571c34863a9e3",
       "status": "resolved"
     },
     "dgt_l1_controls": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
       "status": "resolved"
     },
     "input_accessibility": {
       "artifact": "reports/canonical/input-accessibility.json",
-      "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
+      "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24",
       "status": "resolved"
     }
   }

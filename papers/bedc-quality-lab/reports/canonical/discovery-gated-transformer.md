@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-12T14:49:10.626178+00:00`
+- Generated at: `2026-06-12T22:50:28.746960+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -158,7 +158,7 @@
 | level | state | promotion | evidence |
 | --- | --- | --- | --- |
 | `L0_toy` | `scoped-boundary` | `scoped-boundary-from-l0-owner-pointer` | `reports/canonical/dgt-l0-controls.json:$.l0_toy_projection` |
-| `L1_tiny_sequence` | `blocked` | `l1-bounded-negative` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule` |
+| `L1_tiny_sequence` | `blocked` | `blocked-by-l1-boundary-report` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule` |
 | `L2_char_lm` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[2].claim_capsule` |
 | `L3_byte_lm` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[3].claim_capsule` |
 | `L4_tool_use_toy` | `blocked` | `blocked-until-level-local-evidence` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[4].claim_capsule` |

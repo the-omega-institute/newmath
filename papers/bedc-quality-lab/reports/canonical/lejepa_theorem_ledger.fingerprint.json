@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T09:34:43.560066+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "8ef65c8127fb365e846e1ab1421b2aeaba737912def37ae0f4db0d9a4db6440b",
+  "input_fingerprint": "41fda33b87b257f6d7e9af763d0cfa9ccab68a25384f1f98b7140a8e9c721b7d",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -78,6 +78,7 @@
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_lejepa_theorem_ledger.py"
@@ -101,6 +102,7 @@
       "no_control_rationale_pointer": "$.scope",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "generated_at",
@@ -125,11 +127,54 @@
   },
   "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
   "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
-  "output_digest": "954e748259cf23777f83b78357f71f0df71b39a6ed7501ba3e84e4edc0950921",
   "producer_command": [
     "python3",
     "scripts/run_lejepa_theorem_ledger.py"
   ],
   "report_name": "lejepa-theorem-ledger",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "lejepa-theorem-ledger"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "lejepa-theorem-ledger",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "243963f76045951c971bfd50b22a9cd7142b2bacc7a0ae1a43aeea06d67f235a",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

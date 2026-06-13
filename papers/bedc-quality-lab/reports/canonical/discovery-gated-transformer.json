@@ -1072,7 +1072,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "2026-06-12T14:49:10.626178+00:00",
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",
@@ -1696,32 +1696,39 @@
           "boundary_ledger": [
             {
               "level_id": "L1_tiny_sequence",
-              "reason": "fair L1 decision is not scaling-evidence-eligible",
-              "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+              "reason": "information-access-boundary",
+              "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
               "status": "blocked"
             }
           ],
           "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+          "controls_projection_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+          "fair_rebuild_status_alias": "unresolved",
+          "fair_rebuild_status_alias_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.fair_rebuild_status",
           "l1_ood_mechanism_l2_implication_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.l2_implication",
           "l1_ood_mechanism_verdict_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
           "level_id": "L1_tiny_sequence",
           "level_state": "blocked",
           "not_claimed": [
-            "Bounded L1 tiny-sequence decision only.",
-            "No L2 or higher scaling claim.",
+            "Bounded tiny-sequence order-k training only.",
             "No production deployment claim.",
-            "No global model superiority claim.",
+            "No global superiority claim.",
             "No LLM replacement claim.",
-            "No OOD generalization claim.",
-            "No architecture advantage claim."
+            "No universal training recipe claim.",
+            "No full BEDC closure claim.",
+            "No L2 or higher scaling claim.",
+            "No natural-language capability claim.",
+            "No component-causal stability beyond the #1168 measured owner."
           ],
-          "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+          "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
           "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
-          "promotion_readiness_alias": "l1-bounded-negative",
-          "promotion_readiness_alias_source": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
-          "promotion_status": "l1-bounded-negative",
-          "review_status_alias": "bounded-negative",
-          "review_status_alias_source": "reports/canonical/fair-l1-decision.json:$.decision.status"
+          "promotion_readiness_alias": "ready-pass",
+          "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+          "promotion_status": "blocked-by-l1-boundary-report",
+          "review_status_alias": "pass",
+          "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+          "scaling_claim_block_status": "blocked",
+          "scaling_claim_block_status_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block"
         },
         "level_id": "L1_tiny_sequence"
       },
@@ -1919,12 +1926,16 @@
       "pointer": "$.honest_metric_review"
     },
     "interpretation_boundary_ref": {
-      "artifact": "reports/canonical/fair-l1-decision.json",
-      "pointer": "$.ladder_state_projection"
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_tiny_sequence_projection"
     },
     "l1_ood_mechanism_ref": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_ood_mechanism"
+    },
+    "l1_scaling_boundary_ref": {
+      "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+      "pointer": "$.scaling_claim_block"
     },
     "ladder_consumption_ref": {
       "artifact": "reports/canonical/dgt-l0-controls.json",

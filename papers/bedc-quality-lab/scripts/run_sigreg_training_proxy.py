@@ -189,7 +189,7 @@ def _train_arm(
     train_x_pair = batch.x_pair[train_idx]
     eval_x = batch.x[eval_idx]
     eval_x_pair = batch.x_pair[eval_idx]
-    device = choose_device()
+    device = str(choose_device())
     encoder = build_tiny_encoder(output_dim=2).to(device)
     optimizer = torch.optim.AdamW(encoder.parameters(), lr=float(learning_rate), weight_decay=1.0e-4)
     x_t = torch.as_tensor(train_x, dtype=torch.float32, device=device)

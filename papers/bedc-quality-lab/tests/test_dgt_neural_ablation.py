@@ -422,8 +422,12 @@ def test_write_artifacts_emits_canonical_run_capsule_report_metrics_and_fingerpr
     fingerprint = json.loads((tmp_path / owner.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
     assert fingerprint["report_name"] == "dgt-neural-ablation"
     assert len(fingerprint["input_fingerprint"]) == 64
-    assert len(fingerprint["output_digest"]) == 64
+    assert "output_digest" not in fingerprint
+    assert fingerprint["reproducibility_mode"] == "true_training"
+    assert len(fingerprint["reproducibility_contract_digest"]) == 64
     assert fingerprint["generated_by"]["generated_at"] == "fixture"
+    canonical_payload = json.loads((tmp_path / owner.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    assert canonical_payload["reproducibility_contract"]["device_policy"] == canonical_payload["run_spec"]["device_policy"]
 
 
 def test_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):

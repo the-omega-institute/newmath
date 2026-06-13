@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T09:34:43.560066+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "fe8405e4718b8ca16d4bdbef39f460ded7ae377029a5c160360b4a48a86e9701",
+  "input_fingerprint": "b55ec3d6c8b489c441fefac1fbedbc76e53c5008b1c3b8514bab790164877c18",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -44,7 +44,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -84,7 +84,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       }
     ],
     "report_output_schema_id": "schema-unspecified",
@@ -118,6 +118,7 @@
     ],
     "spec": {
       "bundle_role": "hg_p_core",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_certificate_guided_constraint_training.py"
@@ -139,6 +140,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.claim_gate",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "generated_at",
         "run_id",
@@ -165,18 +167,72 @@
         "discovery_level",
         "not_claimed",
         "claim_capsule",
-        "result"
+        "result",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.objective.required_rows"
     }
   },
   "json_artifact": "reports/canonical/certificate-guided-training.json",
   "markdown_artifact": "reports/canonical/certificate-guided-training.md",
-  "output_digest": "260ca02f4d94e805404c9068d9fa439ed714b37b81dbd3f5782a5e64ae256d6a",
   "producer_command": [
     "python3",
     "scripts/run_certificate_guided_constraint_training.py"
   ],
   "report_name": "certificate-guided-training",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+        "metric_pointer": "$.metrics.delta_quality_q",
+        "seed_pointer": "$.paired_seed_protocol.seeds"
+      },
+      "calibration_source": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+      "owner": "certificate-guided-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+        "comparison": "absolute",
+        "owner": "certificate-guided-training",
+        "pointer": "$.metrics.delta_quality_q",
+        "reference_value": 0.05900000000000001,
+        "seed_basis": {
+          "seed_count": 8,
+          "source": "$.paired_seed_protocol.seeds"
+        },
+        "tolerance": 0.002
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      18,
+      25,
+      36,
+      44,
+      57,
+      63,
+      72,
+      89
+    ]
+  },
+  "reproducibility_contract_digest": "337e83944d693022906c5c00405db7871e59f7a98f5fd8bc9a6ebd4a54f94965",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

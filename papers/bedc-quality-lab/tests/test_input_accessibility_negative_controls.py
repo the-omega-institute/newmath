@@ -7,7 +7,7 @@ def _row(payload, *, arm, split):
 
 def test_information_starved_l1_control_masks_required_predecessors():
     payload = ia.build_payload(generated_at="fixture-time")
-    row = _row(payload, arm="information_starved_l1_baseline", split="in_distribution")
+    row = _row(payload, arm="input_ablation_masked_tail", split="in_distribution")
 
     assert row["information_starved"] is True
     assert row["coverage_status"] == "fail"
@@ -19,13 +19,13 @@ def test_information_starved_l1_control_masks_required_predecessors():
 
 def test_ood_label_dependency_on_invisible_variable_is_boundary_only():
     payload = ia.build_payload(generated_at="fixture-time")
-    row = _row(payload, arm="information_starved_l1_baseline", split="ood")
+    row = _row(payload, arm="input_ablation_masked_tail", split="ood")
 
     assert row["unanswerable_ood"] is True
     assert row["coverage_status"] == "fail"
     assert row["claim_exclusion"] == "boundary-ledger-only"
     assert row["supports_architecture_claim"] is False
-    assert set(row["missing_variables"]) == {"x_minus_3"}
+    assert set(row["missing_variables"]) == {"x_minus_2"}
     assert f"{ia.JSON_ARTIFACT}#row_id={row['row_id']}" in payload["consumer_pointers"]["unanswerable_ood_splits_ref"]
 
 
@@ -37,9 +37,9 @@ def test_candidate_rows_expose_required_in_distribution_inputs_but_not_ood_bound
     assert in_dist["coverage_status"] == "pass"
     assert in_dist["information_starved"] is False
     assert in_dist["supports_architecture_claim"] is True
-    assert ood["coverage_status"] == "fail"
-    assert ood["unanswerable_ood"] is True
-    assert ood["claim_exclusion"] == "boundary-ledger-only"
+    assert ood["coverage_status"] == "pass"
+    assert ood["unanswerable_ood"] is False
+    assert ood["claim_exclusion"] == "none"
 
 
 def test_boundary_ledger_tracks_only_failed_or_unanswerable_rows():

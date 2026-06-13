@@ -2308,8 +2308,15 @@
       "scripts/run_dgt_l0_controls.py"
     ],
     "device_policy": {
-      "fallback": "mps-or-cpu",
-      "requested_device": "auto"
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
     },
     "dgt_neural_ablation_helper": "bedc_quality_lab/dgt_neural_ablation.py",
     "owner_module": "bedc_quality_lab/dgt_l0_controls.py",

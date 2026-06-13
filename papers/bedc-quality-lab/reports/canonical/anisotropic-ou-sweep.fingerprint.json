@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T09:34:43.560066+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "6e91f003f9562e03ade31490c65a353d71c66ad2274d7966822464d3ffd32074",
+  "input_fingerprint": "2556742376b6f8b2e056936ba8c62586c41346893cdc2d4f7592a58510785aec",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -44,7 +44,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -76,7 +76,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       }
     ],
     "report_output_schema_id": "schema-unspecified",
@@ -98,6 +98,7 @@
     ],
     "spec": {
       "bundle_role": "hg_p_core",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_anisotropic_ou_sweep.py"
@@ -119,6 +120,7 @@
       "no_control_rationale_pointer": "$.config.arm",
       "not_claimed_pointer": "$.applicability_boundary.not_claimed",
       "positive_claim_pointer": "$.transition_debt_by_grid",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "config",
@@ -134,11 +136,54 @@
   },
   "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
   "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
-  "output_digest": "8695adbfbcc7b1e72e37ce020eb02e28903c341ce9680df3a57c370be8805544",
   "producer_command": [
     "python3",
     "scripts/run_anisotropic_ou_sweep.py"
   ],
   "report_name": "anisotropic-ou-sweep",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "anisotropic-ou-sweep"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "anisotropic-ou-sweep",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "a8afcb389dc802016c1c0b6653d1c68d942d3efb51dad9e0962b23245b47e50a",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

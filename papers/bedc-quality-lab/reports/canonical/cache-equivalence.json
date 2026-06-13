@@ -1,0 +1,505 @@
+{
+  "artifact_id": "bedc-quality-lab:canonical-cache-equivalence",
+  "cache_root_policy": {
+    "cache_root_source": "temporary",
+    "hardgate_id": "CACHE-HG3",
+    "root_contains_refactor_loop": false,
+    "root_policy": "no .refactor-loop path component",
+    "status": "pass"
+  },
+  "canonical_role": "cache_equivalence_owner",
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "hardgates": {
+    "CACHE-HG1": {
+      "criterion": "Every compared surface uses sha256 content digests.",
+      "status": "pass"
+    },
+    "CACHE-HG2": {
+      "criterion": "Every cache-backed target has equivalent cold and cache outputs, and the cache leg observes a real hit.",
+      "status": "pass"
+    },
+    "CACHE-HG3": {
+      "criterion": "The cache root used by the audit is outside .refactor-loop.",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "This artifact checks byte-level output equivalence for registered cache-backed canonical producers only.",
+    "Unsupported canonical producers are not counted as cache-equivalence passes."
+  ],
+  "owner_artifact": "reports/canonical/cache-equivalence.json",
+  "root": "papers/bedc-quality-lab",
+  "schema_id": "bedc-quality-lab:canonical-cache-equivalence",
+  "selected_targets": [
+    "dgt-l0-controls",
+    "dgt-l1-controls"
+  ],
+  "status": "pass",
+  "summary": {
+    "fail_count": 0,
+    "pass_count": 2,
+    "target_count": 2,
+    "unsupported_count": 0
+  },
+  "target_registry": [
+    {
+      "fingerprint_artifact": "reports/canonical/dgt-l0-controls.fingerprint.json",
+      "json_artifact": "reports/canonical/dgt-l0-controls.json",
+      "owner_module": "bedc_quality_lab.dgt_l0_controls",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l0_controls.py"
+      ],
+      "raw_artifacts": [
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl"
+      ],
+      "summary_artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json",
+      "target_id": "dgt-l0-controls"
+    },
+    {
+      "fingerprint_artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
+      "json_artifact": "reports/canonical/dgt-l1-controls.json",
+      "owner_module": "bedc_quality_lab.dgt_l1_controls",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l1_controls.py"
+      ],
+      "raw_artifacts": [
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl"
+      ],
+      "summary_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
+      "target_id": "dgt-l1-controls"
+    }
+  ],
+  "targets": [
+    {
+      "cache_backed": true,
+      "cache_observation": {
+        "cache_hit_observed": true,
+        "events": [
+          {
+            "event": "lookup",
+            "leg": "cold",
+            "logical_paths": [],
+            "manifest_path": "cache-root/dgt-l0-controls/dc458fa00a1104dc110d3624c0e2a46737f50f6b14593fb8a504fdbba2842708/manifest.json",
+            "producer_id": "dgt-l0-controls",
+            "reason": "manifest-missing",
+            "status": "miss"
+          },
+          {
+            "cell_input_digest": "dc458fa00a1104dc110d3624c0e2a46737f50f6b14593fb8a504fdbba2842708",
+            "cell_output_digest": "bdb71d93c6aa8fe8c9faa2077e556f06cf14975b60d1fce95e999325f9c123ac",
+            "event": "store",
+            "leg": "cold",
+            "logical_paths": [
+              "raw_metrics.jsonl"
+            ],
+            "producer_id": "dgt-l0-controls",
+            "status": "stored"
+          },
+          {
+            "event": "lookup",
+            "leg": "cache",
+            "logical_paths": [
+              "raw_metrics.jsonl"
+            ],
+            "manifest_path": "cache-root/dgt-l0-controls/dc458fa00a1104dc110d3624c0e2a46737f50f6b14593fb8a504fdbba2842708/manifest.json",
+            "producer_id": "dgt-l0-controls",
+            "reason": "manifest-and-blobs-verified",
+            "status": "hit"
+          },
+          {
+            "event": "cache-return",
+            "leg": "cache",
+            "logical_path": "raw_metrics.jsonl",
+            "producer_id": "dgt-l0-controls",
+            "row_count": 15,
+            "status": "hit"
+          }
+        ]
+      },
+      "cache_result": {
+        "fingerprint_reason": "match",
+        "fingerprint_status": "match",
+        "producer_status": "skipped",
+        "status": "fail"
+      },
+      "cold_result": {
+        "fingerprint_reason": "match",
+        "fingerprint_status": "match",
+        "producer_status": "skipped",
+        "status": "fail"
+      },
+      "failure_reasons": [],
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l0_controls.py"
+      ],
+      "status": "pass",
+      "surfaces": {
+        "canonical_json": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l0-controls.json",
+                "byte_size": 78747,
+                "exists": true,
+                "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+              }
+            ],
+            "sha256": "28387417eec209f3a131fe4117b7a1aad1517048924760b6ad38876704ef507f",
+            "status": "present",
+            "surface_id": "canonical_json"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l0-controls.json",
+                "byte_size": 78747,
+                "exists": true,
+                "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+              }
+            ],
+            "sha256": "28387417eec209f3a131fe4117b7a1aad1517048924760b6ad38876704ef507f",
+            "status": "present",
+            "surface_id": "canonical_json"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "canonical_json"
+        },
+        "fingerprint": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l0-controls.fingerprint.json",
+                "byte_size": 4436,
+                "exists": true,
+                "sha256": "fcd423ded18a8348b5bae126ec389eda19226237fa965fc876012a93d20b578f"
+              }
+            ],
+            "sha256": "2c3fce5c3555c89f784c736ededc86ae21fe9f7a3343b33db93f58f47f564b73",
+            "status": "present",
+            "surface_id": "fingerprint"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l0-controls.fingerprint.json",
+                "byte_size": 4436,
+                "exists": true,
+                "sha256": "fcd423ded18a8348b5bae126ec389eda19226237fa965fc876012a93d20b578f"
+              }
+            ],
+            "sha256": "2c3fce5c3555c89f784c736ededc86ae21fe9f7a3343b33db93f58f47f564b73",
+            "status": "present",
+            "surface_id": "fingerprint"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "fingerprint"
+        },
+        "raw_metrics": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "multi",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
+                "byte_size": 31544,
+                "exists": true,
+                "sha256": "94f1789af45d6c8aa4e692ec75e848f3f17c1aa67e99654170a5483a3f184d97"
+              }
+            ],
+            "sha256": "47bcbf4b85bafaaed9393a606c355699a8e3798d911c3ff86854f2fd96bde40a",
+            "status": "present",
+            "surface_id": "raw_metrics"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "multi",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
+                "byte_size": 31544,
+                "exists": true,
+                "sha256": "94f1789af45d6c8aa4e692ec75e848f3f17c1aa67e99654170a5483a3f184d97"
+              }
+            ],
+            "sha256": "47bcbf4b85bafaaed9393a606c355699a8e3798d911c3ff86854f2fd96bde40a",
+            "status": "present",
+            "surface_id": "raw_metrics"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "raw_metrics"
+        },
+        "summary": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json",
+                "byte_size": 78747,
+                "exists": true,
+                "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+              }
+            ],
+            "sha256": "20520ab739a8a4e29eb3528e01d813df70199e7fcfef2da8c0d8d90e365063ee",
+            "status": "present",
+            "surface_id": "summary"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json",
+                "byte_size": 78747,
+                "exists": true,
+                "sha256": "2011a37b66147fddf67bf20d95788d309a171445eba2e726050d3631f6be6f93"
+              }
+            ],
+            "sha256": "20520ab739a8a4e29eb3528e01d813df70199e7fcfef2da8c0d8d90e365063ee",
+            "status": "present",
+            "surface_id": "summary"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "summary"
+        }
+      },
+      "target_id": "dgt-l0-controls"
+    },
+    {
+      "cache_backed": true,
+      "cache_observation": {
+        "cache_hit_observed": true,
+        "events": [
+          {
+            "event": "lookup",
+            "leg": "cold",
+            "logical_paths": [],
+            "manifest_path": "cache-root/dgt-l1-controls/d5187bed1c2619baaf55fe2c89c0d88c79d1cfee82f278c7e732889681c1457a/manifest.json",
+            "producer_id": "dgt-l1-controls",
+            "reason": "manifest-missing",
+            "status": "miss"
+          },
+          {
+            "cell_input_digest": "d5187bed1c2619baaf55fe2c89c0d88c79d1cfee82f278c7e732889681c1457a",
+            "cell_output_digest": "3696ef6034d875402e6c228a8c0591fc7e1118810e97a0d123806c896f84f9ca",
+            "event": "store",
+            "leg": "cold",
+            "logical_paths": [
+              "raw_metrics.jsonl"
+            ],
+            "producer_id": "dgt-l1-controls",
+            "status": "stored"
+          },
+          {
+            "event": "lookup",
+            "leg": "cache",
+            "logical_paths": [
+              "raw_metrics.jsonl"
+            ],
+            "manifest_path": "cache-root/dgt-l1-controls/d5187bed1c2619baaf55fe2c89c0d88c79d1cfee82f278c7e732889681c1457a/manifest.json",
+            "producer_id": "dgt-l1-controls",
+            "reason": "manifest-and-blobs-verified",
+            "status": "hit"
+          },
+          {
+            "event": "cache-return",
+            "leg": "cache",
+            "logical_path": "raw_metrics.jsonl",
+            "producer_id": "dgt-l1-controls",
+            "row_count": 400,
+            "status": "hit"
+          }
+        ]
+      },
+      "cache_result": {
+        "fingerprint_reason": "match",
+        "fingerprint_status": "match",
+        "producer_status": "skipped",
+        "status": "pass"
+      },
+      "cold_result": {
+        "fingerprint_reason": "match",
+        "fingerprint_status": "match",
+        "producer_status": "skipped",
+        "status": "pass"
+      },
+      "failure_reasons": [],
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l1_controls.py"
+      ],
+      "status": "pass",
+      "surfaces": {
+        "canonical_json": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l1-controls.json",
+                "byte_size": 226323,
+                "exists": true,
+                "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+              }
+            ],
+            "sha256": "93c50aa83ddef4d7d0e12d074ed1df946884db3eaea5331afe1290ad5c4b97e6",
+            "status": "present",
+            "surface_id": "canonical_json"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l1-controls.json",
+                "byte_size": 226323,
+                "exists": true,
+                "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+              }
+            ],
+            "sha256": "93c50aa83ddef4d7d0e12d074ed1df946884db3eaea5331afe1290ad5c4b97e6",
+            "status": "present",
+            "surface_id": "canonical_json"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "canonical_json"
+        },
+        "fingerprint": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
+                "byte_size": 5791,
+                "exists": true,
+                "sha256": "9ab5ab25166610f642916cf8c90eff6af078bf1e62f260029dd166ab20c50b93"
+              }
+            ],
+            "sha256": "8b1622110ab96f197dab414bfbe458e46954029ba24b1850bd66e629f32a9d5f",
+            "status": "present",
+            "surface_id": "fingerprint"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
+                "byte_size": 5791,
+                "exists": true,
+                "sha256": "9ab5ab25166610f642916cf8c90eff6af078bf1e62f260029dd166ab20c50b93"
+              }
+            ],
+            "sha256": "8b1622110ab96f197dab414bfbe458e46954029ba24b1850bd66e629f32a9d5f",
+            "status": "present",
+            "surface_id": "fingerprint"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "fingerprint"
+        },
+        "raw_metrics": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "multi",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+                "byte_size": 251841,
+                "exists": true,
+                "sha256": "6e158f4a655a5a1baba867bada3c26fcbd3198d7071170740c84c1b79d252c54"
+              },
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+                "byte_size": 15468954,
+                "exists": true,
+                "sha256": "8c5712519fc6d51be86bd7dfa080966be9d5d36ead8b05c3a248bdcad00266d6"
+              }
+            ],
+            "sha256": "4b3af62f5d9680fb090dd34fc1fba5fc76ad67652806e9bb1477edca864b3661",
+            "status": "present",
+            "surface_id": "raw_metrics"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "multi",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+                "byte_size": 251841,
+                "exists": true,
+                "sha256": "6e158f4a655a5a1baba867bada3c26fcbd3198d7071170740c84c1b79d252c54"
+              },
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+                "byte_size": 15468954,
+                "exists": true,
+                "sha256": "8c5712519fc6d51be86bd7dfa080966be9d5d36ead8b05c3a248bdcad00266d6"
+              }
+            ],
+            "sha256": "4b3af62f5d9680fb090dd34fc1fba5fc76ad67652806e9bb1477edca864b3661",
+            "status": "present",
+            "surface_id": "raw_metrics"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "raw_metrics"
+        },
+        "summary": {
+          "cache": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
+                "byte_size": 226323,
+                "exists": true,
+                "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+              }
+            ],
+            "sha256": "f32286bcceb0fb34ee87432b5d0d370b5705f523db208bc5590921b9c52537d8",
+            "status": "present",
+            "surface_id": "summary"
+          },
+          "cold": {
+            "algorithm": "sha256",
+            "artifact_kind": "single",
+            "files": [
+              {
+                "artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
+                "byte_size": 226323,
+                "exists": true,
+                "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+              }
+            ],
+            "sha256": "f32286bcceb0fb34ee87432b5d0d370b5705f523db208bc5590921b9c52537d8",
+            "status": "present",
+            "surface_id": "summary"
+          },
+          "equivalent": true,
+          "status": "pass",
+          "surface_id": "summary"
+        }
+      },
+      "target_id": "dgt-l1-controls"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T09:34:43.560066+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "2a1eb57745202ebe259bee097949eb5e1c472349adedad0e16e37e79d8e981ee",
+  "input_fingerprint": "12c3a8d885ab768e06804d8051eee68ac93b996f2e21b6851af9d0935ed60d3f",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -46,6 +46,7 @@
     ],
     "spec": {
       "bundle_role": "hg_p_core",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_order_k_benchmark.py"
@@ -67,6 +68,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -90,11 +92,54 @@
   },
   "json_artifact": "reports/canonical/order-k-benchmark.json",
   "markdown_artifact": "reports/canonical/order-k-benchmark.md",
-  "output_digest": "ed0310ada017921845bba99abfa67a3383f99311fe3f1ecade7757ea0507240c",
   "producer_command": [
     "python3",
     "scripts/run_order_k_benchmark.py"
   ],
   "report_name": "order-k-benchmark",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "order-k-benchmark"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "order-k-benchmark",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "059a113c9eebbd242c76fa387b99de7f2e81e4244e36797c55ab0588c9813d31",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

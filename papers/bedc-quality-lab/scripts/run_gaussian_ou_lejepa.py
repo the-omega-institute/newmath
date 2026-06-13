@@ -76,7 +76,7 @@ def _torch_encoder(
     import torch
 
     set_deterministic_seed(seed)
-    device = choose_device()
+    device = str(choose_device())
     encoder = build_tiny_encoder().to(device)
     optimizer = torch.optim.AdamW(encoder.parameters(), lr=2e-3, weight_decay=1e-4)
     x_t = torch.as_tensor(train_x, dtype=torch.float32, device=device)
