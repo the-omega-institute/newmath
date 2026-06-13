@@ -158,13 +158,42 @@ theorem selected_satisfies_conservative_bound
   intro h
   exact selectIdxFrom_satisfies cal alphaNum alphaDen cal.length i h
 
+theorem selectIdxFrom_lt
+    (cal : List Bool) (alphaNum alphaDen fuel i : Nat) :
+    selectIdxFrom cal alphaNum alphaDen fuel = some i -> i < fuel := by
+  induction fuel with
+  | zero =>
+      intro h
+      change none = some i at h
+      cases h
+  | succ n ih =>
+      intro h
+      change (if consvOKBool cal alphaNum alphaDen n then some n
+        else selectIdxFrom cal alphaNum alphaDen n) = some i at h
+      cases hc : consvOKBool cal alphaNum alphaDen n with
+      | false =>
+          rw [hc] at h
+          exact Nat.lt_succ_of_lt (ih h)
+      | true =>
+          rw [hc] at h
+          cases h
+          exact Nat.lt_succ_self _
+
+theorem selectIdx_lt
+    (cal : List Bool) (alphaNum alphaDen i : Nat) :
+    selectIdx cal alphaNum alphaDen = some i -> i < cal.length := by
+  intro h
+  exact selectIdxFrom_lt cal alphaNum alphaDen cal.length i h
+
 theorem coverage_counting_correct
     (cal : List Bool) (alphaNum alphaDen i : Nat) :
     selectIdx cal alphaNum alphaDen = some i ->
-      i < cal.length ->
-        (cal.take (i + 1)).length = i + 1 := by
-  intro _ hlt
-  exact length_take_of_le cal (i + 1) (Nat.succ_le_of_lt hlt)
+      okCount cal (selectIdx cal alphaNum alphaDen) = (cal.take (i + 1)).length := by
+  intro h
+  rw [h]
+  show i + 1 = (cal.take (i + 1)).length
+  have hlt : i < cal.length := selectIdx_lt cal alphaNum alphaDen i h
+  rw [length_take_of_le cal (i + 1) (Nat.succ_le_of_lt hlt)]
 
 theorem cumFail_monotone
     (cal : List Bool) (i j : Nat) :

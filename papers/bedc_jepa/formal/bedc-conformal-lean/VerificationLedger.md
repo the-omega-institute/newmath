@@ -22,11 +22,16 @@ theorem selected_satisfies_conservative_bound
 ```
 
 ```lean
+-- selectIdx only returns in-range indices, so the admitted count of the
+-- selected index equals the selected prefix length (no extra hypothesis).
+theorem selectIdx_lt
+    (cal : List Bool) (alphaNum alphaDen i : Nat) :
+    selectIdx cal alphaNum alphaDen = some i -> i < cal.length
+
 theorem coverage_counting_correct
     (cal : List Bool) (alphaNum alphaDen i : Nat) :
     selectIdx cal alphaNum alphaDen = some i ->
-      i < cal.length ->
-        (cal.take (i + 1)).length = i + 1
+      okCount cal (selectIdx cal alphaNum alphaDen) = (cal.take (i + 1)).length
 ```
 
 ```lean
@@ -40,10 +45,10 @@ theorem cumFail_monotone
 The final `lake build` emitted:
 
 ```text
-info: ConformalCounting.lean:176:0: 'ConformalCounting.fail_closed_selects_empty' does not depend on any axioms
-info: ConformalCounting.lean:177:0: 'ConformalCounting.selected_satisfies_conservative_bound' does not depend on any axioms
-info: ConformalCounting.lean:178:0: 'ConformalCounting.coverage_counting_correct' does not depend on any axioms
-info: ConformalCounting.lean:179:0: 'ConformalCounting.cumFail_monotone' does not depend on any axioms
+info: 'ConformalCounting.fail_closed_selects_empty' does not depend on any axioms
+info: 'ConformalCounting.selected_satisfies_conservative_bound' does not depend on any axioms
+info: 'ConformalCounting.coverage_counting_correct' does not depend on any axioms
+info: 'ConformalCounting.cumFail_monotone' does not depend on any axioms
 Build completed successfully (3 jobs).
 ```
 
@@ -51,10 +56,16 @@ The checked Lean source contains no primitive assumption keyword and no
 placeholder proof keywords. The dependency output contains no `Classical.choice`,
 `Quot.sound`, or `propext` dependency for the four main theorems.
 
-## Open Statistical Step
+## Scope and Open Step
+
+The formalized object is the deterministic finite counting kernel over a
+failure-indicator list **already ordered by score**. The score sort itself, the
+numeric threshold readout `tau = s_sorted[i]`, and the evaluation-side
+`score <= tau` comparison in `_conformal_calibration.py` are the trusted
+numerical harness around this kernel and are not themselves formalized.
 
 The exchangeability-to-distribution-free-miscoverage step of split conformal
-prediction is not formalized here. The package verifies only the deterministic
-finite counting kernel for the sorted calibration list, the fail-closed branch,
-the conservative Laplace counting bound attached to the selected prefix, the
-prefix coverage count, and monotonicity of cumulative failures.
+prediction is likewise not formalized. The package verifies only the fail-closed
+branch, the conservative Laplace counting bound attached to the selected prefix,
+the admitted-count/prefix-length identity for the selected index, and
+monotonicity of cumulative failures.

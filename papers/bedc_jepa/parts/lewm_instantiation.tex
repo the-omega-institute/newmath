@@ -227,10 +227,15 @@ sorted by score the package proves four facts: the fail-closed branch admits
 the empty set, so no sample is declared OK when no threshold is feasible; the
 selected prefix satisfies the conservative Laplace-smoothed calibration bound
 $(1 + \mathrm{cumFail})\,\alpha_{\mathrm{den}} \le
-\alpha_{\mathrm{num}}\,(1 + (i+1))$ by construction; the admitted count equals
-the selected prefix length; and the cumulative failure count is monotone in the
-threshold.  The $\alpha$-statistical miscoverage bound (rank quantile plus
-exchangeability) is not formalized and is recorded as open rather than claimed.
+\alpha_{\mathrm{num}}\,(1 + (i+1))$ by construction; the admitted count of the
+selected index equals the selected prefix length; and the cumulative failure
+count is monotone in the threshold.  The formalized object is the deterministic
+counting core over a failure-indicator list \emph{already ordered by score}: the
+score sort itself, the numeric threshold readout $\tau = s_{\mathrm{sorted}}[i]$,
+and the evaluation-side $\mathrm{score} \le \tau$ comparison are the trusted
+numerical harness around the verified core, not themselves formalized.  The
+$\alpha$-statistical miscoverage bound (rank quantile plus exchangeability) is
+likewise not formalized and is recorded as open rather than claimed.
 
 \paragraph{Calibrated selection.}
 Replacing the declared-OK rule by conservative thresholds chosen on a
