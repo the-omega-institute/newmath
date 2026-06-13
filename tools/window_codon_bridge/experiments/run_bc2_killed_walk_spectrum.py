@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BC2-R1: killed-walk spectrum structural comparison.
+"""BC2 killed-walk spectrum structural comparison.
 
 This experiment compares the bio codon-Q6 killed-walk operator with the
 Window6 Fibonacci-cube killed-walk operator.  It is intentionally standalone:
@@ -15,8 +15,8 @@ from fractions import Fraction
 from typing import Iterable
 
 
-EXPERIMENT_ID = "bc2r1_killed_walk_spectrum"
-CLAIM_ID = "bridge.window6_codon_q6.refined_killed_walk_spectrum"
+EXPERIMENT_ID = "bc2_killed_walk_spectrum"
+CLAIM_ID = "bridge.window6_codon_q6.killed_walk_spectral_correspondence"
 
 BASE_TO_BITS = {"U": (0, 0), "C": (0, 1), "A": (1, 0), "G": (1, 1)}
 BITS_TO_BASE = {bits: base for base, bits in BASE_TO_BITS.items()}
