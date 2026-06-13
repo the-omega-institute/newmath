@@ -105,6 +105,7 @@ def _fixture_root(tmp_path: Path) -> Path:
             },
             "hardgate": {"status": "pass"},
             "not_claimed": ["bounded deterministic toy evidence only"],
+            "scaling_ladder": {"not_claimed": ["bounded scaling ladder only"]},
         },
     )
     _write_json(
@@ -331,19 +332,72 @@ def test_claim_first_unresolved_pointer_fails_stack_hg1(tmp_path):
     report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
 
     assert _gate(report, "STACK-HG1").status == "fail"
+    assert _gate(report, "STACK-HG1").pointer == "reports/runs/discovery-gated-transformer/claim_capsule.json:$"
 
 
-def test_claim_first_blocked_owner_status_fails_stack_hg2_and_claim_first(tmp_path):
+@pytest.mark.parametrize(
+    ("mutate", "expected_card_id"),
+    [
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {"training_evidence_status": "training_evidence_absent"}
+            ),
+            "training-authenticity-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {
+                    "training_evidence_status": "training_evidence_absent",
+                    "allowed_claim_kinds": ["projection_only"],
+                }
+            ),
+            "training-authenticity-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["metric_rows"][0].update(
+                {"allowed_for_empirical_claim": False}
+            ),
+            "statistical-evidence-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {"taint_status": "tainted"}
+            ),
+            "training-authenticity-card",
+        ),
+    ],
+)
+def test_claim_first_blocked_owner_status_fails_stack_hg2_and_claim_first(tmp_path, mutate, expected_card_id):
     root = _fixture_root(tmp_path)
     index_path = root / "reports/canonical/index.json"
     payload = json.loads(index_path.read_text(encoding="utf-8"))
-    payload["evidence_provenance"]["producer_audits"][0]["training_evidence_status"] = "training_evidence_absent"
+    mutate(payload)
     _write_json(root, "reports/canonical/index.json", payload)
 
     report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
 
     assert _gate(report, "STACK-HG2").status == "fail"
     assert _gate(report, "CLAIM-FIRST-HG1").status == "fail"
+    assert expected_card_id in _gate(report, "STACK-HG2").actual
+    assert expected_card_id in _gate(report, "CLAIM-FIRST-HG1").actual
+
+
+def test_claim_first_bounded_negative_row_is_not_applicable(tmp_path):
+    root = _fixture_root(tmp_path)
+    rows = [json.loads(line) for line in (root / CLAIM_VERDICTS_ARTIFACT).read_text(encoding="utf-8").splitlines()]
+    rows[0]["claim_verdict"] = "bounded_negative"
+    rows[0]["reason"] = "model-comparison-not-ready"
+    rows[0]["source"] = f"{DGT_ARTIFACT}:$.not_claimed"
+    _write_jsonl(root, CLAIM_VERDICTS_ARTIFACT, rows)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "pass"
+    assert _gate(report, "STACK-HG1").expected == "not applicable"
+    assert _gate(report, "STACK-HG2").status == "pass"
+    assert _gate(report, "STACK-HG2").expected == "not applicable"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "pass"
+    assert _gate(report, "CLAIM-FIRST-HG1").expected == "not applicable"
 
 
 def test_cons_hg2_positive_verdict_requires_current_scorecard_hash(tmp_path):

@@ -36,6 +36,7 @@ from scripts import run_discovery_regularized_training as runner
 from scripts import run_mechanism_seeking_network as msn_runner
 from scripts import run_sigreg_mini_grid as sigreg_grid_runner
 from scripts import run_sigreg_training_proxy as sigreg_proxy_runner
+from bedc_quality_lab.aggregation_consistency import validate_aggregation_consistency
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
@@ -1686,11 +1687,8 @@ def _patch_lightweight_run_reports(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
     monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
-    monkeypatch.setattr(
-        canonical,
-        "_write_aggregation_consistency_status",
-        lambda payload, *, generated_at: payload
-        | {
+    def fake_aggregation_consistency_status(payload, *, generated_at, require_pass=True):
+        return payload | {
             "aggregation_consistency": {
                 "schema_id": "bedc-quality-lab:aggregation-consistency",
                 "status": "pass",
@@ -1699,8 +1697,9 @@ def _patch_lightweight_run_reports(monkeypatch):
                 "doc_scan_count": 0,
                 "generated_at": generated_at,
             }
-        },
-    )
+        }
+
+    monkeypatch.setattr(canonical, "_write_aggregation_consistency_status", fake_aggregation_consistency_status)
 
 
 def _file_digest_map(root):
@@ -1878,6 +1877,16 @@ def _assert_dgt_discovery_map_row_uses_l0_consumption(row):
     assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
+def _index_with_aggregation_consistency(generated_index, *, generated_at):
+    return {
+        **generated_index,
+        "aggregation_consistency": validate_aggregation_consistency(
+            canonical.ROOT,
+            index_payload=generated_index,
+        ).compact_status(generated_at=generated_at),
+    }
+
+
 def _drop_dgt_l0_from_manifest(monkeypatch):
     monkeypatch.setattr(
         canonical,
@@ -1921,9 +1930,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
-        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
+        "dgt-l1-boundary-report",
         "winnability-certificates",
         "structural-generalization-splits",
         "dgt-base-undertraining-audit",
@@ -3043,7 +3052,10 @@ def test_committed_canonical_bundle_matches_generation_chain():
         discovery_timestamp=discovery_payload["generated_at"],
     )
 
-    assert index_payload == generated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        generated_index,
+        generated_at=index_payload["generated_at"],
+    )
     assert discovery_payload == generated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
@@ -6124,6 +6136,202 @@ def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monke
     assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "experiment-stack-cards"]
 
 
+def test_experiment_stack_cards_schema_index_and_fingerprint_inputs():
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+
+    assert "claim_first_gate" in spec.required_json_keys
+    assert "claim_first_admission" not in spec.required_json_keys
+    assert "claim_first_admission_pointer" not in spec.required_json_keys
+
+    section = canonical._experiment_stack_cards_index_section()
+    assert section["claim_first_gate_pointer"] == "reports/canonical/experiment_stack_cards.json:$.claim_first_gate"
+    assert "claim_first_admission_pointer" not in section
+
+    input_paths = {row["path"] for row in canonical._source_artifact_inputs(spec)}
+    assert {
+        "reports/canonical/discovery-gated-transformer.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-l1-boundary-report.json",
+        "reports/canonical/dgt-neural-ablation.json",
+        "reports/canonical/dgt-model-card.json",
+        "reports/canonical/reproduction-package.json",
+        "reports/canonical/index.json",
+        "reports/release_manifest_sidecar.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    }.issubset(input_paths)
+
+
+def test_run_reports_index_only_rewrites_summary_from_existing_reports(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "root": canonical.INDEX_ROOT,
+        "reports": [_index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"])],
+    }
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="index",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [("index", "2030-01-01T00:00:00+00:00", ())]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_accepts_alias_and_refreshes_index(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "reports": [],
+    }
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", root, generated_at, report_spec.name))
+        return {"status": "pass"}
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="claim_artifact_consistency",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [
+        (
+            "claim-artifact-consistency",
+            tmp_path,
+            "2030-01-01T00:00:00+00:00",
+            "discovery-gated-transformer",
+        ),
+        ("index", "2030-01-01T00:00:00+00:00", ()),
+    ]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", report_spec.name))
+        return {"status": "fail"}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed consistency")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="claim-artifact-consistency",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+    assert calls == [("claim-artifact-consistency", "discovery-gated-transformer")]
+
+
+@pytest.mark.parametrize("only", ["experiment-stack-cards", "experiment_stack_cards"])
+def test_run_reports_experiment_stack_cards_only_replaces_index_row(tmp_path, monkeypatch, only):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+
+    def fake_run_spec(called, mode="changed", generated_at=None):
+        calls.append(("run-spec", called.name, mode, generated_at))
+        return result
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return {
+            "schema_id": canonical.INDEX_SCHEMA_ID,
+            "generated_at": generated_at,
+            "reports": list(replacements),
+        }
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(only=only, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [
+        ("run-spec", "experiment-stack-cards", "changed", "2030-01-01T00:00:00+00:00"),
+        ("index", "2030-01-01T00:00:00+00:00", ("experiment-stack-cards",)),
+    ]
+    assert payload["reports"] == [result]
+
+
+def test_run_reports_experiment_stack_cards_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+    result["status"] = "fail"
+
+    monkeypatch.setattr(canonical, "_run_spec", lambda called, **_kwargs: result)
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed report")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="experiment-stack-cards",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
+def test_run_reports_only_unknown_report_fails_closed_without_running_producers(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+
+    with pytest.raises(ValueError, match="unknown canonical report 'missing-report'"):
+        canonical.run_reports(only="missing-report", generated_at="2030-01-01T00:00:00+00:00")
+
+
 def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -6996,7 +7204,10 @@ def test_committed_canonical_bundle_matches_registered_reports():
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == regenerated_claim_rows
-    assert index_payload == regenerated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        regenerated_index,
+        generated_at=index_payload["generated_at"],
+    )
 
 
 def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
