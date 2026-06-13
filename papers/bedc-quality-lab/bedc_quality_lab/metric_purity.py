@@ -12,6 +12,8 @@ import re
 from types import ModuleType
 from typing import Any, Callable, Iterable, Literal, Mapping, Sequence
 
+from bedc_quality_lab import hardgate_inventory
+
 
 SCHEMA_ID = "bedc.quality.metric_purity_audit"
 TARGETS_SCHEMA_ID = "bedc.quality.metric_purity_targets"
@@ -99,7 +101,8 @@ class HardgateMutationCase:
     apply: Mapping[str, Any]
     expected_failed_gate: str
     expected_reason_regex: str
-    source_payload_pointer: str
+    source_payload_pointer: str | None = None
+    source_payload_factory: str | None = None
 
 
 def default_targets_path(root: Path) -> Path:
@@ -125,12 +128,50 @@ def iter_registered_hardgate_mutations(
     )
     if not schema_ok:
         raise ValueError("; ".join(finding.reason for finding in findings))
-    return tuple(_case_from_row(row) for row in config.get("hardgate_mutations", []))
+    config = _effective_target_config(Path(root), config)
+    cases, case_findings = _load_hardgate_mutation_cases(config, path=resolved_targets_path)
+    if case_findings:
+        raise ValueError("; ".join(finding.reason for finding in case_findings))
+    return cases
 
 
 def evaluate_hardgate_mutation(root: Path, case: HardgateMutationCase) -> dict[str, Any]:
     try:
-        payload = _resolve_artifact_pointer(Path(root), case.source_payload_pointer)
+        payload = _resolve_mutation_source(Path(root), case)
+    except Exception as exc:
+        return {
+            "status": "fail",
+            "code": "MUT-HG2",
+            "gate_id": case.gate_id,
+            "mutation_id": case.mutation_id,
+            "reason": str(exc),
+        }
+    try:
+        evaluator = _resolve_owner_callable(case.owner_pointer)
+        original_verdict = evaluator(payload)
+    except Exception as exc:
+        return {
+            "status": "fail",
+            "code": "MUT-HG3",
+            "gate_id": case.gate_id,
+            "mutation_id": case.mutation_id,
+            "reason": str(exc),
+        }
+    original_status = _first_string(original_verdict, ("status",)) or "unknown"
+    original_gate_status = _specific_gate_status(payload, original_verdict, case.gate_id)
+    if original_status != "pass" or original_gate_status != "pass":
+        return {
+            "status": "fail",
+            "code": "MUT-HG4",
+            "gate_id": case.gate_id,
+            "mutation_id": case.mutation_id,
+            "owner_status": original_status,
+            "failed_gate": _first_string(original_verdict, ("failed_gate", "failed_surface", "gate_id")),
+            "reason": f"original gate {case.gate_id} was not passing",
+            "expected_failed_gate": case.expected_failed_gate,
+            "expected_reason_regex": case.expected_reason_regex,
+        }
+    try:
         mutated = copy.deepcopy(payload)
         _apply_mutation(mutated, case.apply)
     except Exception as exc:
@@ -142,7 +183,6 @@ def evaluate_hardgate_mutation(root: Path, case: HardgateMutationCase) -> dict[s
             "reason": str(exc),
         }
     try:
-        evaluator = _resolve_owner_callable(case.owner_pointer)
         verdict = evaluator(mutated)
     except Exception as exc:
         return {
@@ -157,9 +197,23 @@ def evaluate_hardgate_mutation(root: Path, case: HardgateMutationCase) -> dict[s
     owner_status = _first_string(verdict, ("status",)) or "unknown"
     matched_gate = failed_gate == case.expected_failed_gate
     matched_reason = re.search(case.expected_reason_regex, reason or "") is not None
+    try:
+        restored_verdict = evaluator(payload)
+    except Exception as exc:
+        return {
+            "status": "fail",
+            "code": "MUT-HG3",
+            "gate_id": case.gate_id,
+            "mutation_id": case.mutation_id,
+            "reason": f"restore evaluation failed: {exc}",
+        }
+    restored_status = _first_string(restored_verdict, ("status",)) or "unknown"
+    restored_gate_status = _specific_gate_status(payload, restored_verdict, case.gate_id)
+    restored = restored_status == "pass" and restored_gate_status == "pass"
+    passed = owner_status != "pass" and matched_gate and matched_reason and restored
     return {
-        "status": "pass" if owner_status != "pass" and matched_gate and matched_reason else "fail",
-        "code": None if owner_status != "pass" and matched_gate and matched_reason else "MUT-HG4",
+        "status": "pass" if passed else "fail",
+        "code": None if passed else "MUT-HG4",
         "gate_id": case.gate_id,
         "mutation_id": case.mutation_id,
         "owner_status": owner_status,
@@ -167,6 +221,8 @@ def evaluate_hardgate_mutation(root: Path, case: HardgateMutationCase) -> dict[s
         "reason": reason,
         "expected_failed_gate": case.expected_failed_gate,
         "expected_reason_regex": case.expected_reason_regex,
+        "restored_owner_status": restored_status,
+        "restored_gate_status": restored_gate_status,
     }
 
 
@@ -213,6 +269,7 @@ def run_metric_purity_audit(
             "pathology_results": [],
             "status": "fail",
         }
+    target_config = _effective_target_config(root, target_config)
     all_targets = _load_targets(target_config, findings=findings, root=root)
     targets = _filter_targets(all_targets, target_ids=target_ids, report_artifacts=report_artifacts, audit_stage=audit_stage)
     allowlist_rows = _load_allowlist_rows(allowlist_config, findings=findings)
@@ -238,6 +295,15 @@ def run_metric_purity_audit(
         scoped=targets != all_targets,
     )
     findings.extend(mutation_findings)
+    findings.extend(
+        _audit_promoted_gate_registry(
+            root,
+            target_config,
+            targets=targets,
+            report_artifacts=report_artifacts,
+            audit_stage=audit_stage,
+        )
+    )
 
     findings, allowlist_hits, allowlist_misses = _apply_allowlist(findings, allowlist_rows)
     unallowlisted = [finding for finding in findings if not finding.allowlisted]
@@ -523,7 +589,8 @@ def _audit_mutations(
         for target in hardgate_targets
         for ref in (target.id, *target.mutation_contract_refs)
     }
-    all_cases = tuple(_case_from_row(row) for row in target_config.get("hardgate_mutations", []))
+    all_cases, case_findings = _load_hardgate_mutation_cases(target_config, path=default_targets_path(root))
+    findings.extend(case_findings)
     if scoped:
         cases = tuple(
             case
@@ -548,19 +615,100 @@ def _audit_mutations(
         results.append(result)
         if result["status"] != "pass":
             target = _target_for_gate(targets, case.gate_id)
+            source_ref = case.source_payload_pointer or case.source_payload_factory or case.mutation_id
             findings.append(
                 MetricPurityFinding(
                     target_id=target.id if target is not None else case.gate_id,
                     code=str(result.get("code") or "MUT-HG4"),
-                    path=case.source_payload_pointer,
+                    path=source_ref,
                     lineno=0,
                     symbol=case.mutation_id,
                     reason=str(result.get("reason") or "mutation contract failed"),
                     owner_pointer=case.owner_pointer,
-                    evidence_pointer=case.source_payload_pointer,
+                    evidence_pointer=source_ref,
                 )
             )
     return {"registered": len(cases), "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())}, "results": results}, findings
+
+
+def _audit_promoted_gate_registry(
+    root: Path,
+    target_config: Mapping[str, Any],
+    *,
+    targets: Sequence[MetricPurityTarget],
+    report_artifacts: Iterable[str] | None,
+    audit_stage: AuditStage,
+) -> list[MetricPurityFinding]:
+    if audit_stage == "pre_generation":
+        return []
+    artifact_filter = None if report_artifacts is None else {str(item) for item in report_artifacts}
+    extra_surfaces = target_config.get("promotion_hardgate_surfaces", [])
+    if not isinstance(extra_surfaces, list):
+        extra_surfaces = []
+    surfaces = tuple(
+        surface
+        for surface in hardgate_inventory.iter_promotion_hardgate_surfaces(root, extra_surfaces)
+        if artifact_filter is None or surface.artifact in artifact_filter
+    )
+    if not surfaces:
+        return []
+    inventory_rows = hardgate_inventory.iter_hardgate_inventory(root, extra_surfaces)
+    rows_by_surface: dict[str, list[hardgate_inventory.HardgateInventoryRow]] = {surface.surface_id: [] for surface in surfaces}
+    for row in inventory_rows:
+        if row.surface_id in rows_by_surface:
+            rows_by_surface[row.surface_id].append(row)
+    registry_refs = {target.id for target in targets if target.kind == "hardgate"}
+    registry_refs.update(ref for target in targets if target.kind == "hardgate" for ref in target.mutation_contract_refs)
+    cases, case_findings = _load_hardgate_mutation_cases(target_config, path=default_targets_path(root))
+    mutation_refs = {case.gate_id for case in cases}
+    findings = list(case_findings)
+    for surface in surfaces:
+        surface_path = root / surface.artifact
+        if not surface_path.exists():
+            continue
+        rows = rows_by_surface.get(surface.surface_id, [])
+        if not rows:
+            findings.append(
+                MetricPurityFinding(
+                    target_id=surface.surface_id,
+                    code="REG-HG4",
+                    path=surface.artifact_pointer,
+                    lineno=0,
+                    symbol=surface.surface_id,
+                    reason="promotion hardgate surface produced zero concrete rows",
+                    owner_pointer=surface.owner_pointer,
+                    evidence_pointer=surface.artifact_pointer,
+                )
+            )
+            continue
+        for row in rows:
+            if row.gate_id not in registry_refs:
+                findings.append(
+                    MetricPurityFinding(
+                        target_id=row.gate_id,
+                        code="REG-HG1",
+                        path=row.evidence_pointer,
+                        lineno=0,
+                        symbol=row.gate_id,
+                        reason="promoted hardgate has no effective registry target",
+                        owner_pointer=row.owner_pointer,
+                        evidence_pointer=row.evidence_pointer,
+                    )
+                )
+            if row.gate_id not in mutation_refs:
+                findings.append(
+                    MetricPurityFinding(
+                        target_id=row.gate_id,
+                        code="MUT-HG1",
+                        path=row.evidence_pointer,
+                        lineno=0,
+                        symbol=row.gate_id,
+                        reason="promoted hardgate has no mutation row",
+                        owner_pointer=row.owner_pointer,
+                        evidence_pointer=row.evidence_pointer,
+                    )
+                )
+    return findings
 
 
 def _scan_callable_ast(target: MetricPurityTarget, module: ModuleType) -> list[MetricPurityFinding]:
@@ -650,6 +798,74 @@ def _load_targets(config: Mapping[str, Any], *, findings: list[MetricPurityFindi
         seen.add(target.id)
         targets.append(target)
     return tuple(targets)
+
+
+def _effective_target_config(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    extra_surfaces = config.get("promotion_hardgate_surfaces", [])
+    if not isinstance(extra_surfaces, list):
+        extra_surfaces = []
+    if not isinstance(config.get("targets", []), list) or not isinstance(config.get("hardgate_mutations", []), list):
+        return dict(config)
+    static_targets = tuple(config.get("targets", []))
+    static_mutations = (
+        tuple(config.get("hardgate_mutations", []))
+        if isinstance(config.get("hardgate_mutations", []), list)
+        else ()
+    )
+    generated_targets = hardgate_inventory.generated_target_rows(root, extra_surfaces)
+    generated_mutations = hardgate_inventory.generated_mutation_rows(root, extra_surfaces)
+    targets_by_id: dict[str, Mapping[str, Any]] = {}
+    for row in (*static_targets, *generated_targets):
+        if isinstance(row, Mapping):
+            targets_by_id[str(row.get("id", ""))] = row
+    mutation_keys: set[tuple[str, str]] = set()
+    mutations = []
+    for row in (*static_mutations, *generated_mutations):
+        if not isinstance(row, Mapping):
+            mutations.append(row)
+            continue
+        key = (str(row.get("gate_id", "")), str(row.get("mutation_id", "")))
+        if key in mutation_keys:
+            continue
+        mutation_keys.add(key)
+        mutations.append(row)
+    return {
+        **dict(config),
+        "targets": [dict(targets_by_id[key]) for key in sorted(targets_by_id)],
+        "hardgate_mutations": sorted(
+            [dict(row) if isinstance(row, Mapping) else row for row in mutations],
+            key=lambda row: (
+                str(row.get("gate_id", "")) if isinstance(row, Mapping) else "",
+                str(row.get("mutation_id", "")) if isinstance(row, Mapping) else "",
+            ),
+        ),
+    }
+
+
+def _load_hardgate_mutation_cases(config: Mapping[str, Any], *, path: Path) -> tuple[tuple[HardgateMutationCase, ...], list[MetricPurityFinding]]:
+    findings: list[MetricPurityFinding] = []
+    rows = config.get("hardgate_mutations", [])
+    if not isinstance(rows, list):
+        findings.append(_registry_finding("REG-HG1", path.as_posix(), "hardgate_mutations", "hardgate_mutations must be a list"))
+        return (), findings
+    cases = []
+    seen: set[tuple[str, str]] = set()
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            findings.append(_registry_finding("REG-HG1", path.as_posix(), f"hardgate_mutations[{index}]", "mutation row must be an object"))
+            continue
+        try:
+            case = _case_from_row(row)
+        except (KeyError, ValueError) as exc:
+            findings.append(_registry_finding("REG-HG1", path.as_posix(), f"hardgate_mutations[{index}]", str(exc)))
+            continue
+        key = (case.gate_id, case.mutation_id)
+        if key in seen:
+            findings.append(_registry_finding("REG-HG1", path.as_posix(), case.mutation_id, "duplicate mutation row"))
+            continue
+        seen.add(key)
+        cases.append(case)
+    return tuple(cases), findings
 
 
 def _validate_registry_schema(
@@ -767,15 +983,40 @@ def _resolve_owner_callable(owner_pointer: str) -> Callable[..., Any]:
 
 
 def _case_from_row(row: Mapping[str, Any]) -> HardgateMutationCase:
+    pointer = row.get("source_payload_pointer")
+    factory = row.get("source_payload_factory")
+    has_pointer = isinstance(pointer, str) and bool(pointer)
+    has_factory = isinstance(factory, str) and bool(factory)
+    if has_pointer == has_factory:
+        raise ValueError("exactly one of source_payload_pointer or source_payload_factory is required")
+    apply_ops = row.get("apply", {})
+    if not isinstance(apply_ops, Mapping):
+        raise ValueError("apply must be an object")
     return HardgateMutationCase(
-        gate_id=str(row["gate_id"]),
-        mutation_id=str(row["mutation_id"]),
-        owner_pointer=str(row["owner_pointer"]),
-        apply=dict(row.get("apply", {})),
-        expected_failed_gate=str(row["expected_failed_gate"]),
-        expected_reason_regex=str(row["expected_reason_regex"]),
-        source_payload_pointer=str(row["source_payload_pointer"]),
+        gate_id=_required_str(row, "gate_id"),
+        mutation_id=_required_str(row, "mutation_id"),
+        owner_pointer=_required_str(row, "owner_pointer"),
+        apply=dict(apply_ops),
+        expected_failed_gate=_required_str(row, "expected_failed_gate"),
+        expected_reason_regex=_required_str(row, "expected_reason_regex"),
+        source_payload_pointer=str(pointer) if has_pointer else None,
+        source_payload_factory=str(factory) if has_factory else None,
     )
+
+
+def _resolve_mutation_source(root: Path, case: HardgateMutationCase) -> Any:
+    if case.source_payload_pointer is not None:
+        return _resolve_artifact_pointer(root, case.source_payload_pointer)
+    if case.source_payload_factory is None:
+        raise ValueError("mutation case has no source payload")
+    factory = _resolve_owner_callable(case.source_payload_factory)
+    try:
+        return factory(case.gate_id)
+    except TypeError:
+        try:
+            return factory(gate_id=case.gate_id)
+        except TypeError:
+            return factory()
 
 
 def _apply_mutation(payload: Any, operations: Mapping[str, Any]) -> None:
@@ -820,6 +1061,18 @@ def _resolve_artifact_pointer(root: Path, artifact_pointer: str) -> Any:
     for part in _pointer_parts(pointer):
         current = current[int(part)] if isinstance(current, list) else current[part]
     return current
+
+
+def _specific_gate_status(payload: Any, verdict: Any, gate_id: str) -> str | None:
+    for container in (_field_value(payload, "gates"), _field_value(verdict, "gates")):
+        if isinstance(container, Mapping):
+            row = container.get(gate_id)
+            if isinstance(row, Mapping) and isinstance(row.get("status"), str):
+                return str(row["status"])
+    if _first_string(verdict, ("failed_gate", "failed_surface", "gate_id")) == gate_id:
+        return "fail"
+    status = _first_string(verdict, ("status",))
+    return "pass" if status == "pass" else None
 
 
 def _pointer_parts(pointer: str) -> list[str]:

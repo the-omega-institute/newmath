@@ -5,6 +5,9 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
+from bedc_quality_lab import dgt_l0_controls
+from bedc_quality_lab import dgt_l1_boundary_report
+from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
 from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID
@@ -24,49 +27,6 @@ def _write_jsonl(root: Path, artifact: str, rows):
     path = root / artifact
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
-
-
-def _write_dgt_owner_ref_fixtures(root: Path) -> None:
-    _write_json(
-        root,
-        "reports/canonical/dgt-l0-controls.json",
-        {
-            "construct_suspension": {"status": "pass"},
-            "l0_toy_projection": {
-                "status": "pass",
-                "review_status": "pass",
-                "hardgate_statuses": {"pass": {"status": "pass"}},
-                "not_claimed": ["bounded L0 fixture"],
-            },
-        },
-    )
-    _write_json(
-        root,
-        "reports/canonical/dgt-l1-controls.json",
-        {
-            "negative_witness_sweep": {"status": "pass"},
-            "l1_tiny_sequence_projection": {
-                "review_status": "pass",
-                "promotion_readiness": "ready-pass",
-                "not_claimed": ["bounded L1 fixture"],
-            },
-            "l1_ood_mechanism": {
-                "verdict": "fixture",
-                "l2_implication": "not-claimed",
-            },
-        },
-    )
-    _write_json(
-        root,
-        "reports/canonical/dgt-neural-ablation.json",
-        {
-            "nabl_hardgates": {
-                "status": "pass",
-                "failed_gate": None,
-            },
-            "component_causal_claims": [],
-        },
-    )
 
 
 def _write_evidence_provenance_index(root: Path, rows, *, empirical_reports=("gap-head-discovery",)):
@@ -206,6 +166,52 @@ def _write_dgt_high_impact_review_pass(root: Path) -> None:
             ],
             "hardgates": hardgates,
             "not_claimed": list(high_impact_review.NOT_CLAIMED),
+        },
+    )
+
+
+def _write_dgt_owner_ref_fixtures(root: Path) -> None:
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {"status": "pass"},
+            "honest_metric_review": {"status": "pass"},
+            "negative_witness_sweep": {"status": "pass"},
+            "compute_param_ledger": {"status": "pass"},
+            "l0_toy_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "not_claimed": ["bounded L0 fixture"],
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "negative_witness_sweep": {"status": "pass"},
+            "l1_tiny_sequence_projection": {
+                "review_status": "pass",
+                "promotion_readiness": "ready-pass",
+                "not_claimed": ["bounded L1 fixture"],
+            },
+            "l1_ood_mechanism": {
+                "verdict": "fixture",
+                "l2_implication": "not-claimed",
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-neural-ablation.json",
+        {
+            "nabl_hardgates": {
+                "status": "pass",
+                "failed_gate": None,
+            },
+            "component_causal_claims": [],
         },
     )
 

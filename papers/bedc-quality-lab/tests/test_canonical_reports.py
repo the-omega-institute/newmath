@@ -217,6 +217,10 @@ def _payload_for_spec(spec):
 
         package = reproduction_package.build_package(canonical.ROOT, generated_at="fixture")
         return reproduction_package.verify_package(package, canonical.ROOT, "structural", generated_at="fixture")
+    if spec.name == "dgt-l1-boundary-report":
+        from bedc_quality_lab import dgt_l1_boundary_report
+
+        return dgt_l1_boundary_report.build_l1_boundary_report(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "winnability-certificates":
         from bedc_quality_lab import winnability
 
@@ -1704,6 +1708,7 @@ def _index_row_for_spec(spec):
         "markdown_artifact": spec.markdown_artifact,
         "fingerprint_sidecar": canonical._artifact_path(spec.json_artifact).with_suffix(".fingerprint.json").relative_to(canonical.ROOT).as_posix(),
         "discipline": {
+            "claim_promotion_eligible": spec.claim_promotion_eligible,
             "scope_pointer": spec.scope_pointer,
             "cost_pointer": spec.cost_pointer,
             "not_claimed_pointer": spec.not_claimed_pointer,
@@ -1893,6 +1898,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
+        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
         "winnability-certificates",
@@ -2014,7 +2020,6 @@ def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.positive_claim_pointer == "$.l0_toy_projection.review_status"
     assert spec.construct_validity_pointer == "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates"
-    assert "construct_validity_hardgates" in spec.required_json_keys
     assert names.isdisjoint(
         {
             "base-transformer-l0",
@@ -2117,15 +2122,18 @@ def test_winnability_certificates_missing_artifact_validation_fails_closed(tmp_p
     assert "$.audit.fail_closed_count" in validation["required_key_validation"]["missing_keys"]
 def test_dgt_controls_require_construct_validity_without_replacing_protocol_hardgates():
     specs = canonical._specs_by_name()
-    for name in ("dgt-l0-controls", "dgt-l1-controls"):
-        spec = specs[name]
-        assert spec.construct_validity_pointer == f"{spec.json_artifact}:$.construct_validity_hardgates"
-        assert "construct_validity_hardgates" in spec.required_json_keys
+    l0 = specs["dgt-l0-controls"]
+    assert l0.construct_validity_pointer == f"{l0.json_artifact}:$.construct_validity_hardgates"
+    assert _payload_for_spec(l0)["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
 
-        payload = _payload_for_spec(spec)
+    l1 = specs["dgt-l1-controls"]
+    assert l1.construct_validity_pointer == f"{l1.json_artifact}:$.construct_validity_ledger"
+    assert "construct_validity_ledger" in l1.required_json_keys
+    payload = _payload_for_spec(l1)
+    assert payload["construct_validity_ledger"]["split_protocol"]["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
+
+    for spec in (l0, l1):
         discipline = canonical._discipline(spec)
-
-        assert payload["construct_validity_hardgates"]["schema_id"] == "bedc.quality.construct_validity_hardgates"
         assert discipline["construct_validity_pointer"] == spec.construct_validity_pointer
         assert "reporting_hardgate" in discipline
         assert discipline["reporting_hardgate"]["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
@@ -2283,6 +2291,223 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
+def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-validation-loss", gate_id: str = "FAIR-L1-HG2") -> None:
+    path = root / "reports/canonical/fair-l1-decision.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    comparison_rows = [
+        {"comparison_id": "equal-step", "decision": "resolved", "status": "pass"},
+        {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
+        {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
+        {
+            "comparison_id": comparison_id,
+            "decision": "validation-loss-cell-missing",
+            "status": "missing",
+        },
+    ]
+    payload = {
+        "schema_id": "bedc-quality-lab:fair-l1-decision",
+        "artifact_id": "bedc-quality-lab:fair-l1-decision",
+        "fair_alignment": {"comparison_rows": comparison_rows},
+        "hardgates": {
+            "FAIR-L1-HG2": {
+                "gate_id": gate_id,
+                "status": "fail",
+            }
+        },
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _reproduction_check_payload() -> dict[str, object]:
+    return {
+        "schema_id": "bedc-quality-lab:reproduction-check-result",
+        "artifact_id": "bedc-quality-lab:reproduction-check-result",
+        "generated_at": "fixture",
+        "source_artifacts": {
+            "package": "reports/canonical/reproduction-package.json",
+            "runner": "scripts/run_reproduction_package.py",
+        },
+        "package_ref": "reports/canonical/reproduction-package.json:$",
+        "profile": "structural",
+        "target_results": [
+            {
+                "target_id": "dgt-l0-honest-rerun",
+                "target_kind": "full-repro-ci",
+                "status": "pass",
+                "blocked_reason": None,
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "pass",
+                "rerun_artifact_refs": [],
+                "failure_reasons": [],
+                "ci_rehearsal_ref": None,
+            },
+            {
+                "target_id": "fair-l1-training",
+                "target_kind": "full-repro-ci",
+                "status": "blocked",
+                "blocked_reason": dict(canonical.FAIR_L1_BLOCKED_REASON),
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "pass",
+                "rerun_artifact_refs": [],
+                "failure_reasons": ["fair-l1-training waits for seven-arm owner artifact"],
+                "ci_rehearsal_ref": None,
+            },
+            {
+                "target_id": "source-owned-block",
+                "target_kind": "full-repro-ci",
+                "status": "blocked",
+                "blocked_reason": {
+                    "category": "source-blocked",
+                    "detail": "source-pointer-blocked",
+                    "evidence_ref": "reports/canonical/reproduction-check-result.json:$.target_results",
+                    "owner_gate_ref": None,
+                    "dependency_ref": None,
+                    "planning_context_ref": None,
+                },
+                "resolved_owner_pointers": [],
+                "fingerprint_status": "pass",
+                "tolerance_status": "blocked",
+                "rerun_artifact_refs": [],
+                "failure_reasons": ["pointer does not resolve: reports/canonical/missing.json:$"],
+                "ci_rehearsal_ref": None,
+            },
+        ],
+        "blocked_targets": ["fair-l1-training", "source-owned-block"],
+        "failed_targets": [],
+        "not_claimed": ["fixture"],
+    }
+
+
+def _write_reproduction_check_fixture(tmp_path: Path, payload: dict[str, object]) -> dict[str, object]:
+    spec = canonical._specs_by_name()["reproduction-check-result"]
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+    return canonical._artifact_validation(spec)
+
+
+def test_reproduction_check_result_validation_accepts_six_key_blocked_reasons(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "pass"
+    assert validation["reproduction_errors"] == []
+
+
+@pytest.mark.parametrize("missing_key", ["owner_gate_ref", "dependency_ref", "planning_context_ref"])
+def test_reproduction_check_result_validation_rejects_missing_blocked_reason_keys(tmp_path, monkeypatch, missing_key):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    fair_row = payload["target_results"][1]
+    del fair_row["blocked_reason"][missing_key]
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason",
+        "message": f"blocked_reason missing key: {missing_key}",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_pass_row_with_blocked_reason(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][0]["blocked_reason"] = {
+        "category": "source-blocked",
+        "detail": "source-pointer-blocked",
+        "evidence_ref": "reports/canonical/reproduction-check-result.json:$.target_results",
+        "owner_gate_ref": None,
+        "dependency_ref": None,
+        "planning_context_ref": None,
+    }
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[0].blocked_reason",
+        "message": "non-blocked rows require blocked_reason null",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_prose_only_blocked_row(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][2]["blocked_reason"] = None
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[2].blocked_reason",
+        "message": "blocked rows require structured blocked_reason",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_alias_fields(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    payload["target_results"][1]["dependency_ref"] = "github:issue:1196"
+    payload["target_results"][1]["blocked_reason"]["evidence_pointer"] = canonical.FAIR_L1_BLOCKED_REASON["evidence_ref"]
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert any(error["message"] == "blocked_reason alias field is forbidden: dependency_ref" for error in validation["reproduction_errors"])
+    assert any(error["message"] == "blocked_reason has unknown key: evidence_pointer" for error in validation["reproduction_errors"])
+
+
+def test_reproduction_check_result_validation_treats_failure_reasons_as_non_authority(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path)
+    payload = _reproduction_check_payload()
+    source_row = payload["target_results"][2]
+    source_row["failure_reasons"] = ["missing-validation-loss-cell"]
+    source_row["blocked_reason"]["category"] = "source-blocked"
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "pass"
+    assert validation["reproduction_errors"] == []
+
+
+def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path, comparison_id="equal-loss-decrease")
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason.evidence_ref",
+        "message": "fair-l1 evidence row does not match equal-validation-loss",
+    } in validation["reproduction_errors"]
+
+
+def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG3")
+    payload = _reproduction_check_payload()
+
+    validation = _write_reproduction_check_fixture(tmp_path, payload)
+
+    assert validation["status"] == "fail"
+    assert {
+        "path": "$.target_results[1].blocked_reason.owner_gate_ref",
+        "message": "fair-l1 owner gate does not match FAIR-L1-HG2",
+    } in validation["reproduction_errors"]
+
+
 def test_reproduction_check_result_validation_rejects_malformed_target_row(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     spec = canonical._specs_by_name()["reproduction-check-result"]
@@ -2356,6 +2581,59 @@ def test_reproduction_check_result_validation_rejects_wrong_schema(tmp_path, mon
     assert validation["reproduction_errors"] == [
         {"path": "$.schema_id", "message": "invalid reproduction check-result schema"}
     ]
+
+
+def test_boundary_report_spec_promotion_schema_is_exact():
+    spec = canonical._specs_by_name()["dgt-l1-boundary-report"]
+
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.positive_claim_pointer == "$.claim_promotion_exclusion"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.control_pointer is None
+    assert spec.no_control_rationale_pointer == "$.claim_promotion_exclusion"
+    assert "artifact_role" in spec.required_json_keys
+    assert "claim_promotion_exclusion" in spec.required_json_keys
+    assert "scaling_claim_block" in spec.required_json_keys
+
+
+def test_positive_claim_cells_exclude_ineligible_reports(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    boundary_spec = canonical._specs_by_name()["dgt-l1-boundary-report"]
+    core_spec = canonical._specs_by_name()["mixing-family-sweep"]
+    for spec in (boundary_spec, core_spec):
+        payload = _payload_for_spec(spec)
+        canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), payload)
+        canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# fixture\n")
+    reports = [
+        {
+            "name": spec.name,
+            "bundle_role": spec.bundle_role,
+            "discipline": canonical._discipline(spec),
+        }
+        for spec in (boundary_spec, core_spec)
+    ]
+
+    cells = canonical._claims_nonclaims(reports)
+
+    assert {cell["report"] for cell in cells["positive_claim_cells"]} == {"mixing-family-sweep"}
+    assert cells["promotion_exclusion_cells"] == [
+        {
+            "report": "dgt-l1-boundary-report",
+            "bundle_role": "auxiliary",
+            "artifact_role": "boundary_block",
+            "claim_promotion_eligible": False,
+            "exclusion_pointer": "$.claim_promotion_exclusion",
+            "block_pointer": "$.scaling_claim_block",
+        }
+    ]
+
+
+def test_discovery_promotion_requires_claim_promotion_eligible():
+    spec_names = {spec.name for spec in canonical._discovery_map_reports()}
+
+    assert "dgt-l1-boundary-report" not in spec_names
+
 
 
 def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
@@ -4147,8 +4425,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "pointer": "$.construct_suspension",
     }
     assert payload["source_artifacts"]["interpretation_boundary_ref"] == {
-        "artifact": canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
-        "pointer": "$.ladder_state_projection",
+        "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
     }
     assert payload["source_artifacts"]["negative_witness_sweep_ref"] == {
         "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
@@ -4403,6 +4681,42 @@ def test_changed_run_blocks_non_fair_nonpass_without_committed_decision_lookup(m
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
     assert canonical._result_blocks_changed_run({"name": "dgt-l1-controls", "status": "fail"}) is True
+
+
+def test_changed_run_allows_dgt_l0_cv_hg4_boundary_without_committed_lookup(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("DGT L0 boundary result must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert (
+        canonical._result_blocks_changed_run(
+            {
+                "name": "dgt-l0-controls",
+                "status": "fail",
+                "construct_validity": {"status": "fail", "failed_gates": ["CV-HG4"]},
+            }
+        )
+        is False
+    )
+
+
+def test_changed_run_blocks_dgt_l0_construct_validity_failure_drift(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("DGT L0 boundary result must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert (
+        canonical._result_blocks_changed_run(
+            {
+                "name": "dgt-l0-controls",
+                "status": "fail",
+                "construct_validity": {"status": "fail", "failed_gates": ["CV-HG3"]},
+            }
+        )
+        is True
+    )
 
 
 def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
@@ -5006,6 +5320,7 @@ def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
             "name": spec.name,
             "bundle_role": spec.bundle_role,
             "discipline": {
+                "claim_promotion_eligible": spec.claim_promotion_eligible,
                 "positive_claim_pointer": spec.positive_claim_pointer,
                 "control_pointer": spec.control_pointer,
                 "no_control_rationale_pointer": spec.no_control_rationale_pointer,
@@ -7799,6 +8114,48 @@ def test_release_readiness_index_section_is_pointer_only():
     assert "coverage_matrix" not in section
     assert "rows" not in section
     assert all(set(row) == {"id", "label", "artifact", "pointer", "owner_pointer"} for row in section["sources"])
+
+
+def test_cache_equivalence_index_section_is_pointer_only():
+    section = canonical._cache_equivalence_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:canonical-cache-equivalence",
+        "schema_id": "bedc-quality-lab:canonical-cache-equivalence",
+        "json_artifact": "reports/canonical/cache-equivalence.json",
+        "canonical_role": "index_projection_not_fact_source",
+        "owner_pointer": "reports/canonical/cache-equivalence.json:$",
+        "targets_pointer": "reports/canonical/cache-equivalence.json:$.targets",
+        "hardgates_pointer": "reports/canonical/cache-equivalence.json:$.hardgates",
+        "freshness_hardgate": "scripts/run_canonical_cache_equivalence.py --check",
+    }
+    assert payload["cache_equivalence"] == section
+    assert "Cache equivalence" in markdown
+    assert "cache_equivalence" not in [spec.name for spec in canonical.CANONICAL_REPORTS]
+    assert "pass_count" not in json.dumps(section)
+    assert "targets" not in section
+    assert "hardgates" not in section
+
+
+def test_canonical_consistency_makefile_runs_fingerprints_before_cache_equivalence():
+    makefile = (canonical.ROOT / "Makefile").read_text(encoding="utf-8")
+    lines = makefile.splitlines()
+    target_index = lines.index("canonical-consistency:")
+    commands = []
+    for line in lines[target_index + 1:]:
+        if line and not line.startswith("\t"):
+            break
+        if line.startswith("\t"):
+            commands.append(line.strip())
+
+    assert commands == [
+        "python3 scripts/run_canonical_reports.py --verify-fingerprints",
+        "python3 scripts/run_canonical_cache_equivalence.py --check",
+    ]
+    assert "canonical-cache-equivalence:" in lines
 
 
 def test_release_readiness_forbidden_files_do_not_exist():

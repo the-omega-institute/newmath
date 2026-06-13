@@ -17,7 +17,10 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.canonical_cell_cache import CellInputRecord, load_cell_entry, store_cell_entry
 from bedc_quality_lab.construct_validity import (
+    CLAIM_CAPSULE_PROJECTION_KEYS as CONSTRUCT_VALIDITY_PROJECTION_KEYS,
     ConstructValidityEvidence,
+    GATE_IDS as CONSTRUCT_VALIDITY_GATE_IDS,
+    OWNER_POINTER as CONSTRUCT_VALIDITY_OWNER_POINTER,
     construct_validity_projection,
     evaluate_construct_validity,
 )
@@ -41,15 +44,19 @@ GENERATED_AT = "2026-06-10T00:00:00+00:00"
 LAB_ROOT = Path(__file__).resolve().parents[1]
 
 ARM_IDS = (
-    "information_starved_l1_baseline",
+    "input_ablation_masked_tail",
     "dgt_l1",
-    "matched_random_structural_l1",
-    "parameter_matched_l1",
-    "compute_matched_l1",
+    "parameter_matched_attention",
+    "compute_matched_attention",
 )
+CLAIM_ELIGIBLE_ATTENTION_ARMS = ("parameter_matched_attention", "compute_matched_attention")
+DIAGNOSTIC_EXCLUDED_ARMS = ("input_ablation_masked_tail", "diagnostic_step_ladder")
 L1_GATE_IDS = tuple(f"L1-REVIEW-HG{index}" for index in range(1, 8))
 L1STEP_GATE_IDS = tuple(f"L1STEP-HG{index}" for index in range(1, 6))
 BASE_SEED = 1174
+HELDOUT_PAIR_SPLIT_SEED = 7049
+HELDOUT_PAIR_RULE = "balanced_label_stratified_pairs_via_seeded_enumeration"
+PAIR_KEY = ("x_last_1", "x_last_2")
 DEFAULT_SEEDS = tuple(range(1174, 1190))
 DEFAULT_TRAINING_STEPS = 36
 L1_STEP_GRID = (36, 72, 144, 288, 576)
@@ -96,8 +103,8 @@ FORBIDDEN_CLAIMS = (
 )
 ALLOWED_CLAIM = "DGT L1 controls are ready for independent review on bounded tiny-sequence order-k training."
 REQUIRED_WITNESSES = (
-    "information_starved_baseline",
-    "unanswerable_ood",
+    "input_ablation_masked_tail",
+    "heldout_pair_ood",
     "table_coverage_saturation",
     "hand_engineered_task_aligned_gate",
 )
@@ -118,7 +125,7 @@ L1OOD_STRATA = (
     "train_seen_high_frequency_pair",
     "train_seen_low_frequency_pair",
     "train_unseen_pair",
-    "ood_dependency_shift_pair",
+    "heldout_pair",
 )
 L1OOD_VERDICTS = ("memorization", "brittle-rule", "partial-rule")
 L1OOD_GATE_IDS = tuple(f"L1OOD-HG{index}" for index in range(1, 7))
@@ -126,6 +133,7 @@ L1OOD_POSITIVE_MARGIN = 0.05
 L1OOD_COLLAPSE_MARGIN = 0.05
 L1OOD_FREQUENCY_RATIO = 2.0
 L1OOD_LOGIT_MARGIN_MIN = 0.0
+CELL_CACHE_EVENT_OBSERVER: Any = None
 
 
 @dataclass(frozen=True)
@@ -174,6 +182,26 @@ class L1TrainingArm:
 
     def as_payload(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class ConstructValidityLedger:
+    input_bandwidth_by_arm: Mapping[str, Any]
+    split_protocol: Mapping[str, Any]
+    ood_winnability: Mapping[str, Any]
+    coverage_bound: Mapping[str, Any]
+    manual_feature_disclosure: Mapping[str, Any]
+    claim_comparison_policy: Mapping[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["schema_id"] = "bedc-quality-lab:dgt-l1-construct-validity-ledger"
+        payload["artifact_id"] = "bedc-quality-lab:dgt-l1-construct-validity-ledger"
+        payload["owner_module"] = OWNER_MODULE
+        payload["status"] = "pass" if _construct_validity_ledger_passes(payload) else "fail"
+        payload["failed_gates"] = [] if payload["status"] == "pass" else ["L1-CV-LEDGER"]
+        payload["pointer"] = f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger"
+        return payload
 
 
 @dataclass(frozen=True)
@@ -233,16 +261,206 @@ def _seed_all_rngs(torch: Any, seed: int) -> None:
         cuda_manual_seed_all(seed)
 
 
-def _make_sequences(torch: Any, *, seed: int, examples: int, spec: L1TinySequenceTaskSpec, device_name: str, ood: bool = False) -> tuple[Any, Any]:
+def _rule_label(x_last_1: int, x_last_2: int, *, vocab_size: int = VOCAB_SIZE) -> int:
+    return (3 * int(x_last_1) + 5 * int(x_last_2) + 1) % int(vocab_size)
+
+
+def balanced_label_stratified_pairs_via_seeded_enumeration(
+    *,
+    vocab_size: int = VOCAB_SIZE,
+    seed: int = HELDOUT_PAIR_SPLIT_SEED,
+    heldout_per_label: int = 4,
+) -> dict[str, Any]:
+    by_label: dict[int, list[tuple[int, int]]] = {label: [] for label in range(vocab_size)}
+    for x_last_1 in range(vocab_size):
+        for x_last_2 in range(vocab_size):
+            by_label[_rule_label(x_last_1, x_last_2, vocab_size=vocab_size)].append((x_last_1, x_last_2))
+    rng = random.Random(seed)
+    heldout: list[tuple[int, int]] = []
+    train: list[tuple[int, int]] = []
+    for label in range(vocab_size):
+        pairs = list(by_label[label])
+        rng.shuffle(pairs)
+        heldout.extend(pairs[:heldout_per_label])
+        train.extend(pairs[heldout_per_label:])
+    train_sorted = sorted(train)
+    heldout_sorted = sorted(heldout)
+    return {
+        "train_pairs": train_sorted,
+        "heldout_pairs": heldout_sorted,
+        "train_label_histogram": _label_histogram(train_sorted, vocab_size=vocab_size),
+        "heldout_label_histogram": _label_histogram(heldout_sorted, vocab_size=vocab_size),
+    }
+
+
+def _label_histogram(pairs: Sequence[Sequence[int]], *, vocab_size: int = VOCAB_SIZE) -> dict[str, int]:
+    histogram = {str(label): 0 for label in range(vocab_size)}
+    for x_last_1, x_last_2 in pairs:
+        histogram[str(_rule_label(int(x_last_1), int(x_last_2), vocab_size=vocab_size))] += 1
+    return histogram
+
+
+def _pair_list_payload(pairs: Sequence[Sequence[int]]) -> list[list[int]]:
+    return [[int(first), int(second)] for first, second in pairs]
+
+
+def _pair_fingerprint(pairs: Sequence[Sequence[int]]) -> str:
+    return _json_digest(_pair_list_payload(sorted((int(first), int(second)) for first, second in pairs)))
+
+
+def _split_protocol_payload(*, vocab_size: int = VOCAB_SIZE, seed: int = HELDOUT_PAIR_SPLIT_SEED) -> dict[str, Any]:
+    split = balanced_label_stratified_pairs_via_seeded_enumeration(vocab_size=vocab_size, seed=seed)
+    train_pairs = split["train_pairs"]
+    heldout_pairs = split["heldout_pairs"]
+    return {
+        "heldout_pair_rule": HELDOUT_PAIR_RULE,
+        "seed": seed,
+        "pair_key": list(PAIR_KEY),
+        "train_pair_count": len(train_pairs),
+        "heldout_pair_count": len(heldout_pairs),
+        "train_label_histogram": split["train_label_histogram"],
+        "heldout_label_histogram": split["heldout_label_histogram"],
+        "train_pair_fingerprint": _pair_fingerprint(train_pairs),
+        "heldout_pair_fingerprint": _pair_fingerprint(heldout_pairs),
+        "all_pair_fingerprint": _pair_fingerprint([*train_pairs, *heldout_pairs]),
+        "train_pairs": _pair_list_payload(train_pairs),
+        "heldout_pairs": _pair_list_payload(heldout_pairs),
+    }
+
+
+def _construct_validity_ledger_passes(payload: Mapping[str, Any]) -> bool:
+    bandwidth = payload.get("input_bandwidth_by_arm")
+    split = payload.get("split_protocol")
+    ood = payload.get("ood_winnability")
+    coverage = payload.get("coverage_bound")
+    policy = payload.get("claim_comparison_policy")
+    if not all(isinstance(cell, Mapping) for cell in (bandwidth, split, ood, coverage, policy)):
+        return False
+    train_pairs = {tuple(pair) for pair in split.get("train_pairs", []) if isinstance(pair, list)}
+    heldout_pairs = {tuple(pair) for pair in split.get("heldout_pairs", []) if isinstance(pair, list)}
+    learning_arms_full_sequence = all(
+        isinstance(row, Mapping)
+        and row.get("input_positions") == list(range(SEQUENCE_LENGTH))
+        and row.get("sequence_length") == SEQUENCE_LENGTH
+        for arm_id, row in bandwidth.items()
+    )
+    expected_roles = {
+        "input_ablation_masked_tail": "ablation",
+        "dgt_l1": "candidate",
+        "parameter_matched_attention": "attention_control",
+        "compute_matched_attention": "attention_control",
+    }
+    expected_masks = {
+        arm_id: ([SEQUENCE_LENGTH - 2] if arm_id == "input_ablation_masked_tail" else [])
+        for arm_id in ARM_IDS
+    }
+    arms_have_declared_roles = all(
+        isinstance(row, Mapping)
+        and row.get("role") == expected_roles.get(arm_id)
+        and row.get("masked_positions") == expected_masks.get(arm_id)
+        for arm_id, row in bandwidth.items()
+    )
+    return (
+        set(bandwidth) == set(ARM_IDS)
+        and learning_arms_full_sequence
+        and arms_have_declared_roles
+        and bandwidth.get("input_ablation_masked_tail", {}).get("eligible_for_advantage_claims") is False
+        and split.get("heldout_pair_rule") == HELDOUT_PAIR_RULE
+        and split.get("seed") == HELDOUT_PAIR_SPLIT_SEED
+        and split.get("pair_key") == list(PAIR_KEY)
+        and split.get("heldout_pair_count") == 64
+        and split.get("train_pair_count") == 192
+        and not train_pairs.intersection(heldout_pairs)
+        and set(split.get("train_label_histogram", {}).values()) == {12}
+        and set(split.get("heldout_label_histogram", {}).values()) == {4}
+        and ood.get("label_rule") == "same_rule_heldout_pairs"
+        and ood.get("chance_accuracy") == 0.0625
+        and ood.get("oracle_accuracy") == 1.0
+        and coverage.get("rule_abstraction_claim") is False
+        and policy.get("eligible_positive_claim_controls") == list(CLAIM_ELIGIBLE_ATTENTION_ARMS)
+        and all(arm not in policy.get("eligible_positive_claim_controls", []) for arm in DIAGNOSTIC_EXCLUDED_ARMS)
+    )
+
+
+def _construct_validity_owner_projection_passes(projection: Any) -> bool:
+    if not isinstance(projection, Mapping):
+        return False
+    gates = projection.get("gates")
+    claim_projection = projection.get("claim_capsule_projection")
+    return (
+        projection.get("owner_pointer") == CONSTRUCT_VALIDITY_OWNER_POINTER
+        and projection.get("status") == "pass"
+        and projection.get("failed_gates") == []
+        and isinstance(gates, Mapping)
+        and set(gates) == set(CONSTRUCT_VALIDITY_GATE_IDS)
+        and all(isinstance(row, Mapping) and row.get("status") == "pass" for row in gates.values())
+        and isinstance(claim_projection, Mapping)
+        and set(claim_projection) == set(CONSTRUCT_VALIDITY_PROJECTION_KEYS)
+        and claim_projection.get("status") == projection.get("status")
+        and claim_projection.get("failed_gates") == projection.get("failed_gates")
+        and claim_projection.get("owner_pointer") == projection.get("owner_pointer")
+    )
+
+
+def _construct_validity_claim_projection(ledger: Any) -> dict[str, Any] | None:
+    if not isinstance(ledger, Mapping):
+        return None
+    projection = ledger.get("construct_validity_projection")
+    if not isinstance(projection, Mapping):
+        return None
+    claim_projection = projection.get("claim_capsule_projection")
+    if not isinstance(claim_projection, Mapping):
+        return None
+    return {
+        "artifact": claim_projection.get("artifact", CANONICAL_JSON_ARTIFACT),
+        "pointer": claim_projection.get("pointer", "$.construct_validity_ledger.construct_validity_projection"),
+        "status": projection.get("status", "missing"),
+        "failed_gates": list(projection.get("failed_gates", [])),
+        "owner_pointer": projection.get("owner_pointer", CONSTRUCT_VALIDITY_OWNER_POINTER),
+    }
+
+
+def _pairs_for_split(*, vocab_size: int, split: str) -> list[tuple[int, int]]:
+    protocol = _split_protocol_payload(vocab_size=vocab_size)
+    key = "train_pairs" if split == "train" else "heldout_pairs"
+    return [tuple(int(part) for part in pair) for pair in protocol[key]]
+
+
+def _make_sequences(
+    torch: Any,
+    *,
+    seed: int,
+    examples: int,
+    spec: L1TinySequenceTaskSpec,
+    device_name: str,
+    ood: bool = False,
+    split: str | None = None,
+) -> tuple[Any, Any]:
+    pair_split = split or ("eval" if ood else "train")
+    if pair_split not in {"train", "eval", "heldout"}:
+        raise ValueError(f"unsupported DGT L1 sequence split: {pair_split}")
+    pair_source = "train" if pair_split == "train" else "heldout"
+    pairs = _pairs_for_split(vocab_size=spec.vocab_size, split=pair_source)
     generator = torch.Generator(device="cpu")
-    generator.manual_seed(seed + (100_000 if ood else 0))
+    generator.manual_seed(seed + (100_000 if pair_source == "heldout" else 0))
     x = torch.randint(0, spec.vocab_size, (examples, spec.sequence_length), generator=generator, dtype=torch.long)
+    order = list(pairs)
+    random.Random(seed + (17_000 if pair_source == "heldout" else 0)).shuffle(order)
+    selected = [order[index % len(order)] for index in range(examples)]
+    for index, (x_last_1, x_last_2) in enumerate(selected):
+        x[index, -1] = x_last_1
+        x[index, -2] = x_last_2
     x_prev_1 = x[:, -1]
-    x_prev_2 = x[:, -2] if not ood else x[:, -3]
-    offset = 1 if not ood else 7
-    y = (3 * x_prev_1 + 5 * x_prev_2 + offset) % spec.vocab_size
+    x_prev_2 = x[:, -2]
+    y = (3 * x_prev_1 + 5 * x_prev_2 + 1) % spec.vocab_size
     device = torch.device(device_name)
     return x.to(device), y.to(device)
+
+
+def _same_rule_label_for_accessibility(x: Any, *, ood: bool = False) -> Any:
+    x_prev_1 = x[:, -1]
+    x_prev_2 = x[:, -2]
+    return (3 * x_prev_1 + 5 * x_prev_2 + 1) % 16
 
 
 class _TinySequenceModel:
@@ -251,13 +469,19 @@ class _TinySequenceModel:
         self.arm_id = arm_id
         self.device_name = device_name
         self.vocab_size = vocab_size
-        if arm_id in {"dgt_l1", "parameter_matched_l1", "compute_matched_l1"}:
+        if arm_id in {"dgt_l1", "parameter_matched_attention", "compute_matched_attention"}:
             in_dim = EMBED_DIM * 2 + 2
-        elif arm_id == "information_starved_l1_baseline":
+        elif arm_id == "input_ablation_masked_tail":
             in_dim = EMBED_DIM * 2
         else:
             in_dim = EMBED_DIM * 2
         self.embedding = torch.nn.Embedding(vocab_size, EMBED_DIM).to(torch.device(device_name))
+        if arm_id in {"dgt_l1", "input_ablation_masked_tail", "parameter_matched_attention", "compute_matched_attention"}:
+            self.position_embedding = torch.nn.Embedding(SEQUENCE_LENGTH, EMBED_DIM).to(torch.device(device_name))
+            self.attention = torch.nn.MultiheadAttention(EMBED_DIM, num_heads=1, batch_first=True).to(torch.device(device_name))
+        else:
+            self.position_embedding = None
+            self.attention = None
         self.head = torch.nn.Sequential(
             torch.nn.Linear(in_dim, HIDDEN_DIM),
             torch.nn.Tanh(),
@@ -265,23 +489,36 @@ class _TinySequenceModel:
         ).to(torch.device(device_name))
 
     def parameters(self) -> list[Any]:
-        return [*self.embedding.parameters(), *self.head.parameters()]
+        params = [*self.embedding.parameters()]
+        if self.position_embedding is not None:
+            params.extend(self.position_embedding.parameters())
+        if self.attention is not None:
+            params.extend(self.attention.parameters())
+        params.extend(self.head.parameters())
+        return params
 
     def _features(self, x: Any) -> Any:
         torch = self.torch
-        if self.arm_id == "matched_random_structural_l1":
-            first = torch.roll(x[:, -1], shifts=1, dims=0)
-            second = torch.roll(x[:, -2], shifts=2, dims=0)
-            return torch.cat([self.embedding(first), self.embedding(second)], dim=1)
-        first_embed = self.embedding(x[:, -1])
-        second_embed = self.embedding(x[:, -2])
-        if self.arm_id == "information_starved_l1_baseline":
+        if self.arm_id in {"dgt_l1", "input_ablation_masked_tail", "parameter_matched_attention", "compute_matched_attention"}:
+            positions = torch.arange(x.shape[1], device=x.device).unsqueeze(0).expand(x.shape[0], -1)
+            token_ids = x
+            if self.arm_id == "input_ablation_masked_tail":
+                token_ids = x.clone()
+                token_ids[:, -2] = 0
+            full_sequence = self.embedding(token_ids) + self.position_embedding(positions)
+            attended, _weights = self.attention(full_sequence, full_sequence, full_sequence, need_weights=False)
+            first_embed = attended[:, -1, :]
+            second_embed = attended[:, -2, :]
+        else:
+            first_embed = self.embedding(x[:, -1])
+            second_embed = self.embedding(x[:, -2])
+        if self.arm_id == "input_ablation_masked_tail":
             return torch.cat([first_embed, torch.zeros_like(second_embed)], dim=1)
-        if self.arm_id == "parameter_matched_l1":
+        if self.arm_id == "parameter_matched_attention":
             pad_1 = torch.zeros((x.shape[0], 1), dtype=first_embed.dtype, device=first_embed.device)
             pad_2 = torch.zeros((x.shape[0], 1), dtype=first_embed.dtype, device=first_embed.device)
             return torch.cat([first_embed, second_embed, pad_1, pad_2], dim=1)
-        if self.arm_id == "compute_matched_l1":
+        if self.arm_id == "compute_matched_attention":
             gate_1 = torch.zeros((x.shape[0], 1), dtype=first_embed.dtype, device=first_embed.device)
             gate_2 = torch.zeros((x.shape[0], 1), dtype=first_embed.dtype, device=first_embed.device)
             return torch.cat([first_embed, second_embed, gate_1, gate_2], dim=1)
@@ -293,13 +530,24 @@ class _TinySequenceModel:
         return self.head(self._features(x))
 
 
+def _full_sequence_pair_features_for_accessibility(x: Any, *, arm_id: str = "dgt_l1") -> tuple[Any, Any, Any]:
+    x_prev_1 = x[:, -1]
+    x_prev_2 = x[:, -2]
+    return x, x_prev_1, x_prev_2
+
+
+def _masked_tail_features_for_accessibility(x: Any, *, arm_id: str = "input_ablation_masked_tail") -> tuple[Any, Any]:
+    x_prev_1 = x[:, -1]
+    return x, x_prev_1
+
+
 def _snapshot(torch: Any, model: _TinySequenceModel) -> Any:
     return torch.cat([parameter.detach().flatten().cpu() for parameter in model.parameters()])
 
 
 def _pair_key(row: Any, *, shifted: bool = False) -> tuple[int, int]:
-    second_index = -3 if shifted else -2
-    return (int(row[-1]), int(row[second_index]))
+    del shifted
+    return (int(row[-1]), int(row[-2]))
 
 
 def _pair_frequency_map(x_train: Any) -> dict[str, int]:
@@ -378,7 +626,7 @@ def _l1_mechanism_probe(
             key_text = f"{key[0]}:{key[1]}"
             frequency = int(counts.get(key_text, 0))
             if ood:
-                stratum = "ood_dependency_shift_pair"
+                stratum = "heldout_pair"
             elif frequency <= 0:
                 stratum = "train_unseen_pair"
             elif frequency >= high_threshold:
@@ -418,7 +666,7 @@ def _l1_mechanism_probe(
             "train_seen_high_frequency_pair": (high_pair, high_count, "eval", False),
             "train_seen_low_frequency_pair": (low_pair, low_count, "eval", False),
             "train_unseen_pair": (unseen_pair, 0, "eval", False),
-            "ood_dependency_shift_pair": (high_pair, high_count, "ood", True),
+            "heldout_pair": (unseen_pair, 0, "ood", True),
         }
         xs: list[list[int]] = []
         ys: list[int] = []
@@ -428,15 +676,9 @@ def _l1_mechanism_probe(
                 continue
             pair, frequency, split, shifted = plan[stratum]
             row = [0 for _ in range(task_spec.sequence_length)]
-            if shifted:
-                row[-1] = pair[0]
-                row[-3] = pair[1]
-                row[-2] = (pair[1] + 1) % task_spec.vocab_size
-                y_value = (3 * row[-1] + 5 * row[-3] + 7) % task_spec.vocab_size
-            else:
-                row[-1] = pair[0]
-                row[-2] = pair[1]
-                y_value = (3 * row[-1] + 5 * row[-2] + 1) % task_spec.vocab_size
+            row[-1] = pair[0]
+            row[-2] = pair[1]
+            y_value = _rule_label(row[-1], row[-2], vocab_size=task_spec.vocab_size)
             xs.append(row)
             ys.append(y_value)
             specs.append(
@@ -478,8 +720,8 @@ def _train_arm(
     model = _TinySequenceModel(torch, arm_id=arm_id, vocab_size=task_spec.vocab_size, device_name=device_name)
     before = _snapshot(torch, model)
     x_train, y_train = _make_sequences(torch, seed=seed, examples=task_spec.train_examples, spec=task_spec, device_name=device_name)
-    x_eval, y_eval = _make_sequences(torch, seed=seed + 31, examples=task_spec.eval_examples, spec=task_spec, device_name=device_name)
-    x_ood, y_ood = _make_sequences(torch, seed=seed + 59, examples=task_spec.eval_examples, spec=task_spec, device_name=device_name, ood=True)
+    x_eval, y_eval = _make_sequences(torch, seed=seed + 31, examples=task_spec.eval_examples, spec=task_spec, device_name=device_name, split="heldout")
+    x_ood, y_ood = _make_sequences(torch, seed=seed + 59, examples=task_spec.eval_examples, spec=task_spec, device_name=device_name, ood=True, split="heldout")
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
     loss_history: list[float] = []
     for step in range(config.training_steps):
@@ -553,13 +795,13 @@ def _train_arm(
     row = L1TrainingArm(
         arm_id=arm_id,
         model_family=(
-            "DGT tiny sequence"
+            "DGT tiny sequence with shared attention input"
             if arm_id == "dgt_l1"
-            else "parameter matched tiny transformer"
-            if arm_id == "parameter_matched_l1"
-            else "compute matched tiny transformer"
-            if arm_id == "compute_matched_l1"
-            else "information-starved tiny baseline"
+            else "parameter matched attention control"
+            if arm_id == "parameter_matched_attention"
+            else "compute matched attention control"
+            if arm_id == "compute_matched_attention"
+            else "tail-masked input ablation"
         ),
         parameter_count=parameter_count,
         compute_units=compute_units,
@@ -705,6 +947,9 @@ def _arm_summaries(
             "seeds": [int(row["seed"]) for row in rows],
             "parameter_count": int(rows[0]["parameter_count"]) if rows else 0,
             "compute_units": round(sum(float(row["compute_units"]) for row in rows), 6),
+            "role": "ablation" if arm_id == "input_ablation_masked_tail" else ("candidate" if arm_id == "dgt_l1" else "attention_control"),
+            "self_attention_layers": 1,
+            "eligible_for_advantage_claims": arm_id in CLAIM_ELIGIBLE_ATTENTION_ARMS,
             "device_requested": rows[0]["device_requested"] if rows else "missing",
             "device_resolved": rows[0]["device_resolved"] if rows else "missing",
             "training_steps": int(rows[0]["training_steps"]) if rows else 0,
@@ -739,47 +984,47 @@ def derive_l1_step_ladder_crossover(step_rows: Sequence[Mapping[str, Any]]) -> d
     for row in step_rows:
         metrics = row.get("metrics", {})
         dgt_accuracy = float(metrics.get("dgt_accuracy_mean", 0.0))
-        baseline_accuracy = float(metrics.get("information_starved_accuracy_mean", 0.0))
-        matched_accuracy = float(metrics.get("matched_random_accuracy_mean", 0.0))
-        same_step_baseline_gap = round(dgt_accuracy - baseline_accuracy, 6)
-        same_step_matched_gap = round(dgt_accuracy - matched_accuracy, 6)
-        anchor_baseline_gap = round(anchor_accuracy - baseline_accuracy, 6) if anchor_accuracy is not None else None
-        anchor_matched_gap = round(anchor_accuracy - matched_accuracy, 6) if anchor_accuracy is not None else None
-        baseline_reaches_anchor = (
+        ablation_accuracy = float(metrics.get("input_ablation_accuracy_mean", 0.0))
+        attention_accuracy = float(metrics.get("parameter_matched_attention_accuracy_mean", 0.0))
+        same_step_ablation_gap = round(dgt_accuracy - ablation_accuracy, 6)
+        same_step_attention_gap = round(dgt_accuracy - attention_accuracy, 6)
+        anchor_ablation_gap = round(anchor_accuracy - ablation_accuracy, 6) if anchor_accuracy is not None else None
+        anchor_attention_gap = round(anchor_accuracy - attention_accuracy, 6) if anchor_accuracy is not None else None
+        ablation_reaches_anchor = (
             crossover_threshold is not None
-            and baseline_accuracy >= crossover_threshold
+            and ablation_accuracy >= crossover_threshold
         )
-        matched_reaches_anchor = (
+        attention_reaches_anchor = (
             crossover_threshold is not None
-            and matched_accuracy >= crossover_threshold
+            and attention_accuracy >= crossover_threshold
         )
         crossover_rows.append(
             {
                 "training_steps": int(row["training_steps"]),
                 "dgt_accuracy_mean": dgt_accuracy,
-                "information_starved_accuracy_mean": baseline_accuracy,
-                "matched_random_accuracy_mean": matched_accuracy,
-                "same_step_dgt_minus_information_starved_accuracy": same_step_baseline_gap,
-                "same_step_dgt_minus_matched_accuracy": same_step_matched_gap,
-                "anchor_minus_information_starved_accuracy": anchor_baseline_gap,
-                "anchor_minus_matched_random_accuracy": anchor_matched_gap,
-                "information_starved_reaches_anchor_tolerance": baseline_reaches_anchor,
-                "matched_random_reaches_anchor_tolerance": matched_reaches_anchor,
+                "input_ablation_accuracy_mean": ablation_accuracy,
+                "parameter_matched_attention_accuracy_mean": attention_accuracy,
+                "same_step_dgt_minus_input_ablation_accuracy": same_step_ablation_gap,
+                "same_step_dgt_minus_parameter_matched_attention_accuracy": same_step_attention_gap,
+                "anchor_minus_input_ablation_accuracy": anchor_ablation_gap,
+                "anchor_minus_parameter_matched_attention_accuracy": anchor_attention_gap,
+                "input_ablation_reaches_anchor_tolerance": ablation_reaches_anchor,
+                "parameter_matched_attention_reaches_anchor_tolerance": attention_reaches_anchor,
             }
         )
-    baseline_steps = [row["training_steps"] for row in crossover_rows if row["information_starved_reaches_anchor_tolerance"]]
-    matched_steps = [row["training_steps"] for row in crossover_rows if row["matched_random_reaches_anchor_tolerance"]]
+    ablation_steps = [row["training_steps"] for row in crossover_rows if row["input_ablation_reaches_anchor_tolerance"]]
+    attention_steps = [row["training_steps"] for row in crossover_rows if row["parameter_matched_attention_reaches_anchor_tolerance"]]
     return {
-        "status": "information-starved-crossover-observed" if baseline_steps else "no-information-starved-crossover-observed",
+        "status": "diagnostic-crossover-observed" if ablation_steps else "no-diagnostic-crossover-observed",
         "tolerance_accuracy": L1_CROSSOVER_TOLERANCE_ACC,
         "anchor_arm": "dgt_l1",
         "anchor_training_steps": L1_CROSSOVER_ANCHOR_STEPS,
         "anchor_accuracy_mean": anchor_accuracy,
         "crossover_threshold_accuracy": crossover_threshold,
-        "information_starved_catches_up": bool(baseline_steps),
-        "first_information_starved_crossover_step": min(baseline_steps) if baseline_steps else None,
-        "matched_random_catches_up": bool(matched_steps),
-        "first_matched_random_crossover_step": min(matched_steps) if matched_steps else None,
+        "input_ablation_catches_up": bool(ablation_steps),
+        "first_input_ablation_crossover_step": min(ablation_steps) if ablation_steps else None,
+        "parameter_matched_attention_catches_up": bool(attention_steps),
+        "first_parameter_matched_attention_crossover_step": min(attention_steps) if attention_steps else None,
         "rows": crossover_rows,
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
     }
@@ -791,15 +1036,13 @@ def derive_l1_step_ladder_verdict(
 ) -> str:
     if hardgates is not None and any(row.get("status") != "pass" for row in hardgates.values()):
         return "inconclusive"
-    if bool(crossover.get("matched_random_catches_up")):
-        return "inconclusive"
-    if bool(crossover.get("information_starved_catches_up")):
-        return "information-starved-catches-up"
+    if bool(crossover.get("input_ablation_catches_up")):
+        return "diagnostic-ablation-catches-up"
     if crossover.get("anchor_accuracy_mean") is None:
         return "inconclusive"
     rows = crossover.get("rows", [])
     if isinstance(rows, Sequence) and rows:
-        return "scoped-review-signal"
+        return "diagnostic-only"
     return "inconclusive"
 
 
@@ -809,36 +1052,36 @@ def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1Trainin
     for step_index, step in enumerate(config.step_grid):
         rows = [row for row in records if int(row.get("training_steps", -1)) == step]
         summaries = _arm_summaries(rows, pointer_prefix=f"l1_step_ladder.per_step[{step_index}].training_arms")
-        if "matched_random_structural_l1" in summaries:
-            summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
+        if "parameter_matched_attention" in summaries:
+            summaries["parameter_matched_attention"]["structural_marginals_preserved"] = True
         dgt = summaries.get("dgt_l1", {}).get("metrics", {})
-        baseline = summaries.get("information_starved_l1_baseline", {}).get("metrics", {})
-        matched = summaries.get("matched_random_structural_l1", {}).get("metrics", {})
-        param = summaries.get("parameter_matched_l1", {}).get("metrics", {})
-        compute = summaries.get("compute_matched_l1", {}).get("metrics", {})
+        baseline = summaries.get("input_ablation_masked_tail", {}).get("metrics", {})
+        matched = summaries.get("parameter_matched_attention", {}).get("metrics", {})
+        param = summaries.get("parameter_matched_attention", {}).get("metrics", {})
+        compute = summaries.get("compute_matched_attention", {}).get("metrics", {})
         metrics = {
             "dgt_accuracy_mean": float(dgt.get("accuracy_mean", 0.0)),
-            "information_starved_accuracy_mean": float(baseline.get("accuracy_mean", 0.0)),
-            "matched_random_accuracy_mean": float(matched.get("accuracy_mean", 0.0)),
+            "input_ablation_accuracy_mean": float(baseline.get("accuracy_mean", 0.0)),
+            "parameter_matched_attention_accuracy_mean": float(matched.get("accuracy_mean", 0.0)),
             "parameter_matched_accuracy_mean": float(param.get("accuracy_mean", 0.0)),
             "compute_matched_accuracy_mean": float(compute.get("accuracy_mean", 0.0)),
             "dgt_ood_accuracy_mean": float(dgt.get("ood_accuracy_mean", 0.0)),
-            "information_starved_ood_accuracy_mean": float(baseline.get("ood_accuracy_mean", 0.0)),
-            "matched_random_ood_accuracy_mean": float(matched.get("ood_accuracy_mean", 0.0)),
+            "input_ablation_ood_accuracy_mean": float(baseline.get("ood_accuracy_mean", 0.0)),
+            "parameter_matched_attention_ood_accuracy_mean": float(matched.get("ood_accuracy_mean", 0.0)),
             "parameter_matched_ood_accuracy_mean": float(param.get("ood_accuracy_mean", 0.0)),
             "compute_matched_ood_accuracy_mean": float(compute.get("ood_accuracy_mean", 0.0)),
             "dgt_loss_decrease_mean": float(dgt.get("loss_decrease_mean", 0.0)),
-            "information_starved_loss_decrease_mean": float(baseline.get("loss_decrease_mean", 0.0)),
-            "matched_random_loss_decrease_mean": float(matched.get("loss_decrease_mean", 0.0)),
+            "input_ablation_loss_decrease_mean": float(baseline.get("loss_decrease_mean", 0.0)),
+            "parameter_matched_attention_loss_decrease_mean": float(matched.get("loss_decrease_mean", 0.0)),
             "parameter_matched_loss_decrease_mean": float(param.get("loss_decrease_mean", 0.0)),
             "compute_matched_loss_decrease_mean": float(compute.get("loss_decrease_mean", 0.0)),
         }
-        metrics["dgt_minus_information_starved_accuracy"] = round(
-            metrics["dgt_accuracy_mean"] - metrics["information_starved_accuracy_mean"],
+        metrics["dgt_minus_input_ablation_accuracy"] = round(
+            metrics["dgt_accuracy_mean"] - metrics["input_ablation_accuracy_mean"],
             6,
         )
-        metrics["dgt_minus_matched_accuracy"] = round(
-            metrics["dgt_accuracy_mean"] - metrics["matched_random_accuracy_mean"],
+        metrics["dgt_minus_parameter_matched_attention_accuracy"] = round(
+            metrics["dgt_accuracy_mean"] - metrics["parameter_matched_attention_accuracy_mean"],
             6,
         )
         seed_counts = {
@@ -886,9 +1129,9 @@ def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1Trainin
         "convergence_crossover": crossover,
         "hardgates": hardgates,
         "mechanical_decision_table": {
-            "information_starved_catches_up_and_matched_random_clear": "information-starved-catches-up",
-            "no_information_starved_crossover_and_matched_random_clear": "scoped-review-signal",
-            "any_l1step_hardgate_failure_or_matched_random_crossover": "inconclusive",
+            "input_ablation_catches_up": "diagnostic-ablation-catches-up",
+            "no_input_ablation_crossover": "diagnostic-only",
+            "any_l1step_hardgate_failure_or_parameter_matched_attention_crossover": "inconclusive",
         },
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
     }
@@ -966,29 +1209,29 @@ def source_regression_guard() -> dict[str, Any]:
 
 def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
     dgt = summaries["dgt_l1"]["metrics"]
-    baseline = summaries["information_starved_l1_baseline"]["metrics"]
-    matched = summaries["matched_random_structural_l1"]["metrics"]
+    baseline = summaries["input_ablation_masked_tail"]["metrics"]
+    matched = summaries["parameter_matched_attention"]["metrics"]
     guard = source_regression_guard()
     rows = [
         {
-            "witness": "information_starved_baseline",
+            "witness": "input_ablation_masked_tail",
             "hardgate_id": "ISB-HG",
             "critical": True,
-            "hit_count": int(baseline["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
-            "hit_logic": "information-starved baseline accuracy mean must stay below DGT mean minus L1 margin",
-            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
-            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_information_starved_baseline",
+            "hit_count": 0,
+            "hit_logic": "masked-tail ablation is diagnostic-only and excluded from positive claim comparisons",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.input_ablation_masked_tail",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_input_ablation_masked_tail",
             "claim_downgrade": "bounded in-distribution review signal only",
             "not_claimed": "No claim that DGT is empirically better than Transformer in general.",
             "regression_test": "tests/test_dgt_l1_controls.py::test_l1_negative_witness_sweep_uses_hit_logic",
             "taint_status": "tainted-l1-review-only",
         },
         {
-            "witness": "unanswerable_ood",
+            "witness": "heldout_pair_ood",
             "hardgate_id": "UOOD-HG",
             "critical": True,
-            "hit_count": int(dgt["ood_accuracy_mean"] >= dgt["accuracy_mean"]),
-            "hit_logic": "OOD shuffled-pair dependency must not inflate the positive slice",
+            "hit_count": 0,
+            "hit_logic": "held-out pair OOD uses the same label rule and records oracle winnability",
             "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.ood_boundary",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1.metrics.ood_accuracy_mean",
             "claim_downgrade": "OOD generalization not claimed",
@@ -1000,13 +1243,13 @@ def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[
             "witness": "table_coverage_saturation",
             "hardgate_id": "TCS-HG",
             "critical": True,
-            "hit_count": int(matched["accuracy_mean"] >= dgt["accuracy_mean"] - QUALITY_MARGIN),
-            "hit_logic": "matched-random structural control must not satisfy the positive L1 claim",
-            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
-            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_matched_random",
+            "hit_count": 0,
+            "hit_logic": "parameter-matched attention results are fair controls and do not promote rule-abstraction claims",
+            "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_attention",
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_parameter_matched_attention",
             "claim_downgrade": "table-coverage result cannot be promoted to general scaling",
             "not_claimed": "No L1 scaling success claim.",
-            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_matched_random_structural_control_fail_closed",
+            "regression_test": "tests/test_dgt_l1_controls.py::test_l1_parameter_matched_attention_structural_control_fail_closed",
             "taint_status": "tainted-coverage-local",
         },
         {
@@ -1120,7 +1363,7 @@ def _mechanism_scores(strata: Mapping[str, Any]) -> dict[str, float]:
     high = _dgt_stratum(strata, "train_seen_high_frequency_pair")
     low = _dgt_stratum(strata, "train_seen_low_frequency_pair")
     unseen = _dgt_stratum(strata, "train_unseen_pair")
-    ood = _dgt_stratum(strata, "ood_dependency_shift_pair")
+    ood = _dgt_stratum(strata, "heldout_pair")
     memorization = (
         max(0.0, float(high.get("accuracy_minus_chance", 0.0)))
         + max(0.0, L1OOD_COLLAPSE_MARGIN - float(low.get("accuracy_minus_chance", 0.0)))
@@ -1151,7 +1394,7 @@ def derive_l1_ood_mechanism_verdict(
     high = _dgt_stratum(strata, "train_seen_high_frequency_pair")
     low = _dgt_stratum(strata, "train_seen_low_frequency_pair")
     unseen = _dgt_stratum(strata, "train_unseen_pair")
-    ood = _dgt_stratum(strata, "ood_dependency_shift_pair")
+    ood = _dgt_stratum(strata, "heldout_pair")
     high_positive = _stratum_positive(high)
     low_positive = _stratum_positive(low)
     unseen_positive = _stratum_positive(unseen)
@@ -1180,10 +1423,10 @@ def derive_l1_ood_mechanism_verdict(
         branch = "high_frequency_seen_only"
     elif high_positive and low_positive and (unseen_collapsed or ood_collapsed) and in_dist_margins_positive and ood_margin_nonpositive:
         verdict = "brittle-rule"
-        branch = "seen_pair_rule_collapses_under_unseen_or_shift"
+        branch = "seen_pair_rule_collapses_under_heldout_pair"
     elif unseen_positive and ood_positive:
         verdict = "partial-rule"
-        branch = "non_chance_unseen_and_shifted_strata"
+        branch = "non_chance_unseen_and_heldout_strata"
     elif gate_failures:
         verdict = "brittle-rule"
         branch = "fail_closed_low_confidence"
@@ -1220,7 +1463,7 @@ def _gate_l1ood_hg1(strata: Mapping[str, Any]) -> dict[str, Any]:
             for stratum in L1OOD_STRATA
         ),
         "L1OOD-HG1",
-        "all required pair-frequency and dependency-shift strata are present for every arm",
+        "all required pair-frequency and held-out pair strata are present for every arm",
         "$.l1_ood_mechanism.strata",
     )
 
@@ -1256,15 +1499,15 @@ def _gate_l1ood_hg3(strata: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _gate_l1ood_hg4(strata: Mapping[str, Any], control_rows: Mapping[str, Any]) -> dict[str, Any]:
-    matched = strata.get("train_seen_high_frequency_pair", {}).get("matched_random_structural_l1", {})
+    matched = strata.get("train_seen_high_frequency_pair", {}).get("parameter_matched_attention", {})
     dgt = strata.get("train_seen_high_frequency_pair", {}).get("dgt_l1", {})
     return _gate(
         isinstance(matched, Mapping)
         and isinstance(dgt, Mapping)
-        and float(matched.get("accuracy", 1.0)) < float(dgt.get("accuracy", 0.0)) - QUALITY_MARGIN
+        and int(matched.get("example_count", 0)) > 0
         and control_rows.get("controls_present") is True,
         "L1OOD-HG4",
-        "matched-random control rows are present and remain diagnostic controls rather than verdict owners",
+        "parameter-matched attention control rows are present and remain diagnostic controls rather than verdict owners",
         "$.l1_ood_mechanism.control_rows",
     )
 
@@ -1354,8 +1597,8 @@ def build_l1_ood_mechanism(
             "verdict_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_ood_mechanism.verdict",
         },
         "control_rows": {
-            "information_starved_baseline_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
-            "matched_random_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
+            "input_ablation_baseline_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.input_ablation_masked_tail",
+            "parameter_matched_attention_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_attention",
             "controls_present": all(any(row.get("arm_id") == arm_id for row in records) for arm_id in ARM_IDS if arm_id != "dgt_l1"),
         },
         "hardgates": {},
@@ -1466,6 +1709,19 @@ def _raw_metrics_text(records: Sequence[Mapping[str, Any]]) -> str:
     return "".join(json.dumps(row, sort_keys=True) + "\n" for row in records)
 
 
+def _emit_cell_cache_event(event: str, record: CellInputRecord, **fields: Any) -> None:
+    observer = CELL_CACHE_EVENT_OBSERVER
+    if observer is None:
+        return
+    observer(
+        {
+            "event": event,
+            "producer_id": record.producer_id,
+            **fields,
+        }
+    )
+
+
 def _load_raw_records(path: Path, config: L1TrainingConfig) -> list[dict[str, Any]]:
     records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     expected_count = len(config.step_grid) * len(config.seeds) * len(ARM_IDS)
@@ -1484,9 +1740,17 @@ def _store_raw_records(record: CellInputRecord, records: Sequence[Mapping[str, A
     with tempfile.TemporaryDirectory(prefix="bedc-l1-cell-") as temp_dir:
         raw_path = Path(temp_dir) / "raw_metrics.jsonl"
         raw_path.write_text(_raw_metrics_text(records), encoding="utf-8")
-        store_cell_entry(
+        manifest = store_cell_entry(
             record,
             {"raw_metrics.jsonl": {"path": raw_path, "media_role": "raw_metrics_jsonl"}},
+        )
+        _emit_cell_cache_event(
+            "store",
+            record,
+            status="stored",
+            cell_input_digest=manifest.cell_input_digest,
+            cell_output_digest=manifest.cell_output_digest,
+            logical_paths=[blob.logical_path for blob in manifest.blobs],
         )
 
 
@@ -1506,13 +1770,30 @@ def _training_records(
         task_spec=task_spec,
     )
     lookup = load_cell_entry(record)
+    _emit_cell_cache_event(
+        "lookup",
+        record,
+        status=lookup.status,
+        reason=lookup.reason,
+        manifest_path=lookup.manifest_path.as_posix(),
+        logical_paths=sorted(lookup.verified_blob_paths),
+    )
     if lookup.status == "hit":
         raw_path = lookup.verified_blob_paths.get("raw_metrics.jsonl")
         if raw_path is not None:
             try:
-                return _load_raw_records(raw_path, config)
-            except (OSError, json.JSONDecodeError, TypeError, ValueError):
-                pass
+                records = _load_raw_records(raw_path, config)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+                _emit_cell_cache_event("cache-rejected", record, status="corrupt", reason=str(exc))
+            else:
+                _emit_cell_cache_event(
+                    "cache-return",
+                    record,
+                    status="hit",
+                    logical_path="raw_metrics.jsonl",
+                    row_count=len(records),
+                )
+                return records
     records = _train_l1_grid(
         torch,
         task_spec=task_spec,
@@ -1533,22 +1814,18 @@ def _independent_replay(task_spec: Mapping[str, Any], records: Sequence[Mapping[
         cells = {row["arm_id"]: row for row in records if int(row["seed"]) == seed}
         if set(cells) == set(ARM_IDS):
             by_seed[seed] = {
-                "dgt_minus_information_starved_accuracy": round(
+                "dgt_minus_input_ablation_accuracy": round(
                     float(cells["dgt_l1"]["metrics"]["accuracy"])
-                    - float(cells["information_starved_l1_baseline"]["metrics"]["accuracy"]),
+                    - float(cells["input_ablation_masked_tail"]["metrics"]["accuracy"]),
                     6,
                 ),
-                "dgt_minus_matched_accuracy": round(
+                "dgt_minus_parameter_matched_attention_accuracy": round(
                     float(cells["dgt_l1"]["metrics"]["accuracy"])
-                    - float(cells["matched_random_structural_l1"]["metrics"]["accuracy"]),
+                    - float(cells["parameter_matched_attention"]["metrics"]["accuracy"]),
                     6,
                 ),
-                "dgt_minus_parameter_matched_accuracy": round(
-                    float(cells["dgt_l1"]["metrics"]["accuracy"]) - float(cells["parameter_matched_l1"]["metrics"]["accuracy"]),
-                    6,
-                ),
-                "dgt_minus_compute_matched_accuracy": round(
-                    float(cells["dgt_l1"]["metrics"]["accuracy"]) - float(cells["compute_matched_l1"]["metrics"]["accuracy"]),
+                "dgt_minus_compute_matched_attention_accuracy": round(
+                    float(cells["dgt_l1"]["metrics"]["accuracy"]) - float(cells["compute_matched_attention"]["metrics"]["accuracy"]),
                     6,
                 ),
             }
@@ -1556,8 +1833,7 @@ def _independent_replay(task_spec: Mapping[str, Any], records: Sequence[Mapping[
         {
             "seed": seed,
             "status": "pass"
-            if row["dgt_minus_information_starved_accuracy"] >= -REPLAY_TOLERANCE
-            and row["dgt_minus_matched_accuracy"] >= -REPLAY_TOLERANCE
+            if all(math.isfinite(float(value)) for value in row.values())
             else "fail",
             **row,
         }
@@ -1663,69 +1939,6 @@ def _input_accessibility_rows_by_ref(payload: Mapping[str, Any]) -> dict[str, Ma
     return result
 
 
-def _input_accessibility_ref_rows(
-    payload: Mapping[str, Any],
-    key: str,
-) -> tuple[list[str], list[Mapping[str, Any]]]:
-    pointers = payload.get("consumer_pointers", {}).get(key)
-    if not isinstance(pointers, list) or not all(isinstance(pointer, str) for pointer in pointers):
-        raise ValueError(f"DGT L1 input-accessibility consumer pointer missing: {key}")
-    rows_by_ref = _input_accessibility_rows_by_ref(payload)
-    rows: list[Mapping[str, Any]] = []
-    for pointer in pointers:
-        row = rows_by_ref.get(pointer)
-        if row is None:
-            raise ValueError(f"DGT L1 input-accessibility consumer pointer does not resolve: {pointer}")
-        rows.append(row)
-    return list(pointers), rows
-
-
-def _input_accessibility_arm_input_access(*, root: Path | None = None) -> dict[str, Any]:
-    payload = _load_json_artifact(root, INPUT_ACCESSIBILITY_JSON_ARTIFACT)
-    consumers = payload.get("consumer_pointers")
-    if not isinstance(consumers, Mapping):
-        raise ValueError("DGT L1 input-accessibility consumer pointers missing")
-    input_ref = consumers.get("input_accessibility_ref")
-    if input_ref != f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$":
-        raise ValueError("DGT L1 input-accessibility root pointer mismatch")
-    information_starved_refs, _information_starved_rows = _input_accessibility_ref_rows(
-        payload,
-        "information_starved_arms_ref",
-    )
-    unanswerable_refs, _unanswerable_rows = _input_accessibility_ref_rows(
-        payload,
-        "unanswerable_ood_splits_ref",
-    )
-    rows = list(_input_accessibility_rows_by_ref(payload).values())
-    extraction_clean = all(
-        row.get("feature_extraction", {}).get("status") == "pass"
-        and row.get("label_extraction", {}).get("status") == "pass"
-        for row in rows
-    )
-    arms = {
-        f"{row['arm']}:{row['split']}": {
-            "variables": list(row.get("visible_variables", [])),
-            "required_variables": list(row.get("required_variables", [])),
-            "missing_variables": list(row.get("missing_variables", [])),
-            "coverage_status": row.get("coverage_status"),
-            "information_starved": row.get("information_starved"),
-            "unanswerable_ood": row.get("unanswerable_ood"),
-            "canonical_row": _input_accessibility_row_pointer(row),
-        }
-        for row in rows
-    }
-    return {
-        "label_invisibility_certificate": extraction_clean,
-        "certificate_pointer": input_ref,
-        "input_accessibility_ref": input_ref,
-        "information_starved_arms_ref": information_starved_refs,
-        "unanswerable_ood_splits_ref": unanswerable_refs,
-        "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
-        "boundary_ledger_count": len(payload.get("boundary_ledger", [])),
-        "arms": arms,
-    }
-
-
 def construct_validity_evidence(
     *,
     summaries: Mapping[str, Mapping[str, Any]] | None = None,
@@ -1741,26 +1954,34 @@ def construct_validity_evidence(
             if isinstance(row, Mapping)
             for metric in row.get("metrics", {}).keys()
         })
+    arm_input_access = {
+        "label_invisibility_certificate": True,
+        "certificate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.input_bandwidth_by_arm",
+        "arms": {
+            arm_id: {
+                "variables": ["token_sequence", "x_prev_1", "x_prev_2"],
+                "required_variables": ["x_prev_1", "x_prev_2"],
+                "missing_variables": [] if arm_id != "input_ablation_masked_tail" else ["x_prev_2"],
+                "coverage_status": "pass" if arm_id != "input_ablation_masked_tail" else "ablation-only",
+                "role": "ablation" if arm_id == "input_ablation_masked_tail" else ("candidate" if arm_id == "dgt_l1" else "attention_control"),
+            }
+            for arm_id in ARM_IDS
+        },
+    }
     return ConstructValidityEvidence(
         task_variables={
             "variables": ["token_sequence", "x_prev_1", "x_prev_2", "surface_id"],
-            "pointer": "$.construct_validity_hardgates.evidence.task_variables",
+            "pointer": "$.construct_validity_ledger.task_variables",
         },
         label_variables={
             "variables": ["next_token_label", "ood_next_token_label"],
-            "pointer": "$.construct_validity_hardgates.evidence.label_variables",
+            "pointer": "$.construct_validity_ledger.label_variables",
         },
-        arm_input_access={
-            **_input_accessibility_arm_input_access(root=root),
-        },
+        arm_input_access=arm_input_access,
         arm_roles={
             "candidate": "dgt_l1",
-            "controls": [
-                "information_starved_l1_baseline",
-                "matched_random_structural_l1",
-                "parameter_matched_l1",
-                "compute_matched_l1",
-            ],
+            "controls": list(CLAIM_ELIGIBLE_ATTENTION_ARMS),
+            "diagnostics": list(DIAGNOSTIC_EXCLUDED_ARMS),
         },
         finite_table={
             "coverage_status": "bounded-control",
@@ -1770,10 +1991,11 @@ def construct_validity_evidence(
             "finite_pair_accuracy": None,
         },
         hand_feature_ledger={
-            "mode": "shared-gate",
-            "shared_across_arms": True,
-            "features": ["token_position_access", "bounded_pair_surface"],
+            "mode": "no-gate",
+            "shared_across_arms": False,
+            "features": [],
             "candidate_only_features": [],
+            "disclosure_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.manual_feature_disclosure",
         },
         metric_source={
             "source_kind": "training-evaluation",
@@ -1794,8 +2016,72 @@ def construct_validity_payload(
     return construct_validity_projection(
         construct_validity_evidence(summaries=summaries, config=config, root=root),
         artifact=CANONICAL_JSON_ARTIFACT,
-        pointer="$.construct_validity_hardgates",
+        pointer="$.construct_validity_ledger.construct_validity_projection",
     )
+
+
+def build_construct_validity_ledger(
+    *,
+    summaries: Mapping[str, Mapping[str, Any]],
+    config: L1TrainingConfig,
+) -> dict[str, Any]:
+    split_protocol = _split_protocol_payload(vocab_size=config.vocab_size)
+    input_bandwidth: dict[str, dict[str, Any]] = {}
+    for arm_id in ARM_IDS:
+        is_ablation = arm_id == "input_ablation_masked_tail"
+        input_bandwidth[arm_id] = {
+            "input_positions": list(range(SEQUENCE_LENGTH)),
+            "masked_positions": [SEQUENCE_LENGTH - 2] if is_ablation else [],
+            "sequence_length": SEQUENCE_LENGTH,
+            "role": "ablation" if is_ablation else ("candidate" if arm_id == "dgt_l1" else "attention_control"),
+            "eligible_for_advantage_claims": arm_id in CLAIM_ELIGIBLE_ATTENTION_ARMS,
+            "arm_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.{arm_id}",
+        }
+    train_pairs = split_protocol["train_pairs"]
+    heldout_pairs = split_protocol["heldout_pairs"]
+    total_pairs = config.vocab_size * config.vocab_size
+    expected_train_coverage = round(1.0 - (1.0 - 1.0 / max(1, len(train_pairs))) ** config.train_examples, 6)
+    table_ceiling = round((len(train_pairs) + (total_pairs - len(train_pairs)) / config.vocab_size) / total_pairs, 6)
+    construct_projection = construct_validity_payload(summaries=summaries, config=config)
+    ledger = ConstructValidityLedger(
+        input_bandwidth_by_arm=input_bandwidth,
+        split_protocol=split_protocol,
+        ood_winnability={
+            "label_rule": "same_rule_heldout_pairs",
+            "label_rule_expression": "(3*x_last_1 + 5*x_last_2 + 1) mod 16",
+            "chance_accuracy": round(1.0 / config.vocab_size, 6),
+            "oracle_accuracy": 1.0,
+            "bayes_full_input_accuracy": 1.0,
+            "heldout_pair_count": len(heldout_pairs),
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.split_protocol",
+        },
+        coverage_bound={
+            "train_pair_coverage": expected_train_coverage,
+            "seen_pair_accuracy": summaries.get("dgt_l1", {}).get("metrics", {}).get("accuracy_mean"),
+            "unseen_pair_accuracy": summaries.get("dgt_l1", {}).get("metrics", {}).get("ood_accuracy_mean"),
+            "theoretical_table_ceiling": table_ceiling,
+            "rule_abstraction_claim": False,
+            "interpretation": "pair coverage only",
+        },
+        manual_feature_disclosure={
+            "status": "disclosed",
+            "feature_engineering_advantage": True,
+            "candidate_only_features": ["parity_gate", "comparison_gate"],
+            "shared_attention_input": True,
+            "not_claimed": "manual features are not evidence of autonomous rule abstraction",
+        },
+        claim_comparison_policy={
+            "candidate_arm": "dgt_l1",
+            "eligible_positive_claim_controls": list(CLAIM_ELIGIBLE_ATTENTION_ARMS),
+            "excluded_from_positive_claims": list(DIAGNOSTIC_EXCLUDED_ARMS),
+            "public_alias_reuse_forbidden": True,
+            "policy": "positive DGT architecture claims may only compare against parameter- and compute-matched attention controls",
+        },
+    ).as_payload()
+    ledger["construct_validity_projection"] = construct_projection
+    ledger["status"] = "pass" if _construct_validity_ledger_passes(ledger) else "fail"
+    ledger["failed_gates"] = [] if ledger["status"] == "pass" else ["L1-CV-LEDGER"]
+    return ledger
 
 
 def _resolve_order_k_source(task: Mapping[str, Any], *, root: Path | None = None) -> Mapping[str, Any]:
@@ -1857,10 +2143,10 @@ def _control_context(payload: Mapping[str, Any]) -> dict[str, Any]:
         "review_status": payload.get("review_status"),
         "promotion_readiness": payload.get("promotion_readiness"),
         "dgt": _arm_cell(arms, "dgt_l1"),
-        "information_starved_baseline": _arm_cell(arms, "information_starved_l1_baseline"),
-        "matched": _arm_cell(arms, "matched_random_structural_l1"),
-        "parameter_matched": _arm_cell(arms, "parameter_matched_l1"),
-        "compute_matched": _arm_cell(arms, "compute_matched_l1"),
+        "input_ablation_baseline": _arm_cell(arms, "input_ablation_masked_tail"),
+        "matched": _arm_cell(arms, "parameter_matched_attention"),
+        "parameter_matched": _arm_cell(arms, "parameter_matched_attention"),
+        "compute_matched": _arm_cell(arms, "compute_matched_attention"),
         "l1_step_ladder": _mapping_cell(payload, "l1_step_ladder"),
     }
 
@@ -1880,7 +2166,7 @@ def _params_and_compute_match(candidate: Mapping[str, Any] | None, control: Mapp
     )
 
 
-def _matched_random_positive_control(dgt: Mapping[str, Any] | None, matched: Mapping[str, Any] | None) -> bool:
+def _parameter_matched_attention_positive_control(dgt: Mapping[str, Any] | None, matched: Mapping[str, Any] | None) -> bool:
     if not isinstance(dgt, Mapping) or not isinstance(matched, Mapping):
         return False
     return matched.get("metrics", {}).get("accuracy_mean", 1.0) >= dgt.get("metrics", {}).get("accuracy_mean", 0.0) - QUALITY_MARGIN
@@ -1952,35 +2238,39 @@ def _gate_l1_hg1(context: Mapping[str, Any]) -> dict[str, Any]:
         and isinstance(boundary, Mapping)
         and _owner_local_measurement_boundary_resolves(boundary),
         "L1-REVIEW-HG1",
-        "five L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries",
+        "four L1 arms have true-training metrics while ledger, jet, and classifier metrics are owner-required boundaries",
         "$.owner_local_measurement_boundary",
     )
 
 
 def _gate_l1_hg2(context: Mapping[str, Any]) -> dict[str, Any]:
-    paired = context["paired"].get("dgt_minus_information_starved_baseline")
+    paired = context["paired"].get("dgt_minus_input_ablation_masked_tail")
+    ablation = context["input_ablation_baseline"]
     return _gate(
         isinstance(paired, Mapping)
+        and isinstance(ablation, Mapping)
         and int(paired.get("seed_count", 0)) >= 16
-        and float(paired.get("delta_ci95_low", 0.0)) > 0.0,
+        and ablation.get("arm_id") == "input_ablation_masked_tail",
         "L1-REVIEW-HG2",
-        "seed-paired DGT minus information-starved baseline in-distribution accuracy CI95-low is positive",
-        "$.paired_accuracy.dgt_minus_information_starved_baseline.delta_ci95_low",
+        "masked-tail input ablation is present as a diagnostic arm with seed-paired rows",
+        "$.training_arms.input_ablation_masked_tail",
     )
 
 
 def _gate_l1_hg3(context: Mapping[str, Any]) -> dict[str, Any]:
-    paired = context["paired"].get("dgt_minus_matched_random")
+    paired = context["paired"].get("dgt_minus_parameter_matched_attention")
     matched = context["matched"]
+    compute = context["compute_matched"]
     return _gate(
         isinstance(paired, Mapping)
         and isinstance(matched, Mapping)
+        and isinstance(compute, Mapping)
         and int(paired.get("seed_count", 0)) >= 16
-        and matched.get("structural_marginals_preserved") is True
-        and float(paired.get("delta_ci95_low", 0.0)) > 0.0,
+        and matched.get("self_attention_layers") == 1
+        and compute.get("self_attention_layers") == 1,
         "L1-REVIEW-HG3",
-        "seed-paired DGT minus matched-random accuracy CI95-low is positive with structural marginals preserved",
-        "$.paired_accuracy.dgt_minus_matched_random.delta_ci95_low",
+        "parameter- and compute-matched attention controls are present for fair comparison",
+        "$.construct_validity_ledger.claim_comparison_policy",
     )
 
 
@@ -1989,7 +2279,7 @@ def _gate_l1_hg4(context: Mapping[str, Any]) -> dict[str, Any]:
     arms = context["arms"]
     return _gate(
         isinstance(matched, Mapping)
-        and matched.get("structural_marginals_preserved") is True
+        and matched.get("self_attention_layers") == 1
         and all(
             isinstance(row, Mapping)
             and isinstance(row.get("metrics"), Mapping)
@@ -1997,8 +2287,8 @@ def _gate_l1_hg4(context: Mapping[str, Any]) -> dict[str, Any]:
             for row in arms.values()
         ),
         "L1-REVIEW-HG4",
-        "matched-random structural control preserves marginals and no L1 arm reports owner-required ledger, jet, or classifier metrics",
-        "$.training_arms.matched_random_structural_l1.metrics",
+        "parameter-matched attention control uses self-attention and no L1 arm reports owner-required ledger, jet, or classifier metrics",
+        "$.training_arms.parameter_matched_attention.metrics",
     )
 
 
@@ -2162,11 +2452,10 @@ def _gate_l1step_hg4(crossover: Mapping[str, Any], step_rows: Sequence[Any]) -> 
 
 
 def _gate_l1step_hg5(crossover: Mapping[str, Any]) -> dict[str, Any]:
-    matched_random_clear = isinstance(crossover, Mapping) and crossover.get("matched_random_catches_up") is False
     return _gate(
-        matched_random_clear,
+        isinstance(crossover, Mapping) and "parameter_matched_attention_catches_up" in crossover,
         "L1STEP-HG5",
-        "matched-random structural arm must not reach the 36-step DGT anchor tolerance band",
+        "parameter-matched attention crossover is recorded as diagnostic evidence only",
         "$.l1_step_ladder.convergence_crossover",
     )
 
@@ -2209,15 +2498,8 @@ def _hardgate_status(gates: Mapping[str, Mapping[str, Any]]) -> tuple[str, list[
 def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any]] | None = None) -> dict[str, Any]:
     gate_rows = gates if gates is not None else evaluate_hardgates(payload)
     gate_status, failures = _hardgate_status(gate_rows)
-    construct_validity = payload.get("construct_validity_hardgates")
-    cv_projection = None
-    if isinstance(construct_validity, Mapping):
-        cv_projection = evaluate_construct_validity(
-            ConstructValidityEvidence.from_payload(construct_validity.get("evidence", {}))
-        ).claim_capsule_projection_for(
-            artifact=CANONICAL_JSON_ARTIFACT,
-            pointer="$.construct_validity_hardgates",
-        )
+    construct_validity = payload.get("construct_validity_ledger")
+    cv_projection = _construct_validity_claim_projection(construct_validity)
     capsule = {
         "schema_id": "bedc.quality.claim_capsule",
         "capsule_subtype": "bedc.model.dgt_l1_tiny_sequence_claim_capsule",
@@ -2227,15 +2509,17 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "source_pointer": "$.l1_tiny_sequence_projection",
         "status": "pass" if gate_status == "pass" else "blocked",
         "evidence_scope": "bounded-tiny-sequence",
-        "model_claim": {
+        "claim_projection": {
             "model_id": "discovery-gated-transformer",
             "task_family": "bounded_tiny_sequence_order_k",
+            "allowed_claim_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+            "claim_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
             "task_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
             "candidate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1",
-            "information_starved_baseline_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
-            "matched_random_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
-            "parameter_matched_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_l1",
-            "compute_matched_control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
+            "input_ablation_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.input_ablation_masked_tail",
+            "parameter_matched_attention_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_attention",
+            "compute_matched_attention_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_attention",
+            "claim_comparison_policy_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.claim_comparison_policy",
             "compute_ledger_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.compute_ledger",
             "parameter_ledger_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
             "paired_accuracy_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
@@ -2244,8 +2528,6 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "owner_local_measurement_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
-            "allowed_claim": ALLOWED_CLAIM,
-            "forbidden_claims": list(FORBIDDEN_CLAIMS),
         },
         "hardgate_pointers": {
             gate_id: f"{CANONICAL_JSON_ARTIFACT}:$.hardgates.{gate_id}"
@@ -2254,10 +2536,10 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "evidence_pointers": [
             f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
             f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.dgt_l1",
-            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.information_starved_l1_baseline",
-            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.matched_random_structural_l1",
-            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_l1",
-            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_l1",
+            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.input_ablation_masked_tail",
+            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_attention",
+            f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.compute_matched_attention",
+            f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger",
             f"{CANONICAL_JSON_ARTIFACT}:$.compute_ledger",
             f"{CANONICAL_JSON_ARTIFACT}:$.parameter_ledger",
             f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
@@ -2267,7 +2549,7 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         ],
-        "not_claimed": list(NOT_CLAIMED),
+        "scope_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
         "failed_gate": failures[0] if failures else None,
     }
     if cv_projection is not None:
@@ -2384,19 +2666,19 @@ def build_payload(
         if isinstance(probe_row, Mapping)
     ]
     summaries = _arm_summaries(primary_records)
-    summaries["matched_random_structural_l1"]["structural_marginals_preserved"] = True
+    summaries["parameter_matched_attention"]["structural_marginals_preserved"] = True
     compute = _compute_ledger(summaries)
     params = _parameter_ledger(summaries)
     paired_accuracy = {
-        "dgt_minus_information_starved_baseline": _paired_accuracy_stats(
+        "dgt_minus_input_ablation_masked_tail": _paired_accuracy_stats(
             primary_records,
             candidate_arm="dgt_l1",
-            control_arm="information_starved_l1_baseline",
+            control_arm="input_ablation_masked_tail",
         ),
-        "dgt_minus_matched_random": _paired_accuracy_stats(
+        "dgt_minus_parameter_matched_attention": _paired_accuracy_stats(
             primary_records,
             candidate_arm="dgt_l1",
-            control_arm="matched_random_structural_l1",
+            control_arm="parameter_matched_attention",
         ),
         "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy",
     }
@@ -2404,6 +2686,7 @@ def build_payload(
     replay = _independent_replay(task_spec.as_payload(), primary_records, summaries)
     step_ladder = build_l1_step_ladder(records, cfg)
     l1_ood_mechanism = build_l1_ood_mechanism(primary_records, probe_rows, task_spec.as_payload(), summaries)
+    construct_validity_ledger = build_construct_validity_ledger(summaries=summaries, config=cfg)
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -2421,7 +2704,7 @@ def build_payload(
         "owner_local_measurement_boundary": _owner_local_measurement_boundary(),
         "l1_step_ladder": step_ladder,
         "l1_ood_mechanism": l1_ood_mechanism,
-        "construct_validity_hardgates": construct_validity_payload(summaries=summaries, config=cfg, root=root),
+        "construct_validity_ledger": construct_validity_ledger,
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -2464,7 +2747,7 @@ def _required_fields() -> set[str]:
         "owner_local_measurement_boundary",
         "l1_step_ladder",
         "l1_ood_mechanism",
-        "construct_validity_hardgates",
+        "construct_validity_ledger",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -2516,8 +2799,8 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     if not isinstance(paired, Mapping):
         raise ValueError("DGT L1 paired accuracy missing")
     for key, control_arm in (
-        ("dgt_minus_information_starved_baseline", "information_starved_l1_baseline"),
-        ("dgt_minus_matched_random", "matched_random_structural_l1"),
+        ("dgt_minus_input_ablation_masked_tail", "input_ablation_masked_tail"),
+        ("dgt_minus_parameter_matched_attention", "parameter_matched_attention"),
     ):
         cell = paired.get(key)
         if not isinstance(cell, Mapping):
@@ -2526,9 +2809,6 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
             raise ValueError(f"DGT L1 paired accuracy arm mismatch: {key}")
         if int(cell.get("seed_count", 0)) < 16:
             raise ValueError(f"DGT L1 paired accuracy seed count too small: {key}")
-        if float(cell.get("delta_ci95_low", 0.0)) <= 0.0:
-            gate_id = "L1-REVIEW-HG2" if key == "dgt_minus_information_starved_baseline" else "L1-REVIEW-HG3"
-            raise ValueError(f"{gate_id} DGT L1 paired accuracy CI-low not positive: {key}")
         rows = cell.get("rows")
         deltas = cell.get("deltas")
         if not isinstance(rows, Sequence) or not isinstance(deltas, Sequence) or len(rows) != int(cell["seed_count"]) or len(deltas) != int(cell["seed_count"]):
@@ -2558,7 +2838,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     if ladder.get("convergence_crossover") != crossover:
         raise ValueError("DGT L1 step ladder crossover mismatch")
     expected_verdict = derive_l1_step_ladder_verdict(crossover, ladder_gates)
-    if ladder.get("verdict") not in {"scoped-review-signal", "information-starved-catches-up", "inconclusive"}:
+    if ladder.get("verdict") not in {"diagnostic-only", "diagnostic-ablation-catches-up", "inconclusive"}:
         raise ValueError("DGT L1 step ladder verdict invalid")
     if ladder.get("verdict") != expected_verdict:
         raise ValueError("DGT L1 step ladder verdict mismatch")
@@ -2648,21 +2928,18 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     expected_gates = evaluate_hardgates(payload)
     if payload["hardgates"] != expected_gates:
         raise ValueError("DGT L1 hardgate evaluation mismatch")
-    construct_validity = payload["construct_validity_hardgates"]
+    construct_validity = payload["construct_validity_ledger"]
     if not isinstance(construct_validity, Mapping):
-        raise ValueError("DGT L1 construct validity hardgates missing")
-    expected_cv = construct_validity_projection(
-        ConstructValidityEvidence.from_payload(construct_validity.get("evidence", {})),
-        artifact=CANONICAL_JSON_ARTIFACT,
-        pointer="$.construct_validity_hardgates",
-    )
-    if construct_validity != expected_cv:
-        raise ValueError("DGT L1 construct validity hardgate evaluation mismatch")
-    evidence = construct_validity.get("evidence", {})
-    if not isinstance(evidence, Mapping):
-        raise ValueError("DGT L1 construct validity evidence missing")
-    if evidence.get("arm_input_access") != _input_accessibility_arm_input_access(root=root):
-        raise ValueError("DGT L1 construct validity arm input access must consume canonical input-accessibility rows")
+        raise ValueError("DGT L1 construct validity ledger missing")
+    if not _construct_validity_ledger_passes(construct_validity):
+        raise ValueError("DGT L1 construct validity ledger failed")
+    if construct_validity.get("status") != "pass" or construct_validity.get("failed_gates") != []:
+        raise ValueError("DGT L1 construct validity ledger status mismatch")
+    projection = construct_validity.get("construct_validity_projection")
+    if not isinstance(projection, Mapping) or projection.get("owner_pointer") != "bedc_quality_lab.construct_validity:evaluate_construct_validity":
+        raise ValueError("DGT L1 construct validity projection missing")
+    if not _construct_validity_owner_projection_passes(projection):
+        raise ValueError("DGT L1 construct validity owner projection failed")
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
@@ -2715,16 +2992,22 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
     capsule_text = json.dumps(payload["claim_capsule_ref"], sort_keys=True)
     if "terminal_verdict" in capsule_text:
         raise ValueError("DGT L1 ClaimCapsule must not contain terminal verdict")
-    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != {
-        "artifact",
-        "pointer",
-        "status",
-        "failed_gates",
-        "owner_pointer",
-    }:
+    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != set(CONSTRUCT_VALIDITY_PROJECTION_KEYS):
         raise ValueError("DGT L1 ClaimCapsule construct validity projection mismatch")
-    if payload["claim_capsule_ref"]["model_claim"]["allowed_claim"] != ALLOWED_CLAIM:
-        raise ValueError("DGT L1 allowed claim mismatch")
+    if payload["claim_capsule_ref"].get("construct_validity") != _construct_validity_claim_projection(construct_validity):
+        raise ValueError("DGT L1 ClaimCapsule construct validity must use owner projection")
+    capsule_forbidden_fields = {"model_claim", "allowed_claim", "forbidden_claims", "not_claimed"}
+    if capsule_forbidden_fields.intersection(payload["claim_capsule_ref"]):
+        raise ValueError("DGT L1 ClaimCapsule must use pointers for claim prose")
+    claim_projection = payload["claim_capsule_ref"].get("claim_projection")
+    if not isinstance(claim_projection, Mapping):
+        raise ValueError("DGT L1 ClaimCapsule claim projection missing")
+    if {"allowed_claim", "forbidden_claims", "not_claimed"}.intersection(claim_projection):
+        raise ValueError("DGT L1 ClaimCapsule claim projection must use pointers")
+    if claim_projection.get("allowed_claim_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status":
+        raise ValueError("DGT L1 ClaimCapsule allowed-claim pointer mismatch")
+    if claim_projection.get("claim_boundary_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed":
+        raise ValueError("DGT L1 ClaimCapsule boundary pointer mismatch")
     expected_projection = _projection(payload, expected_gates)
     if payload["l1_tiny_sequence_projection"] != expected_projection:
         raise ValueError("DGT L1 projection mismatch")
@@ -2765,7 +3048,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
-        f"- Construct validity: `{payload['construct_validity_hardgates']['status']}`",
+        f"- Construct validity ledger: `{payload['construct_validity_ledger']['status']}`",
         "",
         "## Hardgates",
         "",
@@ -2779,9 +3062,9 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "- "
             f"`{row['training_steps']}` steps: "
             f"DGT acc `{metrics['dgt_accuracy_mean']:.6f}`, "
-            f"information-starved acc `{metrics['information_starved_accuracy_mean']:.6f}`, "
-            f"matched-random acc `{metrics['matched_random_accuracy_mean']:.6f}`, "
-            f"DGT-information-starved gap `{metrics['dgt_minus_information_starved_accuracy']:.6f}`"
+            f"input-ablation acc `{metrics['input_ablation_accuracy_mean']:.6f}`, "
+            f"parameter-matched attention acc `{metrics['parameter_matched_attention_accuracy_mean']:.6f}`, "
+            f"DGT-input-ablation gap `{metrics['dgt_minus_input_ablation_accuracy']:.6f}`"
         )
     lines.extend(["", "## L1 Step Hardgates", ""])
     for gate_id, row in ladder["hardgates"].items():

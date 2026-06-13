@@ -18,6 +18,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     _training_mechanism_cert,
 )
 from bedc_quality_lab import dgt_l0_controls as dgt_l0_controls_owner
+from bedc_quality_lab import dgt_l1_boundary_report as dgt_l1_boundary_report_owner
 from bedc_quality_lab import dgt_l1_controls as dgt_l1_controls_owner
 from bedc_quality_lab import dgt_neural_ablation as dgt_neural_ablation_owner
 from bedc_quality_lab import input_accessibility as input_accessibility_owner
@@ -25,6 +26,8 @@ from bedc_quality_lab import winnability as winnability_owner
 from bedc_quality_lab import structural_generalization_splits as structural_splits_owner
 from bedc_quality_lab.discovery_gated_transformer import (
     DGT_L0_CONTROLS_ARTIFACT,
+    DGT_L1_BOUNDARY_REPORT_ARTIFACT,
+    DGT_L1_CONTROLS_ARTIFACT,
     L0_HARDGATE_SUMMARY_REF,
     L0_LADDER_CONSUMPTION_REF,
     L0_REVIEW_STATUS_REF,
@@ -258,12 +261,17 @@ def _ready_dgt_scaling_level(level_id: str, index: int) -> dict[str, object]:
         return {
             "level_id": level_id,
             "claim_id": f"claim:dgt_scaling_ladder_owner:{level_id}",
-            "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+            "pointer": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block",
+            "controls_projection_pointer": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection",
             "projected_claim_pointer": f"reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[{index}].claim_capsule",
             "review_status_alias": "pass",
             "promotion_readiness_alias": "ready-pass",
-            "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
-            "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+            "review_status_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
+            "promotion_readiness_alias_source": f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.promotion_readiness",
+            "scaling_claim_block_status": "unblocked",
+            "scaling_claim_block_status_source": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block",
+            "fair_rebuild_status_alias": "resolved-pass",
+            "fair_rebuild_status_alias_source": f"{DGT_L1_BOUNDARY_REPORT_ARTIFACT}:$.scaling_claim_block.fair_rebuild_status",
             "level_state": "ready",
             "promotion_status": "level-local-evidence-ready",
             "boundary_ledger": [],
@@ -332,30 +340,6 @@ def _construct_validity_payload(artifact: str) -> dict[str, object]:
     )
 
 
-def _dgt_base_undertraining_payload() -> dict[str, object]:
-    return {
-        "base_undertraining_audit": {
-            "schema_id": canonical.DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID,
-            "artifact_id": canonical.DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID,
-            "source_contract": {"status": "fixture"},
-            "construct_validity": {
-                "status": "construct-boundary",
-                "bayes_upper_bound_accuracy": 0.0625,
-                "source_pointers": {"fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"},
-            },
-            "comparison_rows": [],
-            "hardgates": {"status": "blocked"},
-            "mechanical_decision_table": [],
-            "verdict": "construct-boundary",
-            "claim_action": "defer-to-fair-reconstruction",
-            "boundary_ledger": [],
-            "evidence_ledger": [],
-            "not_claimed": ["bounded fixture"],
-            "revoke_if": [],
-        }
-    }
-
-
 def _dgt_ablation_null_payload() -> dict[str, object]:
     return {
         "schema_id": canonical.DGT_ABLATION_NULL_DECOMPOSITION_SCHEMA_ID,
@@ -371,36 +355,14 @@ def _dgt_ablation_null_payload() -> dict[str, object]:
     }
 
 
-def _winnability_payload(root: Path) -> dict[str, object]:
-    from bedc_quality_lab import winnability
-
-    split = {
-        "experiment_id": "fixture",
-        "task_id": "fixture-task",
-        "task_family": "analytic-visibility",
-        "resolver_family": "analytic-visibility",
-        "split_id": "fixture-split",
-        "split_kind": "held-out",
-        "split_fingerprint": "fixture-fingerprint",
-        "source_evidence_ref": "reports/canonical/fixture.json:$.row",
-        "label_function_ref": "fixture.label",
-        "visible_variables_ref": "reports/canonical/input-accessibility.json:$.visible",
-        "required_variables_ref": "reports/canonical/input-accessibility.json:$.required",
-        "visible_variables": ["x_left"],
-        "required_variables": ["x_left"],
-        "allow_inline_input_fixture": True,
-        "chance_accuracy": 0.5,
-        "observed_accuracy": 0.75,
-    }
-    return winnability.build_payload(root=root, generated_at="fixture-time", registered_splits=[split])
-
-
 def _minimal_payload(spec, *, root: Path | None = None):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name == "dgt-l0-controls":
         payload = dgt_l0_controls_owner.build_payload(generated_at="fixture-time", requested_device="cpu")
         public_payload = {key: value for key, value in payload.items() if key != "_raw_records"}
         public_payload["construct_validity_hardgates"] = _construct_validity_payload(canonical.DGT_L0_CONTROLS_JSON_ARTIFACT)
+        public_payload["construct_validity_hardgates"]["status"] = "pass"
+        public_payload["construct_validity_hardgates"]["failed_gates"] = []
         return public_payload
     if spec.name == "input-accessibility":
         return input_accessibility_owner.build_payload(generated_at="fixture-time")
@@ -417,7 +379,23 @@ def _minimal_payload(spec, *, root: Path | None = None):
                 batch_size=32,
             ),
         )
-        return {key: value for key, value in payload.items() if key != "_raw_records"}
+        return {key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}
+    if spec.name == "dgt-base-undertraining-audit":
+        payload["base_undertraining_audit"] = {
+            "verdict": "construct-boundary",
+            "claim_action": "defer-to-fair-reconstruction",
+            "construct_validity": {
+                "status": "construct-boundary",
+                "bayes_upper_bound_accuracy": 0.0625,
+                "source_pointers": {
+                    "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"
+                },
+            },
+        }
+        return payload
+    if spec.name == "dgt-ablation-null-decomposition":
+        payload["null_decomposition"] = {"analysis_status": "pass", "verdict": "mixed"}
+        return payload
     if spec.name == "winnability-certificates":
         return winnability_owner.build_payload(root=root or discovery_map.ROOT, generated_at="fixture-time")
     if spec.name == "structural-generalization-splits":
@@ -425,19 +403,36 @@ def _minimal_payload(spec, *, root: Path | None = None):
             root=root or discovery_map.ROOT,
             generated_at="fixture-time",
         )
-    if spec.name == "reproduction-package":
-        from bedc_quality_lab.reproduction_package import build_package
-
-        return build_package(root=root or discovery_map.ROOT, generated_at="fixture-time")
-    if spec.name == "reproduction-check-result":
-        from bedc_quality_lab.reproduction_package import build_package, verify_package
-
-        package = build_package(root=root or discovery_map.ROOT, generated_at="fixture-time")
-        return verify_package(package, root or discovery_map.ROOT, profile="structural", target_ids=(), generated_at="fixture-time")
     if spec.name == "dgt-base-undertraining-audit":
-        return _dgt_base_undertraining_payload()
+        from bedc_quality_lab import dgt_base_undertraining_audit
+
+        return dgt_base_undertraining_audit.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
+    if spec.name == "fair-l1-decision":
+        from bedc_quality_lab import fair_l1_decision
+
+        return fair_l1_decision.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
+    if spec.name == "reproduction-package":
+        from bedc_quality_lab import reproduction_package
+
+        return reproduction_package.build_package(root or discovery_map.ROOT, generated_at="fixture-time")
+    if spec.name == "reproduction-check-result":
+        from bedc_quality_lab import reproduction_package
+
+        package = reproduction_package.build_package(root or discovery_map.ROOT, generated_at="fixture-time")
+        return reproduction_package.verify_package(
+            package,
+            root or discovery_map.ROOT,
+            "structural",
+            target_ids=(),
+            generated_at="fixture-time",
+        )
     if spec.name == "dgt-ablation-null-decomposition":
         return _dgt_ablation_null_payload()
+    if spec.name == "dgt-l1-boundary-report":
+        return dgt_l1_boundary_report_owner.build_l1_boundary_report(
+            root=root or canonical.ROOT,
+            generated_at="fixture-time",
+        )
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -541,13 +536,6 @@ def _minimal_payload(spec, *, root: Path | None = None):
                     "sparse_recall": {"accepted": True},
                 },
             },
-            "device_protocol": {
-                "requested_device": "cpu",
-                "resolved_device": "cpu",
-                "resolution_status": "available",
-                "resolution_reason": "fixture-cpu",
-                "backend_details": {"torch": "fixture", "cuda_available": False, "mps_available": False},
-            },
             "matched_random_control": {"control_positive_discovery": False},
             "distinction_module_evidence": {
                 "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence",
@@ -612,6 +600,13 @@ def _minimal_payload(spec, *, root: Path | None = None):
             },
             "source_artifacts": {"d5_o_source": None},
             "forbidden_claim_term_audit": {"status": "pass"},
+            "device_protocol": {
+                "requested_device": "cpu",
+                "resolved_device": "cpu",
+                "resolution_status": "available",
+                "resolution_reason": "fixture-cpu",
+                "backend_details": {"torch": "fixture", "cuda_available": False, "mps_available": False},
+            },
             "reproducibility_contract": {},
         })
         return payload
@@ -779,7 +774,9 @@ def _minimal_payload(spec, *, root: Path | None = None):
 
 
 def _write_all_payloads(root: Path):
-    for spec in canonical._discovery_map_reports():
+    for spec in canonical.CANONICAL_REPORTS:
+        if spec.name == "structural-generalization-splits":
+            continue
         if spec.name == "dgt-neural-ablation":
             _write_dgt_neural_ablation_payload(root)
         elif spec.name == "dgt-l0-controls":
@@ -793,15 +790,8 @@ def _write_all_payloads(root: Path):
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
 
 
-def _write_dgt_owner_ref_payloads(root: Path):
-    _write_dgt_l0_controls_payload(root)
-    dgt_l1_spec = canonical._specs_by_name()["dgt-l1-controls"]
-    _write_json_artifact(root, canonical.DGT_L1_CONTROLS_JSON_ARTIFACT, _minimal_payload(dgt_l1_spec, root=root))
-
-
 def _write_coverage_payloads(root: Path):
     _write_all_payloads(root)
-    _write_dgt_owner_ref_payloads(root)
     _write_gap_head_d5_context(root, transfer_metric=True)
     _pass_gap_head_ablation(root)
     _write_json_artifact(
@@ -1758,6 +1748,8 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
 
     assert [row["report"] for row in payload["rows"]] == [spec.name for spec in expected_reports]
     assert payload["row_count"] == len(expected_reports)
+    assert not {row["report"] for row in payload["rows"]}.intersection(canonical.DISCOVERY_MAP_EXCLUDED_REPORTS)
+    assert "dgt-l1-boundary-report" not in {row["report"] for row in payload["rows"]}
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 
@@ -3182,6 +3174,7 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
             "dgt-model-card",
             "reproduction-package",
             "reproduction-check-result",
+            "dgt-l1-boundary-report",
         }:
             _write_payload(tmp_path, spec, _minimal_payload(spec, root=tmp_path))
             (tmp_path / spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
@@ -3253,24 +3246,14 @@ def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
-    pointer_allowed_excluded = {
-        "claim-complexity",
-        "transformer-derivative-atlas",
-    }
-    written_artifacts = {
-        path.relative_to(tmp_path).as_posix()
-        for path in (tmp_path / "reports" / "canonical").glob("*.json")
-    }
-    expected_unregistered = [
+    excluded_artifacts = {
         spec.json_artifact
         for spec in canonical.CANONICAL_REPORTS
         if spec.name in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
-        and spec.name not in pointer_allowed_excluded
-        and spec.json_artifact in written_artifacts
-    ]
-    assert payload["manifest_audit"]["unregistered_json_artifacts"] == sorted(
-        expected_unregistered + ["reports/canonical/unregistered-extra.json"]
-    )
+    }
+    unregistered_artifacts = payload["manifest_audit"]["unregistered_json_artifacts"]
+    assert unregistered_artifacts == ["reports/canonical/unregistered-extra.json"]
+    assert excluded_artifacts.isdisjoint(unregistered_artifacts)
 
     old_root = discovery_map.ROOT
     try:

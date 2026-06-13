@@ -3,7 +3,6 @@ import json
 import pytest
 
 from bedc_quality_lab import dgt_l1_controls as l1
-from bedc_quality_lab import input_accessibility as ia
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_canonical_reports as canonical
 from scripts import run_dgt_l1_controls as runner
@@ -106,69 +105,164 @@ def test_l1_base_control_param_and_compute_matched():
     assert payload["hardgates"]["L1-REVIEW-HG5"]["status"] == "pass"
 
     mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"]["parameter_matched_l1"]["parameter_count"] *= 4
+    mutated["training_arms"]["parameter_matched_attention"]["parameter_count"] *= 4
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG5")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"].pop("information_starved_l1_baseline")
+    mutated["training_arms"].pop("input_ablation_masked_tail")
     _expect_invalid(mutated, "training arms")
 
 
-def test_l1_matched_random_structural_control_fail_closed():
+def test_l1_parameter_matched_attention_structural_control_fail_closed():
     payload = _payload()
     assert payload["hardgates"]["L1-REVIEW-HG2"]["status"] == "pass"
     assert payload["hardgates"]["L1-REVIEW-HG3"]["status"] == "pass"
     assert payload["hardgates"]["L1-REVIEW-HG4"]["status"] == "pass"
-    assert payload["paired_accuracy"]["dgt_minus_information_starved_baseline"]["delta_ci95_low"] > 0.0
-    assert payload["paired_accuracy"]["dgt_minus_matched_random"]["delta_ci95_low"] > 0.0
+    assert payload["training_arms"]["input_ablation_masked_tail"]["role"] == "ablation"
+    assert payload["training_arms"]["input_ablation_masked_tail"]["eligible_for_advantage_claims"] is False
+    assert payload["training_arms"]["parameter_matched_attention"]["self_attention_layers"] == 1
+    assert payload["training_arms"]["compute_matched_attention"]["self_attention_layers"] == 1
 
     mutated = json.loads(json.dumps(payload))
-    mutated["paired_accuracy"]["dgt_minus_information_starved_baseline"]["delta_ci95_low"] = 0.0
+    mutated["training_arms"]["input_ablation_masked_tail"]["arm_id"] = "wrong"
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG2")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["paired_accuracy"]["dgt_minus_matched_random"]["delta_ci95_low"] = 0.0
+    mutated["training_arms"]["parameter_matched_attention"]["self_attention_layers"] = 0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG3")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"]["matched_random_structural_l1"]["structural_marginals_preserved"] = False
-    mutated["hardgates"] = l1.evaluate_hardgates(mutated)
-    _expect_invalid(mutated, "L1-REVIEW-HG3")
-
-    mutated = json.loads(json.dumps(payload))
-    mutated["training_arms"]["matched_random_structural_l1"]["metrics"]["classifier_shift_count"] = 0
+    mutated["training_arms"]["parameter_matched_attention"]["metrics"]["classifier_shift_count"] = 0
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
     _expect_invalid(mutated, "L1-REVIEW-HG4|owner-required metric")
 
 
-def test_l1_construct_validity_consumes_input_accessibility_rows():
+def test_l1_construct_validity_ledger_records_input_and_split_protocol():
     payload = _payload()
-    arm_input_access = payload["construct_validity_hardgates"]["evidence"]["arm_input_access"]
-    canonical = json.loads((l1.LAB_ROOT / l1.INPUT_ACCESSIBILITY_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    rows = {row["row_id"]: row for row in canonical["rows"]}
+    ledger = payload["construct_validity_ledger"]
+    split = ledger["split_protocol"]
+    bandwidth = ledger["input_bandwidth_by_arm"]
 
-    assert arm_input_access["input_accessibility_ref"] == f"{ia.JSON_ARTIFACT}:$"
-    assert arm_input_access["information_starved_arms_ref"] == canonical["consumer_pointers"]["information_starved_arms_ref"]
-    assert arm_input_access["unanswerable_ood_splits_ref"] == canonical["consumer_pointers"]["unanswerable_ood_splits_ref"]
-    for pointer in arm_input_access["information_starved_arms_ref"]:
-        row = rows[pointer.rsplit("=", 1)[-1]]
-        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
-        assert cell["missing_variables"] == row["missing_variables"]
-        assert cell["information_starved"] is row["information_starved"]
-        assert cell["canonical_row"] == pointer
-    for pointer in arm_input_access["unanswerable_ood_splits_ref"]:
-        row = rows[pointer.rsplit("=", 1)[-1]]
-        cell = arm_input_access["arms"][f"{row['arm']}:{row['split']}"]
-        assert cell["missing_variables"] == row["missing_variables"]
-        assert cell["unanswerable_ood"] is True
+    assert ledger["status"] == "pass"
+    assert split["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
+    assert split["pair_key"] == ["x_last_1", "x_last_2"]
+    assert split["heldout_pair_count"] == 64
+    assert split["train_pair_count"] == 192
+    assert set(map(tuple, split["train_pairs"])).isdisjoint(set(map(tuple, split["heldout_pairs"])))
+    assert {int(value) for value in split["heldout_label_histogram"].values()} == {4}
+    assert {int(value) for value in split["train_label_histogram"].values()} == {12}
+    assert set(bandwidth) == set(l1.ARM_IDS)
+    assert all(row["input_positions"] == list(range(l1.SEQUENCE_LENGTH)) for row in bandwidth.values())
+    assert bandwidth["input_ablation_masked_tail"]["masked_positions"] == [l1.SEQUENCE_LENGTH - 2]
+    assert bandwidth["input_ablation_masked_tail"]["role"] == "ablation"
 
     mutated = json.loads(json.dumps(payload))
-    first_key = next(iter(mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"]))
-    mutated["construct_validity_hardgates"]["evidence"]["arm_input_access"]["arms"][first_key]["missing_variables"] = []
-    _expect_invalid(mutated, "canonical input-accessibility")
+    mutated["construct_validity_ledger"]["split_protocol"]["heldout_pair_count"] = 63
+    _expect_invalid(mutated, "construct validity ledger")
+
+
+@pytest.mark.parametrize("masked_positions", ([], [0], [l1.SEQUENCE_LENGTH - 1]))
+def test_l1_construct_validity_rejects_wrong_masked_tail_positions(masked_positions):
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["construct_validity_ledger"]["input_bandwidth_by_arm"]["input_ablation_masked_tail"]["masked_positions"] = masked_positions
+
+    _expect_invalid(mutated, "construct validity ledger")
+
+
+def test_l1_construct_validity_rejects_masked_tail_role_drift():
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["construct_validity_ledger"]["input_bandwidth_by_arm"]["input_ablation_masked_tail"]["role"] = "candidate"
+
+    _expect_invalid(mutated, "construct validity ledger")
+
+
+def test_l1_construct_validity_owner_projection_failure_is_rejected():
+    payload = _payload()
+
+    mutated = json.loads(json.dumps(payload))
+    projection = mutated["construct_validity_ledger"]["construct_validity_projection"]
+    projection["status"] = "fail"
+    projection["failed_gates"] = ["CV-HG3"]
+    projection["gates"]["CV-HG3"]["status"] = "fail"
+    projection["gates"]["CV-HG3"]["reason"] = "synthetic owner failure"
+
+    _expect_invalid(mutated, "owner projection")
+
+
+def test_ablation_canonical_id_is_masked_tail_only():
+    payload = _payload()
+
+    assert "input_ablation_masked_tail" in payload["training_arms"]
+    assert payload["training_arms"]["input_ablation_masked_tail"]["role"] == "ablation"
+    assert payload["construct_validity_ledger"]["claim_comparison_policy"]["excluded_from_positive_claims"] == [
+        "input_ablation_masked_tail",
+        "diagnostic_step_ladder",
+    ]
+
+
+def test_retired_baseline_names_absent_from_canonical_payload():
+    payload = _payload()
+    text = json.dumps(payload, sort_keys=True)
+
+    assert "base" + "_transformer_l1" not in text
+    assert "input_ablation" + "_last_token_only" not in text
+
+
+def test_split_protocol_uses_seeded_balanced_enumeration():
+    split = _payload()["construct_validity_ledger"]["split_protocol"]
+
+    assert split["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
+    assert split["seed"] == l1.HELDOUT_PAIR_SPLIT_SEED
+    assert split["pair_key"] == ["x_last_1", "x_last_2"]
+
+
+def test_pair_split_has_zero_train_eval_overlap():
+    split = _payload()["construct_validity_ledger"]["split_protocol"]
+
+    assert set(map(tuple, split["train_pairs"])).isdisjoint(set(map(tuple, split["heldout_pairs"])))
+
+
+def test_heldout_pair_counts_and_label_histograms_are_balanced():
+    split = _payload()["construct_validity_ledger"]["split_protocol"]
+
+    assert split["heldout_pair_count"] == 64
+    assert split["train_pair_count"] == 192
+    assert len(split["heldout_label_histogram"]) == 16
+    assert len(split["train_label_histogram"]) == 16
+    assert set(split["heldout_label_histogram"].values()) == {4}
+    assert set(split["train_label_histogram"].values()) == {12}
+
+
+def test_split_fingerprint_is_stable_for_seed():
+    first = _payload()["construct_validity_ledger"]["split_protocol"]
+    second = _payload()["construct_validity_ledger"]["split_protocol"]
+
+    assert first["train_pair_fingerprint"] == second["train_pair_fingerprint"]
+    assert first["heldout_pair_fingerprint"] == second["heldout_pair_fingerprint"]
+    assert first["all_pair_fingerprint"] == second["all_pair_fingerprint"]
+
+
+def test_ood_same_rule_oracle_wins():
+    ood = _payload()["construct_validity_ledger"]["ood_winnability"]
+
+    assert ood["label_rule"] == "same_rule_heldout_pairs"
+    assert ood["chance_accuracy"] == 0.0625
+    assert ood["oracle_accuracy"] == 1.0
+
+
+def test_ablation_and_diagnostic_step_ladder_are_excluded_from_claim_policy():
+    policy = _payload()["construct_validity_ledger"]["claim_comparison_policy"]
+
+    assert policy["eligible_positive_claim_controls"] == ["parameter_matched_attention", "compute_matched_attention"]
+    assert "input_ablation_masked_tail" not in policy["eligible_positive_claim_controls"]
+    assert "diagnostic_step_ladder" not in policy["eligible_positive_claim_controls"]
 
 
 def test_l1_compute_and_parameter_ledgers_require_positive_values():
@@ -251,6 +345,21 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
     assert capsule["capsule_subtype"] == "bedc.model.dgt_l1_tiny_sequence_claim_capsule"
     assert capsule["evidence_scope"] == "bounded-tiny-sequence"
     assert "terminal_verdict" not in json.dumps(capsule, sort_keys=True)
+    assert {"model_claim", "allowed_claim", "forbidden_claims", "not_claimed"}.isdisjoint(capsule)
+    assert {"allowed_claim", "forbidden_claims", "not_claimed"}.isdisjoint(capsule["claim_projection"])
+    owner_projection = payload["construct_validity_ledger"]["construct_validity_projection"]
+    owner_claim_projection = owner_projection["claim_capsule_projection"]
+    assert capsule["construct_validity"] == {
+        "artifact": owner_claim_projection["artifact"],
+        "pointer": owner_claim_projection["pointer"],
+        "status": owner_projection["status"],
+        "failed_gates": owner_projection["failed_gates"],
+        "owner_pointer": owner_projection["owner_pointer"],
+    }
+    assert capsule["claim_projection"]["allowed_claim_pointer"] == (
+        l1.CANONICAL_JSON_ARTIFACT + ":$.l1_tiny_sequence_projection.review_status"
+    )
+    assert capsule["claim_projection"]["claim_boundary_pointer"] == l1.CANONICAL_JSON_ARTIFACT + ":$.not_claimed"
     assert all(pointer.startswith(l1.CANONICAL_JSON_ARTIFACT + ":$") for pointer in capsule["evidence_pointers"])
 
     mutated = json.loads(json.dumps(payload))
@@ -259,6 +368,10 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
 
     mutated = json.loads(json.dumps(payload))
     mutated["claim_capsule_ref"]["evidence_pointers"][0] = "reports/canonical/missing.json:$.x"
+    _expect_invalid(mutated, "ClaimCapsule")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["claim_capsule_ref"]["allowed_claim"] = l1.ALLOWED_CLAIM
     _expect_invalid(mutated, "ClaimCapsule")
 
 
@@ -335,8 +448,8 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert summary["compute_units"] > 0
     assert summary["opened_ladder_level"] == "L1_tiny_sequence"
     assert summary["ood_generalization_claim"] == "not-claimed"
-    assert summary["l1_step_ladder_verdict"] in {"scoped-review-signal", "information-starved-catches-up", "inconclusive"}
-    assert summary["l1_step_ladder_crossover"] in {"information-starved-crossover-observed", "no-information-starved-crossover-observed"}
+    assert summary["l1_step_ladder_verdict"] in {"diagnostic-only", "diagnostic-ablation-catches-up", "inconclusive"}
+    assert summary["l1_step_ladder_crossover"] in {"diagnostic-crossover-observed", "no-diagnostic-crossover-observed"}
 
     run_artifacts = l1.run_artifacts_payload()
     expected_artifacts = [
@@ -467,7 +580,7 @@ def test_l1_step_ladder_grid_cell_integrity_fail_closed():
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["per_step"][0]["training_arms"].pop("information_starved_l1_baseline")
+    mutated["l1_step_ladder"]["per_step"][0]["training_arms"].pop("input_ablation_masked_tail")
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG1")
 
     mutated = json.loads(json.dumps(payload))
@@ -499,7 +612,7 @@ def _verdict_strata(high, low, unseen, ood):
         "train_seen_high_frequency_pair": high,
         "train_seen_low_frequency_pair": low,
         "train_unseen_pair": unseen,
-        "ood_dependency_shift_pair": ood,
+        "heldout_pair": ood,
     }
     strata = {}
     for stratum, cell in cells.items():
@@ -534,7 +647,7 @@ def test_l1_ood_mechanism_surface_is_probe_derived_and_bounded():
         assert dgt_row["accuracy_minus_chance"] == round(dgt_row["accuracy"] - dgt_row["chance_accuracy"], 6)
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_ood_mechanism"]["strata"]["ood_dependency_shift_pair"]["dgt_l1"]["true_class_logit_mean"] = "missing"
+    mutated["l1_ood_mechanism"]["strata"]["heldout_pair"]["dgt_l1"]["true_class_logit_mean"] = "missing"
     mutated["l1_ood_mechanism"]["hardgates"] = l1.evaluate_l1ood_hardgates(mutated["l1_ood_mechanism"])
     _expect_invalid(mutated, "logit aggregates|L1-REVIEW-HG6|hardgates fail closed")
 
@@ -643,11 +756,11 @@ def test_l1_step_ladder_crossover_derivation_fail_closed():
     assert payload["l1_step_ladder"]["hardgates"]["L1STEP-HG4"]["status"] == "pass"
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["convergence_crossover"]["rows"][0]["information_starved_accuracy_mean"] = 1.0
+    mutated["l1_step_ladder"]["convergence_crossover"]["rows"][0]["input_ablation_accuracy_mean"] = 1.0
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
 
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["information_starved_accuracy_mean"] = (
+    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["input_ablation_accuracy_mean"] = (
         mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
     )
     _refresh_ladder_fail_closed(mutated, "L1STEP-HG4")
@@ -659,16 +772,16 @@ def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
             "training_steps": 36,
             "metrics": {
                 "dgt_accuracy_mean": 0.8,
-                "information_starved_accuracy_mean": 0.5,
-                "matched_random_accuracy_mean": 0.4,
+                "input_ablation_accuracy_mean": 0.5,
+                "parameter_matched_attention_accuracy_mean": 0.4,
             },
         },
         {
             "training_steps": 72,
             "metrics": {
                 "dgt_accuracy_mean": 0.95,
-                "information_starved_accuracy_mean": 0.79,
-                "matched_random_accuracy_mean": 0.4,
+                "input_ablation_accuracy_mean": 0.79,
+                "parameter_matched_attention_accuracy_mean": 0.4,
             },
         },
     ]
@@ -677,10 +790,10 @@ def test_l1_step_ladder_crossover_uses_dgt_36_step_anchor_not_same_step_gap():
 
     assert crossover["anchor_accuracy_mean"] == 0.8
     assert crossover["crossover_threshold_accuracy"] == 0.78
-    assert crossover["information_starved_catches_up"] is True
-    assert crossover["first_information_starved_crossover_step"] == 72
-    assert crossover["rows"][1]["same_step_dgt_minus_information_starved_accuracy"] > l1.L1_CROSSOVER_TOLERANCE_ACC
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "information-starved-catches-up"
+    assert crossover["input_ablation_catches_up"] is True
+    assert crossover["first_input_ablation_crossover_step"] == 72
+    assert crossover["rows"][1]["same_step_dgt_minus_input_ablation_accuracy"] > l1.L1_CROSSOVER_TOLERANCE_ACC
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "diagnostic-ablation-catches-up"
 
 
 def test_l1_step_ladder_verdict_table_branches():
@@ -689,46 +802,47 @@ def test_l1_step_ladder_verdict_table_branches():
             "training_steps": 36,
             "metrics": {
                 "dgt_accuracy_mean": 0.8,
-                "information_starved_accuracy_mean": 0.5,
-                "matched_random_accuracy_mean": 0.4,
+                "input_ablation_accuracy_mean": 0.5,
+                "parameter_matched_attention_accuracy_mean": 0.4,
             },
         }
     ]
     crossover = l1.derive_l1_step_ladder_crossover(rows)
     gates = {gate_id: {"status": "pass"} for gate_id in l1.L1STEP_GATE_IDS}
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "scoped-review-signal"
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "diagnostic-only"
 
-    rows[0]["metrics"]["information_starved_accuracy_mean"] = 0.79
+    rows[0]["metrics"]["input_ablation_accuracy_mean"] = 0.79
     crossover = l1.derive_l1_step_ladder_crossover(rows)
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "information-starved-catches-up"
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "diagnostic-ablation-catches-up"
 
-    rows[0]["metrics"]["matched_random_accuracy_mean"] = 0.79
+    rows[0]["metrics"]["parameter_matched_attention_accuracy_mean"] = 0.79
     crossover = l1.derive_l1_step_ladder_crossover(rows)
-    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "inconclusive"
+    assert crossover["parameter_matched_attention_catches_up"] is True
+    assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "diagnostic-ablation-catches-up"
 
     gates["L1STEP-HG1"] = {"status": "fail"}
-    rows[0]["metrics"]["information_starved_accuracy_mean"] = 0.5
-    rows[0]["metrics"]["matched_random_accuracy_mean"] = 0.4
+    rows[0]["metrics"]["input_ablation_accuracy_mean"] = 0.5
+    rows[0]["metrics"]["parameter_matched_attention_accuracy_mean"] = 0.4
     crossover = l1.derive_l1_step_ladder_crossover(rows)
     assert l1.derive_l1_step_ladder_verdict(crossover, gates) == "inconclusive"
 
 
-def test_l1_step_ladder_matched_random_crossover_blocks_clean_result():
+def test_l1_step_ladder_parameter_matched_attention_crossover_is_diagnostic_only():
     payload = _payload()
     mutated = json.loads(json.dumps(payload))
-    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["matched_random_accuracy_mean"] = (
+    mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["parameter_matched_attention_accuracy_mean"] = (
         mutated["l1_step_ladder"]["step_rows"][0]["metrics"]["dgt_accuracy_mean"]
     )
     mutated["l1_step_ladder"]["convergence_crossover"] = l1.derive_l1_step_ladder_crossover(mutated["l1_step_ladder"]["step_rows"])
     mutated["l1_step_ladder"]["hardgates"] = l1.evaluate_l1step_hardgates(mutated["l1_step_ladder"])
-    mutated["l1_step_ladder"]["status"] = "fail"
+    mutated["l1_step_ladder"]["status"] = "pass"
     mutated["l1_step_ladder"]["verdict"] = l1.derive_l1_step_ladder_verdict(
         mutated["l1_step_ladder"]["convergence_crossover"],
         mutated["l1_step_ladder"]["hardgates"],
     )
 
-    assert mutated["l1_step_ladder"]["hardgates"]["L1STEP-HG5"]["status"] == "fail"
-    assert mutated["l1_step_ladder"]["verdict"] == "inconclusive"
+    assert mutated["l1_step_ladder"]["hardgates"]["L1STEP-HG5"]["status"] == "pass"
+    assert mutated["l1_step_ladder"]["convergence_crossover"]["parameter_matched_attention_catches_up"] is True
+    assert mutated["l1_step_ladder"]["verdict"] in {"diagnostic-only", "diagnostic-ablation-catches-up"}
     mutated["hardgates"] = l1.evaluate_hardgates(mutated)
-    with pytest.raises(ValueError, match="L1-REVIEW-HG6|hardgates fail closed"):
-        l1.validate_payload(mutated)
+    l1.validate_payload(mutated)

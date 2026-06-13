@@ -4,7 +4,7 @@
     "fair-l1-training"
   ],
   "failed_targets": [],
-  "generated_at": "2026-06-12T20:50:37.568652+00:00",
+  "generated_at": "2026-06-13T08:18:36.697049+00:00",
   "not_claimed": [
     "Pointer verification is not a substitute for full training replay.",
     "Projection-only checks do not satisfy measured-training reproduction."
@@ -18,6 +18,7 @@
   },
   "target_results": [
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -51,8 +52,17 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": {
+        "category": "missing-validation-loss-cell",
+        "dependency_ref": "github:issue:1196",
+        "detail": "validation-loss-cell-missing",
+        "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
+        "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+        "planning_context_ref": "github:issue:1329#plan-4"
+      },
       "ci_rehearsal_ref": null,
       "failure_reasons": [
+        "pointer does not resolve: reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
         "fair-l1-training waits for seven-arm owner artifact"
       ],
       "fingerprint_status": "pass",
@@ -73,7 +83,6 @@
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$",
-        "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
         "reports/canonical/dgt-l1-controls.fingerprint.json:$",
         "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
         "reports/canonical/dgt-l1-controls.json:$",
@@ -84,9 +93,10 @@
       "status": "blocked",
       "target_id": "fair-l1-training",
       "target_kind": "full-repro-ci",
-      "tolerance_status": "blocked"
+      "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -119,6 +129,7 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -146,6 +157,7 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -173,6 +185,7 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -200,6 +213,7 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",
@@ -227,6 +241,7 @@
       "tolerance_status": "pass"
     },
     {
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
       "failure_reasons": [],
       "fingerprint_status": "pass",

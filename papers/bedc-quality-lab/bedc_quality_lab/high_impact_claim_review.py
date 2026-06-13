@@ -39,7 +39,7 @@ def high_impact_term_hits(value: Any) -> list[str]:
 
 
 def is_high_impact_claim(spec: Any, payload: Mapping[str, Any]) -> bool:
-    if getattr(spec, "bundle_role", None) != "hg_p_core":
+    if getattr(spec, "bundle_role", None) != "hg_p_core" or getattr(spec, "claim_promotion_eligible", True) is not True:
         return False
     domains = pointer_value(payload, HIGH_IMPACT_DOMAINS_POINTER)
     if high_impact_domain_hits(domains):

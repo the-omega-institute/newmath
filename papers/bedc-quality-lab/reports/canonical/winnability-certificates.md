@@ -4,13 +4,13 @@
 - Owner: `bedc_quality_lab.winnability`
 - Audit: `pass`
 - Certificates: `3`
-- Fail-closed count: `2`
+- Fail-closed count: `0`
 
 | certificate_id | split | method | status | upper bound | observed | coverage |
 | --- | --- | --- | --- | --- | --- | --- |
-| `win-f1471fec0fe8d17c` | `l1-ood-hidden-lag` | `analytic_bayes` | `pass` | `0.0625` | `0.06958` | `not-applicable` |
-| `win-aaf6363714569e58` | `l1-indist-finite-pair` | `analytic_bayes` | `pass` | `0.982829` | `0.981934` | `table-coverage` |
-| `win-86184ea92f5c516b` | `l1-held-out-pair` | `analytic_bayes` | `pass` | `1.0` | `0.311768` | `not-applicable` |
+| `win-f1471fec0fe8d17c` | `l1-ood-hidden-lag` | `analytic_bayes` | `pass` | `1.0` | `0.036865` | `not-applicable` |
+| `win-aaf6363714569e58` | `l1-indist-finite-pair` | `analytic_bayes` | `pass` | `0.982829` | `0.03418` | `not-table-coverage` |
+| `win-86184ea92f5c516b` | `l1-held-out-pair` | `analytic_bayes` | `pass` | `1.0` | `0.038086` | `not-applicable` |
 
 ## Not Claimed
 

@@ -99,6 +99,9 @@ def validate_positive_claim_evidence(
     payload: Mapping[str, Any],
     scorecard_snapshot: ScorecardSnapshot,
 ) -> PositiveClaimEvidenceResult:
+    if getattr(spec, "claim_promotion_eligible", True) is not True:
+        artifact = str(getattr(spec, "json_artifact"))
+        return _fail("claim_promotion_eligible", f"{artifact}:$")
     artifact = str(getattr(spec, "json_artifact"))
     control_pointer = getattr(spec, "control_pointer", None)
     no_control_pointer = getattr(spec, "no_control_rationale_pointer", None)

@@ -59,6 +59,7 @@ from bedc_quality_lab.dgt_model_card import (
     validate_dgt_model_card,
     write_dgt_model_card,
 )
+from bedc_quality_lab.dgt_l1_boundary_report import validate_l1_boundary_report
 from bedc_quality_lab.mechanism_dna import (
     ARTIFACT_ID as MECHANISM_DNA_ARTIFACT_ID,
     JSON_ARTIFACT as MECHANISM_DNA_JSON_ARTIFACT,
@@ -70,6 +71,7 @@ from bedc_quality_lab.reproduction_package import (
     CHECK_RESULT_JSON_ARTIFACT as REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT,
     CHECK_RESULT_MARKDOWN_ARTIFACT as REPRODUCTION_CHECK_RESULT_MARKDOWN_ARTIFACT,
     CHECK_RESULT_SCHEMA_ID as REPRODUCTION_CHECK_RESULT_SCHEMA_ID,
+    FAIR_L1_BLOCKED_REASON,
     PACKAGE_ARTIFACT_ID as REPRODUCTION_PACKAGE_ARTIFACT_ID,
     PACKAGE_JSON_ARTIFACT as REPRODUCTION_PACKAGE_JSON_ARTIFACT,
     PACKAGE_MARKDOWN_ARTIFACT as REPRODUCTION_PACKAGE_MARKDOWN_ARTIFACT,
@@ -143,6 +145,9 @@ MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT = "reports/canonical/model_mutation_lineag
 DGT_MUTATION_REPORT_ARTIFACT = "reports/canonical/dgt_mutation_report.json"
 NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
 NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
+CACHE_EQUIVALENCE_JSON_ARTIFACT = "reports/canonical/cache-equivalence.json"
+CACHE_EQUIVALENCE_ARTIFACT_ID = "bedc-quality-lab:canonical-cache-equivalence"
+CACHE_EQUIVALENCE_SCHEMA_ID = "bedc-quality-lab:canonical-cache-equivalence"
 NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT = "reports/canonical/new_model_hardgates.md"
 NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
@@ -174,6 +179,10 @@ DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 DGT_L1_CONTROLS_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 DGT_L1_CONTROLS_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
 DGT_L1_CONTROLS_SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
+DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT = "reports/canonical/dgt-l1-boundary-report.json"
+DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-boundary-report.md"
+DGT_L1_BOUNDARY_REPORT_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-boundary-report"
+DGT_L1_BOUNDARY_REPORT_SCHEMA_ID = "bedc-quality-lab:dgt-l1-boundary-report"
 WINNABILITY_CERTIFICATES_JSON_ARTIFACT = "reports/canonical/winnability-certificates.json"
 WINNABILITY_CERTIFICATES_MARKDOWN_ARTIFACT = "reports/canonical/winnability-certificates.md"
 WINNABILITY_CERTIFICATES_ARTIFACT_ID = "bedc-quality-lab:winnability-certificates"
@@ -215,6 +224,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "scaling-ladder",
         "reproduction-package",
         "reproduction-check-result",
+        "dgt-l1-boundary-report",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -487,6 +497,40 @@ MATCHED_RANDOM_CONTROL_REQUIRED_PATHS = (
     "$.failure_reasons",
     "$.evidence_pointers",
 )
+REPRODUCTION_BLOCKED_REASON_KEYS = frozenset(
+    {
+        "category",
+        "detail",
+        "evidence_ref",
+        "owner_gate_ref",
+        "dependency_ref",
+        "planning_context_ref",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_CATEGORIES = frozenset(
+    {
+        "source-blocked",
+        "missing-validation-loss-cell",
+        "tolerance-blocked",
+        "ci-rehearsal-missing",
+        "full-replay-not-invoked",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = frozenset(
+    {
+        "blocked_reason_class",
+        "blocked_evidence_ref",
+        "dependency_ref",
+    }
+)
+REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = frozenset(
+    {
+        "evidence_pointer",
+        "owner_gate_pointer",
+        "context_ref",
+        "owner_decision_ref",
+    }
+)
 
 
 @dataclass(**{"froz" + "en": True})
@@ -504,6 +548,7 @@ class CanonicalReportSpec:
     positive_claim_pointer: str
     control_pointer: str | None
     no_control_rationale_pointer: str | None
+    claim_promotion_eligible: bool = True
     claim_capsule_pointer: str | None = None
     evidence_envelope_pointer: str | None = None
     backend_pointer: str | None = None
@@ -1284,7 +1329,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "independent_replay",
             "l1_step_ladder",
             "l1_ood_mechanism",
-            "construct_validity_hardgates",
+            "construct_validity_ledger",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -1310,8 +1355,49 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         claim_graph_path_pointer=f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[96]",
         negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
-        construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
         reproducibility_mode="true_training",
+    ),
+    CanonicalReportSpec(
+        name="dgt-l1-boundary-report",
+        command=("python3", "scripts/run_dgt_l1_boundary_report.py"),
+        json_artifact=DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT,
+        markdown_artifact=DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "artifact_role",
+            "source_artifacts",
+            "cost_protocol",
+            "task_formula",
+            "feature_reachability",
+            "base_bayes_ceiling",
+            "ood_solvability",
+            "table_coverage_ceiling",
+            "negative_witness_refs",
+            "boundary_decision",
+            "required_redesign",
+            "claim_promotion_eligible",
+            "claim_promotion_exclusion",
+            "scaling_claim_block",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.boundary_decision",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.claim_promotion_exclusion",
+        control_pointer=None,
+        no_control_rationale_pointer="$.claim_promotion_exclusion",
+        claim_promotion_eligible=False,
+        claim_capsule_pointer="$.claim_promotion_exclusion",
+        evidence_envelope_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block",
+        backend_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block.status",
+        formal_status_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.hardgates",
     ),
     CanonicalReportSpec(
         name="reproduction-package",
@@ -1520,6 +1606,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "generated_at",
             "producer",
             "owner",
+            "source_artifacts",
             "source_registry",
             "registry_digest",
             "visible_variables",
@@ -1535,13 +1622,13 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         estimated_seconds=1,
         bundle_role="auxiliary",
         scope_pointer="$.not_claimed",
-        cost_pointer="$.source_registry",
+        cost_pointer="$.source_artifacts",
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.access_hardgates.status",
         control_pointer="$.source_registry",
         no_control_rationale_pointer=None,
         evidence_envelope_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates",
-        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_registry",
+        backend_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.source_artifacts",
         discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
         negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
@@ -1743,6 +1830,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "schema_id",
             "card_id",
             "generated_at",
+            "producer",
             "source_artifacts",
             "intended_use",
             "not_intended_use",
@@ -2083,7 +2171,11 @@ def _specs_by_name() -> dict[str, CanonicalReportSpec]:
 
 
 def _discovery_map_reports() -> tuple[CanonicalReportSpec, ...]:
-    return tuple(spec for spec in CANONICAL_REPORTS if spec.name not in DISCOVERY_MAP_EXCLUDED_REPORTS)
+    return tuple(
+        spec
+        for spec in CANONICAL_REPORTS
+        if spec.name not in DISCOVERY_MAP_EXCLUDED_REPORTS and spec.claim_promotion_eligible is True
+    )
 
 
 def _select_specs(only: str | None) -> tuple[CanonicalReportSpec, ...]:
@@ -2678,6 +2770,7 @@ def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "required_json_keys": list(spec.required_json_keys),
         "estimated_seconds": spec.estimated_seconds,
         "bundle_role": spec.bundle_role,
+        "claim_promotion_eligible": spec.claim_promotion_eligible,
         "scope_pointer": spec.scope_pointer,
         "cost_pointer": spec.cost_pointer,
         "not_claimed_pointer": spec.not_claimed_pointer,
@@ -3567,7 +3660,11 @@ def _reporting_hardgate_status(gate: Mapping[str, Any]) -> Literal["pass", "fail
 
 
 def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
-    applicability = "positive-promotion" if spec.bundle_role == "hg_p_core" else "not-applicable"
+    applicability = (
+        "positive-promotion"
+        if spec.bundle_role == "hg_p_core" and spec.claim_promotion_eligible is True
+        else "not-applicable"
+    )
     cell_specs = {
         "scope_seal": spec.scope_pointer,
         "claim_capsule": _reporting_pointer_for(spec, "claim_capsule_pointer"),
@@ -3640,7 +3737,7 @@ def _text_for_term_scan(value: Any) -> str:
 
 
 def _forbidden_claim_term_check(spec: CanonicalReportSpec, payload: dict[str, Any]) -> dict[str, Any]:
-    if spec.bundle_role != "hg_p_core":
+    if spec.bundle_role != "hg_p_core" or spec.claim_promotion_eligible is not True:
         return {
             "status": "not-applicable",
             "hits": [],
@@ -3668,6 +3765,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
     reporting_hardgate = _reporting_hardgate(spec, payload)
     discipline = {
         "bundle_role": spec.bundle_role,
+        "claim_promotion_eligible": spec.claim_promotion_eligible,
         "scope_pointer": spec.scope_pointer,
         "scope_status": _pointer_status(payload, spec.scope_pointer),
         "cost_pointer": spec.cost_pointer,
@@ -3752,6 +3850,23 @@ def _paper_outline(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _claims_nonclaims(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    promotion_exclusion_cells = []
+    for report in reports:
+        discipline = report["discipline"]
+        if discipline.get("claim_promotion_eligible", True) is True:
+            continue
+        spec = _specs_by_name()[report["name"]]
+        payload = _load_report_payload(spec)
+        promotion_exclusion_cells.append(
+            {
+                "report": report["name"],
+                "bundle_role": report["bundle_role"],
+                "artifact_role": _pointer_value(payload, "$.artifact_role"),
+                "claim_promotion_eligible": discipline.get("claim_promotion_eligible"),
+                "exclusion_pointer": discipline["positive_claim_pointer"],
+                "block_pointer": _pointer_value(payload, f"{discipline['positive_claim_pointer']}.blocking_pointer"),
+            }
+        )
     return {
         "status": "pointer-only",
         "positive_claim_cells": [
@@ -3763,7 +3878,9 @@ def _claims_nonclaims(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
                 "no_control_rationale_pointer": report["discipline"]["no_control_rationale_pointer"],
             }
             for report in reports
+            if report["discipline"].get("claim_promotion_eligible", True) is True
         ],
+        "promotion_exclusion_cells": promotion_exclusion_cells,
         "nonclaims": [
             "not a solved model-quality claim",
             "not full LeJEPA",
@@ -4258,6 +4375,20 @@ def _negative_witness_mutation_ledger_index_section() -> dict[str, Any]:
         "entries_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
         "entry_count": payload.get("entry_count", 0),
         "hardgate_status": hardgate_status,
+    }
+
+
+def _cache_equivalence_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": CACHE_EQUIVALENCE_ARTIFACT_ID,
+        "schema_id": CACHE_EQUIVALENCE_SCHEMA_ID,
+        "json_artifact": CACHE_EQUIVALENCE_JSON_ARTIFACT,
+        "canonical_role": "index_projection_not_fact_source",
+        "owner_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$",
+        "targets_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$.targets",
+        "hardgates_pointer": f"{CACHE_EQUIVALENCE_JSON_ARTIFACT}:$.hardgates",
+        "freshness_hardgate": "scripts/run_canonical_cache_equivalence.py --check",
     }
 
 
@@ -5175,8 +5306,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     }:
         raise ValueError("DGT construct suspension owner ref mismatch")
     if source_artifacts.get("interpretation_boundary_ref") != {
-        "artifact": FAIR_L1_DECISION_JSON_ARTIFACT,
-        "pointer": "$.ladder_state_projection",
+        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
     }:
         raise ValueError("DGT interpretation boundary owner ref mismatch")
     if source_artifacts.get("negative_witness_sweep_ref") != {
@@ -5492,7 +5623,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
     ladder = payload.get("l1_step_ladder") if isinstance(payload, Mapping) else {}
-    construct_validity = payload.get("construct_validity_hardgates") if isinstance(payload, Mapping) else {}
+    construct_validity = payload.get("construct_validity_ledger") if isinstance(payload, Mapping) else {}
     crossover = ladder.get("convergence_crossover") if isinstance(ladder, Mapping) else {}
     return {
         "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
@@ -5515,7 +5646,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
         "hardgate_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.hardgates",
         "task_spec_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.task_spec",
         "negative_witness_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
-        "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_hardgates",
+        "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
         "construct_validity_status": (
             construct_validity.get("status", "missing") if isinstance(construct_validity, Mapping) else "missing"
         ),
@@ -6826,6 +6957,113 @@ def _irreducibility_report_index_section() -> dict[str, Any]:
     }
 
 
+def _reproduction_error(path: str, message: str) -> dict[str, str]:
+    return {"path": path, "message": message}
+
+
+def _nonnull_text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value)
+
+
+def _validate_reproduction_blocked_reason(
+    row: Mapping[str, Any],
+    row_path: str,
+) -> list[dict[str, str]]:
+    errors: list[dict[str, str]] = []
+    target_id = row.get("target_id")
+    status = row.get("status")
+    aliases = sorted(REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES.intersection(row))
+    if aliases:
+        errors.append(_reproduction_error(row_path, f"blocked_reason alias field is forbidden: {aliases[0]}"))
+    if "blocked_reason" not in row:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", "blocked_reason field is required"))
+        return errors
+    reason = row.get("blocked_reason")
+    if status != "blocked":
+        if reason is not None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason", "non-blocked rows require blocked_reason null"))
+        return errors
+    if not isinstance(reason, Mapping):
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", "blocked rows require structured blocked_reason"))
+        return errors
+    reason_keys = set(reason)
+    missing_keys = sorted(REPRODUCTION_BLOCKED_REASON_KEYS - reason_keys)
+    if missing_keys:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason missing key: {missing_keys[0]}"))
+    extra_keys = sorted(reason_keys - REPRODUCTION_BLOCKED_REASON_KEYS)
+    if extra_keys:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason has unknown key: {extra_keys[0]}"))
+    object_aliases = sorted(REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES.intersection(reason))
+    if object_aliases:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason", f"blocked_reason alias key is forbidden: {object_aliases[0]}"))
+    if missing_keys or extra_keys or object_aliases:
+        return errors
+    category = reason["category"]
+    detail = reason["detail"]
+    evidence_ref = reason["evidence_ref"]
+    for key in ("category", "detail", "evidence_ref"):
+        if not _nonnull_text(reason[key]):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"{key} must be a non-empty string"))
+    if _nonnull_text(category) and category not in REPRODUCTION_BLOCKED_REASON_CATEGORIES:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.category", f"unknown blocked_reason category: {category}"))
+    for key in ("owner_gate_ref", "dependency_ref", "planning_context_ref"):
+        value = reason[key]
+        if value is not None and not _nonnull_text(value):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"{key} must be a non-empty string or null"))
+    if errors:
+        return errors
+    evidence_value = _resolve_committed_artifact_pointer(ROOT, evidence_ref)
+    if evidence_value is None:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "evidence_ref does not resolve"))
+    owner_gate_ref = reason["owner_gate_ref"]
+    if owner_gate_ref is not None and _resolve_committed_artifact_pointer(ROOT, owner_gate_ref) is None:
+        errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref does not resolve"))
+    if category == "missing-validation-loss-cell":
+        if reason["owner_gate_ref"] is None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref is required"))
+        if reason["dependency_ref"] is None:
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.dependency_ref", "dependency_ref is required"))
+        if target_id == "fair-l1-training":
+            for key, expected in FAIR_L1_BLOCKED_REASON.items():
+                if reason[key] != expected:
+                    errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
+            gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
+            if not isinstance(evidence_value, Mapping) or (
+                evidence_value.get("comparison_id") != "equal-validation-loss"
+                or evidence_value.get("decision") != "validation-loss-cell-missing"
+                or evidence_value.get("status") != "missing"
+            ):
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))
+            if not isinstance(gate_value, Mapping) or (
+                gate_value.get("gate_id") != "FAIR-L1-HG2"
+                or gate_value.get("status") != "fail"
+            ):
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG2"))
+    return errors
+
+
+def _validate_reproduction_check_result_payload(payload: Mapping[str, Any]) -> list[dict[str, str]]:
+    errors: list[dict[str, str]] = []
+    rows = payload.get("target_results")
+    if payload.get("schema_id") != REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
+        errors.append(_reproduction_error("$.schema_id", "invalid reproduction check-result schema"))
+    if not isinstance(rows, list):
+        errors.append(_reproduction_error("$.target_results", "target_results must be a list"))
+        return errors
+    invalid_row = any(
+        not isinstance(row, Mapping)
+        or row.get("status") not in {"pass", "blocked", "fail"}
+        or row.get("target_kind") not in {"full-repro-ci", "projection-only"}
+        for row in rows
+    )
+    if invalid_row:
+        errors.append(_reproduction_error("$.target_results", "invalid target result row"))
+        return errors
+    for index, row in enumerate(rows):
+        errors.extend(_validate_reproduction_blocked_reason(row, f"$.target_results[{index}]"))
+    return errors
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -6859,18 +7097,13 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
             reproduction_errors.append({"path": spec.json_artifact, "message": str(exc)})
     if spec.name == "reproduction-check-result" and key_validation["status"] == "pass" and not missing_artifacts:
         payload = _load_report_payload(spec)
-        rows = payload.get("target_results")
-        if payload.get("schema_id") != REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
-            reproduction_errors.append({"path": "$.schema_id", "message": "invalid reproduction check-result schema"})
-        if not isinstance(rows, list):
-            reproduction_errors.append({"path": "$.target_results", "message": "target_results must be a list"})
-        elif any(
-            not isinstance(row, Mapping)
-            or row.get("status") not in {"pass", "blocked", "fail"}
-            or row.get("target_kind") not in {"full-repro-ci", "projection-only"}
-            for row in rows
-        ):
-            reproduction_errors.append({"path": "$.target_results", "message": "invalid target result row"})
+        reproduction_errors.extend(_validate_reproduction_check_result_payload(payload))
+    boundary_report_errors: list[str] = []
+    if spec.name == "dgt-l1-boundary-report" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            validate_l1_boundary_report(_load_report_payload(spec))
+        except ValueError as exc:
+            boundary_report_errors = [str(exc)]
     status = (
         "pass"
         if key_validation["status"] == "pass"
@@ -6878,6 +7111,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         and not semantic_errors
         and not model_card_errors
         and not reproduction_errors
+        and not boundary_report_errors
         else "fail"
     )
     return {
@@ -6888,6 +7122,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "semantic_errors": semantic_errors,
         "model_card_errors": model_card_errors,
         "reproduction_errors": reproduction_errors,
+        "boundary_report_errors": boundary_report_errors,
     }
 
 
@@ -7049,6 +7284,13 @@ def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
         return True
     if result.get("status") == "pass":
         return False
+    if result.get("name") == "dgt-l0-controls":
+        construct_validity = result.get("construct_validity")
+        return not (
+            isinstance(construct_validity, Mapping)
+            and construct_validity.get("status") == "fail"
+            and construct_validity.get("failed_gates") == ["CV-HG4"]
+        )
     if result.get("name") == "fair-l1-decision":
         decision_status = _resolve_committed_artifact_pointer(
             ROOT,
@@ -7139,6 +7381,7 @@ def _index(
         "negative_witnesses": _negative_witnesses_index_section(),
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
+        "cache_equivalence": _cache_equivalence_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
@@ -7195,8 +7438,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | hardgate | CV | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | status | hardgate | CV | claim promotion eligible | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
@@ -7217,6 +7460,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
                 f"`{report['status']}` | "
                 f"`{hardgate['status']}` | "
                 f"`{cv_status}` | "
+                f"`{discipline['claim_promotion_eligible']}` | "
                 f"`{missing_cells}` | "
                 f"`{report['json_artifact']}` | "
                 f"`{report['markdown_artifact']}` | "
@@ -7338,6 +7582,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Canonical role: `{payload['negative_witness_mutation_ledger']['canonical_role']}`",
             f"- Entries: `{payload['negative_witness_mutation_ledger']['entry_count']}`",
             f"- Entries pointer: `{payload['negative_witness_mutation_ledger']['entries_pointer']}`",
+            "",
+            "## Cache equivalence",
+            "",
+            f"- Status: `{payload['cache_equivalence']['status']}`",
+            f"- JSON: `{payload['cache_equivalence']['json_artifact']}`",
+            f"- Owner: `{payload['cache_equivalence']['owner_pointer']}`",
+            f"- Targets: `{payload['cache_equivalence']['targets_pointer']}`",
+            f"- Hardgates: `{payload['cache_equivalence']['hardgates_pointer']}`",
+            f"- Freshness hardgate: `{payload['cache_equivalence']['freshness_hardgate']}`",
             "",
             "## New model hardgates",
             "",
@@ -7657,6 +7910,24 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"`{claim['control_pointer']}` | "
             f"`{claim['no_control_rationale_pointer']}` |"
         )
+    if payload["claims_nonclaims"].get("promotion_exclusion_cells"):
+        lines.extend(
+            [
+                "",
+                "| report | role | artifact role | eligible | exclusion pointer | block pointer |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for cell in payload["claims_nonclaims"]["promotion_exclusion_cells"]:
+            lines.append(
+                "| "
+                f"`{cell['report']}` | "
+                f"`{cell['bundle_role']}` | "
+                f"`{cell['artifact_role']}` | "
+                f"`{cell['claim_promotion_eligible']}` | "
+                f"`{cell['exclusion_pointer']}` | "
+                f"`{cell['block_pointer']}` |"
+            )
     lines.extend(
         [
             "",
@@ -8022,6 +8293,28 @@ def run_reports(
             run_spec_names.add(fair_l1_spec.name)
             _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
             _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
+    dgt_l1_spec = _specs_by_name().get("dgt-l1-controls")
+    if dgt_l1_spec is not None:
+        dgt_l1_selected = any(
+            spec.name in {"dgt-l1-controls", "dgt-l1-boundary-report", "discovery-gated-transformer"}
+            for spec in selected_specs
+        )
+        if (only is None or dgt_l1_selected) and dgt_l1_spec.name not in run_spec_names:
+            _run_spec(dgt_l1_spec, mode=mode, generated_at=timestamp)
+            run_spec_names.add(dgt_l1_spec.name)
+            _run_metric_purity_post_generation((dgt_l1_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_l1_spec, generated_at=timestamp)
+    dgt_l1_boundary_spec = _specs_by_name().get("dgt-l1-boundary-report")
+    if dgt_l1_boundary_spec is not None:
+        dgt_l1_boundary_selected = any(
+            spec.name in {"dgt-l1-boundary-report", "discovery-gated-transformer"}
+            for spec in selected_specs
+        )
+        if (only is None or dgt_l1_boundary_selected) and dgt_l1_boundary_spec.name not in run_spec_names:
+            _run_spec(dgt_l1_boundary_spec, mode=mode, generated_at=timestamp)
+            run_spec_names.add(dgt_l1_boundary_spec.name)
+            _run_metric_purity_post_generation((dgt_l1_boundary_spec.json_artifact,))
+            _write_fingerprint_sidecar(dgt_l1_boundary_spec, generated_at=timestamp)
     discovery_gated_transformer: Mapping[str, Any] | None = None
     dgt_spec = _specs_by_name().get("discovery-gated-transformer")
     if only is None or dgt_full_selected:
