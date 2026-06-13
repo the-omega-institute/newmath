@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-12T14:49:10.626178+00:00",
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -105,12 +105,17 @@
     {
       "json_artifact": "reports/canonical/reproduction-package.json",
       "name": "reproduction-package",
-      "status": "error"
+      "status": "pass"
     },
     {
       "json_artifact": "reports/canonical/reproduction-check-result.json",
       "name": "reproduction-check-result",
-      "status": "error"
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+      "name": "dgt-l1-boundary-report",
+      "status": "pass"
     },
     {
       "json_artifact": "reports/canonical/winnability-certificates.json",
@@ -314,9 +319,9 @@
       "value": 10
     },
     {
-      "denominator": 41,
+      "denominator": 42,
       "metric": "ScopeCompleteness",
-      "numerator": 41,
+      "numerator": 42,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -434,6 +439,11 @@
           "report": "reproduction-check-result"
         },
         {
+          "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+          "pointer": "$.boundary_decision",
+          "report": "dgt-l1-boundary-report"
+        },
+        {
           "artifact": "reports/canonical/winnability-certificates.json",
           "pointer": "$.not_claimed",
           "report": "winnability-certificates"
@@ -528,9 +538,9 @@
       "value": 1.0
     },
     {
-      "denominator": 41,
+      "denominator": 42,
       "metric": "CostProtocolCompleteness",
-      "numerator": 41,
+      "numerator": 42,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -648,6 +658,11 @@
           "report": "reproduction-check-result"
         },
         {
+          "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+          "pointer": "$.cost_protocol",
+          "report": "dgt-l1-boundary-report"
+        },
+        {
           "artifact": "reports/canonical/winnability-certificates.json",
           "pointer": "$.source_artifacts",
           "report": "winnability-certificates"
@@ -669,7 +684,7 @@
         },
         {
           "artifact": "reports/canonical/input-accessibility.json",
-          "pointer": "$.source_registry",
+          "pointer": "$.source_artifacts",
           "report": "input-accessibility"
         },
         {

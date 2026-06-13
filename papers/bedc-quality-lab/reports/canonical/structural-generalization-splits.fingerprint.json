@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "1a3c93e043bb1a64d67de6053f8ec324636c7029ad70f7f712413541ba9a1146",
+  "input_fingerprint": "398a3afb14552eb3435fadfe47357f445e5db9842753c891ec636f6e30b8a30c",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -41,15 +41,16 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/input-accessibility.json",
-        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb"
+        "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24"
       },
       {
         "path": "reports/canonical/winnability-certificates.json",
-        "sha256": "a70086ecc4151a83899c40ee1084ae2028647f630be940fe999deb413f0c8e71"
+        "sha256": "365619d51be1dbaad2e542f942691fd0c2d9c3f01cdfca43125b04358599d68b"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_structural_generalization_splits.py"
@@ -71,6 +72,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.split_rows",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -90,11 +92,54 @@
   },
   "json_artifact": "reports/canonical/structural-generalization-splits.json",
   "markdown_artifact": "reports/canonical/structural-generalization-splits.md",
-  "output_digest": "93412928e96bf9350b730accc140f54e368fc6f27acaa902121001eac419b5fa",
   "producer_command": [
     "python3",
     "scripts/run_structural_generalization_splits.py"
   ],
   "report_name": "structural-generalization-splits",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "structural-generalization-splits"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "structural-generalization-splits",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "23a8cef78232be5743adb431698057ecd4a2abfcc5d20b75537e2ec13706faae",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

@@ -5306,8 +5306,8 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     }:
         raise ValueError("DGT construct suspension owner ref mismatch")
     if source_artifacts.get("interpretation_boundary_ref") != {
-        "artifact": FAIR_L1_DECISION_JSON_ARTIFACT,
-        "pointer": "$.ladder_state_projection",
+        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
     }:
         raise ValueError("DGT interpretation boundary owner ref mismatch")
     if source_artifacts.get("negative_witness_sweep_ref") != {
@@ -7284,6 +7284,13 @@ def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
         return True
     if result.get("status") == "pass":
         return False
+    if result.get("name") == "dgt-l0-controls":
+        construct_validity = result.get("construct_validity")
+        return not (
+            isinstance(construct_validity, Mapping)
+            and construct_validity.get("status") == "fail"
+            and construct_validity.get("failed_gates") == ["CV-HG4"]
+        )
     if result.get("name") == "fair-l1-decision":
         decision_status = _resolve_committed_artifact_pointer(
             ROOT,

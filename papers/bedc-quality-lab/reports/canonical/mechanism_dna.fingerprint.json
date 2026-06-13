@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "77ed608cb11269449bbc96d983535b0ccd0a0a44242f1d83f8b12473f2b25408",
+  "input_fingerprint": "ff18df9133c7c2730e5e7b3ac2a2d8a18f232c09f3fc0f8ede8e183643cbb826",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -41,11 +41,11 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/discovery-gated-transformer.json",
-        "sha256": "3e349dbcd7b6a7e9a3e9ba9234d54fce642f45f7be4b2cebb403101cb57e29b4"
+        "sha256": "99b7d7368a69df622b3292a91b8b27be0d72d186f4e851bd17ea821bc02a766f"
       },
       {
         "path": "reports/canonical/discovery-regularized-training.json",
-        "sha256": "31868a606691b2abb28aa108f71a13a27f02c3aea00ffa9a2290782ba3d32308"
+        "sha256": "00cee49da5062157a7b2541cb48fe0078ba197587511f6ca9d22e1aa47523166"
       },
       {
         "path": "reports/canonical/gap_head_attribution_capsule.json",
@@ -53,11 +53,12 @@
       },
       {
         "path": "reports/canonical/mechanism-seeking-network.json",
-        "sha256": "4efd9cc1c800c2ff1c5505bee550e05526f4df49afe75904afa768679cd58fe4"
+        "sha256": "d915d69f51265df39725080b67f0b5fe3974b27ce10019865b0f96234107a6d2"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_mechanism_dna.py"
@@ -78,6 +79,7 @@
       "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.hardgate",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -94,11 +96,54 @@
   },
   "json_artifact": "reports/canonical/mechanism_dna.json",
   "markdown_artifact": "reports/canonical/mechanism_dna.md",
-  "output_digest": "a03922b5f0166575b15049a3048e95d8b16560bc6894e3eea254c11cb6916e3d",
   "producer_command": [
     "python3",
     "scripts/run_mechanism_dna.py"
   ],
   "report_name": "mechanism-dna",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "mechanism-dna"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "mechanism-dna",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "7ab115e68214e6a3039ba3ddc355e891193494aa1c9d0acb412ab35a450aec21",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

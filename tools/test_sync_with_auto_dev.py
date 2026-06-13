@@ -266,7 +266,7 @@ class RollupPrTests(unittest.TestCase):
                 return Result()
             if cmd == ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]:
                 return Result()
-            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"]:
+            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"]:
                 return Result()
             if cmd[:3] == ["git", "commit", "--no-edit"]:
                 return Result()
@@ -295,7 +295,7 @@ class RollupPrTests(unittest.TestCase):
                 ["git", "merge", "--no-ff", "--no-commit", "origin/source"],
                 ["python3", "scripts/run_canonical_reports.py", "--cold"],
                 ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"],
-                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"],
                 ["git", "commit", "--no-edit"],
             ],
         )
@@ -364,7 +364,7 @@ class RollupPrTests(unittest.TestCase):
                 return Result()
             if cmd == ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]:
                 return Result()
-            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"]:
+            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"]:
                 return Result(returncode=1, stderr="index locked\n")
             raise AssertionError(f"unexpected command: {cmd}")
 
@@ -391,7 +391,7 @@ class RollupPrTests(unittest.TestCase):
                 ["git", "merge", "--no-ff", "--no-commit", "origin/source"],
                 ["python3", "scripts/run_canonical_reports.py", "--cold"],
                 ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"],
-                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"],
                 ["git", "merge", "--abort"],
             ],
         )
@@ -440,7 +440,7 @@ class RollupPrTests(unittest.TestCase):
                 return Result()
             if cmd == ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"]:
                 return Result()
-            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"]:
+            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"]:
                 return Result()
             if cmd[:3] == ["git", "commit", "--no-edit"]:
                 return Result()
@@ -472,7 +472,7 @@ class RollupPrTests(unittest.TestCase):
                 ["git", "merge", "--no-ff", "--no-commit", "origin/source"],
                 ["python3", "scripts/run_canonical_reports.py", "--cold"],
                 ["python3", "scripts/run_canonical_reports.py", "--verify-fingerprints"],
-                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+                ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"],
                 ["git", "commit", "--no-edit"],
             ],
         )
@@ -524,7 +524,7 @@ class RollupPrTests(unittest.TestCase):
                 return Result()
             if cmd == ["python3", "scripts/run_canonical_reports.py", "--cold"]:
                 return Result()
-            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"]:
+            if cmd == ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"]:
                 return Result()
             if cmd == ["git", "commit", "--no-edit"]:
                 return Result()

@@ -3246,19 +3246,14 @@ def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
-    pointer_allowed_excluded = {
-        "claim-complexity",
-        "transformer-derivative-atlas",
+    excluded_artifacts = {
+        spec.json_artifact
+        for spec in canonical.CANONICAL_REPORTS
+        if spec.name in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
     }
-    assert payload["manifest_audit"]["unregistered_json_artifacts"] == sorted(
-        [
-            spec.json_artifact
-            for spec in canonical.CANONICAL_REPORTS
-            if spec.name in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
-            and spec.name not in pointer_allowed_excluded
-        ]
-        + ["reports/canonical/unregistered-extra.json"]
-    )
+    unregistered_artifacts = payload["manifest_audit"]["unregistered_json_artifacts"]
+    assert unregistered_artifacts == ["reports/canonical/unregistered-extra.json"]
+    assert excluded_artifacts.isdisjoint(unregistered_artifacts)
 
     old_root = discovery_map.ROOT
     try:

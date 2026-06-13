@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "a0ef46bd2b92dbf45e99a063632389eb62cd4c54b5d9a1e56bf9d06f6901e6f2",
+  "input_fingerprint": "21bfd454c0b0cc2b38a56d6ffc2653b8732544013ec94b591425e8a0a60d9429",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -41,7 +41,7 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/dgt-l1-controls.json",
-        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+        "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4"
       },
       {
         "path": "reports/canonical/experiment_stack_ablation_causal_evidence_card.json",
@@ -81,19 +81,20 @@
       },
       {
         "path": "reports/canonical/model-comparison.json",
-        "sha256": "222b2332c4033d16277893baab4c47cc5ddb83b1efd4d39deb03fcbd6100cfba"
+        "sha256": "6b3c1823a72a2afa9b025468cd5d5a578ab73f16e3e4bf71de54aff0e7dfd3e0"
       },
       {
         "path": "reports/canonical/model_design_suite.json",
-        "sha256": "a8d8475fcd2f3fa3b213ddc98a38dd9cd716356b3582039e3318121976dfcc10"
+        "sha256": "006c1e6476d3628a22ef365809ab192064a1fe5e5d5c98fcaa0ada04bcea3939"
       },
       {
         "path": "reports/release_manifest_sidecar.json",
-        "sha256": "c10fc96ad0ba9d3bc084d43837bdb1791a33f46a35fe8d61828db7220f45d8c8"
+        "sha256": "803fd7e8629b6906c3b98a0c564d91c55d6cd34a3f10078b95a2c886cb06a35a"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_experiment_stack_cards.py"
@@ -115,6 +116,7 @@
       "no_control_rationale_pointer": "$.claim_first_gate",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.cards",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -136,11 +138,54 @@
   },
   "json_artifact": "reports/canonical/experiment_stack_cards.json",
   "markdown_artifact": "reports/canonical/experiment_stack_cards.md",
-  "output_digest": "d301835f80874be0126fb06617c8c7ef3416dfc789970bdacd8889b9a49a5dbc",
   "producer_command": [
     "python3",
     "scripts/run_experiment_stack_cards.py"
   ],
   "report_name": "experiment-stack-cards",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "experiment-stack-cards"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "experiment-stack-cards",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "309338166455b1fbd1580887a5820a774e62ad147b7d85ee73c0e34a53ff580e",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

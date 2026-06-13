@@ -1044,8 +1044,8 @@ def test_dgt_scaling_ladder_l1_pointer_only(tmp_path):
         "pointer": "$.construct_suspension",
     }
     assert owner["source_artifacts"]["interpretation_boundary_ref"] == {
-        "artifact": "reports/canonical/fair-l1-decision.json",
-        "pointer": "$.ladder_state_projection",
+        "artifact": "reports/canonical/dgt-l1-controls.json",
+        "pointer": "$.l1_tiny_sequence_projection",
     }
     assert owner["source_artifacts"]["negative_witness_sweep_ref"] == {
         "artifact": "reports/canonical/dgt-l1-controls.json",

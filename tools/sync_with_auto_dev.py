@@ -275,7 +275,7 @@ def _canonical_generated_gate(cwd: Path = REPO_ROOT) -> bool:
         return False
 
     staged = run(
-        ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports/canonical"],
+        ["git", "add", "-A", "--", "papers/bedc-quality-lab/reports"],
         cwd=cwd,
         check=False,
         capture=True,

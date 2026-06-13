@@ -4425,8 +4425,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "pointer": "$.construct_suspension",
     }
     assert payload["source_artifacts"]["interpretation_boundary_ref"] == {
-        "artifact": canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
-        "pointer": "$.ladder_state_projection",
+        "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
     }
     assert payload["source_artifacts"]["negative_witness_sweep_ref"] == {
         "artifact": canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
@@ -4681,6 +4681,42 @@ def test_changed_run_blocks_non_fair_nonpass_without_committed_decision_lookup(m
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
     assert canonical._result_blocks_changed_run({"name": "dgt-l1-controls", "status": "fail"}) is True
+
+
+def test_changed_run_allows_dgt_l0_cv_hg4_boundary_without_committed_lookup(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("DGT L0 boundary result must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert (
+        canonical._result_blocks_changed_run(
+            {
+                "name": "dgt-l0-controls",
+                "status": "fail",
+                "construct_validity": {"status": "fail", "failed_gates": ["CV-HG4"]},
+            }
+        )
+        is False
+    )
+
+
+def test_changed_run_blocks_dgt_l0_construct_validity_failure_drift(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("DGT L0 boundary result must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert (
+        canonical._result_blocks_changed_run(
+            {
+                "name": "dgt-l0-controls",
+                "status": "fail",
+                "construct_validity": {"status": "fail", "failed_gates": ["CV-HG3"]},
+            }
+        )
+        is True
+    )
 
 
 def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):

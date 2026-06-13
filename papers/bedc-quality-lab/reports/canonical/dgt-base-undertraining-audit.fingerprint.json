@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "b7c986846dcdf4c03be608891c963801df3370b0b900e0841923decb6a67c7de",
+  "input_fingerprint": "4b0cb01bd585aefc5edfa29d7f6061bb98590412ac1b54fe95742e406c554989",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -16,7 +16,7 @@
     "producer_sources": [
       {
         "path": "bedc_quality_lab/dgt_base_undertraining_audit.py",
-        "sha256": "7bc74c3662e721d2aa65c213ef90aaa2213289125a32eff027a47dcfbebb500d"
+        "sha256": "1aa2c6703083509de0225800db3cc01c182b7957f233b78b0573d641b8155e02"
       },
       {
         "path": "scripts/run_dgt_base_undertraining_audit.py",
@@ -37,15 +37,16 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/dgt-l1-controls.json",
-        "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21"
+        "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4"
       },
       {
         "path": "reports/canonical/input-accessibility.json",
-        "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb"
+        "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_dgt_base_undertraining_audit.py"
@@ -67,6 +68,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.base_undertraining_audit.not_claimed",
       "positive_claim_pointer": "$.base_undertraining_audit.verdict",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "base_undertraining_audit"
       ],
@@ -75,11 +77,54 @@
   },
   "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
   "markdown_artifact": "reports/canonical/dgt-base-undertraining-audit.md",
-  "output_digest": "683dbd9f4b407e93d8ec954fcb7aa76bcf86fd14aec61146aa03ba76ad88f902",
   "producer_command": [
     "python3",
     "scripts/run_dgt_base_undertraining_audit.py"
   ],
   "report_name": "dgt-base-undertraining-audit",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "dgt-base-undertraining-audit"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "dgt-base-undertraining-audit",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "dddf2f34d9d67562ada137897fbb2386b7b45da1cc492717818cc8f38459730e",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

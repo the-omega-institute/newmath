@@ -15,6 +15,17 @@
     "spec_artifact": "reports/canonical/boundary_causal_derivative_spec.md",
     "status": "no_rows_yet"
   },
+  "cache_equivalence": {
+    "artifact_id": "bedc-quality-lab:canonical-cache-equivalence",
+    "canonical_role": "index_projection_not_fact_source",
+    "freshness_hardgate": "scripts/run_canonical_cache_equivalence.py --check",
+    "hardgates_pointer": "reports/canonical/cache-equivalence.json:$.hardgates",
+    "json_artifact": "reports/canonical/cache-equivalence.json",
+    "owner_pointer": "reports/canonical/cache-equivalence.json:$",
+    "schema_id": "bedc-quality-lab:canonical-cache-equivalence",
+    "status": "pointer-only",
+    "targets_pointer": "reports/canonical/cache-equivalence.json:$.targets"
+  },
   "claim_artifact_consistency": {
     "artifact_id": "bedc-quality-lab:claim-artifact-consistency",
     "claim_id": "claim:discovery-gated-transformer",
@@ -404,6 +415,16 @@
         "report": "claim-complexity"
       }
     ],
+    "promotion_exclusion_cells": [
+      {
+        "artifact_role": "boundary_block",
+        "block_pointer": "$.scaling_claim_block",
+        "bundle_role": "auxiliary",
+        "claim_promotion_eligible": false,
+        "exclusion_pointer": "$.claim_promotion_exclusion",
+        "report": "dgt-l1-boundary-report"
+      }
+    ],
     "status": "pointer-only"
   },
   "dashboard": {
@@ -457,7 +478,7 @@
   "dgt_l1_controls": {
     "artifact_id": "bedc-quality-lab:dgt-l1-controls",
     "claim_capsule_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref",
-    "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+    "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
     "construct_validity_status": "pass",
     "fingerprint_artifact": "reports/canonical/dgt-l1-controls.fingerprint.json",
     "hardgate_pointer": "reports/canonical/dgt-l1-controls.json:$.hardgates",
@@ -471,10 +492,10 @@
     "review_status_pointer": "reports/canonical/dgt-l1-controls.json:$.review_status",
     "schema_id": "bedc-quality-lab:dgt-l1-controls",
     "status": "pass",
-    "step_ladder_crossover": "no-information-starved-crossover-observed",
+    "step_ladder_crossover": "no-diagnostic-crossover-observed",
     "step_ladder_crossover_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
     "step_ladder_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-    "step_ladder_verdict": "scoped-review-signal",
+    "step_ladder_verdict": "diagnostic-only",
     "step_ladder_verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.verdict",
     "task_spec_pointer": "reports/canonical/dgt-l1-controls.json:$.task_spec"
   },
@@ -997,7 +1018,7 @@
         "allowed_claim_kinds": [
           "projection_only"
         ],
-        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[20]",
+        "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
           "reports/canonical/index.json:$.evidence_provenance.metric_rows[23]"
@@ -1006,6 +1027,21 @@
           "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
+        "report": "dgt-l1-boundary-report"
+      },
+      {
+        "allowed_claim_kinds": [
+          "projection_only"
+        ],
+        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[20]",
+        "evidence_type": "deterministic_projection",
+        "metric_provenance_pointers": [
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[24]"
+        ],
+        "not_claimed": [
+          "deterministic_projection evidence does not certify empirical superiority."
+        ],
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[24]",
         "report": "winnability-certificates"
       },
       {
@@ -1015,12 +1051,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[21]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[24]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[25]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[24]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
         "report": "structural-generalization-splits"
       },
       {
@@ -1030,12 +1066,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[22]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[25]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[26]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
         "report": "dgt-base-undertraining-audit"
       },
       {
@@ -1045,12 +1081,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[26]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[27]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
         "report": "scaling-ladder"
       },
       {
@@ -1060,12 +1096,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[23]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[27]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[28]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
         "report": "input-accessibility"
       },
       {
@@ -1075,12 +1111,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[24]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[28]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[29]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
         "report": "fair-l1-decision"
       },
       {
@@ -1090,12 +1126,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[25]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[29]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[30]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
         "report": "discovery-gated-transformer"
       },
       {
@@ -1105,10 +1141,10 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[26]",
         "evidence_type": "empirical_training_clean",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[30]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[31]"
         ],
         "not_claimed": [],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
         "report": "dgt-neural-ablation"
       },
       {
@@ -1118,12 +1154,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[27]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[31]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[32]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
         "report": "dgt-ablation-null-decomposition"
       },
       {
@@ -1133,12 +1169,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[28]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[32]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[33]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
         "report": "dgt-component-redundancy-audit"
       },
       {
@@ -1148,12 +1184,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[29]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[33]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[34]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
         "report": "dgt-model-card"
       },
       {
@@ -1163,12 +1199,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[30]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[34]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[35]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
         "report": "order-k-benchmark"
       },
       {
@@ -1178,12 +1214,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[35]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[36]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
         "report": "transformer-derivative-atlas"
       },
       {
@@ -1193,12 +1229,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[31]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[36]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[37]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
         "report": "lejepa-theorem-ledger"
       },
       {
@@ -1208,12 +1244,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[32]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[37]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[38]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
         "report": "observed-debt-sweep"
       },
       {
@@ -1223,12 +1259,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[33]",
         "evidence_type": "boundary_negative",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[38]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
         ],
         "not_claimed": [
           "boundary_negative evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "spectral-ablation-hinge"
       },
       {
@@ -1238,12 +1274,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[34]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[40]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
         "report": "model-comparison"
       },
       {
@@ -1253,12 +1289,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[40]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[41]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
         "report": "high-impact-review"
       },
       {
@@ -1268,12 +1304,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[35]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[41]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[42]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
         "report": "causal-patch-suite"
       },
       {
@@ -1283,12 +1319,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[42]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[43]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
         "report": "claim-complexity"
       },
       {
@@ -1298,12 +1334,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[36]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[43]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[44]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[44]",
         "report": "experiment-stack-cards"
       },
       {
@@ -1367,12 +1403,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[35]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[41]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[42]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
         "report": "causal-patch-suite"
       },
       "certificate-gated-attention": {
@@ -1427,12 +1463,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[42]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[43]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
         "report": "claim-complexity"
       },
       "dgt-ablation-null-decomposition": {
@@ -1442,12 +1478,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[27]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[31]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[32]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
         "report": "dgt-ablation-null-decomposition"
       },
       "dgt-base-undertraining-audit": {
@@ -1457,12 +1493,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[22]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[25]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[26]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
         "report": "dgt-base-undertraining-audit"
       },
       "dgt-component-redundancy-audit": {
@@ -1472,12 +1508,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[28]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[32]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[33]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
         "report": "dgt-component-redundancy-audit"
       },
       "dgt-l0-controls": {
@@ -1494,6 +1530,21 @@
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[19]",
         "report": "dgt-l0-controls"
+      },
+      "dgt-l1-boundary-report": {
+        "allowed_claim_kinds": [
+          "projection_only"
+        ],
+        "discovery_map_pointer": null,
+        "evidence_type": "deterministic_projection",
+        "metric_provenance_pointers": [
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[23]"
+        ],
+        "not_claimed": [
+          "deterministic_projection evidence does not certify empirical superiority."
+        ],
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
+        "report": "dgt-l1-boundary-report"
       },
       "dgt-l1-controls": {
         "allowed_claim_kinds": [
@@ -1517,12 +1568,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[29]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[33]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[34]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
         "report": "dgt-model-card"
       },
       "dgt-neural-ablation": {
@@ -1532,10 +1583,10 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[26]",
         "evidence_type": "empirical_training_clean",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[30]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[31]"
         ],
         "not_claimed": [],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
         "report": "dgt-neural-ablation"
       },
       "dimension-mismatch-debt-transfer": {
@@ -1558,12 +1609,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[25]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[29]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[30]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
         "report": "discovery-gated-transformer"
       },
       "discovery-regularized-training": {
@@ -1588,12 +1639,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[36]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[43]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[44]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[44]",
         "report": "experiment-stack-cards"
       },
       "fair-l1-decision": {
@@ -1603,12 +1654,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[24]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[28]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[29]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
         "report": "fair-l1-decision"
       },
       "gap-head-ablation": {
@@ -1706,12 +1757,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[40]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[41]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
         "report": "high-impact-review"
       },
       "input-accessibility": {
@@ -1721,12 +1772,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[23]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[27]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[28]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
         "report": "input-accessibility"
       },
       "irreducibility-report": {
@@ -1766,12 +1817,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[31]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[36]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[37]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
         "report": "lejepa-theorem-ledger"
       },
       "mechanism-dna": {
@@ -1824,12 +1875,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[34]",
         "evidence_type": "protocol_artifact",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[40]"
         ],
         "not_claimed": [
           "protocol_artifact evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
         "report": "model-comparison"
       },
       "nongaussian-distribution-sweep": {
@@ -1852,12 +1903,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[32]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[37]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[38]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
         "report": "observed-debt-sweep"
       },
       "order-k-benchmark": {
@@ -1867,12 +1918,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[30]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[34]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[35]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
         "report": "order-k-benchmark"
       },
       "reproduction-check-result": {
@@ -1912,12 +1963,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[26]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[27]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
         "report": "scaling-ladder"
       },
       "sigreg-mini-grid": {
@@ -1966,12 +2017,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[33]",
         "evidence_type": "boundary_negative",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[38]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[39]"
         ],
         "not_claimed": [
           "boundary_negative evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "spectral-ablation-hinge"
       },
       "structural-generalization-splits": {
@@ -1981,12 +2032,12 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[21]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[24]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[25]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[24]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
         "report": "structural-generalization-splits"
       },
       "training-choice-observability": {
@@ -2009,12 +2060,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[35]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[36]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
         "report": "transformer-derivative-atlas"
       },
       "winnability-certificates": {
@@ -2024,16 +2075,16 @@
         "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[20]",
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[23]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[24]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[24]",
         "report": "winnability-certificates"
       }
     },
-    "generated_at": "2026-06-12T14:49:10.626178+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "hardgate_status": {
       "DM-HG1": {
         "reason": "discovery rows use the owner evidence_type vocabulary",
@@ -2673,6 +2724,7 @@
             },
             "ci_rehearsal_ref": null,
             "failure_reasons": [
+              "pointer does not resolve: reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
               "fair-l1-training waits for seven-arm owner artifact"
             ],
             "fingerprint_status": "pass",
@@ -2693,7 +2745,6 @@
               "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
               "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
               "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$",
-              "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
               "reports/canonical/dgt-l1-controls.fingerprint.json:$",
               "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
               "reports/canonical/dgt-l1-controls.json:$",
@@ -2889,11 +2940,21 @@
         ],
         "not_measurable_reason": null,
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
-        "report": "winnability-certificates",
-        "source_artifact_pointer": "reports/canonical/winnability-certificates.json:$.audit.fail_closed_count",
-        "source_code_pointer": "scripts/run_winnability_certificates.py",
+        "report": "dgt-l1-boundary-report",
+        "source_artifact_pointer": "reports/canonical/dgt-l1-boundary-report.json:$.claim_promotion_exclusion",
+        "source_code_pointer": "scripts/run_dgt_l1_boundary_report.py",
         "source_type": "deterministic_projection",
-        "value": 2
+        "value": {
+          "blocking_pointer": "$.scaling_claim_block",
+          "excluded_surfaces": [
+            "positive_claim_cells",
+            "discovery_promotion",
+            "l1-scaling"
+          ],
+          "fair_rebuild_required": true,
+          "reason": "information-access-boundary",
+          "status": "not-eligible"
+        }
       },
       {
         "allowed_for_empirical_claim": false,
@@ -2903,6 +2964,20 @@
         ],
         "not_measurable_reason": null,
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[24]",
+        "report": "winnability-certificates",
+        "source_artifact_pointer": "reports/canonical/winnability-certificates.json:$.audit.fail_closed_count",
+        "source_code_pointer": "scripts/run_winnability_certificates.py",
+        "source_type": "deterministic_projection",
+        "value": 0
+      },
+      {
+        "allowed_for_empirical_claim": false,
+        "metric_name": "headline",
+        "not_claimed": [
+          "deterministic_projection metric rows do not certify empirical superiority."
+        ],
+        "not_measurable_reason": null,
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
         "report": "structural-generalization-splits",
         "source_artifact_pointer": "reports/canonical/structural-generalization-splits.json:$.split_rows",
         "source_code_pointer": "scripts/run_structural_generalization_splits.py",
@@ -2916,7 +2991,7 @@
           "declared_constant metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[25]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
         "report": "dgt-base-undertraining-audit",
         "source_artifact_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.verdict",
         "source_code_pointer": "scripts/run_dgt_base_undertraining_audit.py",
@@ -2930,7 +3005,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[26]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
         "report": "scaling-ladder",
         "source_artifact_pointer": "reports/canonical/scaling-ladder.json:$.levels",
         "source_code_pointer": "scripts/run_scaling_ladder.py",
@@ -3021,7 +3096,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[27]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
         "report": "input-accessibility",
         "source_artifact_pointer": "reports/canonical/input-accessibility.json:$.access_hardgates.status",
         "source_code_pointer": "scripts/run_input_accessibility_audit.py",
@@ -3035,7 +3110,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[28]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
         "report": "fair-l1-decision",
         "source_artifact_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
         "source_code_pointer": "scripts/run_fair_l1_decision.py",
@@ -3049,7 +3124,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[29]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
         "report": "discovery-gated-transformer",
         "source_artifact_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
         "source_code_pointer": "scripts/run_discovery_gated_transformer.py",
@@ -3246,32 +3321,39 @@
                 "boundary_ledger": [
                   {
                     "level_id": "L1_tiny_sequence",
-                    "reason": "fair L1 decision is not scaling-evidence-eligible",
-                    "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+                    "reason": "information-access-boundary",
+                    "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
                     "status": "blocked"
                   }
                 ],
                 "claim_id": "claim:dgt_scaling_ladder_owner:L1_tiny_sequence",
+                "controls_projection_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+                "fair_rebuild_status_alias": "unresolved",
+                "fair_rebuild_status_alias_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.fair_rebuild_status",
                 "l1_ood_mechanism_l2_implication_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.l2_implication",
                 "l1_ood_mechanism_verdict_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
                 "level_id": "L1_tiny_sequence",
                 "level_state": "blocked",
                 "not_claimed": [
-                  "Bounded L1 tiny-sequence decision only.",
-                  "No L2 or higher scaling claim.",
+                  "Bounded tiny-sequence order-k training only.",
                   "No production deployment claim.",
-                  "No global model superiority claim.",
+                  "No global superiority claim.",
                   "No LLM replacement claim.",
-                  "No OOD generalization claim.",
-                  "No architecture advantage claim."
+                  "No universal training recipe claim.",
+                  "No full BEDC closure claim.",
+                  "No L2 or higher scaling claim.",
+                  "No natural-language capability claim.",
+                  "No component-causal stability beyond the #1168 measured owner."
                 ],
-                "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+                "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
                 "projected_claim_pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule",
-                "promotion_readiness_alias": "l1-bounded-negative",
-                "promotion_readiness_alias_source": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
-                "promotion_status": "l1-bounded-negative",
-                "review_status_alias": "bounded-negative",
-                "review_status_alias_source": "reports/canonical/fair-l1-decision.json:$.decision.status"
+                "promotion_readiness_alias": "ready-pass",
+                "promotion_readiness_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.promotion_readiness",
+                "promotion_status": "blocked-by-l1-boundary-report",
+                "review_status_alias": "pass",
+                "review_status_alias_source": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.review_status",
+                "scaling_claim_block_status": "blocked",
+                "scaling_claim_block_status_source": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block"
               },
               "level_id": "L1_tiny_sequence"
             },
@@ -3460,7 +3542,7 @@
         "metric_name": "headline",
         "not_claimed": [],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[30]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
         "report": "dgt-neural-ablation",
         "source_artifact_pointer": "reports/canonical/dgt-neural-ablation.json:$.component_causal_claims",
         "source_code_pointer": "scripts/run_dgt_neural_ablation.py",
@@ -3474,7 +3556,7 @@
           "declared_constant metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[31]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
         "report": "dgt-ablation-null-decomposition",
         "source_artifact_pointer": "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition.verdict",
         "source_code_pointer": "scripts/run_dgt_ablation_null_decomposition.py",
@@ -3488,7 +3570,7 @@
           "declared_constant metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[32]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
         "report": "dgt-component-redundancy-audit",
         "source_artifact_pointer": "reports/canonical/dgt-component-redundancy-audit.json:$.component_redundancy_audit.global_recommendation",
         "source_code_pointer": "scripts/run_dgt_component_redundancy_audit.py",
@@ -3519,7 +3601,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[33]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
         "report": "dgt-model-card",
         "source_artifact_pointer": "reports/canonical/dgt-model-card.json:$.card_hardgates.status",
         "source_code_pointer": "scripts/run_dgt_model_card.py",
@@ -3533,7 +3615,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[34]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
         "report": "order-k-benchmark",
         "source_artifact_pointer": "reports/canonical/order-k-benchmark.json:$.positive_claim",
         "source_code_pointer": "scripts/run_order_k_benchmark.py",
@@ -3551,7 +3633,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[35]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
         "report": "transformer-derivative-atlas",
         "source_artifact_pointer": "reports/canonical/transformer_derivative_atlas.json:$.mechanism_claim_allowed",
         "source_code_pointer": "scripts/run_transformer_derivative_atlas.py",
@@ -3570,7 +3652,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[36]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
         "report": "lejepa-theorem-ledger",
         "source_artifact_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.positive_claim",
         "source_code_pointer": "scripts/run_lejepa_theorem_ledger.py",
@@ -3587,7 +3669,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[37]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
         "report": "observed-debt-sweep",
         "source_artifact_pointer": "reports/canonical/observed-debt-sweep.json:$.hardgate_evidence.C-HG5",
         "source_code_pointer": "scripts/run_observed_debt_sweep.py",
@@ -3603,7 +3685,7 @@
         "metric_name": "headline",
         "not_claimed": [],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[38]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
         "report": "spectral-ablation-hinge",
         "source_artifact_pointer": "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary",
         "source_code_pointer": "scripts/run_spectral_ablation_hinge.py",
@@ -3705,7 +3787,7 @@
           "protocol_field metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[39]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
         "report": "model-comparison",
         "source_artifact_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
         "source_code_pointer": "scripts/run_canonical_reports.py",
@@ -3723,7 +3805,7 @@
           "protocol_field metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[40]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
         "report": "high-impact-review",
         "source_artifact_pointer": "reports/canonical/high-impact-review.json:$.review_rows",
         "source_code_pointer": "scripts/run_high_impact_review.py",
@@ -3749,7 +3831,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[41]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
         "report": "causal-patch-suite",
         "source_artifact_pointer": "reports/canonical/causal_patch_suite.json:$.dgt_mechanism_cert",
         "source_code_pointer": "scripts/run_causal_patch_suite.py",
@@ -3783,7 +3865,7 @@
           "protocol_field metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[42]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
         "report": "claim-complexity",
         "source_artifact_pointer": "reports/canonical/claim_complexity.json:$.rows",
         "source_code_pointer": "scripts/run_claim_complexity_score.py",
@@ -5318,7 +5400,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[43]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[44]",
         "report": "experiment-stack-cards",
         "source_artifact_pointer": "reports/canonical/experiment_stack_cards.json:$.cards",
         "source_code_pointer": "scripts/run_experiment_stack_cards.py",
@@ -6191,17 +6273,17 @@
       },
       {
         "backward_pointers": [
-          "scripts/run_discovery_regularized_training.py:L398"
+          "scripts/run_discovery_regularized_training.py:L396"
         ],
         "not_claimed": [
           "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
         ],
         "optimizer_step_pointers": [],
         "parameter_update_pointers": [
+          "scripts/run_discovery_regularized_training.py:L398",
+          "scripts/run_discovery_regularized_training.py:L399",
           "scripts/run_discovery_regularized_training.py:L400",
-          "scripts/run_discovery_regularized_training.py:L401",
-          "scripts/run_discovery_regularized_training.py:L402",
-          "scripts/run_discovery_regularized_training.py:L403"
+          "scripts/run_discovery_regularized_training.py:L401"
         ],
         "producer_command": [
           "python3",
@@ -6262,11 +6344,11 @@
       },
       {
         "backward_pointers": [
-          "bedc_quality_lab/dgt_l1_controls.py:L511"
+          "bedc_quality_lab/dgt_l1_controls.py:L743"
         ],
         "not_claimed": [],
         "optimizer_step_pointers": [
-          "bedc_quality_lab/dgt_l1_controls.py:L512"
+          "bedc_quality_lab/dgt_l1_controls.py:L744"
         ],
         "parameter_update_pointers": [],
         "producer_command": [
@@ -6305,6 +6387,21 @@
         ],
         "producer_source_pointer": "scripts/run_reproduction_package.py",
         "report": "reproduction-check-result",
+        "training_evidence_status": "training_evidence_absent"
+      },
+      {
+        "backward_pointers": [],
+        "not_claimed": [
+          "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
+        ],
+        "optimizer_step_pointers": [],
+        "parameter_update_pointers": [],
+        "producer_command": [
+          "python3",
+          "scripts/run_dgt_l1_boundary_report.py"
+        ],
+        "producer_source_pointer": "scripts/run_dgt_l1_boundary_report.py",
+        "report": "dgt-l1-boundary-report",
         "training_evidence_status": "training_evidence_absent"
       },
       {
@@ -6727,7 +6824,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-12T14:49:10.626178+00:00",
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -6742,7 +6839,7 @@
   "input_accessibility": {
     "access_gate_status": "fail",
     "artifact_id": "bedc-quality-lab:input-accessibility",
-    "boundary_ledger_count": 3,
+    "boundary_ledger_count": 2,
     "boundary_ledger_pointer": "reports/canonical/input-accessibility.json:$.boundary_ledger",
     "fingerprint_artifact": "reports/canonical/input-accessibility.fingerprint.json",
     "information_starved_arms_pointer": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
@@ -6750,8 +6847,8 @@
     "json_artifact": "reports/canonical/input-accessibility.json",
     "markdown_artifact": "reports/canonical/input-accessibility.md",
     "ood_gate_status": "fail",
-    "registry_digest": "65b6ade09e466cb7e27780441c143cd2b87bde0020a97d3394351d754512d7c0",
-    "row_count": 5,
+    "registry_digest": "096af276a1b4bca2bf71cce367aa283e3c48741705e4c08c8821800cd2fc7af1",
+    "row_count": 8,
     "schema_id": "bedc-quality-lab:input-accessibility",
     "status": "fail",
     "unanswerable_ood_splits_pointer": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
@@ -7107,6 +7204,7 @@
       "dgt-l1-controls",
       "reproduction-package",
       "reproduction-check-result",
+      "dgt-l1-boundary-report",
       "winnability-certificates",
       "structural-generalization-splits",
       "dgt-base-undertraining-audit",
@@ -7197,7 +7295,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "c10fc96ad0ba9d3bc084d43837bdb1791a33f46a35fe8d61828db7220f45d8c8",
+    "source_sidecar_digest": "803fd7e8629b6906c3b98a0c564d91c55d6cd34a3f10078b95a2c886cb06a35a",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -7271,6 +7369,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -7368,6 +7467,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -7393,6 +7493,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -7490,6 +7591,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -7515,6 +7617,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.control_protocol",
@@ -7612,6 +7715,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -7665,6 +7769,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_random_control",
@@ -7762,6 +7867,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -7801,6 +7907,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.control_protocol",
@@ -7898,6 +8005,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -7925,6 +8033,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.control_protocol",
@@ -8022,6 +8131,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8053,6 +8163,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.control_protocol",
@@ -8150,6 +8261,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8203,6 +8315,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.route_patch_protocol",
@@ -8302,6 +8415,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8333,7 +8447,8 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -8347,6 +8462,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.threshold_summary.control_baseline",
@@ -8444,6 +8560,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8473,6 +8590,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.config.control_arm",
@@ -8570,6 +8688,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8605,6 +8724,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.control_pointer",
@@ -8702,6 +8822,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8750,6 +8871,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -8847,6 +8969,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -8874,6 +8997,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.paired_seed_protocol",
@@ -8973,6 +9097,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9002,7 +9127,8 @@
           "discovery_level",
           "not_claimed",
           "claim_capsule",
-          "result"
+          "result",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9016,6 +9142,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_random_baseline",
@@ -9113,6 +9240,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9145,6 +9273,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -9242,6 +9371,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9265,7 +9395,8 @@
           "positive_claim",
           "claim_capsule_ref",
           "result_snapshot_ref",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9279,6 +9410,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -9378,6 +9510,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9415,7 +9548,8 @@
           "anti_triviality_gate_evidence",
           "anti_triviality_failed_gate",
           "anti_triviality_recommended_level",
-          "anti_triviality_policy"
+          "anti_triviality_policy",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9429,6 +9563,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_random_control",
@@ -9528,6 +9663,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9584,7 +9720,8 @@
           "anti_triviality_gate_evidence",
           "anti_triviality_failed_gate",
           "anti_triviality_recommended_level",
-          "anti_triviality_policy"
+          "anti_triviality_policy",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9598,6 +9735,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_random_control",
@@ -9697,6 +9835,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9728,7 +9867,8 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9749,6 +9889,7 @@
       },
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": "reports/canonical/dgt-l0-controls.json:$.construct_validity_hardgates",
         "construct_validity_status": "present",
         "control_pointer": "$.l0_toy_projection",
@@ -9846,6 +9987,7 @@
       "producer_status": "skipped",
       "status": "fail",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -9867,7 +10009,8 @@
           "ladder_consumption",
           "construct_validity_hardgates",
           "l0_toy_projection",
-          "not_claimed"
+          "not_claimed",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -9881,12 +10024,13 @@
       "bundle_role": "auxiliary",
       "construct_validity": {
         "failed_gates": [],
-        "pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+        "pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
         "status": "pass"
       },
       "discipline": {
         "bundle_role": "auxiliary",
-        "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+        "claim_promotion_eligible": true,
+        "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
         "construct_validity_status": "present",
         "control_pointer": "$.training_arms",
         "control_status": "present",
@@ -9983,6 +10127,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10000,7 +10145,7 @@
           "independent_replay",
           "l1_step_ladder",
           "l1_ood_mechanism",
-          "construct_validity_hardgates",
+          "construct_validity_ledger",
           "review_status",
           "promotion_readiness",
           "component_ablation_boundary",
@@ -10008,7 +10153,8 @@
           "claim_capsule_ref",
           "l1_tiny_sequence_projection",
           "boundary_ledger",
-          "not_claimed"
+          "not_claimed",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -10022,6 +10168,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.projection_regen_refs",
@@ -10119,6 +10266,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10148,6 +10296,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -10245,6 +10394,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10272,6 +10422,142 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": false,
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_promotion_exclusion",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.claim_promotion_exclusion",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.claim_promotion_exclusion",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:dgt-l1-boundary-report]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.cost_protocol",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.status",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.hardgates",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.boundary_decision",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.boundary_decision",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/dgt-l1-boundary-report.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+      "markdown_artifact": "reports/canonical/dgt-l1-boundary-report.md",
+      "name": "dgt-l1-boundary-report",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l1_boundary_report.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "boundary_report_errors": [],
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "artifact_role",
+          "source_artifacts",
+          "cost_protocol",
+          "task_formula",
+          "feature_reachability",
+          "base_bayes_ceiling",
+          "ood_solvability",
+          "table_coverage_ceiling",
+          "negative_witness_refs",
+          "boundary_decision",
+          "required_redesign",
+          "claim_promotion_eligible",
+          "claim_promotion_exclusion",
+          "scaling_claim_block",
+          "hardgates",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.hardgates",
@@ -10369,6 +10655,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10402,6 +10689,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.classifier_rows",
@@ -10499,6 +10787,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10528,6 +10817,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.base_undertraining_audit.comparison_rows",
@@ -10625,6 +10915,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10643,6 +10934,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -10740,6 +11032,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10776,11 +11069,12 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.source_registry",
         "control_status": "present",
-        "cost_pointer": "$.source_registry",
+        "cost_pointer": "$.source_artifacts",
         "cost_status": "present",
         "forbidden_claim_term_hits": [],
         "forbidden_claim_terms_status": "not-applicable",
@@ -10795,7 +11089,7 @@
           "applicability": "not-applicable",
           "cells": {
             "backend": {
-              "pointer": "reports/canonical/input-accessibility.json:$.source_registry",
+              "pointer": "reports/canonical/input-accessibility.json:$.source_artifacts",
               "source_artifact": "reports/canonical/input-accessibility.json",
               "status": "present"
             },
@@ -10810,7 +11104,7 @@
               "status": "missing"
             },
             "cost_protocol": {
-              "pointer": "$.source_registry",
+              "pointer": "$.source_artifacts",
               "source_artifact": "reports/canonical/input-accessibility.json",
               "status": "present"
             },
@@ -10873,6 +11167,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -10882,6 +11177,7 @@
           "generated_at",
           "producer",
           "owner",
+          "source_artifacts",
           "source_registry",
           "registry_digest",
           "visible_variables",
@@ -10911,6 +11207,7 @@
       },
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": "reports/canonical/fair-l1-decision.json:$.construct_validity_projection",
         "construct_validity_status": "present",
         "control_pointer": "$.fair_alignment.comparison_rows",
@@ -11008,6 +11305,7 @@
       "producer_status": "skipped",
       "status": "fail",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11036,6 +11334,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.d4_projection.matched_control",
@@ -11135,6 +11434,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11182,6 +11482,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.training_protocol",
@@ -11279,6 +11580,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11313,7 +11615,8 @@
           "claim_capsule_ref",
           "not_claimed",
           "forbidden_claim_term_audit",
-          "negative_witness_sweep"
+          "negative_witness_sweep",
+          "reproducibility_contract"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -11327,6 +11630,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.source_artifact",
@@ -11424,6 +11728,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11451,6 +11756,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.component_redundancy_audit.source_artifacts",
@@ -11548,6 +11854,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11566,6 +11873,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.evaluation_boundaries",
@@ -11663,6 +11971,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11670,6 +11979,7 @@
           "schema_id",
           "card_id",
           "generated_at",
+          "producer",
           "source_artifacts",
           "intended_use",
           "not_intended_use",
@@ -11692,6 +12002,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_random_controls",
@@ -11789,6 +12100,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11822,6 +12134,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.margin_proxy_controls",
@@ -11921,6 +12234,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -11961,6 +12275,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -12076,6 +12391,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12110,6 +12426,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -12207,6 +12524,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12236,6 +12554,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.negative_control_summary",
@@ -12342,6 +12661,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12369,6 +12689,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -12466,6 +12787,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12492,6 +12814,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.hardgates.MC-HG9",
@@ -12589,6 +12912,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12615,6 +12939,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.matched_controls",
@@ -12712,6 +13037,7 @@
       "producer_status": "skipped",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12742,6 +13068,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -12839,6 +13166,7 @@
       "producer_status": "completed",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12870,6 +13198,7 @@
       "bundle_role": "hg_p_core",
       "discipline": {
         "bundle_role": "hg_p_core",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": "$.hardgates",
@@ -12967,6 +13296,7 @@
       "producer_status": "completed",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -12991,6 +13321,7 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
         "control_pointer": null,
@@ -13088,6 +13419,7 @@
       "producer_status": "completed",
       "status": "pass",
       "validation": {
+        "boundary_report_errors": [],
         "missing_artifacts": [],
         "model_card_errors": [],
         "reproduction_errors": [],
@@ -13197,15 +13529,15 @@
     "artifact_id": "bedc-quality-lab:winnability-certificates",
     "audit_pointer": "reports/canonical/winnability-certificates.json:$.audit",
     "certificate_count": 3,
-    "fail_closed_count": 2,
+    "fail_closed_count": 0,
     "failed_count": 0,
     "hardgates_pointer": "reports/canonical/winnability-certificates.json:$.hardgates",
     "json_artifact": "reports/canonical/winnability-certificates.json",
     "markdown_artifact": "reports/canonical/winnability-certificates.md",
     "registry_digest": "44aeab0d1feef85ceaada1774158cc8adc5c9e877178e599b322ba187b3510e1",
     "status": "pass",
-    "table_coverage_count": 1,
-    "unwinnable_count": 1,
+    "table_coverage_count": 0,
+    "unwinnable_count": 0,
     "winnability_certificates": "reports/canonical/winnability-certificates.json:$.certificates"
   }
 }
